@@ -474,7 +474,7 @@ function QuestieDB:IsDoable(questId)
     -- If yes the current quest can't be accepted
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
-        for k, v in pairs(ExclusiveQuestGroup) do
+        for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
                 Questie:Debug(DEBUG_INFO, "[QuestieDB:IsDoable] we have completed a quest that locks out this quest!")
                 return false
@@ -712,19 +712,8 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     QO.level = rawdata[5]
-    QO.Triggers = rawdata[9]
     QO.ObjectiveData = {} -- to differentiate from the current quest log info
-    --    type
-    --String - could be the following things: "item", "object", "monster", "reputation", "log", or "event". (from wow api)
 
-    if QO.Triggers then
-        local obj = {
-            Type = "event",
-            Text = QO.Triggers[1],
-            Coordinates = QO.Triggers[2]
-        }
-        tinsert(QO.ObjectiveData, obj);
-    end
     if rawdata[10] ~= nil then
         if rawdata[10][1] ~= nil then
             for _, v in pairs(rawdata[10][1]) do
@@ -762,6 +751,17 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 end
             end
         end
+    end
+
+    -- Events need to be added at the end of ObjectiveData
+    local triggerEnd = rawdata[9]
+    if triggerEnd then
+        local obj = {
+            Type = "event",
+            Text = triggerEnd[1],
+            Coordinates = triggerEnd[2]
+        }
+        tinsert(QO.ObjectiveData, obj);
     end
 
     if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
@@ -1033,7 +1033,7 @@ function _QuestieDB:DeleteGatheringNodes()
 
         1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
     };
-    for k,v in pairs(prune) do
+    for _,v in pairs(prune) do
         QuestieDB.objectData[v][DB_OBJ_SPAWNS] = nil
     end
 end
@@ -1043,7 +1043,7 @@ end
 
 function _QuestieDB:HideClassAndRaceQuests()
     local questKeys = QuestieDB.questKeys
-    for key, entry in pairs(QuestieDB.questData) do
+    for _, entry in pairs(QuestieDB.questData) do
         -- check requirements, set hidden flag if not met
         local requiredClasses = entry[questKeys.requiredClasses]
         if (requiredClasses) and (requiredClasses ~= 0) then
