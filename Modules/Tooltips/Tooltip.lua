@@ -113,8 +113,7 @@ function QuestieTooltips:GetTooltip(key)
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             if tooltip.npc then
                 if Questie.db.char.showQuestsInNpcTooltip then
-                    local questName, level = unpack(QuestieDB.QueryQuest(tooltip.questId, "name", "questLevel"))
-                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
+                    local questString = QuestieDB:GetColoredQuestName(tooltip.questId, true, true)
                     table.insert(npcTooltip, questString)
                 end
             else
@@ -165,12 +164,9 @@ function QuestieTooltips:GetTooltip(key)
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
-                local questName, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
-                local quest = QuestieDB:GetQuest(questId);
-                if quest then
-                    tooltipData[questId] = {}
-                    tooltipData[questId].title = QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                end
+                tooltipData[questId] = {
+                    title = QuestieDB:GetColoredQuestName(questId, true, true)
+                }
             end
             for playerName, _ in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);
@@ -190,12 +186,9 @@ function QuestieTooltips:GetTooltip(key)
         local tooltipDataExternal = QuestieComms.data:GetTooltip(key);
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
-                local questName, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
-                local quest = QuestieDB:GetQuest(questId);
-                if quest then
-                    tooltipData[questId] = {}
-                    tooltipData[questId].title = QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                end
+                tooltipData[questId] = {
+                    title = QuestieDB:GetColoredQuestName(questId, true, true)
+                }
             end
             for playerName, objectives in pairs(playerList) do
                 local playerInfo = QuestiePlayer:GetPartyMemberByName(playerName);

@@ -140,7 +140,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         -- Only show quests which are not hidden
         if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[qId]) or QuestieEvent:IsEventQuest(qId)) and QuestieDB.QuestPointers[qId] then
             temp.value = qId
-            temp.text = QuestieDB:GetColoredQuestName(qId)
+            temp.text = QuestieDB:GetColoredQuestName(qId, false, true)
 
             -- Completed quests
             if Questie.db.char.complete[qId] then

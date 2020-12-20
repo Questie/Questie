@@ -229,14 +229,12 @@ function QuestieDB:GetItem(itemId)
     return item
 end
 
-local function _GetColoredQuestName(self, showState, blizzLike)
-    local questName = (self.LocalizedName or self.name)
-    return QuestieLib:GetColoredQuestName(self.Id, questName, self.level, Questie.db.global.enableTooltipsQuestLevel, showState, blizzLike)
-end
-
-function QuestieDB:GetColoredQuestName(id, blizzLike)
-    local questName, level = unpack(QuestieDB.QueryQuest(id, "name", "questLevel"))
-    return QuestieLib:GetColoredQuestName(id, questName, level, Questie.db.global.enableTooltipsQuestLevel, true, blizzLike)
+---@param questId: number
+---@param showState boolean
+---@param blizzLike boolean
+function QuestieDB:GetColoredQuestName(questId, showState, blizzLike)
+    local questName, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+    return QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, showState, blizzLike)
 end
 
 
@@ -579,7 +577,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public zoneOrSort number
 
     local QO = {}
-    QO.GetColoredQuestName = _GetColoredQuestName
     QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
         QO[stringKey] = rawdata[intKey]

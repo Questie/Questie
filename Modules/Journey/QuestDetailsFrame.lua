@@ -123,7 +123,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local startQuests = {}
             local counter = 1
-            for i, v in pairs(startnpc.questStarts) do
+            for _, v in pairs(startnpc.questStarts) do
                 if not (v == quest.Id) then
                     startQuests[counter] = {}
                     local startQuest = QuestieDB:GetQuest(v)
@@ -303,7 +303,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local endQuests = {}
             local counter = 1
-            for i, v in ipairs(endNPC.endQuests) do
+            for _, v in ipairs(endNPC.endQuests) do
                 if not (v == quest.Id) then
                     endQuests[counter] = {}
                     local endQuest = QuestieDB:GetQuest(v)
@@ -355,8 +355,8 @@ function _QuestieJourney:CreateLabel(text, fullWidth)
     return header
 end
 
----@param questLevel integer
----@param questMinLevel integer
+---@param questLevel number
+---@param questMinLevel number
 ---@return string
 function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
     local red, orange, yellow, green, gray = _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
@@ -378,7 +378,7 @@ function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
 end
 
 ---@param quest Quest
----@return integer @The number of pre quests added to the group
+---@return number @The number of pre quests added to the group
 ---@return AceInlineGroup @The created Ace InlineGroup
 function _QuestieJourney:CreatePreQuestGroup(quest)
     ---@class AceInlineGroup
@@ -427,7 +427,7 @@ function _QuestieJourney:GetInteractiveQuestLabel(preQuest)
     ---@class AceInteractiveLabel
     local label = AceGUI:Create("InteractiveLabel")
 
-    label:SetText(preQuest:GetColoredQuestName())
+    label:SetText(QuestieDB:GetColoredQuestName(preQuest.Id, false, true))
     label:SetUserData('id', preQuest.Id)
     label:SetUserData('name', preQuest.name)
     label:SetCallback("OnClick", _QuestieJourney.JumpToQuest)

@@ -7,8 +7,6 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 
 local tinsert = table.insert
@@ -45,8 +43,8 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
         end
     end
 
-
-    tinsert(menu, {text=quest:GetColoredQuestName(), isTitle = true})
+    local coloredQuestName = QuestieDB:GetColoredQuestName(quest.Id, true, true)
+    tinsert(menu, {text=coloredQuestName, isTitle = true})
 
     _AddObjectiveOption(menu, subMenu, quest)
     _AddShowHideQuestsOption(menu, quest)
