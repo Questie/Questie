@@ -463,7 +463,7 @@ _DoYell = function(questId)
     local nextQuest = tremove(QuestieComms._yellQueue, 1)
     if nextQuest then
         C_Timer.After(2, function()
-            doYell(nextQuest)
+            _DoYell(nextQuest)
         end)
     else
         QuestieComms._isYelling = false
