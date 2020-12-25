@@ -68,6 +68,11 @@ QuestieLocale.locale['ptBR'] = {
     ['AUTO_MODIFIER_DESC'] = "O modificador para NÃO aceitar automaticamente / completar missões quando uma das opções está ativada e você interage com um PNJ de missão.",
     ['ENABLE_YELL'] = "Compartilhar o progresso da missão com jogadores próximos",
     ['ENABLE_YELL_DESC'] = "O progresso da sua missão será enviado periodicamente a jogadores próximos",
+    ['QUEST_ANNOUNCE'] = "Anúncio de missão",
+    ['QUEST_ANNOUNCE_DESC'] = "Anuncia a conclusão do objetivo da missão aos membros do grupo",
+    ['QUEST_ANNOUNCE_ENABLED'] = "Ativado",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s para %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Pegou %s que começa %s!",
    
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opções de mini-carta",
