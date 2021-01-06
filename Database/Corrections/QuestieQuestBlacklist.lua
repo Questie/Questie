@@ -417,6 +417,14 @@ function QuestieQuestBlacklist:Load()
         --Darkmoon Faire
         [7905] = true,
         [7926] = true,
+
+        -- Phase 6 Investigate the Scourge of X
+        [9260] = true,
+        [9261] = true,
+        [9262] = true,
+        [9263] = true,
+        [9264] = true,
+        [9265] = true
     }
 end
 
