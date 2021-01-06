@@ -1109,27 +1109,25 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             else
                 if quest.Objectives[objectiveIndex] == nil then
                     quest.Objectives[objectiveIndex] = {}
-                end
 
-                -- Sometimes we need to retry to get the correct text from the API
-                if (not objective.text) or objective.text:sub(1, 1) == " " then
-                    Questie:Debug(DEBUG_INFO, "Retrying to get objectiveText for '", objective.text, "'")
-                    local retry = C_QuestLog.GetQuestObjectives(quest.Id)
-                    objective.text = retry[objectiveIndex].text
-                    Questie:Debug(DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
-                end
+                    -- Sometimes we need to retry to get the correct text from the API
+                    if (not objective.text) or objective.text:sub(1, 1) == " " then
+                        Questie:Debug(DEBUG_INFO, "Retrying to get objectiveText for '", objective.text, "'")
+                        local retry = C_QuestLog.GetQuestObjectives(quest.Id)
+                        objective.text = retry[objectiveIndex].text
+                        Questie:Debug(DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
+                    end
 
-                quest.Objectives[objectiveIndex] = {
-                    Id = quest.ObjectiveData[objectiveIndex].Id,
-                    Index = objectiveIndex,
-                    questId = quest.Id,
-                    QuestData = quest,
-                    _lastUpdate = 0,
-                    Description = objective.text,
-                    Update = _ObjectiveUpdate
-                }
-                if objective.type == "event" then
-                    quest.Objectives[objectiveIndex].Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates
+                    quest.Objectives[objectiveIndex] = {
+                        Id = quest.ObjectiveData[objectiveIndex].Id,
+                        Index = objectiveIndex,
+                        questId = quest.Id,
+                        QuestData = quest,
+                        _lastUpdate = 0,
+                        Description = objective.text,
+                        Update = _ObjectiveUpdate,
+                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates -- Only for type "event"
+                    }
                 end
 
                 quest.Objectives[objectiveIndex]:Update()
