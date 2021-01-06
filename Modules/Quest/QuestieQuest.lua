@@ -549,8 +549,8 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
             local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
                 print(err)
                 print(debugstack())
-            end,QuestieQuest, quest, k, v);
-            if not result then
+            end, QuestieQuest, quest, k, v);
+            if (not result) then
                 Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_POP_ERROR", quest.name, quest.Id, k, err));
             end
         end
@@ -696,9 +696,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     end
 
     local closestStarter = QuestieMap:FindClosestStarter()
-
     local iconsToDraw = {}
-
     local spawnItemId
 
     Objective:Update() -- update qlog data
@@ -716,8 +714,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         Objective.registeredItemTooltips = true
     end
     
-    if Objective.spawnList then
-        local hasSpawnHack = false -- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
+    if Objective.spawnList and next(Objective.spawnList) then
         local hasTooltipHack = false
         local tooltipRegisterHack = {} -- improve this
 
@@ -746,8 +743,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         end
 
         for id, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
-            hasSpawnHack = true -- #table and table.getn are unreliable
-            
+
             if spawnData.ItemId then
                 spawnItemId = spawnData.ItemId
             end
@@ -772,18 +768,19 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                     if(not iconsToDraw[quest.Id]) then
                         iconsToDraw[quest.Id] = {}
                     end
-                    local data = {}
-                    data.Id = quest.Id
-                    data.ObjectiveIndex = ObjectiveIndex
-                    data.QuestData = quest
-                    data.ObjectiveData = Objective
-                    data.Icon = spawnData.Icon
-                    data.IconColor = quest.Color
-                    data.GetIconScale = function() return spawnData:GetIconScale() or 1 end
+                    local data = {
+                        Id = quest.Id,
+                        ObjectiveIndex = ObjectiveIndex,
+                        QuestData = quest,
+                        ObjectiveData = Objective,
+                        Icon = spawnData.Icon,
+                        IconColor = quest.Color,
+                        GetIconScale = function() return spawnData:GetIconScale() or 1 end,
+                        Name = spawnData.Name,
+                        Type = Objective.Type,
+                        ObjectiveTargetId = spawnData.Id
+                    }
                     data.IconScale = data:GetIconScale()
-                    data.Name = spawnData.Name
-                    data.Type = Objective.Type
-                    data.ObjectiveTargetId = spawnData.Id
 
                     Objective.AlreadySpawned[id] = {};
                     Objective.AlreadySpawned[id].data = data;
@@ -809,13 +806,10 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                                 drawIcon.distance = distance or 0;
                                 iconsToDraw[quest.Id][floor(distance)] = drawIcon;
                             end
-                            --maxCount = maxCount + 1
-                            --if maxPerType > 0 and maxCount > maxPerType then break; end
                         end
-                        --if maxPerType > 0 and maxCount > maxPerType then break; end
                     end
                 end
-            elseif completed and Objective.AlreadySpawned then -- unregister notes
+            elseif completed and Objective.AlreadySpawned and next(Objective.AlreadySpawned) then -- unregister notes
                 for _, spawn in pairs(Objective.AlreadySpawned) do
                     if #spawn.mapRefs > 0 or #spawn.minimapRefs > 0 then
                         for _, note in pairs(spawn.mapRefs) do
@@ -925,9 +919,6 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                     end
                 end
             end
-        end
-        if not hasSpawnHack then-- used to check if we have bad data due to API delay. Remove this check once the API bug is dealt with properly
-            Objective.spawnList = nil -- reset the list so it can be regenerated with hopefully better quest log data
         end
         if hasTooltipHack then
             Objective.registeredTooltips = true
