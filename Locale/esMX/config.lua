@@ -68,6 +68,11 @@ QuestieLocale.locale['esMX'] = {
     ['AUTO_MODIFIER_DESC'] = "El modificador para NO aceptar/completar automáticamente las misiones cuando cualquiera de las opciones está habilitada e interactúas con un asignador de misión.",
     ['ENABLE_YELL'] = "Compartir el progreso de la misión con jugadores cercanos",
     ['ENABLE_YELL_DESC'] = "El progreso de tu misión se enviará periódicamente a los jugadores cercanos.",
+    ['QUEST_ANNOUNCE'] = "Anuncio de misión",
+    ['QUEST_ANNOUNCE_DESC'] = "Anunciar la terminación de objetivos de misiones al miembros de grupo",
+    ['QUEST_ANNOUNCE_ENABLED'] = "Habilitado",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s para %s!",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Despojó %s que empieza %s!",
    
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",
@@ -383,8 +388,8 @@ QuestieLocale.locale['esMX'] = {
     ['JOURNEY_SELECT_HEAD'] = "Selecciona tu continente y zona",
     ['JOURNEY_SELECT_CONT'] = "Selecciona tu continente",
     ['JOURNEY_SELECT_ZONE'] = "Selecciona tu zona",
-    ['JOURNEY_SELECT_PROFESSION'] = "Select Your Profession",
-    ['JOURNEY_NO_QUESTS_FOUND'] = "No Quests found",
+    ['JOURNEY_SELECT_PROFESSION'] = "Selecciona tu profesión",
+    ['JOURNEY_NO_QUESTS_FOUND'] = "No se encontraron misiones",
     ['JOURNEY_QUESTS'] = "Misiones de zona",
     ['JOURNEY_QUESTINFO'] = "Información de la misión",
     ['JOURNEY_START_NPC'] = "Información PNJ que empieza misión",
