@@ -676,17 +676,37 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
 end
 
 function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]")
-    if not Objective.AlreadySpawned then
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. Objective.Description)
+    print("----------- START")
+    print(Objective.Description)
+    if (not Objective.AlreadySpawned) then
         Objective.AlreadySpawned = {};
     end
 
-    -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
-    if not quest.AlreadySpawned then
-        quest.AlreadySpawned = {};
+    if next(Objective.AlreadySpawned) then
+        print("AlreadySpawned not empty")
+    else
+        print("AlreadySpawned is empty")
     end
 
-    if _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
+    if Objective.spawnList and next(Objective.spawnList) then
+        print("spawnList not empty")
+    else
+        print("spawnList is empty")
+    end
+
+    -- TODO Woher kommt Objective.spawnList? Es sieht danach aus, als wird die immer wieder auf nil gesetzt
+    -- TODO Nur wenn sie nil ist, dann können wir da drüber nicht iterieren, ohne auf AlreadySpawned zurückzugreifen
+    -- TODO Vor allem scheint Objective.AlreadySpawned nicht zurückgesetzt zu werden?!?!?
+
+    -- temporary fix for "special objectives" to not double-spawn (we need to fix the objective detection logic)
+    if (not quest.AlreadySpawned) then
+        quest.AlreadySpawned = {};
+    end
+    local completed = Objective.Completed
+
+    if (not completed) and _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
+        print(completed)
         Objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
 
@@ -700,7 +720,50 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     local spawnItemId
 
     Objective:Update() -- update qlog data
-    local completed = Objective.Completed
+
+    if completed then
+        print("Objective '" .. Objective.Description .. "' complete")
+
+
+        if Objective.spawnList and next(Objective.spawnList) then
+            print("Unloading AlreadySpawned icons")
+            for id, _ in pairs(Objective.spawnList) do
+                print("AAAA")
+                print(id)
+                local spawn = Objective.AlreadySpawned[id]
+                if spawn then
+                    for _, mapIcon in pairs(spawn.mapRefs) do
+                        print("Unloading map icon")
+                        mapIcon:Unload()
+                    end
+                    for _, minimapIcon in pairs(spawn.minimapRefs) do
+                        print("Unloading minimap icon")
+                        minimapIcon:Unload()
+                    end
+                    spawn.mapRefs = {}
+                    spawn.minimapRefs = {}
+                end
+            end
+            Objective.AlreadySpawned = {}
+            Objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
+        else
+            print("Objectives already removed. Nothing to do.")
+        end
+
+        if next(Objective.AlreadySpawned) then
+            print("AlreadySpawned not empty")
+        else
+            print("AlreadySpawned is empty")
+        end
+
+        if Objective.spawnList and next(Objective.spawnList) then
+            print("spawnList not empty")
+        else
+            print("spawnList is empty")
+        end
+        print("--------- END")
+        return
+    end
 
     if not Objective.Color then
         Objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * ObjectiveIndex)
@@ -717,6 +780,10 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     if Objective.spawnList and next(Objective.spawnList) then
         local hasTooltipHack = false
         local tooltipRegisterHack = {} -- improve this
+
+        if Objective.Description == "Kreenig Snarlsnout's Tusk" then
+            print("OIAJSDOIAJSDOIJAOSDJOAIJSDOIAJSDOIAJSDOIJAS")
+        end
 
         local objectiveCenter = closestStarter[quest.Id]
 
@@ -822,6 +889,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
                         spawn.minimapRefs = {}
                     end
                 end
+                Objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
             end
         end
         local spawnedIcons = {}
@@ -930,6 +998,20 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         Objective._hasSeenIncomplete = nil
         QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
     end
+
+    if next(Objective.AlreadySpawned) then
+        print("AlreadySpawned not empty")
+    else
+        print("AlreadySpawned is empty")
+    end
+
+    if Objective.spawnList and next(Objective.spawnList) then
+        print("spawnList not empty")
+    else
+        print("spawnList is empty")
+    end
+    print("--------- END")
+
 end
 
 local function _CallPopulateObjective(quest)
@@ -1103,7 +1185,7 @@ _ObjectiveUpdate = function(self)
 
     if qObjectives and qObjectives[self.Index] then
         local obj = qObjectives[self.Index];
-        if(obj.type) then
+        if (obj.type) then
             -- fixes for api bug
             if not obj.numFulfilled then obj.numFulfilled = 0; end
             if not obj.numRequired then obj.numRequired = 0; end
