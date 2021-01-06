@@ -3,8 +3,8 @@ LangContinentLookup['esMX']= {
     [2] = "Kalimdor",
     [3] = "Calabozos",
     [4] = "Campos de Batalla",
-    [5] = "Class",
-    [6] = "Profesiónes",
+    [5] = "Clase",
+    [6] = "Profesiones",
     [7] = "Eventos"
 }
 
@@ -1185,13 +1185,13 @@ LangZoneCategoryLookup['esMX']= {
         [-263] = "Sacerdote",
     },
     [6] = {
-        [-24] = "Botánica",
+        [-24] = "Herboristería",
         [-101] = "Pesca",
         [-121] = "Herrería",
         [-181] = "Alquimia",
-        [-182] = "Marroquinería",
+        [-182] = "Peletería",
         [-201] = "Ingeniería",
-        [-264] = "Costura",
+        [-264] = "Sastrería",
         [-304] = "Cocina",
         [-324] = "Primeros auxilios",
     },
