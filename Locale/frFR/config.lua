@@ -68,6 +68,12 @@ QuestieLocale.locale['frFR'] = {
     ['AUTO_MODIFIER_DESC'] = "Le modificateur pour NE PAS accepter/compléter automatiquement une quête lorsque l'une de ces options est active et que vous interagissez avec un PNJ de quête.",
     ['ENABLE_YELL'] = "Partager la progression avec les joueurs proches",
     ['ENABLE_YELL_DESC'] = "La progression de vos quêtes sera régulièrement partagée avec les joueurs proches.",
+    ['QUEST_ANNOUNCE'] = "Annonce de quête",
+    ['QUEST_ANNOUNCE_DESC'] = "Annonce la réalisation de l'objectif aux membres du groupe",
+    ['QUEST_ANNOUNCE_ENABLED'] = "Activé",
+    ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s pour %s !",
+    ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Ramassé %s qui démarre %s !",
+	
 	
     -- Onglet Mini-carte
     ['MINIMAP_TAB'] = "Mini-carte",
@@ -383,8 +389,8 @@ QuestieLocale.locale['frFR'] = {
     ['JOURNEY_SELECT_HEAD'] = "Sélectionnez votre continent et votre zone",
     ['JOURNEY_SELECT_CONT'] = "Sélectionnez votre continent",
     ['JOURNEY_SELECT_ZONE'] = "Sélectionnez votre zone",
-    ['JOURNEY_SELECT_PROFESSION'] = "Select Your Profession",
-    ['JOURNEY_NO_QUESTS_FOUND'] = "No Quests found",
+    ['JOURNEY_SELECT_PROFESSION'] = "Sélectionnez votre profession",
+    ['JOURNEY_NO_QUESTS_FOUND'] = "Aucune quête trouvée",
     ['JOURNEY_QUESTS'] = "Quêtes de zone",
     ['JOURNEY_QUESTINFO'] = "Informations sur la quête",
     ['JOURNEY_START_NPC'] = "Informations sur le PNJ débutant la quête",
