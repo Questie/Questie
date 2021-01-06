@@ -85,7 +85,7 @@ def get_changelog_string(categories):
             header = key_header[1]
             changelog += header
             for line in categories[key]:
-                changelog += f'* {line}\n'.replace('[', '\\[')
+                changelog += f'* {line}\n'.replace('\\[', '[')
             changelog += '\n'
 
     return changelog
