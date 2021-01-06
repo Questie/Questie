@@ -52,7 +52,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 -- forward declaration
 local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
-local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate
+local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIcons
 local _DetermineIconsToDraw, _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
@@ -456,8 +456,6 @@ function QuestieQuest:AbandonedQuest(questId)
         Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_ABANDON_QUEST", questId));
     end
 end
--- /dump QuestieLoader:ImportModule("QuestieDB"):GetQuest(872).Objectives
--- /dump QuestieLoader:ImportModule("QuestieQuest"):GetAllLeaderBoardDetails(872)
 
 ---@param questId QuestId
 function QuestieQuest:UpdateQuest(questId)
@@ -538,21 +536,17 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     end
 end
 
-function QuestieQuest:ShouldQuestShowObjectives(questId)
-    return true -- todo: implement tracker logic here, to hide non-tracked quest optionally (1.12 questie does this optionally)
-end
-
 -- iterate all notes, update / remove as needed
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
     if quest.Objectives then
-        for k, v in pairs(quest.Objectives) do
+        for objectiveIndex, objective in pairs(quest.Objectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
                 print(err)
                 print(debugstack())
-            end, QuestieQuest, quest, k, v);
+            end, QuestieQuest, quest, objectiveIndex, objective, false);
             if (not result) then
-                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_POP_ERROR", quest.name, quest.Id, k, err));
+                Questie:Debug(DEBUG_SPAM, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_POP_ERROR", quest.name, quest.Id, objectiveIndex, err));
             end
         end
     end
@@ -676,34 +670,15 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
     end
 end
 
-function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockItemTooltips) -- must be pcalled
+function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. Objective.Description)
-    print("----------- START")
-    print(Objective.Description)
     if (not Objective.AlreadySpawned) then
         Objective.AlreadySpawned = {};
     end
 
-    if next(Objective.AlreadySpawned) then
-        print("AlreadySpawned not empty")
-    else
-        print("AlreadySpawned is empty")
-    end
-
-    if Objective.spawnList and next(Objective.spawnList) then
-        print("spawnList not empty")
-    else
-        print("spawnList is empty")
-    end
-
-    -- TODO Woher kommt Objective.spawnList? Es sieht danach aus, als wird die immer wieder auf nil gesetzt
-    -- TODO Nur wenn sie nil ist, dann können wir da drüber nicht iterieren, ohne auf AlreadySpawned zurückzugreifen
-    -- TODO Vor allem scheint Objective.AlreadySpawned nicht zurückgesetzt zu werden?!?!?
-
     local completed = Objective.Completed
 
     if (not completed) and _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
-        print(completed)
         Objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
 
@@ -716,47 +691,10 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
     local iconsToDraw = {}
     local spawnItemId
 
-    Objective:Update() -- update qlog data
+    Objective:Update()
 
     if completed then
-        print("Objective '" .. Objective.Description .. "' complete")
-        if Objective.spawnList and next(Objective.spawnList) then
-            print("Unloading AlreadySpawned icons")
-            for id, _ in pairs(Objective.spawnList) do
-                print("AAAA")
-                print(id)
-                local spawn = Objective.AlreadySpawned[id]
-                if spawn then
-                    for _, mapIcon in pairs(spawn.mapRefs) do
-                        print("Unloading map icon")
-                        mapIcon:Unload()
-                    end
-                    for _, minimapIcon in pairs(spawn.minimapRefs) do
-                        print("Unloading minimap icon")
-                        minimapIcon:Unload()
-                    end
-                    spawn.mapRefs = {}
-                    spawn.minimapRefs = {}
-                end
-            end
-            Objective.AlreadySpawned = {}
-            Objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
-        else
-            print("Objectives already removed. Nothing to do.")
-        end
-
-        if next(Objective.AlreadySpawned) then
-            print("AlreadySpawned not empty")
-        else
-            print("AlreadySpawned is empty")
-        end
-
-        if Objective.spawnList and next(Objective.spawnList) then
-            print("spawnList not empty")
-        else
-            print("spawnList is empty")
-        end
-        print("--------- END")
+        _UnloadAlreadySpawnedIcons(Objective)
         return
     end
 
@@ -764,7 +702,7 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         Objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * ObjectiveIndex)
     end
 
-    if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not BlockItemTooltips) and Objective.Id then
+    if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not blockItemTooltips) and Objective.Id then
         local item = QuestieDB.QueryItemSingle(Objective.Id, "name")
         if item then
             QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. Objective.Id, Objective);
@@ -808,86 +746,96 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, BlockI
         Objective._hasSeenIncomplete = nil
         QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
     end
+end
 
-    if next(Objective.AlreadySpawned) then
-        print("AlreadySpawned not empty")
-    else
-        print("AlreadySpawned is empty")
-    end
-
+_UnloadAlreadySpawnedIcons = function(Objective)
     if Objective.spawnList and next(Objective.spawnList) then
-        print("spawnList not empty")
-    else
-        print("spawnList is empty")
+        for id, _ in pairs(Objective.spawnList) do
+            local spawn = Objective.AlreadySpawned[id]
+            if spawn then
+                for _, mapIcon in pairs(spawn.mapRefs) do
+                    mapIcon:Unload()
+                end
+                for _, minimapIcon in pairs(spawn.minimapRefs) do
+                    minimapIcon:Unload()
+                end
+                spawn.mapRefs = {}
+                spawn.minimapRefs = {}
+            end
+        end
+        Objective.AlreadySpawned = {}
+        Objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
     end
-    print("--------- END")
 end
 
 _DetermineIconsToDraw = function(quest, Objective, ObjectiveIndex, objectiveCenter)
     local iconsToDraw = {}
     local spawnItemId
+    local tooltipWasRegistered = false
 
     for id, spawnData in pairs(Objective.spawnList) do
         if spawnData.ItemId then
             spawnItemId = spawnData.ItemId
         end
 
-        if not Objective.Icon and spawnData.Icon then -- move this to a better place
+        if (not Objective.Icon) and spawnData.Icon then -- TODO: move this to a better place
             Objective.Icon = spawnData.Icon
         end
         if (not Objective.AlreadySpawned[id]) then
             if (not Objective.hasRegisteredTooltips) and spawnData.TooltipKey then
                 QuestieTooltips:RegisterObjectiveTooltip(quest.Id, spawnData.TooltipKey, Objective);
-                Objective.hasRegisteredTooltips = true
+                tooltipWasRegistered = true
             end
         end
-        if (not Objective.AlreadySpawned[id]) and (not completed) then
-            if Questie.db.global.enableObjectives then
-                if(not iconsToDraw[quest.Id]) then
-                    iconsToDraw[quest.Id] = {}
-                end
-                local data = {
-                    Id = quest.Id,
-                    ObjectiveIndex = ObjectiveIndex,
-                    QuestData = quest,
-                    ObjectiveData = Objective,
-                    Icon = spawnData.Icon,
-                    IconColor = quest.Color,
-                    GetIconScale = function() return spawnData:GetIconScale() or 1 end,
-                    Name = spawnData.Name,
-                    Type = Objective.Type,
-                    ObjectiveTargetId = spawnData.Id
-                }
-                data.IconScale = data:GetIconScale()
+        if (not Objective.AlreadySpawned[id]) and (not Objective.Completed) and Questie.db.global.enableObjectives then
+            if(not iconsToDraw[quest.Id]) then
+                iconsToDraw[quest.Id] = {}
+            end
+            local data = {
+                Id = quest.Id,
+                ObjectiveIndex = ObjectiveIndex,
+                QuestData = quest,
+                ObjectiveData = Objective,
+                Icon = spawnData.Icon,
+                IconColor = quest.Color,
+                GetIconScale = function() return spawnData:GetIconScale() or 1 end,
+                Name = spawnData.Name,
+                Type = Objective.Type,
+                ObjectiveTargetId = spawnData.Id
+            }
+            data.IconScale = data:GetIconScale()
 
-                Objective.AlreadySpawned[id] = {};
-                Objective.AlreadySpawned[id].data = data;
-                Objective.AlreadySpawned[id].minimapRefs = {};
-                Objective.AlreadySpawned[id].mapRefs = {};
+            Objective.AlreadySpawned[id] = {};
+            Objective.AlreadySpawned[id].data = data;
+            Objective.AlreadySpawned[id].minimapRefs = {};
+            Objective.AlreadySpawned[id].mapRefs = {};
 
-                for zone, spawns in pairs(spawnData.Spawns) do
-                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    for _, spawn in pairs(spawns) do
-                        if(spawn[1] and spawn[2]) then
-                            local drawIcon = {};
-                            drawIcon.AlreadySpawnedId = id;
-                            drawIcon.data = data;
-                            drawIcon.zone = zone;
-                            drawIcon.AreaID = zone;
-                            drawIcon.UiMapID = uiMapId
-                            drawIcon.x = spawn[1];
-                            drawIcon.y = spawn[2];
-                            local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
-                            -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
-                            -- This will create a distance of 0 but it doesn't matter.
-                            local distance = QuestieLib:Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x or 0, y or 0);
-                            drawIcon.distance = distance or 0;
-                            iconsToDraw[quest.Id][floor(distance)] = drawIcon;
-                        end
+            for zone, spawns in pairs(spawnData.Spawns) do
+                local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+                for _, spawn in pairs(spawns) do
+                    if(spawn[1] and spawn[2]) then
+                        local drawIcon = {};
+                        drawIcon.AlreadySpawnedId = id;
+                        drawIcon.data = data;
+                        drawIcon.zone = zone;
+                        drawIcon.AreaID = zone;
+                        drawIcon.UiMapID = uiMapId
+                        drawIcon.x = spawn[1];
+                        drawIcon.y = spawn[2];
+                        local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
+                        -- There are instances when X and Y are not in the same map such as in dungeons etc, we default to 0 if it is not set
+                        -- This will create a distance of 0 but it doesn't matter.
+                        local distance = QuestieLib:Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x or 0, y or 0);
+                        drawIcon.distance = distance or 0;
+                        iconsToDraw[quest.Id][floor(distance)] = drawIcon;
                     end
                 end
             end
         end
+    end
+
+    if tooltipWasRegistered then
+        Objective.hasRegisteredTooltips = true
     end
 
     return iconsToDraw, spawnItemId
