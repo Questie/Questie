@@ -53,7 +53,8 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 -- forward declaration
 local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
 local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIcons
-local _DetermineIconsToDraw, _DrawObjectiveIcons, _DrawObjectiveWaypoints
+local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
+local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -167,10 +168,10 @@ function QuestieQuest:ClearAllNotes()
         -- reference is still held elswhere
         if quest.SpecialObjectives then
             for _,s in pairs(quest.SpecialObjectives) do
-                s.AlreadySpawned = nil
+                s.AlreadySpawned = {}
             end
         end
-        quest.SpecialObjectives = nil
+        quest.SpecialObjectives = {}
     end
 
     for _, frameList in pairs(QuestieMap.questIdFrames) do
@@ -187,7 +188,7 @@ end
 -- this is only needed for reset, normally special objectives don't need to update
 local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
-    if quest and quest.SpecialObjectives then
+    if quest and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
                 print(err)
@@ -425,12 +426,12 @@ function QuestieQuest:AbandonedQuest(questId)
             if quest.ObjectiveData then
                 -- We also have to reset these stupid "AlreadySpawned" fields
                 for _, objective in pairs(quest.ObjectiveData) do
-                    objective.AlreadySpawned = nil
+                    objective.AlreadySpawned = {}
                 end
             end
-            if quest.SpecialObjectives then
+            if next(quest.SpecialObjectives) then
                 for _, objective in pairs(quest.SpecialObjectives) do
-                    objective.AlreadySpawned = nil
+                    objective.AlreadySpawned = {}
                 end
             end
         end
@@ -672,15 +673,16 @@ end
 
 function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. Objective.Description)
-    if (not Objective.AlreadySpawned) then
-        Objective.AlreadySpawned = {};
-    end
 
     local completed = Objective.Completed
 
-    if (not completed) and _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] and (not Objective.spawnList) then
+    if (not completed) and (not next(Objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] then
         Objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
     end
+
+    -- Tooltips should always show.
+    -- For completed and uncompleted objectives
+    _RegisterObjectiveTooltips(Objective, quest.Id)
 
     local maxPerType = 300
     if Questie.db.global.enableIconLimit then
@@ -748,6 +750,18 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, blockI
     end
 end
 
+_RegisterObjectiveTooltips = function(Objective, questId)
+    Questie:Debug(DEBUG_INFO, "Registering objective tooltips for " .. Objective.Description)
+    for id, spawnData in pairs(Objective.spawnList) do
+        if (not Objective.AlreadySpawned[id]) then
+            if (not Objective.hasRegisteredTooltips) and spawnData.TooltipKey then
+                QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, Objective);
+            end
+        end
+    end
+    Objective.hasRegisteredTooltips = true
+end
+
 _UnloadAlreadySpawnedIcons = function(Objective)
     if Objective.spawnList and next(Objective.spawnList) then
         for id, _ in pairs(Objective.spawnList) do
@@ -771,7 +785,6 @@ end
 _DetermineIconsToDraw = function(quest, Objective, ObjectiveIndex, objectiveCenter)
     local iconsToDraw = {}
     local spawnItemId
-    local tooltipWasRegistered = false
 
     for id, spawnData in pairs(Objective.spawnList) do
         if spawnData.ItemId then
@@ -780,12 +793,6 @@ _DetermineIconsToDraw = function(quest, Objective, ObjectiveIndex, objectiveCent
 
         if (not Objective.Icon) and spawnData.Icon then -- TODO: move this to a better place
             Objective.Icon = spawnData.Icon
-        end
-        if (not Objective.AlreadySpawned[id]) then
-            if (not Objective.hasRegisteredTooltips) and spawnData.TooltipKey then
-                QuestieTooltips:RegisterObjectiveTooltip(quest.Id, spawnData.TooltipKey, Objective);
-                tooltipWasRegistered = true
-            end
         end
         if (not Objective.AlreadySpawned[id]) and (not Objective.Completed) and Questie.db.global.enableObjectives then
             if(not iconsToDraw[quest.Id]) then
@@ -834,10 +841,6 @@ _DetermineIconsToDraw = function(quest, Objective, ObjectiveIndex, objectiveCent
         end
     end
 
-    if tooltipWasRegistered then
-        Objective.hasRegisteredTooltips = true
-    end
-
     return iconsToDraw, spawnItemId
 end
 
@@ -851,23 +854,8 @@ _DrawObjectiveIcons = function(iconsToDraw, Objective, maxPerType)
             spawnedIconCount[questId] = 0;
         end
 
-        --This can be used to make distance ordered list..
-        local iconCount = 0;
-        local orderedList = {}
-        local tkeys = {}
-        -- populate the table that holds the keys
-        for k in pairs(icons) do tinsert(tkeys, k) end
-        -- sort the keys
-        table.sort(tkeys)
-        -- use the keys to retrieve the values in the sorted order
-        for _, distance in ipairs(tkeys) do
-            if(spawnedIconCount[questId] > maxPerType) then
-                Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                break;
-            end
-            iconCount = iconCount + 1;
-            tinsert(orderedList, icons[distance]);
-        end
+        local iconCount, orderedList = _GetIconsSortedByDistance(questId, icons, spawnedIconCount, maxPerType)
+
         local range = Questie.db.global.clusterLevelHotzone
         if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
             range = range * 0.2;  -- Only use 20% of the default range.
@@ -922,6 +910,28 @@ _DrawObjectiveIcons = function(iconsToDraw, Objective, maxPerType)
     end
 
     return icon, iconPerZone
+end
+
+_GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerType)
+    local iconCount = 0;
+    local orderedList = {}
+    local tableKeys = {}
+
+    for k in pairs(icons) do
+        tinsert(tableKeys, k)
+    end
+    table.sort(tableKeys)
+
+    -- use the keys to retrieve the values in the sorted order
+    for _, distance in ipairs(tableKeys) do
+        if(spawnedIconCount[questId] > maxPerType) then
+            Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+            break;
+        end
+        iconCount = iconCount + 1;
+        tinsert(orderedList, icons[distance]);
+    end
+    return iconCount, orderedList
 end
 
 _DrawObjectiveWaypoints = function(Objective, icon, iconPerZone)
@@ -996,7 +1006,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         return
     end
 
-    if not quest.Color then
+    if (not quest.Color) then
         quest.Color = QuestieLib:GetRandomColor(quest.Id)
     end
 
@@ -1006,7 +1016,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     _AddSourceItemObjective(quest)
 
     -- check for special (unlisted) DB objectives
-    if quest.SpecialObjectives then
+    if next(quest.SpecialObjectives) then
         Questie:Debug(DEBUG_DEVELOP, "Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
@@ -1073,6 +1083,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         QuestData = quest,
                         _lastUpdate = 0,
                         Description = objective.text,
+                        spawnList = {},
+                        AlreadySpawned = {},
                         Update = _ObjectiveUpdate,
                         Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates -- Only for type "event"
                     }
@@ -1088,7 +1100,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     end
 
     -- find special unlisted objectives
-    if quest.SpecialObjectives then
+    if next(quest.SpecialObjectives) then
         for index, specialObjective in pairs(quest.SpecialObjectives) do
             if (not specialObjective.Description) then
                 specialObjective.Description = "Special objective"
@@ -1097,6 +1109,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             specialObjective.questId = quest.Id
             specialObjective.Update = function() end
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
+            specialObjective.spawnList = {}
+            specialObjective.AlreadySpawned = {}
         end
     end
 

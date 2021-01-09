@@ -30,7 +30,7 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
         tinsert(subMenu, {text = objective.Description, hasArrow = true, menuList = objectiveMenu})
     end
 
-    if quest.SpecialObjectives then
+    if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local objectiveMenu = {}
 

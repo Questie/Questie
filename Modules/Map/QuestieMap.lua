@@ -851,7 +851,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
             end
         end
     end -- end of nil error prevention
-    if quest.SpecialObjectives then
+    if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
             if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
