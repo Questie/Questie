@@ -28,14 +28,8 @@ QuestieTooltips.lookupKeysByQuestId = {
 
 local _InitObjectiveTexts
 
--- key format:
---  The key is the string name of the object the tooltip is relevant to,
---  started with a small flag that specifies the type:
---        units: u_
---        items: i_
---      objects: o_
 ---@param questId number
----@param key string
+---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
 function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     if QuestieTooltips.lookupByKey[key] == nil then
