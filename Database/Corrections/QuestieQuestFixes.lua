@@ -1938,9 +1938,6 @@ function QuestieQuestFixes:Load()
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
         },
-        [7562] = {
-            [questKeys.startedBy] = {{5520,5815,6382,},nil,nil,}, -- #1343
-        },
         [7622] = {
             [questKeys.triggerEnd] = {"The Balance of Light and Shadow", {[zoneIDs.EASTERN_PLAGUELANDS]={{21.19,17.79},},},}, -- #2332
         },
@@ -2859,7 +2856,8 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{3328,4583},nil,{17126}}
         },
         [7562] = {
-            [questKeys.startedBy] = {{5753,5815,},nil,nil}
+            [questKeys.startedBy] = {{5753,5815,},nil,nil},
+            [questKeys.requiredRaces] = 255,
         },
         [8151] = {
             [questKeys.startedBy] = {{3039,3352,},nil,nil},
@@ -2925,7 +2923,8 @@ function QuestieQuestFixes:LoadFactionFixes()
             [questKeys.startedBy] = {{918,4163,5165},nil,{17126}}
         },
         [7562] = {
-            [questKeys.startedBy] = {{5520,6382,},nil,nil}
+            [questKeys.startedBy] = {{5520,6382,},nil,nil},
+            [questKeys.requiredRaces] = 255,
         },
         [8151] = {
             [questKeys.startedBy] = {{4205,5116,5516,},nil,nil},
