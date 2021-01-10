@@ -132,8 +132,8 @@ end
 
 --- Get the month and year of the latest entry in the Journey.
 --- This is used to select it in the tree view.
----@return integer @The month of the latest entry
----@return integer @The year of the latest entry
+---@return number @The month of the latest entry
+---@return number @The year of the latest entry
 function _QuestieJourney:GetMonthAndYearOfLatestEntry()
     local journeyEntries = _QuestieJourney:GetJourneyEntries()
     local years = {}

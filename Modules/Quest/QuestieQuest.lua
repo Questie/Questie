@@ -671,18 +671,18 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
     end
 end
 
-function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, blockItemTooltips) -- must be pcalled
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. Objective.Description)
+function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
+    Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. objective.Description)
 
-    local completed = Objective.Completed
+    local completed = objective.Completed
 
-    if (not completed) and (not next(Objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[Objective.Type] then
-        Objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[Objective.Type](Objective.Id, Objective);
+    if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objective.Type] then
+        objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objective.Type](objective.Id, objective);
     end
 
     -- Tooltips should always show.
     -- For completed and uncompleted objectives
-    _RegisterObjectiveTooltips(Objective, quest.Id)
+    _RegisterObjectiveTooltips(objective, quest.Id)
 
     local maxPerType = 300
     if Questie.db.global.enableIconLimit then
@@ -693,33 +693,33 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, blockI
     local iconsToDraw = {}
     local spawnItemId
 
-    Objective:Update()
+    objective:Update()
 
     if completed then
-        _UnloadAlreadySpawnedIcons(Objective)
+        _UnloadAlreadySpawnedIcons(objective)
         return
     end
 
-    if (not Objective.Color) then
-        Objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * ObjectiveIndex)
+    if (not objective.Color) then
+        objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * objectiveIndex)
     end
 
-    if (not Objective.registeredItemTooltips) and Objective.Type == "item" and (not blockItemTooltips) and Objective.Id then
-        local item = QuestieDB.QueryItemSingle(Objective.Id, "name")
+    if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
+        local item = QuestieDB.QueryItemSingle(objective.Id, "name")
         if item then
-            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. Objective.Id, Objective);
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. objective.Id, objective);
         end
-        Objective.registeredItemTooltips = true
+        objective.registeredItemTooltips = true
     end
 
-    if Objective.spawnList and next(Objective.spawnList) then
+    if next(objective.spawnList) then
         local objectiveCenter = closestStarter[quest.Id]
 
         local zoneCount = 0
         local zones = {}
         local objectiveZone
 
-        for _, spawnData in pairs(Objective.spawnList) do
+        for _, spawnData in pairs(objective.spawnList) do
             for zone in pairs(spawnData.Spawns) do
                 zones[zone] = true
             end
@@ -737,35 +737,35 @@ function QuestieQuest:PopulateObjective(quest, ObjectiveIndex, Objective, blockI
             objectiveCenter.y = y
         end
 
-        iconsToDraw, spawnItemId  = _DetermineIconsToDraw(quest, Objective, ObjectiveIndex, objectiveCenter)
-        local icon, iconPerZone = _DrawObjectiveIcons(iconsToDraw, Objective, maxPerType)
-        _DrawObjectiveWaypoints(Objective, icon, iconPerZone)
+        iconsToDraw, spawnItemId  = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
+        local icon, iconPerZone = _DrawObjectiveIcons(iconsToDraw, objective, maxPerType)
+        _DrawObjectiveWaypoints(objective, icon, iconPerZone)
     end
 
     if (not completed) then
-        Objective._hasSeenIncomplete = true
-    elseif Objective._hasSeenIncomplete then
-        Objective._hasSeenIncomplete = nil
-        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, Objective.Description, tostring(Objective.Collected) .. "/" .. tostring(Objective.Needed))
+        objective._hasSeenIncomplete = true
+    elseif objective._hasSeenIncomplete then
+        objective._hasSeenIncomplete = nil
+        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, objective.Description, tostring(objective.Collected) .. "/" .. tostring(objective.Needed))
     end
 end
 
-_RegisterObjectiveTooltips = function(Objective, questId)
-    Questie:Debug(DEBUG_INFO, "Registering objective tooltips for " .. Objective.Description)
-    for id, spawnData in pairs(Objective.spawnList) do
-        if (not Objective.AlreadySpawned[id]) then
-            if (not Objective.hasRegisteredTooltips) and spawnData.TooltipKey then
-                QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, Objective);
+_RegisterObjectiveTooltips = function(objective, questId)
+    Questie:Debug(DEBUG_INFO, "Registering objective tooltips for " .. objective.Description)
+    for id, spawnData in pairs(objective.spawnList) do
+        if (not objective.AlreadySpawned[id]) then
+            if (not objective.hasRegisteredTooltips) and spawnData.TooltipKey then
+                QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective);
             end
         end
     end
-    Objective.hasRegisteredTooltips = true
+    objective.hasRegisteredTooltips = true
 end
 
-_UnloadAlreadySpawnedIcons = function(Objective)
-    if Objective.spawnList and next(Objective.spawnList) then
-        for id, _ in pairs(Objective.spawnList) do
-            local spawn = Objective.AlreadySpawned[id]
+_UnloadAlreadySpawnedIcons = function(objective)
+    if next(objective.spawnList) then
+        for id, _ in pairs(objective.spawnList) do
+            local spawn = objective.AlreadySpawned[id]
             if spawn then
                 for _, mapIcon in pairs(spawn.mapRefs) do
                     mapIcon:Unload()
@@ -777,45 +777,45 @@ _UnloadAlreadySpawnedIcons = function(Objective)
                 spawn.minimapRefs = {}
             end
         end
-        Objective.AlreadySpawned = {}
-        Objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
+        objective.AlreadySpawned = {}
+        objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
     end
 end
 
-_DetermineIconsToDraw = function(quest, Objective, ObjectiveIndex, objectiveCenter)
+_DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCenter)
     local iconsToDraw = {}
     local spawnItemId
 
-    for id, spawnData in pairs(Objective.spawnList) do
+    for id, spawnData in pairs(oObjective.spawnList) do
         if spawnData.ItemId then
             spawnItemId = spawnData.ItemId
         end
 
-        if (not Objective.Icon) and spawnData.Icon then -- TODO: move this to a better place
-            Objective.Icon = spawnData.Icon
+        if (not oObjective.Icon) and spawnData.Icon then -- TODO: move this to a better place
+            oObjective.Icon = spawnData.Icon
         end
-        if (not Objective.AlreadySpawned[id]) and (not Objective.Completed) and Questie.db.global.enableObjectives then
+        if (not oObjective.AlreadySpawned[id]) and (not oObjective.Completed) and Questie.db.global.enableObjectives then
             if(not iconsToDraw[quest.Id]) then
                 iconsToDraw[quest.Id] = {}
             end
             local data = {
                 Id = quest.Id,
-                ObjectiveIndex = ObjectiveIndex,
+                ObjectiveIndex = objectiveIndex,
                 QuestData = quest,
-                ObjectiveData = Objective,
+                ObjectiveData = oObjective,
                 Icon = spawnData.Icon,
                 IconColor = quest.Color,
                 GetIconScale = function() return spawnData:GetIconScale() or 1 end,
                 Name = spawnData.Name,
-                Type = Objective.Type,
+                Type = oObjective.Type,
                 ObjectiveTargetId = spawnData.Id
             }
             data.IconScale = data:GetIconScale()
 
-            Objective.AlreadySpawned[id] = {};
-            Objective.AlreadySpawned[id].data = data;
-            Objective.AlreadySpawned[id].minimapRefs = {};
-            Objective.AlreadySpawned[id].mapRefs = {};
+            oObjective.AlreadySpawned[id] = {};
+            oObjective.AlreadySpawned[id].data = data;
+            oObjective.AlreadySpawned[id].minimapRefs = {};
+            oObjective.AlreadySpawned[id].mapRefs = {};
 
             for zone, spawns in pairs(spawnData.Spawns) do
                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -844,7 +844,7 @@ _DetermineIconsToDraw = function(quest, Objective, ObjectiveIndex, objectiveCent
     return iconsToDraw, spawnItemId
 end
 
-_DrawObjectiveIcons = function(iconsToDraw, Objective, maxPerType)
+_DrawObjectiveIcons = function(iconsToDraw, objective, maxPerType)
     local spawnedIconCount = {}
     local icon
     local iconPerZone = {}
@@ -888,8 +888,8 @@ _DrawObjectiveIcons = function(iconsToDraw, Objective, maxPerType)
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
                     if iconMap and iconMini then
                         iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                     end
                     spawnedIconCount[questId] = spawnedIconCount[questId] + 1;
                 end
@@ -902,8 +902,8 @@ _DrawObjectiveIcons = function(iconsToDraw, Objective, maxPerType)
             local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
             if iconMap and iconMini then
                 iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
-                tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
             end
             spawnedIconCount[questId] = spawnedIconCount[questId] + 1;
         end
@@ -934,8 +934,8 @@ _GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerTyp
     return iconCount, orderedList
 end
 
-_DrawObjectiveWaypoints = function(Objective, icon, iconPerZone)
-    for _, spawnData in pairs(Objective.spawnList) do -- spawnData.Name, spawnData.Spawns
+_DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
+    for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
         if spawnData.Waypoints then
             for zone, waypoints in pairs(spawnData.Waypoints) do
                 local firstWaypoint = waypoints[1][1]
@@ -943,8 +943,8 @@ _DrawObjectiveWaypoints = function(Objective, icon, iconPerZone)
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
                     if iconMap and iconMini then
                         iconPerZone[zone] = {iconMap, firstWaypoint[1], firstWaypoint[2]}
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                        tinsert(Objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                     end
                 end
                 local ipz = iconPerZone[zone]
