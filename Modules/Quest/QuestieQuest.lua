@@ -162,11 +162,9 @@ function QuestieQuest:ClearAllNotes()
             return
         end
 
-        -- Clear user-specifc data from quest object (maybe we should refactor into Quest.session.* so we can do Quest.session = nil to reset easier
         quest.Objectives = nil
 
-        -- reference is still held elswhere
-        if quest.SpecialObjectives then
+        if next(quest.SpecialObjectives) then
             for _,s in pairs(quest.SpecialObjectives) do
                 s.AlreadySpawned = {}
             end
@@ -202,11 +200,9 @@ local function _UpdateSpecials(questId)
 end
 
 function QuestieQuest:AddAllNotes()
-    -- draw available quests
     QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
-    -- draw quests
     for quest in pairs (QuestiePlayer.currentQuestlog) do
         QuestieQuest:UpdateQuest(quest)
         _UpdateSpecials(quest)
@@ -215,7 +211,6 @@ end
 
 function QuestieQuest:Reset()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:Reset]")
-    -- clear all notes
     QuestieQuest:ClearAllNotes()
 
 
@@ -224,7 +219,6 @@ function QuestieQuest:Reset()
     QuestieTooltips.lookupByKey = {}
     QuestieTooltips.lookupKeyByQuestId = {}
 
-    -- make sure complete db is correct
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
     QuestieReputation:Update(false)
@@ -234,7 +228,7 @@ function QuestieQuest:Reset()
     QuestieQuest:AddAllNotes()
 end
 
-function QuestieQuest:SmoothReset() -- use timers to reset progressively instead of all at once
+function QuestieQuest:SmoothReset()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     if QuestieQuest._isResetting then
         QuestieQuest._resetAgain = true
@@ -416,7 +410,6 @@ function QuestieQuest:AbandonedQuest(questId)
 
         QuestieHash:RemoveQuestHash(questId)
 
-        --Unload all the quest frames from the map.
         QuestieMap:UnloadQuestFrames(questId);
 
         local quest = QuestieDB:GetQuest(questId);
@@ -424,7 +417,6 @@ function QuestieQuest:AbandonedQuest(questId)
             quest.Objectives = nil;
 
             if quest.ObjectiveData then
-                -- We also have to reset these stupid "AlreadySpawned" fields
                 for _, objective in pairs(quest.ObjectiveData) do
                     objective.AlreadySpawned = {}
                 end
@@ -436,7 +428,6 @@ function QuestieQuest:AbandonedQuest(questId)
             end
         end
 
-        -- yes we do, since abandoning can unlock more than 1 quest, or remove unlocked quests
         for k, _ in pairs(QuestieQuest.availableQuests) do
             ---@type Quest
             local availableQuest = QuestieDB:GetQuest(k)
@@ -477,8 +468,6 @@ function QuestieQuest:UpdateQuest(questId)
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
-        else
-            --DEFAULT_CHAT_FRAME:AddMessage("Still not finished " .. QuestId);
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
@@ -753,10 +742,8 @@ end
 _RegisterObjectiveTooltips = function(objective, questId)
     Questie:Debug(DEBUG_INFO, "Registering objective tooltips for " .. objective.Description)
     for id, spawnData in pairs(objective.spawnList) do
-        if (not objective.AlreadySpawned[id]) then
-            if (not objective.hasRegisteredTooltips) and spawnData.TooltipKey then
-                QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective);
-            end
+        if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) and (not objective.hasRegisteredTooltips) then
+            QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
         end
     end
     objective.hasRegisteredTooltips = true
@@ -791,7 +778,7 @@ _DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCen
             spawnItemId = spawnData.ItemId
         end
 
-        if (not oObjective.Icon) and spawnData.Icon then -- TODO: move this to a better place
+        if (not oObjective.Icon) and spawnData.Icon then
             oObjective.Icon = spawnData.Icon
         end
         if (not oObjective.AlreadySpawned[id]) and (not oObjective.Completed) and Questie.db.global.enableObjectives then
@@ -873,8 +860,6 @@ _DrawObjectiveIcons = function(iconsToDraw, objective, maxPerType)
             icon = hotzone[1];
 
             local midPoint = QuestieMap.utils:CenterPoint(hotzone);
-            --Disable old clustering.
-            icon.data.ClusterId = nil;
 
             local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
 
@@ -958,7 +943,6 @@ end
 
 local function _CallPopulateObjective(quest)
     for k, v in pairs(quest.Objectives) do
-        SelectQuestLogEntry(v.Index)
         local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
             print(err)
             print(debugstack())
@@ -1050,13 +1034,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     QuestieQuest:GetAllQuestObjectives(quest)
 end
 
--- /dump QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle(4742, "objectives")
--- /dump QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle(8069, "objectives")
--- /dump QuestieLoader:ImportModule("QuestieDB").QueryQuestSingle(6566, "objectives")
--- /dump C_QuestLog.GetQuestObjectives(8069)
--- /dump C_QuestLog.GetQuestObjectives(9015)
-
---Use the category order to draw the quests and trust the database order.
+--Uses the category order to draw the quests and trusts the database order.
 function QuestieQuest:GetAllQuestObjectives(quest)
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
