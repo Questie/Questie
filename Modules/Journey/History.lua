@@ -77,7 +77,7 @@ function _QuestieJourney:GetJourneyEntries()
 
         ---@class SortedJourneyEntry
         local entry = {}
-        ---@type integer
+        ---@type number
         entry.idx = i
         ---@type JourneyEntry
         entry.value = v

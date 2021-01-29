@@ -66,7 +66,6 @@ Locale\ruRU\locale.xml
 ##Libs
 Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
-Modules\Libs\QuestiePlayer.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
@@ -78,6 +77,8 @@ Modules\QuestieEventHandler.lua
 Modules\Migration.lua
 Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
+Modules\TaskQueue.lua
+Modules\QuestiePlayer.lua
 
 ##Tooltips
 Modules\Tooltips\Tooltip.lua

@@ -1802,7 +1802,7 @@ function QuestieTracker:Update()
                         end
                     end
                 end
-                if quest.SpecialObjectives then
+                if next(quest.SpecialObjectives) then
                     for _, objective in pairs(quest.SpecialObjectives) do
                         if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
                             objective.HideIcons = true
@@ -1962,7 +1962,7 @@ function QuestieTracker:UnFocus()
                     end
                 end
 
-                if quest.SpecialObjectives then
+                if next(quest.SpecialObjectives) then
                     for _, objective in pairs(quest.SpecialObjectives) do
                         if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
 
@@ -2003,7 +2003,7 @@ function QuestieTracker:FocusObjective(questId, objectiveIndex)
                     end
                 end
 
-                if quest.SpecialObjectives then
+                if next(quest.SpecialObjectives) then
                     for _, objective in pairs(quest.SpecialObjectives) do
                         if objective.Index == objectiveIndex then
                             objective.HideIcons = nil

@@ -463,7 +463,6 @@ QuestieLocale.locale['zhCN'] = {
     ['DEBUG_NO_FINISH'] = "任务无完成者: %s %s",
     ['DEBUG_POPULATE_ERR'] = "填充 %s %s %s %s 的目标时出错",
     ['DEBUG_POPTABLE'] = "新建目标表中",
-    ['DEBUG_OBJ_TABLE'] = "错误：目标表在获得目标时不存在，这不应该发生!",
     ['DEBUG_ENTRY_ID'] = "查找目标的条目ID时出错 %s %s",
     ['DEBUG_DRAW'] = "%s 已绘制可用任务. 玩家等级 = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "卸载任务框架: %s",

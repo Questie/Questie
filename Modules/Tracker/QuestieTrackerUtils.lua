@@ -65,7 +65,7 @@ function QuestieTracker.utils:ShowFinisherOnMap(quest)
 end
 
 function QuestieTracker.utils:FlashObjective(objective) -- really terrible animation code, sorry guys
-    if objective.AlreadySpawned then
+    if next(objective.AlreadySpawned) then
         local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
