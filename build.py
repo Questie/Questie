@@ -109,7 +109,7 @@ def main():
     # copy files
     for file in ['embeds.xml', 'Questie.lua']:
         shutil.copy2(file, '%s/%s' % (destination, file))
-    shutil.copy2('QuestieDev-master.toc', '%s/%s.toc' % (destination, addonDir))
+    shutil.copy2('Questie.toc', '%s/%s.toc' % (destination, addonDir))
     # modify toc
     setVersion()
     # replace path references
@@ -155,7 +155,7 @@ def setVersion():
         cleanData = None
         readmeData = None
         # Replace the toc data with git information.
-        with open('QuestieDev-master.toc') as toc:
+        with open('Questie.toc') as toc:
             tocData = toc.read()
             cleanData = tocData;
             ## Version: 4.1.1 BETA
@@ -174,7 +174,7 @@ def setVersion():
         with open('README.md', "w") as readme:
             readme.write(readmeData)
 
-        with open('QuestieDev-master.toc', "w") as toc:
+        with open('Questie.toc', "w") as toc:
             toc.write(cleanData)
 
 def setHookfolder():
@@ -194,7 +194,7 @@ def getVersion():
     else:
         print("Warning: Git not found on the computer, using fallback to get a version.")
 
-    with open('QuestieDev-master.toc') as toc:
+    with open('Questie.toc') as toc:
         result = re.search('## Version: (.*?)\n', toc.read(), re.DOTALL)
     if result:
         return result.group(1), None, None
