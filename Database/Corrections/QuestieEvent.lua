@@ -47,7 +47,7 @@ local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 
 
 local tinsert = table.insert
-local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive, _InitEventNamesForQuests
+local _WithinDates, _LoadDarkmoonFaire, _IsDarkmoonFaireActive
 
 function QuestieEvent:Load()
     local year = date("%y")
@@ -220,7 +220,7 @@ QuestieEvent.lunarFestival = {
     ["19"] = {startDate = "5/2", endDate = "19/2"},
     ["20"] = {startDate = "23/1", endDate = "10/2"},
     -- Below are estimates
-    ["21"] = {startDate = "12/2", endDate = "26/2"},
+    ["21"] = {startDate = "5/2", endDate = "19/2"},
     ["22"] = {startDate = "1/2", endDate = "15/2"},
     ["23"] = {startDate = "22/1", endDate = "5/2"},
     ["24"] = {startDate = "10/2", endDate = "24/2"},
