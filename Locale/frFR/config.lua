@@ -463,7 +463,6 @@ QuestieLocale.locale['frFR'] = {
     ['DEBUG_NO_FINISH'] = "La quête n'a pas de fin : %s %s",
     ['DEBUG_POPULATE_ERR'] = "Une erreur s'est produite lors de la création des objectifs pour %s %s %s %s",
     ['DEBUG_POPTABLE'] = "Création d'une nouvelle table d'objectifs",
-    ['DEBUG_OBJ_TABLE'] = "Erreur : la table d'objectif n'existe pas lors de l'obtention d'objectifs, cela ne devrait jamais arriver !",
     ['DEBUG_ENTRY_ID'] = "Impossible de trouver l'ID de l'objectif %s %s",
     ['DEBUG_DRAW'] = "%s quêtes disponibles affichées. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Vidage du cadres des quêtes : %s",

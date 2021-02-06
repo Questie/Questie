@@ -456,7 +456,6 @@ QuestieLocale.locale['koKR'] = {
     ['DEBUG_NO_FINISH'] = "Quest has no finisher: %s %s",
     ['DEBUG_POPULATE_ERR'] = "There was an error populating objectives for %s %s %s %s",
     ['DEBUG_POPTABLE'] = "Creating new objective table",
-    ['DEBUG_OBJ_TABLE'] = "Error: objective table doesnt exist when getting objectives, this should never happen!",
     ['DEBUG_ENTRY_ID'] = "Error finding entry ID for objective %s %s",
     ['DEBUG_DRAW'] = "%s available quests drawn. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Unloading quest frames: %s",

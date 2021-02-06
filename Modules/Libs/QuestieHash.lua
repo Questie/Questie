@@ -83,15 +83,15 @@ function QuestieHash:CompareQuestHashes()
 end
 
 _SafeUpdateQuest = function(questId, hash, count)
-    if(not count) then
+    if (not count) then
         count = 0;
     end
-    if(QuestieLib:IsResponseCorrect(questId)) then
+    if (QuestieLib:IsResponseCorrect(questId)) then
         QuestieQuest:UpdateQuest(questId)
         questLogHashes[questId] = hash
         Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
     else
-        if(count < 50) then
+        if (count < 50) then
             Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest " .. questId .. ". Waiting with timer...");
             C_Timer.After(0.1, function()
                 _SafeUpdateQuest(questId, hash, count + 1);

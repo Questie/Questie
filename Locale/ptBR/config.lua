@@ -461,7 +461,6 @@ QuestieLocale.locale['ptBR'] = {
     ['DEBUG_NO_FINISH'] = "A missão não tem um finalizador: %s %s",
     ['DEBUG_POPULATE_ERR'] = "Ocorreu um erro ao definir destinos para %s %s %s %s",
     ['DEBUG_POPTABLE'] = "Criando uma nova tabela de objetivos",
-    ['DEBUG_OBJ_TABLE'] = "Erro: a tabela de objetivos não existe ao obter objetivos,isso nunca deve acontecer!",
     ['DEBUG_ENTRY_ID'] = "Erro ao procurar o ID da entrada para o objectivo %s %s",
     ['DEBUG_DRAW'] = "% s missões disponíveis desenhadas. PlayerLevel = %s",
     ['DEBUG_UNLOAD_QFRAMES'] = "Descarregando quadros de missões: %s",

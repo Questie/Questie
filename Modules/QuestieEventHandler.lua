@@ -37,8 +37,6 @@ local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
 local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
 ---@type DBCompiler
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieMenu
@@ -236,11 +234,11 @@ end
 
 --Fires when a quest is accepted in anyway.
 _QUEST_ACCEPTED = function(self, questLogIndex, questId)
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestID: "..questId)
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestId: "..questId)
     --Try and cache all the potential items required for the quest.
     QuestieLib:CacheItemNames(questId)
     _Hack_prime_log()
-    local timer = nil
+    local timer
     timer = C_Timer.NewTicker(0.5, function()
         if(QuestieLib:IsResponseCorrect(questId)) then
             QuestieQuest:AcceptQuest(questId)
@@ -267,24 +265,24 @@ local questTurnedInEventReveived = false
 
 --- Fires when a quest is removed from the questlog, this includes turning it in
 --- and abandoning it.
----@param questID QuestId
-_QUEST_REMOVED = function(self, questID)
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questID)
+---@param questId QuestId
+_QUEST_REMOVED = function(self, questId)
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questId)
     _Hack_prime_log()
-    if questTurnedInEventReveived == questID then
+    if questTurnedInEventReveived == questId then
         questTurnedInEventReveived = false
         shouldRunQLU = false
-        _CompleteQuest(questID)
+        _CompleteQuest(questId)
         --Broadcast our removal!
-        Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID)
+        Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questId)
         return
     end
-    QuestieQuest:AbandonedQuest(questID)
-    QuestieJourney:AbandonQuest(questID)
+    QuestieQuest:AbandonedQuest(questId)
+    QuestieJourney:AbandonQuest(questId)
     shouldRunQLU = false
 
     --Broadcast our removal!
-    Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questID)
+    Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questId)
 end
 
 --- Helper function to remove quests correctly
@@ -312,18 +310,18 @@ end
 
 --- Fires when a quest is turned in, but before it is remove from the quest log.
 --- We need to save the ID of the finished quest to check it in QR event.
----@param questID QuestId
+---@param questId QuestId
 ---@param xpReward number
 ---@param moneyReward number
-_QUEST_TURNED_IN = function(self, questID, xpReward, moneyReward)
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questID, xpReward, moneyReward)
+_QUEST_TURNED_IN = function(self, questId, xpReward, moneyReward)
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questId, xpReward, moneyReward)
     _Hack_prime_log()
-    questTurnedInEventReveived = questID
+    questTurnedInEventReveived = questId
 
     -- Some repeatable sub quests don't fire a UQLC event when they're completed.
     -- Therefore we have to check here to make sure the next QLU updates the state.
     ---@type Quest
-    local quest = QuestieDB:GetQuest(questID)
+    local quest = QuestieDB:GetQuest(questId)
     if quest and ((quest.parentQuest and quest.IsRepeatable) or quest.Description == nil or table.getn(quest.Description) == 0) then
         Questie:Debug(DEBUG_DEVELOP, "Enabling shouldRunQLU")
         shouldRunQLU = true
@@ -376,7 +374,7 @@ end
 ---@param hitpoints number
 ---@param manapoints number
 ---@param talentpoints number
-_PLAYER_LEVEL_UP = function(self, level, hitpoints, manapoints, talentpoints, ...)
+_PLAYER_LEVEL_UP = function(self, level)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
     QuestiePlayer:SetPlayerLevel(level)
@@ -391,7 +389,7 @@ _PLAYER_LEVEL_UP = function(self, level, hitpoints, manapoints, talentpoints, ..
 end
 
 --- Fires when a modifier key changed
-_MODIFIER_STATE_CHANGED = function(self, key, down)
+_MODIFIER_STATE_CHANGED = function()
     if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
         GameTooltip:Hide()
         GameTooltip:ClearLines()
@@ -448,7 +446,7 @@ end
 
 _GROUP_JOINED = function()
     Questie:Debug(DEBUG_DEVELOP, "GROUP_JOINED")
-    local checkTimer = nil
+    local checkTimer
     --We want this to be fairly quick.
     checkTimer = C_Timer.NewTicker(0.1, function()
         local partyPending = UnitInParty("player")
@@ -473,7 +471,7 @@ _GROUP_LEFT = function()
     QuestieComms:ResetAll()
 end
 
-local previousTrackerState = nil
+local previousTrackerState
 
 _PLAYER_REGEN_DISABLED = function()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")

@@ -44,14 +44,14 @@ function QuestieMap.utils:SetDrawOrder(frame)
     end
 end
 
----@param points table<integer, Point> @Pointlist {x=0, y=0}
+---@param points table<number, Point> @Pointlist {x=0, y=0}
 ---@return Point @{x=?, y=?}
 function QuestieMap.utils:CenterPoint(points)
     local center = {}
     local count = 0
     center.x = 0
     center.y = 0
-    for index, point in pairs(points) do
+    for _, point in pairs(points) do
         center.x = center.x + point.x
         center.y = center.y + point.y
         count = count + 1
@@ -61,10 +61,10 @@ function QuestieMap.utils:CenterPoint(points)
     return center
 end
 
----@param points table<integer, Point> @A simple pointlist with {x=0, y=0, zone=0}
----@param rangeR integer @Range of the hotzones.
----@param count integer @Optional, used to allow more notes if far away from the quest giver.
----@return table<integer, table<integer, Point>> @A table of hotzones
+---@param points table<number, Point> @A simple pointlist with {x=0, y=0, zone=0}
+---@param rangeR number @Range of the hotzones.
+---@param count number @Optional, used to allow more notes if far away from the quest giver.
+---@return table<number, table<number, Point>> @A table of hotzones
 function QuestieMap.utils:CalcHotzones(points, rangeR, count)
     if(points == nil) then return nil; end
 
@@ -78,14 +78,14 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
     local hotzones = {};
     local itt = 0;
     while(true) do
-        local FoundUntouched = nil;
-        for index, point in pairs(points) do
+        local FoundUntouched
+        for _, point in pairs(points) do
             if(point.touched == nil) then
                 local notes = {};
                 FoundUntouched = true;
                 point.touched = true;
                 tinsert(notes, point);
-                for index2, point2 in pairs(points) do
+                for _, point2 in pairs(points) do
                     --We only want to cluster icons that are on the same map.
                     if(point.UiMapID == point2.UiMapID) then
                         local times = 1;
@@ -152,7 +152,7 @@ function QuestieMap.utils:IsExplored(uiMapId, x, y)
 end
 
 function QuestieMap.utils:MapExplorationUpdate()
-    for questId, frameList in pairs(QuestieMap.questIdFrames) do
+    for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
@@ -175,7 +175,7 @@ function QuestieMap.utils:RecaleIcon(frameRef, modifier)
     if frame and frame.data then
         if(frame.data.GetIconScale) then
             frame.data.IconScale = frame.data:GetIconScale();
-            local scale = nil
+            local scale
             if(frame.miniMapIcon) then
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
             else

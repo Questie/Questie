@@ -44,14 +44,12 @@ local normalizedValue = 1 / fadeOverDistance; --Opacity / Distance to fade over
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
-local HBDMigrate = LibStub("HereBeDragonsQuestie-Migrate")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
-local tpack = table.pack;
 local tremove = table.remove;
 local tunpack = unpack;
 
@@ -94,7 +92,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
 end
 
 --Get the frames for manual note, this returns all of the frames/spawns
----@param id integer @The ID of the NPC (>0) or object (<0)
+---@param id number @The ID of the NPC (>0) or object (<0)
 function QuestieMap:GetManualFrames(id, typ)
     typ = typ or "any"
     local frames = {}
@@ -107,11 +105,11 @@ function QuestieMap:GetManualFrames(id, typ)
     return frames
 end
 
----@param id integer @The ID of the NPC (>0) or object (<0)
+---@param id number @The ID of the NPC (>0) or object (<0)
 function QuestieMap:UnloadManualFrames(id, typ)
     typ = typ or "any"
     if QuestieMap.manualFrames[typ] and (QuestieMap.manualFrames[typ][id]) then
-        for index, frame in ipairs(QuestieMap:GetManualFrames(id, typ)) do
+        for _, frame in ipairs(QuestieMap:GetManualFrames(id, typ)) do
             frame:Unload();
         end
         QuestieMap.manualFrames[typ][id] = nil;
@@ -211,7 +209,7 @@ function QuestieMap:ProcessShownMinimapIcons()
         doEdgeUpdate = true
     end
 
-    local playerX, playerY, playerInstanceID = HBD:GetPlayerWorldPosition()
+    local playerX, playerY, _ = HBD:GetPlayerWorldPosition()
     QuestieMap.playerX = playerX
     QuestieMap.playerY = playerY
     ---@param minimapFrame IconFrame
@@ -240,7 +238,7 @@ end
 
 function QuestieMap:ProcessQueue()
     if next(mapDrawQueue) ~= nil or next(minimapDrawQueue) ~= nil then
-        for i = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
+        for _ = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
             local mapDrawCall = tremove(mapDrawQueue, 1);
             if(mapDrawCall) then
                 local frame = mapDrawCall[2];
@@ -269,7 +267,7 @@ end
 -- Show NPC on map
 -- This function does the same for manualFrames as similar functions in
 -- QuestieQuest do for questIdFrames
----@param npcID integer @The ID of the NPC
+---@param npcID number @The ID of the NPC
 function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemove, typ, excludeDungeon)
     if type(npcID) ~= "number" then
         Questie:Debug(DEBUG_DEVELOP, "[QuestieMap:ShowNPC]", "Got <" .. type(npcID) .. "> instead of <number>")
@@ -328,7 +326,7 @@ end
 -- Show object on map
 -- This function does the same for manualFrames as similar functions in
 -- QuestieQuest do for questIdFrames
----@param objectID integer
+---@param objectID number
 function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftToRemove, typ)
     if type(objectID) ~= "number" then return end
     -- get the gameobject data
@@ -393,7 +391,7 @@ end
 -- Draw manually added NPC/object notes
 -- TODO: item and custom notes
 --@param data table<...> @A table created by the calling function, must contain `id`, `Name`, `GetIconScale()`, and `Type`
---@param AreaID integer @The zone ID from the raw data
+--@param AreaID number @The zone ID from the raw data
 --@param x float @The X coordinate in 0-100 format
 --@param y float @The Y coordinate in 0-100 format
 function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
@@ -500,7 +498,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        local parentMapId = nil
+        local parentMapId
         local mapInfo = C_Map.GetMapInfo(areaID)
         if mapInfo then
             parentMapId = mapInfo.parentMapID
@@ -640,7 +638,7 @@ end
 
 local closestStarter = {}
 function QuestieMap:FindClosestStarter()
-    local playerX, playerY, instance = HBD:GetPlayerWorldPosition();
+    local playerX, playerY, _ = HBD:GetPlayerWorldPosition();
     local playerZone = HBD:GetPlayerWorldPosition();
     for questId in pairs(QuestiePlayer.currentQuestlog) do
         if(not closestStarter[questId]) then
@@ -766,7 +764,7 @@ function QuestieMap:GetNearestSpawn(objective)
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-    if objective.spawnList then
+    if next(objective.spawnList) then
         for id, spawnData in pairs(objective.spawnList) do
             for zone, spawns in pairs(spawnData.Spawns) do
                 for _,spawn in pairs(spawns) do
@@ -798,8 +796,8 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         return nil
     end
     if quest:IsComplete() == 1 then
-        local finisherSpawns = nil
-        local finisherName = nil
+        local finisherSpawns
+        local finisherName
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
                 --finisher = QuestieDB:GetNPC(quest.Finisher.Id)
@@ -851,7 +849,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
             end
         end
     end -- end of nil error prevention
-    if quest.SpecialObjectives then
+    if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
             if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
