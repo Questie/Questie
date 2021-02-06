@@ -214,6 +214,7 @@ QuestieLocale.locale['esES'] = {
     ['ICON_LEFT_CLICK_HOLD'] = "Clic izquierdo + Mantener",
     ['ICON_DRAG_LOCKED'] = "Arrastra mientras está bloqueado",
     ['ICON_TOGGLE'] = "Mostrar opciones",
+    ['MENU_TOGGLE'] = "Mostrar menú",
     ['ICON_SHIFTLEFT_CLICK'] = "Ctrl + Shift + Clic izq.",
     ['ICON_TOGGLE_QUESTIE'] = "Mostrar Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Clic der.",
