@@ -1,23 +1,26 @@
 # Questie
 
 [![Discord](https://img.shields.io/badge/discord-Questie-738bd7)](https://discord.gg/phKnHVu)
+[![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
-[![Downloads](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/AeroScripts/QuestieDev/v6.2.5/total.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
-[![Date Latest](https://img.shields.io/github/release-date/AeroScripts/QuestieDev.svg)](https://github.com/AeroScripts/QuestieDev/releases/latest)
-[![Commits Since Latest](https://img.shields.io/github/commits-since/AeroScripts/QuestieDev/latest.svg)](https://github.com/AeroScripts/QuestieDev/commits/master)
+[![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v6.2.5/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
 
 ## Download
-https://github.com/AeroScripts/QuestieDev/releases/latest
+We suggest you use the [Curseforge Client](https://curseforge.overwolf.com/) to manage your Wow addons in general. You will find Questie [here on Curseforge](https://www.curseforge.com/wow/addons/questie).
 
-Follow the [Installation Guide](https://github.com/AeroScripts/QuestieDev/wiki/Installation-Guide) in the Wiki if you just want to get the latest version of Questie up and running. If you have problems, please read the [Frequently Asked Questions](https://github.com/AeroScripts/QuestieDev/wiki/FAQ-for-Classic-(1.13)).
+Alternatively you can always use [the latest GitHub release](https://github.com/Questie/Questie/releases/latest) and follow the [Installation Guide](https://github.com/Questie/Questie/wiki/Installation-Guide) in the Wiki to get the latest version of Questie up and running.
+
+If you have problems, please read the [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ-for-Classic-(1.13)).
 
 
 ## Information
-- [Frequently Asked Questions](https://github.com/AeroScripts/QuestieDev/wiki/FAQ)
+- [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
 - Come chat with us on [our Discord server](https://discord.gg/phKnHVu).
-- You can use the [issue tracker](https://github.com/AeroScripts/QuestieDev/issues) to report bugs and post feature requests (requires a Github account).
+- You can use the [issue tracker](https://github.com/Questie/Questie/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
 
@@ -27,7 +30,7 @@ Trust us it's (Good)!
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 - We are happy about every help and contribution we get, so feel free to sumbit a Pull Request on Github
-- Additional information you might find interesting can be found [here](https://github.com/AeroScripts/QuestieDev/wiki/Contributing)
+- Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
 
 ## Donation
