@@ -215,6 +215,7 @@ QuestieLocale.locale['frFR'] = {
     ['ICON_LEFT_CLICK_HOLD'] = "Clic gauche + Maintenir",
     ['ICON_DRAG_LOCKED'] = "Glisser pendant le verrouillage",
     ['ICON_TOGGLE'] = "Panneau de configuration",
+    ['MENU_TOGGLE'] = "Panneau de menu",
     ['ICON_SHIFTLEFT_CLICK'] = "Ctrl + Maj + Clic Gauche ",
     ['ICON_TOGGLE_QUESTIE'] = "Afficher/cacher Questie",
     ['ICON_CTRLRIGHT_CLICK'] = "Ctrl + Clic Droit ",
