@@ -4,8 +4,8 @@ QuestieLocale.locale['esMX'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Opciones de Questie",
     ['ENABLE_ICONS'] = "Habilitar Iconos",
     ['ENABLE_ICONS_DESC'] = "Habilitar iconos de Questie",
-    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
-    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
+    ['TRACKING_ICONS_BUTTON'] = "Configurar iconos de rastreamiento",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Permite seleccionar qué iconos de rastreamiento (como Buzón, PNJ de Reparación) se mostrarán en el mapa y el minimapa.",
     ['ENABLE_MINIMAP_BUTTON'] = "Habilitar icono del minimapa",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Habilita o deshabilita el icono del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
     ['ENABLE_INSTANT'] = "Habilitar el texto automático de misiones",
@@ -375,6 +375,8 @@ QuestieLocale.locale['esMX'] = {
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Progreso',
     ['TOOLTIPS_FIN_QUEST'] = '(Completada)',
     ['TOOLTIPS_REPEAT_QUEST'] = 'Esta misión es repetible.',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Mostrar misiones en el tooltip del PNJ',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Muestra misiones (disponibles/completadas) en el tooltip del PNJ.',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "El viaje de %s",
