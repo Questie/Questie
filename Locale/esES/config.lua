@@ -4,8 +4,8 @@ QuestieLocale.locale['esES'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Opciones de Questie",
     ['ENABLE_ICONS'] = "Habilitar Iconos",
     ['ENABLE_ICONS_DESC'] = "Habilitar iconos de Questie",
-    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
-    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
+    ['TRACKING_ICONS_BUTTON'] = "Configurar iconos de rastreamiento",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Permite seleccionar qué iconos de rastreamiento (como Buzón, PNJ de Reparación) se mostrarán en el mapa y el minimapa.",
     ['ENABLE_MINIMAP_BUTTON'] = "Habilitar icono del minimapa",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Habilita o deshabilita el icono del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
     ['ENABLE_INSTANT'] = "Habilitar el texto automático de misiones",
@@ -73,7 +73,7 @@ QuestieLocale.locale['esES'] = {
     ['QUEST_ANNOUNCE_ENABLED'] = "Habilitado",
     ['QUEST_ANNOUNCE_OBJECTIVE'] = "{rt1} Questie : %s para %s!",
     ['QUEST_ANNOUNCE_QUESTITEM'] = "{rt1} Questie : Despojó %s que empieza %s!",
-    
+   
     -- Minimap tab
     ['MINIMAP_TAB'] = "Opciones de minimapa",
     ['MINIMAP_OPTIONS_HEADER'] = "Opciones de las notas del minimapa",
@@ -110,7 +110,7 @@ QuestieLocale.locale['esES'] = {
     ['AVAILABLE_ICON_SCALE'] = "Tamaño de iconos de misión disponible y completada",
     ['AVAILABLE_ICON_SCALE_DESC'] = "Especifíca la escala de los iconos de misión disponible y completada. ( Por defecto: %s )",
     ['LOOT_ICON_SCALE'] = "Tamaño de iconos de saqueo",
-    ['LOOT_ICON_SCALE_DESC'] = "CEspecifíca la escala de los iconos de saqueo. ( Por defecto: %s )",
+    ['LOOT_ICON_SCALE_DESC'] = "Especifíca la escala de los iconos de saqueo. ( Por defecto: %s )",
     ['MONSTER_ICON_SCALE'] = "Tamaño de iconos de matar",
     ['MONSTER_ICON_SCALE_DESC'] = "Especifíca la escala de los iconos de matar. ( Por defecto: %s )",
     ['OBJECT_ICON_SCALE'] = "Tamaño de iconos de objeto",
@@ -181,8 +181,6 @@ QuestieLocale.locale['esES'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Si está marcado, el nivel de misiones mostrará en los tooltips.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Fiesta compartida solo",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Cuando esto está habilitado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avanzado",
@@ -203,8 +201,8 @@ QuestieLocale.locale['esES'] = {
     ['RESET_QUESTIE_BTN_DESC'] = "Reinicia Questie a todos los valores por defecto.",
     ['RECOMPILE_DATABASE_BTN'] = "Recompilar base de datos",
     ['RECOMPILE_DATABASE_BTN_DESC'] = "Fuerza una recompilación de la base de datos Questie. Esto también volverá a cargar la interfaz de usuario.",
-    ['SHOW_PROFILER_BTN'] = "Abre el perfilador de Questie, esto es útil para rastrear la fuente de picos de latencia.",
-    ['SHOW_PROFILER_BTN_DESC'] = "Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.",
+    ['SHOW_PROFILER_BTN'] = "Abrir perfilador",
+    ['SHOW_PROFILER_BTN_DESC'] = "Abre el perfilador de Questie, esto es útil para rastrear la fuente de picos de latencia.",
     ['QUESTIE_DEV_MESSAGE'] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
 
     -- UI Elements
@@ -281,7 +279,7 @@ QuestieLocale.locale['esES'] = {
     ['TRACKER_ENABLE_BORDER_DESC'] = "Cuando esto está marcado, el borde del Questie Tracker se vuelve visible",
     ['TRACKER_FADE_BACKDROP'] = "Fundido de fondo",
     ['TRACKER_FADE_BACKDROP_DESC'] = "Cuando esto está marcado, el fondo y el borde del Questie Tracker (si está habilitado) se desvanecerán y se volverán transparentes cuando no estén en uso",
-    ['TRACKER_SHOW_BACKGROUND_ALPHA'] = "Tracker Backdrop Alpha",
+    ['TRACKER_SHOW_BACKGROUND_ALPHA'] = "Alfa del fondo del rastreador",
     ['TRACKER_SHOW_BACKGROUND_ALPHA_DESC'] = "El nivel alfa del fondo del rastreador",
     ['TRACKER_ENABLED'] = "Habilitar el rastreador",
     ['TRACKER_ENABLED_DESC'] = "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
@@ -303,7 +301,7 @@ QuestieLocale.locale['esES'] = {
     ['TRACKER_FONT_HEADER_DESC'] = "La fuente que utiliza misiones activas.",
     ['TRACKER_FONT_ZONE'] = "Fuente para nombres de zona",
     ['TRACKER_FONT_ZONE_DESC'] = "La fuente utilizada para los nombres de zona.",
-    ['TRACKER_FONT_QUESTS'] = "Fuente para los títulos de Misión",
+    ['TRACKER_FONT_QUESTS'] = "Fuente para los títulos de misión",
     ['TRACKER_FONT_QUESTS_DESC'] = "La fuente utilizada para los títulos de misiones.",
     ['TRACKER_FONT_OBJECTIVE'] = "Fuente para objetivos",
     ['TRACKER_FONT_OBJECTIVE_DESC'] = "La fuente utilizada para los objetivos.",
@@ -326,7 +324,7 @@ QuestieLocale.locale['esES'] = {
     ['TRACKER_SORT_BY_ZONE'] = "Por zona",
     ['TRACKER_SORT_BY_PROXIMITY'] = "Por proximidad",
     ['TRACKER_DONT_SORT'] = "Sin ordenar",
-    ['TRACKER_SETPOINT'] = "Tracker SetPoint",
+    ['TRACKER_SETPOINT'] = "Punto fijo del rastreador",
     ['TRACKER_SETPOINT_DESC'] = "Esto determina la dirección en la que crece el rastreador. La configuración predeterminada se ajustará según el lugar donde arrastre el rastreador automáticamente o puede anularlo y forzarlo a rellenar como desee.\n\nPor ejemplo, si selecciona \"Abajo a la izquierda\", el rastreador crecerá de izquierda a derecha y las misiones se completarán desde la parte inferior del rastreador hasta la parte superior. Esta configuración es ideal cuando desea que el rastreador se coloque en la \"parte inferior Izquierda\" región de su interfaz de usuario, etc.",
     ['TRACKER_SETPOINT_AUTO'] = "Auto",
     ['TRACKER_SETPOINT_TOPLEFT'] = "Arriba a la izquierda",
@@ -375,6 +373,8 @@ QuestieLocale.locale['esES'] = {
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Progreso',
     ['TOOLTIPS_FIN_QUEST'] = '(Completada)',
     ['TOOLTIPS_REPEAT_QUEST'] = 'Esta misión es repetible.',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Mostrar misiones en el tooltip del PNJ',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Muestra misiones (disponibles/completadas) en el tooltip del PNJ.',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "El viaje de %s",
@@ -483,7 +483,7 @@ QuestieLocale.locale['esES'] = {
     ["Mailbox"] = "Buzón",
     ["Spirit Healer"] = "Ángel de la Resurrección",
     ["Available Quest"] = "Misión disponible",
-    ["Trivial Quest"] = "Misiones triviales",
+    ["Trivial Quest"] = "Misiones menores",
     ["Objective"] = "Objetivos",
     ["Vendor"] = "Vendedor",
     ["Profession Trainer"] = "Instructores de profesiones",
@@ -494,7 +494,7 @@ QuestieLocale.locale['esES'] = {
     ["Bags"] = "Bolsas", 	
     ["Trade Goods"] = "Objetos comerciables",
     ["Food"] = "Comida",
-    ["Drink"] = "Beber",
+    ["Drink"] = "Bebida",
     -- professions use their ID as the key for a much cleaner implementation. Translations for these are alerady in QuestieProfessions.lua
     ["129"] = "Primeros auxilios",
     ["164"] = "Herrería",
