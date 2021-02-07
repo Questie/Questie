@@ -4,8 +4,8 @@ QuestieLocale.locale['ptBR'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Opções Generais",
     ['ENABLE_ICONS'] = "Ativar os ícones",
     ['ENABLE_ICONS_DESC'] = "Ativar ou desativar os ícones da Questie",
-    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
-    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
+    ['TRACKING_ICONS_BUTTON'] = "Configurar ícones de rastreamento",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Permite selecionar quais ícones de rastreamento (como Caixa de Correio, PNJ de Reparo) mostrar no mapa e minimapa.",
     ['ENABLE_MINIMAP_BUTTON'] = "Ative o botão da mini-carta",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Ative ou desative o botão da mini-carta da missão. Você ainda pode acessar o menu de opções com o Questie",
     ['ENABLE_INSTANT'] = "Ativar texto de pesquisa instantânea",
@@ -181,8 +181,8 @@ QuestieLocale.locale['ptBR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "When this is checked, the level of quests will show in the tooltips.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Somente parte compartilhada",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Quando isso estiver ativado, as informações compartilhadas das missões serão mostradas apenas se forem de membros da equipe.",
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Mostrar missões nas dicas do PNJ',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Mostra missões (disponíveis/concluídas) nas dicas de ferramentas do PNJ.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avançado",
