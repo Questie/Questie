@@ -4,8 +4,8 @@ QuestieLocale.locale['frFR'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Options générales",
     ['ENABLE_ICONS'] = "Activer les icônes",
     ['ENABLE_ICONS_DESC'] = "Active les icônes de Questie",
-    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
-    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
+    ['TRACKING_ICONS_BUTTON'] = "Configurer les icônes de suivi",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Permet de sélectionner les icônes de suivi (comme la boîte aux lettres, les PNJ de réparation) à afficher sur la carte et la mini-carte.",
     ['ENABLE_MINIMAP_BUTTON'] = "Bouton autour de la mini-carte",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Active le bouton Questie autour de la mini-carte. Le panneau de configuration reste accessible avec la commande /questie.",
     ['ENABLE_INSTANT'] = "Activer Texte instantané (quêtes)",
@@ -182,8 +182,8 @@ QuestieLocale.locale['frFR'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Active l'affichage du niveau des quêtes dans les info-bulles.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Partage avec le groupe uniquement",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Limite le partage des progressions avec les membres du groupe uniquement.",
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Afficher les quêtes dans les info-bulles des PNJ',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Affiche les quêtes (disponibles / terminées) dans les info-bulles des PNJ.',
 
 	-- Onglet Avancé
     ['ADVANCED_TAB'] = "Avancé",
