@@ -166,5 +166,13 @@ function QuestieItemBlacklist:Load()
         [16735] = true, -- bracers-of-valor
         [16736] = true, -- belt-of-valor
         [20520] = true, -- dark-rune
+        
+        -- Phase 6
+        [12811] = true, -- righteous orb
+        [22525] = true, -- crypt fiend parts
+        [22526] = true, -- bone fragments
+        [22527] = true, -- core of elements
+        [22528] = true, -- dark iron scraps
+        [22529] = true, -- savage frond
     }
 end
