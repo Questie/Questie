@@ -11,6 +11,20 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 
+-- required skill keys for easy reference
+--     FIRST_AID = 129,
+--     BLACKSMITHING = 164,
+--     LEATHERWORKING = 165,
+--     ALCHEMY = 171,
+--     HERBALISM = 182,
+--     COOKING = 185,
+--     MINING = 186,
+--     TAILORING = 197,
+--     ENGINEERING = 202,
+--     ENCHANTING = 333
+--     FISHING = 356
+--     SKINNING = 393
+
 function QuestieQuestFixes:Load()
     table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
     table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
