@@ -190,7 +190,7 @@ function QuestieMap.utils:RecaleIcon(frameRef, modifier)
                 --frame:SetScale(zoomModifier)
                 frame:SetSize(scale*zoomModifier, scale*zoomModifier);
             end
-        else
+        elseif not frame.isRoutePoint then
             Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);
         end
     end

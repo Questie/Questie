@@ -20,6 +20,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
+    ["Available Flights"] = QuestieLib.AddonPath.."Icons\\flight.blp",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
@@ -82,8 +83,8 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             timer = C_Timer.NewTicker(0.01, function() 
                 local start = e
                 while e < max and e-start < 32 do
-                    local id = ids[e]
-                    if not _spawned[id] then
+                    local id = ids[e] -- Questie.db.char.townsfolkConfig[key]
+                    if not _spawned[id] and (key ~= "Available Flights" or not (Questie.db.char._knownFlights or {})[id]) and (key ~= "Flight Master" or (not Questie.db.char.townsfolkConfig["Available Flights"]) or (Questie.db.char._knownFlights or {})[id]) then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
                             QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
@@ -132,6 +133,133 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
         end
         toggle(key)
     end
+
+    local lookupMap = {}
+    for k, v in pairs(LangZoneLookup[1]) do
+        lookupMap[strtrim(v)] = k
+    end
+    for k, v in pairs(LangZoneLookup[3]) do
+        lookupMap[strtrim(v)] = k
+    end
+    for k, v in pairs(LangZoneLookup[2]) do
+        lookupMap[strtrim(v)] = k
+    end
+
+    local function langify(area, zone)
+        if area and not lookupMap[area] then
+            print("Area not found: " .. area)
+        end
+
+        if zone and not lookupMap[zone] then
+            print("Zone not found: " .. area)
+        end
+        return area and (area .. ", " .. zone) or zone -- todo: replace enUS with local language here
+    end
+
+    local map = {
+        [12577] = langify("Talrendis Point", "Azshara"),
+        [3841] = langify("Auberdine", "Darkshore"),
+        [6706] = langify("Nijel's Point", "Desolace"),
+        [4321] = langify("Theramore Isle", "Dustwallow Marsh"),
+        [12578] = langify("Talonbranch Glade", "Felwood"),
+        [8019] = langify("Feathermoon Stronghold", "Feralas"),
+        [4319] = langify("Thalanaar", "Feralas"),
+        [10897] = langify(nil, "Moonglade"),
+        [15177] = langify("Cenarion Hold", "Silithus"),
+        [4407] = langify("Stonetalon Peak", "Stonetalon Mountains"),
+        [7823] = langify("Gadgetzan", "Tanaris"),
+        [3838] = langify("Rut'theran Village", "Teldrassil"),
+        [11138] = langify("Everlook", "Winterspring"),
+        [8609] = langify("Nethergarde Keep", "Blasted Lands"),
+        [2299] = langify("Morgan's Vigil", "Burning Steppes"),
+        [1573] = langify("Ironforge", "Dun Morogh"),
+        [2409] = langify("Darkshire", "Duskwood"),
+        [12617] = langify("Light's Hope Chapel", "Eastern Plaguelands"),
+        [352] = langify("Stormwind City", "Elwynn Forest"),
+        [2432] = langify("Southshore", "Hillsbrad Foothills"),
+        [8018] = langify("Aerie Peak", "The Hinterlands"),
+        [1572] = langify("Thelsamar", "Loch Modan"),
+        [931] = langify("Lakeshire", "Redridge Mountains"),
+        [2941] = langify("Thorium Point", "Searing Gorge"),
+        [2859] = langify("Booty Bay", "Stranglethorn"),
+        [12596] = langify("Chillwind Camp", "Western Plaguelands"),
+        [523] = langify("Sentinel Hill", "Westfall"),
+        [1571] = langify("Menethil Harbor", "Wetlands"),
+        [11901] = langify("Zoram'gar Outpost", "Ashenvale"),
+        [8610] = langify("Valormok", "Azshara"),
+        [6726] = langify("Shadowprey Village", "Desolace"),
+        [3310] = langify("Orgrimmar", "Durotar"),
+        [11899] = langify("Brackenwall Village", "Dustwallow Marsh"),
+        [11900] = langify("Bloodvenom Post", "Felwood"),
+        [8020] = langify("Camp Mojache", "Feralas"),
+        [12740] = langify(nil, "Moonglade"),
+        [2995] = langify("Thunder Bluff", "Mulgore"),
+        [15178] = langify("Cenarion Hold", "Silithus"),
+        [4312] = langify("Sun Rock Retreat", "Stonetalon Mountains"),
+        [7824] = langify("Gadgetzan", "Tanaris"),
+        [3615] = langify("Crossroads", "The Barrens"),
+        [10378] = langify("Camp Taurajo", "The Barrens"),
+        [16227] = langify("Ratchet", "The Barrens"),
+        [4317] = langify("Freewind Post", "Thousand Needles"),
+        [10583] = langify("Marshal's Refuge", "Un'Goro Crater"),
+        [11139] = langify("Everlook", "Winterspring"),
+        [2861] = langify("Kargath", "Badlands"),
+        [13177] = langify("Flame Crest", "Burning Steppes"),
+        [12636] = langify("Light's Hope Chapel", "Eastern Plaguelands"),
+        [2389] = langify("Tarren Mill", "Hillsbrad"),
+        [4314] = langify("Revantusk Village", "The Hinterlands"),
+        [3305] = langify("Thorium Point", "Searing Gorge"),
+        [2226] = langify("The Sepulcher", "Silverpine Forest"),
+        [1387] = langify("Grom'gol", "Stranglethorn"),
+        [6026] = langify("Stonard", "Swamp of Sorrows"),
+        [4551] = langify("Undercity", "Tirisfal"),
+        [4267] = langify("Astranaar", "Ashenvale"),
+        [2835] = langify("Refuge Point", "Arathi Highlands"),
+        [12616] = langify("Splintertree Post", "Ashenvale"),
+        [2851] = langify("Hammerfall", "Arathi")
+    }
+
+    local revMap = {}
+
+    for k,v in pairs(map) do
+        revMap[v] = k
+    end
+
+    local frame = CreateFrame("Frame")
+
+    frame:SetScript("OnEvent", function(self, evt, arg)
+        if evt == "CHAT_MSG_SYSTEM" and arg == ERR_NEWTAXIPATH then
+            -- open flight map
+            -- todo: make sure this is the right button
+            GossipTitleButton1:GetScript("OnClick")(GossipTitleButton1)
+        elseif evt == "TAXIMAP_OPENED" then
+            print("TaximapOpened!")
+            local npcIDs = Questie.db.char._knownFlights or {}
+            for i=1,NumTaxiNodes() do
+                local npc = revMap[TaxiNodeName(i)]
+                if npc then
+                    npcIDs[npc] = true
+                    print("Matched " .. QuestieDB.QueryNPCSingle(npc, "name"))
+                else
+                    print("|cFFFF0000Error:|r|cFFFFFFFF Questie is unable to detect the flight path \"" .. TaxiNodeName(i) .. "\"!")
+                end
+            end
+            Questie.db.char._knownFlights = npcIDs
+
+            -- if changed then
+            toggle("Flight Master", true)
+            toggle("Available Flights", true)
+            toggle("Flight Master")
+            toggle("Available Flights")
+            -- end
+
+
+        end
+    end)
+
+    frame:RegisterEvent("CHAT_MSG_SYSTEM")
+    frame:RegisterEvent("TAXIMAP_OPENED")
+
 end
 
 local div = { -- from libEasyMenu code

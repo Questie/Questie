@@ -803,33 +803,57 @@ end
 
 function QuestieDBCompiler:ValidateItems()
     local validator = QuestieDBCompiler:GetDBHandle(QuestieConfig.itemBin, QuestieConfig.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder))
-
-    for id,tab in pairs(QuestieDB.itemData) do
+    local obj = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
+    local npc = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
+    
+    for id,tab in pairs(validator.pointers) do
+        --print(id)
         local toValidate = {validator.Query(id, unpack(QuestieDB.itemCompilerOrder))}
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
-        --QuestieConfig.__toValidate = toValidate
-        local validData = QuestieDB:GetItem(id)
-        for id,key in pairs(QuestieDB.itemCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
-
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
-                return
-            elseif type(a) == "string" and a ~= (b or "") then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
-                return
-            elseif type(a) == "table" then 
-                if not equals(a, (b or {})) then 
-                    print("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
-                    return
+        local objDrops, npcDrops = unpack(validator.Query(id, "objectDrops", "npcDrops"))
+        if objDrops then -- validate object drops
+            --print("Validating objs")
+            for _, oid in pairs(objDrops) do
+                if not obj.QuerySingle(oid, "name") then
+                    print("Missing object " .. tostring(oid) .. " that drops " .. validator.QuerySingle(id, "name") .. " " .. tostring(id))
                 end
-            else
-                print("MATCHING: " .. key)
+            end
+        end
+
+        if npcDrops then -- validate npc drops
+            for _, nid in pairs(npcDrops) do
+                --print("Validating npcs")
+                if not npc.QuerySingle(nid, "name") then
+                    print("Missing npc " .. tostring(nid))
+                end
+            end
+        end
+
+        if false then -- todo fix this test
+            local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
+            print("toValidate length: " .. cnt)
+            --QuestieConfig.__toValidate = toValidate
+            local validData = QuestieDB:GetItem(id)
+            for id,key in pairs(QuestieDB.itemCompilerOrder) do
+                local a = toValidate[id]
+                local b = validData[key]
+
+                if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+                    print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                    return
+                elseif type(a) == "string" and a ~= (b or "") then 
+                    print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                    return
+                elseif type(a) == "table" then 
+                    if not equals(a, (b or {})) then 
+                        print("Nonmatching at " .. key .. "  " .. id)
+                        --__nma = a
+                        --__nmb = b or {}
+                        return
+                    end
+                else
+                    print("MATCHING: " .. key)
+                end
             end
         end
     end

@@ -57,6 +57,27 @@ local questTagCorrections = {
     [8408] = {41, "PvP"},
 }
 
+-- race bitmask data, for easy access
+local VANILLA = true -- check if we are on tbc
+
+QuestieDB.raceKeys = {
+    ALL_ALLIANCE = 1101,--77 if VANILLA else 1101,
+    ALL_HORDE = 690,--178 if VANILLA else 690,
+    ALL = 2047,--255 if VANILLA else 2047,
+
+    HUMAN = 1,
+    ORC = 2,
+    DWARF = 4,
+    NIGHT_ELF = 8,
+    UNDEAD = 16,
+    TAUREN = 32,
+    GNOME = 64,
+    TROLL = 128,
+    --GOBLIN = 256,
+    BLOOD_ELF = 512,
+    DRAENEI = 1024
+}
+
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};
