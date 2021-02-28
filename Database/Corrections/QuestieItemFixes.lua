@@ -425,6 +425,9 @@ function QuestieItemFixes:Load()
         [5942] = {
             [itemKeys.npcDrops] = {4405,4401,4404,4402,4403,14236},
         },
+        [5959] = {
+            [itemKeys.npcDrops] = {4411,4412,4413,4414,4415},
+        },
         [6016] = {
             [itemKeys.name] = "Wolf Heart Sample",
             [itemKeys.relatedQuests] = {1429},
