@@ -535,6 +535,9 @@ function QuestieQuestFixes:Load()
             [questKeys.inGroupWith] = {}, -- #886
             [questKeys.childQuests] = {1127}, -- #1084
         },
+        [1123] = {
+            [questKeys.preQuestSingle] = {1000, 1004, 1018}
+        },
         [1127] = {
             [questKeys.specialFlags] = 1, -- #884
             [questKeys.parentQuest] = 1119, -- #1084
