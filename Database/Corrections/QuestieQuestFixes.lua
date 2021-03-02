@@ -1774,6 +1774,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{1231},nil,nil},
             [questKeys.exclusiveTo] = {6071,6072,6073,6721,6063},
         },
+        [6762] = {
+            [questKeys.preQuestSingle] = {1015,1019,1047,6761},
+        },
         [6861] = {
             [questKeys.objectivesText] = {},
         },
