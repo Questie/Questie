@@ -2510,7 +2510,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{79.20,77.05},},},
         },
         [15605] = {
-            [npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{34.54,48.91},},},
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.6,48.8},},},
         },
         [15625] = {
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{48.6,40.0},},},
