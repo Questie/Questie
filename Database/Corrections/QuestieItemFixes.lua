@@ -1103,6 +1103,18 @@ function QuestieItemFixes:Load()
         [18947] = {
             [itemKeys.npcDrops] = {5296,5297,5299}, -- #2321
         },
+        [18952] = {
+            [itemKeys.npcDrops] = {14527,14533},
+        },
+        [18953] = {
+            [itemKeys.npcDrops] = {14534,14529},
+        },
+        [18954] = {
+            [itemKeys.npcDrops] = {14536,14530},
+        },
+        [18955] = {
+            [itemKeys.npcDrops] = {14531,14535},
+        },
         [18956] = {
             [itemKeys.npcDrops] = {5357,5358,5359,5360,5361,14603,14604,14638,14639,14640}, -- #1470
         },
