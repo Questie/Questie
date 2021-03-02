@@ -1926,6 +1926,9 @@ function QuestieQuestFixes:Load()
         [7492] = {
             [questKeys.startedBy] = {{10879,10880,10881,},nil,nil,}, -- #1350
         },
+        [7494] = {
+            [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
+        },
         [7507] = {
             [questKeys.requiredClasses] = 3,
         },
