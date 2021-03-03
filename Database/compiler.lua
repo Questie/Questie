@@ -26,7 +26,8 @@ QuestieDBCompiler.supportedTypes = {
         ["objective"] = true,
         ["objectives"] = true,
         ["waypointlist"] = true,
-        ["u8u16stringarray"] = true
+        ["u8u16stringarray"] = true,
+        ["u8u24array"] = true
     },
     ["number"] = {
         ["u8"] = true,
