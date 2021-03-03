@@ -548,3 +548,18 @@ function QuestieLib:UnpackBinary(val)
     end
     return ret
 end
+
+function QuestieLib:ArrayToDict(arr)
+    local t = {}
+    if arr == nil then
+        Questie:Debug(DEBUG_DEVELOP, "ArrayToDict parameter is nil")
+    elseif #arr % 2 ~= 0 then
+        Questie:Debug(DEBUG_DEVELOP, "ArrayToDict parameter is empty")
+    else
+        for i = 1, #arr, 2 do
+            t[arr[i]] = arr[i + 1]
+            Questie:Debug(DEBUG_DEVELOP, "ArrayToDict Entry: [" .. arr[i] .. ": " .. t[arr[i]] .. "]")
+        end
+    end
+    return t
+end
