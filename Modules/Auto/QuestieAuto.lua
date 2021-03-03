@@ -82,7 +82,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
         local options = QuestieLib:ArrayToDict({GetGossipOptions()})
         for title, type in pairs(options) do
             Questie:Debug(DEBUG_DEVELOP, "Gossip Option: (" .. title .. ", " .. type .. ")")
-            if type ~= "gossip" or type ~= "taxi" then
+            if not (type == "gossip" or type == "taxi") then
                 hasDisallowedGossipType = true
                 Questie:Debug(DEBUG_DEVELOP, "Disallowed gossip type (" .. type .. ")")
             end
