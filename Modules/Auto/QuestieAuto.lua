@@ -4,6 +4,9 @@ local _QuestieAuto = QuestieAuto.private
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
+
 local shouldRunAuto = true
 local doneTalking = false
 
