@@ -2982,6 +2982,42 @@ function QuestieQuestFixes:Load()
         [9232] = {
             [questKeys.preQuestSingle] = {9033,},
         },
+        [9234] = {
+            [questKeys.requiredClasses] = 3,
+        },
+        [9235] = {
+            [questKeys.requiredClasses] = 3,
+        },
+        [9236] = {
+            [questKeys.requiredClasses] = 3,
+        },
+        [9238] = {
+            [questKeys.requiredClasses] = 400,
+        },
+        [9239] = {
+            [questKeys.requiredClasses] = 400,
+        },
+        [9240] = {
+            [questKeys.requiredClasses] = 400,
+        },
+        [9241] = {
+            [questKeys.requiredClasses] = 1032,
+        },
+        [9242] = {
+            [questKeys.requiredClasses] = 1032,
+        },
+        [9243] = {
+            [questKeys.requiredClasses] = 1032,
+        },
+        [9244] = {
+            [questKeys.requiredClasses] = 68,
+        },
+        [9245] = {
+            [questKeys.requiredClasses] = 68,
+        },
+        [9246] = {
+            [questKeys.requiredClasses] = 68,
+        },
         [9260] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},
         },
