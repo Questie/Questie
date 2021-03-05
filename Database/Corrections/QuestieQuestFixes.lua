@@ -863,7 +863,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1466
         },
         [2259] = {
-            [questKeys.exclusiveTo] = {2260}, -- #1825
+            [questKeys.exclusiveTo] = {2260, 2281}, -- #1825, #2476
         },
         [2260] = {
             [questKeys.preQuestSingle] = {},
