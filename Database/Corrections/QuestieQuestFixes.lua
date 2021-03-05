@@ -2772,8 +2772,200 @@ function QuestieQuestFixes:Load()
         [9051] = {
             [questKeys.triggerEnd] = {"Devilsaur stabbed with barb", {[zoneIDs.UN_GORO_CRATER]={{64.32,59.45},{67.98,58.07},{53.82,63.08},{57.99,73.93},{73.87,38.34},},},},
         },
+        [9034] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9036] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9037] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9038] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9039] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9040] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9041] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9042] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9043] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9044] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9045] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9046] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9047] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9048] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9049] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9050] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9054] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9055] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9056] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9057] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9058] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9059] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9060] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9061] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9063] = {
             [questKeys.zoneOrSort] = 493,
+        },
+        [9069] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9070] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9071] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9072] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9073] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9074] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9075] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9077] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9078] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9079] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9080] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9081] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9082] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9083] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9084] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9085] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9086] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9087] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9088] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9089] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9090] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9091] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9092] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9093] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9095] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9096] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9097] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9098] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9099] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9100] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9101] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9102] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9103] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9104] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9105] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9106] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9107] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9108] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9109] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9110] = {
+            [questKeys.specialFlags] = 1,
         },
         [9154] = {
             [questKeys.questLevel] = 60,
