@@ -432,6 +432,11 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
+function QuestieDB:IsProfessionQuest(questId)
+    local requiredSkill = QuestieDB.QueryQuest(questId, "requiredSkill")
+    return requiredSkill ~= nil and next(requiredSkill)
+end
+
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsDoable(questId)

@@ -9,8 +9,6 @@ _QuestieJourney.questsByZone = {}
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieCorrections
@@ -153,7 +151,6 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "parentQuest",
                         "preQuestSingle",
                         "preQuestGroup",
-                        "requiredSkill",
                         "requiredMinRep",
                         "requiredMaxRep"
                 ) or {}
@@ -161,9 +158,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local parentQuest = queryResult[2]
                 local preQuestSingle = queryResult[3]
                 local preQuestGroup = queryResult[4]
-                local requiredSkill = queryResult[5]
-                local requiredMinRep = queryResult[6]
-                local requiredMaxRep = queryResult[7]
+                local requiredMinRep = queryResult[5]
+                local requiredMaxRep = queryResult[6]
 
                 -- Exclusive quests will never be available since another quests permantly blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
@@ -174,11 +170,6 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 elseif parentQuest and Questie.db.char.complete[parentQuest] then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
-                -- Unoptainable profession quests
-                elseif not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill) then
-                    tinsert(zoneTree[5].children, temp)
-                    unobtainableQuestIds[questId] = true
-                    unobtainableCounter = unobtainableCounter + 1
                 -- Unoptainable reputation quests
                 elseif not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep) then
                     tinsert(zoneTree[5].children, temp)
