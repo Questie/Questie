@@ -448,6 +448,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {944}, -- #1517
             [questKeys.exclusiveTo] = {950}, -- #1517
         },
+        [968] = {
+            [questKeys.startedBy] = {{2338,2339},nil,{5352,},},
+        },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39},},},},
         },
