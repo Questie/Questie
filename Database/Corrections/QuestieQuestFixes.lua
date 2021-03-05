@@ -1085,9 +1085,6 @@ function QuestieQuestFixes:Load()
         [3681] = {
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
-        --[3741] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = 77,
-        --},
         [3702] = {
             [questKeys.triggerEnd] = {"Story of Thaurissan", {[zoneIDs.IRONFORGE]={{38.62,55.44},},},},
         },
@@ -1108,6 +1105,12 @@ function QuestieQuestFixes:Load()
         },
         [3784] = {
             [questKeys.exclusiveTo] = {936,3762,3761},
+        },
+        [3785] = {
+            [questKeys.requiredSourceItems] = {11018},
+        },
+        [3786] = {
+            [questKeys.requiredSourceItems] = {11018},
         },
         [3791] = {
             [questKeys.preQuestSingle] = {3787,3788}, -- #885
@@ -2749,9 +2752,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8900,8901,8904},
         },
         [8903] = {
+            [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
         [8904] = {
+            [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
         [8980] = { -- bad race data
