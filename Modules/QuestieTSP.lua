@@ -1849,7 +1849,7 @@ function QuestieTSP:TestRoutesTSP(sa, uimapid) --adz
             --v.Show = function() end
             v:EnableMouse(false)
             HBDPins:RemoveWorldMapIcon(Questie, v)
-            HBDPins:RemoveMinimapIcon(Questie, v)
+            --HBDPins:RemoveMinimapIcon(Questie, v)
             --v.removeFromMap(HBDPins, Questie, v)
             tinsert(QuestieTSP.buttonCache, v)
         end
@@ -1880,7 +1880,7 @@ function QuestieTSP:TestRoutesTSP(sa, uimapid) --adz
         local sizeX, sizeY = HBD:GetZoneSize(uimapid) --todo: zone id
 
         --local mapFunctions = {{HBDPins.AddWorldMapIconMap, HBDPins.RemoveWorldMapIcon}, {HBDPins.AddMinimapIconMap, HBDPins.RemoveMinimapIcon}}
-        local mapTypes = {"world", "mini"}
+        local mapTypes = {"world"}--{"world", "mini"}
         --print("ren")
         for index, v in pairs(path) do
             local x, y = QuestieTSP:IDToCoord(v)
