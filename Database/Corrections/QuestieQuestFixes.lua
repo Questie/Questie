@@ -3111,6 +3111,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         [8419] = {
             [questKeys.startedBy] = {{3326,4563,},nil,nil,},
         },
+        [8904] = {
+            [questKeys.exclusiveTo] = {8900,8901,8902,8979}
+        },
         [9063] = {
             [questKeys.startedBy] = {{3033,12042,},nil,nil,},
         },
