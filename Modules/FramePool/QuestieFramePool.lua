@@ -18,7 +18,9 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 
-local tinsert = table.insert
+local WRAP_TEXT = 1;
+
+local tinsert = table.insert;
 local tremove = table.remove;
 local _QuestieFramePool = QuestieFramePool.private
 _QuestieFramePool.numberOfFrames = 0
@@ -770,10 +772,10 @@ function _QuestieFramePool:QuestieTooltip()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, line in pairs(questData.subData) do
-                            self:AddLine("      " .. line, 0.86, 0.86, 0.86);
+                            self:AddLine("      " .. line, 0.86, 0.86, 0.86, WRAP_TEXT);
                         end
                     elseif dataType == "string" then
-                        self:AddLine("      " .. questData.subData, 0.86, 0.86, 0.86);
+                        self:AddLine("      " .. questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
                         --self:AddLine("      |cFFDDDDDD" .. v2.subData);
                     end
                 end
