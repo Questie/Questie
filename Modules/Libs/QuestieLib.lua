@@ -549,17 +549,29 @@ function QuestieLib:UnpackBinary(val)
     return ret
 end
 
+--[[
+    Doesn't include special handling for duplicate keys. This method will overwrite the value for a duplicate key.
+
+    Example:
+    Input: { "a", "apple", "b", "banana", "c", "cantaloupe", "a", "apricot" }
+    Output:
+    {
+        "a": "apricot",
+        "b": "banana",
+        "c": "cantaloupe"
+    }
+]]
 function QuestieLib:ArrayToDict(arr)
-    local t = {}
+    local d = {}
     if arr == nil then
-        Questie:Debug(DEBUG_DEVELOP, "ArrayToDict parameter is nil")
+        Questie:Debug(DEBUG_SPAM, "[QuestieLib:ArrayToDict]: array is nil")
     elseif #arr % 2 ~= 0 then
-        Questie:Debug(DEBUG_DEVELOP, "ArrayToDict parameter is empty")
+        Questie:Debug(DEBUG_SPAM, "[QuestieLib:ArrayToDict]: array is empty")
     else
         for i = 1, #arr, 2 do
-            t[arr[i]] = arr[i + 1]
-            Questie:Debug(DEBUG_DEVELOP, "ArrayToDict Entry: [" .. arr[i] .. ": " .. t[arr[i]] .. "]")
+            d[arr[i]] = arr[i + 1]
+            Questie:Debug(DEBUG_SPAM, "[QuestieLib:ArrayToDict]: added entry: [" .. arr[i] .. ": " .. d[arr[i]] .. "]")
         end
     end
-    return t
+    return d
 end
