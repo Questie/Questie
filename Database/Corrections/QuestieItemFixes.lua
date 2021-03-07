@@ -319,6 +319,9 @@ function QuestieItemFixes:Load()
         [5056] = {
             [itemKeys.objectDrops] = {1619,3726,1618,3724,1620,3727},
         },
+        [5058] = {
+            [itemKeys.npcDrops] = {},
+        },
         [5068] = {
             [itemKeys.name] = "Dried Seeds",
             [itemKeys.relatedQuests] = {877},
