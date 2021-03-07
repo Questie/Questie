@@ -109,9 +109,6 @@ function QuestieQuestFixes:Load()
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96},},},},
         },
-        [282] = {
-            [questKeys.exclusiveTo] = {420}, -- #2366
-        },
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [questKeys.specialFlags] = 1,
@@ -157,9 +154,6 @@ function QuestieQuestFixes:Load()
         [415] = {
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
         },
-        [420] = {
-            [questKeys.preQuestSingle] = {}, -- #2366
-        },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
         },
@@ -175,6 +169,9 @@ function QuestieQuestFixes:Load()
         },
         [435] = {
             [questKeys.triggerEnd] = {"Erland must reach Rane Yorick", {[zoneIDs.SILVERPINE_FOREST]={{54.37,13.38},},},},
+        },
+        [436] = {
+            [questKeys.exclusiveTo] = {297} -- #2492
         },
         [437] = {
             [questKeys.triggerEnd] = {"Enter the Dead Fields",{[zoneIDs.SILVERPINE_FOREST]={{45.91, 21.27},},},},
@@ -452,6 +449,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {944}, -- #1517
             [questKeys.exclusiveTo] = {950}, -- #1517
         },
+        [968] = {
+            [questKeys.startedBy] = {{2338,2339},nil,{5352,},},
+        },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39},},},},
         },
@@ -531,6 +531,9 @@ function QuestieQuestFixes:Load()
         [1119] = {
             [questKeys.inGroupWith] = {}, -- #886
             [questKeys.childQuests] = {1127}, -- #1084
+        },
+        [1123] = {
+            [questKeys.preQuestSingle] = {1000, 1004, 1018}
         },
         [1127] = {
             [questKeys.specialFlags] = 1, -- #884
@@ -858,7 +861,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1466
         },
         [2259] = {
-            [questKeys.exclusiveTo] = {2260}, -- #1825
+            [questKeys.exclusiveTo] = {2260, 2281}, -- #1825, #2476
         },
         [2260] = {
             [questKeys.preQuestSingle] = {},
@@ -1086,9 +1089,6 @@ function QuestieQuestFixes:Load()
         [3681] = {
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
-        --[3741] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        --},
         [3702] = {
             [questKeys.triggerEnd] = {"Story of Thaurissan", {[zoneIDs.IRONFORGE]={{38.62,55.44},},},},
         },
@@ -1109,6 +1109,12 @@ function QuestieQuestFixes:Load()
         },
         [3784] = {
             [questKeys.exclusiveTo] = {936,3762,3761},
+        },
+        [3785] = {
+            [questKeys.requiredSourceItems] = {11018},
+        },
+        [3786] = {
+            [questKeys.requiredSourceItems] = {11018},
         },
         [3791] = {
             [questKeys.preQuestSingle] = {3787,3788}, -- #885
@@ -1768,6 +1774,9 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{1231},nil,nil},
             [questKeys.exclusiveTo] = {6071,6072,6073,6721,6063},
         },
+        [6762] = {
+            [questKeys.preQuestSingle] = {1015,1019,1047,6761},
+        },
         [6861] = {
             [questKeys.objectivesText] = {},
         },
@@ -1926,6 +1935,9 @@ function QuestieQuestFixes:Load()
         },
         [7492] = {
             [questKeys.startedBy] = {{10879,10880,10881,},nil,nil,}, -- #1350
+        },
+        [7494] = {
+            [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
         },
         [7507] = {
             [questKeys.requiredClasses] = 3,
@@ -2744,9 +2756,11 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8900,8901,8904},
         },
         [8903] = {
+            [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
         [8904] = {
+            [questKeys.requiredSourceItems] = {11018},
             [questKeys.preQuestSingle] = {},
         },
         [8980] = { -- bad race data
@@ -2761,8 +2775,200 @@ function QuestieQuestFixes:Load()
         [9051] = {
             [questKeys.triggerEnd] = {"Devilsaur stabbed with barb", {[zoneIDs.UN_GORO_CRATER]={{64.32,59.45},{67.98,58.07},{53.82,63.08},{57.99,73.93},{73.87,38.34},},},},
         },
+        [9034] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9036] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9037] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9038] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9039] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9040] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9041] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9042] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9043] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9044] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9045] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9046] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9047] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9048] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9049] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9050] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9054] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9055] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9056] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9057] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9058] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9059] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9060] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9061] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9063] = {
             [questKeys.zoneOrSort] = 493,
+        },
+        [9069] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9070] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9071] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9072] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9073] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9074] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9075] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9077] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9078] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9079] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9080] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9081] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9082] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9083] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9084] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9085] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9086] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9087] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9088] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9089] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9090] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9091] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9092] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9093] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9095] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9096] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9097] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9098] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9099] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9100] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9101] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9102] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9103] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9104] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9105] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9106] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9107] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9108] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9109] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9110] = {
+            [questKeys.specialFlags] = 1,
         },
         [9154] = {
             [questKeys.questLevel] = 60,
@@ -2778,6 +2984,42 @@ function QuestieQuestFixes:Load()
         },
         [9232] = {
             [questKeys.preQuestSingle] = {9033,},
+        },
+        [9234] = {
+            [questKeys.requiredClasses] = 3,
+        },
+        [9235] = {
+            [questKeys.requiredClasses] = 3,
+        },
+        [9236] = {
+            [questKeys.requiredClasses] = 3,
+        },
+        [9238] = {
+            [questKeys.requiredClasses] = 400,
+        },
+        [9239] = {
+            [questKeys.requiredClasses] = 400,
+        },
+        [9240] = {
+            [questKeys.requiredClasses] = 400,
+        },
+        [9241] = {
+            [questKeys.requiredClasses] = 1032,
+        },
+        [9242] = {
+            [questKeys.requiredClasses] = 1032,
+        },
+        [9243] = {
+            [questKeys.requiredClasses] = 1032,
+        },
+        [9244] = {
+            [questKeys.requiredClasses] = 68,
+        },
+        [9245] = {
+            [questKeys.requiredClasses] = 68,
+        },
+        [9246] = {
+            [questKeys.requiredClasses] = 68,
         },
         [9260] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},
@@ -2878,6 +3120,9 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [8419] = {
             [questKeys.startedBy] = {{3326,4563,},nil,nil,},
+        },
+        [8904] = {
+            [questKeys.exclusiveTo] = {8900,8901,8902,8979}
         },
         [9063] = {
             [questKeys.startedBy] = {{3033,12042,},nil,nil,},

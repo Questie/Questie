@@ -407,6 +407,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {138498},
         },
+        [5797] = {
+            [itemKeys.npcDrops] = {6733,2894,2893,2892},
+        },
         [5798] = {
             [itemKeys.objectDrops] = {19868,19869,19870,19871,19872,19873},
         },
@@ -424,6 +427,9 @@ function QuestieItemFixes:Load()
         },
         [5942] = {
             [itemKeys.npcDrops] = {4405,4401,4404,4402,4403,14236},
+        },
+        [5959] = {
+            [itemKeys.npcDrops] = {4411,4412,4413,4414,4415},
         },
         [6016] = {
             [itemKeys.name] = "Wolf Heart Sample",
@@ -460,6 +466,9 @@ function QuestieItemFixes:Load()
         },
         [6522] = {
             [itemKeys.objectDrops] = {},
+        },
+        [6992] = {
+            [itemKeys.npcDrops] = {},
         },
         [7070] = {
             [itemKeys.objectDrops] = {},
@@ -764,6 +773,9 @@ function QuestieItemFixes:Load()
         [11188] = {
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {164661,164781},
+        },
+        [11243] = {
+            [itemKeys.npcDrops] = {7775},
         },
         [11370] = {
             [itemKeys.npcDrops] = {},
@@ -1096,6 +1108,18 @@ function QuestieItemFixes:Load()
         },
         [18947] = {
             [itemKeys.npcDrops] = {5296,5297,5299}, -- #2321
+        },
+        [18952] = {
+            [itemKeys.npcDrops] = {14527,14533},
+        },
+        [18953] = {
+            [itemKeys.npcDrops] = {14534,14529},
+        },
+        [18954] = {
+            [itemKeys.npcDrops] = {14536,14530},
+        },
+        [18955] = {
+            [itemKeys.npcDrops] = {14531,14535},
         },
         [18956] = {
             [itemKeys.npcDrops] = {5357,5358,5359,5360,5361,14603,14604,14638,14639,14640}, -- #1470

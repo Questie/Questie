@@ -4,8 +4,8 @@ QuestieLocale.locale['esMX'] = {
     ['GENERAL_OPTIONS_HEADER'] = "Opciones de Questie",
     ['ENABLE_ICONS'] = "Habilitar Iconos",
     ['ENABLE_ICONS_DESC'] = "Habilitar iconos de Questie",
-    ['TRACKING_ICONS_BUTTON'] = "Config Tracking Icons",
-    ['TRACKING_ICONS_BUTTON_DESC'] = "Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.",
+    ['TRACKING_ICONS_BUTTON'] = "Configurar iconos de rastreamiento",
+    ['TRACKING_ICONS_BUTTON_DESC'] = "Permite seleccionar qué iconos de rastreamiento (como Buzón, PNJ de Reparación) se mostrarán en el mapa y el minimapa.",
     ['ENABLE_MINIMAP_BUTTON'] = "Habilitar icono del minimapa",
     ['ENABLE_MINIMAP_BUTTON_DESC'] = "Habilita o deshabilita el icono del minimapa. Puedes seguir accediendo al menú de opciones con /questie",
     ['ENABLE_INSTANT'] = "Habilitar el texto automático de misiones",
@@ -62,6 +62,8 @@ QuestieLocale.locale['esMX'] = {
     ['ENABLE_AUTO_ACCEPT_QUESTS_DESC'] = "Habilita o deshabilita aceptar misiones automáticamente.",
     ['ENABLE_AUTO_COMPLETE'] = "Completar misiones automáticamente",
     ['ENABLE_AUTO_COMPLETE_DESC'] = "Habilita o deshabilita completar misiones automáticamente.",
+    ['ENABLE_AUTO_DIALOG'] = "Enable Automatic NPC Dialog",
+    ['ENABLE_AUTO_DIALOG_DESC'] = "Enable or disable Questie automatically advancing through NPC dialog.",
     ['ENABLE_ACCEPT_TRIVIAL'] = "Aceptar misiones triviales (de bajo nivel)",
     ['ENABLE_ACCEPT_TRIVIAL_DESC'] = "Si está habilitado, las misiones triviales (grises) también se aceptarán automáticamente.",
     ['AUTO_MODIFIER'] = "Auto modificador",
@@ -110,7 +112,7 @@ QuestieLocale.locale['esMX'] = {
     ['AVAILABLE_ICON_SCALE'] = "Tamaño de iconos de misión disponible y completada",
     ['AVAILABLE_ICON_SCALE_DESC'] = "Especifíca la escala de los iconos de misión disponible y completada. ( Por defecto: %s )",
     ['LOOT_ICON_SCALE'] = "Tamaño de iconos de saqueo",
-    ['LOOT_ICON_SCALE_DESC'] = "CEspecifíca la escala de los iconos de saqueo. ( Por defecto: %s )",
+    ['LOOT_ICON_SCALE_DESC'] = "Especifíca la escala de los iconos de saqueo. ( Por defecto: %s )",
     ['MONSTER_ICON_SCALE'] = "Tamaño de iconos de matar",
     ['MONSTER_ICON_SCALE_DESC'] = "Especifíca la escala de los iconos de matar. ( Por defecto: %s )",
     ['OBJECT_ICON_SCALE'] = "Tamaño de iconos de objeto",
@@ -181,8 +183,6 @@ QuestieLocale.locale['esMX'] = {
     ['ENABLE_TOOLTIPS_QUEST_LEVEL_DESC'] = "Si está marcado, el nivel de misiones mostrará en los tooltips.",
     ['SHARED_TOOLTIP_PARTY_ONLY'] = "Fiesta compartida solo",
     ['SHARED_TOOLTIP_PARTY_ONLY_DESC'] = "Cuando esto está habilitado, la información de misiones compartidas solo se mostrará si son de miembros del grupo.",
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Show quests in NPC tooltips',
-    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Show quests (available/complete) in the NPC tooltips.',
 
     -- Advanced tab
     ['ADVANCED_TAB'] = "Avanzado",
@@ -375,6 +375,8 @@ QuestieLocale.locale['esMX'] = {
     ['TOOLTIPS_PROGRESS_QUEST'] = 'Progreso',
     ['TOOLTIPS_FIN_QUEST'] = '(Completada)',
     ['TOOLTIPS_REPEAT_QUEST'] = 'Esta misión es repetible.',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS'] = 'Mostrar misiones en el tooltip del PNJ',
+    ['SHOW_QUESTS_IN_NPC_TOOLTIPS_DESC'] = 'Muestra misiones (disponibles/completadas) en el tooltip del PNJ.',
 
     -- Journey Window
     ['JOURNEY_TITLE'] = "El viaje de %s",

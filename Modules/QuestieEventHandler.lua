@@ -59,69 +59,75 @@ local _MAP_EXPLORATION_UPDATED, _MODIFIER_STATE_CHANGED, _CHAT_MSG_SKILL, _CHAT_
 local _GROUP_ROSTER_UPDATE, _GROUP_JOINED, _GROUP_LEFT
 local _CompleteQuest
 
+local continueInit = nil
+
 
 --- This function registeres all required ingame events to the global "Questie"
-function QuestieEventHandler:RegisterAllEvents()
+function QuestieEventHandler:RegisterAllEvents(callback)
     -- Putting it here reduces the size of the QuestieEventHandler, since all the regular
     -- event handlers can be local
 
     -- Player Events
     Questie:RegisterEvent("PLAYER_LOGIN", _PLAYER_LOGIN)
-    Questie:RegisterEvent("PLAYER_LEVEL_UP", _PLAYER_LEVEL_UP)
-    Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _PLAYER_REGEN_DISABLED)
-    Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _PLAYER_REGEN_ENABLED)
+    
+    continueInit = function()
+        Questie:RegisterEvent("PLAYER_LEVEL_UP", _PLAYER_LEVEL_UP)
+        Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _PLAYER_REGEN_DISABLED)
+        Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _PLAYER_REGEN_ENABLED)
 
-    -- Miscellaneous Events
-    Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _MAP_EXPLORATION_UPDATED)
-    Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _MODIFIER_STATE_CHANGED)
-    -- Events to update a players professions and reputations
-    Questie:RegisterEvent("CHAT_MSG_SKILL", _CHAT_MSG_SKILL)
-    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _CHAT_MSG_COMBAT_FACTION_CHANGE)
+        -- Miscellaneous Events
+        Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _MAP_EXPLORATION_UPDATED)
+        Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _MODIFIER_STATE_CHANGED)
+        -- Events to update a players professions and reputations
+        Questie:RegisterEvent("CHAT_MSG_SKILL", _CHAT_MSG_SKILL)
+        Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _CHAT_MSG_COMBAT_FACTION_CHANGE)
 
-    -- Quest Events
-    Questie:RegisterEvent("QUEST_ACCEPTED", _QUEST_ACCEPTED)
-    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _UNIT_QUEST_LOG_CHANGED)
-    Questie:RegisterEvent("QUEST_TURNED_IN", _QUEST_TURNED_IN)
-    Questie:RegisterEvent("QUEST_REMOVED", _QUEST_REMOVED)
-    Questie:RegisterEvent("QUEST_FINISHED", _QUEST_FINISHED)
-    -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
-    -- Might be able to change this to 0.5 seconds instead, further testing needed.
-    Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _QUEST_LOG_UPDATE)
-    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
-    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
-    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
-    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
+        -- Quest Events
+        Questie:RegisterEvent("QUEST_ACCEPTED", _QUEST_ACCEPTED)
+        Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _UNIT_QUEST_LOG_CHANGED)
+        Questie:RegisterEvent("QUEST_TURNED_IN", _QUEST_TURNED_IN)
+        Questie:RegisterEvent("QUEST_REMOVED", _QUEST_REMOVED)
+        Questie:RegisterEvent("QUEST_FINISHED", _QUEST_FINISHED)
+        -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
+        -- Might be able to change this to 0.5 seconds instead, further testing needed.
+        Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _QUEST_LOG_UPDATE)
+        Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
+        Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+        Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+        Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
+        Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
+        Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
+        Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
 
-    -- Questie Comms Events
+        -- Questie Comms Events
 
-    -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
-    Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _GROUP_ROSTER_UPDATE)
-    Questie:RegisterEvent("GROUP_JOINED", _GROUP_JOINED) -- This is not local because QuestieComms needs to call it
-    Questie:RegisterEvent("GROUP_LEFT", _GROUP_LEFT)
+        -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
+        Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _GROUP_ROSTER_UPDATE)
+        Questie:RegisterEvent("GROUP_JOINED", _GROUP_JOINED) -- This is not local because QuestieComms needs to call it
+        Questie:RegisterEvent("GROUP_LEFT", _GROUP_LEFT)
 
-    -- Nameplate / Target Frame Objective Events
-    Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
-    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
-    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
+        -- Nameplate / Target Frame Objective Events
+        Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
+        Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
+        Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
-    -- dropdown fix
-    Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LQuestie_CloseDropDownMenus) end)
+        -- dropdown fix
+        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LQuestie_CloseDropDownMenus) end)
 
-    -- quest announce
-    Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
+        -- quest announce
+        Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
 
-    -- since icon updates are disabled in instances, we need to reset on P_E_W
-    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-        if Questie.started then
-            QuestieMap:InitializeQueue()
-            if not IsInInstance() then
-                QuestieQuest:SmoothReset()
+        -- since icon updates are disabled in instances, we need to reset on P_E_W
+        Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+            if Questie.started then
+                QuestieMap:InitializeQueue()
+                if not IsInInstance() then
+                    QuestieQuest:SmoothReset()
+                end
             end
-        end
-    end)
+        end)
+        callback()
+    end
 
 end
 
@@ -146,6 +152,7 @@ _PLAYER_LOGIN = function()
 
     local function stage2()
         -- We want the framerate to be HIGH!!!
+        continueInit()
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
         QuestiePlayer:Initialize()
@@ -212,7 +219,7 @@ _PLAYER_LOGIN = function()
         for _, char in pairs(QuestieConfig.char) do
             char.townsfolk = nil
         end
-        Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
+        --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         QuestieCorrections:Initialize()
         QuestieCorrections:PopulateTownsfolk()
         QuestieLocale:Initialize()
@@ -224,7 +231,7 @@ _PLAYER_LOGIN = function()
                     stage1()
                     QuestieCorrections:PopulateTownsfolkPostBoot()
                     stage2()
-                    Questie.minimapConfigIcon:Show("Questie")
+                    --Questie.minimapConfigIcon:Show("Questie")
                 end)
             end)
         end)

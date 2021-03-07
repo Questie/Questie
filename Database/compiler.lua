@@ -13,6 +13,36 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 serial.enableObjectLimit = false
 
+QuestieDBCompiler.supportedTypes = {
+    ["table"] = {
+        ["u12pair"] = true,
+        ["u24pair"] = true,
+        ["s24pair"] = true,
+        ["u8u16array"] = true,
+        ["u16u16array"] = true,
+        ["spawnlist"] = true,
+        ["trigger"] = true,
+        ["questgivers"] = true,
+        ["objective"] = true,
+        ["objectives"] = true,
+        ["waypointlist"] = true,
+        ["u8u16stringarray"] = true,
+        ["u8u24array"] = true
+    },
+    ["number"] = {
+        ["u8"] = true,
+        ["u16"] = true,
+        ["s16"] = true,
+        ["u24"] = true,
+        ["u32"] = true
+    },
+    ["string"] = {
+        ["u8string"] = true,
+        ["u16string"] = true,
+        ["faction"] = true
+    }
+}
+
 QuestieDBCompiler.readers = {
     ["u8"] = QuestieStream.ReadByte,
     ["u16"] = QuestieStream.ReadShort,
@@ -512,19 +542,19 @@ QuestieDBCompiler.statics = {
 }
 
 function QuestieDBCompiler:CompileNPCs(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, func)
+    QuestieDBCompiler:CompileTableTicking(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, func, "NPC")
 end
 
 function QuestieDBCompiler:CompileObjects(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.objectData, QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder, QuestieDB.objectKeys, func)
+    QuestieDBCompiler:CompileTableTicking(QuestieDB.objectData, QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder, QuestieDB.objectKeys, func, "Object")
 end
 
 function QuestieDBCompiler:CompileQuests(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, func)
+    QuestieDBCompiler:CompileTableTicking(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, func, "Quest")
 end
 
 function QuestieDBCompiler:CompileItems(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, func)
+    QuestieDBCompiler:CompileTableTicking(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, func, "Item")
 end
 
 local function equals(a, b)
@@ -589,7 +619,7 @@ function QuestieDBCompiler:CompileTable(tbl, types, order, lookup)
     return stream:Save(), QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
 end
 
-function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after)
+function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after, kind)
     local count = 0
     local indexLookup = {};
     for id in pairs(tbl) do
@@ -612,12 +642,25 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after)
                 break
             end
             local id = indexLookup[QuestieDBCompiler.index]
+            
             QuestieDBCompiler.currentEntry = id
             local entry = tbl[id]
             --local pointerStart = QuestieDBCompiler.stream._pointer
             QuestieDBCompiler.pointerMap[id] = QuestieDBCompiler.stream._pointer--pointerStart
             for _, key in pairs(order) do
-                QuestieDBCompiler.writers[types[key]](QuestieDBCompiler.stream, entry[lookup[key]])
+                local v = entry[lookup[key]]
+                local t = types[key]
+                --if not QuestieDBCompiler.supportedTypes[type(v)] then
+                --    print("Unsupported datatype: " .. type(v))
+                --    QuestieDBCompiler.ticker:Cancel()
+                --    return
+                --end
+                if v and not QuestieDBCompiler.supportedTypes[type(v)][t] then
+                    print("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
+                    QuestieDBCompiler.ticker:Cancel()
+                    return
+                end
+                QuestieDBCompiler.writers[t](QuestieDBCompiler.stream, v)
             end
             tbl[id] = nil -- quicker gabage collection later
         end
