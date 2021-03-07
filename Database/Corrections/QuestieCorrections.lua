@@ -369,16 +369,31 @@ function QuestieCorrections:PopulateTownsfolkPostBoot() -- post DB boot (use que
         6261,8923,2324,2604,6260,4378,10290,17194,4341
     }))
     Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieCorrections:PopulateVendors({4496, 4497, 4498, 4499}))
+
+    Questie.db.char.zoneEntryPoints = {}
+    local faction = UnitFactionGroup("Player")
+    for _, id in pairs(Questie.db.global.townsfolk["Flight Master"]) do
+        local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
+        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+            local spawns = QuestieDB.QueryNPCSingle(id, "spawns")
+            for zone, spawn in pairs(spawns) do
+                Questie.db.char.zoneEntryPoints[zone] = {spawn[1][1]/100.0, spawn[1][2]/100.0}
+            end
+        end
+    end
+
     QuestieCorrections:UpdatePlayerVendors()
 end
 
 function QuestieCorrections:PopulateTownsfolk()
+    local flights = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER)
     Questie.db.global.townsfolk = {
         ["Repair"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR), 
         ["Auctioneer"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER),
         ["Banker"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER),
         ["Battlemaster"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER),
-        ["Flight Master"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
+        ["Flight Master"] = flights,
+        ["Available Flights"] = flights,
         ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER),
         ["Weapon Master"] = {}, -- populated below
     }

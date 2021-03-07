@@ -15,5 +15,9 @@ function QuestieCombatQueue:Initialize()
 end
 
 function QuestieCombatQueue:Queue(func, obj)
+    if not InCombatLockdown() then
+        func(obj)
+        return
+    end
     tinsert(_Queue, {func=func, obj=obj})
 end

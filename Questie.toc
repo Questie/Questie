@@ -20,6 +20,9 @@ Libs\HereBeDragons\HereBeDragons-Migrate.lua
 #Loader module
 Modules\Libs\QuestieLoader.lua
 
+#Profiler
+Modules\QuestieProfiler.lua
+
 #stream module (used by DB)
 Modules\QuestieStream.lua
 
@@ -79,6 +82,7 @@ Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
+Modules\QuestieTSP.lua
 
 ##Tooltips
 Modules\Tooltips\Tooltip.lua
@@ -152,9 +156,6 @@ Modules\Options\TooltipTab\QuestieOptionsTooltip.lua
 
 #Cleanup
 Modules\QuestieCleanup.lua
-
-#Profiler
-Modules\QuestieProfiler.lua
 
 #Debug
 Modules\Debug.lua

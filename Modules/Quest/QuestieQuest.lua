@@ -459,6 +459,9 @@ function QuestieQuest:UpdateQuest(questId)
         QuestieQuest:UpdateObjectiveNotes(quest)
         local isComplete = quest:IsComplete()
         if isComplete == 1 then -- Quest is complete
+            if quest._hasSeenIncomplete then -- hack: rework to use new event system soon
+                quest._hasSeenIncomplete = nil
+            end
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
@@ -468,7 +471,10 @@ function QuestieQuest:UpdateQuest(questId)
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
+        else
+            quest._hasSeenIncomplete = true -- hack: rework to use new event system soon
         end
+        
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
@@ -684,6 +690,13 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     objective:Update()
 
+    if (not completed) then
+        objective._hasSeenIncomplete = true
+    elseif objective._hasSeenIncomplete then
+        objective._hasSeenIncomplete = nil
+        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, objective.Description, tostring(objective.Collected) .. "/" .. tostring(objective.Needed))
+    end
+
     if completed then
         _UnloadAlreadySpawnedIcons(objective)
         return
@@ -731,12 +744,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
     end
 
-    if (not completed) then
-        objective._hasSeenIncomplete = true
-    elseif objective._hasSeenIncomplete then
-        objective._hasSeenIncomplete = nil
-        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, objective.Description, tostring(objective.Collected) .. "/" .. tostring(objective.Needed))
-    end
 end
 
 _RegisterObjectiveTooltips = function(objective, questId)
@@ -1239,6 +1246,10 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
             if(obj ~= nil and obj.spawns ~= nil) then
                 for zone, spawns in pairs(obj.spawns) do
                     if(zone ~= nil and spawns ~= nil) then
+                        if not Questie.db.char.availablePerZone[zone] then
+                            Questie.db.char.availablePerZone[zone] = {}
+                        end
+                        tinsert(Questie.db.char.availablePerZone[zone], quest.Id)
                         for _, coords in ipairs(spawns) do
                             local data = {}
                             data.Id = quest.Id;
@@ -1277,7 +1288,10 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                 local starterLocs = {}
                 for npcZone, spawns in pairs(npc.spawns) do
                     if(npcZone ~= nil and spawns ~= nil) then
-
+                        if not Questie.db.char.availablePerZone[npcZone] then
+                            Questie.db.char.availablePerZone[npcZone] = {}
+                        end
+                        tinsert(Questie.db.char.availablePerZone[npcZone], quest.Id)
                         for _, coords in ipairs(spawns) do
                             local data = {}
                             data.Id = quest.Id;
@@ -1374,6 +1388,8 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     local showRaidQuests = Questie.db.char.showRaidQuests
     local showPvPQuests = Questie.db.char.showPvPQuests
     local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
+
+    Questie.db.char.availablePerZone = {}
 
     timer = C_Timer.NewTicker(0.01, function()
         for _=0,64 do -- number of available quests to process per tick

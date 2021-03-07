@@ -635,13 +635,14 @@ function _QuestieFramePool:QuestieTooltip()
     --end
 
     local usedText = {}
-    local npcOrder = {};
-    local questOrder = {};
+    local npcOrder = {}
+    local questOrder = {}
+    local routesOrder = {}
     local manualOrder = {}
 
     self.data.touchedPins = {}
     ---@param icon IconFrame
-    local function handleMapIcon(icon)
+    local function handleMapIcon(icon, disableColor)
         local iconData = icon.data
 
         if iconData == nil then
@@ -649,7 +650,7 @@ function _QuestieFramePool:QuestieTooltip()
             return
         end
 
-        if not icon.miniMapIcon and self.data.Id == iconData.Id then -- Recolor hovered icons
+        if (not icon.miniMapIcon and self.data.Id == iconData.Id) and not disableColor then -- Recolor hovered icons
             local entry = {}
             entry.color = {icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a};
             entry.icon = icon;
@@ -709,6 +710,8 @@ function _QuestieFramePool:QuestieTooltip()
                     tinsert(questOrder[iconData.CustomTooltipData.Title], iconData.CustomTooltipData.Body);
                 elseif iconData.ManualTooltipData then
                     manualOrder[iconData.ManualTooltipData.Title] = iconData.ManualTooltipData
+                elseif iconData.populate then
+                    iconData:populate(routesOrder)
                 end
             end
         end
@@ -720,10 +723,19 @@ function _QuestieFramePool:QuestieTooltip()
         end
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-            handleMapIcon(pin.icon)
-            if pin.icon.data.lineFrames then
-                for _, line in pairs(pin.icon.data.lineFrames) do
-                    handleMapIcon(line)
+            if pin.icon.isRouteGraphic then
+
+            elseif pin.icon.isRoutePoint then
+                -- handle route tooltip
+                --print("RoutePoint")
+
+                handleMapIcon(pin.icon, true)
+            else
+                handleMapIcon(pin.icon)
+                if pin.icon.data.lineFrames then
+                    for _, line in pairs(pin.icon.data.lineFrames) do
+                        handleMapIcon(line)
+                    end
                 end
             end
         end
@@ -732,12 +744,29 @@ function _QuestieFramePool:QuestieTooltip()
     Tooltip.npcOrder = npcOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
+    Tooltip.routesOrder = routesOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
         local xpString = QuestieLocale:GetUIString('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
+
+        --[todo:routes] if routes then
+        for title, data in pairs(self.routesOrder) do
+            if firstLine and not shift then
+                self:AddDoubleLine(title, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43)
+                firstLine = false
+            else
+                self:AddLine(title)
+            end
+            for _, line in pairs(data) do
+                if (not line.shift) or shift then
+                    self:AddLine(line.text)
+                end
+            end
+        end
+        --[todo:routes] else -- we should probably rewrite this tooltip logic
         for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
             if (firstLine and not shift) then
@@ -784,6 +813,7 @@ function _QuestieFramePool:QuestieTooltip()
         ---@param questId QuestId
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
+            print("Populating for quest ".. tostring(questId))
             local quest = QuestieDB:GetQuest(questId);
             local questTitle = QuestieDB:GetColoredQuestName(questId, true, true);
             if haveGiver then
@@ -851,6 +881,7 @@ function _QuestieFramePool:QuestieTooltip()
                 end
             end
         end
+        --[todo:routes] end
         for title, data in pairs(self.manualOrder) do
             local body = data.Body
             self:AddLine(title)

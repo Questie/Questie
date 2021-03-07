@@ -146,6 +146,8 @@ function _Qframe:OnLeave()
     end
 end
 
+QuestieFramePool.Qframe.OnLeave = _Qframe.OnLeave
+
 function _Qframe:OnClick(button)
     if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
         if button == "RightButton" then
@@ -181,6 +183,8 @@ function _Qframe:OnClick(button)
         Minimap:PingLocation(x, y)
     end
 end
+
+QuestieFramePool.Qframe.OnClick = _Qframe.OnClick
 
 function _Qframe:GlowUpdate()
     if self.glow and self.glow.IsShown and self.glow:IsShown() then
