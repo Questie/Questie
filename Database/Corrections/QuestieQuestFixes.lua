@@ -2016,6 +2016,9 @@ function QuestieQuestFixes:Load()
         },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
+        },        
+        [7828] = { -- #2580
+            [questKeys.objectivesText] = {"Huntsman Markhor at Revantusk Village in the Hinterlands wants you to kill 15 Silvermane Stalkers and 15 Silvermane Howlers. Return to him once the task is complete.","Markhor mentioned that the wolves hide in the wilds of the Hinterlands."}
         },
         [7838] = {
             [questKeys.specialFlags] = 1, -- #1589
