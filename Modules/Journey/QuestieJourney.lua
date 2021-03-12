@@ -97,7 +97,7 @@ function QuestieJourney:IsShown()
 end
 
 function QuestieJourney:ToggleJourneyWindow()
-    if not isWindowShown then
+    if (not isWindowShown) then
         PlaySound(882)
 
         local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, nil, _QuestieJourney.lastOpenWindow)

@@ -65,13 +65,13 @@ function _QuestieJourney:GetJourneyEntries()
     -- ---@param v JourneyEntry
     for i, v in ipairs(Questie.db.char.journey) do
         local year = tonumber(date('%Y', v.Timestamp))
-        if not dateTable[year] then
+        if (not dateTable[year]) then
             dateTable[year] = {}
         end
 
         local month = tonumber(date('%m', v.Timestamp))
 
-        if not dateTable[year][month] then
+        if (not dateTable[year][month]) then
             dateTable[year][month] = {}
         end
 
