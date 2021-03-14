@@ -1,6 +1,7 @@
-QuestieLocale = {}
-QuestieLocale.locale = {}
-QuestieLocale.questCategoryKeys = {}
+i10n = {}
+i10n.locale = {}
+i10n.translations = {}
+
 LangItemLookup = {}
 LangNameLookup = {}
 LangObjectNameLookup = {}
@@ -11,17 +12,24 @@ LangZoneLookup = {}
 LangZoneCategoryLookup = {}
 LangQuestCategory = {}
 
--------------------------
---Import modules
--------------------------
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local locale = 'enUS'
 
-local _GetUIStringNillable, _GetUIString
+i10n.questCategoryKeys = {
+    EASTERN_KINGDOMS = 1,
+    KALIMDOR = 2,
+    DUNGEONS = 3,
+    BATTLEGROUNDS = 4,
+    CLASS = 5,
+    PROFESSIONS = 6,
+    EVENTS = 7,
+}
 
-function QuestieLocale:PostBoot()
+local _GetUIStringNillable
+
+function i10n:PostBoot()
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
     for id in pairs(QuestieDB.ObjectPointers) do
         local name = QuestieDB.QueryObjectSingle(id, "name")
@@ -32,22 +40,21 @@ function QuestieLocale:PostBoot()
             table.insert(LangObjectNameLookup[name], id)
         end
     end
-    -- Load continent, zone locales, and quest catagories
+
     LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
     LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
     LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["enUS"] or {}
     LangQuestCategory = LangQuestCategory[locale] or LangQuestCategory["enUS"] or {}
 end
 
--- Initialize database tables with localization
-function QuestieLocale:Initialize()
+function i10n:Initialize()
     -- Load item locales
     for id, name in pairs(LangItemLookup[locale] or {}) do
         if QuestieDB.itemData[id] and name then
             QuestieDB.itemData[id][QuestieDB.itemKeys.name] = name
         end
     end
-    -- Load quest locales
+
     -- data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
     for id, data in pairs(LangQuestLookup[locale] or {}) do
         if QuestieDB.questData[id] then
@@ -56,8 +63,7 @@ function QuestieLocale:Initialize()
             end
             -- TODO add details text to questDB.lua (data[2])
             if data[3] then
-                 -- needs to be saved as a table for tooltips to have lines
-                 -- TODO: split string into ~80 char lines
+                -- needs to be saved as a table for tooltips to have lines
                 if type(data[3]) == "string" then
                     QuestieDB.questData[id][QuestieDB.questKeys.objectivesText] = {data[3]}
                 else
@@ -85,12 +91,12 @@ function QuestieLocale:Initialize()
     end
 end
 
-function QuestieLocale:FallbackLocale(lang)
+function i10n:FallbackLocale(lang)
     if not lang then
         return 'enUS'
     end
 
-    if QuestieLocale.locale[lang] then
+    if i10n.locale[lang] then
         return lang
     elseif lang == 'enGB' then
         return 'enUS'
@@ -107,67 +113,46 @@ function QuestieLocale:FallbackLocale(lang)
     end
 end
 
-function QuestieLocale:SetUILocale(lang)
+function i10n:SetUILocale(lang)
     if lang then
-        locale = QuestieLocale:FallbackLocale(lang)
+        locale = i10n:FallbackLocale(lang)
     else
-        locale = QuestieLocale:FallbackLocale(GetLocale())
+        locale = i10n:FallbackLocale(GetLocale())
     end
 end
 
-function QuestieLocale:GetUILocale()
+function i10n:GetUILocale()
     return locale
 end
 
-function QuestieLocale:GetLocaleTable()
-    if QuestieLocale.locale[locale] then
-        return QuestieLocale.locale[locale]
-    else
-        return QuestieLocale.locale['enUS']
+function i10n:translate(key, ...)
+    local args = {...}
+
+    for i, v in ipairs(args) do
+        args[i] = tostring(v);
     end
+
+    local translationEntry = i10n.translations[key]
+    if (not translationEntry) then
+        return "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!"
+    end
+
+    local translationValue = translationEntry[locale]
+    if (not translationValue) then
+        return "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language " .. locale .. "!"
+    end
+
+    if translationValue == true or translationValue == false then
+        -- Fallback to enUS which is the key
+        return string.format(key, unpack(args))
+    end
+
+    return string.format(translationValue, unpack(args))
 end
 
-function QuestieLocale:GetUIString(key, ...)
-    local result, val = pcall(_GetUIString, key, ...)
-    if result then
-        return val
-    else
-        return tostring(key) .. ' ERROR: '.. val
-    end
-end
+setmetatable(i10n, {__call = function(_, ...) return i10n:translate(...) end})
 
-_GetUIString = function(key, ...)
-    if key then
-        -- convert all args to string
-        local arg = {...}
-        for i, v in ipairs(arg) do
-            arg[i] = tostring(v)
-        end
-
-        local loc = QuestieLocale.locale
-
-        if loc[locale] then
-            if loc[locale][key] then
-                return string.format(loc[locale][key], unpack(arg))
-            else
-                if loc['enUS'] and loc['enUS'][key] then
-                    return string.format(loc['enUS'][key], unpack(arg))
-                else
-                    return tostring(key) ..' ERROR: '..tostring(locale)..' key missing!'
-                end
-            end
-        else
-            if loc['enUS'] and loc['enUS'][key] then
-                return string.format(loc['enUS'][key], unpack(arg))
-            else
-                return tostring(key) ..' ERROR: enUS key missing!'
-            end
-        end
-    end
-end
-
--- bad copypasta: maybe we can implement this using args somehow but varargs makes that tough
-function QuestieLocale:GetUIStringNillable(key, ...)
+function i10n:GetUIStringNillable(key, ...)
     local result, val = pcall(_GetUIStringNillable, key, ...)
     if result then
         return val
@@ -184,7 +169,7 @@ _GetUIStringNillable = function(key, ...)
             arg[i] = tostring(v)
         end
 
-        local loc = QuestieLocale.locale
+        local loc = i10n.locale
 
         if loc[locale] then
             if loc[locale][key] then
@@ -205,13 +190,3 @@ _GetUIStringNillable = function(key, ...)
         end
     end
 end
-
-QuestieLocale.questCategoryKeys = {
-    EASTERN_KINGDOMS = 1,
-    KALIMDOR = 2,
-    DUNGEONS = 3,
-    BATTLEGROUNDS = 4,
-    CLASS = 5,
-    PROFESSIONS = 6,
-    EVENTS = 7,
-}

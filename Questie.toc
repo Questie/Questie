@@ -51,6 +51,7 @@ Database\Corrections\QuestieEvent.lua
 Database\compiler.lua
 
 #Localization
+Localization\i10n.lua
 Locale\QuestieLocale.lua
 Locale\enUS\locale.xml
 Locale\esES\locale.xml

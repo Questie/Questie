@@ -2688,6 +2688,7 @@ stds.questie = {
         "-----------------------------------------------------> Project Specific",
         "Questie",
         "QuestieLocale",
+        "i10n",
         "QuestieConfig",
         "QuestieConfigCharacter",
         "QuestieLoader",
