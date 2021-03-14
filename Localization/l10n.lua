@@ -1,5 +1,4 @@
 l10n = {}
-l10n.locale = {}
 l10n.translations = {}
 
 l10n.itemLookup = {}
@@ -16,6 +15,17 @@ l10n.questCategoryLookup = {}
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local locale = 'enUS'
+local supportedLocals = {
+    ['enUS'] = true,
+    ['esES'] = true,
+    ['ptBR'] = true,
+    ['frFR'] = true,
+    ['deDE'] = true,
+    ['ruRU'] = true,
+    ['zhCN'] = true,
+    ['zhTW'] = true,
+    ['koKR'] = true,
+}
 
 l10n.questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
@@ -92,11 +102,11 @@ function l10n:Initialize()
 end
 
 function l10n:FallbackLocale(lang)
-    if not lang then
+    if (not lang) then
         return 'enUS'
     end
 
-    if l10n.locale[lang] then
+    if supportedLocals[lang] then
         return lang
     elseif lang == 'enGB' then
         return 'enUS'
