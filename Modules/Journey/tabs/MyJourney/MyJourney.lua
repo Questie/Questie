@@ -62,7 +62,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                 if entry.Event == "Note" then
 
-                    header:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_NOTE', entry.Title));
+                    header:SetText(i10n('Note: %s', entry.Title));
 
                     local note = AceGUI:Create("Label");
                     note:SetFullWidth(true);
@@ -70,15 +70,15 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     f:AddChild(note);
                     QuestieJourneyUtils:Spacer(f);
 
-                    created:SetText(QuestieLocale:GetUIString('JOURNEY_NOTE_CREATED', timestamp));
+                    created:SetText(i10n('Note Created: %s', timestamp));
                     f:AddChild(created);
 
                 elseif entry.Event == "Level" then
 
-                    header:SetText(QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel));
+                    header:SetText(i10n('You Reached Level %s', entry.NewLevel));
 
                     local congrats = AceGUI:Create("Label");
-                    congrats:SetText(QuestieLocale:GetUIString('JOURNEY_LEVELUP', entry.NewLevel));
+                    congrats:SetText(i10n('Congratulations! You reached %s !', entry.NewLevel));
                     congrats:SetFullWidth(true);
                     f:AddChild(congrats);
 
@@ -89,11 +89,11 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                     local state = '';
                     if entry.SubType == "Accept" then
-                        state = QuestieLocale:GetUIString('JOURNEY_ACCEPT');
+                        state = i10n('Accepted');
                     elseif entry.SubType == "Complete" then
-                        state = QuestieLocale:GetUIString('JOUNREY_COMPLETE');
+                        state = i10n('Completed');
                     elseif entry.SubType == "Abandon" then
-                        state = QuestieLocale:GetUIString('JOURNEY_ABADON');
+                        state = i10n('JOURNEY_ABADON');
                     else
                         state = "ERROR!!";
                     end
@@ -101,7 +101,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     local quest = QuestieDB:GetQuest(entry.Quest)
                     if quest then
                         local qName = quest.name;
-                        header:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName));
+                        header:SetText(i10n('Quest %s: %s', state, qName));
 
 
                         local obj = AceGUI:Create("Label");
@@ -112,7 +112,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
                     QuestieJourneyUtils:Spacer(f);
 
-                    created:SetText(QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, timestamp));
+                    created:SetText(i10n('Quest %s: %s', state, timestamp));
                     f:AddChild(created);
 
                 else

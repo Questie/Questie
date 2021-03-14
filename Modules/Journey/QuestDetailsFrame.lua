@@ -28,22 +28,22 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    local questInfoHeader = _QuestieJourney:CreateHeading(QuestieLocale:GetUIString('JOURNEY_QUESTINFO'), true)
+    local questInfoHeader = _QuestieJourney:CreateHeading(i10n('Quest Information'), true)
     container:AddChild(questInfoHeader)
 
     -- Generic Quest Information
 
-    local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_LEVEL'), 'yellow') .. quest.level, true)
+    local levelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(i10n('Recommended Quest Level: '), 'yellow') .. quest.level, true)
     container:AddChild(levelLabel)
 
-    local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_MINLEVEL'), 'yellow') .. quest.requiredLevel, true)
+    local minLevelLabel = _QuestieJourney:CreateLabel(Questie:Colorize(i10n('Minimum Required Level for Quest: '), 'yellow') .. quest.requiredLevel, true)
     container:AddChild(minLevelLabel)
 
     local levelDiffString = _QuestieJourney:GetDifficultyString(quest.level, quest.requiredLevel)
     local levelDiffLabel = _QuestieJourney:CreateLabel(levelDiffString, true)
     container:AddChild(levelDiffLabel)
 
-    local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ID'), 'yellow') .. quest.Id, true)
+    local questIdLabel = _QuestieJourney:CreateLabel(Questie:Colorize(i10n('Quest ID: '), 'yellow') .. quest.Id, true)
     container:AddChild(questIdLabel)
 
     QuestieJourneyUtils:Spacer(container)
@@ -58,7 +58,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     if quest.Starts and quest.Starts.NPC then
         local startNPCGroup = AceGUI:Create("InlineGroup")
         startNPCGroup:SetLayout("List")
-        startNPCGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_START_NPC'))
+        startNPCGroup:SetTitle(i10n('Quest Start NPC Information'))
         startNPCGroup:SetFullWidth(true)
         container:AddChild(startNPCGroup)
 
@@ -115,7 +115,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         if startNpc.questStarts then
 
             local alsoStartsLabel = AceGUI:Create("Label")
-            alsoStartsLabel:SetText(QuestieLocale:GetUIString('JOURNEY_ALSO_STARTS'))
+            alsoStartsLabel:SetText(i10n('This NPC Also Starts the following quests:'))
             alsoStartsLabel:SetColor(255, 165, 0)
             alsoStartsLabel:SetFontObject(GameFontHighlight)
             alsoStartsLabel:SetFullWidth(true)
@@ -137,7 +137,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             if #startQuests == 0 then
                 local noQuestLabel = AceGUI:Create("Label")
-                noQuestLabel:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'))
+                noQuestLabel:SetText(i10n('No Quests to List'))
                 noQuestLabel:SetFullWidth(true)
                 startNPCGroup:AddChild(noQuestLabel)
             end
@@ -151,7 +151,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     if quest.Starts and quest.Starts.GameObject then
         local startObjectGroup = AceGUI:Create("InlineGroup")
         startObjectGroup:SetLayout("List")
-        startObjectGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_START_OBJ'))
+        startObjectGroup:SetTitle(i10n('Quest Start Object Information'))
         startObjectGroup:SetFullWidth(true)
         container:AddChild(startObjectGroup)
 
@@ -204,7 +204,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             if startObj.questStarts then
 
                 local alsoStartsLabel = AceGUI:Create("Label")
-                alsoStartsLabel:SetText(QuestieLocale:GetUIString('JOURNEY_ALSO_STARTS_GO'))
+                alsoStartsLabel:SetText(i10n('This Object Also Starts the following quests:'))
                 alsoStartsLabel:SetColor(255, 165, 0)
                 alsoStartsLabel:SetFontObject(GameFontHighlight)
                 alsoStartsLabel:SetFullWidth(true)
@@ -226,7 +226,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
                 if #startQuests == 0 then
                     local noQuestLabel = AceGUI:Create("Label")
-                    noQuestLabel:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'))
+                    noQuestLabel:SetText(i10n('No Quests to List'))
                     noQuestLabel:SetFullWidth(true)
                     startObjectGroup:AddChild(noQuestLabel)
                 end
@@ -241,7 +241,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
     if quest.Finisher and quest.Finisher.Name and quest.Finisher.Type == "monster" then
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("Flow")
-        endNPCGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_END_NPC'))
+        endNPCGroup:SetTitle(i10n('Quest Turn-in NPC Information'))
         endNPCGroup:SetFullWidth(true)
         container:AddChild(endNPCGroup)
         QuestieJourneyUtils:Spacer(endNPCGroup)
@@ -294,7 +294,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         -- Also ends
         if endNPC.endQuests then
             local alsoEndsLabel = AceGUI:Create("Label")
-            alsoEndsLabel:SetText(QuestieLocale:GetUIString('JOURNEY_ALSO_ENDS'))
+            alsoEndsLabel:SetText(i10n('This NPC Also Completes the following quests:'))
             alsoEndsLabel:SetFontObject(GameFontHighlight)
             alsoEndsLabel:SetColor(255, 165, 0)
             alsoEndsLabel:SetFullWidth(true)
@@ -316,7 +316,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             if #endQuests == 0 then
                 local noQuestLabel = AceGUI:Create("Label")
-                noQuestLabel:SetText(QuestieLocale:GetUIString('JOURNEY_NO_QUEST'))
+                noQuestLabel:SetText(i10n('No Quests to List'))
                 noQuestLabel:SetFullWidth(true)
                 endNPCGroup:AddChild(noQuestLabel)
             end
@@ -373,7 +373,7 @@ function _QuestieJourney:GetDifficultyString(questLevel, questMinLevel)
     diffStr = diffStr .. "|cFF40C040[".. green .."]|r "
     diffStr = diffStr .. "|cFFC0C0C0[".. gray .."]|r "
 
-    return Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_DIFFICULTY', diffStr), 'yellow')
+    return Questie:Colorize(i10n('Difficulty Range: %s', diffStr), 'yellow')
 end
 
 ---@param quest Quest
@@ -386,7 +386,7 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     local preQuests = {}
 
     preQuestInlineGroup:SetLayout("List")
-    preQuestInlineGroup:SetTitle(QuestieLocale:GetUIString('JOURNEY_PREQUEST'))
+    preQuestInlineGroup:SetTitle(i10n('Pre Quests'))
     preQuestInlineGroup:SetFullWidth(true)
 
     if (quest.preQuestSingle and next(quest.preQuestSingle)) then

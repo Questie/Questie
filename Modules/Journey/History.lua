@@ -20,7 +20,7 @@ function _QuestieJourney:GetHistory()
     for _, year in pairs(years) do
         local yearTable = {
             value = year,
-            text = QuestieLocale:GetUIString('JOURNEY_TABLE_YEAR', year),
+            text = i10n('Year %s', year),
             children = {},
         }
 
@@ -92,25 +92,25 @@ function _QuestieJourney:GetEntryText(entry)
     local entryText = ""
 
     if entry.Event == "Level" then
-        entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel)
+        entryText = i10n('You Reached Level %s', entry.NewLevel)
     elseif entry.Event == "Note" then
-        entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_NOTE', entry.Title)
+        entryText = i10n('Note: %s', entry.Title)
     elseif entry.Event == "Quest" then
         local state = ""
         if entry.SubType == "Accept" then
-            state = QuestieLocale:GetUIString('JOURNEY_ACCEPT')
+            state = i10n('Accepted')
         elseif entry.SubType == "Complete" then
-            state = QuestieLocale:GetUIString('JOUNREY_COMPLETE')
+            state = i10n('Completed')
         elseif entry.SubType == "Abandon" then
-            state = QuestieLocale:GetUIString('JOURNEY_ABADON')
+            state = i10n('Abandoned')
         else
             state = "ERROR!!"
         end
         local qName = QuestieDB.QueryQuestSingle(entry.Quest, "name")
         if qName then
-            entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName)
+            entryText = i10n('Quest %s: %s', state, qName)
         else
-            entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST')
+            entryText = i10n('JOURNEY_MISSING_QUEST')
         end
     end
     return entryText

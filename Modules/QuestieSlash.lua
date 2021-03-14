@@ -40,13 +40,13 @@ function QuestieSlash:HandleCommands(input)
 
     -- /questie help || /questie ?
     if mainCommand == "help" or mainCommand == "?" then
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_HEAD'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_CONFIG'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TO_MAP'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_MINIMAP'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TRACKER'), 'yellow'));
+        print(Questie:Colorize(i10n("Questie Commands"), "yellow"));
+        print(Questie:Colorize(i10n("/questie -- Toggles the Config window"), "yellow"));
+        print(Questie:Colorize(i10n("/questie toggle -- Toggles showing questie on the map and minimap"), "yellow"));
+        print(Questie:Colorize(i10n("/questie tomap [<npcId>/<npcName>/reset] -- Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
+        print(Questie:Colorize(i10n("/questie minimap -- Toggles the Minimap Button for Questie"), "yellow"));
+        print(Questie:Colorize(i10n("/questie journey -- Toggles the My Journey window"), "yellow"));
+        print(Questie:Colorize(i10n("/questie tracker [show/hide/reset] -- Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
         return;
     end
 
@@ -130,5 +130,5 @@ function QuestieSlash:HandleCommands(input)
         end
     end
 
-    print(Questie:Colorize("[Questie] :: ", 'yellow') .. QuestieLocale:GetUIString('SLASH_INVALID') .. Questie:Colorize('/questie help', 'yellow'));
+    print(Questie:Colorize("[Questie] :: ", "yellow") .. i10n("Invalid command. For a list of options please type: ") .. Questie:Colorize("/questie help', 'yellow"));
 end

@@ -20,7 +20,7 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 --dbmHUDEnable, dbmHUDShowAlert, DBMHUDZoom, dbmHUDRadius, dbmHUDShowQuest, dbmHUDShowSlay, dbmHUDShowLoot, dbmHUDShowInteract
 function QuestieOptions.tabs.dbm:Initialize()
     return {
-        name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB'); end,
+        name = function() return i10n('DBM HUD'); end,
         type = "group",
         disabled = function() if DBM and DBM.HudMap then return false else return true end end,
         order = 15,
@@ -28,13 +28,13 @@ function QuestieOptions.tabs.dbm:Initialize()
             hud_options = {
                 type = "header",
                 order = 1,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_TAB'); end,
+                name = function() return i10n('DBM HUD'); end,
             },
             dbmHUDEnable = {
                 type = "toggle",
                 order = 1.1,
-                name = function() return QuestieLocale:GetUIString('ENABLE_DBM_HUD'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_DBM_HUD_DESC'); end,
+                name = function() return i10n('Show DBM HUD'); end,
+                desc = function() return i10n('Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.'); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -53,8 +53,8 @@ function QuestieOptions.tabs.dbm:Initialize()
             dbmHUDShowAlert = {
                 type = "toggle",
                 order = 1.2,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_ICON_ALERT'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_ICON_ALERT_DESC'); end,
+                name = function() return i10n('Enable proximity visual for HUD icons'); end,
+                desc = function() return i10n('Changes the color of a HUD icon to red when you are near it.'); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -66,8 +66,8 @@ function QuestieOptions.tabs.dbm:Initialize()
                 type = "range",
                 disabled = function() if DBM and DBM.HudMap and not DBM.HudMap.Version then return true else return false end end,
                 order = 1.3,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_REFRESH_DESC', optionsDefaults.global.DBMHUDRefresh); end,
+                name = function() return i10n('Refresh rate for HUD (Requires turning HUD off/on)'); end,
+                desc = function() return i10n('Adjusts the fresh rate for HUD Icons which affects how often UI refreshes their position. ( Default: %s )', optionsDefaults.global.DBMHUDRefresh); end,
                 width = "double",
                 min = 0.01,
                 max = 0.05,
@@ -82,14 +82,14 @@ function QuestieOptions.tabs.dbm:Initialize()
             mapnote_options = {
                 type = "header",
                 order = 2,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_SCALE_OPTIONS'); end,
+                name = function() return i10n('Size & Scale Options'); end,
             },
             Spacer_B = QuestieOptionsUtils:Spacer(2.1),
             DBMHUDZoom = {
                 type = "range",
                 order = 2.2,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_ZOOM'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_ZOOM_DESC', optionsDefaults.global.DBMHUDZoom); end,
+                name = function() return i10n('Global zoom level for HUD Icons'); end,
+                desc = function() return i10n('Adjusts the zoom level for HUD Icons which affects how close in or how far out you see them. ( Default: %s )', optionsDefaults.global.DBMHUDZoom); end,
                 width = "double",
                 min = 40,
                 max = 200,
@@ -103,8 +103,8 @@ function QuestieOptions.tabs.dbm:Initialize()
             dbmHUDRadius = {
                 type = "range",
                 order = 2.3,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_RADIUS'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_RADIUS_DESC', optionsDefaults.global.dbmHUDRadius); end,
+                name = function() return i10n('Global radius/size for HUD Icons'); end,
+                desc = function() return i10n('Adjusts the size of the icons that appear on the HUD. ( Default: %s )', optionsDefaults.global.dbmHUDRadius); end,
                 width = "double",
                 min = 1,
                 max = 5,
@@ -119,13 +119,13 @@ function QuestieOptions.tabs.dbm:Initialize()
             fade_options = {
                 type = "header",
                 order = 3,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_OPTIONS'); end,
+                name = function() return i10n('Filter Options'); end,
             },
             dbmHUDShowQuest = {
                 type = "toggle",
                 order = 3.1,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_QUEST'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_QUEST_DESC', optionsDefaults.global.dbmHUDShowQuest); end,
+                name = function() return i10n('Show quest giver icons'); end,
+                desc = function() return i10n('Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )', optionsDefaults.global.dbmHUDShowQuest); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -136,8 +136,8 @@ function QuestieOptions.tabs.dbm:Initialize()
             dbmHUDShowSlay = {
                 type = "toggle",
                 order = 3.2,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_KILL'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_KILL_DESC', optionsDefaults.global.dbmHUDShowSlay); end,
+                name = function() return i10n('Show quest slay icons'); end,
+                desc = function() return i10n('Toggles whether or not slay icons appear on HUD. ( Default: %s )', optionsDefaults.global.dbmHUDShowSlay); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -148,8 +148,8 @@ function QuestieOptions.tabs.dbm:Initialize()
             dbmHUDShowLoot = {
                 type = "toggle",
                 order = 3.3,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_LOOT'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_LOOT_DESC', optionsDefaults.global.dbmHUDShowLoot); end,
+                name = function() return i10n('Show quest loot icons'); end,
+                desc = function() return i10n('Toggles whether or not loot icons appear on HUD. ( Default: %s )', optionsDefaults.global.dbmHUDShowLoot); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -160,8 +160,8 @@ function QuestieOptions.tabs.dbm:Initialize()
             dbmHUDShowInteract = {
                 type = "toggle",
                 order = 3.4,
-                name = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_INTERACT'); end,
-                desc = function() return QuestieLocale:GetUIString('DBM_HUD_FILTER_INTERACT_DESC', optionsDefaults.global.dbmHUDShowInteract); end,
+                name = function() return i10n('Show quest objective icons'); end,
+                desc = function() return i10n('Toggles whether or not objective icons appear on HUD ( Default: %s )', optionsDefaults.global.dbmHUDShowInteract); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)

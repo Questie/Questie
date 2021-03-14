@@ -60,11 +60,11 @@ function QuestieOptionsMinimapIcon:Initialize()
 
         OnTooltipShow = function (tooltip)
             tooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1);
-            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_LEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('MENU_TOGGLE'));
-            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_SHIFTLEFT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_TOGGLE_QUESTIE'));
-            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_RIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_JOURNEY'));
-            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_CTRLRIGHT_CLICK') , 'gray') .. ": ".. QuestieLocale:GetUIString('ICON_HIDE'));
-            tooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString('ICON_CTRLLEFT_CLICK'),   'gray') .. ": ".. QuestieLocale:GetUIString('ICON_RELOAD'));
+            tooltip:AddLine(Questie:Colorize(i10n('Left Click') , 'gray') .. ": ".. i10n('Toggle Menu'));
+            tooltip:AddLine(Questie:Colorize(i10n('Ctrl + Shift + Left Click') , 'gray') .. ": ".. i10n('Toggle Questie'));
+            tooltip:AddLine(Questie:Colorize(i10n('Right Click') , 'gray') .. ": ".. i10n('Toggle My Journey'));
+            tooltip:AddLine(Questie:Colorize(i10n('Ctrl + Right Click') , 'gray') .. ": ".. i10n('Hide Minimap Button'));
+            tooltip:AddLine(Questie:Colorize(i10n('Ctrl + Left Click'),   'gray') .. ": ".. i10n('Reload Questie'));
         end,
     });
 end

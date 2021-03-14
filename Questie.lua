@@ -125,11 +125,7 @@ if  (not LQuestie_EasyMenu) or
     (not QuestieTracker) then
     --Delay the warning.
     C_Timer.After(8, function()
-        if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
-            print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
-        else
-            print("|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
-        end
+        print(i10n('|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing'))
     end)
   else
     -- Initialize Questie
@@ -146,9 +142,9 @@ function Questie:OnInitialize()
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
-        QuestieLocale:SetUILocale(Questie.db.global.questieLocale);
+        i10n:SetUILocale(Questie.db.global.questieLocale);
     else
-        QuestieLocale:SetUILocale(GetLocale());
+        i10n:SetUILocale(GetLocale());
     end
 
     Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
@@ -169,7 +165,7 @@ function Questie:OnInitialize()
         QuestieOptions:Initialize()
 
         --Initialize the DB settings.
-        Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
+        Questie:Debug(DEBUG_DEVELOP, i10n('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
 
         -- Creating the minimap config icon
         Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
@@ -177,9 +173,9 @@ function Questie:OnInitialize()
 
         -- Update the default text on the map show/hide button for localization
         if Questie.db.char.enabled then
-            Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
+            Questie_Toggle:SetText(i10n('QUESTIE_MAP_BUTTON_HIDE'));
         else
-            Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
+            Questie_Toggle:SetText(i10n('QUESTIE_MAP_BUTTON_SHOW'));
         end
 
         -- Update status of Map button on hide between play sessions
@@ -202,7 +198,7 @@ function Questie:OnInitialize()
                 end
             end
         end)
-        
+
         if Questie.db.global.dbmHUDEnable then
             QuestieDBMIntegration:EnableHUD()
         end

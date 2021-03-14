@@ -89,7 +89,7 @@ local function trycatch(func)
             if not Questie.db.global.disableDatabaseWarnings then
                 StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
             else
-                print(QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"))
+                print(i10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."))
             end
         end
         return ret
@@ -99,9 +99,9 @@ end
 function QuestieDB:Initialize()
 
     StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-        text = QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"),
-        button1 = QuestieLocale:GetUIString("RECOMPILE_DATABASE_BTN"),
-        button2 = QuestieLocale:GetUIString("DONT_SHOW_AGAIN"),
+        text = i10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
+        button1 = i10n("Recompile Database"),
+        button2 = i10n("Don't show again"),
         OnAccept = function()
             QuestieConfig.dbIsCompiled = false
             ReloadUI()

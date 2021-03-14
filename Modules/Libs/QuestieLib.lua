@@ -215,7 +215,7 @@ function QuestieLib:GetQuestString(id, name, level, blizzLike)
             char = string.sub(questTag, 1, 1)
         end
 
-        local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        local langCode = i10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
             name = "[" .. level .. "+" .. "] " .. name -- Elite quest
         elseif questType == 81 then
@@ -256,7 +256,7 @@ function QuestieLib:GetLevelString(id, name, level, blizzLike)
             char = string.sub(questTag, 1, 1)
         end
 
-        local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        local langCode = i10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
             level = "[" .. level .. "+" .. "] " -- Elite quest
         elseif questType == 81 then

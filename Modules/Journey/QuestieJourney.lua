@@ -32,7 +32,7 @@ local notesPopupWinIsOpen = false
 
 function QuestieJourney:Initialize()
     self.continents = LangContinentLookup
-    self.continents[QuestieLocale.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    self.continents[i10n.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
     self.zoneMap = ZoneDB:GetZonesWithQuests()
     self.zones = ZoneDB:GetRelevantZones()
 
@@ -50,7 +50,7 @@ function QuestieJourney:BuildMainFrame()
                 notesPopupWinIsOpen = false
             end
         end)
-        journeyFrame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
+        journeyFrame:SetTitle(i10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
         journeyFrame.frame:SetMinResize(550, 400)
 
@@ -58,15 +58,15 @@ function QuestieJourney:BuildMainFrame()
         tabGroup:SetLayout("Flow")
         tabGroup:SetTabs({
             {
-                text = QuestieLocale:GetUIString('JOUNREY_TAB'),
+                text = i10n('My Journey'),
                 value="journey"
             },
             {
-                text = QuestieLocale:GetUIString('JOURNEY_ZONE_TAB'),
+                text = i10n('Quests by Zone'),
                 value="zone"
             },
             {
-                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'),
+                text = i10n('Advanced Search'),
                 value="search"
             }
         })
@@ -79,7 +79,7 @@ function QuestieJourney:BuildMainFrame()
         local settingsButton = AceGUI:Create("Button")
         settingsButton:SetWidth(160)
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
-        settingsButton:SetText(QuestieLocale:GetUIString('Questie Options'))
+        settingsButton:SetText(i10n('Questie Options'))
         settingsButton:SetCallback("OnClick", function()
             QuestieJourney:ToggleJourneyWindow()
             QuestieOptions:OpenConfigWindow()

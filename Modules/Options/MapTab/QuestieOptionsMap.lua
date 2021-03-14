@@ -20,20 +20,20 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 function QuestieOptions.tabs.map:Initialize()
     return {
-        name = function() return QuestieLocale:GetUIString('MAP_TAB'); end,
+        name = function() return i10n('Map'); end,
         type = "group",
         order = 12,
         args = {
             map_options = {
                 type = "header",
                 order = 1,
-                name = function() return QuestieLocale:GetUIString('MAP_OPTIONS_HEADER'); end,
+                name = function() return i10n('Map Options'); end,
             },
             mapShowHideEnabled = {
                 type = "toggle",
                 order = 1.1,
-                name = function() return QuestieLocale:GetUIString('ENABLE_MAP_BUTTON'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_MAP_BUTTON_DESC'); end,
+                name = function() return i10n('Show Questie Map Button'); end,
+                desc = function() return i10n('Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions).'); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -49,8 +49,8 @@ function QuestieOptions.tabs.map:Initialize()
             alwaysGlowMap = {
                 type = "toggle",
                 order = 1.2,
-                name = function() return QuestieLocale:GetUIString('MAP_ALWAYS_GLOW_TOGGLE'); end,
-                desc = function() return QuestieLocale:GetUIString('MAP_ALWAYS_GLOW_TOGGLE_DESC'); end,
+                name = function() return i10n('Always Glow Behind Map Icons'); end,
+                desc = function() return i10n('Draw a glow texture behind map icons, colored unique to each quest.'); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -61,8 +61,8 @@ function QuestieOptions.tabs.map:Initialize()
             questObjectiveColors = {
                 type = "toggle",
                 order = 1.3,
-                name = function() return QuestieLocale:GetUIString('MAP_QUEST_COLORS'); end,
-                desc = function() return QuestieLocale:GetUIString('MAP_QUEST_COLORS_DESC'); end,
+                name = function() return i10n('Different Map Icon Color for Each Quest'); end,
+                desc = function() return i10n('Show map icons with colors that are randomly generated based on quest ID.'); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -74,14 +74,14 @@ function QuestieOptions.tabs.map:Initialize()
             mapnote_options = {
                 type = "header",
                 order = 2,
-                name = function() return QuestieLocale:GetUIString('MAP_NOTES'); end,
+                name = function() return i10n('Map Note Options'); end,
             },
             Spacer_B = QuestieOptionsUtils:Spacer(2.1),
             globalScale = {
                 type = "range",
                 order = 2.2,
-                name = function() return QuestieLocale:GetUIString('MAP_GLOBAL_SCALE'); end,
-                desc = function() return QuestieLocale:GetUIString('MAP_GLOBAL_SCALE_DESC', optionsDefaults.global.globalScale); end,
+                name = function() return i10n('Global Scale for Map Icons'); end,
+                desc = function() return i10n('How large the Map Icons are. ( Default: %s )', optionsDefaults.global.globalScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
@@ -95,8 +95,8 @@ function QuestieOptions.tabs.map:Initialize()
             availableScale = {
                 type = "range",
                 order = 2.3,
-                name = function() return QuestieLocale:GetUIString('AVAILABLE_ICON_SCALE'); end,
-                desc = function() return QuestieLocale:GetUIString('AVAILABLE_ICON_SCALE_DESC', optionsDefaults.global.availableScale); end,
+                name = function() return i10n('Scale for Available/Complete Icons'); end,
+                desc = function() return i10n('How large the available/complete icons are. ( Default: %s )', optionsDefaults.global.availableScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
@@ -110,8 +110,8 @@ function QuestieOptions.tabs.map:Initialize()
             eventScale = {
                 type = "range",
                 order = 2.4,
-                name = function() return QuestieLocale:GetUIString('EVENT_ICON_SCALE'); end,
-                desc = function() return QuestieLocale:GetUIString('EVENT_ICON_SCALE_DESC', optionsDefaults.global.eventScale); end,
+                name = function() return i10n('Scale for Event Icons'); end,
+                desc = function() return i10n('How large the event icons are.  ( Default: %s )', optionsDefaults.global.eventScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
@@ -125,8 +125,8 @@ function QuestieOptions.tabs.map:Initialize()
             lootScale = {
                 type = "range",
                 order = 2.5,
-                name = function() return QuestieLocale:GetUIString('LOOT_ICON_SCALE'); end,
-                desc = function() return QuestieLocale:GetUIString('LOOT_ICON_SCALE_DESC', optionsDefaults.global.lootScale); end,
+                name = function() return i10n('Scale for Loot Icons'); end,
+                desc = function() return i10n('How large the loot icons are.  ( Default: %s )', optionsDefaults.global.lootScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
@@ -140,8 +140,8 @@ function QuestieOptions.tabs.map:Initialize()
             monsterScale = {
                 type = "range",
                 order = 2.6,
-                name = function() return QuestieLocale:GetUIString('MONSTER_ICON_SCALE'); end,
-                desc = function() return QuestieLocale:GetUIString('MONSTER_ICON_SCALE_DESC', optionsDefaults.global.monsterScale); end,
+                name = function() return i10n('Scale for Slay Icons'); end,
+                desc = function() return i10n('How large the slay icons are.  ( Default: %s )', optionsDefaults.global.monsterScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
@@ -155,8 +155,8 @@ function QuestieOptions.tabs.map:Initialize()
             objectScale = {
                 type = "range",
                 order = 2.7,
-                name = function() return QuestieLocale:GetUIString('OBJECT_ICON_SCALE'); end,
-                desc = function() return QuestieLocale:GetUIString('OBJECT_ICON_SCALE_DESC', optionsDefaults.global.objectScale); end,
+                name = function() return i10n('Scale for Object Icons'); end,
+                desc = function() return i10n('How large the object icons are.  ( Default: %s )', optionsDefaults.global.objectScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
@@ -171,13 +171,13 @@ function QuestieOptions.tabs.map:Initialize()
             fade_options = {
                 type = "header",
                 order = 3,
-                name = function() return QuestieLocale:GetUIString('MAP_COORDS'); end,
+                name = function() return i10n('Map and Cursor Coordinates'); end,
             },
             mapCoordinatesEnabled = {
                 type = "toggle",
                 order = 3.2,
-                name = function() return QuestieLocale:GetUIString('ENABLE_MAP_COORDS'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_MAP_COORDS_DESC'); end,
+                name = function() return i10n('Player and Cursor Coordinates'); end,
+                desc = function() return i10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
@@ -191,8 +191,8 @@ function QuestieOptions.tabs.map:Initialize()
             mapCoordinatePrecision = {
                 type = "range",
                 order = 3.3,
-                name = function() return QuestieLocale:GetUIString('MAP_COORDS_PRECISION'); end,
-                desc = function() return QuestieLocale:GetUIString('MAP_COORDS_PRECISION_DESC', optionsDefaults.global.mapCoordinatePrecision); end,
+                name = function() return i10n('Map Coordinates Decimal Precision'); end,
+                desc = function() return i10n('How many decimals to include in the precision on the Map for Player and Cursor coordinates. ( Default: %s )', optionsDefaults.global.mapCoordinatePrecision); end,
                 width = "double",
                 min = 1,
                 max = 5,
