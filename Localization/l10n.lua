@@ -37,26 +37,6 @@ l10n.questCategoryKeys = {
     EVENTS = 7,
 }
 
-local _GetUIStringNillable
-
-function l10n:PostBoot()
-    -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
-    for id in pairs(QuestieDB.ObjectPointers) do
-        local name = QuestieDB.QueryObjectSingle(id, "name")
-        if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
-            if not l10n.objectNameLookup[name] then
-                l10n.objectNameLookup[name] = {}
-            end
-            table.insert(l10n.objectNameLookup[name], id)
-        end
-    end
-
-    l10n.continentLookup = l10n.continentLookup[locale] or l10n.continentLookup["enUS"] or {}
-    l10n.zoneLookup = l10n.zoneLookup[locale] or l10n.zoneLookup["enUS"] or {}
-    l10n.zoneCategoryLookup = l10n.zoneCategoryLookup[locale] or l10n.zoneCategoryLookup["enUS"] or {}
-    l10n.questCategoryLookup = l10n.questCategoryLookup[locale] or l10n.questCategoryLookup["enUS"] or {}
-end
-
 function l10n:Initialize()
     -- Load item locales
     for id, name in pairs(l10n.itemLookup[locale] or {}) do
@@ -101,6 +81,53 @@ function l10n:Initialize()
     end
 end
 
+function l10n:PostBoot()
+    -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
+    for id in pairs(QuestieDB.ObjectPointers) do
+        local name = QuestieDB.QueryObjectSingle(id, "name")
+        if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
+            if not l10n.objectNameLookup[name] then
+                l10n.objectNameLookup[name] = {}
+            end
+            table.insert(l10n.objectNameLookup[name], id)
+        end
+    end
+
+    l10n.continentLookup = l10n.continentLookup[locale] or l10n.continentLookup["enUS"] or {}
+    l10n.zoneLookup = l10n.zoneLookup[locale] or l10n.zoneLookup["enUS"] or {}
+    l10n.zoneCategoryLookup = l10n.zoneCategoryLookup[locale] or l10n.zoneCategoryLookup["enUS"] or {}
+    l10n.questCategoryLookup = l10n.questCategoryLookup[locale] or l10n.questCategoryLookup["enUS"] or {}
+end
+
+function l10n:translate(key, ...)
+    local args = {...}
+
+    for i, v in ipairs(args) do
+        args[i] = tostring(v);
+    end
+
+    local translationEntry = l10n.translations[key]
+    if translationEntry == nil then
+        Questie:Debug("ERROR: Translations for '" .. tostring(key) .. "' is missing completely!")
+        return string.format(key, unpack(args))
+    end
+
+    local translationValue = translationEntry[locale]
+    if (not translationValue) then
+        Questie:Debug("ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language " .. locale .. "!")
+        return string.format(key, unpack(args))
+    end
+
+    if translationValue == true then
+        -- Fallback to enUS which is the key
+        return string.format(key, unpack(args))
+    end
+
+    return string.format(translationValue, unpack(args))
+end
+
+setmetatable(l10n, { __call = function(_, ...) return l10n:translate(...) end})
+
 function l10n:FallbackLocale(lang)
     if (not lang) then
         return 'enUS'
@@ -133,72 +160,4 @@ end
 
 function l10n:GetUILocale()
     return locale
-end
-
-function l10n:translate(key, ...)
-    local args = {...}
-
-    for i, v in ipairs(args) do
-        args[i] = tostring(v);
-    end
-
-    local translationEntry = l10n.translations[key]
-    if translationEntry == nil then
-        Questie:Debug("ERROR: Translations for '" .. tostring(key) .. "' is missing completely!")
-        return string.format(key, unpack(args))
-    end
-
-    local translationValue = translationEntry[locale]
-    if (not translationValue) then
-        Questie:Debug("ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language " .. locale .. "!")
-        return string.format(key, unpack(args))
-    end
-
-    if translationValue == true then
-        -- Fallback to enUS which is the key
-        return string.format(key, unpack(args))
-    end
-
-    return string.format(translationValue, unpack(args))
-end
-
-setmetatable(l10n, { __call = function(_, ...) return l10n:translate(...) end})
-
-function l10n:GetUIStringNillable(key, ...)
-    local result, val = pcall(_GetUIStringNillable, key, ...)
-    if result then
-        return val
-    else
-        return nil
-    end
-end
-
-_GetUIStringNillable = function(key, ...)
-    if key then
-        -- convert all args to string
-        local arg = {...}
-        for i, v in ipairs(arg) do
-            arg[i] = tostring(v)
-        end
-
-        local loc = supportedLocals
-
-        if loc[locale] then
-            if loc[locale][key] then
-                return string.format(loc[locale][key], unpack(arg))
-            else
-                if loc['enUS'] and loc['enUS'][key] then
-                    return string.format(loc['enUS'][key], unpack(arg))
-                else
-                    return nil
-                end
-            end
-        else
-            if loc['enUS'] and loc['enUS'][key] then
-                return string.format(loc['enUS'][key], unpack(arg))
-            else
-                return nil
-            end
-        end
-    end
 end

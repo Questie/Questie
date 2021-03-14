@@ -86,7 +86,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if not _spawned[id] then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then
-                            QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
+                            QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
                             _spawned[id] = true
                         end
                     end
@@ -109,7 +109,7 @@ local function build(key)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
-        text = (l10n:GetUIStringNillable(tostring(key)) or key),
+        text = (l10n(tostring(key)) or key),
         func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end, 
         icon=icon, 
         notCheckable=false, 
@@ -188,7 +188,7 @@ function QuestieMenu:Show()
         local secondaryProfMenuSorted = {}
         local profMenuData = {}
         for key, v in pairs(Questie.db.global.professionTrainers) do
-            local localizedKey = (l10n:GetUIStringNillable(tostring(key)) or key)
+            local localizedKey = (l10n(tostring(key)) or key)
             profMenuData[localizedKey] = build(key)
             if secondaryProfessions[key] then
                 tinsert(secondaryProfMenuSorted, localizedKey)
@@ -213,7 +213,7 @@ function QuestieMenu:Show()
         local vendorMenuSorted = {}
         local vendorMenuData = {}
         for key, v in pairs(Questie.db.char.vendorList) do
-            local localizedKey = (l10n:GetUIStringNillable(tostring(key)) or key)
+            local localizedKey = (l10n(tostring(key)) or key)
             vendorMenuData[localizedKey] = build(key)
             tinsert(vendorMenuSorted, localizedKey)
         end
