@@ -147,5 +147,5 @@ local professionLocales = {
 }
 
 for k, v in pairs(professionLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

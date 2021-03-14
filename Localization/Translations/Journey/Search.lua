@@ -302,5 +302,5 @@ local searchLocales = {
 }
 
 for k, v in pairs(searchLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

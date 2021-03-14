@@ -30,7 +30,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 
     -- Header
     local header = AceGUI:Create("Heading")
-    header:SetText(i10n('Select Your Continent and Zone'))
+    header:SetText(l10n('Select Your Continent and Zone'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -45,7 +45,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
     QuestieJourneyUtils:Spacer(container)
 
     header = AceGUI:Create("Heading")
-    header:SetText(i10n('Zone Quests'))
+    header:SetText(l10n('Zone Quests'))
     header:SetFullWidth(true)
     container:AddChild(header)
 
@@ -60,7 +60,7 @@ end
 _CreateContinentDropdown = function()
     local dropdown = AceGUI:Create("LQDropdown")
     dropdown:SetList(QuestieJourney.continents)
-    dropdown:SetText(i10n('Select Your Continent'))
+    dropdown:SetText(l10n('Select Your Continent'))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
 
     currentContinentId = QuestiePlayer:GetCurrentContinentId()
@@ -88,7 +88,7 @@ _CreateZoneDropdown = function()
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     elseif currentZoneId == RESET then
-        dropdown:SetText(i10n('Select Your Zone'))
+        dropdown:SetText(l10n('Select Your Zone'))
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
         dropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
     else
@@ -100,13 +100,13 @@ _CreateZoneDropdown = function()
 end
 
 _HandleContinentSelection = function(key, checked)
-    if (key.value == i10n.questCategoryKeys.CLASS) then
+    if (key.value == l10n.questCategoryKeys.CLASS) then
         local _, class, _ = UnitClass("player")
         local classKey = QuestieDB:GetZoneOrSortForClass(class)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()
-    elseif (key.value == i10n.questCategoryKeys.PROFESSIONS) then
+    elseif (key.value == l10n.questCategoryKeys.PROFESSIONS) then
         local professionList = QuestieJourney.zones[key.value]
         local playerProfessions = QuestieProfessions:GetProfessionNames()
 
@@ -119,9 +119,9 @@ _HandleContinentSelection = function(key, checked)
                 end
             end
         end
-        local text = i10n('Select Your Profession')
+        local text = l10n('Select Your Profession')
         if (not next(relevantProfessions)) then
-            text = i10n('No Quests found')
+            text = l10n('No Quests found')
             zoneDropdown:SetDisabled(true)
         else
             zoneDropdown:SetDisabled(false)
@@ -132,7 +132,7 @@ _HandleContinentSelection = function(key, checked)
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
-        zoneDropdown:SetText(i10n('JOURNEY_SELECT_ZONE'))
+        zoneDropdown:SetText(l10n('JOURNEY_SELECT_ZONE'))
         zoneDropdown:SetDisabled(false)
         zoneDropdown.frame:Show()
     end

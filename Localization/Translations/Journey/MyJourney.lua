@@ -302,5 +302,5 @@ local myJourneyLocales = {
 }
 
 for k, v in pairs(myJourneyLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

@@ -87,7 +87,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 end
             end
         end
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: ".. i10n('Unloading quest frames: %s', questId))
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: ".. l10n('Unloading quest frames: %s', questId))
     end
 end
 

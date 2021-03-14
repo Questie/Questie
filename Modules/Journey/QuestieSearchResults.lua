@@ -64,16 +64,16 @@ local function CreateShowHideButton(id)
     local button = AceGUI:Create('Button')
     button.id = id
     if not QuestieMap.manualFrames[id] then
-        button:SetText(i10n('Show on Map'))
+        button:SetText(l10n('Show on Map'))
         button:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
     else
-        button:SetText(i10n('Remove from Map'))
+        button:SetText(l10n('Remove from Map'))
         button:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
     end
     -- Functions for showing/hiding and switching behaviour afterwards
     function button:RemoveFromMap(self)
         QuestieMap:UnloadManualFrames(self.id)
-        self:SetText(i10n('Show on Map'))
+        self:SetText(l10n('Show on Map'))
         self:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
     end
     function button:ShowOnMap(self)
@@ -82,7 +82,7 @@ local function CreateShowHideButton(id)
         elseif self.id < 0 then
             QuestieMap:ShowObject(-self.id)
         end
-        self:SetText(i10n('Remove from Map'))
+        self:SetText(l10n('Remove from Map'))
         self:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
     end
     return button
@@ -286,7 +286,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             end
         end
     else
-        spawnZone:SetText(i10n('No spawn data available.'))
+        spawnZone:SetText(l10n('No spawn data available.'))
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
     end
@@ -297,7 +297,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local startGroup = AceGUI:Create("InlineGroup");
         startGroup:SetFullWidth(true);
         startGroup:SetLayout("flow");
-        startGroup:SetTitle(i10n('Starts the following quests:'));
+        startGroup:SetTitle(l10n('Starts the following quests:'));
         f:AddChild(startGroup);
 
         local startQuests = {};
@@ -318,7 +318,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
         if #startQuests == 0 then
             local noquest = AceGUI:Create("Label");
-            noquest:SetText(i10n('No quests to list.'));
+            noquest:SetText(l10n('No quests to list.'));
             noquest:SetFullWidth(true);
             startGroup:AddChild(noquest);
         end
@@ -332,7 +332,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local endGroup = AceGUI:Create("InlineGroup");
         endGroup:SetFullWidth(true);
         endGroup:SetLayout("flow");
-        endGroup:SetTitle(i10n('Ends the following quests:'));
+        endGroup:SetTitle(l10n('Ends the following quests:'));
         f:AddChild(endGroup);
 
         local endQuests = {};
@@ -353,7 +353,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
         if #endQuests == 0 then
             local noquest = AceGUI:Create("Label");
-            noquest:SetText(i10n('No quests to list.'));
+            noquest:SetText(l10n('No quests to list.'));
             noquest:SetFullWidth(true);
             endGroup:AddChild(noquest);
         end
@@ -492,7 +492,7 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
         end
         if (resultCountTotal == 0) then
             local noresults = AceGUI:Create("Label");
-            noresults:SetText(Questie:Colorize(i10n('No Match for Search Results: %s', query), 'yellow'));
+            noresults:SetText(Questie:Colorize(l10n('No Match for Search Results: %s', query), 'yellow'));
             noresults:SetFullWidth(true);
             searchGroup:AddChild(noresults);
             return;
@@ -503,22 +503,22 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
         searchResultTabs:SetLayout("Flow");
         searchResultTabs:SetTabs({
             {
-                text = i10n('Quests') .. " ("..resultCounts.quest..")",
+                text = l10n('Quests') .. " ("..resultCounts.quest..")",
                 value = "quest",
                 disabled = resultCounts.quest == 0,
             },
             {
-                text = i10n('NPCs') .. " ("..resultCounts.npc..")",
+                text = l10n('NPCs') .. " ("..resultCounts.npc..")",
                 value = "npc",
                 disabled = resultCounts.npc == 0,
             },
             {
-                text = i10n('Objects') .. " ("..resultCounts.object..")",
+                text = l10n('Objects') .. " ("..resultCounts.object..")",
                 value = "object",
                 disabled = resultCounts.object == 0,
             },
             {
-                text = i10n('Items') .. " ("..resultCounts.item..")",
+                text = l10n('Items') .. " ("..resultCounts.item..")",
                 value = "item",
                 disabled = resultCounts.item == 0,
             },
@@ -541,7 +541,7 @@ local searchButton
 function QuestieSearchResults:DrawSearchTab(container)
     -- Header
     local header = AceGUI:Create("Heading");
-    header:SetText(i10n('Enter in your Search'));
+    header:SetText(l10n('Enter in your Search'));
     header:SetFullWidth(true);
     container:AddChild(header);
     QuestieJourneyUtils:Spacer(container);
@@ -552,8 +552,8 @@ function QuestieSearchResults:DrawSearchTab(container)
     searchButton = AceGUI:Create("Button");
     -- switching between search types
     typeDropdown:SetList({
-        [1] = i10n('Search By Name'),
-        [2] = i10n('Search By ID'),
+        [1] = l10n('Search By Name'),
+        [2] = l10n('Search By ID'),
     });
     typeDropdown:SetValue(Questie.db.char.searchType);
     typeDropdown:SetCallback("OnValueChanged", function(key, _)
@@ -566,7 +566,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     -- search input field
     searchBox:SetFocus();
     searchBox:SetRelativeWidth(0.6);
-    searchBox:SetLabel(i10n('Advanced Search') .. " (".. i10n('Quests') .. ", ".. i10n('NPCs') .. ", ".. i10n('Objects') .. ", ".. i10n('Items') .. ")");
+    searchBox:SetLabel(l10n('Advanced Search') .. " (".. l10n('Quests') .. ", ".. l10n('NPCs') .. ", ".. l10n('Objects') .. ", ".. l10n('Items') .. ")");
     searchBox:DisableButton(true);
     searchBox:SetCallback("OnTextChanged", function()
         if not (searchBox:GetText() == '') then
@@ -588,7 +588,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     end
     container:AddChild(searchBox);
     -- search button
-    searchButton:SetText(i10n('Search'));
+    searchButton:SetText(l10n('Search'));
     searchButton:SetDisabled(true);
     searchButton:SetCallback("OnClick", function()
         local text = string.trim(searchBox:GetText(), " \n\r\t[]");

@@ -770,5 +770,5 @@ local generalOptionsLocales = {
 }
 
 for k, v in pairs(generalOptionsLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

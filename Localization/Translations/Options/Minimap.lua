@@ -218,5 +218,5 @@ local minimapOptionsLocales = {
 }
 
 for k, v in pairs(minimapOptionsLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

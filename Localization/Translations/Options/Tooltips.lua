@@ -122,5 +122,5 @@ local tooltipOptionsLocales = {
 }
 
 for k, v in pairs(tooltipOptionsLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

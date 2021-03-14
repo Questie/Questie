@@ -20,7 +20,7 @@ function _QuestieJourney:GetHistory()
     for _, year in pairs(years) do
         local yearTable = {
             value = year,
-            text = i10n('Year %s', year),
+            text = l10n('Year %s', year),
             children = {},
         }
 
@@ -92,25 +92,25 @@ function _QuestieJourney:GetEntryText(entry)
     local entryText = ""
 
     if entry.Event == "Level" then
-        entryText = i10n('You Reached Level %s', entry.NewLevel)
+        entryText = l10n('You Reached Level %s', entry.NewLevel)
     elseif entry.Event == "Note" then
-        entryText = i10n('Note: %s', entry.Title)
+        entryText = l10n('Note: %s', entry.Title)
     elseif entry.Event == "Quest" then
         local state = ""
         if entry.SubType == "Accept" then
-            state = i10n('Accepted')
+            state = l10n('Accepted')
         elseif entry.SubType == "Complete" then
-            state = i10n('Completed')
+            state = l10n('Completed')
         elseif entry.SubType == "Abandon" then
-            state = i10n('Abandoned')
+            state = l10n('Abandoned')
         else
             state = "ERROR!!"
         end
         local qName = QuestieDB.QueryQuestSingle(entry.Quest, "name")
         if qName then
-            entryText = i10n('Quest %s: %s', state, qName)
+            entryText = l10n('Quest %s: %s', state, qName)
         else
-            entryText = i10n('JOURNEY_MISSING_QUEST')
+            entryText = l10n('JOURNEY_MISSING_QUEST')
         end
     end
     return entryText

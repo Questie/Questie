@@ -134,5 +134,5 @@ local trackerUILocales = {
 }
 
 for k, v in pairs(trackerUILocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

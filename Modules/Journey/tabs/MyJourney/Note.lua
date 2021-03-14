@@ -28,7 +28,7 @@ end
 _CreateNoteWindow = function ()
     local notePopup = AceGUI:Create("Window")
     notePopup:Show()
-    notePopup:SetTitle(i10n('Add New Adventure Note'))
+    notePopup:SetTitle(l10n('Add New Adventure Note'))
     notePopup:SetWidth(400)
     notePopup:SetHeight(400)
     notePopup:EnableResize(false)
@@ -68,13 +68,13 @@ _CreateContainer = function ()
     container:SetFullHeight(true)
     container:SetFullWidth(true)
     container:SetLayout('flow')
-    container:SetTitle(i10n('New Note For: %s', today))
+    container:SetTitle(l10n('New Note For: %s', today))
     return container
 end
 
 _CreateDescription  =function ()
     local desc = AceGUI:Create("Label")
-    desc:SetText(Questie:Colorize(i10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'), 'yellow'))
+    desc:SetText(Questie:Colorize(l10n('Create an entry in your journal to remember a specific moment. Simply supply a title and description and Questie will remember it for you!'), 'yellow'))
     desc:SetFullWidth(true)
     return desc
 end
@@ -82,7 +82,7 @@ end
 _CreateTitleBox = function ()
     local box = AceGUI:Create("EditBox")
     box:SetFullWidth(true)
-    box:SetLabel(i10n('Entry Title'))
+    box:SetLabel(l10n('Entry Title'))
     box:DisableButton(true)
     box:SetFocus()
     return box
@@ -92,14 +92,14 @@ _CreateMessageBox = function ()
     local box = AceGUI:Create("MultiLineEditBox")
     box:SetFullWidth(true)
     box:SetNumLines(12)
-    box:SetLabel(i10n('Journal Entry'))
+    box:SetLabel(l10n('Journal Entry'))
     box:DisableButton(true)
     return box
 end
 
 _CreateNoteAddButton = function ()
     local addEntryBtn = AceGUI:Create("Button")
-    addEntryBtn:SetText(i10n('Add Entry'))
+    addEntryBtn:SetText(l10n('Add Entry'))
     addEntryBtn:SetCallback("OnClick", _HandleNoteEntry)
     return addEntryBtn
 end
@@ -107,10 +107,10 @@ end
 _HandleNoteEntry = function ()
     local error = Questie:Colorize('[Questie] ', 'blue')
     if titleBox:GetText() == '' then
-        print (error .. i10n('No Title was entered. You must enter a title before submitting your note.'))
+        print (error .. l10n('No Title was entered. You must enter a title before submitting your note.'))
         return
     elseif messageBox:GetText() == '' then
-        print (error .. i10n('No Note was entered. You must enter a note before submitting.'))
+        print (error .. l10n('No Note was entered. You must enter a note before submitting.'))
         return
     end
     local data = {}

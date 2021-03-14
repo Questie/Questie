@@ -312,7 +312,7 @@ function _QuestieTracker:CreateBaseFrame()
 
         if not result then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-            print(i10n("Error: Questie tracker in invalid location, resetting..."))
+            print(l10n("Error: Questie tracker in invalid location, resetting..."))
 
             if QuestWatchFrame then
                 local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
@@ -333,7 +333,7 @@ function _QuestieTracker:CreateBaseFrame()
 
             if not result then
                 Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-                print(i10n("Error: Questie tracker in invalid location, resetting..."))
+                print(l10n("Error: Questie tracker in invalid location, resetting..."))
                 _QuestieTracker:SetSafePoint(frm)
             end
         else
@@ -375,7 +375,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.trackedQuests.label:SetText(i10n("Questie Tracker: ") .. tostring(activeQuests) .. "/20")
+            self.trackedQuests.label:SetText(l10n("Questie Tracker: ") .. tostring(activeQuests) .. "/20")
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
 
             self.trackedQuests:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth())
@@ -531,11 +531,11 @@ function _QuestieTracker:CreateActiveQuestsHeader()
         end
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
         GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-        GameTooltip:AddLine(Questie:Colorize(i10n("Left Click") , "gray") .. ": " .. i10n("Toggle Options"))
-        GameTooltip:AddLine(Questie:Colorize(i10n("Right Click") , "gray") .. ": " .. i10n("Toggle My Journey"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") , "gray") .. ": " .. l10n("Toggle Options"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") , "gray") .. ": " .. l10n("Toggle My Journey"))
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(i10n("Left Click + Hold") , "gray") .. ": " .. i10n("Drag while Unlocked"))
-        GameTooltip:AddLine(Questie:Colorize(i10n("Ctrl + Left Click + Hold"), "gray") .. ": " .. i10n("Drag while Locked"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") , "gray") .. ": " .. l10n("Drag while Unlocked"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "gray") .. ": " .. l10n("Drag while Locked"))
         GameTooltip:Show()
 
         _OnEnter(self)

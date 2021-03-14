@@ -21,20 +21,20 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 
 function QuestieOptions.tabs.tooltip:Initialize()
     return {
-        name = function() return i10n('Tooltips'); end,
+        name = function() return l10n('Tooltips'); end,
         type = "group",
         order = 16,
         args = {
             tooltip_options = {
                 type = "header",
                 order = 1,
-                name = function() return i10n('Tooltip options'); end,
+                name = function() return l10n('Tooltip options'); end,
             },
             enableTooltipsToggle = {
                 type = "toggle",
                 order = 1.1,
-                name = function() return i10n('Enable Tooltips'); end,
-                desc = function() return i10n('When this is enabled, quest info will be added to relevant mob/item tooltips.'); end,
+                name = function() return l10n('Enable Tooltips'); end,
+                desc = function() return l10n('When this is enabled, quest info will be added to relevant mob/item tooltips.'); end,
                 width = 1.5,
                 get = function () return Questie.db.global.enableTooltips; end,
                 set = function (info, value) Questie.db.global.enableTooltips = value end
@@ -42,8 +42,8 @@ function QuestieOptions.tabs.tooltip:Initialize()
             showQuestLevels = {
                 type = "toggle",
                 order = 1.2,
-                name = function() return i10n('Show Quest Level in Tooltips'); end,
-                desc = function() return i10n('When this is checked, the level of quests will show in the tooltips.'); end,
+                name = function() return l10n('Show Quest Level in Tooltips'); end,
+                desc = function() return l10n('When this is checked, the level of quests will show in the tooltips.'); end,
                 width = 1.5,
                 disabled = function() return not Questie.db.global.enableTooltips; end,
                 get = function() return Questie.db.global.enableTooltipsQuestLevel; end,
@@ -58,8 +58,8 @@ function QuestieOptions.tabs.tooltip:Initialize()
             partyOnlyToggle = {
                 type = "toggle",
                 order = 1.3,
-                name = function() return i10n('Only show party members'); end,
-                desc = function() return i10n('When this is enabled, shared quest info will only show players in your party.'); end,
+                name = function() return l10n('Only show party members'); end,
+                desc = function() return l10n('When this is enabled, shared quest info will only show players in your party.'); end,
                 width = 1.5,
                 get = function () return Questie.db.global.onlyPartyShared; end,
                 set = function (info, value) Questie.db.global.onlyPartyShared = value end
@@ -67,8 +67,8 @@ function QuestieOptions.tabs.tooltip:Initialize()
             questsInNpcTooltip = {
                 type = "toggle",
                 order = 1.4,
-                name = function() return i10n('Show quests in NPC tooltips'); end,
-                desc = function() return i10n('Show quests (available/complete) in the NPC tooltips.'); end,
+                name = function() return l10n('Show quests in NPC tooltips'); end,
+                desc = function() return l10n('Show quests (available/complete) in the NPC tooltips.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.showQuestsInNpcTooltip; end,
                 set = function (info, value) Questie.db.char.showQuestsInNpcTooltip = value end

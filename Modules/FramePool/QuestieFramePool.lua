@@ -66,18 +66,18 @@ end
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     questID = 0, -- set before showing
-    button1 = i10n("Yes"),
-    button2 = i10n("No"),
+    button1 = l10n("Yes"),
+    button2 = l10n("No"),
     OnAccept = function()
         QuestieQuest:HideQuest(StaticPopupDialogs["QUESTIE_CONFIRMHIDE"].questID)
     end,
     SetQuest = function(self, id)
         self.questID = id
-        self.text = i10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieDB:GetColoredQuestName(id, false, true))
+        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieDB:GetColoredQuestName(id, false, true))
 
         -- locale might not be loaded when this is first created (this does happen almost always)
-        self.button1 = i10n("Yes")
-        self.button2 = i10n("No")
+        self.button1 = l10n("Yes")
+        self.button2 = l10n("No")
     end,
     OnShow = function(self)
         self:SetFrameStrata("TOOLTIP")
@@ -447,21 +447,21 @@ end
 function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
     local tip = {};
     if icon.data.Type == "complete" then
-        tip.type = i10n("(Complete)");
+        tip.type = l10n("(Complete)");
     else
 
         local quest = icon.data.QuestData
         local questType, questTag = quest:GetQuestTagInfo();
 
         if (QuestieDB:IsRepeatable(icon.data.Id)) then
-            tip.type = i10n("(Repeatable)");
+            tip.type = l10n("(Repeatable)");
         elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)
             tip.type = "("..questTag..")";
         elseif (QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
-            tip.type = i10n("(Event)");
+            tip.type = l10n("(Event)");
         else
-            tip.type = i10n("(Available)");
+            tip.type = l10n("(Available)");
         end
     end
     tip.title = QuestieDB:GetColoredQuestName(icon.data.Id, false, true)
@@ -504,7 +504,7 @@ function _QuestieFramePool:GetObjectiveTooltip(icon)
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
-                        playerType = " ("..i10n("Nearby")..")"
+                        playerType = " (".. l10n("Nearby")..")"
                     end
                 end
                 if playerColor then
@@ -734,14 +734,14 @@ function _QuestieFramePool:QuestieTooltip()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
-        local xpString = i10n('XP');
+        local xpString = l10n('XP');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
         for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
             if (firstLine and not shift) then
-                self:AddDoubleLine(questTitle, "("..i10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                 firstLine = false;
             elseif (firstLine and shift) then
                 self:AddLine(questTitle, 0.2, 1, 0.2);
@@ -788,7 +788,7 @@ function _QuestieFramePool:QuestieTooltip()
             local questTitle = QuestieDB:GetColoredQuestName(questId, true, true);
             if haveGiver then
                 self:AddLine(" ");
-                self:AddDoubleLine(questTitle, i10n("(Active)"), 1, 1, 1, 1, 1, 0);
+                self:AddDoubleLine(questTitle, l10n("(Active)"), 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
                 if (quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
@@ -796,7 +796,7 @@ function _QuestieFramePool:QuestieTooltip()
                     self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
-                    self:AddDoubleLine(questTitle, "("..i10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                    self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
                     firstLine = false;
                 else
                     self:AddLine(questTitle);

@@ -1,6 +1,6 @@
-i10n = {}
-i10n.locale = {}
-i10n.translations = {}
+l10n = {}
+l10n.locale = {}
+l10n.translations = {}
 
 LangItemLookup = {}
 LangNameLookup = {}
@@ -17,7 +17,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local locale = 'enUS'
 
-i10n.questCategoryKeys = {
+l10n.questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
     KALIMDOR = 2,
     DUNGEONS = 3,
@@ -29,7 +29,7 @@ i10n.questCategoryKeys = {
 
 local _GetUIStringNillable
 
-function i10n:PostBoot()
+function l10n:PostBoot()
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
     for id in pairs(QuestieDB.ObjectPointers) do
         local name = QuestieDB.QueryObjectSingle(id, "name")
@@ -47,7 +47,7 @@ function i10n:PostBoot()
     LangQuestCategory = LangQuestCategory[locale] or LangQuestCategory["enUS"] or {}
 end
 
-function i10n:Initialize()
+function l10n:Initialize()
     -- Load item locales
     for id, name in pairs(LangItemLookup[locale] or {}) do
         if QuestieDB.itemData[id] and name then
@@ -91,12 +91,12 @@ function i10n:Initialize()
     end
 end
 
-function i10n:FallbackLocale(lang)
+function l10n:FallbackLocale(lang)
     if not lang then
         return 'enUS'
     end
 
-    if i10n.locale[lang] then
+    if l10n.locale[lang] then
         return lang
     elseif lang == 'enGB' then
         return 'enUS'
@@ -113,26 +113,26 @@ function i10n:FallbackLocale(lang)
     end
 end
 
-function i10n:SetUILocale(lang)
+function l10n:SetUILocale(lang)
     if lang then
-        locale = i10n:FallbackLocale(lang)
+        locale = l10n:FallbackLocale(lang)
     else
-        locale = i10n:FallbackLocale(GetLocale())
+        locale = l10n:FallbackLocale(GetLocale())
     end
 end
 
-function i10n:GetUILocale()
+function l10n:GetUILocale()
     return locale
 end
 
-function i10n:translate(key, ...)
+function l10n:translate(key, ...)
     local args = {...}
 
     for i, v in ipairs(args) do
         args[i] = tostring(v);
     end
 
-    local translationEntry = i10n.translations[key]
+    local translationEntry = l10n.translations[key]
     if (not translationEntry) then
         return "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!"
     end
@@ -150,9 +150,9 @@ function i10n:translate(key, ...)
     return string.format(translationValue, unpack(args))
 end
 
-setmetatable(i10n, {__call = function(_, ...) return i10n:translate(...) end})
+setmetatable(l10n, { __call = function(_, ...) return l10n:translate(...) end})
 
-function i10n:GetUIStringNillable(key, ...)
+function l10n:GetUIStringNillable(key, ...)
     local result, val = pcall(_GetUIStringNillable, key, ...)
     if result then
         return val
@@ -169,7 +169,7 @@ _GetUIStringNillable = function(key, ...)
             arg[i] = tostring(v)
         end
 
-        local loc = i10n.locale
+        local loc = l10n.locale
 
         if loc[locale] then
             if loc[locale][key] then

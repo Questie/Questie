@@ -51,7 +51,7 @@ Database\Corrections\QuestieEvent.lua
 Database\compiler.lua
 
 #Localization
-Localization\i10n.lua
+Localization\l10n.lua
 Localization\Translations\Translations.xml
 
 Localization\lookups\lookupItems\lookupItems.xml

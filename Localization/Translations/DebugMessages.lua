@@ -446,5 +446,5 @@ local debugMessagesLocales = {
 }
 
 for k, v in pairs(debugMessagesLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

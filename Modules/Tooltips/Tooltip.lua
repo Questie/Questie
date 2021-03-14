@@ -233,7 +233,7 @@ function QuestieTooltips:GetTooltip(key)
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
-                        playerType = " ("..i10n("Nearby")..")"
+                        playerType = " (".. l10n("Nearby")..")"
                     end
                 end
                 if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case

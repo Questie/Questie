@@ -254,5 +254,5 @@ local dbmHudOptionsLocales = {
 }
 
 for k, v in pairs(dbmHudOptionsLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

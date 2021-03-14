@@ -206,5 +206,5 @@ local tooltipsUILocales = {
 }
 
 for k, v in pairs(tooltipsUILocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end

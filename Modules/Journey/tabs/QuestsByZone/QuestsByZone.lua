@@ -95,27 +95,27 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local zoneTree = {
         [1] = {
             value = "a",
-            text = i10n('Available Quests'),
+            text = l10n('Available Quests'),
             children = {}
         },
         [2] = {
             value = "p",
-            text = i10n('Missing Pre Quest'),
+            text = l10n('Missing Pre Quest'),
             children = {}
         },
         [3] = {
             value = "c",
-            text = i10n('Completed Quests'),
+            text = l10n('Completed Quests'),
             children = {}
         },
         [4] = {
             value = "r",
-            text = i10n('Repeatable Quests'),
+            text = l10n('Repeatable Quests'),
             children = {},
         },
         [5] = {
             value = "u",
-            text = i10n('Unobtainable Quests'),
+            text = l10n('Unobtainable Quests'),
             children = {},
         }
     }

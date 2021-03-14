@@ -206,5 +206,5 @@ local nameplateOptionsLocales = {
 }
 
 for k, v in pairs(nameplateOptionsLocales) do
-    i10n.translations[k] = v
+    l10n.translations[k] = v
 end
