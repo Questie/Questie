@@ -1,4 +1,4 @@
-LangNameLookup["ptBR"] = {
+l10n.npcNameLookup["ptBR"] = {
 [3] = {"Comedor de Carne",nil},
 [6] = {"Kobold Daninho",nil},
 [30] = {"Aranha da Floresta",nil},

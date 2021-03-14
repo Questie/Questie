@@ -1,4 +1,4 @@
-LangQuestCategory['enUS']= {
+l10n.questCategoryLookup['enUS']= {
     [-1] = "Epic",
     [-21] = "Wailing Caverns",
     [-22] = "Seasonal",

@@ -89,7 +89,7 @@ function QuestiePlayer:GetCurrentContinentId()
     end
 
     local currentContinentId = 1 -- Default to Eastern Kingdom
-    for cId, cont in pairs(LangZoneLookup) do
+    for cId, cont in pairs(l10n.zoneLookup) do
         for id, _ in pairs(cont) do
             if id == currentZoneId then
                 currentContinentId = cId

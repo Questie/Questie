@@ -1,4 +1,4 @@
-LangItemLookup["zhTW"] = {
+l10n.itemLookup["zhTW"] = {
 [118] = "初級治療藥水",
 [159] = "清涼的泉水",
 [182] = "加瑞克的頭顱",

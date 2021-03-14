@@ -1,4 +1,4 @@
-LangContinentLookup['prBR']= {
+l10n.continentLookup['prBR']= {
     [1] = "Reinos do Leste",
     [2] = "Kalimdor",
     [3] = "Masmorras",
@@ -8,7 +8,7 @@ LangContinentLookup['prBR']= {
     [7] = "Eventos",
 }
 
-LangZoneLookup['ptBR']= {
+l10n.zoneLookup['ptBR']= {
     [1] = {
         [13] = "A Árvore do Mundo",
         [2561] = "A Garra",
@@ -1096,7 +1096,7 @@ LangZoneLookup['ptBR']= {
     },
 }
 
-LangZoneCategoryLookup['ptBR']= {
+l10n.zoneCategoryLookup['ptBR']= {
     [1] = {
         [36] = "Montanhas de Alterac",
         [45] = "Planalto Arathi",

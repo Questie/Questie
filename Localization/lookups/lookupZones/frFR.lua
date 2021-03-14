@@ -1,4 +1,4 @@
-LangContinentLookup['frFR']= {
+l10n.continentLookup['frFR']= {
     [1] = "Royaumes de l'Est",
     [2] = "Kalimdor",
     [3] = "Donjons",
@@ -8,7 +8,7 @@ LangContinentLookup['frFR']= {
     [7] = "Événements",
 }
 
-LangZoneLookup['frFR']= {
+l10n.zoneLookup['frFR']= {
     [1] = {
         [24] = "Abbaye de Northshire",
         [1884] = "Agol'watha",
@@ -1095,7 +1095,7 @@ LangZoneLookup['frFR']= {
     },
 }
 
-LangZoneCategoryLookup['frFR']= {
+l10n.zoneCategoryLookup['frFR']= {
     [1] = {
         [36] = "Montagnes d'Alterac",
         [45] = "Hautes-terres d'Arathi",

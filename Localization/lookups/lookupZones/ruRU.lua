@@ -1,4 +1,4 @@
-LangContinentLookup["ruRU"] = {
+l10n.continentLookup["ruRU"] = {
     [1] = "Восточные Королевства",
     [2] = "Калимдор",
     [3] = "Подземелья",
@@ -8,7 +8,7 @@ LangContinentLookup["ruRU"] = {
     [7] = "События",
 }
 
-LangZoneLookup["ruRU"] = {
+l10n.zoneLookup["ruRU"] = {
     [1] = {
         [536] = "Участок Эддла",
         [348] = "Заоблачный Пик",
@@ -1095,7 +1095,7 @@ LangZoneLookup["ruRU"] = {
     },
 }
 
-LangZoneCategoryLookup["ruRU"] = {
+l10n.zoneCategoryLookup["ruRU"] = {
     [1] = {
         [36] = "Альтеракские горы",
         [45] = "Нагорье Арати",

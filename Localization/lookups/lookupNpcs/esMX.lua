@@ -1,4 +1,4 @@
-LangNameLookup["esMX"] = {
+l10n.npcNameLookup["esMX"] = {
 [3] = {"Comecarnes",nil},
 [6] = {"Alimaña kóbold",nil},
 [30] = {"Araña del bosque",nil},

@@ -1,4 +1,4 @@
-LangContinentLookup['koKR']= {
+l10n.continentLookup['koKR']= {
     [1] = "동부 왕국",
     [2] = "칼림도어",
     [3] = "던전",
@@ -8,7 +8,7 @@ LangContinentLookup['koKR']= {
     [7] = "이벤트들",
 }
 
-LangZoneLookup['koKR']= {
+l10n.zoneLookup['koKR']= {
     [1] = {
         [536] = "에이들의 은신처",
         [348] = "맹금의 봉우리",
@@ -1095,7 +1095,7 @@ LangZoneLookup['koKR']= {
     },
 }
 
-LangZoneCategoryLookup['koKR']= {
+l10n.zoneCategoryLookup['koKR']= {
     [1] = {
         [36] = "알터랙 산맥",
         [45] = "아라시 고원",

@@ -1,4 +1,4 @@
-LangObjectLookup["deDE"] = {
+l10n.objectLookup["deDE"] = {
 [31] = "Alte Löwenstatue",
 [32] = "Versunkene Truhe",
 [33] = "Verschlossene Truhe",

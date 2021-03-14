@@ -1,4 +1,4 @@
-LangItemLookup["esES"] = {
+l10n.itemLookup["esES"] = {
 [159] = "Agua de manantial refrescante",
 [182] = "Cabeza de Garrick",
 [723] = "Hígado de Dentosangre",

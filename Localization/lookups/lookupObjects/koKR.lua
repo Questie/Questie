@@ -1,5 +1,5 @@
 
-LangObjectLookup['koKR'] ={
+l10n.objectLookup['koKR'] ={
 [31] = "오래된 사자상",
 [32] = "가라앉은 상자",
 [34] = "낡은 단지",

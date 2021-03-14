@@ -1,4 +1,4 @@
-LangContinentLookup['deDE']= {
+l10n.continentLookup['deDE']= {
     [1] = "Östliche Königreiche",
     [2] = "Kalimdor",
     [3] = "Instanzen",
@@ -8,7 +8,7 @@ LangContinentLookup['deDE']= {
     [7] = "Events"
 }
 
-LangZoneLookup['deDE']= {
+l10n.zoneLookup['deDE']= {
     [1] = {
         [24] = "Abtei von Nordhain",
         [536] = "Addles Siedlung",
@@ -1095,7 +1095,7 @@ LangZoneLookup['deDE']= {
     },
 }
 
-LangZoneCategoryLookup['deDE']= {
+l10n.zoneCategoryLookup['deDE']= {
     [1] = {
         [36] = "Alteracgebirge",
         [45] = "Arathihochland",

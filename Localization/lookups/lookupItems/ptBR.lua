@@ -1,4 +1,4 @@
-LangItemLookup["ptBR"] = {
+l10n.itemLookup["ptBR"] = {
 [159] = "Água Refrescante da Fonte",
 [182] = "Cabeça do Garrick",
 [723] = "Fígado de Goretusco",

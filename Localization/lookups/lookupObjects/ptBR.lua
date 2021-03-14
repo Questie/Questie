@@ -1,4 +1,4 @@
-LangObjectLookup["ptBR"] = {
+l10n.objectLookup["ptBR"] = {
 [31] = "Estátua de Leão Antiga",
 [32] = "Baú Afundado",
 [33] = "Baú Trancado",

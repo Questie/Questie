@@ -1,4 +1,4 @@
-LangQuestCategory['frFR']= {
+l10n.questCategoryLookup['frFR']= {
     [-1] = "Épique",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Saisonnier",

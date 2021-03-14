@@ -76,7 +76,7 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
         return
     end
     if name then
-        for index, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
+        for index, gameObjectId in pairs(l10n.objectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
             if type(gameObjectId) == "number" and tooltipData then
                 --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);

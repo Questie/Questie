@@ -1,4 +1,4 @@
-LangNameLookup["ruRU"] = {
+l10n.npcNameLookup["ruRU"] = {
 [3] = {"Плотояд",nil},
 [6] = {"Кобольд-вредитель",nil},
 [30] = {"Лесной паук",nil},

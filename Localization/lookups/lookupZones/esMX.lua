@@ -1,4 +1,4 @@
-LangContinentLookup['esMX']= {
+l10n.continentLookup['esMX']= {
     [1] = "Reinos del Este",
     [2] = "Kalimdor",
     [3] = "Calabozos",
@@ -8,7 +8,7 @@ LangContinentLookup['esMX']= {
     [7] = "Eventos"
 }
 
-LangZoneLookup['esMX']= {
+l10n.zoneLookup['esMX']= {
     [1] = {
         [24] = "Abadía de Villanorte",
         [1884] = "Agol'watha",
@@ -1095,7 +1095,7 @@ LangZoneLookup['esMX']= {
     },
 }
 
-LangZoneCategoryLookup['esMX']= {
+l10n.zoneCategoryLookup['esMX']= {
     [1] = {
         [36] = "Montañas de Alterac",
         [45] = "Tierras Altas de Arathi",

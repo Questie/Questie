@@ -976,7 +976,7 @@ end
     1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
     1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
 
-    Check `LangZoneLookup` for the available IDs
+    Check `l10n.zoneLookup` for the available IDs
 ]]
 ---@param zoneId number
 ---@return table

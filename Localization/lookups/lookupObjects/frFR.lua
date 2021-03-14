@@ -1,4 +1,4 @@
-LangObjectLookup["frFR"] = {
+l10n.objectLookup["frFR"] = {
 [31] = "Statue du vieux lion",
 [32] = "Coffre englouti",
 [33] = "Coffre verrouillé",

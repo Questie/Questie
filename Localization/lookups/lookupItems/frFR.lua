@@ -1,4 +1,4 @@
-LangItemLookup["frFR"] = {
+l10n.itemLookup["frFR"] = {
 [159] = "Eau de source",
 [182] = "Tête de Garrick",
 [723] = "Foie de Broche-tripes",

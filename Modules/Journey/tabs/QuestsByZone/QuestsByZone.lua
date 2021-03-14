@@ -82,7 +82,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
 end
 
 ---Get all the available/completed/repeatable/unavailable quests
----@param zoneId number @The zone ID (Check `LangZoneLookup`)
+---@param zoneId number @The zone ID (Check `l10n.zoneLookup`)
 ---@return table<number,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)

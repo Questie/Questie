@@ -1,4 +1,4 @@
-LangQuestCategory['ruRU']= {
+l10n.questCategoryLookup['ruRU']= {
     [-1] = "Эпические",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Сезонные",

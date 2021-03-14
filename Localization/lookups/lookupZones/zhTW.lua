@@ -1,4 +1,4 @@
-LangContinentLookup['zhTW']= {
+l10n.continentLookup['zhTW']= {
     [1] = "東部王國",
     [2] = "卡林多",
     [3] = "副本",
@@ -8,7 +8,7 @@ LangContinentLookup['zhTW']= {
     [7] = "Events",
 }
 
-LangZoneLookup['zhTW']= {
+l10n.zoneLookup['zhTW']= {
     [1] = {
         [536] = "腐草農場",
         [348] = "鷹巢山",
@@ -1091,7 +1091,7 @@ LangZoneLookup['zhTW']= {
     },
 }
 
-LangZoneCategoryLookup['zhTW']= {
+l10n.zoneCategoryLookup['zhTW']= {
     [1] = {
         [36] = "奧特蘭克山脈",
         [45] = "阿拉希高地",

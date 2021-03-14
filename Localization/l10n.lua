@@ -2,15 +2,15 @@ l10n = {}
 l10n.locale = {}
 l10n.translations = {}
 
-LangItemLookup = {}
-LangNameLookup = {}
-LangObjectNameLookup = {}
-LangObjectLookup = {}
-LangQuestLookup = {}
-LangContinentLookup = {}
-LangZoneLookup = {}
-LangZoneCategoryLookup = {}
-LangQuestCategory = {}
+l10n.itemLookup = {}
+l10n.npcNameLookup = {}
+l10n.objectNameLookup = {}
+l10n.objectLookup = {}
+l10n.questLookup = {}
+l10n.continentLookup = {}
+l10n.zoneLookup = {}
+l10n.zoneCategoryLookup = {}
+l10n.questCategoryLookup = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -34,29 +34,29 @@ function l10n:PostBoot()
     for id in pairs(QuestieDB.ObjectPointers) do
         local name = QuestieDB.QueryObjectSingle(id, "name")
         if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
-            if not LangObjectNameLookup[name] then
-                LangObjectNameLookup[name] = {}
+            if not l10n.objectNameLookup[name] then
+                l10n.objectNameLookup[name] = {}
             end
-            table.insert(LangObjectNameLookup[name], id)
+            table.insert(l10n.objectNameLookup[name], id)
         end
     end
 
-    LangContinentLookup = LangContinentLookup[locale] or LangContinentLookup["enUS"] or {}
-    LangZoneLookup = LangZoneLookup[locale] or LangZoneLookup["enUS"] or {}
-    LangZoneCategoryLookup = LangZoneCategoryLookup[locale] or LangZoneCategoryLookup["enUS"] or {}
-    LangQuestCategory = LangQuestCategory[locale] or LangQuestCategory["enUS"] or {}
+    l10n.continentLookup = l10n.continentLookup[locale] or l10n.continentLookup["enUS"] or {}
+    l10n.zoneLookup = l10n.zoneLookup[locale] or l10n.zoneLookup["enUS"] or {}
+    l10n.zoneCategoryLookup = l10n.zoneCategoryLookup[locale] or l10n.zoneCategoryLookup["enUS"] or {}
+    l10n.questCategoryLookup = l10n.questCategoryLookup[locale] or l10n.questCategoryLookup["enUS"] or {}
 end
 
 function l10n:Initialize()
     -- Load item locales
-    for id, name in pairs(LangItemLookup[locale] or {}) do
+    for id, name in pairs(l10n.itemLookup[locale] or {}) do
         if QuestieDB.itemData[id] and name then
             QuestieDB.itemData[id][QuestieDB.itemKeys.name] = name
         end
     end
 
     -- data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
-    for id, data in pairs(LangQuestLookup[locale] or {}) do
+    for id, data in pairs(l10n.questLookup[locale] or {}) do
         if QuestieDB.questData[id] then
             if data[1] then
                 QuestieDB.questData[id][QuestieDB.questKeys.name] = data[1]
@@ -73,7 +73,7 @@ function l10n:Initialize()
         end
     end
     -- Load NPC locales
-    for id, data in pairs(LangNameLookup[locale] or {}) do
+    for id, data in pairs(l10n.npcNameLookup[locale] or {}) do
         if QuestieDB.npcData[id] and data then
             if type(data) == "string" then
                 QuestieDB.npcData[id][QuestieDB.npcKeys.name] = data
@@ -84,7 +84,7 @@ function l10n:Initialize()
         end
     end
     -- Load object locales
-    for id, name in pairs(LangObjectLookup[locale] or {}) do
+    for id, name in pairs(l10n.objectLookup[locale] or {}) do
         if QuestieDB.objectData[id] and name then
             QuestieDB.objectData[id][QuestieDB.objectKeys.name] = name
         end

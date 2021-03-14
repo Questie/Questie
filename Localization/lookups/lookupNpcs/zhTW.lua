@@ -1,4 +1,4 @@
-LangNameLookup["zhTW"] = {
+l10n.npcNameLookup["zhTW"] = {
 [3] = {"食腐者",nil},
 [6] = {"狗頭人歹徒",nil},
 [30] = {"森林蜘蛛",nil},

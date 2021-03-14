@@ -226,7 +226,7 @@ end
 
 function ZoneDB:GetRelevantZones()
     local zones = {}
-    for category, data in pairs(LangZoneCategoryLookup) do
+    for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
         for id, zoneName in pairs(data) do
             local zoneQuests = zoneMap[id]

@@ -1,4 +1,4 @@
-LangItemLookup["deDE"] = {
+l10n.itemLookup["deDE"] = {
 [159] = "Erfrischendes Quellwasser",
 [182] = "Garricks Kopf",
 [723] = "Geiferzahnleber",

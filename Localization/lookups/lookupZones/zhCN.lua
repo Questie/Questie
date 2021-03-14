@@ -1,4 +1,4 @@
-LangContinentLookup['zhCN']= {
+l10n.continentLookup['zhCN']= {
     [1] = "东部王国",
     [2] = "卡利姆多",
     [3] = "地下城",
@@ -8,7 +8,7 @@ LangContinentLookup['zhCN']= {
     [7] = "事件",
 }
 
-LangZoneLookup['zhCN']= {
+l10n.zoneLookup['zhCN']= {
     [1] = {
         [1] = "丹莫罗",
         [2] = "长滩",
@@ -1047,7 +1047,7 @@ LangZoneLookup['zhCN']= {
     },
 }
 
-LangZoneCategoryLookup['zhCN']= {
+l10n.zoneCategoryLookup['zhCN']= {
     [1] = {
         [36] = "奥特兰克山脉",
         [45] = "阿拉希高地",

@@ -1,5 +1,5 @@
 -- Last update: 2020/10/05 （祈福@枫聖-重新整理）
-LangItemLookup["zhCN"] = {
+l10n.itemLookup["zhCN"] = {
 [118] = "初级治疗药水",
 [159] = "清凉的泉水",
 [182] = "加瑞克的头颅",

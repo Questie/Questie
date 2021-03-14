@@ -263,9 +263,9 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         end
 
         local continent = 'UNKNOWN ZONE';
-        for category, data in pairs(LangZoneLookup) do
+        for category, data in pairs(l10n.zoneLookup) do
             if data[startindex] then
-                continent = LangZoneLookup[category][startindex];
+                continent = l10n.zoneLookup[category][startindex];
                 break;
             end
         end

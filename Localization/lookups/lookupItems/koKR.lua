@@ -1,4 +1,4 @@
-LangItemLookup['koKR'] = {
+l10n.itemLookup['koKR'] = {
 [35] = "구부러진 지팡이",
 [36] = "낡은 철퇴",
 [37] = "낡은 도끼",

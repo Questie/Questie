@@ -1,4 +1,4 @@
-LangNameLookup["deDE"] = {
+l10n.npcNameLookup["deDE"] = {
 [3] = {"Fleischfresser",nil},
 [6] = {"Koboldgezücht",nil},
 [30] = {"Waldspinne",nil},

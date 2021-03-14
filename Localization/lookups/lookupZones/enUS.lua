@@ -1,4 +1,4 @@
-LangContinentLookup['enUS']= {
+l10n.continentLookup['enUS']= {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",
     [3] = "Dungeons",
@@ -8,7 +8,7 @@ LangContinentLookup['enUS']= {
     [7] = "Events"
 }
 
-LangZoneLookup['enUS']= {
+l10n.zoneLookup['enUS']= {
     [1] = {
         [536] = "Addle's Stead",
         [348] = "Aerie Peak",
@@ -1091,7 +1091,7 @@ LangZoneLookup['enUS']= {
     },
 }
 
-LangZoneCategoryLookup['enUS']= {
+l10n.zoneCategoryLookup['enUS']= {
     [1] = {
         [36] = "Alterac Mountains",
         [45] = "Arathi Highlands",

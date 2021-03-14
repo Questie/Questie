@@ -1,4 +1,4 @@
-LangNameLookup["koKR"] = {
+l10n.npcNameLookup["koKR"] = {
 [3] = {"굶주린 시체",nil},
 [6] = {"코볼트 졸개",nil},
 [30] = {"숲거미",nil},

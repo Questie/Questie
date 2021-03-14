@@ -1,4 +1,4 @@
-LangQuestCategory['ptBR']= {
+l10n.questCategoryLookup['ptBR']= {
     [-1] = "Épico",
     [-21] = "REUSE - old wailing caverns",
     [-22] = "Sazonal",

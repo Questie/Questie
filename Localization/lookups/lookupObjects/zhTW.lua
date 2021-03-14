@@ -1,4 +1,4 @@
-LangObjectLookup["zhTW"] = {
+l10n.objectLookup["zhTW"] = {
 [31] = "石獅子",
 [32] = "沈沒的箱子",
 [34] = "舊罐子",
