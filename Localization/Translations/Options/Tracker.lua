@@ -476,7 +476,7 @@ local trackerOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = "追踪器背景",
         ["zhTW"] = "背景透明度",
-        ["esES"] = false,
+        ["esES"] = "Alfa del fondo del rastreador",
         ["frFR"] = "Opacité de l'arrière-plan",
     },
     ["The alpha level of the tracker backdrop"] = {
@@ -848,7 +848,7 @@ local trackerOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = "追踪器设定点",
         ["zhTW"] = "任務追蹤視窗錨點",
-        ["esES"] = false,
+        ["esES"] = "Punto fijo del rastreador",
         ["frFR"] = false,
     },
     ["Top Left"] = {

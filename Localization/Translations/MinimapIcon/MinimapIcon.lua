@@ -7,7 +7,7 @@ local minimapIconLocales = {
         ["zhCN"] = "切换菜单",
         ["enUS"] = true,
         ["zhTW"] = false,
-        ["deDE"] = false,
+        ["deDE"] = "Menü zeigen/verstecken",
         ["esES"] = "Mostrar menú",
         ["esMX"] = "Mostrar menú",
     },
