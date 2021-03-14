@@ -143,16 +143,18 @@ function l10n:translate(key, ...)
     end
 
     local translationEntry = l10n.translations[key]
-    if (not translationEntry) then
-        return "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!"
+    if translationEntry == nil then
+        Questie:Debug("ERROR: Translations for '" .. tostring(key) .. "' is missing completely!")
+        return string.format(key, unpack(args))
     end
 
     local translationValue = translationEntry[locale]
     if (not translationValue) then
-        return "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language " .. locale .. "!"
+        Questie:Debug("ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language " .. locale .. "!")
+        return string.format(key, unpack(args))
     end
 
-    if translationValue == true or translationValue == false then
+    if translationValue == true then
         -- Fallback to enUS which is the key
         return string.format(key, unpack(args))
     end
@@ -179,7 +181,7 @@ _GetUIStringNillable = function(key, ...)
             arg[i] = tostring(v)
         end
 
-        local loc = l10n.locale
+        local loc = supportedLocals
 
         if loc[locale] then
             if loc[locale][key] then
