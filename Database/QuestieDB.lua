@@ -58,12 +58,12 @@ local questTagCorrections = {
 }
 
 -- race bitmask data, for easy access
-local VANILLA = true -- check if we are on tbc
+local VANILLA = true -- TODO: Check if we are on TBC
 
 QuestieDB.raceKeys = {
-    ALL_ALLIANCE = 1101,--77 if VANILLA else 1101,
-    ALL_HORDE = 690,--178 if VANILLA else 690,
-    ALL = 2047,--255 if VANILLA else 2047,
+    ALL_ALLIANCE = VANILLA and 77 or 1101,
+    ALL_HORDE = VANILLA and 178 or 690,
+    ALL = VANILLA and 255 or 2047,
 
     HUMAN = 1,
     ORC = 2,

@@ -4,7 +4,9 @@ local QuestieSearch = QuestieLoader:CreateModule("QuestieSearch");
 --Import modules.
 -------------------------
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+local favorites;
 
 QuestieSearch.types = {"npc", "object", "item", "quest"}
 
@@ -31,7 +33,7 @@ end
 -- Execute a search by name for all types
 function QuestieSearch:ByName(query)
     QuestieSearch:ResetResults()
-    for k, type in pairs(QuestieSearch.types) do
+    for _, type in pairs(QuestieSearch.types) do
         QuestieSearch:Search(query, type)
     end
     return QuestieSearch.LastResult
@@ -40,7 +42,7 @@ end
 -- Execute a search by ID for all types
 function QuestieSearch:ByID(query)
     QuestieSearch:ResetResults()
-    for k,type in pairs(QuestieSearch.types) do
+    for _,type in pairs(QuestieSearch.types) do
         QuestieSearch:Search(query, type, "int")
     end
     return QuestieSearch.LastResult
@@ -71,7 +73,6 @@ queryType   Which type of search to run, possible values:
             Optional. Default: "chars"
 --]]
 function QuestieSearch:Search(query, searchType, queryType)
-    -- Set up defaults
     queryType = queryType or "chars"
     local minLengthInt = 1
     local minLengthChars = 1
@@ -79,35 +80,35 @@ function QuestieSearch:Search(query, searchType, queryType)
     local actualDatabase;
     local databaseKeys;
     local NAME_KEY;
+
     if searchType == "npc" then
-        actualDatabase = QuestieDB.QueryNPCSingle--QuestieDB.npcData;
+        actualDatabase = QuestieDB.QueryNPCSingle
         databaseKeys = QuestieDB.NPCPointers
         NAME_KEY = QuestieDB.npcKeys.name;
     elseif searchType == "object" then
-        actualDatabase = QuestieDB.QueryObjectSingle--QuestieDB.objectData;
+        actualDatabase = QuestieDB.QueryObjectSingle
         databaseKeys = QuestieDB.ObjectPointers
         NAME_KEY = QuestieDB.objectKeys.name;
     elseif searchType == "item" then
-        actualDatabase = QuestieDB.QueryItemSingle--QuestieDB.itemData;
+        actualDatabase = QuestieDB.QueryItemSingle
         databaseKeys = QuestieDB.ItemPointers
         NAME_KEY = QuestieDB.itemKeys.name;
     elseif searchType == "quest" then
-        actualDatabase = QuestieDB.QueryQuestSingle--QuestieDB.questData;
+        actualDatabase = QuestieDB.QueryQuestSingle
         databaseKeys = QuestieDB.QuestPointers
         NAME_KEY = QuestieDB.questKeys.name;
     else
         return
     end
-    if not QuestieFavourites then
-        QuestieFavourites = {
+    if not favorites then
+        favorites = {
             quest = {},
             npc = {},
             object = {},
             item = {},
         }
     end
-    -- By default the favourites are displayed
-    local database = QuestieFavourites[searchType];
+    local database = favorites[searchType];
     local queryLength = string.len(query)
     -- We have a query meeting the minimal search length criteria, change to actualDatabase
     if  (queryLength >= minLengthChars)
@@ -115,19 +116,11 @@ function QuestieSearch:Search(query, searchType, queryType)
         ((tonumber(query) ~= nil) and (queryLength >= minLengthInt))
     then
         database = actualDatabase;
-        -- We had a previous whole database search, we can use the smaller QuestieSearch.LastResult to search now
-        --[[if  ((tonumber(query) ~= nil) and (queryLength > minLengthInt))
-            or
-            ((queryLength > minLengthChars) and (queryLength > string.len(QuestieSearch.LastResult.query)))
-        then
-            database = QuestieSearch.LastResult[searchType];
-        end]]--
     else
         databaseKeys = database;
     end
-    -- iterate the seleceted database
     local searchCount = 0;
-    for id, entryOrBoolean in pairs(databaseKeys) do
+    for id, _ in pairs(databaseKeys) do
         -- This condition does the actual comparison for the search
         if (
                 ( -- text search

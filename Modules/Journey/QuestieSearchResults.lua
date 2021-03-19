@@ -27,6 +27,10 @@ local yellow = "|cFFFFFF00"
 local green = "|cFF40C040"
 
 local _HandleOnGroupSelected
+local lastOpenSearch = "quest"
+
+local BY_NAME = 1
+local BY_ID = 2
 
 
 local function AddParagraph(frame, lookupObject, secondKey, header, query)
@@ -461,9 +465,9 @@ local searchResultTabs
 function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query, useLast)
     if not searchResultTabs then
         searchGroup:ReleaseChildren();
-        if searchType == BY_NAME and not useLast then
+        if searchType == BY_NAME and (not useLast) then
             QuestieSearch:ByName(query)
-        elseif searchType == BY_ID and not useLast then
+        elseif searchType == BY_ID and (not useLast) then
             QuestieSearch:ByID(query)
         end
         local results = QuestieSearch.LastResult;
@@ -608,10 +612,10 @@ function QuestieSearchResults:JumpToQuest(button)
     local id = button:GetUserData('id');
     local name = button:GetUserData('name');
 
-    if not QuestieJourney:IsShown() then
+    if (not QuestieJourney:IsShown()) then
         QuestieJourney:ToggleJourneyWindow()
     end
-    if not (_QuestieJourney.lastOpenWindow == 'search') then
+    if (not _QuestieJourney.lastOpenWindow == 'search') then
         QuestieJourney.tabGroup:SelectTab('search');
     end
 

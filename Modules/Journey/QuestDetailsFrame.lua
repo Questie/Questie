@@ -64,19 +64,19 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
-        local startnpc = QuestieDB:GetNPC(quest.Starts.NPC[1])
+        local startNpc = QuestieDB:GetNPC(quest.Starts.NPC[1])
 
-        local startNPCNameLabel = _QuestieJourney:CreateLabel(startnpc.name, true)
+        local startNPCNameLabel = _QuestieJourney:CreateLabel(startNpc.name, true)
         startNPCNameLabel:SetFontObject(GameFontHighlight)
         startNPCNameLabel:SetColor(255, 165, 0)
         startNPCGroup:AddChild(startNPCNameLabel)
 
         local startNPCZoneLabel = AceGUI:Create("Label")
         local startindex = 0
-        if not startnpc.spawns then
+        if (not startNpc.spawns) then
             return
         end
-        for i in pairs(startnpc.spawns) do
+        for i in pairs(startNpc.spawns) do
             startindex = i
         end
 
@@ -95,8 +95,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         startNPCZoneLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCZoneLabel)
 
-        local startx = startnpc.spawns[startindex][1][1]
-        local starty = startnpc.spawns[startindex][1][2]
+        local startx = startNpc.spawns[startindex][1][1]
+        local starty = startNpc.spawns[startindex][1][2]
         if (startx ~= -1 or starty ~= -1) then
             local startNPCLocLabel = AceGUI:Create("Label")
             startNPCLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
@@ -105,14 +105,14 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         end
 
         local startNPCIdLabel = AceGUI:Create("Label")
-        startNPCIdLabel:SetText("NPC ID: ".. startnpc.id)
+        startNPCIdLabel:SetText("NPC ID: ".. startNpc.id)
         startNPCIdLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCIdLabel)
 
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
         -- Also Starts
-        if startnpc.questStarts then
+        if startNpc.questStarts then
 
             local alsoStartsLabel = AceGUI:Create("Label")
             alsoStartsLabel:SetText(QuestieLocale:GetUIString('JOURNEY_ALSO_STARTS'))
@@ -123,8 +123,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local startQuests = {}
             local counter = 1
-            for _, v in pairs(startnpc.questStarts) do
-                if not (v == quest.Id) then
+            for _, v in pairs(startNpc.questStarts) do
+                if (not v == quest.Id) then
                     startQuests[counter] = {}
                     local startQuest = QuestieDB:GetQuest(v)
                     local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)
@@ -158,10 +158,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(startObjectGroup)
 
         for _, oid in pairs(quest.Starts.GameObject) do
-            local startobj = QuestieDB:GetObject(oid)
+            local startObj = QuestieDB:GetObject(oid)
 
             local startObjectNameLabel = AceGUI:Create("Label")
-            startObjectNameLabel:SetText(startobj.name)
+            startObjectNameLabel:SetText(startObj.name)
             startObjectNameLabel:SetFontObject(GameFontHighlight)
             startObjectNameLabel:SetColor(255, 165, 0)
             startObjectNameLabel:SetFullWidth(true)
@@ -169,7 +169,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
             local startObjectZoneLabel = AceGUI:Create("Label")
             local startindex = 0
-            for i in pairs(startobj.spawns) do
+            for i in pairs(startObj.spawns) do
                 startindex = i
             end
 
@@ -184,8 +184,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             startObjectZoneLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectZoneLabel)
 
-            local startx = startobj.spawns[startindex][1][1]
-            local starty = startobj.spawns[startindex][1][2]
+            local startx = startObj.spawns[startindex][1][1]
+            local starty = startObj.spawns[startindex][1][2]
             if (startx ~= -1 or starty ~= -1) then
                 local startObjectLocLabel = AceGUI:Create("Label")
                 startObjectLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
@@ -194,14 +194,14 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             end
 
             local startObjectIdLabel = AceGUI:Create("Label")
-            startObjectIdLabel:SetText("Object ID: ".. startobj.id)
+            startObjectIdLabel:SetText("Object ID: ".. startObj.id)
             startObjectIdLabel:SetFullWidth(true)
             startObjectGroup:AddChild(startObjectIdLabel)
 
             QuestieJourneyUtils:Spacer(startObjectGroup)
 
             -- Also Starts
-            if startobj.questStarts then
+            if startObj.questStarts then
 
                 local alsoStartsLabel = AceGUI:Create("Label")
                 alsoStartsLabel:SetText(QuestieLocale:GetUIString('JOURNEY_ALSO_STARTS_GO'))
@@ -212,7 +212,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
                 local startQuests = {}
                 local counter = 1
-                for _, v in pairs(startobj.questStarts) do
+                for _, v in pairs(startObj.questStarts) do
                     if not (v == quest.Id) then
                         startQuests[counter] = {}
                         local startQuest = QuestieDB:GetQuest(v)
@@ -238,7 +238,6 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
     QuestieJourneyUtils:Spacer(container)
 
-    -- Get Quest Turnin NPC
     if quest.Finisher and quest.Finisher.Name and quest.Finisher.Type == "monster" then
         local endNPCGroup = AceGUI:Create("InlineGroup")
         endNPCGroup:SetLayout("Flow")

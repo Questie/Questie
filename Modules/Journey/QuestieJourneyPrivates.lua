@@ -46,7 +46,7 @@ function _QuestieJourney:CreateObjectiveText(desc)
 
     if desc then
         if type(desc) == "table" then
-            for i, v in ipairs(desc) do
+            for _, v in ipairs(desc) do
                 objText = objText .. v .. "\n"
             end
         else
