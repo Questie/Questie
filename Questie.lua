@@ -69,8 +69,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 ---@type Migration
@@ -165,7 +163,7 @@ function Questie:OnInitialize()
         QuestieOptions:Initialize()
 
         --Initialize the DB settings.
-        Questie:Debug(DEBUG_DEVELOP, l10n('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
+        Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
 
         -- Creating the minimap config icon
         Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
@@ -173,9 +171,9 @@ function Questie:OnInitialize()
 
         -- Update the default text on the map show/hide button for localization
         if Questie.db.char.enabled then
-            Questie_Toggle:SetText(l10n('QUESTIE_MAP_BUTTON_HIDE'));
+            Questie_Toggle:SetText(l10n("Show Questie"));
         else
-            Questie_Toggle:SetText(l10n('QUESTIE_MAP_BUTTON_SHOW'));
+            Questie_Toggle:SetText(l10n("Hide Questie"));
         end
 
         -- Update status of Map button on hide between play sessions
