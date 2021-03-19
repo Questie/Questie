@@ -1,7 +1,5 @@
 ---@class QuestieJourneyUtils
-local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils");
----@type QuestieJourney
-local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
+local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils")
 
 local AceGUI = LibStub("AceGUI-3.0");
 
