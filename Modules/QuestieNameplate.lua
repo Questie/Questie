@@ -205,10 +205,14 @@ function QuestieNameplate:DrawTargetFrame()
                         activeTargetFrame:SetHeight(16 * iconScale)
                         activeTargetFrame:EnableMouse(false);
 
-                        local targetFrame = ElvUF_Target or PitBull4_Frames_Target or TargetFrame
-                        if SUFUnittarget then
+                        local targetFrame = TargetFrame -- Default Blizzard target frame
+                        if (ElvUF_Target and ElvUF_Target:IsShown()) then
+                            targetFrame = ElvUF_Target
+                        elseif (PitBull4_Frames_Target and PitBull4_Frames_Target:IsShown()) then
+                            targetFrame = PitBull4_Frames_Target
+                        elseif (SUFUnittarget and SUFUnittarget:IsShown()) then
                             targetFrame = SUFUnittarget
-                            activeTargetFrame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1);
+                            activeTargetFrame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
                         end
 
                         activeTargetFrame:SetParent(targetFrame);
