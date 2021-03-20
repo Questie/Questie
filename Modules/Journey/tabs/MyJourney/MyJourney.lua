@@ -12,7 +12,7 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local AceGUI = LibStub("AceGUI-3.0");
-local journeyTreeFrame = nil;
+local journeyTreeFrame
 
 -- manage the journey tree
 function _QuestieJourney.myJourney:ManageTree(container)
@@ -61,7 +61,6 @@ function _QuestieJourney.myJourney:ManageTree(container)
                 local timestamp = Questie:Colorize(date( day ..', '.. month ..' %d @ %H:%M' , entry.Timestamp), 'blue');
 
                 if entry.Event == "Note" then
-
                     header:SetText(l10n('Note: %s', entry.Title));
 
                     local note = AceGUI:Create("Label");
@@ -74,7 +73,6 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     f:AddChild(created);
 
                 elseif entry.Event == "Level" then
-
                     header:SetText(l10n('You Reached Level %s', entry.NewLevel));
 
                     local congrats = AceGUI:Create("Label");
@@ -86,14 +84,13 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     f:AddChild(created);
 
                 elseif entry.Event == "Quest" then
-
                     local state = '';
                     if entry.SubType == "Accept" then
-                        state = l10n('Accepted');
+                        state = l10n("Accepted");
                     elseif entry.SubType == "Complete" then
-                        state = l10n('Completed');
+                        state = l10n("Completed");
                     elseif entry.SubType == "Abandon" then
-                        state = l10n('JOURNEY_ABADON');
+                        state = l10n("Abandoned");
                     else
                         state = "ERROR!!";
                     end

@@ -447,21 +447,21 @@ end
 function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
     local tip = {};
     if icon.data.Type == "complete" then
-        tip.type = l10n("(Complete)");
+        tip.type = "(" .. l10n("Complete") .. ")";
     else
 
         local quest = icon.data.QuestData
         local questType, questTag = quest:GetQuestTagInfo();
 
         if (QuestieDB:IsRepeatable(icon.data.Id)) then
-            tip.type = l10n("(Repeatable)");
+            tip.type = "(" .. l10n("Repeatable") .. ")";
         elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)
             tip.type = "("..questTag..")";
         elseif (QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
-            tip.type = l10n("(Event)");
+            tip.type = "(" .. l10n("Event") .. ")";
         else
-            tip.type = l10n("(Available)");
+            tip.type = "(" .. l10n("Available") .. ")";
         end
     end
     tip.title = QuestieDB:GetColoredQuestName(icon.data.Id, false, true)
@@ -788,7 +788,7 @@ function _QuestieFramePool:QuestieTooltip()
             local questTitle = QuestieDB:GetColoredQuestName(questId, true, true);
             if haveGiver then
                 self:AddLine(" ");
-                self:AddDoubleLine(questTitle, l10n("(Active)"), 1, 1, 1, 1, 1, 0);
+                self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
                 if (quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then

@@ -180,9 +180,9 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, b
         local isComplete = QuestieDB:IsComplete(id)
 
         if isComplete == -1 then
-            name = name .. " (" .. _G['FAILED'] .. ")"
+            name = name .. " (" .. l10n("Failed") .. ")"
         elseif isComplete == 1 then
-            name = name .. " (" .. _G['COMPLETE'] .. ")"
+            name = name .. " (" .. l10n("Complete") .. ")"
         end
     end
 
@@ -282,6 +282,46 @@ function QuestieLib:GetLevelString(id, name, level, blizzLike)
     end
 
     return level
+end
+
+function QuestieLib:GetRaceString(raceMask)
+    if not raceMask then
+        return ""
+    end
+
+    if (raceMask == 0) or (raceMask == 255) then
+        return l10n("None")
+    elseif raceMask == 77 then
+        return l10n("Alliance")
+    elseif raceMask == 178 then
+        return l10n("Horde")
+    else
+        local raceString = ""
+        local raceTable = QuestieLib:UnpackBinary(raceMask)
+        local stringTable = {
+            l10n('Human'),
+            l10n('Orc'),
+            l10n('Dwarf'),
+            l10n('Nightelf'),
+            l10n('Undead'),
+            l10n('Tauren'),
+            l10n('Gnome'),
+            l10n('Troll'),
+            l10n('Goblin')
+        }
+        local firstRun = true
+        for k,v in pairs(raceTable) do
+            if v then
+                if firstRun then
+                    firstRun = false
+                else
+                    raceString = raceString .. ", "
+                end
+                raceString = raceString .. stringTable[k]
+            end
+        end
+        return raceString
+    end
 end
 
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)

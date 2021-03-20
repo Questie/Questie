@@ -53,7 +53,6 @@ function QuestieLink:CreateQuestTooltip(link)
     if isQuestieLink then
         local questId = select(2, strsplit(":", link))
         questId = tonumber(questId)
-        local senderGUID = select(3, strsplit(":", link))
         local quest = QuestieDB:GetQuest(questId)
 
         if quest then
@@ -107,7 +106,7 @@ end
 _AddQuestStatus = function (quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = l10n("You are on this quest")
-        local stateText = nil
+        local stateText
         local questIsComplete = QuestieDB:IsComplete(quest.Id)
         if questIsComplete == 1 then
             stateText = Questie:Colorize(l10n("Complete"), "green")
@@ -298,7 +297,7 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
                 end
                 if timestamp then
                     _AddTooltipLine(" ")
-                    _AddTooltipLine("Completed on:")
+                    _AddTooltipLine(l10n("Completed on:"))
                     _AddTooltipLine(timestamp)
                 end
             end
@@ -316,9 +315,9 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
 end
 
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
-    local chatFrame, link, text, button = ...
+    local _, link, _, button = ...
     if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
-        local linkType, questId, playerGUID = string.split(":", link)
+        local linkType, questId, _ = string.split(":", link)
         if linkType and linkType == "questie" and questId then
             Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat: "..link)
             questId = tonumber(questId)

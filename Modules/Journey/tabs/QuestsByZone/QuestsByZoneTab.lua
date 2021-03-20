@@ -99,7 +99,7 @@ _CreateZoneDropdown = function()
     return dropdown
 end
 
-_HandleContinentSelection = function(key, checked)
+_HandleContinentSelection = function(key, _)
     if (key.value == l10n.questCategoryKeys.CLASS) then
         local _, class, _ = UnitClass("player")
         local classKey = QuestieDB:GetZoneOrSortForClass(class)
@@ -132,7 +132,7 @@ _HandleContinentSelection = function(key, checked)
     else
         local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[key.value])
         zoneDropdown:SetList(QuestieJourney.zones[key.value], sortedZones)
-        zoneDropdown:SetText(l10n('JOURNEY_SELECT_ZONE'))
+        zoneDropdown:SetText(l10n("Select Your Zone"))
         zoneDropdown:SetDisabled(false)
         zoneDropdown.frame:Show()
     end
@@ -141,7 +141,7 @@ _HandleContinentSelection = function(key, checked)
     _QuestieJourney.lastZoneSelection[1] = key.value
 end
 
-_HandleZoneSelection = function(key, checked)
+_HandleZoneSelection = function(key, _)
     local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(key.value)
     _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
     _QuestieJourney.lastZoneSelection[2] = key.value

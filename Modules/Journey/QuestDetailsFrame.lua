@@ -84,7 +84,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             return
         end
         
-        local continent = 'UNKNOWN ZONE'
+        local continent = l10n("Unknown Zone")
         for i, v in ipairs(QuestieJourney.zones) do
             if v[startindex] then
                 continent = QuestieJourney.zones[i][startindex]
@@ -173,7 +173,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 startindex = i
             end
 
-            local continent = 'UNKNOWN ZONE'
+            local continent = l10n("Unknown Zone")
             for i, v in ipairs(QuestieJourney.zones) do
                 if v[startindex] then
                     continent = QuestieJourney.zones[i][startindex]
@@ -264,7 +264,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             endindex = i
         end
 
-        local continent = 'UNKNOWN ZONE'
+        local continent = l10n("Unknown Zone")
         for i, v in ipairs(QuestieJourney.zones) do
             if v[endindex] then
                 continent = QuestieJourney.zones[i][endindex]

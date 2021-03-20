@@ -107,11 +107,7 @@ function _QuestieJourney:GetEntryText(entry)
             state = "ERROR!!"
         end
         local qName = QuestieDB.QueryQuestSingle(entry.Quest, "name")
-        if qName then
-            entryText = l10n('Quest %s: %s', state, qName)
-        else
-            entryText = l10n('JOURNEY_MISSING_QUEST')
-        end
+        entryText = l10n('Quest %s: %s', state, qName)
     end
     return entryText
 end
