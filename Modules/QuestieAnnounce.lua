@@ -8,32 +8,32 @@ QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted 
 
 function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, objectiveProgress)
     if "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
-        local message = nil
+        local message
         local questLevel, questName = unpack(QuestieDB.QueryQuest(questId, "questLevel", "name"))
 
         if progressType == "objective" then
-            local objective = nil
+            local objective
             if itemId then
                 objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
             else
                 objective = objectiveProgress.." "..objectiveText
             end
-            message = l10n("{rt1} Questie : %s for %s!", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = "{rt1} Questie: " .. l10n("%s for %s!", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         elseif progressType == "item" then
-            message = l10n("{rt1} Questie : Picked up %s which starts %s!", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = "{rt1} Questie: " .. l10n("Picked up %s which starts %s!", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         end
 
         SendChatMessage(message, "PARTY")
     end
 end
 
-local _playerName = nil
+local _playerName
 local function _GetPlayerName()
     _playerName = UnitName("Player")
     return _playerName
 end
 
-function QuestieAnnounce:ItemLooted(text, notPlayerName, languageName, channelName, playerName)
+function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     if (_playerName or _GetPlayerName()) == playerName or (string.len(playerName) == 0 and _playerName == notPlayerName) then
         local itemId = tonumber(string.match(text, "item:(%d+)"))
         if not QuestieAnnounce._itemCache[itemId] and QuestieDB.QueryItemSingle then -- check QueryItemSingle because this event can fire before db init is complete
