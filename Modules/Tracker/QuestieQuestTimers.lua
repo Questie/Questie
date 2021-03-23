@@ -1,14 +1,9 @@
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
----@type QuestieCombatQueue
-local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+local _QuestieQuestTimers = {}
 
-local _QuestieQuestTimers = QuestieQuestTimers.private
-_QuestieQuestTimers.timers = {}
-QuestieQuestTimers.defaultBlizzPoint = {}
-
--- Forward declaration
-local _UpdateTimerFrame
+local blizzardTimerLocation = {}
+local timers = {}
 
 function QuestieQuestTimers:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
@@ -20,14 +15,14 @@ function QuestieQuestTimers:Initialize()
                 Questie:Debug(DEBUG_CRITICAL, "QuestTimerFrame_Update is still nil. Something is strange.")
                 return
             end
-            hooksecurefunc("QuestTimerFrame_Update", _UpdateTimerFrame)
+            hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
         end)
     else
-        hooksecurefunc("QuestTimerFrame_Update", _UpdateTimerFrame)
+        hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
     end
 
     QuestTimerFrame:HookScript("OnShow", function()
-        QuestieQuestTimers.defaultBlizzPoint = {QuestTimerFrame:GetPoint()}
+        blizzardTimerLocation = { QuestTimerFrame:GetPoint()}
         if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
             QuestieQuestTimers:HideBlizzardTimer()
         else
@@ -42,9 +37,9 @@ function QuestieQuestTimers:HideBlizzardTimer()
 end
 
 function QuestieQuestTimers:ShowBlizzardTimer()
-    if QuestieQuestTimers.defaultBlizzPoint[1] then
+    if blizzardTimerLocation[1] then
         QuestTimerFrame:ClearAllPoints()
-        QuestTimerFrame:SetPoint(unpack(QuestieQuestTimers.defaultBlizzPoint))
+        QuestTimerFrame:SetPoint(unpack(blizzardTimerLocation))
     end
 end
 
@@ -59,9 +54,9 @@ function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
                 if timerIndex == questLogIndex then
                     local seconds = select(i, questTimers)
                     if clear then
-                        _QuestieQuestTimers.timers[i] = nil
+                        timers[i] = nil
                     elseif frame then
-                        _QuestieQuestTimers.timers[i] = frame
+                        timers[i] = frame
                         return SecondsToTime(seconds)
                     end
                 end
@@ -71,21 +66,23 @@ function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
     return nil
 end
 
-_UpdateTimerFrame = function()
+function _QuestieQuestTimers:UpdateTimerFrame()
+    if InCombatLockdown() then
+        return
+    end
+
     local questTimers = GetQuestTimers()
     if questTimers then
-        QuestieCombatQueue:Queue(function()
-            for i, timer in pairs(_QuestieQuestTimers.timers) do
-                if _QuestieQuestTimers.timers[i] == nil then
-                    timer.label:SetText(" ")
-                else
-                    local seconds = select(i, questTimers)
-                    timer.label:SetText(SecondsToTime(seconds))
-                    timer:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
-                end
+        for i, timer in pairs(timers) do
+            if timers[i] == nil then
+                timer.label:SetText(" ")
+            else
+                local seconds = select(i, questTimers)
+                timer.label:SetText(SecondsToTime(seconds))
+                timer:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
             end
-        end)
+        end
     else
-        _QuestieQuestTimers.timers = {}
+        timers = {}
     end
 end
