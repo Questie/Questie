@@ -1408,23 +1408,17 @@ function QuestieTracker:Update()
                 local numTimers = select("#", questTimers)
                 for i=1, numTimers do
                     local timerIndex = GetQuestIndexForTimer(i)
-                    -- This is a timed quest - flag it to zero
+
                     if (timerIndex == questLogIndex) and not Questie.db.global.showBlizzardQuestTimer then
                         QuestieQuestTimers:HideBlizzardTimer()
                         quest.timedBlizzardQuest = false
                         quest.trackTimedQuest = true
-                        complete = 0
                     elseif (timerIndex == questLogIndex) and Questie.db.global.showBlizzardQuestTimer then
                         QuestieQuestTimers:ShowBlizzardTimer()
                         quest.timedBlizzardQuest = true
                         QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
-                        complete = 0
-                    else
-                        complete = quest:IsComplete()
                     end
                 end
-            else
-                complete = quest:IsComplete()
             end
         end
 
@@ -1575,7 +1569,7 @@ function QuestieTracker:Update()
             if not (Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id]) then
 
                 -- Add quest timers (if applicable)
-                if (quest.trackTimedQuest) then
+                if quest.trackTimedQuest then
                     line = _QuestieTracker:GetNextLine()
                     if not line then break end -- stop populating the tracker
 
@@ -1625,7 +1619,7 @@ function QuestieTracker:Update()
                 -- Tags quest as either complete or failed so as to always have at least one objective.
                 -- (TODO: change tags to reflect NPC to turn a quest into or in the case of a failure
                 -- which NPC to obtain the quest from again...)
-                elseif (complete == 1 or complete == -1 and not quest.trackTimedQuest) then
+                elseif (complete == 1 or complete == -1) then
                     line = _QuestieTracker:GetNextLine()
                     if not line then break end -- stop populating the tracker
                     
@@ -1650,7 +1644,6 @@ function QuestieTracker:Update()
                     line:Show()
                     line.label:Show()
                 end
-
             else
                 line = _QuestieTracker:GetNextLine()
                 if not line then break end -- stop populating the tracker
