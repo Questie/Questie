@@ -69,8 +69,24 @@ function QuestieTooltips:RemoveQuest(questId)
         return
     end
 
-    for _, key in pairs(QuestieTooltips.lookupKeysByQuestId[questId]) do
-        QuestieTooltips.lookupByKey[key] = nil
+    for _, key in pairs(QuestieTooltips.lookupKeysByQuestId[questId] or {}) do
+        --Count to see if we should remove the main object
+        local totalCount = 0
+        local totalRemoved = 0
+        for _, tooltipData in pairs(QuestieTooltips.lookupByKey[key] or {}) do
+            --Remove specific quest
+            if(tooltipData.questId == questId and tooltipData.objective) then
+                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.objective.Index] = nil
+                totalRemoved = totalRemoved + 1
+            elseif(tooltipData.questId == questId and tooltipData.npc) then
+                QuestieTooltips.lookupByKey[key][tostring(tooltipData.questId) .. " " .. tooltipData.npc.name] = nil
+                totalRemoved = totalRemoved + 1
+            end
+            totalCount = totalCount + 1
+        end
+        if(totalCount == totalRemoved) then
+            QuestieTooltips.lookupByKey[key] = nil
+        end
     end
 
     QuestieTooltips.lookupKeysByQuestId[questId] = {}
