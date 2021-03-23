@@ -7,7 +7,10 @@ local maxUpdatesPerCircle = 5
 
 function QuestieCombatQueue:Initialize()
     C_Timer.NewTicker(0.1, function()
-        if InCombatLockdown() then return end
+        if InCombatLockdown() then
+            return
+        end
+
         local func = tremove(_Queue, 1)
         local count = 0
         while func do
