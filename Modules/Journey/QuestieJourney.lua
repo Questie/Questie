@@ -26,7 +26,7 @@ local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
 _QuestieJourney.lastZoneSelection = {}
 
-local notesPopupWin = nil
+local notesPopupWin
 local notesPopupWinIsOpen = false
 
 
@@ -70,7 +70,7 @@ function QuestieJourney:BuildMainFrame()
                 value="search"
             }
         })
-        tabGroup:SetCallback("OnGroupSelected", function(widget, event, group) _QuestieJourney:HandleTabChange(widget, event, group) end)
+        tabGroup:SetCallback("OnGroupSelected", function(widget, _, group) _QuestieJourney:HandleTabChange(widget, group) end)
         tabGroup:SelectTab("journey")
 
         QuestieJourney.tabGroup = tabGroup
@@ -100,7 +100,7 @@ function QuestieJourney:ToggleJourneyWindow()
     if (not isWindowShown) then
         PlaySound(882)
 
-        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, nil, _QuestieJourney.lastOpenWindow)
+        local treeGroup = _QuestieJourney:HandleTabChange(_QuestieJourney.containerCache, _QuestieJourney.lastOpenWindow)
         if treeGroup then
             _QuestieJourney.treeCache = treeGroup
         end
@@ -116,10 +116,11 @@ end
 function QuestieJourney:PlayerLevelUp(level)
     -- Complete Quest added to Journey
     ---@type JourneyEntry
-    local entry = {}
-    entry.Event = "Level"
-    entry.NewLevel = level
-    entry.Timestamp = time()
+    local entry = {
+        Event = "Level",
+        NewLevel = level,
+        Timestamp = time()
+    }
 
     tinsert(Questie.db.char.journey, entry)
 end
@@ -127,12 +128,13 @@ end
 function QuestieJourney:AcceptQuest(questId)
     -- Add quest accept journey note.
     ---@type JourneyEntry
-    local entry = {}
-    entry.Event = "Quest"
-    entry.SubType = "Accept"
-    entry.Quest = questId
-    entry.Level = QuestiePlayer:GetPlayerLevel()
-    entry.Timestamp = time()
+    local entry = {
+        Event = "Quest",
+        SubType = "Accept",
+        Quest = questId,
+        Level = QuestiePlayer:GetPlayerLevel(),
+        Timestamp = time()
+    }
 
     tinsert(Questie.db.char.journey, entry)
 end
@@ -155,12 +157,13 @@ function QuestieJourney:AbandonQuest(questId)
 
     if not skipAbandon then
         ---@type JourneyEntry
-        local entry = {}
-        entry.Event = "Quest"
-        entry.SubType = "Abandon"
-        entry.Quest = questId
-        entry.Level = QuestiePlayer:GetPlayerLevel()
-        entry.Timestamp = time()
+        local entry = {
+            Event = "Quest",
+            SubType = "Abandon",
+            Quest = questId,
+            Level = QuestiePlayer:GetPlayerLevel(),
+            Timestamp = time()
+        }
 
         tinsert(Questie.db.char.journey, entry)
     end
@@ -169,12 +172,13 @@ end
 function QuestieJourney:CompleteQuest(questId)
     -- Complete Quest added to Journey
     ---@class JourneyEntry
-    local entry = {}
-    entry.Event = "Quest"
-    entry.SubType = "Complete"
-    entry.Quest = questId
-    entry.Level = QuestiePlayer:GetPlayerLevel()
-    entry.Timestamp = time()
+    local entry = {
+        Event = "Quest",
+        SubType = "Complete",
+        Quest = questId,
+        Level = QuestiePlayer:GetPlayerLevel(),
+        Timestamp = time()
+    }
 
     tinsert(Questie.db.char.journey, entry)
 end

@@ -19,7 +19,7 @@ If you have problems, please read the [Frequently Asked Questions](https://githu
 
 ## Information
 - [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
-- Come chat with us on [our Discord server](https://discord.gg/phKnHVu).
+- Come chat with us on [our Discord server](https://discord.gg/stPdSWdUR7).
 - You can use the [issue tracker](https://github.com/Questie/Questie/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
