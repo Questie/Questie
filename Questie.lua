@@ -230,6 +230,8 @@ function Questie:Colorize(str, color)
         c = '|cFFB900FF';
     elseif color == 'blue' then
         c = '|cB900FFFF';
+    elseif color == 'lightBlue' then
+        c = '|cB900FFFF';
     elseif color == 'blizzardBlue' then
         c = '|cFF00c0ff';
     elseif color == 'yellow' then

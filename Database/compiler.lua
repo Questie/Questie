@@ -697,8 +697,6 @@ function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for ra
 end
 
 function QuestieDBCompiler:Compile(finalize)
-    --print("Compiling NPCs...")
-    
     if QuestieDBCompiler._isCompiling then
         return
     end
@@ -715,44 +713,35 @@ function QuestieDBCompiler:Compile(finalize)
     end
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
-    print(l10n("\124cFF4DDBFF [1/4] Updating NPCs..."))
+
+    print(Questie:Colorize("[1/4] " .. l10n("Updating NPCs") .. "...", "lightBlue"))
     QuestieDBCompiler:CompileNPCs(function(bin, ptrs)
         QuestieConfig.npcBin = bin 
         QuestieConfig.npcPtrs = ptrs
         QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-        --print("NPCs size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
-        --print("\124cFF4DDBFF [1/4] Finished updating NPCs")
-        print(l10n("\124cFF4DDBFF [2/4] Updating objects..."))
-        --print("Compiling Objects...")
+
+        print(Questie:Colorize("[2/4] " .. l10n("Updating objects") .. "...", "lightBlue"))
         QuestieDBCompiler:CompileObjects(function(bin, ptrs)
             QuestieConfig.objBin = bin 
             QuestieConfig.objPtrs = ptrs
             QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-            --print("Objects size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
-            --print("\124cFF4DDBFF [2/4] Finished updating objects")
-            print(l10n("\124cFF4DDBFF [3/4] Updating quests..."))
-            --print("Compiling Quests...")
+
+            print(Questie:Colorize("[3/4] " .. l10n("Updating quests") .. "...", "lightBlue"))
             QuestieDBCompiler:CompileQuests(function(bin, ptrs)
                 QuestieConfig.questBin = bin 
                 QuestieConfig.questPtrs = ptrs
                 QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-                --print("Quests size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
-                --print("\124cFF4DDBFF [3/4] Finished updating quests")
-                print(l10n("\124cFF4DDBFF [4/4] Updating items..."))
-                --print("Compiling items...")
+
+                print(Questie:Colorize("[4/4] " .. l10n("Updating items") .. "...", "lightBlue"))
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
                     QuestieConfig.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
                     QuestieConfig.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
                     QuestieConfig.dbIsCompiled = true
-                    --print("\124cFF4DDBFF [4/4] Finished updating items")
-                    --print("Items size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
                     QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-                    --print("Compiled DB total memory size: " .. math.floor(QuestieDBCompiler.totalSize/1024) .. "K")
-                    --print("Finished! Please /reload to reduce memory usage") -- no need to reload
-                    print(l10n("\124cFFAAEEFFQuestie DB update complete!"))
 
+                    print(Questie:Colorize(l10n("Questie DB update complete!"), "lightBlue"))
                     QuestieDBCompiler._isCompiling = nil
 
                     if Questie.db.global.debugEnabled then
