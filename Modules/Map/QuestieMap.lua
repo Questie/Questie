@@ -383,7 +383,6 @@ function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
     --print("Drawing line in " .. ZoneDB.zoneIDToInternalName[areaID])
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
-    --tinsert(QuestieMap.questIdFrames, lineFrame)
 
     HBDPins:AddWorldMapIconMap(Questie, lineFrame, uiMapId, x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
 end
