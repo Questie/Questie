@@ -66,7 +66,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
     if key == "Mailbox" then -- the only obnject-type townsfolk
         if Questie.db.char.townsfolkConfig[key] and not forceRemove then
             for _, id in pairs(ids) do
-                QuestieMap:ShowObject(id, icon, 1.2, "|cFFFFFFFF" .. l10n('Mailbox'), {}, true, key)
+                QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n('Mailbox'), "white"), {}, true, key)
             end
         else
             for _, id in pairs(ids) do
@@ -86,7 +86,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if not _spawned[id] then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then
-                            QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
+                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name"), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
                             _spawned[id] = true
                         end
                     end
