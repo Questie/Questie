@@ -324,18 +324,6 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
             },
             Spacer_B1 = QuestieOptionsUtils:HorizontalSpacer(1.71, 1.5),
-            acceptTrivial = {
-                type = "toggle",
-                order = 8,
-                name = function() return l10n('Accept trivial (low level) quests'); end,
-                desc = function() return l10n('When this is enabled trivial (gray) quests will be auto accepted as well.'); end,
-                disabled = function() return (not Questie.db.char.autoaccept) end,
-                width = 1.5,
-                get = function () return Questie.db.char.acceptTrivial; end,
-                set = function (info, value)
-                    Questie.db.char.acceptTrivial = value
-                end,
-            },
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
             questannounce = {
                 type = "select",
