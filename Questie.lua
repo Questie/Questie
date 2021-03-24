@@ -123,7 +123,7 @@ if  (not LQuestie_EasyMenu) or
     (not QuestieTracker) then
     --Delay the warning.
     C_Timer.After(8, function()
-        print(l10n('|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing'))
+        print(Questie:Colorize(l10n("WARNING!"), "red") .. " " .. l10n("You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"))
     end)
   else
     -- Initialize Questie
@@ -236,6 +236,8 @@ function Questie:Colorize(str, color)
         c = '|cFF00c0ff';
     elseif color == 'yellow' then
         c = '|cFFffff00';
+    elseif color == 'orange' then
+        c = '|cFFFF6F22';
     elseif color == 'green' then
         c = '|cFF00ff00';
     elseif color == "white" then

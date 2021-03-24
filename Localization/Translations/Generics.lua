@@ -167,6 +167,18 @@ local genericsLocales = {
         ["esES"] = "Deshabilitado",
         ["frFR"] = "Désactivé",
     },
+    ["WARNING!"] = {
+        ["ptBR"] = "ATTENTION !",
+        ["ruRU"] = false,
+        ["deDE"] = "WARNUNG!",
+        ["koKR"] = "경고!",
+        ["esMX"] = "ADVERTENCIA!",
+        ["enUS"] = true,
+        ["zhCN"] = "警告！",
+        ["zhTW"] = "警告！",
+        ["esES"] = "ADVERTENCIA!",
+        ["frFR"] = "ATTENTION !",
+    },
     ["xp"] = {
         ["ptBR"] = false,
         ["ruRU"] = " ед. опыта",
