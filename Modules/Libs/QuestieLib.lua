@@ -310,7 +310,7 @@ function QuestieLib:GetRaceString(raceMask)
             l10n('Goblin')
         }
         local firstRun = true
-        for k,v in pairs(raceTable) do
+        for k, v in pairs(raceTable) do
             if v then
                 if firstRun then
                     firstRun = false
