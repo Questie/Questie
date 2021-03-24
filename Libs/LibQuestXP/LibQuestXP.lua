@@ -26,31 +26,6 @@ function LibQuestXP:GetQuestInfo(questID)
     return 0, nil
 end
 
-function GetMaxXPQuests(questAmount)
-    local quests = {}
-
-    for qId, _ in pairs(QuestieQuest.availableQuests) do
-        local xp = GetQuestLogRewardXP(qId)
-        if (#quests < questAmount) then
-            table.insert(quests,{
-                qId=qId,
-                xp=xp
-            })
-        elseif (GetQuestLogRewardXP(quests[1].qId) < xp) then
-            quests[1] = {
-                qId=qId,
-                xp=xp
-            }
-        end
-        table.sort(quests, function(a, b) return a.xp < b.xp end)
-    end
-
-    print("Max Quest XP")
-    for _, entry in pairs(quests) do
-        print(entry.qId .. " rewards " .. entry.xp .. " XP")
-    end
-end
-
 function LibQuestXP:GetAdjustedXP(xp, qLevel)
     local charLevel = UnitLevel("player");
 
