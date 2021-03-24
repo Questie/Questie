@@ -906,6 +906,15 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {7434,7433,7430,7432,7431,},
             [itemKeys.objectDrops] = {},
         },
+        [12765] = {
+            [itemKeys.objectDrops] = {176344},
+        },
+        [12766] = {
+            [itemKeys.objectDrops] = {190483},
+        },
+        [12768] = {
+            [itemKeys.objectDrops] = {190484},
+        },
         [12813] = { -- #1313
             [itemKeys.name] = "Flask of Mystery Goo",
             [itemKeys.relatedQuests] = {5085},
