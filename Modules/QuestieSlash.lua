@@ -41,12 +41,12 @@ function QuestieSlash:HandleCommands(input)
     -- /questie help || /questie ?
     if mainCommand == "help" or mainCommand == "?" then
         print(Questie:Colorize(l10n("Questie Commands"), "yellow"));
-        print(Questie:Colorize(l10n("/questie -- Toggles the Config window"), "yellow"));
-        print(Questie:Colorize(l10n("/questie toggle -- Toggles showing questie on the map and minimap"), "yellow"));
-        print(Questie:Colorize(l10n("/questie tomap [<npcId>/<npcName>/reset] -- Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
-        print(Questie:Colorize(l10n("/questie minimap -- Toggles the Minimap Button for Questie"), "yellow"));
-        print(Questie:Colorize(l10n("/questie journey -- Toggles the My Journey window"), "yellow"));
-        print(Questie:Colorize(l10n("/questie tracker [show/hide/reset] -- Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
+        print(Questie:Colorize("/questie - " .. l10n("Toggles the Config window"), "yellow"));
+        print(Questie:Colorize("/questie toggle - " .. l10n("Toggles showing questie on the map and minimap"), "yellow"));
+        print(Questie:Colorize("/questie tomap [<npcId>/<npcName>/reset] -- " .. l10n("Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
+        print(Questie:Colorize("/questie minimap - " .. l10n("Toggles the Minimap Button for Questie"), "yellow"));
+        print(Questie:Colorize("/questie journey - " .. l10n("Toggles the My Journey window"), "yellow"));
+        print(Questie:Colorize("/questie tracker [show/hide/reset] - " .. l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
         return;
     end
 
