@@ -100,13 +100,13 @@ _CreateZoneDropdown = function()
 end
 
 _HandleContinentSelection = function(key, _)
-    if (key.value == l10n.questCategoryKeys.CLASS) then
+    if (key.value == QuestieJourney.questCategoryKeys.CLASS) then
         local _, class, _ = UnitClass("player")
         local classKey = QuestieDB:GetZoneOrSortForClass(class)
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(classKey)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
         zoneDropdown.frame:Hide()
-    elseif (key.value == l10n.questCategoryKeys.PROFESSIONS) then
+    elseif (key.value == QuestieJourney.questCategoryKeys.PROFESSIONS) then
         local professionList = QuestieJourney.zones[key.value]
         local playerProfessions = QuestieProfessions:GetProfessionNames()
 

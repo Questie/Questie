@@ -27,15 +27,6 @@ local supportedLocals = {
     ['koKR'] = true,
 }
 
-l10n.questCategoryKeys = {
-    EASTERN_KINGDOMS = 1,
-    KALIMDOR = 2,
-    DUNGEONS = 3,
-    BATTLEGROUNDS = 4,
-    CLASS = 5,
-    PROFESSIONS = 6,
-    EVENTS = 7,
-}
 
 function l10n:Initialize()
     -- Load item locales
