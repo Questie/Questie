@@ -83,6 +83,18 @@ local searchLocales = {
         ["esES"] = "No hay misiones que listar",
         ["frFR"] = "Aucune quête à lister",
     },
+    ["No spawn data available."] = {
+        ["ptBR"] = "Não há dados de desova disponíveis.",
+        ["ruRU"] = "Нет данных о появлении",
+        ["deDE"] = false,
+        ["koKR"] = "출현 정보가 없습니다.",
+        ["esMX"] = "No hay datos de spawn disponibles.",
+        ["enUS"] = true,
+        ["zhCN"] = "没有可用的生成数据。",
+        ["zhTW"] = false,
+        ["esES"] = "No hay datos de spawn disponibles.",
+        ["frFR"] = "Aucune donnée de spawn disponible.",
+    },
     ["Recommended Quest Level: "] = {
         ["ptBR"] = "Nível de missão recomendado:",
         ["ruRU"] = "Рекомендуемый уровень для выполнения задания: ",

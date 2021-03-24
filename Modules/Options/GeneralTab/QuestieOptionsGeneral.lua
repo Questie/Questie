@@ -373,7 +373,7 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.lowlevel = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, l10n('Gray Quests toggled to:'), value)
+                    Questie:Debug(DEBUG_DEVELOP, "Gray Quests toggled to:", value)
                 end,
             },
             manualMinLevelOffset = {
@@ -429,7 +429,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function() return Questie.db.char.minLevelFilter; end,
                 set = function (info, value)
                     Questie.db.char.minLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, l10n('minLevelFilter set to %s', value))
+                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw,"minLevelFilter set to " .. value)
                 end,
             },
             maxLevelFilter = {
@@ -449,7 +449,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function(info) return Questie.db.char.maxLevelFilter; end,
                 set = function (info, value)
                     Questie.db.char.maxLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, l10n('maxLevelFilter set to %s', value))
+                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
                 end,
             },
             clusterLevelHotzone = {
