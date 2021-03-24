@@ -1,4 +1,5 @@
 l10n = {}
+local _l10n = {}
 l10n.translations = {}
 
 l10n.itemLookup = {}
@@ -90,7 +91,7 @@ function l10n:PostBoot()
     l10n.questCategoryLookup = l10n.questCategoryLookup[locale] or l10n.questCategoryLookup["enUS"] or {}
 end
 
-function l10n:translate(key, ...)
+function _l10n:translate(key, ...)
     local args = {...}
 
     for i, v in ipairs(args) do
@@ -117,9 +118,9 @@ function l10n:translate(key, ...)
     return string.format(translationValue, unpack(args))
 end
 
-setmetatable(l10n, { __call = function(_, ...) return l10n:translate(...) end})
+setmetatable(l10n, { __call = function(_, ...) return _l10n:translate(...) end})
 
-function l10n:FallbackLocale(lang)
+function _l10n:GetFallbackLocale(lang)
     if (not lang) then
         return 'enUS'
     end
@@ -143,9 +144,9 @@ end
 
 function l10n:SetUILocale(lang)
     if lang then
-        locale = l10n:FallbackLocale(lang)
+        locale = _l10n:GetFallbackLocale(lang)
     else
-        locale = l10n:FallbackLocale(GetLocale())
+        locale = _l10n:GetFallbackLocale(GetLocale())
     end
 end
 
