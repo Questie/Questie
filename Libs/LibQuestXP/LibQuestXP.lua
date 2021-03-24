@@ -37,9 +37,9 @@ function LibQuestXP:GetAdjustedXP(xp, qLevel)
         charLevel = QuestiePlayer:GetPlayerLevel();
     end
 
-    --if (charLevel == 60) then
-    --    return 0;
-    --end
+    if (charLevel == 60) then
+        return 0;
+    end
 
     local diffFactor = 2 * (qLevel - charLevel) + 20;
     if (diffFactor < 1) then
