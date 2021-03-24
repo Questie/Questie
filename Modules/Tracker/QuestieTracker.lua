@@ -1633,7 +1633,7 @@ function QuestieTracker:Update()
                     if (complete == 1) then
                         line.label:SetText(Questie:Colorize(l10n("Quest completed!"), "green"))
                     elseif (complete == -1) then
-                        line.label:SetText(Questie:Colorize(l10n("Quest failed!"), "red"))
+                        line.label:SetText(Questie:Colorize(l10n("Quest completion failed!"), "red"))
                     end
 
                     line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
