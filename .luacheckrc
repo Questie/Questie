@@ -2687,7 +2687,6 @@ stds.questie = {
         "PitBull4_Frames_Target",
         "-----------------------------------------------------> Project Specific",
         "Questie",
-        "QuestieLocale",
         "l10n",
         "QuestieConfig",
         "QuestieConfigCharacter",
