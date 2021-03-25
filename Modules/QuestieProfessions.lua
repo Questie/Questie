@@ -69,7 +69,25 @@ QuestieProfessions.professionKeys = {
     SKINNING = 393
 }
 
--- There are no quests for Skinning and Mining so we don't need them
+local professionNames = {
+    [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid",
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing",
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Leatherworking",
+    [QuestieProfessions.professionKeys.ALCHEMY] = "Alchemy",
+    [QuestieProfessions.professionKeys.HERBALISM] = "Herbalism",
+    [QuestieProfessions.professionKeys.COOKING] = "Cooking",
+    [QuestieProfessions.professionKeys.MINING] = "Mining",
+    [QuestieProfessions.professionKeys.TAILORING] = "Tailoring",
+    [QuestieProfessions.professionKeys.ENGINEERING] = "Engineering",
+    [QuestieProfessions.professionKeys.ENCHANTING] = "Enchanting",
+    [QuestieProfessions.professionKeys.FISHING] = "Fishing",
+    [QuestieProfessions.professionKeys.SKINNING] = "Skinning"
+}
+
+function QuestieProfessions:GetProfessionName(professionKey)
+    return professionNames[professionKey]
+end
+
 professionTable = {
     ["First Aid"] = 129,
     ["Erste Hilfe"] = 129,

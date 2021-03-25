@@ -109,12 +109,26 @@ local function build(key)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
-        text = (l10n(tostring(key)) or key),
+        text = l10n(tostring(key)),
         func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end, 
         icon=icon, 
         notCheckable=false, 
         checked=Questie.db.char.townsfolkConfig[key], 
         isNotRadio=true, 
+        keepShownOnClick=true
+    }
+end
+
+local function buildLocalized(key, localizedText)
+    local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+
+    return {
+        text = localizedText,
+        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end,
+        icon=icon,
+        notCheckable=false,
+        checked=Questie.db.char.townsfolkConfig[key],
+        isNotRadio=true,
         keepShownOnClick=true
     }
 end
@@ -187,9 +201,9 @@ function QuestieMenu:Show()
         local profMenuSorted = {}
         local secondaryProfMenuSorted = {}
         local profMenuData = {}
-        for key, v in pairs(Questie.db.global.professionTrainers) do
-            local localizedKey = (l10n(tostring(key)) or key)
-            profMenuData[localizedKey] = build(key)
+        for key, _ in pairs(Questie.db.global.professionTrainers) do
+            local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
+            profMenuData[localizedKey] = buildLocalized(key, localizedKey)
             if secondaryProfessions[key] then
                 tinsert(secondaryProfMenuSorted, localizedKey)
             else
@@ -212,8 +226,8 @@ function QuestieMenu:Show()
         local vendorMenu = {}
         local vendorMenuSorted = {}
         local vendorMenuData = {}
-        for key, v in pairs(Questie.db.char.vendorList) do
-            local localizedKey = (l10n(tostring(key)) or key)
+        for key, _ in pairs(Questie.db.char.vendorList) do
+            local localizedKey = l10n(tostring(key))
             vendorMenuData[localizedKey] = build(key)
             tinsert(vendorMenuSorted, localizedKey)
         end
