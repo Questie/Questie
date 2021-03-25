@@ -667,6 +667,9 @@ function QuestieQuestFixes:Load()
         [1471] = {
             [questKeys.exclusiveTo] = {1504}, -- #1542
         },
+        [1472] = {
+            [questKeys.exclusiveTo] = {1507}, -- #2599
+        },
         [1473] = {
             [questKeys.exclusiveTo] = {1501},
         },
@@ -693,6 +696,9 @@ function QuestieQuestFixes:Load()
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
+        },
+        [1507] = {
+            [questKeys.exclusiveTo] = {1472}, -- #2599
         },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33},},},},
