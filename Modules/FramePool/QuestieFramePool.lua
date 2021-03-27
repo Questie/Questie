@@ -593,7 +593,6 @@ function _QuestieFramePool:QuestieTooltip()
     Tooltip:SetOwner(self, "ANCHOR_CURSOR"); --"ANCHOR_CURSOR" or (self, self)
 
     --if QuestieQuest._isResetting then -- temporary fix for lua errors during smoothreset. We need to dig through this and find a proper fix later
-    --    Tooltip:AddLine(i10n("QUESTIE_IS_LOADING"), 1, 0.2, 0.1)
     --    Tooltip:SetFrameStrata("TOOLTIP")
     --    Tooltip:Show()
     --    return
