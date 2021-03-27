@@ -28,6 +28,10 @@ Database\Zones\zoneDB.lua
 Database\Zones\zoneTables.lua
 
 #Databases
+Database\Classic\classicItemDB.lua
+Database\Classic\classicObjectDB.lua
+Database\Classic\classicQuestDB.lua
+Database\Classic\classicSpawnDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
