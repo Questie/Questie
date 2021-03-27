@@ -1,10 +1,10 @@
 ---@class QuestieTSP
 local QuestieTSP = QuestieLoader:CreateModule("QuestieTSP")
 
----@class ZoneDB
+---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
----@class QuestieMap
+---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
 ---@Class QuestieDB
@@ -264,7 +264,7 @@ function QuestieTSP:ReadSocialPacket(packet, player)
     QuestieTSP.playerScores[player] = scoreNow
     getOrCreate(QuestieTSP.logs, uimapid)[player] = log
 
-    QuestieLoader:ImportModule("QuestieTrackerNew"):Update() -- todo
+    --QuestieLoader:ImportModule("QuestieTrackerNew"):Update() -- todo
 
 end
 
