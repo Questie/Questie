@@ -58,7 +58,7 @@ local questTagCorrections = {
 }
 
 -- race bitmask data, for easy access
-local VANILLA = true -- TODO: Check if we are on TBC
+local VANILLA = string.byte(GetBuildInfo(), 1) == 49
 
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
