@@ -10,16 +10,16 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@Class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
----@class QuestieLib
+---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@class QuestiePlayer
+---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
----@class QuestieSerializer
+---@type QuestieSerializer
 local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
 
----@class QuestieFramePool
+---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
