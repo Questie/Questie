@@ -64,6 +64,7 @@ QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
     ALL_HORDE = VANILLA and 178 or 690,
     ALL = VANILLA and 255 or 2047,
+    NONE = 0,
 
     HUMAN = 1,
     ORC = 2,

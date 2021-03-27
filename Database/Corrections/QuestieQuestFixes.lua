@@ -41,12 +41,12 @@ function QuestieQuestFixes:Load()
         },
         [26] = { -- Switch Alliance and Horde Druid quest IDs #948
             [questKeys.startedBy] = {{4217,},nil,nil,},
-            [questKeys.requiredRaces] = 8,
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
             [questKeys.nextQuestInChain] = 29,
         },
         [27] = { -- Switch Alliance and Horde Druid quest IDs #948
             [questKeys.startedBy] = {{3033,},nil,nil,},
-            [questKeys.requiredRaces] = 32,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.nextQuestInChain] = 28,
         },
         [28] = {
@@ -67,12 +67,6 @@ function QuestieQuestFixes:Load()
         [100] = {
             [questKeys.childQuests] = {1103}, -- #1658
         },
-        --[103] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        --},
-        --[104] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        --},
         [109] = {
             [questKeys.startedBy] = {{233,237,240,261,294,963,},nil,nil,}, --#2158
         },
@@ -82,9 +76,6 @@ function QuestieQuestFixes:Load()
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
         },
-        --[152] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        --},
         [163] = {
             [questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
         },
@@ -773,7 +764,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61},},},},
         },
         [1700] = {
-            [questKeys.requiredRaces] = 1,
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
         },
         [1703] = {
@@ -884,7 +875,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1825
             [questKeys.exclusiveTo] = {2281}, -- #1817
         },
-        [2358] = { -- bad race data
+        [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2460] = {
@@ -1023,7 +1014,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
         },
         [3090] = {
-            [questKeys.requiredRaces] = 2, -- #2399
+            [questKeys.requiredRaces] = raceIDs.ORC, -- #2399
         },
         [3128] = {
             [questKeys.preQuestSingle] = {3122},
@@ -1862,10 +1853,10 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[zoneIDs.ALTERAC_VALLEY]={{42.29,12.85},},},},
         },
         [7161] = {
-            [questKeys.requiredRaces] = 0, -- #813
+            [questKeys.requiredRaces] = raceIDs.NONE, -- #813
         },
         [7165] = {
-            [questKeys.requiredRaces] = 0, -- #813
+            [questKeys.requiredRaces] = raceIDs.NONE, -- #813
         },
         [7166] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
