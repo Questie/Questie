@@ -57,6 +57,28 @@ local questTagCorrections = {
     [8408] = {41, "PvP"},
 }
 
+-- race bitmask data, for easy access
+local VANILLA = string.byte(GetBuildInfo(), 1) == 49
+
+QuestieDB.raceKeys = {
+    ALL_ALLIANCE = VANILLA and 77 or 1101,
+    ALL_HORDE = VANILLA and 178 or 690,
+    ALL = VANILLA and 255 or 2047,
+    NONE = 0,
+
+    HUMAN = 1,
+    ORC = 2,
+    DWARF = 4,
+    NIGHT_ELF = 8,
+    UNDEAD = 16,
+    TAUREN = 32,
+    GNOME = 64,
+    TROLL = 128,
+    --GOBLIN = 256,
+    BLOOD_ELF = 512,
+    DRAENEI = 1024
+}
+
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};

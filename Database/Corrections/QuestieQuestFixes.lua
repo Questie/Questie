@@ -18,6 +18,7 @@ function QuestieQuestFixes:Load()
 
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local raceIDs = QuestieDB.raceKeys
 
     return {
         [2] = {
@@ -40,12 +41,12 @@ function QuestieQuestFixes:Load()
         },
         [26] = { -- Switch Alliance and Horde Druid quest IDs #948
             [questKeys.startedBy] = {{4217,},nil,nil,},
-            [questKeys.requiredRaces] = 8,
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
             [questKeys.nextQuestInChain] = 29,
         },
         [27] = { -- Switch Alliance and Horde Druid quest IDs #948
             [questKeys.startedBy] = {{3033,},nil,nil,},
-            [questKeys.requiredRaces] = 32,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.nextQuestInChain] = 28,
         },
         [28] = {
@@ -66,12 +67,6 @@ function QuestieQuestFixes:Load()
         [100] = {
             [questKeys.childQuests] = {1103}, -- #1658
         },
-        --[103] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = 77,
-        --},
-        --[104] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = 77,
-        --},
         [109] = {
             [questKeys.startedBy] = {{233,237,240,261,294,963,},nil,nil,}, --#2158
         },
@@ -81,9 +76,6 @@ function QuestieQuestFixes:Load()
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
         },
-        --[152] = { -- bad race data (actually this is correct)
-        --    [questKeys.requiredRaces] = 77,
-        --},
         [163] = {
             [questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
         },
@@ -125,13 +117,13 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #882
         },
         [367] = {
-            [questKeys.requiredRaces] = 178, -- #888
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #888
         },
         [368] = {
-            [questKeys.requiredRaces] = 178, -- #888
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #888
         },
         [369] = {
-            [questKeys.requiredRaces] = 178, -- #888
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #888
         },
         [373] = {
             [questKeys.startedBy] = {{639},nil,{2874}},
@@ -232,7 +224,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,{1765},{3706},}, -- #1245
         },
         [558] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -357,10 +349,10 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3204},nil,{4903}},
         },
         [834] = {
-            [questKeys.requiredRaces] = 255, -- #1665
+            [questKeys.requiredRaces] = raceIDs.ALL, -- #1665
         },
         [835] = {
-            [questKeys.requiredRaces] = 255, -- #1665
+            [questKeys.requiredRaces] = raceIDs.ALL, -- #1665
         },
         [836] = {
             [questKeys.triggerEnd] = {"Escort OOX-09/HL to the shoreline beyond Overlook Cliff", {[zoneIDs.THE_HINTERLANDS]={{79.14,61.36},},},},
@@ -707,7 +699,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {356,30},
         },
         [1581] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [1598] = {
             [questKeys.exclusiveTo] = {1599}, -- #999
@@ -772,7 +764,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61},},},},
         },
         [1700] = {
-            [questKeys.requiredRaces] = 1,
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
             [questKeys.exclusiveTo] = {1703,1704,1705}, -- #1857
         },
         [1703] = {
@@ -883,8 +875,8 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1825
             [questKeys.exclusiveTo] = {2281}, -- #1817
         },
-        [2358] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+        [2358] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [2460] = {
             [questKeys.triggerEnd] = {"Shattered Salute Performed", {[zoneIDs.ORGRIMMAR]={{43.11,53.48},},},},
@@ -1022,7 +1014,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3681},
         },
         [3090] = {
-            [questKeys.requiredRaces] = 2, -- #2399
+            [questKeys.requiredRaces] = raceIDs.ORC, -- #2399
         },
         [3128] = {
             [questKeys.preQuestSingle] = {3122},
@@ -1162,31 +1154,31 @@ function QuestieQuestFixes:Load()
         [4108] = {
             [questKeys.startedBy] = {{9529,},nil,nil,},
             [questKeys.finishedBy] = {{9529,},nil,},
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4109] = {
             [questKeys.startedBy] = {{9529,},nil,nil,},
             [questKeys.finishedBy] = {{9529,},nil,},
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4110] = {
             [questKeys.startedBy] = {{9529,},nil,nil,},
             [questKeys.finishedBy] = {{9529,},nil,},
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4111] = {
             [questKeys.startedBy] = {{9529,},nil,nil,},
             [questKeys.finishedBy] = {{9529,},nil,},
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         [4112] = {
             [questKeys.startedBy] = {{9529,},nil,nil,},
             [questKeys.finishedBy] = {{9529,},nil,},
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.preQuestSingle] = {5887,5888,5889,5890,5891,},
         },
         -----------------------
@@ -1289,17 +1281,17 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMaxRep] = {21,-5999},
         },
         [4641] = {
-            [questKeys.requiredRaces] = 178, -- #877
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
             [questKeys.exclusiveTo] = {788}, -- #1956
         },
         [4734] = {
             [questKeys.triggerEnd] = {"Test the Eggscilliscope Prototype", {[zoneIDs.SEARING_GORGE]={{40.78,95.66},},},},
         },
         [4736] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4737] = {
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [4763] = {
             [questKeys.requiredSourceItems] = {12347,12341,12342,12343,}, -- #798
@@ -1361,10 +1353,10 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Kanati Greycloud", {[zoneIDs.THOUSAND_NEEDLES]={{21.38,31.98},},},},
         },
         [4967] = {
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [4968] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4975] = {
             [questKeys.triggerEnd] = {"Wait for Menara Voidrender to complete your item", {[zoneIDs.THE_BARRENS]={{62.52,35.47},},},},
@@ -1376,7 +1368,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {12733},
         },
         [5057] = {
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [5059] = {
             [questKeys.preQuestSingle] = {5058}, -- #922
@@ -1445,7 +1437,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {5226,5236},
         },
         [5234] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [5261] = {
             [questKeys.exclusiveTo] = {33}, -- #1726
@@ -1494,35 +1486,35 @@ function QuestieQuestFixes:Load()
         [5882] = {
             [questKeys.startedBy] = {{9528,},nil,nil,},
             [questKeys.finishedBy] = {{9528,},nil,},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.exclusiveTo] = {5883,5884,5885,5886,},
         },
         [5883] = {
             [questKeys.startedBy] = {{9528,},nil,nil,},
             [questKeys.finishedBy] = {{9528,},nil,},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.exclusiveTo] = {5882,5884,5885,5886,},
         },
         [5884] = {
             [questKeys.startedBy] = {{9528,},nil,nil,},
             [questKeys.finishedBy] = {{9528,},nil,},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.exclusiveTo] = {5882,5883,5885,5886,},
         },
         [5885] = {
             [questKeys.startedBy] = {{9528,},nil,nil,},
             [questKeys.finishedBy] = {{9528,},nil,},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.exclusiveTo] = {5882,5883,5884,5886,},
         },
         [5886] = {
             [questKeys.startedBy] = {{9528,},nil,nil,},
             [questKeys.finishedBy] = {{9528,},nil,},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestSingle] = {4101},
             [questKeys.exclusiveTo] = {5882,5883,5884,5885,},
         },
@@ -1857,29 +1849,29 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Defeat Drek'thar.",{[zoneIDs.ALTERAC_VALLEY]={{47.22,86.95},},},},
         },
         [7142] = {
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.triggerEnd] = {"Defeat Vanndar Stormpike.",{[zoneIDs.ALTERAC_VALLEY]={{42.29,12.85},},},},
         },
         [7161] = {
-            [questKeys.requiredRaces] = 0, -- #813
+            [questKeys.requiredRaces] = raceIDs.NONE, -- #813
         },
         [7165] = {
-            [questKeys.requiredRaces] = 0, -- #813
+            [questKeys.requiredRaces] = raceIDs.NONE, -- #813
         },
         [7166] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7167] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7170] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7171] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7172] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7201] = {
             [questKeys.preQuestSingle] = {3906},
@@ -1891,10 +1883,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7162},
         },
         [7281] = {
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7282] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7385] = {
             [questKeys.objectivesText] = {},
@@ -1903,13 +1895,13 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {},
         },
         [7426] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7427] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [7428] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [7481] = {
             [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71},},},},
@@ -1962,7 +1954,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{13417},nil,},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = 64,
             [questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{18880,nil},},nil,},
@@ -1977,7 +1969,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{13417,},nil,nil,},           --       & ended*
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
-            [questKeys.requiredRaces] = 178,                      -- Any race can take on quest
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,                      -- Any race can take on quest
             [questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
             [questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
             [questKeys.specialFlags] = 1,
@@ -1989,7 +1981,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{928},nil,},
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.requiredClasses] = 2,
             [questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
             [questKeys.nextQuestInChain] = 7637,
@@ -2016,9 +2008,6 @@ function QuestieQuestFixes:Load()
         },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
-        },        
-        [7828] = { -- #2580
-            [questKeys.objectivesText] = {"Huntsman Markhor at Revantusk Village in the Hinterlands wants you to kill 15 Silvermane Stalkers and 15 Silvermane Howlers. Return to him once the task is complete.","Markhor mentioned that the wolves hide in the wilds of the Hinterlands."}
         },
         [7838] = {
             [questKeys.specialFlags] = 1, -- #1589
@@ -2082,12 +2071,12 @@ function QuestieQuestFixes:Load()
         },
         [8149] = {
             [questKeys.requiredSourceItems] = {19850},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8150] = {
             [questKeys.requiredSourceItems] = {19851},
             [questKeys.exclusiveTo] = {2851},
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8166] = {
             [questKeys.specialFlags] = 0,
@@ -2142,10 +2131,10 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {7769},
         },
         [8271] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8272] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8280] = {
             [questKeys.exclusiveTo] = {}, -- #1873
@@ -2156,11 +2145,11 @@ function QuestieQuestFixes:Load()
         [8289] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil,},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8296] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8304] = {
             [questKeys.objectives] = {{{15171,"Frankal Questioned"},{15170,"Rutgar Questioned"},},nil,nil,nil,},
@@ -2260,20 +2249,20 @@ function QuestieQuestFixes:Load()
         },
         [8492] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8493] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8494] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8495] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8498] = {
@@ -2281,7 +2270,7 @@ function QuestieQuestFixes:Load()
         },
         [8499] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8500] = {
             [questKeys.requiredLevel] = 1,
@@ -2289,145 +2278,145 @@ function QuestieQuestFixes:Load()
         },
         [8503] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8504] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8505] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8506] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8509] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8510] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8511] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8512] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8513] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8514] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8515] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8516] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8517] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8518] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8520] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.preQuestSingle] = {},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8521] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8522] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8523] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8524] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8525] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8526] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8527] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8528] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8529] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.specialFlags] = 1,
         },
         [8532] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8533] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8536] = {
             [questKeys.specialFlags] = 1,
         },
         [8542] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8543] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8545] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8546] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8548] = {
             [questKeys.preQuestSingle] = {8800},
         },
         [8549] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8550] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8551] = {
             [questKeys.requiredLevel] = 35,
@@ -2450,91 +2439,91 @@ function QuestieQuestFixes:Load()
         },
         [8580] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8581] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8582] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8583] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8588] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8589] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8590] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8591] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8600] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8601] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8604] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8605] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8607] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8608] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8609] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8610] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8611] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8612] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8613] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8614] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8615] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8616] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8620] = {
             [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
@@ -2588,12 +2577,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756,}, --invoker exalted
         },
         [8767] = {
-            [questKeys.requiredRaces] = 255,
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.requiredClasses] = 0,
             [questKeys.exclusiveTo] = {8788},
         },
         [8788] = {
-            [questKeys.requiredRaces] = 255,
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.requiredClasses] = 0,
             [questKeys.exclusiveTo] = {8767},
         },
@@ -2608,15 +2597,15 @@ function QuestieQuestFixes:Load()
         },
         [8795] = {
             [questKeys.requiredLevel] = 1,
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {8796,8797},
         },
         [8796] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {8795,8797},
         },
         [8797] = {
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {8795,8796},
         },
         [8798] = {
@@ -2766,13 +2755,13 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [8980] = { -- bad race data
-            [questKeys.requiredRaces] = 178,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [9015] = {
             [questKeys.objectives] = {{{16059,"Theldren's Team Defeated"},},nil,{{22047,nil},},nil,}, -- #2408
         },
         [9026] = { -- bad race data
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9051] = {
             [questKeys.triggerEnd] = {"Devilsaur stabbed with barb", {[zoneIDs.UN_GORO_CRATER]={{64.32,59.45},{67.98,58.07},{53.82,63.08},{57.99,73.93},{73.87,38.34},},},},
@@ -3028,11 +3017,11 @@ function QuestieQuestFixes:Load()
         },
         [9261] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.DUN_MOROGH] = {{48.53,39.54},{49.70,39.17}}}},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9262] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TELDRASSIL] = {{36.96,55.49},{38.30,56.49}}}},
-            [questKeys.requiredRaces] = 77,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9263] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.DUROTAR] = {{44.9,16.7},{44.6,18.1}}}},
@@ -3044,7 +3033,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TIRISFAL_GLADES] = {{60.4,61.7}}}},
         },
         [9319] = {
-            [questKeys.requiredRaces] = 255,
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [9322] = {
             [questKeys.requiredLevel] = 1,
@@ -3054,7 +3043,7 @@ function QuestieQuestFixes:Load()
         },
         [9386] = {
             [questKeys.preQuestSingle] = {9319},
-            [questKeys.requiredRaces] = 255,
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.specialFlags] = 1,
         },
         [9415] = {
@@ -3074,6 +3063,7 @@ end
 
 function QuestieQuestFixes:LoadFactionFixes()
     local questKeys = QuestieDB.questKeys
+    local raceIDs = QuestieDB.raceKeys
 
     local questFixesHorde = {
         [687] = {
@@ -3102,7 +3092,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815,},nil,nil},
-            [questKeys.requiredRaces] = 255,
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [8151] = {
             [questKeys.startedBy] = {{3039,3352,},nil,nil},
@@ -3172,7 +3162,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382,},nil,nil},
-            [questKeys.requiredRaces] = 255,
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [8151] = {
             [questKeys.startedBy] = {{4205,5116,5516,},nil,nil},
