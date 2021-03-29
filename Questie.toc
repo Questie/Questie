@@ -32,6 +32,10 @@ Database\Classic\classicItemDB.lua
 Database\Classic\classicObjectDB.lua
 Database\Classic\classicQuestDB.lua
 Database\Classic\classicSpawnDB.lua
+Database\TBC\TBCItemDB.lua
+Database\TBC\TBCObjectDB.lua
+Database\TBC\TBCQuestDB.lua
+Database\TBC\TBCSpawnDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
