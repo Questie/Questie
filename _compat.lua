@@ -5,6 +5,8 @@
 -- this is the replacement for GetQuestLogTitle. Because the blizzard API returns a table with named keys now, it's not as simple as changing the function name.
 function __REFACTORME_GetInfoProxy(logId)
     local data = C_QuestLog.GetInfo(logId)
-    return data.title, data.level, data.suggestedGroup, data.isHeader, data.isCollapsed, data.isComplete, data.frequency, data.questID, data.startEvent, data.displayQuestID, data.isOnMap
+    if data then
+        return data.title, data.level, data.suggestedGroup, data.isHeader, data.isCollapsed, data.isComplete, data.frequency, data.questID, data.startEvent, data.displayQuestID, data.isOnMap
+    end
 end
 

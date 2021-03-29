@@ -137,7 +137,7 @@ end
 
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
-    for i=1, GetNumQuestLogEntries() + 1 do
+    for i=1, GetNumQuestLogEntries() do
         GetQuestLogTitle(i)
         QuestieQuest:GetRawLeaderBoardDetails(i)
     end
