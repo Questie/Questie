@@ -20,3 +20,11 @@ function __REFACTORME_GetAllCompletedQuestIDsProxy()
     return completeTable
 end
 
+-- this one has the same problem, different return value formatting
+function __REFACTORME_GetQuestTagInfoProxy(id)
+    local info = C_QuestLog.GetQuestTagInfo(id)
+    if info then
+        return info.tagID, info.tagName, info.worldQuestType, info.quality, info.isElite, info.tradeskillLineID, info.displayExpiration
+    end
+end
+
