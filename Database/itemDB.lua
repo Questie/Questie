@@ -1,9 +1,5 @@
--- AUTO GENERATED FILE! DO NOT EDIT!
-
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
-
-local isTbcClient = string.byte(GetBuildInfo(), 1) == 50;
 
 
 QuestieDB.itemKeys = {
@@ -116,12 +112,3 @@ QuestieDB._itemAdapterQueryOrder = {}
 for key, id in pairs(QuestieDB.itemKeys) do
     QuestieDB._itemAdapterQueryOrder[id] = key
 end
-
-if (not isTbcClient) then
-    return
-end
-
-
-QuestieDB.itemData = {
-    -- TODO import TBC items
-};
