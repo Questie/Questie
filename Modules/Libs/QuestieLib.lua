@@ -2,7 +2,7 @@
 
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local GetQuestLogTitle = GetNumQuestLogEntries or C_QuestLog.GetQuestLogTitle
+local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 
 
 ---@class QuestieLib

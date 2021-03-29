@@ -10,6 +10,8 @@
 ## X-Curse-Project-ID: 334372
 
 
+_compat.lua
+
 Modules\VersionCheck.lua
 
 embeds.xml
