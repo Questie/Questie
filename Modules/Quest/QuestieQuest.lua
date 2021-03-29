@@ -3,6 +3,7 @@ local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLog
 local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 local GetQuestsCompleted = GetQuestsCompleted or __REFACTORME_GetAllCompletedQuestIDsProxy
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
+local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
 
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")

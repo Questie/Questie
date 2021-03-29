@@ -1,6 +1,7 @@
 --- COMPATIBILITY ---
 local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
+local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
 
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
