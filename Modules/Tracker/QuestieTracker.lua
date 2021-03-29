@@ -204,7 +204,7 @@ function _QuestieTracker:UpdateLayout()
 end
 
 function _QuestieTracker:CreateBaseFrame()
-    local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent)
+    local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     frm:SetFrameStrata("BACKGROUND")
     frm:SetFrameLevel(0)
     frm:SetWidth(165)
