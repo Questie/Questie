@@ -1,5 +1,5 @@
 -- Widget created by Yssaril
-local DataVersion = 9003
+local DataVersion = 9004
 local AGSMW = LibStub:NewLibrary("AceGUISharedMediaWidgets-1.0", DataVersion)
 
 if not AGSMW then
@@ -112,7 +112,7 @@ do
 	function AGSMW:GetBaseFrameWithWindow()
 		local frame = self:GetBaseFrame()
 
-		local displayButton = CreateFrame("Button", nil, frame)
+		local displayButton = CreateFrame("Button", nil, frame, BackdropTemplateMixin and "BackdropTemplate")
 			displayButton:SetHeight(42)
 			displayButton:SetWidth(42)
 			displayButton:SetPoint("TOPLEFT", frame, "TOPLEFT", 1, -2)
@@ -205,7 +205,7 @@ do
 		if next(DropDownCache) then
 			frame = table.remove(DropDownCache)
 		else
-			frame = CreateFrame("Frame", nil, UIParent)
+			frame = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate")
 				frame:SetClampedToScreen(true)
 				frame:SetWidth(188)
 				frame:SetBackdrop(frameBackdrop)
@@ -235,7 +235,7 @@ do
 			frame.ClearFrames = ClearFrames
 			frame.contentRepo = {} -- store all our frames in here so we can get rid of them later
 
-			local slider = CreateFrame("Slider", nil, scrollframe)
+			local slider = CreateFrame("Slider", nil, scrollframe, BackdropTemplateMixin and "BackdropTemplate")
 				slider:SetOrientation("VERTICAL")
 				slider:SetPoint("TOPRIGHT", frame, "TOPRIGHT", -14, -10)
 				slider:SetPoint("BOTTOMRIGHT", frame, "BOTTOMRIGHT", -14, 10)

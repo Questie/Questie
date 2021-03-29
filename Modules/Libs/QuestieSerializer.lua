@@ -1,3 +1,7 @@
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+local GetQuestLogTitle = GetNumQuestLogEntries or C_QuestLog.GetQuestLogTitle
+
 ---@class QuestieSerializer
 local QuestieSerializer = QuestieLoader:CreateModule("QuestieSerializer");
 -------------------------

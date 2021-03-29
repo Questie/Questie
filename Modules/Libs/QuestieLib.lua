@@ -1,4 +1,10 @@
 -- Contains library functions that do not have a logical place.
+
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+local GetQuestLogTitle = GetNumQuestLogEntries or C_QuestLog.GetQuestLogTitle
+
+
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 -------------------------
@@ -36,7 +42,7 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF8040" .. text .. "|r" -- Orange
     elseif (levelDiff >= -2) then
         return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange()) then
+    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
         return "|cFF40C040" .. text .. "|r" -- Green
     else
         return "|cFFC0C0C0" .. text .. "|r" -- Grey
@@ -57,7 +63,7 @@ function QuestieLib:GetDifficultyColorPercent(level)
     elseif (levelDiff >= -2) then
         -- return "|cFFFFFF00"..text.."|r"; -- Yellow
         return 1, 1, 0
-    elseif (-levelDiff <= GetQuestGreenRange()) then
+    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
         -- return "|cFF40C040"..text.."|r"; -- Green
         return 0.251, 0.753, 0.251
     else

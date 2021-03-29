@@ -125,9 +125,9 @@ end
 --- The faire ends the sunday after it has begun.
 --- Sunday is the first weekday
 _LoadDarkmoonFaire = function()
-    local date = C_DateAndTime.GetTodaysDate()
+    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
     local weekDay = date.weekDay
-    local day = date.day
+    local day = date.day or date.monthDay
     local month = date.month
 
     local isInMulgore = (month % 2) == 0
@@ -171,8 +171,8 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then
         return true
     end
-    local date = C_DateAndTime.GetTodaysDate()
-    local day = date.day
+    local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
+    local day = date.day or date.monthDay
     local month = date.month
     if (month < startMonth) or -- Too early in the year
         (month > endMonth) or -- Too late in the year

@@ -1,3 +1,7 @@
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+local GetQuestLogTitle = GetNumQuestLogEntries or C_QuestLog.GetQuestLogTitle
+
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
 local _QuestieQuest = QuestieQuest.private
@@ -1359,7 +1363,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside
 
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    local minLevel = playerLevel - GetQuestGreenRange()
+    local minLevel = playerLevel - (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")
     local maxLevel = playerLevel
 
     if Questie.db.char.absoluteLevelOffset then

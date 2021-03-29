@@ -1,3 +1,6 @@
+--- COMPATIBILITY ---
+local GetQuestLogTitle = GetNumQuestLogEntries or C_QuestLog.GetQuestLogTitle
+
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
@@ -828,7 +831,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             return false -- Orange
         elseif (levelDiff >= -2) then
             return false -- Yellow
-        elseif (-levelDiff <= GetQuestGreenRange()) then
+        elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
             return false -- Green
         else
             return true -- Grey

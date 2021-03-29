@@ -79,8 +79,7 @@ local Migration = QuestieLoader:ImportModule("Migration")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
-if  (not LQuestie_EasyMenu) or
-    --Libs
+if  --Libs
     (not QuestieLib) or
     (not QuestiePlayer) or
     (not QuestieSerializer) or
