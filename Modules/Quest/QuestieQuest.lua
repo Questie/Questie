@@ -4,6 +4,7 @@ local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 local GetQuestsCompleted = GetQuestsCompleted or __REFACTORME_GetAllCompletedQuestIDsProxy
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
+local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
 
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
@@ -1366,7 +1367,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside
 
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    local minLevel = playerLevel - (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")
+    local minLevel = playerLevel - GetQuestGreenRange("player")
     local maxLevel = playerLevel
 
     if Questie.db.char.absoluteLevelOffset then

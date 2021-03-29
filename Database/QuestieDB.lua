@@ -3,6 +3,7 @@ local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
 local GetQuestTagInfo = GetQuestTagInfo or __REFACTORME_GetQuestTagInfoProxy
+local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
 
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
@@ -834,7 +835,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             return false -- Orange
         elseif (levelDiff >= -2) then
             return false -- Yellow
-        elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
+        elseif (-levelDiff <= GetQuestGreenRange("player")) then
             return false -- Green
         else
             return true -- Grey

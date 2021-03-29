@@ -18,7 +18,7 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@tyle QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
-local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
@@ -174,7 +174,7 @@ function QuestieMenu:Show()
         Questie.db.char.townsfolkConfig = {}
     end
     if not QuestieMenu.menu then
-        QuestieMenu.menu = LibDD:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
+        QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = {}
     for key in pairs(Questie.db.global.townsfolk) do

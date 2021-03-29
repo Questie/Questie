@@ -56,6 +56,8 @@ local didPlayerEnterWorld = false
 local hasFirstQLU = false
 local shouldRunQLU = false
 
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 -- forward declaration
 local _PLAYER_LOGIN, _PLAYER_LEVEL_UP, _PLAYER_REGEN_DISABLED, _PLAYER_REGEN_ENABLED
 local _QUEST_ACCEPTED, _QUEST_TURNED_IN, _UNIT_QUEST_LOG_CHANGED, _QUEST_REMOVED, _QUEST_LOG_UPDATE, _QUEST_FINISHED
@@ -116,7 +118,7 @@ function QuestieEventHandler:RegisterAllEvents(callback)
         Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
         -- dropdown fix
-        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibStub:GetLibrary("LibUIDropDownMenu-4.0").CloseDropDownMenus) end)
+        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
 
         -- quest announce
         Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
