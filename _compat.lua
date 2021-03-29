@@ -10,3 +10,13 @@ function __REFACTORME_GetInfoProxy(logId)
     end
 end
 
+-- the old DB function (GetQuestsCompleted) returns values in the format {[questid]=true, [questid]=true, ...}
+-- the new function returns {questid, questid, questid}
+function __REFACTORME_GetAllCompletedQuestIDsProxy()
+    local completeTable = {}
+    for _, id in pairs(C_QuestLog.GetAllCompletedQuestIDs()) do
+        completeTable[id] = true
+    end
+    return completeTable
+end
+
