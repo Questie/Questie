@@ -30,6 +30,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
+local LibDD = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 -- Local Vars
 local trackerLineCount = 80
 local trackerLineWidth = 1
@@ -97,7 +99,7 @@ function QuestieTracker:Initialize()
     _QuestieTracker:CreateTrackedQuestButtons()
 
     -- Tracker right click menu
-    _QuestieTracker.menuFrame = LQuestie_Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
+    _QuestieTracker.menuFrame = LibDD:Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
 
     if Questie.db.global.hookTracking then
         QuestieTracker:HookBaseTracker()

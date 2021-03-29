@@ -116,7 +116,7 @@ function QuestieEventHandler:RegisterAllEvents(callback)
         Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
         -- dropdown fix
-        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(CloseDropDownMenus) end)
+        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibStub:GetLibrary("LibUIDropDownMenu-4.0").CloseDropDownMenus) end)
 
         -- quest announce
         Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
