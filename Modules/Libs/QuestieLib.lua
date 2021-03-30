@@ -565,8 +565,10 @@ function QuestieLib:ArrayToDict(arr)
     local d = {}
     if arr == nil then
         Questie:Debug(DEBUG_SPAM, "[QuestieLib:ArrayToDict]: array is nil")
-    elseif #arr % 2 ~= 0 then
+    elseif #arr == 0 then
         Questie:Debug(DEBUG_SPAM, "[QuestieLib:ArrayToDict]: array is empty")
+    elseif #arr % 2 ~= 0 then
+        Questie:Debug(DEBUG_SPAM, "[QuestieLib:ArrayToDict]: array size is not even")
     else
         for i = 1, #arr, 2 do
             d[arr[i]] = arr[i + 1]
