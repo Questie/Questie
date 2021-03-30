@@ -30,6 +30,7 @@ QuestieDBCompiler.supportedTypes = {
         ["u8u24array"] = true
     },
     ["number"] = {
+        ["s8"] = true,
         ["u8"] = true,
         ["u16"] = true,
         ["s16"] = true,
@@ -44,6 +45,9 @@ QuestieDBCompiler.supportedTypes = {
 }
 
 QuestieDBCompiler.readers = {
+    ["s8"] = function(stream)
+        return stream:ReadByte() - 127
+    end,
     ["u8"] = QuestieStream.ReadByte,
     ["u16"] = QuestieStream.ReadShort,
     ["s16"] = function(stream)
@@ -238,6 +242,9 @@ QuestieDBCompiler.readers = {
 }
 
 QuestieDBCompiler.writers = {
+    ["s8"] = function(stream, value)
+        stream:WriteByte((value or 0)+127)
+    end,
     ["u8"] = function(stream, value)
         stream:WriteByte(value or 0)
     end,
@@ -449,6 +456,7 @@ QuestieDBCompiler.writers = {
 }
 
 QuestieDBCompiler.skippers = {
+    ["s8"] = function(stream) stream._pointer = stream._pointer + 1 end,
     ["u8"] = function(stream) stream._pointer = stream._pointer + 1 end,
     ["u16"] = function(stream) stream._pointer = stream._pointer + 2 end,
     ["s16"] = function(stream) stream._pointer = stream._pointer + 2 end,
@@ -531,6 +539,7 @@ QuestieDBCompiler.dynamics = {
 
 QuestieDBCompiler.statics = {
     ["u8"] = 1,
+    ["s8"] = 1,
     ["u16"] = 2,
     ["s16"] = 2,
     ["u24"] = 3,
@@ -660,6 +669,7 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
                     QuestieDBCompiler.ticker:Cancel()
                     return
                 end
+                --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
                 QuestieDBCompiler.writers[t](QuestieDBCompiler.stream, v)
             end
             tbl[id] = nil -- quicker gabage collection later

@@ -120,7 +120,11 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
 
     for id, data in pairs(QuestieObjectFixes:Load()) do
         for key, value in pairs(data) do
-            QuestieDB.objectData[id][key] = value
+            if not QuestieDB.objectData[id] then
+                print("Attempt to correct missing object " .. tostring(id))
+            else
+                QuestieDB.objectData[id][key] = value
+            end
         end
     end
 
@@ -461,12 +465,16 @@ function QuestieCorrections:PopulateTownsfolk()
         153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176319,176324,176404,177044,178864,
         179895,179896,180451,181236,181639,187260,188123
     }) do
-        local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
-        if (factionID == 0 
-                or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID][5], 12) == 0) 
-                or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID][5], 10) == 0)) then
-            -- friendly to the player
-            tinsert(Questie.db.char.townsfolk["Mailbox"], id)
+        if QuestieDB.objectData[id] then
+            local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
+            if (factionID == 0 
+                    or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID][5], 12) == 0) 
+                    or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID][5], 10) == 0)) then
+                -- friendly to the player
+                tinsert(Questie.db.char.townsfolk["Mailbox"], id)
+            end
+        else
+            print("Missing mailbox: " .. tostring(id))
         end
     end
 
