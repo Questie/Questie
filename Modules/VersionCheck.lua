@@ -13,7 +13,7 @@ if GetBuildInfo() <= '1.13' then
     return
 end
 
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and false then
     StaticPopupDialogs["RETAIL_ERROR"] = {
         text = "|cffff0000ERROR|r\nYou're trying to use Questie on retail WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
         button2 = "Okay, maybe I will",
