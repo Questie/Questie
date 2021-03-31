@@ -5,6 +5,7 @@ local GetQuestsCompleted = GetQuestsCompleted or __REFACTORME_GetAllCompletedQue
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
 local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
+local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")

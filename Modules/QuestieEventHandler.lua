@@ -1,6 +1,7 @@
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
 local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
+local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 --- GLOBAL ---
 ---@class QuestieEventHandler
