@@ -215,7 +215,6 @@ function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x
             --else
                 --print("Rejecting point for being on a different continent")
             end
-            end
         elseif instanceID == 530 then
             --Build a Kalimdor Points Table
             if not OutlandPoints[tableString] then
