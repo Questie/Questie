@@ -382,8 +382,12 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.trackedQuests.label:SetText(QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+            self.trackedQuests.label:SetText("|cFFFF0000(A1)|r"..QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
+
+            --self.trackedQuests.label2:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
+            --self.trackedQuests.label2:SetText("WIP 1")
+            --self.trackedQuests.label2:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 10)
 
             self.trackedQuests:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth())
             self.trackedQuests:SetHeight(trackerFontSizeHeader)
@@ -419,6 +423,10 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     -- Questie Tracked Quests Label
     trackedQuests.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     trackedQuests.label:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 0)
+
+    --trackedQuests.label2 = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    --trackedQuests.label2:SetPoint("TOPLEFT", frm, "TOPLEFT", 0, 10)
+
 
     trackedQuests.SetMode = function(self, mode)
         if mode ~= self.mode then
