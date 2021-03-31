@@ -379,7 +379,7 @@ function QuestieLib:GetAddonVersionInfo()
     end
 
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
+    local major, minor, patch, hash = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)-(.*)")
 
     local buildType = nil
 
@@ -389,11 +389,11 @@ function QuestieLib:GetAddonVersionInfo()
         buildType = "BETA"
     end
 
-    return tonumber(major), tonumber(minor), tonumber(patch), tostring(buildType)
+    return tonumber(major), tonumber(minor), tonumber(patch), tostring(hash), tostring(buildType)
 end
 
 function QuestieLib:GetAddonVersionString()
-    local major, minor, patch, buildType = QuestieLib:GetAddonVersionInfo()
+    local major, minor, patch, buildType, hash = QuestieLib:GetAddonVersionInfo()
 
     if buildType and buildType ~= "nil" then
         buildType = " - " .. buildType
@@ -401,7 +401,13 @@ function QuestieLib:GetAddonVersionString()
         buildType = ""
     end
 
-    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. buildType
+    if hash and hash ~= "nil" then
+        hash = "-" .. hash
+    else
+        hash = ""
+    end
+
+    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. hash .. buildType
 end
 
 -- Search for just Addon\\ at the front since the interface part often gets trimmed
