@@ -14,13 +14,13 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
-                _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
+                _, _, questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
 
                 if questName and sqid then
                     questId = tonumber(sqid)
 
                     if string.find(questName, "(%[%d+.-%]) ") ~= nil then
-                        _, _, questLevel, questName = string.find(questName, "%[(..-)%] (.+)")
+                        _, _, questLevel, questName = string.match(questName, "%[(..-)%] (.+)")
                     end
 
                     if QuestieDB.QueryQuest then
