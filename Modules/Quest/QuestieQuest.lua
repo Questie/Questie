@@ -1062,7 +1062,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         objective.text = retry[objectiveIndex].text
                         Questie:Debug(DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
                     end
-
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
@@ -1189,7 +1188,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local _, _, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
+                local _, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
 
                 if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
@@ -1199,10 +1198,10 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
                     text = monsterName;
                 end
             elseif(objective.type == "item") then
-                local _, _, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
+                local _, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
                 text = itemName;
             elseif(objective.type == "object") then
-                local _, _, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
+                local _, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
                 text = objectName;
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
