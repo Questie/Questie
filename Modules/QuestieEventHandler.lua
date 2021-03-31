@@ -247,6 +247,12 @@ end
 
 --Fires when a quest is accepted in anyway.
 _QUEST_ACCEPTED = function(self, questLogIndex, questId)
+
+    -- questLogIndex is removed in tbc
+    if _IsTBC then
+        questId = questLogIndex
+    end
+    
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_ACCEPTED", "QLogIndex: "..questLogIndex,  "QuestId: "..questId)
     --Try and cache all the potential items required for the quest.
     QuestieLib:CacheItemNames(questId)

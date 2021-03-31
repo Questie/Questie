@@ -28,3 +28,4 @@ function __REFACTORME_GetQuestTagInfoProxy(id)
     end
 end
 
+_IsTBC = true -- REFACTOR THIS!
