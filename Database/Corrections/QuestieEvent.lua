@@ -74,10 +74,6 @@ function QuestieEvent:Load()
         end
     end
 
-    if not next(activeEvents) then
-        print("NO EVENT ACTIVE")
-    end
-
     for _, questData in pairs(QuestieEvent.eventQuests) do
         local eventName = questData[1]
         local questId = questData[2]
