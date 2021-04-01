@@ -453,7 +453,7 @@ function QuestieComms:YellProgress(questId)
 end
 
 _DoYell = function(questId)
-    local data = {}
+    --[[local data = {}
     local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
     if count > 0 then -- dont send quests with no objectives
         local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
@@ -471,7 +471,7 @@ _DoYell = function(questId)
         end)
     else
         QuestieComms._isYelling = false
-    end
+    end]]
 end
 
 _QuestieComms._isBroadcasting = false
