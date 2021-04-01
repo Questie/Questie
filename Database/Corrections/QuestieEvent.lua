@@ -525,6 +525,10 @@ tinsert(QuestieEvent.eventQuests, {"Hallows End", 12396}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12400}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12404}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12408}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11392}) -- Call the Headless Horseman
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11401}) -- Call the Headless Horseman
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11404}) -- Call the Headless Horseman
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11405}) -- Call the Headless Horseman
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
