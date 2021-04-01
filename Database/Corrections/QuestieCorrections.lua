@@ -139,6 +139,45 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
             end
         end
     end
+    local patchCount = 0
+    for id, quest in pairs(QuestieDB.questData) do
+        if (not quest[QuestieDB.questKeys.requiredRaces]) or quest[QuestieDB.questKeys.requiredRaces] == 0 then
+            -- check against questgiver
+            local canHorde = false
+            local canAlliance = false
+            local starts = quest[QuestieDB.questKeys.startedBy]
+            if starts then
+                starts = starts[1]
+                if starts then
+                    for _, id in pairs(starts) do
+                        local npc = QuestieDB.npcData[id]
+                        if npc then
+                            local friendly = npc[QuestieDB.npcKeys.friendlyToFaction]
+                            if friendly then
+                                if friendly == "H" then
+                                    canHorde = true
+                                elseif friendly == "A" then
+                                    canAlliance = true
+                                elseif friendly == "AH" then
+                                    canAlliance = true
+                                    canHorde = true
+                                end
+                            end
+                        end
+                    end
+                end
+                if canAlliance ~= canHorde then
+                    patchCount = patchCount + 1
+                    if canAlliance then
+                        quest[QuestieDB.questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_ALLIANCE
+                    else
+                        quest[QuestieDB.questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_HORDE
+                    end
+                end
+            end
+        end
+    end
+    --print("Patched " .. tostring(patchCount) .. " quests with bad requirement data")
 
     QuestieCorrections:MinimalInit()
 
