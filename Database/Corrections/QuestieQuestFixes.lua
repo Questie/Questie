@@ -3067,6 +3067,9 @@ function QuestieQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9303] = {
+            [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
+        },
         [9449] = {
             [questKeys.questLevel] = 4,
         },
