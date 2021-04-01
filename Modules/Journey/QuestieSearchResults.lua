@@ -109,7 +109,9 @@ local function GetRacesString(raceMask)
             'Tauren',
             'Gnome',
             'Troll',
-            'Goblin'
+            'Goblin',
+            'Draenei',
+            'Bloodelf'
         }
         local firstRun = true
         for k,v in pairs(raceTable) do
@@ -546,7 +548,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     container:AddChild(header);
     QuestieJourneyUtils:Spacer(container);
     -- Declare scopes
-    typeDropdown = AceGUI:Create("LQDropdown");
+    typeDropdown = AceGUI:Create("Dropdown");
     searchBox = AceGUI:Create("EditBox");
     searchGroup = AceGUI:Create("SimpleGroup");
     searchButton = AceGUI:Create("Button");
