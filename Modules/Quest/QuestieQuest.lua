@@ -1050,7 +1050,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and objective.type ~= "reputation" then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie:Error("Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
+                Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
                 if quest.Objectives[objectiveIndex] == nil then
                     quest.Objectives[objectiveIndex] = {}

@@ -250,7 +250,7 @@ end
 _QUEST_ACCEPTED = function(self, unk1, questLogIndex, questId)
 
     -- questLogIndex is removed in tbc
-    if _IsTBC then
+    if _Questie_IsTBC then
         questId = questLogIndex
     end
     

@@ -28,4 +28,5 @@ function __REFACTORME_GetQuestTagInfoProxy(id)
     end
 end
 
-_IsTBC = true -- REFACTOR THIS!
+_Questie_IsTBC = true -- REFACTOR THIS!
+_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(A4)|r"
