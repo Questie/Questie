@@ -292,6 +292,7 @@ function QuestieQuestBlacklist:Load()
         [8983] = true,
         [8984] = true,
         -- TBC event quests
+        [9249] = true,
         [10942] = true,
         [10943] = true,
         [10938] = true,

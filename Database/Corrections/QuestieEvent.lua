@@ -440,7 +440,6 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7939}) -- More Dense Grindi
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7893}) -- Rituals of Strength
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7891}) -- Green Iron Bracers
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7896}) -- Green Fireworks
--- tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 9249}) -- 40 Tickets - Schematic: Steam Tonk Controller
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7884}) -- Crocolisk Boy and the Bearded Murloc
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7882}) -- Carnival Jerkins
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7897}) -- Mechanical Repair Kits
@@ -463,17 +462,18 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last
 tinsert(QuestieEvent.eventQuests, {"Childrens Week", 10942}) -- Children's Week
 tinsert(QuestieEvent.eventQuests, {"Childrens Week", 10943}) -- Children's Week
 
-tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10938}) -- Darkmoon Blessings Deck
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 9249}) -- 40 Tickets - Schematic: Steam Tonk Controller
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10939}) -- Darkmoon Storms Deck
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10940}) -- Darkmoon Furies Deck
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10941}) -- Darkmoon Lunacy Deck
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10941}) -- Darkmoon Lunacy Deck
 
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11450}) -- Fire Training
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11356}) -- Costumed Orphan Matron
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12360}) -- Candy Bucket
-tinsert(QuestieEvent.eventQuests, {"Hallows End", 11131}) --  Stop the Fires!
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11131}) -- Stop the Fires!
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12409}) -- Candy Bucket
-tinsert(QuestieEvent.eventQuests, {"Hallows End", 11219}) --  Stop the Fires!
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11219}) -- Stop the Fires!
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11361}) -- Fire Training
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12332}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12336}) -- Candy Bucket
@@ -513,7 +513,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallows End", 12397}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12401}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12405}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11439}) -- Fire Brigade Practice
-tinsert(QuestieEvent.eventQuests, {"Hallows End", 12133}) --  Smash the Pumpkin
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 12133}) -- Smash the Pumpkin
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12333}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12337}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12341}) -- Candy Bucket
@@ -535,7 +535,7 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B
-tinsert(QuestieEvent.eventQuests, {"Brewfest", 12020}) --  This One Time, When I Was Drunk...
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12020}) -- This One Time, When I Was Drunk...
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11437}) -- [PH] Beer Garden A
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11454}) -- Seek the Saboteurs
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12420}) -- Brew of the Month Club
