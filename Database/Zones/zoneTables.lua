@@ -330,6 +330,7 @@ ZoneDB.zoneIDs = {
     RUINS_OF_AHN_QIRAJ = 3429,
     NAXXRAMAS = 3456,
     UPPER_BLACKROCK_SPIRE = 7307,
+    AZUREMYST_ISLE = 3524,
 }
 
 ZoneDB.zoneIDToInternalName = {}

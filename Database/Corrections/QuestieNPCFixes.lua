@@ -2714,6 +2714,9 @@ function QuestieNPCFixes:Load()
         [16495] = {
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{78.2,41.4},},},
         },
+        [17087] = {
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2},},},
+        },
         -- graves (todo: find a better solution to this. Wasn't worth creating a whole new data type)
         --[[[19199] = {
             [QuestieDB.npcKeys.name]="Darkshore, Auberdine",
