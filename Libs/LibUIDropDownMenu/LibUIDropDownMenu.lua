@@ -133,7 +133,7 @@ local function create_MenuButton(name, parent)
 	f.Icon:Hide()
 	
 	-- ColorSwatch
-	local fcw = CreateFrame("Button", name.."ColorSwatch", f, BackdropTemplateMixin and "ColorSwatchTemplate" or nil)
+	--[[local fcw = CreateFrame("Button", name.."ColorSwatch", f, BackdropTemplateMixin and "ColorSwatchTemplate" or nil)
 	fcw:SetPoint("RIGHT", f, -6, 0)
 	fcw:Hide()
 	if WoWClassic then
@@ -159,7 +159,7 @@ local function create_MenuButton(name, parent)
 	fcw:SetScript("OnLeave", function(self, motion)
 		_G[self:GetName().."SwatchBg"]:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 	end)
-	f.ColorSwatch = fcw
+	f.ColorSwatch = fcw]]
 	
 	-- ExpandArrow
 	local fea = CreateFrame("Button", name.."ExpandArrow", f)
@@ -402,6 +402,14 @@ local function creatre_DropDownList(name, parent)
 		if ( self:GetID() > 1 ) then
 			self.parent = _G["L_DropDownList"..(self:GetID() - 1)];
 		end
+		
+		if (not UIDropDownMenu_HandleGlobalMouseEvent) then
+			self.hideTimer = self.hideTimer or C_Timer.NewTicker(L_UIDROPDOWNMENU_SHOW_TIME, function()
+				if (GetMouseFocus() ~= self) then
+				self:Hide();
+				end
+			end)
+		end
 	end)
 	f:SetScript("OnHide", function(self)
 		local id = self:GetID()
@@ -421,6 +429,11 @@ local function creatre_DropDownList(name, parent)
 			end
 
 			self.customFrames = nil;
+		end
+
+		if (self.hideTimer) then
+			self.hideTimer:Cancel();
+			self.hideTimer = nil;
 		end
 	end)
 	
@@ -1582,7 +1595,7 @@ end
 
 -- hooking UIDropDownMenu_HandleGlobalMouseEvent
 do
-	if lib then
+	if lib and UIDropDownMenu_HandleGlobalMouseEvent then
 		hooksecurefunc("UIDropDownMenu_HandleGlobalMouseEvent", function(button, event) 
 			lib:UIDropDownMenu_HandleGlobalMouseEvent(button, event) 
 		end)
