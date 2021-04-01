@@ -32,8 +32,6 @@ local lastOpenSearch = "quest"
 local BY_NAME = 1
 local BY_ID = 2
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
 
 local function AddParagraph(frame, lookupObject, secondKey, header, query)
     if lookupObject[secondKey] then
@@ -130,9 +128,6 @@ end--]]
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
     local name, questLevel, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "name", "questLevel", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"))
-    if (isTBCClient and questLevel == -1) then
-        questLevel = 70;
-    end
 
     -- header
     local title = AceGUI:Create("Heading")
@@ -432,9 +427,6 @@ _HandleOnGroupSelected = function (resultType)
     local selectedId = tonumber(resultType.localstatus.selected)
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
         local questLevel, questName = unpack(QuestieDB.QueryQuest(selectedId, "questLevel", "name"))
-        if (isTBCClient and questLevel == -1) then
-            questLevel = 70;
-        end
 
         if Questie.db.global.trackerShowQuestLevel then
             ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")

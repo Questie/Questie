@@ -8,8 +8,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 -- The Hyperlink hook is located in Link.lua
 ---------------------------------------------------------------------------------------------------
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
 --- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
 local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
@@ -27,9 +25,6 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
 
                     if QuestieDB.QueryQuest then
                         realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
-                        if (isTBCClient and realQuestLevel == -1) then
-                            realQuestLevel = 70;
-                        end
 
                         if questName and questId then
                             complete = QuestieDB:IsComplete(questId)

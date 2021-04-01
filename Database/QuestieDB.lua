@@ -33,7 +33,6 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 local tinsert = table.insert
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
 
 -- DB keys
 local DB_OBJ_SPAWNS = 4
@@ -263,13 +262,10 @@ end
 ---@param showState boolean
 ---@param blizzLike boolean
 function QuestieDB:GetColoredQuestName(questId, showState, blizzLike)
-    local questName, questLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
-    if (isTBCClient and questLevel == -1) then
-        questLevel = 70;
-    end
-
-    return QuestieLib:GetColoredQuestName(questId, questName, questLevel, Questie.db.global.enableTooltipsQuestLevel, showState, blizzLike)
+    local questName, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+    return QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, showState, blizzLike)
 end
+
 
 ---@param questId number
 ---@return boolean
@@ -377,19 +373,16 @@ end
 ---@param maxLevel number
 ---@return boolean
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
+    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")--local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
 
     if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
 
-    local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
-    if (isTBCClient and questLevel == -1) then
-        questLevel = 70;
-    end
-
-    if maxLevel >= questLevel then
-        if (not Questie.db.char.lowlevel) and minLevel > questLevel then
+    local level = QuestieDB.QueryQuestSingle(questId, "questLevel")
+    -- Questie.db.char.absoluteLevelOffset
+    if maxLevel >= level then
+        if (not Questie.db.char.lowlevel) and minLevel > level then
             return false
         end
     else

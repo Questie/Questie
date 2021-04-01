@@ -23,8 +23,6 @@ local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
 --[[
     Red: 5+ level above player
     Orange: 3 - 4 level above player
@@ -479,11 +477,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        local questLevel = QuestieDB.QueryQuestSingle(q, "questLevel");
-        if (isTBCClient and questLevel == -1) then
-            questLevel = 70;
-        end
-        tinsert(sortedQuestsByLevel, {questLevel or 0, q})
+        tinsert(sortedQuestsByLevel, {QuestieDB.QueryQuestSingle(q, "questLevel") or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 

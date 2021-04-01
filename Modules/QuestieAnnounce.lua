@@ -6,16 +6,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
-
 function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, objectiveProgress)
     if "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
         local message = nil
         local questLevel, questName = unpack(QuestieDB.QueryQuest(questId, "questLevel", "name"))
-        if (isTBCClient and questLevel == -1) then
-            questLevel = 70;
-        end
 
         if progressType == "objective" then
             local objective = nil
