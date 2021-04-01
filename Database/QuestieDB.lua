@@ -364,13 +364,13 @@ end
 ---@param maxLevel number
 ---@return boolean
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")--local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
 
     if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
 
-    local level = QuestieDB.QueryQuestSingle(questId, "questLevel")
+    local level = QuestieLib:GetTbcLevel(questId)
     -- Questie.db.char.absoluteLevelOffset
     if maxLevel >= level then
         if (not Questie.db.char.lowlevel) and minLevel > level then
