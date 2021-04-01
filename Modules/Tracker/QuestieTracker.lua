@@ -2304,16 +2304,19 @@ _AQW_Insert = function(index, expire)
 
         -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
         local quest = QuestieDB:GetQuest(qid)
-        local zoneId = quest.zoneOrSort
+        if quest then
+            local zoneId = quest.zoneOrSort
 
-        if Questie.db.char.collapsedQuests[qid] == true then
-            Questie.db.char.collapsedQuests[qid] = nil
+            if Questie.db.char.collapsedQuests[qid] == true then
+                Questie.db.char.collapsedQuests[qid] = nil
+            end
+
+            if Questie.db.char.collapsedZones[zoneId] == true then
+                Questie.db.char.collapsedZones[zoneId] = nil
+            end
+        else
+            Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing quest " .. tostring(qid) .. "," .. tostring(expire) .. " during tracker update")
         end
-
-        if Questie.db.char.collapsedZones[zoneId] == true then
-            Questie.db.char.collapsedZones[zoneId] = nil
-        end
-
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
