@@ -71,7 +71,7 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
     Questie.db.char.complete = GetQuestsCompleted()
 
-    QuestieProfessions:Update()
+    --QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
@@ -1188,7 +1188,10 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local _, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
+                local n, c, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
+                if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
+                    monsterName = n
+                end
 
                 if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
@@ -1198,17 +1201,24 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
                     text = monsterName;
                 end
             elseif(objective.type == "item") then
-                local _, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
+                local n, c, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
+                if tonumber(itemName) then -- SOME objectives are reversed in TBC, why blizzard?
+                    itemName = n
+                end
+
                 text = itemName;
             elseif(objective.type == "object") then
-                local _, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
+                local n, c, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
+                if tonumber(objectName) then -- SOME objectives are reversed in TBC, why blizzard?
+                    objectName = n
+                end
+
                 text = objectName;
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
             if(text == nil) then
                 text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$") or smatch(objective.text, "^(.*)：%s") or objective.text;
             end
-
             --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
                 objective.text = strim(text);
