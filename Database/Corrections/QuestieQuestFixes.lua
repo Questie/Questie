@@ -3058,6 +3058,18 @@ function QuestieQuestFixes:Load()
         [9422] = {
             [questKeys.preQuestSingle] = {},
         },
+
+        -- TBC quest fixes
+
+        [9279] = {
+            [questKeys.exclusiveTo] = {9280},
+        },
+        [9280] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10302] = {
+            [questKeys.preQuestSingle] = {},
+        },
     }
 end
 
