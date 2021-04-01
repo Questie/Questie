@@ -33,7 +33,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                 end
 
                 if realQuestName and questId then
-                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, realQuestLevel, Questie.db.global.trackerShowQuestLevel, true, false)
+                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
 
                     if senderGUID == nil then
                         playerName = BNGetFriendInfoByID(bnSenderID)

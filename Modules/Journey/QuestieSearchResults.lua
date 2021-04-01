@@ -306,7 +306,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             startQuests[counter] = {};
             startQuests[counter].frame = AceGUI:Create("InteractiveLabel");
             startQuests[counter].quest = QuestieDB:GetQuest(v);
-            startQuests[counter].frame:SetText(QuestieDB:GetColoredQuestName(startQuests[counter].quest.Id, true, true));
+            startQuests[counter].frame:SetText(QuestieLib:GetColoredQuestName(startQuests[counter].quest.Id,  true, true));
             startQuests[counter].frame:SetUserData('id', v);
             startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
             startQuests[counter].frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end)
@@ -341,7 +341,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             endQuests[counter] = {};
             endQuests[counter].frame = AceGUI:Create("InteractiveLabel");
             endQuests[counter].quest = QuestieDB:GetQuest(v);
-            endQuests[counter].frame:SetText(QuestieDB:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
+            endQuests[counter].frame:SetText(QuestieLib:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
             endQuests[counter].frame:SetUserData('id', v);
             endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name);
             endQuests[counter].frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end);

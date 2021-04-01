@@ -259,15 +259,6 @@ function QuestieDB:GetItem(itemId)
 end
 
 ---@param questId number
----@param showState boolean
----@param blizzLike boolean
-function QuestieDB:GetColoredQuestName(questId, showState, blizzLike)
-    local questName, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
-    return QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, showState, blizzLike)
-end
-
-
----@param questId number
 ---@return boolean
 function QuestieDB:IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")

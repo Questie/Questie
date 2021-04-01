@@ -168,18 +168,18 @@ function QuestieLib:GetQuestObjectives(questId)
     return objectiveList
 end
 
----@param id QuestId @The quest ID
----@param name string @The (localized) name of the quest
----@param level number @The quest level
+---@param questId QuestId @The quest ID
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, blizzLike)
+function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
+    local name, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+
     if showLevel then
-        name = QuestieLib:GetQuestString(id, name, level, blizzLike)
+        name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
     end
     if Questie.db.global.enableTooltipsQuestID then
-        name = name .. " (" .. id .. ")"
+        name = name .. " (" .. questId .. ")"
     end
 
     if showState then
@@ -192,7 +192,7 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, b
         end
     end
 
-    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == nil)) then
+    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[questId] == nil)) then
         return QuestieLib:PrintDifficultyColor(level, name)
     end
 
