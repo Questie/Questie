@@ -25,6 +25,8 @@ local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieTBCFixes
+local QuestieTBCFixes = QuestieLoader:ImportModule("QuestieTBCFixes")
 
 --[[
     This file load the corrections of the database files.
@@ -139,6 +141,21 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
             end
         end
     end
+
+    if _Questie_IsTBC then
+        for id, data in pairs(QuestieTBCFixes:Load()) do
+            for key, value in pairs(data) do
+                if QuestieDB.questData[id] then
+                    if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
+                        QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
+                    else
+                        QuestieDB.questData[id][key] = value
+                    end
+                end
+            end
+        end
+    end
+
     local patchCount = 0
     for id, quest in pairs(QuestieDB.questData) do
         if (not quest[QuestieDB.questKeys.requiredRaces]) or quest[QuestieDB.questKeys.requiredRaces] == 0 then
