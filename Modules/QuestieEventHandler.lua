@@ -247,7 +247,7 @@ end
 
 
 --Fires when a quest is accepted in anyway.
-_QUEST_ACCEPTED = function(self, questLogIndex, questId)
+_QUEST_ACCEPTED = function(self, unk1, questLogIndex, questId)
 
     -- questLogIndex is removed in tbc
     if _IsTBC then
