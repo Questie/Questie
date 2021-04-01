@@ -173,7 +173,8 @@ end
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
-    local name, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+    local name = QuestieDB.QueryQuestSingle(questId, "name");
+    local level = QuestieLib:GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
@@ -247,6 +248,19 @@ function QuestieLib:GetQuestString(id, name, level, blizzLike)
     end
 
     return name
+end
+
+function QuestieLib:GetTbcLevel(questId)
+    local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    if (questLevel == -1) then
+        local playerLevel = QuestiePlayer:GetPlayerLevel();
+        if (requiredLevel > playerLevel) then
+            questLevel = requiredLevel;
+        else
+            questLevel = playerLevel;
+        end
+    end
+    return questLevel;
 end
 
 ---@param id QuestId @The quest ID
@@ -477,7 +491,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        tinsert(sortedQuestsByLevel, {QuestieDB.QueryQuestSingle(q, "questLevel") or 0, q})
+        tinsert(sortedQuestsByLevel, {QuestieLib:GetTbcLevel(q) or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 

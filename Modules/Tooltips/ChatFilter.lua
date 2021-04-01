@@ -24,7 +24,8 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     end
 
                     if QuestieDB.QueryQuest then
-                        realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+                        realQuestName = QuestieDB.QueryQuestSingle(questId, "name");
+                        realQuestLevel = QuestieLib:GetTbcLevel(questId);
 
                         if questName and questId then
                             complete = QuestieDB:IsComplete(questId)

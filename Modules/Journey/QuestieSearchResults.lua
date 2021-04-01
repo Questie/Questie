@@ -129,7 +129,9 @@ local function GetRacesString(raceMask)
 end--]]
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local name, questLevel, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "name", "questLevel", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"))
+    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"))
+
+    local questLevel = QuestieLib:GetTbcLevel(id);
 
     -- header
     local title = AceGUI:Create("Heading")
@@ -428,7 +430,8 @@ _HandleOnGroupSelected = function (resultType)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(resultType.localstatus.selected)
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        local questLevel, questName = unpack(QuestieDB.QueryQuest(selectedId, "questLevel", "name"))
+        local questName = QuestieDB.QueryQuestSingle(questId, "name")
+        local questLevel = QuestieLib:GetTbcLevel(questId);
 
         if Questie.db.global.trackerShowQuestLevel then
             ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")
