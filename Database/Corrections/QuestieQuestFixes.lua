@@ -3133,6 +3133,28 @@ function QuestieQuestFixes:Load()
         [9555] = {
             [questKeys.questLevel] = 10,
         },
+
+
+        [10068] = {
+            [questKeys.exclusiveTo] = {8330},
+        },
+        [10069] = {
+            [questKeys.exclusiveTo] = {8330},
+        },
+        [10070] = {
+            [questKeys.exclusiveTo] = {8330},
+        },
+        [10071] = {
+            [questKeys.exclusiveTo] = {8330},
+        },
+        [10072] = {
+            [questKeys.exclusiveTo] = {8330},
+        },
+        [10073] = {
+            [questKeys.exclusiveTo] = {8330},
+        },
+
+
         [10490] = {
             [questKeys.questLevel] = 20,
         },
