@@ -382,7 +382,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.trackedQuests.label:SetText("|cFFFF0000(A1)|r"..QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+            self.trackedQuests.label:SetText("|cFFFF0000(A2)|r"..QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
 
             --self.trackedQuests.label2:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
@@ -1418,7 +1418,7 @@ function QuestieTracker:Update()
         quest.trackTimedQuest = false
         local questLogIndex = GetQuestLogIndexByID(questId)
         if questLogIndex then
-            local questTimers = GetQuestTimers()
+            local questTimers = nil--GetQuestTimers()
             if questTimers then
                 local numTimers = select("#", questTimers)
                 for i=1, numTimers do
@@ -2258,7 +2258,7 @@ _RemoveQuestWatch = function(index, isQuestie)
     end
 
     if not isQuestie then
-        local qid = select(8,GetQuestLogTitle(index))
+        local qid = index--select(8,GetQuestLogTitle(index))
         if qid then
             if "0" == GetCVar("autoQuestWatch") then
                 Questie.db.char.TrackedQuests[qid] = nil
@@ -2286,7 +2286,7 @@ _AQW_Insert = function(index, expire)
     QuestieTracker._last_aqw = index
     RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
 
-    local qid = select(8,GetQuestLogTitle(index))
+    local qid = index--select(8,GetQuestLogTitle(index))
     if qid then
         if "0" == GetCVar("autoQuestWatch") then
             if Questie.db.char.TrackedQuests[qid] then
