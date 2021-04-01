@@ -3067,6 +3067,78 @@ function QuestieQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9449] = {
+            [questKeys.questLevel] = 4,
+        },
+        [9450] = {
+            [questKeys.questLevel] = 4,
+        },
+        [9451] = {
+            [questKeys.questLevel] = 4,
+        },
+        [9461] = {
+            [questKeys.questLevel] = 10,
+        },
+        [9462] = {
+            [questKeys.questLevel] = 10,
+        },
+        [9464] = {
+            [questKeys.questLevel] = 10,
+        },
+        [9465] = {
+            [questKeys.questLevel] = 10,
+        },
+        [9467] = {
+            [questKeys.questLevel] = 10,
+        },
+        [9468] = {
+            [questKeys.questLevel] = 10,
+        },
+        [9500] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9501] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9502] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9503] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9504] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9508] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9509] = {
+            [questKeys.questLevel] = 20,
+        },
+        [9547] = {
+            [questKeys.questLevel] = 30,
+        },
+        [9551] = {
+            [questKeys.questLevel] = 30,
+        },
+        [9552] = {
+            [questKeys.questLevel] = 30,
+        },
+        [9553] = {
+            [questKeys.questLevel] = 30,
+        },
+        [9554] = {
+            [questKeys.questLevel] = 30,
+        },
+        [9555] = {
+            [questKeys.questLevel] = 10,
+        },
+        [10490] = {
+            [questKeys.questLevel] = 20,
+        },
+        [10491] = {
+            [questKeys.questLevel] = 30,
+        },
         [10302] = {
             [questKeys.preQuestSingle] = {},
         },
