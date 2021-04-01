@@ -3306,6 +3306,34 @@ function QuestieQuestFixes:LoadFactionFixes()
         [9389] = {
             [questKeys.startedBy] = {{16817,},nil,nil,},
         },
+        [11023] = {
+            [questKeys.requiredLevel] = 70,
+            [questKeys.preQuestSingle] = {11010},
+        },
+        [11040] = {
+            [questKeys.requiredLevel] = 67,
+        },
+        [11042] = {
+            [questKeys.requiredLevel] = 67,
+        },
+        [11043] = {
+            [questKeys.requiredLevel] = 67,
+            [questKeys.exclusiveTo] = {11044},
+        },
+        [11044] = {
+            [questKeys.requiredLevel] = 67,
+            [questKeys.exclusiveTo] = {11043},
+        },
+        [11057] = {
+            [questKeys.requiredLevel] = 70,
+        },
+        [11065] = {
+            [questKeys.requiredLevel] = 70,
+            [questKeys.preQuestSingle] = {11010},
+        },
+        [11119] = {
+            [questKeys.requiredLevel] = 70,
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
