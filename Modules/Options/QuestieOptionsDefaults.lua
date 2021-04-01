@@ -110,7 +110,6 @@ function QuestieOptionsDefaults:Load()
             searchType = 1,
             autoaccept = false,
             autocomplete = false,
-            autoDialog = true,
             autoModifier = "shift",
             acceptTrivial = false,
             isTrackerExpanded = true,

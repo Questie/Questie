@@ -4,9 +4,6 @@ local _QuestieAuto = QuestieAuto.private
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
-
 local shouldRunAuto = true
 local doneTalking = false
 
@@ -74,25 +71,6 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
             _QuestieAuto:CompleteQuestFromGossip(index, completeQuests, MOP_INDEX_COMPLETE)
         end
         Questie:Debug(DEBUG_DEVELOP, "DONE. Checked all complete quests")
-    end
-
-    if Questie.db.char.autoDialog and isAllowedNPC then
-        Questie:Debug(DEBUG_DEVELOP, "AUTO DIALOG: Checking for gossip")
-        local hasDisallowedGossipType = false
-        local options = QuestieLib:ArrayToDict({GetGossipOptions()})
-        for title, type in pairs(options) do
-            Questie:Debug(DEBUG_DEVELOP, "Gossip Option: (" .. title .. ", " .. type .. ")")
-            if not (type == "gossip" or type == "taxi") then
-                hasDisallowedGossipType = true
-                Questie:Debug(DEBUG_DEVELOP, "Disallowed gossip type (" .. type .. ")")
-            end
-        end
-        if not hasDisallowedGossipType then
-            SelectGossipOption(1)
-        else
-            Questie:Debug(DEBUG_DEVELOP, "SKIPPED. Found disallowed gossip type.")
-        end
-        Questie:Debug(DEBUG_DEVELOP, "DONE. Checked for available gossip")
     end
 end
 
