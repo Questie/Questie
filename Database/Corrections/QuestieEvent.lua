@@ -126,7 +126,7 @@ end
 --- Sunday is the first weekday
 _LoadDarkmoonFaire = function()
     local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
-    local weekDay = date.weekDay
+    local weekDay = date.weekDay or date.weekday -- lol come on
     local day = date.day or date.monthDay
     local month = date.month
 
