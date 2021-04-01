@@ -474,7 +474,7 @@ function QuestieCorrections:PopulateTownsfolk()
                 tinsert(Questie.db.char.townsfolk["Mailbox"], id)
             end
         else
-            print("Missing mailbox: " .. tostring(id))
+            --print("Missing mailbox: " .. tostring(id))
         end
     end
 

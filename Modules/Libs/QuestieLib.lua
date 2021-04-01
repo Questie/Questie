@@ -379,7 +379,8 @@ function QuestieLib:GetAddonVersionInfo()
     end
 
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, hash = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)-(.*)")
+    local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
+    hash = "nil"
 
     local buildType = nil
 
