@@ -472,6 +472,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallows End", 11450}) -- Fire Training
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11356}) -- Costumed Orphan Matron
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12360}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11131}) -- Stop the Fires!
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11135}) -- The Headless Horseman
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12409}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11219}) -- Stop the Fires!
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11361}) -- Fire Training
@@ -534,6 +535,7 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secre
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12020}) -- This One Time, When I Was Drunk...
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11437}) -- [PH] Beer Garden A
@@ -542,10 +544,14 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 12420}) -- Brew of the Month Club
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11120}) -- Pink Elekks On Parade
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11400}) -- Brewfest Riding Rams
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11442}) -- Welcome to Brewfest!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11447}) -- Welcome to Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12278}) -- Brew of the Month Club
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11118}) -- Pink Elekks On Parade
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11320}) -- [NYI] Now this is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11441}) -- Brewfest!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11446}) -- Brewfest!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11768}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11758}) -- Desecrate this Fire!
@@ -624,6 +630,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11826}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11830}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11834}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11964}) -- Incense for the Summer Scorchlings
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11581}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11734}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11738}) -- Desecrate this Fire!
@@ -647,5 +654,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11825}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11829}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11833}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528}) -- A Winter Veil Gift
