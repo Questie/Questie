@@ -207,6 +207,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{25.72,90.86},},},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
         },
+        [181746] = {
+            [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{38.5,22.5},{40.6,20.1},{44,22.5},{46.4,20.5},},},
+            [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
+        },
         [187260] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
         }, 
