@@ -2280,42 +2280,51 @@ _AQW_Insert = function(index, expire)
     end
 
     local now = GetTime()
-    if index and index == QuestieTracker._last_aqw and (now - lastAQW) < 0.1 then return end -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
+    if index and index == QuestieTracker._last_aqw and (now - lastAQW) < 0.1 then
+        -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
+        return
+    end
 
     lastAQW = now
     QuestieTracker._last_aqw = index
     RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
 
-    local qid = index--select(8,GetQuestLogTitle(index))
-    if qid then
+    local questId = select(8, GetQuestLogTitle(index))
+    if questId == 0 then
+        -- When an objective progresses in TBC "index" is the questId, but when a quest is manually added to the quest watch
+        -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
+        questId = index;
+    end
+
+    if questId then
         if "0" == GetCVar("autoQuestWatch") then
-            if Questie.db.char.TrackedQuests[qid] then
-                Questie.db.char.TrackedQuests[qid] = nil
+            if Questie.db.char.TrackedQuests[questId] then
+                Questie.db.char.TrackedQuests[questId] = nil
             else
-                Questie.db.char.TrackedQuests[qid] = true
+                Questie.db.char.TrackedQuests[questId] = true
             end
         else
-            if Questie.db.char.AutoUntrackedQuests[qid] then
-                Questie.db.char.AutoUntrackedQuests[qid] = nil
+            if Questie.db.char.AutoUntrackedQuests[questId] then
+                Questie.db.char.AutoUntrackedQuests[questId] = nil
             elseif IsShiftKeyDown() and (QuestLogFrame:IsShown() or (QuestLogExFrame and QuestLogExFrame:IsShown())) then--hack
-                Questie.db.char.AutoUntrackedQuests[qid] = true
+                Questie.db.char.AutoUntrackedQuests[questId] = true
             end
         end
 
         -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
-        local quest = QuestieDB:GetQuest(qid)
+        local quest = QuestieDB:GetQuest(questId)
         if quest then
             local zoneId = quest.zoneOrSort
 
-            if Questie.db.char.collapsedQuests[qid] == true then
-                Questie.db.char.collapsedQuests[qid] = nil
+            if Questie.db.char.collapsedQuests[questId] == true then
+                Questie.db.char.collapsedQuests[questId] = nil
             end
 
             if Questie.db.char.collapsedZones[zoneId] == true then
                 Questie.db.char.collapsedZones[zoneId] = nil
             end
         else
-            Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing quest " .. tostring(qid) .. "," .. tostring(expire) .. " during tracker update")
+            Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
