@@ -3156,7 +3156,9 @@ function QuestieQuestFixes:Load()
         [10073] = {
             [questKeys.exclusiveTo] = {8330},
         },
-
+        [10222] = {
+            [questKeys.preQuestSingle] = {10188},
+        },
         [10302] = {
             [questKeys.preQuestSingle] = {},
         },
