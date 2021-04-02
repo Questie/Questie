@@ -2129,11 +2129,16 @@ function QuestieTracker:HookBaseTracker()
 
     -- this is probably bad
     IsQuestWatched = function(index)
+        local questId = select(8, GetQuestLogTitle(index));
+        if questId == 0 then
+            -- When an objective progresses in TBC "index" is the questId, but when a quest is manually added to the quest watch
+            -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
+            questId = index;
+        end
         if "0" == GetCVar("autoQuestWatch") then
-            return Questie.db.char.TrackedQuests[select(8,GetQuestLogTitle(index)) or -1]
+            return Questie.db.char.TrackedQuests[questId or -1]
         else
-            local qid = select(8,GetQuestLogTitle(index))
-            return qid and QuestiePlayer.currentQuestlog[qid] and not Questie.db.char.AutoUntrackedQuests[qid]
+            return questId and QuestiePlayer.currentQuestlog[questId] and (not Questie.db.char.AutoUntrackedQuests[questId])
         end
     end
 
@@ -2258,12 +2263,17 @@ _RemoveQuestWatch = function(index, isQuestie)
     end
 
     if not isQuestie then
-        local qid = index--select(8,GetQuestLogTitle(index))
-        if qid then
+        local questId = select(8, GetQuestLogTitle(index))
+        if questId == 0 then
+            -- When an objective progresses in TBC "index" is the questId, but when a quest is manually removed from
+            --  the quest watch (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
+            questId = index;
+        end
+        if questId then
             if "0" == GetCVar("autoQuestWatch") then
-                Questie.db.char.TrackedQuests[qid] = nil
+                Questie.db.char.TrackedQuests[questId] = nil
             else
-                Questie.db.char.AutoUntrackedQuests[qid] = true
+                Questie.db.char.AutoUntrackedQuests[questId] = true
             end
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:ResetLinesForChange()
