@@ -805,6 +805,16 @@ function QuestieTBCFixes:Load()
                 },
             }},
         },
+        [10864]={
+            [questKeys.objectives] = {
+                {
+                    {16878,"Shattered Hand Souls Reaped"},
+                    {19413,"Shattered Hand Souls Reaped"},
+                    {19414,"Shattered Hand Souls Reaped"},
+                    {19415, "Shattered Hand Souls Reaped"}
+                }
+            }
+        },
         [10710]={
             [questKeys.triggerEnd] = {"Throw caution to the wind.", {
                 [3522]={
