@@ -3137,6 +3137,9 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 10,
         },
 
+        [9697] = {
+            [questKeys.requiredMinRep] = {942,3000},
+        },
         [9796] = {
             [questKeys.exclusiveTo] = {10105},
         },
@@ -3154,6 +3157,9 @@ function QuestieQuestFixes:Load()
         },
         [9905] = {
             [questKeys.requiredMinRep] = {978,0},
+        },
+        [9957] = {
+            [questKeys.requiredMinRep] = {942,3000},
         },
         [10012] = {
             [questKeys.preQuestSingle] = {9998,10000},
