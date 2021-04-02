@@ -452,6 +452,9 @@ function QuestieTBCFixes:Load()
         [9796] = {
             [questKeys.exclusiveTo] = {10105},
         },
+        [9798] = {
+            [questKeys.startedBy] = {{16522},nil,{24414}},
+        },
         [9830] = {
             [questKeys.requiredMinRep] = {978,0},
         },
