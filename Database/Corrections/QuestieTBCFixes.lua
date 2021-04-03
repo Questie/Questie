@@ -874,6 +874,13 @@ function QuestieTBCFixes:Load()
                 },
             }},
         },
+        [10840] = {
+            [questKeys.preQuestSingle] = {10852},
+        },
+        [10842] = {
+            [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
+            [questKeys.preQuestSingle] = {10852},
+        },
         [10879]={
             [questKeys.triggerEnd] = {"Attack thwarted", {
                 [3703]={
