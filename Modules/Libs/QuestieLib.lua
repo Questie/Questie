@@ -575,3 +575,39 @@ function QuestieLib:UnpackBinary(val)
     end
     return ret
 end
+
+function QuestieLib:PrintTable(keyToPrint, value, debugLevel, seen)
+    if seen and seen[value] then return end
+    -- New table; mark it as seen and iterate recursively
+    local s = seen or {}
+    local d = debugLevel or DEBUG_SPAM
+    s[value] = true
+
+    if (type(value) ~= "table") then
+        Questie:Debug(d, keyToPrint .. ": " .. tostring(value))
+    else
+        for k, v in pairs(value) do
+            local key = keyToPrint .. "." .. k
+            QuestieLib:PrintTable(key, v, d, s)
+        end
+    end
+end
+
+-- Source: https://gist.github.com/tylerneylon/81333721109155b2d244
+local function _DeepCopy(object, seen)
+    -- Handle non-tables and previously-seen tables.
+    if type(object) ~= 'table' then return object
+    end
+    if seen and seen[object] then return seen[object] end
+
+    -- New table; mark it as seen and copy recursively.
+    local s = seen or {}
+    local res = {}
+    s[object] = res
+    for k, v in pairs(object) do res[_DeepCopy(k, s)] = _DeepCopy(v, s) end
+    return setmetatable(res, getmetatable(object))
+end
+
+function QuestieLib:DeepCopy(tableToCopy)
+    return _DeepCopy(tableToCopy)
+end

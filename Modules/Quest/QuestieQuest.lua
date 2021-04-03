@@ -671,7 +671,7 @@ end
 
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. objective.Description)
-
+    Questie:Debug(DEBUG_SPAM, "Populating objective for quest", quest.Id, objective.Description)
     local completed = objective.Completed
 
     if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objective.Type] then
@@ -951,6 +951,29 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
 end
 
 local function _CallPopulateObjective(quest)
+    if (#quest.Objectives < #quest.ObjectiveData) then
+        for dataIndex, data in pairs(quest.ObjectiveData) do
+            if dataIndex > #quest.Objectives then
+                if (data.Type == "monster") then
+                    local dummyObjective = QuestieLib:DeepCopy(quest.Objectives[#quest.Objectives])
+                    dummyObjective.Id = data.Id
+                    if (data.Description ~= nil) then
+                        dummyObjective.Description = data.Text
+                    end
+                    Questie:Debug(DEBUG_SPAM, "Populating dummy objective " .. " for quest " .. quest.Id, data.Id)
+                    local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+                        print(err)
+                        print(debugstack())
+                    end, QuestieQuest, quest, #quest.Objectives, dummyObjective, false);
+                    if not result then
+                        local major, minor, patch = QuestieLib:GetAddonVersionInfo();
+                        local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
+                        Questie:Error("[QuestieQuest]: " .. version .. " - " .. QuestieLocale:GetUIString("DEBUG_POPULATE_ERR", quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
+                    end
+                end
+            end
+        end
+    end
     for k, v in pairs(quest.Objectives) do
         local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
             print(err)

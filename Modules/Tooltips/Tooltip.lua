@@ -32,6 +32,7 @@ local _InitObjectiveTexts
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
 function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
+    Questie:Debug(DEBUG_SPAM, "Registering objective tooltip for", questId, key)
     if QuestieTooltips.lookupByKey[key] == nil then
         QuestieTooltips.lookupByKey[key] = {};
     end
