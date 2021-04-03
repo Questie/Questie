@@ -895,6 +895,15 @@ function QuestieTBCFixes:Load()
                 },
             }},
         },
+        [10896]={
+            [questKeys.objectives] = {
+                {
+                    {22419,nil},
+                    {22307,"Slay Rotting Forest-Ragers to spawn Wood Mites"},
+                    {22095,"Slay Infested Root-Walkers to spawn Wood Mites"}
+                }
+            }
+        },
         [10898]={
             [questKeys.triggerEnd] = {"Escort Skywing", {
                 [3519]={
