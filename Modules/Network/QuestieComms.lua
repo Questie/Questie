@@ -732,12 +732,16 @@ function QuestieComms:CreateQuestDataPacket(questId)
     quest.objectives = {}
     if questObject and questObject.Objectives then
         for objectiveIndex, objective in pairs(rawObjectives) do
-            quest.objectives[objectiveIndex] = {};
-            quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
-            quest.objectives[objectiveIndex].typ = string.sub(objective.type, 1, 1);-- Get the first char only.--[_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
-            quest.objectives[objectiveIndex].fin = objective.finished;--[_QuestieComms.idLookup["finished"]] = objective.finished;
-            quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
-            quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
+            if questObject.Objectives[objectiveIndex] then
+                quest.objectives[objectiveIndex] = {};
+                quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
+                quest.objectives[objectiveIndex].typ = string.sub(objective.type, 1, 1);-- Get the first char only.--[_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
+                quest.objectives[objectiveIndex].fin = objective.finished;--[_QuestieComms.idLookup["finished"]] = objective.finished;
+                quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
+                quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
+            else
+                Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
+            end
         end
     end
     Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
