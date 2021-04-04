@@ -53,7 +53,7 @@ end
 
 function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
     local questLogIndex = GetQuestLogIndexByID(questId)
-    if questLogIndex then
+    --[[if questLogIndex then
         local questTimers = GetQuestTimers()
         if questTimers then
             local numTimers = select("#", questTimers)
@@ -70,12 +70,12 @@ function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
                 end
             end
         end
-    end
+    end]]
     return nil
 end
 
 _UpdateTimerFrame = function()
-    local questTimers = GetQuestTimers()
+    local questTimers = nil--GetQuestTimers()
     if questTimers then
         QuestieCombatQueue:Queue(function()
             for i, timer in pairs(_QuestieQuestTimers.timers) do
