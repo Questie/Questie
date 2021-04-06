@@ -296,6 +296,9 @@ function QuestieTBCQuestFixes:Load()
         [9544] = {
             [questKeys.requiredSourceItems] = {23801},
         },
+        [9545] = {
+            [questKeys.objectives] = {{{16852,"Vision Granted"},},nil,nil,nil,},
+        },
         [9547] = {
             [questKeys.questLevel] = 30,
         },
