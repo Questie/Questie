@@ -563,6 +563,18 @@ function QuestieTBCFixes:Load()
         [10012] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },
+        [10038] = {
+            [questKeys.exclusiveTo] = {10040},
+        },
+        [10039] = {
+            [questKeys.exclusiveTo] = {10041},
+        },
+        [10040] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10041] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10044]={
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {
                 [3518]={
