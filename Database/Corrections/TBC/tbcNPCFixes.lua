@@ -27,6 +27,9 @@ function QuestieTBCNpcFixes:Load()
         [18152] = {
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{26.4,22},},},
         },
+        [19305] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12},},},
+        },
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
         },
