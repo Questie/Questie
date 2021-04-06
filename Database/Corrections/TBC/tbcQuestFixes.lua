@@ -1036,11 +1036,14 @@ function QuestieTBCQuestFixes:Load()
         },
         [11043] = {
             [questKeys.requiredLevel] = 67,
-            [questKeys.exclusiveTo] = {11044},
+            [questKeys.exclusiveTo] = {11044,11045},
         },
         [11044] = {
             [questKeys.requiredLevel] = 67,
-            [questKeys.exclusiveTo] = {11043},
+            [questKeys.exclusiveTo] = {11043,11045},
+        },
+        [11045] = {
+            [questKeys.exclusiveTo] = {11043,11044},
         },
         [11057] = {
             [questKeys.requiredLevel] = 70,
