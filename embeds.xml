@@ -25,9 +25,9 @@
             <AbsDimension x="120" y="20"/>
         </Size>
         <Anchors>
-            <Anchor point="RIGHT" relativePoint="LEFT" relativeTo="WorldMapContinentDropDown">
+            <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="WorldMapZoomOutButton">
                 <Offset>
-                    <AbsDimension x="10" y="2"/>
+                    <AbsDimension x="5" y="0"/>
                 </Offset>
             </Anchor>
         </Anchors>
