@@ -652,6 +652,9 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [10183] = {
+            [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042,},
+        },
         [10191]={
             [questKeys.triggerEnd] = {"Escort the Maxx A. Million Mk. V safely through the Ruins of Enkaat", {
                 [3523]={
@@ -1028,11 +1031,25 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010},
         },
+        [11036] = {
+            [questKeys.exclusiveTo] = {10183,11037,11038,11039,11040,11042,},
+        },
+        [11037] = {
+            [questKeys.exclusiveTo] = {10183,11036,11038,11039,11040,11042,},
+        },
+        [11038] = {
+            [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
+        },
+        [11039] = {
+            [questKeys.exclusiveTo] = {10183,11036,11037,11038,11040,11042,},
+        },
         [11040] = {
             [questKeys.requiredLevel] = 67,
+            [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11042,},
         },
         [11042] = {
             [questKeys.requiredLevel] = 67,
+            [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11040,},
         },
         [11043] = {
             [questKeys.requiredLevel] = 67,
