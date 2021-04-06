@@ -33,6 +33,12 @@ function QuestieTBCNpcFixes:Load()
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12},},},
         },
+        [21446] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{38.8,56},{39,57.6},{39.2,57.4},{39.4,53},{40.2,50},{40.4,57.8},{42,57.2},{42,57.6},{42.4,53.8},{43,47.2},{43,50},},},
+        },
+        [21452] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{47.0,77.8},{46.6,79.2},},},
+        },
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
         },
