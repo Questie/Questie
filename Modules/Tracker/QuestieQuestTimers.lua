@@ -22,7 +22,7 @@ function QuestieQuestTimers:Initialize()
     end
 
     QuestTimerFrame:HookScript("OnShow", function()
-        blizzardTimerLocation = { QuestTimerFrame:GetPoint()}
+        blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
         if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
             QuestieQuestTimers:HideBlizzardTimer()
         else
