@@ -18,6 +18,9 @@ function QuestieTBCNpcFixes:Load()
         [17087] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2},},},
         },
+        [17311] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{54.08,55.1},},[zoneIDs.AZUREMYST_ISLE] = {{16,94},},},
+        },
         [18152] = {
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{26.4,22},},},
         },
