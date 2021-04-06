@@ -293,6 +293,9 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [9544] = {
+            [questKeys.requiredSourceItems] = {23801},
+        },
         [9547] = {
             [questKeys.questLevel] = 30,
         },
