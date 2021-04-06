@@ -25,8 +25,14 @@ local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
----@type QuestieTBCFixes
-local QuestieTBCFixes = QuestieLoader:ImportModule("QuestieTBCFixes")
+---@type QuestieTBCQuestFixes
+local QuestieTBCQuestFixes = QuestieLoader:ImportModule("QuestieTBCQuestFixes")
+---@type QuestieTBCNpcFixes
+local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
+---@type QuestieTBCItemFixes
+local QuestieTBCItemFixes = QuestieLoader:ImportModule("QuestieTBCItemFixes")
+---@type QuestieTBCObjectFixes
+local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes")
 
 --[[
     This file load the corrections of the database files.
@@ -143,7 +149,7 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
     end
 
     if _Questie_IsTBC then
-        for id, data in pairs(QuestieTBCFixes:Load()) do
+        for id, data in pairs(QuestieTBCQuestFixes:Load()) do
             for key, value in pairs(data) do
                 if QuestieDB.questData[id] then
                     if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
@@ -152,6 +158,38 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
                         QuestieDB.questData[id][key] = value
                     end
                 end
+            end
+        end
+
+        for id, data in pairs(QuestieTBCNpcFixes:Load()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.npcData[id] then
+                    QuestieDB.npcData[id] = {}
+                end
+                if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
+                    QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
+                else
+                    QuestieDB.npcData[id][key] = value
+                end
+            end
+        end
+
+        for id, data in pairs(QuestieTBCObjectFixes:Load()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.objectData[id] then
+                    print("Attempt to correct missing object " .. tostring(id))
+                else
+                    QuestieDB.objectData[id][key] = value
+                end
+            end
+        end
+
+        for id, data in pairs(QuestieTBCItemFixes:Load()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.itemData[id] then
+                    QuestieDB.itemData[id] = {}
+                end
+                QuestieDB.itemData[id][key] = value
             end
         end
     end

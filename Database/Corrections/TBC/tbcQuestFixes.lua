@@ -1,10 +1,15 @@
--- this should be eventually refactored into a proper place
----@class QuestieTBCFixes
-local QuestieTBCFixes = QuestieLoader:CreateModule("QuestieTBCFixes")
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@class QuestieTBCQuestFixes
+local QuestieTBCQuestFixes = QuestieLoader:CreateModule("QuestieTBCQuestFixes")
 
-function QuestieTBCFixes:Load()
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
+function QuestieTBCQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     return {
         [62]={
             [questKeys.triggerEnd] = {"Scout through the Fargodeep Mine", {
