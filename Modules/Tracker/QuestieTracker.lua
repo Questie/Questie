@@ -2283,6 +2283,12 @@ _AQW_Insert = function(index, expire)
         return
     end
 
+    if index == 0 then
+        -- TODO: This is a work around, because something is up with the AQW events again. Whenever you progress an
+        -- TODO: objective for the first time, the index parameter is 0.
+        return;
+    end
+
     local now = GetTime()
     if index and index == QuestieTracker._last_aqw and (now - lastAQW) < 0.1 then
         -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
