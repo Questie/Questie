@@ -47,7 +47,24 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
     'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
 }
 
-QuestieDB.npcFlags = {
+QuestieDB.npcFlags = _Questie_IsTBC and {
+    NONE = 0,
+    GOSSIP = 1,
+    QUEST_GIVER = 2,
+    TRAINER = 16,
+    VENDOR = 128,
+    REPAIR = 4096,
+    FLIGHT_MASTER = 8192,
+    SPIRIT_HEALER = 16384,
+    SPIRIT_GUIDE = 32768,
+    INNKEEPER = 65536,
+    BANKER = 131072,
+    PETITIONER = 262144,
+    TABARD_DESIGNER = 524288,
+    BATTLEMASTER = 1048576,
+    AUCTIONEER = 2097152,
+    STABLEMASTER = 4194304,
+} or {
     NONE = 0,
     GOSSIP = 1,
     QUEST_GIVER = 2,
