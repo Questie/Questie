@@ -286,6 +286,9 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [9531] = {
+            [questKeys.objectives] = {{{17318,"The Traitor Uncovered"},},nil,nil,},
+        },
         [9538]={
             [questKeys.triggerEnd] = {"Stillpine Furbolg Language Primer Read", {
                 [3524]={
