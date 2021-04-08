@@ -5,7 +5,8 @@ LangContinentLookup['enUS']= {
     [4] = "Battlegrounds",
     [5] = "Class",
     [6] = "Professions",
-    [7] = "Events"
+    [7] = "Events",
+    [530] = "Outland"
 }
 
 --[[
