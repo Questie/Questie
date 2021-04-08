@@ -320,6 +320,9 @@ function QuestieTBCQuestFixes:Load()
         [9555] = {
             [questKeys.questLevel] = 10,
         },
+        [9564] = {
+            [questKeys.startedBy] = {{17475},nil,{23850,},},
+        },
         [9591]={
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {
                 [3524]={
