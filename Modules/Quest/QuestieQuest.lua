@@ -739,13 +739,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         local icon, iconPerZone = _DrawObjectiveIcons(iconsToDraw, objective, maxPerType)
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
     end
-
-    if (not completed) then
-        objective._hasSeenIncomplete = true
-    elseif objective._hasSeenIncomplete then
-        objective._hasSeenIncomplete = nil
-        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, objective.Description, tostring(objective.Collected) .. "/" .. tostring(objective.Needed))
-    end
+    
 end
 
 _RegisterObjectiveTooltips = function(objective, questId)
@@ -1175,6 +1169,7 @@ end]]--
 local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
+local _has_seen_incomplete = {}
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
     local questObjectives = QuestieLib:GetQuestObjectives(questId);
@@ -1222,6 +1217,14 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
                 objective.text = strim(text);
+                local completed = objective.numRequired == objective.numFulfilled
+
+                if (not completed) then
+                    _has_seen_incomplete[objective.text] = true
+                elseif _has_seen_incomplete[objective.text] then
+                    _has_seen_incomplete[objective.text] = nil
+                    QuestieAnnounce:Announce(questId, "objective", spawnItemId, objective.text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
+                end
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end

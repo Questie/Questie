@@ -8,6 +8,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 
 function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, objectiveProgress)
+    print("announce")
     if "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
         local message
 
@@ -17,7 +18,8 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
         if progressType == "objective" then
             local objective = nil
             if itemId then
-                objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
+                --objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
+                objective = objectiveProgress.." "..(select(1,GetItemInfo(itemId)))
             else
                 objective = objectiveProgress.." "..objectiveText
             end
