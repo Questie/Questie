@@ -2306,7 +2306,7 @@ _AQW_Insert = function(index, expire)
         questId = index;
     end
 
-    if questId then
+    if questId > 0 then
         if "0" == GetCVar("autoQuestWatch") then
             if Questie.db.char.TrackedQuests[questId] then
                 Questie.db.char.TrackedQuests[questId] = nil
