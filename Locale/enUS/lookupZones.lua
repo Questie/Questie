@@ -1860,6 +1860,7 @@ LangZoneCategoryLookup['enUS']= {
         [490] = "Un'Goro Crater",
         [618] = "Winterspring",
     },
+    [530] = LangZoneLookup['enUS'][530],
     [3] = {
         [2437] = "Ragefire Chasm",
         [1581] = "The Deadmines",
