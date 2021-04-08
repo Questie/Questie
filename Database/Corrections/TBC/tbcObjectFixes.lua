@@ -18,5 +18,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{38.5,22.5},{40.6,20.1},{44,22.5},{46.4,20.5},},},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
+        [181757] = {
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{33.3,26.1},{33.4,26.7},{33.5,26.5},{33.6,26.4},{33.7,18.7},{33.9,15.5},{34.1,14.7},{34.8,22.1},{34.9,12},},},
+            [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+        },
     }
 end
