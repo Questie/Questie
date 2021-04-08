@@ -1,10 +1,15 @@
--- this should be eventually refactored into a proper place
----@class QuestieTBCFixes
-local QuestieTBCFixes = QuestieLoader:CreateModule("QuestieTBCFixes")
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@class QuestieTBCQuestFixes
+local QuestieTBCQuestFixes = QuestieLoader:CreateModule("QuestieTBCQuestFixes")
 
-function QuestieTBCFixes:Load()
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
+function QuestieTBCQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
     return {
         [62]={
             [questKeys.triggerEnd] = {"Scout through the Fargodeep Mine", {
@@ -281,12 +286,21 @@ function QuestieTBCFixes:Load()
                 },
             }},
         },
+        [9531] = {
+            [questKeys.objectives] = {{{17318,"The Traitor Uncovered"},},nil,nil,},
+        },
         [9538]={
             [questKeys.triggerEnd] = {"Stillpine Furbolg Language Primer Read", {
                 [3524]={
                     {49.29,51.07},
                 },
             }},
+        },
+        [9544] = {
+            [questKeys.requiredSourceItems] = {23801},
+        },
+        [9545] = {
+            [questKeys.objectives] = {{{16852,"Vision Granted"},},nil,nil,nil,},
         },
         [9547] = {
             [questKeys.questLevel] = 30,
@@ -305,6 +319,9 @@ function QuestieTBCFixes:Load()
         },
         [9555] = {
             [questKeys.questLevel] = 10,
+        },
+        [9564] = {
+            [questKeys.startedBy] = {{17475},nil,{23850,},},
         },
         [9591]={
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {
@@ -501,6 +518,9 @@ function QuestieTBCFixes:Load()
         [9905] = {
             [questKeys.requiredMinRep] = {978,0},
         },
+        [9911] = {
+            [questKeys.startedBy] = {{18285},nil,{25459,},},
+        },
         [9957] = {
             [questKeys.requiredMinRep] = {942,3000},
         },
@@ -562,6 +582,18 @@ function QuestieTBCFixes:Load()
         },
         [10012] = {
             [questKeys.preQuestSingle] = {9998,10000},
+        },
+        [10038] = {
+            [questKeys.exclusiveTo] = {10040},
+        },
+        [10039] = {
+            [questKeys.exclusiveTo] = {10041},
+        },
+        [10040] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10041] = {
+            [questKeys.preQuestSingle] = {},
         },
         [10044]={
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {
@@ -628,6 +660,9 @@ function QuestieTBCFixes:Load()
                     {56.66,34.31},
                 },
             }},
+        },
+        [10183] = {
+            [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042,},
         },
         [10191]={
             [questKeys.triggerEnd] = {"Escort the Maxx A. Million Mk. V safely through the Ruins of Enkaat", {
@@ -874,6 +909,13 @@ function QuestieTBCFixes:Load()
                 },
             }},
         },
+        [10840] = {
+            [questKeys.preQuestSingle] = {10852},
+        },
+        [10842] = {
+            [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
+            [questKeys.preQuestSingle] = {10852},
+        },
         [10879]={
             [questKeys.triggerEnd] = {"Attack thwarted", {
                 [3703]={
@@ -998,19 +1040,36 @@ function QuestieTBCFixes:Load()
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010},
         },
+        [11036] = {
+            [questKeys.exclusiveTo] = {10183,11037,11038,11039,11040,11042,},
+        },
+        [11037] = {
+            [questKeys.exclusiveTo] = {10183,11036,11038,11039,11040,11042,},
+        },
+        [11038] = {
+            [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
+        },
+        [11039] = {
+            [questKeys.exclusiveTo] = {10183,11036,11037,11038,11040,11042,},
+        },
         [11040] = {
             [questKeys.requiredLevel] = 67,
+            [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11042,},
         },
         [11042] = {
             [questKeys.requiredLevel] = 67,
+            [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11040,},
         },
         [11043] = {
             [questKeys.requiredLevel] = 67,
-            [questKeys.exclusiveTo] = {11044},
+            [questKeys.exclusiveTo] = {11044,11045},
         },
         [11044] = {
             [questKeys.requiredLevel] = 67,
-            [questKeys.exclusiveTo] = {11043},
+            [questKeys.exclusiveTo] = {11043,11045},
+        },
+        [11045] = {
+            [questKeys.exclusiveTo] = {11043,11044},
         },
         [11057] = {
             [questKeys.requiredLevel] = 70,

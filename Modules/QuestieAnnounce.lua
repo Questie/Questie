@@ -2,7 +2,8 @@
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 
@@ -22,7 +23,8 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
             end
             message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_OBJECTIVE", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         elseif progressType == "item" then
-            message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            --message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(1,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         end
 
         SendChatMessage(message, "PARTY")

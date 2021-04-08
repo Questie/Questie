@@ -1,8 +1,8 @@
 ## Interface: 20501
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.2 (TBC A4)|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.3 (TBC A5)|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.3.2
+## Version: 6.3.3
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
@@ -46,18 +46,25 @@ Database\npcDB.lua
 Database\itemDB.lua
 Database\Constants.lua
 
-#Corrections
+# Corrections
 Database\Corrections\AutoTableUpdates.lua
 Database\Corrections\QuestieCorrections.lua
 Database\Corrections\QuestieItemBlacklist.lua
-Database\Corrections\QuestieItemFixes.lua
 Database\Corrections\QuestieNPCBlacklist.lua
-Database\Corrections\QuestieNPCFixes.lua
-Database\Corrections\QuestieObjectFixes.lua
 Database\Corrections\QuestieQuestBlacklist.lua
-Database\Corrections\QuestieQuestFixes.lua
-Database\Corrections\QuestieTBCFixes.lua
 Database\Corrections\QuestieEvent.lua
+
+## Classic Corrections
+Database\Corrections\Classic\classicQuestFixes.lua
+Database\Corrections\Classic\classicNPCFixes.lua
+Database\Corrections\Classic\classicItemFixes.lua
+Database\Corrections\Classic\classicObjectFixes.lua
+
+## TBC Corrections
+Database\Corrections\TBC\tbcQuestFixes.lua
+Database\Corrections\TBC\tbcNPCFixes.lua
+Database\Corrections\TBC\tbcItemFixes.lua
+Database\Corrections\TBC\tbcObjectFixes.lua
 
 #Compiler
 Database\compiler.lua

@@ -628,6 +628,9 @@ function QuestieQuestBlacklist:Load()
         [9153] = true,
         [9154] = true,
         --
+
+        -- TBC quests
+        [10169] = true, -- Losing Gracefully (removed with 2.4.0)
     }
 end
 

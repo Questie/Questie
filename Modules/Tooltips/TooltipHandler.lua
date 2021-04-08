@@ -45,8 +45,13 @@ function _QuestieTooltips:AddItemDataToTooltip()
     local name, link = self:GetItem()
     local itemId = nil;
     if link then
-        local _, _, _, _, id, _, _, _, _, _, _, _, _, itemName = string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
-        itemId = id;
+        local id = nil
+        if _Questie_IsTBC then
+            itemId = select(3, string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"))
+        else
+            local _, _, _, _, id, _, _, _, _, _, _, _, _, itemName = string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
+            itemId = id
+        end
     end
     if name and itemId and (
         name ~= QuestieTooltips.lastGametooltipItem or
