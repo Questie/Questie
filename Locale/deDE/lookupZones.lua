@@ -5,7 +5,8 @@ LangContinentLookup['deDE']= {
     [4] = "Schlachtfelder",
     [5] = "Klasse",
     [6] = "Berufe",
-    [7] = "Events"
+    [7] = "Events",
+    [530] = "Scherbenwelt"
 }
 
 LangZoneLookup['deDE']= {
@@ -100,7 +101,7 @@ LangZoneLookup['deDE']= {
         [117] = "Basislager von Grom'gol",
         [118] = "Whelgars Ausgrabungsstätte",
         [120] = "Weststromgarnison",
-        [121] = ""Der Friedhof ""Stille Gärten"""",
+        [121] = "\"Der Friedhof \"\"Stille Gärten\"\"\"",
         [122] = "Ruinen von Zuuldaia",
         [123] = "Ruinen von Bal'lal",
         [125] = "Ruinen von Kal'ai",
@@ -389,7 +390,7 @@ LangZoneLookup['deDE']= {
         [1742] = "Geisterhöhlenbau",
         [1757] = "Die Purpurschleier",
         [1758] = "Die Springflut",
-        [1759] = ""Die ""Maid im Glück"""",
+        [1759] = "\"Die \"\"Maid im Glück\"\"\"",
         [1760] = "Arbeitszentrale der Venture Co.",
         [1777] = "Itharius' Höhle",
         [1778] = "Sorgendunkel",
