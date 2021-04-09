@@ -654,6 +654,9 @@ function QuestieTBCQuestFixes:Load()
         [10113] = {
             [questKeys.requiredLevel] = 64,
         },
+        [10129] = {
+            [questKeys.requiredSourceItems] = {40000},
+        },
         [10172]={
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {
                 [3518]={
