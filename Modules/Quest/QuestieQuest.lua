@@ -55,7 +55,6 @@ local pairs = pairs;
 local ipairs = ipairs;
 local strim = string.trim;
 local smatch = string.match;
-local strfind = string.find;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -1185,7 +1184,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local n, c, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
+                local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
                 if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
                     monsterName = n
                 end
@@ -1198,14 +1197,14 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
                     text = monsterName;
                 end
             elseif(objective.type == "item") then
-                local n, c, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
+                local n, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
                 if tonumber(itemName) then -- SOME objectives are reversed in TBC, why blizzard?
                     itemName = n
                 end
 
                 text = itemName;
             elseif(objective.type == "object") then
-                local n, c, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
+                local n, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
                 if tonumber(objectName) then -- SOME objectives are reversed in TBC, why blizzard?
                     objectName = n
                 end
