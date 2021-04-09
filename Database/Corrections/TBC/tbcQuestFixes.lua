@@ -8,6 +8,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
+    local raceIDs = QuestieDB.raceKeys
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
@@ -140,6 +141,18 @@ function QuestieTBCQuestFixes:Load()
                     {27.4,75.14},
                 },
             }},
+        },
+        [6341] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [6342] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [6343] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [6344] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [6421]={
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {
