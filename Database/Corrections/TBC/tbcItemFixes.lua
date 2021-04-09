@@ -44,5 +44,11 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.npcDrops] = {19401},
             [itemKeys.objectDrops] = {},
         },
+        [40001] = {
+            [itemKeys.name] = "Kill Bristlelimb Furbolgs to lure 'High Chief Bristlelimb'",
+            [itemKeys.relatedQuests] = {9667,},
+            [itemKeys.npcDrops] = {40002},
+            [itemKeys.objectDrops] = {},
+        },
     }
 end

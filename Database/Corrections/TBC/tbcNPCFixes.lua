@@ -35,6 +35,9 @@ function QuestieTBCNpcFixes:Load()
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35},},},
         },
+        [17702] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{64.2,76.4},},},
+        },
         [18152] = {
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{26.4,22},},},
         },
@@ -70,6 +73,14 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.04,70.21},},},
             [npcKeys.friendlyToFaction] = "A",
+        },
+        [40002] = {
+            [npcKeys.name] = "Bristlelimb Furbolgs",
+            [npcKeys.minLevel] = 10,
+            [npcKeys.maxLevel] = 12,
+            [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{68,81},{64.9,81.6},{64.2,76.4},},},
+            [npcKeys.friendlyToFaction] = "",
         },
     }
 end
