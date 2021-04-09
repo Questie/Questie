@@ -395,6 +395,9 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [9663] = {
+            [questKeys.objectives] = {{{17440,"High Chief Stillpine Warned"},{40000,"Exarch Menelaous Warned"},{40001,"Admiral Odesyus Warned"},},nil,nil,nil,},
+        },
         [9666]={
             [questKeys.triggerEnd] = {"Declaration of Power", {
                 [3525]={

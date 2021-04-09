@@ -50,5 +50,26 @@ function QuestieTBCNpcFixes:Load()
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
         },
+
+        -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
+        -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
+        -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
+
+        [40000] = {
+            [npcKeys.name] = "Exarch Menelaous",
+            [npcKeys.minLevel] = 14,
+            [npcKeys.maxLevel] = 14,
+            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.11,50.6},},},
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [40001] = {
+            [npcKeys.name] = "Admiral Odesyus",
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.04,70.21},},},
+            [npcKeys.friendlyToFaction] = "A",
+        },
     }
 end
