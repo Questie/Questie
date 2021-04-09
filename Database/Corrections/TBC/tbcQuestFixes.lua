@@ -761,6 +761,10 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [10388] = {
+            [questKeys.startedBy] = {{16576,19273,},nil,nil,},
+            [questKeys.preQuestSingle] = {10129},
+        },
         [10406]={
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {
                 [3523]={
