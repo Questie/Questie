@@ -6,7 +6,7 @@ local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
 local _QuestieQuestTimers = {}
 
 local blizzardTimerLocation = {}
-local timers = {}
+local timer
 
 function QuestieQuestTimers:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
@@ -46,26 +46,52 @@ function QuestieQuestTimers:ShowBlizzardTimer()
     end
 end
 
-function QuestieQuestTimers:GetQuestTimerByQuestId(questId, frame, clear)
+function QuestieQuestTimers:GetRemainingTime(questId, frame, clear)
+    local remainingSeconds = _QuestieQuestTimers:GetRemainingTime(questId)
+
+    if (not remainingSeconds) then
+        return nil
+    end
+
+    if clear then
+        timer = nil
+    elseif frame then
+        timer = {
+            frame = frame,
+            questId = questId
+        }
+    end
+
+    return remainingSeconds
+end
+
+function _QuestieQuestTimers:GetRemainingTime(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
-    --if questLogIndex then
-    --    local questTimers = GetQuestTimers()
-    --    if questTimers then
-    --        local numTimers = select("#", questTimers)
-    --        for i=1, numTimers do
-    --            local timerIndex = GetQuestIndexForTimer(i)
-    --            if timerIndex == questLogIndex then
-    --                local seconds = select(i, questTimers)
-    --                if clear then
-    --                    timers[i] = nil
-    --                elseif frame then
-    --                    timers[i] = frame
-    --                    return SecondsToTime(seconds)
-    --                end
-    --            end
-    --        end
-    --    end
-    --end
+    if (not questLogIndex) then
+        return nil
+    end
+
+    local questTimers = GetQuestTimers(questId)
+    if (not questTimers) then
+        return nil
+    end
+
+    if type(questTimers) == "number" then
+        local currentQuestLogSelection = GetQuestLogSelection()
+        SelectQuestLogEntry(questLogIndex)
+        -- We can't use GetQuestTimers because we don't know for which quest the timer is.
+        -- GetQuestLogTimeLeft returns the correct value though.
+        local seconds = GetQuestLogTimeLeft(questLogIndex)
+        SelectQuestLogEntry(currentQuestLogSelection)
+        if seconds then
+            return SecondsToTime(seconds)
+        else
+            return nil
+        end
+    else
+        Questie:Error("The return value of GetQuestTimers is not number, something is off. Please report this!")
+    end
+
     return nil
 end
 
@@ -74,18 +100,12 @@ function _QuestieQuestTimers:UpdateTimerFrame()
         return
     end
 
-    local questTimers --GetQuestTimers()
-    if questTimers then
-        for i, timer in pairs(timers) do
-            if timers[i] == nil then
-                timer.label:SetText(" ")
-            else
-                local seconds = select(i, questTimers)
-                timer.label:SetText(SecondsToTime(seconds))
-                timer:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
-            end
+    if timer then
+        local seconds = _QuestieQuestTimers:GetRemainingTime(timer.questId)
+        if (not seconds) then
+            return
         end
-    else
-        timers = {}
+        timer.frame.label:SetText(Questie:Colorize(seconds, "blue"))
+        timer.frame:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
     end
 end

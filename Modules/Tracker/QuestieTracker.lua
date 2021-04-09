@@ -1416,24 +1416,16 @@ function QuestieTracker:Update()
         -- Check for valid timed quests
         quest.timedBlizzardQuest = nil
         quest.trackTimedQuest = false
-        local questLogIndex = GetQuestLogIndexByID(questId)
-        if questLogIndex then
-            local questTimers = nil--GetQuestTimers()
-            if questTimers then
-                local numTimers = select("#", questTimers)
-                for i=1, numTimers do
-                    local timerIndex = GetQuestIndexForTimer(i)
+        local remainingSeconds = QuestieQuestTimers:GetRemainingTime(questId, nil, true)
 
-                    if (timerIndex == questLogIndex) and not Questie.db.global.showBlizzardQuestTimer then
-                        QuestieQuestTimers:HideBlizzardTimer()
-                        quest.timedBlizzardQuest = false
-                        quest.trackTimedQuest = true
-                    elseif (timerIndex == questLogIndex) and Questie.db.global.showBlizzardQuestTimer then
-                        QuestieQuestTimers:ShowBlizzardTimer()
-                        quest.timedBlizzardQuest = true
-                        QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
-                    end
-                end
+        if remainingSeconds then
+            if Questie.db.global.showBlizzardQuestTimer then
+                QuestieQuestTimers:ShowBlizzardTimer()
+                quest.timedBlizzardQuest = true
+            else
+                QuestieQuestTimers:HideBlizzardTimer()
+                quest.timedBlizzardQuest = false
+                quest.trackTimedQuest = true
             end
         end
 
@@ -1595,10 +1587,14 @@ function QuestieTracker:Update()
                     line.label:ClearAllPoints()
                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
 
-                    line.label:SetText(QuestieQuestTimers:GetQuestTimerByQuestId(questId, line))
+                    line.label:SetText(QuestieQuestTimers:GetRemainingTime(questId, line, false))
 
-                    line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
-                    line:SetWidth(line.label:GetWidth())
+                    line.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), Questie.db.global.trackerFontSizeObjective * 1.3)
+                    line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 1.3)
+
+                    local lineWidth = 10 + math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth())
+                    line.label:SetWidth(lineWidth)
+                    line:SetWidth(lineWidth)
 
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
                     line:Show()
@@ -1670,7 +1666,7 @@ function QuestieTracker:Update()
                 line.label.frame.expandQuest.questId = nil
                 line.label:ClearAllPoints()
                 line:Hide()
-                QuestieQuestTimers:GetQuestTimerByQuestId(questId, nil, true)
+                QuestieQuestTimers:GetRemainingTime(questId, nil, true)
             end
 
             if not line then
