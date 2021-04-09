@@ -213,6 +213,11 @@ QuestieDBCompiler.readers = {
         ret[3] = QuestieDBCompiler.readers["objective"](stream)
         ret[4] = QuestieDBCompiler.readers["u24pair"](stream)
 
+        local creditNPCs = QuestieDBCompiler.readers["u8u24array"](stream)
+        if creditNPCs then
+            ret[5] = {creditNPCs, stream:ReadInt24(), stream:ReadTinyStringNil()}
+        end
+
         return ret
     end,
     ["waypointlist"] = function(stream)
@@ -419,6 +424,11 @@ QuestieDBCompiler.writers = {
             QuestieDBCompiler.writers["objective"](stream, value[2])
             QuestieDBCompiler.writers["objective"](stream, value[3])
             QuestieDBCompiler.writers["u24pair"](stream, value[4])
+            if value[5] and value[5][1] and value[5][1][1] then
+                QuestieDBCompiler.writers["u8u24array"](stream, value[5][1])
+                stream:WriteInt24(value[5][2])
+                stream:WriteTinyString(value[5][3])
+            end
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
@@ -426,6 +436,7 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
             stream:WriteInt24(0)
             stream:WriteInt24(0)
+            stream:WriteByte(0)
         end
     end,
     ["waypointlist"] = function(stream, value)
@@ -519,6 +530,12 @@ QuestieDBCompiler.skippers = {
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["u24pair"](stream)
+        local ptr = stream._pointer
+        QuestieDBCompiler.skippers["u8u24array"](stream)
+        if ptr + 1 < stream._pointer then
+            stream._pointer = stream._pointer + 3
+            stream._pointer = stream:ReadByte() + stream._pointer
+        end
     end
 }
 
