@@ -773,6 +773,15 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 end
             end
         end
+        if rawdata[10][5] then
+            local obj = {
+                Type = "killcredit",
+                IdList = rawdata[10][5][1],
+                RootId = rawdata[10][5][2],
+                Text = rawdata[10][5][3]
+            }
+            tinsert(QO.ObjectiveData, obj);
+        end
     end
 
     -- Events need to be added at the end of ObjectiveData

@@ -674,8 +674,10 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     local completed = objective.Completed
 
-    if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objective.Type] then
-        objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objective.Type](objective.Id, objective);
+    local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
+
+    if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+        objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
     end
 
     -- Tooltips should always show.

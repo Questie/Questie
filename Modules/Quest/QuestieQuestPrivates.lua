@@ -11,6 +11,13 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 
 _QuestieQuest.objectiveSpawnListCallTable = {
+    ["killcredit"] = function(npcId, objective, objectiveData)
+        local ret = {}
+        for _, npc in pairs(objectiveData.IdList) do
+            ret[npc] = _QuestieQuest.objectiveSpawnListCallTable["monster"](npc, objective)[npc]
+        end
+        return ret
+    end,
     ["monster"] = function(npcId, objective)
         if (not npcId) then
             Questie:Error(
