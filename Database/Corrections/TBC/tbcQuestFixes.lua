@@ -475,6 +475,9 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [9757] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [9759]={
             [questKeys.triggerEnd] = {"Vector Coil Destroyed and Sironas Slain", {
                 [3525]={
