@@ -427,7 +427,7 @@ QuestieDBCompiler.writers = {
             if value[5] and value[5][1] and value[5][1][1] then
                 QuestieDBCompiler.writers["u8u24array"](stream, value[5][1])
                 stream:WriteInt24(value[5][2])
-                stream:WriteTinyString(value[5][3])
+                stream:WriteTinyString(value[5][3] or "")
             end
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
