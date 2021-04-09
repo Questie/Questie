@@ -213,9 +213,15 @@ QuestieDBCompiler.readers = {
         ret[3] = QuestieDBCompiler.readers["objective"](stream)
         ret[4] = QuestieDBCompiler.readers["u24pair"](stream)
 
-        local creditNPCs = QuestieDBCompiler.readers["u8u24array"](stream)
-        if creditNPCs then
-            ret[5] = {creditNPCs, stream:ReadInt24(), stream:ReadTinyStringNil()}
+        local creditCount = stream:ReadByte()
+        if creditCount > 0 then
+            local creditList = {}
+            for i=1,creditCount do
+                tinsert(creditList, stream:ReadInt24())
+            end
+            local rootNPCId = stream:ReadInt24()
+            local rootNPCName = stream:ReadTinyStringNil()
+            ret[5] = {creditList, rootNPCId, rootNPCName}
         end
 
         return ret
@@ -425,9 +431,14 @@ QuestieDBCompiler.writers = {
             QuestieDBCompiler.writers["objective"](stream, value[3])
             QuestieDBCompiler.writers["u24pair"](stream, value[4])
             if value[5] and value[5][1] and value[5][1][1] then
-                QuestieDBCompiler.writers["u8u24array"](stream, value[5][1])
+                stream:WriteByte(#value[5][1])
+                for _, v in pairs(value[5][1]) do
+                    stream:WriteInt24(v)
+                end
                 stream:WriteInt24(value[5][2])
                 stream:WriteTinyString(value[5][3] or "")
+            else
+                stream:WriteByte(0)
             end
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
@@ -530,11 +541,10 @@ QuestieDBCompiler.skippers = {
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["u24pair"](stream)
-        local ptr = stream._pointer
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-        if ptr + 1 < stream._pointer then
-            stream._pointer = stream._pointer + 3
-            stream._pointer = stream:ReadByte() + stream._pointer
+        local count = stream:ReadByte()
+        if count > 0 then
+            stream._pointer = stream._pointer + count * 3 + 3
+            QuestieDBCompiler.skippers["u8string"](stream)
         end
     end
 }
