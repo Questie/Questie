@@ -114,6 +114,9 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [3117] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
         [3505]={
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {
                 [16]={
