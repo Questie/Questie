@@ -305,6 +305,9 @@ function QuestieTBCQuestFixes:Load()
         [9752] = {
             [questKeys.triggerEnd] = {"Escort Kayra Longmane to safety", {[zoneIDs.ZANGARMARSH]={{79.76,71.09},},}},
         },
+        [9753] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9757] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
