@@ -418,11 +418,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10066] = {
             [questKeys.startedBy] = {{17986,18020},nil,nil,},
-            [questKeys.finishedBy] = {{17986,18020},nil,nil,},
         },
         [10067] = {
             [questKeys.startedBy] = {{17986,18020},nil,nil,},
-            [questKeys.finishedBy] = {{17986,18020},nil,nil,},
         },
         [10068] = {
             [questKeys.startedBy] = {{15279,},nil,nil,},
