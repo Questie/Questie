@@ -90,6 +90,9 @@ function QuestieTBCQuestFixes:Load()
         [8330] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8346] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
+        },
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
