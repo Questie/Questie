@@ -308,6 +308,9 @@ function QuestieTBCQuestFixes:Load()
         [9753] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9756] = {
+            [questKeys.objectives] = {{{17824,"Sunhawk Information Recovered"},},nil,nil,nil,},
+        },
         [9757] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
