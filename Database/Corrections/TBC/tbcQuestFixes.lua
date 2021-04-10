@@ -96,6 +96,9 @@ function QuestieTBCQuestFixes:Load()
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
+        [9144] = {
+            [questKeys.requiredLevel] = 10,
+        },
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
