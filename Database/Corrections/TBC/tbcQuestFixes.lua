@@ -167,6 +167,9 @@ function QuestieTBCQuestFixes:Load()
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [8330] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [8488]={
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {
                 [3430]={
