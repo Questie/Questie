@@ -768,7 +768,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10288] = {
             [questKeys.preQuestSingle] = {},
-        }
+        },
         [10231]={
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {
                 [3703]={
