@@ -90,6 +90,9 @@ function QuestieTBCQuestFixes:Load()
         [8330] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8338] = {
+            [questKeys.startedBy] = {{15298},nil,{20483,},},
+        },
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
         },
