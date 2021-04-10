@@ -418,6 +418,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17682,"Princess Stillpine Saved"},},nil,nil,nil,},
             [questKeys.requiredSourceItems] = {24099,40001},
         },
+        [9669] = {
+            [questKeys.requiredLevel] = 16,
+        },
         [9671] = {
             [questKeys.requiredLevel] = 15,
         },
