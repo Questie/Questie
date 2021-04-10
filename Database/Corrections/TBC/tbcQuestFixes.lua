@@ -418,6 +418,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17682,"Princess Stillpine Saved"},},nil,nil,nil,},
             [questKeys.requiredSourceItems] = {24099,40001},
         },
+        [9671] = {
+            [questKeys.requiredLevel] = 15,
+        },
         [9686]={
             [questKeys.triggerEnd] = {"Complete the Second Trial", {
                 [3430]={
