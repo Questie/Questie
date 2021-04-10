@@ -204,6 +204,9 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
         },
+        [9355] = {
+            [questKeys.preQuestSingle] = {10483},
+        },
         [9375]={
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {
                 [3483]={
@@ -339,12 +342,18 @@ function QuestieTBCQuestFixes:Load()
         [9555] = {
             [questKeys.questLevel] = 10,
         },
+        [9558] = {
+            [questKeys.preQuestSingle] = {10483},
+        },
         [9564] = {
             [questKeys.startedBy] = {{17475},nil,{23850,},},
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {9562},
+        },
+        [9575] = {
+            [questKeys.preQuestSingle] = {10483},
         },
         [9591]={
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {
@@ -638,6 +647,12 @@ function QuestieTBCQuestFixes:Load()
                 },
             }},
         },
+        [10047] = {
+            [questKeys.preQuestSingle] = {10483},
+        },
+        [10050] = {
+            [questKeys.preQuestSingle] = {10483},
+        },
         [10051]={
             [questKeys.triggerEnd] = {"Escort Isla Starmane to safety", {
                 [3519]={
@@ -651,6 +666,9 @@ function QuestieTBCQuestFixes:Load()
                     {67.51,37.28},
                 },
             }},
+        },
+        [10058] = {
+            [questKeys.preQuestSingle] = {10483},
         },
         [10068] = {
             [questKeys.exclusiveTo] = {8330},
@@ -669,6 +687,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10073] = {
             [questKeys.exclusiveTo] = {8330},
+        },
+        [10079] = {
+            [questKeys.preQuestSingle] = {10483},
         },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
@@ -745,6 +766,9 @@ function QuestieTBCQuestFixes:Load()
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
         },
+        [10288] = {
+            [questKeys.preQuestSingle] = {},
+        }
         [10231]={
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {
                 [3703]={
