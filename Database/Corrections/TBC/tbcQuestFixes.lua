@@ -421,6 +421,9 @@ function QuestieTBCQuestFixes:Load()
         [9671] = {
             [questKeys.requiredLevel] = 15,
         },
+        [9672] = {
+            [questKeys.startedBy] = {nil,{400000},nil},
+        },
         [9686]={
             [questKeys.triggerEnd] = {"Complete the Second Trial", {
                 [3430]={

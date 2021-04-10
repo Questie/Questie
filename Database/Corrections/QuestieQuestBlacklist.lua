@@ -630,6 +630,7 @@ function QuestieQuestBlacklist:Load()
         --
 
         -- TBC quests
+        [9751] = true, -- The Bloodcurse Legacy (duplicate of 9672 which is way easier to get)
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
     }
 end
