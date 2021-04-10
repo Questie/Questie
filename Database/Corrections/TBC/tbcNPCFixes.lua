@@ -56,6 +56,10 @@ function QuestieTBCNpcFixes:Load()
         [17713] = {
             [npcKeys.waypoints] = {},
         },
+        [17715] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{86,54},},},
+            [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
+        },
         [17334] = {
             [npcKeys.waypoints] = {},
         },
