@@ -691,10 +691,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{17986,18020},nil,nil,},
         },
         [10068] = {
+            [questKeys.startedBy] = {{15279,},nil,nil,},
             [questKeys.exclusiveTo] = {8330},
+            [questKeys.preQuestSingle] = {8328},
         },
         [10069] = {
+            [questKeys.startedBy] = {{15280,},nil,nil,},
             [questKeys.exclusiveTo] = {8330},
+            [questKeys.preQuestSingle] = {9676},
         },
         [10070] = {
             [questKeys.exclusiveTo] = {8330},
