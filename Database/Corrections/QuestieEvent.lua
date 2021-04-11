@@ -473,6 +473,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallows End", 11356}) -- Costumed Orphan Mat
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12360}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11131}) -- Stop the Fires!
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11135}) -- The Headless Horseman
+tinsert(QuestieEvent.eventQuests, {"Hallows End", 11220}) -- The Headless Horseman
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 12409}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11219}) -- Stop the Fires!
 tinsert(QuestieEvent.eventQuests, {"Hallows End", 11361}) -- Fire Training
@@ -653,6 +654,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11821}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11825}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11829}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11833}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11933}) -- Stealing the Exodar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
