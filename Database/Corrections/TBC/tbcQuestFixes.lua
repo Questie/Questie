@@ -129,6 +129,9 @@ function QuestieTBCQuestFixes:Load()
         [9400] = {
             [questKeys.triggerEnd] = {"Find Krun Spinebreaker", {[zoneIDs.HELLFIRE_PENINSULA]={{33.59,43.62},},}},
         },
+        [9417] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
         },
@@ -455,6 +458,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
+        },
+        [10106] = {
+            [questKeys.preQuestSingle] = {10483},
+            [questKeys.requiredMaxRep] = {946,41999},
         },
         [10107] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
