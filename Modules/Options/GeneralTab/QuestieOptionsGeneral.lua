@@ -273,18 +273,6 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie:Debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
             },
-            acceptTrivial = {
-                type = "toggle",
-                order = 5.5,
-                name = function() return l10n('Accept trivial (low level) quests'); end,
-                desc = function() return l10n('When this is enabled trivial (gray) quests will be auto accepted as well.'); end,
-                disabled = function() return (not Questie.db.char.autoaccept) end,
-                width = 1.5,
-                get = function () return Questie.db.char.acceptTrivial; end,
-                set = function (info, value)
-                    Questie.db.char.acceptTrivial = value
-                end,
-            },
             autocomplete = {
                 type = "toggle",
                 order = 6,
@@ -297,33 +285,32 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie:Debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
             },
-            autoDialog = {
-                type = "toggle",
-                order = 7,
-                name = function() return l10n('Enable Automatic NPC Dialog'); end,
-                desc = function() return l10n('Enable or disable Questie automatically advancing through NPC dialog.'); end,
-                width = 1.5,
-                get = function () return Questie.db.char.autoDialog; end,
-                set = function (info, value)
-                    Questie.db.char.autoDialog = value
-                    Questie:Debug(DEBUG_DEVELOP, "Auto Dialog toggled to:", value)
-                end,
-            },
             autoModifier = {
                 type = "select",
-                order = 8,
+                order = 7,
                 values = _GetShortcuts(),
                 style = 'dropdown',
                 name = function() return l10n('Auto Modifier') end,
                 desc = function() return l10n('The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.'); end,
-                width = 1.5,
                 disabled = function() return (not Questie.db.char.autocomplete) and (not Questie.db.char.autoaccept) end,
                 get = function() return Questie.db.char.autoModifier; end,
                 set = function(input, key)
                     Questie.db.char.autoModifier = key
                 end,
             },
-            Spacer_B1 = QuestieOptionsUtils:HorizontalSpacer(1.71, 1.5),
+            Spacer_H = QuestieOptionsUtils:HorizontalSpacer(1.71, 0.5),
+            acceptTrivial = {
+                type = "toggle",
+                order = 8,
+                name = function() return QuestieLocale:GetUIString('ENABLE_ACCEPT_TRIVIAL'); end,
+                desc = function() return QuestieLocale:GetUIString('ENABLE_ACCEPT_TRIVIAL_DESC'); end,
+                disabled = function() return (not Questie.db.char.autoaccept) end,
+                width = 1.5,
+                get = function () return Questie.db.char.acceptTrivial; end,
+                set = function (info, value)
+                    Questie.db.char.acceptTrivial = value
+                end,
+            },
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
             questannounce = {
                 type = "select",
@@ -335,7 +322,6 @@ function QuestieOptions.tabs.general:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Quest Announce') end,
                 desc = function() return l10n('Announce objective completion to party members'); end,
-                width = 1.5,
                 disabled = false,
                 get = function() return Questie.db.char.questAnnounce or 'party' end,
                 set = function(input, key)
@@ -345,7 +331,7 @@ function QuestieOptions.tabs.general:Initialize()
             Spacer_B = QuestieOptionsUtils:HorizontalSpacer(1.722, 0.5),
             shareQuestsNearby = {
                 type = "toggle",
-                order = 9.5,
+                order = 10,
                 name = function() return l10n('Share quest progress with nearby players'); end,
                 desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
                 disabled = function() return false end,
