@@ -238,6 +238,9 @@ function QuestieTBCQuestFixes:Load()
         [9575] = {
             [questKeys.preQuestSingle] = {10483},
         },
+        [9576] = {
+            [questKeys.startedBy] = {{17496},nil,{23870,},},
+        },
         [9591] = {
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {[zoneIDs.AZUREMYST_ISLE]={{20.29,64.87},{22.04,72.29},{20.57,68.9},},}},
         },
