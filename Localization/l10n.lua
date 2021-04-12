@@ -19,6 +19,7 @@ local locale = 'enUS'
 local supportedLocals = {
     ['enUS'] = true,
     ['esES'] = true,
+    ['esMX'] = true,
     ['ptBR'] = true,
     ['frFR'] = true,
     ['deDE'] = true,
