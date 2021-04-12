@@ -250,6 +250,9 @@ function QuestieTBCQuestFixes:Load()
         [9593] = {
             [questKeys.triggerEnd] = {"Tame a Nightstalker", {[zoneIDs.AZUREMYST_ISLE]={{36.41,40.24},{35.82,37.14},},}},
         },
+        [9594] = {
+            [questKeys.startedBy] = {{17528},nil,{23900,},},
+        },
         [9607] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93},},}},
         },
