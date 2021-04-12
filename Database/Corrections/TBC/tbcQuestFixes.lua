@@ -275,6 +275,9 @@ function QuestieTBCQuestFixes:Load()
         [9669] = {
             [questKeys.requiredLevel] = 16,
         },
+        [9670] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{17681,17680},17681,"Expedition Researcher Freed"},},
+        },
         [9671] = {
             [questKeys.requiredLevel] = 15,
         },
