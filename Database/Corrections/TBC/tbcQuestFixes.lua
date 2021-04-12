@@ -318,7 +318,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9759] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Vector Coil Destroyed and Sironas Slain", {[zoneIDs.BLOODMYST_ISLE]={{14.86,54.84},},}},
+        },
+        [9760] = {
+            [questKeys.exclusiveTo] = {9759},
         },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97},},}},

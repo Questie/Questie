@@ -65,5 +65,11 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.npcDrops] = {40002},
             [itemKeys.objectDrops] = {},
         },
+        [40002] = {
+            [itemKeys.name] = "Matis the Cruel Captured",
+            [itemKeys.relatedQuests] = {9711,},
+            [itemKeys.npcDrops] = {17664},
+            [itemKeys.objectDrops] = {},
+        },
     }
 end
