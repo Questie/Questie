@@ -288,7 +288,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
         },
         [9711] = {
-            [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{32.74,48.02},{29.51,51.36},{25.63,53.52},{37.81,46.44},{40.88,45.13},},}},
+            [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{-1,-1},},}}, -- We don't want to use the objective data, since the fake item has waypoints
+            [questKeys.requiredSourceItems] = {40002},
         },
         [9716] = {
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51},},}},
