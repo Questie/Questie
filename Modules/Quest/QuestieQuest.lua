@@ -469,7 +469,7 @@ function QuestieQuest:UpdateQuest(questId)
         if isComplete == 1 then -- Quest is complete
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
-            QuestieTooltips:RemoveQuest(questId)
+            --QuestieTooltips:RemoveQuest(questId)
             QuestieQuest:AddFinisher(quest)
         elseif isComplete == -1 then -- Failed quests should be shown as available again
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest failed")

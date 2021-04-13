@@ -2422,6 +2422,8 @@ _GetContinent = function(uiMapId)
         return "Eastern Kingdoms"
     elseif ((uiMapId >= 1411) and (uiMapId <= 1414)) or ((uiMapId >= 1438) and (uiMapId <= 1452)) or (uiMapId == 1454) or (uiMapId == 1456) or (uiMapId == 1457) then
         return "Kalimdor"
+    elseif uiMapId > 1900 and uiMapId < 2000 then
+        return "Outland"
     else
 
         print(uiMapId, "is unknown")

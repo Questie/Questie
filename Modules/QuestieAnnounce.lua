@@ -18,14 +18,14 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
             local objective = nil
             if itemId then
                 --objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
-                objective = objectiveProgress.." "..(select(1,GetItemInfo(itemId)))
+                objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
             else
                 objective = objectiveProgress.." "..objectiveText
             end
             message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_OBJECTIVE", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         elseif progressType == "item" then
             --message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
-            message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(1,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = QuestieLocale:GetUIString("QUEST_ANNOUNCE_QUESTITEM", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         end
 
         SendChatMessage(message, "PARTY")
