@@ -7,6 +7,20 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
+    table.insert(QuestieDB.objectData, 400000, {})
+    table.insert(QuestieDB.objectData, 400001, {})
+    table.insert(QuestieDB.objectData, 400002, {})
+    table.insert(QuestieDB.objectData, 400003, {})
+    table.insert(QuestieDB.objectData, 400004, {})
+    table.insert(QuestieDB.objectData, 400005, {})
+    table.insert(QuestieDB.objectData, 400006, {})
+    table.insert(QuestieDB.objectData, 400007, {})
+    table.insert(QuestieDB.objectData, 400008, {})
+    table.insert(QuestieDB.objectData, 400009, {})
+    table.insert(QuestieDB.objectData, 400010, {})
+    table.insert(QuestieDB.objectData, 400011, {})
+    table.insert(QuestieDB.objectData, 400012, {})
+
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
@@ -39,6 +53,66 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.questStarts] = {9672},
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{55.2,59.2},},},
             [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
+        },
+        [400001] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40.5,19},},},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400002] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{39.5,19},},},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400003] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{76.8,29.7},},},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400004] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{76.8,29.7},},},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400005] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40,19},},},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400006] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82},},},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400007] = {
+            [objectKeys.name] = "Spend a Talent Point",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{40,19},},},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400008] = {
+            [objectKeys.name] = "Spend a Talent Point",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82},},},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400009] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{83.5,37},},},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [400010] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84.5,37},},},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [400011] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84,37},},},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [400012] = {
+            [objectKeys.name] = "Spend a Talent Point",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{84,37},},},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
     }
 end

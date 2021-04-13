@@ -86,6 +86,20 @@ QuestieDB.raceKeys = {
     DRAENEI = 1024
 }
 
+QuestieDB.classKeys = {
+    NONE = 0,
+
+    WARRIOR = 1,
+    PALADIN = 2,
+    HUNTER = 4,
+    ROGUE = 8,
+    PRIEST = 16,
+    SHAMAN = 32,
+    MAGE = 128,
+    WARLOCK = 256,
+    DRUID = 1024
+}
+
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
 _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};

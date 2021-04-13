@@ -7,8 +7,27 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
+    -- Alliance boosted quests
+    table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
+    table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
+    table.insert(QuestieDB.questData, 64034, {}) -- Combat Training
+    table.insert(QuestieDB.questData, 64035, {}) -- Talented
+    table.insert(QuestieDB.questData, 64038, {}) -- The Dark Portal
+    -- Horde boosted quests
+    table.insert(QuestieDB.questData, 64046, {}) -- A New Beginning
+    table.insert(QuestieDB.questData, 64047, {}) -- A New Beginning
+    table.insert(QuestieDB.questData, 64048, {}) -- Tools for Survival
+    table.insert(QuestieDB.questData, 64049, {}) -- Tools for Survival
+    table.insert(QuestieDB.questData, 64050, {}) -- Combat Training
+    table.insert(QuestieDB.questData, 64051, {}) -- Combat Training
+    table.insert(QuestieDB.questData, 64052, {}) -- Talented
+    table.insert(QuestieDB.questData, 64053, {}) -- Talented
+    table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
+
+
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
+    local classIDs = QuestieDB.classKeys
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
@@ -917,6 +936,176 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.68},},
                 [zoneIDs.UNDERCITY]={{68.62,8.01},},
             }},
+        },
+
+        -- C_QuestLog.GetQuestObjectives
+
+        ----- Boosted character quests -----
+        [64028] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Meet with your class trainer in Stormwind."},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [64031] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400009, "Open the Survival Kit"}, {400010, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64028},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [64034] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400011, "Train a Spell"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64031},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [64035] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate a Talent Point."},
+            [questKeys.objectives] = {nil,{{400012, "Train a Spell"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64034},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [64038] = {
+            [questKeys.name] = "The Dark Portal",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{16841},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Find Watch Commander Relthorn Netherwane at the Blasted Lands. He awaits your arrival before the Dark Portal."},
+            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64035},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
+        [64046] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Meet with your class trainer in Orgrimmar."},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64047] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{3036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Meet with your Druid trainer in Thunderbluff."},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
+        },
+        [64048] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400001, "Open the Survival Kit"}, {400002, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64046},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64049] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400003, "Open the Survival Kit"}, {400004, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64047},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
+        },
+        [64050] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400005, "Train a Spell"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64048},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64051] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your Druid trainer."},
+            [questKeys.objectives] = {nil,{{400006, "Train a Spell"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64049},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
+        },
+        [64052] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate a Talent Point."},
+            [questKeys.objectives] = {nil,{{400007, "Train a Spell"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64050},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64053] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate a Talent Point."},
+            [questKeys.objectives] = {nil,{{400008, "Train a Spell"}},nil,nil,nil},
+            [questKeys.preQuestSingle] = {64051},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
+        },
+        [64063] = {
+            [questKeys.name] = "The Dark Portal",
+            [questKeys.startedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.finishedBy] = {{19254},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
+            [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64052,64053},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
     }
 end
