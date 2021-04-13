@@ -10,6 +10,9 @@ function QuestieTBCItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
 
     return {
+        [4503] = {
+            [itemKeys.npcDrops] = {2557,2556,2555,2553,2552,2558,2554,},
+        },
         [23442] = {
             [itemKeys.npcDrops] = {16975},
         },
