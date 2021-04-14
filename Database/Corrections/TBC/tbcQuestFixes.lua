@@ -437,6 +437,22 @@ function QuestieTBCQuestFixes:Load()
         [10012] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },
+        [10017] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
+        [10019] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
+        [10024] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [10025] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
         [10038] = {
             [questKeys.exclusiveTo] = {10040},
         },
@@ -497,6 +513,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [10079] = {
             [questKeys.preQuestSingle] = {10483},
+        },
+        [10094] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [10095] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [10097] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [11099] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
+        [11100] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
+        [11101] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
         },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
@@ -568,6 +608,9 @@ function QuestieTBCQuestFixes:Load()
         [10310] = {
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38},},}},
         },
+        [10325] = {
+            [questKeys.preQuestSingle] = {10211},
+        },
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97},},}},
         },
@@ -583,6 +626,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10409] = {
             [questKeys.triggerEnd] = {"Deathblow to the Legion", {[zoneIDs.NETHERSTORM]={{29.56,14.29},},}},
+        },
+        [10412] = {
+            [questKeys.preQuestSingle] = {10211},
         },
         [10425] = {
             [questKeys.triggerEnd] = {"Captured Protectorate Vanguard Escorted", {[zoneIDs.NETHERSTORM]={{58.9,32.43},},}},
@@ -613,6 +659,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10646] = {
             [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07},},}},
+        },
+        [10653] = {
+            [questKeys.preQuestSingle] = {10211},
+        },
+        [10656] = {
+            [questKeys.preQuestSingle] = {10211},
         },
         [10682] = {
             [questKeys.triggerEnd] = {"Negotiations with Overseer Nuaar complete", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.22,31.78},{59.86,40.22},{59.46,35.84},},}},
