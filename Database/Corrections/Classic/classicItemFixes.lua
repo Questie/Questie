@@ -746,9 +746,6 @@ function QuestieItemFixes:Load()
         [11113] = {
             [itemKeys.objectDrops] = {161526},
         },
-        [11114] = {
-            [itemKeys.objectDrops] = {161527},
-        },
         [11131] = {
             [itemKeys.name] = "Hive Wall Sample",
             [itemKeys.relatedQuests] = {3883},
