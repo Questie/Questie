@@ -121,6 +121,9 @@ function QuestieTBCQuestFixes:Load()
         [9144] = {
             [questKeys.requiredLevel] = 10,
         },
+        [8474] = {
+            [questKeys.startedBy] = {{23228},nil,{23228,},},
+        },
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
