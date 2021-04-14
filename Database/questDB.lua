@@ -38,17 +38,13 @@ QuestieDB.questKeys = {
     ['questFlags'] = 23, -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
+    ['extraObjectives'] = 26, -- table: {{spawnlist, iconFile, text},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 }
 
 QuestieDB.questCompilerTypes = {
     ['name'] = "u8string", -- string
     ['startedBy'] = "questgivers", -- table
-        --['creatureStart'] = 1, -- table {creature(int),...}
-        --['objectStart'] = 2, -- table {object(int),...}
-        --['itemStart'] = 3, -- table {item(int),...}
     ['finishedBy'] = "questgivers", -- table
-        --['creatureEnd'] = 1, -- table {creature(int),...}
-        --['objectEnd'] = 2, -- table {object(int),...}
     ['requiredLevel'] = "u8", -- int
     ['questLevel'] = "s16", -- int
     ['requiredRaces'] = "u16", -- bitmask
@@ -56,10 +52,6 @@ QuestieDB.questCompilerTypes = {
     ['objectivesText'] = "u8u16stringarray", -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
     ['objectives'] = "objectives", -- table
-        --['creatureObjective'] = 1, -- table {{creature(int), text(string)},...}, If text is nil the default "<Name> slain x/y" is used
-        --['objectObjective'] = 2, -- table {{object(int), text(string)},...}
-        --['itemObjective'] = 3, -- table {{item(int), text(string)},...}
-        --['reputationObjective'] = 4, -- table: {faction(int), value(int)}
     ['sourceItemId'] = "u16", -- int, item provided by quest starter
     ['preQuestGroup'] = "u8u16array", -- table: {quest(int)}
     ['preQuestSingle'] = "u8u16array", -- table: {quest(int)}
@@ -75,6 +67,7 @@ QuestieDB.questCompilerTypes = {
     ['questFlags'] = "u16", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = "u16", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
+    ['extraObjectives'] = "extraobjectives"
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
@@ -84,7 +77,7 @@ QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficie
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
-    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives'
+    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives', 'extraObjectives'
 }
 
 QuestieDB.questFlags = {

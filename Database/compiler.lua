@@ -27,7 +27,8 @@ QuestieDBCompiler.supportedTypes = {
         ["objectives"] = true,
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
-        ["u8u24array"] = true
+        ["u8u24array"] = true,
+        ["extraobjectives"] = true
     },
     ["number"] = {
         ["s8"] = true,
@@ -225,6 +226,21 @@ QuestieDBCompiler.readers = {
         end
 
         return ret
+    end,
+    ["extraobjectives"] = function(stream)
+        local count = stream:ReadByte()
+        if count > 0 then
+            local ret = {}
+            for i=1,count do
+                local data = {}
+                tinsert(data, QuestieDBCompiler.readers["spawnlist"](stream))
+                tinsert(data, stream:ReadTinyString())
+                tinsert(data, stream:ReadShortString())
+                tinsert(ret, data)
+            end
+            return ret
+        end
+        return nil
     end,
     ["waypointlist"] = function(stream)
         local count = stream:ReadByte()
@@ -450,6 +466,18 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["extraobjectives"] = function(stream, value)
+        if value then
+            stream:WriteByte(#value)
+            for _, data in pairs(value) do
+                QuestieDBCompiler.writers["spawnlist"](stream, data[1])
+                stream:WriteTinyString(data[2])
+                stream:WriteShortString(data[3])
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["waypointlist"] = function(stream, value)
         if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
@@ -546,6 +574,16 @@ QuestieDBCompiler.skippers = {
             stream._pointer = stream._pointer + count * 3 + 3
             QuestieDBCompiler.skippers["u8string"](stream)
         end
+    end,
+    ["extraobjectives"] = function(stream)
+        local count = stream:ReadByte()
+        if count > 0 then
+            for i=1,count do
+                QuestieDBCompiler.skippers["spawnlist"](stream)
+                stream._pointer = stream:ReadByte() + stream._pointer
+                stream._pointer = stream:ReadShort() + stream._pointer
+            end
+        end
     end
 }
 
@@ -562,6 +600,7 @@ QuestieDBCompiler.dynamics = {
     ["objectives"] = true,
     ["questgivers"] = true,
     ["waypointlist"] = true,
+    ["extraobjectives"] = true,
 }
 
 QuestieDBCompiler.statics = {
@@ -695,6 +734,9 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
                     print("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
                     QuestieDBCompiler.ticker:Cancel()
                     return
+                end
+                if not QuestieDBCompiler.writers[t] then
+                    print("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
                 QuestieDBCompiler.writers[t](QuestieDBCompiler.stream, v)
