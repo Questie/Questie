@@ -529,6 +529,9 @@ function QuestieTBCQuestFixes:Load()
         [10226] = {
             [questKeys.objectives] = {nil,nil,{{28548,"Zap Sundered Rumblers and Warp Aberrations before killing them"},},nil,},
         },
+        [10256] = {
+            [questKeys.objectives] = {{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"},nil,nil,nil,nil},
+        },
         [11099] = {
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
