@@ -326,7 +326,9 @@ function QuestieLib:GetRaceString(raceMask)
             l10n('Tauren'),
             l10n('Gnome'),
             l10n('Troll'),
-            l10n('Goblin')
+            l10n('Goblin'),
+            l10n('Draenei'),
+            l10n('Blood Elf')
         }
         local firstRun = true
         for k, v in pairs(raceTable) do

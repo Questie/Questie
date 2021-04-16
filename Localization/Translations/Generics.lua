@@ -406,6 +406,30 @@ local genericsLocales = {
         ["zhTW"] = false,
         ["esES"] = false,
         ["frFR"] = false,
+    },
+    ["Draenei"] = {
+        ["ptBR"] = "Draenei",
+        ["ruRU"] = "Дренеи",
+        ["deDE"] = false,
+        ["koKR"] = "드레나이",
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = "德莱尼",
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = "Draeneï",
+    },
+    ["Blood Elf"] = {
+        ["ptBR"] = "Elfo Sangrento",
+        ["ruRU"] = "Эльфийка крови",
+        ["deDE"] = "Blutelf",
+        ["koKR"] = "블러드 엘프",
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = "血精灵",
+        ["zhTW"] = false,
+        ["esES"] = "Elfo de sangre",
+        ["frFR"] = "Elfe de sang",
     }
 }
 
