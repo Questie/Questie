@@ -127,6 +127,9 @@ function QuestieTBCQuestFixes:Load()
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [9130] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
@@ -144,6 +147,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
+        },
+        [9327] = {
+            [questKeys.exclusiveTo] = {9130},
         },
         [9355] = {
             [questKeys.preQuestSingle] = {10483},
