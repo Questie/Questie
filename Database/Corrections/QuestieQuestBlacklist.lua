@@ -634,6 +634,7 @@ function QuestieQuestBlacklist:Load()
         ----- TBC -------------- TBC quests --------------- TBC -----
         ----- TBC ------------- starting here -------------- TBC -----
 
+        -- [BETA] quests
         [402] = true, -- Sirra is Busy (not in the game anymore)
         [785] = true, -- A Strategic Alliance (not in the game anymore)
         [999] = true, -- When Dreams Turn to Nightmares (not in the game anymore)
@@ -726,6 +727,17 @@ function QuestieQuestBlacklist:Load()
         [10871] = true, -- Ally of the Netherwing (not in the game anymore)
         [10872] = true, -- Zuluhed the Whacked (not in the game anymore)
         [10925] = true, -- Evil Draws Near (not in the game anymore)
+
+        -- [Not Used] quests
+        [1390] = true, -- BETA Oops, We Killed Them Again.
+        [2019] = true, -- Tools of the Trade
+        [5383] = true, -- Krastinov's Bag of Horrors
+        [8530] = true, -- The Alliance Needs Singed Corestones!
+        [8618] = true, -- The Horde Needs More Singed Corestones!
+        [9380] = true, -- BETA Hounded for More
+        [9510] = true, -- BETA Bristlehide Clefthoof Hides
+        [9767] = true, -- Know Your Enemy
+        [10090] = true, -- BETA The Legion's Plans
 
         [9751] = true, -- The Bloodcurse Legacy (duplicate of 9672 which is way easier to get)
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
