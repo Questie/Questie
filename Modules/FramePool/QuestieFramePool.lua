@@ -73,7 +73,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     end,
     SetQuest = function(self, id)
         self.questID = id
-        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieDB:GetColoredQuestName(id, false, true))
+        self.text = l10n("Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!", QuestieLib:GetColoredQuestName(id, Questie.db.global.enableTooltipsQuestLevel, false, true))
 
         -- locale might not be loaded when this is first created (this does happen almost always)
         self.button1 = l10n("Yes")
@@ -464,7 +464,7 @@ function _QuestieFramePool:GetAvailableOrCompleteTooltip(icon)
             tip.type = "(" .. l10n("Available") .. ")";
         end
     end
-    tip.title = QuestieDB:GetColoredQuestName(icon.data.Id, false, true)
+    tip.title = QuestieLib:GetColoredQuestName(icon.data.Id, Questie.db.global.enableTooltipsQuestLevel, false, true)
     tip.subData = icon.data.QuestData.Description
     tip.questId = icon.data.Id;
 
@@ -784,7 +784,7 @@ function _QuestieFramePool:QuestieTooltip()
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
             local quest = QuestieDB:GetQuest(questId);
-            local questTitle = QuestieDB:GetColoredQuestName(questId, true, true);
+            local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true);
             if haveGiver then
                 self:AddLine(" ");
                 self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);

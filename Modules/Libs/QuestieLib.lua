@@ -1,4 +1,9 @@
 -- Contains library functions that do not have a logical place.
+
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+
+
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 -------------------------
@@ -36,7 +41,7 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF8040" .. text .. "|r" -- Orange
     elseif (levelDiff >= -2) then
         return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= GetQuestGreenRange()) then
+    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
         return "|cFF40C040" .. text .. "|r" -- Green
     else
         return "|cFFC0C0C0" .. text .. "|r" -- Grey
@@ -57,7 +62,7 @@ function QuestieLib:GetDifficultyColorPercent(level)
     elseif (levelDiff >= -2) then
         -- return "|cFFFFFF00"..text.."|r"; -- Yellow
         return 1, 1, 0
-    elseif (-levelDiff <= GetQuestGreenRange()) then
+    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
         -- return "|cFF40C040"..text.."|r"; -- Green
         return 0.251, 0.753, 0.251
     else
@@ -162,22 +167,23 @@ function QuestieLib:GetQuestObjectives(questId)
     return objectiveList
 end
 
----@param id QuestId @The quest ID
----@param name string @The (localized) name of the quest
----@param level number @The quest level
+---@param questId QuestId @The quest ID
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, blizzLike)
+function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
+    local name = QuestieDB.QueryQuestSingle(questId, "name");
+    local level = QuestieLib:GetTbcLevel(questId);
+
     if showLevel then
-        name = QuestieLib:GetQuestString(id, name, level, blizzLike)
+        name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
     end
     if Questie.db.global.enableTooltipsQuestID then
-        name = name .. " (" .. id .. ")"
+        name = name .. " (" .. questId .. ")"
     end
 
     if showState then
-        local isComplete = QuestieDB:IsComplete(id)
+        local isComplete = QuestieDB:IsComplete(questId)
 
         if isComplete == -1 then
             name = name .. " (" .. l10n("Failed") .. ")"
@@ -186,7 +192,7 @@ function QuestieLib:GetColoredQuestName(id, name, level, showLevel, showState, b
         end
     end
 
-    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[id] == nil)) then
+    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[questId] == nil)) then
         return QuestieLib:PrintDifficultyColor(level, name)
     end
 
@@ -241,6 +247,19 @@ function QuestieLib:GetQuestString(id, name, level, blizzLike)
     end
 
     return name
+end
+
+function QuestieLib:GetTbcLevel(questId)
+    local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    if (questLevel == -1) then
+        local playerLevel = QuestiePlayer:GetPlayerLevel();
+        if (requiredLevel > playerLevel) then
+            questLevel = requiredLevel;
+        else
+            questLevel = playerLevel;
+        end
+    end
+    return questLevel;
 end
 
 ---@param id QuestId @The quest ID
@@ -414,6 +433,7 @@ function QuestieLib:GetAddonVersionInfo()
 
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
     local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
+    hash = "nil"
 
     local buildType = nil
 
@@ -423,11 +443,11 @@ function QuestieLib:GetAddonVersionInfo()
         buildType = "BETA"
     end
 
-    return tonumber(major), tonumber(minor), tonumber(patch), tostring(buildType)
+    return tonumber(major), tonumber(minor), tonumber(patch), tostring(hash), tostring(buildType)
 end
 
 function QuestieLib:GetAddonVersionString()
-    local major, minor, patch, buildType = QuestieLib:GetAddonVersionInfo()
+    local major, minor, patch, buildType, hash = QuestieLib:GetAddonVersionInfo()
 
     if buildType and buildType ~= "nil" then
         buildType = " - " .. buildType
@@ -435,7 +455,13 @@ function QuestieLib:GetAddonVersionString()
         buildType = ""
     end
 
-    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. buildType
+    if hash and hash ~= "nil" then
+        hash = "-" .. hash
+    else
+        hash = ""
+    end
+
+    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. hash .. buildType
 end
 
 -- Search for just Addon\\ at the front since the interface part often gets trimmed
@@ -504,7 +530,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        tinsert(sortedQuestsByLevel, {QuestieDB.QueryQuestSingle(q, "questLevel") or 0, q})
+        tinsert(sortedQuestsByLevel, {QuestieLib:GetTbcLevel(q) or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 

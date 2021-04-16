@@ -86,7 +86,9 @@ local function CreateShowHideButton(id)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local name, questLevel, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "name", "questLevel", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"))
+    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"))
+
+    local questLevel = QuestieLib:GetTbcLevel(id);
 
     -- header
     local title = AceGUI:Create("Heading")
@@ -265,7 +267,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             startQuests[counter] = {};
             startQuests[counter].frame = AceGUI:Create("InteractiveLabel");
             startQuests[counter].quest = QuestieDB:GetQuest(v);
-            startQuests[counter].frame:SetText(QuestieDB:GetColoredQuestName(startQuests[counter].quest.Id, true, true));
+            startQuests[counter].frame:SetText(QuestieLib:GetColoredQuestName(startQuests[counter].quest.Id,  true, true));
             startQuests[counter].frame:SetUserData('id', v);
             startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
             startQuests[counter].frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end)
@@ -300,7 +302,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             endQuests[counter] = {};
             endQuests[counter].frame = AceGUI:Create("InteractiveLabel");
             endQuests[counter].quest = QuestieDB:GetQuest(v);
-            endQuests[counter].frame:SetText(QuestieDB:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
+            endQuests[counter].frame:SetText(QuestieLib:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
             endQuests[counter].frame:SetUserData('id', v);
             endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name);
             endQuests[counter].frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end);
@@ -385,7 +387,8 @@ _HandleOnGroupSelected = function (resultType)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(resultType.localstatus.selected)
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        local questLevel, questName = unpack(QuestieDB.QueryQuest(selectedId, "questLevel", "name"))
+        local questName = QuestieDB.QueryQuestSingle(questId, "name")
+        local questLevel = QuestieLib:GetTbcLevel(questId);
 
         if Questie.db.global.trackerShowQuestLevel then
             ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")
@@ -505,7 +508,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     container:AddChild(header);
     QuestieJourneyUtils:Spacer(container);
     -- Declare scopes
-    typeDropdown = AceGUI:Create("LQDropdown");
+    typeDropdown = AceGUI:Create("Dropdown");
     searchBox = AceGUI:Create("EditBox");
     searchGroup = AceGUI:Create("SimpleGroup");
     searchButton = AceGUI:Create("Button");

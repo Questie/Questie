@@ -58,7 +58,7 @@ function _QuestieJourney.questsByZone:DrawTab(container)
 end
 
 _CreateContinentDropdown = function()
-    local dropdown = AceGUI:Create("LQDropdown")
+    local dropdown = AceGUI:Create("Dropdown")
     dropdown:SetList(QuestieJourney.continents)
     dropdown:SetText(l10n('Select Your Continent'))
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
@@ -73,7 +73,7 @@ _CreateContinentDropdown = function()
 end
 
 _CreateZoneDropdown = function()
-    local dropdown = AceGUI:Create("LQDropdown")
+    local dropdown = AceGUI:Create("Dropdown")
 
     local currentZoneId = QuestiePlayer:GetCurrentZoneId()
     if _QuestieJourney.lastZoneSelection[2] then
