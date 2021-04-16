@@ -79,8 +79,7 @@ local Migration = QuestieLoader:ImportModule("Migration")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
-if  (not LQuestie_EasyMenu) or
-    --Libs
+if  --Libs
     (not QuestieLib) or
     (not QuestiePlayer) or
     (not QuestieSerializer) or
@@ -139,6 +138,8 @@ end
 
 
 function Questie:OnInitialize()
+    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(A7)|r"
+
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
 

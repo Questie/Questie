@@ -18,6 +18,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@tyle QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
@@ -172,7 +174,7 @@ function QuestieMenu:Show()
         Questie.db.char.townsfolkConfig = {}
     end
     if not QuestieMenu.menu then
-        QuestieMenu.menu = LQuestie_Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
+        QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
     end
     local menuTable = {}
     for key in pairs(Questie.db.global.townsfolk) do
@@ -241,8 +243,8 @@ function QuestieMenu:Show()
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu, notCheckable=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu, notCheckable=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
+    tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
 
     tinsert(menuTable, div)
 
@@ -256,6 +258,6 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func=function() end})
-    LQuestie_EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
+    EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 

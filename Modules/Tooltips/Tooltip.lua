@@ -123,7 +123,7 @@ function QuestieTooltips:GetTooltip(key)
         for k, tooltip in pairs(QuestieTooltips.lookupByKey[key]) do
             if tooltip.npc then
                 if Questie.db.char.showQuestsInNpcTooltip then
-                    local questString = QuestieDB:GetColoredQuestName(tooltip.questId, true, true)
+                    local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
                     table.insert(npcTooltip, questString)
                 end
             else
@@ -137,7 +137,7 @@ function QuestieTooltips:GetTooltip(key)
                 local objectiveIndex = objective.Index;
                 if (not tooltipData[questId]) then
                     tooltipData[questId] = {
-                        title = QuestieDB:GetColoredQuestName(questId, true, true)
+                        title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
                     }
                 end
 
@@ -176,7 +176,7 @@ function QuestieTooltips:GetTooltip(key)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieDB:GetColoredQuestName(questId, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
                 }
             end
             for playerName, _ in pairs(playerList) do
@@ -198,7 +198,7 @@ function QuestieTooltips:GetTooltip(key)
         for questId, playerList in pairs(tooltipDataExternal) do
             if (not tooltipData[questId]) then
                 tooltipData[questId] = {
-                    title = QuestieDB:GetColoredQuestName(questId, true, true)
+                    title = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
                 }
             end
             for playerName, objectives in pairs(playerList) do

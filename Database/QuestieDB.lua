@@ -1,3 +1,8 @@
+--- COMPATIBILITY ---
+local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
+local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
+local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
+
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
@@ -77,6 +82,20 @@ QuestieDB.raceKeys = {
     --GOBLIN = 256,
     BLOOD_ELF = 512,
     DRAENEI = 1024
+}
+
+QuestieDB.classKeys = {
+    NONE = 0,
+
+    WARRIOR = 1,
+    PALADIN = 2,
+    HUNTER = 4,
+    ROGUE = 8,
+    PRIEST = 16,
+    SHAMAN = 32,
+    MAGE = 128,
+    WARLOCK = 256,
+    DRUID = 1024
 }
 
 _QuestieDB.questCache = {}; -- stores quest objects so they dont need to be regenerated
@@ -252,15 +271,6 @@ function QuestieDB:GetItem(itemId)
 end
 
 ---@param questId number
----@param showState boolean
----@param blizzLike boolean
-function QuestieDB:GetColoredQuestName(questId, showState, blizzLike)
-    local questName, level = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
-    return QuestieLib:GetColoredQuestName(questId, questName, level, Questie.db.global.enableTooltipsQuestLevel, showState, blizzLike)
-end
-
-
----@param questId number
 ---@return boolean
 function QuestieDB:IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
@@ -366,13 +376,13 @@ end
 ---@param maxLevel number
 ---@return boolean
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")--local level, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
 
     if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
 
-    local level = QuestieDB.QueryQuestSingle(questId, "questLevel")
+    local level = QuestieLib:GetTbcLevel(questId)
     -- Questie.db.char.absoluteLevelOffset
     if maxLevel >= level then
         if (not Questie.db.char.lowlevel) and minLevel > level then
@@ -775,6 +785,15 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 end
             end
         end
+        if rawdata[10][5] then
+            local obj = {
+                Type = "killcredit",
+                IdList = rawdata[10][5][1],
+                RootId = rawdata[10][5][2],
+                Text = rawdata[10][5][3]
+            }
+            tinsert(QO.ObjectiveData, obj);
+        end
     end
 
     -- Events need to be added at the end of ObjectiveData
@@ -828,7 +847,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             return false -- Orange
         elseif (levelDiff >= -2) then
             return false -- Yellow
-        elseif (-levelDiff <= GetQuestGreenRange()) then
+        elseif (-levelDiff <= GetQuestGreenRange("player")) then
             return false -- Green
         else
             return true -- Grey

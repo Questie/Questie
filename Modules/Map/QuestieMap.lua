@@ -242,6 +242,7 @@ function QuestieMap:ProcessQueue()
             local mapDrawCall = tremove(mapDrawQueue, 1);
             if(mapDrawCall) then
                 local frame = mapDrawCall[2];
+                --print(tostring(mapDrawCall[2].data.Name).." "..tostring(mapDrawCall[2]).." "..tostring(mapDrawCall[3]).." "..tostring(mapDrawCall[4]).." "..tostring(mapDrawCall[5]).." "..tostring(mapDrawCall[6]))
                 HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
                 QuestieMap.utils:SetDrawOrder(frame);
             end
@@ -517,6 +518,13 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
     if (not showFlag) then
         showFlag = HBD_PINS_WORLDMAP_SHOW_WORLD
+    end
+
+    --print("UIMAPID: " .. tostring(uiMapId))
+    if uiMapId == nil then
+        --ZoneDB:GetUiMapIdByAreaId
+        error("No UiMapID or fitting uiMapId for areaId : ".. areaID .. " - ".. tostring(data.Name))
+        return nil, nil
     end
 
     local floatOnEdge = true

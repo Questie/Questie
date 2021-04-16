@@ -25,6 +25,14 @@ local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type QuestieTBCQuestFixes
+local QuestieTBCQuestFixes = QuestieLoader:ImportModule("QuestieTBCQuestFixes")
+---@type QuestieTBCNpcFixes
+local QuestieTBCNpcFixes = QuestieLoader:ImportModule("QuestieTBCNpcFixes")
+---@type QuestieTBCItemFixes
+local QuestieTBCItemFixes = QuestieLoader:ImportModule("QuestieTBCItemFixes")
+---@type QuestieTBCObjectFixes
+local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes")
 
 --[[
     This file load the corrections of the database files.
@@ -120,7 +128,11 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
 
     for id, data in pairs(QuestieObjectFixes:Load()) do
         for key, value in pairs(data) do
-            QuestieDB.objectData[id][key] = value
+            if not QuestieDB.objectData[id] then
+                print("Attempt to correct missing object " .. tostring(id))
+            else
+                QuestieDB.objectData[id][key] = value
+            end
         end
     end
 
@@ -135,6 +147,92 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
             end
         end
     end
+
+    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+        for id, data in pairs(QuestieTBCQuestFixes:Load()) do
+            for key, value in pairs(data) do
+                if QuestieDB.questData[id] then
+                    if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
+                        QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
+                    else
+                        QuestieDB.questData[id][key] = value
+                    end
+                end
+            end
+        end
+
+        for id, data in pairs(QuestieTBCNpcFixes:Load()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.npcData[id] then
+                    QuestieDB.npcData[id] = {}
+                end
+                if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
+                    QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
+                else
+                    QuestieDB.npcData[id][key] = value
+                end
+            end
+        end
+
+        for id, data in pairs(QuestieTBCObjectFixes:Load()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.objectData[id] then
+                    print("Attempt to correct missing object " .. tostring(id))
+                else
+                    QuestieDB.objectData[id][key] = value
+                end
+            end
+        end
+
+        for id, data in pairs(QuestieTBCItemFixes:Load()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.itemData[id] then
+                    QuestieDB.itemData[id] = {}
+                end
+                QuestieDB.itemData[id][key] = value
+            end
+        end
+    end
+
+    local patchCount = 0
+    for id, quest in pairs(QuestieDB.questData) do
+        if (not quest[QuestieDB.questKeys.requiredRaces]) or quest[QuestieDB.questKeys.requiredRaces] == 0 then
+            -- check against questgiver
+            local canHorde = false
+            local canAlliance = false
+            local starts = quest[QuestieDB.questKeys.startedBy]
+            if starts then
+                starts = starts[1]
+                if starts then
+                    for _, id in pairs(starts) do
+                        local npc = QuestieDB.npcData[id]
+                        if npc then
+                            local friendly = npc[QuestieDB.npcKeys.friendlyToFaction]
+                            if friendly then
+                                if friendly == "H" then
+                                    canHorde = true
+                                elseif friendly == "A" then
+                                    canAlliance = true
+                                elseif friendly == "AH" then
+                                    canAlliance = true
+                                    canHorde = true
+                                end
+                            end
+                        end
+                    end
+                end
+                if canAlliance ~= canHorde then
+                    patchCount = patchCount + 1
+                    if canAlliance then
+                        quest[QuestieDB.questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_ALLIANCE
+                    else
+                        quest[QuestieDB.questKeys.requiredRaces] = QuestieDB.raceKeys.ALL_HORDE
+                    end
+                end
+            end
+        end
+    end
+    --print("Patched " .. tostring(patchCount) .. " quests with bad requirement data")
 
     QuestieCorrections:MinimalInit()
 
@@ -382,9 +480,21 @@ function QuestieCorrections:PopulateTownsfolk()
         ["Innkeeper"] = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER),
         ["Weapon Master"] = {}, -- populated below
     }
-    Questie.db.char.townsfolk = {} -- character-specific townsfolk
+    Questie.db.char.townsfolk = { -- character-specific townsfolk
+        ["Spirit Healer"]  = QuestieCorrections:PopulateTownsfolkType(QuestieDB.npcFlags.SPIRIT_HEALER),
+    }
     Questie.db.char.vendorList = {} -- character-specific vendors
-    local classTrainers = { -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=
+    local classTrainers = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
+        ["MAGE"] = {198, 313, 328, 331, 944, 1228, 2124, 2128, 2485, 2489, 2492, 3047, 3048, 3049, 4165, 4566, 4567, 4568, 4987, 5144, 5145, 5146, 5497, 5498, 5880, 5882, 5883, 5884, 5885, 5957, 5958, 7311, 7312, 15279, 16269, 16500, 16651, 16652, 16653, 16654, 16749, 16755, 17481, 17513, 17514, 19340, 20791, 26326, 27703, 27704, 27705},
+        ["SHAMAN"] = {986, 3030, 3031, 3032, 3062, 3066, 3157, 3173, 3344, 3403, 4991, 13417, 17089, 17204, 17212, 17219, 17519, 17520, 20407, 23127, 26330},
+        ["PRIEST"] = {375, 376, 377, 837, 1226, 2123, 2129, 3044, 3045, 3046, 3595, 3600, 3706, 3707, 4090, 4091, 4092, 4606, 4607, 4608, 4989, 5141, 5142, 5143, 5484, 5489, 5994, 6014, 6018, 11397, 11401, 11406, 15284, 16276, 16502, 16658, 16659, 16660, 16756, 17482, 17510, 17511, 26328},
+        ["PALADIN"] = {925, 926, 927, 928, 1232, 4988, 5147, 5148, 5149, 5491, 5492, 8140, 15280, 16275, 16501, 16679, 16680, 16681, 16761, 17121, 17483, 17509, 17844, 20406, 23128, 26327},
+        ["WARRIOR"] = {911, 912, 913, 914, 985, 1229, 1901, 2119, 2131, 3041, 3042, 3043, 3059, 3063, 3153, 3169, 3353, 3354, 3408, 3593, 3598, 4087, 4089, 4593, 4594, 4595, 4992, 5113, 5114, 5479, 5480, 7315, 8141, 16387, 16503, 16771, 17120, 17480, 17504, 26332},
+        ["HUNTER"] = {895, 987, 1231, 1404, 3038, 3039, 3040, 3061, 3065, 3154, 3171, 3352, 3406, 3407, 3596, 3601, 3963, 4138, 4146, 4205, 4986, 5115, 5116, 5117, 5501, 5515, 5516, 5517, 8308, 10930, 15513, 16270, 16499, 16672, 16673, 16674, 16738, 17110, 17122, 17505, 26325},
+        ["WARLOCK"] = {459, 460, 461, 906, 988, 2126, 2127, 3156, 3172, 3324, 3325, 3326, 4563, 4564, 4565, 4993, 5171, 5172, 5173, 5495, 5496, 5612, 6251, 15283, 16266, 16646, 16647, 16648, 26331},
+        ["ROGUE"] = {915, 916, 917, 918, 1234, 1411, 2122, 2130, 3155, 3170, 3327, 3328, 3401, 3594, 3599, 4163, 4214, 4215, 4582, 4583, 4584, 4990, 5165, 5166, 5167, 13283, 15285, 16279, 16684, 16685, 16686, 22005, 26329},
+        ["DRUID"] = {3033, 3034, 3036, 3060, 3064, 3597, 3602, 4217, 4218, 4219, 4985, 5504, 5505, 5506, 8142, 9465, 12042, 16655, 16721, 26324}
+    } or { -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=
         ["MAGE"] = {198,313,328,331,944,1228,2124,2128,3047,3048,3049,4566,4567,4568,5144,5145,5146,5497,5498,5880,5882,5883,5884,5885,7311,7312},
         ["SHAMAN"] = {986,3030,3031,3032,3062,3066,3157,3173,3344,3403,13417},
         ["PRIEST"] = {375,376,377,837,1226,2123,2129,3044,3045,3046,3595,3600,3706,3707,4090,4091,4092,4606,4607,4608,5141,5142,5143,5484,5489,5994,6014,6018,11397,11401,11406},
@@ -396,7 +506,23 @@ function QuestieCorrections:PopulateTownsfolk()
         ["DRUID"] = {3033,3034,3036,3060,3064,3597,3602,4217,4218,4219,5504,5505,5506,8142,9465,12042}
     }
 
-    local validTrainers = { -- SELECT Entry FROM creature_template WHERE NpcFlags & 16 = 16 AND TrainerType=2 (do this again with tbc DB)
+    local validTrainers = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
+        514,812,908,1103,1215,1218,1241,1292,1300,1317,1346,1355,1382,1385,1386,1430,1458,1470,1473,1632,1651,1676,1680,1681,1683,
+        1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2798,2818,2834,2836,2837,2855,2856,2998,3001,
+        3004,3007,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,3290,3332,3345,3347,3355,3357,3363,
+        3365,3373,3399,3404,3478,3484,3494,3523,3549,3555,3557,3603,3604,3605,3606,3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,
+        4204,4210,4211,4212,4213,4254,4258,4552,4573,4576,4578,4588,4591,4596,4598,4611,4614,4616,4898,4900,5127,5137,5150,5153,5157,
+        5159,5161,5164,5174,5177,5392,5482,5493,5499,5502,5511,5513,5518,5564,5566,5690,5695,5759,5784,5938,5939,5941,5943,6094,6286,
+        6287,6288,6289,6290,6291,6292,6295,6297,6299,6306,6387,7087,7088,7089,7230,7231,7232,7406,7866,7867,7868,7869,7870,7871,7944,
+        7946,7948,7949,8126,8128,8144,8146,8153,8306,8736,8738,9584,10370,10993,11017,11025,11031,11037,11048,11050,11051,11052,11072,
+        11073,11074,11097,11098,11146,11177,11178,11865,11866,11867,11868,11869,11870,12025,12030,12032,12961,13084,14401,14740,15400,
+        15501,16160,16161,16253,16272,16273,16277,16278,16366,16367,16583,16588,16621,16633,16639,16640,16642,16644,16662,16663,16667,
+        16669,16676,16688,16692,16702,16719,16723,16724,16725,16726,16727,16728,16729,16731,16736,16744,16746,16752,16763,16773,16774,
+        16780,16823,17005,17101,17214,17215,17222,17245,17246,17424,17434,17441,17442,17487,17488,17634,17637,17983,18018,18747,18748,
+        18749,18751,18752,18753,18754,18755,18771,18772,18773,18774,18775,18776,18777,18779,18802,18804,18987,18988,18990,18991,18993,
+        19052,19063,19180,19184,19185,19186,19187,19251,19252,19341,19369,19478,19539,19540,19576,19774,19775,19777,19778,20124,20125,
+        21087,22477,24868,25099
+    } or { -- SELECT Entry FROM creature_template WHERE NpcFlags & 16 = 16 AND TrainerType=2 (do this again with tbc DB)
         223,514,812,908,957,1103,1215,1218,1241,1246,1292,1300,1317,1346,1355,1382,1383,1385,1386,1430,1458,1466,1470,1473,1632,1651,
         1676,1680,1681,1683,1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2737,2798,2818,2834,2836,
         2837,2855,2856,2857,2998,3001,3004,3007,3008,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,
@@ -461,20 +587,16 @@ function QuestieCorrections:PopulateTownsfolk()
         153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176319,176324,176404,177044,178864,
         179895,179896,180451,181236,181639,187260,188123
     }) do
-        local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
-        if (factionID == 0 
-                or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID][5], 12) == 0) 
-                or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID][5], 10) == 0)) then
-            -- friendly to the player
-            tinsert(Questie.db.char.townsfolk["Mailbox"], id)
-        end
-    end
-
-    Questie.db.char.townsfolk["Spirit Healer"] = {}
-
-    for e=19199, 19283 do
-        if QuestieDB.npcData[e] then
-            tinsert(Questie.db.char.townsfolk["Spirit Healer"], e)
+        if QuestieDB.objectData[id] then
+            local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
+            if (factionID == 0 
+                    or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID][5], 12) == 0) 
+                    or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID][5], 10) == 0)) then
+                -- friendly to the player
+                tinsert(Questie.db.char.townsfolk["Mailbox"], id)
+            end
+        else
+            --print("Missing mailbox: " .. tostring(id))
         end
     end
 

@@ -23,7 +23,12 @@ local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 --- Override of the default SetHyperlink function to filter Questie links
 ---@param link string
 function ItemRefTooltip:SetHyperlink(link, ...)
-    local _, _, isQuestieLink, questId = string.find(link, "(questie):(%d+):")
+    local _, isQuestieLink, questId
+    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+        isQuestieLink, questId = string.match(link, "(questie):(%d+):")
+    else
+        _, _, isQuestieLink, questId = string.match(link, "(questie):(%d+):")
+    end
     QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
 
     if isQuestieLink and questId then
@@ -49,7 +54,7 @@ function ItemRefTooltip:SetHyperlink(link, ...)
 end
 
 function QuestieLink:CreateQuestTooltip(link)
-    local isQuestieLink, _, _ = string.find(link, "questie:(%d+):.*")
+    local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
         local questId = select(2, strsplit(":", link))
         questId = tonumber(questId)

@@ -1,3 +1,10 @@
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
+local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
+local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
+local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
 local _QuestieQuest = QuestieQuest.private
@@ -46,7 +53,6 @@ local pairs = pairs;
 local ipairs = ipairs;
 local strim = string.trim;
 local smatch = string.match;
-local strfind = string.find;
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -62,7 +68,7 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: ".. QuestieLocale:GetUIString("DEBUG_GET_QUEST_COMP"))
     Questie.db.char.complete = GetQuestsCompleted()
 
-    QuestieProfessions:Update()
+    --QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
@@ -461,7 +467,7 @@ function QuestieQuest:UpdateQuest(questId)
         if isComplete == 1 then -- Quest is complete
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
-            QuestieTooltips:RemoveQuest(questId)
+            --QuestieTooltips:RemoveQuest(questId)
             QuestieQuest:AddFinisher(quest)
         elseif isComplete == -1 then -- Failed quests should be shown as available again
             Questie:Debug(DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest failed")
@@ -665,8 +671,10 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     local completed = objective.Completed
 
-    if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objective.Type] then
-        objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objective.Type](objective.Id, objective);
+    local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
+
+    if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+        objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
     end
 
     -- Tooltips should always show.
@@ -730,13 +738,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         local icon, iconPerZone = _DrawObjectiveIcons(iconsToDraw, objective, maxPerType)
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
     end
-
-    if (not completed) then
-        objective._hasSeenIncomplete = true
-    elseif objective._hasSeenIncomplete then
-        objective._hasSeenIncomplete = nil
-        QuestieAnnounce:Announce(quest.Id, "objective", spawnItemId, objective.Description, tostring(objective.Collected) .. "/" .. tostring(objective.Needed))
-    end
+    
 end
 
 _RegisterObjectiveTooltips = function(objective, questId)
@@ -1041,7 +1043,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and objective.type ~= "reputation" then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie:Error("Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
+                Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
                 if quest.Objectives[objectiveIndex] == nil then
                     quest.Objectives[objectiveIndex] = {}
@@ -1053,7 +1055,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         objective.text = retry[objectiveIndex].text
                         Questie:Debug(DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
                     end
-
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
@@ -1167,6 +1168,7 @@ end]]--
 local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
+local _has_seen_incomplete = {}
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
     local questObjectives = QuestieLib:GetQuestObjectives(questId);
@@ -1180,7 +1182,10 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
         if(objective.text) then
             local text = objective.text;
             if(objective.type == "monster") then
-                local _, _, monsterName = strfind(text, L_QUEST_MONSTERS_KILLED)
+                local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
+                if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
+                    monsterName = n
+                end
 
                 if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
@@ -1190,20 +1195,35 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
                     text = monsterName;
                 end
             elseif(objective.type == "item") then
-                local _, _, itemName = strfind(text, L_QUEST_ITEMS_NEEDED)
+                local n, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
+                if tonumber(itemName) then -- SOME objectives are reversed in TBC, why blizzard?
+                    itemName = n
+                end
+
                 text = itemName;
             elseif(objective.type == "object") then
-                local _, _, objectName = strfind(text, L_QUEST_OBJECTS_FOUND)
+                local n, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
+                if tonumber(objectName) then -- SOME objectives are reversed in TBC, why blizzard?
+                    objectName = n
+                end
+
                 text = objectName;
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
             if(text == nil) then
                 text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$") or smatch(objective.text, "^(.*)：%s") or objective.text;
             end
-
             --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
                 objective.text = strim(text);
+                local completed = objective.numRequired == objective.numFulfilled
+
+                if (not completed) then
+                    _has_seen_incomplete[objective.text] = true
+                elseif _has_seen_incomplete[objective.text] then
+                    _has_seen_incomplete[objective.text] = nil
+                    QuestieAnnounce:Announce(questId, "objective", spawnItemId, objective.text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
+                end
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
@@ -1359,7 +1379,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside
 
     local playerLevel = QuestiePlayer:GetPlayerLevel()
-    local minLevel = playerLevel - GetQuestGreenRange()
+    local minLevel = playerLevel - GetQuestGreenRange("player")
     local maxLevel = playerLevel
 
     if Questie.db.char.absoluteLevelOffset then

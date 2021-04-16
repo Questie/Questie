@@ -1,3 +1,7 @@
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+
 --- GLOBAL ---
 ---@class QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler")
@@ -51,6 +55,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local didPlayerEnterWorld = false
 local hasFirstQLU = false
 local shouldRunQLU = false
+
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 -- forward declaration
 local _PLAYER_LOGIN, _PLAYER_LEVEL_UP, _PLAYER_REGEN_DISABLED, _PLAYER_REGEN_ENABLED
@@ -112,7 +118,7 @@ function QuestieEventHandler:RegisterAllEvents(callback)
         Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
         -- dropdown fix
-        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LQuestie_CloseDropDownMenus) end)
+        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
 
         -- quest announce
         Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
@@ -133,7 +139,7 @@ end
 
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
-    for i=1, GetNumQuestLogEntries() + 1 do
+    for i=1, GetNumQuestLogEntries() do
         GetQuestLogTitle(i)
         QuestieQuest:GetRawLeaderBoardDetails(i)
     end

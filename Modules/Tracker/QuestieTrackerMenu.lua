@@ -5,8 +5,12 @@ QuestieTracker.menu = {}
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 
 local tinsert = table.insert
@@ -43,7 +47,7 @@ function QuestieTracker.menu:GetMenuForQuest(quest)
         end
     end
 
-    local coloredQuestName = QuestieDB:GetColoredQuestName(quest.Id, true, true)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.enableTooltipsQuestLevel, true, true)
     tinsert(menu, {text=coloredQuestName, isTitle = true})
 
     _AddObjectiveOption(menu, subMenu, quest)
@@ -68,15 +72,15 @@ end
 
 _AddFocusOption = function (menu, quest, objective)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LibDropDown:CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusObjective(quest.Id, objective.Index); QuestieQuest:ToggleNotes(false) end})
+        tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_FOCUS_OBJECTIVE'), func = function() LibDropDown:CloseDropDownMenus(); QuestieTracker:FocusObjective(quest.Id, objective.Index); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
 _AddTomTomOption = function (menu, quest, objective)
     tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SET_TOMTOM'), func = function()
-        LQuestie_CloseDropDownMenus()
+        LibDropDown:CloseDropDownMenus()
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
         if spawn == nil and objective ~= nil then
             spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
@@ -90,14 +94,14 @@ end
 _AddShowHideObjectivesOption = function (menu, quest, objective)
     if objective.HideIcons then
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ICONS'), func = function()
-            LQuestie_CloseDropDownMenus()
+            LibDropDown:CloseDropDownMenus()
             objective.HideIcons = nil;
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = nil
             QuestieQuest:ToggleNotes(true)
         end})
     else
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_HIDE_ICONS'), func = function()
-            LQuestie_CloseDropDownMenus()
+            LibDropDown:CloseDropDownMenus()
             objective.HideIcons = true;
             Questie.db.char.TrackerHiddenObjectives[tostring(quest.Id) .. " " .. tostring(objective.Index)] = true
             QuestieQuest:ToggleNotes(false)
@@ -123,7 +127,7 @@ end
 
 _AddShowObjectivesOnMapOption = function (menu, quest, objective)
     tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
-        LQuestie_CloseDropDownMenus()
+        LibDropDown:CloseDropDownMenus()
         local needHiddenUpdate = false
         if (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus ~= tostring(quest.Id) .. " " .. tostring(objective.Index))
         or (Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus ~= quest.Id) then
@@ -148,7 +152,7 @@ end
 _AddShowFinisherOnMapOption = function (menu, quest)
     if quest:IsComplete() == 1 then
         tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_SHOW_ON_MAP'), func = function()
-            LQuestie_CloseDropDownMenus()
+            LibDropDown:CloseDropDownMenus()
             QuestieTracker.utils:ShowFinisherOnMap(quest)
         end})
     end
@@ -162,7 +166,7 @@ end
 
 _AddLinkToChatOption = function (menu, quest)
     tinsert(menu, {text = QuestieLocale:GetUIString('TRACKER_LINK_TO_CHAT'), func = function()
-        LQuestie_CloseDropDownMenus()
+        LibDropDown:CloseDropDownMenus()
 
         if ( not ChatFrame1EditBox:IsVisible() ) then
             if Questie.db.global.trackerShowQuestLevel then
@@ -183,31 +187,31 @@ end
 
 _AddShowInQuestLogOption = function (menu, quest)
     tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_SHOW_QUESTLOG'), func = function()
-        LQuestie_CloseDropDownMenus()
+        LibDropDown:CloseDropDownMenus()
         QuestieTracker.utils:ShowQuestLog(quest)
     end})
 end
 
 _AddUntrackOption = function (menu, quest)
     tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNTRACK'), func = function()
-        LQuestie_CloseDropDownMenus();
+        LibDropDown:CloseDropDownMenus();
         QuestieTracker:Untrack(quest)
     end})
 end
 
 _AddFocusUnfocusOption = function (menu, quest)
     if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNFOCUS'), func = function() LibDropDown:CloseDropDownMenus(); QuestieTracker:UnFocus(); QuestieQuest:ToggleNotes(true) end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LQuestie_CloseDropDownMenus(); QuestieTracker:FocusQuest(quest.Id); QuestieQuest:ToggleNotes(false) end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_FOCUS_QUEST'), func = function() LibDropDown:CloseDropDownMenus(); QuestieTracker:FocusQuest(quest.Id); QuestieQuest:ToggleNotes(false) end})
     end
 end
 
 _AddLockUnlockOption = function (menu)
     if Questie.db.global.trackerLocked then
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = false; QuestieTracker.private.baseFrame:Update() end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_UNLOCK'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = false; QuestieTracker.private.baseFrame:Update() end})
     else
-        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LQuestie_CloseDropDownMenus(); Questie.db.global.trackerLocked = true; QuestieTracker.private.baseFrame:Update() end})
+        tinsert(menu, {text=QuestieLocale:GetUIString('TRACKER_LOCK'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = true; QuestieTracker.private.baseFrame:Update() end})
     end
 end
 

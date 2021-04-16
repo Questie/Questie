@@ -8,6 +8,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local AceGUI = LibStub("AceGUI-3.0")
 
@@ -426,7 +428,7 @@ function _QuestieJourney:GetInteractiveQuestLabel(preQuest)
     ---@class AceInteractiveLabel
     local label = AceGUI:Create("InteractiveLabel")
 
-    label:SetText(QuestieDB:GetColoredQuestName(preQuest.Id, false, true))
+    label:SetText(QuestieLib:GetColoredQuestName(preQuest.Id, Questie.db.global.enableTooltipsQuestLevel, false, true))
     label:SetUserData('id', preQuest.Id)
     label:SetUserData('name', preQuest.name)
     label:SetCallback("OnClick", _QuestieJourney.JumpToQuest)

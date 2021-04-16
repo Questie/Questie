@@ -125,6 +125,9 @@ _QuestieAuto.disallowedQuests = {
     [8572] = true,
     [8573] = true,
     [8574] = true,
-    [8288] = true
-    --
+    [8288] = true,
+    -- Aldor/scryer quests
+    [10551] = true,
+    [10552] = true
+
 }
