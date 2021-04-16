@@ -133,6 +133,9 @@ function QuestieTBCQuestFixes:Load()
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
+        [9161] = {
+            [questKeys.preQuestSingle] = {9282},
+        },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
         },
