@@ -47,7 +47,7 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
     'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
 }
 
-QuestieDB.npcFlags = _Questie_IsTBC and {
+QuestieDB.npcFlags = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
     NONE = 0,
     GOSSIP = 1,
     QUEST_GIVER = 2,

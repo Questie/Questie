@@ -15,7 +15,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
                 
-                if _Questie_IsTBC then
+                if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
                     questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
                 else
                     _, _, questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
@@ -25,7 +25,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     questId = tonumber(sqid)
 
                     if string.find(questName, "(%[%d+.-%]) ") ~= nil then
-                        if _Questie_IsTBC then
+                        if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
                             questLevel, questName = string.match(questName, "%[(..-)%] (.+)")
                         else
                             _, _, questLevel, questName = string.match(questName, "%[(..-)%] (.+)")

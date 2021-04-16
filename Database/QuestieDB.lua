@@ -1,8 +1,6 @@
 --- COMPATIBILITY ---
-local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
-local GetQuestTagInfo = GetQuestTagInfo or __REFACTORME_GetQuestTagInfoProxy
 local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
 
 ---@class QuestieDB

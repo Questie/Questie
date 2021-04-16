@@ -1,6 +1,5 @@
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 
 ---@class QuestieComms
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
@@ -740,7 +739,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                 quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
                 quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
             else
-                Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
+                Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
             end
         end
     end

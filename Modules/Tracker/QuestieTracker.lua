@@ -1,6 +1,5 @@
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local GetQuestLogTitle = GetQuestLogTitle or __REFACTORME_GetInfoProxy
 local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 
 ---@class QuestieTracker
@@ -382,7 +381,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.trackedQuests.label:SetText(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND..QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+            self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND..QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
 
             --self.trackedQuests.label2:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
@@ -2330,7 +2329,7 @@ _AQW_Insert = function(index, expire)
                 Questie.db.char.collapsedZones[zoneId] = nil
             end
         else
-            Questie:Error(_QUESTIE_TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
+            Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
