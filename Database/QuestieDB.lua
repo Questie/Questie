@@ -376,14 +376,12 @@ end
 ---@param maxLevel number
 ---@return boolean
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local requiredLevel = QuestieDB.QueryQuestSingle(questId, "requiredLevel")
+    local level, requiredLevel = QuestieLib:GetTbcLevel(questId)
 
     if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
 
-    local level = QuestieLib:GetTbcLevel(questId)
-    -- Questie.db.char.absoluteLevelOffset
     if maxLevel >= level then
         if (not Questie.db.char.lowlevel) and minLevel > level then
             return false
@@ -618,6 +616,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
         QO[stringKey] = rawdata[intKey]
     end
+
+    local questLevel, requiredLevel = QuestieLib:GetTbcLevel(questId)
+    QO.level = questLevel
+    QO.requiredLevel = requiredLevel
+
     QO.Starts = {} --Starts - 2
     QO.Starts["NPC"] = rawdata[2][1] --2.1
     QO.Starts["GameObject"] = rawdata[2][2] --2.2
@@ -686,25 +689,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return 0
     end
 
-    function QO:IsLevelRequirementsFulfilled(minLevel, maxLevel)
-
-        if self:IsActiveEventQuest() and minLevel > self.requiredLevel then
-            return true
-        end
-
-        if maxLevel >= self.level then
-            if minLevel > self.level and (not Questie.db.char.lowlevel) then
-                return false
-            end
-        else
-            if maxLevel < self.requiredLevel then
-                return false
-            end
-        end
-
-        return true
-    end
-
     function QO:IsDoable() -- temporary
         return QuestieDB:IsDoable(self.Id)
     end
@@ -745,7 +729,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    QO.level = rawdata[5]
     QO.ObjectiveData = {} -- to differentiate from the current quest log info
 
     if rawdata[10] ~= nil then

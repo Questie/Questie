@@ -12,7 +12,7 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
         local message
 
         local questName = QuestieDB.QueryQuestSingle(questId, "name")
-        local questLevel = QuestieLib:GetTbcLevel(questId);
+        local questLevel, _ = QuestieLib:GetTbcLevel(questId);
 
         if progressType == "objective" then
             local objective = nil
