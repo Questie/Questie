@@ -340,12 +340,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
         },
         [9697] = {
+            [questKeys.exclusiveTo] = {9701},
             [questKeys.requiredMinRep] = {942,3000},
         },
         [9700] = {
             [questKeys.triggerEnd] = {"Sun Portal Site Confirmed", {[zoneIDs.BLOODMYST_ISLE]={{52.92,22.32},},}},
         },
         [9701] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
         },
         [9711] = {
