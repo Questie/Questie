@@ -568,18 +568,6 @@ function QuestieTBCQuestFixes:Load()
         [10256] = {
             [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"},},nil,nil,nil,nil},
         },
-        [11099] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
-        },
-        [11100] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
-        },
-        [11101] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
-        },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
@@ -597,7 +585,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10124},
         },
         [10113] = {
+            [questKeys.exclusiveTo] = {9854,9857,9789},
             [questKeys.requiredLevel] = 64,
+        },
+        [10114] = {
+            [questKeys.exclusiveTo] = {9854,9857,9789},
         },
         [10129] = {
             [questKeys.requiredSourceItems] = {40000},
@@ -883,7 +875,17 @@ function QuestieTBCQuestFixes:Load()
         [11097] = {
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
+        [11099] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
+        [11100] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
         [11101] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
         [11108] = {
