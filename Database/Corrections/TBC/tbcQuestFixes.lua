@@ -608,6 +608,9 @@ function QuestieTBCQuestFixes:Load()
         [10218] = {
             [questKeys.triggerEnd] = {"Escort Cryo-Engineer Sha'heen", {[zoneIDs.TEROKKAR_FOREST]={{39.62,57.57},},}},
         },
+        [10120] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
         },
