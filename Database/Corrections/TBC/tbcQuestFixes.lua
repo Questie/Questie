@@ -175,6 +175,9 @@ function QuestieTBCQuestFixes:Load()
         [9417] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9418] = {
+            [questKeys.startedBy] = {{17084},nil,{23580,},},
+        },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
         },
