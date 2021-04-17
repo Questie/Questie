@@ -746,6 +746,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
         },
+        [10873] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{22459,22355},22459,"Sha'tar Warrior Freed"},
+        },
         [10879] = {
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69},},}},
         },
