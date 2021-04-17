@@ -389,6 +389,9 @@ function QuestieTBCQuestFixes:Load()
         [9798] = {
             [questKeys.startedBy] = {{16522},nil,{24414}},
         },
+        [9802] = {
+            [questKeys.requiredMaxRep] = {},
+        },
         [9808] = {
             [questKeys.requiredMinRep] = {970,0},
         },
