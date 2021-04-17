@@ -358,7 +358,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51},},}},
         },
         [9718] = {
-            [questKeys.triggerEnd] = {"Lakes of Zangarmarsh Explored", {[zoneIDs.ZANGARMARSH]={{77.26,45.12},},}},
+            [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{78.4,62.02},},}},
         },
         [9729] = {
             [questKeys.triggerEnd] = {"Ark of Ssslith safely returned to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.71,50.72},},}},
