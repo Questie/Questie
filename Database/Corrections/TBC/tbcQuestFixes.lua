@@ -456,6 +456,9 @@ function QuestieTBCQuestFixes:Load()
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
         },
+        [10000] = {
+            [questKeys.requiredLevel] = 62,
+        },
         [10004] = {
             [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96},},}},
         },
