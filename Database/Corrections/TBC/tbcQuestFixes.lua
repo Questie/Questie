@@ -103,6 +103,9 @@ function QuestieTBCQuestFixes:Load()
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16},},}},
         },
+        [6761] = {
+            [questKeys.preQuestSingle] = {1015,1019,1047,},
+        },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
