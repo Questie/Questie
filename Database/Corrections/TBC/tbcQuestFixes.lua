@@ -569,6 +569,9 @@ function QuestieTBCQuestFixes:Load()
         [10108] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
         },
+        [10110] = {
+            [questKeys.preQuestSingle] = {10124},
+        },
         [10113] = {
             [questKeys.requiredLevel] = 64,
         },
