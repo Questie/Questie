@@ -79,6 +79,9 @@ function QuestieTBCItemFixes:Load()
         [30435] = {
             [itemKeys.objectDrops] = {184729},
         },
+        [33175] = {
+            [itemKeys.npcDrops] = {},
+        },
 
         -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
         -- For example this is used for quest 10129 to show the NPC you have to talk with to start the flight
