@@ -208,6 +208,9 @@ function QuestieTBCQuestFixes:Load()
         [9468] = {
             [questKeys.questLevel] = 10,
         },
+        [9472] = {
+            [questKeys.requiredSourceItems] = {29112},
+        },
         [9484] = {
             [questKeys.triggerEnd] = {"Tame a Crazed Dragonhawk", {[zoneIDs.EVERSONG_WOODS]={{60.39,59.09},{61.23,65.08},},}},
         },
