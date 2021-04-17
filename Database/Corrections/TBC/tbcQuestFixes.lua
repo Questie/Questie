@@ -164,7 +164,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {9130},
         },
         [9355] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92},},}},
@@ -282,7 +282,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9562},
         },
         [9575] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [9576] = {
             [questKeys.startedBy] = {{17496},nil,{23870,},},
@@ -487,10 +487,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
         },
         [10047] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10050] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10051] = {
             [questKeys.triggerEnd] = {"Escort Isla Starmane to safety", {[zoneIDs.TEROKKAR_FOREST]={{67.51,37.28},},}},
@@ -499,7 +499,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Isla Starmane to safety", {[zoneIDs.TEROKKAR_FOREST]={{67.51,37.28},},}},
         },
         [10058] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10066] = {
             [questKeys.startedBy] = {{17986,18020},nil,nil,},
@@ -530,7 +530,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {8330},
         },
         [10079] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10094] = {
             [questKeys.preQuestSingle] = {10211},
@@ -566,7 +566,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {9796},
         },
         [10106] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
             [questKeys.requiredMaxRep] = {946,41999},
         },
         [10107] = {
