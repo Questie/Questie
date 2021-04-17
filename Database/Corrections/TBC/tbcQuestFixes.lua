@@ -387,6 +387,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97},},}},
         },
         [9796] = {
+            [questKeys.requiredLevel] = 62,
             [questKeys.exclusiveTo] = {10105},
         },
         [9798] = {
