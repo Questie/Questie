@@ -101,7 +101,7 @@ local cityLocations = {
   [1457] = true, -- Darnassus
   [1947] = true, -- Exodar
   -- Horde
-  [1453] = true, -- Orgrimmar
+  [1454] = true, -- Orgrimmar
   [1456] = true, -- Thunder Bluff
   [1458] = true, -- Undercity
   [1954] = true, -- Silvermoon
