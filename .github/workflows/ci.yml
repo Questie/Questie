@@ -26,10 +26,12 @@ jobs:
 
       - name: setup python
         uses: actions/setup-python@v2
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           python-version: 3.8
 
       - name: run python scripts
+        if: ${{ github.event_name != 'pull_request' }}
         run: python changelog.py && python build.py
 
 #      - name: Create Package
