@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "*"
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 100
+
+      - name: Install and run Luacheck
+        uses: nebularg/actions-luacheck@v1
+        with:
+          args: "--no-color -q"
+
+      - name: setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: run python scripts
+        run: python changelog.py && python build.py
+
+#      - name: Create Package
+#        uses: BigWigsMods/packager@master
+#        if: ${{ github.event_name != 'pull_request' }}
+#        with:
+#          args: -g classic
+#        env:
+#          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+#          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+#          WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
+#          WAGO_API_TOKEN: ${{ secrets.WAGO_API_TOKEN }}
