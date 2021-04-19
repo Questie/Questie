@@ -528,11 +528,15 @@ function QuestieTBCQuestFixes:Load()
         [9977] = {
             [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72},},}},
         },
+        [9982] = {
+            [questKeys.exclusiveTo] = {9991},
+        },
         [9983] = {
-            [questKeys.requiredMinRep] = {941,0},
+            [questKeys.exclusiveTo] = {9991},
         },
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
+            [questKeys.preQuestSingle] = {},
         },
         [10000] = {
             [questKeys.requiredLevel] = 62,
