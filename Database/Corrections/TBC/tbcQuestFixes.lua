@@ -431,8 +431,18 @@ function QuestieTBCQuestFixes:Load()
         [9836] = {
             [questKeys.triggerEnd] = {"Master's Touch", {[zoneIDs.TANARIS]={{57.21,62.95},},}},
         },
+        [9863] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9864] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9867] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [9868] = {
             [questKeys.triggerEnd] = {"Free the Mag'har Captive", {[zoneIDs.NAGRAND]={{31.77,38.78},},}},
+            [questKeys.requiredMinRep] = {941,0},
         },
         [9876] = {
             [questKeys.exclusiveTo] = {9738},
@@ -451,6 +461,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [9911] = {
             [questKeys.startedBy] = {{18285},nil,{25459,},},
+        },
+        [9935] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9939] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9944] = {
+            [questKeys.requiredMinRep] = {941,0},
         },
         [9957] = {
             [questKeys.requiredMinRep] = {942,3000},
@@ -472,6 +491,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9977] = {
             [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72},},}},
+        },
+        [9983] = {
+            [questKeys.requiredMinRep] = {941,0},
         },
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
@@ -691,6 +713,9 @@ function QuestieTBCQuestFixes:Load()
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
+        [10479] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [10490] = {
             [questKeys.questLevel] = 20,
         },
@@ -824,6 +849,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11037] = {
             [questKeys.exclusiveTo] = {10183,11036,11038,11039,11040,11042,},
+            [questKeys.requiredMinRep] = {941,0},
         },
         [11038] = {
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
@@ -984,6 +1010,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
+        },
+        [11503] = {
+            [questKeys.requiredMinRep] = {941,0},
         },
         [11505] = {
             [questKeys.triggerEnd] = {"Secure a Spirit Tower", {[zoneIDs.TEROKKAR_FOREST]={{42.49,54},{32.47,57.86},{48.98,60.29},{47.2,72.29},{40.48,77.99},},}},
