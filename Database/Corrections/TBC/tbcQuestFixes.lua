@@ -474,6 +474,24 @@ function QuestieTBCQuestFixes:Load()
         [9924] = {
             [questKeys.requiredSourceItems] = {25509},
         },
+        [9927] = {
+            [questKeys.preQuestSingle] = {10107,10108},
+        },
+        [9928] = {
+            [questKeys.preQuestSingle] = {10107,10108},
+        },
+        [9931] = {
+            [questKeys.preQuestGroup] = {9927,9928,},
+        },
+        [9932] = {
+            [questKeys.preQuestGroup] = {9927,9928,},
+        },
+        [9933] = {
+            [questKeys.preQuestGroup] = {9931,9932,},
+        },
+        [9934] = {
+            [questKeys.preQuestGroup] = {9931,9932,},
+        },
         [9935] = {
             [questKeys.requiredMinRep] = {941,0},
         },
