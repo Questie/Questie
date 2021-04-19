@@ -2,7 +2,8 @@
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 local _QuestieTooltips = QuestieTooltips.private
 
-local lastGuid = nil;
+local lastGuid
+
 function _QuestieTooltips:AddUnitDataToTooltip()
     if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
         return
@@ -14,7 +15,9 @@ function _QuestieTooltips:AddUnitDataToTooltip()
     if (not guid) then
         guid = UnitGUID("mouseover");
     end
-    local type, zero, server_id, instance_id, zone_uid, npcId, spawn_uid = strsplit("-", guid or "");
+
+    local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
+
     if name and type == "Creature" and (
         name ~= QuestieTooltips.lastGametooltipUnit or
         (not QuestieTooltips.lastGametooltipCount) or
@@ -22,7 +25,6 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         QuestieTooltips.lastGametooltipType ~= "monster" or
         lastGuid ~= guid
     ) then
-        --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Unit Id on hover : ", npc_id);
         QuestieTooltips.lastGametooltipUnit = name
         local tooltipData = QuestieTooltips:GetTooltip("m_" .. npcId);
         if tooltipData then
@@ -43,13 +45,12 @@ function _QuestieTooltips:AddItemDataToTooltip()
     end
 
     local name, link = self:GetItem()
-    local itemId = nil;
+    local itemId
     if link then
-        local id = nil
         if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
             itemId = select(3, string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"))
         else
-            local _, _, _, _, id, _, _, _, _, _, _, _, _, itemName = string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
+            local _, _, _, _, id, _, _, _, _, _, _, _, _, _ = string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
             itemId = id
         end
     end
@@ -62,7 +63,6 @@ function _QuestieTooltips:AddItemDataToTooltip()
         QuestieTooltips.lastFrameName ~= self:GetName()
     ) then
         QuestieTooltips.lastGametooltipItem = name
-        --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Item Id on hover : ", itemId);
         local tooltipData = QuestieTooltips:GetTooltip("i_" .. (itemId or 0));
         if tooltipData then
             for _, v in pairs (tooltipData) do
@@ -107,14 +107,14 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
 end
 
 function _QuestieTooltips:CountTooltip()
-    local tooltipcount = 0
-    for i = 1, 25 do -- Should probably use GameTooltip:NumLines() instead.
+    local tooltipCount = 0
+    for i = 1, GameTooltip:NumLines() do
         local frame = _G["GameTooltipTextLeft"..i]
         if frame and frame:GetText() then
-            tooltipcount = tooltipcount + 1
+            tooltipCount = tooltipCount + 1
         else
-            return tooltipcount
+            return tooltipCount
         end
     end
-    return tooltipcount
+    return tooltipCount
 end
