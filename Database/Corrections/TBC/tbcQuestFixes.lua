@@ -366,6 +366,9 @@ function QuestieTBCQuestFixes:Load()
         [9718] = {
             [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{78.4,62.02},},}},
         },
+        [9728] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9729] = {
             [questKeys.triggerEnd] = {"Ark of Ssslith safely returned to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.71,50.72},},}},
         },
@@ -393,6 +396,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
+        },
+        [9778] = {
+            [questKeys.exclusiveTo] = {9728},
         },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97},},}},
