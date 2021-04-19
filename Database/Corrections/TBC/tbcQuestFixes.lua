@@ -550,6 +550,9 @@ function QuestieTBCQuestFixes:Load()
         [10012] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },
+        [10013] = {
+            [questKeys.preQuestSingle] = {9998,10000},
+        },
         [10017] = {
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
