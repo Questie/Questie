@@ -126,6 +126,9 @@ function QuestieTBCNpcFixes:Load()
         [18238] = {
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{32.27,58.41},},},
         },
+        [18369] = {
+            [npcKeys.waypoints] = {},
+        },
         [18537] = {
             [npcKeys.waypoints] = {},
         },
