@@ -81,16 +81,24 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
         return
     end
     if name then
-        for index, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
+        local tooltipAdded = false
+        for _, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
+
             if type(gameObjectId) == "number" and tooltipData then
-                --Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltip] Object Id on hover : ", gameObjectId);
-                if tooltipData then
-                    for _, v in pairs (tooltipData) do
-                        GameTooltip:AddLine(v)
+                for _, v in pairs (tooltipData) do
+                    if tooltipData[2] and string.find(tooltipData[2], "1/1") then
+                        -- We don't want to show completed objectives on game objects
+                        break;
                     end
+
+                    GameTooltip:AddLine(v)
+                    tooltipAdded = true
                 end
-                break
+
+                if tooltipAdded then
+                    break;
+                end
             end
         end
         GameTooltip:Show()
