@@ -747,7 +747,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10852},
         },
         [10873] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{22459,22355},22459,"Sha'tar Warrior Freed"},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
         },
         [10879] = {
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69},},}},
