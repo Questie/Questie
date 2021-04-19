@@ -444,6 +444,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Free the Mag'har Captive", {[zoneIDs.NAGRAND]={{31.77,38.78},},}},
             [questKeys.requiredMinRep] = {941,0},
         },
+        [9871] = {
+            [questKeys.startedBy] = {{18238},nil,{24559,},},
+        },
+        [9872] = {
+            [questKeys.startedBy] = {{18238},nil,{24558,},},
+        },
         [9876] = {
             [questKeys.exclusiveTo] = {9738},
         },
