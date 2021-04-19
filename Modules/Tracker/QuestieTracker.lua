@@ -2425,7 +2425,7 @@ _GetContinent = function(uiMapId)
         return "Outland"
     else
 
-        print(uiMapId, "is unknown")
+        Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
     end
 end
 
