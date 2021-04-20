@@ -179,7 +179,6 @@ function QuestieItemBlacklist:Load()
         [22572] = true, -- Mote of Air
         [22573] = true, -- Mote of Earth
         [22574] = true, -- Mote of Fire
-        [22574] = true, -- Mote of Fire
         [22575] = true, -- Mote of Life
         [22576] = true, -- Mote of Mana
         [22577] = true, -- Mote of Shadow
