@@ -94,6 +94,26 @@ for string, int in pairs(_QuestieComms.idLookup) do
 end
 -- !NOT USED
 
+local badYellLocations = {
+  -- Alliance
+  [1453] = true, -- Stormwind
+  [1455] = true, -- Ironforge
+  [1457] = true, -- Darnassus
+  [1947] = true, -- Exodar
+  -- Horde
+  [1454] = true, -- Orgrimmar
+  [1456] = true, -- Thunder Bluff
+  [1458] = true, -- Undercity
+  [1954] = true, -- Silvermoon
+  -- Both
+  [1955] = true, -- Shattrath
+  -- Battlegrounds
+  [1459] = true, -- Alterac Valley
+  [1460] = true, -- Warsong Gulch
+  [1461] = true, -- Arathi Basin
+  [1957] = true, -- Eye of the Storm
+}
+
 --- Global Functions --
 
 
@@ -435,7 +455,7 @@ local _loadupTime_removeme = GetTime() -- this will be removed in 6.0.1 or 6.1, 
 -- yelling quests on login. Not enough time to make and test a proper fix
 
 function QuestieComms:YellProgress(questId)
-    if Questie.db.global.disableYellComms or GetNumGroupMembers() > 4 or GetTime() - _loadupTime_removeme < 8 then
+    if Questie.db.global.disableYellComms or badYellLocations[C_Map.GetBestMapForUnit("player")] or GetNumGroupMembers() > 4 or GetTime() - _loadupTime_removeme < 8 then
         return
     end
     if not QuestieComms._yellWaitingQuests[questId] then
@@ -885,11 +905,13 @@ _QuestieComms.packets = {
     [_QuestieComms.QC_ID_YELL_PROGRESS] = { --13
         write = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_YELL_PROGRESS")
-            _QuestieComms:Broadcast(self.data);
+            if not badYellLocations[C_Map.GetBestMapForUnit("player")] then
+               _QuestieComms:Broadcast(self.data);
+            end
         end,
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_YELL_PROGRESS")
-            if not Questie.db.global.disableYellComms then
+            if not Questie.db.global.disableYellComms and not badYellLocations[C_Map.GetBestMapForUnit("player")] then
                 QuestieComms.remotePlayerTimes[self.playerName] = GetTime()
                 QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, true)
                 QuestieComms:SortRemotePlayers()

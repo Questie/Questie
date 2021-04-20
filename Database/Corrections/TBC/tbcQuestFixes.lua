@@ -103,6 +103,9 @@ function QuestieTBCQuestFixes:Load()
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16},},}},
         },
+        [6761] = {
+            [questKeys.preQuestSingle] = {1015,1019,1047,},
+        },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
@@ -115,11 +118,17 @@ function QuestieTBCQuestFixes:Load()
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
         },
+        [8482] = {
+            [questKeys.startedBy] = {{15968},nil,{20765,},},
+        },
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
+        },
+        [9149] = {
+            [questKeys.preQuestSingle] = {9327},
         },
         [8474] = {
             [questKeys.startedBy] = {{15409},nil,{23228,},},
@@ -127,8 +136,14 @@ function QuestieTBCQuestFixes:Load()
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [9130] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
+        },
+        [9161] = {
+            [questKeys.preQuestSingle] = {9282},
         },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
@@ -145,8 +160,14 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
         },
+        [9327] = {
+            [questKeys.exclusiveTo] = {9130},
+        },
         [9355] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
+        },
+        [9360] = {
+            [questKeys.startedBy] = {{15407},nil,{23249,},},
         },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92},},}},
@@ -156,6 +177,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9417] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [9418] = {
+            [questKeys.startedBy] = {{17084},nil,{23580,},},
         },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
@@ -186,6 +210,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9468] = {
             [questKeys.questLevel] = 10,
+        },
+        [9472] = {
+            [questKeys.requiredSourceItems] = {29112},
         },
         [9484] = {
             [questKeys.triggerEnd] = {"Tame a Crazed Dragonhawk", {[zoneIDs.EVERSONG_WOODS]={{60.39,59.09},{61.23,65.08},},}},
@@ -254,7 +281,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 10,
         },
         [9558] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483},
         },
         [9564] = {
             [questKeys.startedBy] = {{17475},nil,{23850,},},
@@ -264,7 +291,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9562},
         },
         [9575] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [9576] = {
             [questKeys.startedBy] = {{17496},nil,{23870,},},
@@ -286,6 +313,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [9608] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93},},}},
+        },
+        [9635] = {
+            [questKeys.requiredSkill] = {202,305},
+        },
+        [9636] = {
+            [questKeys.requiredSkill] = {202,305},
         },
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5},},}},
@@ -316,12 +349,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
         },
         [9697] = {
+            [questKeys.exclusiveTo] = {9701},
             [questKeys.requiredMinRep] = {942,3000},
         },
         [9700] = {
             [questKeys.triggerEnd] = {"Sun Portal Site Confirmed", {[zoneIDs.BLOODMYST_ISLE]={{52.92,22.32},},}},
         },
         [9701] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
         },
         [9711] = {
@@ -332,7 +367,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51},},}},
         },
         [9718] = {
-            [questKeys.triggerEnd] = {"Lakes of Zangarmarsh Explored", {[zoneIDs.ZANGARMARSH]={{77.26,45.12},},}},
+            [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{78.4,62.02},},}},
+        },
+        [9728] = {
+            [questKeys.preQuestSingle] = {},
         },
         [9729] = {
             [questKeys.triggerEnd] = {"Ark of Ssslith safely returned to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.71,50.72},},}},
@@ -362,14 +400,21 @@ function QuestieTBCQuestFixes:Load()
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
         },
+        [9778] = {
+            [questKeys.exclusiveTo] = {9728},
+        },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97},},}},
         },
         [9796] = {
+            [questKeys.requiredLevel] = 62,
             [questKeys.exclusiveTo] = {10105},
         },
         [9798] = {
             [questKeys.startedBy] = {{16522},nil,{24414}},
+        },
+        [9802] = {
+            [questKeys.requiredMaxRep] = {},
         },
         [9808] = {
             [questKeys.requiredMinRep] = {970,0},
@@ -386,8 +431,24 @@ function QuestieTBCQuestFixes:Load()
         [9836] = {
             [questKeys.triggerEnd] = {"Master's Touch", {[zoneIDs.TANARIS]={{57.21,62.95},},}},
         },
+        [9863] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9864] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9867] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [9868] = {
             [questKeys.triggerEnd] = {"Free the Mag'har Captive", {[zoneIDs.NAGRAND]={{31.77,38.78},},}},
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9871] = {
+            [questKeys.startedBy] = {{18238},nil,{24559,},},
+        },
+        [9872] = {
+            [questKeys.startedBy] = {{18238},nil,{24558,},},
         },
         [9876] = {
             [questKeys.exclusiveTo] = {9738},
@@ -406,6 +467,45 @@ function QuestieTBCQuestFixes:Load()
         },
         [9911] = {
             [questKeys.startedBy] = {{18285},nil,{25459,},},
+        },
+        [9923] = {
+            [questKeys.requiredSourceItems] = {25490},
+        },
+        [9924] = {
+            [questKeys.requiredSourceItems] = {25509},
+        },
+        [9927] = {
+            [questKeys.preQuestSingle] = {10107,10108},
+        },
+        [9928] = {
+            [questKeys.preQuestSingle] = {10107,10108},
+        },
+        [9931] = {
+            [questKeys.preQuestGroup] = {9927,9928,},
+        },
+        [9932] = {
+            [questKeys.preQuestGroup] = {9927,9928,},
+        },
+        [9933] = {
+            [questKeys.preQuestGroup] = {9931,9932,},
+        },
+        [9934] = {
+            [questKeys.preQuestGroup] = {9931,9932,},
+        },
+        [9935] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9939] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9944] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9948] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9955] = {
+            [questKeys.requiredSourceItems] = {25648},
         },
         [9957] = {
             [questKeys.requiredMinRep] = {942,3000},
@@ -428,13 +528,29 @@ function QuestieTBCQuestFixes:Load()
         [9977] = {
             [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72},},}},
         },
+        [9982] = {
+            [questKeys.exclusiveTo] = {9991},
+        },
+        [9983] = {
+            [questKeys.exclusiveTo] = {9991},
+        },
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
+            [questKeys.preQuestSingle] = {},
+        },
+        [10000] = {
+            [questKeys.requiredLevel] = 62,
+        },
+        [10039] = {
+            [questKeys.requiredLevel] = 62,
         },
         [10004] = {
             [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96},},}},
         },
         [10012] = {
+            [questKeys.preQuestSingle] = {9998,10000},
+        },
+        [10013] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },
         [10017] = {
@@ -469,10 +585,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
         },
         [10047] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10050] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10051] = {
             [questKeys.triggerEnd] = {"Escort Isla Starmane to safety", {[zoneIDs.TEROKKAR_FOREST]={{67.51,37.28},},}},
@@ -481,7 +597,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Isla Starmane to safety", {[zoneIDs.TEROKKAR_FOREST]={{67.51,37.28},},}},
         },
         [10058] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10066] = {
             [questKeys.startedBy] = {{17986,18020},nil,nil,},
@@ -512,7 +628,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {8330},
         },
         [10079] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
         },
         [10094] = {
             [questKeys.preQuestSingle] = {10211},
@@ -532,23 +648,11 @@ function QuestieTBCQuestFixes:Load()
         [10256] = {
             [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"},},nil,nil,nil,nil},
         },
-        [11099] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
-        },
-        [11100] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
-        },
-        [11101] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
-        },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
         [10106] = {
-            [questKeys.preQuestSingle] = {10483},
+            [questKeys.preQuestSingle] = {10143,10483,},
             [questKeys.requiredMaxRep] = {946,41999},
         },
         [10107] = {
@@ -557,8 +661,15 @@ function QuestieTBCQuestFixes:Load()
         [10108] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
         },
+        [10110] = {
+            [questKeys.preQuestSingle] = {10124},
+        },
         [10113] = {
+            [questKeys.exclusiveTo] = {9854,9857,9789},
             [questKeys.requiredLevel] = 64,
+        },
+        [10114] = {
+            [questKeys.exclusiveTo] = {9854,9857,9789},
         },
         [10129] = {
             [questKeys.requiredSourceItems] = {40000},
@@ -586,6 +697,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10218] = {
             [questKeys.triggerEnd] = {"Escort Cryo-Engineer Sha'heen", {[zoneIDs.TEROKKAR_FOREST]={{39.62,57.57},},}},
+        },
+        [10120] = {
+            [questKeys.preQuestSingle] = {},
         },
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
@@ -642,6 +756,9 @@ function QuestieTBCQuestFixes:Load()
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
+        [10479] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [10490] = {
             [questKeys.questLevel] = 20,
         },
@@ -696,6 +813,9 @@ function QuestieTBCQuestFixes:Load()
         [10781] = {
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79},},}},
         },
+        [10788] = {
+            [questKeys.startedBy] = {{5675,5875,},nil,nil,},
+        },
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21},},}},
         },
@@ -708,6 +828,9 @@ function QuestieTBCQuestFixes:Load()
         [10842] = {
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
+        },
+        [10873] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
         },
         [10879] = {
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69},},}},
@@ -769,6 +892,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11037] = {
             [questKeys.exclusiveTo] = {10183,11036,11038,11039,11040,11042,},
+            [questKeys.requiredMinRep] = {941,0},
         },
         [11038] = {
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
@@ -838,7 +962,17 @@ function QuestieTBCQuestFixes:Load()
         [11097] = {
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
+        [11099] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
+        [11100] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
+        },
         [11101] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
         [11108] = {
@@ -849,6 +983,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
+        },
+        [11169] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345,},4344,"Totem Tests Performed"}},
         },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
@@ -916,6 +1053,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
+        },
+        [11503] = {
+            [questKeys.requiredMinRep] = {941,0},
         },
         [11505] = {
             [questKeys.triggerEnd] = {"Secure a Spirit Tower", {[zoneIDs.TEROKKAR_FOREST]={{42.49,54},{32.47,57.86},{48.98,60.29},{47.2,72.29},{40.48,77.99},},}},

@@ -173,7 +173,7 @@ end
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
     local name = QuestieDB.QueryQuestSingle(questId, "name");
-    local level = QuestieLib:GetTbcLevel(questId);
+    local level, _ = QuestieLib:GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
@@ -249,6 +249,10 @@ function QuestieLib:GetQuestString(id, name, level, blizzLike)
     return name
 end
 
+--- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
+--- same as the player level. This function should be used whenever accessing the quest or required level.
+---@param questId number
+---@return table<number, number> questLevel and requiredLevel
 function QuestieLib:GetTbcLevel(questId)
     local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
     if (questLevel == -1) then
@@ -257,9 +261,11 @@ function QuestieLib:GetTbcLevel(questId)
             questLevel = requiredLevel;
         else
             questLevel = playerLevel;
+            -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
+            requiredLevel = playerLevel;
         end
     end
-    return questLevel;
+    return questLevel, requiredLevel;
 end
 
 ---@param id QuestId @The quest ID
@@ -532,7 +538,8 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        tinsert(sortedQuestsByLevel, {QuestieLib:GetTbcLevel(q) or 0, q})
+        local questLevel, _ = QuestieLib:GetTbcLevel(q);
+        tinsert(sortedQuestsByLevel, {questLevel or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 

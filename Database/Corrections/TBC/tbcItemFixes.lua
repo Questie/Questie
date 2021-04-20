@@ -13,6 +13,9 @@ function QuestieTBCItemFixes:Load()
         [4503] = {
             [itemKeys.npcDrops] = {2557,2556,2555,2553,2552,2558,2554,},
         },
+        [21771] = {
+            [itemKeys.npcDrops] = {15668,15669,},
+        },
         [22775] = {
             [itemKeys.npcDrops] = {16442},
         },
@@ -21,6 +24,9 @@ function QuestieTBCItemFixes:Load()
         },
         [22777] = {
             [itemKeys.npcDrops] = {16444},
+        },
+        [23339] = {
+            [itemKeys.npcDrops] = {},
         },
         [23442] = {
             [itemKeys.npcDrops] = {16975},
@@ -61,6 +67,9 @@ function QuestieTBCItemFixes:Load()
         [24317] = {
             [itemKeys.objectDrops] = {182074},
         },
+        [24502] = {
+            [itemKeys.npcDrops] = {17138,18037,18064,18065,},
+        },
         [24573] = {
             [itemKeys.npcDrops] = {18197},
         },
@@ -70,11 +79,38 @@ function QuestieTBCItemFixes:Load()
         [28548] = {
             [itemKeys.npcDrops] = {18865,18881,},
         },
+        [29112] = {
+            [itemKeys.npcDrops] = {18907},
+        },
         [29162] = {
             [itemKeys.objectDrops] = {184162},
         },
+        [30430] = {
+            [itemKeys.objectDrops] = {184715},
+        },
         [30435] = {
             [itemKeys.objectDrops] = {184729},
+        },
+        [30743] = {
+            [itemKeys.objectDrops] = {184867},
+        },
+        [33071] = {
+            [itemKeys.npcDrops] = {},
+        },
+        [30782] = {
+            [itemKeys.objectDrops] = {184867},
+        },
+        [30783] = {
+            [itemKeys.objectDrops] = {184867},
+        },
+        [33086] = {
+            [itemKeys.npcDrops] = {},
+        },
+        [33087] = {
+            [itemKeys.npcDrops] = {4328,4329,4331,4334},
+        },
+        [33175] = {
+            [itemKeys.npcDrops] = {},
         },
 
         -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
