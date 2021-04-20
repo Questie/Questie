@@ -75,6 +75,8 @@ local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 local Migration = QuestieLoader:ImportModule("Migration")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
 if  --Libs

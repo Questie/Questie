@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.continentLookup['zhCN']= {
     [1] = "东部王国",
     [2] = "卡利姆多",

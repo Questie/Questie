@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.npcNameLookup["esES"] = {
 [3] = {"Comecarnes",nil},
 [6] = {"Alimaña kóbold",nil},

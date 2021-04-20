@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questCategoryLookup['deDE']= {
     [-1] = "Episch",
     [-21] = "REUSE - old wailing caverns",

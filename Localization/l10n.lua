@@ -1,4 +1,5 @@
-l10n = {}
+---@class l10n
+local l10n = QuestieLoader:CreateModule("l10n")
 local _l10n = {}
 l10n.translations = {}
 

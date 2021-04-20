@@ -4,6 +4,8 @@ local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted it could happen a lot with auto loot
 

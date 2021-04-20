@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questLookup["esES"] = {
 [2] = {"La garra de Garrafilada", {"El poderoso hipogrifo Garrafilada ha sido ejecutado, con la garra de la bestia derribada como testimonio de tu victoria. Seguro que Senani Truenozón, del Puesto del Hachazo, estará interesado en ver este trofeo que prueba tus actos."}, {"Llévale la garra de Garrafilada a Senani Truenozón en el Puesto del Hachazo, Vallefresno."}},
 [5] = {"La hambruna de Gato", {"¡Llevo semanas escondiéndome en esta ciudad fantasma y no he comido más que larvas y hierbajos! Necesito algo de comida decente. Estoy en disposición de pagar bien.","Si me traes un festín, te pagaré generosamente.","He oído que el chef Grual del Mesón del Cuervo Escarlata de Villa Oscura hace unas estupendas croquetas de cangrejo..."}, {"Habla con el Chef Grual."}},

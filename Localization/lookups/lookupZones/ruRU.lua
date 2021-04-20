@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.continentLookup["ruRU"] = {
     [1] = "Восточные Королевства",
     [2] = "Калимдор",

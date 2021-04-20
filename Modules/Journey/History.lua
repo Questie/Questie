@@ -1,11 +1,11 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
--------------------------
---Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 
 function _QuestieJourney:GetHistory()

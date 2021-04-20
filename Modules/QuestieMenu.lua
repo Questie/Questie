@@ -15,8 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@tyle QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 

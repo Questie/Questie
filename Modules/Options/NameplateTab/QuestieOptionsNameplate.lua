@@ -9,6 +9,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs.nameplate = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()

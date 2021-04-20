@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questLookup["esMX"] = {
 [2] = {"La garfa de Garfafilada", {"El poderoso hipogrifo Garfafilada ha sido ejecutado, con la garfa de la bestia derribada como testimonio de tu victoria. Seguro que Senani Corazón Atronador, del Refugio Brisa de Plata, estará interesado en ver este trofeo que prueba tus actos."}, {"Llévale la garfa de Garfafilada a Senani Corazón Atronador en el Refugio Brisa de Plata, Vallefresno."}},
 [5] = {"La hambruna de Alterio", {"¡Llevo semanas escondiéndome en esta ciudad fantasma y no he comido más que larvas y hierbajos! Necesito algo de comida decente. Estoy en disposición de pagar bien.","Si me traes un festín, te pagaré generosamente.","He oído que el chef Grual del Mesón del Cuervo Escarlata de Villa Oscura hace unos estupendos pasteles de cangrejo oscuro..."}, {"Habla con el Chef Grual."}},

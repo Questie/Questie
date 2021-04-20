@@ -1,9 +1,6 @@
 ---@class QuestieSlash
 local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
 
--------------------------
---Import modules.
--------------------------
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieJourney
@@ -16,6 +13,9 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 
 function QuestieSlash:HandleCommands(input)
     input = string.trim(input, " ");

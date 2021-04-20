@@ -10,6 +10,8 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 

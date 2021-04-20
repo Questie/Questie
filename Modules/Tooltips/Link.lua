@@ -11,6 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieLink.lastItemRefTooltip = ""
 

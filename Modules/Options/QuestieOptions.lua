@@ -9,7 +9,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieOptionsMinimapIcon
 local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
-
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs = {...}
 QuestieConfigFrame = nil

@@ -10,8 +10,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local tinsert = table.insert
 QuestieTooltips.lastGametooltip = ""

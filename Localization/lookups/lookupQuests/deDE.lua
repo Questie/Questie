@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questLookup["deDE"] = {
 [2] = {"Klaue von Scharfkralle", {"Der mächtige Hippogryph Scharfkralle wurde getötet und die Klaue der erschlagenen Bestie dient als Beweis für Euren Sieg. Senani Thunderheart im Splintertreeposten wird zum Beweis Eurer Tat sicher gern diese Trophäe sehen wollen."}, {"Bringt die Klaue von Scharfkralle zu Senani Thunderheart im Splintertreeposten in Ashenvale."}},
 [5] = {"Jitters' knurrender Magen", {"Ich verstecke mich jetzt schon seit Wochen in dieser Geisterstadt, und die ganze Zeit habe ich nichts gegessen außer Maden und Unkraut! Ich brauche was Anständiges zum Essen, und ich werde mich nicht lumpen lassen.","Bringt mir ein Festessen, und ich bezahle Euch gut dafür.","Ich habe gehört, dass Küchenchef Grual aus der Taverne Zum roten Raben in Dunkelhain ganz ausgezeichnete schwärzliche Krebsküchlein macht..."}, {"Sprecht mit Küchenchef Grual."}},

@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questCategoryLookup['ruRU']= {
     [-1] = "Эпические",
     [-21] = "REUSE - old wailing caverns",

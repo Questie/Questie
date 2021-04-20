@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.continentLookup['koKR']= {
     [1] = "동부 왕국",
     [2] = "칼림도어",

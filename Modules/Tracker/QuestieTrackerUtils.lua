@@ -10,6 +10,8 @@ QuestieTracker.utils._zoneCache = {}
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local objectiveFlashTicker = {}
 local tinsert = table.insert

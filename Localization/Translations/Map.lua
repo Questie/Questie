@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local mapLocales = {
     ["Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!"] = {
         ["ptBR"] = "Tem certeza de que deseja ocultar a missão? Se essa missão não estiver realmente disponível, informe-nos!",

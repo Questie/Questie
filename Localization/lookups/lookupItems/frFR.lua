@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.itemLookup["frFR"] = {
 [159] = "Eau de source",
 [182] = "Tête de Garrick",

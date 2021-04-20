@@ -45,6 +45,8 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;

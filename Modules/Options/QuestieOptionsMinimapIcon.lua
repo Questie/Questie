@@ -13,6 +13,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local minimapIconLDB = nil
 

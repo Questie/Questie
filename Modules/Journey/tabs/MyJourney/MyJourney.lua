@@ -3,13 +3,13 @@ local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.myJourney = {}
 _QuestieJourney.notePopup = nil
--------------------------
---Import modules
--------------------------
+
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0");
 local journeyTreeFrame

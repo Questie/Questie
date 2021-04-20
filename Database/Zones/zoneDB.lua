@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 --- forward declarations
 local _GenerateUiMapIdToAreaIdTable, _GenerateParentZoneToStartingZoneTable

@@ -1,6 +1,3 @@
--------------------------
---Import modules.
--------------------------
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
@@ -13,6 +10,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs.map = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()

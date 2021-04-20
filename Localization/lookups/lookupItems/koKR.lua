@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.itemLookup['koKR'] = {
 [35] = "구부러진 지팡이",
 [36] = "낡은 철퇴",

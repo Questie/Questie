@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.itemLookup["ruRU"] = {
 [159] = "Освежающая ключевая вода",
 [182] = "Голова Гаррика",

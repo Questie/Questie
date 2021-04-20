@@ -28,6 +28,8 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local tinsert = table.insert
 

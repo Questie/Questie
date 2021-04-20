@@ -8,6 +8,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 _QuestieJourney.containerCache = nil
 _QuestieJourney.treeCache = nil

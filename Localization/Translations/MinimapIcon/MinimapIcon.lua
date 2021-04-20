@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local minimapIconLocales = {
     ["Toggle Menu"] = {
         ["ptBR"] = "Menu de alternância",

@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questLookup["frFR"] = {
 [2] = {"La griffe de Serres-tranchantes", {"Le grand hippogryphe Serres-tranchantes a été tué, et la griffe arrachée à son cadavre témoigne de votre victoire. Senani Thunderheart, au poste de Bois-brisé, sera sans doute intéressée de voir ce trophée qui est la preuve de votre exploit."}, {"Apporter la griffe de Serres-tranchantes à Senani Thunderheart, au poste de Bois-brisé, en Ashenvale."}},
 [5] = {"L'estomac qui gargouille", {"Je suis resté caché dans cette ville fantôme depuis des semaines.","Apportez-moi de quoi festoyer et je vous payerai généreusement.","J'ai entendu parler d'un certain chef Grual qui fait de succulents gâteaux au crabe brun, à la taverne du Corbeau écarlate à Darkshire..."}, {"Parler au chef Grual."}},

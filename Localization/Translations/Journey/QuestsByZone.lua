@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local questsByZoneLocales = {
     ["Quests by Zone"] = {
         ["ptBR"] = "Missões por zonas",
@@ -144,7 +147,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Pré-quête manquante",
     },
     ["Unobtainable Quests"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = nil,
         ["ruRU"] = "Недоступные задания",
         ["deDE"] = "Nicht abschließbare Quests",
         ["koKR"] = "수행이 불가능한 퀘스트",

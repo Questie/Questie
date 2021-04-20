@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local tooltipOptionsLocales = {
     ["Tooltips"] = {
         ["ptBR"] = "Dicas de ferramentas (informaçâo)",

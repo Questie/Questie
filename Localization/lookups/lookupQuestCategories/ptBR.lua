@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questCategoryLookup['ptBR']= {
     [-1] = "Épico",
     [-21] = "REUSE - old wailing caverns",

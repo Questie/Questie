@@ -8,8 +8,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
----@type QuestieQuestTimers
-local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs.tracker = {...}
 

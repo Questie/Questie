@@ -1,3 +1,5 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 l10n.objectLookup['koKR'] ={
 [31] = "오래된 사자상",

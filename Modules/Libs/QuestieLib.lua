@@ -1,18 +1,15 @@
--- Contains library functions that do not have a logical place.
-
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
 
-
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
--------------------------
--- Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- Is set in QuestieLib.lua
 QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\"

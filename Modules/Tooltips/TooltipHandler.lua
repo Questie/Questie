@@ -2,6 +2,9 @@
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 local _QuestieTooltips = QuestieTooltips.private
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local lastGuid
 
 function _QuestieTooltips:AddUnitDataToTooltip()

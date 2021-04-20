@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.questCategoryLookup['enUS']= {
     [-1] = "Epic",
     [-21] = "Wailing Caverns",

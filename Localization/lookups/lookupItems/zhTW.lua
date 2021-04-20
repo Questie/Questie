@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.itemLookup["zhTW"] = {
 [25] = "破損的短劍",
 [35] = "彎曲法杖",

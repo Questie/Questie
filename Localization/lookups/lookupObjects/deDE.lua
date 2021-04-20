@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.objectLookup["deDE"] = {
 [31] = "Alte Löwenstatue",
 [32] = "Versunkene Truhe",

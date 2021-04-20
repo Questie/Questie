@@ -10,6 +10,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local serial = QuestieLoader:ImportModule("QuestieSerializer")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 serial.enableObjectLimit = false
 

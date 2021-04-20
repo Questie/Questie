@@ -2,9 +2,7 @@
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.questsByZone = {}
--------------------------
---Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -15,6 +13,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame

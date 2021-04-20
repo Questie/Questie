@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 l10n.objectLookup["zhTW"] = {
 [31] = "老舊獅子雕像",
 [32] = "沉沒的箱子",

@@ -2,8 +2,9 @@
 local QuestieCleanup = QuestieLoader:CreateModule("Cleanup")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@tyle QuestieDBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 
 function QuestieCleanup:Run()
     -- clean up raw db

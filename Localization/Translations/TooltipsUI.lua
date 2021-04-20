@@ -1,3 +1,6 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local tooltipsUILocales = {
     ["You are on this quest"] = {
         ["ptBR"] = "Você tem essa missão",
