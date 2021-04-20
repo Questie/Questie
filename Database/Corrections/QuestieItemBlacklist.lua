@@ -174,5 +174,19 @@ function QuestieItemBlacklist:Load()
         [22527] = true, -- core of elements
         [22528] = true, -- dark iron scraps
         [22529] = true, -- savage frond
+        
+        -- TBC Phase 1
+        [22572] = true, -- Mote of Air
+        [22573] = true, -- Mote of Earth
+        [22574] = true, -- Mote of Fire
+        [22574] = true, -- Mote of Fire
+        [22575] = true, -- Mote of Life
+        [22576] = true, -- Mote of Mana
+        [22577] = true, -- Mote of Shadow
+        [22578] = true, -- Mote of Water
+        [22829] = true, -- Super Healing Potion
+        [22832] = true, -- Super Mana Potion
+        [24246] = true, -- Sanguine Hibiscus
+        [24401] = true, -- Unidentified Plant Parts  
     }
 end
