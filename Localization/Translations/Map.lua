@@ -12,16 +12,16 @@ local mapLocales = {
         ["frFR"] = "Êtes-vous sûr de vouloir masquer la quête '%s'?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler !",
     },
     ["Unknown Zone"] = {
-        ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
         ["deDE"] = "Unbekannte Zone",
-        ["koKR"] = false,
-        ["esMX"] = false,
+        ["koKR"] = nil,
+        ["esMX"] = nil,
         ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["zhCN"] = nil,
+        ["zhTW"] = nil,
+        ["esES"] = nil,
+        ["frFR"] = nil,
     }
 }
 

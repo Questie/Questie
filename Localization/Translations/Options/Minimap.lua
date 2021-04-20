@@ -2,7 +2,7 @@ local minimapOptionsLocales = {
     ["Minimap"] = {
         ["ptBR"] = "Opções de mini-carta",
         ["ruRU"] = "Миникарта",
-        ["deDE"] = false,
+        ["deDE"] = nil,
         ["koKR"] = "미니맵",
         ["esMX"] = "Opciones de minimapa",
         ["enUS"] = true,
@@ -48,7 +48,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Active un effet de surbrillance autour des icônes sur la mini-carte, colorié différemment pour chaque quête.",
     },
     ["Minimap Note Options"] = {
-        ["ptBR"] = false,
+        ["ptBR"] = nil,
         ["ruRU"] = "Настройки значков",
         ["deDE"] = "Minimap-Notiz-Einstellungen",
         ["koKR"] = "미니맵 아이콘 설정",
