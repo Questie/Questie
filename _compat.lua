@@ -8,6 +8,6 @@ if not (IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted) then
             lastTime = now
             lastTable = GetQuestsCompleted()
         end
-        return lastTable[id]
+        return lastTable[id] ~= nil
     end
 end
