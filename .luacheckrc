@@ -1,3 +1,23 @@
+max_line_length = 140
+exclude_files = {
+    ".github/",
+    ".history/",
+    ".idea/",
+    ".vscode/",
+    "ExternalScripts(DONOTINCLUDEINRELEASE)/",
+    "Database/Classic/",
+    "Database/TBC/",
+    "Libs/",
+    "Locale/",
+    "releases/",
+    ".luacheckrc",
+    "**/.luarocks/**/", -- Created by the GitHub Action
+    "**/.install/**/", -- Created by the GitHub Action
+}
+ignore = {
+    "212", -- unused argument "self"
+    "432", -- shadowing upvalue argument "self"
+}
 stds.questie = {
     read_globals = {}, -- these globals can only be accessed.
     globals = {
@@ -2680,7 +2700,6 @@ stds.questie = {
         "DBMHudMap",
         "hudDuration",
         "TomTom",
-        "LQuestie_EasyMenu",
         "LibStub",
         "SUFUnittarget",
         "ElvUF_Target",
@@ -2691,19 +2710,12 @@ stds.questie = {
         "QuestieConfig",
         "QuestieConfigCharacter",
         "QuestieLoader",
-        "InstanceLocations",
+        "DEBUG_CRITICAL",
+        "DEBUG_ELEVATED",
+        "DEBUG_INFO",
         "DEBUG_DEVELOP",
-        "LQuestie_CloseDropDownMenus",
-        "ZoneDataAreaIDToUiMapID",
-        "zoneDataUiMapIDToAreaID",
+        "DEBUG_SPAM",
         "Questie_Toggle",
-        "Questie_SpecialNPCs",
-        "TEMP_Questie2Events",
-        "LQuestie_Create_UIDropDownMenu"
     }
 }
 std = "max+questie"
-ignore = {
-    "212", -- unused argument "self"
-    "432", -- shadowing upvalue argument "self"
-}
