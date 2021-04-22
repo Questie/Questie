@@ -1,8 +1,8 @@
-## Interface: 11306
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.2.5|r
+## Interface: 11307
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.2.6|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.2.5
+## Version: 6.2.6
 ## RequiredDeps:
 ## OptionalDeps: Ace3, LibDataBroker-1.1, LibCompress
 ## SavedVariables: QuestieConfig
