@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local mapLocales = {
     ["Are you sure you want to hide the quest '%s'?\nIf this quest isn't actually available, please report it to us!"] = {
-        ["ptBR"] = "Tem certeza de que deseja ocultar a missão? Se essa missão não estiver realmente disponível, informe-nos!",
+        ["ptBR"] = "Você tem certeza que deseja ocultar a missão '%s'?\nSe essa missão não estiver disponível, por favor informe-nos!",
         ["ruRU"] = "Вы уверены, что хотите скрыть задание '%s'?",
         ["deDE"] = "Bist du sicher, dass du die Quest '%s' verstecken möchtest?",
         ["koKR"] = "정말 '%s' 퀘스트를 숨길까요?\n만약 해당 퀘스트가 수행할 수 없는 퀘스트라면, 저희에게 알려주세요!",
@@ -15,7 +15,7 @@ local mapLocales = {
         ["frFR"] = "Êtes-vous sûr de vouloir masquer la quête '%s'?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler !",
     },
     ["Unknown Zone"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Zona desconhecida",
         ["ruRU"] = nil,
         ["deDE"] = "Unbekannte Zone",
         ["koKR"] = nil,
