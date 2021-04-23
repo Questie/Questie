@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local questStateLocales = {
     ["Complete"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Completa",
         ["ruRU"] = nil,
         ["deDE"] = "Abgeschlossen",
         ["koKR"] = nil,
@@ -15,7 +15,7 @@ local questStateLocales = {
         ["frFR"] = nil,
     },
     ["Failed"] = {
-        ["ptBR"] = "Fracassado",
+        ["ptBR"] = "Fracassada",
         ["ruRU"] = "Провалено",
         ["deDE"] = "Fehlgeschlagen",
         ["koKR"] = nil,
@@ -27,7 +27,7 @@ local questStateLocales = {
         ["frFR"] = "Échoué",
     },
     ["Available"] = {
-        ["ptBR"] = "Disponivel",
+        ["ptBR"] = "Disponível",
         ["ruRU"] = "Доступно",
         ["deDE"] = "Verfügbar",
         ["koKR"] = "수행가능",
@@ -39,7 +39,7 @@ local questStateLocales = {
         ["frFR"] = "Disponible",
     },
     ["Active"] = {
-        ["ptBR"] = "Ativo",
+        ["ptBR"] = "Ativa",
         ["ruRU"] = "Активно",
         ["deDE"] = "Aktiv",
         ["koKR"] = "활성화",
@@ -63,7 +63,7 @@ local questStateLocales = {
         ["frFR"] = "Évènement",
     },
     ["Repeatable"] = {
-        ["ptBR"] = "Repetivel",
+        ["ptBR"] = "Repetível",
         ["ruRU"] = "Повторяемое",
         ["deDE"] = "Wiederholbar",
         ["koKR"] = "반복가능",
