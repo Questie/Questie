@@ -30,7 +30,8 @@ QuestieDBCompiler.supportedTypes = {
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
         ["u8u24array"] = true,
-        ["extraobjectives"] = true
+        ["extraobjectives"] = true,
+        ["reflist"] = true
     },
     ["number"] = {
         ["s8"] = true,
@@ -45,6 +46,18 @@ QuestieDBCompiler.supportedTypes = {
         ["u16string"] = true,
         ["faction"] = true
     }
+}
+
+QuestieDBCompiler.refTypes = {
+    "monster",
+    "item",
+    "object"
+}
+
+QuestieDBCompiler.refTypesReversed = {
+    monster = 1,
+    item = 2,
+    object = 3
 }
 
 QuestieDBCompiler.readers = {
@@ -229,16 +242,30 @@ QuestieDBCompiler.readers = {
 
         return ret
     end,
+    ["reflist"] = function(stream)
+        local count = stream:ReadByte()
+        if count > 0 then
+            local ret = {}
+            for i=1,count do
+                local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
+                local id = stream:ReadInt24()
+                tinsert(ret, {type, id})
+            end
+            return ret
+        end
+    end,
     ["extraobjectives"] = function(stream)
         local count = stream:ReadByte()
         if count > 0 then
             local ret = {}
             for i=1,count do
-                local data = {}
-                tinsert(data, QuestieDBCompiler.readers["spawnlist"](stream))
-                tinsert(data, stream:ReadTinyString())
-                tinsert(data, stream:ReadShortString())
-                tinsert(ret, data)
+                tinsert(ret, {
+                    QuestieDBCompiler.readers["spawnlist"](stream),
+                    stream:ReadTinyString(),
+                    stream:ReadShortString(),
+                    stream:ReadInt24(),
+                    QuestieDBCompiler.readers["reflist"](stream)
+                })
             end
             return ret
         end
@@ -468,13 +495,23 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["reflist"] = function(stream, value)
+        stream:WriteByte(#value)
+        for _, v in pairs(value) do
+            stream:WriteByte(QuestieDBCompiler.refTypesReversed[v[1]])
+            stream:WriteInt24(v[2])
+        end
+    end,
     ["extraobjectives"] = function(stream, value)
         if value then
+            __EO = value
             stream:WriteByte(#value)
             for _, data in pairs(value) do
                 QuestieDBCompiler.writers["spawnlist"](stream, data[1])
-                stream:WriteTinyString(data[2])
-                stream:WriteShortString(data[3])
+                stream:WriteTinyString(data[2]) -- icon
+                stream:WriteShortString(data[3]) -- description
+                stream:WriteInt24(data[4] or 0) -- objective index (or 0)
+                QuestieDBCompiler.writers["reflist"](stream, data[5] or {})
             end
         else
             stream:WriteByte(0)
@@ -577,14 +614,17 @@ QuestieDBCompiler.skippers = {
             QuestieDBCompiler.skippers["u8string"](stream)
         end
     end,
+    ["reflist"] = function(stream)
+        stream._pointer = stream:ReadByte() * 4 + stream._pointer
+    end,
     ["extraobjectives"] = function(stream)
         local count = stream:ReadByte()
-        if count > 0 then
-            for i=1,count do
-                QuestieDBCompiler.skippers["spawnlist"](stream)
-                stream._pointer = stream:ReadByte() + stream._pointer
-                stream._pointer = stream:ReadShort() + stream._pointer
-            end
+        for i=1,count do
+            QuestieDBCompiler.skippers["spawnlist"](stream)
+            stream._pointer = stream:ReadByte() + stream._pointer
+            stream._pointer = stream:ReadShort() + stream._pointer
+            stream._pointer = stream._pointer + 3
+            QuestieDBCompiler.skippers["reflist"](stream)
         end
     end
 }
@@ -603,6 +643,7 @@ QuestieDBCompiler.dynamics = {
     ["questgivers"] = true,
     ["waypointlist"] = true,
     ["extraobjectives"] = true,
+    ["reflist"] = true
 }
 
 QuestieDBCompiler.statics = {

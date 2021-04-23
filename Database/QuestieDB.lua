@@ -31,6 +31,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
+
 local tinsert = table.insert
 
 
@@ -891,6 +893,39 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
         -- All preQuests are complete
         return true
+    end
+
+    local extraObjectives = rawdata[QuestieDB.questKeys.extraObjectives]
+    if extraObjectives then
+        local _GetIconScale = function() return Questie.db.global.objectScale or 1 end
+        for index, o in pairs(extraObjectives) do
+            QO.SpecialObjectives[index] = {
+                Icon = o[2],
+                Description = o[3],
+            }
+            if o[1] then -- custom spawn
+                QO.SpecialObjectives[index].spawnList = {{
+                    Name = o[3],
+                    Spawns = o[1],
+                    Icon = o[2],
+                    GetIconScale = _GetIconScale,
+                    IconScale = _GetIconScale(),
+                }}
+            end
+            if o[5] then -- db ref
+                QO.SpecialObjectives[index].Type = o[5][1][1]
+                QO.SpecialObjectives[index].Id = o[5][1][2]
+                local spawnList = {}
+
+                for _, ref in pairs(o[5]) do
+                    for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], QO.SpecialObjectives[index])) do
+                        spawnList[k] = v
+                    end
+                end
+
+                QO.SpecialObjectives[index].spawnList = spawnList
+            end
+        end
     end
 
     _QuestieDB.questCache[questId] = QO

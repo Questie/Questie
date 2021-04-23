@@ -1090,7 +1090,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             specialObjective.questId = quest.Id
             specialObjective.Update = function() end
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
-            specialObjective.spawnList = {}
+            specialObjective.spawnList = specialObjective.spawnList or {}
             specialObjective.AlreadySpawned = {}
         end
     end
