@@ -91,7 +91,7 @@ QuestieLocale.locale['koKR'] = {
 
     -- Map tab
     ['MAP_TAB'] = "지도",
-    ['MAP_OPTIONS_HEADER'] = "Map Options",
+    ['MAP_OPTIONS_HEADER'] = "지도 옵션",
     ['ENABLE_MAP_BUTTON'] = "Questie 지도 버튼 표시",
     ['ENABLE_MAP_BUTTON_DESC'] = "지도에 Questie 버튼을 표시합니다 (따로 지도 애드온을 사용할 경우 충돌할 수 있습니다)",
     ['MAP_NOTES'] = "지도 아이콘 설정",
