@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local trackerUILocales = {
     ["Questie Tracker: "] = {
-        ["ptBR"] = "Missões Ativas : ",
+        ["ptBR"] = "Missões ativas: ",
         ["ruRU"] = "Активные задания: ",
         ["deDE"] = "Aktive Quests: ",
         ["koKR"] = "활성 퀘스트: ",
@@ -27,7 +27,7 @@ local trackerUILocales = {
         ["frFR"] = "Afficher les icônes",
     },
     ["Quest completed!"] = {
-        ["ptBR"] = "Missão cumprida!",
+        ["ptBR"] = "Missão concluída!",
         ["ruRU"] = "Задание выполнено!",
         ["deDE"] = "Quest abgeschlossen!",
         ["koKR"] = "퀘스트를 완료했습니다!",
@@ -39,7 +39,7 @@ local trackerUILocales = {
         ["frFR"] = "Quête terminée!",
     },
     ["Quest completion failed!"] = {
-        ["ptBR"] = "A missão não foi concluída!",
+        ["ptBR"] = "A missão falhou!",
         ["ruRU"] = "Выполнить задание не удалось!",
         ["deDE"] = "Quest fehlgeschlagen",
         ["koKR"] = "퀘스트 완료 실패!",
@@ -51,7 +51,7 @@ local trackerUILocales = {
         ["frFR"] = "Échec de la quête!",
     },
     ["Untrack Quest"] = {
-        ["ptBR"] = "Anular a missâo",
+        ["ptBR"] = "Não rastrear a missão",
         ["ruRU"] = "Не отслеживать задание",
         ["deDE"] = "Questfokussieren entfernen",
         ["koKR"] = "퀘스트 추적해제",
@@ -63,7 +63,7 @@ local trackerUILocales = {
         ["frFR"] = "Annuler le suivi",
     },
     ["Focus Quest"] = {
-        ["ptBR"] = "Concentre esta missão",
+        ["ptBR"] = "Focar missão",
         ["ruRU"] = "Фокусировка на задании",
         ["deDE"] = "Quest fokussieren",
         ["koKR"] = "퀘스트 집중",
@@ -75,7 +75,7 @@ local trackerUILocales = {
         ["frFR"] = "Prioriser cette quête",
     },
     ["Unfocus"] = {
-        ["ptBR"] = "Não concentre mais essa missão",
+        ["ptBR"] = "Desfocar",
         ["ruRU"] = "Сбросить фокусировку",
         ["deDE"] = "Fokus entfernen",
         ["koKR"] = "집중 해제",
@@ -87,7 +87,7 @@ local trackerUILocales = {
         ["frFR"] = "Ne plus prioriser cette quête",
     },
     ["Focus Objective"] = {
-        ["ptBR"] = "Objetivo do foco ",
+        ["ptBR"] = "Focar objetivo",
         ["ruRU"] = "Фокусировка на цели",
         ["deDE"] = "Questziel fokussieren",
         ["koKR"] = "목표 집중",
@@ -99,7 +99,7 @@ local trackerUILocales = {
         ["frFR"] = "Objectif prioritaire",
     },
     ["Unlock Tracker"] = {
-        ["ptBR"] = "Desbloqueado o rastreador",
+        ["ptBR"] = "Desbloquear rastreador",
         ["ruRU"] = "Разблокировать трекер",
         ["deDE"] = "Tracker entsperren",
         ["koKR"] = "추적기 잠금해제",
@@ -123,7 +123,7 @@ local trackerUILocales = {
         ["frFR"] = "Afficher sur la carte",
     },
     ["Toggle Options"] = {
-        ["ptBR"] = "Opções de alternância",
+        ["ptBR"] = "Mostrar / Ocultar opções",
         ["ruRU"] = "Открыть/закрыть настройки",
         ["deDE"] = "Einstellungen anzeigen/verstecken",
         ["koKR"] = "설정 열기",
@@ -135,7 +135,7 @@ local trackerUILocales = {
         ["frFR"] = "Panneau de configuration",
     },
     ["Link Quest to chat"] = {
-        ["ptBR"] = "Vincula a missão ao chat",
+        ["ptBR"] = "Enviar missão para o chat",
         ["ruRU"] = "Ссылка на задание в чат",
         ["deDE"] = "Quest in Chat verlinken",
         ["koKR"] = nil,
@@ -147,7 +147,7 @@ local trackerUILocales = {
         ["frFR"] = nil,
     },
     ["Show in Quest Log"] = {
-        ["ptBR"] = "Visualizar as missões",
+        ["ptBR"] = "Mostrar no registro de missões",
         ["ruRU"] = "Показать в журнале",
         ["deDE"] = "In Questlog anzeigen",
         ["koKR"] = "퀘스트 목록에서 열기",
