@@ -1,9 +1,6 @@
 ---@class QuestieSlash
 local QuestieSlash = QuestieLoader:CreateModule("QuestieSlash")
 
--------------------------
---Import modules.
--------------------------
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieJourney
@@ -16,6 +13,9 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local QuestieSearch = QuestieLoader:ImportModule("QuestieSearch")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 
 function QuestieSlash:HandleCommands(input)
     input = string.trim(input, " ");
@@ -40,13 +40,13 @@ function QuestieSlash:HandleCommands(input)
 
     -- /questie help || /questie ?
     if mainCommand == "help" or mainCommand == "?" then
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_HEAD'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_CONFIG'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TOGGLE_QUESTIE'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TO_MAP'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_MINIMAP'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_JOURNEY'), 'yellow'));
-        print(Questie:Colorize(QuestieLocale:GetUIString('SLASH_TRACKER'), 'yellow'));
+        print(Questie:Colorize(l10n("Questie Commands"), "yellow"));
+        print(Questie:Colorize("/questie - " .. l10n("Toggles the Config window"), "yellow"));
+        print(Questie:Colorize("/questie toggle - " .. l10n("Toggles showing questie on the map and minimap"), "yellow"));
+        print(Questie:Colorize("/questie tomap [<npcId>/<npcName>/reset] -- " .. l10n("Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
+        print(Questie:Colorize("/questie minimap - " .. l10n("Toggles the Minimap Button for Questie"), "yellow"));
+        print(Questie:Colorize("/questie journey - " .. l10n("Toggles the My Journey window"), "yellow"));
+        print(Questie:Colorize("/questie tracker [show/hide/reset] - " .. l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
         return;
     end
 
@@ -130,5 +130,5 @@ function QuestieSlash:HandleCommands(input)
         end
     end
 
-    print(Questie:Colorize("[Questie] :: ", 'yellow') .. QuestieLocale:GetUIString('SLASH_INVALID') .. Questie:Colorize('/questie help', 'yellow'));
+    print(Questie:Colorize("[Questie] :: ", "yellow") .. l10n("Invalid command. For a list of options please type: ") .. Questie:Colorize("/questie help', 'yellow"));
 end

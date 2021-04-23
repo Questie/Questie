@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- Useful doc about the AceGUI TreeGroup: https://github.com/hurricup/WoW-Ace3/blob/master/AceGUI-3.0/widgets/AceGUIContainer-TreeGroup.lua
 
@@ -29,10 +31,19 @@ _QuestieJourney.lastZoneSelection = {}
 local notesPopupWin
 local notesPopupWinIsOpen = false
 
+QuestieJourney.questCategoryKeys = {
+    EASTERN_KINGDOMS = 1,
+    KALIMDOR = 2,
+    DUNGEONS = 3,
+    BATTLEGROUNDS = 4,
+    CLASS = 5,
+    PROFESSIONS = 6,
+    EVENTS = 7,
+}
 
 function QuestieJourney:Initialize()
-    self.continents = LangContinentLookup
-    self.continents[QuestieLocale.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    self.continents = l10n.continentLookup
+    self.continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
     self.zoneMap = ZoneDB:GetZonesWithQuests()
     self.zones = ZoneDB:GetRelevantZones()
 
@@ -50,7 +61,7 @@ function QuestieJourney:BuildMainFrame()
                 notesPopupWinIsOpen = false
             end
         end)
-        journeyFrame:SetTitle(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")))
+        journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
         journeyFrame.frame:SetMinResize(550, 400)
 
@@ -58,15 +69,15 @@ function QuestieJourney:BuildMainFrame()
         tabGroup:SetLayout("Flow")
         tabGroup:SetTabs({
             {
-                text = QuestieLocale:GetUIString('JOUNREY_TAB'),
+                text = l10n('My Journey'),
                 value="journey"
             },
             {
-                text = QuestieLocale:GetUIString('JOURNEY_ZONE_TAB'),
+                text = l10n('Quests by Zone'),
                 value="zone"
             },
             {
-                text = QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'),
+                text = l10n('Advanced Search'),
                 value="search"
             }
         })
@@ -79,7 +90,7 @@ function QuestieJourney:BuildMainFrame()
         local settingsButton = AceGUI:Create("Button")
         settingsButton:SetWidth(160)
         settingsButton:SetPoint("TOPRIGHT", journeyFrame.frame, "TOPRIGHT", -50, -13)
-        settingsButton:SetText(QuestieLocale:GetUIString('Questie Options'))
+        settingsButton:SetText(l10n('Questie Options'))
         settingsButton:SetCallback("OnClick", function()
             QuestieJourney:ToggleJourneyWindow()
             QuestieOptions:OpenConfigWindow()

@@ -87,7 +87,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 end
             end
         end
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: ".. QuestieLocale:GetUIString('DEBUG_UNLOAD_QFRAMES', questId))
+        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames: %s", questId)
     end
 end
 

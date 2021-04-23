@@ -69,17 +69,15 @@ Database\Corrections\TBC\tbcObjectFixes.lua
 Database\compiler.lua
 
 #Localization
-Locale\QuestieLocale.lua
-Locale\enUS\locale.xml
-Locale\esES\locale.xml
-Locale\esMX\locale.xml
-Locale\deDE\locale.xml
-Locale\zhCN\locale.xml
-Locale\zhTW\locale.xml
-Locale\frFR\locale.xml
-Locale\koKR\locale.xml
-Locale\ptBR\locale.xml
-Locale\ruRU\locale.xml
+Localization\l10n.lua
+Localization\Translations\Translations.xml
+
+Localization\lookups\lookupItems\lookupItems.xml
+Localization\lookups\lookupNpcs\lookupNpcs.xml
+Localization\lookups\lookupObjects\lookupObjects.xml
+Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
+Localization\lookups\lookupQuests\lookupQuests.xml
+Localization\lookups\lookupZones\lookupZones.xml
 
 ##Libs
 Modules\Libs\QuestieLib.lua

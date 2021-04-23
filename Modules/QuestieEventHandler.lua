@@ -49,6 +49,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -162,7 +164,7 @@ _PLAYER_LOGIN = function()
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
         QuestiePlayer:Initialize()
-        QuestieLocale:PostBoot()
+        l10n:PostBoot()
         QuestieJourney:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -228,9 +230,9 @@ _PLAYER_LOGIN = function()
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         QuestieCorrections:Initialize()
         QuestieCorrections:PopulateTownsfolk()
-        QuestieLocale:Initialize()
+        l10n:Initialize()
         C_Timer.After(4, function()
-            print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
+            print(Questie:Colorize(l10n("Questie DB has updated!"), "lightBlue") .. " " .. Questie:Colorize(l10n("Data is being processed, this may take a few moments and cause some lag..."), "orange"))
             QuestieDB.private:DeleteGatheringNodes()
             QuestieCorrections:PreCompile(function()
                 QuestieDBCompiler:Compile(function()

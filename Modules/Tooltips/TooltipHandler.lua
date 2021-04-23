@@ -2,6 +2,9 @@
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 local _QuestieTooltips = QuestieTooltips.private
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local lastGuid
 
 function _QuestieTooltips:AddUnitDataToTooltip()
@@ -82,7 +85,7 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
     end
     if name then
         local tooltipAdded = false
-        for _, gameObjectId in pairs(LangObjectNameLookup[name] or {}) do
+        for index, gameObjectId in pairs(l10n.objectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
 
             if type(gameObjectId) == "number" and tooltipData then

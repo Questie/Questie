@@ -1,18 +1,15 @@
--- Contains library functions that do not have a logical place.
-
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
 
-
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
--------------------------
--- Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- Is set in QuestieLib.lua
 QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\"
@@ -186,9 +183,9 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         local isComplete = QuestieDB:IsComplete(questId)
 
         if isComplete == -1 then
-            name = name .. " (" .. _G['FAILED'] .. ")"
+            name = name .. " (" .. l10n("Failed") .. ")"
         elseif isComplete == 1 then
-            name = name .. " (" .. _G['COMPLETE'] .. ")"
+            name = name .. " (" .. l10n("Complete") .. ")"
         end
     end
 
@@ -221,7 +218,7 @@ function QuestieLib:GetQuestString(id, name, level, blizzLike)
             char = string.sub(questTag, 1, 1)
         end
 
-        local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
             name = "[" .. level .. "+" .. "] " .. name -- Elite quest
         elseif questType == 81 then
@@ -281,7 +278,7 @@ function QuestieLib:GetLevelString(id, name, level, blizzLike)
             char = string.sub(questTag, 1, 1)
         end
 
-        local langCode = QuestieLocale:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
             level = "[" .. level .. "+" .. "] " -- Elite quest
         elseif questType == 81 then
@@ -307,6 +304,48 @@ function QuestieLib:GetLevelString(id, name, level, blizzLike)
     end
 
     return level
+end
+
+function QuestieLib:GetRaceString(raceMask)
+    if not raceMask then
+        return ""
+    end
+
+    if (raceMask == 0) or (raceMask == 255) then
+        return l10n("None")
+    elseif raceMask == 77 then
+        return l10n("Alliance")
+    elseif raceMask == 178 then
+        return l10n("Horde")
+    else
+        local raceString = ""
+        local raceTable = QuestieLib:UnpackBinary(raceMask)
+        local stringTable = {
+            l10n('Human'),
+            l10n('Orc'),
+            l10n('Dwarf'),
+            l10n('Nightelf'),
+            l10n('Undead'),
+            l10n('Tauren'),
+            l10n('Gnome'),
+            l10n('Troll'),
+            l10n('Goblin'),
+            l10n('Draenei'),
+            l10n('Blood Elf')
+        }
+        local firstRun = true
+        for k, v in pairs(raceTable) do
+            if v then
+                if firstRun then
+                    firstRun = false
+                else
+                    raceString = raceString .. ", "
+                end
+                raceString = raceString .. stringTable[k]
+            end
+        end
+        return raceString
+    end
 end
 
 function QuestieLib:ProfileFunction(functionReference, includeSubroutine)

@@ -28,7 +28,9 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieQuest.private
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
 
 local tinsert = table.insert
@@ -132,7 +134,7 @@ local function trycatch(func)
             if not Questie.db.global.disableDatabaseWarnings then
                 StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
             else
-                print(QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"))
+                print(l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."))
             end
         end
         return ret
@@ -142,9 +144,9 @@ end
 function QuestieDB:Initialize()
 
     StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-        text = QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"),
-        button1 = QuestieLocale:GetUIString("RECOMPILE_DATABASE_BTN"),
-        button2 = QuestieLocale:GetUIString("DONT_SHOW_AGAIN"),
+        text = l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
+        button1 = l10n("Recompile Database"),
+        button2 = l10n("Don't show again"),
         OnAccept = function()
             QuestieConfig.dbIsCompiled = false
             ReloadUI()
@@ -1035,7 +1037,7 @@ end
     1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
     1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
 
-    Check `LangZoneLookup` for the available IDs
+    Check `l10n.zoneLookup` for the available IDs
 ]]
 ---@param zoneId number
 ---@return table

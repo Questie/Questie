@@ -9,7 +9,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieOptionsMinimapIcon
 local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
-
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs = {...}
 QuestieConfigFrame = nil
@@ -36,7 +37,7 @@ function QuestieOptions:Initialize()
     local journeyButton = AceGUI:Create("Button")
     journeyButton:SetWidth(140)
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
-    journeyButton:SetText(QuestieLocale:GetUIString('JOUNREY_TAB'))
+    journeyButton:SetText(l10n('My Journey'))
     journeyButton:SetCallback("OnClick", function()
         QuestieOptions:OpenConfigWindow()
         QuestieJourney:ToggleJourneyWindow()
