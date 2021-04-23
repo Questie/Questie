@@ -39,7 +39,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Proche",
     },
     ["Requirements"] = {
-        ["ptBR"] = "Exigências",
+        ["ptBR"] = "Requisitos",
         ["ruRU"] = "Требуется для завершения",
         ["deDE"] = "Voraussetzungen",
         ["koKR"] = nil,
@@ -87,7 +87,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Progrès",
     },
     ["You have completed this quest"] = {
-        ["ptBR"] = "Você completou esta missão",
+        ["ptBR"] = "Você concluiu esta missão",
         ["ruRU"] = "Вы выполнили это задание",
         ["deDE"] = "Du hast diese Quest bereits abgeschlossen",
         ["koKR"] = nil,
@@ -99,7 +99,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Vous avez terminé cette quête",
     },
     ["Started by"] = {
-        ["ptBR"] = "Início",
+        ["ptBR"] = "Começado por",
         ["ruRU"] = "Начинает",
         ["deDE"] = "Gestarted von",
         ["koKR"] = nil,
@@ -111,7 +111,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Début",
     },
     ["Ended by"] = {
-        ["ptBR"] = "Fim",
+        ["ptBR"] = "Terminado por",
         ["ruRU"] = "Завершает",
         ["deDE"] = "Beendet von",
         ["koKR"] = nil,
@@ -123,7 +123,7 @@ local tooltipsUILocales = {
         ["frFR"] = "Fin",
     },
     ["Completed on:"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Concluído em:",
         ["ruRU"] = nil,
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = nil,
