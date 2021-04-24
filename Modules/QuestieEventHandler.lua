@@ -198,6 +198,7 @@ _PLAYER_LOGIN = function()
         QuestieMenu:OnLogin()
 
         TEST_QUESTIE_ROUTES() -- todo: refactor this (no globals)
+        BUILD_NEW_TRACKER() -- todo: refactor this (no globals)
 
         if Questie.db.global.debugEnabled then
             QuestieLoader:PopulateGlobals()
