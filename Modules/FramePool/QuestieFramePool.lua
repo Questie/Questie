@@ -756,7 +756,7 @@ function _QuestieFramePool:QuestieTooltip()
         --[todo:routes] if routes then
         for title, data in pairs(self.routesOrder) do
             if firstLine and not shift then
-                self:AddDoubleLine(title, "("..QuestieLocale:GetUIString('ICON_SHIFT_HOLD')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43)
+                self:AddDoubleLine(title, "("..l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43)
                 firstLine = false
             else
                 self:AddLine(title)
@@ -814,7 +814,7 @@ function _QuestieFramePool:QuestieTooltip()
         ---@param questId QuestId
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
-            print("Populating for quest ".. tostring(questId))
+            --print("Populating for quest ".. tostring(questId))
             local quest = QuestieDB:GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true);
             if haveGiver then

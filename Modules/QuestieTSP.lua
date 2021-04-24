@@ -22,6 +22,8 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -120,13 +122,13 @@ QuestieTSP.logs = {} -- each log is an array of quest ids, key being the player 
 -- C_Map.GetBestMapForUnit and HBD:GetPlayerZone are both broken
 -- with certain sub-zones and return the continent uimapid instead
 function GetPlayerZoneFixed()
-    if not LangZoneLookup[3] then -- too early: not yet populated
+    if not l10n.zoneLookup[3] then -- too early: not yet populated
         return C_Map.GetBestMapForUnit("Player")
     end
 
     local bad = {} -- build a list of dungeons to check RealZoneText
     for k,v in pairs(ZoneDB.private.dungeons) do
-        local tin = LangZoneLookup[3][k] or LangZoneLookup[4][k] or LangZoneLookup[2][k] or LangZoneLookup[1][k]
+        local tin = l10n.zoneLookup[3][k] or l10n.zoneLookup[4][k] or l10n.zoneLookup[2][k] or l10n.zoneLookup[1][k]
         if tin then
             bad[tin] = ZoneDB.private.areaIdToUiMapId[v[3]]
         end
@@ -795,8 +797,9 @@ function QuestieTSP:BuildHotspots(uimapid)
 end
 
 function QuestieTSP:PopulateAllZones()
-
+    --print("QuestieTSP PopulateAllZones...")
     if #QuestieTSP.zonesToCheck > 0 then
+        --print("no zones!")
         return
     end
     local duplicates = {}
@@ -851,6 +854,7 @@ function QuestieTSP:PopulateAllZones()
 end
 
 function TEST_QUESTIE_ROUTES()
+    --print("QuestieTSP init...")
     if QuestieTSP._started then return end
     QuestieTSP._started = true
     QuestieTSP:StartSocialComms()
@@ -1751,7 +1755,7 @@ QuestieTSP.socialMode = true
 function QuestieTSP:PopulateTooltip(id)
     local quest = QuestieDB:GetQuest(id)
     GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-    GameTooltip:AddLine(quest:GetColoredQuestName())
+    GameTooltip:AddLine(QuestieLib:GetColoredQuestName(id, true, true, true))
     GameTooltip:AddLine(" ")
     GameTooltip:AddLine("Questie: |cFFFFFFFFHold Shift|r to show spawn points")
     GameTooltip:Show()
@@ -2067,7 +2071,7 @@ function QuestieTSP:TestRoutesTSP(sa, uimapid) --adz
                                 local first = true
                                 for questId, objectives in pairs(tooltip) do
                             
-                                    local key = QuestieDB:GetColoredQuestName(questId, true, true)
+                                    local key = QuestieLib:GetColoredQuestName(questId, true, true, true)
                                     local data = {}
                             
                                     icon.routeTooltipData[key] = data
@@ -3562,7 +3566,7 @@ function getZoneSummary(zone)
     local availables = Questie.db.char.availablePerZone[zone]
     if availables then
         for _, q in pairs(availables) do
-            print("   " .. QuestieDB:GetColoredQuestName(q, true, true))
+            print("   " .. QuestieLib:GetColoredQuestName(q, true, true, true))
         end
     end
 end
@@ -3613,7 +3617,7 @@ function TEST_QUEST_SUMMARY(id) -- run TEST_QUEST_SUMMARY(5722)
         widget:AddChild(label)
     end
 
-    labelLarge(frame, QuestieDB:GetColoredQuestName(id, true, true), 100)
+    labelLarge(frame, QuestieLib:GetColoredQuestName(id, true, true, true), 100)
 
 
 end
