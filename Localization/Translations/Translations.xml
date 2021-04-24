@@ -1,0 +1,27 @@
+<Ui xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+    <Script file="Journey\MyJourney.lua"/>
+    <Script file="Journey\QuestsByZone.lua"/>
+    <Script file="Journey\Search.lua"/>
+
+    <Script file="MinimapIcon\MinimapIcon.lua"/>
+    <Script file="MinimapIcon\Professions.lua"/>
+    <Script file="MinimapIcon\Townsfolk.lua"/>
+
+    <Script file="Options\Advanced.lua"/>
+    <Script file="Options\DBMHud.lua"/>
+    <Script file="Options\General.lua"/>
+    <Script file="Options\Map.lua"/>
+    <Script file="Options\Minimap.lua"/>
+    <Script file="Options\Nameplates.lua"/>
+    <Script file="Options\Tooltips.lua"/>
+    <Script file="Options\Tracker.lua"/>
+
+    <Script file="DebugMessages.lua"/>
+    <Script file="Generics.lua"/>
+    <Script file="KeyboardShortcuts.lua"/>
+    <Script file="Map.lua"/>
+    <Script file="Professions.lua"/>
+    <Script file="QuestStates.lua"/>
+    <Script file="TooltipsUI.lua"/>
+    <Script file="TrackerUI.lua"/>
+</Ui>

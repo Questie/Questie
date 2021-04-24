@@ -11,6 +11,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieLink.lastItemRefTooltip = ""
 
@@ -23,7 +25,12 @@ local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 --- Override of the default SetHyperlink function to filter Questie links
 ---@param link string
 function ItemRefTooltip:SetHyperlink(link, ...)
-    local _, _, isQuestieLink, questId = string.find(link, "(questie):(%d+):")
+    local _, isQuestieLink, questId
+    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+        isQuestieLink, questId = string.match(link, "(questie):(%d+):")
+    else
+        _, _, isQuestieLink, questId = string.match(link, "(questie):(%d+):")
+    end
     QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
 
     if isQuestieLink and questId then
@@ -49,11 +56,10 @@ function ItemRefTooltip:SetHyperlink(link, ...)
 end
 
 function QuestieLink:CreateQuestTooltip(link)
-    local isQuestieLink, _, _ = string.find(link, "questie:(%d+):.*")
+    local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
         local questId = select(2, strsplit(":", link))
         questId = tonumber(questId)
-        local senderGUID = select(3, strsplit(":", link))
         local quest = QuestieDB:GetQuest(questId)
 
         if quest then
@@ -106,13 +112,13 @@ end
 
 _AddQuestStatus = function (quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
-        local onQuestText = QuestieLocale:GetUIString("TOOLTIPS_ON_QUEST")
-        local stateText = nil
+        local onQuestText = l10n("You are on this quest")
+        local stateText
         local questIsComplete = QuestieDB:IsComplete(quest.Id)
         if questIsComplete == 1 then
-            stateText = Questie:Colorize(QuestieLocale:GetUIString("COMPLETE"), "green")
+            stateText = Questie:Colorize(l10n("Complete"), "green")
         elseif questIsComplete == -1 then
-            stateText = Questie:Colorize(QuestieLocale:GetUIString("FAILED"), "red")
+            stateText = Questie:Colorize(l10n("Failed"), "red")
         end
 
         if stateText then
@@ -121,13 +127,13 @@ _AddQuestStatus = function (quest)
             _AddColoredTooltipLine(onQuestText, "green")
         end
     elseif Questie.db.char.complete[quest.Id] then
-        _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_DONE_QUEST"), "green")
+        _AddColoredTooltipLine(l10n("You have completed this quest"), "green")
     elseif (UnitLevel("player") < quest.requiredLevel or (not QuestieDB:IsDoable(quest.Id))) and (not Questie.db.char.hidden[quest.Id]) then
-        _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_CANTDO_QUEST"), "red")
+        _AddColoredTooltipLine(l10n("You are ineligible for this quest"), "red")
     elseif quest.specialFlags == 1 then
-        _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_REPEAT_QUEST"), "yellow")
+        _AddColoredTooltipLine(l10n("This quest is repeatable"), "yellow")
     else
-        _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_NOTDONE_QUEST"), "yellow")
+        _AddColoredTooltipLine(l10n("You have not done this quest"), "yellow")
     end
 end
 
@@ -141,7 +147,7 @@ _AddQuestDescription = function (quest)
             end
         end
     else
-        _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_AUTO_QUEST"), "white", true)
+        _AddColoredTooltipLine(l10n("This quest is an automatic completion quest and does not contain an objective."), "white", true)
     end
 end
 
@@ -153,7 +159,7 @@ _AddQuestRequirements = function (quest)
                 if currentObjective.Text then
                     if currentObjective == quest.ObjectiveData[1] then
                         _AddTooltipLine(" ")
-                        _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST"), "gold")
+                        _AddColoredTooltipLine(l10n("Requirements"), "gold")
                     end
                     _AddColoredTooltipLine(currentObjective.Text, "white")
                 else
@@ -167,7 +173,7 @@ _AddQuestRequirements = function (quest)
                     if objectiveName then
                         if currentObjective == quest.ObjectiveData[1] then
                             _AddTooltipLine(" ")
-                            _AddColoredTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_REQUIRE_QUEST"), "gold")
+                            _AddColoredTooltipLine(l10n("Requirements"), "gold")
                         end
                         _AddColoredTooltipLine(objectiveName, "white")
                     end
@@ -263,7 +269,7 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
         -- On Quest: display quest progress
         if (QuestieDB:IsComplete(quest.Id) == 0) then
             _AddTooltipLine(" ")
-            _AddTooltipLine(QuestieLocale:GetUIString("TOOLTIPS_PROGRESS_QUEST")..":")
+            _AddTooltipLine(l10n("Your progress")..":")
             for _, objective in pairs(quest.Objectives) do
                 local objDesc = objective.Description:gsub("%.", "")
 
@@ -276,11 +282,11 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
         else
             if finisherName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((QuestieLocale:GetUIString("TOOLTIPS_END_QUEST")..": " .. Questie:Colorize(finisherName, "gray")))
+                _AddTooltipLine((l10n("Ended by")..": " .. Questie:Colorize(finisherName, "gray")))
             end
             if finisherZoneName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((QuestieLocale:GetUIString("TOOLTIPS_FOUND_QUEST")..": " .. Questie:Colorize(finisherZoneName, "gray")))
+                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(finisherZoneName, "gray")))
             end
         end
     else
@@ -298,7 +304,7 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
                 end
                 if timestamp then
                     _AddTooltipLine(" ")
-                    _AddTooltipLine("Completed on:")
+                    _AddTooltipLine(l10n("Completed on:"))
                     _AddTooltipLine(timestamp)
                 end
             end
@@ -306,19 +312,19 @@ _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finishe
         else
             if starterName then
                 _AddTooltipLine(" ")
-                _AddTooltipLine((QuestieLocale:GetUIString("TOOLTIPS_START_QUEST")..": " .. Questie:Colorize(starterName, "gray")))
+                _AddTooltipLine((l10n("Started by")..": " .. Questie:Colorize(starterName, "gray")))
             end
             if starterZoneName then
-                _AddTooltipLine((QuestieLocale:GetUIString("TOOLTIPS_FOUND_QUEST")..": " .. Questie:Colorize(starterZoneName, "gray")))
+                _AddTooltipLine((l10n("Found in")..": " .. Questie:Colorize(starterZoneName, "gray")))
             end
         end
     end
 end
 
 hooksecurefunc("ChatFrame_OnHyperlinkShow", function(...)
-    local chatFrame, link, text, button = ...
+    local _, link, _, button = ...
     if (IsShiftKeyDown() and ChatEdit_GetActiveWindow() and button == "LeftButton") then
-        local linkType, questId, playerGUID = string.split(":", link)
+        local linkType, questId, _ = string.split(":", link)
         if linkType and linkType == "questie" and questId then
             Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:OnHyperlinkShow] Relinking Quest Link to chat: "..link)
             questId = tonumber(questId)

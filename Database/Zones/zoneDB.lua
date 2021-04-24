@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 --- forward declarations
 local _GenerateUiMapIdToAreaIdTable, _GenerateParentZoneToStartingZoneTable
@@ -27,6 +29,30 @@ local subZoneToParentZone = {}
 local parentZoneToSubZone = {} -- Generated
 
 local zoneMap = {} -- Generated
+
+--[[
+import requests
+import csv
+import io
+
+url = 'https://wow.tools/dbc/api/export/?name=%s&build=9.0.5.38134'
+
+def iterate(u,f):
+    print(u)
+    text = requests.get(u).text
+    reader = csv.DictReader(io.StringIO(text))
+    for row in reader:
+        f(row)
+
+
+zones = {}
+def populateZone(x):
+    zones[ x['AreaName_lang'] ] = x['ID']
+
+iterate(url%'areatable', populateZone)
+iterate(url%'uimap',lambda x:print(('['+zones[ x['Name_lang'] ]+']='+x['ID']+',\n') if x['Name_lang'] in zones else '',end=''))
+]]
+
 
 
 function ZoneDB:Initialize()
@@ -193,6 +219,9 @@ end
 
 ---@return table
 _SplitSeasonalQuests = function ()
+    if not zoneMap[QuestieDB.sortKeys.SPECIAL] then
+        return zoneMap
+    end
     local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]
     -- Merging SEASONAL and SPECIAL quests to be split into real groups
     for k, v in pairs(zoneMap[QuestieDB.sortKeys.SPECIAL]) do questsToSplit[k] = v end
@@ -226,7 +255,7 @@ end
 
 function ZoneDB:GetRelevantZones()
     local zones = {}
-    for category, data in pairs(LangZoneCategoryLookup) do
+    for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
         for id, zoneName in pairs(data) do
             local zoneQuests = zoneMap[id]

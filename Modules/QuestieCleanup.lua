@@ -2,8 +2,9 @@
 local QuestieCleanup = QuestieLoader:CreateModule("Cleanup")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@tyle QuestieDBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 
 function QuestieCleanup:Run()
     -- clean up raw db
@@ -13,10 +14,10 @@ function QuestieCleanup:Run()
     QuestieDB.itemData = nil
 
     -- clean up lang
-    LangItemLookup = nil
-    LangNameLookup = nil
-    LangObjectLookup = nil
-    LangQuestLookup = nil
+    l10n.itemLookup = nil
+    l10n.npcNameLookup = nil
+    l10n.objectLookup = nil
+    l10n.questLookup = nil
 
     -- we call this here to make sure there isn't a lag spike later on
     collectgarbage()

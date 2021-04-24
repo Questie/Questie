@@ -162,7 +162,12 @@ def setVersion():
             tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s|r" % (addonDir, versionTag), tocData)
             ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
             cleanData = re.sub(r"\d+\.\d+\.\d+(-\d+)?", versionTag.lstrip("v"), cleanData)
-            tocData = re.sub(r"## Version:.*", "## Version: %s" % (versionTag.lstrip("v")), tocData)
+
+            toc_version = versionTag.lstrip("v")
+            if releaseType:
+                toc_version += "-" + recentCommit
+
+            tocData = re.sub(r"## Version:.*", "## Version: %s" % toc_version, tocData)
 
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)

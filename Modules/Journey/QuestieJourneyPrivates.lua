@@ -8,6 +8,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieSearchResults = QuestieLoader:ImportModule("QuestieSearchResults")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 _QuestieJourney.containerCache = nil
 _QuestieJourney.treeCache = nil
@@ -53,13 +55,13 @@ function _QuestieJourney:CreateObjectiveText(desc)
             objText = objText .. tostring(desc) .. "\n"
         end
     else
-        objText = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_AUTO_QUEST'), 'yellow')
+        objText = Questie:Colorize(l10n('This quest is an automatic completion quest and does not contain an objective.'), 'yellow')
     end
 
     return objText
 end
 
-function _QuestieJourney:HandleTabChange(container, event, group)
+function _QuestieJourney:HandleTabChange(container, group)
     if not _QuestieJourney.containerCache then
         _QuestieJourney.containerCache = container
     end

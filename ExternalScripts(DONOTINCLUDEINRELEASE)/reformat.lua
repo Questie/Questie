@@ -11,13 +11,13 @@ function dump(tableToDump, fd, indent)
     for k, v in pairs(tableToDump) do
         local formatting = string.rep('    ', indent)
         if type(v) == "table" then
-            fd:write(formatting .. "['" .. string.gsub(string.gsub(k, "'", "\\'"), '\n', '\\n') .. "'] = {\n")
+            fd:write(formatting .. '["' .. string.gsub(string.gsub(k, '\n', '\\n'), '"', "'") .. '"] = {\n')
             dump(v, fd, indent+1)
             fd:write(formatting .. '},\n')
         elseif type(v) == "boolean" then
-            fd:write(formatting .. "['" .. k .. "'] = " .. tostring(v) .. ',\n')
+            fd:write(formatting .. '["' .. k .. '"] = ' .. tostring(v) .. ',\n')
         else
-            fd:write(formatting .. "['" .. k .. "'] = \"" .. string.gsub(string.gsub(v, '\n', '\\n'), '"', '\\"') .. "\",\n")
+            fd:write(formatting ..  '["' .. k .. '"] = \"' .. string.gsub(string.gsub(v, '\n', '\\n'), '"', "'") .. "\",\n")
         end
     end
 end

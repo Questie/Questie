@@ -124,7 +124,7 @@ function QuestieProfiler:HookFrames()
 end
 
 function QuestieProfiler:CreateUI()
-    local base = CreateFrame("Frame", nil, UIParent)
+    local base = CreateFrame("Frame", nil, UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     QuestieProfiler.baseUI = base
     base:SetFrameStrata("TOOLTIP")
     base:SetSize(420, 120)
@@ -419,7 +419,7 @@ function QuestieProfiler:CreateUI()
 
 
 
-    local search = CreateFrame("EditBox", nil, base)
+    local search = CreateFrame("EditBox", nil, base, BackdropTemplateMixin and "BackdropTemplate" or nil)
     search:SetMultiLine(false)
     search:SetFontObject(ChatFontNormal)
     search:SetWidth(180)

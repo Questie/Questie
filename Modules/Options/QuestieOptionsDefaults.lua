@@ -97,7 +97,7 @@ function QuestieOptionsDefaults:Load()
 
         },
         char = {
-            minLevelFilter = GetQuestGreenRange(), -- Raised the default to allow more quests to be shown
+            minLevelFilter = (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player"), -- Raised the default to allow more quests to be shown
             maxLevelFilter = 7,
             complete = {},
             hidden = {},
@@ -110,7 +110,6 @@ function QuestieOptionsDefaults:Load()
             searchType = 1,
             autoaccept = false,
             autocomplete = false,
-            autoDialog = true,
             autoModifier = "shift",
             acceptTrivial = false,
             isTrackerExpanded = true,

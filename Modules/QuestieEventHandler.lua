@@ -1,3 +1,7 @@
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+
 --- GLOBAL ---
 ---@class QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler")
@@ -45,12 +49,16 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 --- LOCAL ---
 --False -> true -> nil
 local didPlayerEnterWorld = false
 local hasFirstQLU = false
 local shouldRunQLU = false
+
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 -- forward declaration
 local _PLAYER_LOGIN, _PLAYER_LEVEL_UP, _PLAYER_REGEN_DISABLED, _PLAYER_REGEN_ENABLED
@@ -112,7 +120,7 @@ function QuestieEventHandler:RegisterAllEvents(callback)
         Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
         -- dropdown fix
-        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LQuestie_CloseDropDownMenus) end)
+        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
 
         -- quest announce
         Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
@@ -133,7 +141,7 @@ end
 
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
-    for i=1, GetNumQuestLogEntries() + 1 do
+    for i=1, GetNumQuestLogEntries() do
         GetQuestLogTitle(i)
         QuestieQuest:GetRawLeaderBoardDetails(i)
     end
@@ -156,7 +164,7 @@ _PLAYER_LOGIN = function()
         QuestieMap:InitializeQueue()
         _Hack_prime_log()
         QuestiePlayer:Initialize()
-        QuestieLocale:PostBoot()
+        l10n:PostBoot()
         QuestieJourney:Initialize()
         QuestieQuest:Initialize()
         QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -222,9 +230,9 @@ _PLAYER_LOGIN = function()
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         QuestieCorrections:Initialize()
         QuestieCorrections:PopulateTownsfolk()
-        QuestieLocale:Initialize()
+        l10n:Initialize()
         C_Timer.After(4, function()
-            print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB has updated!\124r\124cFFFF6F22 Data is being processed, this may take a few moments and cause some lag..."))
+            print(Questie:Colorize(l10n("Questie DB has updated!"), "lightBlue") .. " " .. Questie:Colorize(l10n("Data is being processed, this may take a few moments and cause some lag..."), "orange"))
             QuestieDB.private:DeleteGatheringNodes()
             QuestieCorrections:PreCompile(function()
                 QuestieDBCompiler:Compile(function()
