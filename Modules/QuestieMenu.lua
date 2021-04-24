@@ -17,6 +17,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
@@ -151,13 +153,13 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
     end
 
     local lookupMap = {}
+    for k, v in pairs(l10n.zoneLookup[0]) do
+        lookupMap[strtrim(v)] = k
+    end
     for k, v in pairs(l10n.zoneLookup[1]) do
         lookupMap[strtrim(v)] = k
     end
-    for k, v in pairs(l10n.zoneLookup[3]) do
-        lookupMap[strtrim(v)] = k
-    end
-    for k, v in pairs(l10n.zoneLookup[2]) do
+    for k, v in pairs(l10n.zoneLookup[530]) do
         lookupMap[strtrim(v)] = k
     end
 

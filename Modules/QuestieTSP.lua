@@ -3551,15 +3551,6 @@ end
 -- vim: ts=4 noexpandtab
 
 
-
-C_Timer.After(8, function() -- TODO
-    TEST_QUESTIE_ROUTES()
-end)
-
-
-
-
-
 function getZoneSummary(zone)
     --print("Getting summary for " .. tostring(zone))
     print("Available Quests:")
