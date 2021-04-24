@@ -151,13 +151,13 @@ function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
     end
 
     local lookupMap = {}
-    for k, v in pairs(LangZoneLookup[1]) do
+    for k, v in pairs(l10n.zoneLookup[1]) do
         lookupMap[strtrim(v)] = k
     end
-    for k, v in pairs(LangZoneLookup[3]) do
+    for k, v in pairs(l10n.zoneLookup[3]) do
         lookupMap[strtrim(v)] = k
     end
-    for k, v in pairs(LangZoneLookup[2]) do
+    for k, v in pairs(l10n.zoneLookup[2]) do
         lookupMap[strtrim(v)] = k
     end
 
