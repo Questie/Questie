@@ -166,6 +166,9 @@ function QuestieTBCQuestFixes:Load()
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483,},
         },
+        [9360] = {
+            [questKeys.startedBy] = {{15407},nil,{23249,},},
+        },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92},},}},
         },
@@ -311,6 +314,12 @@ function QuestieTBCQuestFixes:Load()
         [9608] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93},},}},
         },
+        [9635] = {
+            [questKeys.requiredSkill] = {202,305},
+        },
+        [9636] = {
+            [questKeys.requiredSkill] = {202,305},
+        },
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5},},}},
         },
@@ -360,6 +369,9 @@ function QuestieTBCQuestFixes:Load()
         [9718] = {
             [questKeys.triggerEnd] = {"Use the Stormcrow Amulet and explore the lakes of Zangarmarsh", {[zoneIDs.ZANGARMARSH]={{78.4,62.02},},}},
         },
+        [9728] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9729] = {
             [questKeys.triggerEnd] = {"Ark of Ssslith safely returned to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.71,50.72},},}},
         },
@@ -387,6 +399,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
+        },
+        [9778] = {
+            [questKeys.exclusiveTo] = {9728},
         },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97},},}},
@@ -416,8 +431,24 @@ function QuestieTBCQuestFixes:Load()
         [9836] = {
             [questKeys.triggerEnd] = {"Master's Touch", {[zoneIDs.TANARIS]={{57.21,62.95},},}},
         },
+        [9863] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9864] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9867] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [9868] = {
             [questKeys.triggerEnd] = {"Free the Mag'har Captive", {[zoneIDs.NAGRAND]={{31.77,38.78},},}},
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9871] = {
+            [questKeys.startedBy] = {{18238},nil,{24559,},},
+        },
+        [9872] = {
+            [questKeys.startedBy] = {{18238},nil,{24558,},},
         },
         [9876] = {
             [questKeys.exclusiveTo] = {9738},
@@ -436,6 +467,45 @@ function QuestieTBCQuestFixes:Load()
         },
         [9911] = {
             [questKeys.startedBy] = {{18285},nil,{25459,},},
+        },
+        [9923] = {
+            [questKeys.requiredSourceItems] = {25490},
+        },
+        [9924] = {
+            [questKeys.requiredSourceItems] = {25509},
+        },
+        [9927] = {
+            [questKeys.preQuestSingle] = {10107,10108},
+        },
+        [9928] = {
+            [questKeys.preQuestSingle] = {10107,10108},
+        },
+        [9931] = {
+            [questKeys.preQuestGroup] = {9927,9928,},
+        },
+        [9932] = {
+            [questKeys.preQuestGroup] = {9927,9928,},
+        },
+        [9933] = {
+            [questKeys.preQuestGroup] = {9931,9932,},
+        },
+        [9934] = {
+            [questKeys.preQuestGroup] = {9931,9932,},
+        },
+        [9935] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9939] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9944] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9948] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
+        [9955] = {
+            [questKeys.requiredSourceItems] = {25648},
         },
         [9957] = {
             [questKeys.requiredMinRep] = {942,3000},
@@ -458,8 +528,15 @@ function QuestieTBCQuestFixes:Load()
         [9977] = {
             [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72},},}},
         },
+        [9982] = {
+            [questKeys.exclusiveTo] = {9991},
+        },
+        [9983] = {
+            [questKeys.exclusiveTo] = {9991},
+        },
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
+            [questKeys.preQuestSingle] = {},
         },
         [10000] = {
             [questKeys.requiredLevel] = 62,
@@ -471,6 +548,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96},},}},
         },
         [10012] = {
+            [questKeys.preQuestSingle] = {9998,10000},
+        },
+        [10013] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },
         [10017] = {
@@ -676,6 +756,9 @@ function QuestieTBCQuestFixes:Load()
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
+        [10479] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [10490] = {
             [questKeys.questLevel] = 20,
         },
@@ -733,6 +816,9 @@ function QuestieTBCQuestFixes:Load()
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
         },
+        [10813] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{19440,22177,},22177,"Eye of Grillok Returned"}},
+        },
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21},},}},
         },
@@ -747,7 +833,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10852},
         },
         [10873] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{22459,22355},22459,"Sha'tar Warrior Freed"},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
         },
         [10879] = {
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69},},}},
@@ -809,6 +895,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11037] = {
             [questKeys.exclusiveTo] = {10183,11036,11038,11039,11040,11042,},
+            [questKeys.requiredMinRep] = {941,0},
         },
         [11038] = {
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
@@ -969,6 +1056,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
+        },
+        [11503] = {
+            [questKeys.requiredMinRep] = {941,0},
         },
         [11505] = {
             [questKeys.triggerEnd] = {"Secure a Spirit Tower", {[zoneIDs.TEROKKAR_FOREST]={{42.49,54},{32.47,57.86},{48.98,60.29},{47.2,72.29},{40.48,77.99},},}},

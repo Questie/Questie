@@ -6,6 +6,8 @@ local _QuestiePlayer = QuestiePlayer.private
 -------------------------
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
@@ -89,7 +91,7 @@ function QuestiePlayer:GetCurrentContinentId()
     end
 
     local currentContinentId = 1 -- Default to Eastern Kingdom
-    for cId, cont in pairs(LangZoneLookup) do
+    for cId, cont in pairs(l10n.zoneLookup) do
         for id, _ in pairs(cont) do
             if id == currentZoneId then
                 currentContinentId = cId

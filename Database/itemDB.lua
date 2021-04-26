@@ -4,19 +4,19 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 QuestieDB.itemKeys = {
     ['name'] = 1, -- string
-    ['flags'] = 2, -- int or nil, see: https://github.com/cmangos/issues/wiki/Item_template#flags
-    ['startQuest'] = 3, -- int or nil, ID of the quest started by this item
-    ['foodType'] = 4, -- int or nil, see https://github.com/cmangos/issues/wiki/Item_template#foodtype
-    ['itemLevel'] = 5, -- int, the level of this item
-    ['requiredLevel'] = 6, -- int, the level required to equip/use this item
-    ['ammoType'] = 7, -- int, which type of ammo this item is (if applicable). 
-    ['class'] = 8, -- int, the class of the item. see class/subclas breakdown below
-    ['subClass'] = 9, -- int, the subclass of the item. see class/subclas breakdown below
-    ['npcDrops'] = 10, -- table or nil, !not! the npc IDs, see lootid: https://github.com/cmangos/issues/wiki/Creature_template#lootid
-    ['objectDrops'] = 11, -- table or nil, !not! the object IDs, see data1: https://github.com/cmangos/issues/wiki/Gameobject_template#data0-23
-    ['itemDrops'] = 12, -- table or nil, IDs of the items
-    ['vendors'] = 13, -- table or nil, IDs of NPCs selling this
-    ['questRewards'] = 14, -- table or nil, IDs of the quests rewarding this
+    ['npcDrops'] = 2, -- table or nil, NPC IDs
+    ['objectDrops'] = 3, -- table or nil, object IDs
+    ['itemDrops'] = 4, -- table or nil, item IDs
+    ['startQuest'] = 5, -- int or nil, ID of the quest started by this item
+    ['questRewards'] = 6, -- table or nil, quest IDs
+    ['flags'] = 7, -- int or nil, see: https://github.com/cmangos/issues/wiki/Item_template#flags
+    ['foodType'] = 8, -- int or nil, see https://github.com/cmangos/issues/wiki/Item_template#foodtype
+    ['itemLevel'] = 9, -- int, the level of this item
+    ['requiredLevel'] = 10, -- int, the level required to equip/use this item
+    ['ammoType'] = 11, -- int,
+    ['class'] = 12, -- int,
+    ['subClass'] = 13, -- int,
+    ['vendors'] = 14, -- table or nil, NPC IDs
     ['relatedQuests'] = 15, -- table or nil, IDs of quests that are related to this item
 }
 

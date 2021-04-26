@@ -28,6 +28,8 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
@@ -318,7 +320,7 @@ function _QuestieTracker:CreateBaseFrame()
 
         if not result then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-            print(QuestieLocale:GetUIString("TRACKER_INVALID_LOCATION"))
+            print(l10n("Error: Questie tracker in invalid location, resetting..."))
 
             if QuestWatchFrame then
                 local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
@@ -339,7 +341,7 @@ function _QuestieTracker:CreateBaseFrame()
 
             if not result then
                 Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-                print(QuestieLocale:GetUIString("TRACKER_INVALID_LOCATION"))
+                print(l10n("Error: Questie tracker in invalid location, resetting..."))
                 _QuestieTracker:SetSafePoint(frm)
             end
         else
@@ -381,7 +383,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND..QuestieLocale:GetUIString("TRACKER_ACTIVE_QUESTS") .. tostring(activeQuests) .. "/20")
+            self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND .. l10n("Questie Tracker: ") .. tostring(activeQuests) .. "/20")
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
 
             --self.trackedQuests.label2:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
@@ -545,11 +547,11 @@ function _QuestieTracker:CreateActiveQuestsHeader()
         end
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
         GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_LEFT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_TOGGLE"))
-        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_RIGHT_CLICK") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_JOURNEY"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") , "gray") .. ": " .. l10n("Toggle Options"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") , "gray") .. ": " .. l10n("Toggle My Journey"))
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_LEFT_CLICK_HOLD") , "gray") .. ": " .. QuestieLocale:GetUIString("ICON_DRAG_UNLOCKED"))
-        GameTooltip:AddLine(Questie:Colorize(QuestieLocale:GetUIString("ICON_CTRLLEFT_CLICK_HOLD"), "gray") .. ": " .. QuestieLocale:GetUIString("ICON_DRAG_LOCKED"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") , "gray") .. ": " .. l10n("Drag while Unlocked"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "gray") .. ": " .. l10n("Drag while Locked"))
         GameTooltip:Show()
 
         _OnEnter(self)
@@ -1641,9 +1643,9 @@ function QuestieTracker:Update()
                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
 
                     if (complete == 1) then
-                        line.label:SetText("|cFF40C040" .. _G["QUEST_COMPLETE"] .. "!|r")
+                        line.label:SetText(Questie:Colorize(l10n("Quest completed!"), "green"))
                     elseif (complete == -1) then
-                        line.label:SetText("|cffff0000" .. _G["QUEST_FAILED"] .. "!|r")
+                        line.label:SetText(Questie:Colorize(l10n("Quest completion failed!"), "red"))
                     end
 
                     line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
@@ -2425,7 +2427,7 @@ _GetContinent = function(uiMapId)
         return "Outland"
     else
 
-        print(uiMapId, "is unknown")
+        Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
     end
 end
 

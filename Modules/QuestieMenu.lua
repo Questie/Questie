@@ -15,8 +15,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@tyle QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
@@ -68,7 +68,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
     if key == "Mailbox" then -- the only obnject-type townsfolk
         if Questie.db.char.townsfolkConfig[key] and not forceRemove then
             for _, id in pairs(ids) do
-                QuestieMap:ShowObject(id, icon, 1.2, "|cFFFFFFFF" .. QuestieLocale:GetUIString('Mailbox'), {}, true, key)
+                QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n('Mailbox'), "white"), {}, true, key)
             end
         else
             for _, id in pairs(ids) do
@@ -87,8 +87,8 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     local id = ids[e]
                     if not _spawned[id] then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then -- (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
-                            QuestieMap:ShowNPC(id, icon, 1.2, "|cFF00FF00" .. QuestieDB.QueryNPCSingle(id, "name") .. " |r|cFFFFFFFF(" .. (QuestieDB.QueryNPCSingle(id, "subName") or QuestieLocale:GetUIStringNillable(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
+                        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then
+                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name"), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
                             _spawned[id] = true
                         end
                     end
@@ -111,12 +111,26 @@ local function build(key)
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
 
     return {
-        text = (QuestieLocale:GetUIStringNillable(tostring(key)) or key), 
+        text = l10n(tostring(key)),
         func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end, 
         icon=icon, 
         notCheckable=false, 
         checked=Questie.db.char.townsfolkConfig[key], 
         isNotRadio=true, 
+        keepShownOnClick=true
+    }
+end
+
+local function buildLocalized(key, localizedText)
+    local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
+
+    return {
+        text = localizedText,
+        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end,
+        icon=icon,
+        notCheckable=false,
+        checked=Questie.db.char.townsfolkConfig[key],
+        isNotRadio=true,
         keepShownOnClick=true
     }
 end
@@ -189,9 +203,9 @@ function QuestieMenu:Show()
         local profMenuSorted = {}
         local secondaryProfMenuSorted = {}
         local profMenuData = {}
-        for key, v in pairs(Questie.db.global.professionTrainers) do
-            local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
-            profMenuData[localizedKey] = build(key)
+        for key, _ in pairs(Questie.db.global.professionTrainers) do
+            local localizedKey = l10n(QuestieProfessions:GetProfessionName(key))
+            profMenuData[localizedKey] = buildLocalized(key, localizedKey)
             if secondaryProfessions[key] then
                 tinsert(secondaryProfMenuSorted, localizedKey)
             else
@@ -214,8 +228,8 @@ function QuestieMenu:Show()
         local vendorMenu = {}
         local vendorMenuSorted = {}
         local vendorMenuData = {}
-        for key, v in pairs(Questie.db.char.vendorList) do
-            local localizedKey = (QuestieLocale:GetUIStringNillable(tostring(key)) or key)
+        for key, _ in pairs(Questie.db.char.vendorList) do
+            local localizedKey = l10n(tostring(key))
             vendorMenuData[localizedKey] = build(key)
             tinsert(vendorMenuSorted, localizedKey)
         end
@@ -226,38 +240,38 @@ function QuestieMenu:Show()
         return vendorMenu
     end
 
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Available Quest"), func = function()
+    tinsert(menuTable, { text= l10n("Available Quest"), func = function()
         local value = not Questie.db.global.enableAvailable
         Questie.db.global.enableAvailable = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.global.enableAvailable, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Trivial Quest"), func = function()
+    tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
         local value = not Questie.db.char.lowlevel
         Questie.db.char.lowlevel = value
         QuestieOptions.AvailableQuestRedraw()
     end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Objective"), func = function() 
+    tinsert(menuTable, { text= l10n("Objective"), func = function()
         local value = not Questie.db.global.enableObjectives
         Questie.db.global.enableObjectives = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
+    tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
+    tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
 
     tinsert(menuTable, div)
 
-    tinsert(menuTable, {text=QuestieLocale:GetUIString('JOURNEY_SEARCH_TAB'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("search"); QuestieJourney.ToggleJourneyWindow() end})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
-    tinsert(menuTable, {text=QuestieLocale:GetUIString('JOUNREY_TAB'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
+    tinsert(menuTable, { text= l10n('Advanced Search'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("search"); QuestieJourney.ToggleJourneyWindow() end})
+    tinsert(menuTable, { text= l10n("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
+    tinsert(menuTable, { text= l10n('My Journey'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
 
     if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
-        tinsert(menuTable, {text=QuestieLocale:GetUIString('RECOMPILE_DATABASE_BTN'), func=function() QuestieConfig.dbIsCompiled = false; ReloadUI() end})
-        tinsert(menuTable, {text=QuestieLocale:GetUIString('Reload UI'), func=function() ReloadUI() end})
+        tinsert(menuTable, { text= l10n('Recompile Database'), func=function() QuestieConfig.dbIsCompiled = false; ReloadUI() end})
+        tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
 
-    tinsert(menuTable, {text=QuestieLocale:GetUIString('TRACKER_CANCEL'), func=function() end})
+    tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
     EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 

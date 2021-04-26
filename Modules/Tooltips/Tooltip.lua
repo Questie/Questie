@@ -10,8 +10,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local tinsert = table.insert
 QuestieTooltips.lastGametooltip = ""
@@ -249,7 +249,7 @@ function QuestieTooltips:GetTooltip(key)
                     playerColor = QuestieComms.remotePlayerClasses[playerName]
                     if playerColor then
                         playerColor = Questie:GetClassColor(playerColor)
-                        playerType = " ("..QuestieLocale:GetUIString("Nearby")..")"
+                        playerType = " (".. l10n("Nearby")..")"
                     end
                 end
                 if objectivePlayerName == playerName and anotherPlayer then -- why did we have this case

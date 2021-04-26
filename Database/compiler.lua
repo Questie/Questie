@@ -10,6 +10,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local serial = QuestieLoader:ImportModule("QuestieSerializer")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 serial.enableObjectLimit = false
 
@@ -28,7 +30,8 @@ QuestieDBCompiler.supportedTypes = {
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
         ["u8u24array"] = true,
-        ["extraobjectives"] = true
+        ["extraobjectives"] = true,
+        ["reflist"] = true
     },
     ["number"] = {
         ["s8"] = true,
@@ -43,6 +46,18 @@ QuestieDBCompiler.supportedTypes = {
         ["u16string"] = true,
         ["faction"] = true
     }
+}
+
+QuestieDBCompiler.refTypes = {
+    "monster",
+    "item",
+    "object"
+}
+
+QuestieDBCompiler.refTypesReversed = {
+    monster = 1,
+    item = 2,
+    object = 3
 }
 
 QuestieDBCompiler.readers = {
@@ -227,16 +242,30 @@ QuestieDBCompiler.readers = {
 
         return ret
     end,
+    ["reflist"] = function(stream)
+        local count = stream:ReadByte()
+        if count > 0 then
+            local ret = {}
+            for i=1,count do
+                local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
+                local id = stream:ReadInt24()
+                tinsert(ret, {type, id})
+            end
+            return ret
+        end
+    end,
     ["extraobjectives"] = function(stream)
         local count = stream:ReadByte()
         if count > 0 then
             local ret = {}
             for i=1,count do
-                local data = {}
-                tinsert(data, QuestieDBCompiler.readers["spawnlist"](stream))
-                tinsert(data, stream:ReadTinyString())
-                tinsert(data, stream:ReadShortString())
-                tinsert(ret, data)
+                tinsert(ret, {
+                    QuestieDBCompiler.readers["spawnlist"](stream),
+                    stream:ReadTinyString(),
+                    stream:ReadShortString(),
+                    stream:ReadInt24(),
+                    QuestieDBCompiler.readers["reflist"](stream)
+                })
             end
             return ret
         end
@@ -466,13 +495,23 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["reflist"] = function(stream, value)
+        stream:WriteByte(#value)
+        for _, v in pairs(value) do
+            stream:WriteByte(QuestieDBCompiler.refTypesReversed[v[1]])
+            stream:WriteInt24(v[2])
+        end
+    end,
     ["extraobjectives"] = function(stream, value)
         if value then
+            __EO = value
             stream:WriteByte(#value)
             for _, data in pairs(value) do
                 QuestieDBCompiler.writers["spawnlist"](stream, data[1])
-                stream:WriteTinyString(data[2])
-                stream:WriteShortString(data[3])
+                stream:WriteTinyString(data[2]) -- icon
+                stream:WriteShortString(data[3]) -- description
+                stream:WriteInt24(data[4] or 0) -- objective index (or 0)
+                QuestieDBCompiler.writers["reflist"](stream, data[5] or {})
             end
         else
             stream:WriteByte(0)
@@ -575,14 +614,17 @@ QuestieDBCompiler.skippers = {
             QuestieDBCompiler.skippers["u8string"](stream)
         end
     end,
+    ["reflist"] = function(stream)
+        stream._pointer = stream:ReadByte() * 4 + stream._pointer
+    end,
     ["extraobjectives"] = function(stream)
         local count = stream:ReadByte()
-        if count > 0 then
-            for i=1,count do
-                QuestieDBCompiler.skippers["spawnlist"](stream)
-                stream._pointer = stream:ReadByte() + stream._pointer
-                stream._pointer = stream:ReadShort() + stream._pointer
-            end
+        for i=1,count do
+            QuestieDBCompiler.skippers["spawnlist"](stream)
+            stream._pointer = stream:ReadByte() + stream._pointer
+            stream._pointer = stream:ReadShort() + stream._pointer
+            stream._pointer = stream._pointer + 3
+            QuestieDBCompiler.skippers["reflist"](stream)
         end
     end
 }
@@ -601,6 +643,7 @@ QuestieDBCompiler.dynamics = {
     ["questgivers"] = true,
     ["waypointlist"] = true,
     ["extraobjectives"] = true,
+    ["reflist"] = true
 }
 
 QuestieDBCompiler.statics = {
@@ -776,8 +819,6 @@ function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for ra
 end
 
 function QuestieDBCompiler:Compile(finalize)
-    --print("Compiling NPCs...")
-    
     if QuestieDBCompiler._isCompiling then
         return
     end
@@ -794,44 +835,35 @@ function QuestieDBCompiler:Compile(finalize)
     end
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
-    print(QuestieLocale:GetUIString("\124cFF4DDBFF [1/4] Updating NPCs..."))
+
+    print(Questie:Colorize("[1/4] " .. l10n("Updating NPCs") .. "...", "lightBlue"))
     QuestieDBCompiler:CompileNPCs(function(bin, ptrs)
         QuestieConfig.npcBin = bin 
         QuestieConfig.npcPtrs = ptrs
         QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-        --print("NPCs size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
-        --print("\124cFF4DDBFF [1/4] Finished updating NPCs")
-        print(QuestieLocale:GetUIString("\124cFF4DDBFF [2/4] Updating objects..."))
-        --print("Compiling Objects...")
+
+        print(Questie:Colorize("[2/4] " .. l10n("Updating objects") .. "...", "lightBlue"))
         QuestieDBCompiler:CompileObjects(function(bin, ptrs)
             QuestieConfig.objBin = bin 
             QuestieConfig.objPtrs = ptrs
             QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-            --print("Objects size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
-            --print("\124cFF4DDBFF [2/4] Finished updating objects")
-            print(QuestieLocale:GetUIString("\124cFF4DDBFF [3/4] Updating quests..."))
-            --print("Compiling Quests...")
+
+            print(Questie:Colorize("[3/4] " .. l10n("Updating quests") .. "...", "lightBlue"))
             QuestieDBCompiler:CompileQuests(function(bin, ptrs)
                 QuestieConfig.questBin = bin 
                 QuestieConfig.questPtrs = ptrs
                 QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-                --print("Quests size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
-                --print("\124cFF4DDBFF [3/4] Finished updating quests")
-                print(QuestieLocale:GetUIString("\124cFF4DDBFF [4/4] Updating items..."))
-                --print("Compiling items...")
+
+                print(Questie:Colorize("[4/4] " .. l10n("Updating items") .. "...", "lightBlue"))
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
                     QuestieConfig.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
                     QuestieConfig.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
                     QuestieConfig.dbIsCompiled = true
-                    --print("\124cFF4DDBFF [4/4] Finished updating items")
-                    --print("Items size: bin:" .. math.floor(string.len(bin)/1024) .. "K ptr:" .. math.floor(DynamicHashTableSize(QuestieDBCompiler.index)/1024) .. "K")
                     QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
-                    --print("Compiled DB total memory size: " .. math.floor(QuestieDBCompiler.totalSize/1024) .. "K")
-                    --print("Finished! Please /reload to reduce memory usage") -- no need to reload
-                    print(QuestieLocale:GetUIString("\124cFFAAEEFFQuestie DB update complete!"))
 
+                    print(Questie:Colorize(l10n("Questie DB update complete!"), "lightBlue"))
                     QuestieDBCompiler._isCompiling = nil
 
                     if Questie.db.global.debugEnabled then

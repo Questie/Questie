@@ -11,6 +11,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 --- forward declarations
 local _GenerateUiMapIdToAreaIdTable, _GenerateParentZoneToStartingZoneTable
@@ -253,7 +255,7 @@ end
 
 function ZoneDB:GetRelevantZones()
     local zones = {}
-    for category, data in pairs(LangZoneCategoryLookup) do
+    for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
         for id, zoneName in pairs(data) do
             local zoneQuests = zoneMap[id]

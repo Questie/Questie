@@ -1,14 +1,15 @@
 ## Interface: 20501
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.5 (TBC A7)|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.7 (TBC A9)|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.3.5
+## Version: 6.3.7
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
 
+_compat.lua
 
 Modules\VersionCheck.lua
 
@@ -68,17 +69,15 @@ Database\Corrections\TBC\tbcObjectFixes.lua
 Database\compiler.lua
 
 #Localization
-Locale\QuestieLocale.lua
-Locale\enUS\locale.xml
-Locale\esES\locale.xml
-Locale\esMX\locale.xml
-Locale\deDE\locale.xml
-Locale\zhCN\locale.xml
-Locale\zhTW\locale.xml
-Locale\frFR\locale.xml
-Locale\koKR\locale.xml
-Locale\ptBR\locale.xml
-Locale\ruRU\locale.xml
+Localization\l10n.lua
+Localization\Translations\Translations.xml
+
+Localization\lookups\lookupItems\lookupItems.xml
+Localization\lookups\lookupNpcs\lookupNpcs.xml
+Localization\lookups\lookupObjects\lookupObjects.xml
+Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
+Localization\lookups\lookupQuests\lookupQuests.xml
+Localization\lookups\lookupZones\lookupZones.xml
 
 ##Libs
 Modules\Libs\QuestieLib.lua

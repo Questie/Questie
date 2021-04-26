@@ -28,6 +28,10 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
+local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
 
 local tinsert = table.insert
 
@@ -130,7 +134,7 @@ local function trycatch(func)
             if not Questie.db.global.disableDatabaseWarnings then
                 StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
             else
-                print(QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"))
+                print(l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."))
             end
         end
         return ret
@@ -140,9 +144,9 @@ end
 function QuestieDB:Initialize()
 
     StaticPopupDialogs["QUESTIE_DATABASE_ERROR"] = { -- /run StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-        text = QuestieLocale:GetUIString("QUESTIE_DATABASE_ERROR"),
-        button1 = QuestieLocale:GetUIString("RECOMPILE_DATABASE_BTN"),
-        button2 = QuestieLocale:GetUIString("DONT_SHOW_AGAIN"),
+        text = l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."),
+        button1 = l10n("Recompile Database"),
+        button2 = l10n("Don't show again"),
         OnAccept = function()
             QuestieConfig.dbIsCompiled = false
             ReloadUI()
@@ -891,6 +895,39 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return true
     end
 
+    local extraObjectives = rawdata[QuestieDB.questKeys.extraObjectives]
+    if extraObjectives then
+        local _GetIconScale = function() return Questie.db.global.objectScale or 1 end
+        for index, o in pairs(extraObjectives) do
+            QO.SpecialObjectives[index] = {
+                Icon = o[2],
+                Description = o[3],
+            }
+            if o[1] then -- custom spawn
+                QO.SpecialObjectives[index].spawnList = {{
+                    Name = o[3],
+                    Spawns = o[1],
+                    Icon = o[2],
+                    GetIconScale = _GetIconScale,
+                    IconScale = _GetIconScale(),
+                }}
+            end
+            if o[5] then -- db ref
+                QO.SpecialObjectives[index].Type = o[5][1][1]
+                QO.SpecialObjectives[index].Id = o[5][1][2]
+                local spawnList = {}
+
+                for _, ref in pairs(o[5]) do
+                    for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], QO.SpecialObjectives[index])) do
+                        spawnList[k] = v
+                    end
+                end
+
+                QO.SpecialObjectives[index].spawnList = spawnList
+            end
+        end
+    end
+
     _QuestieDB.questCache[questId] = QO
     return QO
 end
@@ -1000,7 +1037,7 @@ end
     1337 Uldaman = The Dungeon (MapID ~= 0, AreaID = 0)
     1517 Uldaman = Cave infront of the Dungeon (MapID = 0, AreaID = 3 (Badlands))
 
-    Check `LangZoneLookup` for the available IDs
+    Check `l10n.zoneLookup` for the available IDs
 ]]
 ---@param zoneId number
 ---@return table
