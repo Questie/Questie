@@ -124,6 +124,9 @@ function QuestieTBCQuestFixes:Load()
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
+        [8490] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9144] = {
             [questKeys.requiredLevel] = 10,
         },
@@ -156,6 +159,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9280] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [9253] = {
+            [questKeys.exclusiveTo] = {8490},
         },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
