@@ -141,7 +141,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9130] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredMinRep] = {},
         },
         [9152] = {
             [questKeys.preQuestSingle] = {9327,9329},
