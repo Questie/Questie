@@ -44,6 +44,9 @@ function QuestieTBCNpcFixes:Load()
         [15967] = {
             [npcKeys.waypoints] = {},
         },
+        [16224] = {
+            [npcKeys.waypoints] = {},
+        },
         [16333] = {
             [npcKeys.waypoints] = {},
         },
