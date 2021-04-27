@@ -143,6 +143,9 @@ function QuestieTBCQuestFixes:Load()
         [9130] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9152] = {
+            [questKeys.preQuestSingle] = {9327,9329},
+        },
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
