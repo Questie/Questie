@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local searchLocales = {
     ["Advanced Search"] = {
-        ["ptBR"] = "Pesquisa avançada",
+        ["ptBR"] = "Busca avançada",
         ["ruRU"] = "Расширенный поиск",
         ["deDE"] = "Erweiterte Suche",
         ["koKR"] = "고급 검색",
@@ -15,7 +15,7 @@ local searchLocales = {
         ["frFR"] = "Recherche avancée",
     },
     ["Search"] = {
-        ["ptBR"] = "Pesquisar",
+        ["ptBR"] = "Buscar",
         ["ruRU"] = "Поиск",
         ["deDE"] = "Suche",
         ["koKR"] = "검색",
@@ -27,7 +27,7 @@ local searchLocales = {
         ["frFR"] = "Rechercher",
     },
     ["Search By Name"] = {
-        ["ptBR"] = "Busca por nome",
+        ["ptBR"] = "Buscar por nome",
         ["ruRU"] = "Поиск по имени",
         ["deDE"] = "Suche Quest mit Namen",
         ["koKR"] = "이름으로 검색",
@@ -39,7 +39,7 @@ local searchLocales = {
         ["frFR"] = "Recherche par nom de quête",
     },
     ["Search By ID"] = {
-        ["ptBR"] = "Pesquisar por ID da missão",
+        ["ptBR"] = "Buscar por ID da missão",
         ["ruRU"] = "Поиск по ID",
         ["deDE"] = "Suche Quest mit Quest-ID",
         ["koKR"] = "ID로 검색",
@@ -51,7 +51,7 @@ local searchLocales = {
         ["frFR"] = "Recherche par identifiant de quête",
     },
     ["Enter in your Search"] = {
-        ["ptBR"] = "Digite sua pesquisa",
+        ["ptBR"] = "Digite sua busca",
         ["ruRU"] = "Введите данные для поиска",
         ["deDE"] = "Suche",
         ["koKR"] = "검색을 입력해주세요",
@@ -63,7 +63,7 @@ local searchLocales = {
         ["frFR"] = "Recherche",
     },
     ["Quest Information"] = {
-        ["ptBR"] = "Informações da Missão",
+        ["ptBR"] = "Informação da missão",
         ["ruRU"] = "Информация о задании",
         ["deDE"] = "Quest-Informationen",
         ["koKR"] = "퀘스트 정보",
@@ -87,7 +87,7 @@ local searchLocales = {
         ["frFR"] = "Aucune quête à lister",
     },
     ["No spawn data available."] = {
-        ["ptBR"] = "Não há dados de desova disponíveis.",
+        ["ptBR"] = "Não há dados de spawn disponíveis.",
         ["ruRU"] = "Нет данных о появлении",
         ["deDE"] = nil,
         ["koKR"] = "출현 정보가 없습니다.",
@@ -99,7 +99,7 @@ local searchLocales = {
         ["frFR"] = "Aucune donnée de spawn disponible.",
     },
     ["Recommended Quest Level: "] = {
-        ["ptBR"] = "Nível de missão recomendado:",
+        ["ptBR"] = "Nível recomendado para a missão:",
         ["ruRU"] = "Рекомендуемый уровень для выполнения задания: ",
         ["deDE"] = "Empfohlenes Questlevel: ",
         ["koKR"] = "추천 퀘스트 레벨: ",
@@ -135,7 +135,7 @@ local searchLocales = {
         ["frFR"] = "Retirer de la carte",
     },
     ["Quest ID: "] = {
-        ["ptBR"] = "ID da missâo:",
+        ["ptBR"] = "ID da missão: ",
         ["ruRU"] = "ID задания: ",
         ["deDE"] = nil,
         ["koKR"] = "퀘스트 ID: ",
@@ -159,7 +159,7 @@ local searchLocales = {
         ["frFR"] = "Trouvé dans",
     },
     ["No Match for Search Results: %s"] = {
-        ["ptBR"] = "Nenhuma correspondência para os resultados da pesquisa: %s",
+        ["ptBR"] = "Nenhum resultado encontrado para sua busca: %s",
         ["ruRU"] = "Нет совпадений для результатов поиска: %s",
         ["deDE"] = "Keine Treffer für die Suche: %s",
         ["koKR"] = "검색 결과가 없습니다: %s",
@@ -183,7 +183,7 @@ local searchLocales = {
         ["frFR"] = "Aucune quête trouvée",
     },
     ["NPCs"] = {
-        ["ptBR"] = "PNJs",
+        ["ptBR"] = "NPCs",
         ["ruRU"] = "NPC",
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -207,7 +207,7 @@ local searchLocales = {
         ["frFR"] = "Objets",
     },
     ["This NPC Also Starts the following quests:"] = {
-        ["ptBR"] = "O PNJ também inicia as seguintes missões:",
+        ["ptBR"] = "Este NPC também inicia as seguintes missões:",
         ["ruRU"] = "Этот NPC также начинает следующие задания:",
         ["deDE"] = "Dieser NPC startet außerdem die folgenden Quests:",
         ["koKR"] = "해당 NPC에게 다음 퀘스트도 시작할 수 있습니다:",
@@ -219,7 +219,7 @@ local searchLocales = {
         ["frFR"] = "Ce PNJ débute également les quêtes suivantes :",
     },
     ["This NPC Also Completes the following quests:"] = {
-        ["ptBR"] = "O PNJ também termina as seguintes missões:",
+        ["ptBR"] = "Este NPC também termina as seguintes missões:",
         ["ruRU"] = "Этот NPC также завершает следующие задания:",
         ["deDE"] = "Dieser NPC beendet außerdem die folgenden Quests:",
         ["koKR"] = "해당 NPC에게 다음 퀘스트도 완료할 수 있습니다:",
@@ -231,7 +231,7 @@ local searchLocales = {
         ["frFR"] = "Ce PNJ termine également les quêtes suivantes :",
     },
     ["Quest Start Object Information"] = {
-        ["ptBR"] = "Informações sobre o início do item da missão",
+        ["ptBR"] = "Informação sobre o objeto que inicia a missão",
         ["ruRU"] = "Информация о начинающем задание объекте:",
         ["deDE"] = "Quest-Start-Objekt-Informationen",
         ["koKR"] = "퀘스트 시작 오브젝트 정보",
@@ -243,7 +243,7 @@ local searchLocales = {
         ["frFR"] = "Informations sur l'objet débutant la quête",
     },
     ["This Object Also Starts the following quests:"] = {
-        ["ptBR"] = "Este item também inicia as seguintes missões:",
+        ["ptBR"] = "Este objeto também inicia as seguintes missões:",
         ["ruRU"] = "Этот объект также начинает следующие задания:",
         ["deDE"] = "Dieses Objekt startet außerdem die folgenden Quests:",
         ["koKR"] = "해당 오브젝트에게 다음 퀘스트도 시작할 수 있습니다:",
@@ -255,7 +255,7 @@ local searchLocales = {
         ["frFR"] = "Cet objet débute également les quêtes suivantes :",
     },
     ["Quest Start NPC Information"] = {
-        ["ptBR"] = "Informações sobre a missão PNJ",
+        ["ptBR"] = "Informação sobre o NPC que inicia a missão",
         ["ruRU"] = "Информация о начинающем задание NPC:",
         ["deDE"] = "Quest-Start-NPC-Informationen",
         ["koKR"] = "퀘스트 시작 NPC 정보",
@@ -267,7 +267,7 @@ local searchLocales = {
         ["frFR"] = "Informations sur le PNJ débutant la quête",
     },
     ["Quest Turn-in NPC Information"] = {
-        ["ptBR"] = "Informações sobre PNJ compromissos",
+        ["ptBR"] = "Informação sobre o NPC de entrega da missão",
         ["ruRU"] = "Информация о завершающем задание NPC:",
         ["deDE"] = "Quest-Abgabe-NPC-Informationen",
         ["koKR"] = "퀘스트 완료 NPC 정보",
@@ -315,7 +315,7 @@ local searchLocales = {
         ["frFR"] = "Fourchette de difficulté : %s",
     },
     ["Hidden"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Escondida",
         ["ruRU"] = nil,
         ["deDE"] = "Versteckt",
         ["koKR"] = nil,
@@ -327,7 +327,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["Quests is hidden"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Missão escondida",
         ["ruRU"] = nil,
         ["deDE"] = "Quest ist versteckt",
         ["koKR"] = nil,
@@ -339,7 +339,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "\nQuando selecionado, esconde a missão do mapa, mesmo que esteja ativa.\n\nTambém é possível esconder a missão utilizando Shift + Botão esquerdo nela no mapa.",
         ["ruRU"] = nil,
         ["deDE"] = "\nWenn der Haken gesetzt ist, dann wird die Quest nicht auf der Karte angezeigt, auch wenn sie aktiv ist.\n\nQuests können auch per Shift+Linksklick auf der Karte versteckt werden.",
         ["koKR"] = nil,
@@ -351,7 +351,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["Hidden by Questie"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Escondida por Questie",
         ["ruRU"] = nil,
         ["deDE"] = "Von Questie versteckt",
         ["koKR"] = nil,
@@ -363,7 +363,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["NPCs starting this quest:"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "NPCs que iniciam esta missão:",
         ["ruRU"] = nil,
         ["deDE"] = "NPCs welche diese Quest starten:",
         ["koKR"] = nil,
@@ -375,7 +375,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["NPCs finishing this quest:"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "NPCs que finalizam esta missão:",
         ["ruRU"] = nil,
         ["deDE"] = "NPCs welche diese Quest beenden:",
         ["koKR"] = nil,
@@ -387,7 +387,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["Objects starting this quest:"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Objetos que iniciam esta missão:",
         ["ruRU"] = nil,
         ["deDE"] = "Objekte welche diese Quest starten:",
         ["koKR"] = nil,
@@ -399,7 +399,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["Objects finishing this quest:"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Objetos que finalizam esta missão:",
         ["ruRU"] = nil,
         ["deDE"] = "Objekte welche diese Quest beenden:",
         ["koKR"] = nil,
@@ -411,7 +411,7 @@ local searchLocales = {
         ["frFR"] = nil,
     },
     ["Items starting this quest:"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Itens que inicial esta missão:",
         ["ruRU"] = nil,
         ["deDE"] = "Gegenstände welche diese Quest starten:",
         ["koKR"] = nil,

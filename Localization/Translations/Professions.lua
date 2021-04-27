@@ -123,7 +123,7 @@ local professionLocals = {
         ["frFR"] = "Enchantement",
     },
     ["Fishing"] = {
-        ["ptBR"] = "Pesca",
+        ["ptBR"] = "Pescaria",
         ["ruRU"] = "Рыбная ловля",
         ["deDE"] = "Angeln",
         ["koKR"] = "낚시",
