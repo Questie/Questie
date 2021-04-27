@@ -351,6 +351,9 @@ function QuestieTBCQuestFixes:Load()
         [9672] = {
             [questKeys.startedBy] = {nil,{400000},nil},
         },
+        [9678] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Light the brazier", 0, {{"object", 181956}}}},
+        },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
         },
