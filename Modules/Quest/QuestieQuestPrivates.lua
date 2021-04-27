@@ -85,12 +85,14 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             return nil
         end
 
-        if not spawns then
+        if (not spawns) then
             Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
             spawns = {}
         end
 
-        local _GetIconScale = function() return Questie.db.global.objectScale or 1 end
+        local _GetIconScale = function()
+            return Questie.db.global.objectScale or 1
+        end
 
         return {
             [objectId] = {
