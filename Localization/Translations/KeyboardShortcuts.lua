@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local keyboardShortcutLocales = {
     ["Right Click"] = {
-        ["ptBR"] = "Clique Direito",
+        ["ptBR"] = "Botão direito",
         ["ruRU"] = "ПКМ",
         ["deDE"] = "Rechtsklick",
         ["koKR"] = "오른쪽 클릭",
@@ -15,7 +15,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Clic Droit ",
     },
     ["Left Click"] = {
-        ["ptBR"] = "Clique Esquerda",
+        ["ptBR"] = "Botão esquerdo",
         ["ruRU"] = "ЛКМ",
         ["deDE"] = "Linksklick",
         ["koKR"] = "왼쪽 클릭",
@@ -27,7 +27,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Clic Gauche ",
     },
     ["Alt"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Alt",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -51,7 +51,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Ctrl",
     },
     ["Ctrl + Left Click"] = {
-        ["ptBR"] = "Ctrl + Clique Esquerdo",
+        ["ptBR"] = "Ctrl + Botão esquerdo",
         ["ruRU"] = "Ctrl + ЛКМ",
         ["deDE"] = "Strg + Linksklick",
         ["koKR"] = "Ctrl + 왼쪽 클릭",
@@ -63,7 +63,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Ctrl + Clic Gauche ",
     },
     ["Ctrl + Right Click"] = {
-        ["ptBR"] = "Ctrl + Clique Direito",
+        ["ptBR"] = "Ctrl + Botão direito",
         ["ruRU"] = "Ctrl + ПКМ",
         ["deDE"] = "Strg + Rechtsklick",
         ["koKR"] = "Ctrl + 오른쪽 클릭",
@@ -75,7 +75,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Ctrl + Clic Droit ",
     },
     ["Ctrl + Left Click + Hold"] = {
-        ["ptBR"] = "Ctrl + Clique esquerdo + Manter pressionado",
+        ["ptBR"] = "Ctrl + Botão esquerdo + Manter pressionado",
         ["ruRU"] = "Зажать Ctrl + ЛКМ",
         ["deDE"] = "Strg + Linksklick + Halten",
         ["koKR"] = "Ctrl + 왼쪽 클릭 + 보류",
@@ -87,7 +87,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Ctrl + clic gauche + maintien",
     },
     ["Ctrl + Shift + Left Click"] = {
-        ["ptBR"] = "Ctrl + Shift + Clique Esquerdo",
+        ["ptBR"] = "Ctrl + Shift + Botão esquerdo",
         ["ruRU"] = "Ctrl + Shift + ЛКМ",
         ["deDE"] = "Strg + Shift + Linksklick",
         ["koKR"] = "Ctrl + Shift + 왼쪽 클릭",
@@ -99,7 +99,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Ctrl + Maj + Clic Gauche ",
     },
     ["Shift"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Shift",
         ["ruRU"] = nil,
         ["deDE"] = "Umschalt",
         ["koKR"] = nil,
@@ -123,7 +123,7 @@ local keyboardShortcutLocales = {
         ["frFR"] = "Maintenir Maj",
     },
     ["Left Click + Hold"] = {
-        ["ptBR"] = "Clique esquerdo + espera",
+        ["ptBR"] = "Botão esquerdo + Manter pressionado",
         ["ruRU"] = "Зажать ЛКМ",
         ["deDE"] = "Linksklick + Halten",
         ["koKR"] = "왼쪽 클릭 + 보류",

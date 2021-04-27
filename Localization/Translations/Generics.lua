@@ -15,7 +15,7 @@ local genericsLocales = {
         ["frFR"] = "Objets",
     },
     ["Objective"] = {
-        ["ptBR"] = "Objetivos",
+        ["ptBR"] = "Objetivo",
         ["ruRU"] = "Цели",
         ["deDE"] = "Questziele",
         ["koKR"] = "목표",
@@ -27,7 +27,7 @@ local genericsLocales = {
         ["frFR"] = "Objectifs",
     },
     ["Objectives"] = {
-        ["ptBR"] = "Objectivos",
+        ["ptBR"] = "Objetivos",
         ["ruRU"] = "Цели задания",
         ["deDE"] = "Questziele",
         ["koKR"] = "목표",
@@ -51,7 +51,7 @@ local genericsLocales = {
         ["frFR"] = "Quêtes",
     },
     ["Show Questie"] = {
-        ["ptBR"] = "Ver Questie",
+        ["ptBR"] = "Mostrar Questie",
         ["ruRU"] = "Показать Questie",
         ["deDE"] = "Zeige Questie",
         ["koKR"] = "Questie 표시",
@@ -75,7 +75,7 @@ local genericsLocales = {
         ["frFR"] = "Masquer Questie",
     },
     ["Reload UI"] = {
-        ["ptBR"] = "Recarregar IU",
+        ["ptBR"] = "Recarregar interface",
         ["ruRU"] = nil,
         ["deDE"] = "Interface neu laden",
         ["koKR"] = nil,
@@ -99,7 +99,7 @@ local genericsLocales = {
         ["frFR"] = "Oui",
     },
     ["No"] = {
-        ["ptBR"] = "Nâo",
+        ["ptBR"] = "Não",
         ["ruRU"] = "Нет",
         ["deDE"] = "Nein",
         ["koKR"] = "아니오",
@@ -111,7 +111,7 @@ local genericsLocales = {
         ["frFR"] = "Non",
     },
     ["Cancel"] = {
-        ["ptBR"] = "Anular",
+        ["ptBR"] = "Cancelar",
         ["ruRU"] = "Закрыть это окно",
         ["deDE"] = "Abbrechen",
         ["koKR"] = "취소",
@@ -123,7 +123,7 @@ local genericsLocales = {
         ["frFR"] = "Annuler",
     },
     ["Don't show again"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Não mostrar novamente",
         ["ruRU"] = "Не отображать снова",
         ["deDE"] = "Nicht erneut zeigen",
         ["koKR"] = nil,
@@ -159,7 +159,7 @@ local genericsLocales = {
         ["esMX"] = "Habilitado",
     },
     ["Disabled"] = {
-        ["ptBR"] = "Desactivado",
+        ["ptBR"] = "Desativado",
         ["ruRU"] = "Отключено",
         ["deDE"] = "Deaktiviert",
         ["koKR"] = "비활성화",
@@ -171,7 +171,7 @@ local genericsLocales = {
         ["frFR"] = "Désactivé",
     },
     ["WARNING!"] = {
-        ["ptBR"] = "ATTENTION !",
+        ["ptBR"] = "ATENÇÃO!",
         ["ruRU"] = nil,
         ["deDE"] = "WARNUNG!",
         ["koKR"] = "경고!",
@@ -183,7 +183,7 @@ local genericsLocales = {
         ["frFR"] = "ATTENTION !",
     },
     ["xp"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "xp",
         ["ruRU"] = " ед. опыта",
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -195,7 +195,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Alliance"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Aliança",
         ["ruRU"] = nil,
         ["deDE"] = "Allianz",
         ["koKR"] = nil,
@@ -207,7 +207,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Horde"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Horda",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -219,7 +219,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Quest ID"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "ID da missão",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -231,7 +231,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Quest Level"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Nível da missão",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -243,7 +243,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Quest Details"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Detalhes da missão",
         ["ruRU"] = nil,
         ["deDE"] = "Quest-Details",
         ["koKR"] = nil,
@@ -255,7 +255,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["NPC Details"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Detalhes do NPC",
         ["ruRU"] = nil,
         ["deDE"] = "NPC-Details",
         ["koKR"] = nil,
@@ -267,7 +267,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Object Details"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Detalhes do objeto",
         ["ruRU"] = nil,
         ["deDE"] = "Objektdetails",
         ["koKR"] = nil,
@@ -279,7 +279,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Required Level"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Nível necessário",
         ["ruRU"] = nil,
         ["deDE"] = "Benötigtes Level",
         ["koKR"] = nil,
@@ -291,7 +291,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Required Race"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Raça necessária",
         ["ruRU"] = nil,
         ["deDE"] = "Benötigtes Volk",
         ["koKR"] = nil,
@@ -303,7 +303,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Human"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Humano",
         ["ruRU"] = nil,
         ["deDE"] = "Mensch",
         ["koKR"] = nil,
@@ -315,7 +315,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Orc"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Orc",
         ["ruRU"] = nil,
         ["deDE"] = "Ork",
         ["koKR"] = nil,
@@ -327,7 +327,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Dwarf"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Anão",
         ["ruRU"] = nil,
         ["deDE"] = "Zwerg",
         ["koKR"] = nil,
@@ -339,7 +339,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Nightelf"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Elfo Noturno",
         ["ruRU"] = nil,
         ["deDE"] = "Nachtelf",
         ["koKR"] = nil,
@@ -351,7 +351,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Undead"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Morto-vivo",
         ["ruRU"] = nil,
         ["deDE"] = "Untoter",
         ["koKR"] = nil,
@@ -363,7 +363,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Tauren"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Tauren",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -375,7 +375,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Gnome"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Gnomo",
         ["ruRU"] = nil,
         ["deDE"] = "Gnom",
         ["koKR"] = nil,
@@ -387,7 +387,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Troll"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Troll",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,
@@ -399,7 +399,7 @@ local genericsLocales = {
         ["frFR"] = nil,
     },
     ["Goblin"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Goblin",
         ["ruRU"] = nil,
         ["deDE"] = nil,
         ["koKR"] = nil,

@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local debugMessagesLocales = {
     ["Questie Commands"] = {
-        ["ptBR"] = "Comandos da Questie",
+        ["ptBR"] = "Comandos do Questie",
         ["ruRU"] = "Команды Questie:",
         ["deDE"] = "Questie-Befehle",
         ["koKR"] = "Questie 명령어",
@@ -15,7 +15,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Commandes de Questie",
     },
     ["Toggles the Config window"] = {
-        ["ptBR"] = "Alternar a janela de configuração",
+        ["ptBR"] = "Mostrar / Ocultar a janela de configurações",
         ["ruRU"] = "показать/скрыть окно настроек.",
         ["deDE"] = "Zeigen/Verstecken des Einstellungsfensters",
         ["koKR"] = "설정 창을 엽니다",
@@ -27,7 +27,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Ouvre le panneau de configuration.",
     },
     ["Toggles showing questie on the map and minimap"] = {
-        ["ptBR"] = "Ativar / Desativar a exibição da Questie sobre o mapa e no mapa ",
+        ["ptBR"] = "Mostrar / Ocultar Questie no mapa e minimapa",
         ["ruRU"] = "показать/скрыть значки Questie.",
         ["deDE"] = "Zeigen/Verstecken von Questie auf der Weltkarte und Minimap",
         ["koKR"] = "맵과 미니맵에 퀘스티 아이콘을 표시합니다",
@@ -39,7 +39,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Active ou désactive l'affichage de Questie sur la carte et la mini-carte",
     },
     ["Toggles the My Journey window"] = {
-        ["ptBR"] = "Alterne a janela Minha viagem",
+        ["ptBR"] = "Mostrar / Ocultar a janela Minha Jornada",
         ["ruRU"] = "открыть 'Мое путешествие'.",
         ["deDE"] = "Zeigen/Verstecken des 'Meine Reise'-Fensters",
         ["koKR"] = "나의 여정 창을 표시합니다",
@@ -51,7 +51,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Ouvre la fenêtre Mon voyage.",
     },
     ["Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Mostrar / Ocultar o rastreador de missões. Utilizar 'show', 'hide', 'reset' para respectivamente mostrar, ocultar ou redefinir o rastreador.",
         ["ruRU"] = "состояние трекера Questie. Добавьте 'show', 'hide', 'reset', чтобы показать, скрыть или сбросить трекер.",
         ["deDE"] = "Zeigen/Verstecken des Questie Trackers. Bei 'show', 'hide' oder 'reset' wird der Tracker explizit gezeigt, versteckt oder zurückgesetzt",
         ["koKR"] = nil,
@@ -63,7 +63,7 @@ local debugMessagesLocales = {
         ["frFR"] = nil,
     },
     ["Toggles the Minimap Button for Questie"] = {
-        ["ptBR"] = "Alterne o botão na miniplaca para Questie",
+        ["ptBR"] = "Mostrar / Ocultar o botão do Questie no minimapa",
         ["ruRU"] = "показать/скрыть кнопку у миникарты.",
         ["deDE"] = "Zeigen/Verstecken des Minimap-Buttons für Questie",
         ["koKR"] = "Questie 미니맵 아이콘을 표시합니다",
@@ -87,7 +87,7 @@ local debugMessagesLocales = {
         ["frFR"] = nil,
     },
     ["Invalid command. For a list of options please type: "] = {
-        ["ptBR"] = "Comando inválido. Para uma lista de opções, digite:",
+        ["ptBR"] = "Comando inválido. Para uma lista de opções, digite: ",
         ["ruRU"] = "Неверная команда. Для отображения списка команд наберите: ",
         ["deDE"] = "Ungültiger Befehl. Für eine Liste aller verfügbaren Befehle nutze: ",
         ["koKR"] = "존재하지 않는 명령어입니다. 전체 명령어를 확인하시려면 다음과 같이 입력해주세요: ",
@@ -99,7 +99,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Commande invalide. Pour obtenir une liste d'options, veuillez taper :",
     },
     ["There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Ocorreu um problema ao inicializar o banco de dados do Questie. Isso geralmente pode ser consertado recompilando o banco de dados.",
         ["ruRU"] = "Выявлена проблема при инициализации базы данных Questie. Обычно это может быть исправлено путем рекомпиляции БД",
         ["deDE"] = "Es gab ein Problem beim Initialisieren der Questie-Datenbank. Ein Neukompilieren der Datenbank behebt das Problem in der Regel.",
         ["koKR"] = nil,
@@ -111,7 +111,7 @@ local debugMessagesLocales = {
         ["esMX"] = nil,
     },
     ["There was an error populating objectives for %s %s %s %s"] = {
-        ["ptBR"] = "Ocorreu um erro ao definir destinos para %s %s %s %s",
+        ["ptBR"] = "Ocorreu um erro ao popular objetivos para %s %s %s %s",
         ["ruRU"] = "Ошибка получения целей: %s %s %s %s",
         ["deDE"] = "Es gab einen Fehler beim Weitergeben der Ziele für %s %s %s %s",
         ["koKR"] = nil,
@@ -123,7 +123,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Une erreur s'est produite lors de la création des objectifs pour %s %s %s %s",
     },
     ["Error: Questie tracker in invalid location, resetting..."] = {
-        ["ptBR"] = "Erro: Questie Rastreador em um local inválido, redefinir ...",
+        ["ptBR"] = "Erro: Rastreador do Questie em um local inválido, redefinindo...",
         ["ruRU"] = "Ошибка: трекер Questie в неправильном положении, сброс ...",
         ["deDE"] = "Fehler: Der Questie-Tracker ist in einer ungültigen Position und wird zurückgesetzt...",
         ["koKR"] = "에러: Questie 추적기가 허용되지 않은 위치에 있습니다, 재설정 중...",
@@ -135,7 +135,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Erreur : suivi des quêtes de Questie dans un endroit non valide, réinitialisation...",
     },
     ["Setting icon limit value to %s : Redrawing!"] = {
-        ["ptBR"] = "Definir o valor limite do ícone como %s : Redesenhar!",
+        ["ptBR"] = "Definindo o valor limite do ícone como %s : Redesenhar!",
         ["ruRU"] = "Ограничение количества значков: %s. Перерисовка",
         ["deDE"] = "Icon Limit geändert auf %s : Zeichne neu!",
         ["koKR"] = nil,
@@ -147,7 +147,7 @@ local debugMessagesLocales = {
         ["frFR"] = nil,
     },
     ["You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"] = {
-        ["ptBR"] = "Você atualizou o Questie sem reiniciar o jogo, isso pode representar um problema. Por favor, reinicie o jogo antes de continuar",
+        ["ptBR"] = "Você atualizou o Questie sem reiniciar o jogo, isso provavelmente irá causar problemas. Por favor, reinicie o jogo antes de continuar",
         ["ruRU"] = "Вы обновили Questie без перезапуска игры, это может вызвать проблемы. Пожалуйста, перезапустите игру, прежде чем продолжить",
         ["deDE"] = "Du hast Questie aktualisiert ohne WoW neuzustarten, was zu Problemen führen wird! Bitte starte den WoW Client neu, bevor du fortfährst.",
         ["koKR"] = "게임을 재실행하지 않고 Questie를 업데이트했습니다. 이로 인해 문제가 발생할 수 있습니다. 계속하시기 전에 게임을 재실행해주세요.",
@@ -159,7 +159,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Vous avez mis à jour Questie sans redémarrer le jeu, cela risque de poser problème. Veuillez redémarrer le jeu avant de continuer",
     },
     ["Questie DB has updated!"] = {
-        ["ptBR"] = "O Questie DB foi atualizado!",
+        ["ptBR"] = "O banco de dados do Questie foi atualizado!",
         ["ruRU"] = "База данных Questie обновляется!",
         ["deDE"] = "¡Questie DB se ha actualizado!",
         ["koKR"] = nil,
@@ -183,7 +183,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Application de la mise à jour, cela peut prendre quelques instants et causer quelques lags...",
     },
     ["Updating NPCs"] = {
-        ["ptBR"] = "Atualizando PNJs",
+        ["ptBR"] = "Atualizando NPCs",
         ["ruRU"] = "Обновление NPC",
         ["deDE"] = "Aktualisiere NPCs",
         ["koKR"] = nil,
@@ -231,7 +231,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Mise à jour Objets",
     },
     ["Questie DB update complete!"] = {
-        ["ptBR"] = "Atualização do Questie DB concluída!",
+        ["ptBR"] = "Atualização do banco de dados do Questie concluída!",
         ["ruRU"] = "Обновление базы данных Questie завершено!",
         ["deDE"] = "Questie Datenbank-Update abgeschlossen!",
         ["koKR"] = nil,
