@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local genericsLocales = {
     ["Objects"] = {
         ["ptBR"] = "Objetos",
-        ["ruRU"] = "объектов",
+        ["ruRU"] = "Объекты",
         ["deDE"] = "Objekte",
         ["koKR"] = "목표",
         ["esMX"] = "Objetos",
@@ -40,7 +40,7 @@ local genericsLocales = {
     },
     ["Quests"] = {
         ["ptBR"] = "Missões",
-        ["ruRU"] = "заданий",
+        ["ruRU"] = "Задания",
         ["deDE"] = nil,
         ["koKR"] = "퀘스트",
         ["esMX"] = "Misiones",
@@ -184,7 +184,7 @@ local genericsLocales = {
     },
     ["xp"] = {
         ["ptBR"] = "xp",
-        ["ruRU"] = " ед. опыта",
+        ["ruRU"] = "ед. опыта",
         ["deDE"] = nil,
         ["koKR"] = "경험치",
         ["esMX"] = "exp",
