@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local dbmHudOptionsLocales = {
     ["DBM HUD"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "DBM HUD",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -64,7 +64,7 @@ local dbmHudOptionsLocales = {
     },
     ["Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )"] = {
         ["ptBR"] = "Alterna se os ícones de missão disponíveis/completos não aparecem ou não no HUD. ( Por defeito: %s )",
-        ["ruRU"] = "Показать/скрыть значки выполненных или завершенных заданий на HUD (по умолчанию: %s)",
+        ["ruRU"] = "Показать/скрыть значки доступных или завершенных заданий на HUD (по умолчанию: %s)",
         ["deDE"] = nil,
         ["koKR"] = "수행가능/완료 퀘스트 아이콘을 HUD에 표시합니다. ( 기본값: %s )",
         ["esMX"] = "Alterna si los iconos de misiones disponibles / completas aparecen o no en HUD. ( Por Defecto: %s )",
