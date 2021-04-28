@@ -165,7 +165,18 @@ function QuestieTBCNpcFixes:Load()
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
         },
-
+        [23161] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{69.7,74.7},{70.1,79.4},{73.5,80.7},{75.2,81.2},},},
+        },
+        [23162] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{69.7,74.7},{70.1,79.4},{73.5,80.7},{75.2,81.2},},},
+        },
+        [23163] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{69.7,74.7},{70.1,79.4},{73.5,80.7},{75.2,81.2},},},
+        },
+        [23165] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{69.7,74.7},{70.1,79.4},{73.5,80.7},{75.2,81.2},},},
+        },
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
         -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
         -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
