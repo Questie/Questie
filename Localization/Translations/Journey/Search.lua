@@ -148,7 +148,7 @@ local searchLocales = {
     },
     ["Found in"] = {
         ["ptBR"] = "Encontrado em",
-        ["ruRU"] = "Игровая зона",
+        ["ruRU"] = "Найдено в",
         ["deDE"] = "Gefunden in",
         ["koKR"] = nil,
         ["esMX"] = "Encontrado en",
@@ -196,7 +196,7 @@ local searchLocales = {
     },
     ["Items"] = {
         ["ptBR"] = "Itens",
-        ["ruRU"] = "предметов",
+        ["ruRU"] = "Предметов",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -256,7 +256,7 @@ local searchLocales = {
     },
     ["Quest Start NPC Information"] = {
         ["ptBR"] = "Informação sobre o NPC que inicia a missão",
-        ["ruRU"] = "Информация о начинающем задание NPC:",
+        ["ruRU"] = "Информация о начинающем задание NPC",
         ["deDE"] = "Quest-Start-NPC-Informationen",
         ["koKR"] = "퀘스트 시작 NPC 정보",
         ["esMX"] = "Información PNJ que empieza misión",
@@ -268,7 +268,7 @@ local searchLocales = {
     },
     ["Quest Turn-in NPC Information"] = {
         ["ptBR"] = "Informação sobre o NPC de entrega da missão",
-        ["ruRU"] = "Информация о завершающем задание NPC:",
+        ["ruRU"] = "Информация о завершающем задание NPC",
         ["deDE"] = "Quest-Abgabe-NPC-Informationen",
         ["koKR"] = "퀘스트 완료 NPC 정보",
         ["esMX"] = "Información PNJ al que entregar misión",
@@ -316,7 +316,7 @@ local searchLocales = {
     },
     ["Hidden"] = {
         ["ptBR"] = "Escondida",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Скрыто",
         ["deDE"] = "Versteckt",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -328,7 +328,7 @@ local searchLocales = {
     },
     ["Quests is hidden"] = {
         ["ptBR"] = "Missão escondida",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Задание скрыто",
         ["deDE"] = "Quest ist versteckt",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -340,7 +340,7 @@ local searchLocales = {
     },
     ["\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."] = {
         ["ptBR"] = "\nQuando selecionado, esconde a missão do mapa, mesmo que esteja ativa.\n\nTambém é possível esconder a missão utilizando Shift + Botão esquerdo nela no mapa.",
-        ["ruRU"] = nil,
+        ["ruRU"] = "\nКогда выбрано, скрывает задание с карты, даже если оно активно.\n\.Скрыть задание можно также через Shift-клик по нему на карте.",
         ["deDE"] = "\nWenn der Haken gesetzt ist, dann wird die Quest nicht auf der Karte angezeigt, auch wenn sie aktiv ist.\n\nQuests können auch per Shift+Linksklick auf der Karte versteckt werden.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -352,7 +352,7 @@ local searchLocales = {
     },
     ["Hidden by Questie"] = {
         ["ptBR"] = "Escondida por Questie",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Скрыто Questie",
         ["deDE"] = "Von Questie versteckt",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -364,7 +364,7 @@ local searchLocales = {
     },
     ["NPCs starting this quest:"] = {
         ["ptBR"] = "NPCs que iniciam esta missão:",
-        ["ruRU"] = nil,
+        ["ruRU"] = "NPC, начинающие это задание",
         ["deDE"] = "NPCs welche diese Quest starten:",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -376,7 +376,7 @@ local searchLocales = {
     },
     ["NPCs finishing this quest:"] = {
         ["ptBR"] = "NPCs que finalizam esta missão:",
-        ["ruRU"] = nil,
+        ["ruRU"] = "NPC, завершающие это задание",
         ["deDE"] = "NPCs welche diese Quest beenden:",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -388,7 +388,7 @@ local searchLocales = {
     },
     ["Objects starting this quest:"] = {
         ["ptBR"] = "Objetos que iniciam esta missão:",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Объекты, начинающие это задание",
         ["deDE"] = "Objekte welche diese Quest starten:",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -400,7 +400,7 @@ local searchLocales = {
     },
     ["Objects finishing this quest:"] = {
         ["ptBR"] = "Objetos que finalizam esta missão:",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Объекты, завершающие это задание",
         ["deDE"] = "Objekte welche diese Quest beenden:",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -412,7 +412,7 @@ local searchLocales = {
     },
     ["Items starting this quest:"] = {
         ["ptBR"] = "Itens que inicial esta missão:",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Предметы, начинающие это задание",
         ["deDE"] = "Gegenstände welche diese Quest starten:",
         ["koKR"] = nil,
         ["esMX"] = nil,
