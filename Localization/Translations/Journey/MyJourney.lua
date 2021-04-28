@@ -100,7 +100,7 @@ local myJourneyLocales = {
     },
     ["Level %s"] = {
         ["ptBR"] = "Nível %s",
-        ["ruRU"] = "%s",
+        ["ruRU"] = "Уровень %s",
         ["deDE"] = nil,
         ["koKR"] = "%s 레벨",
         ["esMX"] = "Nivel %s",
