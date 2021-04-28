@@ -76,7 +76,7 @@ local genericsLocales = {
     },
     ["Reload UI"] = {
         ["ptBR"] = "Recarregar interface",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Перезагрузка интерфейса",
         ["deDE"] = "Interface neu laden",
         ["koKR"] = "Reload UI",
         ["esMX"] = "Recargar IU",
@@ -172,7 +172,7 @@ local genericsLocales = {
     },
     ["WARNING!"] = {
         ["ptBR"] = "ATENÇÃO!",
-        ["ruRU"] = nil,
+        ["ruRU"] = "ВНИМАНИЕ!",
         ["deDE"] = "WARNUNG!",
         ["koKR"] = "경고!",
         ["esMX"] = "¡ADVERTENCIA!",
@@ -196,7 +196,7 @@ local genericsLocales = {
     },
     ["Alliance"] = {
         ["ptBR"] = "Aliança",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Альянс",
         ["deDE"] = "Allianz",
         ["koKR"] = "얼라이언스",
         ["esMX"] = "Alianza",
@@ -208,7 +208,7 @@ local genericsLocales = {
     },
     ["Horde"] = {
         ["ptBR"] = "Horda",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Орда",
         ["deDE"] = nil,
         ["koKR"] = "호드",
         ["esMX"] = "Horda",
@@ -220,7 +220,7 @@ local genericsLocales = {
     },
     ["Quest ID"] = {
         ["ptBR"] = "ID da missão",
-        ["ruRU"] = nil,
+        ["ruRU"] = "ID задания",
         ["deDE"] = nil,
         ["koKR"] = "퀘스트 ID",
         ["esMX"] = "ID de Misión",
@@ -232,7 +232,7 @@ local genericsLocales = {
     },
     ["Quest Level"] = {
         ["ptBR"] = "Nível da missão",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Уровень задания",
         ["deDE"] = nil,
         ["koKR"] = "퀘스트 레벨",
         ["esMX"] = "Nivel de Misión",
@@ -244,7 +244,7 @@ local genericsLocales = {
     },
     ["Quest Details"] = {
         ["ptBR"] = "Detalhes da missão",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Подробности задания",
         ["deDE"] = "Quest-Details",
         ["koKR"] = "퀘스트 Detail",
         ["esMX"] = "Detalles de Misión",
@@ -256,7 +256,7 @@ local genericsLocales = {
     },
     ["NPC Details"] = {
         ["ptBR"] = "Detalhes do NPC",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Подробности о NPC",
         ["deDE"] = "NPC-Details",
         ["koKR"] = "NPC Detail",
         ["esMX"] = "Detalles del PNJ",
@@ -268,7 +268,7 @@ local genericsLocales = {
     },
     ["Object Details"] = {
         ["ptBR"] = "Detalhes do objeto",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Подробности объекта",
         ["deDE"] = "Objektdetails",
         ["koKR"] = "목표 Detail",
         ["esMX"] = "Detalles del objeto",
@@ -280,7 +280,7 @@ local genericsLocales = {
     },
     ["Required Level"] = {
         ["ptBR"] = "Nível necessário",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Требуемый уровень",
         ["deDE"] = "Benötigtes Level",
         ["koKR"] = "필요 레벨",
         ["esMX"] = "Nivel Requerido",
@@ -292,7 +292,7 @@ local genericsLocales = {
     },
     ["Required Race"] = {
         ["ptBR"] = "Raça necessária",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Требуемая раса",
         ["deDE"] = "Benötigtes Volk",
         ["koKR"] = "필요 종족",
         ["esMX"] = "Raza Requerida",
@@ -304,7 +304,7 @@ local genericsLocales = {
     },
     ["Human"] = {
         ["ptBR"] = "Humano",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Человек",
         ["deDE"] = "Mensch",
         ["koKR"] = "인간",
         ["esMX"] = "Humano",
@@ -316,7 +316,7 @@ local genericsLocales = {
     },
     ["Orc"] = {
         ["ptBR"] = "Orc",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Орк",
         ["deDE"] = "Ork",
         ["koKR"] = "오크",
         ["esMX"] = "Orco",
@@ -328,7 +328,7 @@ local genericsLocales = {
     },
     ["Dwarf"] = {
         ["ptBR"] = "Anão",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Дворф",
         ["deDE"] = "Zwerg",
         ["koKR"] = "드워프",
         ["esMX"] = "Enano",
@@ -340,7 +340,7 @@ local genericsLocales = {
     },
     ["Nightelf"] = {
         ["ptBR"] = "Elfo Noturno",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Ночной эльф",
         ["deDE"] = "Nachtelf",
         ["koKR"] = "나이트 엘프",
         ["esMX"] = "Elfo de la Noche",
@@ -352,7 +352,7 @@ local genericsLocales = {
     },
     ["Undead"] = {
         ["ptBR"] = "Morto-vivo",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Нежить",
         ["deDE"] = "Untoter",
         ["koKR"] = "언데드",
         ["esMX"] = "No-Muerto",
@@ -364,7 +364,7 @@ local genericsLocales = {
     },
     ["Tauren"] = {
         ["ptBR"] = "Tauren",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Таурен",
         ["deDE"] = nil,
         ["koKR"] = "타우렌",
         ["esMX"] = "Tauren",
@@ -376,7 +376,7 @@ local genericsLocales = {
     },
     ["Gnome"] = {
         ["ptBR"] = "Gnomo",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Гном",
         ["deDE"] = "Gnom",
         ["koKR"] = "노움",
         ["esMX"] = "Gnomo",
@@ -388,7 +388,7 @@ local genericsLocales = {
     },
     ["Troll"] = {
         ["ptBR"] = "Troll",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Тролль",
         ["deDE"] = nil,
         ["koKR"] = "트롤",
         ["esMX"] = "Troll",
@@ -400,7 +400,7 @@ local genericsLocales = {
     },
     ["Goblin"] = {
         ["ptBR"] = "Goblin",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Гоблин",
         ["deDE"] = nil,
         ["koKR"] = "고블린",
         ["esMX"] = "Goblin",
@@ -412,7 +412,7 @@ local genericsLocales = {
     },
     ["Draenei"] = {
         ["ptBR"] = "Draenei",
-        ["ruRU"] = "Дренеи",
+        ["ruRU"] = "Дреней",
         ["deDE"] = nil,
         ["koKR"] = "드레나이",
         ["esMX"] = "Draenei",
@@ -424,7 +424,7 @@ local genericsLocales = {
     },
     ["Blood Elf"] = {
         ["ptBR"] = "Elfo Sangrento",
-        ["ruRU"] = "Эльфийка крови",
+        ["ruRU"] = "Эльф крови",
         ["deDE"] = "Blutelf",
         ["koKR"] = "블러드 엘프",
         ["esMX"] = nil,
