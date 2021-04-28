@@ -394,6 +394,9 @@ function QuestieTBCQuestFixes:Load()
         [9738] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9740] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Destroy all 4 Sunhawk Portal Controller", 0, {{"object", 184850}}}},
+        },
         [9752] = {
             [questKeys.triggerEnd] = {"Escort Kayra Longmane to safety", {[zoneIDs.ZANGARMARSH]={{79.76,71.09},},}},
         },
