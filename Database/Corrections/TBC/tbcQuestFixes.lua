@@ -70,6 +70,9 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32},},}},
         },
+        [2842] = {
+            [questKeys.requiredLevel] = 20,
+        },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42},},}},
         },
