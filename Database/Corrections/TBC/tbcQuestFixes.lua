@@ -407,7 +407,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9759] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {9756},
             [questKeys.triggerEnd] = {"Vector Coil Destroyed and Sironas Slain", {[zoneIDs.BLOODMYST_ISLE]={{14.86,54.84},},}},
         },
         [9760] = {
