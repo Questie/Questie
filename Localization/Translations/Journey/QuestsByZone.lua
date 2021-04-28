@@ -112,7 +112,7 @@ local questsByZoneLocales = {
     },
     ["Completed"] = {
         ["ptBR"] = "Concluída",
-        ["ruRU"] = "выполнено",
+        ["ruRU"] = "Завершено",
         ["deDE"] = "Abgeschlossen",
         ["koKR"] = "완료",
         ["esMX"] = "Completada",
@@ -124,7 +124,7 @@ local questsByZoneLocales = {
     },
     ["Repeatable Quests"] = {
         ["ptBR"] = "Missões repetíveis",
-        ["ruRU"] = "Повторяемые задания ",
+        ["ruRU"] = "Повторяемые задания",
         ["deDE"] = "Wiederholbare Quests",
         ["koKR"] = "반복 퀘스트",
         ["esMX"] = "Misiones repetibles",
