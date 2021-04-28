@@ -129,7 +129,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
@@ -156,7 +156,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {9282},
         },
         [9174] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
