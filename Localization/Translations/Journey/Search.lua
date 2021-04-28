@@ -352,7 +352,7 @@ local searchLocales = {
     },
     ["Hidden by Questie"] = {
         ["ptBR"] = "Escondida por Questie",
-        ["ruRU"] = "Скрыто Questie",
+        ["ruRU"] = "Скрыто аддоном",
         ["deDE"] = "Von Questie versteckt",
         ["koKR"] = nil,
         ["esMX"] = nil,
