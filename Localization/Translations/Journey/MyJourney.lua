@@ -136,7 +136,7 @@ local myJourneyLocales = {
     },
     ["Accepted"] = {
         ["ptBR"] = "Aceita",
-        ["ruRU"] = "принято",
+        ["ruRU"] = "Принято",
         ["deDE"] = "Angenommen",
         ["koKR"] = "수락",
         ["esMX"] = "Aceptada",
@@ -160,7 +160,7 @@ local myJourneyLocales = {
     },
     ["Abandoned"] = {
         ["ptBR"] = "Abandonada",
-        ["ruRU"] = "отменено",
+        ["ruRU"] = "Отменено",
         ["deDE"] = "Abgebrochen",
         ["koKR"] = "포기",
         ["esMX"] = "Abandonada",
