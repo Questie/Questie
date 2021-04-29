@@ -31,6 +31,8 @@ local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMini
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto");
+---@type QuestieQuestLog
+local QuestieQuestLog = QuestieLoader:ImportModule("QuestieQuestLog");
 ---@type QuestieCoords
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieEventHandler
@@ -101,6 +103,7 @@ if  --Libs
     (not QuestieOptions.tabs.tracker) or
 
     (not QuestieAuto) or
+    (not QuestieQuestLog) or
     (not QuestieCoords) or
     (not QuestieEventHandler) or
     (not QuestieFramePool) or

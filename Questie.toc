@@ -95,6 +95,7 @@ Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
+Modules\QuestieQuestLog.lua
 
 ##Tooltips
 Modules\Tooltips\Tooltip.lua

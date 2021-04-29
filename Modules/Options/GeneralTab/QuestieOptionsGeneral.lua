@@ -287,9 +287,34 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie:Debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
             },
+            enableWideQuestLog = {
+                type = "toggle",
+                order = 7,
+                name = function() return l10n('Enable Wide Quest Log'); end,
+                desc = function() return l10n('Toggles the width of the quest log window to single or double width. This will also reload the UI.'); end,
+                width = 1.5,
+                get = function () return Questie.db.char.enableWideQuestLog; end,
+                set = function (info, value)
+                    Questie.db.char.enableWideQuestLog = value
+                    Questie:Debug(DEBUG_DEVELOP, "Wide quest log toggled to:", value)
+                    ReloadUI()
+                end,
+            },
+            enableQuestLogLevelBadges = {
+                type = "toggle",
+                order = 8,
+                name = function() return l10n('Enable Quest Log Level Badges'); end,
+                desc = function() return l10n('Toggles the display of the level requirement badges in the quest log.'); end,
+                width = 1.5,
+                get = function () return Questie.db.char.enableQuestLogLevelBadges; end,
+                set = function (info, value)
+                    Questie.db.char.enableQuestLogLevelBadges = value
+                    Questie:Debug(DEBUG_DEVELOP, "Quest log level badges toggled to:", value)
+                end,
+            },
             autoModifier = {
                 type = "select",
-                order = 7,
+                order = 9,
                 values = _GetShortcuts(),
                 style = 'dropdown',
                 name = function() return l10n('Auto Modifier') end,
@@ -316,7 +341,7 @@ function QuestieOptions.tabs.general:Initialize()
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
             questannounce = {
                 type = "select",
-                order = 9,
+                order = 11,
                 values = {
                     ['disabled'] = l10n('Disabled'),
                     ['party'] = l10n('Enabled'),
@@ -394,7 +419,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             minLevelFilter = {
                 type = "range",
-                order = 15,
+                order = 17,
                 name = function()
                     if Questie.db.char.absoluteLevelOffset then 
                         return l10n('Level from');
@@ -422,7 +447,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             maxLevelFilter = {
                 type = "range",
-                order = 16,
+                order = 18,
                 name = function()
                     return l10n('Level to');
                 end,
