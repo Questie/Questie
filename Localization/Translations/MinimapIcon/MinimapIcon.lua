@@ -28,7 +28,7 @@ local minimapIconLocales = {
     },
     ["Toggle My Journey"] = {
         ["ptBR"] = "Alternar minha viagem",
-        ["ruRU"] = "Открыть 'Мое путешествие'",
+        ["ruRU"] = "Открыть \"Мое путешествие\"",
         ["deDE"] = "Meine Reise zeigen/verstecken",
         ["koKR"] = "나의 여정 창 열기",
         ["esMX"] = "Mostrar mi viaje",
