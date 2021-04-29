@@ -106,7 +106,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "初始化Questie的数据库时出现问题。 通常可以通过重新编辑数据库来解决此问题。",
         ["enUS"] = true,
         ["zhTW"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Il y a eu un problème pendant l'initialisation de la base de donnée de Quetie. Ceci peut être réparé en recompilant la base de donnée.",
         ["esES"] = nil,
         ["esMX"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
     },
