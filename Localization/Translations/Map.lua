@@ -24,7 +24,7 @@ local mapLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Zone inconnue",
     }
 }
 
