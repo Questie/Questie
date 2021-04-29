@@ -60,7 +60,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "切换任务追踪窗口，输入  'show', 'hide', 'reset' 选项以显示、隐藏、重设追踪窗口",
         ["zhTW"] = "切換任務追蹤視窗。加上 'show', 'hide', 'reset' 選項以顯示、隱藏、重設追蹤視窗",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'masquer', 'réinitialiser' pour afficher / masquer ou réinitialiser explicitement le traqueur",
     },
     ["Toggles the Minimap Button for Questie"] = {
         ["ptBR"] = "Mostrar / Ocultar o botão do Questie no minimapa",
@@ -72,7 +72,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "切换显示或隐藏Questie小地图图标",
         ["zhTW"] = "切換顯示或隱藏Questie小地圖圖示",
         ["esES"] = "Muestra el botón del minimapa para Questie",
-        ["frFR"] = "/Affiche ou désactive le bouton Questie autour de la mini-carte.",
+        ["frFR"] = "Affiche ou désactive le bouton Questie autour de la mini-carte.",
     },
     ["Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"] = {
         ["ptBR"] = nil,
@@ -84,7 +84,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "对特定NPC ID或名字于地图上加上自定义备注。若名字不精准，则备注可能会被加到多个目标上。 'reset'  指令可以移除所有的备注",
         ["zhTW"] = "對特定NPC ID或名稱於地圖上加上自訂註解。若名稱不精確，則註解可能會被加到多個目標上。'reset' 指令可以移除所有的註解",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Ajouter des notes manuellement à la carte pour un ID ou un nom de PNJ donné. Si le nom est ambigu, plusieurs notes peuvent être ajoutées. Sans une deuxième commande, la cible sera ajoutée à la carte. La commande 'réinitialiser' supprime toutes les notes",
     },
     ["Invalid command. For a list of options please type: "] = {
         ["ptBR"] = "Comando inválido. Para uma lista de opções, digite: ",
@@ -106,7 +106,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "初始化Questie的数据库时出现问题。 通常可以通过重新编辑数据库来解决此问题。",
         ["enUS"] = true,
         ["zhTW"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Un problème est survenu lors de l'initialisation de la base de données de Questie. Cela peut généralement être résolu en recompilant la base de données.",
         ["esES"] = nil,
         ["esMX"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
     },
@@ -144,7 +144,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "图标限制值设置为 %s : Redrawing!",
         ["zhTW"] = nil,
         ["esES"] = "Establaciendo límite de icono a %s : Redibujando!",
-        ["frFR"] = nil,
+        ["frFR"] = "Définition de la valeur limite de l'icône sur %s: Redessiner!",
     },
     ["You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"] = {
         ["ptBR"] = "Você atualizou o Questie sem reiniciar o jogo, isso provavelmente irá causar problemas. Por favor, reinicie o jogo antes de continuar",
