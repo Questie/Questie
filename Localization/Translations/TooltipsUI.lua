@@ -132,7 +132,7 @@ local tooltipsUILocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Complété  le: ",
     }
 }
 
