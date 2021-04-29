@@ -450,6 +450,9 @@ function QuestieTBCQuestFixes:Load()
         [9836] = {
             [questKeys.triggerEnd] = {"Master's Touch", {[zoneIDs.TANARIS]={{57.21,62.95},},}},
         },
+		[9849] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Gordawg's Boulder to shatter Shattered Rumblers into Minions of Gurok", 0, {{"monster", 17157}}}}
+        },
         [9863] = {
             [questKeys.requiredMinRep] = {941,0},
         },
