@@ -36,7 +36,7 @@ local keyboardShortcutLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Alt",
     },
     ["Control"] = {
         ["ptBR"] = "Ctrl",
