@@ -1118,6 +1118,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{68.58,7.88},},
             }},
         },
+        [11885] = {
+            [questKeys.requiredSourceItems] = {32620}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
+        },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},
         },
