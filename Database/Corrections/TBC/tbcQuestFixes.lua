@@ -532,6 +532,9 @@ function QuestieTBCQuestFixes:Load()
         [9962] = {
             [questKeys.triggerEnd] = {"Brokentoe Defeated", {[zoneIDs.NAGRAND]={{43.32,20.72},},}},
         },
+        [9966] = {
+            [questKeys.requiredLevel] = {80},
+        },
         [9967] = {
             [questKeys.triggerEnd] = {"The Blue Brothers Defeated", {[zoneIDs.NAGRAND]={{43.26,20.76},},}},
         },
