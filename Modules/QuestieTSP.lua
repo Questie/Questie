@@ -79,8 +79,13 @@ local function GetPlayerMapPosition()
     return mapPosition.x, mapPosition.y
 end
 
+local function hex(color)
+    local num = tonumber(color, 16)
+    return {bit.band(bit.rshift(num, 16), 255) / 255, bit.band(bit.rshift(num, 8), 255) / 255, bit.band(num, 255) / 255}
+end
+
 local skittles = {
-    {1.0, 0.0, 0.5019607843137255},
+    hex("FF0088"),
     {1.0, 1.0, 0.0},
     {0.0, 0.5019607843137255, 1.0},
     {1.0, 0.5019607843137255, 0.0},
