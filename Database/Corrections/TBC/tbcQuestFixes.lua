@@ -596,6 +596,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10040] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10041] = {
             [questKeys.preQuestSingle] = {},
