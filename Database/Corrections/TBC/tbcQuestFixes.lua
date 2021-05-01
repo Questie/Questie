@@ -112,14 +112,46 @@ function QuestieTBCQuestFixes:Load()
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [8325] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8326] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8327] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8328] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [8330] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8334] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8335] = {
+        [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8336] = {
+        [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8338] = {
             [questKeys.startedBy] = {{15298},nil,{20483,},},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8344] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8345] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
+        },
+        [8347] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
