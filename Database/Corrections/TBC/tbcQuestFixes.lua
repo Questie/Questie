@@ -298,6 +298,9 @@ function QuestieTBCQuestFixes:Load()
         [9486] = {
             [questKeys.triggerEnd] = {"Tame an Elder Springpaw", {[zoneIDs.EVERSONG_WOODS]={{61.95,64.61},{64.77,59.93},},}},
         },
+        [9489] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [9498] = {
             [questKeys.exclusiveTo] = {9340},
         },
