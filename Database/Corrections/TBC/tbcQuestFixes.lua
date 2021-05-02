@@ -23,6 +23,7 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64052, {}) -- Talented
     table.insert(QuestieDB.questData, 64053, {}) -- Talented
     table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
+    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
 
 
     local questKeys = QuestieDB.questKeys
@@ -1367,15 +1368,29 @@ function QuestieTBCQuestFixes:Load()
         },
         [64063] = {
             [questKeys.name] = "The Dark Portal",
-            [questKeys.startedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
             [questKeys.finishedBy] = {{19254},nil,nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64052,64053},
+            [questKeys.preQuestSingle] = {64052},
+            [questKeys.exclusiveTo] = {64217},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64217] = {
+            [questKeys.name] = "The Dark Portal",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{19254},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
+            [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64053},
+            [questKeys.exclusiveTo] = {64063},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
     }
 end
