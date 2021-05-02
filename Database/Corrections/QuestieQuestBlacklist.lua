@@ -617,6 +617,8 @@ function QuestieQuestBlacklist:Load()
         [7905] = true,
         [7926] = true,
 
+        [8743] = true, -- Bang a Gong! (AQ40 opening quest)
+
         -- Phase 6 Invasion quests
         -- Investigate the Scourge of X
         [9260] = true,
