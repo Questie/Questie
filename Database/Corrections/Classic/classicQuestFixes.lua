@@ -2976,6 +2976,30 @@ function QuestieQuestFixes:Load()
         [9110] = {
             [questKeys.specialFlags] = 1,
         },
+        [9111] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9112] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9113] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9114] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9115] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9116] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9117] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9118] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9154] = {
             [questKeys.questLevel] = 60,
         },
