@@ -710,6 +710,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73},},}},
+            [questKeys.requiredSourceItems] = {28452},
         },
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93},},}},
@@ -729,6 +730,9 @@ function QuestieTBCQuestFixes:Load()
         [10231] = {
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97},},}},
         },
+        [10246] = {
+            [questKeys.preQuestSingle] = {10299},
+        },        
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85},},}},
         },
