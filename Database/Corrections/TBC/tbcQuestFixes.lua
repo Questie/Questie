@@ -57,6 +57,9 @@ function QuestieTBCQuestFixes:Load()
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98},},}},
         },
+        [663] = {
+            [questKeys.requiredLevel] = 35,
+        },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56},},}},
         },
