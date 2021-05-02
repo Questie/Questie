@@ -70,6 +70,9 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32},},}},
         },
+        [2842] = {
+            [questKeys.requiredLevel] = 20,
+        },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42},},}},
         },
@@ -124,6 +127,10 @@ function QuestieTBCQuestFixes:Load()
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
+        [8490] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
+        },
         [9144] = {
             [questKeys.requiredLevel] = 10,
         },
@@ -137,13 +144,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9130] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredMinRep] = {},
+        },
+        [9152] = {
+            [questKeys.preQuestSingle] = {9327,9329},
         },
         [9160] = {
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
         [9161] = {
             [questKeys.preQuestSingle] = {9282},
+        },
+        [9174] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
@@ -157,11 +170,11 @@ function QuestieTBCQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9253] = {
+            [questKeys.exclusiveTo] = {8490},
+        },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
-        },
-        [9327] = {
-            [questKeys.exclusiveTo] = {9130},
         },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483,},
@@ -345,6 +358,9 @@ function QuestieTBCQuestFixes:Load()
         [9672] = {
             [questKeys.startedBy] = {nil,{400000},nil},
         },
+        [9678] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Light the brazier", 0, {{"object", 181956}}}},
+        },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
         },
@@ -381,6 +397,9 @@ function QuestieTBCQuestFixes:Load()
         [9738] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9740] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Destroy all 4 Sunhawk Portal Controller", 0, {{"object", 184850}}}},
+        },
         [9752] = {
             [questKeys.triggerEnd] = {"Escort Kayra Longmane to safety", {[zoneIDs.ZANGARMARSH]={{79.76,71.09},},}},
         },
@@ -394,7 +413,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9759] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {9756},
             [questKeys.triggerEnd] = {"Vector Coil Destroyed and Sironas Slain", {[zoneIDs.BLOODMYST_ISLE]={{14.86,54.84},},}},
         },
         [9760] = {
@@ -987,11 +1006,20 @@ function QuestieTBCQuestFixes:Load()
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
         },
+        [11152] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Lay the Wreath at the Hyal Family Monument", 0, {{"object", 186322}}}},
+        },
+        [11162] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Plant the Stonemaul Banner", 0, {{"object", 186336}}}},
+        },
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345,},4344,"Totem Tests Performed"}},
         },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
+        },
+        [11209] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{57,62}}}, ICON_TYPE_EVENT, "Smear the Fish Paste on yourself and swim to the ship wreck"}},
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {

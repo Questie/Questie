@@ -7,7 +7,7 @@ local professionLocals = {
         ["ruRU"] = "Первая помощь",
         ["deDE"] = "Erste Hilfe",
         ["koKR"] = "응급치료",
-        ["esMX"] = "Primeros auxilios",
+        ["esMX"] = "Primeros Auxilios",
         ["enUS"] = true,
         ["zhCN"] = "急救",
         ["zhTW"] = "急救",
@@ -123,7 +123,7 @@ local professionLocals = {
         ["frFR"] = "Enchantement",
     },
     ["Fishing"] = {
-        ["ptBR"] = "Pesca",
+        ["ptBR"] = "Pescaria",
         ["ruRU"] = "Рыбная ловля",
         ["deDE"] = "Angeln",
         ["koKR"] = "낚시",

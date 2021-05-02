@@ -1440,6 +1440,14 @@ function QuestieQuestFixes:Load()
         [5234] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [5237] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.exclusiveTo] = {},
+        },
+        [5238] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.exclusiveTo] = {},
+        },
         [5261] = {
             [questKeys.exclusiveTo] = {33}, -- #1726
         },

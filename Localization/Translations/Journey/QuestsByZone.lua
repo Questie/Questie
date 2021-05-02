@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local questsByZoneLocales = {
     ["Quests by Zone"] = {
-        ["ptBR"] = "Missões por zonas",
+        ["ptBR"] = "Missões por zona",
         ["ruRU"] = "Задания по игровым зонам",
         ["deDE"] = "Quests pro Zone",
         ["koKR"] = "지역 별 퀘스트",
@@ -63,7 +63,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Sélectionnez votre profession",
     },
     ["This quest is an automatic completion quest and does not contain an objective."] = {
-        ["ptBR"] = "Essa missão é uma missão de conclusão automática e não contém um objectivo.",
+        ["ptBR"] = "Essa missão é uma missão de conclusão automática e não contém um objetivo.",
         ["ruRU"] = "Это задание выполняется автоматически и не содержит цели",
         ["deDE"] = "Diese Quest schließt sich automatisch ab und beinhaltet keinerlei Ziele.",
         ["koKR"] = "이 퀘스트는 자동으로 완료되는 퀘스트라 표시할 퀘스트 목표가 없습니다.",
@@ -75,7 +75,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Cette quête est une quête d'achèvement automatique et ne contient pas d'objectif.",
     },
     ["Zone Quests"] = {
-        ["ptBR"] = "Missões da zona",
+        ["ptBR"] = "Missões de zona",
         ["ruRU"] = "Задания выбранной игровой зоны",
         ["deDE"] = "Zonen-Quests",
         ["koKR"] = "지역 퀘스트",
@@ -87,7 +87,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes de zone",
     },
     ["Available Quests"] = {
-        ["ptBR"] = "Missões disponiveis",
+        ["ptBR"] = "Missões disponíveis",
         ["ruRU"] = "Доступные задания",
         ["deDE"] = "Verfügbare Quests",
         ["koKR"] = "수행 가능한 퀘스트",
@@ -99,7 +99,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes disponibles",
     },
     ["Completed Quests"] = {
-        ["ptBR"] = "Missões terminadas",
+        ["ptBR"] = "Missões concluídas",
         ["ruRU"] = "Выполненные задания",
         ["deDE"] = "Abgeschlossene Quests",
         ["koKR"] = "완료한 퀘스트",
@@ -111,7 +111,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes terminées",
     },
     ["Completed"] = {
-        ["ptBR"] = "Terminado",
+        ["ptBR"] = "Concluída",
         ["ruRU"] = "выполнено",
         ["deDE"] = "Abgeschlossen",
         ["koKR"] = "완료",
@@ -123,7 +123,7 @@ local questsByZoneLocales = {
         ["frFR"] = "terminée",
     },
     ["Repeatable Quests"] = {
-        ["ptBR"] = "Missões Repetíveis",
+        ["ptBR"] = "Missões repetíveis",
         ["ruRU"] = "Повторяемые задания ",
         ["deDE"] = "Wiederholbare Quests",
         ["koKR"] = "반복 퀘스트",
@@ -135,7 +135,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes répétable",
     },
     ["Missing Pre Quest"] = {
-        ["ptBR"] = "Missão requisitada ausente",
+        ["ptBR"] = "Faltando missão de pré-requisito",
         ["ruRU"] = "Необходимо предзадание",
         ["deDE"] = "Prequest fehlt",
         ["koKR"] = "선행 퀘스트 미수행",
@@ -147,7 +147,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Pré-quête manquante",
     },
     ["Unobtainable Quests"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Missões impossíveis de se obter",
         ["ruRU"] = "Недоступные задания",
         ["deDE"] = "Nicht abschließbare Quests",
         ["koKR"] = "수행이 불가능한 퀘스트",
@@ -159,7 +159,7 @@ local questsByZoneLocales = {
         ["frFR"] = "Quêtes impossibles à obtenir",
     },
     ["Pre Quests"] = {
-        ["ptBR"] = "Missão requisitadas",
+        ["ptBR"] = "Missões de pré-requisito",
         ["ruRU"] = "Предзадание:",
         ["deDE"] = "Pre-Quests",
         ["koKR"] = "선행 퀘스트",

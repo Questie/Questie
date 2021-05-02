@@ -3,11 +3,11 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local questStateLocales = {
     ["Complete"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Completa",
         ["ruRU"] = nil,
         ["deDE"] = "Abgeschlossen",
-        ["koKR"] = nil,
-        ["esMX"] = nil,
+        ["koKR"] = "성공",
+        ["esMX"] = "Completa",
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
@@ -15,11 +15,11 @@ local questStateLocales = {
         ["frFR"] = nil,
     },
     ["Failed"] = {
-        ["ptBR"] = "Fracassado",
+        ["ptBR"] = "Fracassada",
         ["ruRU"] = "Провалено",
         ["deDE"] = "Fehlgeschlagen",
-        ["koKR"] = nil,
-        ["esMX"] = "Fracasado",
+        ["koKR"] = "실패",
+        ["esMX"] = "Fallada",
         ["enUS"] = true,
         ["zhCN"] = "失败",
         ["zhTW"] = nil,
@@ -27,7 +27,7 @@ local questStateLocales = {
         ["frFR"] = "Échoué",
     },
     ["Available"] = {
-        ["ptBR"] = "Disponivel",
+        ["ptBR"] = "Disponível",
         ["ruRU"] = "Доступно",
         ["deDE"] = "Verfügbar",
         ["koKR"] = "수행가능",
@@ -39,7 +39,7 @@ local questStateLocales = {
         ["frFR"] = "Disponible",
     },
     ["Active"] = {
-        ["ptBR"] = "Ativo",
+        ["ptBR"] = "Ativa",
         ["ruRU"] = "Активно",
         ["deDE"] = "Aktiv",
         ["koKR"] = "활성화",
@@ -63,7 +63,7 @@ local questStateLocales = {
         ["frFR"] = "Évènement",
     },
     ["Repeatable"] = {
-        ["ptBR"] = "Repetivel",
+        ["ptBR"] = "Repetível",
         ["ruRU"] = "Повторяемое",
         ["deDE"] = "Wiederholbar",
         ["koKR"] = "반복가능",

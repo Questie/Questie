@@ -836,25 +836,25 @@ function QuestieDBCompiler:Compile(finalize)
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
 
-    print(Questie:Colorize("[1/4] " .. l10n("Updating NPCs") .. "...", "lightBlue"))
+    print("\124cFF4DDBFF [1/4] " .. l10n("Updating NPCs") .. "...")
     QuestieDBCompiler:CompileNPCs(function(bin, ptrs)
         QuestieConfig.npcBin = bin 
         QuestieConfig.npcPtrs = ptrs
         QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-        print(Questie:Colorize("[2/4] " .. l10n("Updating objects") .. "...", "lightBlue"))
+        print("\124cFF4DDBFF [2/4] " .. l10n("Updating objects") .. "...")
         QuestieDBCompiler:CompileObjects(function(bin, ptrs)
             QuestieConfig.objBin = bin 
             QuestieConfig.objPtrs = ptrs
             QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-            print(Questie:Colorize("[3/4] " .. l10n("Updating quests") .. "...", "lightBlue"))
+            print("\124cFF4DDBFF [3/4] " .. l10n("Updating quests") .. "...")
             QuestieDBCompiler:CompileQuests(function(bin, ptrs)
                 QuestieConfig.questBin = bin 
                 QuestieConfig.questPtrs = ptrs
                 QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-                print(Questie:Colorize("[4/4] " .. l10n("Updating items") .. "...", "lightBlue"))
+                print("\124cFF4DDBFF [4/4] " .. l10n("Updating items") .. "...")
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs
@@ -863,7 +863,7 @@ function QuestieDBCompiler:Compile(finalize)
                     QuestieConfig.dbIsCompiled = true
                     QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-                    print(Questie:Colorize(l10n("Questie DB update complete!"), "lightBlue"))
+                    print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
                     QuestieDBCompiler._isCompiling = nil
 
                     if Questie.db.global.debugEnabled then
