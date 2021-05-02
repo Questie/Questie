@@ -12,7 +12,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = "DBM 抬頭顯示",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Affichage tête haute (HUD) de DBM",
     },
     ["Show DBM HUD"] = {
         ["ptBR"] = "Mostrar DBM HUD",

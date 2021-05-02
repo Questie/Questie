@@ -192,7 +192,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用查找器",
         ["zhTW"] = "重建資料庫",
         ["esES"] = "Recompilar base de datos",
-        ["frFR"] = nil,
+        ["frFR"] = "Recompiler la base de données",
     },
     ["Forces a recompile of the Questie database. This will also reload the UI."] = {
         ["ptBR"] = "Força uma recompilação do banco de dados do Questie. Isso também recarregará a interface do usuário.",
@@ -204,7 +204,7 @@ local advancedOptionsLocales = {
         ["zhCN"] = "启用查找器，这对于追踪延迟/帧数峰值的来源很有用",
         ["zhTW"] = "強制重建任務資料庫。這也會重新載入插件",
         ["esES"] = "Fuerza una recompilación de la base de datos Questie. Esto también volverá a cargar la interfaz de usuario.",
-        ["frFR"] = nil,
+        ["frFR"] = "Force une recompilation de la base de données Questie. Cela recharge aussi votre interface graphique.",
     },
     ["Open Profiler"] = {
         ["ptBR"] = "Abrir perfilador",

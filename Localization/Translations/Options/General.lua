@@ -432,7 +432,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "自动接受任务",
         ["zhTW"] = "自動接受任務",
         ["esES"] = "Aceptar misiones automáticamente",
-        ["frFR"] = "Acceptation automatique",
+        ["frFR"] = "Acceptation automatique des quêtes",
     },
     ["Enable or disable Questie auto-accepting quests."] = {
         ["ptBR"] = "Ativa ou desativa as missões de aceitação automática da Questie.",
@@ -468,7 +468,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用后和NPC交谈 Questie 自动完成。",
         ["zhTW"] = "完成任務並與指定任務NPC交談時，自動回報並完成任務",
         ["esES"] = "Habilita o deshabilita completar misiones automáticamente.",
-        ["frFR"] = "Active la complétion automatique des quêtes par Questie.",
+        ["frFR"] = "Active/désactive la complétion automatique des quêtes par Questie.",
     },
     ["Enable Automatic NPC Dialog"] = {
         ["ptBR"] = nil,
@@ -480,7 +480,7 @@ local generalOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Activation des dialogues PNJ automatiques",
     },
     ["Enable or disable Questie automatically advancing through NPC dialog."] = {
         ["ptBR"] = nil,
@@ -492,7 +492,7 @@ local generalOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Active/désactive l'avancement automatique des dialogues PNJ par Questie.",
     },
     ["Auto Modifier"] = {
         ["ptBR"] = "Edição automática",
