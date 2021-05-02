@@ -134,6 +134,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
         },
+        [8548] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8572] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8573] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8574] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9144] = {
             [questKeys.requiredLevel] = 10,
         },
