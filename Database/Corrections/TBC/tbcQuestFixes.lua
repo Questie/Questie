@@ -162,6 +162,9 @@ function QuestieTBCQuestFixes:Load()
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
         },
+        [8347] = {
+            [questKeys.exclusiveTo] = {9704},
+        },
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
         },
@@ -439,6 +442,9 @@ function QuestieTBCQuestFixes:Load()
         [9701] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
+        },
+        [9704] = {
+            [questKeys.preQuestSingle] = {},
         },
         [9711] = {
             [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{-1,-1},},}}, -- We don't want to use the objective data, since the fake item has waypoints
