@@ -124,6 +124,9 @@ function QuestieTBCQuestFixes:Load()
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
         },
+        [8487] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
@@ -163,6 +166,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
+        },
+        [9254] = {
+            [questKeys.exclusiveTo] = {8487},
         },
         [9279] = {
             [questKeys.exclusiveTo] = {9280},
