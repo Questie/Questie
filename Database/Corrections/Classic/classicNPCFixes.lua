@@ -513,6 +513,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{71.76,60.45},},},
         },
+        [4094] = {
+            [npcKeys.waypoints] = {},
+        },
+        [4095] = {
+            [npcKeys.waypoints] = {},
+        },
+        [4096] = {
+            [npcKeys.waypoints] = {},
+        },
+        [4099] = {
+            [npcKeys.waypoints] = {},
+        },
         [4132] = {
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{70.03,86.22},{68.38,82.32},{67.26,86.1},},},
         },
