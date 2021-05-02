@@ -111,6 +111,24 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
         },
+        [7863] = {
+            [questKeys.requiredMinRep] = {890,3000}
+        },
+        [7864] = {
+            [questKeys.requiredMinRep] = {890,9000}
+        },
+        [7865] = {
+            [questKeys.requiredMinRep] = {890,21000}
+        },
+        [7866] = {
+            [questKeys.requiredMinRep] = {889,3000}
+        },
+        [7867] = {
+            [questKeys.requiredMinRep] = {889,9000}
+        },
+        [7868] = {
+            [questKeys.requiredMinRep] = {889,21000}
+        },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
