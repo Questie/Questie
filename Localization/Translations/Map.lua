@@ -23,8 +23,8 @@ local mapLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
-        ["frFR"] = nil,
+        ["esES"] = "Zona Desconocida",
+        ["frFR"] = "Zone inconnue",
     }
 }
 
