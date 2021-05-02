@@ -784,6 +784,7 @@ function QuestieQuestBlacklist:Load()
         [11196] = true,
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
+        [9684] = true, -- Remember to blacklist 63866 and change the item source of 24156 to NPC 17845
         [11481] = true,
         [11482] = true,
         [11488] = true,

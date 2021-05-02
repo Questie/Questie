@@ -7,6 +7,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
+    table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
     -- Alliance boosted quests
     table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
     table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
@@ -1212,7 +1213,24 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
 
-        -- C_QuestLog.GetQuestObjectives
+        -- Below are quests that were not originally in TBC or in a different form
+
+        [63866] = {
+            [questKeys.name] = "Claiming the Light",
+            [questKeys.startedBy] = {{17718},nil,nil},
+            [questKeys.finishedBy] = {{17717},nil,nil},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
+            [questKeys.objectives] = {nil,nil,{{24156},},nil,},
+            [questKeys.sourceItemId] = 24157,
+            [questKeys.preQuestSingle] = {9681},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 9685,
+            [questKeys.questFlags] = 128,
+        },
 
         ----- Boosted character quests -----
         [64028] = {
