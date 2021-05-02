@@ -213,6 +213,9 @@ function QuestieTBCQuestFixes:Load()
         [9418] = {
             [questKeys.startedBy] = {{17084},nil,{23580,},},
         },
+        [9433] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
+        },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
         },
