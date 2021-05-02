@@ -699,7 +699,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
         },
         [10190] = {
-            [questkeys.objectives] = {{{18879,"Battery Charge Level"},},nil,nil,nil,},
+            [questKeys.objectives] = {{{18879,"Battery Charge Level"},},nil,nil,nil,},
         },
         [10110] = {
             [questKeys.preQuestSingle] = {10124},
@@ -752,7 +752,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97},},}},
         },
         [10243] = {
-            [questkeys.preQuestSingle] = {10241},
+            [questKeys.preQuestSingle] = {10241},
         },
         [10246] = {
             [questKeys.preQuestSingle] = {10299},
