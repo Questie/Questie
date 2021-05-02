@@ -23,7 +23,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "打开设置窗口",
         ["zhTW"] = "打開設定視窗",
-        ["esES"] = "Muestra la ventana de copnfiguración",
+        ["esES"] = "Muestra la ventana de configuración",
         ["frFR"] = "Ouvre le panneau de configuration.",
     },
     ["Toggles showing questie on the map and minimap"] = {
@@ -47,7 +47,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "打开日志窗口",
         ["zhTW"] = "打開日誌視窗",
-        ["esES"] = "muestra la ventana de mi viaje",
+        ["esES"] = "Muestra la ventana de 'Mi Viaje'",
         ["frFR"] = "Ouvre la fenêtre Mon voyage.",
     },
     ["Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"] = {
@@ -59,7 +59,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "切换任务追踪窗口，输入  'show', 'hide', 'reset' 选项以显示、隐藏、重设追踪窗口",
         ["zhTW"] = "切換任務追蹤視窗。加上 'show', 'hide', 'reset' 選項以顯示、隱藏、重設追蹤視窗",
-        ["esES"] = nil,
+        ["esES"] = "Muestra el Rastreador. Agrega 'mostrar', 'ocultar y 'reestablecer' para mostrar/ocultar y reestablecer el Rastreador",
         ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'masquer', 'réinitialiser' pour afficher / masquer ou réinitialiser explicitement le traqueur",
     },
     ["Toggles the Minimap Button for Questie"] = {
@@ -79,11 +79,11 @@ local debugMessagesLocales = {
         ["ruRU"] = "добавить ручные заметки на карту для введенного ID (или имени) NPC. Если имя неоднозначное, то могут добавиться несколько заметок. Без второй команды цель будет добавлена на карту. Команда 'reset' удаляет все заметки.",
         ["deDE"] = "Fügt manuelle Notizen für die NPC-ID oder den NPC-Namen zur Karte hinzu. Ist der Name nicht eindeutig, können mehrere Notizen hinzugefügt werden. Ohne einen zweiten Befehl wird das aktuelle Ziel zur Karte hinzugefügt. Mit dem 'reset' Befehl werden alle Notizen wieder entfernt",
         ["koKR"] = nil,
-        ["esMX"] = "Agrega notas manuales al mapa para un ID o nombre de NPC específico. Si el nombre es ambiguo puede que se agreguen varias notas. Sin un segundo comando, el objetivo será agregado al mapa. El comando 'reestablecer' elimina todas las notas.",
+        ["esMX"] = "Agrega notas manuales al mapa para un ID o nombre de PNJ específico. Si el nombre es ambiguo puede que se agreguen varias notas. Sin un segundo comando, el objetivo será agregado al mapa. El comando 'reestablecer' elimina todas las notas.",
         ["enUS"] = true,
         ["zhCN"] = "对特定NPC ID或名字于地图上加上自定义备注。若名字不精准，则备注可能会被加到多个目标上。 'reset'  指令可以移除所有的备注",
         ["zhTW"] = "對特定NPC ID或名稱於地圖上加上自訂註解。若名稱不精確，則註解可能會被加到多個目標上。'reset' 指令可以移除所有的註解",
-        ["esES"] = nil,
+        ["esES"] = "Agrega notas manuales al mapa para un ID o nombre de PNJ específico. Si el nombre es ambiguo puede que se agreguen varias notas. Sin un segundo comando, el objetivo será agregado al mapa. El comando 'reestablecer' elimina todas las notas.",
         ["frFR"] = "Ajouter des notes manuellement à la carte pour un ID ou un nom de PNJ donné. Si le nom est ambigu, plusieurs notes peuvent être ajoutées. Sans une deuxième commande, la cible sera ajoutée à la carte. La commande 'réinitialiser' supprime toutes les notes",
     },
     ["Invalid command. For a list of options please type: "] = {
@@ -107,7 +107,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhTW"] = nil,
         ["frFR"] = "Un problème est survenu lors de l'initialisation de la base de données de Questie. Cela peut généralement être résolu en recompilant la base de données.",
-        ["esES"] = nil,
+        ["esES"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
         ["esMX"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
     },
     ["There was an error populating objectives for %s %s %s %s"] = {
@@ -119,7 +119,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "填充 %s %s %s %s 的目标时出错",
         ["zhTW"] = nil,
-        ["esES"] = "Se produjo un error al completar los objetivos para %s %s %s %s",
+        ["esES"] = "Se produjo un error al obtener los objetivos para %s %s %s %s",
         ["frFR"] = "Une erreur s'est produite lors de la création des objectifs pour %s %s %s %s",
     },
     ["Error: Questie tracker in invalid location, resetting..."] = {
@@ -131,7 +131,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "错误：Questie任务追踪的框架跑到奇怪的地方去了，重置一下......",
         ["zhTW"] = "錯誤：Questie任務追蹤的框架跑到奇怪的地方去了，重置一下……",
-        ["esES"] = "Error: Rastreador en localización inválida, reiniciado...",
+        ["esES"] = "Error: Rastreador en ubicación inválida, reiniciado...",
         ["frFR"] = "Erreur : suivi des quêtes de Questie dans un endroit non valide, réinitialisation...",
     },
     ["Setting icon limit value to %s : Redrawing!"] = {
@@ -143,7 +143,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "图标限制值设置为 %s : Redrawing!",
         ["zhTW"] = nil,
-        ["esES"] = "Establaciendo límite de icono a %s : Redibujando!",
+        ["esES"] = "Establaciendo límite de ícono a %s : Redibujando!",
         ["frFR"] = "Définition de la valeur limite de l'icône sur %s: Redessiner!",
     },
     ["You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"] = {
@@ -227,7 +227,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = "正在读出 物品信息",
         ["zhTW"] = nil,
-        ["esES"] = "Actualizando items",
+        ["esES"] = "Actualizando ítems",
         ["frFR"] = "Mise à jour Objets",
     },
     ["Questie DB update complete!"] = {
@@ -239,7 +239,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhTW"] = nil,
         ["zhCN"] = "QuestieDB 读出完成!",
-        ["esES"] = "¡Actualización de Questie DB completada!",
+        ["esES"] = "¡Actualización de base de datos de Questie completada!",
         ["frFR"] = "La base de données Questie a été mise à jour !",
     },
     ["%s for %s!"] = {
@@ -252,7 +252,7 @@ local debugMessagesLocales = {
         ["zhTW"] = nil,
         ["deDE"] = "%s für %s!",
         ["esES"] = "%s para %s!",
-        ["esMX"] = "¡%s para %s!",
+        ["esMX"] = "%s para %s!",
     },
     ["Picked up %s which starts %s!"] = {
         ["ptBR"] = "Pegou %s que começa %s!",
@@ -264,7 +264,7 @@ local debugMessagesLocales = {
         ["zhTW"] = nil,
         ["deDE"] = "%s aufgehoben, das %s startet!",
         ["esES"] = "Despojó %s que empieza %s!",
-        ["esMX"] = "¡Despojó %s que empieza %s!",
+        ["esMX"] = "Despojó %s que empieza %s!",
     },
 }
 
