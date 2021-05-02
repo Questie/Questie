@@ -23,7 +23,7 @@ local trackerUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "显示标记",
         ["zhTW"] = "顯示標記",
-        ["esES"] = "Mostrar iconos",
+        ["esES"] = "Mostrar íconos",
         ["frFR"] = "Afficher les icônes",
     },
     ["Quest completed!"] = {
@@ -35,7 +35,7 @@ local trackerUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "任务完成!",
         ["zhTW"] = "任務完成!",
-        ["esES"] = "Misión completada!",
+        ["esES"] = "¡Misión completada!",
         ["frFR"] = "Quête terminée!",
     },
     ["Quest completion failed!"] = {
@@ -43,11 +43,11 @@ local trackerUILocales = {
         ["ruRU"] = "Выполнить задание не удалось!",
         ["deDE"] = "Quest fehlgeschlagen",
         ["koKR"] = "퀘스트 실패!",
-        ["esMX"] = "¡La misión ha fallado!",
+        ["esMX"] = "¡La misión ha fracasado!",
         ["enUS"] = true,
         ["zhCN"] = "任务失败!",
         ["zhTW"] = "任務失敗!",
-        ["esES"] = "No se ha completado la misión!",
+        ["esES"] = "¡La misión ha fracasado!",
         ["frFR"] = "Échec de la quête!",
     },
     ["Untrack Quest"] = {
@@ -71,7 +71,7 @@ local trackerUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "关注任务",
         ["zhTW"] = "關注任務",
-        ["esES"] = "Misión de enfoque",
+        ["esES"] = "Enfocar Misión",
         ["frFR"] = "Prioriser cette quête",
     },
     ["Unfocus"] = {
@@ -95,7 +95,7 @@ local trackerUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "关注目标",
         ["zhTW"] = "關注目標",
-        ["esES"] = "Objetivo de enfoque",
+        ["esES"] = "Enfocar Objetivo",
         ["frFR"] = "Objectif prioritaire",
     },
     ["Unlock Tracker"] = {
@@ -144,7 +144,7 @@ local trackerUILocales = {
         ["zhCN"] = "将任务连接到聊天框",
         ["zhTW"] = "將任務連結貼到對話",
         ["esES"] = "Vincular misión al chat",
-        ["frFR"] = nil,
+        ["frFR"] = "Linker la quêter dans la chat",
     },
     ["Show in Quest Log"] = {
         ["ptBR"] = "Mostrar no registro de missões",
