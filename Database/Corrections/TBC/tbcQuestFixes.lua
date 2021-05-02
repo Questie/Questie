@@ -680,6 +680,9 @@ function QuestieTBCQuestFixes:Load()
         [10108] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
         },
+        [10190] = {
+            [questkeys.objectives] = {{{18879,"Battery Charge Level"},},nil,nil,nil,},
+        },
         [10110] = {
             [questKeys.preQuestSingle] = {10124},
         },
@@ -710,6 +713,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73},},}},
+            [questKeys.requiredSourceItems] = {28452},
         },
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93},},}},
@@ -732,6 +736,9 @@ function QuestieTBCQuestFixes:Load()
         [10243] = {
             [questkeys.preQuestSingle] = {10241},
         },
+        [10246] = {
+            [questKeys.preQuestSingle] = {10299},
+        },        
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85},},}},
         },
@@ -1120,6 +1127,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.73},},
                 [zoneIDs.UNDERCITY]={{68.58,7.88},},
             }},
+        },
+        [11885] = {
+            [questKeys.requiredSourceItems] = {32620}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
         },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},
