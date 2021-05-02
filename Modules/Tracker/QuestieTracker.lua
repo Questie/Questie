@@ -30,6 +30,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieArrow
+local QuestieArrow = QuestieLoader:ImportModule("QuestieArrow")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
@@ -131,16 +133,16 @@ function QuestieTracker:HookBaseTracker()
         
                 -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
                 local quest = QuestieDB:GetQuest(qid)
-                local zoneId = quest.zoneOrSort
-        
                 if Questie.db.char.collapsedQuests[qid] == true then
                     Questie.db.char.collapsedQuests[qid] = nil
                 end
-        
-                if Questie.db.char.collapsedZones[zoneId] == true then
-                    Questie.db.char.collapsedZones[zoneId] = nil
+                if quest then
+                    local zoneId = quest.zoneOrSort
+            
+                    if Questie.db.char.collapsedZones[zoneId] == true then
+                        Questie.db.char.collapsedZones[zoneId] = nil
+                    end
                 end
-        
                 --QuestieCombatQueue:Queue(function()
                 --    QuestieTracker:ResetLinesForChange()
                 --    QuestieTracker:Update()
@@ -223,7 +225,7 @@ end
 local function newTracker(tracker)
 
     -- todo: config
-    local LINE_HEIGHT_BASE = 10
+    local LINE_HEIGHT_BASE = 8
     local QUEST_SPACING = 14
     local QUESTIE_ICON_SIZE = 12
     local BUTTON_SIZE_BASE = 20
@@ -235,6 +237,30 @@ local function newTracker(tracker)
 
     local TRACKER_BORDER_BRIGHTNESS = 0.7
     
+
+    if (not Questie.db.char.TrackerHiddenQuests) then
+        Questie.db.char.TrackerHiddenQuests = {}
+    end
+    
+    if (not Questie.db.char.TrackerHiddenObjectives) then
+        Questie.db.char.TrackerHiddenObjectives = {}
+    end
+
+    if (not Questie.db.char.TrackedQuests) then
+        Questie.db.char.TrackedQuests = {}
+    end
+
+    if (not Questie.db.char.AutoUntrackedQuests) then
+        Questie.db.char.AutoUntrackedQuests = {}
+    end
+    
+    if (not Questie.db.char.collapsedZones) then
+        Questie.db.char.collapsedZones = {}
+    end
+
+    if (not Questie.db.char.collapsedQuests) then
+        Questie.db.char.collapsedQuests = {}
+    end
 
 
 
@@ -1025,6 +1051,7 @@ local function newTracker(tracker)
     -- build data to be rendered. This is run when quest status changes
     tracker.Build = function(self) 
 
+        tracker.questCount = 0
         tracker.renderY = 0
         tracker.renderX = ((tracker.x + (tracker.width/2))*tracker.scale > GetScreenWidth() / 2) and ((BUTTON_SIZE_BASE+QUEST_TITLE_PADDING+5)*tracker.scale) or 0
 
@@ -1054,7 +1081,7 @@ local function newTracker(tracker)
             --tracker.resizeButton:Show()
         end)
 
-        renderLine(tracker.renderData, Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Questie Tracker", 1, (QUESTIE_ICON_SIZE*tracker.scale)-tracker.renderX, nil, function()
+        renderLine(tracker.renderData, Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Questie Tracker", 1.5, (QUESTIE_ICON_SIZE*tracker.scale)-tracker.renderX, nil, function()
             tracker.shrink = not tracker.shrink
             tracker:Update(true)
         end, false, function(line)
@@ -1138,6 +1165,7 @@ local function newTracker(tracker)
                 local data = QuestieTSP.metadata[GetPlayerZoneFixed()][v]
                 __DAT = data
                 if data.spawn then
+                    tracker.questCount = tracker.questCount + 1
                     local questId = data.spawn.questId
                     --print("build for id " .. tostring(questId))
                     local quest = QuestieDB:GetQuest(questId)
@@ -1170,7 +1198,7 @@ local function newTracker(tracker)
                 end
             end
         end
-
+        local first = true
         if QuestieTSP.paths[GetPlayerZoneFixed()] and not tracker.shrink then
             local duplicates = {} -- objectives are listed individually in .paths
             for _, v in pairs(QuestieTSP.paths[GetPlayerZoneFixed()]) do
@@ -1187,8 +1215,25 @@ local function newTracker(tracker)
                     if data and not duplicates[questId] then
                         duplicates[questId] = true
 
-                        --print("Getting " .. tostring(questId))
                         local questName = QuestieLib:GetColoredQuestName(questId, true, true, true)
+
+                        if first then
+                            first = false
+                            local x, y = QuestieTSP:IDToCoord(v)
+                            QuestieArrow:SetWaypoint(x, y, GetPlayerZoneFixed())
+                            if questName then
+                                QuestieArrow:SetLabel(questName)
+                            else
+                                QuestieArrow:SetLabel("Error!")
+                            end
+                            
+                            --if anchorArrowToTracker then
+                            --    QuestieArrow:GetFrame():SetPoint("CENTER", tracker.frame.background, "TOPLEFT", (tracker.width * tracker.scale)/2, 50)
+                            --end
+                        end
+
+                        --print("Getting " .. tostring(questId))
+                        
                         renderLine(tracker.renderData, questName, 1.3, nil, nil, click)
                         if data.itemButton then
                             tinsert(tracker.renderData, data.itemButton)
@@ -1257,6 +1302,7 @@ local function newTracker(tracker)
                             for _, data in pairs(_orderedPairs) do
                                 local type, ids = data[1], data[2]
                             --for type, ids in pairs(data.objectives) do
+                                --print(type)
                                 local query = queryTable[tonumber(type)]
                                 for id, players in pairs(ids) do
 
@@ -1278,6 +1324,10 @@ local function newTracker(tracker)
                                     end
             
                                     if type == 1 then
+                                        if name == nil then
+                                            print("NAME NIL!")
+                                            ______DATA = data
+                                        end
                                         name = name .. " Slain"
                                     end
             
@@ -1342,17 +1392,19 @@ local function newTracker(tracker)
                 --tinsert(tracker.renderData, function()
                 --    addY(8)
                 --end)
-                renderLine(tracker.renderData, "|cFFFF0000 - TRACKER DEBUG - |r", 0.5)
+                renderLine(tracker.renderData, "|cFFFF0000 - TRACKER DEBUG - |r", 1)
 
-                renderLine(tracker.renderData, function() return "|cFFFFFFFFActive Component Count: " .. tostring(#tracker.components) .. "|r" end, 0.5, 12)
-                renderLine(tracker.renderData, function() return "|cFFFFFFFFInactive Button Count: " .. tostring(#tracker.buttons) .. "|r" end, 0.5, 12)
-                renderLine(tracker.renderData, function() return "|cFFFFFFFFInactive Line Count: " .. tostring(#tracker.lines) .. "|r" end, 0.5, 12)
-                renderLine(tracker.renderData, function() return "|cFFFFFFFFInactive Checkbox Count: " .. tostring(#tracker.checkboxes) .. "|r" end, 0.5, 12)
-                renderLine(tracker.renderData, function() return "|cFFFFFFFFRender Count: " .. tostring(tracker.renderCount) .. "|r" end, 0.5, 12)
-                renderLine(tracker.renderData, "", 0.5, 8)
-                renderLine(tracker.renderData, function() return "|cFFFF0000 - ROUTES DEBUG - |r" end, 0.5)
-                renderLine(tracker.renderData, function() local a = 0 for _,l in pairs(QuestieTSP.buttons) do a = a + #l end return "|cFFFFFFFFButtons (active / inactive): " .. tostring(a) .. " / " .. tostring(#QuestieTSP.buttonCache) .. "|r" end, 0.5, 12)
-                renderLine(tracker.renderData, function() local a = 0 for _,l in pairs(QuestieTSP.ants) do a = a + #l end return "|cFFFFFFFFAnts (active / inactive): " .. tostring(a) .. " / " .. tostring(#QuestieTSP.antCache) .. "|r" end, 0.5, 12)
+                renderLine(tracker.renderData, function() return "|cFFFFFFFFActive Component Count: " .. tostring(#tracker.components) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() return "|cFFFFFFFFInactive Button Count: " .. tostring(#tracker.buttons) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() return "|cFFFFFFFFInactive Line Count: " .. tostring(#tracker.lines) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() return "|cFFFFFFFFInactive Checkbox Count: " .. tostring(#tracker.checkboxes) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() return "|cFFFFFFFFRender Count: " .. tostring(tracker.renderCount) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() return "|cFFFFFFFFQuest Count: " .. tostring(tracker.questCount) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, "", 1, 8)
+                renderLine(tracker.renderData, function() return "|cFFFF0000 - ROUTES DEBUG - |r" end, 1)
+                renderLine(tracker.renderData, function() local a = 0 for _,l in pairs(QuestieTSP.buttons) do a = a + #l end return "|cFFFFFFFFButtons (active / inactive): " .. tostring(a) .. " / " .. tostring(#QuestieTSP.buttonCache) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() local a = 0 for _,l in pairs(QuestieTSP.ants) do a = a + #l end return "|cFFFFFFFFAnts (active / inactive): " .. tostring(a) .. " / " .. tostring(#QuestieTSP.antCache) .. "|r" end, 0.8, 12)
+                renderLine(tracker.renderData, function() local x, y = QuestieTSP:GetZoneEntryPoint(C_Map.GetBestMapForUnit("Player")) return "|cFFFFFFFFOrigin: " .. tostring(floor(x*1000)/10) .. ", " .. tostring(floor(y*1000)/10) .. "|r" end, 0.8, 12)
                 
                 --renderLine(tracker.renderData, "", 0.5, 8)
                 --renderLine(tracker.renderData, function() return "|cFFFF0000 - VARIABLES - |r" end, 0.5)
@@ -1436,6 +1488,10 @@ local function newTracker(tracker)
     end
 
     QuestieTracker:HookBaseTracker()
+
+    C_Timer.NewTicker(2, function()
+        tracker:Update()
+    end)
 
     return tracker
 end

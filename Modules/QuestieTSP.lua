@@ -35,11 +35,6 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 
 
-
-
-
-
-
 -- TaxiPath.dbc
 
 -- built from TaxiPathNodes.dbc
@@ -441,11 +436,16 @@ function QuestieTSP:GetSpawns(id, targetMap, disableYield)
     --print("GS " .. tostring(id))
     local shouldAddFinisher = false
     local shouldAddObjectives = false
+    local spawns = {}
     local eventSpawns = {}
     local validObjectiveIDs = {}
 
     local eventPlayers = {}
     local finisherPlayers = {}
+
+    --if uimapid == C_Map.GetBestMapForUnit("Player") then
+    --    print(QuestieLib:GetColoredQuestName(id, true, true, true))
+    --end
     --print("Getting Spawns " .. tostring(id))
     -- check for event spawns
     for player, log in pairs(QuestieTSP.logs[uimapid] or {}) do
@@ -461,8 +461,9 @@ function QuestieTSP:GetSpawns(id, targetMap, disableYield)
                                 eventPlayers[player] = true
                             end
                             if not shouldAddObjectives then
+                                --print("Event Objective")
                                 local x, y = QuestieTSP:IDToCoord(objective.id)
-                                tinsert(eventSpawns, {["x"]=x, ["y"]=y, ["score"]=QuestieTSP.entryScore["event"][objective.id], ["id"]=objective.id, ["objectiveId"]=objective.id, ["questId"]=id, ["type"] = 4, ["name"]="event", ["players"]=eventPlayers})
+                                tinsert(spawns, {["x"]=x, ["y"]=y, ["score"]=QuestieTSP.entryScore["event"][objective.id], ["id"]=objective.id, ["objectiveId"]=objective.id, ["questId"]=id, ["type"] = 4, ["name"]="event", ["players"]=eventPlayers})
                             end
                         end
                         if objective.needed ~= objective.collected then
@@ -474,10 +475,15 @@ function QuestieTSP:GetSpawns(id, targetMap, disableYield)
             end
         end
     end
-    local spawns = {}
 
     local function addSpawns(spawnList, score, entryId, type, name, isFinisher, objectiveId)
-        --print("addSpawns  " .. tostring(objectiveId))
+        --print("addSpawns  " .. tostring(objectiveId) .. tostring(name))
+
+        if (not name) or (not spawnList) then
+            print("Invalid NPC data for " .. tostring(objectiveId))
+            return
+        end
+
         local playerList = isFinisher and finisherPlayers or {}
         if not isFinisher then
             for player, log in pairs(QuestieTSP.logs[uimapid] or {}) do
@@ -512,7 +518,7 @@ function QuestieTSP:GetSpawns(id, targetMap, disableYield)
             end
         end
         --print("QO")
-        if questData.objectives[2] then -- creature
+        if questData.objectives[2] then -- object
             for _,data in pairs(questData.objectives[2]) do
                 if validObjectiveIDs[data[1]] then
                     addSpawns(QuestieDB.QueryObjectSingle(data[1], "spawns"), QuestieTSP.entryScore["object"][data[1]] or 0, data[1], 2, QuestieDB.QueryObjectSingle(data[1], "name"), false, data[1])
@@ -520,7 +526,7 @@ function QuestieTSP:GetSpawns(id, targetMap, disableYield)
             end
         end
         --print("QI")
-        if questData.objectives[3] then -- creature
+        if questData.objectives[3] then -- item
             for _,data in pairs(questData.objectives[3]) do
                 if validObjectiveIDs[data[1]] then
                     --local npcDrops, objectDrops, name = unpack(QuestieDB.QueryItem(data[1], "npcDrops", "objectDrops", "name"))
@@ -543,6 +549,28 @@ function QuestieTSP:GetSpawns(id, targetMap, disableYield)
                         end
                     end
                 end
+            end
+        end
+        if questData.objectives[5] then -- killcredit
+            local data = questData.objectives[5]
+            local rootID = data[2]
+            if validObjectiveIDs[rootID] then
+                local spawns = {}
+                for _, id in pairs(data[1]) do
+                    local newSpawns = QuestieDB.QueryNPCSingle(id, "spawns")
+                    if newSpawns then
+                        for zone, lst in pairs(newSpawns) do
+                            if not spawns[zone] then
+                                spawns[zone] = {}
+                            end
+                            for _, spawn in pairs(lst) do
+                                tinsert(spawns[zone], spawn)
+                            end
+                        end
+                    end
+                end
+
+                addSpawns(spawns, QuestieTSP.entryScore["monster"][rootID] or 0, rootID, 1, QuestieDB.QueryNPCSingle(rootID, "name"), false, id)
             end
         end
     end
@@ -711,7 +739,7 @@ function QuestieTSP:BuildTaskList()
         if QuestieTSP.socialMode or player == you then
             for questID, data in pairs(log) do
                 if not colorMap[questID] then
-                    colorMap[questID] = skittles[colorID%#skittles]
+                    colorMap[questID] = skittles[colorID%#skittles] or {0,0,0}
                     colorID = colorID + 1
                 end
                 --print(questID)
@@ -1656,10 +1684,12 @@ function QuestieTSP:TooltipEntered(id, size, uimapid, data, icon)
                 icon.texture:SetTexelSnappingBias(0)
                 icon.texture:SetSnapToPixelGrid(false)
 
-                color = data[point].color
+                local color = data[point].color
 
-                icon.texture:SetVertexColor(color[1], color[2], color[3] ,0.3)
+                if color then
 
+                    icon.texture:SetVertexColor(color[1], color[2], color[3] ,0.3)
+                end
                 icon.isRouteGraphic = true
                 icon.routeIndex = index
 
@@ -1897,13 +1927,21 @@ function QuestieTSP:TestRoutesTSP(sa, uimapid) --adz
         for index, v in pairs(path) do
             local x, y = QuestieTSP:IDToCoord(v)
             local data = lookupTable[v]
+
+
+
             --print("Path: " .. tostring(x) .. " " .. tostring(y))
             --QuestieMap:ShowDebug(nil, 0.5, "Route Test - Step " .. tostring(index), {}, "test", ZoneDB:GetAreaIdByUiMapId(GetPlayerZoneFixed()), x*100, y*100)
             
             --icon.texture:SetTexture("")
 
             if lx ~= -1 then -- exclude the first icon, its the player
-                
+
+                -- if colorByRouteIndex then
+                data.color = skittles[(index-1)%((#skittles)+1)]
+                --end
+
+
                 local size = 28
                 local lastIcon = false--index == count and count > 6 -- dont fade final objective if the route is too short
 
@@ -2121,7 +2159,7 @@ function QuestieTSP:TestRoutesTSP(sa, uimapid) --adz
                 local nx = abs(lx-x) > lx-x and -1 or 1
                 local ny = abs(ly-y) > ly-y and -1 or 1
 
-                local dist = floor(sqrt((distx*distx) + (disty*disty)))
+                local dist = floor(sqrt((distx*distx) + (disty*disty))) + 0.0000000001
                 --print("dist: " .. tostring(dist))
 
                 local ratiox = (distx / dist)--distx / disty
@@ -2599,6 +2637,7 @@ function TSP:SolveTSP(nodes, metadata, taboos, zoneID, parameters, path, nonbloc
 	-- Notes: Some of these code might look convoluted, with seemingly unnecessary use of too many locals
     -- and make the code look longer. But they are for speed optimization.
     --print("SolveTSP0")
+    --print("solveTSP zone " .. tostring(zoneID))
 	assert(type(nodes) == "table", "SolveTSP() expected table in 1st argument, got "..type(nodes).." instead.")
 	assert(type(taboos) == "table", "SolveTSP() expected table in 3rd argument, got "..type(taboos).." instead.")
     assert(type(parameters) == "table", "SolveTSP() expected table in 5th argument, got "..type(parameters).." instead.")
@@ -2701,19 +2740,29 @@ function TSP:SolveTSP(nodes, metadata, taboos, zoneID, parameters, path, nonbloc
 	end
 
     local px, py = unpack(parameters.entryPoint)--GetPlayerMapPosition()--HBD:GetPlayerWorldPosition()
+    --print("entrypoint: " .. tostring(px) .. " " .. tostring(py))
     --print("Entry Point: " .. tostring(px) .. " " .. tostring(py))
  
 	for i = 1, numNodes do
-		local x1, y1 = IDToCoords(nodes[i])--floor(nodes[i] / 10000) / 10000, (nodes[i] % 10000) / 10000
+        local x1, y1 = IDToCoords(nodes[i])--floor(nodes[i] / 10000) / 10000, (nodes[i] % 10000) / 10000
+        --print("spawn: " .. tostring(x1) .. " " .. tostring(y1))
 		local u = i*numNodes-i
         weight[u] = 0
         playerWeight[i] = (((px - x1)*zoneW)^2 + ((py - y1)*zoneH)^2)^0.5
 		phero[u] = INITIAL_PHEROMONE
 		for j = i+1, numNodes do
-			local x2, y2 = IDToCoords(nodes[j])--floor(nodes[j] / 10000) / 10000, (nodes[j] % 10000) / 10000
+            local x2, y2 = IDToCoords(nodes[j])--floor(nodes[j] / 10000) / 10000, (nodes[j] % 10000) / 10000
+            -- prevent divide by zero errors for repeated nodes (HACK!)
+            x2 = x2 + 0.00000001
+            y2 = y2 + 0.00000001
+
 			local u, v = i*numNodes-j, j*numNodes-i
             weight[u] = (((x2 - x1)*zoneW)^2 + ((y2 - y1)*zoneH)^2)^0.5 -- Calc distance between each node pair
             
+            if weight[u] == 0 then
+                print("SET WEIGHT TO 0 at " .. tostring(x1) .. " ".. tostring(y1) .. " " .. tostring(x2) .. " " ..tostring(y2) .. " " )
+            end
+
 			weight[v] = weight[u]
 			phero[u] = INITIAL_PHEROMONE -- All pheromone trails start
             phero[v] = INITIAL_PHEROMONE -- with a initial small value
@@ -2759,7 +2808,11 @@ function TSP:SolveTSP(nodes, metadata, taboos, zoneID, parameters, path, nonbloc
 				if flag then break end
 			end
 			if flag then -- we increase/bias the weight by a constant factor and by the zone width, since it passes thru a taboo region
-				weight[u] = weight[u] * 2 + zoneW
+                weight[u] = weight[u] * 2 + zoneW
+                if weight[u] == 0 then
+                    print("SET WEIGHT TO 0 at " .. tostring(x1) .. " ".. tostring(y1) .. " " .. tostring(x21) .. " " ..tostring(y2) .. " " )
+                end
+    
 				weight[v] = weight[u]
 			end
 
