@@ -733,6 +733,9 @@ function QuestieTBCQuestFixes:Load()
         [10231] = {
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97},},}},
         },
+        [10243] = {
+            [questkeys.preQuestSingle] = {10241},
+        },
         [10246] = {
             [questKeys.preQuestSingle] = {10299},
         },        
