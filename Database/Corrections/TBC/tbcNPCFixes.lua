@@ -170,6 +170,12 @@ function QuestieTBCNpcFixes:Load()
         [18369] = {
             [npcKeys.waypoints] = {},
         },
+        [18472] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
+        },
+        [18473] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
+        },
         [18537] = {
             [npcKeys.waypoints] = {},
         },

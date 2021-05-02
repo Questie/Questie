@@ -48,6 +48,9 @@ function QuestieTBCObjectFixes:Load()
         [181897] = {
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{68.3,21.7},{69.98,26.3},{70.6,16.5},{71.4,11.7},{71.4,28.2},{72.7,21.4},{74.7,16.3},{75,8.7},{75.4,19.1},{75.7,28.4},{75.54,13.85},{76,24.8},{76.8,21.4},},},
         },
+        [183050] = {
+            [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
+        },
         [190483] = {
             [objectKeys.name] = "Document Chest",
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{33.76,39.99},},},
