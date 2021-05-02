@@ -738,7 +738,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10246] = {
             [questKeys.preQuestSingle] = {10299},
-        },        
+        },
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85},},}},
         },
@@ -1129,7 +1129,7 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11885] = {
-            [questKeys.requiredSourceItems] = {32620}
+            [questKeys.requiredSourceItems] = {32620},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
         },
         [11891] = {
