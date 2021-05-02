@@ -51,8 +51,14 @@ function QuestieTBCQuestFixes:Load()
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36},},}},
         },
+        [495] = {
+            [questKeys.exclusiveTo] = {518},
+        },
         [503] = {
             [questKeys.triggerEnd] = {"Find where Gol'dir is being held", {[zoneIDs.ALTERAC_VALLEY]={{60.58,43.86},},}},
+        },
+        [518] = {
+            [questKeys.preQuestSingle] = {},
         },
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98},},}},
