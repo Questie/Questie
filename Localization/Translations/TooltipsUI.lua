@@ -43,11 +43,11 @@ local tooltipsUILocales = {
         ["ruRU"] = "Требуется для завершения",
         ["deDE"] = "Voraussetzungen",
         ["koKR"] = "요구사항",
-        ["esMX"] = "Objetivos",
+        ["esMX"] = "Requisitos",
         ["enUS"] = true,
         ["zhCN"] = "需求",
         ["zhTW"] = "需求",
-        ["esES"] = "Objetivo",
+        ["esES"] = "Requisitos",
         ["frFR"] = "Requises",
     },
     ["You are ineligible for this quest"] = {
@@ -95,7 +95,7 @@ local tooltipsUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "你已完成这项任务",
         ["zhTW"] = "你已完成這項任務",
-        ["esES"] = "Has completado esta misión",
+        ["esES"] = "Ya has completado esta misión",
         ["frFR"] = "Vous avez terminé cette quête",
     },
     ["Started by"] = {
@@ -107,7 +107,7 @@ local tooltipsUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "任务开始于",
         ["zhTW"] = "任務始於",
-        ["esES"] = "Empezado por",
+        ["esES"] = "Empezada por",
         ["frFR"] = "Début",
     },
     ["Ended by"] = {
@@ -119,7 +119,7 @@ local tooltipsUILocales = {
         ["enUS"] = true,
         ["zhCN"] = "任务结束于",
         ["zhTW"] = "任務結束於",
-        ["esES"] = "Terminado por",
+        ["esES"] = "Terminada por",
         ["frFR"] = "Fin",
     },
     ["Completed on:"] = {
@@ -131,7 +131,7 @@ local tooltipsUILocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Terminada el:",
         ["frFR"] = "Complété  le: ",
     }
 }
