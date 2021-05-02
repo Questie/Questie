@@ -11,7 +11,7 @@ local questStateLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Completa",
         ["frFR"] = nil,
     },
     ["Failed"] = {
@@ -19,7 +19,7 @@ local questStateLocales = {
         ["ruRU"] = "Провалено",
         ["deDE"] = "Fehlgeschlagen",
         ["koKR"] = "실패",
-        ["esMX"] = "Fallada",
+        ["esMX"] = "Fracasado",
         ["enUS"] = true,
         ["zhCN"] = "失败",
         ["zhTW"] = nil,
