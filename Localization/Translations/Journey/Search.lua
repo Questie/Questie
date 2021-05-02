@@ -324,7 +324,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Masqué",
     },
     ["Quests is hidden"] = {
         ["ptBR"] = "Missão escondida",
@@ -336,7 +336,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "La quête est masquée",
     },
     ["\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."] = {
         ["ptBR"] = "\nQuando selecionado, esconde a missão do mapa, mesmo que esteja ativa.\n\nTambém é possível esconder a missão utilizando Shift + Botão esquerdo nela no mapa.",
@@ -348,7 +348,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "\nLorsque cette option est sélectionnée, masque la quête de la carte, même si elle est active.\n\nCacher une quête est également possible en cliquant dessus tout en maintenant la touche Maj enfoncée sur la carte.",
     },
     ["Hidden by Questie"] = {
         ["ptBR"] = "Escondida por Questie",
@@ -360,7 +360,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Masqué par Questie",
     },
     ["NPCs starting this quest:"] = {
         ["ptBR"] = "NPCs que iniciam esta missão:",
@@ -372,7 +372,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "PNJ qui débute cette quête",
     },
     ["NPCs finishing this quest:"] = {
         ["ptBR"] = "NPCs que finalizam esta missão:",
@@ -384,7 +384,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "PNJ qui termine cette quête",
     },
     ["Objects starting this quest:"] = {
         ["ptBR"] = "Objetos que iniciam esta missão:",
@@ -396,7 +396,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objet qui démarre cette quête",
     },
     ["Objects finishing this quest:"] = {
         ["ptBR"] = "Objetos que finalizam esta missão:",
@@ -408,7 +408,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objet qui termine cette quête",
     },
     ["Items starting this quest:"] = {
         ["ptBR"] = "Itens que inicial esta missão:",
@@ -420,7 +420,7 @@ local searchLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Item qui démarre cette quête",
     },
 }
 
