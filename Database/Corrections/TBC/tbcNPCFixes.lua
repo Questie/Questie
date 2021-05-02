@@ -144,6 +144,10 @@ function QuestieTBCNpcFixes:Load()
         [17336] = {
             [npcKeys.waypoints] = {},
         },
+        [17544] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5},},},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+        },
         [17589] = {
             [npcKeys.waypoints] = {},
         },
@@ -195,10 +199,6 @@ function QuestieTBCNpcFixes:Load()
         },
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
-        },
-        [17544] = {
-            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5},},},
-            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
