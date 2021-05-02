@@ -35,7 +35,7 @@ local keyboardShortcutLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Alt",
         ["frFR"] = "Alt",
     },
     ["Control"] = {
@@ -47,7 +47,7 @@ local keyboardShortcutLocales = {
         ["enUS"] = true,
         ["zhCN"] = "Ctrl",
         ["zhTW"] = "Ctrl",
-        ["esES"] = nil,
+        ["esES"] = "Ctrl",
         ["frFR"] = "Ctrl",
     },
     ["Ctrl + Left Click"] = {
@@ -107,7 +107,7 @@ local keyboardShortcutLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Shift",
         ["frFR"] = "Maj",
     },
     ["Hold Shift"] = {
