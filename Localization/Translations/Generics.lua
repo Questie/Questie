@@ -130,7 +130,7 @@ local genericsLocales = {
         ["zhCN"] = "不在显示",
         ["enUS"] = true,
         ["zhTW"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Ne plus afficher",
         ["esES"] = "No volver a mostrar",
         ["esMX"] = "No volver a mostrar",
     },
@@ -144,7 +144,7 @@ local genericsLocales = {
         ["zhCN"] = "自动",
         ["zhTW"] = "自動",
         ["esES"] = "Automático",
-        ["frFR"] = nil,
+        ["frFR"] = "Automatique",
     },
     ["Enabled"] = {
         ["ptBR"] = "Ativado",
@@ -192,7 +192,7 @@ local genericsLocales = {
         ["zhCN"] = "经验",
         ["zhTW"] = "經驗值",
         ["esES"] = "exp",
-        ["frFR"] = nil,
+        ["frFR"] = "exp",
     },
     ["Alliance"] = {
         ["ptBR"] = "Aliança",
@@ -228,7 +228,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "ID de Misión",
-        ["frFR"] = "ID de Quête",
+        ["frFR"] = "ID de la quête",
     },
     ["Quest Level"] = {
         ["ptBR"] = "Nível da missão",
@@ -240,7 +240,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Nivel de Misión",
-        ["frFR"] = "Niveau de Quête",
+        ["frFR"] = "Niveau de la Quête",
     },
     ["Quest Details"] = {
         ["ptBR"] = "Detalhes da missão",
@@ -252,7 +252,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Detalles de Misión",
-        ["frFR"] = "Détails de la quête",
+        ["frFR"] = "Détails de la Quête",
     },
     ["NPC Details"] = {
         ["ptBR"] = "Detalhes do NPC",
@@ -264,7 +264,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Detalles del PNJ",
-        ["frFR"] = nil,
+        ["frFR"] = "Détails du PNJ",
     },
     ["Object Details"] = {
         ["ptBR"] = "Detalhes do objeto",
@@ -276,7 +276,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Detalles del objeto",
-        ["frFR"] = nil,
+        ["frFR"] = "Détails de l'objet",
     },
     ["Required Level"] = {
         ["ptBR"] = "Nível necessário",
@@ -288,7 +288,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Nivel Requerido",
-        ["frFR"] = nil,
+        ["frFR"] = "Niveau requis",
     },
     ["Required Race"] = {
         ["ptBR"] = "Raça necessária",
@@ -300,7 +300,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Raza Requerida",
-        ["frFR"] = nil,
+        ["frFR"] = "Race requise",
     },
     ["Human"] = {
         ["ptBR"] = "Humano",
@@ -324,7 +324,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Orco",
-        ["frFR"] = nil,
+        ["frFR"] = "Orc",
     },
     ["Dwarf"] = {
         ["ptBR"] = "Anão",
@@ -336,7 +336,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Enano",
-        ["frFR"] = nil,
+        ["frFR"] = "Nain",
     },
     ["Nightelf"] = {
         ["ptBR"] = "Elfo Noturno",
@@ -348,7 +348,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Elfo de la Noche",
-        ["frFR"] = nil,
+        ["frFR"] = "Elfe de la nuit",
     },
     ["Undead"] = {
         ["ptBR"] = "Morto-vivo",
@@ -360,7 +360,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "No-Muerto",
-        ["frFR"] = nil,
+        ["frFR"] = "Mort-viant",
     },
     ["Tauren"] = {
         ["ptBR"] = "Tauren",
@@ -372,7 +372,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Tauren",
-        ["frFR"] = nil,
+        ["frFR"] = "Tauren",
     },
     ["Gnome"] = {
         ["ptBR"] = "Gnomo",
@@ -384,7 +384,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Gnomo",
-        ["frFR"] = nil,
+        ["frFR"] = "Gnome",
     },
     ["Troll"] = {
         ["ptBR"] = "Troll",
@@ -396,7 +396,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Trol",
-        ["frFR"] = nil,
+        ["frFR"] = "Troll",
     },
     ["Goblin"] = {
         ["ptBR"] = "Goblin",
@@ -408,7 +408,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Goblin",
-        ["frFR"] = nil,
+        ["frFR"] = "Gobelin",
     },
     ["Draenei"] = {
         ["ptBR"] = "Draenei",
