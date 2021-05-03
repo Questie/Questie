@@ -14,8 +14,8 @@ function QuestieQuestLog:ElvSkinFrames()
         return
     end
 
-    local elv, _, _, _, _ = unpack(ElvUI)
-    local S = elv:GetModule('Skins')
+    local elv = ElvUI[1]
+    local S = elv:GetModule("Skins")
 
     if QuestieQuestLog:IsElvSkinningEnabled(elv) == false then
         return
@@ -23,17 +23,17 @@ function QuestieQuestLog:ElvSkinFrames()
 
     local function LoadSkin()
         for i = 1, QUESTS_DISPLAYED do
-            local questLogTitle = _G['QuestLogTitle'..i]
+            local questLogTitle = _G["QuestLogTitle"..i]
             questLogTitle:Width(320)
         end
 
-        QuestLogFrame:HookScript('OnShow', function()
+        QuestLogFrame:HookScript("OnShow", function()
             QuestLogNoQuestsText:ClearAllPoints();
             QuestLogNoQuestsText:SetPoint("CENTER", QuestLogFrame);
         end)
     end
 
-    S:AddCallback('Quest', LoadSkin)
+    S:AddCallback("Quest", LoadSkin)
 end
 
 -- Initialize Quest Log level badges
@@ -42,24 +42,22 @@ function QuestieQuestLog:InitializeQuestLogLevelBadges()
         return
     end
 
-    local numEntries, _ = GetNumQuestLogEntries();
+    local numEntries = GetNumQuestLogEntries();
 
     if numEntries == 0 then
         return
     end
 
     for i = 1, QUESTS_DISPLAYED, 1 do
-        local questIndex, questLogTitle, title, level, isHeader, questTextFormatted, questCheck
-
-        questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
+        local questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 
         if questIndex <= numEntries then
-            questLogTitle = _G["QuestLogTitle"..i]
-            questCheck = _G["QuestLogTitle"..i.."Check"]
-            title, level, _, isHeader = GetQuestLogTitle(questIndex)
+            local questLogTitle = _G["QuestLogTitle"..i]
+            local questCheck = _G["QuestLogTitle"..i.."Check"]
+            local title, level, _, isHeader = GetQuestLogTitle(questIndex)
 
             if (not isHeader) then
-                questTextFormatted = format("  [%d] %s", level, title)
+                local questTextFormatted = format("  [%d] %s", level, title)
                 questLogTitle:SetText(questTextFormatted)
                 QuestLogDummyText:SetText(questTextFormatted)
             end
@@ -115,7 +113,7 @@ function QuestieQuestLog:InitializeWideQuestLogFrame()
     local skinDefaultFrames = true;
     -- Show 3 more quests when ElvUI is present
     if (elvEnabled) then
-        local elv, _, _, _, _ = unpack(ElvUI)
+        local elv = ElvUI[1]
 
         if QuestieQuestLog:IsElvSkinningEnabled(elv) then
             QUESTS_DISPLAYED = QUESTS_DISPLAYED + 1;
@@ -167,7 +165,6 @@ function QuestieQuestLog:SetQuestLogTextures()
     for _, region in ipairs(regions) do
         if (region:IsObjectType("Texture")) then
             local texturefile = region:GetTexture();
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieQuestLog:InitializeWindow]", texturefile)
             local which, yofs, xofs = texturefile:match(PATTERN);
             xofs = xofs and xOffsets[xofs];
             yofs = yofs and yOffsets[yofs];
