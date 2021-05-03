@@ -188,7 +188,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showRaidQuests = {
                         type = "toggle",
-                        order = 10,
+                        order = 11,
                         name = function() return l10n('Enable Raid Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of raid quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -202,7 +202,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showPvPQuests = {
                         type = "toggle",
-                        order = 11,
+                        order = 12,
                         name = function() return l10n('Enable PvP Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of PvP quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -216,7 +216,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showAQWarEffortQuests = {
                         type = "toggle",
-                        order = 12,
+                        order = 13,
                         name = function() return l10n('Enable AQ War Effort Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -328,7 +328,7 @@ function QuestieOptions.tabs.general:Initialize()
             Spacer_H = QuestieOptionsUtils:HorizontalSpacer(1.71, 0.5),
             acceptTrivial = {
                 type = "toggle",
-                order = 8,
+                order = 10,
                 name = function() return l10n('Accept trivial (low level) quests'); end,
                 desc = function() return l10n('When this is enabled trivial (gray) quests will be auto accepted as well.'); end,
                 disabled = function() return (not Questie.db.char.autoaccept) end,
@@ -358,7 +358,7 @@ function QuestieOptions.tabs.general:Initialize()
             Spacer_B = QuestieOptionsUtils:HorizontalSpacer(1.722, 0.5),
             shareQuestsNearby = {
                 type = "toggle",
-                order = 10,
+                order = 12,
                 name = function() return l10n('Share quest progress with nearby players'); end,
                 desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
                 disabled = function() return false end,
@@ -373,12 +373,12 @@ function QuestieOptions.tabs.general:Initialize()
             },
             quest_options = {
                 type = "header",
-                order = 11,
+                order = 13,
                 name = function() return l10n('Quest Level Options'); end,
             },
             gray = {
                 type = "toggle",
-                order = 12,
+                order = 14,
                 name = function() return l10n('Show All Quests below range (Low level quests)'); end,
                 desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
                 width = "full",
@@ -391,7 +391,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             manualMinLevelOffset = {
                 type = "toggle",
-                order = 13,
+                order = 15,
                 name = function() return l10n('Enable manual minimum level offset'); end,
                 desc = function() return l10n('Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.'); end,
                 width = 1.5,
@@ -405,7 +405,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             absoluteLevelOffset = {
                 type = "toggle",
-                order = 14,
+                order = 16,
                 name = function() return l10n('Enable absolute level range'); end,
                 desc = function() return l10n('Change the level offset to absolute level values.'); end,
                 width = 1.5,
@@ -467,7 +467,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             clusterLevelHotzone = {
                 type = "range",
-                order = 17,
+                order = 19,
                 name = function() return l10n('Objective icon cluster amount'); end,
                 desc = function() return l10n('How much objective icons should cluster.'); end,
                 width = "double",
