@@ -35,19 +35,21 @@ function QuestieQuestLog:ElvSkinFrames()
 end
 
 function QuestieQuestLog:InitializeQuestLogLevelBadges()
-    if not Questie.db.char.enableQuestLogLevelBadges then
+    if (not Questie.db.char.enableQuestLogLevelBadges) then
         return
     end
 
     local numEntries, numQuests = GetNumQuestLogEntries();
 
-    if (numEntries == 0) then return end
+    if numEntries == 0 then
+        return
+    end
 
     local questIndex, questLogTitle, title, level, _, isHeader, questTextFormatted, questCheck, questCheckXOfs
     for i = 1, QUESTS_DISPLAYED, 1 do
         questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 
-        if (questIndex <= numEntries) then
+        if questIndex <= numEntries then
             questLogTitle = _G["QuestLogTitle"..i]
             questCheck = _G["QuestLogTitle"..i.."Check"]
             title, level, _, isHeader = GetQuestLogTitle(questIndex)
@@ -64,12 +66,21 @@ function QuestieQuestLog:InitializeQuestLogLevelBadges()
 end
 
 function QuestieQuestLog:InitializeWindow()
-    if not Questie.db.char.enableWideQuestLog then
+    if (not Questie.db.char.enableWideQuestLog) then
         return
     end
 
     -- Configure this as a double-wide frame to stop the UIParent trampling on it
-    UIPanelWindows["QuestLogFrame"] = { area = "override", pushable = 0, xoffset = -16, yoffset = 12, bottomClampOverride = 140+12, width = 724, height = 513, whileDead = 1 };
+    UIPanelWindows["QuestLogFrame"] = {
+        area = "override",
+        pushable = 0,
+        xoffset = -16,
+        yoffset = 12,
+        bottomClampOverride = 140+12,
+        width = 724,
+        height = 513,
+        whileDead = 1
+    };
 
     -- Widen the window, note that this size includes some pad on the right hand
     -- side after the scrollbars
@@ -80,8 +91,7 @@ function QuestieQuestLog:InitializeWindow()
     QuestLogTitleText:ClearAllPoints();
     QuestLogTitleText:SetPoint("TOP", QuestLogFrame, "TOP", 0, -18);
 
-    -- Relocate the detail frame over to the right, and stretch it to full
-    -- height.
+    -- Relocate the detail frame over to the right, and stretch it to full height.
     QuestLogDetailScrollFrame:ClearAllPoints();
     QuestLogDetailScrollFrame:SetPoint("TOPLEFT", QuestLogListScrollFrame, "TOPRIGHT", 41, 0);
     QuestLogDetailScrollFrame:SetHeight(362);
@@ -99,7 +109,7 @@ function QuestieQuestLog:InitializeWindow()
 
     local skinDefaultFrames = true;
     -- Show 3 more quests when ElvUI is present
-    if (elvEnabled) then
+    if elvEnabled then
         local E, L, V, P, G = unpack(ElvUI)
         local S = E:GetModule('Skins')
 
@@ -132,13 +142,13 @@ function QuestieQuestLog:InitializeWindow()
 
         local PATTERN = "^Interface\\QuestFrame\\UI%-QuestLog%-(([A-Z][a-z]+)([A-Z][a-z]+))$";
         for _, region in ipairs(regions) do
-            if (region:IsObjectType("Texture")) then
+            if region:IsObjectType("Texture") then
                 local texturefile = region:GetTexture();
                 Questie:Debug(DEBUG_DEVELOP, "[QuestieQuestLog:InitializeWindow]", texturefile)
                 local which, yofs, xofs = texturefile:match(PATTERN);
                 xofs = xofs and xOffsets[xofs];
                 yofs = yofs and yOffsets[yofs];
-                if (xofs and yofs and textures[which]) then
+                if xofs and yofs and textures[which] then
                     region:ClearAllPoints();
                     region:SetPoint("TOPLEFT", QuestLogFrame, "TOPLEFT", xofs, yofs);
                     region:SetTexture(textures[which]);
@@ -154,7 +164,7 @@ function QuestieQuestLog:InitializeWindow()
             local yofs, xofs = name:match("^([A-Z][a-z]+)([A-Z][a-z]+)$");
             xofs = xofs and xOffsets[xofs];
             yofs = yofs and yOffsets[yofs];
-            if (xofs and yofs) then
+            if xofs and yofs then
                 local region = QuestLogFrame:CreateTexture(nil, "ARTWORK");
                 region:ClearAllPoints();
                 region:SetPoint("TOPLEFT", QuestLogFrame, "TOPLEFT", xofs, yofs);
