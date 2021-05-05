@@ -109,7 +109,6 @@ local debugMessagesLocales = {
         ["zhTW"] = nil,
         ["frFR"] = "Un problème est survenu lors de l'initialisation de la base de données de Questie. Cela peut généralement être résolu en recompilant la base de données.",
         ["esES"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
-        
     },
     ["There was an error populating objectives for %s %s %s %s"] = {
         ["ptBR"] = "Ocorreu um erro ao popular objetivos para %s %s %s %s",
