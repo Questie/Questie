@@ -540,7 +540,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "在任务追踪上开启任务日志的快捷键",
         ["zhTW"] = "在任務追蹤上開啟任務日誌的快捷鍵",
         ["esES"] = "El atajo del rastreador para mostrar la misión en el registro.",
-        ["frFR"] = "Définis le raccourci servant à afficher la quête dans le journal des quêtes.",
+        ["frFR"] = "Définit le raccourci servant à afficher la quête dans le journal des quêtes.",
     },
     ["Untrack/Link Quest"] = {
         ["ptBR"] = "Remover Rastreio/Vincular missão",
@@ -552,7 +552,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "停止任务/连接任务",
         ["zhTW"] = "停止追蹤任務/連結任務",
         ["esES"] = "No rastrear/vincular misión",
-        ["frFR"] = nil,
+        ["frFR"] = "Ne plus traquer et partager le lien de la quête",
     },
     ["Don't Sort"] = {
         ["ptBR"] = "Não classifique",
@@ -612,7 +612,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "当聊天框文字输入未被开启时，将所选任务从任务追踪框体内移除；当聊天框文字输入被开启时，贴上任务连接到聊天框内。",
         ["zhTW"] = "當聊天室窗文字輸入未被開啟時，將所選任務從任務追蹤視窗移除；當聊天室窗文字輸入被開啟時，貼上任務連結到對話視窗",
         ["esES"] = "Elimina una misión del Rastreador cuando el cuadro de entrada del chat no está visible; de lo contrario, esto vinculará una misión al chat.",
-        ["frFR"] = nil,
+        ["frFR"] = "Enlève une quête du traqueur quand la fenêtre de chat n'est pas visible, sinon poste le lien de la quête dans le chat",
     },
     ["Padding Between Quests"] = {
         ["ptBR"] = "Preenchimento entre missões",
@@ -852,7 +852,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "追踪器设定点",
         ["zhTW"] = "任務追蹤視窗錨點",
         ["esES"] = "Punto fijo del rastreador",
-        ["frFR"] = nil,
+        ["frFR"] = "Assigner la position du traqueur",
     },
     ["Top Left"] = {
         ["ptBR"] = "Superior esquerdo",
