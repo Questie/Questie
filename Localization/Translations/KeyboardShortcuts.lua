@@ -28,7 +28,7 @@ local keyboardShortcutLocales = {
     },
     ["Alt"] = {
         ["ptBR"] = "Alt",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Alt",
         ["deDE"] = nil,
         ["koKR"] = "Alt",
         ["esMX"] = "Alt",
@@ -100,7 +100,7 @@ local keyboardShortcutLocales = {
     },
     ["Shift"] = {
         ["ptBR"] = "Shift",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Shift",
         ["deDE"] = "Umschalt",
         ["koKR"] = "Shift",
         ["esMX"] = "Shift",
