@@ -16,7 +16,7 @@ local mapLocales = {
     },
     ["Unknown Zone"] = {
         ["ptBR"] = "Zona desconhecida",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Неисследованная зона",
         ["deDE"] = "Unbekannte Zone",
         ["koKR"] = "미확인 구역",
         ["esMX"] = "Zona Desconocida",
