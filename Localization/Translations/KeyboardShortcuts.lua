@@ -83,7 +83,7 @@ local keyboardShortcutLocales = {
         ["enUS"] = true,
         ["zhCN"] = "Ctrl +左键+保持",
         ["zhTW"] = "Ctrl + 長按左鍵",
-        ["esES"] = "Ctrl + Clic izquierdo + Mantener",
+        ["esES"] = "Ctrl + Clic izq. + Mantener",
         ["frFR"] = "Ctrl + clic gauche + maintien",
     },
     ["Ctrl + Shift + Left Click"] = {
@@ -119,7 +119,7 @@ local keyboardShortcutLocales = {
         ["enUS"] = true,
         ["zhCN"] = "按住Shift查看更多",
         ["zhTW"] = "按住Shift",
-        ["esES"] = "Presiona Shift",
+        ["esES"] = "Mantener Shift",
         ["frFR"] = "Maintenir Maj",
     },
     ["Left Click + Hold"] = {
@@ -131,7 +131,7 @@ local keyboardShortcutLocales = {
         ["enUS"] = true,
         ["zhCN"] = "左键单击并按住",
         ["zhTW"] = "左鍵單擊並按住",
-        ["esES"] = "Clic izquierdo + Mantener",
+        ["esES"] = "Clic izq. + Mantener",
         ["frFR"] = "Clic gauche + Maintenir",
     },
 }
