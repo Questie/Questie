@@ -539,6 +539,9 @@ function QuestieQuestFixes:Load()
         [1133] = {
             [questKeys.preQuestSingle] = {}, -- #1738
         },
+        [1136] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use a Fresh Carcass at the Flame of Uzel", 0, {{"object", 1770}}}},
+        },
         [1144] = {
             [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.THE_BARRENS]={{42.27,89.88},},},},
         },
