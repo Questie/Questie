@@ -854,6 +854,9 @@ function QuestieTBCQuestFixes:Load()
         [10246] = {
             [questKeys.preQuestSingle] = {10299},
         },
+        [10250] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Blow the Unyielding Battle Horn near the Alliance Banner", 0, {{"object", 184002 }}}},
+        },
         [10263] = {
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {932,3000},
