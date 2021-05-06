@@ -422,6 +422,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [5847] = {
+            [itemKeys.npcDrops] = {4363,4362,4360,4358,4361,4359},
+        },
         [5868] = {
             [itemKeys.name] = "Filled Etched Phial",
             [itemKeys.relatedQuests] = {1195},
