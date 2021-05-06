@@ -730,7 +730,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97},},}},
         },
         [10264] = {
-            [questkeys.preQuestSingle] = {10552},
+            [questKeys.preQuestSingle] = {10552},
         },
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85},},}},
