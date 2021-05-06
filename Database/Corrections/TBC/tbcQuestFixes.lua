@@ -811,6 +811,9 @@ function QuestieTBCQuestFixes:Load()
         [10162] = {
             [questKeys.requiredSourceItems] = {40000},
         },
+        [10163] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Gryphongar", 0, {{"npc", 20235}}}},
+        },
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
         },
