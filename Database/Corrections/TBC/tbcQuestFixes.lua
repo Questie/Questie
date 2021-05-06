@@ -1145,8 +1145,20 @@ function QuestieTBCQuestFixes:Load()
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
         },
+        [11208] = {
+            [questKeys.exclusiveTo] = {11158},
+        },
         [11209] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{57,62}}}, ICON_TYPE_EVENT, "Smear the Fish Paste on yourself and swim to the ship wreck"}},
+        },
+        [11211] = {
+            [questKeys.exclusiveTo] = {11158},
+        },
+        [11214] = {
+            [questKeys.exclusiveTo] = {11158},
+        },
+        [11215] = {
+            [questKeys.exclusiveTo] = {11158},
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
