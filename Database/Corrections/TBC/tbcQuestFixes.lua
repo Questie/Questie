@@ -889,6 +889,9 @@ function QuestieTBCQuestFixes:Load()
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97},},}},
         },
+        [10340] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"npc", 19409}}}},
+        },
         [10388] = {
             [questKeys.startedBy] = {{16576,19273,},nil,nil,},
             [questKeys.preQuestSingle] = {10129},
