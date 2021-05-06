@@ -1109,6 +1109,9 @@ function QuestieItemFixes:Load()
         [18605] = {
             [itemKeys.npcDrops] = {12396}, -- #7583
         },
+        [18642] = {
+            [itemKeys.npcDrops] = {4968},
+        },
         [18746] = { -- #1344
             [itemKeys.name] = "Divination Scryer",
             [itemKeys.relatedQuests] = {7666,7669,8258,},

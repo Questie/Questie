@@ -7,6 +7,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
+    table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
     -- Alliance boosted quests
     table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
     table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
@@ -23,6 +24,7 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64052, {}) -- Talented
     table.insert(QuestieDB.questData, 64053, {}) -- Talented
     table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
+    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
 
 
     local questKeys = QuestieDB.questKeys
@@ -49,14 +51,32 @@ function QuestieTBCQuestFixes:Load()
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36},},}},
         },
+        [495] = {
+            [questKeys.exclusiveTo] = {518},
+        },
         [503] = {
             [questKeys.triggerEnd] = {"Find where Gol'dir is being held", {[zoneIDs.ALTERAC_VALLEY]={{60.58,43.86},},}},
+        },
+        [518] = {
+            [questKeys.preQuestSingle] = {},
         },
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98},},}},
         },
+        [663] = {
+            [questKeys.requiredLevel] = 35,
+        },
+        [748] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56},},}},
+        },
+        [927] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [968] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36},},}},
@@ -81,6 +101,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21},},}},
+        },
+        [4740] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44},},}},
@@ -109,20 +132,74 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
         },
+        [7863] = {
+            [questKeys.requiredMinRep] = {890,3000}
+        },
+        [7864] = {
+            [questKeys.requiredMinRep] = {890,9000}
+        },
+        [7865] = {
+            [questKeys.requiredMinRep] = {890,21000}
+        },
+        [7866] = {
+            [questKeys.requiredMinRep] = {889,3000}
+        },
+        [7867] = {
+            [questKeys.requiredMinRep] = {889,9000}
+        },
+        [7868] = {
+            [questKeys.requiredMinRep] = {889,21000}
+        },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [8325] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8326] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8327] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8328] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [8330] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8334] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8335] = {
+             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8336] = {
+             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8338] = {
             [questKeys.startedBy] = {{15298},nil,{20483,},},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8344] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8345] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
         },
+        [8347] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.exclusiveTo] = {9704},
+        },
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
+        },
+        [8487] = {
+            [questKeys.preQuestSingle] = {},
         },
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
@@ -130,6 +207,18 @@ function QuestieTBCQuestFixes:Load()
         [8490] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
+        },
+        [8548] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8572] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8573] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8574] = {
+            [questKeys.specialFlags] = 1,
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
@@ -164,6 +253,9 @@ function QuestieTBCQuestFixes:Load()
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
         },
+        [9254] = {
+            [questKeys.exclusiveTo] = {8487},
+        },
         [9279] = {
             [questKeys.exclusiveTo] = {9280},
         },
@@ -193,6 +285,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9418] = {
             [questKeys.startedBy] = {{17084},nil,{23580,},},
+        },
+        [9433] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
         },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
@@ -235,6 +330,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9486] = {
             [questKeys.triggerEnd] = {"Tame an Elder Springpaw", {[zoneIDs.EVERSONG_WOODS]={{61.95,64.61},{64.77,59.93},},}},
+        },
+        [9489] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9498] = {
             [questKeys.exclusiveTo] = {9340},
@@ -374,6 +472,9 @@ function QuestieTBCQuestFixes:Load()
         [9701] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
+        },
+        [9704] = {
+            [questKeys.preQuestSingle] = {},
         },
         [9711] = {
             [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{-1,-1},},}}, -- We don't want to use the objective data, since the fake item has waypoints
@@ -596,9 +697,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10040] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10041] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10044] = {
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
@@ -680,6 +783,9 @@ function QuestieTBCQuestFixes:Load()
         [10108] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
         },
+        [10190] = {
+            [questKeys.objectives] = {{{18879,"Battery Charge Level"},},nil,nil,nil,},
+        },
         [10110] = {
             [questKeys.preQuestSingle] = {10124},
         },
@@ -710,6 +816,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73},},}},
+            [questKeys.requiredSourceItems] = {28452},
         },
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93},},}},
@@ -728,6 +835,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10231] = {
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97},},}},
+        },
+        [10243] = {
+            [questKeys.preQuestSingle] = {10241},
+        },
+        [10246] = {
+            [questKeys.preQuestSingle] = {10299},
         },
         [10264] = {
             [questKeys.preQuestSingle] = {10552},
@@ -1121,6 +1234,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{68.58,7.88},},
             }},
         },
+        [11885] = {
+            [questKeys.requiredSourceItems] = {32620},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
+        },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},
         },
@@ -1179,7 +1296,24 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
 
-        -- C_QuestLog.GetQuestObjectives
+        -- Below are quests that were not originally in TBC or in a different form
+
+        [63866] = {
+            [questKeys.name] = "Claiming the Light",
+            [questKeys.startedBy] = {{17718},nil,nil},
+            [questKeys.finishedBy] = {{17717},nil,nil},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
+            [questKeys.objectives] = {nil,nil,{{24156},},nil,},
+            [questKeys.sourceItemId] = 24157,
+            [questKeys.preQuestSingle] = {9681},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 9685,
+            [questKeys.questFlags] = 128,
+        },
 
         ----- Boosted character quests -----
         [64028] = {
@@ -1338,15 +1472,29 @@ function QuestieTBCQuestFixes:Load()
         },
         [64063] = {
             [questKeys.name] = "The Dark Portal",
-            [questKeys.startedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
             [questKeys.finishedBy] = {{19254},nil,nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64052,64053},
+            [questKeys.preQuestSingle] = {64052},
+            [questKeys.exclusiveTo] = {64217},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64217] = {
+            [questKeys.name] = "The Dark Portal",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{19254},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
+            [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64053},
+            [questKeys.exclusiveTo] = {64063},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
     }
 end
