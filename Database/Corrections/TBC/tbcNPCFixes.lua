@@ -36,6 +36,18 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{57.8,91.6},},},
             [npcKeys.zoneID] = zoneIDs.UNDERCITY,
         },
+        [15350] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4},},
+                [zoneIDs.UNDERCITY]={{58.27,97.9},},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{63.09,59.87},},
+                [zoneIDs.THE_BARRENS]={{46.71,8.68},},
+                [zoneIDs.ARATHI_HIGHLANDS]={{73.5,29.13},},
+                [zoneIDs.THE_HINTERLANDS]={{50.33,89.57},},
+            },
+        },
         [15658] = {
             [npcKeys.waypoints] = {},
         },
@@ -132,6 +144,10 @@ function QuestieTBCNpcFixes:Load()
         [17336] = {
             [npcKeys.waypoints] = {},
         },
+        [17544] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5},},},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+        },
         [17589] = {
             [npcKeys.waypoints] = {},
         },
@@ -153,6 +169,12 @@ function QuestieTBCNpcFixes:Load()
         },
         [18369] = {
             [npcKeys.waypoints] = {},
+        },
+        [18472] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
+        },
+        [18473] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
         },
         [18537] = {
             [npcKeys.waypoints] = {},
