@@ -617,6 +617,8 @@ function QuestieQuestBlacklist:Load()
         [7905] = true,
         [7926] = true,
 
+        [8743] = true, -- Bang a Gong! (AQ40 opening quest)
+
         -- Phase 6 Invasion quests
         -- Investigate the Scourge of X
         [9260] = true,
@@ -782,6 +784,7 @@ function QuestieQuestBlacklist:Load()
         [11196] = true,
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
+        [9684] = true, -- Remember to blacklist 63866 and change the item source of 24156 to NPC 17845
         [11481] = true,
         [11482] = true,
         [11488] = true,

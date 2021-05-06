@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibQuestXP-1.0", 7
+local MAJOR, MINOR = "LibQuestXP-2.0", 1
 local LibQuestXP = LibStub:NewLibrary(MAJOR, MINOR)
 
 local QuestiePlayer = nil;

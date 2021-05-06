@@ -1259,6 +1259,9 @@ function QuestieQuestFixes:Load()
         [4506] = {
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32},},},},
         },
+        [4542] = {
+            [questKeys.exclusiveTo] = {4841},
+        },
         [4581] = {
             [questKeys.exclusiveTo] = {1011},
         },
@@ -1328,6 +1331,9 @@ function QuestieQuestFixes:Load()
         },
         [4811] = {
             [questKeys.triggerEnd] = {"Locate the large, red crystal on Darkshore's eastern mountain range",{[zoneIDs.DARKSHORE]={{47.24,48.68},},},}, -- #1373
+        },
+        [4841] = {
+            [questKeys.preQuestSingle] = {},
         },
         [4866] = {
             [questKeys.triggerEnd] = {"Milked", {[zoneIDs.BURNING_STEPPES]={{65.11,23.68},},},},
@@ -2968,6 +2974,30 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9110] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9111] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9112] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9113] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9114] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9115] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9116] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9117] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9118] = {
             [questKeys.specialFlags] = 1,
         },
         [9154] = {

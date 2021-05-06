@@ -16,15 +16,15 @@ local mapLocales = {
     },
     ["Unknown Zone"] = {
         ["ptBR"] = "Zona desconhecida",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Неисследованная зона",
         ["deDE"] = "Unbekannte Zone",
         ["koKR"] = "미확인 구역",
         ["esMX"] = "Zona Desconocida",
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
-        ["frFR"] = nil,
+        ["esES"] = "Zona Desconocida",
+        ["frFR"] = "Zone inconnue",
     }
 }
 
