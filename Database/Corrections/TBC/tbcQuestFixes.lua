@@ -846,6 +846,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {932,3000},
         },
+        [10264] = {
+            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.requiredMinRep] = {934,3000},
+        },
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85},},}},
         },
