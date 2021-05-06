@@ -280,6 +280,9 @@ function QuestieTBCQuestFixes:Load()
         [9400] = {
             [questKeys.triggerEnd] = {"Find Krun Spinebreaker", {[zoneIDs.HELLFIRE_PENINSULA]={{33.59,43.62},},}},
         },
+        [9410] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf.", 0, {{"object", 181630}}}},
+        },
         [9417] = {
             [questKeys.preQuestSingle] = {},
         },
