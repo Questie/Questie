@@ -1136,6 +1136,9 @@ function QuestieTBCQuestFixes:Load()
         [11152] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Lay the Wreath at the Hyal Family Monument", 0, {{"object", 186322}}}},
         },
+        [11159] = {
+            [questKeys.preQuestSingle] = {11161},
+        },
         [11162] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Plant the Stonemaul Banner", 0, {{"object", 186336}}}},
         },
