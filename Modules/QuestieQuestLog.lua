@@ -1,6 +1,9 @@
 ---@class QuestieQuestLog
 local QuestieQuestLog = QuestieLoader:CreateModule("QuestieQuestLog")
 
+local oldQuestsDisplayed = QUESTS_DISPLAYED
+local questsDisplayed = oldQuestsDisplayed + 18
+
 -- Retrieve ElvUI and check if skinning is enabled
 function QuestieQuestLog:GetElvUI()
     local elvEnabled = IsAddOnLoaded("ElvUI")
@@ -27,7 +30,7 @@ function QuestieQuestLog:InitializeQuestLogLevelBadges()
         return
     end
 
-    for i = 1, QUESTS_DISPLAYED, 1 do
+    for i = 1, questsDisplayed, 1 do
         local questIndex = i + FauxScrollFrame_GetOffset(QuestLogListScrollFrame);
 
         if questIndex <= numEntries then
@@ -87,11 +90,7 @@ function QuestieQuestLog:InitializeWideQuestLogFrame()
 
     local _, elvSkinningEnabled = QuestieQuestLog:GetElvUI()
 
-    -- Create the additional rows
-    local oldQuestsDisplayed = QUESTS_DISPLAYED;
-    QUESTS_DISPLAYED = QUESTS_DISPLAYED + 18
-
-    QuestieQuestLog:CreateExtraQuestLogTitles(oldQuestsDisplayed)
+    QuestieQuestLog:CreateExtraQuestLogTitles()
 
     if elvSkinningEnabled then
         QuestieQuestLog:SkinElvUIFrame()
@@ -149,9 +148,9 @@ function QuestieQuestLog:SkinDefaultFrame()
 end
 
 -- Create the extra Quest Log Title buttons
-function QuestieQuestLog:CreateExtraQuestLogTitles(oldQuestsDisplayed)
+function QuestieQuestLog:CreateExtraQuestLogTitles()
     -- Add extra visible quest in the overview
-    for i = oldQuestsDisplayed + 1, QUESTS_DISPLAYED do
+    for i = oldQuestsDisplayed + 1, questsDisplayed do
         local button = CreateFrame("Button", "QuestLogTitle" .. i, QuestLogFrame, "QuestLogTitleButtonTemplate");
         button:SetID(i);
         button:Hide();
