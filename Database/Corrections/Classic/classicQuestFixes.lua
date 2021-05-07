@@ -2187,7 +2187,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0, -- #1870
         },
         [8331]  ={
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {8332},
         },
         [8332] = {
             [questKeys.preQuestSingle] = {},
