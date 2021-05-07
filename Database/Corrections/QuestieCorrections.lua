@@ -581,7 +581,18 @@ function QuestieCorrections:PopulateTownsfolk()
 
     Questie.db.char.townsfolk["Mailbox"] = {}
 
-    for _, id in pairs({ -- mailbox list
+    local isTBC = string.byte(GetBuildInfo(), 1) == 50
+
+    for _, id in pairs(isTBC and { -- mailbox list
+        32349,140908,142075,142089,142093,142094,142095,142102,142109,142110,142111,142117,143981,143982,143983,143984,
+        143985,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,144131,144179,144570,
+        153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176324,176404,177044,178864,
+        179895,179896,180451,181236,181380,181381,181883,181980,182356,182357,182359,182360,182361,182362,182363,182364,
+        182365,182567,182939,182946,182948,182949,182950,182955,183037,183038,183039,183040,183042,183047,183167,183856,
+        183857,183858,184085,184133,184134,184135,184136,184137,184138,184139,184140,184147,184148,184490,184652,184944,
+        185102,185471,185472,185473,185477,142103,176319,142119,143986,175864,181639,185965,186230,186629,188132,187260,
+        187113,188123
+    } or {
         32349,142075,142089,142093,142094,142095,142102,142103,142109,142110,142111,142117,142119,143981,143982,143983,
         143984,143985,143986,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144131,153578,
         153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176319,176324,176404,177044,178864,
@@ -590,8 +601,8 @@ function QuestieCorrections:PopulateTownsfolk()
         if QuestieDB.objectData[id] then
             local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
             if (factionID == 0 
-                    or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID][5], 12) == 0) 
-                    or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID][5], 10) == 0)) then
+                    or (faction == "Horde" and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0) 
+                    or (faction == "Alliance" and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0)) then
                 -- friendly to the player
                 tinsert(Questie.db.char.townsfolk["Mailbox"], id)
             end
