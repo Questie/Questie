@@ -144,7 +144,7 @@ local debugMessagesLocales = {
         ["zhCN"] = "图标限制值设置为 %s : Redrawing!",
         ["zhTW"] = nil,
         ["esES"] = "Establaciendo límite de ícono a %s : Redibujando!",
-        ["frFR"] = "Définition de la valeur limite de l'icône sur %s: Redessiner!",
+        ["frFR"] = "Définition de la valeur limite de l'icône sur %s : Redessiner !",
     },
     ["You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"] = {
         ["ptBR"] = "Você atualizou o Questie sem reiniciar o jogo, isso provavelmente irá causar problemas. Por favor, reinicie o jogo antes de continuar",
