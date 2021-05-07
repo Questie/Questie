@@ -51,7 +51,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Active l'affichage des informations de quête dans les info-bulles des monstres et des objets.",
     },
     ["Show Quest Level in Tooltips"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Mostrar o nível da missão nas dicas de ferramentas",
         ["ruRU"] = "Уровень заданий в подсказках",
         ["deDE"] = "Questlevel in Tooltips aktivieren",
         ["koKR"] = "툴팁에 퀘스트 레벨 표시",
@@ -63,7 +63,7 @@ local tooltipOptionsLocales = {
         ["frFR"] = "Niveau des quêtes dans les info-bulles",
     },
     ["When this is checked, the level of quests will show in the tooltips."] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Quando esta opção está marcada, o nível das missões será mostrado nas dicas de ferramentas.",
         ["ruRU"] = "Показать/скрыть уровень заданий во всплывающих подсказках",
         ["deDE"] = "Aktiviert/Deaktiviert, ob das Questlevel in den Tooltips angezeigt wird.",
         ["koKR"] = "툴팁에 퀘스트의 레벨을 표시합니다.",
