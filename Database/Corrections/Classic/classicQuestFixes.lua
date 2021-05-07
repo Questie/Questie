@@ -231,6 +231,7 @@ function QuestieQuestFixes:Load()
         },
         [558] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestGroup] = {1687,1479,1558,},
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -412,6 +413,9 @@ function QuestieQuestFixes:Load()
         },
         [924] = {
             [questKeys.requiredSourceItems] = {4986},
+        },
+        [925] = {
+            [questKeys.preQuestGroup] = {1800,910,911,},
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
