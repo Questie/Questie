@@ -1,39 +1,18 @@
 ---@class QuestieQuestLog
 local QuestieQuestLog = QuestieLoader:CreateModule("QuestieQuestLog")
 
-local elvEnabled = IsAddOnLoaded("ElvUI")
+-- Retrieve ElvUI and check if skinning is enabled
+function QuestieQuestLog:GetElvUI()
+    local elvEnabled = IsAddOnLoaded("ElvUI")
+    local elvSkinningEnabled = false
+    local elv
 
--- Is ElvUI skinning currently enabled?
-function QuestieQuestLog:IsElvSkinningEnabled(elv)
-    return elv.private.skins.blizzard.enable == true and elv.private.skins.blizzard.quest == true
-end
-
--- Apply some extra positioning when dealing with ElvUI skinned frames
-function QuestieQuestLog:ElvSkinFrames()
-    if elvEnabled == false then
-        return
+    if elvEnabled then
+        elv = ElvUI[1];
+        elvSkinningEnabled = elv.private.skins.blizzard.enable == true and elv.private.skins.blizzard.quest == true
     end
 
-    local elv = ElvUI[1]
-    local S = elv:GetModule("Skins")
-
-    if QuestieQuestLog:IsElvSkinningEnabled(elv) == false then
-        return
-    end
-
-    local function LoadSkin()
-        for i = 1, QUESTS_DISPLAYED do
-            local questLogTitle = _G["QuestLogTitle"..i]
-            questLogTitle:Width(320)
-        end
-
-        QuestLogFrame:HookScript("OnShow", function()
-            QuestLogNoQuestsText:ClearAllPoints();
-            QuestLogNoQuestsText:SetPoint("CENTER", QuestLogFrame);
-        end)
-    end
-
-    S:AddCallback("Quest", LoadSkin)
+    return elvEnabled, elvSkinningEnabled, elv
 end
 
 -- Initialize Quest Log level badges
@@ -62,7 +41,7 @@ function QuestieQuestLog:InitializeQuestLogLevelBadges()
                 QuestLogDummyText:SetText(questTextFormatted)
             end
 
-            questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth()+24, 0);
+            questCheck:SetPoint("LEFT", questLogTitle, "LEFT", QuestLogDummyText:GetWidth() + 24, 0);
         end
     end
 end
@@ -79,7 +58,7 @@ function QuestieQuestLog:InitializeWideQuestLogFrame()
         pushable = 0,
         xoffset = -16,
         yoffset = 12,
-        bottomClampOverride = 140+12,
+        bottomClampOverride = 140 + 12,
         width = 724,
         height = 513,
         whileDead = 1
@@ -106,30 +85,71 @@ function QuestieQuestLog:InitializeWideQuestLogFrame()
     -- Expand the quest list to full height
     QuestLogListScrollFrame:SetHeight(362);
 
+    local _, elvSkinningEnabled = QuestieQuestLog:GetElvUI()
+
     -- Create the additional rows
     local oldQuestsDisplayed = QUESTS_DISPLAYED;
-    QUESTS_DISPLAYED = QUESTS_DISPLAYED + 17;
+    QUESTS_DISPLAYED = QUESTS_DISPLAYED + 18
 
-    local skinDefaultFrames = true;
-    -- Show 3 more quests when ElvUI is present
-    if (elvEnabled) then
-        local elv = ElvUI[1]
+    QuestieQuestLog:CreateExtraQuestLogTitles(oldQuestsDisplayed)
 
-        if QuestieQuestLog:IsElvSkinningEnabled(elv) then
-            QUESTS_DISPLAYED = QUESTS_DISPLAYED + 1;
+    if elvSkinningEnabled then
+        QuestieQuestLog:SkinElvUIFrame()
+    else
+        QuestieQuestLog:SkinDefaultFrame()
+    end
+end
 
-            QuestieQuestLog:ElvSkinFrames()
+-- Skin the Quest Log frame for ElvUI
+function QuestieQuestLog:SkinElvUIFrame()
+    local _, _, ElvUI = QuestieQuestLog:GetElvUI()
 
-            skinDefaultFrames = false
-        end
+    local index = 1
+    while _G["QuestLogTitle"..index] do
+        local questLogTitle = _G["QuestLogTitle"..index]
+
+        questLogTitle:SetNormalTexture(ElvUI.Media.Textures.PlusButton)
+        questLogTitle.SetNormalTexture = ElvUI.noop
+
+        questLogTitle:GetNormalTexture():Size(16)
+        questLogTitle:GetNormalTexture():Point("LEFT", 5, 0)
+
+        questLogTitle:SetHighlightTexture("")
+        questLogTitle.SetHighlightTexture = ElvUI.noop
+
+        questLogTitle:Width(300)
+
+        _G["QuestLogTitle"..index.."Highlight"]:SetAlpha(0)
+
+        hooksecurefunc(questLogTitle, "SetNormalTexture", function(self, texture)
+            local tex = self:GetNormalTexture()
+
+            if strfind(texture, "MinusButton") then
+                tex:SetTexture(ElvUI.Media.Textures.MinusButton)
+            elseif strfind(texture, "PlusButton") then
+                tex:SetTexture(ElvUI.Media.Textures.PlusButton)
+            else
+                tex:SetTexture()
+            end
+        end)
+
+        index = index + 1
     end
 
-    -- If ElvUI is not enabled OR ElvUI is enabled but Quest Frame skinning is disabled
-    if skinDefaultFrames then
-        QuestieQuestLog:SetQuestLogTextures()
-        QuestieQuestLog:SetEmptyQuestLogTextures()
-    end
+    QuestLogFrame:HookScript("OnShow", function()
+        QuestLogNoQuestsText:ClearAllPoints();
+        QuestLogNoQuestsText:SetPoint("CENTER", QuestLogFrame);
+    end)
+end
 
+-- Skin the Quest Log frame for default UI
+function QuestieQuestLog:SkinDefaultFrame()
+    QuestieQuestLog:SetQuestLogTextures()
+    QuestieQuestLog:SetEmptyQuestLogTextures()
+end
+
+-- Create the extra Quest Log Title buttons
+function QuestieQuestLog:CreateExtraQuestLogTitles(oldQuestsDisplayed)
     -- Add extra visible quest in the overview
     for i = oldQuestsDisplayed + 1, QUESTS_DISPLAYED do
         local button = CreateFrame("Button", "QuestLogTitle" .. i, QuestLogFrame, "QuestLogTitleButtonTemplate");
@@ -138,8 +158,6 @@ function QuestieQuestLog:InitializeWideQuestLogFrame()
         button:ClearAllPoints();
         button:SetPoint("TOPLEFT", _G["QuestLogTitle" .. (i-1)], "BOTTOMLEFT", 0, 1);
     end
-
-    QuestLog_Update()
 end
 
 -- Apply Quest Log textures to double wide Quest Log
