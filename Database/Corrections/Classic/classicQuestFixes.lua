@@ -199,11 +199,17 @@ function QuestieQuestFixes:Load()
         [484] = {
             [questKeys.requiredMinRep] = {72,0}, -- #1501
         },
+        [495] = {
+            [questKeys.exclusiveTo] = {518},
+        },
         [510] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
         },
         [511] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
+        },
+        [518] = {
+            [questKeys.preQuestSingle] = {},
         },
         [522] = {
             [questKeys.startedBy] = {{2434},nil,{3668}},
