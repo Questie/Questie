@@ -1027,6 +1027,9 @@ function QuestieTBCQuestFixes:Load()
         [10909] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, ICON_TYPE_EVENT, "Place the Achorite Relic and slay Shattered Hand Berserkers near it"}},
         },
+        [10915] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the coffin and kill its content", 0, {{"object", 184999}}}},
+        },
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9},},}},
         },
