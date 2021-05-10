@@ -284,6 +284,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{17084},nil,{23580,},},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Take Avruu's Orb to the Haal'eshi Altar", 0, {{"object", 181606}}}},
         },
+        [9421] = {
+            [questKeys.preQuestSingle] = {9280,9369},
+        },
         [9433] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
         },
