@@ -924,6 +924,9 @@ function QuestieTBCQuestFixes:Load()
         [10479] = {
             [questKeys.requiredMinRep] = {941,0},
         },
+        [10488] = {
+            [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves"},},nil,nil,nil,nil},
+        },
         [10490] = {
             [questKeys.questLevel] = 20,
         },
