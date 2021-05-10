@@ -936,6 +936,9 @@ function QuestieTBCQuestFixes:Load()
         [10506] = {
             [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"},},nil,nil,nil,nil},
         },
+        [10512] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
+        },
         [10519] = {
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48},},}},
         },
