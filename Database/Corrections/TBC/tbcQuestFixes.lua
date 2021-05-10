@@ -858,6 +858,9 @@ function QuestieTBCQuestFixes:Load()
         [10250] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Blow the Unyielding Battle Horn near the Alliance Banner", 0, {{"object", 184002 }}}},
         },
+        [10255] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Cenarion Antidote on a Hulking Helboar and observe the results", 0, {{"monster", 16880}}}},
+        },
         [10263] = {
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {932,3000},
