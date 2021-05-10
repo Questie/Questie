@@ -671,9 +671,6 @@ function QuestieTBCQuestFixes:Load()
         [10000] = {
             [questKeys.requiredLevel] = 62,
         },
-        [10039] = {
-            [questKeys.requiredLevel] = 62,
-        },
         [10004] = {
             [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96},},}},
         },
@@ -703,6 +700,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10040},
         },
         [10039] = {
+            [questKeys.requiredLevel] = 62,
             [questKeys.exclusiveTo] = {10041},
         },
         [10040] = {
