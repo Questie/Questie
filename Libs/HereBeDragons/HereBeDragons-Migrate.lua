@@ -1,12 +1,7 @@
--- HereBeDragons-Migrate is not supported on WoW 7.x or earlier
-if select(4, GetBuildInfo()) < 80000 and false then
-    return
-end
-
-local MAJOR, MINOR = "HereBeDragonsQuestie-Migrate", 254
+local MAJOR, MINOR = "HereBeDragonsQuestie-Migrate", 2
 assert(LibStub, MAJOR .. " requires LibStub")
 
-local HBDMigrate, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
+local HBDMigrate, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not HBDMigrate then return end
 
 local SetupMigrationData
@@ -21,7 +16,22 @@ function HBDMigrate:GetUIMapIDFromMapAreaId(mapId, floor)
     local data = MapMigrationData[mapId]
     if not data then return nil end
 
-    return data[0]
+    if not floor then
+        if data[0] then
+            floor = 0
+        elseif data.defaultFloor then
+            floor = data.defaultFloor
+        else
+            for i = 1, 50 do
+                if data[i] then
+                    floor = i
+                    break
+                end
+            end
+            data.defaultFloor = floor
+        end
+    end
+    return data[floor]
 end
 
 --- Return the uiMapId from the specified mapFile/floor combination
@@ -42,31 +52,31 @@ function HBDMigrate:GetLegacyMapInfo(uiMapId)
     if not uiMapIdToIdMap then SetupMigrationData() end
     local c = uiMapIdToIdMap[uiMapId]
     if not c then return end
-    
+
     local m, f = floor(c / 10000), (c % 10000)
     return m, f, MapMigrationData[m].mapFile
 end
 
 MapMigrationData = {
-    [4] = { mapFile = "Durotar", [0] = 1411, [8] = 2, [12] = 5, [19] = 6, [11] = 4, [10] = 3},
-    [9] = { mapFile = "Mulgore", [0] = 1412, [6] = 8, [7] = 9},
-    [11] = { mapFile = "Barrens", [0] = 1413, [20] = 11},
-    [13] = { mapFile = "Kalimdor", [0] = 1414},
-    [14] = { mapFile = "Azeroth", [0] = 1415},
-    [16] = { mapFile = "Arathi", [0] = 1417},
-    [17] = { mapFile = "Badlands", [0] = 1418, [18] = 16},
-    [19] = { mapFile = "BlastedLands", [0] = 1419},
-    [20] = { mapFile = "Tirisfal", [0] = 1420, [13] = 19, [25] = 20},
-    [21] = { mapFile = "Silverpine", [0] = 1421},
-    [22] = { mapFile = "WesternPlaguelands", [0] = 1422},
-    [23] = { mapFile = "EasternPlaguelands", [0] = 1423, [20] = 24},
-    [24] = { mapFile = "HillsbradFoothills", [0] = 1424},
-    [26] = { mapFile = "Hinterlands", [0] = 1425},
-    [27] = { mapFile = "DunMorogh", [0] = 1426, [7] = 29, [11] = 31, [10] = 30, [0] = 27},
-    [28] = { mapFile = "SearingGorge", [0] = 1427, [15] = 34, [14] = 33, [16] = 35},
-    [29] = { mapFile = "BurningSteppes", [0] = 1428},
-    [30] = { mapFile = "Elwynn", [0] = 1429, [2] = 39, [0] = 37, [19] = 40, [21] = 41},
-    [32] = { mapFile = "DeadwindPass", [0] = 1430, [24] = 45, [22] = 43, [23] = 44, [27] = 46},
+    [4] = { mapFile = "Durotar", [0] = 1, [8] = 2, [12] = 5, [19] = 6, [11] = 4, [10] = 3},
+    [9] = { mapFile = "Mulgore", [0] = 7, [6] = 8, [7] = 9},
+    [11] = { mapFile = "Barrens", [0] = 10, [20] = 11},
+    [13] = { mapFile = "Kalimdor", [0] = 12},
+    [14] = { mapFile = "Azeroth", [0] = 13},
+    [16] = { mapFile = "Arathi", [0] = 14},
+    [17] = { mapFile = "Badlands", [0] = 15, [18] = 16},
+    [19] = { mapFile = "BlastedLands", [0] = 17},
+    [20] = { mapFile = "Tirisfal", [0] = 18, [13] = 19, [25] = 20},
+    [21] = { mapFile = "Silverpine", [0] = 21},
+    [22] = { mapFile = "WesternPlaguelands", [0] = 22},
+    [23] = { mapFile = "EasternPlaguelands", [0] = 23, [20] = 24},
+    [24] = { mapFile = "HillsbradFoothills", [0] = 25},
+    [26] = { mapFile = "Hinterlands", [0] = 26},
+    [27] = { mapFile = "DunMorogh", [6] = 28, [7] = 29, [11] = 31, [10] = 30, [0] = 27},
+    [28] = { mapFile = "SearingGorge", [0] = 32, [15] = 34, [14] = 33, [16] = 35},
+    [29] = { mapFile = "BurningSteppes", [0] = 36},
+    [30] = { mapFile = "Elwynn", [1] = 38, [2] = 39, [0] = 37, [19] = 40, [21] = 41},
+    [32] = { mapFile = "DeadwindPass", [0] = 42, [24] = 45, [22] = 43, [23] = 44, [27] = 46},
     [758] = { mapFile = "TheBastionofTwilight", [1] = 294, [2] = 295, [3] = 296},
     [886] = { mapFile = "TerraceOfEndlessSpring", [0] = 456},
     [1014] = { mapFile = "Dalaran70", [0] = 625, [12] = 629, [4] = 626, [11] = 628, [10] = 627},

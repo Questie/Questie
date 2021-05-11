@@ -1,11 +1,8 @@
 # Lib: HereBeDragons
 
-## [2.02-release](https://github.com/Nevcairiel/HereBeDragons/tree/2.02-release) (2019-07-24)
-[Full Changelog](https://github.com/Nevcairiel/HereBeDragons/compare/2.01-release...2.02-release)
+## [2.06-release](https://github.com/Nevcairiel/HereBeDragons/tree/2.06-release) (2021-05-08)
+[Full Changelog](https://github.com/Nevcairiel/HereBeDragons/compare/2.05-release...2.06-release) [Previous Releases](https://github.com/Nevcairiel/HereBeDragons/releases)
 
-- Update TOC  
-- Add World Map Data for Classic  
-- Preliminary WoW Classic support  
-- Add travis-ci support  
-- Add LuaCheck and EditorConfig, and clean sources to pass  
-- Fill in the map list by iterating over all known maps, in addition to processing the child tree  
+- Fixup Luacheck  
+- Update API check to be independent of WoW version  
+- Add transform and worldmap data for BC  
