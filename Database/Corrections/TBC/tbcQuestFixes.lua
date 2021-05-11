@@ -229,6 +229,9 @@ function QuestieTBCQuestFixes:Load()
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
+        [9145] = {
+            [questKeys.exclusiveTo] = {9143},
+        },
         [9152] = {
             [questKeys.preQuestSingle] = {9327,9329},
         },
