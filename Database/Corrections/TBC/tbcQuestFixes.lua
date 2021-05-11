@@ -406,6 +406,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9564] = {
             [questKeys.startedBy] = {{17475},nil,{23850,},},
+            [questKeys.preQuestSingle] = {9559},
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
