@@ -4,7 +4,6 @@ import sys
 import re
 import os
 import shutil
-import zipfile
 import subprocess
 
 '''
@@ -32,46 +31,27 @@ This program accepts two command line options:
                     Default: 'Questie-v' plus the version string from the toc
                     file, e.g.: 'Questie-v4.1.1'
 
--r releaseType      If provided changes the releasetype from BETA, (Release/Alpha etc)
+-i interfaceVersion If provided sets the interface version to the Classic or TBC version
 
-                    Default: ''
+                    Default: 'tbc'
 
 Example usage:
 
-'python build.py -v 5.0.0 -a QuestieDev-featureX'
+'python build.py -v 5.0.0 -a Questie-featureX'
 
-This will create a new release in 'releases/5.0.0/QuestieDev-featureX', unless
+This will create a new release in 'releases/5.0.0/Questie-featureX', unless
 the '5.0.0' directory already exists.
 
 '''
-releaseType = ''
+interfaceVersion = 'tbc'
 addonDir = 'Questie'
 versionDir = None
 
 def setArgs():
     #set defaults
-    global releaseType
+    global interfaceVersion
     global addonDir
     global versionDir
-    version, nrOfCommits, recentCommit = getVersion()
-    print("Tag: " + version)
-    if version != None and nrOfCommits == None and recentCommit == None:
-        versionDir = version.replace(' ', '_')
-        zipName = '%s-v%s' % (addonDir, versionDir)
-    else:
-        if releaseType:
-            versionDir = "%s_%s-%s-%s" % (version, releaseType, nrOfCommits, recentCommit)
-        else:
-            versionDir = "%s_%s-%s" % (version, nrOfCommits, recentCommit)
-
-        print("Number of commits since tag: " + nrOfCommits)
-        print("Most Recent commit: " + recentCommit)
-        branch = getBranch()
-        if branch != "master":
-            versionDir += "-%s" % branch
-        print("Current branch: " + branch)
-        zipName = '%s-%s' % (addonDir, versionDir)
-
     # overwrite with command line arguments, if provided
     pos = 1
     end = len(sys.argv)
@@ -85,10 +65,27 @@ def setArgs():
         elif (sys.argv[pos] == '-z'):
             pos += 1
             zipName = sys.argv[pos]
-        elif (sys.argv[pos] == '-r'):
+        elif (sys.argv[pos] == '-i'):
             pos += 1
-            releaseType = sys.argv[pos]
+            interfaceVersion = sys.argv[pos]
         pos += 1
+
+    version, nrOfCommits, recentCommit = getVersion()
+    print("Tag: " + version)
+    if version != None and nrOfCommits == None and recentCommit == None:
+        versionDir = version.replace(' ', '_')
+        zipName = '%s-v%s-%s' % (addonDir, versionDir, interfaceVersion)
+    else:
+        versionDir = "%s_%s-%s-%s" % (version, nrOfCommits, interfaceVersion, recentCommit)
+
+        print("Number of commits since tag: " + nrOfCommits)
+        print("Most Recent commit: " + recentCommit)
+        branch = getBranch()
+        if branch != "master":
+            versionDir += "-%s" % branch
+        print("Current branch: " + branch)
+        zipName = '%s-%s' % (addonDir, versionDir)
+
     return versionDir, addonDir, zipName
 
 def main():
@@ -104,77 +101,51 @@ def main():
     # define release folder
     destination = 'releases/%s/%s' % (versionDir, addonDir)
     # copy directories
-    for dir in ['Database', 'Icons', 'Libs', 'Locale', 'Modules']:
+    for dir in ['Database', 'Icons', 'Libs', 'Localization', 'Modules']:
         shutil.copytree(dir, '%s/%s' % (destination, dir))
     # copy files
     for file in ['embeds.xml', 'Questie.lua']:
         shutil.copy2(file, '%s/%s' % (destination, file))
-    shutil.copy2('Questie.toc', '%s/%s.toc' % (destination, addonDir))
     # modify toc
     setVersion()
-    # replace path references
-    for file in ['Network/QuestieComms.lua', 'Libs/QuestieLib.lua']:
-        replacePath('%s/Modules/%s' % (destination, file), 'QuestieDev-master', addonDir)
     # package files
     root = os.getcwd()
     os.chdir('releases/%s' % (versionDir))
-    
-    excludes = [".DS_Store", "__MACOS"]
-    
-    def addDir(zip, dir):
-        for file in os.listdir(dir):
-            if file not in excludes and not file.startswith("._") and not file.endswith(".zip"):
-                file = dir+"/"+file
-                print("Adding " + file)
-                if os.path.isdir(file):
-                    addDir(zip, file)
-                else:
-                    zip.write(file, file)
-            else:
-                print("Excluding " + file)
-    
-    with zipfile.ZipFile(zipName + ".zip", "w", zipfile.ZIP_DEFLATED, allowZip64=True) as zip:
-        addDir(zip, ".")
-            
-    #shutil.make_archive(zipName, "zip", ".", addonDir)
+    shutil.make_archive(zipName, "zip", ".", addonDir)
     os.chdir(root)
     print('New release "%s" created successfully' % (versionDir))
 
 def setVersion():
     if is_tool("git"):
         global addonDir
-        global releaseType
+        global interfaceVersion
         global versionDir
         scriptDir = os.path.dirname(os.path.realpath(__file__))
         p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=scriptDir)
         tagString = str(p).rstrip("\\n'").lstrip("b'")
+
         #versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
         versionTag, nrOfCommits, recentCommit = tagString.rsplit("-", maxsplit=2)
-        recentCommit = recentCommit.lstrip("g") # There is a "g" before all the commits.
-        tocData = None
-        cleanData = None
-        readmeData = None
+
         # Replace the toc data with git information.
         with open('Questie.toc') as toc:
             tocData = toc.read()
-            cleanData = tocData;
-            ## Version: 4.1.1 BETA
+            cleanData = tocData
+
+            if interfaceVersion == 'classic':
+                tocData = re.sub(r"## Interface:.*", "## Interface: 11307", tocData)
+            ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.7 (TBC A9)|r
             tocData = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s|r" % (addonDir, versionTag), tocData)
-            ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v4.1.1|r|cFFFF0000 Beta|r
-            cleanData = re.sub(r"\d+\.\d+\.\d+(-\d+)?", versionTag.lstrip("v"), cleanData)
-
-            toc_version = versionTag.lstrip("v")
-            if releaseType:
-                toc_version += "-" + recentCommit
-
-            tocData = re.sub(r"## Version:.*", "## Version: %s" % toc_version, tocData)
+            cleanData = re.sub(r"\d+\.\d+\.\d+", versionTag.lstrip("v"), cleanData)
+            ## Version: 6.3.7
+            tocData = re.sub(r"## Version:.*", "## Version: %s" % (versionTag.lstrip("v")), tocData)
 
         with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
             toc.write(tocData)
         
         with open("README.md") as readme:
             readmeData = readme.read()
-            readmeData = re.sub(r"QuestieDev\/(.+)\/total\.svg", "QuestieDev/%s/total.svg" % versionTag, readmeData)
+            readmeData = re.sub(r"Questie\/(.+)\/total\.svg", "Questie/%s/total.svg" % versionTag, readmeData)
 
         with open('README.md', "w") as readme:
             readme.write(readmeData)
