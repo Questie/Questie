@@ -290,6 +290,9 @@ function QuestieTBCQuestFixes:Load()
         [9421] = {
             [questKeys.preQuestSingle] = {9280,9369},
         },
+        [9428] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [9433] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
         },
