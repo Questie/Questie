@@ -56,7 +56,7 @@ _QuestieTracker.FadeTickerDirection = false
 _QuestieTracker.IsFirstRun = true
 
 -- Forward declaration
-local _OnClick, _OnEnter, _OnLeave
+local _OnClick, _OnEnter, _OnLeave, _OnHighlightEnter, _OnHighlightLeave
 local _AQW_Insert, _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent

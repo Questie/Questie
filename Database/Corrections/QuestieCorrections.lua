@@ -339,7 +339,7 @@ function QuestieCorrections:OptimizeWaypoints(waypoints)
     return newWaypointZones
 end
 
-function _reformatVendors(lst)
+local function _reformatVendors(lst)
     local newList = {}
     for k in pairs(lst) do
         tinsert(newList, k)
