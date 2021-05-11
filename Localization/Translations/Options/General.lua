@@ -472,7 +472,7 @@ local generalOptionsLocales = {
     },
     ["Enable Automatic NPC Dialog"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Автодиалог с NPC",
         ["deDE"] = "NPC-Dialoge automatisieren",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -484,7 +484,7 @@ local generalOptionsLocales = {
     },
     ["Enable or disable Questie automatically advancing through NPC dialog."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Включить/отключить автоматическое ведение диалога с NPC",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Questie Dialoge mit NPCs automatisch durchführt",
         ["koKR"] = nil,
         ["esMX"] = nil,
