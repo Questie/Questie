@@ -568,6 +568,9 @@ function QuestieTBCQuestFixes:Load()
         [9849] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Gordawg's Boulder to shatter Shattered Rumblers into Minions of Gurok", 0, {{"monster", 17157}}}}
         },
+        [9853] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 7 Warmaul Skulls to summon Gurok the Usurper", 0, {{"object", 182182}}}},
+        },
         [9863] = {
             [questKeys.requiredMinRep] = {941,0},
         },
