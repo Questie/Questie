@@ -951,6 +951,15 @@ function QuestieTBCQuestFixes:Load()
         [10577] = {
             [questKeys.triggerEnd] = {"Illidan's Message Delivered", {[zoneIDs.SHADOWMOON_VALLEY]={{46.46,71.86},},}},
         },
+        [10580] = {
+            [questKeys.exclusiveTo] = {10584},
+        },
+        [10581] = {
+            [questKeys.exclusiveTo] = {10584},
+        },
+        [10584] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
         },
