@@ -1327,6 +1327,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
+        [11383] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{17839,},17839},},
+        },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
         },
