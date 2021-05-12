@@ -935,6 +935,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
         [10458] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Totem of Spirits on Enraged Earth and Fiery Spirits", 0, {{"monster", 21050}, {"monster", 21061}}}}
         },
         [10479] = {
@@ -1000,6 +1001,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10675] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
+        },
+        [10680] = {
+            [questKeys.exclusiveTo] = {10458},
+        },
+        [10681] = {
+            [questKeys.exclusiveTo] = {10458},
         },
         [10682] = {
             [questKeys.triggerEnd] = {"Negotiations with Overseer Nuaar complete", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.22,31.78},{59.86,40.22},{59.46,35.84},},}},
