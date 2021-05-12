@@ -1354,6 +1354,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{64.58,8.08},},
             }},
         },
+        [11667] = {
+            [questKeys.extraObjectives] = {{{[3518]={{62,35}}}, ICON_TYPE_EVENT, "Fish Here for World's Largest Mudfish"}},
+        },
         [11731] = {
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
                 [zoneIDs.TELDRASSIL]={{56.59,92.06},},
