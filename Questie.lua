@@ -134,7 +134,7 @@ end
 
 
 function Questie:OnInitialize()
-    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(B1) |r"
+    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(B2) |r"
 
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
