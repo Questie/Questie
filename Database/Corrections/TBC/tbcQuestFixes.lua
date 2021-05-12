@@ -1131,6 +1131,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11039] = {
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11040,11042,},
+            [questKeys.requiredMinRep] = {934,3000},
         },
         [11040] = {
             [questKeys.requiredLevel] = 67,
