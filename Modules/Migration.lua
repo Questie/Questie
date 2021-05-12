@@ -4,7 +4,7 @@ local Migration = QuestieLoader:CreateModule("Migration")
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
 local migrationFunctions = {
-    function()
+    [1] = function()
         Questie:Print("[Migration] Migrating Questie for v6.0.0")
     
         -- This is not needed anymore since we calculate the quests with zones at each login.
@@ -28,7 +28,7 @@ local migrationFunctions = {
     
         Questie:Print("[Migration] Migrated Questie to v6.0.0 and removed", removedPartyEntries, "party entries from the Journey")
     end,
-    function()
+    [2] = function()
         Questie.db.global.stickyDurabilityFrame = false
     end
 }
@@ -37,10 +37,10 @@ local targetVersion = table.getn(migrationFunctions)
 
 function Migration:Migrate()
     Questie:Debug(DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
-    local curentVersion = Questie.db.char.migrationVersion or 0
-    while curentVersion < targetVersion do
-        curentVersion = curentVersion + 1
-        migrationFunctions[curentVersion]()
+    local currentVersion = Questie.db.char.migrationVersion or 0
+    while currentVersion < targetVersion do
+        currentVersion = currentVersion + 1
+        migrationFunctions[currentVersion]()
     end
 
     Questie.db.char.migrationVersion = targetVersion
