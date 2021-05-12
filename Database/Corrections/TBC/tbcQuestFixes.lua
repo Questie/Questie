@@ -940,6 +940,9 @@ function QuestieTBCQuestFixes:Load()
         [10479] = {
             [questKeys.requiredMinRep] = {941,0},
         },
+        [10480] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Totem of Spirits on Enraged Water Spirits", 0, {{"monster", 21059}}}},
+        },
         [10488] = {
             [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves"},},nil,nil,nil,nil},
         },
