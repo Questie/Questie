@@ -853,6 +853,9 @@ function QuestieTBCQuestFixes:Load()
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
         },
+        [10274] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Challenge of the Blue Fight to challenge Veraku", 0, {{"object", 184108}}}},
+        },
         [10288] = {
             [questKeys.preQuestSingle] = {},
         },
