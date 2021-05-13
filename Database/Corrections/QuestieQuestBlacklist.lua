@@ -234,13 +234,6 @@ function QuestieQuestBlacklist:Load()
         [8859] = true,
         --Rocknot's Ale instance quest shown in SG/BS at lvl 1
         [4295] = true,
-        --weekly fish tourney
-        [8225] = true,
-        [8221] = true,
-        [8224] = true,
-        [8225] = true,
-        [8193] = true,
-        [8226] = true,
         --mount exchange/replacement
         [7678] = true,
         [7677] = true,
@@ -254,7 +247,6 @@ function QuestieQuestBlacklist:Load()
         [7676] = true,
         --fishing tournament
         [8194] = true,
-        [8193] = true,
         [8221] = true,
         [8224] = true,
         [8225] = true,
@@ -282,7 +274,6 @@ function QuestieQuestBlacklist:Load()
         [8971] = true,
         [8972] = true,
         [8973] = true,
-        [8974] = true,
         [8974] = true,
         [8975] = true,
         [8976] = true,
@@ -528,7 +519,6 @@ function QuestieQuestBlacklist:Load()
         [8293] = true,
         [8296] = true,
         [8568] = true,
-        [8570] = true,
         [8002] = true,
         -- Arathi Basin
         [8081] = true,
@@ -596,12 +586,6 @@ function QuestieQuestBlacklist:Load()
         [4403] = true,
         [4466] = true,
         [4467] = true,
-        [4117] = true,
-        [4443] = true,
-        [4444] = true,
-        [4445] = true,
-        [4446] = true,
-        [4461] = true,
         [4117] = true,
         [4443] = true,
         [4444] = true,
