@@ -608,6 +608,9 @@ function QuestieTBCQuestFixes:Load()
         [9911] = {
             [questKeys.startedBy] = {{18285},nil,{25459,},},
         },
+        [9913] = {
+            [questKeys.exclusiveTo] = {9882},
+        },
         [9923] = {
             [questKeys.requiredSourceItems] = {25490},
         },
