@@ -35,6 +35,13 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: python changelog.py && python build.py
 
+      - name: Send Status to Discord
+        uses: nebularg/actions-discord-webhook@v1
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+        if: ${{ failure() }}
+
 #      - name: Create Package
 #        uses: BigWigsMods/packager@master
 #        if: ${{ github.event_name != 'pull_request' }}
