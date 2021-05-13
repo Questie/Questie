@@ -1014,6 +1014,9 @@ function QuestieTBCQuestFixes:Load()
         [10514] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber", 0, {{"object", 184701}}}},
         },
+        [10518] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Bladespire Banner atop the Northmaul Tower", 0, {{"object", 184704}}}}
+        },
         [10519] = {
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48},},}},
         },
