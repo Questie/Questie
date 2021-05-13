@@ -1043,7 +1043,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Exorcism Feathers to summon Koi-Koi Spirits", 0, {{"monster", 21326}}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, "Combine 5 Grishnath Orbs and 5 Dire Pinfeathers into 5 Exorcism Feather", 0, {{"object", 31495}}},
+                {nil, ICON_TYPE_SLAY, "Combine 5 Grishnath Orbs and 5 Dire Pinfeathers into 5 Exorcism Feather", 0, {{"monster", 21042}}},
+                {nil, ICON_TYPE_SLAY, "Use Exorcism Feathers to summon Koi-Koi Spirits", 0, {{"monster", 21326}}}
+            },
         },
         [10838] = {
             [questKeys.extraObjectives] = {{{[3483]={{44,51}}}, ICON_TYPE_EVENT, "Use the Demoniac Scryer"}},
