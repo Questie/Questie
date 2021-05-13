@@ -31,6 +31,10 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Debug - Check if .git folder exists
+        run: |
+          ls -lah
+
       - name: run python scripts
         if: ${{ github.event_name != 'pull_request' }}
         run: python changelog.py && python build.py
