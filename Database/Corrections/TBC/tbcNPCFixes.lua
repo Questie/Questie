@@ -172,7 +172,8 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{26.4,22},},},
         },
         [18238] = {
-            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{32.27,58.41},},},
+            [npcKeys.npcFlags] = QuestieDB.npcFlags.QUEST_GIVER,
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{32.27,58.41},{37.92,27.53},},},
         },
         [18369] = {
             [npcKeys.waypoints] = {},

@@ -102,8 +102,6 @@ end
 
 function QuestieCorrections:Initialize() -- db needs to be compiled
 
-    QuestieCorrections:PruneWaypoints()
-
     for id, data in pairs(QuestieItemFixes:Load()) do
         for key, value in pairs(data) do
             if not QuestieDB.itemData[id] then
@@ -236,8 +234,8 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
             end
         end
     end
-    --print("Patched " .. tostring(patchCount) .. " quests with bad requirement data")
 
+    QuestieCorrections:PruneWaypoints()
     QuestieCorrections:MinimalInit()
 
 end
@@ -292,6 +290,10 @@ function QuestieCorrections:PruneWaypoints()
             end
         end
         if spawnCount > 1 and not _validMultispawnWaypoints[id] and bit.band(data[QuestieDB.npcKeys.npcFlags], QuestieDB.npcFlags.QUEST_GIVER) ~= QuestieDB.npcFlags.QUEST_GIVER then -- we dont want waypoints for this mob, it can have more than 1 spawn at a time
+            if id == 18238 then
+                print("OPAJSDOIAJSIDJ")
+            end
+
             data[QuestieDB.npcKeys.waypoints] = nil
             --Questie.db.char.pruned = Questie.db.char.pruned .. "\\n" .. tostring(id) .. " " .. data[QuestieDB.npcKeys.name]
         end
