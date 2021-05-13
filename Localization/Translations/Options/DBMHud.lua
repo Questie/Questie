@@ -3,15 +3,15 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local dbmHudOptionsLocales = {
     ["DBM HUD"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "DBM HUD",
         ["ruRU"] = nil,
         ["deDE"] = "DBM Interface",
         ["koKR"] = "DBM HUD",
-        ["esMX"] = nil,
+        ["esMX"] = "DBM HUD",
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = "DBM 抬頭顯示",
-        ["esES"] = nil,
+        ["esES"] = "DBM HUD",
         ["frFR"] = "Affichage tête haute (HUD) de DBM",
     },
     ["Show DBM HUD"] = {
