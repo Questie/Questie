@@ -956,6 +956,9 @@ function QuestieTBCQuestFixes:Load()
         [10409] = {
             [questKeys.triggerEnd] = {"Deathblow to the Legion", {[zoneIDs.NETHERSTORM]={{29.56,14.29},},}},
         },
+        [10411] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Navuud's Concoction before attacking the Void Wastes", 0, {{"monster", 20778}}}},
+        },
         [10412] = {
             [questKeys.preQuestSingle] = {10211},
         },
