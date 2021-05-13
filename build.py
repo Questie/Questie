@@ -113,7 +113,7 @@ def get_git_information():
         script_dir = os.path.dirname(os.path.realpath(__file__))
         tag_string = ''
         try:
-            p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir)
+            p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir, stderr=subprocess.STDOUT)
             tag_string = str(p).rstrip("\\n'").lstrip("b'")
         except subprocess.CalledProcessError as e:
             print("Exceptions: ", e.returncode, e.output)
