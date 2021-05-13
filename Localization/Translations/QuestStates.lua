@@ -3,7 +3,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local questStateLocales = {
     ["Complete"] = {
-        ["ptBR"] = "Completa",
+        ["ptBR"] = "Concluída",
         ["ruRU"] = "Выполнено",
         ["deDE"] = "Abgeschlossen",
         ["koKR"] = "성공",
