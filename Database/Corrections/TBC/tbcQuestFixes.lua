@@ -730,19 +730,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
         },
-        [10038] = {
-            [questKeys.exclusiveTo] = {10040},
-        },
         [10039] = {
             [questKeys.requiredLevel] = 62,
             [questKeys.exclusiveTo] = {10041},
         },
         [10040] = {
-            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10041] = {
-            [questKeys.preQuestSingle] = {},
             [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10044] = {
