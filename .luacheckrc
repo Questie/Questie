@@ -7,6 +7,7 @@ exclude_files = {
     "ExternalScripts(DONOTINCLUDEINRELEASE)/",
     "Database/Classic/",
     "Database/TBC/",
+    "Localization/lookups",
     "Libs/",
     "Locale/",
     "releases/",
@@ -15,8 +16,15 @@ exclude_files = {
     "**/.install/**/", -- Created by the GitHub Action
 }
 ignore = {
-    "212", -- unused argument "self"
-    "432", -- shadowing upvalue argument "self"
+    "211", -- Unused local variable
+    "212", -- Unused argument (e.g. "self")
+    "213", -- Unused loop variable
+    "431", -- Shadowing an upvalue
+    "432", -- Shadowing an upvalue argument (e.g. "self")
+    "611", -- A line consists of nothing but whitespace
+    "612", -- A line contains trailing whitespace
+    "614", -- Trailing whitespace in a comment
+    "631", -- Line is too long
 }
 stds.questie = {
     read_globals = {}, -- these globals can only be accessed.
@@ -977,6 +985,7 @@ stds.questie = {
         "GetChatWindowMessages",
         "GetChatWindowSavedDimensions",
         "GetChatWindowSavedPosition",
+        "GetClassicExpansionLevel",
         "GetClickFrame",
         "GetClientDisplayExpansionLevel",
         "GetCoinIcon",
@@ -1709,6 +1718,8 @@ stds.questie = {
         "KBSystem_GetMOTD",
         "KBSystem_GetServerNotice",
         "KBSystem_GetServerStatus",
+        "LE_EXPANSION_CLASSIC",
+        "LE_EXPANSION_BURNING_CRUSADE",
         "LearnTalent",
         "LeaveBattlefield",
         "LeaveChannelByLocalID",
@@ -2181,6 +2192,7 @@ stds.questie = {
         "UnitPowerDisplayMod",
         "UnitPowerMax",
         "UnitPowerType",
+        "UnitQuestTrivialLevelRange",
         "UnitRace",
         "UnitRangedAttack",
         "UnitRangedAttackPower",
@@ -2715,6 +2727,15 @@ stds.questie = {
         "DEBUG_INFO",
         "DEBUG_DEVELOP",
         "DEBUG_SPAM",
+        "ICON_TYPE_COMPLETE",
+        "ICON_TYPE_EVENT",
+        "ICON_TYPE_GLOW",
+        "ICON_TYPE_LOOT",
+        "ICON_TYPE_OBJECT",
+        "ICON_TYPE_SLAY",
+        "ICON_TYPE_AVAILABLE",
+        "ICON_TYPE_AVAILABLE_GRAY",
+        "ICON_TYPE_REPEATABLE",
         "Questie_Toggle",
     }
 }
