@@ -965,6 +965,9 @@ function QuestieTBCQuestFixes:Load()
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
         },
+        [10424] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator", 0, {{"object", 184609}}}}
+        },
         [10425] = {
             [questKeys.triggerEnd] = {"Captured Protectorate Vanguard Escorted", {[zoneIDs.NETHERSTORM]={{58.9,32.43},},}},
         },
