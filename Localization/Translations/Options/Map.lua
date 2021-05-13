@@ -3,19 +3,19 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local mapOptionsLocales = {
     ["Map"] = {
-        ["ptBR"] = "Carta",
+        ["ptBR"] = "Mapa",
         ["ruRU"] = "Карта мира",
         ["deDE"] = "Weltkarte",
         ["koKR"] = "지도",
-        ["esMX"] = "Opciones de mapa",
+        ["esMX"] = "Mapa",
         ["enUS"] = true,
         ["zhCN"] = "大地图",
         ["zhTW"] = "大地圖",
-        ["esES"] = "Opciones de mapa",
+        ["esES"] = "Mapa",
         ["frFR"] = "Carte du monde",
     },
     ["Map Options"] = {
-        ["ptBR"] = "Opções de notas com cartas",
+        ["ptBR"] = "Opções de mapa",
         ["ruRU"] = "Настройки карты мира",
         ["deDE"] = "Weltkarten-Einstellungen",
         ["koKR"] = "지도 옵션",
