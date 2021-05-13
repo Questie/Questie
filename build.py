@@ -35,7 +35,6 @@ def main():
     release_folder_path = 'releases/%s/%s' % (version_dir, addon_dir)
 
     copy_content_to(release_folder_path)
-    set_toc_version()
     zip_release_folder(zip_name, version_dir, addon_dir)
 
     print('New release "%s" created successfully' % version_dir)
@@ -64,41 +63,19 @@ def get_args():
     return versionDir, addonDir, zip_name
 
 
-def set_toc_version():
-    if is_tool("git"):
-        global addonDir
-        global interfaceVersion
-        global versionDir
-
-        # versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
-        version_tag, nr_of_commits, recent_commit = get_git_information()
-
-        # Replace the toc data with git information.
-        with open('Questie.toc') as toc:
-            toc_data = toc.read()
-            clean_data = toc_data
-
-            if interfaceVersion == 'classic':
-                toc_data = re.sub(r"## Interface:.*", "## Interface: 11307", toc_data)
-            # ## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.7|r
-            toc_data = re.sub(r"## Title:.*", "## Title: |cFFFFFFFF%s|r|cFF00FF00 %s|r" % (addonDir, version_tag), toc_data)
-            clean_data = re.sub(r"\d+\.\d+\.\d+", version_tag.lstrip("v"), clean_data)
-            # ## Version: 6.3.7
-            toc_data = re.sub(r"## Version:.*", "## Version: %s" % (version_tag.lstrip("v")), toc_data)
-
-        with open('releases/%s/%s/%s.toc' % (versionDir, addonDir, addonDir), "w") as toc:
-            toc.write(toc_data)
-
-        with open('Questie.toc', "w") as toc:
-            toc.write(clean_data)
+directoriesToSkip = ['.git', '.github', '.history', '.idea', '.vscode', 'ExternalScripts(DONOTINCLUDEINRELEASE)', 'releases']
+filesToSkip = ['.gitattributes', '.gitignore', '.luacheckrc', 'build.py', 'changelog.py', 'cli.lua', 'locale.py']
 
 
 def copy_content_to(release_folder_path):
-    for directory in ['Database', 'Icons', 'Libs', 'Localization', 'Modules']:
-        shutil.copytree(directory, '%s/%s' % (release_folder_path, directory))
-
-    for file in ['embeds.xml', 'Questie.lua']:
-        shutil.copy2(file, '%s/%s' % (release_folder_path, file))
+    for _, directories, files in os.walk('.'):
+        for directory in directories:
+            if directory not in directoriesToSkip:
+                shutil.copytree(directory, '%s/%s' % (release_folder_path, directory))
+        for file in files:
+            if file not in filesToSkip:
+                shutil.copy2(file, '%s/%s' % (release_folder_path, file))
+        break
 
 
 def zip_release_folder(zip_name, version_dir, addon_dir):
