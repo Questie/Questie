@@ -15,10 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout project
+        uses: actions/checkout@v2
         with:
-          fetch-depth: 500
-      - run: git fetch --prune --unshallow --tags
+          fetch-depth: 100
+
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags
 
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1
@@ -26,21 +29,17 @@ jobs:
           files: Database Localization
           args: "--no-color -q"
 
-      - name: setup python
+      - name: Setup Python
         uses: actions/setup-python@v2
         if: ${{ github.event_name != 'pull_request' }}
         with:
           python-version: 3.8
 
-      - name: Debug - Check if .git folder exists
-        run: |
-          ls -lah
-
-      - name: run python scripts
+      - name: Build changelog and project
         if: ${{ github.event_name != 'pull_request' }}
         run: python changelog.py && python build.py
 
-      - name: Send Status to Discord
+      - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
