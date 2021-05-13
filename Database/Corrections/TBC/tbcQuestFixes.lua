@@ -805,6 +805,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10256] = {
             [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"},},nil,nil,nil,nil},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb", 0, {{"object", 183507}}}},
         },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
