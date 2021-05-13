@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local genericsLocales = {
     ["Objects"] = {
         ["ptBR"] = "Objetos",
-        ["ruRU"] = "объектов",
+        ["ruRU"] = "Объекты",
         ["deDE"] = "Objekte",
         ["koKR"] = "목표",
         ["esMX"] = "Objetos",
@@ -40,7 +40,7 @@ local genericsLocales = {
     },
     ["Quests"] = {
         ["ptBR"] = "Missões",
-        ["ruRU"] = "заданий",
+        ["ruRU"] = "Задания",
         ["deDE"] = "Quests",
         ["koKR"] = "퀘스트",
         ["esMX"] = "Misiones",
@@ -76,7 +76,7 @@ local genericsLocales = {
     },
     ["Reload UI"] = {
         ["ptBR"] = "Recarregar interface",
-        ["ruRU"] = "Перезагрузить интерфейс",
+        ["ruRU"] = "Перезагрузка интерфейса",
         ["deDE"] = "Interface neu laden",
         ["koKR"] = "Reload UI",
         ["esMX"] = "Recargar IU",
@@ -172,7 +172,7 @@ local genericsLocales = {
     },
     ["WARNING!"] = {
         ["ptBR"] = "ATENÇÃO!",
-        ["ruRU"] = "Внимание!",
+        ["ruRU"] = "ВНИМАНИЕ!",
         ["deDE"] = "WARNUNG!",
         ["koKR"] = "경고!",
         ["esMX"] = "¡ADVERTENCIA!",
@@ -184,7 +184,7 @@ local genericsLocales = {
     },
     ["xp"] = {
         ["ptBR"] = "xp",
-        ["ruRU"] = " ед. опыта",
+        ["ruRU"] = "ед. опыта",
         ["deDE"] = "xp",
         ["koKR"] = "경험치",
         ["esMX"] = "exp",
@@ -244,7 +244,7 @@ local genericsLocales = {
     },
     ["Quest Details"] = {
         ["ptBR"] = "Detalhes da missão",
-        ["ruRU"] = "Доп. информация о задании",
+        ["ruRU"] = "Подробности задания",
         ["deDE"] = "Quest-Details",
         ["koKR"] = "퀘스트 Detail",
         ["esMX"] = "Detalles de Misión",
@@ -256,7 +256,7 @@ local genericsLocales = {
     },
     ["NPC Details"] = {
         ["ptBR"] = "Detalhes do NPC",
-        ["ruRU"] = "Доп. информация о NPC",
+        ["ruRU"] = "Подробности о NPC",
         ["deDE"] = "NPC-Details",
         ["koKR"] = "NPC Detail",
         ["esMX"] = "Detalles del PNJ",
@@ -268,7 +268,7 @@ local genericsLocales = {
     },
     ["Object Details"] = {
         ["ptBR"] = "Detalhes do objeto",
-        ["ruRU"] = "Доп. информация о предмете или месте выполнения",
+        ["ruRU"] = "Подробности объекта",
         ["deDE"] = "Objektdetails",
         ["koKR"] = "목표 Detail",
         ["esMX"] = "Detalles del objeto",
@@ -280,7 +280,7 @@ local genericsLocales = {
     },
     ["Required Level"] = {
         ["ptBR"] = "Nível necessário",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Требуемый уровень",
         ["deDE"] = "Benötigtes Level",
         ["koKR"] = "필요 레벨",
         ["esMX"] = "Nivel Requerido",
@@ -292,7 +292,7 @@ local genericsLocales = {
     },
     ["Required Race"] = {
         ["ptBR"] = "Raça necessária",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Требуемая раса",
         ["deDE"] = "Benötigtes Volk",
         ["koKR"] = "필요 종족",
         ["esMX"] = "Raza Requerida",
@@ -412,7 +412,7 @@ local genericsLocales = {
     },
     ["Draenei"] = {
         ["ptBR"] = "Draenei",
-        ["ruRU"] = "Дренеи",
+        ["ruRU"] = "Дреней",
         ["deDE"] = "Draenei",
         ["koKR"] = "드레나이",
         ["esMX"] = "Draenei",
@@ -424,7 +424,7 @@ local genericsLocales = {
     },
     ["Blood Elf"] = {
         ["ptBR"] = "Elfo Sangrento",
-        ["ruRU"] = "Эльфийка крови",
+        ["ruRU"] = "Эльф крови",
         ["deDE"] = "Blutelf",
         ["koKR"] = "블러드 엘프",
         ["esMX"] = nil,

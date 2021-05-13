@@ -472,7 +472,7 @@ local generalOptionsLocales = {
     },
     ["Enable Automatic NPC Dialog"] = {
         ["ptBR"] = "Ativar diálogo do NPC automática",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Автодиалог с NPC",
         ["deDE"] = "NPC-Dialoge automatisieren",
         ["koKR"] = "자동 NPC 대화 활성화",
         ["esMX"] = "Habilitar el diálogo automático de PNJ",
@@ -484,7 +484,7 @@ local generalOptionsLocales = {
     },
     ["Enable or disable Questie automatically advancing through NPC dialog."] = {
         ["ptBR"] = "Ativa ou desativa o Questie avançando automaticamente através da caixa de diálogo do NPC",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Включить/отключить автоматическое ведение диалога с NPC",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Questie Dialoge mit NPCs automatisch durchführt",
         ["koKR"] = "NPC 대화 상자를 통해 자동으로 진행 중인 Questie를 활성화 또는 비활성화합니다.",
         ["esMX"] = "Habilita o deshabilita que Questie avanza automáticamente a través del diálogo PNJ",
