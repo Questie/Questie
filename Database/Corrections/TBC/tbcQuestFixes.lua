@@ -1058,6 +1058,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
         },
+        [10859] = {
+            [questKeys.objectives] = {{{20635,"Razaani Light Orb collected"},},nil,nil,nil,},
+        },
         [10861] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Collect Cursed Eggs to spawn Malevolent Hatchling", 0, {{"object", 185210}}}},
         },
