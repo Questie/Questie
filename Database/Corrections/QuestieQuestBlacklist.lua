@@ -762,6 +762,7 @@ function QuestieQuestBlacklist:Load()
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
         [9767] = true, -- Know Your Enemy
+        [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
         [10970] = true, -- A Mission of Mercy (Retail Only)
 
