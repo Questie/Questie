@@ -12,9 +12,9 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 -- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
 
 function QuestieQuestFixes:Load()
-    table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
-    table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
-    table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
+    QuestieDB.questData[7668] = {} -- Add missing quest index
+    QuestieDB.questData[7669] = {} -- Add missing quest index
+    QuestieDB.questData[7670] = {} -- Add missing quest index #1432
 
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
