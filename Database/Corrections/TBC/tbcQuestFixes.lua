@@ -1380,7 +1380,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [11885] = {
             [questKeys.requiredSourceItems] = {32620},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, "Summon and defeat each of the descendants by using 10 Time-Lost Scrolls at the Skull Piles", 0, {{"object", 185913}}},
+                {nil, ICON_TYPE_SLAY, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from previous repeatable quest", 0, {{"monster", 21763}, {"monster", 21651}, {"monster", 21787}}}
+            },
         },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},
