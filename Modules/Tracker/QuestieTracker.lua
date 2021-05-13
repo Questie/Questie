@@ -656,7 +656,7 @@ end
 
 function _QuestieTracker:CreateTrackedQuestItemButtons()
     -- create buttons for quest items
-    for i = 1, 20 do
+    for i = 1, C_QuestLog.GetMaxNumQuests() do
         local buttonName = "Questie_ItemButton"..i
         local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate, ActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
