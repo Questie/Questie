@@ -267,7 +267,7 @@ local advancedOptionsLocales = {
         ["frFR"] = "Automatique",
     },
     ["The database needs to be updated to change language. Press reload to apply the new language"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "O banco de dados precisa ser atualizado para alterar o idioma. Pressione recarregar para aplicar o novo idioma",
         ["ruRU"] = "После изменения языка база данных должна обновиться. Нажмите 'Reload UI' для перезагрузки пользовательского интерфейса",
         ["deDE"] = "Die Datenbank muss durch den Sprachenwechsel neugeladen werden. Drücke reload um die neue Sprache zu aktivieren.",
         ["koKR"] = "언어 설정을 위해 데이터베이스 업데이트가 필요합니다. 새로 적용된 언어를 위해 Reload를 누르세요.",
