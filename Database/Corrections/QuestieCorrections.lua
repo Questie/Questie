@@ -197,7 +197,7 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
     end
 
     local patchCount = 0
-    for id, quest in pairs(QuestieDB.questData) do
+    for _, quest in pairs(QuestieDB.questData) do
         if (not quest[QuestieDB.questKeys.requiredRaces]) or quest[QuestieDB.questKeys.requiredRaces] == 0 then
             -- check against questgiver
             local canHorde = false
@@ -293,7 +293,7 @@ function QuestieCorrections:PruneWaypoints()
     for id,data in pairs(QuestieDB.npcData) do
         local spawnCount = 0
         if data[QuestieDB.npcKeys.waypoints] then
-            for zone, ways in pairs(data[QuestieDB.npcKeys.waypoints]) do
+            for _, ways in pairs(data[QuestieDB.npcKeys.waypoints]) do
                 for _ in pairs(ways) do
                     spawnCount = spawnCount + 1
                 end
@@ -306,9 +306,9 @@ function QuestieCorrections:PruneWaypoints()
     end
 end
 
-function QuestieCorrections:OptimizeWaypoints(waypoints)
+function QuestieCorrections:OptimizeWaypoints(waypointData)
     local newWaypointZones = {}
-    for zone, waypointList in pairs(waypoints) do
+    for zone, waypointList in pairs(waypointData) do
         local newWaypointList = {}
         if waypointList[1] and type(waypointList[1][1]) == "number" then
             waypointList = {waypointList} -- corrections support both {{x,y}, ...} and {{{x,y}, ...}, {{x,y}, ...}, ...}
@@ -323,7 +323,7 @@ function QuestieCorrections:OptimizeWaypoints(waypoints)
 
             -- subdivide waypoints where needed
             -- We do this because the clickable area of waypoint lines can only be a square, so lines need to be broken up in some places
-            local lastWay = nil
+            local lastWay
             for _, way in pairs(waypoints) do
                 if lastWay then
                     local dist = euclid(way[1], way[2], lastWay[1], lastWay[2])
@@ -414,7 +414,7 @@ end
 function QuestieCorrections:PopulateTownsfolkType(mask) -- populate the table with all npc ids based on the given bitmask
     local tbl = {}
     for id, data in pairs(QuestieDB.npcData) do
-        flags = data[QuestieDB.npcKeys.npcFlags]
+        local flags = data[QuestieDB.npcKeys.npcFlags]
         if flags and bit.band(flags, mask) == mask then
             tinsert(tbl, id)
         end
@@ -619,7 +619,7 @@ function QuestieCorrections:PopulateTownsfolk()
                 tinsert(Questie.db.char.townsfolk["Mailbox"], id)
             end
         else
-            --print("Missing mailbox: " .. tostring(id))
+            Questie:Debug(DEBUG_DEVELOP, "Missing mailbox: " .. tostring(id))
         end
     end
 
@@ -639,7 +639,7 @@ function QuestieCorrections:PopulateTownsfolk()
 end
 function QuestieCorrections:PreCompile(callback) -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
 
-    local timer = nil
+    local timer
     local ops = {}
     --local totalPoints = 0
 
@@ -654,7 +654,7 @@ function QuestieCorrections:PreCompile(callback) -- this happens only if we are 
     end
 
     timer = C_Timer.NewTicker(0.1, function()
-        for i=0,Questie.db.global.debugEnabled and 4000 or 72 do -- 72 operations per NewTicker
+        for _=0,Questie.db.global.debugEnabled and 4000 or 72 do -- 72 operations per NewTicker
             local op = tremove(ops, 1)
             if op then
                 QuestieDB.npcData[op[2]][QuestieDB.npcKeys["waypoints"]] = QuestieCorrections:OptimizeWaypoints(op[1])
