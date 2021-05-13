@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 100
 
       - name: Install and run Luacheck
-        uses: nebularg/actions-luacheck@v2
+        uses: nebularg/actions-luacheck@v1
         with:
           args: "Database Localization --no-color -q"
 
