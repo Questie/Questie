@@ -1089,6 +1089,9 @@ function QuestieTBCQuestFixes:Load()
         [10862] = {
             [questKeys.exclusiveTo] = {10908},
         },
+        [10863] = {
+            [questKeys.exclusiveTo] = {10908},
+        },
         [10873] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
         },
