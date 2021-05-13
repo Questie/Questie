@@ -199,11 +199,11 @@ local searchLocales = {
         ["ruRU"] = "предметов",
         ["deDE"] = "Items",
         ["koKR"] = nil,
-        ["esMX"] = "Ítems",
+        ["esMX"] = "Objetos",
         ["enUS"] = true,
         ["zhCN"] = "物品",
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Objetos",
         ["frFR"] = "Objets",
     },
     ["This NPC Also Starts the following quests:"] = {
@@ -295,11 +295,11 @@ local searchLocales = {
         ["ruRU"] = "Минимальный уровень для принятия задания: ",
         ["deDE"] = "Benötigtes Mindestlevel für diese: ",
         ["koKR"] = "수행가능한 최소 레벨: ",
-        ["esMX"] = "Nivel minimo requerido para la misión: ",
+        ["esMX"] = "Nivel mínimo requerido para la misión: ",
         ["enUS"] = true,
         ["zhCN"] = "最低等级：",
         ["zhTW"] = "最低等級：",
-        ["esES"] = "Nivel minimo requerido para la misión: ",
+        ["esES"] = "Nivel mínimo requerido para la misión: ",
         ["frFR"] = "Niveau minimum requis pour la quête : ",
     },
     ["Difficulty Range: %s"] = {
@@ -323,7 +323,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Oculta",
         ["frFR"] = "Masqué",
     },
     ["Quests is hidden"] = {
@@ -335,7 +335,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "La misión se encuentra oculta",
         ["frFR"] = "La quête est masquée",
     },
     ["\nWhen selected, hides the quest from the map, even if it is active.\n\nHiding a quest is also possible by Shift-clicking it on the map."] = {
@@ -347,7 +347,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "\nAl seleccionar, oculta la misión del mapa, incluso si se encuentra activa.\n\nTambién se puede ocultar una misión desde el mapa presionando Shift + Clic Izq. sobre ella",
         ["frFR"] = "\nLorsque cette option est sélectionnée, masque la quête de la carte, même si elle est active.\n\nCacher une quête est également possible en cliquant dessus tout en maintenant la touche Maj enfoncée sur la carte.",
     },
     ["Hidden by Questie"] = {
@@ -359,7 +359,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Ocultada por Questie",
         ["frFR"] = "Masqué par Questie",
     },
     ["NPCs starting this quest:"] = {
@@ -371,7 +371,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "PNJs que inician esta misión:",
         ["frFR"] = "PNJ qui débute cette quête",
     },
     ["NPCs finishing this quest:"] = {
@@ -383,7 +383,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "PNJs que terminan esta misión:",
         ["frFR"] = "PNJ qui termine cette quête",
     },
     ["Objects starting this quest:"] = {
@@ -395,7 +395,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Objetos que inician esta misión",
         ["frFR"] = "Objet qui démarre cette quête",
     },
     ["Objects finishing this quest:"] = {
@@ -407,7 +407,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Objetos que terminan esta misión:",
         ["frFR"] = "Objet qui termine cette quête",
     },
     ["Items starting this quest:"] = {
@@ -419,7 +419,7 @@ local searchLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Ítems que inician esta misión:",
         ["frFR"] = "Item qui démarre cette quête",
     },
 }
