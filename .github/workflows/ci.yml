@@ -22,7 +22,7 @@ jobs:
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v2
         with:
-          args: "--no-color -q"
+          args: "Database Localization --no-color -q"
 
       - name: setup python
         uses: actions/setup-python@v2
