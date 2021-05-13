@@ -974,6 +974,9 @@ function QuestieTBCQuestFixes:Load()
         [10426] = {
             [questKeys.objectives] = {{{20774,"Test Energy Modulator"},},nil,nil,nil,},
         },
+        [10427] = {
+            [questKeys.objectives] = {{{20610,"Talbuk Tagged"},{20777,"Talbuk Tagged"},},nil,nil,nil,},
+        },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
