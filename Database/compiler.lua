@@ -668,11 +668,11 @@ function QuestieDBCompiler:CompileObjects(func)
 end
 
 function QuestieDBCompiler:CompileQuests(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, func, "Quest")
+    QuestieDBCompiler:CompileTableTicking(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, func, "Quest", 28)
 end
 
 function QuestieDBCompiler:CompileItems(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, func, "Item")
+    QuestieDBCompiler:CompileTableTicking(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, func, "Item", 128)
 end
 
 local function equals(a, b)
@@ -737,7 +737,7 @@ function QuestieDBCompiler:CompileTable(tbl, types, order, lookup)
     return stream:Save(), QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
 end
 
-function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after, kind)
+function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after, kind, entriesPerTick)
     local count = 0
     local indexLookup = {};
     for id in pairs(tbl) do
@@ -751,7 +751,7 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
     QuestieDBCompiler.stream = QuestieStream:GetStream("raw")
 
     QuestieDBCompiler.ticker = C_Timer.NewTicker(0.01, function()
-        for i=0,Questie.db.global.debugEnabled and 4000 or 48 do
+        for i=0,Questie.db.global.debugEnabled and 4000 or (entriesPerTick or 48) do
             QuestieDBCompiler.index = QuestieDBCompiler.index + 1
             if QuestieDBCompiler.index == count then
                 QuestieDBCompiler.ticker:Cancel()
