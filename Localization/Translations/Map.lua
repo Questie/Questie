@@ -21,10 +21,10 @@ local mapLocales = {
         ["koKR"] = "미확인 구역",
         ["esMX"] = "Zona Desconocida",
         ["enUS"] = true,
-        ["zhCN"] = nil,
+        ["zhCN"] = "未知区域",
         ["zhTW"] = nil,
-        ["esES"] = nil,
-        ["frFR"] = nil,
+        ["esES"] = "Zona Desconocida",
+        ["frFR"] = "Zone inconnue",
     }
 }
 

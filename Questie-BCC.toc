@@ -1,5 +1,5 @@
-## Interface: 11307
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (B2)|r
+## Interface: 20501
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (TBC B2)|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
 ## Version: 6.3.9
@@ -28,10 +28,10 @@ Database\Zones\zoneDB.lua
 Database\Zones\zoneTables.lua
 
 #Databases
-Database\Classic\classicItemDB.lua
-Database\Classic\classicNpcDB.lua
-Database\Classic\classicObjectDB.lua
-Database\Classic\classicQuestDB.lua
+Database\TBC\tbcItemDB.lua
+Database\TBC\tbcNpcDB.lua
+Database\TBC\tbcObjectDB.lua
+Database\TBC\tbcQuestDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua

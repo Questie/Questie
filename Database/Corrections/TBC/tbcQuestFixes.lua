@@ -7,6 +7,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
+    table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
     -- Alliance boosted quests
     table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
     table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
@@ -23,6 +24,7 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64052, {}) -- Talented
     table.insert(QuestieDB.questData, 64053, {}) -- Talented
     table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
+    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
 
 
     local questKeys = QuestieDB.questKeys
@@ -55,8 +57,20 @@ function QuestieTBCQuestFixes:Load()
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98},},}},
         },
+        [663] = {
+            [questKeys.requiredLevel] = 35,
+        },
+        [748] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56},},}},
+        },
+        [927] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [968] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36},},}},
@@ -70,6 +84,9 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32},},}},
         },
+        [2842] = {
+            [questKeys.requiredLevel] = 20,
+        },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42},},}},
         },
@@ -78,6 +95,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21},},}},
+        },
+        [4740] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44},},}},
@@ -106,27 +126,93 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
         },
+        [7863] = {
+            [questKeys.requiredMinRep] = {890,3000}
+        },
+        [7864] = {
+            [questKeys.requiredMinRep] = {890,9000}
+        },
+        [7865] = {
+            [questKeys.requiredMinRep] = {890,21000}
+        },
+        [7866] = {
+            [questKeys.requiredMinRep] = {889,3000}
+        },
+        [7867] = {
+            [questKeys.requiredMinRep] = {889,9000}
+        },
+        [7868] = {
+            [questKeys.requiredMinRep] = {889,21000}
+        },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [8325] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8326] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8327] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8328] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [8330] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8334] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8335] = {
+             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8336] = {
+             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8338] = {
             [questKeys.startedBy] = {{15298},nil,{20483,},},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8344] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8345] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274,},15274,"Mana Tap creature"}},
         },
+        [8347] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.exclusiveTo] = {9704},
+        },
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
+        },
+        [8487] = {
+            [questKeys.preQuestSingle] = {},
         },
         [8488] = {
             [questKeys.triggerEnd] = {"Protect Apprentice Mirveda", {[zoneIDs.EVERSONG_WOODS]={{54.3,71.02},},}},
         },
         [8490] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Infused Crystal and protect it from the Scourge for 1 minute", 0, {{"object", 181164}}}}
+        },
+        [8548] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8572] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8573] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [8574] = {
+            [questKeys.specialFlags] = 1,
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
@@ -143,6 +229,9 @@ function QuestieTBCQuestFixes:Load()
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
+        [9145] = {
+            [questKeys.exclusiveTo] = {9143},
+        },
         [9152] = {
             [questKeys.preQuestSingle] = {9327,9329},
         },
@@ -152,11 +241,17 @@ function QuestieTBCQuestFixes:Load()
         [9161] = {
             [questKeys.preQuestSingle] = {9282},
         },
+        [9174] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
+        },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
         },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
+        },
+        [9254] = {
+            [questKeys.exclusiveTo] = {8487},
         },
         [9279] = {
             [questKeys.exclusiveTo] = {9280},
@@ -170,9 +265,6 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
         },
-        [9327] = {
-            [questKeys.exclusiveTo] = {9130},
-        },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483,},
         },
@@ -185,11 +277,24 @@ function QuestieTBCQuestFixes:Load()
         [9400] = {
             [questKeys.triggerEnd] = {"Find Krun Spinebreaker", {[zoneIDs.HELLFIRE_PENINSULA]={{33.59,43.62},},}},
         },
+        [9410] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Wolf Totem at the location where you found Krun Spinebreaker's body and follow the Ancestral Spirit Wolf.", 0, {{"object", 181630}}}},
+        },
         [9417] = {
             [questKeys.preQuestSingle] = {},
         },
         [9418] = {
             [questKeys.startedBy] = {{17084},nil,{23580,},},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Take Avruu's Orb to the Haal'eshi Altar", 0, {{"object", 181606}}}},
+        },
+        [9421] = {
+            [questKeys.preQuestSingle] = {9280,9369},
+        },
+        [9428] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9433] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
         },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
@@ -202,6 +307,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9451] = {
             [questKeys.questLevel] = 4,
+        },
+        [9457] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Gift of Naias near the Altar of Naias", 0, {{"object", 181636}}}}
         },
         [9461] = {
             [questKeys.questLevel] = 10,
@@ -232,6 +340,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9486] = {
             [questKeys.triggerEnd] = {"Tame an Elder Springpaw", {[zoneIDs.EVERSONG_WOODS]={{61.95,64.61},{64.77,59.93},},}},
+        },
+        [9489] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9498] = {
             [questKeys.exclusiveTo] = {9340},
@@ -295,6 +406,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9564] = {
             [questKeys.startedBy] = {{17475},nil,{23850,},},
+            [questKeys.preQuestSingle] = {9559},
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
@@ -372,6 +484,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
         },
+        [9704] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9711] = {
             [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{-1,-1},},}}, -- We don't want to use the objective data, since the fake item has waypoints
             [questKeys.requiredSourceItems] = {40002},
@@ -394,6 +509,9 @@ function QuestieTBCQuestFixes:Load()
         [9738] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9740] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Destroy all 4 Sunhawk Portal Controller", 0, {{"object", 184850}}}},
+        },
         [9752] = {
             [questKeys.triggerEnd] = {"Escort Kayra Longmane to safety", {[zoneIDs.ZANGARMARSH]={{79.76,71.09},},}},
         },
@@ -407,7 +525,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9759] = {
-            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestSingle] = {9756},
             [questKeys.triggerEnd] = {"Vector Coil Destroyed and Sironas Slain", {[zoneIDs.BLOODMYST_ISLE]={{14.86,54.84},},}},
         },
         [9760] = {
@@ -443,6 +561,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [9836] = {
             [questKeys.triggerEnd] = {"Master's Touch", {[zoneIDs.TANARIS]={{57.21,62.95},},}},
+        },
+        [9847] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Plant the Feralfen Totem on the ground", 0, {{"object", 182176}}}}
+        },
+        [9849] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Gordawg's Boulder to shatter Shattered Rumblers into Minions of Gurok", 0, {{"monster", 17157}}}}
+        },
+        [9853] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 7 Warmaul Skulls to summon Gurok the Usurper", 0, {{"object", 182182}}}},
         },
         [9863] = {
             [questKeys.requiredMinRep] = {941,0},
@@ -554,9 +681,6 @@ function QuestieTBCQuestFixes:Load()
         [10000] = {
             [questKeys.requiredLevel] = 62,
         },
-        [10039] = {
-            [questKeys.requiredLevel] = 62,
-        },
         [10004] = {
             [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96},},}},
         },
@@ -586,13 +710,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10040},
         },
         [10039] = {
+            [questKeys.requiredLevel] = 62,
             [questKeys.exclusiveTo] = {10041},
         },
         [10040] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10041] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
         },
         [10044] = {
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
@@ -652,7 +779,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10097] = {
-            [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10226] = {
@@ -674,6 +800,9 @@ function QuestieTBCQuestFixes:Load()
         [10108] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59},},}},
         },
+        [10190] = {
+            [questKeys.objectives] = {{{18879,"Battery Charge Level"},},nil,nil,nil,},
+        },
         [10110] = {
             [questKeys.preQuestSingle] = {10124},
         },
@@ -687,8 +816,14 @@ function QuestieTBCQuestFixes:Load()
         [10129] = {
             [questKeys.requiredSourceItems] = {40000},
         },
+        [10146] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
+        },
         [10162] = {
             [questKeys.requiredSourceItems] = {40000},
+        },
+        [10163] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Gryphongar", 0, {{"monster", 20232}}}},
         },
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
@@ -704,6 +839,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73},},}},
+            [questKeys.requiredSourceItems] = {28452},
         },
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93},},}},
@@ -717,11 +853,34 @@ function QuestieTBCQuestFixes:Load()
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
         },
+        [10274] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Challenge of the Blue Fight to challenge Veraku", 0, {{"object", 184108}}}},
+        },
         [10288] = {
             [questKeys.preQuestSingle] = {},
         },
         [10231] = {
             [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97},},}},
+        },
+        [10243] = {
+            [questKeys.preQuestSingle] = {10241},
+        },
+        [10246] = {
+            [questKeys.preQuestSingle] = {10299},
+        },
+        [10250] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Blow the Unyielding Battle Horn near the Alliance Banner", 0, {{"object", 184002 }}}},
+        },
+        [10255] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Cenarion Antidote on a Hulking Helboar and observe the results", 0, {{"monster", 16880}}}},
+        },
+        [10263] = {
+            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.requiredMinRep] = {932,3000},
+        },
+        [10264] = {
+            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.requiredMinRep] = {934,3000},
         },
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85},},}},
@@ -747,6 +906,12 @@ function QuestieTBCQuestFixes:Load()
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97},},}},
         },
+        [10340] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
+        },
+        [10382] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Gryphoneer Windbellow", 0, {{"monster", 20235}}}},
+        },
         [10388] = {
             [questKeys.startedBy] = {{16576,19273,},nil,nil,},
             [questKeys.preQuestSingle] = {10129},
@@ -769,14 +934,33 @@ function QuestieTBCQuestFixes:Load()
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
+        [10458] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Totem of Spirits on Enraged Earth and Fiery Spirits", 0, {{"monster", 21050}, {"monster", 21061}}}}
+        },
         [10479] = {
             [questKeys.requiredMinRep] = {941,0},
+        },
+        [10480] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Totem of Spirits on Enraged Water Spirits", 0, {{"monster", 21059}}}},
+        },
+        [10481] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Totem of Spirits on Enraged Air Spirits", 0, {{"monster", 21060}}}}
+        },
+        [10488] = {
+            [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves"},},nil,nil,nil,nil},
         },
         [10490] = {
             [questKeys.questLevel] = 20,
         },
         [10491] = {
             [questKeys.questLevel] = 30,
+        },
+        [10506] = {
+            [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"},},nil,nil,nil,nil},
+        },
+        [10512] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
         },
         [10519] = {
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48},},}},
@@ -790,8 +974,21 @@ function QuestieTBCQuestFixes:Load()
         [10577] = {
             [questKeys.triggerEnd] = {"Illidan's Message Delivered", {[zoneIDs.SHADOWMOON_VALLEY]={{46.46,71.86},},}},
         },
+        [10580] = {
+            [questKeys.exclusiveTo] = {10584},
+        },
+        [10581] = {
+            [questKeys.exclusiveTo] = {10584},
+        },
+        [10584] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector", 0, {{"object", 184906}}}}
+        },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
+        },
+        [10629] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
         },
         [10646] = {
             [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07},},}},
@@ -801,6 +998,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [10656] = {
             [questKeys.preQuestSingle] = {10211},
+        },
+        [10675] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
+        },
+        [10680] = {
+            [questKeys.exclusiveTo] = {10458},
+        },
+        [10681] = {
+            [questKeys.exclusiveTo] = {10458},
         },
         [10682] = {
             [questKeys.triggerEnd] = {"Negotiations with Overseer Nuaar complete", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.22,31.78},{59.86,40.22},{59.46,35.84},},}},
@@ -835,6 +1041,13 @@ function QuestieTBCQuestFixes:Load()
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21},},}},
         },
+        [10830] = {
+            [questKeys.requiredSourceItems] = {31517,31495},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Exorcism Feathers to summon Koi-Koi Spirits", 0, {{"monster", 21326}}}},
+        },
+        [10838] = {
+            [questKeys.extraObjectives] = {{{[3483]={{44,51}}}, ICON_TYPE_EVENT, "Use the Demoniac Scryer"}},
+        },
         [10839] = {
             [questKeys.triggerEnd] = {"Attempt to purify the Darkstone of Terrok", {[zoneIDs.TEROKKAR_FOREST]={{30.84,42.03},},}},
         },
@@ -845,8 +1058,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
         },
+        [10861] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Collect Cursed Eggs to spawn Malevolent Hatchling", 0, {{"object", 185210}}}},
+        },
         [10873] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
+        },
+        [10876] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Force Commander Gorax and place the Challenge From the Horde upon his corpse", 0, {{"monster", 19264}}}},
         },
         [10879] = {
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69},},}},
@@ -854,11 +1073,26 @@ function QuestieTBCQuestFixes:Load()
         [10886] = {
             [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.NETHERSTORM]={{74.5,57.67},},}},
         },
+        [10896] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited", 0, {{"monster", 22307}, {"monster", 22095}}}},
+        },
         [10898] = {
             [questKeys.triggerEnd] = {"Escort Skywing", {[zoneIDs.TEROKKAR_FOREST]={{55.71,69.68},},}},
         },
+        [10909] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, ICON_TYPE_EVENT, "Place the Achorite Relic and slay Shattered Hand Berserkers near it"}},
+        },
+        [10915] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the coffin and kill its content", 0, {{"object", 184999}}}},
+        },
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9},},}},
+        },
+        [10929] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{31.5,75.7}}}, ICON_TYPE_EVENT, "Use the Fumper to lure Mature Bone Sifter", 0}},
+        },
+        [10930] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Decrepit Clefthoofs and use the Fumper on their corpses", 0, {{"monster", 22105}}}},
         },
         [10945] = {
             [questKeys.triggerEnd] = {"Salandria taken to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.22,51.23},},}},
@@ -911,10 +1145,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {941,0},
         },
         [11038] = {
+            [questKeys.startedBy] = {{23270,23271},nil,nil,},
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
         },
         [11039] = {
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11040,11042,},
+            [questKeys.requiredMinRep] = {934,3000},
         },
         [11040] = {
             [questKeys.requiredLevel] = 67,
@@ -1000,11 +1236,35 @@ function QuestieTBCQuestFixes:Load()
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
         },
+        [11152] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Lay the Wreath at the Hyal Family Monument", 0, {{"object", 186322}}}},
+        },
+        [11159] = {
+            [questKeys.preQuestSingle] = {11161},
+        },
+        [11162] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Plant the Stonemaul Banner", 0, {{"object", 186336}}}},
+        },
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345,},4344,"Totem Tests Performed"}},
         },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
+        },
+        [11208] = {
+            [questKeys.exclusiveTo] = {11158},
+        },
+        [11209] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{57,62}}}, ICON_TYPE_EVENT, "Smear the Fish Paste on yourself and swim to the ship wreck"}},
+        },
+        [11211] = {
+            [questKeys.exclusiveTo] = {11158},
+        },
+        [11214] = {
+            [questKeys.exclusiveTo] = {11158},
+        },
+        [11215] = {
+            [questKeys.exclusiveTo] = {11158},
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -1103,6 +1363,10 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{68.58,7.88},},
             }},
         },
+        [11885] = {
+            [questKeys.requiredSourceItems] = {32620},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
+        },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},
         },
@@ -1161,7 +1425,24 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
 
-        -- C_QuestLog.GetQuestObjectives
+        -- Below are quests that were not originally in TBC or in a different form
+
+        [63866] = {
+            [questKeys.name] = "Claiming the Light",
+            [questKeys.startedBy] = {{17718},nil,nil},
+            [questKeys.finishedBy] = {{17717},nil,nil},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
+            [questKeys.objectives] = {nil,nil,{{24156},},nil,},
+            [questKeys.sourceItemId] = 24157,
+            [questKeys.preQuestSingle] = {9681},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 9685,
+            [questKeys.questFlags] = 128,
+        },
 
         ----- Boosted character quests -----
         [64028] = {
@@ -1320,15 +1601,29 @@ function QuestieTBCQuestFixes:Load()
         },
         [64063] = {
             [questKeys.name] = "The Dark Portal",
-            [questKeys.startedBy] = {{3036,3324,3328,3344,3353,3406,5885,5994},nil,nil},
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
             [questKeys.finishedBy] = {{19254},nil,nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64052,64053},
+            [questKeys.preQuestSingle] = {64052},
+            [questKeys.exclusiveTo] = {64217},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64217] = {
+            [questKeys.name] = "The Dark Portal",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{19254},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
+            [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64053},
+            [questKeys.exclusiveTo] = {64063},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
     }
 end

@@ -56,7 +56,7 @@ _QuestieTracker.FadeTickerDirection = false
 _QuestieTracker.IsFirstRun = true
 
 -- Forward declaration
-local _OnClick, _OnEnter, _OnLeave
+local _OnClick, _OnEnter, _OnLeave, _OnHighlightEnter, _OnHighlightLeave
 local _AQW_Insert, _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
@@ -383,7 +383,10 @@ function _QuestieTracker:CreateActiveQuestsHeader()
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
-            self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND .. l10n("Questie Tracker: ") .. tostring(activeQuests) .. "/20")
+
+            local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuests()
+
+            self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND .. l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
 
             --self.trackedQuests.label2:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)

@@ -735,7 +735,7 @@ function _QuestieFramePool:QuestieTooltip()
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
     Tooltip._Rebuild = function(self)
-        local xpString = l10n('XP');
+        local xpString = l10n('xp');
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;

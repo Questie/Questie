@@ -782,7 +782,11 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
                     print("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                QuestieDBCompiler.writers[t](QuestieDBCompiler.stream, v)
+                local result, error = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                if not result then
+                    print("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
+                    print(error)
+                end
             end
             tbl[id] = nil -- quicker gabage collection later
         end

@@ -1,7 +1,5 @@
-local MAJOR, MINOR = "LibQuestXP-1.0", 7
+local MAJOR, MINOR = "LibQuestXP-2.0", 2
 local LibQuestXP = LibStub:NewLibrary(MAJOR, MINOR)
-
-local QuestiePlayer = nil;
 
 if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE then
     return -- Don't load for Retail
@@ -37,7 +35,7 @@ function LibQuestXP:GetAdjustedXP(xp, qLevel)
         charLevel = QuestiePlayer:GetPlayerLevel();
     end
 
-    if (charLevel == 60) then
+    if (charLevel == 70) then
         return 0;
     end
 

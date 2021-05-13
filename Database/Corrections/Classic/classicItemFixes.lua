@@ -422,6 +422,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [5847] = {
+            [itemKeys.npcDrops] = {4363,4362,4360,4358,4361,4359},
+        },
         [5868] = {
             [itemKeys.name] = "Filled Etched Phial",
             [itemKeys.relatedQuests] = {1195},
@@ -1108,6 +1111,9 @@ function QuestieItemFixes:Load()
         },
         [18605] = {
             [itemKeys.npcDrops] = {12396}, -- #7583
+        },
+        [18642] = {
+            [itemKeys.npcDrops] = {4968},
         },
         [18746] = { -- #1344
             [itemKeys.name] = "Divination Scryer",
