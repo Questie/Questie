@@ -1011,6 +1011,9 @@ function QuestieTBCQuestFixes:Load()
         [10512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
         },
+        [10514] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber", 0, {{"object", 184701}}}},
+        },
         [10519] = {
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48},},}},
         },
