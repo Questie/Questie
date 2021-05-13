@@ -1058,6 +1058,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
         },
+        [10859] = {
+            [questKeys.objectives] = {{{20635,"Razaani Light Orb collected"},},nil,nil,nil,},
+        },
         [10861] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Collect Cursed Eggs to spawn Malevolent Hatchling", 0, {{"object", 185210}}}},
         },
@@ -1078,6 +1081,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10898] = {
             [questKeys.triggerEnd] = {"Escort Skywing", {[zoneIDs.TEROKKAR_FOREST]={{55.71,69.68},},}},
+        },
+        [10908] = {
+            [questKeys.exclusiveTo] = {10862,10863},
         },
         [10909] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, ICON_TYPE_EVENT, "Place the Achorite Relic and slay Shattered Hand Berserkers near it"}},
@@ -1327,6 +1333,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
+        [11383] = {
+            [questKeys.objectives] = {{17839,},nil,nil,nil,nil,},
+        },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
         },
@@ -1354,6 +1363,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{64.58,8.08},},
             }},
         },
+        [11667] = {
+            [questKeys.extraObjectives] = {{{[3518]={{62,35}}}, ICON_TYPE_EVENT, "Fish Here for World's Largest Mudfish"}},
+        },
         [11731] = {
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
                 [zoneIDs.TELDRASSIL]={{56.59,92.06},},
@@ -1365,7 +1377,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11885] = {
             [questKeys.requiredSourceItems] = {32620},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Kill Time-Lost Skettis for Time-Lost Scrolls, must have Elixir of Shadow consumed from repeatable quest", 0, {{"object", 185913}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Summon and defeat each of the descendants by using 10 Time-Lost Scrolls at the Skull Piles", 0, {{"object", 185913}}}},
         },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},

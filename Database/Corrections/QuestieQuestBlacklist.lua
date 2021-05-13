@@ -762,7 +762,9 @@ function QuestieQuestBlacklist:Load()
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
         [9767] = true, -- Know Your Enemy
+        [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
+        [10970] = true, -- A Mission of Mercy (Retail Only)
 
         [9751] = true, -- The Bloodcurse Legacy (duplicate of 9672 which is way easier to get)
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)

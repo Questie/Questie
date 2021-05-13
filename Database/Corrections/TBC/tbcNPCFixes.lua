@@ -158,6 +158,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{72.81,20.83},},},
             [npcKeys.waypoints] = {},
         },
+        [17839] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
+        },
         [18120] = {
             [npcKeys.waypoints] = {},
         },
@@ -209,7 +213,9 @@ function QuestieTBCNpcFixes:Load()
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
         },
-
+        [24885] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8},},},
+        },
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
         -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
         -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
