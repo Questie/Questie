@@ -254,10 +254,15 @@ function _EventHandler:PlayerLogin()
                     -- combine tbc and classic db where relevant
                     QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
                     QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
+                end
+            end,
+            function()
+                if QuestieDB.questDataTBC then
                     QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
                     QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
                 end
-
+            end,
+            function()
                 QuestieCorrections:Initialize()
                 QuestieCorrections:PopulateTownsfolk()
             end,
