@@ -7,6 +7,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
+    table.insert(QuestieDB.objectData, 184588, {}) -- Captain Tyralis's Prison
     table.insert(QuestieDB.objectData, 190483, {}) -- Document chest
     table.insert(QuestieDB.objectData, 190484, {}) -- Document chest
     table.insert(QuestieDB.objectData, 400000, {})
@@ -50,6 +51,17 @@ function QuestieTBCObjectFixes:Load()
         },
         [183050] = {
             [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
+        },
+        [184588] = {
+            [objectKeys.name] = "Captain Tyralius's Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.4}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184998] = {
+            [objectKeys.name] = "Ethereum Prison",
+        },
+        [185460] = {
+            [objectKeys.name] = "Ethereum Prison",
         },
         [190483] = {
             [objectKeys.name] = "Document Chest",

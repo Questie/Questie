@@ -962,6 +962,9 @@ function QuestieTBCQuestFixes:Load()
         [10412] = {
             [questKeys.preQuestSingle] = {10211},
         },
+        [10422] = {
+            [questKeys.requiredSourceItems] = {29742},
+        },
         [10425] = {
             [questKeys.triggerEnd] = {"Captured Protectorate Vanguard Escorted", {[zoneIDs.NETHERSTORM]={{58.9,32.43},},}},
         },
