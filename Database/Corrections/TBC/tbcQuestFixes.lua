@@ -584,16 +584,26 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Free the Mag'har Captive", {[zoneIDs.NAGRAND]={{31.77,38.78},},}},
             [questKeys.requiredMinRep] = {941,0},
         },
+        [9869] = {
+            [questKeys.requiredMinRep] = {978,0},
+        },
         [9871] = {
             [questKeys.startedBy] = {{18238},nil,{24559,},},
         },
         [9872] = {
             [questKeys.startedBy] = {{18238},nil,{24558,},},
         },
+        [9874] = {
+            [questKeys.requiredMinRep] = {978,0},
+        },
         [9876] = {
             [questKeys.exclusiveTo] = {9738},
         },
+        [9878] = {
+            [questKeys.requiredMinRep] = {978,0},
+        },
         [9879] = {
+            [questKeys.requiredMinRep] = {978,0},
             [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.59,38.78},},}},
         },
         [9889] = {
@@ -612,6 +622,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {9882},
         },
         [9923] = {
+            [questKeys.requiredMinRep] = {978,0},
             [questKeys.requiredSourceItems] = {25490},
         },
         [9924] = {
@@ -638,8 +649,14 @@ function QuestieTBCQuestFixes:Load()
         [9935] = {
             [questKeys.requiredMinRep] = {941,0},
         },
+        [9936] = {
+            [questKeys.requiredMinRep] = {978,0},
+        },
         [9939] = {
             [questKeys.requiredMinRep] = {941,0},
+        },
+        [9940] = {
+            [questKeys.requiredMinRep] = {978,0},
         },
         [9944] = {
             [questKeys.requiredMinRep] = {941,0},
@@ -649,6 +666,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9955] = {
             [questKeys.requiredSourceItems] = {25648},
+        },
+        [9956] = {
+            [questKeys.requiredMinRep] = {978,0},
         },
         [9957] = {
             [questKeys.requiredMinRep] = {942,3000},
@@ -672,6 +692,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Mogor, Hero of the Warmaul Defeated", {[zoneIDs.NAGRAND]={{43.31,20.72},},}},
         },
         [9982] = {
+            [questKeys.requiredMinRep] = {978,0},
             [questKeys.exclusiveTo] = {9991},
         },
         [9983] = {
@@ -941,6 +962,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Totem of Spirits on Enraged Earth and Fiery Spirits", 0, {{"monster", 21050}, {"monster", 21061}}}}
         },
+        [10476] = {
+            [questKeys.requiredMinRep] = {978,0},
+        },
         [10479] = {
             [questKeys.requiredMinRep] = {941,0},
         },
@@ -1168,6 +1192,7 @@ function QuestieTBCQuestFixes:Load()
         [11042] = {
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11040,},
+            [questKeys.requiredMinRep] = {978,0},
         },
         [11043] = {
             [questKeys.requiredLevel] = 67,
@@ -1176,6 +1201,7 @@ function QuestieTBCQuestFixes:Load()
         [11044] = {
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {11043,11045},
+            [questKeys.requiredMinRep] = {978,0},
         },
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044},
@@ -1341,6 +1367,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
+        },
+        [11502] = {
+            [questKeys.requiredMinRep] = {978,0},
         },
         [11503] = {
             [questKeys.requiredMinRep] = {941,0},
