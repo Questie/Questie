@@ -840,25 +840,25 @@ function QuestieDBCompiler:Compile(finalize)
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
 
-    print("\124cFF4DDBFF [1/4] " .. l10n("Updating NPCs") .. "...")
+    print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
     QuestieDBCompiler:CompileNPCs(function(bin, ptrs)
         QuestieConfig.npcBin = bin 
         QuestieConfig.npcPtrs = ptrs
         QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-        print("\124cFF4DDBFF [2/4] " .. l10n("Updating objects") .. "...")
+        print("\124cFF4DDBFF [5/7] " .. l10n("Updating objects") .. "...")
         QuestieDBCompiler:CompileObjects(function(bin, ptrs)
             QuestieConfig.objBin = bin 
             QuestieConfig.objPtrs = ptrs
             QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-            print("\124cFF4DDBFF [3/4] " .. l10n("Updating quests") .. "...")
+            print("\124cFF4DDBFF [6/7] " .. l10n("Updating quests") .. "...")
             QuestieDBCompiler:CompileQuests(function(bin, ptrs)
                 QuestieConfig.questBin = bin 
                 QuestieConfig.questPtrs = ptrs
                 QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(bin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
-                print("\124cFF4DDBFF [4/4] " .. l10n("Updating items") .. "...")
+                print("\124cFF4DDBFF [7/7] " .. l10n("Updating items") .. "...")
                 QuestieDBCompiler:CompileItems(function(bin, ptrs)
                     QuestieConfig.itemBin = bin 
                     QuestieConfig.itemPtrs = ptrs

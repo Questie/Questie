@@ -221,20 +221,62 @@ function _EventHandler:PlayerLogin()
             char.townsfolk = nil
         end
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
-        QuestieCorrections:Initialize()
-        QuestieCorrections:PopulateTownsfolk()
-        l10n:Initialize()
-        C_Timer.After(4, function()
-            print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))            QuestieDB.private:DeleteGatheringNodes()
-            QuestieCorrections:PreCompile(function()
-                QuestieDBCompiler:Compile(function()
-                    stage1()
-                    QuestieCorrections:PopulateTownsfolkPostBoot()
-                    stage2()
-                    --Questie.minimapConfigIcon:Show("Questie")
+        local callTable = {
+            function()
+                print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
+                -- give it an extra second, this runs right at player_logged_in and we don't want to lag users too much
+            end,
+            function()
+                print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+                QuestieDB.npcData = loadstring(QuestieDB.npcData)
+            end,
+            function() -- secondary function to avoid lag spikes
+                QuestieDB.npcData = QuestieDB.npcData()
+            end,
+            function() 
+                QuestieDB.objectData = loadstring(QuestieDB.objectData)
+            end,
+            function()
+                QuestieDB.objectData = QuestieDB.objectData()
+            end,
+            function()
+                QuestieDB.questData = loadstring(QuestieDB.questData)
+            end,
+            function()
+                QuestieDB.questData = QuestieDB.questData()
+            end,
+            function()
+                QuestieDB.itemData = loadstring(QuestieDB.itemData)
+            end,
+            function()
+                QuestieDB.itemData = QuestieDB.itemData()
+            end,
+            function()
+                print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+                QuestieCorrections:Initialize()
+                QuestieCorrections:PopulateTownsfolk()
+            end,
+            function()
+                print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
+                l10n:Initialize()
+            end,
+            function()
+                QuestieDB.private:DeleteGatheringNodes()
+                QuestieCorrections:PreCompile(function()
+                    QuestieDBCompiler:Compile(function()
+                        stage1()
+                        QuestieCorrections:PopulateTownsfolkPostBoot()
+                        stage2()
+                        --Questie.minimapConfigIcon:Show("Questie")
+                    end)
                 end)
-            end)
-        end)
+            end
+        }
+        local callIndex = 1
+        C_Timer.NewTicker(0.5, function() 
+            callTable[callIndex]()
+            callIndex = callIndex + 1
+        end, #callTable)
     end
 end
 

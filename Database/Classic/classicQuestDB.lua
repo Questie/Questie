@@ -48,7 +48,7 @@ QuestieDB.questKeys = {
     ['extraObjectives'] = 26, -- table: {{spawnlist, iconFile, text},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 }
 
-QuestieDB.questData = {
+QuestieDB.questData = [[return {
 [2] = {"Sharptalon's Claw",{nil,nil,{16305,},},{{12696,},nil,},20,30,178,nil,{"Bring Sharptalon's Claw to Senani Thunderheart at Splintertree Post, Ashenvale.",},nil,{nil,nil,nil,nil,},16305,nil,{6383,},nil,{23,24,},nil,331,nil,nil,nil,nil,nil,nil,nil,nil,},
 [5] = {"Jitters' Growling Gut",{{288,},nil,nil,},{{272,},nil,},17,20,77,nil,{"Speak with Chef Grual.",},nil,{nil,nil,nil,nil,},nil,nil,{163,},nil,nil,nil,10,nil,nil,nil,nil,93,8,nil,nil,},
 [6] = {"Bounty on Garrick Padfoot",{{823,},nil,nil,},{{823,},nil,},2,5,77,nil,{"Kill Garrick Padfoot and bring his head to Deputy Willem at Northshire Abbey.",},nil,{nil,nil,{{182,nil},},nil,},nil,nil,{18,},nil,nil,nil,9,nil,nil,nil,nil,nil,8,nil,nil,},
@@ -4292,4 +4292,4 @@ QuestieDB.questData = {
 [9422] = {"Scouring the Desert",{{17079,},nil,nil,},{{17079,},nil,},55,60,178,nil,{"Find and deliver Silithyst to the Silithyst Extractor then speak with General Kirika at the Horde encampment near Hive'Regal.",},nil,{{{18199,"Deliver Silithyst"},},nil,nil,nil,},nil,nil,nil,nil,nil,nil,1377,nil,nil,nil,nil,nil,72,nil,nil,},
 [9664] = {"Establishing New Outposts",{{17069,},nil,nil,},{{17069,},nil,},55,60,77,nil,{"Capture Crown Guard Tower, Eastwall Tower, Northpass Tower and Plaguewood Tower in the Eastern Plaguelands, then return to Emmisary Whitebeard at Light's Hope Chapel.",},nil,{{{17689,"Capture Crown Guard Tower"},{17690,"Capture Eastwall Tower"},{17696,"Capture Northpass Tower"},{17698,"Capture Plaguewood Tower"},},nil,nil,nil,},nil,nil,nil,nil,nil,nil,139,nil,nil,nil,nil,nil,72,nil,nil,},
 [9665] = {"Bolstering Our Defenses",{{17072,},nil,nil,},{{17072,},nil,},55,60,178,nil,{"Capture Crown Guard Tower, Eastwall Tower, Northpass Tower and Plaguewood Tower in the Eastern Plaguelands, then return to Emmisary Gormok at Light's Hope Chapel.",},nil,{{{17689,"Capture Crown Guard Tower"},{17690,"Capture Eastwall Tower"},{17696,"Capture Northpass Tower"},{17698,"Capture Plaguewood Tower"},},nil,nil,nil,},nil,nil,nil,nil,nil,nil,139,nil,nil,nil,nil,nil,72,nil,nil,},
-};
+}]]

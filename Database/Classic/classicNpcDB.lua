@@ -28,7 +28,7 @@ QuestieDB.npcKeys = {
                        -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
 }
 
-QuestieDB.npcData = {
+QuestieDB.npcData = [[return {
 [1] = {'Waypoint (Only GM can see it)',42,42,1,1,0,nil,nil,0,nil,nil,35,"AH","Visual",0,},
 [2] = {'Spawn Point (Only GM can see it)',42,42,1,1,0,nil,nil,0,nil,nil,35,"AH",nil,0,},
 [3] = {'Flesh Eater',664,713,24,25,0,{[10]={{25.06,38.2},{25.37,36.04},{25.69,34.45},{23.81,39.21},{22.81,39.09},{22.04,32.62},{21.7,38.3},{22.2,36.96},{25.37,39.03},},},nil,10,nil,nil,21,nil,nil,0,},
@@ -10527,4 +10527,4 @@ QuestieDB.npcData = {
 [995204] = {'Skinning 150 to 200',1,1,30,30,0,nil,nil,0,nil,nil,7,"AH",nil,0,},
 [995205] = {'Skinning 200 to 250',1,1,40,40,0,nil,nil,0,nil,nil,7,"AH",nil,0,},
 [995206] = {'Skinning 250 to 300',1,1,50,50,0,nil,nil,0,nil,nil,7,"AH",nil,0,},
-};
+}]]
