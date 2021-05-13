@@ -111,8 +111,12 @@ def zip_release_folder(zip_name, version_dir, addon_dir):
 def get_git_information():
     if is_tool("git"):
         script_dir = os.path.dirname(os.path.realpath(__file__))
-        p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir)
-        tag_string = str(p).rstrip("\\n'").lstrip("b'")
+        tag_string = ''
+        try:
+            p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir)
+            tag_string = str(p).rstrip("\\n'").lstrip("b'")
+        except subprocess.CalledProcessError as e:
+            print("Exceptions: ", e.returncode, e.output)
 
         # versiontag (v4.1.1) from git, number of additional commits on top of the tagged object and most recent commit.
         version_tag, nr_of_commits, recent_commit = tag_string.rsplit("-", maxsplit=2)
