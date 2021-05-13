@@ -933,6 +933,9 @@ function QuestieTBCQuestFixes:Load()
         [10340] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
         },
+        [10367] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10382] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Gryphoneer Windbellow", 0, {{"monster", 20235}}}},
         },
@@ -942,6 +945,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10389] = {
             [questKeys.preQuestSingle] = {10392},
+        },
+        [10403] = {
+            [questKeys.exclusiveTo] = {10367},
         },
         [10406] = {
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {[zoneIDs.NETHERSTORM]={{56.42,42.66},},}},
