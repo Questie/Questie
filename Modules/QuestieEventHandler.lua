@@ -50,6 +50,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieDatabaseUnification
+local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -183,11 +185,6 @@ function _EventHandler:PlayerLogin()
             end)
         end
 
-        if QuestieEventHandler._needTownsfolkUpdate then -- bad code
-            QuestieEventHandler._needTownsfolkUpdate = nil
-            QuestieCorrections:PopulateTownsfolkPostBoot()
-        end
-
         QuestieMenu:OnLogin()
 
         if Questie.db.global.debugEnabled then
@@ -202,17 +199,8 @@ function _EventHandler:PlayerLogin()
         QuestieConfig.dbIsCompiled = nil -- we need to recompile
     end
 
-    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
-        
-        if not Questie.db.char.townsfolk then
-            -- we havent compiled townsfolk on this character
-            QuestieCorrections:Initialize()
-            QuestieCorrections:PopulateTownsfolk()
-            -- bad code
-            QuestieEventHandler._needTownsfolkUpdate = true
-        else
-            QuestieCorrections:MinimalInit()
-        end
+    if QuestieConfig.dbIsCompiled and Questie.db.char.townsfolk then -- todo: check for updates or language change and recompile
+        QuestieCorrections:MinimalInit()
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
     else
@@ -229,30 +217,47 @@ function _EventHandler:PlayerLogin()
             function()
                 print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
                 QuestieDB.npcData = loadstring(QuestieDB.npcData)
+                QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and loadstring(QuestieDB.npcDataTBC) or nil
             end,
             function() -- secondary function to avoid lag spikes
                 QuestieDB.npcData = QuestieDB.npcData()
+                QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and QuestieDB.npcDataTBC() or nil
             end,
             function() 
                 QuestieDB.objectData = loadstring(QuestieDB.objectData)
+                QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and loadstring(QuestieDB.objectDataTBC) or nil
             end,
             function()
                 QuestieDB.objectData = QuestieDB.objectData()
+                QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and QuestieDB.objectDataTBC() or nil
             end,
             function()
                 QuestieDB.questData = loadstring(QuestieDB.questData)
+                QuestieDB.questDataTBC = QuestieDB.questDataTBC and loadstring(QuestieDB.questDataTBC) or nil
             end,
             function()
                 QuestieDB.questData = QuestieDB.questData()
+                QuestieDB.questDataTBC = QuestieDB.questDataTBC and QuestieDB.questDataTBC() or nil
             end,
             function()
                 QuestieDB.itemData = loadstring(QuestieDB.itemData)
+                QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataTBC) or nil
             end,
             function()
                 QuestieDB.itemData = QuestieDB.itemData()
+                QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
             end,
             function()
                 print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+
+                if QuestieDB.questDataTBC then
+                    -- combine tbc and classic db where relevant
+                    QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
+                    QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
+                    QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
+                    QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
+                end
+
                 QuestieCorrections:Initialize()
                 QuestieCorrections:PopulateTownsfolk()
             end,

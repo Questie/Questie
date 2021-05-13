@@ -1,13 +1,7 @@
 -- AUTO GENERATED FILE! DO NOT EDIT!
 
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
-
-local isClassicClient = string.byte(GetBuildInfo(), 1) == 49;
-
-if (not isClassicClient) then
-    return
-end
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 QuestieDB.npcKeys = {
     ['name'] = 1, -- string
