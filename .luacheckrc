@@ -2737,6 +2737,7 @@ stds.questie = {
         "ICON_TYPE_AVAILABLE_GRAY",
         "ICON_TYPE_REPEATABLE",
         "Questie_Toggle",
+        "stderr",
     }
 }
 std = "max+questie"
