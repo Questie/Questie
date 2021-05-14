@@ -388,11 +388,6 @@ function worldmapProvider:RefreshAllData(fromOnShow)
         lastUiMapId = mapId;
         worldmapProvider.forceUpdate = false;
     end
-    self:RemoveAllData()
-
-    for icon, data in pairs(worldmapPins) do
-        self:HandlePin(icon, data)
-    end
 end
 
 function worldmapProvider:HandlePin(icon, data)
@@ -462,7 +457,7 @@ function worldmapProvider:HandlePin(icon, data)
         x, y = HBD:GetZoneCoordinatesFromWorld(data.x, data.y, uiMapID)
     end
     if x and y then
-        worldmapProvider.forceUpdate = true;
+        --worldmapProvider.forceUpdate = true;
         self:GetMap():AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
     end
 end
