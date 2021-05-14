@@ -1041,6 +1041,9 @@ function QuestieTBCQuestFixes:Load()
         [10557] = {
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.1,68.84},},}},
         },
+        [10563] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
+        },
         [10577] = {
             [questKeys.triggerEnd] = {"Illidan's Message Delivered", {[zoneIDs.SHADOWMOON_VALLEY]={{46.46,71.86},},}},
         },
