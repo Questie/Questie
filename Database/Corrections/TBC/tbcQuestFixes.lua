@@ -1096,6 +1096,9 @@ function QuestieTBCQuestFixes:Load()
         [10656] = {
             [questKeys.preQuestSingle] = {10211},
         },
+        [10657] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents", 0, {{"monster", 20749}}}},
+        },
         [10668] = {
             [questKeys.preQuestSingle] = {10640,10689,}
         },
