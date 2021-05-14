@@ -165,6 +165,7 @@ function _EventHandler:PlayerLogin()
         QuestieQuest:GetAllQuestIdsNoObjectives()
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
         QuestieNameplate:Initialize()
+        QuestieMenu:PopulateTownsfolkPostBoot()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         didPlayerEnterWorld = true
         -- manually fire QLU since enter has been delayed past the first QLU
@@ -199,7 +200,12 @@ function _EventHandler:PlayerLogin()
         QuestieConfig.dbIsCompiled = nil -- we need to recompile
     end
 
-    if QuestieConfig.dbIsCompiled and Questie.db.char.townsfolk then -- todo: check for updates or language change and recompile
+    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+
+        if not Questie.db.char.townsfolk then
+            QuestieMenu:BuildCharacterTownsfolk()
+        end
+
         QuestieCorrections:MinimalInit()
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
@@ -264,7 +270,7 @@ function _EventHandler:PlayerLogin()
             end,
             function()
                 QuestieCorrections:Initialize()
-                QuestieCorrections:PopulateTownsfolk()
+                QuestieMenu:PopulateTownsfolk()
             end,
             function()
                 print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
@@ -275,7 +281,8 @@ function _EventHandler:PlayerLogin()
                 QuestieCorrections:PreCompile(function()
                     QuestieDBCompiler:Compile(function()
                         stage1()
-                        QuestieCorrections:PopulateTownsfolkPostBoot()
+                        QuestieMenu:BuildCharacterTownsfolk()
+                        QuestieMenu:PopulateTownsfolkPostBoot()
                         stage2()
                         --Questie.minimapConfigIcon:Show("Questie")
                     end)
