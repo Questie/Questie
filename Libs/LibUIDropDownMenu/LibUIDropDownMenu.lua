@@ -28,7 +28,7 @@ if not lib then return end
 -- Determine WoW TOC Version
 local WoWClassic, WoWRetail
 local wowtocversion  = select(4, GetBuildInfo())
-if wowtocversion < 19999 then
+if wowtocversion < 29999 then
 	WoWClassic = true
 else
 	WoWRetail = true
@@ -105,16 +105,16 @@ end
 -- L_UIDropDownMenuButtonTemplate
 local function create_MenuButton(name, parent)
 	local f = CreateFrame("Button", name, parent or nil)
-    f:SetWidth(100)
-    f:SetHeight(16)
-    f:SetFrameLevel(f:GetParent():GetFrameLevel()+2)
+	f:SetWidth(100)
+	f:SetHeight(16)
+	f:SetFrameLevel(f:GetParent():GetFrameLevel()+2)
 
 	f.Highlight = f:CreateTexture(name.."Highlight", "BACKGROUND")
 	f.Highlight:SetTexture("Interface\\QuestFrame\\UI-QuestTitleHighlight")
 	f.Highlight:SetBlendMode("ADD")
 	f.Highlight:SetAllPoints()
 	f.Highlight:Hide()
-	
+
 	f.Check = f:CreateTexture(name.."Check", "ARTWORK")
 	f.Check:SetTexture("Interface\\Common\\UI-DropDownRadioChecks")
 	f.Check:SetSize(16, 16)
@@ -126,17 +126,16 @@ local function create_MenuButton(name, parent)
 	f.UnCheck:SetSize(16, 16)
 	f.UnCheck:SetPoint("LEFT", f, 0, 0)
 	f.UnCheck:SetTexCoord(0.5, 1, 0.5, 1)
-	
+
 	f.Icon = f:CreateTexture(name.."Icon", "ARTWORK")
 	f.Icon:SetSize(16, 16)
 	f.Icon:SetPoint("RIGHT", f, 0, 0)
 	f.Icon:Hide()
-	
+
 	-- ColorSwatch
-	--[[local fcw = CreateFrame("Button", name.."ColorSwatch", f, BackdropTemplateMixin and "ColorSwatchTemplate" or nil)
-	fcw:SetPoint("RIGHT", f, -6, 0)
-	fcw:Hide()
+	local fcw
 	if WoWClassic then
+		fcw = CreateFrame("Button", name.."ColorSwatch", f, nil)
 		fcw:SetSize(16, 16)
 		fcw.SwatchBg = fcw:CreateTexture(name.."ColorSwatchSwatchBg", "BACKGROUND")
 		fcw.SwatchBg:SetVertexColor(1, 1, 1)
@@ -147,7 +146,12 @@ local function create_MenuButton(name, parent)
 		button1NormalTexture:SetTexture("Interface\\ChatFrame\\ChatFrameColorSwatch")
 		button1NormalTexture:SetAllPoints()
 		fcw:SetNormalTexture(button1NormalTexture)
+	else
+		fcw = CreateFrame("Button", name.."ColorSwatch", f, BackdropTemplateMixin and "ColorSwatchTemplate" or nil)
 	end
+	fcw:SetPoint("RIGHT", f, -6, 0)
+	fcw:Hide()
+
 	fcw:SetScript("OnClick", function(self, button, down)
 		CloseMenus()
 		lib:UIDropDownMenuButton_OpenColorPicker(self:GetParent())
@@ -159,8 +163,8 @@ local function create_MenuButton(name, parent)
 	fcw:SetScript("OnLeave", function(self, motion)
 		_G[self:GetName().."SwatchBg"]:SetVertexColor(HIGHLIGHT_FONT_COLOR.r, HIGHLIGHT_FONT_COLOR.g, HIGHLIGHT_FONT_COLOR.b);
 	end)
-	f.ColorSwatch = fcw]]
-	
+	f.ColorSwatch = fcw
+
 	-- ExpandArrow
 	local fea = CreateFrame("Button", name.."ExpandArrow", f)
 
@@ -242,7 +246,7 @@ local function create_MenuButton(name, parent)
 				tooltip:Show();
 			end
 		end
-					
+
 		if ( self.mouseOverIcon ~= nil ) then
 			self.Icon:SetTexture(self.mouseOverIcon);
 			self.Icon:Show();
@@ -255,7 +259,7 @@ local function create_MenuButton(name, parent)
 	local function button_OnLeave(self)
 		self.Highlight:Hide();
 		tooltip:Hide();
-					
+
 		if ( self.mouseOverIcon ~= nil ) then
 			if ( self.icon ~= nil ) then
 				self.Icon:SetTexture(self.icon);
@@ -342,12 +346,12 @@ end
 -- //////////////////////////////////////////////////////////////
 -- L_UIDropDownListTemplate
 local BACKDROP_DIALOG_DARK = {
-		bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
-		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
-		tile = true,
-		tileSize = 32,
-		edgeSize = 32,
-		insets = { left = 11, right = 12, top = 12, bottom = 9, },
+	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
+	edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+	tile = true,
+	tileSize = 32,
+	edgeSize = 32,
+	insets = { left = 11, right = 12, top = 12, bottom = 9, },
 }
 local function creatre_DropDownList(name, parent)
 	local f = _G[name] or CreateFrame("Button", name)
@@ -355,13 +359,13 @@ local function creatre_DropDownList(name, parent)
 	f:Hide()
 	f:SetFrameStrata("DIALOG")
 	f:EnableMouse(true)
-	
+
 	--local fbd = _G[name.."Border"] or CreateFrame("Frame", name.."Border", f, BackdropTemplateMixin and "DialogBorderDarkTemplate" or nil)
 	local fbd = _G[name.."Border"] or CreateFrame("Frame", name.."Border", f, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	fbd:SetAllPoints()
 	fbd:SetBackdrop(BACKDROP_DIALOG_DARK)
 	f.Border = fbd
-	
+
 	--local fmb = _G[name.."MenuBackdrop"] or CreateFrame("Frame", name.."MenuBackdrop", f, BackdropTemplateMixin and "TooltipBackdropTemplate" or nil)
 	local fmb = _G[name.."MenuBackdrop"] or CreateFrame("Frame", name.."MenuBackdrop", f, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	fmb:SetAllPoints()
@@ -369,10 +373,10 @@ local function creatre_DropDownList(name, parent)
 	fmb:SetBackdropBorderColor(TOOLTIP_DEFAULT_COLOR.r, TOOLTIP_DEFAULT_COLOR.g, TOOLTIP_DEFAULT_COLOR.b)
 	fmb:SetBackdropColor(TOOLTIP_DEFAULT_BACKGROUND_COLOR.r, TOOLTIP_DEFAULT_BACKGROUND_COLOR.g, TOOLTIP_DEFAULT_BACKGROUND_COLOR.b)
 	f.MenuBackdrop = fmb
-	
+
 	f.Button1 = _G[name.."Button1"] or create_MenuButton(name.."Button1", f)
 	f.Button1:SetID(1)
-	
+
 	f:SetScript("OnClick", function(self)
 		self:Hide()
 	end)
@@ -402,14 +406,6 @@ local function creatre_DropDownList(name, parent)
 		if ( self:GetID() > 1 ) then
 			self.parent = _G["L_DropDownList"..(self:GetID() - 1)];
 		end
-		
-		if (not UIDropDownMenu_HandleGlobalMouseEvent) then
-			self.hideTimer = self.hideTimer or C_Timer.NewTicker(L_UIDROPDOWNMENU_SHOW_TIME, function()
-				if (GetMouseFocus() ~= self) then
-				self:Hide();
-				end
-			end)
-		end
 	end)
 	f:SetScript("OnHide", function(self)
 		local id = self:GetID()
@@ -436,7 +432,7 @@ local function creatre_DropDownList(name, parent)
 			self.hideTimer = nil;
 		end
 	end)
-	
+
 	return f
 end
 
@@ -451,66 +447,66 @@ local function create_DropDownMenu(name, parent)
 		f = CreateFrame("Frame", name, parent or nil)
 	end
 	f:SetSize(40, 32)
-	
+
 	f.Left = f:CreateTexture(name.."Left", "ARTWORK")
 	f.Left:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame")
 	f.Left:SetSize(25, 64)
 	f.Left:SetPoint("TOPLEFT", f, 0, 17)
 	f.Left:SetTexCoord(0, 0.1953125, 0, 1)
-	
+
 	f.Middle = f:CreateTexture(name.."Middle", "ARTWORK")
 	f.Middle:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame")
 	f.Middle:SetSize(115, 64)
 	f.Middle:SetPoint("LEFT", f.Left, "RIGHT")
 	f.Middle:SetTexCoord(0.1953125, 0.8046875, 0, 1)
-	
+
 	f.Right = f:CreateTexture(name.."Right", "ARTWORK")
 	f.Right:SetTexture("Interface\\Glues\\CharacterCreate\\CharacterCreate-LabelFrame")
 	f.Right:SetSize(25, 64)
 	f.Right:SetPoint("LEFT", f.Middle, "RIGHT")
 	f.Right:SetTexCoord(0.8046875, 1, 0, 1)
-	
+
 	f.Text = f:CreateFontString(name.."Text", "ARTWORK", "GameFontHighlightSmall")
 	f.Text:SetWordWrap(false)
 	f.Text:SetJustifyH("RIGHT")
 	f.Text:SetSize(0, 10)
 	f.Text:SetPoint("RIGHT", f.Right, -43, 2)
-	
+
 	f.Icon = f:CreateTexture(name.."Icon", "OVERLAY")
 	f.Icon:Hide()
 	f.Icon:SetSize(16, 16)
 	f.Icon:SetPoint("LEFT", 30, 2)
-	
+
 	f.Button = CreateFrame("Button", name.."Button", f)
 	f.Button:SetMotionScriptsWhileDisabled(true)
 	f.Button:SetSize(24, 24)
 	f.Button:SetPoint("TOPRIGHT", f.Right, -16, -18)
-	
+
 	f.Button.NormalTexture = f.Button:CreateTexture(name.."NormalTexture")
 	f.Button.NormalTexture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Up")
 	f.Button.NormalTexture:SetSize(24, 24)
 	f.Button.NormalTexture:SetPoint("RIGHT", f.Button, 0, 0)
 	f.Button:SetNormalTexture(f.Button.NormalTexture)
-	
+
 	f.Button.PushedTexture = f.Button:CreateTexture(name.."PushedTexture")
 	f.Button.PushedTexture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Down")
 	f.Button.PushedTexture:SetSize(24, 24)
 	f.Button.PushedTexture:SetPoint("RIGHT", f.Button, 0, 0)
 	f.Button:SetPushedTexture(f.Button.PushedTexture)
-	
+
 	f.Button.DisabledTexture = f.Button:CreateTexture(name.."DisabledTexture")
 	f.Button.DisabledTexture:SetTexture("Interface\\ChatFrame\\UI-ChatIcon-ScrollDown-Disabled")
 	f.Button.DisabledTexture:SetSize(24, 24)
 	f.Button.DisabledTexture:SetPoint("RIGHT", f.Button, 0, 0)
 	f.Button:SetDisabledTexture(f.Button.DisabledTexture)
-	
+
 	f.Button.HighlightTexture = f.Button:CreateTexture(name.."HighlightTexture")
 	f.Button.HighlightTexture:SetTexture("Interface\\Buttons\\UI-Common-MouseHilight")
 	f.Button.HighlightTexture:SetSize(24, 24)
 	f.Button.HighlightTexture:SetPoint("RIGHT", f.Button, 0, 0)
 	f.Button.HighlightTexture:SetBlendMode("ADD")
 	f.Button:SetHighlightTexture(f.Button.HighlightTexture)
-	
+
 	-- Button Script
 	f.Button:SetScript("OnEnter", function(self, motion)
 		local parent = self:GetParent()
@@ -528,17 +524,17 @@ local function create_DropDownMenu(name, parent)
 	end)
 	f.Button:SetScript("OnMouseDown", function(self, button)
 		if self:IsEnabled() then
-		local parent = self:GetParent()
-		lib:ToggleDropDownMenu(nil, nil, parent)
-		PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
+			local parent = self:GetParent()
+			lib:ToggleDropDownMenu(nil, nil, parent)
+			PlaySound(SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON)
 		end
 	end)
-	
+
 	-- UIDropDownMenu Script
 	f:SetScript("OnHide", function(self)
 		lib:CloseDropDownMenus()
 	end)
-	
+
 	return f
 end
 -- End of frame templates
@@ -555,7 +551,7 @@ local function create_DropDownButtons()
 	L_DropDownList1:SetSize(180, 10)
 	local _, fontHeight, _ = _G["L_DropDownList1Button1NormalText"]:GetFont()
 	L_UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT = fontHeight
-	
+
 	L_DropDownList2 = creatre_DropDownList("L_DropDownList2")
 	L_DropDownList2:SetToplevel(true)
 	L_DropDownList2:SetFrameStrata("FULLSCREEN_DIALOG")
@@ -569,7 +565,7 @@ local function create_DropDownButtons()
 end
 
 do
-	if lib then 
+	if lib then
 		create_DropDownButtons()
 	end
 end
@@ -577,7 +573,7 @@ end
 -- //////////////////////////////////////////////////////////////
 -- Global function to replace L_UIDropDownMenuTemplate
 function lib:Create_UIDropDownMenu(name, parent)
-    return create_DropDownMenu(name, parent)
+	return create_DropDownMenu(name, parent)
 end
 
 local function GetChild(frame, name, key)
@@ -995,7 +991,7 @@ function lib:UIDropDownMenu_AddButton(info, level)
 		end
 	end
 
-	if not info.notCheckable then 
+	if not info.notCheckable then
 		local check = _G[listFrameName.."Button"..index.."Check"];
 		local uncheck = _G[listFrameName.."Button"..index.."UnCheck"];
 		if ( info.disabled ) then
@@ -1009,11 +1005,11 @@ function lib:UIDropDownMenu_AddButton(info, level)
 			uncheck:SetDesaturated(false);
 			uncheck:SetAlpha(1);
 		end
-		
+
 		if info.customCheckIconAtlas or info.customCheckIconTexture then
 			check:SetTexCoord(0, 1, 0, 1);
 			uncheck:SetTexCoord(0, 1, 0, 1);
-			
+
 			if info.customCheckIconAtlas then
 				check:SetAtlas(info.customCheckIconAtlas);
 				uncheck:SetAtlas(info.customUncheckIconAtlas or info.customCheckIconAtlas);
@@ -1161,7 +1157,7 @@ end
 
 function lib:UIDropDownMenu_Refresh(frame, useValue, dropdownLevel)
 	local maxWidth = 0;
-	local somethingChecked = nil; 
+	local somethingChecked = nil;
 	if ( not dropdownLevel ) then
 		dropdownLevel = L_UIDROPDOWNMENU_MENU_LEVEL;
 	end
@@ -1567,7 +1563,7 @@ end
 
 local function containsMouse()
 	local result = false
-	
+
 	for i = 1, L_UIDROPDOWNMENU_MAXLEVELS do
 		local dropdown = _G["L_DropDownList"..i];
 		if dropdown:IsShown() and dropdown:IsMouseOver() then
@@ -1596,8 +1592,8 @@ end
 -- hooking UIDropDownMenu_HandleGlobalMouseEvent
 do
 	if lib and UIDropDownMenu_HandleGlobalMouseEvent then
-		hooksecurefunc("UIDropDownMenu_HandleGlobalMouseEvent", function(button, event) 
-			lib:UIDropDownMenu_HandleGlobalMouseEvent(button, event) 
+		hooksecurefunc("UIDropDownMenu_HandleGlobalMouseEvent", function(button, event)
+			lib:UIDropDownMenu_HandleGlobalMouseEvent(button, event)
 		end)
 
 	end
@@ -1705,7 +1701,7 @@ function lib:UIDropDownMenuButton_OpenColorPicker(self, button)
 		button = self;
 	end
 	L_UIDROPDOWNMENU_MENU_VALUE = button.value;
-	lib:OpenColorPicker(button); 
+	lib:OpenColorPicker(button);
 end
 
 function lib:UIDropDownMenu_DisableButton(level, id)
@@ -1882,7 +1878,7 @@ function lib:Create_UIDropDownCustomMenuEntry(name, parent)
 	local f = _G[name] or CreateFrame("Frame", name, parent or nil)
 	f:EnableMouse(true)
 	f:Hide()
-	
+
 	-- I am not 100% sure if below works for replacing the mixins
 	f:SetScript("GetPreferredEntryWidth", function(self)
 		return self:GetWidth()
@@ -1901,7 +1897,7 @@ function lib:Create_UIDropDownCustomMenuEntry(name, parent)
 	f:SetScript("GetContextData", function(self)
 		return self.contextData
 	end)
-	
+
 	return f
 end
 
