@@ -1060,6 +1060,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector", 0, {{"object", 184906}}}}
         },
+        [10585] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{37,38}}}, ICON_TYPE_EVENT, "Use the Elemental Displacer to disrupt the ritual in the summoning chamber", 0}},
+        },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
         },
