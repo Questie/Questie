@@ -1044,6 +1044,9 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
         },
+        [10570] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Bundle of Bloodthistle at the end of the bridge", 0, {{"object", 184841}}}},
+        },
         [10577] = {
             [questKeys.triggerEnd] = {"Illidan's Message Delivered", {[zoneIDs.SHADOWMOON_VALLEY]={{46.46,71.86},},}},
         },
