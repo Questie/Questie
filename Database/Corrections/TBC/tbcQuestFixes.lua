@@ -1032,6 +1032,9 @@ function QuestieTBCQuestFixes:Load()
         [10540] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{30,57}}}, ICON_TYPE_EVENT, "Walk with your Spirit Hunter",}},
         },
+        [10545] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
+        },
         [10557] = {
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.1,68.84},},}},
         },
