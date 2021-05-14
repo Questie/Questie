@@ -1081,6 +1081,9 @@ function QuestieTBCQuestFixes:Load()
         [10639] = {
             [questKeys.preQuestGroup] = {10634,10635,10636,},
         },
+        [10641] = {
+            [questKeys.preQuestSingle] = {10640,10689,}
+        },
         [10645] = {
             [questKeys.preQuestGroup] = {10634,10635,10636,},
         },
@@ -1092,6 +1095,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10656] = {
             [questKeys.preQuestSingle] = {10211},
+        },
+        [10668] = {
+            [questKeys.preQuestSingle] = {10640,10689,}
+        },
+        [10669] = {
+            [questKeys.preQuestSingle] = {10640,10689,}
         },
         [10675] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
