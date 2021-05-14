@@ -1066,6 +1066,9 @@ function QuestieTBCQuestFixes:Load()
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
         },
+        [10606] = {
+            [questKeys.requiredSourceItems] = {30712},
+        },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
         },
