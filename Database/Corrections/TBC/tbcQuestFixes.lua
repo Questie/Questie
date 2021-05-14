@@ -1069,6 +1069,21 @@ function QuestieTBCQuestFixes:Load()
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
         },
+        [10634] = {
+            [questKeys.preQuestSingle] = {10633,10644,},
+        },
+        [10635] = {
+            [questKeys.preQuestSingle] = {10633,10644,},
+        },
+        [10636] = {
+            [questKeys.preQuestSingle] = {10633,10644,},
+        },
+        [10639] = {
+            [questKeys.preQuestGroup] = {10634,10635,10636,},
+        },
+        [10645] = {
+            [questKeys.preQuestGroup] = {10634,10635,10636,},
+        },
         [10646] = {
             [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07},},}},
         },
@@ -1263,6 +1278,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044},
+        },
+        [11045] = {
+            [questKeys.exclusiveTo] = {10642},
+        },
+        [11046] = {
+            [questKeys.exclusiveTo] = {10624},
         },
         [11057] = {
             [questKeys.requiredLevel] = 70,
