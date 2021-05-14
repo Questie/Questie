@@ -309,7 +309,6 @@ function QuestieMenu:PopulateTownsfolk()
         ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER),
         ["Weapon Master"] = {}, -- populated below
     }
-    Questie.db.char.vendorList = {} -- character-specific vendors
     local classTrainers = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
         ["MAGE"] = {198, 313, 328, 331, 944, 1228, 2124, 2128, 2485, 2489, 2492, 3047, 3048, 3049, 4165, 4566, 4567, 4568, 4987, 5144, 5145, 5146, 5497, 5498, 5880, 5882, 5883, 5884, 5885, 5957, 5958, 7311, 7312, 15279, 16269, 16500, 16651, 16652, 16653, 16654, 16749, 16755, 17481, 17513, 17514, 19340, 20791, 26326, 27703, 27704, 27705},
         ["SHAMAN"] = {986, 3030, 3031, 3032, 3062, 3066, 3157, 3173, 3344, 3403, 4991, 13417, 17089, 17204, 17212, 17219, 17519, 17520, 20407, 23127, 26330},
@@ -585,6 +584,7 @@ function QuestieMenu:BuildCharacterTownsfolk()
     local _, class = UnitClass("player")
 
     Questie.db.char.townsfolk = {}
+    Questie.db.char.vendorList = {}
 
     for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[faction]) do
         Questie.db.char.townsfolk[key] = npcs
