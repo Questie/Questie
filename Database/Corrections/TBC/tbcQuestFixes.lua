@@ -1035,6 +1035,9 @@ function QuestieTBCQuestFixes:Load()
         [10545] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
         },
+        [10556] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle", 0, {{"object", 184826}, {"monster", 21469}}}},
+        },
         [10557] = {
             [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.1,68.84},},}},
         },
