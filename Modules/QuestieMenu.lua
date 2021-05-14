@@ -401,8 +401,15 @@ function QuestieMenu:PopulateTownsfolk()
     
     
     for class, trainers in pairs(classTrainers) do
+        local newTrainers = {}
+        for _, trainer in pairs(trainers) do
+            local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
+            if subName and string.len(subName) > 0 then
+                tinsert(newTrainers, trainer)
+            end
+        end
         Questie.db.global.classSpecificTownsfolk[class] = {}
-        Questie.db.global.classSpecificTownsfolk[class]["Class Trainer"] = trainers
+        Questie.db.global.classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
     end
     --Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
     if class == "HUNTER" then
