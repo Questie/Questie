@@ -7,6 +7,9 @@ mod = function(a, b)
     return a % b
 end
 bit = require("bit32")
+stderr = function(text)
+    io.stderr:write(tostring(text) .. "\n")
+end
 GetBuildInfo = function()
     return "2.5.1", "38644", "May 11 2021", "20501"
 end
@@ -20,7 +23,7 @@ GetTime = function()
     return os.time(os.date("!*t")) - 1616930000 -- convert unix time to wow time (actually accurate)
 end
 UnitFactionGroup = function()
-    return "Horde"
+    return arg[1] or "Horde"
 end
 UnitClass = function()
     return "Druid", "DRUID", 11
@@ -117,4 +120,12 @@ if QuestieDB.questDataTBC then
 end
 QuestieCorrections:Initialize()
 
-QuestieLoader:ImportModule("DBCompiler"):Compile(function() end)
+QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+
+QuestieDBCompiler:Compile(function() end)
+print("Validating objects...")
+QuestieDBCompiler:Validate()
+print("Validating items...")
+QuestieDBCompiler:ValidateItems()
+print("Validating quests...")
+QuestieDBCompiler:ValidateQuests()

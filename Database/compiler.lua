@@ -13,6 +13,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 serial.enableObjectLimit = false
 
+local compilerError = stderr or print
+
 QuestieDBCompiler.supportedTypes = {
     ["table"] = {
         ["u12pair"] = true,
@@ -771,18 +773,18 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
                 --    return
                 --end
                 if v and not QuestieDBCompiler.supportedTypes[type(v)][t] then
-                    print("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
+                    compilerError("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
                     QuestieDBCompiler.ticker:Cancel()
                     return
                 end
                 if not QuestieDBCompiler.writers[t] then
-                    print("Invalid datatype: " .. key .. " " .. tostring(t))
+                    compilerError("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
                 local result, error = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
                 if not result then
-                    print("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    print(error)
+                    compilerError("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
+                    compilerError(error)
                 end
             end
             tbl[id] = nil -- quicker gabage collection later
@@ -897,14 +899,14 @@ function QuestieDBCompiler:ValidateNPCs()
             local b = validData[key]
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                compilerError("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                compilerError("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    print("Nonmatching at " .. key .. "  " .. id)
+                    compilerError("Nonmatching at " .. key .. "  " .. id)
                     --__nma = a
                     --__nmb = b or {}
                     return
@@ -933,14 +935,14 @@ function QuestieDBCompiler:Validate()
             local b = validData[key]
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                compilerError("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                compilerError("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    print("Nonmatching at " .. key .. "  " .. id)
+                    compilerError("Nonmatching at " .. key .. "  " .. id)
                     --__nma = a
                     --__nmb = b or {}
                     return
@@ -966,7 +968,7 @@ function QuestieDBCompiler:ValidateItems()
             --print("Validating objs")
             for _, oid in pairs(objDrops) do
                 if not obj.QuerySingle(oid, "name") then
-                    print("Missing object " .. tostring(oid) .. " that drops " .. validator.QuerySingle(id, "name") .. " " .. tostring(id))
+                    compilerError("Missing object " .. tostring(oid) .. " that drops " .. validator.QuerySingle(id, "name") .. " " .. tostring(id))
                 end
             end
         end
@@ -975,7 +977,7 @@ function QuestieDBCompiler:ValidateItems()
             for _, nid in pairs(npcDrops) do
                 --print("Validating npcs")
                 if not npc.QuerySingle(nid, "name") then
-                    print("Missing npc " .. tostring(nid))
+                    compilerError("Missing npc " .. tostring(nid))
                 end
             end
         end
@@ -1027,10 +1029,10 @@ function QuestieDBCompiler:ValidateQuests()
             local b = validData[key]
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                compilerError("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                compilerError("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
@@ -1130,7 +1132,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
-                    print("ERROR: Unhandled db key: " .. key)
+                    compilerError("ERROR: Unhandled db key: " .. key)
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1177,7 +1179,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         stream._pointer = lastPtr + ptr
                         local targetIndex = keyToIndex[key]
                         if targetIndex == nil then
-                            print("ERROR: Unhandled db key: " .. key)
+                            compilerError("ERROR: Unhandled db key: " .. key)
                         end
                         for i = lastIndex, targetIndex-1 do
                             QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1203,7 +1205,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
-                    print("ERROR: Unhandled db key: " .. key)
+                    compilerError("ERROR: Unhandled db key: " .. key)
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1227,7 +1229,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     stream._pointer = lastPtr + ptr
                     local targetIndex = keyToIndex[key]
                     if targetIndex == nil then
-                        print("ERROR: Unhandled db key: " .. key)
+                        compilerError("ERROR: Unhandled db key: " .. key)
                     end
                     for i = lastIndex, targetIndex-1 do
                         QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
