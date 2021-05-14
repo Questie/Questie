@@ -31,6 +31,12 @@ end
 GetLocale = function()
     return "enUS"
 end
+LibStub = function()
+    return {["NewAddon"] = function() return {} end}
+end
+CreateFrame = function()
+    return {}
+end
 C_QuestLog = {}
 C_Timer = {
     After = function(time, f)
@@ -118,6 +124,11 @@ if QuestieDB.questDataTBC then
     QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
     QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
 end
+
+
+QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
+QuestieLoader:ImportModule("ZoneDB"):Initialize()
+
 QuestieCorrections:Initialize()
 
 QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
