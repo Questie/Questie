@@ -7,7 +7,7 @@ local QuestieItemFixes = QuestieLoader:CreateModule("QuestieItemFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 -- Further information on how to use this can be found at the wiki
--- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+-- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys

@@ -45,7 +45,7 @@ local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes"
     You can find the keys at the beginning of each file (e.g. 'questKeys' are at the beginning of 'questDB.lua').
 
     Further information on how to use this can be found at the wiki
-    https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+    https://github.com/Questie/Questie/wiki/Corrections
 --]]
 
 function QuestieCorrections:MinimalInit() -- db already compiled

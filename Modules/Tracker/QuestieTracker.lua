@@ -5,6 +5,7 @@ local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQu
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
+local _Tracker = {}
 -------------------------
 --Import modules.
 -------------------------
@@ -1313,8 +1314,7 @@ function QuestieTracker:Update()
                 qAZone = QuestieTracker.utils:GetCategoryNameByID(qA.zoneOrSort)
             else
                 qAZone = qA.zoneOrSort
-                Questie:Error("SortID: |cffffbf00"..qA.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
-                Questie:Error("|cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
+                _Tracker:ReportErrorMessage(qAZone)
             end
 
             if qB.zoneOrSort > 0 then
@@ -1323,8 +1323,7 @@ function QuestieTracker:Update()
                 qBZone = QuestieTracker.utils:GetCategoryNameByID(qB.zoneOrSort)
             else
                 qBZone = qB.zoneOrSort
-                Questie:Error("SortID: |cffffbf00"..qB.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
-                Questie:Error("|cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
+                _Tracker:ReportErrorMessage(qBZone)
             end
 
             -- Sort by Zone then by Level to mimic QuestLog sorting
@@ -1404,8 +1403,7 @@ function QuestieTracker:Update()
         -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
         else
             zoneName = quest.zoneOrSort
-            Questie:Error("SortID: |cffffbf00"..quest.zoneOrSort.."|r was not found in the Database. Please file a bugreport at:")
-            Questie:Error("|cff00bfffhttps://github.com/AeroScripts/QuestieDev/issues|r")
+            _Tracker:ReportErrorMessage(zoneName)
         end
 
         -- Look for any updated objectives since last update
@@ -1836,6 +1834,11 @@ function QuestieTracker:Update()
     else
         _QuestieTracker.baseFrame:Hide()
     end
+end
+
+function _Tracker:ReportErrorMessage(zoneOrtSort)
+    Questie:Error("SortID: |cffffbf00"..zoneOrtSort.."|r was not found in the Database. Please file a bugreport at:")
+    Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
 function _QuestieTracker:GetNextLine()
