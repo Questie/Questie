@@ -1168,6 +1168,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10552},
         },
+        [10826] = {
+            [questKeys.preQuestSingle] = {10551},
+        },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Exorcism Feathers to summon Koi-Koi Spirits", 0, {{"monster", 21326}}}},
