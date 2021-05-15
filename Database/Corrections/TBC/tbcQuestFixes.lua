@@ -901,11 +901,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Cenarion Antidote on a Hulking Helboar and observe the results", 0, {{"monster", 16880}}}},
         },
         [10263] = {
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10551,10186},
             [questKeys.requiredMinRep] = {932,3000},
         },
         [10264] = {
-            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.preQuestGroup] = {10552,10186},
             [questKeys.requiredMinRep] = {934,3000},
         },
         [10269] = {
