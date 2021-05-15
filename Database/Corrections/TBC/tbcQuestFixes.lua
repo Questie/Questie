@@ -1108,6 +1108,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10584},
         },
         [10584] = {
+            [questKeys.objectives] = {{{21729,"Electromentals collected"},{21731,"Electromentals collected"},},nil,nil,nil,},
             [questKeys.preQuestSingle] = {},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector", 0, {{"object", 184906}}}}
         },
