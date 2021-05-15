@@ -1,6 +1,5 @@
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
@@ -46,7 +45,7 @@ local trackerFontSizeObjective = 1
 local lineIndex = 0
 local buttonIndex = 0
 local lastAQW = GetTime()
-local durabilityInitialPosition = nil
+local durabilityInitialPosition
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 -- Private Global Vars
@@ -256,7 +255,7 @@ function _QuestieTracker:CreateBaseFrame()
         end
 
         -- Enables Click-Through when the tracker is locked
-        if IsControlKeyDown() or not Questie.db.global.trackerLocked then
+        if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
             self:SetMovable(true)
             QuestieCombatQueue:Queue(function(self)
                 if IsMouseButtonDown() then
@@ -304,7 +303,7 @@ function _QuestieTracker:CreateBaseFrame()
     line2:SetHeight(11)
     line2:SetPoint("BOTTOMRIGHT", -4, 4)
     line2:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    local x = 0.1 * 11/17
+    x = 0.1 * 11/17
     line2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
 
     local line3 = sizer:CreateTexture(nil, "BACKGROUND")
@@ -312,21 +311,21 @@ function _QuestieTracker:CreateBaseFrame()
     line3:SetHeight(8)
     line3:SetPoint("BOTTOMRIGHT", -4, 4)
     line3:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    local x = 0.1 * 8/17
+    x = 0.1 * 8/17
     line3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, error = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
+        local result, _ = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
-        if not result then
+        if (not result) then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
 
             if QuestWatchFrame then
-                local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+                result, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
-                if not result then
+                if (not result) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                     _QuestieTracker:SetSafePoint(frm)
                 end
@@ -337,7 +336,7 @@ function _QuestieTracker:CreateBaseFrame()
 
     else
         if QuestWatchFrame then
-            local result, error = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+            local result, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
             Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
 
             if not result then
@@ -356,7 +355,6 @@ function _QuestieTracker:CreateBaseFrame()
 end
 
 function _QuestieTracker:CreateActiveQuestsHeader()
-    local _, numQuests = GetNumQuestLogEntries()
     local frm = CreateFrame("Button", "Questie_TrackerHeader", _QuestieTracker.baseFrame)
 
     if Questie.db.global.trackerHeaderAutoMove then
@@ -494,7 +492,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     questieIcon:EnableMouse(true)
     questieIcon:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
-    questieIcon:SetScript("OnClick", function (self, button)
+    questieIcon:SetScript("OnClick", function (_, button)
         if button == "LeftButton" then
             if IsShiftKeyDown() then
                 Questie.db.char.enabled = (not Questie.db.char.enabled)
@@ -636,7 +634,7 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
     frm:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
     frm:RegisterEvent("BANKFRAME_CLOSED")
 
-    frm:SetScript("OnEvent", function(self, event, ...)
+    frm:SetScript("OnEvent", function(_, event, ...)
         if (event == "BAG_NEW_ITEMS_UPDATED" or event == "BANKFRAME_CLOSED") then
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:ResetLinesForChange()
@@ -672,12 +670,12 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.SetItem = function(self, quest, size)
-            local validTexture = nil
+            local validTexture
             local isFound = false
 
             for bag = 0 , 5 do
                 for slot = 0 , 24 do
-                    local texture, count, locked, quality, readable, lootable, link, filtered, noValue, itemID = GetContainerItemInfo(bag, slot)
+                    local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
                         itemID = tonumber(itemID)
@@ -688,10 +686,10 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             end
 
             -- Edge case to find "equipped" quest items since they will no longer be in the players bag
-            if not isFound then
-                for i = 13, 18 do
-                    local itemID = GetInventoryItemID("player", i)
-                    local texture = GetInventoryItemTexture("player", i)
+            if (not isFound) then
+                for j = 13, 18 do
+                    local itemID = GetInventoryItemID("player", j)
+                    local texture = GetInventoryItemTexture("player", j)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
                         itemID = tonumber(itemID)
@@ -803,7 +801,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 return
             end
 
-            local valid = nil
+            local valid
             local rangeTimer = self.rangeTimer
             local charges = GetItemCount(self.itemID, nil, true)
 
@@ -891,7 +889,7 @@ end
 
 function _QuestieTracker:CreateTrackedQuestButtons()
     -- create buttons for quests
-    local lastFrame = nil
+    local lastFrame
     for i = 1, trackerLineCount do
         local btn = CreateFrame("Button", "Questie_QuestButton"..i, _QuestieTracker.trackedQuestsFrame)
         btn.label = btn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -1252,7 +1250,7 @@ function QuestieTracker:Update()
     lineIndex = 0
     buttonIndex = 0
 
-    local line = nil
+    local line
     local order = {}
     QuestieTracker._order = order
     local questCompletePercent = {}
@@ -1341,7 +1339,7 @@ function QuestieTracker:Update()
     elseif Questie.db.global.trackerSortObjectives == "byProximity" then
         local toSort = {}
         local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
-        for index, questId in pairs(order) do
+        for _, questId in pairs(order) do
             local sortData = {}
             sortData.questId = questId
             sortData.distance = _GetDistanceToClosestObjective(questId)
@@ -1494,7 +1492,6 @@ function QuestieTracker:Update()
             line.label:ClearAllPoints()
             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
-            local questName = (quest.LocalizedName or quest.name)
             local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
             line.label:SetText(coloredQuestName)
 
@@ -1536,7 +1533,7 @@ function QuestieTracker:Update()
                         local frame = self.line
 
                         while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
-                            local _, parent, _, xOff, yOff = frame:GetPoint()
+                            local _, parent, _, _, yOff = frame:GetPoint()
                             height = height - (frame:GetHeight() - yOff)
                             frame = parent
                         end
@@ -1754,7 +1751,7 @@ function QuestieTracker:Update()
         end
 
         -- Trims the bottom of the tracker (overall height) based on min/max'd zones and/or quests
-        local trackerBottomPadding = nil
+        local trackerBottomPadding
         if Questie.db.global.trackerHeaderEnabled and Questie.db.global.trackerHeaderAutoMove and Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
             trackerBottomPadding = trackerFontSizeHeader+4
         else
@@ -2147,7 +2144,7 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._alreadyHooked = true
 end
 
-_OnClick = function(self, button, down)
+_OnClick = function(self, button)
     Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
     if _QuestieTracker.isMoving == true then
         Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]", "Tracker is being dragged. Don't show the menu")
@@ -2207,7 +2204,7 @@ _OnHighlightEnter = function(self)
     end
 end
 
-_OnHighlightLeave = function(self)
+_OnHighlightLeave = function()
     for i = 1, _QuestieTracker.highestIndex do
         _QuestieTracker.LineFrames[i]:SetAlpha(1)
     end
@@ -2408,7 +2405,7 @@ _GetDistanceToClosestObjective = function(questId)
     end
 
     local closestDistance;
-    for _, coords in pairs(coordinates) do
+    for _, _ in pairs(coordinates) do
         local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y);
         if closestDistance == nil or distance < closestDistance then
             closestDistance = distance;
