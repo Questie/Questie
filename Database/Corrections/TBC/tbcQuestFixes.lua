@@ -1151,6 +1151,10 @@ function QuestieTBCQuestFixes:Load()
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21},},}},
         },
+        [10824] = {
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10552},
+        },
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Exorcism Feathers to summon Koi-Koi Spirits", 0, {{"monster", 21326}}}},
