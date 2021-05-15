@@ -7,7 +7,7 @@ local QuestieItemFixes = QuestieLoader:CreateModule("QuestieItemFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 -- Further information on how to use this can be found at the wiki
--- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+-- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
@@ -421,6 +421,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {1117},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [5847] = {
+            [itemKeys.npcDrops] = {4363,4362,4360,4358,4361,4359},
         },
         [5868] = {
             [itemKeys.name] = "Filled Etched Phial",
@@ -1108,6 +1111,9 @@ function QuestieItemFixes:Load()
         },
         [18605] = {
             [itemKeys.npcDrops] = {12396}, -- #7583
+        },
+        [18642] = {
+            [itemKeys.npcDrops] = {4968},
         },
         [18746] = { -- #1344
             [itemKeys.name] = "Divination Scryer",

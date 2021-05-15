@@ -758,10 +758,14 @@ end
 
 _RegisterObjectiveTooltips = function(objective, questId)
     Questie:Debug(DEBUG_INFO, "Registering objective tooltips for " .. objective.Description)
-    for id, spawnData in pairs(objective.spawnList) do
-        if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) and (not objective.hasRegisteredTooltips) then
-            QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
+    if objective.spawnList then
+        for id, spawnData in pairs(objective.spawnList) do
+            if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) and (not objective.hasRegisteredTooltips) then
+                QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
+            end
         end
+    else
+        Questie:Error("[QuestieQuest]: [Tooltips] ".. l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id", 0 or "No objective", "No error"));
     end
     objective.hasRegisteredTooltips = true
 end

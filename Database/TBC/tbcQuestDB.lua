@@ -48,7 +48,7 @@ QuestieDB.questKeys = {
     ['extraObjectives'] = 26, -- table: {{spawnlist, iconFile, text},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 }
 
-QuestieDB.questData = {
+QuestieDB.questDataTBC = [[return {
 [1] = {"The \"Chow\" Quest (123)aa",{nil,nil,nil,},{nil,nil,},1,4,0,nil,{"Kill Kobold Vermin, 2 of em.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,15,nil,nil,nil,nil,nil,nil,nil,nil,},
 [2] = {"Sharptalon's Claw",{nil,nil,{16305,},},{{12696,},nil,},20,30,690,nil,{"Bring Sharptalon's Claw to Senani Thunderheart at Splintertree Post, Ashenvale.",},nil,{nil,nil,nil,nil,},16305,nil,{6383,},nil,{23,24,},nil,331,nil,nil,nil,nil,nil,nil,nil,nil,},
 [5] = {"Jitters' Growling Gut",{{288,},nil,nil,},{{272,},nil,},17,20,1101,nil,{"Speak with Chef Grual.",},nil,{nil,nil,nil,nil,},nil,nil,{163,},nil,nil,nil,10,nil,nil,nil,nil,93,8,nil,nil,},
@@ -6564,4 +6564,4 @@ QuestieDB.questData = {
 [12492] = {"Direbrew's Dire Brew",{nil,nil,{38281,},},{{24711,},nil,},65,-1,690,nil,{"Give Direbrew's Dire Brew to Tapper Swindlekeg at the Brewfest camp near Orgrimmar.",},nil,{nil,nil,nil,nil,},38281,nil,nil,nil,nil,nil,-370,nil,nil,nil,nil,nil,nil,nil,nil,},
 [12513] = {"Nice Hat...",{nil,nil,nil,},{nil,nil,},66,68,0,nil,{"Don Carlos has inadvertently challenged you to defeat his younger self in Old Hillsbrad. Afterwards, bring Don Carlos' Hat to him in Tanaris as proof.",},nil,{nil,nil,{{38329,nil},},nil,},nil,nil,nil,nil,nil,nil,2367,nil,nil,nil,nil,nil,256,nil,nil,},
 [12515] = {"Nice Hat...",{{28126,},nil,nil,},{{28126,},nil,},66,68,0,nil,{"Don Carlos has inadvertently challenged you to defeat his younger self in Old Hillsbrad. Afterwards, bring Don Carlos' Hat to him in Tanaris as proof.",},nil,{nil,nil,{{38329,nil},},nil,},nil,nil,nil,nil,nil,nil,1941,nil,nil,nil,nil,nil,128,nil,nil,},
-};
+}]]

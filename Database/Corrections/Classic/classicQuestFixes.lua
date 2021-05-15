@@ -9,12 +9,12 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Further information on how to use this can be found at the wiki
--- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+-- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieQuestFixes:Load()
-    table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
-    table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
-    table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
+    QuestieDB.questData[7668] = {} -- Add missing quest index
+    QuestieDB.questData[7669] = {} -- Add missing quest index
+    QuestieDB.questData[7670] = {} -- Add missing quest index #1432
 
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
@@ -199,11 +199,17 @@ function QuestieQuestFixes:Load()
         [484] = {
             [questKeys.requiredMinRep] = {72,0}, -- #1501
         },
+        [495] = {
+            [questKeys.exclusiveTo] = {518},
+        },
         [510] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
         },
         [511] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
+        },
+        [518] = {
+            [questKeys.preQuestSingle] = {},
         },
         [522] = {
             [questKeys.startedBy] = {{2434},nil,{3668}},
@@ -225,6 +231,7 @@ function QuestieQuestFixes:Load()
         },
         [558] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestGroup] = {1687,1479,1558,},
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -407,6 +414,9 @@ function QuestieQuestFixes:Load()
         [924] = {
             [questKeys.requiredSourceItems] = {4986},
         },
+        [925] = {
+            [questKeys.preQuestGroup] = {1800,910,911,},
+        },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
             [questKeys.preQuestSingle] = {809}, --#606
@@ -538,6 +548,9 @@ function QuestieQuestFixes:Load()
         },
         [1133] = {
             [questKeys.preQuestSingle] = {}, -- #1738
+        },
+        [1136] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use a Fresh Carcass at the Flame of Uzel", 0, {{"object", 1770}}}},
         },
         [1144] = {
             [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.THE_BARRENS]={{42.27,89.88},},},},
@@ -1259,6 +1272,9 @@ function QuestieQuestFixes:Load()
         [4506] = {
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32},},},},
         },
+        [4542] = {
+            [questKeys.exclusiveTo] = {4841},
+        },
         [4581] = {
             [questKeys.exclusiveTo] = {1011},
         },
@@ -1328,6 +1344,9 @@ function QuestieQuestFixes:Load()
         },
         [4811] = {
             [questKeys.triggerEnd] = {"Locate the large, red crystal on Darkshore's eastern mountain range",{[zoneIDs.DARKSHORE]={{47.24,48.68},},},}, -- #1373
+        },
+        [4841] = {
+            [questKeys.preQuestSingle] = {},
         },
         [4866] = {
             [questKeys.triggerEnd] = {"Milked", {[zoneIDs.BURNING_STEPPES]={{65.11,23.68},},},},
@@ -2168,7 +2187,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0, -- #1870
         },
         [8331]  ={
-            [questKeys.exclusiveTo] = {},
+            [questKeys.exclusiveTo] = {8332},
         },
         [8332] = {
             [questKeys.preQuestSingle] = {},
@@ -2968,6 +2987,30 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9110] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9111] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9112] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9113] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9114] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9115] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9116] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9117] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9118] = {
             [questKeys.specialFlags] = 1,
         },
         [9154] = {

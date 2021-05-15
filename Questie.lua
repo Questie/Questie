@@ -129,12 +129,12 @@ if  --Libs
   else
     -- Initialize Questie
     Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-    _Questie = {...}
+    local _Questie = {...}
 end
 
 
 function Questie:OnInitialize()
-    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(A10 routes+tracker) |r"
+    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(B2) |r"
 
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()

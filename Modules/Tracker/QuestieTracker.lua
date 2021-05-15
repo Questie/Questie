@@ -5,6 +5,7 @@ local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQu
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
+local _Tracker = {}
 -------------------------
 --Import modules.
 -------------------------

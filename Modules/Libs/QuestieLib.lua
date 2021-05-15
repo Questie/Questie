@@ -113,22 +113,24 @@ function QuestieLib:IsResponseCorrect(questId)
     while (true and count < 50) do
         good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if not objectiveList then
+        if (not objectiveList) then
             good = false
         else
             for _, objective in pairs(objectiveList) do
-                if (objective.text == nil or objective.text == "" or
-                    QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
+                local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
+                if (objective.text == nil or objective.text == "" or distance < 5) then
                     Questie:Debug(DEBUG_SPAM, count,
-                                  " : Objective text is strange!", "'",
-                                  objective.text, "'", " distance",
-                                  QuestieLib:Levenshtein(": 0/1", objective.text))
+                            " : Objective text is strange!", "'",
+                            objective.text, "'", " distance",
+                            distance)
                     good = false
                     break
                 end
             end
         end
-        if (good) then break end
+        if (good) then
+            break
+        end
         count = count + 1
     end
     return good

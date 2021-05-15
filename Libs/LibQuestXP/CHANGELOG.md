@@ -1,5 +1,14 @@
 ## LibQuestXP - Changelog
 
+**2.0.2**
+
+- Fixed level limit
+- Added data for new quests
+
+**2.0.1**
+
+- First beta for TBC
+
 **1.0.7**
 
 - No longer loads on Retail

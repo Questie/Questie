@@ -3,9 +3,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local minimapOptionsLocales = {
     ["Minimap"] = {
-        ["ptBR"] = "Opções de mini-carta",
+        ["ptBR"] = "Opções de mini-mapa",
         ["ruRU"] = "Миникарта",
-        ["deDE"] = nil,
+        ["deDE"] = "Minimap",
         ["koKR"] = "미니맵",
         ["esMX"] = "Opciones de minimapa",
         ["enUS"] = true,
@@ -15,7 +15,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Mini-carte",
     },
     ["Minimap Options"] = {
-        ["ptBR"] = "Opções de notas com mini-cartas",
+        ["ptBR"] = "Opções de mini-mapa",
         ["ruRU"] = "Настройки миникарты",
         ["deDE"] = "Minimap-Einstellungen",
         ["koKR"] = "미니맵 설정",
@@ -51,7 +51,7 @@ local minimapOptionsLocales = {
         ["frFR"] = "Active un effet de surbrillance autour des icônes sur la mini-carte, colorié différemment pour chaque quête.",
     },
     ["Minimap Note Options"] = {
-        ["ptBR"] = nil,
+        ["ptBR"] = "Opções de notas de mini-mapa",
         ["ruRU"] = "Настройки значков",
         ["deDE"] = "Minimap-Notiz-Einstellungen",
         ["koKR"] = "미니맵 아이콘 설정",

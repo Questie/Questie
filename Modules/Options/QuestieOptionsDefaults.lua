@@ -67,7 +67,7 @@ function QuestieOptionsDefaults:Load()
             hookTracking = true,
             trackerHeaderEnabled = true,
             trackerHeaderAutoMove = false,
-            stickyDurabilityFrame = true,
+            stickyDurabilityFrame = false,
             hideTrackerInCombat = false,
             trackerFadeMinMaxButtons = true,
             trackerFadeQuestItemButtons = false,

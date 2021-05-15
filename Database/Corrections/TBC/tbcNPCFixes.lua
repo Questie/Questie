@@ -32,9 +32,25 @@ function QuestieTBCNpcFixes:Load()
         [2556] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{63.51,71.64},{67.08,70.15},{59.93,71.64},{62.55,73.17},{67.98,78.74},{67.65,77.23},{67.74,77.06},{67.93,76.49},{68.55,76.41},{69.97,68.65},{71.2,65.91},{71.25,69.92},{70.91,67.35},{70.64,69.64},{70.02,71.75},{69.03,71.98},{69.13,79.46},{72.68,64.43},{71.88,63.02},{64.28,68.95},{68.74,73.43},{66.03,81.88},{67.55,81.59},{66.28,82.24},{69.88,81.13},{69.55,81.58},{68.29,80.06},{69.17,81.66},{69.19,82.41},{68.17,79.5},{67.75,81.95},{67.18,80.83},{70.04,77.34},{68.99,78.68},{70.45,78.2},{69.75,78.01},},},
         },
+        [17830] = {
+            [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
+        },
         [10181] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{57.8,91.6},},},
             [npcKeys.zoneID] = zoneIDs.UNDERCITY,
+        },
+        [15350] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4},},
+                [zoneIDs.UNDERCITY]={{58.27,97.9},},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.ALTERAC_MOUNTAINS]={{63.09,59.87},},
+                [zoneIDs.THE_BARRENS]={{46.71,8.68},},
+                [zoneIDs.ARATHI_HIGHLANDS]={{73.5,29.13},},
+                [zoneIDs.THE_HINTERLANDS]={{50.33,89.57},},
+            },
         },
         [15658] = {
             [npcKeys.waypoints] = {},
@@ -76,6 +92,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2},},},
         },
         [17110] = {
+            [npcKeys.waypoints] = {},
+        },
+        [17116] = {
             [npcKeys.waypoints] = {},
         },
         [17204] = {
@@ -132,12 +151,20 @@ function QuestieTBCNpcFixes:Load()
         [17336] = {
             [npcKeys.waypoints] = {},
         },
+        [17544] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5},},},
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+        },
         [17589] = {
             [npcKeys.waypoints] = {},
         },
         [17592] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{72.81,20.83},},},
             [npcKeys.waypoints] = {},
+        },
+        [17839] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
         },
         [18120] = {
             [npcKeys.waypoints] = {},
@@ -149,12 +176,22 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{26.4,22},},},
         },
         [18238] = {
-            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{32.27,58.41},},},
+            [npcKeys.npcFlags] = QuestieDB.npcFlags.QUEST_GIVER,
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{32.27,58.41},{37.92,27.53},},},
         },
         [18369] = {
             [npcKeys.waypoints] = {},
         },
+        [18472] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
+        },
+        [18473] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
+        },
         [18537] = {
+            [npcKeys.waypoints] = {},
+        },
+        [18538] = {
             [npcKeys.waypoints] = {},
         },
         [19305] = {
@@ -184,7 +221,18 @@ function QuestieTBCNpcFixes:Load()
         [21638] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.88,54.76},},},
         },
-
+        [24885] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8},},},
+        },
+        [21763] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{61,78.8},{61.4,75.4},{61.4,75.6},{61.4,78},{61.6,78},{61.8,75.6},{62,75},{62.2,74.4},{65.8,79.4},{66,79.6},{6.8,80.2},{68.4,85.2},{68.6,74.4},{69,85.6},{69.2,85.4},{69.4,74.8},{69.4,75.6},{69.6,74.4},{69.6,74.8},{69.6,76},{69.6,84.8},{69.8,79.6},{70,79.4},{70,83.6},{70.2,83.4},{70.4,82},{70.6,82.2},{71.8,85.6},{72,85.4},{72.2,88},{72.8,87.8},{73,84.4},{73,84.8},{73.4,82},{73.6,87.8},{73.8,83.2},{73.8,86},{73.8,86.6},{74.4,81},{74.4,84.2},{74.6,83},{74.6,87.4},{74.6,87.6},{75.2,81.2},{75.2,81.6},},},
+        },
+        [21651] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{61,75.4},{61,75.6},{61,80},{61.4,73},{61.4,73.6},{61.6,73.2},{61.6,80},{62,74.4},{62,74.6},{63.2,79.6},{67.4,78.8},{67.4,79.6},{67.6,79.8},{67.8,79},{68.4,74.2},{68.6,73.6},{69.4,78.2},{69.4,79.2},{69.6,74.4},{69.6,78.4},{69.6,79},{70,74.8},{70,84.4},{70.2,83.2},{70.2,84.8},{70.8,84.8},{71.4,81.8},{71.4,82.6},{71.6,82.4},{71.6,82.6},{72.2,88},{72.6,83},{73,83.6},{73.4,80.4},{73.4,80.6},{74,80.2},{74,80.6},{74.6,87.4},{74.6,88.6},{75,86.2},{75,88},{75.2,81.2},},},
+        },
+        [21787] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{60.8,75.6},{61,74.8},{61,80.2},{61.2,79.2},{61.4,73.6},{61.8,73.4},{61.8,73.6},{62,74.6},{63,79.6},{65.8,78.2},{65.8,79.2},{66.4,79.8},{67.2,79},{67.4,79.8},{67.6,79.8},{68.2,73.8},{68.8,74},{69,78.8},{69.2,78.4},{69.4,74.6},{69.6,78.4},{69.8,75.2},{70,79.4},{70,79.6},{70.2,74.4},{70.2,83.2},{70.4,85},{70.6,84.2},{70.6,85},{71.2,82.4},{71.2,82.6},{71.6,81.8},{72,85.4},{72,85.6},{72.4,88},{73,82.8},{73,83.6},{73.4,80.2},{73.4,80.6},{73.6,81},{74,80.2},{74.4,88.4},{74.6,88.2},{74.6,88.6},{75,81.2},{75.2,86},{75.2,86.8},},},
+        },
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
         -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
         -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)

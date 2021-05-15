@@ -9,7 +9,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Further information on how to use this can be found at the wiki
--- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+-- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieNPCFixes:Load()
     local npcKeys = QuestieDB.npcKeys
@@ -512,6 +512,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.name] = "Windshear Stonecutter",
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{71.76,60.45},},},
+        },
+        [4094] = {
+            [npcKeys.waypoints] = {},
+        },
+        [4095] = {
+            [npcKeys.waypoints] = {},
+        },
+        [4096] = {
+            [npcKeys.waypoints] = {},
+        },
+        [4099] = {
+            [npcKeys.waypoints] = {},
         },
         [4132] = {
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{70.03,86.22},{68.38,82.32},{67.26,86.1},},},
