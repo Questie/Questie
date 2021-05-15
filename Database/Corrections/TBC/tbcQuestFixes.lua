@@ -966,6 +966,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Navuud's Concoction before attacking the Void Wastes", 0, {{"monster", 20778}}}},
         },
         [10412] = {
+            [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10211},
         },
         [10422] = {
