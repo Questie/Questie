@@ -1134,6 +1134,12 @@ function QuestieTBCQuestFixes:Load()
         [10682] = {
             [questKeys.triggerEnd] = {"Negotiations with Overseer Nuaar complete", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.22,31.78},{59.86,40.22},{59.46,35.84},},}},
         },
+        [10683] = {
+            [questKeys.preQuestSingle] = {10552},
+        },
+        [10687] = {
+            [questKeys.preQuestSingle] = {10552},
+        },
         [10710] = {
             [questKeys.triggerEnd] = {"Throw caution to the wind.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.33,68.89},},}},
         },
@@ -1157,6 +1163,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
+        },
+        [10807] = {
+            [questKeys.preQuestSingle] = {10552},
         },
         [10813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{19440,22177,},22177,"Eye of Grillok Returned"}},
