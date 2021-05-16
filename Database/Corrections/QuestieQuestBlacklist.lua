@@ -753,6 +753,32 @@ function QuestieQuestBlacklist:Load()
         [9751] = true, -- The Bloodcurse Legacy (duplicate of 9672 which is way easier to get)
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
 
+        -- Classic only PvP Quests
+        [8369] = true, 
+        [8370] = true, 
+        [8372] = true, 
+        [8374] = true, 
+        [8375] = true, 
+        [8389] = true, 
+        [8393] = true, 
+        [8394] = true, 
+        [8395] = true, 
+        [8396] = true, 
+        [8399] = true, 
+        [8400] = true, 
+        [8401] = true, 
+        [8402] = true, 
+        [8403] = true, 
+        [8431] = true, 
+        [8432] = true, 
+        [8433] = true, 
+        [8434] = true, 
+        [8435] = true, 
+        [8436] = true, 
+        [8437] = true, 
+        [8438] = true, 
+        [8439] = true, 
+
         -- Phase 2 - Serpentshrine Cavern, Tempest Keep
         [11007] = true,
 
