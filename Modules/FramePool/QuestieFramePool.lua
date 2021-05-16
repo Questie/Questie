@@ -773,10 +773,10 @@ function _QuestieFramePool:QuestieTooltip()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, line in pairs(questData.subData) do
-                            self:AddLine("      " .. line, 0.86, 0.86, 0.86, WRAP_TEXT);
+                            self:AddLine(line, 0.86, 0.86, 0.86, WRAP_TEXT);
                         end
                     elseif dataType == "string" then
-                        self:AddLine("      " .. questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
+                        self:AddLine(questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
                         --self:AddLine("      |cFFDDDDDD" .. v2.subData);
                     end
                 end
