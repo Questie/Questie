@@ -201,6 +201,9 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8476] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
         },
@@ -225,6 +228,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8574] = {
             [questKeys.specialFlags] = 1,
+        },
+        [8894] = {
+            [questKeys.preQuestSingle] = {},
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
