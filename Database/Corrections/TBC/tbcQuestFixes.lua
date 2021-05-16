@@ -193,7 +193,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [8347] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
-            [questKeys.exclusiveTo] = {9704},
         },
         [8367] = {
             [questKeys.requiredLevel] = 61,
@@ -250,9 +249,6 @@ function QuestieTBCQuestFixes:Load()
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
-        [9145] = {
-            [questKeys.exclusiveTo] = {9143},
-        },
         [9152] = {
             [questKeys.preQuestSingle] = {9327,9329},
         },
@@ -271,17 +267,8 @@ function QuestieTBCQuestFixes:Load()
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
         },
-        [9254] = {
-            [questKeys.exclusiveTo] = {8487},
-        },
-        [9279] = {
-            [questKeys.exclusiveTo] = {9280},
-        },
         [9280] = {
             [questKeys.preQuestSingle] = {},
-        },
-        [9253] = {
-            [questKeys.exclusiveTo] = {8490},
         },
         [9288] = {
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
@@ -370,9 +357,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9489] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
-        },
-        [9498] = {
-            [questKeys.exclusiveTo] = {9340},
         },
         [9500] = {
             [questKeys.questLevel] = 20,
@@ -514,7 +498,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
         },
         [9697] = {
-            [questKeys.exclusiveTo] = {9701},
             [questKeys.requiredMinRep] = {942,3000},
         },
         [9700] = {
@@ -581,9 +564,6 @@ function QuestieTBCQuestFixes:Load()
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
         },
-        [9778] = {
-            [questKeys.exclusiveTo] = {9728},
-        },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97},},}},
         },
@@ -645,9 +625,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9874] = {
             [questKeys.requiredMinRep] = {978,0},
-        },
-        [9876] = {
-            [questKeys.exclusiveTo] = {9738},
         },
         [9878] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -782,7 +759,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10039] = {
             [questKeys.requiredLevel] = 62,
-            [questKeys.exclusiveTo] = {10041},
         },
         [10040] = {
             [questKeys.objectives] = {{{18716,"Shadowy Initiate Spoken To"},{18717,"Shadowy Laborer Spoken To"},{18719,"Shadowy Advisor Spoken To"},},nil,nil,nil,},
@@ -977,9 +953,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38},},}},
         },
-        [10311] = {
-            [questKeys.exclusiveTo] = {10310},
-        },
         [10325] = {
             [questKeys.preQuestSingle] = {10211},
         },
@@ -1004,7 +977,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10403] = {
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil,},
-            [questKeys.exclusiveTo] = {10367},
         },
         [10406] = {
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {[zoneIDs.NETHERSTORM]={{56.42,42.66},},}},
@@ -1167,12 +1139,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10675] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
-        },
-        [10680] = {
-            [questKeys.exclusiveTo] = {10458},
-        },
-        [10681] = {
-            [questKeys.exclusiveTo] = {10458},
         },
         [10682] = {
             [questKeys.triggerEnd] = {"Negotiations with Overseer Nuaar complete", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.22,31.78},{59.86,40.22},{59.46,35.84},},}},
@@ -1366,9 +1332,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044,10642},
-        },
-        [11046] = {
-            [questKeys.exclusiveTo] = {10624},
         },
         [11057] = {
             [questKeys.requiredLevel] = 70,
