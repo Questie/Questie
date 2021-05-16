@@ -53,7 +53,7 @@ QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 local function filterExpansion(values)
-    local isTBC = GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE
+    local isTBC = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE
     for k, v in pairs(values) do
         if v == QuestieCorrections.TBC_ONLY then
             if isTBC then
