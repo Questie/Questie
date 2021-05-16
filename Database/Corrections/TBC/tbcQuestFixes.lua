@@ -195,6 +195,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.exclusiveTo] = {9704},
         },
+        [8367] = {
+            [questKeys.requiredLevel] = 61,
+        },
+        [8371] = {
+            [questKeys.requiredLevel] = 61,
+        },
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765,},},
         },
