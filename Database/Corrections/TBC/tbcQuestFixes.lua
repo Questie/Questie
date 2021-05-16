@@ -495,6 +495,7 @@ function QuestieTBCQuestFixes:Load()
         [9701] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Investigate the Spawning Glen", {[zoneIDs.ZANGARMARSH]={{15.1,61.21},},}},
+            [questKeys.requiredLevel] = 61,
         },
         [9704] = {
             [questKeys.preQuestSingle] = {},
