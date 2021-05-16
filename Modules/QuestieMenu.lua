@@ -377,7 +377,7 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.SKINNING] = {}
     }
 
-    if GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
     end
 
