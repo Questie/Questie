@@ -50,6 +50,7 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.THE_BARRENS]={{46.71,8.68},},
                 [zoneIDs.ARATHI_HIGHLANDS]={{73.5,29.13},},
                 [zoneIDs.THE_HINTERLANDS]={{50.33,89.57},},
+                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6},},
             },
         },
         [15658] = {
