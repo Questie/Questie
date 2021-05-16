@@ -260,7 +260,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Investigate An'daroth", {[zoneIDs.GHOSTLANDS]={{37.13,16.15},},}},
         },
         [9161] = {
-            [questKeys.preQuestSingle] = {9282},
+            [questKeys.preQuestSingle] = {},
         },
         [9174] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
