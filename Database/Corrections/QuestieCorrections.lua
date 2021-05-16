@@ -48,6 +48,30 @@ local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes"
     https://github.com/Questie/Questie/wiki/Corrections
 --]]
 
+-- flags that can be used in corrections (currently only blacklists)
+QuestieCorrections.TBC_ONLY = 1
+QuestieCorrections.CLASSIC_ONLY = 2
+-- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
+local function filterExpansion(values)
+    local isTBC = GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE
+    for k, v in pairs(values) do
+        if v == QuestieCorrections.TBC_ONLY then
+            if isTBC then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.CLASSIC_ONLY then
+            if isTBC then
+                values[k] = nil
+            else
+                values[k] = true
+            end
+        end
+    end
+    return values
+end
+
 function QuestieCorrections:MinimalInit() -- db already compiled
     for id, data in pairs(QuestieItemFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
@@ -85,9 +109,9 @@ function QuestieCorrections:MinimalInit() -- db already compiled
         end
     end
 
-    QuestieCorrections.questItemBlacklist = QuestieItemBlacklist:Load()
-    QuestieCorrections.questNPCBlacklist = QuestieNPCBlacklist:Load()
-    QuestieCorrections.hiddenQuests = QuestieQuestBlacklist:Load()
+    QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
+    QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
+    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
 
     if Questie.db.char.showEventQuests then
         C_Timer.After(1, function()

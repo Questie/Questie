@@ -1,5 +1,7 @@
 ---@class QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieQuestBlacklist:Load()
     return {
@@ -283,7 +285,7 @@ function QuestieQuestBlacklist:Load()
         [8983] = true,
         [8984] = true,
         -- TBC event quests
-        [9249] = true,
+        [9249] = QuestieCorrections.TBC_ONLY,
         [10938] = true,
         [10939] = true,
         [10940] = true,
