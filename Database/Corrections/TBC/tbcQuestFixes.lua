@@ -229,6 +229,9 @@ function QuestieTBCQuestFixes:Load()
         [8574] = {
             [questKeys.specialFlags] = 1,
         },
+        [8894] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9144] = {
             [questKeys.requiredLevel] = 10,
         },
