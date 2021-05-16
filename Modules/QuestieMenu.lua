@@ -54,7 +54,8 @@ local _townsfolk_texturemap = {
     [QuestieProfessions.professionKeys.ENGINEERING] = "Interface\\Icons\\trade_engineering",
     [QuestieProfessions.professionKeys.ENCHANTING] = "Interface\\Icons\\trade_engraving",
     [QuestieProfessions.professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
-    [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01"
+    [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
@@ -262,8 +263,8 @@ function QuestieMenu:Show()
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
     end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
-    tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
-    tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList={}, notCheckable=true})
+    tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu(), notCheckable=true})
+    tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu(), notCheckable=true})
 
     tinsert(menuTable, div)
 
@@ -375,6 +376,10 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.FISHING] = {},
         [QuestieProfessions.professionKeys.SKINNING] = {}
     }
+
+    if GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+        professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
+    end
 
     for _, id in pairs(validTrainers) do
         local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
