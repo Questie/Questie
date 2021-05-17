@@ -289,12 +289,18 @@ local function _reformatVendors(lst)
     return newList
 end
 
-function QuestieMenu:PopulateTownsfolkType(mask) -- populate the table with all npc ids based on the given bitmask
+function QuestieMenu:PopulateTownsfolkType(mask, requireSubname) -- populate the table with all npc ids based on the given bitmask
     local tbl = {}
     for id, data in pairs(QuestieDB.npcData) do
         local flags = data[QuestieDB.npcKeys.npcFlags]
         if flags and bit.band(flags, mask) == mask then
-            tinsert(tbl, id)
+            local name = data[QuestieDB.npcKeys.name]
+            local subName = data[QuestieDB.npcKeys.subName]
+            if name and string.sub(name, 1, 5) ~= "[DND]" then
+                if (not requireSubname) or (subName and string.len(subName) > 1) then
+                    tinsert(tbl, id)
+                end
+            end
         end
     end
     return tbl
@@ -302,12 +308,12 @@ end
 
 function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.townsfolk = {
-        ["Repair"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR), 
-        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER),
-        ["Banker"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER),
-        ["Battlemaster"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER),
+        ["Repair"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR, true), 
+        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER, true),
+        ["Banker"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER, true),
+        ["Battlemaster"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER, true),
         ["Flight Master"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
-        ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER),
+        ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER, true),
         ["Weapon Master"] = {}, -- populated below
     }
     local classTrainers = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
