@@ -395,6 +395,9 @@ function QuestieTBCQuestFixes:Load()
         [9509] = {
             [questKeys.questLevel] = 20,
         },
+        [9527] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9528] = {
             [questKeys.triggerEnd] = {"Magwin Escorted to Safety", {[zoneIDs.AZUREMYST_ISLE]={{16.38,94.14},},}},
         },
