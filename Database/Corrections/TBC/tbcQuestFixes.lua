@@ -1443,6 +1443,9 @@ function QuestieTBCQuestFixes:Load()
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345,},4344,"Totem Tests Performed"}},
         },
+        [11174] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
         },
