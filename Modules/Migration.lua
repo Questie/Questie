@@ -30,6 +30,9 @@ local migrationFunctions = {
     end,
     [2] = function()
         Questie.db.global.stickyDurabilityFrame = false
+    end,
+    [3] = function()
+        Questie.db.global.hookTracking = false
     end
 }
 

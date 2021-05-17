@@ -64,7 +64,7 @@ function QuestieOptionsDefaults:Load()
             collapseCompletedQuests = false,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
-            hookTracking = true,
+            hookTracking = false,
             trackerHeaderEnabled = true,
             trackerHeaderAutoMove = false,
             stickyDurabilityFrame = false,
