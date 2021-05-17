@@ -151,9 +151,7 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
     for id, data in pairs(QuestieObjectFixes:Load()) do
         for key, value in pairs(data) do
             if not QuestieDB.objectData[id] then
-                if Questie.db.global.debugEnabled then 
-                    print("Attempt to correct missing object " .. tostring(id))
-                end
+                Questie:Debug(DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
             else
                 QuestieDB.objectData[id][key] = value
             end
@@ -201,9 +199,7 @@ function QuestieCorrections:Initialize() -- db needs to be compiled
         for id, data in pairs(QuestieTBCObjectFixes:Load()) do
             for key, value in pairs(data) do
                 if not QuestieDB.objectData[id] then
-                    if Questie.db.global.debugEnabled then 
-                        print("Attempt to correct missing object " .. tostring(id))
-                    end
+                    Questie:Debug(DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
                 else
                     QuestieDB.objectData[id][key] = value
                 end
