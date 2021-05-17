@@ -891,6 +891,9 @@ function QuestieQuestFixes:Load()
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2438] = {
+            [questKeys.specialFlags] = 0,
+        },
         [2460] = {
             [questKeys.triggerEnd] = {"Shattered Salute Performed", {[zoneIDs.ORGRIMMAR]={{43.11,53.48},},},},
         },
