@@ -70,7 +70,7 @@ function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
     Questie.db.char.complete = GetQuestsCompleted()
 
-    --QuestieProfessions:Update()
+    QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
