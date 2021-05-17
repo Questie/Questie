@@ -329,6 +329,9 @@ function QuestieTBCQuestFixes:Load()
         [9451] = {
             [questKeys.questLevel] = 4,
         },
+        [9454] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9457] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Gift of Naias near the Altar of Naias", 0, {{"object", 181636}}}}
         },
