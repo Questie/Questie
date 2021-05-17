@@ -9,6 +9,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 function QuestieTBCNpcFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
+    local npcFlags = QuestieDB.npcFlags
 
     return {
         [684] = {
@@ -247,6 +248,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [24885] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8},},},
+        },
+        [26760] = {
+            [npcKeys.npcFlags] = npcFlags.NONE,
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
