@@ -302,6 +302,18 @@ local debugMessagesLocales = {
         ["esES"] = "Despojó %s que empieza %s!",
         ["esMX"] = "Despojó %s que empieza %s!",
     },
+    ["[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
+        ["frFR"] = nil,
+        ["koKR"] = nil,
+        ["zhCN"] = nil,
+        ["enUS"] = true,
+        ["zhTW"] = nil,
+        ["deDE"] = nil,
+        ["esES"] = nil,
+        ["esMX"] = nil,
+    }
 }
 
 for k, v in pairs(debugMessagesLocales) do

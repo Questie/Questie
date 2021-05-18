@@ -258,14 +258,14 @@ function _EventHandler:PlayerLogin()
 
                 if QuestieDB.questDataTBC then
                     -- combine tbc and classic db where relevant
-                    QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
-                    QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
+                    QuestieDB.questData = QuestieDB.questDataTBC
+                    QuestieDB.objectData = QuestieDB.objectDataTBC
                 end
             end,
             function()
                 if QuestieDB.questDataTBC then
-                    QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
-                    QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
+                    QuestieDB.npcData = QuestieDB.npcDataTBC
+                    QuestieDB.itemData = QuestieDB.itemDataTBC
                 end
             end,
             function()
@@ -284,6 +284,12 @@ function _EventHandler:PlayerLogin()
                         QuestieMenu:BuildCharacterTownsfolk()
                         QuestieMenu:PopulateTownsfolkPostBoot()
                         stage2()
+
+                        if not Questie.db.global.hasSeenBetaMessage then
+                            Questie.db.global.hasSeenBetaMessage = true
+                            print("\124cFFFFFF00" ..l10n("[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."))
+                        end
+
                         --Questie.minimapConfigIcon:Show("Questie")
                     end)
                 end)
