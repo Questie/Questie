@@ -1065,7 +1065,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle", 0, {{"object", 184826}, {"monster", 21469}}}},
         },
         [10557] = {
-            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.1,68.84},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber and use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10563] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
@@ -1095,6 +1097,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10606] = {
             [questKeys.requiredSourceItems] = {30712},
+        },
+        [10609] = {
+            -- TODO: Change the ICON_TYPE_OBJECT in the database references, once that is supported. {"monster", 20021} -> {"monster", 20021, ICON_TYPE_SLAY}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches", 0, {{"object", 184867}, {"monster", 20021}}}},
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
@@ -1153,13 +1159,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10552},
         },
         [10710] = {
-            [questKeys.triggerEnd] = {"Throw caution to the wind.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.33,68.89},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Throw caution to the wind.", {}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Sign Tally's Waiver, then speak with Rally Zapnabber to use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10711] = {
-            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.25,68.55},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {}},
+            [questKeys.preQuestGroup] = {10710, 10657},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10712] = {
-            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.18,68.62},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {}},
+            [questKeys.preQuestGroup] = {10711, 10675},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying", 0, {{"monster", 21461}}}},
         },
         [10722] = {
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45},},}},
