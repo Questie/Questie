@@ -521,19 +521,7 @@ function QuestieMenu:UpdatePetFood() -- call on change pet
 end
 
 function QuestieMenu:UpdateAmmoVendors() -- call on change weapon
-    Questie.db.char.vendorList["Ammo"] = {}
-
-    -- get current weapon ammo type
-    local weaponID = GetInventoryItemID("player", 18)
-    if weaponID then
-        local class, subClass = unpack(QuestieDB.QueryItem(weaponID, "class", "subClass"))
-        local isBow = (2 == class and (2 == subClass or 18 == subClass))
-        if isBow then
-            Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11285,3030,19316,2515,2512}, {}, true))
-        else
-            Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11284,19317,2519,2516,3033}, {}, true))
-        end
-    end
+    Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033}, {}, true))
 end
 
 function QuestieMenu:UpdateFoodDrink()
