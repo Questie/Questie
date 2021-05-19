@@ -29,6 +29,14 @@ jobs:
           files: Database Localization
           args: "--no-color -q"
 
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4.0.0
+
+      - name: Validate Questie database
+        run: |
+          luarocks install bit32
+          lua cli.lua
+
       - name: Setup Python
         uses: actions/setup-python@v2
         if: ${{ github.event_name != 'pull_request' }}
