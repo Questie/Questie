@@ -30,6 +30,41 @@ local migrationFunctions = {
     end,
     [2] = function()
         Questie.db.global.stickyDurabilityFrame = false
+    end,
+    [3] = function()
+        local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
+
+        local journey = nil
+
+        if Questie.db.char then
+            journey = Questie.db.char.journey
+        end
+
+        Questie.db.global = {}
+        Questie.db.char = {}
+
+        for k,v in pairs(optionsDefaults.global) do
+            Questie.db.global[k] = v
+        end
+
+        -- only toggle questie if it's off (must be called before resetting the value)
+        if (not Questie.db.char.enabled) then
+            Questie.db.char.enabled = true
+        end
+
+        for k,v in pairs(optionsDefaults.char) do
+            Questie.db.char[k] = v
+        end
+
+        Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
+
+        Questie.db.global.migrationVersion = 3
+
+        if journey then
+            Questie.db.char.journey = journey
+        end
+
+        QuestieConfig.dbIsCompiled = false
     end
 }
 
