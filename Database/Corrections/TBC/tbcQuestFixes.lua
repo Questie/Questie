@@ -26,6 +26,7 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64053, {}) -- Talented
     table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
     table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
+    table.insert(QuestieDB.questData, 64064, {}) -- Eastern Plaguelands
 
 
     local questKeys = QuestieDB.questKeys
@@ -1639,7 +1640,7 @@ function QuestieTBCQuestFixes:Load()
         ----- Boosted character quests -----
         [64037] = {
             [questKeys.name] = "Eastern Plaguelands",
-            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
             [questKeys.finishedBy] = {{11036},nil,nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
@@ -1829,6 +1830,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063},
             [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
+        },
+        [64064] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,3036},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"},},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64052,64053,},
+            [questKeys.exclusiveTo] = {64063,64217},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
     }
 end
