@@ -13,6 +13,7 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
     table.insert(QuestieDB.questData, 64034, {}) -- Combat Training
     table.insert(QuestieDB.questData, 64035, {}) -- Talented
+    table.insert(QuestieDB.questData, 64037, {}) -- Eastern Plaguelands
     table.insert(QuestieDB.questData, 64038, {}) -- The Dark Portal
     -- Horde boosted quests
     table.insert(QuestieDB.questData, 64046, {}) -- A New Beginning
@@ -1636,6 +1637,19 @@ function QuestieTBCQuestFixes:Load()
         },
 
         ----- Boosted character quests -----
+        [64037] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"},},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64035},
+            [questKeys.exclusiveTo] = {64038},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
         [64028] = {
             [questKeys.name] = "A New Beginning",
             [questKeys.startedBy] = {}, -- This quest is auto accept
