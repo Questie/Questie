@@ -68,10 +68,10 @@ Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
 Localization\lookups\lookupZones\lookupZones.xml
-Localization\lookups\TBC\lookupItems\lookupItems.xml
-Localization\lookups\TBC\lookupNpcs\lookupNpcs.xml
-Localization\lookups\TBC\lookupObjects\lookupObjects.xml
-Localization\lookups\TBC\lookupQuests\lookupQuests.xml
+Localization\lookups\Classic\lookupItems\lookupItems.xml
+Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
+Localization\lookups\Classic\lookupObjects\lookupObjects.xml
+Localization\lookups\Classic\lookupQuests\lookupQuests.xml
 
 ##Libs
 Modules\Libs\QuestieLib.lua
