@@ -53,6 +53,9 @@ function QuestieTBCQuestFixes:Load()
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36},},}},
         },
+        [460] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [503] = {
             [questKeys.triggerEnd] = {"Find where Gol'dir is being held", {[zoneIDs.ALTERAC_VALLEY]={{60.58,43.86},},}},
         },
