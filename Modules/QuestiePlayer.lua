@@ -98,6 +98,11 @@ function QuestiePlayer:GetCurrentContinentId()
             end
         end
     end
+
+    if currentContinentId == 0 then
+        return 1 -- Default to Eastern Kingdom
+    end
+
     return currentContinentId
 end
 
