@@ -77,7 +77,7 @@ local function loadTOC(file)
     end
 end
 
-loadTOC("Questie-BCC.toc")
+loadTOC("Questie.toc")
 
 function Questie:Debug(...)
     --print(...)
