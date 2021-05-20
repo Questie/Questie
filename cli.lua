@@ -7,9 +7,7 @@ mod = function(a, b)
     return a % b
 end
 bit = require("bit32")
-stderr = function(text)
-    io.stderr:write(tostring(text) .. "\n")
-end
+
 GetBuildInfo = function()
     return "2.5.1", "38644", "May 11 2021", "20501"
 end
@@ -81,6 +79,14 @@ loadTOC("Questie.toc")
 
 function Questie:Debug(...)
     --print(...)
+end
+
+function Questie:Error(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
+end
+
+function Questie:Warning(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
 end
 
 Questie.db = {
