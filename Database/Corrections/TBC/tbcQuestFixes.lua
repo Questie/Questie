@@ -8,6 +8,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
+    table.insert(QuestieDB.questData, 64319, {}) -- A Study in Power
+
     -- Alliance boosted quests
     table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
     table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
@@ -25,8 +27,8 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64052, {}) -- Talented
     table.insert(QuestieDB.questData, 64053, {}) -- Talented
     table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
-    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
     table.insert(QuestieDB.questData, 64064, {}) -- Eastern Plaguelands
+    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
 
 
     local questKeys = QuestieDB.questKeys
@@ -1638,6 +1640,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = -141,
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
+        },
+        [64319] = {
+            [questKeys.name] = "A Study in Power",
+            [questKeys.startedBy] = {{17717},nil,nil},
+            [questKeys.finishedBy] = {{17718},nil,nil},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {9678},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 63866,
+            [questKeys.questFlags] = 136,
         },
 
         ----- Boosted character quests -----
