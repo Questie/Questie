@@ -11,6 +11,11 @@ QuestieDB.objectKeys = {
     ['factionID'] = 6, -- faction restriction mask (same as spawndb factionid)
 }
 
+QuestieDB.objectKeysReversed = {}
+for key, id in pairs(QuestieDB.objectKeys) do
+    QuestieDB.objectKeysReversed[id] = key
+end
+
 QuestieDB.objectCompilerTypes = {
     ['name'] = "u8string", 
     ['spawns'] = "spawnlist", 

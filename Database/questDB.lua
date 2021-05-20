@@ -41,6 +41,11 @@ QuestieDB.questKeys = {
     ['extraObjectives'] = 26, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 }
 
+QuestieDB.questKeysReversed = {}
+for key, id in pairs(QuestieDB.questKeys) do
+    QuestieDB.questKeysReversed[id] = key
+end
+
 QuestieDB.questCompilerTypes = {
     ['name'] = "u8string", -- string
     ['startedBy'] = "questgivers", -- table

@@ -21,6 +21,12 @@ QuestieDB.npcKeys = {
                        -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
 }
 
+QuestieDB.npcKeysReversed = {}
+for key, id in pairs(QuestieDB.npcKeys) do
+    QuestieDB.npcKeysReversed[id] = key
+end
+
+
 QuestieDB.npcCompilerTypes = {
     ['name'] = "u8string",
     ['minLevelHealth'] = "u24",

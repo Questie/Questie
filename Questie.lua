@@ -278,6 +278,12 @@ function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
+function Questie:Warning(...)
+    if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
+        Questie:Print("|cffffff00[WARNING]|r", ...)
+    end
+end
+
 function Questie:Debug(...)
     if(Questie.db.global.debugEnabled) then
         -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
