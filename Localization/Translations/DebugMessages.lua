@@ -40,7 +40,7 @@ local debugMessagesLocales = {
     },
     ["Toggles the My Journey window"] = {
         ["ptBR"] = "Mostrar / Ocultar a janela Minha Jornada",
-        ["ruRU"] = "открыть 'Мое путешествие'.",
+        ["ruRU"] = "открыть 'Путешествие'.",
         ["deDE"] = "Zeigen/Verstecken des 'Meine Reise'-Fensters",
         ["koKR"] = "나의 여정 창을 표시합니다",
         ["esMX"] = "Muestra la ventana de 'Mi Viaje'",
