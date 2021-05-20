@@ -9,16 +9,16 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Further information on how to use this can be found at the wiki
--- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+-- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieObjectFixes:Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    table.insert(QuestieDB.objectData, 400000, {}) -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
-    table.insert(QuestieDB.objectData, 400001, {})
-    table.insert(QuestieDB.objectData, 400002, {})
-    table.insert(QuestieDB.objectData, 400003, {})
+    QuestieDB.objectData[400000] = {} -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
+    QuestieDB.objectData[400001] = {}
+    QuestieDB.objectData[400002] = {}
+    QuestieDB.objectData[400003] = {}
 
     return {
         [167] = {

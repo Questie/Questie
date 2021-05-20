@@ -71,8 +71,6 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type Migration
-local Migration = QuestieLoader:ImportModule("Migration")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -134,12 +132,10 @@ end
 
 
 function Questie:OnInitialize()
-    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(B2) |r"
+    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
 
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
-
-    Migration:Migrate()
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then

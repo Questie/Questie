@@ -265,7 +265,7 @@ function QuestieOptions.tabs.advanced:Initialize()
             github_text = {
                 type = "description",
                 order = 4.8,
-                name = function() return Questie:Colorize(l10n('Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))'), 'purple'); end,
+                name = function() return Questie:Colorize(l10n('Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))'), 'purple'); end,
                 fontSize = "medium",
             },
         },

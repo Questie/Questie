@@ -1,5 +1,7 @@
 ---@class QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:CreateModule("QuestieItemBlacklist")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieItemBlacklist:Load()
     return {

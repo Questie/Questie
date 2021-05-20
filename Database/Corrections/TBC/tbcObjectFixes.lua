@@ -7,6 +7,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
+    table.insert(QuestieDB.objectData, 184588, {}) -- Captain Tyralis's Prison
     table.insert(QuestieDB.objectData, 190483, {}) -- Document chest
     table.insert(QuestieDB.objectData, 190484, {}) -- Document chest
     table.insert(QuestieDB.objectData, 400000, {})
@@ -48,8 +49,28 @@ function QuestieTBCObjectFixes:Load()
         [181897] = {
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{68.3,21.7},{69.98,26.3},{70.6,16.5},{71.4,11.7},{71.4,28.2},{72.7,21.4},{74.7,16.3},{75,8.7},{75.4,19.1},{75.7,28.4},{75.54,13.85},{76,24.8},{76.8,21.4},},},
         },
+        [182950] = {
+            [objectKeys.factionID] = 80,
+        },
         [183050] = {
             [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
+        },
+        [184588] = {
+            [objectKeys.name] = "Captain Tyralius's Prison",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.4}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [184998] = {
+            [objectKeys.name] = "Ethereum Prison",
+        },
+        [185460] = {
+            [objectKeys.name] = "Ethereum Prison",
+        },
+        [187260] = {
+            [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
+        }, 
+        [188123] = {
+            [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.18,16.47}}}, -- TBC only Mailbox
         },
         [190483] = {
             [objectKeys.name] = "Document Chest",

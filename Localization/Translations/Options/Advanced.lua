@@ -278,17 +278,17 @@ local advancedOptionsLocales = {
         ["esES"] = "Es necesario actualizar la base de datos para cambiar el idioma. Presiona recargar para aplicar el nuevo idioma",
         ["frFR"] = "La base de données doit être mise à jour pour changer la langue. Appuyez sur Recharger pour appliquer la nouvelle langue.",
     },
-    ["Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/AeroScripts/QuestieDev/ ))"] = {
-        ["ptBR"] = "Questie está em desenvolvimento para World of Warcraft: Classic. Verifique o GitHub para obter as versões mais recentes ou relatar problemas. Ou junte-se a nós em nossa discórdia!(( https://github.com/AeroScripts/QuestieDev/ )) ",
-        ["ruRU"] = "Questie находится в стадии активной разработки для World of Warcraft: Classic. Проверяйте наличие обновлений на сайте GitHub (https://github.com/AeroScripts/QuestieDev/) или присоединяйтесь к нашему серверу в Discord (https://discord.gg/phKnHVu)",
-        ["deDE"] = "Questie befindet sich noch aktiv in der Entwicklungsphase für World of Warcraft: Classic. Für Neuigkeiten und aktuelle Versionen schau auf Github vorbei oder trete unserem Discord Server bei! (( https://github.com/AeroScripts/QuestieDev/ ))",
-        ["koKR"] = "Questie는 월드 오브 워크래프트:클래식을 위해 활발히 개발 중입니다. 최신 알파 빌드 또는 보고된 문제들을 확인하시려면 GitHub을 확인해주세요. 또는 저희 디스코드에 참여하세요! (( https://github.com/AeroScripts/QuestieDev/ ))",
-        ["esMX"] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
+    ["Questie is under active development for World of Warcraft: Classic. Please check GitHub for the latest alpha builds or to report issues. Or join us on our discord! (( https://github.com/Questie/Questie/ ))"] = {
+        ["ptBR"] = "Questie está em desenvolvimento para World of Warcraft: Classic. Verifique o GitHub para obter as versões mais recentes ou relatar problemas. Ou junte-se a nós em nossa discórdia!(( https://github.com/Questie/Questie/ )) ",
+        ["ruRU"] = "Questie находится в стадии активной разработки для World of Warcraft: Classic. Проверяйте наличие обновлений на сайте GitHub (https://github.com/Questie/Questie/) или присоединяйтесь к нашему серверу в Discord (https://discord.gg/phKnHVu)",
+        ["deDE"] = "Questie befindet sich noch aktiv in der Entwicklungsphase für World of Warcraft: Classic. Für Neuigkeiten und aktuelle Versionen schau auf Github vorbei oder trete unserem Discord Server bei! (( https://github.com/Questie/Questie/ ))",
+        ["koKR"] = "Questie는 월드 오브 워크래프트:클래식을 위해 활발히 개발 중입니다. 최신 알파 빌드 또는 보고된 문제들을 확인하시려면 GitHub을 확인해주세요. 또는 저희 디스코드에 참여하세요! (( https://github.com/Questie/Questie/ ))",
+        ["esMX"] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/Questie/Questie/ ))",
         ["enUS"] = true,
-        ["zhCN"] = "Questie是一款为魔兽世界经典旧世制作的任务插件，目前仍在开发中，请到Github查看最新版本、提交问题或提供建议，或是加入我们的 discord 频道。(( https://github.com/AeroScripts/QuestieDev/ ))",
-        ["zhTW"] = "Questie是一款為魔獸世界經典版製作的任務插件，目前仍在開發中，請到Github查看最新版本、回報問題或提供建議，也可以加入我們的 discord 頻道。(( https://github.com/AeroScripts/QuestieDev/ ))",
-        ["esES"] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/AeroScripts/QuestieDev/ ))",
-        ["frFR"] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord ! ( https://github.com/AeroScripts/QuestieDev/ ) ",
+        ["zhCN"] = "Questie是一款为魔兽世界经典旧世制作的任务插件，目前仍在开发中，请到Github查看最新版本、提交问题或提供建议，或是加入我们的 discord 频道。(( https://github.com/Questie/Questie/ ))",
+        ["zhTW"] = "Questie是一款為魔獸世界經典版製作的任務插件，目前仍在開發中，請到Github查看最新版本、回報問題或提供建議，也可以加入我們的 discord 頻道。(( https://github.com/Questie/Questie/ ))",
+        ["esES"] = "Questie está bajo desarrollo activo para World of Warcraft: Classic. Por favor ve a Github para las versiones alfa o para reportar problemas. O únete a nuestro Discord! (( https://github.com/Questie/Questie/ ))",
+        ["frFR"] = "Questie est en cours de développement pour World of Warcraft: Classic. Veuillez consulter GitHub pour connaître les dernières versions alpha ou signaler des problèmes. Ou rejoignez nous sur notre discord ! ( https://github.com/Questie/Questie/ ) ",
     },
 }
 

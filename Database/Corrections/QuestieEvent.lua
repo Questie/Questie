@@ -69,7 +69,6 @@ function QuestieEvent:Load()
         -- endDate = "2/1",
         if _WithinDates(startDay, startMonth, endDay, endMonth) then
             Questie:Debug(DEBUG_INFO, "[QuestieEvent]", eventName, "event is active!")
-           print("[QuestieEvent]" .. eventName .. "event is active!")
             activeEvents[eventName] = true
         end
     end

@@ -9,12 +9,12 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 -- Further information on how to use this can be found at the wiki
--- https://github.com/AeroScripts/QuestieDev/wiki/Corrections
+-- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieQuestFixes:Load()
-    table.insert(QuestieDB.questData, 7668, {}) -- Add missing quest index
-    table.insert(QuestieDB.questData, 7669, {}) -- Add missing quest index
-    table.insert(QuestieDB.questData, 7670, {}) -- Add missing quest index #1432
+    QuestieDB.questData[7668] = {} -- Add missing quest index
+    QuestieDB.questData[7669] = {} -- Add missing quest index
+    QuestieDB.questData[7670] = {} -- Add missing quest index #1432
 
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
@@ -890,6 +890,9 @@ function QuestieQuestFixes:Load()
         },
         [2358] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [2438] = {
+            [questKeys.specialFlags] = 0,
         },
         [2460] = {
             [questKeys.triggerEnd] = {"Shattered Salute Performed", {[zoneIDs.ORGRIMMAR]={{43.11,53.48},},},},

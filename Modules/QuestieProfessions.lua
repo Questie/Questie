@@ -66,7 +66,8 @@ QuestieProfessions.professionKeys = {
     ENGINEERING = 202,
     ENCHANTING = 333,
     FISHING = 356,
-    SKINNING = 393
+    SKINNING = 393,
+    JEWELCRAFTING = 755
 }
 
 local professionNames = {
@@ -81,7 +82,8 @@ local professionNames = {
     [QuestieProfessions.professionKeys.ENGINEERING] = "Engineering",
     [QuestieProfessions.professionKeys.ENCHANTING] = "Enchanting",
     [QuestieProfessions.professionKeys.FISHING] = "Fishing",
-    [QuestieProfessions.professionKeys.SKINNING] = "Skinning"
+    [QuestieProfessions.professionKeys.SKINNING] = "Skinning",
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting",
 }
 
 function QuestieProfessions:GetProfessionName(professionKey)
@@ -203,6 +205,8 @@ professionTable = {
     ["剥皮"] = 393,
     ["剝皮"] = 393,
     ["무두질"] = 393,
+
+    ["Jewelcrafting"] = 755,
 
     -- alternate naming scheme (used by DB)
     ["Enchanter"] = 333,

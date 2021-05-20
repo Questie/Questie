@@ -36,6 +36,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type Migration
+local Migration = QuestieLoader:ImportModule("Migration")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
 ---@type Cleanup
@@ -50,6 +52,8 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieDatabaseUnification
+local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -142,6 +146,9 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
 end
 
 function _EventHandler:PlayerLogin()
+
+    Migration:Migrate()
+
     local function stage1()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()
@@ -163,6 +170,7 @@ function _EventHandler:PlayerLogin()
         QuestieQuest:GetAllQuestIdsNoObjectives()
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
         QuestieNameplate:Initialize()
+        QuestieMenu:PopulateTownsfolkPostBoot()
         Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
         didPlayerEnterWorld = true
         -- manually fire QLU since enter has been delayed past the first QLU
@@ -183,11 +191,6 @@ function _EventHandler:PlayerLogin()
             end)
         end
 
-        if QuestieEventHandler._needTownsfolkUpdate then -- bad code
-            QuestieEventHandler._needTownsfolkUpdate = nil
-            QuestieCorrections:PopulateTownsfolkPostBoot()
-        end
-
         QuestieMenu:OnLogin()
 
         if Questie.db.global.debugEnabled then
@@ -203,16 +206,12 @@ function _EventHandler:PlayerLogin()
     end
 
     if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
-        
+
         if not Questie.db.char.townsfolk then
-            -- we havent compiled townsfolk on this character
-            QuestieCorrections:Initialize()
-            QuestieCorrections:PopulateTownsfolk()
-            -- bad code
-            QuestieEventHandler._needTownsfolkUpdate = true
-        else
-            QuestieCorrections:MinimalInit()
+            QuestieMenu:BuildCharacterTownsfolk()
         end
+
+        QuestieCorrections:MinimalInit()
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
     else
@@ -221,20 +220,91 @@ function _EventHandler:PlayerLogin()
             char.townsfolk = nil
         end
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
-        QuestieCorrections:Initialize()
-        QuestieCorrections:PopulateTownsfolk()
-        l10n:Initialize()
-        C_Timer.After(4, function()
-            print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))            QuestieDB.private:DeleteGatheringNodes()
-            QuestieCorrections:PreCompile(function()
-                QuestieDBCompiler:Compile(function()
-                    stage1()
-                    QuestieCorrections:PopulateTownsfolkPostBoot()
-                    stage2()
-                    --Questie.minimapConfigIcon:Show("Questie")
+        local callTable = {
+            function()
+                print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
+                -- give it an extra second, this runs right at player_logged_in and we don't want to lag users too much
+            end,
+            function()
+                print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+                QuestieDB.npcData = loadstring(QuestieDB.npcData)
+                QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and loadstring(QuestieDB.npcDataTBC) or nil
+            end,
+            function() -- secondary function to avoid lag spikes
+                QuestieDB.npcData = QuestieDB.npcData()
+                QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and QuestieDB.npcDataTBC() or nil
+            end,
+            function() 
+                QuestieDB.objectData = loadstring(QuestieDB.objectData)
+                QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and loadstring(QuestieDB.objectDataTBC) or nil
+            end,
+            function()
+                QuestieDB.objectData = QuestieDB.objectData()
+                QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and QuestieDB.objectDataTBC() or nil
+            end,
+            function()
+                QuestieDB.questData = loadstring(QuestieDB.questData)
+                QuestieDB.questDataTBC = QuestieDB.questDataTBC and loadstring(QuestieDB.questDataTBC) or nil
+            end,
+            function()
+                QuestieDB.questData = QuestieDB.questData()
+                QuestieDB.questDataTBC = QuestieDB.questDataTBC and QuestieDB.questDataTBC() or nil
+            end,
+            function()
+                QuestieDB.itemData = loadstring(QuestieDB.itemData)
+                QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataTBC) or nil
+            end,
+            function()
+                QuestieDB.itemData = QuestieDB.itemData()
+                QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
+            end,
+            function()
+                print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+
+                if QuestieDB.questDataTBC then
+                    -- combine tbc and classic db where relevant
+                    QuestieDB.questData = QuestieDB.questDataTBC
+                    QuestieDB.objectData = QuestieDB.objectDataTBC
+                end
+            end,
+            function()
+                if QuestieDB.questDataTBC then
+                    QuestieDB.npcData = QuestieDB.npcDataTBC
+                    QuestieDB.itemData = QuestieDB.itemDataTBC
+                end
+            end,
+            function()
+                QuestieCorrections:Initialize()
+                QuestieMenu:PopulateTownsfolk()
+            end,
+            function()
+                print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
+                l10n:Initialize()
+            end,
+            function()
+                QuestieDB.private:DeleteGatheringNodes()
+                QuestieCorrections:PreCompile(function()
+                    QuestieDBCompiler:Compile(function()
+                        stage1()
+                        QuestieMenu:BuildCharacterTownsfolk()
+                        QuestieMenu:PopulateTownsfolkPostBoot()
+                        stage2()
+
+                        if not Questie.db.global.hasSeenBetaMessage then
+                            Questie.db.global.hasSeenBetaMessage = true
+                            print("\124cFFFFFF00" ..l10n("[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."))
+                        end
+
+                        --Questie.minimapConfigIcon:Show("Questie")
+                    end)
                 end)
-            end)
-        end)
+            end
+        }
+        local callIndex = 1
+        C_Timer.NewTicker(0.5, function() 
+            callTable[callIndex]()
+            callIndex = callIndex + 1
+        end, #callTable)
     end
 end
 

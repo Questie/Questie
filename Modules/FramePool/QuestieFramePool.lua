@@ -773,10 +773,10 @@ function _QuestieFramePool:QuestieTooltip()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, line in pairs(questData.subData) do
-                            self:AddLine("      " .. line, 0.86, 0.86, 0.86, WRAP_TEXT);
+                            self:AddLine(line, 0.86, 0.86, 0.86, WRAP_TEXT);
                         end
                     elseif dataType == "string" then
-                        self:AddLine("      " .. questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
+                        self:AddLine(questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
                         --self:AddLine("      |cFFDDDDDD" .. v2.subData);
                     end
                 end
@@ -792,9 +792,10 @@ function _QuestieFramePool:QuestieTooltip()
                 self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                if (quest and shift and QuestiePlayer:GetPlayerLevel() ~= 60) then
+                local xpReward = GetQuestLogRewardXP(questId)
+                if (quest and shift and xpReward > 0) then
                     r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
-                    self:AddDoubleLine(questTitle, "("..GetQuestLogRewardXP(questId)..xpString..")", 0.2, 1, 0.2, r, g, b);
+                    self:AddDoubleLine(questTitle, "("..xpReward..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
                     self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"

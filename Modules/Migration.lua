@@ -30,18 +30,68 @@ local migrationFunctions = {
     end,
     [2] = function()
         Questie.db.global.stickyDurabilityFrame = false
+    end,
+    [3] = function()
+        local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
+
+        local journey = nil
+        local migrationTable = nil
+
+        if Questie.db.char then
+            journey = Questie.db.char.journey
+        end
+
+        if Questie.db.global then
+            migrationTable = Questie.db.global.migrationVersion
+        end
+
+        Questie.db.global = {}
+        Questie.db.char = {}
+
+        for k,v in pairs(optionsDefaults.global) do
+            Questie.db.global[k] = v
+        end
+
+        -- only toggle questie if it's off (must be called before resetting the value)
+        if (not Questie.db.char.enabled) then
+            Questie.db.char.enabled = true
+        end
+
+        for k,v in pairs(optionsDefaults.char) do
+            Questie.db.char[k] = v
+        end
+
+        Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
+
+        if journey then
+            Questie.db.char.journey = journey
+        end
+
+        if migrationTable then
+            Questie.db.global.migrationVersion = migrationTable
+        end
+
+        QuestieConfig.dbIsCompiled = false
     end
 }
 
-local targetVersion = table.getn(migrationFunctions)
-
 function Migration:Migrate()
+    
+    if not Questie.db.global.migrationVersion then
+        Questie.db.global.migrationVersion = {}
+    end
+
+    local player = UnitName("Player") .. GetRealmName()
     Questie:Debug(DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
-    local currentVersion = Questie.db.char.migrationVersion or 0
+
+    local currentVersion = Questie.db.global.migrationVersion[player] or 0
+    local targetVersion = table.getn(migrationFunctions)
+
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1
         migrationFunctions[currentVersion]()
     end
 
-    Questie.db.char.migrationVersion = targetVersion
+    Questie.db.global.migrationVersion[player] = currentVersion
+
 end
