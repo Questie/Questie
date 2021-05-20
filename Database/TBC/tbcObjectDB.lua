@@ -6165,7 +6165,7 @@ QuestieDB.objectData = [[return {
 [182063] = {"Basin of Holy Water",nil,nil,{[139]={{83.63,77.62},},},139,},
 [182064] = {"Karazhan Bell",nil,nil,nil,0,},
 [182065] = {"A Field Guide to Seeds",nil,nil,{[3521]={{80.24,64.18},},},3521,},
-[182066] = {"Lauranna's Guide to Zangarmarsh Plants",nil,nil,nil,0,},
+[182066] = {"Lauranna's Guide to Zangarmarsh Plants",nil,nil,{[3483]={{1.9,49.3},},[3521]={{80.23,64.19},},[3518]={{87.86,7.01},},},3483,},
 [182068] = {"Alonsus Chapel Eternal Flame",nil,nil,{[2017]={{-1,-1}},},2017,},
 [182069] = {"Mature Spore Sac",nil,nil,{[3521]={{12.4,58.07},{18.07,60.34},{16.25,60.18},{11.01,61.01},{10.21,62.02},{11.2,63.06},{11.07,62.42},{11.13,63.26},{12.19,63.88},{12.6,61.05},{14.84,63.5},},},3521,},
 [182070] = {"Red Crystal",nil,nil,{[3524]={{69.28,65.6},},},3524,},
