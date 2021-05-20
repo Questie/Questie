@@ -129,7 +129,7 @@ end
 QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
 QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
-QuestieCorrections:Initialize()
+QuestieCorrections:Initialize(true)
 
 QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 

@@ -689,7 +689,7 @@ local function equals(a, b)
             end
         end
         for k,v in pairs(b) do
-            if not equals(b[k], v) then
+            if not equals(a[k], v) then
                 return false
             end
         end
