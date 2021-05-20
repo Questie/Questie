@@ -157,7 +157,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                 QuestieDB.itemData[id] = {}
             end
             if doValidation then
-                if value and equals(QuestieDB.itemData[id][key], value) then
+                if value and equals(QuestieDB.itemData[id][key], value) and doValidation.itemData[id] and equals(doValidation.itemData[id][key], value) then
                     Questie:Warning("Correction of item " .. tostring(id) .. "." .. QuestieDB.itemKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end
@@ -174,7 +174,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                 QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
             else
                 if doValidation then
-                    if value and equals(QuestieDB.npcData[id][key], value) then
+                    if value and equals(QuestieDB.npcData[id][key], value) and doValidation.npcData[id] and equals(doValidation.npcData[id][key], value)  then
                         Questie:Warning("Correction of npc " .. tostring(id) .. "." .. QuestieDB.npcKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                     end
                 end
@@ -189,7 +189,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                 Questie:Debug(DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
             else
                 if doValidation then
-                    if value and equals(QuestieDB.objectData[id][key], value) then
+                    if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
                         Questie:Warning("Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                     end
                 end
@@ -205,7 +205,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                     QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
                 else
                     if doValidation then
-                        if value and equals(QuestieDB.questData[id][key], value) then
+                        if value and equals(QuestieDB.questData[id][key], value) and doValidation.questData[id] and equals(doValidation.questData[id][key], value) then
                             Questie:Warning("Correction of quest " .. tostring(id) .. "." .. QuestieDB.questKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                         end
                     end
@@ -223,7 +223,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                         QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
                     else
                         if doValidation then
-                            if value and equals(QuestieDB.questData[id][key], value) then
+                            if value and equals(QuestieDB.questData[id][key], value) and doValidation.questData[id] and equals(doValidation.questData[id][key], value) then
                                 Questie:Warning("TBC-only Correction of quest " .. tostring(id) .. "." .. QuestieDB.questKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                             end
                         end
@@ -242,7 +242,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                     QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
                 else
                     if doValidation then
-                        if value and equals(QuestieDB.npcData[id][key], value) then
+                        if value and equals(QuestieDB.npcData[id][key], value) and doValidation.npcData[id] and equals(doValidation.npcData[id][key], value) then
                             Questie:Warning("TBC-only Correction of npc " .. tostring(id) .. "." .. QuestieDB.npcKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                         end
                     end
@@ -257,7 +257,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                     Questie:Debug(DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
                 else
                     if doValidation then
-                        if value and equals(QuestieDB.objectData[id][key], value) then
+                        if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
                             Questie:Warning("TBC-only Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                         end
                     end
@@ -272,7 +272,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
                     QuestieDB.itemData[id] = {}
                 end
                 if doValidation then
-                    if value and equals(QuestieDB.itemData[id][key], value) then
+                    if value and equals(QuestieDB.itemData[id][key], value) and doValidation.itemData[id] and equals(doValidation.itemData[id][key], value) then
                         Questie:Warning("TBC-only Correction of item " .. tostring(id) .. "." .. QuestieDB.itemKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
                     end
                 end
