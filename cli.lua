@@ -7,9 +7,7 @@ mod = function(a, b)
     return a % b
 end
 bit = require("bit32")
-stderr = function(text)
-    io.stderr:write(tostring(text) .. "\n")
-end
+
 GetBuildInfo = function()
     return "2.5.1", "38644", "May 11 2021", "20501"
 end
@@ -77,10 +75,18 @@ local function loadTOC(file)
     end
 end
 
-loadTOC("Questie-BCC.toc")
+loadTOC("Questie.toc")
 
 function Questie:Debug(...)
     --print(...)
+end
+
+function Questie:Error(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
+end
+
+function Questie:Warning(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
 end
 
 Questie.db = {
@@ -129,14 +135,16 @@ end
 QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
 QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
-QuestieCorrections:Initialize()
+QuestieCorrections:Initialize(true)
 
 QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
 QuestieDBCompiler:Compile(function() end)
 print("Validating objects...")
-QuestieDBCompiler:Validate()
+QuestieDBCompiler:ValidateObjects()
 print("Validating items...")
 QuestieDBCompiler:ValidateItems()
+print("Validating NPCs...")
+QuestieDBCompiler:ValidateNPCs()
 print("Validating quests...")
 QuestieDBCompiler:ValidateQuests()

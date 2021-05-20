@@ -13,7 +13,7 @@ l10n.continentLookup['frFR']= {
 }
 
 l10n.zoneLookup['frFR']= {
-    [0] = {
+    [1] = {
         [1] = "Dun Morogh",
         [2] = "Longrivage",
         [3] = "Terres ingrates",
@@ -507,7 +507,7 @@ l10n.zoneLookup['frFR']= {
         [3486] = "Manoir de Ravenholdt",
         [4067] = "Tour de Pestebois",
     },
-    [1] = {
+    [2] = {
         [14] = "Durotar",
         [15] = "Marécage d'Âprefange",
         [16] = "Azshara",

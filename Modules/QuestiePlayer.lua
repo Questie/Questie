@@ -98,6 +98,7 @@ function QuestiePlayer:GetCurrentContinentId()
             end
         end
     end
+
     return currentContinentId
 end
 

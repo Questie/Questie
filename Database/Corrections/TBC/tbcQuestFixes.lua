@@ -8,11 +8,14 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
+    table.insert(QuestieDB.questData, 64319, {}) -- A Study in Power
+
     -- Alliance boosted quests
     table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
     table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
     table.insert(QuestieDB.questData, 64034, {}) -- Combat Training
     table.insert(QuestieDB.questData, 64035, {}) -- Talented
+    table.insert(QuestieDB.questData, 64037, {}) -- Eastern Plaguelands
     table.insert(QuestieDB.questData, 64038, {}) -- The Dark Portal
     -- Horde boosted quests
     table.insert(QuestieDB.questData, 64046, {}) -- A New Beginning
@@ -24,6 +27,7 @@ function QuestieTBCQuestFixes:Load()
     table.insert(QuestieDB.questData, 64052, {}) -- Talented
     table.insert(QuestieDB.questData, 64053, {}) -- Talented
     table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
+    table.insert(QuestieDB.questData, 64064, {}) -- Eastern Plaguelands
     table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
 
 
@@ -50,6 +54,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36},},}},
+        },
+        [460] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [503] = {
             [questKeys.triggerEnd] = {"Find where Gol'dir is being held", {[zoneIDs.ALTERAC_VALLEY]={{60.58,43.86},},}},
@@ -303,6 +310,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9428] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [9429] = {
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9433] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
@@ -1062,7 +1072,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle", 0, {{"object", 184826}, {"monster", 21469}}}},
         },
         [10557] = {
-            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.1,68.84},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber and use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10563] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
@@ -1092,6 +1104,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10606] = {
             [questKeys.requiredSourceItems] = {30712},
+        },
+        [10609] = {
+            -- TODO: Change the ICON_TYPE_OBJECT in the database references, once that is supported. {"monster", 20021} -> {"monster", 20021, ICON_TYPE_SLAY}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches", 0, {{"object", 184867}, {"monster", 20021}}}},
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
@@ -1150,13 +1166,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10552},
         },
         [10710] = {
-            [questKeys.triggerEnd] = {"Throw caution to the wind.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.33,68.89},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Throw caution to the wind.", {}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Sign Tally's Waiver, then speak with Rally Zapnabber to use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10711] = {
-            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.25,68.55},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {}},
+            [questKeys.preQuestGroup] = {10710, 10657},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10712] = {
-            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.18,68.62},},}},
+            -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
+            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {}},
+            [questKeys.preQuestGroup] = {10711, 10675},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying", 0, {{"monster", 21461}}}},
         },
         [10722] = {
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45},},}},
@@ -1617,8 +1641,36 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
         },
+        [64319] = {
+            [questKeys.name] = "A Study in Power",
+            [questKeys.startedBy] = {{17717},nil,nil},
+            [questKeys.finishedBy] = {{17718},nil,nil},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {9678},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 63866,
+            [questKeys.questFlags] = 136,
+        },
 
         ----- Boosted character quests -----
+        [64037] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"},},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64035},
+            [questKeys.exclusiveTo] = {64038},
+            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
+        },
         [64028] = {
             [questKeys.name] = "A New Beginning",
             [questKeys.startedBy] = {}, -- This quest is auto accept
@@ -1784,6 +1836,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64217},
+            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64064] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,3036},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"},},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64052,64053,},
+            [questKeys.exclusiveTo] = {64063,64217},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64217] = {

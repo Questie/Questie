@@ -36,6 +36,8 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type Migration
+local Migration = QuestieLoader:ImportModule("Migration")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
 ---@type Cleanup
@@ -144,6 +146,9 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
 end
 
 function _EventHandler:PlayerLogin()
+
+    Migration:Migrate()
+
     local function stage1()
         QuestieDB:Initialize()
         QuestieLib:CacheAllItemNames()

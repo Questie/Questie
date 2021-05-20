@@ -634,6 +634,7 @@ function QuestieQuestBlacklist:Load()
         [1281] = true, -- Jim's Song <CHANGE TO GOSSIP>
         [1289] = true, -- Vimes's Report
         [1500] = true, -- Waking Naralex
+        [7961] = true, -- Waskily Wabbits!
         [8478] = true, -- Choose Your Weapon
         [8489] = true, -- An Intact Converter
         [8896] = true, -- The Dwarven Spy

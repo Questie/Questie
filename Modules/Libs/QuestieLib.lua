@@ -313,11 +313,11 @@ function QuestieLib:GetRaceString(raceMask)
         return ""
     end
 
-    if (raceMask == 0) or (raceMask == 255) then
+    if (raceMask == 0) or (raceMask == QuestieDB.raceKeys.ALL) then
         return l10n("None")
-    elseif raceMask == 77 then
+    elseif raceMask == QuestieDB.raceKeys.ALL_ALLIANCE then
         return l10n("Alliance")
-    elseif raceMask == 178 then
+    elseif raceMask == QuestieDB.raceKeys.ALL_HORDE then
         return l10n("Horde")
     else
         local raceString = ""
@@ -332,8 +332,8 @@ function QuestieLib:GetRaceString(raceMask)
             l10n('Gnome'),
             l10n('Troll'),
             l10n('Goblin'),
-            l10n('Draenei'),
-            l10n('Blood Elf')
+            l10n('Blood Elf'),
+            l10n('Draenei')
         }
         local firstRun = true
         for k, v in pairs(raceTable) do

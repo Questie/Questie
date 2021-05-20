@@ -23,11 +23,23 @@ jobs:
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
 
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v8.0.0
+        with:
+          luaVersion: "5.3"
+
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1
         with:
           files: Database Localization
           args: "--no-color -q"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4.0.0
+
+      - name: Validate Questie database
+        run: |
+          lua cli.lua
 
       - name: Setup Python
         uses: actions/setup-python@v2

@@ -13,7 +13,7 @@ l10n.continentLookup['deDE']= {
 }
 
 l10n.zoneLookup['deDE']= {
-    [0] = {
+    [1] = {
         [1] = "Dun Morogh",
         [2] = "Die endlose Küste",
         [3] = "Ödland",
@@ -507,7 +507,7 @@ l10n.zoneLookup['deDE']= {
         [3486] = "Rabenholdtanwesen",
         [4067] = "Pestwaldturm",
     },
-    [1] = {
+    [2] = {
         [14] = "Durotar",
         [15] = "Düstermarschen",
         [16] = "Azshara",

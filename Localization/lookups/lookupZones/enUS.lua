@@ -13,7 +13,7 @@ l10n.continentLookup['enUS']= {
 }
 
 l10n.zoneLookup['enUS']= {
-    [0]={
+    [1]={
         [1]="Dun Morogh",
         [2]="Longshore",
         [3]="Badlands",
@@ -507,7 +507,7 @@ l10n.zoneLookup['enUS']= {
         [3486]="Ravenholdt Manor",
         [4067]="Plaguewood Tower",
     },
-    [1]={
+    [2]={
         [14]="Durotar",
         [15]="Dustwallow Marsh",
         [16]="Azshara",
