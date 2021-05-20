@@ -11,6 +11,13 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 
 _QuestieQuest.objectiveSpawnListCallTable = {
+    ["killcredit"] = function(npcId, objective, objectiveData)
+        local ret = {}
+        for _, npc in pairs(objectiveData.IdList) do
+            ret[npc] = _QuestieQuest.objectiveSpawnListCallTable["monster"](npc, objective)[npc]
+        end
+        return ret
+    end,
     ["monster"] = function(npcId, objective)
         if (not npcId) then
             Questie:Error(
@@ -21,27 +28,24 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             return nil
         end
 
-        local queryResult = QuestieDB.QueryNPC(npcId, "rank", "name", "spawns", "waypoints")
-        local rank = queryResult[1]
-        local name = queryResult[2]
-        local spawns = queryResult[3]
-        local waypoints = queryResult[4]
+        local name = QuestieDB.QueryNPCSingle(npcId, "name")
+
         if (not name) then
             Questie:Debug(DEBUG_CRITICAL, "Name missing for NPC:", npcId)
             return nil
         end
 
+        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
+
         if (not spawns) then
             Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
             spawns = {}
         end
-        if QuestieCorrections.questNPCBlacklist[npcId] then -- remove spawns
-            spawns = {}
-            waypoints = {}
-        end
-        if 2 == rank then -- a rare mob spawn
-            waypoints = {}
-        end
+
+        local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
+
+        local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
+        local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
 
         local _GetIconScale = function() return Questie.db.global.monsterScale or 1 end
 
@@ -49,8 +53,8 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             [npcId] = {
                 Id = npcId,
                 Name = name,
-                Spawns = spawns,
-                Waypoints = waypoints,
+                Spawns = enableSpawns and QuestieDB.QueryNPCSingle(npcId, "spawns") or {},
+                Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
                 Hostile = true,
                 Icon = ICON_TYPE_SLAY,
                 GetIconScale = _GetIconScale,
@@ -69,28 +73,30 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             return nil
         end
 
-        local queryResult = QuestieDB.QueryObject(objectId, "name", "spawns")
-        local name = queryResult[1]
-        local spawns = queryResult[2]
+        local name = QuestieDB.QueryObjectSingle(objectId, "name")
 
         if (not name) then
             Questie:Debug(DEBUG_CRITICAL, "Name missing for object:", objectId)
             return nil
         end
 
-        if not spawns then
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+
+        if (not spawns) then
             Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
             spawns = {}
         end
 
-        local _GetIconScale = function() return Questie.db.global.objectScale or 1 end
+        local _GetIconScale = function()
+            return Questie.db.global.objectScale or 1
+        end
 
         return {
             [objectId] = {
                 Id = objectId,
                 Name = name,
                 Spawns = spawns,
-                Icon = ICON_TYPE_LOOT,
+                Icon = ICON_TYPE_OBJECT,
                 GetIconScale = _GetIconScale,
                 IconScale = _GetIconScale(),
                 TooltipKey = "o_" .. objectId,
@@ -150,7 +156,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                     ret[id].GetIconScale = function() return Questie.db.global.objectScale or 1 end
                                     ret[id].IconScale = ret[id]:GetIconScale()
                                 else
-                                    ret[id].Icon = ICON_TYPE_LOOT
+                                    ret[id].Icon = itemId < QuestieDB.fakeTbcItemStartId and ICON_TYPE_LOOT or ICON_TYPE_EVENT
                                     ret[id].GetIconScale = function() return Questie.db.global.lootScale or 1 end
                                     ret[id].IconScale = ret[id]:GetIconScale()
                                 end

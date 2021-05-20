@@ -9,13 +9,14 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieOptionsMinimapIcon
 local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
-
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs = {...}
 QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
-local AceConfigDialog = LibStub("AceConfigDialogQuestie-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 -- Forward declaration
 local _CreateOptionsTable
@@ -24,7 +25,7 @@ function QuestieOptions:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
     local optionsTable = _CreateOptionsTable()
-    LibStub("AceConfigQuestie-3.0"):RegisterOptionsTable("Questie", optionsTable)
+    LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", optionsTable)
     AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame")
@@ -36,7 +37,7 @@ function QuestieOptions:Initialize()
     local journeyButton = AceGUI:Create("Button")
     journeyButton:SetWidth(140)
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
-    journeyButton:SetText(QuestieLocale:GetUIString('JOUNREY_TAB'))
+    journeyButton:SetText(l10n('My Journey'))
     journeyButton:SetCallback("OnClick", function()
         QuestieOptions:OpenConfigWindow()
         QuestieJourney:ToggleJourneyWindow()

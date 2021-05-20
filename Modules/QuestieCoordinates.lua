@@ -43,20 +43,21 @@ function QuestieCoords:WriteCoords()
 
     if mapID then
         position = GetPlayerMapPosition(mapID, "player");
-        if position and position.x ~= 0 and position.y ~= 0 and (position.x ~= QuestieCoords._lastX or position.y ~= QuestieCoords._lastY) then
-            QuestieCoords._lastX = position.x
-            QuestieCoords._lastY = position.y
-            
-            posX = position.x * 100;
-            posY = position.y * 100;
+        if position then
+            if position.x ~= 0 and position.y ~= 0 and (position.x ~= QuestieCoords._lastX or position.y ~= QuestieCoords._lastY) then
+                QuestieCoords._lastX = position.x
+                QuestieCoords._lastY = position.y
+                
+                posX = position.x * 100;
+                posY = position.y * 100;
 
-            -- if minimap
-            if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
-                MinimapZoneText:SetText(
-                            format("(%d, %d) ", posX, posY) .. GetMinimapZoneText()
-                        );
+                -- if minimap
+                if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
+                    MinimapZoneText:SetText(
+                                format("(%d, %d) ", posX, posY) .. GetMinimapZoneText()
+                            );
+                end
             end
-
             -- if main map
             if Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
                 -- get cursor position

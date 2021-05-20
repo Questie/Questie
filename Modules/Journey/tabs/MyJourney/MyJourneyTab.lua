@@ -8,6 +8,8 @@ local _QuestieJourney = QuestieJourney.private
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -16,7 +18,7 @@ local AceGUI = LibStub("AceGUI-3.0");
 ---@return SimpleGroup
 function _QuestieJourney.myJourney:DrawTab(container)
     local header = AceGUI:Create("Heading");
-    header:SetText(QuestieLocale:GetUIString('JOURNEY_RECENT_EVENTS'));
+    header:SetText(l10n('Your Recent History'));
     header:SetFullWidth(true);
     container:AddChild(header);
     QuestieJourneyUtils:Spacer(container);
@@ -45,19 +47,19 @@ function _QuestieJourney.myJourney:DrawTab(container)
                 qName = Questie:Colorize(qName, 'gray');
 
                 if Questie.db.char.journey[i].SubType == "Accept" then
-                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ACCEPT', qName), 'yellow'));
+                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('You Accepted the quest %s', qName), 'yellow'));
                 elseif Questie.db.char.journey[i].SubType == "Abandon" then
-                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_ABANDON', qName), 'yellow'));
+                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('You Abandoned the quest %s', qName), 'yellow'));
                 elseif Questie.db.char.journey[i].SubType == "Complete" then
-                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_QUEST_COMPLETE', qName), 'yellow'));
+                    recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('You Completed the quest %s', qName), 'yellow'));
                 end
             end
         elseif Questie.db.char.journey[i].Event == "Level" then
-            local level = Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_LEVELNUM', Questie.db.char.journey[i].NewLevel), 'gray');
-            recentEvents[i]:SetText(timestamp .. Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_LEVELUP', level), 'yellow'));
+            local level = Questie:Colorize(l10n('Level %s', Questie.db.char.journey[i].NewLevel), 'gray');
+            recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('Congratulations! You reached %s !', level), 'yellow'));
         elseif Questie.db.char.journey[i].Event == "Note" then
             local title = Questie:Colorize(Questie.db.char.journey[i].Title, 'gray');
-            recentEvents[i]:SetText(timestamp .. Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_NOTE_CREATED', title), 'yellow'));
+            recentEvents[i]:SetText(timestamp .. Questie:Colorize(l10n('Note Created: %s', title), 'yellow'));
         end
 
         container:AddChild(recentEvents[i]);
@@ -66,19 +68,19 @@ function _QuestieJourney.myJourney:DrawTab(container)
     if counter == 0 then
         local justdoit = AceGUI:Create("Label");
         justdoit:SetFullWidth(true);
-        justdoit:SetText(Questie:Colorize(QuestieLocale:GetUIString('JOURNEY_BEGIN'), 'yellow'));
+        justdoit:SetText(Questie:Colorize(l10n("It's about time you embark on your first Journey!"), 'yellow'));
         container:AddChild(justdoit);
     end
 
     QuestieJourneyUtils:Spacer(container);
 
     local treeHeader = AceGUI:Create("Heading");
-    treeHeader:SetText(QuestieLocale:GetUIString('JOURNEY_TITLE', UnitName("player")));
+    treeHeader:SetText(l10n("%s's Journey", UnitName("player")));
     treeHeader:SetFullWidth(true);
     container:AddChild(treeHeader);
 
     local noteButton = AceGUI:Create("Button");
-    noteButton:SetText(QuestieLocale:GetUIString('JOURNEY_NOTE_BTN'));
+    noteButton:SetText(l10n('Add New Adventure Note'));
     noteButton:SetPoint("RIGHT");
     noteButton:SetCallback("OnClick", _QuestieJourney.ShowNotePopup);
     container:AddChild(noteButton);

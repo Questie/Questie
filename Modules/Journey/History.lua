@@ -1,11 +1,11 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
--------------------------
---Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 
 function _QuestieJourney:GetHistory()
@@ -20,7 +20,7 @@ function _QuestieJourney:GetHistory()
     for _, year in pairs(years) do
         local yearTable = {
             value = year,
-            text = QuestieLocale:GetUIString('JOURNEY_TABLE_YEAR', year),
+            text = l10n('Year %s', year),
             children = {},
         }
 
@@ -92,26 +92,22 @@ function _QuestieJourney:GetEntryText(entry)
     local entryText = ""
 
     if entry.Event == "Level" then
-        entryText = QuestieLocale:GetUIString('JOURNEY_LEVELREACH', entry.NewLevel)
+        entryText = l10n('You Reached Level %s', entry.NewLevel)
     elseif entry.Event == "Note" then
-        entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_NOTE', entry.Title)
+        entryText = l10n('Note: %s', entry.Title)
     elseif entry.Event == "Quest" then
         local state = ""
         if entry.SubType == "Accept" then
-            state = QuestieLocale:GetUIString('JOURNEY_ACCEPT')
+            state = l10n('Accepted')
         elseif entry.SubType == "Complete" then
-            state = QuestieLocale:GetUIString('JOUNREY_COMPLETE')
+            state = l10n('Completed')
         elseif entry.SubType == "Abandon" then
-            state = QuestieLocale:GetUIString('JOURNEY_ABADON')
+            state = l10n('Abandoned')
         else
             state = "ERROR!!"
         end
         local qName = QuestieDB.QueryQuestSingle(entry.Quest, "name")
-        if qName then
-            entryText = QuestieLocale:GetUIString('JOURNEY_TABLE_QUEST', state, qName)
-        else
-            entryText = QuestieLocale:GetUIString('JOURNEY_MISSING_QUEST')
-        end
+        entryText = l10n('Quest %s: %s', state or "no state", qName or "no quest name")
     end
     return entryText
 end

@@ -14,17 +14,27 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
-                _, _, questName, sqid = string.find(k, "%[(..-) %((%d+)%)%]")
+                
+                if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+                    questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
+                else
+                    _, _, questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
+                end
 
                 if questName and sqid then
                     questId = tonumber(sqid)
 
                     if string.find(questName, "(%[%d+.-%]) ") ~= nil then
-                        _, _, questLevel, questName = string.find(questName, "%[(..-)%] (.+)")
+                        if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+                            questLevel, questName = string.match(questName, "%[(..-)%] (.+)")
+                        else
+                            _, _, questLevel, questName = string.match(questName, "%[(..-)%] (.+)")
+                        end
                     end
 
                     if QuestieDB.QueryQuest then
-                        realQuestName, realQuestLevel = unpack(QuestieDB.QueryQuest(questId, "name", "questLevel"))
+                        realQuestName = QuestieDB.QueryQuestSingle(questId, "name");
+                        realQuestLevel, _ = QuestieLib:GetTbcLevel(questId);
 
                         if questName and questId then
                             complete = QuestieDB:IsComplete(questId)
@@ -33,7 +43,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                 end
 
                 if realQuestName and questId then
-                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, questName, realQuestLevel, Questie.db.global.trackerShowQuestLevel, true, false)
+                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
 
                     if senderGUID == nil then
                         playerName = BNGetFriendInfoByID(bnSenderID)

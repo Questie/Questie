@@ -2,9 +2,7 @@
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
 _QuestieJourney.questsByZone = {}
--------------------------
---Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -15,6 +13,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
 local zoneTreeFrame
@@ -82,7 +82,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
 end
 
 ---Get all the available/completed/repeatable/unavailable quests
----@param zoneId number @The zone ID (Check `LangZoneLookup`)
+---@param zoneId number @The zone ID (Check `l10n.zoneLookup`)
 ---@return table<number,any> @The zoneTree table which represents the list of all the different quests
 function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local quests = QuestieJourney.zoneMap[zoneId]--QuestieDB:GetQuestsByZoneId(zoneId)
@@ -95,27 +95,27 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local zoneTree = {
         [1] = {
             value = "a",
-            text = QuestieLocale:GetUIString('JOURNEY_AVAILABLE_TITLE'),
+            text = l10n('Available Quests'),
             children = {}
         },
         [2] = {
             value = "p",
-            text = QuestieLocale:GetUIString('JOURNEY_PREQUEST_TITLE'),
+            text = l10n('Missing Pre Quest'),
             children = {}
         },
         [3] = {
             value = "c",
-            text = QuestieLocale:GetUIString('JOURNEY_COMPLETE_TITLE'),
+            text = l10n('Completed Quests'),
             children = {}
         },
         [4] = {
             value = "r",
-            text = QuestieLocale:GetUIString('JOURNEY_REPEATABLE_TITLE'),
+            text = l10n('Repeatable Quests'),
             children = {},
         },
         [5] = {
             value = "u",
-            text = QuestieLocale:GetUIString('JOURNEY_UNOBTAINABLE_TITLE'),
+            text = l10n('Unobtainable Quests'),
             children = {},
         }
     }
@@ -138,7 +138,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
         -- Only show quests which are not hidden
         if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[questId]) or QuestieEvent:IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then
             temp.value = questId
-            temp.text = QuestieDB:GetColoredQuestName(questId, false, true)
+            temp.text = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, false, true)
 
             -- Completed quests
             if Questie.db.char.complete[questId] then
@@ -148,6 +148,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local queryResult = QuestieDB.QueryQuest(
                         questId,
                         "exclusiveTo",
+                        "nextQuestInChain",
                         "parentQuest",
                         "preQuestSingle",
                         "preQuestGroup",
@@ -155,15 +156,16 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "requiredMaxRep"
                 ) or {}
                 local exclusiveTo = queryResult[1]
-                local parentQuest = queryResult[2]
-                local preQuestSingle = queryResult[3]
-                local preQuestGroup = queryResult[4]
-                local requiredMinRep = queryResult[5]
-                local requiredMaxRep = queryResult[6]
+                local nextQuestInChain = queryResult[2]
+                local parentQuest = queryResult[3]
+                local preQuestSingle = queryResult[4]
+                local preQuestGroup = queryResult[5]
+                local requiredMinRep = queryResult[6]
+                local requiredMaxRep = queryResult[7]
 
-                -- Exclusive quests will never be available since another quests permantly blocks them.
+                -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                if exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo) then
+                if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- The parent quest has been completed

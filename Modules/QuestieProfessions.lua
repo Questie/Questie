@@ -66,10 +66,30 @@ QuestieProfessions.professionKeys = {
     ENGINEERING = 202,
     ENCHANTING = 333,
     FISHING = 356,
-    SKINNING = 393
+    SKINNING = 393,
+    JEWELCRAFTING = 755
 }
 
--- There are no quests for Skinning and Mining so we don't need them
+local professionNames = {
+    [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid",
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing",
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = "Leatherworking",
+    [QuestieProfessions.professionKeys.ALCHEMY] = "Alchemy",
+    [QuestieProfessions.professionKeys.HERBALISM] = "Herbalism",
+    [QuestieProfessions.professionKeys.COOKING] = "Cooking",
+    [QuestieProfessions.professionKeys.MINING] = "Mining",
+    [QuestieProfessions.professionKeys.TAILORING] = "Tailoring",
+    [QuestieProfessions.professionKeys.ENGINEERING] = "Engineering",
+    [QuestieProfessions.professionKeys.ENCHANTING] = "Enchanting",
+    [QuestieProfessions.professionKeys.FISHING] = "Fishing",
+    [QuestieProfessions.professionKeys.SKINNING] = "Skinning",
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting",
+}
+
+function QuestieProfessions:GetProfessionName(professionKey)
+    return professionNames[professionKey]
+end
+
 professionTable = {
     ["First Aid"] = 129,
     ["Erste Hilfe"] = 129,
@@ -185,6 +205,8 @@ professionTable = {
     ["剥皮"] = 393,
     ["剝皮"] = 393,
     ["무두질"] = 393,
+
+    ["Jewelcrafting"] = 755,
 
     -- alternate naming scheme (used by DB)
     ["Enchanter"] = 333,

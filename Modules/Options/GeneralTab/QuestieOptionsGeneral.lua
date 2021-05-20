@@ -11,6 +11,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -19,20 +21,20 @@ local _GetShortcuts
 
 function QuestieOptions.tabs.general:Initialize()
     return {
-        name = function() return QuestieLocale:GetUIString('GENERAL_TAB'); end,
+        name = function() return l10n('General'); end,
         type = "group",
         order = 10,
         args = {
             questie_header = {
                 type = "header",
                 order = 1,
-                name = function() return QuestieLocale:GetUIString('GENERAL_OPTIONS_HEADER'); end,
+                name = function() return l10n('General Options'); end,
             },
             enabled = {
                 type = "toggle",
                 order = 1.1,
-                name = function() return QuestieLocale:GetUIString('ENABLE_ICONS'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_ICONS_DESC'); end,
+                name = function() return l10n('Enable Icons'); end,
+                desc = function() return l10n('Enable or disable Questie icons.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.enabled; end,
                 set = function (info, value)
@@ -43,8 +45,8 @@ function QuestieOptions.tabs.general:Initialize()
             townfolkOptions = {
                 type = "execute",
                 order = 1.2,
-                name = function() return QuestieLocale:GetUIString('TRACKING_ICONS_BUTTON'); end,
-                desc = function() return QuestieLocale:GetUIString('TRACKING_ICONS_BUTTON_DESC'); end,
+                name = function() return l10n('Config Tracking Icons'); end,
+                desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
                 width = 1.5,
                 func = function (info, value)
                     QuestieMenu:Show()
@@ -54,13 +56,13 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "group",
                 order = 2,
                 inline = true,
-                name = function() return QuestieLocale:GetUIString('ICON_TYPE_HEADER'); end,
+                name = function() return l10n('Icon Types'); end,
                 args = {
                     enableMapToggle = {
                         type = "toggle",
                         order = 1,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_MAP_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_MAP_ICONS_DESC'); end,
+                        name = function() return l10n('Enable Map Icons'); end,
+                        desc = function() return l10n('Show/hide all icons from the main map.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableMapIcons; end,
@@ -72,8 +74,8 @@ function QuestieOptions.tabs.general:Initialize()
                     enableMiniMapToggle = {
                         type = "toggle",
                         order = 2,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_ICONS_DESC'); end,
+                        name = function() return l10n('Enable Minimap Icons'); end,
+                        desc = function() return l10n('Show/hide all icons from the minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableMiniMapIcons; end,
@@ -85,8 +87,8 @@ function QuestieOptions.tabs.general:Initialize()
                     hideUnexploredMapIconsToggle = {
                         type = "toggle",
                         order = 3,
-                        name = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('HIDE_UNEXPLORED_ICONS_DESC'); end,
+                        name = function() return l10n('Hide unexplored area Icons'); end,
+                        desc = function() return l10n('Hide icons in unexplored areas.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function() return Questie.db.char.hideUnexploredMapIcons; end,
@@ -103,8 +105,8 @@ function QuestieOptions.tabs.general:Initialize()
                     enableObjectivesToggle = {
                         type = "toggle",
                         order = 5,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_OBJECTIVES_DESC'); end,
+                        name = function() return l10n('Enable Objective Icons'); end,
+                        desc = function() return l10n('When this is enabled, quest objective icons will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableObjectives; end,
@@ -117,8 +119,8 @@ function QuestieOptions.tabs.general:Initialize()
                     enableTurninsToggle = {
                         type = "toggle",
                         order = 6,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_TURNINS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_TURNINS_DESC'); end,
+                        name = function() return l10n('Enable Completed Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the quest turn-in locations will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableTurnins; end,
@@ -131,8 +133,8 @@ function QuestieOptions.tabs.general:Initialize()
                     enableAvailableToggle = {
                         type = "toggle",
                         order = 7,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_AVAILABLE_DESC'); end,
+                        name = function() return l10n('Enable Available Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of available quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableAvailable; end,
@@ -145,8 +147,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showRepeatableQuests = {
                         type = "toggle",
                         order = 8,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_REPEATABLE_QUEST_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_REPEATABLE_QUEST_ICONS_DESC'); end,
+                        name = function() return l10n('Enable Repeatable Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of repeatable quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function(info) return Questie.db.char.showRepeatableQuests end,
@@ -159,8 +161,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showEventQuests = {
                         type = "toggle",
                         order = 9,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_EVENT_QUEST_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_EVENT_QUEST_ICONS_DESC'); end,
+                        name = function() return l10n('Enable Event Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of events quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function(info) return Questie.db.char.showEventQuests end,
@@ -173,8 +175,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showDungeonQuests = {
                         type = "toggle",
                         order = 10,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_QUEST_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_QUEST_ICONS_DESC'); end,
+                        name = function() return l10n('Enable Dungeon Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of dungeon quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function(info) return Questie.db.char.showDungeonQuests end,
@@ -187,8 +189,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showRaidQuests = {
                         type = "toggle",
                         order = 10,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_RAID_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_DUNGEON_RAID_ICONS_DESC'); end,
+                        name = function() return l10n('Enable Raid Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of raid quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function(info) return Questie.db.char.showRaidQuests end,
@@ -201,8 +203,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showPvPQuests = {
                         type = "toggle",
                         order = 11,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_PVP_QUEST_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_PVP_QUEST_ICONS_DESC'); end,
+                        name = function() return l10n('Enable PvP Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of PvP quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function(info) return Questie.db.char.showPvPQuests end,
@@ -215,8 +217,8 @@ function QuestieOptions.tabs.general:Initialize()
                     showAQWarEffortQuests = {
                         type = "toggle",
                         order = 12,
-                        name = function() return QuestieLocale:GetUIString('ENABLE_AQ_QUEST_ICONS'); end,
-                        desc = function() return QuestieLocale:GetUIString('ENABLE_AQ_QUEST_ICONS_DESC'); end,
+                        name = function() return l10n('Enable AQ War Effort Quest Icons'); end,
+                        desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quest will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function(info) return Questie.db.char.showAQWarEffortQuests end,
@@ -232,8 +234,8 @@ function QuestieOptions.tabs.general:Initialize()
             minimapButtonEnabled = {
                 type = "toggle",
                 order = 3,
-                name = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_BUTTON'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_MINIMAP_BUTTON_DESC'); end,
+                name = function() return l10n('Enable Minimap Button'); end,
+                desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
                 width = 1.5,
                 get = function () return not Questie.db.profile.minimap.hide; end,
                 set = function (info, value)
@@ -249,8 +251,8 @@ function QuestieOptions.tabs.general:Initialize()
             instantQuest = {
                 type = "toggle",
                 order = 4,
-                name = function() return QuestieLocale:GetUIString('ENABLE_INSTANT'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_INSTANT_DESC'); end,
+                name = function() return l10n('Enable Instant Quest Text'); end,
+                desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
                 width = 1.5,
                 get = function () if GetCVar("instantQuestText") == '1' then return true; else return false; end; end,
                 set = function (info, value)
@@ -264,8 +266,8 @@ function QuestieOptions.tabs.general:Initialize()
             autoaccept = {
                 type = "toggle",
                 order = 5,
-                name = function() return QuestieLocale:GetUIString('ENABLE_AUTO_ACCEPT_QUESTS'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_AUTO_ACCEPT_QUESTS_DESC'); end,
+                name = function() return l10n('Auto Accept Quests'); end,
+                desc = function() return l10n('Enable or disable Questie auto-accepting quests.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
@@ -276,8 +278,8 @@ function QuestieOptions.tabs.general:Initialize()
             autocomplete = {
                 type = "toggle",
                 order = 6,
-                name = function() return QuestieLocale:GetUIString('ENABLE_AUTO_COMPLETE'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_AUTO_COMPLETE_DESC'); end,
+                name = function() return l10n('Auto Complete'); end,
+                desc = function() return l10n('Enable or disable Questie auto-complete quests.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
@@ -290,8 +292,8 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 7,
                 values = _GetShortcuts(),
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('AUTO_MODIFIER') end,
-                desc = function() return QuestieLocale:GetUIString('AUTO_MODIFIER_DESC'); end,
+                name = function() return l10n('Auto Modifier') end,
+                desc = function() return l10n('The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.'); end,
                 disabled = function() return (not Questie.db.char.autocomplete) and (not Questie.db.char.autoaccept) end,
                 get = function() return Questie.db.char.autoModifier; end,
                 set = function(input, key)
@@ -302,8 +304,8 @@ function QuestieOptions.tabs.general:Initialize()
             acceptTrivial = {
                 type = "toggle",
                 order = 8,
-                name = function() return QuestieLocale:GetUIString('ENABLE_ACCEPT_TRIVIAL'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_ACCEPT_TRIVIAL_DESC'); end,
+                name = function() return l10n('Accept trivial (low level) quests'); end,
+                desc = function() return l10n('When this is enabled trivial (gray) quests will be auto accepted as well.'); end,
                 disabled = function() return (not Questie.db.char.autoaccept) end,
                 width = 1.5,
                 get = function () return Questie.db.char.acceptTrivial; end,
@@ -316,12 +318,12 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "select",
                 order = 9,
                 values = {
-                    ['disabled'] = QuestieLocale:GetUIString('DISABLED'),
-                    ['party'] = QuestieLocale:GetUIString('QUEST_ANNOUNCE_ENABLED'),
+                    ['disabled'] = l10n('Disabled'),
+                    ['party'] = l10n('Enabled'),
                 },
                 style = 'dropdown',
-                name = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE') end,
-                desc = function() return QuestieLocale:GetUIString('QUEST_ANNOUNCE_DESC'); end,
+                name = function() return l10n('Quest Announce') end,
+                desc = function() return l10n('Announce objective completion to party members'); end,
                 disabled = false,
                 get = function() return Questie.db.char.questAnnounce or 'party' end,
                 set = function(input, key)
@@ -332,8 +334,8 @@ function QuestieOptions.tabs.general:Initialize()
             shareQuestsNearby = {
                 type = "toggle",
                 order = 10,
-                name = function() return QuestieLocale:GetUIString('ENABLE_YELL'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_YELL_DESC'); end,
+                name = function() return l10n('Share quest progress with nearby players'); end,
+                desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
                 disabled = function() return false end,
                 width = 1.7,
                 get = function () return not Questie.db.global.disableYellComms end,
@@ -347,47 +349,47 @@ function QuestieOptions.tabs.general:Initialize()
             quest_options = {
                 type = "header",
                 order = 11,
-                name = function() return QuestieLocale:GetUIString('LEVEL_HEADER'); end,
+                name = function() return l10n('Quest Level Options'); end,
             },
             gray = {
                 type = "toggle",
                 order = 12,
-                name = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_LOWLEVEL_DESC'); end,
+                name = function() return l10n('Show All Quests below range (Low level quests)'); end,
+                desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
                 width = "full",
                 get = function () return Questie.db.char.lowlevel; end,
                 set = function (info, value)
                     Questie.db.char.lowlevel = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_LOWLEVEL'), value)
+                    Questie:Debug(DEBUG_DEVELOP, "Gray Quests toggled to:", value)
                 end,
             },
             manualMinLevelOffset = {
                 type = "toggle",
                 order = 13,
-                name = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_DESC'); end,
+                name = function() return l10n('Enable manual minimum level offset'); end,
+                desc = function() return l10n('Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.'); end,
                 width = 1.5,
                 disabled = function() return Questie.db.char.lowlevel or Questie.db.char.absoluteLevelOffset; end,
                 get = function () return Questie.db.char.manualMinLevelOffset; end,
                 set = function (info, value)
                     Questie.db.char.manualMinLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET'), value)
+                    Questie:Debug(DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
                 end,
             },
             absoluteLevelOffset = {
                 type = "toggle",
                 order = 14,
-                name = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE'); end,
-                desc = function() return QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE_DESC'); end,
+                name = function() return l10n('Enable absolute level range'); end,
+                desc = function() return l10n('Change the level offset to absolute level values.'); end,
                 width = 1.5,
                 disabled = function() return Questie.db.char.lowlevel or Questie.db.char.manualMinLevelOffset; end,
                 get = function () return Questie.db.char.absoluteLevelOffset; end,
                 set = function (info, value)
                     Questie.db.char.absoluteLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('ENABLE_MANUAL_OFFSET_ABSOLUTE'), value)
+                    Questie:Debug(DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
                 end,
             },
             minLevelFilter = {
@@ -395,61 +397,61 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 15,
                 name = function()
                     if Questie.db.char.absoluteLevelOffset then 
-                        return QuestieLocale:GetUIString('LEVEL_FROM');
+                        return l10n('Level from');
                     else
-                        return QuestieLocale:GetUIString('LOWLEVEL_BELOW'); 
+                        return l10n('< Show below level');
                     end
                 end,
                 desc = function()
                     if Questie.db.char.absoluteLevelOffset then
-                        return QuestieLocale:GetUIString('LEVEL_FROM_DESC');
+                        return l10n('Minimum quest level to show.');
                     else
-                        return QuestieLocale:GetUIString('LOWLEVEL_BELOW_DESC', optionsDefaults.char.minLevelFilter);
+                        return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.char.minLevelFilter);
                     end
                 end,
                 width = "normal",
                 min = 0,
-                max = 60,
+                max = 70,
                 step = 1,
                 disabled = function() return (not Questie.db.char.manualMinLevelOffset) and (not Questie.db.char.absoluteLevelOffset); end,
                 get = function() return Questie.db.char.minLevelFilter; end,
                 set = function (info, value)
                     Questie.db.char.minLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, QuestieLocale:GetUIString('DEBUG_MINLEVEL', value))
+                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw,"minLevelFilter set to " .. value)
                 end,
             },
             maxLevelFilter = {
                 type = "range",
                 order = 16,
                 name = function()
-                    return QuestieLocale:GetUIString('LEVEL_TO');
+                    return l10n('Level to');
                 end,
                 desc = function()
-                    return QuestieLocale:GetUIString('LEVEL_TO_DESC');
+                    return l10n('Maximum quest level to show.');
                 end,
                 width = "normal",
                 min = 0,
-                max = 60,
+                max = 70,
                 step = 1,
                 disabled = function() return (not Questie.db.char.absoluteLevelOffset); end,
                 get = function(info) return Questie.db.char.maxLevelFilter; end,
                 set = function (info, value)
                     Questie.db.char.maxLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, QuestieLocale:GetUIString('DEBUG_MAXLEVEL', value))
+                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
                 end,
             },
             clusterLevelHotzone = {
                 type = "range",
                 order = 17,
-                name = function() return QuestieLocale:GetUIString('CLUSTER'); end,
-                desc = function() return QuestieLocale:GetUIString('CLUSTER_DESC'); end,
+                name = function() return l10n('Objective icon cluster amount'); end,
+                desc = function() return l10n('How much objective icons should cluster.'); end,
                 width = "double",
                 min = 1,
                 max = 300,
                 step = 1,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
-                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, QuestieLocale:GetUIString('DEBUG_CLUSTER', value))
+                    QuestieOptionsUtils:Delay(0.5, QuestieOptions.ClusterRedraw, l10n('Setting clustering value, clusterLevelHotzone set to %s : Redrawing!', value))
                     QuestieOptions:SetGlobalOptionValue(info, value)
                 end,
             },
@@ -459,9 +461,9 @@ end
 
 _GetShortcuts = function()
     return {
-        ['shift'] = QuestieLocale:GetUIString('SHIFT_MODIFIER'),
-        ['ctrl'] = QuestieLocale:GetUIString('CTRL_MODIFIER'),
-        ['alt'] = QuestieLocale:GetUIString('ALT_MODIFIER'),
-        ['disabled'] = QuestieLocale:GetUIString('DISABLED'),
+        ['shift'] = l10n('Shift'),
+        ['ctrl'] = l10n('Control'),
+        ['alt'] = l10n('Alt'),
+        ['disabled'] = l10n('Disabled'),
     }
 end

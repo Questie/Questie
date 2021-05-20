@@ -69,18 +69,15 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type Migration
-local Migration = QuestieLoader:ImportModule("Migration")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- check if user has updated but not restarted the game (todo: add future new source files to this)
-if  (not LQuestie_EasyMenu) or
-    --Libs
+if  --Libs
     (not QuestieLib) or
     (not QuestiePlayer) or
     (not QuestieSerializer) or
@@ -125,30 +122,26 @@ if  (not LQuestie_EasyMenu) or
     (not QuestieTracker) then
     --Delay the warning.
     C_Timer.After(8, function()
-        if QuestieLocale.locale['enUS'] and QuestieLocale.locale['enUS']['QUESTIE_UPDATED_RESTART'] then -- sometimes locale doesnt update without restarting also
-            print(QuestieLocale:GetUIString('QUESTIE_UPDATED_RESTART'))
-        else
-            print("|cFFFF0000WARNING!|r You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing")
-        end
+        print(Questie:Colorize(l10n("WARNING!"), "red") .. " " .. l10n("You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"))
     end)
   else
     -- Initialize Questie
     Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-    _Questie = {...}
+    local _Questie = {...}
 end
 
 
 function Questie:OnInitialize()
+    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
+
     self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
     QuestieFramePool:SetIcons()
 
-    Migration:Migrate()
-
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
-        QuestieLocale:SetUILocale(Questie.db.global.questieLocale);
+        l10n:SetUILocale(Questie.db.global.questieLocale);
     else
-        QuestieLocale:SetUILocale(GetLocale());
+        l10n:SetUILocale(GetLocale());
     end
 
     Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
@@ -169,7 +162,7 @@ function Questie:OnInitialize()
         QuestieOptions:Initialize()
 
         --Initialize the DB settings.
-        Questie:Debug(DEBUG_DEVELOP, QuestieLocale:GetUIString('DEBUG_CLUSTER', Questie.db.global.clusterLevelHotzone))
+        Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
 
         -- Creating the minimap config icon
         Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
@@ -177,9 +170,9 @@ function Questie:OnInitialize()
 
         -- Update the default text on the map show/hide button for localization
         if Questie.db.char.enabled then
-            Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_HIDE'));
+            Questie_Toggle:SetText(l10n("Show Questie"));
         else
-            Questie_Toggle:SetText(QuestieLocale:GetUIString('QUESTIE_MAP_BUTTON_SHOW'));
+            Questie_Toggle:SetText(l10n("Hide Questie"));
         end
 
         -- Update status of Map button on hide between play sessions
@@ -202,7 +195,7 @@ function Questie:OnInitialize()
                 end
             end
         end)
-        
+
         if Questie.db.global.dbmHUDEnable then
             QuestieDBMIntegration:EnableHUD()
         end
@@ -236,10 +229,14 @@ function Questie:Colorize(str, color)
         c = '|cFFB900FF';
     elseif color == 'blue' then
         c = '|cB900FFFF';
+    elseif color == 'lightBlue' then
+        c = '|cB900FFFF';
     elseif color == 'blizzardBlue' then
         c = '|cFF00c0ff';
     elseif color == 'yellow' then
         c = '|cFFffff00';
+    elseif color == 'orange' then
+        c = '|cFFFF6F22';
     elseif color == 'green' then
         c = '|cFF00ff00';
     elseif color == "white" then
@@ -279,6 +276,12 @@ end
 
 function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
+end
+
+function Questie:Warning(...)
+    if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
+        Questie:Print("|cffffff00[WARNING]|r", ...)
+    end
 end
 
 function Questie:Debug(...)

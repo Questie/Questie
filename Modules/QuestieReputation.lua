@@ -50,7 +50,7 @@ function QuestieReputation:GetPlayerReputations()
     return playerReputations
 end
 
---- Checkout https://github.com/AeroScripts/QuestieDev/wiki/Corrections#reputation-levels for more information
+--- Checkout https://github.com/Questie/Questie/wiki/Corrections#reputation-levels for more information
 function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
     local hasMinRep = true -- the player has reached the min required reputation value
     local hasMaxRep = true -- the player has not reached the max allowed reputation value

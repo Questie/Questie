@@ -1,3 +1,6 @@
+--- COMPATIBILITY ---
+local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
+
 ---@class QuestieComms
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 local _QuestieComms = QuestieComms.private
@@ -90,6 +93,26 @@ for string, int in pairs(_QuestieComms.idLookup) do
     _QuestieComms.stringLookup[int] = string;
 end
 -- !NOT USED
+
+local badYellLocations = {
+  -- Alliance
+  [1453] = true, -- Stormwind
+  [1455] = true, -- Ironforge
+  [1457] = true, -- Darnassus
+  [1947] = true, -- Exodar
+  -- Horde
+  [1454] = true, -- Orgrimmar
+  [1456] = true, -- Thunder Bluff
+  [1458] = true, -- Undercity
+  [1954] = true, -- Silvermoon
+  -- Both
+  [1955] = true, -- Shattrath
+  -- Battlegrounds
+  [1459] = true, -- Alterac Valley
+  [1460] = true, -- Warsong Gulch
+  [1461] = true, -- Arathi Basin
+  [1957] = true, -- Eye of the Storm
+}
 
 --- Global Functions --
 
@@ -432,7 +455,7 @@ local _loadupTime_removeme = GetTime() -- this will be removed in 6.0.1 or 6.1, 
 -- yelling quests on login. Not enough time to make and test a proper fix
 
 function QuestieComms:YellProgress(questId)
-    if Questie.db.global.disableYellComms or GetNumGroupMembers() > 4 or GetTime() - _loadupTime_removeme < 8 then
+    if Questie.db.global.disableYellComms or badYellLocations[C_Map.GetBestMapForUnit("player")] or GetNumGroupMembers() > 4 or GetTime() - _loadupTime_removeme < 8 then
         return
     end
     if not QuestieComms._yellWaitingQuests[questId] then
@@ -449,7 +472,7 @@ function QuestieComms:YellProgress(questId)
 end
 
 _DoYell = function(questId)
-    local data = {}
+    --[[local data = {}
     local _, count = QuestieComms:PopulateQuestDataPacketV2(questId, data, 1)
     if count > 0 then -- dont send quests with no objectives
         local packet = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_YELL_PROGRESS);
@@ -467,7 +490,7 @@ _DoYell = function(questId)
         end)
     else
         QuestieComms._isYelling = false
-    end
+    end]]
 end
 
 _QuestieComms._isBroadcasting = false
@@ -728,12 +751,16 @@ function QuestieComms:CreateQuestDataPacket(questId)
     quest.objectives = {}
     if questObject and questObject.Objectives then
         for objectiveIndex, objective in pairs(rawObjectives) do
-            quest.objectives[objectiveIndex] = {};
-            quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
-            quest.objectives[objectiveIndex].typ = string.sub(objective.type, 1, 1);-- Get the first char only.--[_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
-            quest.objectives[objectiveIndex].fin = objective.finished;--[_QuestieComms.idLookup["finished"]] = objective.finished;
-            quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
-            quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
+            if questObject.Objectives[objectiveIndex] then
+                quest.objectives[objectiveIndex] = {};
+                quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;
+                quest.objectives[objectiveIndex].typ = string.sub(objective.type, 1, 1);-- Get the first char only.--[_QuestieComms.idLookup["type"]] = string.sub(objective.type, 1, 1);-- Get the first char only.
+                quest.objectives[objectiveIndex].fin = objective.finished;--[_QuestieComms.idLookup["finished"]] = objective.finished;
+                quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
+                quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
+            else
+                Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
+            end
         end
     end
     Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
@@ -878,11 +905,13 @@ _QuestieComms.packets = {
     [_QuestieComms.QC_ID_YELL_PROGRESS] = { --13
         write = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_YELL_PROGRESS")
-            _QuestieComms:Broadcast(self.data);
+            if not badYellLocations[C_Map.GetBestMapForUnit("player")] then
+               _QuestieComms:Broadcast(self.data);
+            end
         end,
         read = function(self)
             Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_YELL_PROGRESS")
-            if not Questie.db.global.disableYellComms then
+            if not Questie.db.global.disableYellComms and not badYellLocations[C_Map.GetBestMapForUnit("player")] then
                 QuestieComms.remotePlayerTimes[self.playerName] = GetTime()
                 QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, true)
                 QuestieComms:SortRemotePlayers()

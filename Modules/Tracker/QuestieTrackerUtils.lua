@@ -1,3 +1,6 @@
+--- COMPATIBILITY ---
+local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
+
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 QuestieTracker.utils = {}
@@ -7,6 +10,8 @@ QuestieTracker.utils._zoneCache = {}
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local objectiveFlashTicker = {}
 local tinsert = table.insert
@@ -347,7 +352,7 @@ function QuestieTracker.utils:GetZoneNameByID(zoneId)
     if QuestieTracker.utils._zoneCache[zoneId] then
         return QuestieTracker.utils._zoneCache[zoneId]
     end
-    for cont, zone in pairs(LangZoneLookup) do
+    for cont, zone in pairs(l10n.zoneLookup) do
         for zoneIDnum, zoneName in pairs(zone) do
             if zoneIDnum == zoneId then
                 QuestieTracker.utils._zoneCache[zoneId] = zoneName
@@ -358,7 +363,7 @@ function QuestieTracker.utils:GetZoneNameByID(zoneId)
 end
 
 function QuestieTracker.utils:GetCategoryNameByID(cataId)
-    for cat, name in pairs(LangQuestCategory) do
+    for cat, name in pairs(l10n.questCategoryLookup) do
         if cataId == cat then
             return name
         end
