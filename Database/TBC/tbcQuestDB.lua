@@ -48,7 +48,7 @@ QuestieDB.questKeys = {
     ['extraObjectives'] = 26, -- table: {{spawnlist, iconFile, text},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 }
 
-QuestieDB.questData = [[return {
+QuestieDB.questDataTBC = [[return {
 [1] = {"The \"Chow\" Quest (123)aa",{nil,nil,nil,},{nil,nil,},1,4,0,nil,{"Kill Kobold Vermin, 2 of em.",},nil,{nil,nil,nil,nil,},nil,nil,nil,nil,nil,nil,15,nil,nil,nil,nil,nil,nil,nil,nil,},
 [2] = {"Sharptalon's Claw",{nil,nil,{16305,},},{{12696,},nil,},20,30,690,nil,{"Bring Sharptalon's Claw to Senani Thunderheart at Splintertree Post, Ashenvale.",},nil,{nil,nil,nil,nil,},16305,nil,{6383,},nil,{23,24,},nil,331,nil,nil,nil,nil,nil,nil,nil,nil,},
 [5] = {"Jitters' Growling Gut",{{288,},nil,nil,},{{272,},nil,},17,20,1101,nil,{"Speak with Chef Grual.",},nil,{nil,nil,nil,nil,},nil,nil,{163,},nil,nil,nil,10,nil,nil,nil,nil,93,8,nil,nil,},
