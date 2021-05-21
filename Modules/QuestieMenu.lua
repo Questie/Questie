@@ -525,7 +525,7 @@ function QuestieMenu:UpdatePetFood() -- call on change pet
 end
 
 function QuestieMenu:UpdateAmmoVendors() -- call on change weapon
-    Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033}, {}, true))
+    Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
 end
 
 function QuestieMenu:UpdateFoodDrink()
