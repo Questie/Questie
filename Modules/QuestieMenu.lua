@@ -388,14 +388,16 @@ function QuestieMenu:PopulateTownsfolk()
     end
 
     for _, id in pairs(validTrainers) do
-        local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
-        if subName then
-            if Questie.db.global.townsfolk[subName] then -- weapon master, 
-                tinsert(Questie.db.global.townsfolk[subName], id)
-            else
-                for k, professionId in pairs(QuestieProfessions.professionTable) do
-                    if string.match(subName, k) then
-                        tinsert(professionTrainers[professionId], id)
+        if QuestieDB.npcData[id] then
+            local subName = [QuestieDB.npcKeys.subName]
+            if subName then
+                if Questie.db.global.townsfolk[subName] then -- weapon master, 
+                    tinsert(Questie.db.global.townsfolk[subName], id)
+                else
+                    for k, professionId in pairs(QuestieProfessions.professionTable) do
+                        if string.match(subName, k) then
+                            tinsert(professionTrainers[professionId], id)
+                        end
                     end
                 end
             end
