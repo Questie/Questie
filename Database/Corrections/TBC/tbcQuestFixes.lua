@@ -91,6 +91,9 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32},},}},
         },
+        [2501] = {
+            [questKeys.zoneOrSort] = -181,
+        },
         [2842] = {
             [questKeys.requiredLevel] = 20,
         },
