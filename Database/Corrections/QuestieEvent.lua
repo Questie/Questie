@@ -553,6 +553,8 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11446}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11691}) -- Summon Ahune
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11696}) -- Ahune is Here!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11768}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11758}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11817}) -- Honor the Flame
