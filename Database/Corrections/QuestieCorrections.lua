@@ -318,7 +318,6 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
         end
     end
 
-    QuestieCorrections:PruneWaypoints()
     QuestieCorrections:MinimalInit()
 
 end
@@ -364,24 +363,6 @@ local _validMultispawnWaypoints = { -- SELECT entry, Name FROM creature_template
     [2714]=1,--forsaken courier
     [10182]=1,--rexxar
 }
-
-function QuestieCorrections:PruneWaypoints()
-    --Questie.db.char.pruned = ""
-    for id,data in pairs(QuestieDB.npcData) do
-        local spawnCount = 0
-        if data[QuestieDB.npcKeys.waypoints] then
-            for _, ways in pairs(data[QuestieDB.npcKeys.waypoints]) do
-                for _ in pairs(ways) do
-                    spawnCount = spawnCount + 1
-                end
-            end
-        end
-        if spawnCount > 1 and not _validMultispawnWaypoints[id] and bit.band(data[QuestieDB.npcKeys.npcFlags], QuestieDB.npcFlags.QUEST_GIVER) ~= QuestieDB.npcFlags.QUEST_GIVER then -- we dont want waypoints for this mob, it can have more than 1 spawn at a time
-            data[QuestieDB.npcKeys.waypoints] = nil
-            --Questie.db.char.pruned = Questie.db.char.pruned .. "\\n" .. tostring(id) .. " " .. data[QuestieDB.npcKeys.name]
-        end
-    end
-end
 
 function QuestieCorrections:OptimizeWaypoints(waypointData)
     local newWaypointZones = {}
