@@ -1047,7 +1047,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
     for objectiveIndex, objective in pairs(questObjectives) do
-        if objective.type and objective.type ~= "reputation" then
+        if objective.type then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
                 Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
@@ -1071,7 +1071,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _ObjectiveUpdate,
-                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates -- Only for type "event"
+                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
+                        RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue
                     }
                 end
 

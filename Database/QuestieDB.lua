@@ -772,6 +772,14 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 end
             end
         end
+        if rawdata[10][4] ~= nil then
+            local obj = {
+                Type = "reputation",
+                Id = rawdata[10][4][1],
+                RequiredRepValue = rawdata[10][4][2]
+            }
+            tinsert(QO.ObjectiveData, obj);
+        end
         if rawdata[10][5] then
             local obj = {
                 Type = "killcredit",
