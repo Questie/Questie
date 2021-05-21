@@ -1493,6 +1493,9 @@ function QuestieTBCQuestFixes:Load()
         [11215] = {
             [questKeys.exclusiveTo] = {11158},
         },
+        [11216] = {
+            [questKeys.nextQuestInChain] = 9824,
+        },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},{66.58,56.23},},
