@@ -1945,6 +1945,7 @@ function QuestieQuestFixes:Load()
         },
         [7484] = {
             [questKeys.preQuestSingle] = {7481,7482},
+            [questKeys.specialFlags] = 1,
         },
         [7485] = {
             [questKeys.preQuestSingle] = {7481,7482},
