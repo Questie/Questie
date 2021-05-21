@@ -247,7 +247,15 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         if langShort == "en." then
             langShort = ""
         end
-        self.editBox:SetText("https://" .. langShort .. "classic.wowhead.com/quest=" .. questID);
+
+        local wowheadLink = ""
+        if WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+            wowheadLink = "https://" .. langShort .. "tbc.wowhead.com/quest=" .. questID
+        else
+            wowheadLink = "https://" .. langShort .. "classic.wowhead.com/quest=" .. questID
+        end
+
+        self.editBox:SetText(wowheadLink);
         self.editBox:SetFocus();
         self.editBox:HighlightText();
     end,
