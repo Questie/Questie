@@ -411,7 +411,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        Questie:Error("No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
+        Questie:Debug(DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon
