@@ -271,8 +271,23 @@ function QuestieTBCQuestFixes:Load()
         [9174] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
+        [9181] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9190] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
+        },
+        [9195] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9205] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9206] = {
+            [questKeys.specialFlags] = 1,
         },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
