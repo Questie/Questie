@@ -1267,6 +1267,9 @@ function QuestieTBCQuestFixes:Load()
         [10863] = {
             [questKeys.exclusiveTo] = {10908},
         },
+        [10867] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
+        },
         [10873] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
         },
