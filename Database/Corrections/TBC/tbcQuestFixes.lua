@@ -463,6 +463,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {9562},
         },
+        [9573] = {
+            [questKeys.preQuestSingle] = {9560,9562,},
+        },
         [9575] = {
             [questKeys.preQuestSingle] = {10143,10483,},
         },
