@@ -7,28 +7,28 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
-    table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
-    table.insert(QuestieDB.questData, 64319, {}) -- A Study in Power
+    QuestieDB.questData[63866] = {}; -- Claiming the Light
+    QuestieDB.questData[64319] = {}; -- A Study in Power
 
     -- Alliance boosted quests
-    table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
-    table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
-    table.insert(QuestieDB.questData, 64034, {}) -- Combat Training
-    table.insert(QuestieDB.questData, 64035, {}) -- Talented
-    table.insert(QuestieDB.questData, 64037, {}) -- Eastern Plaguelands
-    table.insert(QuestieDB.questData, 64038, {}) -- The Dark Portal
+    QuestieDB.questData[64028] = {}; -- A New Beginning
+    QuestieDB.questData[64031] = {}; -- Tools for Survival
+    QuestieDB.questData[64034] = {}; -- Combat Training
+    QuestieDB.questData[64035] = {}; -- Talented
+    QuestieDB.questData[64037] = {}; -- Eastern Plaguelands
+    QuestieDB.questData[64038] = {}; -- The Dark Portal
     -- Horde boosted quests
-    table.insert(QuestieDB.questData, 64046, {}) -- A New Beginning
-    table.insert(QuestieDB.questData, 64047, {}) -- A New Beginning
-    table.insert(QuestieDB.questData, 64048, {}) -- Tools for Survival
-    table.insert(QuestieDB.questData, 64049, {}) -- Tools for Survival
-    table.insert(QuestieDB.questData, 64050, {}) -- Combat Training
-    table.insert(QuestieDB.questData, 64051, {}) -- Combat Training
-    table.insert(QuestieDB.questData, 64052, {}) -- Talented
-    table.insert(QuestieDB.questData, 64053, {}) -- Talented
-    table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
-    table.insert(QuestieDB.questData, 64064, {}) -- Eastern Plaguelands
-    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
+    QuestieDB.questData[64046] = {}; -- A New Beginning
+    QuestieDB.questData[64047] = {}; -- A New Beginning
+    QuestieDB.questData[64048] = {}; -- Tools for Survival
+    QuestieDB.questData[64049] = {}; -- Tools for Survival
+    QuestieDB.questData[64050] = {}; -- Combat Training
+    QuestieDB.questData[64051] = {}; -- Combat Training
+    QuestieDB.questData[64052] = {}; -- Talented
+    QuestieDB.questData[64053] = {}; -- Talented
+    QuestieDB.questData[64063] = {}; -- The Dark Portal
+    QuestieDB.questData[64064] = {}; -- Eastern Plaguelands
+    QuestieDB.questData[64217] = {}; -- The Dark Portal
 
 
     local questKeys = QuestieDB.questKeys
