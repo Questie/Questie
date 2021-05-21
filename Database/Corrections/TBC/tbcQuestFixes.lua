@@ -1227,6 +1227,10 @@ function QuestieTBCQuestFixes:Load()
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21},},}},
         },
+        [10821] = {
+            [questKeys.requiredSourceItems] = {31536},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Retrieve five Camp Anger Keys and activate the five Legion obelisks. The obelisks have a short duration, so make sure they are all activated at the same time.", 0, {{"object", 185193},{"object", 185195},{"object", 185196},{"object", 185197},{"object", 185198}}}}
+        },
         [10824] = {
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10552},
