@@ -2166,6 +2166,9 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
             [questKeys.childQuests] = {7769},
         },
+        [8262] = {
+            [questKeys.requiredMinRep] = {509,3000},
+        },
         [8271] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
