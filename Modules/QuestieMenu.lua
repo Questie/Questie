@@ -415,9 +415,11 @@ function QuestieMenu:PopulateTownsfolk()
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
-            local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
-            if subName and string.len(subName) > 0 then
-                tinsert(newTrainers, trainer)
+            if QuestieDB.npcData[trainer] then
+                local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
+                if subName and string.len(subName) > 0 then
+                    tinsert(newTrainers, trainer)
+                end
             end
         end
         Questie.db.global.classSpecificTownsfolk[class] = {}
