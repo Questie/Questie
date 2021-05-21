@@ -51,7 +51,6 @@ Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieEvent.lua
-Database\Corrections\QuestieDatabaseUnification.lua
 
 ## Classic Corrections
 Database\Corrections\Classic\classicQuestFixes.lua

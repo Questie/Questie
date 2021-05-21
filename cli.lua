@@ -101,7 +101,6 @@ QuestieConfig = {}
 
 print("Running compiler...")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -124,12 +123,6 @@ QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataT
 QuestieDB.itemData = QuestieDB.itemData()
 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
 print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-if false and QuestieDB.questDataTBC then
-    QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
-    QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
-    QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
-    QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
-end
 
 
 QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()

@@ -52,8 +52,6 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieDatabaseUnification
-local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
