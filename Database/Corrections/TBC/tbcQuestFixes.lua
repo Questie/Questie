@@ -1437,6 +1437,9 @@ function QuestieTBCQuestFixes:Load()
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345,},4344,"Totem Tests Performed"}},
         },
+        [11172] = {
+            [questKeys.nextQuestInChain] = 11174,
+        },
         [11174] = {
             [questKeys.preQuestSingle] = {},
         },
