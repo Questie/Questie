@@ -1463,10 +1463,14 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [5237] = {
+            [questKeys.startedBy] = {{10838,},nil,nil,},
+            [questKeys.finishedBy] = {{10838,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {},
         },
         [5238] = {
+            [questKeys.startedBy] = {{10837,},nil,nil,},
+            [questKeys.finishedBy] = {{10837,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
         },
@@ -1945,6 +1949,7 @@ function QuestieQuestFixes:Load()
         },
         [7484] = {
             [questKeys.preQuestSingle] = {7481,7482},
+            [questKeys.specialFlags] = 1,
         },
         [7485] = {
             [questKeys.preQuestSingle] = {7481,7482},

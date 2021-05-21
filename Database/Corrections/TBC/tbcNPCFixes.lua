@@ -59,6 +59,9 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{82.91,14.16},},
             },
         },
+        [15493] = {
+            [npcKeys.spawns] = {[3430]={{46.8,46.4},},},
+        },
         [15658] = {
             [npcKeys.waypoints] = {},
         },

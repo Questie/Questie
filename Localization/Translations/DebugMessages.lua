@@ -40,7 +40,7 @@ local debugMessagesLocales = {
     },
     ["Toggles the My Journey window"] = {
         ["ptBR"] = "Mostrar / Ocultar a janela Minha Jornada",
-        ["ruRU"] = "открыть 'Мое путешествие'.",
+        ["ruRU"] = "открыть 'Путешествие'.",
         ["deDE"] = "Zeigen/Verstecken des 'Meine Reise'-Fensters",
         ["koKR"] = "나의 여정 창을 표시합니다",
         ["esMX"] = "Muestra la ventana de 'Mi Viaje'",
@@ -100,7 +100,7 @@ local debugMessagesLocales = {
     },
     ["There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."] = {
         ["ptBR"] = "Ocorreu um problema ao inicializar o banco de dados do Questie. Isso geralmente pode ser consertado recompilando o banco de dados.",
-        ["ruRU"] = "Выявлена проблема при инициализации базы данных Questie. Обычно это может быть исправлено путем рекомпиляции БД",
+        ["ruRU"] = "Выявлена проблема при инициализации базы данных Questie. Обычно это может быть исправлено путем рекомпиляции БД.",
         ["deDE"] = "Es gab ein Problem beim Initialisieren der Questie-Datenbank. Ein Neukompilieren der Datenbank behebt das Problem in der Regel.",
         ["koKR"] = "Questie 정보를 초기화하는동안 문제가 발생했습니다. 일반적으로 정보를 다시 편집하여 수정 할 수 있습니다.",
         ["esMX"] = "Hubo un problema inicializando la base de datos de Questie. Esto generalmente se puede solucionar recompilando la base de datos.",
@@ -124,7 +124,7 @@ local debugMessagesLocales = {
     },
     ["Error: Questie tracker in invalid location, resetting..."] = {
         ["ptBR"] = "Erro: Rastreador do Questie em um local inválido, redefinindo...",
-        ["ruRU"] = "Ошибка: трекер Questie в неправильном положении, сброс ...",
+        ["ruRU"] = "Ошибка: трекер Questie в неправильном положении, сброс...",
         ["deDE"] = "Fehler: Der Questie-Tracker ist in einer ungültigen Position und wird zurückgesetzt...",
         ["koKR"] = "에러: Questie 추적기가 허용되지 않은 위치에 있습니다, 재설정 중...",
         ["esMX"] = "Error: Rastreador en ubicación inválida, reiniciado...",
@@ -136,7 +136,7 @@ local debugMessagesLocales = {
     },
     ["Setting icon limit value to %s : Redrawing!"] = {
         ["ptBR"] = "Definindo o valor limite do ícone como %s : Redesenhar!",
-        ["ruRU"] = "Ограничение количества значков: %s. Перерисовка",
+        ["ruRU"] = "Ограничение количества значков: %s. Перерисовка!",
         ["deDE"] = "Icon Limit geändert auf %s : Zeichne neu!",
         ["koKR"] = "아이콘 제한 값을 %s 로 설정하는중 : Redrawing!",
         ["esMX"] = "Establaciendo límite de ícono a %s : Redibujando!",
@@ -220,7 +220,7 @@ local debugMessagesLocales = {
     },
     ["Loading database"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Загрузка базы данных",
         ["deDE"] = "Datenbank wird geladen",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -232,7 +232,7 @@ local debugMessagesLocales = {
     },
     ["Applying database corrections"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Применение исправлений БД",
         ["deDE"] = "Datenbankkorrekturen werden eingespielt",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -244,7 +244,7 @@ local debugMessagesLocales = {
     },
     ["Initializing locale"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Определение языка игры",
         ["deDE"] = "Übersetzungen werden geladen",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -294,7 +294,7 @@ local debugMessagesLocales = {
         ["ptBR"] = "Pegou %s que começa %s!",
         ["ruRU"] = "Данный предмет - %s - начинает %s!",
         ["frFR"] = "Ramassé %s qui démarre %s !",
-        ["koKR"] = "%s를 줍고 %s!를 시작합니다.",
+        ["koKR"] = "%s를 획득하여 %s!를 시작 할 수 있습니다.",
         ["zhCN"] = "拾取 %s 自动接受任务： %s!",
         ["enUS"] = true,
         ["zhTW"] = nil,
@@ -304,7 +304,7 @@ local debugMessagesLocales = {
     },
     ["[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "[Questie] В связи с переходом на Burning Crusade аддон Questie находится в состоянии ускоренной разработки, поэтому вы можете столкнуться с ошибками. Пожалуйста, своевременно обновляйте Questie! Также мы выпустим большое обновление после выпуска TBC со множеством улучшений и новых возможностей.",
         ["frFR"] = nil,
         ["koKR"] = nil,
         ["zhCN"] = nil,

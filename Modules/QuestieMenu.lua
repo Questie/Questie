@@ -91,7 +91,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if not _spawned[id] then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then
-                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name"), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
+                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id)), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
                             _spawned[id] = true
                         end
                     end
@@ -388,14 +388,16 @@ function QuestieMenu:PopulateTownsfolk()
     end
 
     for _, id in pairs(validTrainers) do
-        local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
-        if subName then
-            if Questie.db.global.townsfolk[subName] then -- weapon master, 
-                tinsert(Questie.db.global.townsfolk[subName], id)
-            else
-                for k, professionId in pairs(QuestieProfessions.professionTable) do
-                    if string.match(subName, k) then
-                        tinsert(professionTrainers[professionId], id)
+        if QuestieDB.npcData[id] then
+            local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
+            if subName then
+                if Questie.db.global.townsfolk[subName] then -- weapon master, 
+                    tinsert(Questie.db.global.townsfolk[subName], id)
+                else
+                    for k, professionId in pairs(QuestieProfessions.professionTable) do
+                        if string.match(subName, k) then
+                            tinsert(professionTrainers[professionId], id)
+                        end
                     end
                 end
             end
@@ -413,9 +415,11 @@ function QuestieMenu:PopulateTownsfolk()
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
-            local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
-            if subName and string.len(subName) > 0 then
-                tinsert(newTrainers, trainer)
+            if QuestieDB.npcData[trainer] then
+                local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
+                if subName and string.len(subName) > 0 then
+                    tinsert(newTrainers, trainer)
+                end
             end
         end
         Questie.db.global.classSpecificTownsfolk[class] = {}

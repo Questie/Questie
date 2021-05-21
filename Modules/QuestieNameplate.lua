@@ -207,11 +207,11 @@ function QuestieNameplate:DrawTargetFrame()
                         activeTargetFrame:EnableMouse(false)
 
                         local targetFrame = TargetFrame -- Default Blizzard target frame
-                        if (ElvUF_Target and ElvUF_Target:IsShown()) then
+                        if ElvUF_Target then
                             targetFrame = ElvUF_Target
-                        elseif (PitBull4_Frames_Target and PitBull4_Frames_Target:IsShown()) then
+                        elseif PitBull4_Frames_Target then
                             targetFrame = PitBull4_Frames_Target
-                        elseif (SUFUnittarget and SUFUnittarget:IsShown()) then
+                        elseif SUFUnittarget then
                             targetFrame = SUFUnittarget
                             activeTargetFrame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
                         end
