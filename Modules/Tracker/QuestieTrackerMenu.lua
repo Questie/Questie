@@ -249,7 +249,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         end
 
         local wowheadLink = ""
-        if WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+        if Questie.IsTBC then
             wowheadLink = "https://" .. langShort .. "tbc.wowhead.com/quest=" .. questID
         else
             wowheadLink = "https://" .. langShort .. "classic.wowhead.com/quest=" .. questID

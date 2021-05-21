@@ -44,3 +44,10 @@ if Questie then
     Questie = {}
     return
 end
+
+--Initialized below
+---@class Questie
+Questie = {...}
+
+Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC

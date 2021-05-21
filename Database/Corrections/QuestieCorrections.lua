@@ -23,8 +23,6 @@ local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
 local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieProfessions
-local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTBCQuestFixes
 local QuestieTBCQuestFixes = QuestieLoader:ImportModule("QuestieTBCQuestFixes")
 ---@type QuestieTBCNpcFixes
@@ -53,7 +51,7 @@ QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 local function filterExpansion(values)
-    local isTBC = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE
+    local isTBC = Questie.IsTBC
     for k, v in pairs(values) do
         if v == QuestieCorrections.TBC_ONLY then
             if isTBC then
@@ -215,7 +213,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
         end
     end
 
-    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+    if Questie.IsTBC then
         for id, data in pairs(QuestieTBCQuestFixes:Load()) do
             for key, value in pairs(data) do
                 if QuestieDB.questData[id] then

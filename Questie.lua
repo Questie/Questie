@@ -10,9 +10,6 @@ DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
---Initialized below
----@class Questie
-Questie = {...}
 
 -------------------------
 --Import modules.
@@ -127,7 +124,6 @@ if  --Libs
   else
     -- Initialize Questie
     Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-    local _Questie = {...}
 end
 
 
