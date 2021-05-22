@@ -29,7 +29,7 @@ end
 GetLocale = function()
     return "enUS"
 end
-LibStub = function()
+LibStubQuestie = function()
     return {["NewAddon"] = function() return {} end}
 end
 CreateFrame = function()
