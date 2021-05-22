@@ -9,7 +9,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+local HBDPins = LibStubQuestie("HereBeDragonsQuestie-Pins-2.0")
 
 QuestieFramePool.Qframe = {}
 

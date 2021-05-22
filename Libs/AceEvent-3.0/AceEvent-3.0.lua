@@ -10,10 +10,10 @@
 -- @class file
 -- @name AceEvent-3.0
 -- @release $Id: AceEvent-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
-local CallbackHandler = LibStub("CallbackHandler-1.0")
+local CallbackHandler = LibStubQuestie("CallbackHandler-1.0")
 
 local MAJOR, MINOR = "AceEvent-3.0", 4
-local AceEvent = LibStub:NewLibrary(MAJOR, MINOR)
+local AceEvent = LibStubQuestie:NewLibrary(MAJOR, MINOR)
 
 if not AceEvent then return end
 

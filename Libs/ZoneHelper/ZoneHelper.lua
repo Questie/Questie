@@ -2,8 +2,8 @@
 -- Licensed under the MIT License
 -- https://github.com/butter-cookie-kitkat/ButterQuestTracker
 
-local AceEvent = LibStub:GetLibrary("AceEvent-3.0");
-local helper = LibStub:NewLibrary("ZoneHelper-1.0", 1);
+local AceEvent = LibStubQuestie:GetLibrary("AceEvent-3.0");
+local helper = LibStubQuestie:NewLibrary("ZoneHelper-1.0", 1);
 if not helper then return end
 
 local zoneIDToUiMapID = {};

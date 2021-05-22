@@ -23,7 +23,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStub("AceGUI-3.0");
+local AceGUI = LibStubQuestie("AceGUI-3.0")
 
 local _HandleOnGroupSelected
 local lastOpenSearch = "quest"

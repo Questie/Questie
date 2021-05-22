@@ -210,6 +210,9 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8423] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [8473] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1223,6 +1226,9 @@ function QuestieTBCQuestFixes:Load()
         [10781] = {
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79},},}},
         },
+        [10782] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan.", 0, {{"monster", 17008}}}},
+        },
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
         },
@@ -1349,6 +1355,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10977] = {
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54},},}},
+        },
+        [10984] = {
+            [questKeys.exclusiveTo] = {10989,11057,},
         },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06},},}},
@@ -1479,6 +1488,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11174] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{4392,4393,4394},4392,"Oozes Dissolved"}},
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,

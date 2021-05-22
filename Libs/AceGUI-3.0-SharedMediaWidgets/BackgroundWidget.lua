@@ -1,10 +1,10 @@
 -- Widget is based on the AceGUIWidget-DropDown.lua supplied with AceGUI-3.0
 -- Widget created by Yssaril
 
-local AceGUI = LibStub("AceGUI-3.0")
-local Media = LibStub("LibSharedMedia-3.0")
+local AceGUI = LibStubQuestie("AceGUI-3.0")
+local Media = LibStubQuestie("LibSharedMedia-3.0")
 
-local AGSMW = LibStub("AceGUISharedMediaWidgets-1.0")
+local AGSMW = LibStubQuestie("AceGUISharedMediaWidgets-1.0")
 
 do
 	local widgetType = "LSM30_Background"

@@ -342,8 +342,8 @@ function QuestieSerializer:Deserialize(data, encoding)
     return data[1]
 end
 
-local _libAS = LibStub("AceSerializer-3.0")
-local _libCP = LibStub("LibCompress")
+local _libAS = LibStubQuestie("AceSerializer-3.0")
+local _libCP = LibStubQuestie("LibCompress")
 local _CPTable = _libCP:GetAddonEncodeTable()
 function QuestieSerializer:Test()
     --Questie.db.char.HashTable = QuestieSerializer.SerializerHashDB

@@ -64,7 +64,7 @@ local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIco
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBD = LibStubQuestie("HereBeDragonsQuestie-2.0")
 
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")

@@ -1,5 +1,5 @@
 local MAJOR, MINOR = "LibQuestXP-2.0", 2
-local LibQuestXP = LibStub:NewLibrary(MAJOR, MINOR)
+local LibQuestXP = LibStubQuestie:NewLibrary(MAJOR, MINOR)
 
 if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE then
     return -- Don't load for Retail

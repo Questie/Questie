@@ -7,15 +7,15 @@
 
 local DBICON10 = "LibDBIcon-1.0"
 local DBICON10_MINOR = 43 -- Bump on changes
-if not LibStub then error(DBICON10 .. " requires LibStub.") end
-local ldb = LibStub("LibDataBroker-1.1", true)
+if not LibStubQuestie then error(DBICON10 .. " requires LibStubQuestie.") end
+local ldb = LibStubQuestie("LibDataBroker-1.1", true)
 if not ldb then error(DBICON10 .. " requires LibDataBroker-1.1.") end
-local lib = LibStub:NewLibrary(DBICON10, DBICON10_MINOR)
+local lib = LibStubQuestie:NewLibrary(DBICON10, DBICON10_MINOR)
 if not lib then return end
 
 lib.objects = lib.objects or {}
 lib.callbackRegistered = lib.callbackRegistered or nil
-lib.callbacks = lib.callbacks or LibStub("CallbackHandler-1.0"):New(lib)
+lib.callbacks = lib.callbacks or LibStubQuestie("CallbackHandler-1.0"):New(lib)
 lib.notCreated = lib.notCreated or {}
 lib.radius = lib.radius or 5
 lib.tooltip = lib.tooltip or CreateFrame("GameTooltip", "LibDBIconTooltip", UIParent, "GameTooltipTemplate")

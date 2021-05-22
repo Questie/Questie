@@ -1,6 +1,3 @@
-if not QuestieConfigCharacter then
-    QuestieConfigCharacter = {}
-end
 
 -- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
 -- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
@@ -20,8 +17,6 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
----@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
 ---@type QuestieOptionsMinimapIcon
 local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
 ---@type QuestieOptionsUtils
@@ -32,8 +27,6 @@ local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto");
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieMap
@@ -68,8 +61,6 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -83,7 +74,6 @@ if  --Libs
     (not QuestieComms.data) or
     --Options
     (not QuestieOptions) or
-    (not QuestieOptionsDefaults) or
     (not QuestieOptionsMinimapIcon) or
     (not QuestieOptionsUtils) or
     (not QuestieOptions.tabs) or
@@ -98,7 +88,6 @@ if  --Libs
     (not QuestieAuto) or
     (not QuestieCoords) or
     (not QuestieEventHandler) or
-    (not QuestieFramePool) or
     (not QuestieJourney) or
     --Map
     (not QuestieMap) or
@@ -127,19 +116,6 @@ end
 function Questie:OnInitialize()
     Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
 
-    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
-    QuestieFramePool:SetIcons()
-
-    -- Set proper locale. Either default to client Locale or override based on user.
-    if Questie.db.global.questieLocaleDiff then
-        l10n:SetUILocale(Questie.db.global.questieLocale);
-    else
-        l10n:SetUILocale(GetLocale());
-    end
-
-    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
-    ZoneDB:Initialize()
-
     QuestieEventHandler:RegisterAllEvents(function()
         --QuestieTracker:Initialize() --moved to stage 2 init event function
         QuestieTooltips:Initialize()
@@ -158,7 +134,7 @@ function Questie:OnInitialize()
         Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
 
         -- Creating the minimap config icon
-        Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
+        Questie.minimapConfigIcon = LibStubQuestie("LibDBIcon-1.0");
         Questie.minimapConfigIcon:Register("Questie", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
 
         -- Update the default text on the map show/hide button for localization
