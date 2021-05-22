@@ -139,9 +139,9 @@ function Questie:OnInitialize()
 
         -- Update the default text on the map show/hide button for localization
         if Questie.db.char.enabled then
-            Questie_Toggle:SetText(l10n("Show Questie"));
-        else
             Questie_Toggle:SetText(l10n("Hide Questie"));
+        else
+            Questie_Toggle:SetText(l10n("Show Questie"));
         end
 
         -- Update status of Map button on hide between play sessions
