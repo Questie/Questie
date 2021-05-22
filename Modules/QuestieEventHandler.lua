@@ -54,6 +54,12 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -72,7 +78,7 @@ function QuestieEventHandler:RegisterAllEvents(callback)
     -- event handlers can be local
 
     -- Player Events
-    Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
+    Questie:RegisterEvent("PLAYER_LOGIN", function() C_Timer.After(0.5, _EventHandler.PlayerLogin) end)
     
     continueInit = function()
         Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
@@ -144,6 +150,52 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
 end
 
 function _EventHandler:PlayerLogin()
+
+    if not QuestieConfigCharacter then
+        QuestieConfigCharacter = {}
+    end
+    
+    if not QuestieConfig then
+        QuestieConfig = {}
+    end
+
+    local defaults = QuestieOptionsDefaults:Load()
+
+    Questie.db = {
+        char = QuestieConfigCharacter,
+        profile = QuestieConfigCharacter, -- deprecated: remove "profile" or actually use it
+        global = QuestieConfig
+    }
+    
+    for k, v in pairs(defaults.global) do
+        if Questie.db.global[k] == nil then
+            Questie.db.global[k] = v
+        end
+    end
+    
+    for k, v in pairs(defaults.char) do
+        if Questie.db.char[k] == nil then
+            Questie.db.char[k] = v
+        end
+    end
+    
+    for k, v in pairs(defaults.profile) do
+        if Questie.db.profile[k] == nil then
+            Questie.db.profile[k] = v
+        end
+    end
+
+    QuestieFramePool:SetIcons()
+
+    -- Set proper locale. Either default to client Locale or override based on user.
+    if Questie.db.global.questieLocaleDiff then
+        l10n:SetUILocale(Questie.db.global.questieLocale);
+    else
+        l10n:SetUILocale(GetLocale());
+    end
+
+    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
+    ZoneDB:Initialize()
 
     Migration:Migrate()
 
