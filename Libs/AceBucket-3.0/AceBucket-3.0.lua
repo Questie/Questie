@@ -19,7 +19,7 @@
 -- It is recommended to embed AceBucket, otherwise you'll have to specify a custom `self` on all calls you
 -- make into AceBucket.
 -- @usage
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("BucketExample", "AceBucket-3.0")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("BucketExample", "AceBucket-3.0")
 --
 -- function MyAddon:OnEnable()
 --   -- Register a bucket that listens to all the HP related events,
@@ -37,7 +37,7 @@
 -- @release $Id: AceBucket-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 
 local MAJOR, MINOR = "AceBucket-3.0", 4
-local AceBucket, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
+local AceBucket, oldminor = LibStubQuestie:NewLibrary(MAJOR, MINOR)
 
 if not AceBucket then return end -- No Upgrade needed
 
@@ -55,7 +55,7 @@ local assert, loadstring, error = assert, loadstring, error
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStub, geterrorhandler
+-- GLOBALS: LibStubQuestie, geterrorhandler
 
 local bucketCache = setmetatable({}, {__mode='k'})
 
@@ -126,8 +126,8 @@ end
 local function RegisterBucket(self, event, interval, callback, isMessage)
 	-- try to fetch the librarys
 	if not AceEvent or not AceTimer then
-		AceEvent = LibStub:GetLibrary("AceEvent-3.0", true)
-		AceTimer = LibStub:GetLibrary("AceTimer-3.0", true)
+		AceEvent = LibStubQuestie:GetLibrary("AceEvent-3.0", true)
+		AceTimer = LibStubQuestie:GetLibrary("AceTimer-3.0", true)
 		if not AceEvent or not AceTimer then
 			error(MAJOR .. " requires AceEvent-3.0 and AceTimer-3.0", 3)
 		end
@@ -175,7 +175,7 @@ end
 -- @param callback The callback function, either as a function reference, or a string pointing to a method of the addon object.
 -- @return The handle of the bucket (for unregistering)
 -- @usage
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon", "AceBucket-3.0")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon", "AceBucket-3.0")
 -- MyAddon:RegisterBucketEvent("BAG_UPDATE", 0.2, "UpdateBags")
 --
 -- function MyAddon:UpdateBags()
@@ -191,7 +191,7 @@ end
 -- @param callback The callback function, either as a function reference, or a string pointing to a method of the addon object.
 -- @return The handle of the bucket (for unregistering)
 -- @usage
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon", "AceBucket-3.0")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon", "AceBucket-3.0")
 -- MyAddon:RegisterBucketEvent("SomeAddon_InformationMessage", 0.2, "ProcessData")
 --
 -- function MyAddon:ProcessData()

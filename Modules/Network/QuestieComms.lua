@@ -20,7 +20,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBD = LibStubQuestie("HereBeDragonsQuestie-2.0")
 
 -- Addon message prefix
 _QuestieComms.prefix = "questie";

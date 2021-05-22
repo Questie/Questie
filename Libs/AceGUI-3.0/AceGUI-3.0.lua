@@ -8,7 +8,7 @@
 -- to misbehave. If you think some part of a widget should be modifiable, please open a ticket, and we"ll
 -- implement a proper API to modify it.
 -- @usage
--- local AceGUI = LibStub("AceGUI-3.0")
+-- local AceGUI = LibStubQuestie("AceGUI-3.0")
 -- -- Create a container frame
 -- local f = AceGUI:Create("Frame")
 -- f:SetCallback("OnClose",function(widget) AceGUI:Release(widget) end)
@@ -26,7 +26,7 @@
 -- @name AceGUI-3.0
 -- @release $Id: AceGUI-3.0.lua 1231 2020-04-14 22:20:36Z nevcairiel $
 local ACEGUI_MAJOR, ACEGUI_MINOR = "AceGUI-3.0", 41
-local AceGUI, oldminor = LibStub:NewLibrary(ACEGUI_MAJOR, ACEGUI_MINOR)
+local AceGUI, oldminor = LibStubQuestie:NewLibrary(ACEGUI_MAJOR, ACEGUI_MINOR)
 
 if not AceGUI then return end -- No upgrade needed
 
@@ -42,9 +42,9 @@ local UIParent = UIParent
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: geterrorhandler, LibStub
+-- GLOBALS: geterrorhandler, LibStubQuestie
 
---local con = LibStub("AceConsole-3.0",true)
+--local con = LibStubQuestie("AceConsole-3.0",true)
 
 AceGUI.WidgetRegistry = AceGUI.WidgetRegistry or {}
 AceGUI.LayoutRegistry = AceGUI.LayoutRegistry or {}

@@ -7,9 +7,9 @@
 local MAJOR_VERSION = "LibUIDropDownMenuTemplates-3.0"
 local MINOR_VERSION = 90000 + tonumber(("$Rev: 64 $"):match("%d+"))
 
-local LibStub = _G.LibStub
-if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
-local Lib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
+local LibStubQuestie = _G.LibStubQuestie
+if not LibStubQuestie then error(MAJOR_VERSION .. " requires LibStubQuestie.") end
+local Lib = LibStubQuestie:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not Lib then return end
 
 -- Custom dropdown buttons are instantiated by some external system.

@@ -14,10 +14,10 @@ REQUIRES: AceConsole-3.0 for command registration (loaded on demand)
 
 -- TODO: plugin args
 
-local cfgreg = LibStub("AceConfigRegistry-3.0")
+local cfgreg = LibStubQuestie("AceConfigRegistry-3.0")
 
 local MAJOR, MINOR = "AceConfigCmd-3.0", 14
-local AceConfigCmd = LibStub:NewLibrary(MAJOR, MINOR)
+local AceConfigCmd = LibStubQuestie:NewLibrary(MAJOR, MINOR)
 
 if not AceConfigCmd then return end
 
@@ -39,7 +39,7 @@ local _G = _G
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStub, SELECTED_CHAT_FRAME, DEFAULT_CHAT_FRAME
+-- GLOBALS: LibStubQuestie, SELECTED_CHAT_FRAME, DEFAULT_CHAT_FRAME
 
 
 local L = setmetatable({}, {	-- TODO: replace with proper locale
@@ -734,7 +734,7 @@ end
 -- @param appName The application name as given to `:RegisterOptionsTable()`
 -- @param input The commandline input (as given by the WoW handler, i.e. without the command itself)
 -- @usage
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon", "AceConsole-3.0")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon", "AceConsole-3.0")
 -- -- Use AceConsole-3.0 to register a Chat Command
 -- MyAddon:RegisterChatCommand("mychat", "ChatCommand")
 --
@@ -742,9 +742,9 @@ end
 -- function MyAddon:ChatCommand(input)
 --   -- Assuming "MyOptions" is the appName of a valid options table
 --   if not input or input:trim() == "" then
---     LibStub("AceConfigDialog-3.0"):Open("MyOptions")
+--     LibStubQuestie("AceConfigDialog-3.0"):Open("MyOptions")
 --   else
---     LibStub("AceConfigCmd-3.0").HandleCommand(MyAddon, "mychat", "MyOptions", input)
+--     LibStubQuestie("AceConfigCmd-3.0").HandleCommand(MyAddon, "mychat", "MyOptions", input)
 --   end
 -- end
 function AceConfigCmd:HandleCommand(slashcmd, appName, input)
@@ -775,7 +775,7 @@ end
 -- @param appName The application name as given to `:RegisterOptionsTable()`
 function AceConfigCmd:CreateChatCommand(slashcmd, appName)
 	if not AceConsole then
-		AceConsole = LibStub(AceConsoleName)
+		AceConsole = LibStubQuestie(AceConsoleName)
 	end
 	if AceConsole.RegisterChatCommand(self, slashcmd, function(input)
 				AceConfigCmd.HandleCommand(self, slashcmd, appName, input)	-- upgradable

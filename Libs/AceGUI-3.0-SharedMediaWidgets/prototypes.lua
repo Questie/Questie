@@ -1,13 +1,13 @@
 -- Widget created by Yssaril
 local DataVersion = 9004
-local AGSMW = LibStub:NewLibrary("AceGUISharedMediaWidgets-1.0", DataVersion)
+local AGSMW = LibStubQuestie:NewLibrary("AceGUISharedMediaWidgets-1.0", DataVersion)
 
 if not AGSMW then
   return	-- already loaded and no upgrade necessary
 end
 
-local AceGUI = LibStub("AceGUI-3.0")
-local Media = LibStub("LibSharedMedia-3.0")
+local AceGUI = LibStubQuestie("AceGUI-3.0")
+local Media = LibStubQuestie("LibSharedMedia-3.0")
 
 AGSMW = AGSMW or {}
 

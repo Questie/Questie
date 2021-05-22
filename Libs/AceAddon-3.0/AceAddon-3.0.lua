@@ -8,7 +8,7 @@
 -- @usage
 -- -- A small (but complete) addon, that doesn't do anything,
 -- -- but shows usage of the callbacks.
--- local MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon")
+-- local MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon")
 --
 -- function MyAddon:OnInitialize()
 --   -- do init tasks here, like loading the Saved Variables,
@@ -31,7 +31,7 @@
 -- @release $Id: AceAddon-3.0.lua 1238 2020-08-28 16:18:42Z nevcairiel $
 
 local MAJOR, MINOR = "AceAddon-3.0", 13
-local AceAddon, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
+local AceAddon, oldminor = LibStubQuestie:NewLibrary(MAJOR, MINOR)
 
 if not AceAddon then return end -- No Upgrade needed.
 
@@ -51,7 +51,7 @@ local setmetatable, getmetatable, rawset, rawget = setmetatable, getmetatable, r
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStub, IsLoggedIn, geterrorhandler
+-- GLOBALS: LibStubQuestie, IsLoggedIn, geterrorhandler
 
 --[[
 	 xpcall safecall implementation
@@ -97,11 +97,11 @@ end
 -- @param lib List of libraries to embed into the addon
 -- @usage
 -- -- Create a simple addon object
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon", "AceEvent-3.0")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon", "AceEvent-3.0")
 --
 -- -- Create a Addon object based on the table of a frame
 -- local MyFrame = CreateFrame("Frame")
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon(MyFrame, "MyAddon", "AceEvent-3.0")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon(MyFrame, "MyAddon", "AceEvent-3.0")
 function AceAddon:NewAddon(objectorname, ...)
 	local object,name
 	local i=1
@@ -149,7 +149,7 @@ end
 -- @param silent if true, the addon is optional, silently return nil if its not found
 -- @usage
 -- -- Get the Addon
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 function AceAddon:GetAddon(name, silent)
 	if not silent and not self.addons[name] then
 		error(("Usage: GetAddon(name): 'name' - Cannot find an AceAddon '%s'."):format(tostring(name)), 2)
@@ -173,7 +173,7 @@ function AceAddon:EmbedLibraries(addon, ...)
 end
 
 -- - Embed a library into the addon object.
--- This function will check if the specified library is registered with LibStub
+-- This function will check if the specified library is registered with LibStubQuestie
 -- and if it has a :Embed function to call. It'll error if any of those conditions
 -- fails.
 --
@@ -184,7 +184,7 @@ end
 -- @param silent marks an embed to fail silently if the library doesn't exist (optional)
 -- @param offset will push the error messages back to said offset, defaults to 2 (optional)
 function AceAddon:EmbedLibrary(addon, libname, silent, offset)
-	local lib = LibStub:GetLibrary(libname, true)
+	local lib = LibStubQuestie:GetLibrary(libname, true)
 	if not lib and not silent then
 		error(("Usage: EmbedLibrary(addon, libname, silent, offset): 'libname' - Cannot find a library instance of %q."):format(tostring(libname)), offset or 2)
 	elseif lib and type(lib.Embed) == "function" then
@@ -204,7 +204,7 @@ end
 -- @param silent if true, the module is optional, silently return nil if its not found (optional)
 -- @usage
 -- -- Get the Addon
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- -- Get the Module
 -- MyModule = MyAddon:GetModule("MyModule")
 function GetModule(self, name, silent)
@@ -288,7 +288,7 @@ end
 -- @paramsig
 -- @usage
 -- -- Enable MyModule
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyModule = MyAddon:GetModule("MyModule")
 -- MyModule:Enable()
 function Enable(self)
@@ -309,7 +309,7 @@ end
 -- @paramsig
 -- @usage
 -- -- Disable MyAddon
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyAddon:Disable()
 function Disable(self)
 	self:SetEnabledState(false)
@@ -322,12 +322,12 @@ end
 -- @paramsig name
 -- @usage
 -- -- Enable MyModule using :GetModule
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyModule = MyAddon:GetModule("MyModule")
 -- MyModule:Enable()
 --
 -- -- Enable MyModule using the short-hand
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyAddon:EnableModule("MyModule")
 function EnableModule(self, name)
 	local module = self:GetModule( name )
@@ -340,12 +340,12 @@ end
 -- @paramsig name
 -- @usage
 -- -- Disable MyModule using :GetModule
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyModule = MyAddon:GetModule("MyModule")
 -- MyModule:Disable()
 --
 -- -- Disable MyModule using the short-hand
--- MyAddon = LibStub("AceAddon-3.0"):GetAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):GetAddon("MyAddon")
 -- MyAddon:DisableModule("MyModule")
 function DisableModule(self, name)
 	local module = self:GetModule( name )
@@ -359,7 +359,7 @@ end
 -- @param lib List of libraries to embed into the addon
 -- @usage
 -- -- Create the addon object
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon")
 -- -- Configure default libraries for modules (all modules need AceEvent-3.0)
 -- MyAddon:SetDefaultModuleLibraries("AceEvent-3.0")
 -- -- Create a module
@@ -378,7 +378,7 @@ end
 -- @param state Default state for new modules, true for enabled, false for disabled
 -- @usage
 -- -- Create the addon object
--- MyAddon = LibStub("AceAddon-3.0"):NewAddon("MyAddon")
+-- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddon")
 -- -- Set the default state to "disabled"
 -- MyAddon:SetDefaultModuleState(false)
 -- -- Create a module and explicilty enable it
@@ -499,7 +499,7 @@ function AceAddon:InitializeAddon(addon)
 
 	local embeds = self.embeds[addon]
 	for i = 1, #embeds do
-		local lib = LibStub:GetLibrary(embeds[i], true)
+		local lib = LibStubQuestie:GetLibrary(embeds[i], true)
 		if lib then safecall(lib.OnEmbedInitialize, lib, addon) end
 	end
 
@@ -530,7 +530,7 @@ function AceAddon:EnableAddon(addon)
 	if self.statuses[addon.name] then
 		local embeds = self.embeds[addon]
 		for i = 1, #embeds do
-			local lib = LibStub:GetLibrary(embeds[i], true)
+			local lib = LibStubQuestie:GetLibrary(embeds[i], true)
 			if lib then safecall(lib.OnEmbedEnable, lib, addon) end
 		end
 
@@ -565,7 +565,7 @@ function AceAddon:DisableAddon(addon)
 	if not self.statuses[addon.name] then
 		local embeds = self.embeds[addon]
 		for i = 1, #embeds do
-			local lib = LibStub:GetLibrary(embeds[i], true)
+			local lib = LibStubQuestie:GetLibrary(embeds[i], true)
 			if lib then safecall(lib.OnEmbedDisable, lib, addon) end
 		end
 		-- disable possible modules.

@@ -20,9 +20,9 @@ local GameTooltip_SetTitle, GameTooltip_AddInstructionLine, GameTooltip_AddNorma
 local MAJOR_VERSION = "LibUIDropDownMenu-4.0"
 local MINOR_VERSION = 90000 + tonumber(("$Rev: 65 $"):match("%d+"))
 
-local LibStub = _G.LibStub
-if not LibStub then error(MAJOR_VERSION .. " requires LibStub.") end
-local lib = LibStub:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
+local LibStubQuestie = _G.LibStubQuestie
+if not LibStubQuestie then error(MAJOR_VERSION .. " requires LibStubQuestie.") end
+local lib = LibStubQuestie:NewLibrary(MAJOR_VERSION, MINOR_VERSION)
 if not lib then return end
 
 -- Determine WoW TOC Version

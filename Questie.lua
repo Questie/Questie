@@ -134,7 +134,7 @@ function Questie:OnInitialize()
         Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
 
         -- Creating the minimap config icon
-        Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
+        Questie.minimapConfigIcon = LibStubQuestie("LibDBIcon-1.0");
         Questie.minimapConfigIcon:Register("Questie", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
 
         -- Update the default text on the map show/hide button for localization

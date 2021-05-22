@@ -19,7 +19,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local minimapIconLDB = nil
 
 function QuestieOptionsMinimapIcon:Initialize()
-    minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
+    minimapIconLDB = LibStubQuestie("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
         text = "Questie",
         icon = ICON_TYPE_COMPLETE,

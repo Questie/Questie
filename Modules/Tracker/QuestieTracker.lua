@@ -31,7 +31,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStubQuestie:GetLibrary("LibUIDropDownMenu-4.0")
 
 -- Local Vars
 local trackerLineCount = 80
@@ -46,7 +46,7 @@ local lineIndex = 0
 local buttonIndex = 0
 local lastAQW = GetTime()
 local durabilityInitialPosition
-local LSM30 = LibStub("LibSharedMedia-3.0", true)
+local LSM30 = LibStubQuestie("LibSharedMedia-3.0", true)
 
 -- Private Global Vars
 _QuestieTracker.LineFrames = {}

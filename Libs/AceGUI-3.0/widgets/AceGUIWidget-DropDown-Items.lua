@@ -1,6 +1,6 @@
 --[[ $Id: AceGUIWidget-DropDown-Items.lua 1202 2019-05-15 23:11:22Z nevcairiel $ ]]--
 
-local AceGUI = LibStub("AceGUI-3.0")
+local AceGUI = LibStubQuestie("AceGUI-3.0")
 
 -- Lua APIs
 local select, assert = select, assert
@@ -215,8 +215,8 @@ function ItemBase.Create(type)
 	return self
 end
 
--- Register a dummy LibStub library to retrieve the ItemBase, so other addons can use it.
-local IBLib = LibStub:NewLibrary("AceGUI-3.0-DropDown-ItemBase", ItemBase.version)
+-- Register a dummy LibStubQuestie library to retrieve the ItemBase, so other addons can use it.
+local IBLib = LibStubQuestie:NewLibrary("AceGUI-3.0-DropDown-ItemBase", ItemBase.version)
 if IBLib then
 	IBLib.GetItemBase = function() return ItemBase end
 end

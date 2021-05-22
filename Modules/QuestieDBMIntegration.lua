@@ -7,7 +7,7 @@
 local QuestieDBMIntegration = QuestieLoader:CreateModule("QuestieDBMIntegration");
 
 --Libs
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBD = LibStubQuestie("HereBeDragonsQuestie-2.0")
 --Local Variables
 local LastInstanceMapID = 9999--Just making sure to set initial zone ID to a number (that isn't an actual zone)
 local KalimdorPoints = {}--Maintains Kalimdor objective list

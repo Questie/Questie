@@ -3,7 +3,7 @@ DropdownGroup Container
 Container controlled by a dropdown on the top.
 -------------------------------------------------------------------------------]]
 local Type, Version = "DropdownGroup", 22
-local AceGUI = LibStub and LibStub("AceGUI-3.0", true)
+local AceGUI = LibStubQuestie and LibStubQuestie("AceGUI-3.0", true)
 if not AceGUI or (AceGUI:GetWidgetVersion(Type) or 0) >= Version then return end
 
 -- Lua APIs

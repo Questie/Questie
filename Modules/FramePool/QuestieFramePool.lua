@@ -35,7 +35,7 @@ _QuestieFramePool.allFrames = {}
 _QuestieFramePool.wayPointColor = {1,0.72,0,0.5}
 _QuestieFramePool.wayPointColorHover = {0.93,0.46,0.13,0.8}
 
-local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
+local HBDPins = LibStubQuestie("HereBeDragonsQuestie-Pins-2.0")
 
 -- set pins parent to QuestieFrameGroup for easier compatibility with other addons
 -- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway

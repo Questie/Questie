@@ -15,8 +15,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieOptions.tabs = {...}
 QuestieConfigFrame = nil
 
-local AceGUI = LibStub("AceGUI-3.0")
-local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+local AceGUI = LibStubQuestie("AceGUI-3.0")
+local AceConfigDialog = LibStubQuestie("AceConfigDialog-3.0")
 
 -- Forward declaration
 local _CreateOptionsTable
@@ -25,7 +25,7 @@ function QuestieOptions:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
     local optionsTable = _CreateOptionsTable()
-    LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", optionsTable)
+    LibStubQuestie("AceConfig-3.0"):RegisterOptionsTable("Questie", optionsTable)
     AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
     local configFrame = AceGUI:Create("Frame")

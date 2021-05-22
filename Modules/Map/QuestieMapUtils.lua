@@ -5,7 +5,7 @@ QuestieMap.utils = {};
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
-local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBD = LibStubQuestie("HereBeDragonsQuestie-2.0")
 
 -- All the speed we can get is worth it.
 local tinsert = table.insert

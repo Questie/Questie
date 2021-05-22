@@ -3,7 +3,7 @@
 -- @name AceConfigDialog-3.0
 -- @release $Id: AceConfigDialog-3.0.lua 1248 2021-02-05 14:27:49Z funkehdude $
 
-local LibStub = LibStub
+local LibStub = LibStubQuestie
 local gui = LibStub("AceGUI-3.0")
 local reg = LibStub("AceConfigRegistry-3.0")
 
