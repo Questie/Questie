@@ -77,8 +77,27 @@ function QuestieEventHandler:RegisterAllEvents(callback)
     -- Putting it here reduces the size of the QuestieEventHandler, since all the regular
     -- event handlers can be local
 
-    -- Player Events
-    Questie:RegisterEvent("PLAYER_LOGIN", function() C_Timer.After(0.5, _EventHandler.PlayerLogin) end)
+    local savedVarsTimer
+    Questie:RegisterEvent("PLAYER_LOGIN", function()
+
+        local maxTickerRuns = 50 -- 50 * 0.1 seconds = 5 seconds
+        local tickCounter = 0
+
+        savedVarsTimer = C_Timer.NewTicker(0.1, function()
+            tickCounter = tickCounter + 1
+            if (not QuestieConfig) or (not QuestieConfigCharacter) then
+                -- The Saved Variables are not loaded yet
+                if tickCounter == (maxTickerRuns - 1) then
+                    -- The time is over, must be a fresh install
+                    _EventHandler:PlayerLogin()
+                end
+                return
+            end
+
+            savedVarsTimer:Cancel()
+            _EventHandler:PlayerLogin()
+        end, maxTickerRuns)
+    end)
     
     continueInit = function()
         Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
@@ -151,11 +170,11 @@ end
 
 function _EventHandler:PlayerLogin()
 
-    if not QuestieConfigCharacter then
+    if (not QuestieConfigCharacter) then
         QuestieConfigCharacter = {}
     end
     
-    if not QuestieConfig then
+    if (not QuestieConfig) then
         QuestieConfig = {}
     end
 
