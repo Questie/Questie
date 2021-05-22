@@ -112,12 +112,6 @@ function QuestieTBCQuestFixes:Load()
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44},},}},
         },
-        [5401] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        },
-        [5405] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        },
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5},},}},
         },
