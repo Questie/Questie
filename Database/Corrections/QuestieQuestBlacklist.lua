@@ -1104,4 +1104,5 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [8795] = true,
     [8796] = true,
     [8797] = true,
+    [10501] = true,
 }
