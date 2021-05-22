@@ -313,7 +313,19 @@ local debugMessagesLocales = {
         ["deDE"] = nil,
         ["esES"] = nil,
         ["esMX"] = nil,
-    }
+    },
+    ["The '%s' world event is active!"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
+        ["frFR"] = nil,
+        ["koKR"] = nil,
+        ["zhCN"] = nil,
+        ["enUS"] = true,
+        ["zhTW"] = nil,
+        ["deDE"] = "Das '%s' Feiertag-Event ist aktiv!",
+        ["esES"] = nil,
+        ["esMX"] = nil,
+    },
 }
 
 for k, v in pairs(debugMessagesLocales) do
