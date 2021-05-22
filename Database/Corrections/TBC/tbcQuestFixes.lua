@@ -1356,6 +1356,9 @@ function QuestieTBCQuestFixes:Load()
         [10977] = {
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54},},}},
         },
+        [10984] = {
+            [questKeys.exclusiveTo] = {10989,11057,},
+        },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06},},}},
         },
