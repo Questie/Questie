@@ -1485,6 +1485,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11174] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{4392,4393,4394},4392,"Oozes Dissolved"}},
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
