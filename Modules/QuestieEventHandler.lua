@@ -265,9 +265,11 @@ function _EventHandler:PlayerLogin()
         C_Timer.After(1, stage1)
         C_Timer.After(4, stage2)
     else
-        -- reset townsfolk on all characters before compile
-        for _, char in pairs(QuestieConfig.char) do
-            char.townsfolk = nil
+        if Questie.db.char.townsfolk then
+            -- reset townsfolk on all characters before compile
+            for _, char in pairs(Questie.db.char.townsfolk) do
+                char.townsfolk = nil
+            end
         end
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         local callTable = {
