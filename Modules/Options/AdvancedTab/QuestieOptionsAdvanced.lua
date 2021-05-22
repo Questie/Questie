@@ -102,7 +102,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                     if Questie.db.global.debugEnabled then
                         QuestieLoader:PopulateGlobals()
                     end
-                    QuestieConfigCharacter = {}
                 end,
             },
             debugEnabledPrint = {

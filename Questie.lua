@@ -267,9 +267,6 @@ function Questie:Debug(...)
         if(bit.band(Questie.db.global.debugLevel, math.pow(2, 1)) == 0 and select(1, ...) == DEBUG_ELEVATED)then return; end
         if(bit.band(Questie.db.global.debugLevel, math.pow(2, 0)) == 0 and select(1, ...) == DEBUG_CRITICAL)then return; end
         --Questie:Print(...)
-        if(QuestieConfigCharacter.log) then
-            QuestieConfigCharacter = {};
-        end
 
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
