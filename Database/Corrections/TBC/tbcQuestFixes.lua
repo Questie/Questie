@@ -1226,6 +1226,9 @@ function QuestieTBCQuestFixes:Load()
         [10781] = {
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79},},}},
         },
+        [10782] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan.", 0, {{"monster", 17008}}}},
+        },
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
         },
