@@ -72,10 +72,7 @@ local LibDropDown = LibStubQuestie:GetLibrary("LibUIDropDownMenu-4.0")
 local continueInit
 
 
---- This function registeres all required ingame events to the global "Questie"
 function QuestieEventHandler:RegisterAllEvents(callback)
-    -- Putting it here reduces the size of the QuestieEventHandler, since all the regular
-    -- event handlers can be local
 
     local savedVarsTimer
     Questie:RegisterEvent("PLAYER_LOGIN", function()
@@ -173,7 +170,7 @@ function _EventHandler:PlayerLogin()
     if (not QuestieConfigCharacter) then
         QuestieConfigCharacter = {}
     end
-    
+
     if (not QuestieConfig) then
         QuestieConfig = {}
     end
@@ -185,7 +182,7 @@ function _EventHandler:PlayerLogin()
         profile = QuestieConfigCharacter, -- deprecated: remove "profile" or actually use it
         global = QuestieConfig
     }
-    
+
     for k, v in pairs(defaults.global) do
         if Questie.db.global[k] == nil then
             Questie.db.global[k] = v
@@ -267,7 +264,6 @@ function _EventHandler:PlayerLogin()
         end
 
         Questie.started = true
-
     end
 
     if QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
@@ -289,44 +285,44 @@ function _EventHandler:PlayerLogin()
 
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         local callTable = {
-            function()
+            [1] = function()
                 print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
                 -- give it an extra second, this runs right at player_logged_in and we don't want to lag users too much
             end,
-            function()
+            [2] = function()
                 print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
                 QuestieDB.npcData = loadstring(QuestieDB.npcData)
                 QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and loadstring(QuestieDB.npcDataTBC) or nil
             end,
-            function() -- secondary function to avoid lag spikes
+            [3] = function() -- secondary function to avoid lag spikes
                 QuestieDB.npcData = QuestieDB.npcData()
                 QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and QuestieDB.npcDataTBC() or nil
             end,
-            function() 
+            [4] = function()
                 QuestieDB.objectData = loadstring(QuestieDB.objectData)
                 QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and loadstring(QuestieDB.objectDataTBC) or nil
             end,
-            function()
+            [5] = function()
                 QuestieDB.objectData = QuestieDB.objectData()
                 QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and QuestieDB.objectDataTBC() or nil
             end,
-            function()
+            [6] = function()
                 QuestieDB.questData = loadstring(QuestieDB.questData)
                 QuestieDB.questDataTBC = QuestieDB.questDataTBC and loadstring(QuestieDB.questDataTBC) or nil
             end,
-            function()
+            [7] = function()
                 QuestieDB.questData = QuestieDB.questData()
                 QuestieDB.questDataTBC = QuestieDB.questDataTBC and QuestieDB.questDataTBC() or nil
             end,
-            function()
+            [8] = function()
                 QuestieDB.itemData = loadstring(QuestieDB.itemData)
                 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataTBC) or nil
             end,
-            function()
+            [9] = function()
                 QuestieDB.itemData = QuestieDB.itemData()
                 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
             end,
-            function()
+            [10] = function()
                 print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
                 if QuestieDB.questDataTBC then
@@ -335,21 +331,21 @@ function _EventHandler:PlayerLogin()
                     QuestieDB.objectData = QuestieDB.objectDataTBC
                 end
             end,
-            function()
+            [11] = function()
                 if QuestieDB.questDataTBC then
                     QuestieDB.npcData = QuestieDB.npcDataTBC
                     QuestieDB.itemData = QuestieDB.itemDataTBC
                 end
             end,
-            function()
+            [12] = function()
                 QuestieCorrections:Initialize()
                 QuestieMenu:PopulateTownsfolk()
             end,
-            function()
+            [13] = function()
                 print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
                 l10n:Initialize()
             end,
-            function()
+            [14] = function()
                 QuestieDB.private:DeleteGatheringNodes()
                 QuestieCorrections:PreCompile(function()
                     QuestieDBCompiler:Compile(function()

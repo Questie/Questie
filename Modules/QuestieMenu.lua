@@ -438,9 +438,7 @@ function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
     Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
-    local isTBC = string.byte(GetBuildInfo(), 1) == 50
-
-    for _, id in pairs(isTBC and { -- mailbox list
+    for _, id in pairs(Questie.IsTBC and { -- mailbox list
         32349,140908,142075,142089,142093,142094,142095,142102,142109,142110,142111,142117,143981,143982,143983,143984,
         143985,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,144131,144179,144570,
         153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176324,176404,177044,178864,
@@ -480,7 +478,6 @@ function QuestieMenu:PopulateTownsfolk()
             tinsert(Questie.db.global.petFoodVendorTypes[petFoodIndexes[foodType]], id)
         end
     end
-
 end
 
 function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
