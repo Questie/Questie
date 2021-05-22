@@ -839,29 +839,29 @@ function QuestieDBCompiler:Compile(finalize)
 
     print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
     QuestieDBCompiler:CompileNPCs(function(npcBin, npcPtrs)
-        QuestieConfig.npcBin = npcBin
-        QuestieConfig.npcPtrs = npcPtrs
+        Questie.db.global.npcBin = npcBin
+        Questie.db.global.npcPtrs = npcPtrs
         QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(npcBin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
         print("\124cFF4DDBFF [5/7] " .. l10n("Updating objects") .. "...")
         QuestieDBCompiler:CompileObjects(function(objectBin, objectPtrs)
-            QuestieConfig.objBin = objectBin
-            QuestieConfig.objPtrs = objectPtrs
+            Questie.db.global.objBin = objectBin
+            Questie.db.global.objPtrs = objectPtrs
             QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(objectBin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
             print("\124cFF4DDBFF [6/7] " .. l10n("Updating quests") .. "...")
             QuestieDBCompiler:CompileQuests(function(questBin, questPtrs)
-                QuestieConfig.questBin = questBin
-                QuestieConfig.questPtrs = questPtrs
+                Questie.db.global.questBin = questBin
+                Questie.db.global.questPtrs = questPtrs
                 QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(questBin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
                 print("\124cFF4DDBFF [7/7] " .. l10n("Updating items") .. "...")
                 QuestieDBCompiler:CompileItems(function(itemBin, itemPtrs)
-                    QuestieConfig.itemBin = itemBin
-                    QuestieConfig.itemPtrs = itemPtrs
-                    QuestieConfig.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
-                    QuestieConfig.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
-                    QuestieConfig.dbIsCompiled = true
+                    Questie.db.global.itemBin = itemBin
+                    Questie.db.global.itemPtrs = itemPtrs
+                    Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+                    Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
+                    Questie.db.global.dbIsCompiled = true
                     QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(itemBin) + DynamicHashTableSize(QuestieDBCompiler.index)
 
                     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
@@ -884,14 +884,14 @@ function QuestieDBCompiler:Compile(finalize)
 end
 
 function QuestieDBCompiler:ValidateNPCs()
-    local validator = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
+    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
     for npcId, _ in pairs(QuestieDB.npcData) do
         local toValidate = {validator.Query(npcId, unpack(QuestieDB.npcCompilerOrder))}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
-        --QuestieConfig.__toValidate = toValidate
+        --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetNPC(npcId)
         for id, key in pairs(QuestieDB.npcCompilerOrder) do
             local a = toValidate[id]
@@ -920,14 +920,14 @@ function QuestieDBCompiler:ValidateNPCs()
 end
 
 function QuestieDBCompiler:ValidateObjects()
-    local validator = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
+    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
     for objectId, _ in pairs(QuestieDB.objectData) do
         local toValidate = {validator.Query(objectId, unpack(QuestieDB.objectCompilerOrder))}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
-        --QuestieConfig.__toValidate = toValidate
+        --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetObject(objectId)
         for id, key in pairs(QuestieDB.objectCompilerOrder) do
             local a = toValidate[id]
@@ -957,9 +957,9 @@ end
 
 
 function QuestieDBCompiler:ValidateItems()
-    local validator = QuestieDBCompiler:GetDBHandle(QuestieConfig.itemBin, QuestieConfig.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder))
-    local obj = QuestieDBCompiler:GetDBHandle(QuestieConfig.objBin, QuestieConfig.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
-    local npc = QuestieDBCompiler:GetDBHandle(QuestieConfig.npcBin, QuestieConfig.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
+    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.itemBin, Questie.db.global.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder))
+    local obj = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
+    local npc = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
     
     for id, _ in pairs(validator.pointers) do
         local objDrops, npcDrops = unpack(validator.Query(id, "objectDrops", "npcDrops"))
@@ -985,7 +985,7 @@ function QuestieDBCompiler:ValidateItems()
         --if false then
         --    local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         --    print("toValidate length: " .. cnt)
-        --    --QuestieConfig.__toValidate = toValidate
+        --    --Questie.db.global.__toValidate = toValidate
         --    local validData = QuestieDB:GetItem(id)
         --    for id,key in pairs(QuestieDB.itemCompilerOrder) do
         --        local a = toValidate[id]
@@ -1015,14 +1015,14 @@ function QuestieDBCompiler:ValidateItems()
 end
 
 function QuestieDBCompiler:ValidateQuests()
-    local validator = QuestieDBCompiler:GetDBHandle(QuestieConfig.questBin, QuestieConfig.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
+    local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
     for questId, _ in pairs(QuestieDB.questData) do
         local toValidate = {validator.Query(questId, unpack(QuestieDB.questCompilerOrder))}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
-        --QuestieConfig.__toValidate = toValidate
+        --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetQuest(questId)
         for id,key in pairs(QuestieDB.questCompilerOrder) do
             local a = toValidate[id]
@@ -1111,7 +1111,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     local stream = QuestieStream:GetStream("raw")
     stream:Load(pointers)
     pointers = QuestieDBCompiler:DecodePointerMap(stream)
-    --QuestieConfig.__pointers = pointers
+    --Questie.db.global.__pointers = pointers
     stream:Load(data)
 
     if overrides then

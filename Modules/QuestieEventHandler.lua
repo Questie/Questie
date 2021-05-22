@@ -270,11 +270,11 @@ function _EventHandler:PlayerLogin()
 
     end
 
-    if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
-        QuestieConfig.dbIsCompiled = nil -- we need to recompile
+    if QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
+        Questie.db.global.dbIsCompiled = nil -- we need to recompile
     end
 
-    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+    if Questie.db.global.dbIsCompiled and Questie.db.global.factionSpecificTownsfolk then -- todo: check for updates or language change and recompile
 
         if not Questie.db.char.townsfolk then
             QuestieMenu:BuildCharacterTownsfolk()

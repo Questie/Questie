@@ -71,12 +71,12 @@ local migrationFunctions = {
             Questie.db.global.migrationVersion = migrationTable
         end
 
-        QuestieConfig.dbIsCompiled = false
+        Questie.db.global.dbIsCompiled = false
     end
 }
 
 function Migration:Migrate()
-    
+
     if not Questie.db.global.migrationVersion then
         Questie.db.global.migrationVersion = {}
     end

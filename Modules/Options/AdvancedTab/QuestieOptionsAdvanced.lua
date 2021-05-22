@@ -186,14 +186,14 @@ function QuestieOptions.tabs.advanced:Initialize()
                         l10n:SetUILocale(clientLocale)
                         Questie.db.global.questieLocale = clientLocale
                         Questie.db.global.questieLocaleDiff = false
-                        QuestieConfig.dbIsCompiled = nil -- recompile db with new lang
+                        Questie.db.global.dbIsCompiled = nil -- recompile db with new lang
                         StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                         return
                     end
                     l10n:SetUILocale(lang);
                     Questie.db.global.questieLocale = lang;
                     Questie.db.global.questieLocaleDiff = true;
-                    QuestieConfig.dbIsCompiled = nil -- recompile db with new lang
+                    Questie.db.global.dbIsCompiled = nil -- recompile db with new lang
                     StaticPopup_Show("QUESTIE_LANG_CHANGED_RELOAD")
                 end,
             },
@@ -234,7 +234,7 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
-                    QuestieConfig.dbIsCompiled = false
+                    Questie.db.global.dbIsCompiled = false
 
                     ReloadUI()
 
@@ -247,7 +247,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Recompile Database'); end,
                 desc = function() return l10n('Forces a recompile of the Questie database. This will also reload the UI.'); end,
                 func = function (info, value)
-                    QuestieConfig.dbIsCompiled = false
+                    Questie.db.global.dbIsCompiled = false
                     ReloadUI()
                 end,
             },
