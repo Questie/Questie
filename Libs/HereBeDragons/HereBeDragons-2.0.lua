@@ -1,12 +1,12 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 16
-assert(LibStubQuestie, MAJOR .. " requires LibStubQuestie")
+assert(LibStub, MAJOR .. " requires LibStub")
 
-local HereBeDragons, oldversion = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not HereBeDragons then return end
 
-local CBH = LibStubQuestie("CallbackHandler-1.0")
+local CBH = LibStub("CallbackHandler-1.0")
 
 HereBeDragons.eventFrame       = HereBeDragons.eventFrame or CreateFrame("Frame")
 

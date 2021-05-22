@@ -22,7 +22,7 @@ QuestieJourney.continents = {}
 QuestieJourney.zones = {}
 QuestieJourney.tabGroup = nil
 
-local AceGUI = LibStubQuestie("AceGUI-3.0")
+local AceGUI = LibStub("AceGUI-3.0")
 
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"

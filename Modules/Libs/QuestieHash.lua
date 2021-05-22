@@ -11,7 +11,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local libS = QuestieLoader:ImportModule("QuestieSerializer")
-local libC = LibStubQuestie:GetLibrary("LibCompress")
+local libC = LibStub:GetLibrary("LibCompress")
 
 local questLogHashes = {}
 

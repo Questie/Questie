@@ -10,7 +10,7 @@
 ----------------------------------------------------------------------------------
 
 
-local LibCompress = LibStubQuestie:NewLibrary("LibCompress", 90000 + tonumber(("$Revision: 83 $"):match("%d+")))
+local LibCompress = LibStub:NewLibrary("LibCompress", 90000 + tonumber(("$Revision: 83 $"):match("%d+")))
 
 if not LibCompress then return end
 

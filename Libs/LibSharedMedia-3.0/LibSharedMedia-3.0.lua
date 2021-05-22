@@ -5,12 +5,12 @@ Author: Elkano (elkano@gmx.de)
 Inspired By: SurfaceLib by Haste/Otravi (troeks@gmail.com)
 Website: http://www.wowace.com/projects/libsharedmedia-3-0/
 Description: Shared handling of media data (fonts, sounds, textures, ...) between addons.
-Dependencies: LibStubQuestie, CallbackHandler-1.0
+Dependencies: LibStub, CallbackHandler-1.0
 License: LGPL v2.1
 ]]
 
 local MAJOR, MINOR = "LibSharedMedia-3.0", 8020003 -- 8.2.0 v3 / increase manually on changes
-local lib = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local lib = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not lib then return end
 
@@ -33,7 +33,7 @@ lib.LOCALE_BIT_zhCN		= 4
 lib.LOCALE_BIT_zhTW		= 8
 lib.LOCALE_BIT_western	= 128
 
-local CallbackHandler = LibStubQuestie:GetLibrary("CallbackHandler-1.0")
+local CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0")
 
 lib.callbacks		= lib.callbacks			or CallbackHandler:New(lib)
 

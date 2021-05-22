@@ -1,7 +1,7 @@
 ---@class QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:CreateModule("QuestieJourneyUtils")
 
-local AceGUI = LibStubQuestie("AceGUI-3.0")
+local AceGUI = LibStub("AceGUI-3.0");
 
 function QuestieJourneyUtils:GetSortedZoneKeys(zones)
     local function compare(a, b)

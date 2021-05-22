@@ -3,8 +3,8 @@ local QuestieCompress = {...};
 QuestieLoader:CreateModule("QuestieCompress", QuestieCompress);
 
 local _QuestieCompress = {...};
-local libS = LibStubQuestie:GetLibrary("AceSerializer-3.0")
-local libC = LibStubQuestie:GetLibrary("LibCompress")
+local libS = LibStub:GetLibrary("AceSerializer-3.0")
+local libC = LibStub:GetLibrary("LibCompress")
 local libCE = libC:GetAddonEncodeTable()
 
 -- What compression method should be used?

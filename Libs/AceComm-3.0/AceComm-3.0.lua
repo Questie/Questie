@@ -17,11 +17,11 @@ TODO: Time out old data rotting around from dead senders? Not a HUGE deal since 
 
 ]]
 
-local CallbackHandler = LibStubQuestie("CallbackHandler-1.0")
+local CallbackHandler = LibStub("CallbackHandler-1.0")
 local CTL = assert(ChatThrottleLib, "AceComm-3.0 requires ChatThrottleLib")
 
 local MAJOR, MINOR = "AceComm-3.0", 12
-local AceComm,oldminor = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local AceComm,oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceComm then return end
 
@@ -37,7 +37,7 @@ local Ambiguate = Ambiguate
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStubQuestie, DEFAULT_CHAT_FRAME, geterrorhandler, RegisterAddonMessagePrefix
+-- GLOBALS: LibStub, DEFAULT_CHAT_FRAME, geterrorhandler, RegisterAddonMessagePrefix
 
 AceComm.embeds = AceComm.embeds or {}
 

@@ -1,7 +1,7 @@
 local MAJOR, MINOR = "HereBeDragonsQuestie-Migrate", 2
-assert(LibStubQuestie, MAJOR .. " requires LibStubQuestie")
+assert(LibStub, MAJOR .. " requires LibStub")
 
-local HBDMigrate, _oldversion = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local HBDMigrate, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not HBDMigrate then return end
 
 local SetupMigrationData

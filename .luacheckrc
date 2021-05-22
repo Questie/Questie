@@ -2715,7 +2715,6 @@ stds.questie = {
         "hudDuration",
         "TomTom",
         "LibStub",
-        "LibStubQuestie",
         "SUFUnittarget",
         "ElvUF_Target",
         "PitBull4_Frames_Target",

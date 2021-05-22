@@ -3,7 +3,7 @@
 -- @name AceDBOptions-3.0
 -- @release $Id: AceDBOptions-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 local ACEDBO_MAJOR, ACEDBO_MINOR = "AceDBOptions-3.0", 15
-local AceDBOptions = LibStubQuestie:NewLibrary(ACEDBO_MAJOR, ACEDBO_MINOR)
+local AceDBOptions = LibStub:NewLibrary(ACEDBO_MAJOR, ACEDBO_MINOR)
 
 if not AceDBOptions then return end -- No upgrade needed
 
@@ -438,7 +438,7 @@ local optionsTable = {
 -- @return The options table to be used in AceConfig-3.0
 -- @usage
 -- -- Assuming `options` is your top-level options table and `self.db` is your database:
--- options.args.profiles = LibStubQuestie("AceDBOptions-3.0"):GetOptionsTable(self.db)
+-- options.args.profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db)
 function AceDBOptions:GetOptionsTable(db, noDefaultProfiles)
 	local tbl = AceDBOptions.optionTables[db] or {
 			type = "group",

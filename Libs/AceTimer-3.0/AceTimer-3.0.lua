@@ -18,7 +18,7 @@
 -- @release $Id: AceTimer-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 
 local MAJOR, MINOR = "AceTimer-3.0", 17 -- Bump minor on changes
-local AceTimer, oldminor = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local AceTimer, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceTimer then return end -- No upgrade needed
 AceTimer.activeTimers = AceTimer.activeTimers or {} -- Active timer list
@@ -82,7 +82,7 @@ end
 -- @param delay Delay for the timer, in seconds.
 -- @param ... An optional, unlimited amount of arguments to pass to the callback function.
 -- @usage
--- MyAddOn = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddOn", "AceTimer-3.0")
+-- MyAddOn = LibStub("AceAddon-3.0"):NewAddon("MyAddOn", "AceTimer-3.0")
 --
 -- function MyAddOn:OnEnable()
 --   self:ScheduleTimer("TimerFeedback", 5)
@@ -111,7 +111,7 @@ end
 -- @param delay Delay for the timer, in seconds.
 -- @param ... An optional, unlimited amount of arguments to pass to the callback function.
 -- @usage
--- MyAddOn = LibStubQuestie("AceAddon-3.0"):NewAddon("MyAddOn", "AceTimer-3.0")
+-- MyAddOn = LibStub("AceAddon-3.0"):NewAddon("MyAddOn", "AceTimer-3.0")
 --
 -- function MyAddOn:OnEnable()
 --   self.timerCount = 0

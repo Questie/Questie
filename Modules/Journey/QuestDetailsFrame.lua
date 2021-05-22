@@ -13,7 +13,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStubQuestie("AceGUI-3.0")
+local AceGUI = LibStub("AceGUI-3.0")
 
 
 -- TODO remove again once the call in manageZoneTree was removed

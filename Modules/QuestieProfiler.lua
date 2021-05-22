@@ -470,9 +470,9 @@ end
 function QuestieProfiler:DoHooks(after)
     local timer
 
-    -- LibStubQuestie modules. TODO: check debugstack() to only include calls made by questie
+    -- libstub modules. TODO: check debugstack() to only include calls made by questie
     --QuestieProfiler.needsHookCount = QuestieProfiler.needsHookCount + 1
-    --tinsert(QuestieProfiler.needsHook, {LibStubQuestie, "LibStubQuestie"})
+    --tinsert(QuestieProfiler.needsHook, {LibStub, "LibStub"})
 
     for moduleName, module in pairs(QuestieLoader._modules) do
         if module ~= QuestieProfiler then
