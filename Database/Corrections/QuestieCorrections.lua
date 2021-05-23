@@ -409,8 +409,7 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
     return newWaypointZones
 end
 
-function QuestieCorrections:PreCompile(callback) -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
-
+function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
     local timer
     local ops = {}
     --local totalPoints = 0
@@ -425,7 +424,8 @@ function QuestieCorrections:PreCompile(callback) -- this happens only if we are 
         end
     end
 
-    timer = C_Timer.NewTicker(0.1, function()
+    while true do
+        coroutine.yield()
         for _=0,Questie.db.global.debugEnabled and 4000 or 72 do -- 72 operations per NewTicker
             local op = tremove(ops, 1)
             if op then
@@ -443,12 +443,10 @@ function QuestieCorrections:PreCompile(callback) -- this happens only if we are 
                 --print("Before RDP: " .. tostring(totalPoints))
                 --print("After RDP:" .. tostring(totalPoints2))
 
-                timer:Cancel()
-                callback()
-                break
+                return
             end
         end
-    end)
+    end
 end
 
 

@@ -82,6 +82,7 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
 ##Modules
+Modules\QuestieInit.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua

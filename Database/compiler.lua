@@ -657,20 +657,20 @@ QuestieDBCompiler.statics = {
     ["s24pair"] = 6,
 }
 
-function QuestieDBCompiler:CompileNPCs(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, func, "NPC")
+function QuestieDBCompiler:CompileNPCs()
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.npcData, QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder, QuestieDB.npcKeys, "npc", "NPC")
 end
 
-function QuestieDBCompiler:CompileObjects(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.objectData, QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder, QuestieDB.objectKeys, func, "Object")
+function QuestieDBCompiler:CompileObjects()
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.objectData, QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder, QuestieDB.objectKeys, "obj", "Object")
 end
 
-function QuestieDBCompiler:CompileQuests(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, func, "Quest", 28)
+function QuestieDBCompiler:CompileQuests()
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.questData, QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder, QuestieDB.questKeys, "quest", "Quest", 28)
 end
 
-function QuestieDBCompiler:CompileItems(func)
-    QuestieDBCompiler:CompileTableTicking(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, func, "Item", 128)
+function QuestieDBCompiler:CompileItems()
+    QuestieDBCompiler:CompileTableCoroutine(QuestieDB.itemData, QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder, QuestieDB.itemKeys, "item", "Item", 128)
 end
 
 local function equals(a, b)
@@ -735,7 +735,7 @@ function QuestieDBCompiler:CompileTable(tbl, types, order, lookup)
     return stream:Save(), QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
 end
 
-function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after, kind, entriesPerTick)
+function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, key, kind, entriesPerTick)
     local count = 0
     local indexLookup = {};
     for id in pairs(tbl) do
@@ -748,32 +748,27 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
     QuestieDBCompiler.pointerMap = {}
     QuestieDBCompiler.stream = QuestieStream:GetStream("raw")
 
-    QuestieDBCompiler.ticker = C_Timer.NewTicker(0.01, function()
+    while true do
+        coroutine.yield()
         for _=0,Questie.db.global.debugEnabled and 4000 or (entriesPerTick or 48) do
             QuestieDBCompiler.index = QuestieDBCompiler.index + 1
             if QuestieDBCompiler.index == count then
-                QuestieDBCompiler.ticker:Cancel()
-                --print("Finalizing: " .. QuestieDBCompiler.index)
-                after(QuestieDBCompiler.stream:Save(), QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap))
-                break
+                Questie.db.global[key.."Bin"] = QuestieDBCompiler.stream:Save()
+                Questie.db.global[key.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
+                return
             end
             local id = indexLookup[QuestieDBCompiler.index]
             
             QuestieDBCompiler.currentEntry = id
             local entry = tbl[id]
-            --local pointerStart = QuestieDBCompiler.stream._pointer
+
             QuestieDBCompiler.pointerMap[id] = QuestieDBCompiler.stream._pointer--pointerStart
             for _, key in pairs(order) do
                 local v = entry[lookup[key]]
                 local t = types[key]
-                --if not QuestieDBCompiler.supportedTypes[type(v)] then
-                --    print("Unsupported datatype: " .. type(v))
-                --    QuestieDBCompiler.ticker:Cancel()
-                --    return
-                --end
+
                 if v and not QuestieDBCompiler.supportedTypes[type(v)][t] then
                     Questie:Error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
-                    QuestieDBCompiler.ticker:Cancel()
                     return
                 end
                 if not QuestieDBCompiler.writers[t] then
@@ -788,7 +783,7 @@ function QuestieDBCompiler:CompileTableTicking(tbl, types, order, lookup, after,
             end
             tbl[id] = nil -- quicker gabage collection later
         end
-    end)
+    end
 end
 
 function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for random access, to read specific fields in an entry without reading the whole entry
@@ -819,13 +814,12 @@ function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for ra
     return skipmap
 end
 
-function QuestieDBCompiler:Compile(finalize)
+function QuestieDBCompiler:Compile()
     if QuestieDBCompiler._isCompiling then
         return
     end
     
     QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
-
 
     local function DynamicHashTableSize(entries)
         if (entries == 0) then
@@ -834,53 +828,35 @@ function QuestieDBCompiler:Compile(finalize)
           return math.pow(2, math.ceil(math.log(entries) / math.log(2))) * 40 + 36;
         end
     end
+
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
 
     print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
-    QuestieDBCompiler:CompileNPCs(function(npcBin, npcPtrs)
-        Questie.db.global.npcBin = npcBin
-        Questie.db.global.npcPtrs = npcPtrs
-        QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(npcBin) + DynamicHashTableSize(QuestieDBCompiler.index)
+    QuestieDBCompiler:CompileNPCs()
+    print("\124cFF4DDBFF [5/7] " .. l10n("Updating objects") .. "...")
+    QuestieDBCompiler:CompileObjects()
+    print("\124cFF4DDBFF [6/7] " .. l10n("Updating quests") .. "...")
+    QuestieDBCompiler:CompileQuests()
+    print("\124cFF4DDBFF [7/7] " .. l10n("Updating items") .. "...")
+    QuestieDBCompiler:CompileItems()
+    print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
-        print("\124cFF4DDBFF [5/7] " .. l10n("Updating objects") .. "...")
-        QuestieDBCompiler:CompileObjects(function(objectBin, objectPtrs)
-            Questie.db.global.objBin = objectBin
-            Questie.db.global.objPtrs = objectPtrs
-            QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(objectBin) + DynamicHashTableSize(QuestieDBCompiler.index)
+    Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
+    Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
+    Questie.db.global.dbIsCompiled = true
 
-            print("\124cFF4DDBFF [6/7] " .. l10n("Updating quests") .. "...")
-            QuestieDBCompiler:CompileQuests(function(questBin, questPtrs)
-                Questie.db.global.questBin = questBin
-                Questie.db.global.questPtrs = questPtrs
-                QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(questBin) + DynamicHashTableSize(QuestieDBCompiler.index)
-
-                print("\124cFF4DDBFF [7/7] " .. l10n("Updating items") .. "...")
-                QuestieDBCompiler:CompileItems(function(itemBin, itemPtrs)
-                    Questie.db.global.itemBin = itemBin
-                    Questie.db.global.itemPtrs = itemPtrs
-                    Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
-                    Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
-                    Questie.db.global.dbIsCompiled = true
-                    QuestieDBCompiler.totalSize = QuestieDBCompiler.totalSize + string.len(itemBin) + DynamicHashTableSize(QuestieDBCompiler.index)
-
-                    print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
-                    QuestieDBCompiler._isCompiling = nil
-
-                    if Questie.db.global.debugEnabled then
-                        Questie:Debug(DEBUG_DEVELOP, "Validating objects...")
-                        QuestieDBCompiler:ValidateObjects()
-                        Questie:Debug(DEBUG_DEVELOP, "Validating items...")
-                        QuestieDBCompiler:ValidateItems()
-                        Questie:Debug(DEBUG_DEVELOP, "Validating quests...")
-                        QuestieDBCompiler:ValidateQuests()
-                    end
-
-                    if finalize then finalize() end
-                end)
-            end)
-        end)
-    end)
+    if Questie.db.global.debugEnabled then
+        Questie:Debug(DEBUG_DEVELOP, "Validating objects...")
+        coroutine.yield()
+        QuestieDBCompiler:ValidateObjects()
+        Questie:Debug(DEBUG_DEVELOP, "Validating items...")
+        coroutine.yield()
+        QuestieDBCompiler:ValidateItems()
+        Questie:Debug(DEBUG_DEVELOP, "Validating quests...")
+        coroutine.yield()
+        QuestieDBCompiler:ValidateQuests()
+    end
 end
 
 function QuestieDBCompiler:ValidateNPCs()

@@ -116,7 +116,7 @@ end
 function Questie:OnInitialize()
     Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
 
-    QuestieEventHandler:RegisterAllEvents(function()
+    QuestieEventHandler:RegisterEarlyEvents(function()
         --QuestieTracker:Initialize() --moved to stage 2 init event function
         QuestieTooltips:Initialize()
         QuestieCoords:Initialize()
