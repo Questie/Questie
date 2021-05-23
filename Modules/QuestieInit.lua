@@ -148,6 +148,9 @@ function QuestieInit:InitAllModules()
     Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
     didPlayerEnterWorld = true
 
+    coroutine.yield()
+    QuestieQuest:GetAllQuestIds()
+
     -- Initialize the tracker
     coroutine.yield()
     QuestieTracker:Initialize()
