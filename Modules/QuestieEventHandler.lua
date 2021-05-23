@@ -167,41 +167,7 @@ end
 
 function _EventHandler:PlayerLogin()
 
-    if (not QuestieConfig) then
-        QuestieConfig = {}
-    end
-
-    if (not QuestieConfig[UnitName("Player") .. " - " .. GetRealmName()]) then
-        QuestieConfig[UnitName("Player") .. " - " .. GetRealmName()] = {}
-    end
-
-    local defaults = QuestieOptionsDefaults:Load()
-
-    local perCharacter = QuestieConfig[UnitName("Player") .. " - " .. GetRealmName()]
-
-    Questie.db = {
-        char = perCharacter,
-        profile = perCharacter, -- deprecated: remove "profile" or actually use it
-        global = QuestieConfig
-    }
-
-    for k, v in pairs(defaults.global) do
-        if Questie.db.global[k] == nil then
-            Questie.db.global[k] = v
-        end
-    end
-    
-    for k, v in pairs(defaults.char) do
-        if Questie.db.char[k] == nil then
-            Questie.db.char[k] = v
-        end
-    end
-    
-    for k, v in pairs(defaults.profile) do
-        if Questie.db.profile[k] == nil then
-            Questie.db.profile[k] = v
-        end
-    end
+    Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
     QuestieFramePool:SetIcons()
 
