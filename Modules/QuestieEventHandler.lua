@@ -68,7 +68,6 @@ local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 --- LOCAL ---
 --False -> true -> nil
 local didPlayerEnterWorld = false
-local hasFirstQLU = false
 local shouldRunQLU = false
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")

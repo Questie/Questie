@@ -142,11 +142,6 @@ function QuestieInit:InitAllModules()
     QuestieMenu:PopulateTownsfolkPostBoot()
     Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
     didPlayerEnterWorld = true
-    -- manually fire QLU since enter has been delayed past the first QLU
-    if hasFirstQLU then
-        coroutine.yield()
-        _EventHandler:QuestLogUpdate()
-    end
 
     -- Initialize the tracker
     coroutine.yield()
