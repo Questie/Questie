@@ -717,8 +717,13 @@ end
 function QuestieDBCompiler:DecodePointerMap(stream)
     local count = stream:ReadShort()
     local ret = {}
-    for _ = 1, count do
-        ret[stream:ReadInt24()] = stream:ReadInt24()
+    local i = 0
+    while i < count do
+        for e = 1, math.min(768, count-i) do -- steps per yield
+            ret[stream:ReadInt24()] = stream:ReadInt24()
+        end
+        i = i + 768
+        coroutine.yield()
     end
     return ret
 end
@@ -1085,9 +1090,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     local map, lastIndex, lastPtr, types, _, indexToKey, keyToIndex = unpack(skipMap)
 
     local stream = QuestieStream:GetStream("raw")
+    coroutine.yield()
     stream:Load(pointers)
+    coroutine.yield()
     pointers = QuestieDBCompiler:DecodePointerMap(stream)
     --Questie.db.global.__pointers = pointers
+    coroutine.yield()
     stream:Load(data)
 
     if overrides then
