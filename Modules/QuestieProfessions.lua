@@ -139,5 +139,6 @@ alternativeProfessionNames = {
     ["Leathercrafter"] = 165,
     ["Armorsmith"] = 164,
     ["Weaponsmith"] = 164,
-    ["Surgeon"] = 129
+    ["Surgeon"] = 129,
+    ["Trauma Surgeon"] = 129,
 }
