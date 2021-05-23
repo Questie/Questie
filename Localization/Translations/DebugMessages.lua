@@ -316,7 +316,7 @@ local debugMessagesLocales = {
     },
     ["The '%s' world event is active!"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Игровое событие '%s' активно!",
         ["frFR"] = nil,
         ["koKR"] = nil,
         ["zhCN"] = nil,
