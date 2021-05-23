@@ -180,8 +180,10 @@ function QuestieInit:LoadDatabase(key)
 end
 
 function QuestieInit:LoadBaseDB()
-    -- reset townsfolk on all characters before compile (THIS IS WRONG: TODO FIX IT)
-    Questie.db.char.townsfolk = {}
+    -- reset townsfolk on all characters before compile
+    for _, char in pairs(QuestieConfig.char) do
+        char.townsfolk = nil
+    end
 
     -- load NPC data
     QuestieInit:LoadDatabase("npcData")
