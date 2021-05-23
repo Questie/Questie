@@ -735,7 +735,7 @@ function QuestieDBCompiler:CompileTable(tbl, types, order, lookup)
     return stream:Save(), QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
 end
 
-function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, key, kind, entriesPerTick)
+function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, databaseKey, kind, entriesPerTick)
     local count = 0
     local indexLookup = {};
     for id in pairs(tbl) do
@@ -753,8 +753,8 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, key,
         for _=0,Questie.db.global.debugEnabled and 4000 or (entriesPerTick or 48) do
             QuestieDBCompiler.index = QuestieDBCompiler.index + 1
             if QuestieDBCompiler.index == count then
-                Questie.db.global[key.."Bin"] = QuestieDBCompiler.stream:Save()
-                Questie.db.global[key.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
+                Questie.db.global[databaseKey.."Bin"] = QuestieDBCompiler.stream:Save()
+                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
                 return
             end
             local id = indexLookup[QuestieDBCompiler.index]
