@@ -224,8 +224,8 @@ function QuestieInit:Init()
     local initFrame = CreateFrame("Frame")
     local routine = coroutine.create(QuestieInit.InitAllModules)
     initFrame:SetScript("OnUpdate", function()
-        local status, error = coroutine.resume(routine)
-        if status then
+        local success, error = coroutine.resume(routine)
+        if success then
             if coroutine.status(routine) == "dead" then
                 initFrame:SetScript("OnUpdate", nil)
             end
