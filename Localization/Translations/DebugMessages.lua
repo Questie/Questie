@@ -334,7 +334,7 @@ local debugMessagesLocales = {
         ["zhCN"] = nil,
         ["enUS"] = true,
         ["zhTW"] = nil,
-        ["deDE"] = nil,
+        ["deDE"] = "Fehler während der Initialisierung!",
         ["esES"] = nil,
         ["esMX"] = nil,
     }
