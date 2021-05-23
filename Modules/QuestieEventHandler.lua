@@ -62,8 +62,6 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type HBDHooks
-local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -153,7 +151,6 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
         if Questie.started then
             QuestieMap:InitializeQueue()
-            HBDHooks:Init()
             if not IsInInstance() then
                 QuestieQuest:SmoothReset()
             end

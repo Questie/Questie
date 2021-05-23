@@ -41,10 +41,14 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type HBDHooks
+local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
 function QuestieInit:InitAllModules()
+
+    HBDHooks:Init()
 
     QuestieFramePool:SetIcons()
 
