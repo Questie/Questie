@@ -4,7 +4,6 @@
     <Script file="Journey\Search.lua"/>
 
     <Script file="MinimapIcon\MinimapIcon.lua"/>
-    <Script file="MinimapIcon\Professions.lua"/>
     <Script file="MinimapIcon\Townsfolk.lua"/>
 
     <Script file="Options\Advanced.lua"/>
