@@ -166,7 +166,7 @@ local professionLocals = {
         ["esMX"] = "Equitación",
         ["enUS"] = true,
         ["zhCN"] = "骑术",
-        ["zhTW"] = nil,
+        ["zhTW"] = "騎術",
         ["esES"] = "Equitación",
         ["frFR"] = "Monte",
     },
