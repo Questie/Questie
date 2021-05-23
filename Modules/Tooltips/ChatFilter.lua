@@ -9,13 +9,13 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---------------------------------------------------------------------------------------------------
 
 --- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
-local function QuestsFilter(chatFrame, event, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
+local function QuestsFilter(chatFrame, _, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
                 local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
                 
-                if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+                if Questie.IsTBC then
                     questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
                 else
                     _, _, questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
@@ -25,7 +25,7 @@ local function QuestsFilter(chatFrame, event, msg, playerName, languageName, cha
                     questId = tonumber(sqid)
 
                     if string.find(questName, "(%[%d+.-%]) ") ~= nil then
-                        if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+                        if Questie.IsTBC then
                             questLevel, questName = string.match(questName, "%[(..-)%] (.+)")
                         else
                             _, _, questLevel, questName = string.match(questName, "%[(..-)%] (.+)")

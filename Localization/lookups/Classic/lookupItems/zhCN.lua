@@ -1,4 +1,8 @@
 -- Last update: 2020/10/05 （祈福@枫聖-重新整理）
+if GetLocale() ~= "zhCN" then
+    return
+end
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 

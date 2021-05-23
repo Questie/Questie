@@ -7,9 +7,7 @@ mod = function(a, b)
     return a % b
 end
 bit = require("bit32")
-stderr = function(text)
-    io.stderr:write(tostring(text) .. "\n")
-end
+
 GetBuildInfo = function()
     return "2.5.1", "38644", "May 11 2021", "20501"
 end
@@ -83,6 +81,14 @@ function Questie:Debug(...)
     --print(...)
 end
 
+function Questie:Error(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
+end
+
+function Questie:Warning(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
+end
+
 Questie.db = {
     char = {
         showEventQuests = false
@@ -95,7 +101,6 @@ QuestieConfig = {}
 
 print("Running compiler...")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -118,18 +123,17 @@ QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataT
 QuestieDB.itemData = QuestieDB.itemData()
 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
 print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-if QuestieDB.questDataTBC then
-    QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
-    QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
-    QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
-    QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
-end
 
 
 QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
 QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
-QuestieCorrections:Initialize()
+QuestieCorrections:Initialize({
+    ["npcData"] = QuestieDB.npcDataTBC,
+    ["objectData"] = QuestieDB.objectDataTBC,
+    ["itemData"] = QuestieDB.itemDataTBC,
+    ["questData"] = QuestieDB.questDataTBC
+})
 
 QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 

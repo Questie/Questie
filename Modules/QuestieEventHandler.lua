@@ -52,10 +52,14 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieDatabaseUnification
-local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- LOCAL ---
 --False -> true -> nil
@@ -68,13 +72,29 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 local continueInit
 
 
---- This function registeres all required ingame events to the global "Questie"
 function QuestieEventHandler:RegisterAllEvents(callback)
-    -- Putting it here reduces the size of the QuestieEventHandler, since all the regular
-    -- event handlers can be local
 
-    -- Player Events
-    Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
+    local savedVarsTimer
+    Questie:RegisterEvent("PLAYER_LOGIN", function()
+
+        local maxTickerRuns = 50 -- 50 * 0.1 seconds = 5 seconds
+        local tickCounter = 0
+
+        savedVarsTimer = C_Timer.NewTicker(0.1, function()
+            tickCounter = tickCounter + 1
+            if (not QuestieConfig) or (not QuestieConfigCharacter) then
+                -- The Saved Variables are not loaded yet
+                if tickCounter == (maxTickerRuns - 1) then
+                    -- The time is over, must be a fresh install
+                    _EventHandler:PlayerLogin()
+                end
+                return
+            end
+
+            savedVarsTimer:Cancel()
+            _EventHandler:PlayerLogin()
+        end, maxTickerRuns)
+    end)
     
     continueInit = function()
         Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
@@ -147,6 +167,20 @@ end
 
 function _EventHandler:PlayerLogin()
 
+    Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
+
+    QuestieFramePool:SetIcons()
+
+    -- Set proper locale. Either default to client Locale or override based on user.
+    if Questie.db.global.questieLocaleDiff then
+        l10n:SetUILocale(Questie.db.global.questieLocale);
+    else
+        l10n:SetUILocale(GetLocale());
+    end
+
+    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
+    ZoneDB:Initialize()
+
     Migration:Migrate()
 
     local function stage1()
@@ -198,14 +232,13 @@ function _EventHandler:PlayerLogin()
         end
 
         Questie.started = true
-
     end
 
-    if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
-        QuestieConfig.dbIsCompiled = nil -- we need to recompile
+    if QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
+        Questie.db.global.dbIsCompiled = nil -- we need to recompile
     end
 
-    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
+    if Questie.db.global.dbIsCompiled and Questie.db.global.factionSpecificTownsfolk then -- todo: check for updates or language change and recompile
 
         if not Questie.db.char.townsfolk then
             QuestieMenu:BuildCharacterTownsfolk()
@@ -216,49 +249,48 @@ function _EventHandler:PlayerLogin()
         C_Timer.After(4, stage2)
     else
         -- reset townsfolk on all characters before compile
-        for _, char in pairs(QuestieConfig.char) do
-            char.townsfolk = nil
-        end
+        Questie.db.char.townsfolk = {}
+
         --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
         local callTable = {
-            function()
+            [1] = function()
                 print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
                 -- give it an extra second, this runs right at player_logged_in and we don't want to lag users too much
             end,
-            function()
+            [2] = function()
                 print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
                 QuestieDB.npcData = loadstring(QuestieDB.npcData)
                 QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and loadstring(QuestieDB.npcDataTBC) or nil
             end,
-            function() -- secondary function to avoid lag spikes
+            [3] = function() -- secondary function to avoid lag spikes
                 QuestieDB.npcData = QuestieDB.npcData()
                 QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and QuestieDB.npcDataTBC() or nil
             end,
-            function() 
+            [4] = function()
                 QuestieDB.objectData = loadstring(QuestieDB.objectData)
                 QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and loadstring(QuestieDB.objectDataTBC) or nil
             end,
-            function()
+            [5] = function()
                 QuestieDB.objectData = QuestieDB.objectData()
                 QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and QuestieDB.objectDataTBC() or nil
             end,
-            function()
+            [6] = function()
                 QuestieDB.questData = loadstring(QuestieDB.questData)
                 QuestieDB.questDataTBC = QuestieDB.questDataTBC and loadstring(QuestieDB.questDataTBC) or nil
             end,
-            function()
+            [7] = function()
                 QuestieDB.questData = QuestieDB.questData()
                 QuestieDB.questDataTBC = QuestieDB.questDataTBC and QuestieDB.questDataTBC() or nil
             end,
-            function()
+            [8] = function()
                 QuestieDB.itemData = loadstring(QuestieDB.itemData)
                 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataTBC) or nil
             end,
-            function()
+            [9] = function()
                 QuestieDB.itemData = QuestieDB.itemData()
                 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
             end,
-            function()
+            [10] = function()
                 print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
                 if QuestieDB.questDataTBC then
@@ -267,21 +299,21 @@ function _EventHandler:PlayerLogin()
                     QuestieDB.objectData = QuestieDB.objectDataTBC
                 end
             end,
-            function()
+            [11] = function()
                 if QuestieDB.questDataTBC then
                     QuestieDB.npcData = QuestieDB.npcDataTBC
                     QuestieDB.itemData = QuestieDB.itemDataTBC
                 end
             end,
-            function()
+            [12] = function()
                 QuestieCorrections:Initialize()
                 QuestieMenu:PopulateTownsfolk()
             end,
-            function()
+            [13] = function()
                 print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
                 l10n:Initialize()
             end,
-            function()
+            [14] = function()
                 QuestieDB.private:DeleteGatheringNodes()
                 QuestieCorrections:PreCompile(function()
                     QuestieDBCompiler:Compile(function()

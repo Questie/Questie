@@ -7,26 +7,28 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
-    table.insert(QuestieDB.questData, 63866, {}) -- Claiming the Light
+    QuestieDB.questData[63866] = {}; -- Claiming the Light
+    QuestieDB.questData[64319] = {}; -- A Study in Power
+
     -- Alliance boosted quests
-    table.insert(QuestieDB.questData, 64028, {}) -- A New Beginning
-    table.insert(QuestieDB.questData, 64031, {}) -- Tools for Survival
-    table.insert(QuestieDB.questData, 64034, {}) -- Combat Training
-    table.insert(QuestieDB.questData, 64035, {}) -- Talented
-    table.insert(QuestieDB.questData, 64037, {}) -- Eastern Plaguelands
-    table.insert(QuestieDB.questData, 64038, {}) -- The Dark Portal
+    QuestieDB.questData[64028] = {}; -- A New Beginning
+    QuestieDB.questData[64031] = {}; -- Tools for Survival
+    QuestieDB.questData[64034] = {}; -- Combat Training
+    QuestieDB.questData[64035] = {}; -- Talented
+    QuestieDB.questData[64037] = {}; -- Eastern Plaguelands
+    QuestieDB.questData[64038] = {}; -- The Dark Portal
     -- Horde boosted quests
-    table.insert(QuestieDB.questData, 64046, {}) -- A New Beginning
-    table.insert(QuestieDB.questData, 64047, {}) -- A New Beginning
-    table.insert(QuestieDB.questData, 64048, {}) -- Tools for Survival
-    table.insert(QuestieDB.questData, 64049, {}) -- Tools for Survival
-    table.insert(QuestieDB.questData, 64050, {}) -- Combat Training
-    table.insert(QuestieDB.questData, 64051, {}) -- Combat Training
-    table.insert(QuestieDB.questData, 64052, {}) -- Talented
-    table.insert(QuestieDB.questData, 64053, {}) -- Talented
-    table.insert(QuestieDB.questData, 64063, {}) -- The Dark Portal
-    table.insert(QuestieDB.questData, 64217, {}) -- The Dark Portal
-    table.insert(QuestieDB.questData, 64064, {}) -- Eastern Plaguelands
+    QuestieDB.questData[64046] = {}; -- A New Beginning
+    QuestieDB.questData[64047] = {}; -- A New Beginning
+    QuestieDB.questData[64048] = {}; -- Tools for Survival
+    QuestieDB.questData[64049] = {}; -- Tools for Survival
+    QuestieDB.questData[64050] = {}; -- Combat Training
+    QuestieDB.questData[64051] = {}; -- Combat Training
+    QuestieDB.questData[64052] = {}; -- Talented
+    QuestieDB.questData[64053] = {}; -- Talented
+    QuestieDB.questData[64063] = {}; -- The Dark Portal
+    QuestieDB.questData[64064] = {}; -- Eastern Plaguelands
+    QuestieDB.questData[64217] = {}; -- The Dark Portal
 
 
     local questKeys = QuestieDB.questKeys
@@ -89,6 +91,9 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32},},}},
         },
+        [2501] = {
+            [questKeys.zoneOrSort] = -181,
+        },
         [2842] = {
             [questKeys.requiredLevel] = 20,
         },
@@ -106,12 +111,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44},},}},
-        },
-        [5401] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        },
-        [5405] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5},},}},
@@ -205,6 +204,9 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8423] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [8473] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -266,8 +268,23 @@ function QuestieTBCQuestFixes:Load()
         [9174] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
+        [9181] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9190] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9193] = {
             [questKeys.triggerEnd] = {"Investigate the Amani Catacombs", {[zoneIDs.GHOSTLANDS]={{62.91,30.98},},}},
+        },
+        [9195] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9205] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9206] = {
+            [questKeys.specialFlags] = 1,
         },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
@@ -442,6 +459,9 @@ function QuestieTBCQuestFixes:Load()
         [9565] = {
             [questKeys.preQuestGroup] = {},
             [questKeys.preQuestSingle] = {9562},
+        },
+        [9573] = {
+            [questKeys.preQuestSingle] = {9560,9562,},
         },
         [9575] = {
             [questKeys.preQuestSingle] = {10143,10483,},
@@ -888,6 +908,10 @@ function QuestieTBCQuestFixes:Load()
         [10183] = {
             [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042,},
         },
+        [10189] = {
+            [questKeys.preQuestSingle] = {10551,10552},
+            [questKeys.requiredMinRep] = {934,3000},
+        },
         [10191] = {
             [questKeys.triggerEnd] = {"Escort the Maxx A. Million Mk. V safely through the Ruins of Enkaat", {[zoneIDs.NETHERSTORM]={{31.54,56.47},},}},
         },
@@ -1180,8 +1204,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying", 0, {{"monster", 21461}}}},
         },
+        [10714] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{58,30}},}, ICON_TYPE_EVENT, "Find a Bloodmaul Taskmaster and a Bloodmaul Soothsayer engaged in conversation, then use Rexxar's Whistle to summon Spirit to spy on them.", 0}},
+        },
         [10722] = {
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45},},}},
+            [questKeys.requiredSourceItems] = {31121},
         },
         [10750] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19},},}},
@@ -1191,6 +1219,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10781] = {
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79},},}},
+        },
+        [10782] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan.", 0, {{"monster", 17008}}}},
         },
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
@@ -1203,6 +1234,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21},},}},
+        },
+        [10821] = {
+            [questKeys.requiredSourceItems] = {31536},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Retrieve five Camp Anger Keys and activate the five Legion obelisks. The obelisks have a short duration, so make sure they are all activated at the same time.", 0, {{"object", 185193},{"object", 185195},{"object", 185196},{"object", 185197},{"object", 185198}}}}
         },
         [10824] = {
             [questKeys.requiredMaxRep] = {},
@@ -1239,6 +1274,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10863] = {
             [questKeys.exclusiveTo] = {10908},
+        },
+        [10867] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
         },
         [10873] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
@@ -1312,8 +1350,17 @@ function QuestieTBCQuestFixes:Load()
         [10977] = {
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54},},}},
         },
+        [10984] = {
+            [questKeys.exclusiveTo] = {10983,10989,11057,},
+        },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06},},}},
+        },
+        [10996] = {
+            [questKeys.preQuestSingle] = {10983,10989,11057},
+        },
+        [10997] = {
+            [questKeys.preQuestSingle] = {10983,10989,11057},
         },
         [11023] = {
             [questKeys.requiredLevel] = 70,
@@ -1331,6 +1378,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042,},
         },
         [11039] = {
+            [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11040,11042,},
             [questKeys.requiredMinRep] = {934,3000},
         },
@@ -1354,6 +1402,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044,10642},
+        },
+        [11047] = {
+            [questKeys.exclusiveTo] = {11048},
         },
         [11057] = {
             [questKeys.requiredLevel] = 70,
@@ -1432,8 +1483,15 @@ function QuestieTBCQuestFixes:Load()
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345,},4344,"Totem Tests Performed"}},
         },
+        [11172] = {
+            [questKeys.nextQuestInChain] = 11174,
+        },
         [11174] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{4392,4393,4394},4392,"Oozes Dissolved"}},
+        },
+        [11177] = {
+            [questKeys.nextQuestInChain] = 1218,
         },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
@@ -1452,6 +1510,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11215] = {
             [questKeys.exclusiveTo] = {11158},
+        },
+        [11216] = {
+            [questKeys.nextQuestInChain] = 9824,
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -1638,6 +1699,21 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = -141,
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
+        },
+        [64319] = {
+            [questKeys.name] = "A Study in Power",
+            [questKeys.startedBy] = {{17717},nil,nil},
+            [questKeys.finishedBy] = {{17718},nil,nil},
+            [questKeys.requiredLevel] = 12,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
+            [questKeys.objectives] = {},
+            [questKeys.preQuestSingle] = {9678},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 63866,
+            [questKeys.questFlags] = 136,
         },
 
         ----- Boosted character quests -----

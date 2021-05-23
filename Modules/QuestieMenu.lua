@@ -81,7 +81,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
     else
         if Questie.db.char.townsfolkConfig[key] and not forceRemove then
             local faction = UnitFactionGroup("Player")
-            local timer = nil
+            local timer
             local e = 1
             local max = (#ids)+1
             timer = C_Timer.NewTicker(0.01, function() 
@@ -91,7 +91,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                     if not _spawned[id] then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
                         if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then
-                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name"), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
+                            QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id)), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
                             _spawned[id] = true
                         end
                     end
@@ -273,7 +273,7 @@ function QuestieMenu:Show()
     tinsert(menuTable, { text= l10n('My Journey'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
 
     if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
-        tinsert(menuTable, { text= l10n('Recompile Database'), func=function() QuestieConfig.dbIsCompiled = false; ReloadUI() end})
+        tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
 
@@ -316,7 +316,7 @@ function QuestieMenu:PopulateTownsfolk()
         ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER, true),
         ["Weapon Master"] = {}, -- populated below
     }
-    local classTrainers = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
+    local classTrainers = Questie.IsTBC and {
         ["MAGE"] = {198, 313, 328, 331, 944, 1228, 2124, 2128, 2485, 2489, 2492, 3047, 3048, 3049, 4165, 4566, 4567, 4568, 4987, 5144, 5145, 5146, 5497, 5498, 5880, 5882, 5883, 5884, 5885, 5957, 5958, 7311, 7312, 15279, 16269, 16500, 16651, 16652, 16653, 16654, 16749, 16755, 17481, 17513, 17514, 19340, 20791, 26326, 27703, 27704, 27705},
         ["SHAMAN"] = {986, 3030, 3031, 3032, 3062, 3066, 3157, 3173, 3344, 3403, 4991, 13417, 17089, 17204, 17212, 17219, 17519, 17520, 20407, 23127, 26330},
         ["PRIEST"] = {375, 376, 377, 837, 1226, 2123, 2129, 3044, 3045, 3046, 3595, 3600, 3706, 3707, 4090, 4091, 4092, 4606, 4607, 4608, 4989, 5141, 5142, 5143, 5484, 5489, 5994, 6014, 6018, 11397, 11401, 11406, 15284, 16276, 16502, 16658, 16659, 16660, 16756, 17482, 17510, 17511, 26328},
@@ -338,7 +338,7 @@ function QuestieMenu:PopulateTownsfolk()
         ["DRUID"] = {3033,3034,3036,3060,3064,3597,3602,4217,4218,4219,5504,5505,5506,8142,9465,12042}
     }
 
-    local validTrainers = GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE and {
+    local validTrainers = Questie.IsTBC and {
         514,812,908,1103,1215,1218,1241,1292,1300,1317,1346,1355,1382,1385,1386,1430,1458,1470,1473,1632,1651,1676,1680,1681,1683,
         1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2798,2818,2834,2836,2837,2855,2856,2998,3001,
         3004,3007,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,3290,3332,3345,3347,3355,3357,3363,
@@ -383,19 +383,21 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.SKINNING] = {}
     }
 
-    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+    if Questie.IsTBC then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
     end
 
     for _, id in pairs(validTrainers) do
-        local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
-        if subName then
-            if Questie.db.global.townsfolk[subName] then -- weapon master, 
-                tinsert(Questie.db.global.townsfolk[subName], id)
-            else
-                for k, professionId in pairs(QuestieProfessions.professionTable) do
-                    if string.match(subName, k) then
-                        tinsert(professionTrainers[professionId], id)
+        if QuestieDB.npcData[id] then
+            local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
+            if subName then
+                if Questie.db.global.townsfolk[subName] then -- weapon master, 
+                    tinsert(Questie.db.global.townsfolk[subName], id)
+                else
+                    for k, professionId in pairs(QuestieProfessions.professionTable) do
+                        if string.match(subName, k) then
+                            tinsert(professionTrainers[professionId], id)
+                        end
                     end
                 end
             end
@@ -413,9 +415,11 @@ function QuestieMenu:PopulateTownsfolk()
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
-            local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
-            if subName and string.len(subName) > 0 then
-                tinsert(newTrainers, trainer)
+            if QuestieDB.npcData[trainer] then
+                local subName = QuestieDB.npcData[trainer][QuestieDB.npcKeys.subName]
+                if subName and string.len(subName) > 0 then
+                    tinsert(newTrainers, trainer)
+                end
             end
         end
         Questie.db.global.classSpecificTownsfolk[class] = {}
@@ -434,9 +438,7 @@ function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
     Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
-    local isTBC = string.byte(GetBuildInfo(), 1) == 50
-
-    for _, id in pairs(isTBC and { -- mailbox list
+    for _, id in pairs(Questie.IsTBC and { -- mailbox list
         32349,140908,142075,142089,142093,142094,142095,142102,142109,142110,142111,142117,143981,143982,143983,143984,
         143985,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,144131,144179,144570,
         153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176324,176404,177044,178864,
@@ -476,7 +478,6 @@ function QuestieMenu:PopulateTownsfolk()
             tinsert(Questie.db.global.petFoodVendorTypes[petFoodIndexes[foodType]], id)
         end
     end
-
 end
 
 function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
@@ -521,7 +522,7 @@ function QuestieMenu:UpdatePetFood() -- call on change pet
 end
 
 function QuestieMenu:UpdateAmmoVendors() -- call on change weapon
-    Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033}, {}, true))
+    Questie.db.char.vendorList["Ammo"] = _reformatVendors(QuestieMenu:PopulateVendors({11285,3030,19316,2515,2512,11284,19317,2519,2516,3033,28056,28053,28061,28060}, {}, true))
 end
 
 function QuestieMenu:UpdateFoodDrink()

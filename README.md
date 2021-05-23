@@ -1,6 +1,6 @@
 # Questie
 
-[![Discord](https://img.shields.io/badge/discord-Questie-738bd7)](https://discord.gg/phKnHVu)
+[![Discord](https://img.shields.io/badge/discord-Questie-738bd7)](https://discord.gg/s33MAYKeZd)
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
@@ -19,10 +19,11 @@ If you have problems, please read the [Frequently Asked Questions](https://githu
 
 ## Information
 - [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
-- Come chat with us on [our Discord server](https://discord.gg/stPdSWdUR7).
+- Come chat with us on [our Discord server](https://discord.gg/s33MAYKeZd).
 - You can use the [issue tracker](https://github.com/Questie/Questie/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
+    - You need to enter `/console scriptErrors 1` once in the ingame chat for Lua error messages to be shown. You can later disable them again with `/console scriptErrors 0`.
 
 Trust us it's (Good)!
 

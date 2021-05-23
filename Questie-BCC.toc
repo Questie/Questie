@@ -1,17 +1,18 @@
 ## Interface: 20501
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.11 (Beta 4)|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.12 (Beta 5)|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.3.11
+## Version: 6.3.12
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
 
+embeds.xml
+
 Modules\VersionCheck.lua
 
-embeds.xml
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.lua
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
@@ -50,7 +51,6 @@ Database\Corrections\QuestieItemBlacklist.lua
 Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieEvent.lua
-Database\Corrections\QuestieDatabaseUnification.lua
 
 ## Classic Corrections
 Database\Corrections\Classic\classicQuestFixes.lua
@@ -73,10 +73,10 @@ Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
 Localization\lookups\lookupZones\lookupZones.xml
-Localization\lookups\Classic\lookupItems\lookupItems.xml
-Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
-Localization\lookups\Classic\lookupObjects\lookupObjects.xml
-Localization\lookups\Classic\lookupQuests\lookupQuests.xml
+Localization\lookups\TBC\lookupItems\lookupItems.xml
+Localization\lookups\TBC\lookupNpcs\lookupNpcs.xml
+Localization\lookups\TBC\lookupObjects\lookupObjects.xml
+Localization\lookups\TBC\lookupQuests\lookupQuests.xml
 
 ##Libs
 Modules\Libs\QuestieLib.lua

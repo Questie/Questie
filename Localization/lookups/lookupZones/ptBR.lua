@@ -12,7 +12,7 @@ l10n.continentLookup['prBR']= {
 }
 
 l10n.zoneLookup['ptBR']= {
-    [0] = {
+    [1] = {
         [1] = "Dun Morogh",
         [2] = "Praia Grande",
         [3] = "Ermos",
@@ -506,7 +506,7 @@ l10n.zoneLookup['ptBR']= {
         [3486] = "Mansão de Corvoforte",
         [4067] = "Torre do Bosque Pestilento",
     },
-    [1] = {
+    [2] = {
         [14] = "Durotar",
         [15] = "Pântano Vadeoso",
         [16] = "Azshara",

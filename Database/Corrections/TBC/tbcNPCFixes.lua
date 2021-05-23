@@ -59,6 +59,9 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{82.91,14.16},},
             },
         },
+        [15493] = {
+            [npcKeys.spawns] = {[3430]={{46.8,46.4},},},
+        },
         [15658] = {
             [npcKeys.waypoints] = {},
         },
@@ -208,12 +211,36 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{37.4,86.2},},},
             [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
         },
+        [19909] = {
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [19911] = {
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [19915] = {
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [19923] = {
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [19925] = {
+            [npcKeys.friendlyToFaction] = "A",
+        },
         [20145] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{45.6,82.4},{46.2,83.2},{46.6,83},{48.2,85},{48.8,82.4},{49.4,82.8},{50,82},{50.2,83.2},{50.2,83.6},{51,82.6}},},
+        },
+        [20390] = {
+            [npcKeys.friendlyToFaction] = "H",
         },
         [20440] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{26.07,38.78},},},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [20497] = {
+            [npcKeys.friendlyToFaction] = "A",
+        },
+        [20499] = {
+            [npcKeys.friendlyToFaction] = "H",
         },
         [20518] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{60.98,41.52},},},

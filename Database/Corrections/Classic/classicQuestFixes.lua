@@ -100,6 +100,9 @@ function QuestieQuestFixes:Load()
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96},},},},
         },
+        [287] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [questKeys.specialFlags] = 1,
@@ -144,6 +147,9 @@ function QuestieQuestFixes:Load()
         },
         [415] = {
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
+        },
+        [420] = {
+            [questKeys.nextQuestInChain] = 287,
         },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
@@ -1417,8 +1423,12 @@ function QuestieQuestFixes:Load()
         [5089] = {
             [questKeys.startedBy] = {{9568},nil,{12780}},
         },
+        [5092] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [5096] = {
             [questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.72,52.04},},},},
+            [questKeys.preQuestSingle] = {},
         },
         [5122] = {
             [questKeys.specialFlags] = 1, -- #1140
@@ -1463,10 +1473,14 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [5237] = {
+            [questKeys.startedBy] = {{10838,},nil,nil,},
+            [questKeys.finishedBy] = {{10838,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {},
         },
         [5238] = {
+            [questKeys.startedBy] = {{10837,},nil,nil,},
+            [questKeys.finishedBy] = {{10837,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
         },
@@ -1479,8 +1493,49 @@ function QuestieQuestFixes:Load()
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91},},},},
         },
+        [5402] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5403] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5404] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5405] = {
+            [questKeys.startedBy] = {{11039,},nil,nil,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5406] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5407] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5408] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [5421] = {
             [questKeys.questLevel] = 25,
+        },
+        [5503] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.startedBy] = {{10839,},nil,nil,},
+        },
+        [5508] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+        },
+        [5509] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+        },
+        [5510] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
         },
         [5582] = {
             [questKeys.startedBy] = {{10678},nil,{13920}},
@@ -1945,6 +2000,7 @@ function QuestieQuestFixes:Load()
         },
         [7484] = {
             [questKeys.preQuestSingle] = {7481,7482},
+            [questKeys.specialFlags] = 1,
         },
         [7485] = {
             [questKeys.preQuestSingle] = {7481,7482},
@@ -2160,6 +2216,9 @@ function QuestieQuestFixes:Load()
         [8258] = {
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
             [questKeys.childQuests] = {7769},
+        },
+        [8262] = {
+            [questKeys.requiredMinRep] = {509,3000},
         },
         [8271] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -3016,11 +3075,35 @@ function QuestieQuestFixes:Load()
         [9118] = {
             [questKeys.specialFlags] = 1,
         },
+        [9124] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9126] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9128] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9131] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9136] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9141] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
         [9154] = {
             [questKeys.questLevel] = 60,
         },
         [9165] = {
             [questKeys.specialFlags] = 1,
+        },
+        [9211] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9213] = {
+            [questKeys.requiredMinRep] = {529,3000}
         },
         [9223] = {
             [questKeys.specialFlags] = 1,

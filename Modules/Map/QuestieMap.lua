@@ -194,6 +194,10 @@ function HBDPins.worldmapProvider:OnMapChanged()
     --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
     HBDPins.worldmapProvider:ORG_OnMapChanged();
 
+    if not Questie.db then -- too early
+        return
+    end
+
     local scaling = QuestieMap:GetScaleValue()
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
         local frame = pin.icon;
@@ -411,7 +415,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        Questie:Error("No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
+        Questie:Debug(DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon

@@ -130,5 +130,5 @@ function QuestieSlash:HandleCommands(input)
         end
     end
 
-    print(Questie:Colorize("[Questie] :: ", "yellow") .. l10n("Invalid command. For a list of options please type: ") .. Questie:Colorize("/questie help', 'yellow"));
+    print(Questie:Colorize("[Questie] ", "yellow") .. l10n("Invalid command. For a list of options please type: ") .. Questie:Colorize("/questie help", "yellow"));
 end

@@ -20,6 +20,11 @@ QuestieDB.itemKeys = {
     ['relatedQuests'] = 15, -- table or nil, IDs of quests that are related to this item
 }
 
+QuestieDB.itemKeysReversed = {}
+for key, id in pairs(QuestieDB.itemKeys) do
+    QuestieDB.itemKeysReversed[id] = key
+end
+
 -- item class/subClass combinations
 
 --class subClass 

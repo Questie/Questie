@@ -332,7 +332,8 @@ function QuestieTooltips:Initialize()
             --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
             local uName, unit = self:GetUnit()
             local iName, link = self:GetItem()
-            if (uName == nil and unit == nil and iName == nil and link == nil) and (
+            local sName, spell = self:GetSpell()
+            if (uName == nil and unit == nil and iName == nil and link == nil and sName == nil and spell == nil) and (
                 QuestieTooltips.lastGametooltip ~= GameTooltipTextLeft1:GetText() or
                 (not QuestieTooltips.lastGametooltipCount) or
                 _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount

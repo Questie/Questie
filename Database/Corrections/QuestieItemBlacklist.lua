@@ -1,7 +1,5 @@
 ---@class QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:CreateModule("QuestieItemBlacklist")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieItemBlacklist:Load()
     return {
@@ -187,6 +185,7 @@ function QuestieItemBlacklist:Load()
         [22578] = true, -- Mote of Water
         [22829] = true, -- Super Healing Potion
         [22832] = true, -- Super Mana Potion
+        [23445] = true, -- Fel Iron Bar
         [24246] = true, -- Sanguine Hibiscus
         [24401] = true, -- Unidentified Plant Parts  
     }

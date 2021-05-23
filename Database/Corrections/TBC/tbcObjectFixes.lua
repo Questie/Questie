@@ -7,22 +7,22 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
-    table.insert(QuestieDB.objectData, 184588, {}) -- Captain Tyralis's Prison
-    table.insert(QuestieDB.objectData, 190483, {}) -- Document chest
-    table.insert(QuestieDB.objectData, 190484, {}) -- Document chest
-    table.insert(QuestieDB.objectData, 400000, {})
-    table.insert(QuestieDB.objectData, 400001, {})
-    table.insert(QuestieDB.objectData, 400002, {})
-    table.insert(QuestieDB.objectData, 400003, {})
-    table.insert(QuestieDB.objectData, 400004, {})
-    table.insert(QuestieDB.objectData, 400005, {})
-    table.insert(QuestieDB.objectData, 400006, {})
-    table.insert(QuestieDB.objectData, 400007, {})
-    table.insert(QuestieDB.objectData, 400008, {})
-    table.insert(QuestieDB.objectData, 400009, {})
-    table.insert(QuestieDB.objectData, 400010, {})
-    table.insert(QuestieDB.objectData, 400011, {})
-    table.insert(QuestieDB.objectData, 400012, {})
+    QuestieDB.objectData[184588] = {}; -- Captain Tyralis's Prison
+    QuestieDB.objectData[190483] = {}; -- Document chest
+    QuestieDB.objectData[190484] = {}; -- Document chest
+    QuestieDB.objectData[400000] = {};
+    QuestieDB.objectData[400001] = {};
+    QuestieDB.objectData[400002] = {};
+    QuestieDB.objectData[400003] = {};
+    QuestieDB.objectData[400004] = {};
+    QuestieDB.objectData[400005] = {};
+    QuestieDB.objectData[400006] = {};
+    QuestieDB.objectData[400007] = {};
+    QuestieDB.objectData[400008] = {};
+    QuestieDB.objectData[400009] = {};
+    QuestieDB.objectData[400010] = {};
+    QuestieDB.objectData[400011] = {};
+    QuestieDB.objectData[400012] = {};
 
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs

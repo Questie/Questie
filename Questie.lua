@@ -1,6 +1,3 @@
-if not QuestieConfigCharacter then
-    QuestieConfigCharacter = {}
-end
 
 -- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
 -- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
@@ -10,9 +7,6 @@ DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
---Initialized below
----@class Questie
-Questie = {...}
 
 -------------------------
 --Import modules.
@@ -23,8 +17,6 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
----@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
 ---@type QuestieOptionsMinimapIcon
 local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
 ---@type QuestieOptionsUtils
@@ -35,8 +27,6 @@ local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto");
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieMap
@@ -71,8 +61,6 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -86,7 +74,6 @@ if  --Libs
     (not QuestieComms.data) or
     --Options
     (not QuestieOptions) or
-    (not QuestieOptionsDefaults) or
     (not QuestieOptionsMinimapIcon) or
     (not QuestieOptionsUtils) or
     (not QuestieOptions.tabs) or
@@ -101,7 +88,6 @@ if  --Libs
     (not QuestieAuto) or
     (not QuestieCoords) or
     (not QuestieEventHandler) or
-    (not QuestieFramePool) or
     (not QuestieJourney) or
     --Map
     (not QuestieMap) or
@@ -124,28 +110,11 @@ if  --Libs
     C_Timer.After(8, function()
         print(Questie:Colorize(l10n("WARNING!"), "red") .. " " .. l10n("You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"))
     end)
-  else
-    -- Initialize Questie
-    Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-    local _Questie = {...}
 end
 
 
 function Questie:OnInitialize()
     Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
-
-    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
-    QuestieFramePool:SetIcons()
-
-    -- Set proper locale. Either default to client Locale or override based on user.
-    if Questie.db.global.questieLocaleDiff then
-        l10n:SetUILocale(Questie.db.global.questieLocale);
-    else
-        l10n:SetUILocale(GetLocale());
-    end
-
-    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
-    ZoneDB:Initialize()
 
     QuestieEventHandler:RegisterAllEvents(function()
         --QuestieTracker:Initialize() --moved to stage 2 init event function
@@ -170,9 +139,9 @@ function Questie:OnInitialize()
 
         -- Update the default text on the map show/hide button for localization
         if Questie.db.char.enabled then
-            Questie_Toggle:SetText(l10n("Show Questie"));
-        else
             Questie_Toggle:SetText(l10n("Hide Questie"));
+        else
+            Questie_Toggle:SetText(l10n("Show Questie"));
         end
 
         -- Update status of Map button on hide between play sessions
@@ -278,6 +247,12 @@ function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
+function Questie:Warning(...)
+    if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
+        Questie:Print("|cffffff00[WARNING]|r", ...)
+    end
+end
+
 function Questie:Debug(...)
     if(Questie.db.global.debugEnabled) then
         -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
@@ -292,9 +267,6 @@ function Questie:Debug(...)
         if(bit.band(Questie.db.global.debugLevel, math.pow(2, 1)) == 0 and select(1, ...) == DEBUG_ELEVATED)then return; end
         if(bit.band(Questie.db.global.debugLevel, math.pow(2, 0)) == 0 and select(1, ...) == DEBUG_CRITICAL)then return; end
         --Questie:Print(...)
-        if(QuestieConfigCharacter.log) then
-            QuestieConfigCharacter = {};
-        end
 
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)

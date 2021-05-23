@@ -327,6 +327,8 @@ function QuestieQuestBlacklist:Load()
         [11580] = true,
         [11581] = true,
         [11583] = true,
+        [11691] = true,
+        [11696] = true,
         [11731] = true,
         [11732] = true,
         [11734] = true,
@@ -753,7 +755,6 @@ function QuestieQuestBlacklist:Load()
         [10090] = true, -- BETA The Legion's Plans
         [10970] = true, -- A Mission of Mercy (Retail Only)
 
-        [9751] = true, -- The Bloodcurse Legacy (duplicate of 9672 which is way easier to get)
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
 
         -- [OLD] quests. Classic quests deprecated in TBC
@@ -1103,4 +1104,5 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [8795] = true,
     [8796] = true,
     [8797] = true,
+    [10501] = true,
 }

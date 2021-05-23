@@ -1047,7 +1047,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
     for objectiveIndex, objective in pairs(questObjectives) do
-        if objective.type and objective.type ~= "reputation" then
+        if objective.type then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
                 Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
@@ -1071,7 +1071,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _ObjectiveUpdate,
-                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates -- Only for type "event"
+                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
+                        RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue
                     }
                 end
 
@@ -1175,6 +1176,7 @@ local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 local _has_seen_incomplete = {}
+local _has_sent_announce = {}
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
     local questObjectives = QuestieLib:GetQuestObjectives(questId);
@@ -1226,8 +1228,9 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
                 if (not completed) then
                     _has_seen_incomplete[objective.text] = true
-                elseif _has_seen_incomplete[objective.text] then
+                elseif _has_seen_incomplete[objective.text] and not _has_sent_announce[objective.text] then
                     _has_seen_incomplete[objective.text] = nil
+                    _has_sent_announce[objective.text] = true
                     QuestieAnnounce:Announce(questId, "objective", spawnItemId, objective.text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
                 end
             else
