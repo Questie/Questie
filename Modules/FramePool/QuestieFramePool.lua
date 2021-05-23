@@ -749,9 +749,9 @@ function _QuestieFramePool:QuestieTooltip()
                     local quest = QuestieDB:GetQuest(questData.questId)
                     if (quest and shift) then
                         local rewardString = ""
-                        local rewardXP = GetQuestLogRewardXP(questData.questId)
-                        if rewardXP > 0 then -- Quest rewards XP
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(rewardXP) .. xpString .. ") ")
+                        local xpReward = GetQuestLogRewardXP(questData.questId)
+                        if xpReward > 0 then -- Quest rewards XP
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
