@@ -118,6 +118,7 @@ function QuestieInit:InitAllModules()
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
 
+    QuestieProfessions:Init()
     QuestieMap:InitializeQueue()
 
     coroutine.yield()
