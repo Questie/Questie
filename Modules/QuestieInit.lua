@@ -120,7 +120,6 @@ function QuestieInit:InitAllModules()
 
     QuestieMap:InitializeQueue()
 
-    -- hack_prime_log()  -- this seems to make it update the data much quicker
     coroutine.yield()
     for i=1, GetNumQuestLogEntries() do
         GetQuestLogTitle(i)
