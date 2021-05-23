@@ -133,7 +133,7 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
     Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _EventHandler.GroupRosterUpdate)
-    Questie:RegisterEvent("GROUP_JOINED", _EventHandler.GroupJoined) -- This is not local because QuestieComms needs to call it
+    Questie:RegisterEvent("GROUP_JOINED", _EventHandler.GroupJoined)
     Questie:RegisterEvent("GROUP_LEFT", _EventHandler.GroupLeft)
 
     -- Nameplate / Target Frame Objective Events
