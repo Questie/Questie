@@ -113,6 +113,7 @@ Modules\FramePool\QuestieFrame.lua
 #Map
 Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
+Modules\Map\HBDHooks.lua
 
 #Quest
 Modules\Quest\QuestieQuest.lua

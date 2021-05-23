@@ -167,11 +167,6 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
     end
 end
 
-
---Override OnMapChanged from MapCanvasDataProviderMixin (https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74)
---This could in theory be skipped by instead using our own MapCanvasDataProviderMixin
---The reason i don't is becauase i want the scaling to happen AFTER HBD has processed all the icons.
-HBDPins.worldmapProvider.ORG_OnMapChanged = HBDPins.worldmapProvider.OnMapChanged;
 function QuestieMap:GetScaleValue()
     local mapId = HBDPins.worldmapProvider:GetMap():GetMapID();
     local scaling = 1;
@@ -179,21 +174,6 @@ function QuestieMap:GetScaleValue()
         scaling = 0.85
     elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
         scaling = 0.9
-    end
-end
-
-function HBDPins.worldmapProvider:OnMapChanged()
-    --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
-    HBDPins.worldmapProvider:ORG_OnMapChanged();
-
-    if not Questie.db then -- too early
-        return
-    end
-
-    local scaling = QuestieMap:GetScaleValue()
-    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        local frame = pin.icon;
-        QuestieMap.utils:RecaleIcon(frame, scaling)
     end
 end
 
