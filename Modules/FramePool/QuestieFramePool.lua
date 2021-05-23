@@ -749,9 +749,9 @@ function _QuestieFramePool:QuestieTooltip()
                     local quest = QuestieDB:GetQuest(questData.questId)
                     if (quest and shift) then
                         local rewardString = ""
-                        local rewardXP = GetQuestLogRewardXP(questData.questId)
-                        if rewardXP > 0 then -- Quest rewards XP
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(rewardXP) .. xpString .. ") ")
+                        local xpReward = GetQuestLogRewardXP(questData.questId)
+                        if xpReward > 0 then -- Quest rewards XP
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
@@ -789,7 +789,7 @@ function _QuestieFramePool:QuestieTooltip()
                 local xpReward = GetQuestLogRewardXP(questId)
                 if (quest and shift and xpReward > 0) then
                     r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
-                    self:AddDoubleLine(questTitle, "("..xpReward..xpString..")", 0.2, 1, 0.2, r, g, b);
+                    self:AddDoubleLine(questTitle, "("..FormatLargeNumber(xpReward)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
                     self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
