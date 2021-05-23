@@ -44,18 +44,12 @@ HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 
 
 function QuestieFramePool:SetIcons()
-    if (Questie.db.char.enableMinimalisticIcons) then
-        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay_tiny.blp"
-        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot_tiny.blp"
-        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event_tiny.blp"
-        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object_tiny.blp"
-    else
-        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-    end
-    --TODO: Add all types (we gotta stop using globals, needs refactoring)
+    ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
+    ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
+    ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
+    ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
+
+    -- TODO Add all types (we gotta stop using globals, needs refactoring)
     ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
     ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
     ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"

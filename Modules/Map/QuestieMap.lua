@@ -176,17 +176,9 @@ function QuestieMap:GetScaleValue()
     local mapId = HBDPins.worldmapProvider:GetMap():GetMapID();
     local scaling = 1;
     if(mapId == 947) then --Azeroth
-        if(Questie.db.char.enableMinimalisticIcons) then
-            scaling = 0.4
-        else
-            scaling = 0.85
-        end
+        scaling = 0.85
     elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
-        if(Questie.db.char.enableMinimalisticIcons) then
-            scaling = 0.5
-        else
-            scaling = 0.9
-        end
+        scaling = 0.9
     end
 end
 
