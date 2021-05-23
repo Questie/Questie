@@ -14,6 +14,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 serial.enableObjectLimit = false
 
+-- how fast to run operations (lower = slower but less lag)
+local TICKS_PER_YIELD_DEBUG = 4000
+local TICKS_PER_YIELD = 48
+
 QuestieDBCompiler.supportedTypes = {
     ["table"] = {
         ["u12pair"] = true,
@@ -755,7 +759,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
     while true do
         coroutine.yield()
-        for _=0,Questie.db.global.debugEnabled and 4000 or (entriesPerTick or 48) do
+        for _=0,Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
             QuestieDBCompiler.index = QuestieDBCompiler.index + 1
             if QuestieDBCompiler.index == count then
                 Questie.db.global[databaseKey.."Bin"] = QuestieDBCompiler.stream:Save()
