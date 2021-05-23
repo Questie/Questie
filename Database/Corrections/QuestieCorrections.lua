@@ -431,7 +431,7 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
 
     while true do
         coroutine.yield()
-        for _=0,Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or TICKS_PER_YIELD do -- 72 operations per NewTicker
+        for _ = 0, Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or TICKS_PER_YIELD do
             local op = tremove(ops, 1)
             if op then
                 QuestieDB.npcData[op[2]][QuestieDB.npcKeys["waypoints"]] = QuestieCorrections:OptimizeWaypoints(op[1])
