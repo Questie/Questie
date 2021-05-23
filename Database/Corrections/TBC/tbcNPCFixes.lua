@@ -226,6 +226,9 @@ function QuestieTBCNpcFixes:Load()
         [19925] = {
             [npcKeys.friendlyToFaction] = "A",
         },
+        [19942] = {
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{58.2,55}}},
+        },
         [20145] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{45.6,82.4},{46.2,83.2},{46.6,83},{48.2,85},{48.8,82.4},{49.4,82.8},{50,82},{50.2,83.2},{50.2,83.6},{51,82.6}},},
         },
