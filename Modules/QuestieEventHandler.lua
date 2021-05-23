@@ -36,32 +36,14 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type Migration
-local Migration = QuestieLoader:ImportModule("Migration")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
----@type Cleanup
-local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieInit
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
----@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 --- LOCAL ---
 --False -> true -> nil
