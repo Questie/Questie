@@ -70,8 +70,6 @@ local shouldRunQLU = false
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
-local continueInit
-
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
     for i=1, GetNumQuestLogEntries() do
         GetQuestLogTitle(i)
@@ -79,10 +77,7 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
     end
 end
 
-function QuestieEventHandler:RegisterEarlyEvents(callback)
-
-    continueInit = callback
-
+function QuestieEventHandler:RegisterEarlyEvents()
     local savedVarsTimer
     Questie:RegisterEvent("PLAYER_LOGIN", function()
 
@@ -164,7 +159,7 @@ function QuestieEventHandler:RegisterLateEvents()
         end
     end)
 
-    continueInit() -- continue startup inside Questie.lua
+    Questie:ContinueInit() -- continue startup inside Questie.lua
 end
 
 function _EventHandler:PlayerLogin()
