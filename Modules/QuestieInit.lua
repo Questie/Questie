@@ -67,6 +67,8 @@ function QuestieInit:InitAllModules()
     coroutine.yield()
     Migration:Migrate()
 
+    QuestieProfessions:Init()
+
     -- check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
         print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
@@ -118,7 +120,6 @@ function QuestieInit:InitAllModules()
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
 
-    QuestieProfessions:Init()
     QuestieMap:InitializeQueue()
 
     coroutine.yield()
