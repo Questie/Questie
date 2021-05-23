@@ -167,19 +167,21 @@ end
 
 function _EventHandler:PlayerLogin()
 
-    if (not QuestieConfigCharacter) then
-        QuestieConfigCharacter = {}
-    end
-
     if (not QuestieConfig) then
         QuestieConfig = {}
     end
 
+    if (not QuestieConfig[UnitName("Player") .. " - " .. GetRealmName()]) then
+        QuestieConfig[UnitName("Player") .. " - " .. GetRealmName()] = {}
+    end
+
     local defaults = QuestieOptionsDefaults:Load()
 
+    local perCharacter = QuestieConfig[UnitName("Player") .. " - " .. GetRealmName()]
+
     Questie.db = {
-        char = QuestieConfigCharacter,
-        profile = QuestieConfigCharacter, -- deprecated: remove "profile" or actually use it
+        char = perCharacter,
+        profile = perCharacter, -- deprecated: remove "profile" or actually use it
         global = QuestieConfig
     }
 
