@@ -12,14 +12,6 @@ function QuestieTBCNpcFixes:Load()
     local npcFlags = QuestieDB.npcFlags
 
     return {
-        [684] = {
-            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{37.28,45.25},{39.29,45.54},{39.55,44.17},{46.09,26.19},{46.45,22.54},{47.23,23.07},{49.68,24.06},{49.71,25.47},{48.88,23.86},{46.52,28.44},{50.25,24.68},{48.66,20.75},{48.69,22.22},{50.66,20.61},{49.74,20.77},{48.09,20.2},{39.37,33.31},{38.7,32.86},{39.14,39.9},{39.22,37.91},{36.59,37.8},{45.94,27.72},{46.53,26.89},{38.33,34.67},{39.57,42.56},},},
-            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
-        },
-        [1356] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{74.6,12},},},
-            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
-        },
         [2552] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{32.04,46.29},{35.61,49.41},{37.5,40.95},{35.1,46.16},},},
         },
@@ -36,10 +28,6 @@ function QuestieTBCNpcFixes:Load()
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
-        },
-        [10181] = {
-            [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{57.8,91.6},},},
-            [npcKeys.zoneID] = zoneIDs.UNDERCITY,
         },
         [15350] = {
             [npcKeys.spawns] = {

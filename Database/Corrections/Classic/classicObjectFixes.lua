@@ -187,7 +187,6 @@ function QuestieObjectFixes:Load()
         },
         [179908] = {
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9},},},
-            [objectKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
         },
         [180204] = {
             [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{52,83},},},
