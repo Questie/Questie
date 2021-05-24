@@ -4,7 +4,7 @@
 ## Notes: A standalone Classic QuestHelper
 ## Version: 6.3.12
 ## RequiredDeps:
-## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
+## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
@@ -86,6 +86,7 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
 ##Modules
+Modules\QuestieInit.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
@@ -113,6 +114,7 @@ Modules\FramePool\QuestieFrame.lua
 #Map
 Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
+Modules\Map\HBDHooks.lua
 
 #Quest
 Modules\Quest\QuestieQuest.lua

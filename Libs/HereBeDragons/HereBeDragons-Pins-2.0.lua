@@ -1,12 +1,12 @@
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 8
-assert(LibStubQuestie, MAJOR .. " requires LibStubQuestie")
+assert(LibStub, MAJOR .. " requires LibStub")
 
-local pins, _oldversion = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local pins, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not pins then return end
 
-local HBD = LibStubQuestie("HereBeDragonsQuestie-2.0")
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
 local MinimapRadiusAPI = C_Minimap and C_Minimap.GetViewRadius
 

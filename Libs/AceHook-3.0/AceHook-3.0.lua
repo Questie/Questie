@@ -11,7 +11,7 @@
 -- @name AceHook-3.0
 -- @release $Id: AceHook-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 local ACEHOOK_MAJOR, ACEHOOK_MINOR = "AceHook-3.0", 8
-local AceHook, oldminor = LibStubQuestie:NewLibrary(ACEHOOK_MAJOR, ACEHOOK_MINOR)
+local AceHook, oldminor = LibStub:NewLibrary(ACEHOOK_MAJOR, ACEHOOK_MINOR)
 
 if not AceHook then return end -- No upgrade needed
 
@@ -261,7 +261,7 @@ end
 -- @param hookSecure If true, AceHook will allow hooking of secure functions.
 -- @usage
 -- -- create an addon with AceHook embeded
--- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
+-- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
 --
 -- function MyAddon:OnEnable()
 --   -- Hook ActionButton_UpdateHotkeys, overwriting the secure status
@@ -296,7 +296,7 @@ end
 -- @param hookSecure If true, AceHook will allow hooking of secure functions.
 -- @usage
 -- -- create an addon with AceHook embeded
--- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
+-- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
 --
 -- function MyAddon:OnEnable()
 --   -- Hook ActionButton_UpdateHotkeys, overwriting the secure status
@@ -353,7 +353,7 @@ end
 -- @param handler The handler for the hook, a funcref or a method name. (Defaults to the name of the hooked script)
 -- @usage
 -- -- create an addon with AceHook embeded
--- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
+-- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
 --
 -- function MyAddon:OnEnable()
 --   -- Hook the OnShow of FriendsFrame
@@ -379,7 +379,7 @@ end
 -- @param handler The handler for the hook, a funcref or a method name. (Defaults to the name of the hooked script)
 -- @usage
 -- -- create an addon with AceHook embeded
--- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
+-- MyAddon = LibStub("AceAddon-3.0"):NewAddon("HookDemo", "AceHook-3.0")
 --
 -- function MyAddon:OnEnable()
 --   -- Hook the OnShow of FriendsFrame

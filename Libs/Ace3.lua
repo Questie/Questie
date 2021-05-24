@@ -4,18 +4,18 @@
 -- note the complete overkill use of AceAddon and console, ain't it cool?
 
 -- GLOBALS: next, loadstring, ReloadUI, geterrorhandler
--- GLOBALS: BINDING_HEADER_ACE3, BINDING_NAME_RELOADUI, Ace3, LibStubQuestie
+-- GLOBALS: BINDING_HEADER_ACE3, BINDING_NAME_RELOADUI, Ace3, LibStub
 
 -- BINDINGs labels
 BINDING_HEADER_ACE3 = "Ace3"
 BINDING_NAME_RELOADUI = "ReloadUI"
 --
 
-local gui = LibStubQuestie("AceGUI-3.0")
-local reg = LibStubQuestie("AceConfigRegistry-3.0")
-local dialog = LibStubQuestie("AceConfigDialog-3.0")
+local gui = LibStub("AceGUI-3.0")
+local reg = LibStub("AceConfigRegistry-3.0")
+local dialog = LibStub("AceConfigDialog-3.0")
 
-Ace3 = LibStubQuestie("AceAddon-3.0"):NewAddon("Ace3", "AceConsole-3.0")
+Ace3 = LibStub("AceAddon-3.0"):NewAddon("Ace3", "AceConsole-3.0")
 local Ace3 = Ace3
 
 local selectedgroup
@@ -95,9 +95,9 @@ reg.RegisterCallback(Ace3, "ConfigTableChange", "ConfigTableChanged")
 
 function Ace3:PrintCmd(input)
 	input = input:trim():match("^(.-);*$")
-	local func, err = loadstring("LibStubQuestie(\"AceConsole-3.0\"):Print(" .. input .. ")")
+	local func, err = loadstring("LibStub(\"AceConsole-3.0\"):Print(" .. input .. ")")
 	if not func then
-		LibStubQuestie("AceConsole-3.0"):Print("Error: " .. err)
+		LibStub("AceConsole-3.0"):Print("Error: " .. err)
 	else
 		func()
 	end

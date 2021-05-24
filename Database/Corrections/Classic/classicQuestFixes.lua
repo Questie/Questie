@@ -1423,8 +1423,12 @@ function QuestieQuestFixes:Load()
         [5089] = {
             [questKeys.startedBy] = {{9568},nil,{12780}},
         },
+        [5092] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [5096] = {
             [questKeys.triggerEnd] = {"Destroy the command tent and plant the Scourge banner in the camp", {[zoneIDs.WESTERN_PLAGUELANDS]={{40.72,52.04},},},},
+            [questKeys.preQuestSingle] = {},
         },
         [5122] = {
             [questKeys.specialFlags] = 1, -- #1140
@@ -1489,8 +1493,49 @@ function QuestieQuestFixes:Load()
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91},},},},
         },
+        [5402] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5403] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5404] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5405] = {
+            [questKeys.startedBy] = {{11039,},nil,nil,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5406] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5407] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [5408] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [5421] = {
             [questKeys.questLevel] = 25,
+        },
+        [5503] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.startedBy] = {{10839,},nil,nil,},
+        },
+        [5508] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+        },
+        [5509] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
+        },
+        [5510] = {
+            [questKeys.preQuestSingle] = {5401,5503,5405,},
         },
         [5582] = {
             [questKeys.startedBy] = {{10678},nil,{13920}},
@@ -3030,11 +3075,35 @@ function QuestieQuestFixes:Load()
         [9118] = {
             [questKeys.specialFlags] = 1,
         },
+        [9124] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9126] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9128] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9131] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9136] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9141] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
         [9154] = {
             [questKeys.questLevel] = 60,
         },
         [9165] = {
             [questKeys.specialFlags] = 1,
+        },
+        [9211] = {
+            [questKeys.requiredMinRep] = {529,3000}
+        },
+        [9213] = {
+            [questKeys.requiredMinRep] = {529,3000}
         },
         [9223] = {
             [questKeys.specialFlags] = 1,

@@ -112,12 +112,6 @@ function QuestieTBCQuestFixes:Load()
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44},},}},
         },
-        [5401] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        },
-        [5405] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-        },
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5},},}},
         },
@@ -1357,10 +1351,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54},},}},
         },
         [10984] = {
-            [questKeys.exclusiveTo] = {10989,11057,},
+            [questKeys.exclusiveTo] = {10983,10989,11057,},
         },
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06},},}},
+        },
+        [10996] = {
+            [questKeys.preQuestSingle] = {10983,10989,11057},
+        },
+        [10997] = {
+            [questKeys.preQuestSingle] = {10983,10989,11057},
         },
         [11023] = {
             [questKeys.requiredLevel] = 70,

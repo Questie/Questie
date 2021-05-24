@@ -10,7 +10,7 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local AceGUI = LibStubQuestie("AceGUI-3.0")
+local AceGUI = LibStub("AceGUI-3.0")
 local titleBox, messageBox
 
 local _CreateNoteWindow, _CreateContainer, _CreateDescription, _CreateTitleBox, _CreateMessageBox

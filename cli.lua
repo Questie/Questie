@@ -3,6 +3,7 @@ tremove = table.remove
 tinsert = table.insert
 unpack = table.unpack
 loadstring = load
+coroutine.yield = function() end -- no need to yield in the cli (TODO: maybe find a less hacky fix)
 mod = function(a, b)
     return a % b
 end
@@ -29,7 +30,7 @@ end
 GetLocale = function()
     return "enUS"
 end
-LibStubQuestie = function()
+LibStub = function()
     return {["NewAddon"] = function() return {} end}
 end
 CreateFrame = function()

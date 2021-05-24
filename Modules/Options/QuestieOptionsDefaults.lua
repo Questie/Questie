@@ -101,7 +101,6 @@ function QuestieOptionsDefaults:Load()
             maxLevelFilter = 7,
             complete = {},
             hidden = {},
-            enableMinimalisticIcons = false,
             enabled = true,
             lowlevel = false,
             manualMinLevelOffset = false,

@@ -25,7 +25,7 @@
 -- You may also be interested in [[libdualspec-1-0|LibDualSpec-1.0]] to do profile switching automatically when switching specs.
 --
 -- @usage
--- MyAddon = LibStubQuestie("AceAddon-3.0"):NewAddon("DBExample")
+-- MyAddon = LibStub("AceAddon-3.0"):NewAddon("DBExample")
 --
 -- -- declare defaults to be used in the DB
 -- local defaults = {
@@ -36,13 +36,13 @@
 --
 -- function MyAddon:OnInitialize()
 --   -- Assuming the .toc says ## SavedVariables: MyAddonDB
---   self.db = LibStubQuestie("AceDB-3.0"):New("MyAddonDB", defaults, true)
+--   self.db = LibStub("AceDB-3.0"):New("MyAddonDB", defaults, true)
 -- end
 -- @class file
 -- @name AceDB-3.0.lua
 -- @release $Id: AceDB-3.0.lua 1217 2019-07-11 03:06:18Z funkydude $
 local ACEDB_MAJOR, ACEDB_MINOR = "AceDB-3.0", 27
-local AceDB = LibStubQuestie:NewLibrary(ACEDB_MAJOR, ACEDB_MINOR)
+local AceDB = LibStub:NewLibrary(ACEDB_MAJOR, ACEDB_MINOR)
 
 if not AceDB then return end -- No upgrade needed
 
@@ -55,7 +55,7 @@ local _G = _G
 
 -- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
 -- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStubQuestie
+-- GLOBALS: LibStub
 
 AceDB.db_registry = AceDB.db_registry or {}
 AceDB.frame = AceDB.frame or CreateFrame("Frame")
@@ -322,7 +322,7 @@ local function initdb(sv, defaults, defaultProfile, olddb, parent)
 
 	if not rawget(db, "callbacks") then
 		-- try to load CallbackHandler-1.0 if it loaded after our library
-		if not CallbackHandler then CallbackHandler = LibStubQuestie:GetLibrary("CallbackHandler-1.0", true) end
+		if not CallbackHandler then CallbackHandler = LibStub:GetLibrary("CallbackHandler-1.0", true) end
 		db.callbacks = CallbackHandler and CallbackHandler:New(db) or CallbackDummy
 	end
 
@@ -702,10 +702,10 @@ end
 -- You can also pass //true// to use a shared global profile called "Default".
 -- @usage
 -- -- Create an empty DB using a character-specific default profile.
--- self.db = LibStubQuestie("AceDB-3.0"):New("MyAddonDB")
+-- self.db = LibStub("AceDB-3.0"):New("MyAddonDB")
 -- @usage
 -- -- Create a DB using defaults and using a shared default profile
--- self.db = LibStubQuestie("AceDB-3.0"):New("MyAddonDB", defaults, true)
+-- self.db = LibStub("AceDB-3.0"):New("MyAddonDB", defaults, true)
 function AceDB:New(tbl, defaults, defaultProfile)
 	if type(tbl) == "string" then
 		local name = tbl

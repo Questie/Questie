@@ -20,7 +20,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
-local LibDropDown = LibStubQuestie:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
@@ -273,7 +273,7 @@ function QuestieMenu:Show()
     tinsert(menuTable, { text= l10n('My Journey'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
 
     if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
-        tinsert(menuTable, { text= l10n('Recompile Database'), func=function() QuestieConfig.dbIsCompiled = false; ReloadUI() end})
+        tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end
 
@@ -438,9 +438,7 @@ function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
     Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
-    local isTBC = string.byte(GetBuildInfo(), 1) == 50
-
-    for _, id in pairs(isTBC and { -- mailbox list
+    for _, id in pairs(Questie.IsTBC and { -- mailbox list
         32349,140908,142075,142089,142093,142094,142095,142102,142109,142110,142111,142117,143981,143982,143983,143984,
         143985,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,144131,144179,144570,
         153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176324,176404,177044,178864,
@@ -480,7 +478,6 @@ function QuestieMenu:PopulateTownsfolk()
             tinsert(Questie.db.global.petFoodVendorTypes[petFoodIndexes[foodType]], id)
         end
     end
-
 end
 
 function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
@@ -529,11 +526,12 @@ function QuestieMenu:UpdateAmmoVendors() -- call on change weapon
 end
 
 function QuestieMenu:UpdateFoodDrink()
-    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299} -- water item ids
+    local drink = {159,8766,1179,1708,1645,1205,17404,19300,19299,27860,28399,29395,29454,33042,32453,32455} -- water item ids
     local food = { -- food item ids (from wowhead)
         8932,4536,8952,19301,13724,8953,3927,11109,8957,4608,4599,4593,4592,117,3770,3771,4539,8950,8948,7228,
         2287,4601,422,16166,4537,4602,4542,4594,1707,4540,414,4538,4607,17119,19225,2070,21552,787,4544,18632,16167,4606,16170,
-        4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223
+        4541,4605,17408,17406,11444,21033,22324,18635,21030,17407,19305,18633,4604,21031,16168,19306,16169,19304,17344,19224,19223,
+        27857,27854,20857,27858,27856,29448,27855,29451,30355,28486,29450,29393,29394,29449,29452
     }
 
     Questie.db.char.vendorList["Food"] = _reformatVendors(QuestieMenu:PopulateVendors(food, {}, true))

@@ -12,7 +12,7 @@
 -- @release $Id: AceConsole-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 local MAJOR,MINOR = "AceConsole-3.0", 7
 
-local AceConsole, oldminor = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local AceConsole, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceConsole then return end -- No upgrade needed
 

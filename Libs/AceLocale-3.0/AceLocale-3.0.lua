@@ -4,7 +4,7 @@
 -- @release $Id: AceLocale-3.0.lua 1035 2011-07-09 03:20:13Z kaelten $
 local MAJOR,MINOR = "AceLocale-3.0", 6
 
-local AceLocale, oldminor = LibStubQuestie:NewLibrary(MAJOR, MINOR)
+local AceLocale, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not AceLocale then return end -- no upgrade needed
 
@@ -82,11 +82,11 @@ local writedefaultproxy = setmetatable({}, {
 -- @param silent If true, the locale will not issue warnings for missing keys. Must be set on the first locale registered. If set to "raw", nils will be returned for unknown keys (no metatable used).
 -- @usage
 -- -- enUS.lua
--- local L = LibStubQuestie("AceLocale-3.0"):NewLocale("TestLocale", "enUS", true)
+-- local L = LibStub("AceLocale-3.0"):NewLocale("TestLocale", "enUS", true)
 -- L["string1"] = true
 --
 -- -- deDE.lua
--- local L = LibStubQuestie("AceLocale-3.0"):NewLocale("TestLocale", "deDE")
+-- local L = LibStub("AceLocale-3.0"):NewLocale("TestLocale", "deDE")
 -- if not L then return end
 -- L["string1"] = "Zeichenkette1"
 -- @return Locale Table to add localizations to, or nil if the current locale is not required.

@@ -5,7 +5,7 @@
 -- @release $Id: AceTab-3.0.lua 1148 2016-07-18 09:13:02Z nevcairiel $
 
 local ACETAB_MAJOR, ACETAB_MINOR = 'AceTab-3.0', 9
-local AceTab, oldminor = LibStubQuestie:NewLibrary(ACETAB_MAJOR, ACETAB_MINOR)
+local AceTab, oldminor = LibStub:NewLibrary(ACETAB_MAJOR, ACETAB_MINOR)
 
 if not AceTab then return end -- No upgrade needed
 

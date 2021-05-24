@@ -42,8 +42,8 @@ QuestieMap.manualFrames = {}
 local fadeOverDistance = 10;
 local normalizedValue = 1 / fadeOverDistance; --Opacity / Distance to fade over
 
-local HBD = LibStubQuestie("HereBeDragonsQuestie-2.0")
-local HBDPins = LibStubQuestie("HereBeDragonsQuestie-Pins-2.0")
+local HBD = LibStub("HereBeDragonsQuestie-2.0")
+local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -167,37 +167,13 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
     end
 end
 
-
---Override OnMapChanged from MapCanvasDataProviderMixin (https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74)
---This could in theory be skipped by instead using our own MapCanvasDataProviderMixin
---The reason i don't is becauase i want the scaling to happen AFTER HBD has processed all the icons.
-HBDPins.worldmapProvider.ORG_OnMapChanged = HBDPins.worldmapProvider.OnMapChanged;
 function QuestieMap:GetScaleValue()
     local mapId = HBDPins.worldmapProvider:GetMap():GetMapID();
     local scaling = 1;
     if(mapId == 947) then --Azeroth
-        if(Questie.db.char.enableMinimalisticIcons) then
-            scaling = 0.4
-        else
-            scaling = 0.85
-        end
+        scaling = 0.85
     elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
-        if(Questie.db.char.enableMinimalisticIcons) then
-            scaling = 0.5
-        else
-            scaling = 0.9
-        end
-    end
-end
-
-function HBDPins.worldmapProvider:OnMapChanged()
-    --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
-    HBDPins.worldmapProvider:ORG_OnMapChanged();
-
-    local scaling = QuestieMap:GetScaleValue()
-    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        local frame = pin.icon;
-        QuestieMap.utils:RecaleIcon(frame, scaling)
+        scaling = 0.9
     end
 end
 
