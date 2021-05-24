@@ -39,6 +39,7 @@ jobs:
 
       - name: Validate Questie database
         run: |
+          luarocks install bit32
           lua cli.lua
 
       - name: Setup Python
