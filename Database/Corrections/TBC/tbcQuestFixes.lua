@@ -1480,6 +1480,9 @@ function QuestieTBCQuestFixes:Load()
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
         },
+        [11146] = {
+            [questKeys.objectives] = {{{4351,"Raptors Captured"},},nil,nil,nil,},
+        },
         [11152] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Lay the Wreath at the Hyal Family Monument", 0, {{"object", 186322}}}},
         },
