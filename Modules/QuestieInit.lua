@@ -41,8 +41,6 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type HBDHooks
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
----@type MinimapIcon
-local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
@@ -66,8 +64,6 @@ function QuestieInit:InitAllModules()
 
     coroutine.yield()
     Migration:Migrate()
-
-    MinimapIcon:Init()
 
     QuestieProfessions:Init()
 
@@ -224,6 +220,7 @@ end
 -- called by the PLAYER_LOGIN event handler
 -- this function creates the coroutine that runs "InitAllModules"
 function QuestieInit:Init()
+
     -- we do this here because its required for Questie:Error
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
