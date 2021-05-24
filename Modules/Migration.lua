@@ -34,8 +34,8 @@ local migrationFunctions = {
     [3] = function()
         local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
 
-        local journey = nil
-        local migrationTable = nil
+        local journey
+        local migrationTable
 
         if Questie.db.char then
             journey = Questie.db.char.journey
@@ -72,6 +72,9 @@ local migrationFunctions = {
         end
 
         Questie.db.global.dbIsCompiled = false
+    end,
+    [4] = function()
+        Questie.db.char.enableMinimalisticIcons = nil -- Remove unused remnants of minimalistic icons
     end
 }
 
@@ -82,10 +85,10 @@ function Migration:Migrate()
     end
 
     local player = UnitName("Player") .. GetRealmName()
-    Questie:Debug(DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
-
     local currentVersion = Questie.db.global.migrationVersion[player] or 0
     local targetVersion = table.getn(migrationFunctions)
+
+    Questie:Debug(DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
 
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1

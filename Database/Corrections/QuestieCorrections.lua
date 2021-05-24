@@ -49,6 +49,11 @@ local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes"
 -- flags that can be used in corrections (currently only blacklists)
 QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
+
+-- used during Precompile, how fast to run operations (lower = slower but less lag)
+local TICKS_PER_YIELD_DEBUG = 4000
+local TICKS_PER_YIELD = 72
+
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
@@ -409,8 +414,7 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
     return newWaypointZones
 end
 
-function QuestieCorrections:PreCompile(callback) -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
-
+function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
     local timer
     local ops = {}
     --local totalPoints = 0
@@ -425,8 +429,9 @@ function QuestieCorrections:PreCompile(callback) -- this happens only if we are 
         end
     end
 
-    timer = C_Timer.NewTicker(0.1, function()
-        for _=0,Questie.db.global.debugEnabled and 4000 or 72 do -- 72 operations per NewTicker
+    while true do
+        coroutine.yield()
+        for _ = 0, Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or TICKS_PER_YIELD do
             local op = tremove(ops, 1)
             if op then
                 QuestieDB.npcData[op[2]][QuestieDB.npcKeys["waypoints"]] = QuestieCorrections:OptimizeWaypoints(op[1])
@@ -443,12 +448,10 @@ function QuestieCorrections:PreCompile(callback) -- this happens only if we are 
                 --print("Before RDP: " .. tostring(totalPoints))
                 --print("After RDP:" .. tostring(totalPoints2))
 
-                timer:Cancel()
-                callback()
-                break
+                return
             end
         end
-    end)
+    end
 end
 
 

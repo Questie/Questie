@@ -44,23 +44,16 @@ HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 
 
 function QuestieFramePool:SetIcons()
-    if (Questie.db.char.enableMinimalisticIcons) then
-        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay_tiny.blp"
-        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot_tiny.blp"
-        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event_tiny.blp"
-        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object_tiny.blp"
-    else
-        ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-        ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-        ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-        ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-    end
-    --TODO: Add all types (we gotta stop using globals, needs refactoring)
+    ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
+    ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
+    ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
+    ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
+
+    -- TODO Add all types (we gotta stop using globals, needs refactoring)
     ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
     ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
     ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
     ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-    ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
     ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
 end
 
@@ -580,8 +573,8 @@ end
 function _QuestieFramePool:QuestieTooltip()
     --Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon =", self.miniMapIcon)
 
-    local r, g, b, a = self.texture:GetVertexColor();
-    if (a == 0) then
+    local _, _, _, alpha = self.texture:GetVertexColor();
+    if alpha == 0 then
         Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "Alpha of texture is 0, nothing to show")
         return
     end
@@ -614,7 +607,8 @@ function _QuestieFramePool:QuestieTooltip()
             maxDistCluster = 0.5 / (1+Minimap:GetZoom())
         end
     end
-    r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or _QuestieFramePool.wayPointColorHover)
+
+    local r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or _QuestieFramePool.wayPointColorHover)
     --Highlight waypoints if they exist.
     for _, lineFrame in pairs(self.data.lineFrames or {}) do
       lineFrame.line:SetColorTexture(
@@ -755,9 +749,9 @@ function _QuestieFramePool:QuestieTooltip()
                     local quest = QuestieDB:GetQuest(questData.questId)
                     if (quest and shift) then
                         local rewardString = ""
-                        local rewardXP = GetQuestLogRewardXP(questData.questId)
-                        if rewardXP > 0 then -- Quest rewards XP
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(rewardXP) .. xpString .. ") ")
+                        local xpReward = GetQuestLogRewardXP(questData.questId)
+                        if xpReward > 0 then -- Quest rewards XP
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
@@ -795,7 +789,7 @@ function _QuestieFramePool:QuestieTooltip()
                 local xpReward = GetQuestLogRewardXP(questId)
                 if (quest and shift and xpReward > 0) then
                     r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
-                    self:AddDoubleLine(questTitle, "("..xpReward..xpString..")", 0.2, 1, 0.2, r, g, b);
+                    self:AddDoubleLine(questTitle, "("..FormatLargeNumber(xpReward)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
                     self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"

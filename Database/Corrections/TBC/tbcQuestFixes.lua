@@ -28,8 +28,8 @@ function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[64053] = {}; -- Talented
     QuestieDB.questData[64063] = {}; -- The Dark Portal
     QuestieDB.questData[64064] = {}; -- Eastern Plaguelands
+    QuestieDB.questData[64128] = {}; -- Eastern Plaguelands
     QuestieDB.questData[64217] = {}; -- The Dark Portal
-
 
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
@@ -78,6 +78,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [1049] = { -- Not available to UNDEAD
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL+ raceIDs.BLOOD_ELF,
         },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36},},}},
@@ -210,6 +213,9 @@ function QuestieTBCQuestFixes:Load()
         [8473] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8474] = {
+            [questKeys.startedBy] = {{15409},nil,{23228,},},
+        },
         [8476] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -229,6 +235,9 @@ function QuestieTBCQuestFixes:Load()
         [8548] = {
             [questKeys.specialFlags] = 1,
         },
+        [8551] = {
+            [questKeys.questLevel] = 42,
+        },
         [8572] = {
             [questKeys.specialFlags] = 1,
         },
@@ -241,20 +250,17 @@ function QuestieTBCQuestFixes:Load()
         [8894] = {
             [questKeys.preQuestSingle] = {},
         },
-        [9144] = {
-            [questKeys.requiredLevel] = 10,
-        },
-        [9149] = {
-            [questKeys.preQuestSingle] = {9327},
-        },
-        [8474] = {
-            [questKeys.startedBy] = {{15409},nil,{23228,},},
-        },
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
+        },
+        [9144] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [9149] = {
+            [questKeys.preQuestSingle] = {9327,9329},
         },
         [9152] = {
             [questKeys.preQuestSingle] = {9327,9329},
@@ -285,6 +291,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9206] = {
             [questKeys.specialFlags] = 1,
+        },
+        [9207] = {
+            [questKeys.requiredMinRep] = {922,3000},
         },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
@@ -1471,6 +1480,9 @@ function QuestieTBCQuestFixes:Load()
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
         },
+        [11146] = {
+            [questKeys.objectives] = {{{4351,"Raptors Captured"},},nil,nil,nil,},
+        },
         [11152] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Lay the Wreath at the Hyal Family Monument", 0, {{"object", 186322}}}},
         },
@@ -1899,16 +1911,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [64064] = {
             [questKeys.name] = "Eastern Plaguelands",
-            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,3036},nil,nil},
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
             [questKeys.finishedBy] = {{11036},nil,nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
             [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"},},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64052,64053,},
-            [questKeys.exclusiveTo] = {64063,64217},
+            [questKeys.preQuestSingle] = {64052,},
+            [questKeys.exclusiveTo] = {64063,64217,64128},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64128] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{9564, "Speak to Tal, the Wind Rider Master"},{9564, "Visit Zeppelin Master Frezza"},},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64053,},
+            [questKeys.exclusiveTo] = {64063,64064,64217},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64217] = {
             [questKeys.name] = "The Dark Portal",
@@ -1920,7 +1946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
-            [questKeys.exclusiveTo] = {64063},
+            [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
     }

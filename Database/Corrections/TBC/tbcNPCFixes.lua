@@ -12,14 +12,6 @@ function QuestieTBCNpcFixes:Load()
     local npcFlags = QuestieDB.npcFlags
 
     return {
-        [684] = {
-            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{37.28,45.25},{39.29,45.54},{39.55,44.17},{46.09,26.19},{46.45,22.54},{47.23,23.07},{49.68,24.06},{49.71,25.47},{48.88,23.86},{46.52,28.44},{50.25,24.68},{48.66,20.75},{48.69,22.22},{50.66,20.61},{49.74,20.77},{48.09,20.2},{39.37,33.31},{38.7,32.86},{39.14,39.9},{39.22,37.91},{36.59,37.8},{45.94,27.72},{46.53,26.89},{38.33,34.67},{39.57,42.56},},},
-            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
-        },
-        [1356] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{74.6,12},},},
-            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
-        },
         [2552] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{32.04,46.29},{35.61,49.41},{37.5,40.95},{35.1,46.16},},},
         },
@@ -36,10 +28,6 @@ function QuestieTBCNpcFixes:Load()
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
-        },
-        [10181] = {
-            [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{57.8,91.6},},},
-            [npcKeys.zoneID] = zoneIDs.UNDERCITY,
         },
         [15350] = {
             [npcKeys.spawns] = {
@@ -226,6 +214,9 @@ function QuestieTBCNpcFixes:Load()
         [19925] = {
             [npcKeys.friendlyToFaction] = "A",
         },
+        [19942] = {
+            [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS]={{58.2,55}}},
+        },
         [20145] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{45.6,82.4},{46.2,83.2},{46.6,83},{48.2,85},{48.8,82.4},{49.4,82.8},{50,82},{50.2,83.2},{50.2,83.6},{51,82.6}},},
         },
@@ -275,6 +266,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [22454] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{44.4,74.0},{44.6,75.4},{45.0,74.4},{45.6,73.6},},},
+        },
+        [23786] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{40.6,68.0},{41.4,67.0},{42.2,65.8},{42.2,67.8},{42.4,67.2},{42.6,67.8},{43.0,65.4},{43.0,65.6},{43.4,67.0},{43.6,66.8},{43.8,67.6},{44.0,63.6},{44.0,65.2},{44.2,66.2},{44.6,65.6},{44.8,65.4},{44.8,66.6},{45.2,63.6},{45.6,68.4},{45.8,64.8},{46.0,66.2},{46.0,67.2},{46.2,69.0},{46.6,65.8},},},
         },
         [24885] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8},},},

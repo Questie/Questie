@@ -326,6 +326,18 @@ local debugMessagesLocales = {
         ["esES"] = nil,
         ["esMX"] = nil,
     },
+    ["Error during initialization!"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
+        ["frFR"] = nil,
+        ["koKR"] = nil,
+        ["zhCN"] = nil,
+        ["enUS"] = true,
+        ["zhTW"] = nil,
+        ["deDE"] = "Fehler während der Initialisierung!",
+        ["esES"] = nil,
+        ["esMX"] = nil,
+    }
 }
 
 for k, v in pairs(debugMessagesLocales) do

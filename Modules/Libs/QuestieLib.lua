@@ -11,8 +11,7 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
--- Is set in QuestieLib.lua
-QuestieLib.AddonPath = "Interface\\Addons\\QuestieDev-master\\"
+QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 
 local math_abs = math.abs
 local math_sqrt = math.sqrt
@@ -271,7 +270,7 @@ end
 ---@param name string @The (localized) name of the quest
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetLevelString(id, name, level, blizzLike)
+function QuestieLib:GetLevelString(id, _, level, blizzLike)
     local questType, questTag = QuestieDB:GetQuestTagInfo(id)
 
     if questType and questTag then
@@ -367,10 +366,9 @@ function QuestieLib:CacheAllItemNames()
         3 dropped by
         [4103]={"Shackle Key",{630},{1559},{}},
     ]]
-    local numEntries, numQuests = GetNumQuestLogEntries()
+    local numEntries, _ = GetNumQuestLogEntries()
     for index = 1, numEntries do
-        local title, level, _, isHeader, _, isComplete, _, questId, _,
-              displayQuestId, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
         if (not isHeader) then QuestieLib:CacheItemNames(questId) end
     end
 end
@@ -378,7 +376,7 @@ end
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB:GetQuest(questId)
     if (quest and quest.ObjectiveData) then
-        for objectiveIndexDB, objectiveDB in pairs(quest.ObjectiveData) do
+        for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
                     Questie:Debug(DEBUG_DEVELOP,
@@ -427,8 +425,8 @@ function QuestieLib:GetTableSize(table)
     return count
 end
 
-local cachedTitle = nil
-local cachedVersion = nil
+local cachedTitle
+local cachedVersion
 -- Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()
     if (not cachedTitle) or (not cachedVersion) then
@@ -442,7 +440,7 @@ function QuestieLib:GetAddonVersionInfo()
     local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
     hash = "nil"
 
-    local buildType = nil
+    local buildType
 
     if string.match(cachedTitle, "ALPHA") then
         buildType = "ALPHA"
@@ -487,7 +485,7 @@ end
 
 function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
     local count = 0
-    for k, v in pairs(table) do count = count + 1 end
+    for _, _ in pairs(table) do count = count + 1 end
     return count
 end
 
@@ -591,8 +589,8 @@ function QuestieLib:MathRandomSeed(seed)
 end
 
 function QuestieLib:MathRandom(low_or_high_arg, high_arg)
-    local low = nil
-    local high = nil
+    local low
+    local high
     if low_or_high_arg ~= nil then
         if high_arg ~= nil then
             low = low_or_high_arg
