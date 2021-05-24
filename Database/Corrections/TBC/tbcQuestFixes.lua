@@ -292,6 +292,9 @@ function QuestieTBCQuestFixes:Load()
         [9206] = {
             [questKeys.specialFlags] = 1,
         },
+        [9207] = {
+            [questKeys.requiredMinRep] = {922,3000},
+        },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
         },
