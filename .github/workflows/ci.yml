@@ -31,31 +31,7 @@ jobs:
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1
         with:
-          files: |
-            Database
-            Localization
-            Modules/Auto
-            Modules/FramePool
-            Moduels/Journey
-            Modules/Tooltips
-            Modules/Migration.lua
-            Modules/MinimapIcon.lua
-            Modules/QuestieAnnounce.lua
-            Modules/QuestieCleanup.lua
-            Modules/QuestieCoordinates.lua
-            Modules/QuestieDBMIntegration.lua
-            Modules/QuestieEventHandler.lua
-            Modules/QuestieInit.lua
-            Modules/QuestieMenu.lua
-            Modules/QuestieNameplate.lua
-            Modules/QuestiePlayer.lua
-            Modules/QuestieProfessions.lua
-            Modules/QuestieReputation.lua
-            Modules/QuestieSlash.lua
-            Modules/QuestieStream.lua
-            Modules/TaskQueue.lua
-            Modules/VersionCheck.lua
-            Questie.lua
+          files: Database Localization Modules/Auto Modules/FramePool Moduels/Journey Modules/Tooltips Modules/Migration.lua Modules/MinimapIcon.lua Modules/QuestieAnnounce.lua Modules/QuestieCleanup.lua Modules/QuestieCoordinates.lua Modules/QuestieDBMIntegration.lua Modules/QuestieEventHandler.lua Modules/QuestieInit.lua Modules/QuestieMenu.lua Modules/QuestieNameplate.lua Modules/QuestiePlayer.lua Modules/QuestieProfessions.lua Modules/QuestieReputation.lua Modules/QuestieSlash.lua Modules/QuestieStream.lua Modules/TaskQueue.lua Modules/VersionCheck.lua Questie.lua
           args: "--no-color -q"
 
       - name: Install Luarocks
