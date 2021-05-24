@@ -1007,8 +1007,7 @@ function QuestieItemFixes:Load()
         [19034] = {
             [itemKeys.objectDrops] = {179910},
         },
-        [19061] = {
-            [itemKeys.name] = "Vessel of Rebirth",
+        [19016] = {
             [itemKeys.relatedQuests] = {7785,},
             [itemKeys.npcDrops] = {14347},
             [itemKeys.objectDrops] = {},
