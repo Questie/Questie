@@ -15,8 +15,6 @@ local Migration = QuestieLoader:ImportModule("Migration")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type QuestieReputation
-local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieMap
@@ -43,6 +41,8 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type HBDHooks
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
@@ -66,6 +66,8 @@ function QuestieInit:InitAllModules()
 
     coroutine.yield()
     Migration:Migrate()
+
+    MinimapIcon:Init()
 
     QuestieProfessions:Init()
 

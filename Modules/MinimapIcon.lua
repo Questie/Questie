@@ -1,5 +1,5 @@
----@class QuestieOptionsMinimapIcon
-local QuestieOptionsMinimapIcon = QuestieLoader:CreateModule("QuestieOptionsMinimapIcon");
+---@class MinimapIcon
+local MinimapIcon = QuestieLoader:CreateModule("MinimapIcon");
 -------------------------
 --Import modules.
 -------------------------
@@ -16,15 +16,15 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local minimapIconLDB = nil
+local minimapIconLDB
 
-function QuestieOptionsMinimapIcon:Initialize()
+function MinimapIcon:Init()
     minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
         text = "Questie",
         icon = ICON_TYPE_COMPLETE,
 
-        OnClick = function (self, button)
+        OnClick = function (_, button)
             if button == "LeftButton" then
                 if IsShiftKeyDown() and IsControlKeyDown() then
                     Questie.db.char.enabled = (not Questie.db.char.enabled)
@@ -69,8 +69,9 @@ function QuestieOptionsMinimapIcon:Initialize()
             tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Left Click'),   'gray') .. ": ".. l10n('Reload Questie'));
         end,
     });
+
+    -- Creating the minimap config icon
+    Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
+    Questie.minimapConfigIcon:Register("Questie", minimapIconLDB, Questie.db.profile.minimap);
 end
 
-function QuestieOptionsMinimapIcon:Get()
-    return minimapIconLDB
-end
