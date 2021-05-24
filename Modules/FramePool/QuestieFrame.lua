@@ -236,9 +236,9 @@ end
 
 function _Qframe:UpdateTexture(texture)
     --Different settings depending on noteType
-    local globalScale = 0.7
-    local objectiveColor = false
-    local alpha = 1;
+    local globalScale
+    local objectiveColor
+    local alpha
 
     if(self.miniMapIcon) then
         globalScale = Questie.db.global.globalMiniMapScale;

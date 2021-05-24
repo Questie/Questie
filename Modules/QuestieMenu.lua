@@ -22,6 +22,9 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
+local _, playerClass = UnitClass("player")
+local playerFaction = UnitFactionGroup("player")
+
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
@@ -37,8 +40,7 @@ local _townsfolk_texturemap = {
     ["Pet Food"] = 132165,--select(3, GetSpellInfo(6991)) -- feed pet
     ["Portal Trainer"] = "Interface\\Minimap\\vehicle-alliancemageportal",
     ["Reagents"] = (function()
-        local class = select(2, UnitClass("player"))
-        if class == "ROGUE" then
+        if playerClass == "ROGUE" then
             return "Interface\\Minimap\\tracking\\poisons"
         end
         return "Interface\\Minimap\\tracking\\reagents"
@@ -426,9 +428,10 @@ function QuestieMenu:PopulateTownsfolk()
         Questie.db.global.classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
     end
     --Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
-    if class == "HUNTER" then
+
+    if playerClass == "HUNTER" then
         Questie.db.global.classSpecificTownsfolk["HUNTER"]["Stable Master"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.STABLEMASTER)
-    elseif class == "MAGE" then
+    elseif playerClass == "MAGE" then
         Questie.db.global.classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492}
     end
 
@@ -493,7 +496,7 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         ["ROGUE"] = {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
     }
-    reagents = reagents[select(2, UnitClass("player"))]
+    reagents = reagents[playerClass]
 
     -- populate vendor IDs from db
     if #reagents > 0 then
@@ -540,18 +543,17 @@ end
 
 function QuestieMenu:UpdatePlayerVendors() -- call on levelup
     QuestieMenu:UpdateFoodDrink()
-    local _, class = UnitClass("player")
-    if class == "HUNTER" then
+    if playerClass == "HUNTER" then
         QuestieMenu:UpdatePetFood()
         QuestieMenu:UpdateAmmoVendors()
-    elseif class == "ROGUE" or class == "WARRIOR" then
+    elseif playerClass == "ROGUE" or playerClass == "WARRIOR" then
         QuestieMenu:UpdateAmmoVendors()
     end
 
 end
 
 function QuestieMenu:PopulateVendors(itemList, existingTable, restrictLevel)
-    local factionKey = UnitFactionGroup("Player") == "Alliance" and "A" or "H"
+    local factionKey = playerFaction == "Alliance" and "A" or "H"
     local tbl = existingTable or {}
     local playerLevel = restrictLevel and UnitLevel("Player") or 0
     for _, id in pairs(itemList) do
@@ -581,17 +583,14 @@ function QuestieMenu:PopulateVendors(itemList, existingTable, restrictLevel)
 end
 
 function QuestieMenu:BuildCharacterTownsfolk()
-    local faction = UnitFactionGroup("Player")
-    local _, class = UnitClass("player")
-
     Questie.db.char.townsfolk = {}
     Questie.db.char.vendorList = {}
 
-    for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[faction]) do
+    for key, npcs in pairs(Questie.db.global.factionSpecificTownsfolk[playerFaction]) do
         Questie.db.char.townsfolk[key] = npcs
     end
 
-    for key, npcs in pairs(Questie.db.global.classSpecificTownsfolk[class]) do
+    for key, npcs in pairs(Questie.db.global.classSpecificTownsfolk[playerClass]) do
         Questie.db.char.townsfolk[key] = npcs
     end
 

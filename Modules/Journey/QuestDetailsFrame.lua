@@ -387,7 +387,6 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     ---@class AceInlineGroup
     local preQuestInlineGroup = AceGUI:Create("InlineGroup")
     local preQuestCounter = 1
-    local preQuests = {}
 
     preQuestInlineGroup:SetLayout("List")
     preQuestInlineGroup:SetTitle(l10n('Pre Quests'))
@@ -396,11 +395,8 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     if (quest.preQuestSingle and next(quest.preQuestSingle)) then
         for _, v in pairs(quest.preQuestSingle) do
             if not (v == quest.Id) then
-                preQuests[preQuestCounter] = {}
                 local preQuest = QuestieDB:GetQuest(v)
                 local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
-                preQuests[preQuestCounter].frame = label
-                preQuests[preQuestCounter].quest = preQuest
                 preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
             end
@@ -410,11 +406,8 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     if (quest.preQuestGroup and next(quest.preQuestGroup)) then
         for _, v in pairs(quest.preQuestGroup) do
             if not (v == quest.Id) then
-                preQuests[preQuestCounter] = {}
                 local preQuest = QuestieDB:GetQuest(v)
                 local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
-                preQuests[preQuestCounter].frame = label
-                preQuests[preQuestCounter].quest = preQuest
                 preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
             end

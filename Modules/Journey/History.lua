@@ -96,7 +96,7 @@ function _QuestieJourney:GetEntryText(entry)
     elseif entry.Event == "Note" then
         entryText = l10n('Note: %s', entry.Title)
     elseif entry.Event == "Quest" then
-        local state = ""
+        local state
         if entry.SubType == "Accept" then
             state = l10n('Accepted')
         elseif entry.SubType == "Complete" then

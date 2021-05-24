@@ -38,12 +38,12 @@ CreateFrame = function()
 end
 C_QuestLog = {}
 C_Timer = {
-    After = function(time, f)
+    After = function(_, f)
         f()
     end,
-    NewTicker = function(time, f, times)
+    NewTicker = function(_, f, times)
         if times then
-            for i=1,times do
+            for _=1,times do
                 f()
             end
         else
@@ -66,7 +66,7 @@ local function loadTOC(file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r, e = pcall(dofile, line)
+            local r, _ = pcall(dofile, line)
             if r then
                 --print("Loaded " .. line)
             else
@@ -136,7 +136,7 @@ QuestieCorrections:Initialize({
     ["questData"] = QuestieDB.questDataTBC
 })
 
-QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
 QuestieDBCompiler:Compile(function() end)
 print("Validating objects...")

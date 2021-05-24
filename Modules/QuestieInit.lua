@@ -144,7 +144,6 @@ function QuestieInit:InitAllModules()
     coroutine.yield()
     QuestieMenu:PopulateTownsfolkPostBoot()
     Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-    didPlayerEnterWorld = true
 
     coroutine.yield()
     QuestieQuest:GetAllQuestIds()

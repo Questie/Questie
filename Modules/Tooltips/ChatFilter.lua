@@ -13,7 +13,7 @@ local function QuestsFilter(chatFrame, _, msg, playerName, languageName, channel
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
-                local complete, sqid, questId, questLevel, questName, realQuestName, realQuestLevel
+                local sqid, questId, questLevel, questName, realQuestName, realQuestLevel
                 
                 if Questie.IsTBC then
                     questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
@@ -35,10 +35,6 @@ local function QuestsFilter(chatFrame, _, msg, playerName, languageName, channel
                     if QuestieDB.QueryQuest then
                         realQuestName = QuestieDB.QueryQuestSingle(questId, "name");
                         realQuestLevel, _ = QuestieLib:GetTbcLevel(questId);
-
-                        if questName and questId then
-                            complete = QuestieDB:IsComplete(questId)
-                        end
                     end
                 end
 
