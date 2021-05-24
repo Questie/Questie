@@ -79,6 +79,9 @@ function QuestieTBCQuestFixes:Load()
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [1049] = { -- Not available to UNDEAD
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL+ raceIDs.BLOOD_ELF,
+        },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36},},}},
         },
