@@ -1,7 +1,6 @@
 
 tremove = table.remove
 tinsert = table.insert
-loadstring = load
 coroutine.yield = function() end -- no need to yield in the cli (TODO: maybe find a less hacky fix)
 mod = function(a, b)
     return a % b
