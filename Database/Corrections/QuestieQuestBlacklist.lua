@@ -759,6 +759,9 @@ function QuestieQuestBlacklist:Load()
 
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
 
+        [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+        [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+
         -- [OLD] quests. Classic quests deprecated in TBC
         [708] = true,
         [909] = true,
