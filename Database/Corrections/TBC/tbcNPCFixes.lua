@@ -206,6 +206,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{37.4,86.2},},},
             [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
         },
+        [19493] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{40.8,72.6},},},
+        },
         [19909] = {
             [npcKeys.friendlyToFaction] = "H",
         },
