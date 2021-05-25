@@ -661,6 +661,9 @@ function QuestieTBCQuestFixes:Load()
         [9869] = {
             [questKeys.requiredMinRep] = {978,0},
         },
+        [9870] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [9871] = {
             [questKeys.startedBy] = {{18238},nil,{24559,},},
         },
@@ -768,6 +771,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9983] = {
             [questKeys.exclusiveTo] = {9991},
+            [questKeys.requiredMinRep] = {941,0},
         },
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
