@@ -994,6 +994,9 @@ function QuestieTBCQuestFixes:Load()
         [10277] = {
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.87,54.3},},}},
         },
+        [10291] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10297] = {
             [questKeys.triggerEnd] = {"The Dark Portal Opened", {[zoneIDs.TANARIS]={{57.21,62.92},},}},
         },
