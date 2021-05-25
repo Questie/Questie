@@ -72,6 +72,9 @@ function QuestieTBCObjectFixes:Load()
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
         },
+        [185574] = {
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{20.5,17.8}}},
+        },
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
         }, 
