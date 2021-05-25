@@ -16,6 +16,7 @@ function QuestieQuestBlacklist:Load()
         [615] = true, -- Duplicate of 8553. See #2215
         [618] = true, -- Duplicate of 8554
         [934] = true, -- Duplicate of 7383. See #2386
+        [960] = true, -- Duplicate of 961
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
