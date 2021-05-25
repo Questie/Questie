@@ -743,6 +743,7 @@ function QuestieQuestBlacklist:Load()
         [10925] = true, -- Evil Draws Near
 
         -- [Not Used] quests
+        [620] = true, -- UNUSED The Monogrammed Sash
         [1390] = true, -- BETA Oops, We Killed Them Again.
         [2019] = true, -- Tools of the Trade
         [5383] = true, -- Krastinov's Bag of Horrors
@@ -750,6 +751,7 @@ function QuestieQuestBlacklist:Load()
         [8618] = true, -- The Horde Needs More Singed Corestones!
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
+        [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
