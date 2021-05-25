@@ -735,6 +735,10 @@ function QuestieTBCQuestFixes:Load()
         [9944] = {
             [questKeys.requiredMinRep] = {941,0},
         },
+        [9945] = {
+            [questKeys.requiredMinRep] = {941,0},
+            [questKeys.preQuestSingle] = {},
+        },
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
         },
