@@ -28,6 +28,9 @@ function QuestieTBCObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [177281] = {
+            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06},},},
+        },
         [181138] = {
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{12.53,26.51},{14.7,26.4},{13.69,26.84},},},
         },

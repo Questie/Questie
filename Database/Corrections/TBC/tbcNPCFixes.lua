@@ -25,6 +25,10 @@ function QuestieTBCNpcFixes:Load()
         [2556] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{63.51,71.64},{67.08,70.15},{59.93,71.64},{62.55,73.17},{67.98,78.74},{67.65,77.23},{67.74,77.06},{67.93,76.49},{68.55,76.41},{69.97,68.65},{71.2,65.91},{71.25,69.92},{70.91,67.35},{70.64,69.64},{70.02,71.75},{69.03,71.98},{69.13,79.46},{72.68,64.43},{71.88,63.02},{64.28,68.95},{68.74,73.43},{66.03,81.88},{67.55,81.59},{66.28,82.24},{69.88,81.13},{69.55,81.58},{68.29,80.06},{69.17,81.66},{69.19,82.41},{68.17,79.5},{67.75,81.95},{67.18,80.83},{70.04,77.34},{68.99,78.68},{70.45,78.2},{69.75,78.01},},},
         },
+        [10182] = {
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0},},},
+            [npcKeys.waypoints] = {},
+        },
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
@@ -85,6 +89,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [17000] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{40.22,31.09},},},
+        },
+        [17085] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{28.94,81.46},},},
         },
         [17087] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2},},},
@@ -237,6 +244,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{60.98,41.52},},},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
+        [20680] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{14.32,62.18},},},
+            [npcKeys.waypoints] = {[zoneIDs.HELLFIRE_PENINSULA] = {{{14.34,61.07},{14.32,59.92},{14.32,58.88},{14.32,57.9},{14.32,56.98},{14.33,58.76},{14.31,59.58},{14.31,60.21},{14.31,60.95},{14.32,62.16},{14.32,62.16},},},},
+        },
         [21118] = {
             [npcKeys.waypoints] = {},
         },
@@ -263,6 +274,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [22059] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{51.23,62.75},{52.45,59.19},},},
+        },
+        [22408] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{35.6,66.6},},},
         },
         [22454] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{44.4,74.0},{44.6,75.4},{45.0,74.4},{45.6,73.6},},},

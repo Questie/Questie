@@ -783,7 +783,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10019] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10211,10017},
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10024] = {
@@ -791,7 +791,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10025] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10211,10024},
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10039] = {
@@ -1302,8 +1302,26 @@ function QuestieTBCQuestFixes:Load()
         [10896] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited", 0, {{"monster", 22307}, {"monster", 22095}}}},
         },
+        [10897] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10898] = {
             [questKeys.triggerEnd] = {"Escort Skywing", {[zoneIDs.TEROKKAR_FOREST]={{55.71,69.68},},}},
+        },
+        [10899] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10902] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10905] = {
+            [questKeys.exclusiveTo] = {10899,10902,10906,10907},
+        },
+        [10906] = {
+            [questKeys.exclusiveTo] = {10897,10899,10905,10907},
+        },
+        [10907] = {
+            [questKeys.exclusiveTo] = {10897,10902,10905,10906},
         },
         [10908] = {
             [questKeys.exclusiveTo] = {10862,10863},
