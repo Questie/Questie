@@ -1309,6 +1309,9 @@ function QuestieTBCQuestFixes:Load()
         [10886] = {
             [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.NETHERSTORM]={{74.5,57.67},},}},
         },
+        [10887] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.2,51.8}}}, ICON_TYPE_EVENT, "Help Akuno find his way to the Refugee Caravan in Terokkar Forest.",}},
+        },
         [10896] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited", 0, {{"monster", 22307}, {"monster", 22095}}}},
         },
