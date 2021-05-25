@@ -138,6 +138,10 @@ local dungeons = {
     [3792] = {"Mana-Tombs",nil,3519},
 }
 
+function ZoneDB:GetDungeons()
+    return dungeons
+end
+
 -- [areaId] = {{areaId, locationX, locationY}, ...}
 local dungeonLocations = {
     [209] = {{130, 45, 68.7}},
