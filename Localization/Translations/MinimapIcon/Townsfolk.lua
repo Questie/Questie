@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local townsfolkLocales = {
     ["Ammo"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Боеприпасы",
         ["deDE"] = "Munition",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -28,7 +28,7 @@ local townsfolkLocales = {
     },
     ["Bags"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Сумки",
         ["deDE"] = "Taschen",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -76,7 +76,7 @@ local townsfolkLocales = {
     },
     ["Drink"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Напитки",
         ["deDE"] = "Getränke",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -100,7 +100,7 @@ local townsfolkLocales = {
     },
     ["Food"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Еда",
         ["deDE"] = "Essen",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -196,7 +196,7 @@ local townsfolkLocales = {
     },
     ["Trade Goods"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Хозяйственные товары",
         ["deDE"] = "Handwerkswaren",
         ["koKR"] = nil,
         ["esMX"] = nil,

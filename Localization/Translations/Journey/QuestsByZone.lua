@@ -112,7 +112,7 @@ local questsByZoneLocales = {
     },
     ["Completed"] = {
         ["ptBR"] = "Concluída",
-        ["ruRU"] = "Завершено",
+        ["ruRU"] = "Выполнено",
         ["deDE"] = "Abgeschlossen",
         ["koKR"] = "완료",
         ["esMX"] = "Completada",
