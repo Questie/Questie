@@ -1238,10 +1238,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{28.54,82.09},},},
         },
-        [10931] = {
-            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{48.33,21.84},},},
-        },
         [10936] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{39.2,91.33},},},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
