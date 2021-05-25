@@ -90,6 +90,9 @@ function QuestieTBCNpcFixes:Load()
         [17000] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{40.22,31.09},},},
         },
+        [17085] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{28.94,81.46},},},
+        },
         [17087] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2},},},
         },
