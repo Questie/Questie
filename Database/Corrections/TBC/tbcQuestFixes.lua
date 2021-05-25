@@ -909,6 +909,9 @@ function QuestieTBCQuestFixes:Load()
         [10129] = {
             [questKeys.requiredSourceItems] = {40000},
         },
+        [10121] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10146] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
         },
