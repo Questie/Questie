@@ -1302,8 +1302,17 @@ function QuestieTBCQuestFixes:Load()
         [10896] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited", 0, {{"monster", 22307}, {"monster", 22095}}}},
         },
+        [10897] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10898] = {
             [questKeys.triggerEnd] = {"Escort Skywing", {[zoneIDs.TEROKKAR_FOREST]={{55.71,69.68},},}},
+        },
+        [10899] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10902] = {
+            [questKeys.preQuestSingle] = {},
         },
         [10908] = {
             [questKeys.exclusiveTo] = {10862,10863},
