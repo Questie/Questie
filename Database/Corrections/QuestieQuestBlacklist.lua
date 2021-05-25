@@ -743,6 +743,12 @@ function QuestieQuestBlacklist:Load()
         [10872] = true, -- Zuluhed the Whacked
         [10925] = true, -- Evil Draws Near
 
+        -- <NYI> quests
+        [3482] = true, -- <NYI> <TXT> The Pocked Black Box
+        [7741] = true, -- Praise from the Emerald Circle <NYI> <TXT>
+        [8339] = true, -- Royalty of the Council <NYI> <TXT> UNUSED
+        [8340] = true, -- Twilight Signet Ring <NYI> <TXT>
+
         -- [Not Used] quests
         [620] = true, -- UNUSED The Monogrammed Sash
         [1390] = true, -- BETA Oops, We Killed Them Again.
