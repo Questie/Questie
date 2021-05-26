@@ -217,6 +217,8 @@ local subZoneToParentZone = {
     [1116] = 357,
     [702] = 141,
     [1769] = 361,
+    [3917] = 3688,
+    [3696] = 3522,
     -- starting zones
     [9] = 12,
     [132] = 1,
@@ -224,6 +226,8 @@ local subZoneToParentZone = {
     [188] = 141,
     [220] = 215,
     [363] = 14,
+	[3431] = 3430,
+	[3526] = 3524,
 }
 
 function ZoneDB:GetZoneTables()
