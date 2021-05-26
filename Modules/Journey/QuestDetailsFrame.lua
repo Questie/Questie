@@ -261,7 +261,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         local endNPCZoneLabel = AceGUI:Create("Label")
         local endindex = 0
-        if not endNPC.spawns then
+        if (not endNPC.spawns) then
             return
         end
         for i in pairs(endNPC.spawns) do
@@ -279,13 +279,15 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         endNPCZoneLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCZoneLabel)
 
-        local endx = endNPC.spawns[endindex][1][1]
-        local endy = endNPC.spawns[endindex][1][2]
-        if (endx ~= -1 or endy ~= -1) then
-            local endNPCLocLabel = AceGUI:Create("Label")
-            endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
-            endNPCLocLabel:SetFullWidth(true)
-            endNPCGroup:AddChild(endNPCLocLabel)
+        if (next(endNPC.spawns)) then
+            local endx = endNPC.spawns[endindex][1][1]
+            local endy = endNPC.spawns[endindex][1][2]
+            if (endx ~= -1 or endy ~= -1) then
+                local endNPCLocLabel = AceGUI:Create("Label")
+                endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
+                endNPCLocLabel:SetFullWidth(true)
+                endNPCGroup:AddChild(endNPCLocLabel)
+            end
         end
 
         local endNPCIdLabel = AceGUI:Create("Label")
@@ -325,9 +327,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 endNPCGroup:AddChild(noQuestLabel)
             end
 
+            QuestieJourneyUtils:Spacer(endNPCGroup)
         end
-
-        QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
