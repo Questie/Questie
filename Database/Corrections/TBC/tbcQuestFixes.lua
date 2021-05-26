@@ -351,38 +351,11 @@ function QuestieTBCQuestFixes:Load()
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
         },
-        [9449] = {
-            [questKeys.questLevel] = 4,
-        },
-        [9450] = {
-            [questKeys.questLevel] = 4,
-        },
-        [9451] = {
-            [questKeys.questLevel] = 4,
-        },
         [9454] = {
             [questKeys.preQuestSingle] = {},
         },
         [9457] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Gift of Naias near the Altar of Naias", 0, {{"object", 181636}}}}
-        },
-        [9461] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9462] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9464] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9465] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9467] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9468] = {
-            [questKeys.questLevel] = 10,
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
@@ -400,25 +373,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9500] = {
-            [questKeys.questLevel] = 20,
+            [questKeys.questLevel] = -1,
         },
         [9501] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9502] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9503] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9504] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9508] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9509] = {
-            [questKeys.questLevel] = 20,
+            [questKeys.questLevel] = -1,
         },
         [9527] = {
             [questKeys.preQuestSingle] = {},
@@ -438,26 +396,8 @@ function QuestieTBCQuestFixes:Load()
         [9545] = {
             [questKeys.objectives] = {{{16852,"Vision Granted"},},nil,nil,nil,},
         },
-        [9547] = {
-            [questKeys.questLevel] = 30,
-        },
         [9549] = {
             [questKeys.preQuestSingle] = {},
-        },
-        [9551] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9552] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9553] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9554] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9555] = {
-            [questKeys.questLevel] = 10,
         },
         [9558] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -1092,12 +1032,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10488] = {
             [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves"},},nil,nil,nil,nil},
-        },
-        [10490] = {
-            [questKeys.questLevel] = 20,
-        },
-        [10491] = {
-            [questKeys.questLevel] = 30,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"},},nil,nil,nil,nil},
