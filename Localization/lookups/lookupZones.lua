@@ -1,7 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.continentLookup['enUS']= {
+l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",
     [3] = "Dungeons",
@@ -12,7 +12,7 @@ l10n.continentLookup['enUS']= {
     [530] = "Outland"
 }
 
-l10n.zoneLookup['enUS']= {
+l10n.zoneLookup = {
     [1]={
         [1]="Dun Morogh",
         [2]="Longshore",
@@ -1795,7 +1795,7 @@ l10n.zoneLookup['enUS']= {
     },
 }
 
-l10n.zoneCategoryLookup['enUS']= {
+l10n.zoneCategoryLookup = {
     [1] = {
         [36] = "Alterac Mountains",
         [45] = "Arathi Highlands",
@@ -1847,27 +1847,49 @@ l10n.zoneCategoryLookup['enUS']= {
         [490] = "Un'Goro Crater",
         [618] = "Winterspring",
     },
-    [530] = l10n.zoneLookup['enUS'][530],
+    [530] = l10n.zoneLookup[530],
     [3] = {
-        [2437] = "Ragefire Chasm",
-        [1581] = "The Deadmines",
-        [718] = "Wailing Caverns",
         [209] = "Shadowfang Keep",
-        [719] = "Blackfathom Deeps",
-        [717] = "The Stockades",
-        [721] = "Gnomeregan",
         [491] = "Razorfen Kraul",
-        [796] = "Scarlet Monastery",
+        [717] = "The Stockades",
+        [718] = "Wailing Caverns",
+        [719] = "Blackfathom Deeps",
+        [721] = "Gnomeregan",
         [722] = "Razorfen Downs",
-        [1337] = "Uldaman",
-        [2100] = "Maraudon",
+        [796] = "Scarlet Monastery",
         [1176] = "Zul'Farrak",
+        [1337] = "Uldaman",
         [1477] = "The Temple of Atal'Hakkar",
-        [1584] = "Blackrock Depths",
+        [1581] = "The Deadmines",
         [1583] = "Blackrock Spire",
+        [1584] = "Blackrock Depths",
+        [1585] = "Blackrock Depths",
+        [1941] = "Caverns of Time",
         [2017] = "Stratholme",
+        [2057] = "Scholomance",
+        [2100] = "Maraudon",
+        [2366] = "The Black Morass",
+        [2367] = "Old Hillsbrad Foothills",
+        [2437] = "Ragefire Chasm",
         [2557] = "Dire Maul",
-        [2057] = "Scholomance"
+        [3457] = "Kharazan",
+        [3535] = "Hellfire Citadel",
+        [3562] = "Hellfire Ramparts",
+        [3606] = "Hyjal Summit",
+        [3713] = "The Blood Furnace",
+        [3714] = "The Shattered Halls",
+        [3715] = "The Steamvault",
+        [3716] = "The Underbog",
+        [3717] = "The Slave Pens",
+        [3790] = "Auchenai Crypts",
+        [3791] = "Sethekk Halls",
+        [3792] = "Mana-Tombs",
+        [3842] = "Tempest Keep",
+        [3847] = "The Botanica",
+        [3848] = "The Arcatraz",
+        [3849] = "The Mechanar",
+        [3789] = "Shadow Labyrinth",
+        [3905] = "Coilfang Reservoir",
     },
     [4] = {
         [2597] = "Alterac Valley",

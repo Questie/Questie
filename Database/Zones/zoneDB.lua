@@ -235,7 +235,7 @@ function ZoneDB:GetRelevantZones()
             if (not zoneQuests) then
                 zones[category][id] = nil
             else
-                zones[category][id] = zoneName
+                zones[category][id] = l10n(zoneName)
             end
         end
     end

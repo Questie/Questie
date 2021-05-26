@@ -1,0 +1,81 @@
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
+local eventsLocales = {
+    ["Darkmoon Faire"] = {
+        ["ptBR"] = "Feira de Negraluna",
+        ["ruRU"] = "Ярмарка Новолуния",
+        ["deDE"] = "Dunkelmond-Jahrmarkt",
+        ["koKR"] = "다크문 축제",
+        ["esMX"] = "Feria de la Luna Negra",
+        ["enUS"] = true,
+        ["frFR"] = "Foire de Sombrelune",
+        ["esES"] = "Feria de la Luna Negra",
+        ["zhTW"] = "暗月馬戲團",
+        ["zhCN"] = "暗月马戏团",
+    },
+    ["Lunar Festival"] = {
+        ["ptBR"] = "Festival da Lua",
+        ["ruRU"] = "Лунный фестиваль",
+        ["deDE"] = "Mondfest",
+        ["koKR"] = "설날",
+        ["esMX"] = "Festival Lunar",
+        ["enUS"] = true,
+        ["frFR"] = "Fête lunaire",
+        ["esES"] = "Festival Lunar",
+        ["zhTW"] = "新年慶典",
+        ["zhCN"] = "新年",
+    },
+    ["Midsummer"] = {
+        ["ptBR"] = "Solstício",
+        ["ruRU"] = "Огненный солнцеворот",
+        ["deDE"] = "Sonnenwendfest",
+        ["koKR"] = "한여름 불꽃축제",
+        ["esMX"] = "Verano",
+        ["enUS"] = true,
+        ["frFR"] = "Solstice d'été",
+        ["esES"] = "Verano",
+        ["zhTW"] = "仲夏",
+        ["zhCN"] = "仲夏",
+    },
+    ["Ahn'Qiraj War"] = {
+        ["ptBR"] = "Guerra de Ahn'Qiraj",
+        ["ruRU"] = "Ан'киражская война",
+        ["deDE"] = "Krieg von Ahn'Qiraj",
+        ["koKR"] = "안퀴라즈 전쟁",
+        ["esMX"] = "Guerra de Ahn'Qiraj",
+        ["enUS"] = true,
+        ["frFR"] = "Guerre d'Ahn'Qiraj",
+        ["esES"] = "Guerra de Ahn'Qiraj",
+        ["zhTW"] = "安其拉之戰",
+        ["zhCN"] = "安其拉战争",
+    },
+    ["Seasonal"] = {
+        ["ptBR"] = "Sazonal",
+        ["ruRU"] = "Сезонные",
+        ["deDE"] = "Saisonbedingt",
+        ["koKR"] = "이벤트",
+        ["esMX"] = "Estacional",
+        ["enUS"] = true,
+        ["frFR"] = "Saisonnier",
+        ["esES"] = "Estacional",
+        ["zhTW"] = "季節性",
+        ["zhCN"] = "季节性",
+    },
+    ["Invasion"] = {
+        ["ptBR"] = "Invasão",
+        ["ruRU"] = "Вторжение",
+        ["deDE"] = "Invasion der Geißel",
+        ["koKR"] = "침공",
+        ["esMX"] = "Invasión",
+        ["enUS"] = true,
+        ["frFR"] = "Invasion",
+        ["esES"] = "Invasión",
+        ["zhTW"] = "入侵",
+        ["zhCN"] = "天灾入侵",
+    },
+}
+
+for k, v in pairs(eventsLocales) do
+    l10n.translations[k] = v
+end

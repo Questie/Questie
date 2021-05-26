@@ -72,7 +72,8 @@ Localization\l10n.lua
 Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
-Localization\lookups\lookupZones\lookupZones.xml
+Localization\lookups\lookupQuestCategories.lua
+Localization\lookups\lookupZones.lua
 Localization\lookups\TBC\lookupItems\lookupItems.xml
 Localization\lookups\TBC\lookupNpcs\lookupNpcs.xml
 Localization\lookups\TBC\lookupObjects\lookupObjects.xml

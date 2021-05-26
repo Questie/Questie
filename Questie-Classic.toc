@@ -68,7 +68,8 @@ Localization\l10n.lua
 Localization\Translations\Translations.xml
 
 Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
-Localization\lookups\lookupZones\lookupZones.xml
+Localization\lookups\lookupQuestCategories.lua
+Localization\lookups\lookupZones.lua
 Localization\lookups\Classic\lookupItems\lookupItems.xml
 Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
 Localization\lookups\Classic\lookupObjects\lookupObjects.xml
