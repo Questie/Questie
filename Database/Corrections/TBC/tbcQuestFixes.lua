@@ -1459,6 +1459,9 @@ function QuestieTBCQuestFixes:Load()
         [11119] = {
             [questKeys.requiredLevel] = 70,
         },
+        [11123] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
         },
