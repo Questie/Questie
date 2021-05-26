@@ -58,7 +58,7 @@ local questsByZoneLocales = {
         ["esMX"] = "Selecciona tu Profesión",
         ["enUS"] = true,
         ["zhCN"] = "选择你的职业",
-        ["zhTW"] = nil,
+        ["zhTW"] = "選擇你的職業",
         ["esES"] = "Selecciona tu profesión",
         ["frFR"] = "Sélectionnez votre profession",
     },

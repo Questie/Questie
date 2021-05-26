@@ -34,7 +34,7 @@ local tooltipsUILocales = {
         ["esMX"] = "Cerca de",
         ["enUS"] = true,
         ["zhCN"] = "附近",
-        ["zhTW"] = nil,
+        ["zhTW"] = "附近",
         ["esES"] = "Cerca de",
         ["frFR"] = "Proche",
     },
@@ -130,7 +130,7 @@ local tooltipsUILocales = {
         ["esMX"] = "Terminada el:",
         ["enUS"] = true,
         ["zhCN"] = "完成于:",
-        ["zhTW"] = nil,
+        ["zhTW"] = "完成於:",
         ["esES"] = "Terminada el:",
         ["frFR"] = "Complété  le:",
     }
