@@ -963,6 +963,7 @@ function QuestieQuestBlacklist:Load()
         -- Phase 4 Zul'Aman
         [11130] = true,
         [11132] = true,
+        [11163] = true,
         [11164] = true,
         [11178] = true,
         [11196] = true,
