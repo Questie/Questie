@@ -357,6 +357,9 @@ function QuestieTBCQuestFixes:Load()
         [9457] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Gift of Naias near the Altar of Naias", 0, {{"object", 181636}}}}
         },
+        [9460] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Pickpocket the Lacy Handkerchief from the Sentinel Leader", 0, {{"monster", 17210}}}}
+        },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
         },
