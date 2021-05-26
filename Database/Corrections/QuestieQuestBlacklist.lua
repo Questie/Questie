@@ -850,8 +850,9 @@ function QuestieQuestBlacklist:Load()
         [8443] = true,
         [9712] = true,
         [10377] = true,
-        [11052] = true,
+        [10459] = true,
         [10558] = true,
+        [11052] = true,
 
         -- Phase 2 - Serpentshrine Cavern, Tempest Keep
         [11007] = true,
