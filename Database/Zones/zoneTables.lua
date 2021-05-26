@@ -125,7 +125,7 @@ local dungeons = {
     [3562] = {"Hellfire Ramparts",nil,3483},
     [3606] = {"Hyjal Summit", nil, 440},
     [3713] = {"The Blood Furnace",nil,3483},
-    [3714] = {"The Shattered Halls",nil,3483},
+    [3714] = {"The Shattered Halls",3535,3483},
     [3715] = {"The Steamvault",nil,3521},
     [3716] = {"The Underbog",nil,3521},
     [3717] = {"The Slave Pens",nil,3521},
@@ -219,6 +219,8 @@ local subZoneToParentZone = {
     [1769] = 361,
     [3917] = 3688,
     [3696] = 3522,
+    [3905] = 3521,
+    [3535] = 3714,
     -- starting zones
     [9] = 12,
     [132] = 1,
