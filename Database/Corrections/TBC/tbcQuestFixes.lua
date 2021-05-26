@@ -1675,6 +1675,12 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{68.62,8.01},},
             }},
         },
+        [12513] = {
+            [questKeys.exclusiveTo] = {12515},
+        },
+        [12515] = {
+            [questKeys.exclusiveTo] = {12513},
+        },
 
         -- Below are quests that were not originally in TBC or in a different form
 
