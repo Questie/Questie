@@ -322,7 +322,7 @@ local mapOptionsLocales = {
         ["esMX"] = "Configuración NYI valor de agrupamiento, nivel de agrupamiento establecido a %s : Redibujando!",
         ["enUS"] = true,
         ["zhCN"] = "设置群集值，clusterLevelHotzone设置为 %s : Redrawing!",
-        ["zhTW"] = nil,
+        ["zhTW"] = "設定群集值， clusterLevelHotzone 設定為 %s : 重新繪製中！",
         ["esES"] = "Configuración NYI valor de agrupamiento, nivel de agrupamiento establecido a %s : Redibujando!",
         ["frFR"] = "Réglage de la valeur de fusionnement, clusterLevelHotzone réglée sur %s : réorganisation !",
     },

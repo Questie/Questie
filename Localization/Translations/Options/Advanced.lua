@@ -274,7 +274,7 @@ local advancedOptionsLocales = {
         ["esMX"] = "Es necesario actualizar la base de datos para cambiar el idioma. Presiona recargar para aplicar el nuevo idioma",
         ["enUS"] = true,
         ["zhCN"] = "需要更新数据库及更改语言。 需重新加载以应用新语言",
-        ["zhTW"] = nil,
+        ["zhTW"] = "需要更新資料庫以變更語言。 按重新載入以使用新語言",
         ["esES"] = "Es necesario actualizar la base de datos para cambiar el idioma. Presiona recargar para aplicar el nuevo idioma",
         ["frFR"] = "La base de données doit être mise à jour pour changer la langue. Appuyez sur Recharger pour appliquer la nouvelle langue.",
     },
