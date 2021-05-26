@@ -765,6 +765,7 @@ function QuestieQuestBlacklist:Load()
         [10090] = true, -- BETA The Legion's Plans
         [10970] = true, -- A Mission of Mercy (Retail Only)
 
+        [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
 
         [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
