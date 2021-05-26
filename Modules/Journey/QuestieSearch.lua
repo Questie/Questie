@@ -77,24 +77,19 @@ function QuestieSearch:Search(query, searchType, queryType)
     -- Search type specific preparations
     local actualDatabase;
     local databaseKeys;
-    local NAME_KEY;
 
     if searchType == "npc" then
         actualDatabase = QuestieDB.QueryNPCSingle
         databaseKeys = QuestieDB.NPCPointers
-        NAME_KEY = QuestieDB.npcKeys.name;
     elseif searchType == "object" then
         actualDatabase = QuestieDB.QueryObjectSingle
         databaseKeys = QuestieDB.ObjectPointers
-        NAME_KEY = QuestieDB.objectKeys.name;
     elseif searchType == "item" then
         actualDatabase = QuestieDB.QueryItemSingle
         databaseKeys = QuestieDB.ItemPointers
-        NAME_KEY = QuestieDB.itemKeys.name;
     elseif searchType == "quest" then
         actualDatabase = QuestieDB.QueryQuestSingle
         databaseKeys = QuestieDB.QuestPointers
-        NAME_KEY = QuestieDB.questKeys.name;
     else
         return
     end
@@ -108,15 +103,11 @@ function QuestieSearch:Search(query, searchType, queryType)
     end
     local database = favorites[searchType];
     local queryLength = string.len(query)
-    -- We have a query meeting the minimal search length criteria, change to actualDatabase
-    if  (queryLength >= minLengthChars)
-        or
-        ((tonumber(query) ~= nil) and (queryLength >= minLengthInt))
-    then
-        database = actualDatabase;
-    else
+
+    if (queryLength < minLengthChars) and (tonumber(query) == nil or queryLength < minLengthInt) then
         databaseKeys = database;
     end
+
     local searchCount = 0;
     for id, _ in pairs(databaseKeys) do
         -- This condition does the actual comparison for the search

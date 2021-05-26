@@ -54,7 +54,6 @@ function QuestieFramePool:SetIcons()
     ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
     ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
     ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-    ICON_TYPE_BLACK = QuestieLib.AddonPath.."Icons\\black.blp"
     ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
 end
 
@@ -574,8 +573,8 @@ end
 function _QuestieFramePool:QuestieTooltip()
     --Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "minimapIcon =", self.miniMapIcon)
 
-    local r, g, b, a = self.texture:GetVertexColor();
-    if (a == 0) then
+    local _, _, _, alpha = self.texture:GetVertexColor();
+    if alpha == 0 then
         Questie:Debug(DEBUG_DEVELOP, "[_QuestieFramePool:QuestieTooltip]", "Alpha of texture is 0, nothing to show")
         return
     end
@@ -608,7 +607,8 @@ function _QuestieFramePool:QuestieTooltip()
             maxDistCluster = 0.5 / (1+Minimap:GetZoom())
         end
     end
-    r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or _QuestieFramePool.wayPointColorHover)
+
+    local r, g, b, a = unpack(QuestieMap.zoneWaypointHoverColorOverrides[self.AreaID] or _QuestieFramePool.wayPointColorHover)
     --Highlight waypoints if they exist.
     for _, lineFrame in pairs(self.data.lineFrames or {}) do
       lineFrame.line:SetColorTexture(

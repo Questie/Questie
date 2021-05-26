@@ -40,7 +40,7 @@ local tooltipsUILocales = {
     },
     ["Requirements"] = {
         ["ptBR"] = "Requisitos",
-        ["ruRU"] = "Требуется для завершения",
+        ["ruRU"] = "Требуется для выполнения",
         ["deDE"] = "Voraussetzungen",
         ["koKR"] = "요구사항",
         ["esMX"] = "Requisitos",
@@ -124,7 +124,7 @@ local tooltipsUILocales = {
     },
     ["Completed on:"] = {
         ["ptBR"] = "Concluído em:",
-        ["ruRU"] = "Завершено в:",
+        ["ruRU"] = "Выполнено в:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
         ["esMX"] = "Terminada el:",

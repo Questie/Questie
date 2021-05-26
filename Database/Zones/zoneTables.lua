@@ -1,6 +1,5 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-local _ZoneDB = ZoneDB.private
 
 
 --- This table maps the areaId (used in the DB for example) to
@@ -8,7 +7,7 @@ local _ZoneDB = ZoneDB.private
 --- The UiMapId identifies a map which can be displayed ingame on the worldmap.
 --- Dungeons don't have a UiMapId!
 --- https://wow.gamepedia.com/UiMapID/Classic
-_ZoneDB.areaIdToUiMapId = {
+local areaIdToUiMapId = {
     [0] = 947,
     [1] = 1426,
     [3] = 1418,
@@ -99,7 +98,7 @@ _ZoneDB.areaIdToUiMapId = {
 }
 
 -- [areaId] = {"name", alternative areaId (a sub zone), parentId}
-_ZoneDB.dungeons = {
+local dungeons = {
     [209] = {"Shadowfang Keep", 236, 130},
     [491] = {"Razorfen Kraul", 1717, 17},
     [717] = {"The Stockades", nil, 1519},
@@ -139,8 +138,12 @@ _ZoneDB.dungeons = {
     [3792] = {"Mana-Tombs",nil,3519},
 }
 
+function ZoneDB:GetDungeons()
+    return dungeons
+end
+
 -- [areaId] = {{areaId, locationX, locationY}, ...}
-_ZoneDB.dungeonLocations = {
+local dungeonLocations = {
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {{1519, 40.5, 55.9}},
@@ -194,7 +197,7 @@ _ZoneDB.dungeonLocations = {
 }
 
 -- [dungeonZone] = parentZone
-_ZoneDB.dungeonParentZones = {
+local dungeonParentZones = {
     [236] = 209,
     [1717] = 491,
     [2797] = 719,
@@ -208,7 +211,7 @@ _ZoneDB.dungeonParentZones = {
 }
 
 -- [subZone] = parentZone
-_ZoneDB.subZoneToParentZone = {
+local subZoneToParentZone = {
     [2839] = 2597,
     [35] = 33,
     [1116] = 357,
@@ -222,6 +225,16 @@ _ZoneDB.subZoneToParentZone = {
     [220] = 215,
     [363] = 14,
 }
+
+function ZoneDB:GetZoneTables()
+    return {
+        areaIdToUiMapId,
+        dungeons,
+        dungeonLocations,
+        dungeonParentZones,
+        subZoneToParentZone
+    }
+end
 
 -- Different source of zoneIds
 -- These are not in use anymore but are quite helpful when fixing the database
@@ -340,9 +353,3 @@ ZoneDB.zoneIDs = {
     ISLE_OF_QUEL_DANAS = 4080,
     UPPER_BLACKROCK_SPIRE = 7307,
 }
-
-ZoneDB.zoneIDToInternalName = {}
-
-for name, id in pairs(ZoneDB.zoneIDs) do
-    ZoneDB.zoneIDToInternalName[id] = name
-end

@@ -44,6 +44,8 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieInit
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 
 --- LOCAL ---
 --False -> true -> nil
@@ -62,6 +64,7 @@ end
 function QuestieEventHandler:RegisterEarlyEvents()
     local savedVarsTimer
     Questie:RegisterEvent("PLAYER_LOGIN", function()
+        MinimapIcon:Init() -- This needs to happen outside of a Timer
 
         local maxTickerRuns = 50 -- 50 * 0.1 seconds = 5 seconds
         local tickCounter = 0
@@ -81,7 +84,6 @@ function QuestieEventHandler:RegisterEarlyEvents()
             _EventHandler:PlayerLogin()
         end, maxTickerRuns)
     end)
-
 end
 
 function QuestieEventHandler:RegisterLateEvents()

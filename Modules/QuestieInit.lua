@@ -15,8 +15,6 @@ local Migration = QuestieLoader:ImportModule("Migration")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type QuestieReputation
-local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieMap
@@ -146,7 +144,6 @@ function QuestieInit:InitAllModules()
     coroutine.yield()
     QuestieMenu:PopulateTownsfolkPostBoot()
     Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-    didPlayerEnterWorld = true
 
     coroutine.yield()
     QuestieQuest:GetAllQuestIds()
@@ -222,6 +219,7 @@ end
 -- called by the PLAYER_LOGIN event handler
 -- this function creates the coroutine that runs "InitAllModules"
 function QuestieInit:Init()
+
     -- we do this here because its required for Questie:Error
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 

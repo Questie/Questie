@@ -122,18 +122,9 @@ function QuestiePlayer:GetPartyMemberByName(playerName)
     if(UnitInParty("player") or UnitInRaid("player")) then
         local player = {}
         for index=1, 40 do
-            local name = nil
-            local className, classFilename = nil;
-            --This disables raid check for players.
-            --if(UnitInRaid("player")) then
-            --    name = UnitName("raid"..index);
-            --    className, classFilename = UnitClass("raid"..index);
-            --end
-            if(not name) then
-                name = UnitName("party"..index);
-                className, classFilename = UnitClass("party"..index);
-            end
-            if(name == playerName) then
+            local name = UnitName("party"..index);
+            local _, classFilename = UnitClass("party"..index);
+            if name == playerName then
                 player.name = playerName;
                 player.class = classFilename;
                 local rPerc, gPerc, bPerc, argbHex = GetClassColor(classFilename)

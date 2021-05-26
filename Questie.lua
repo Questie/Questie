@@ -17,8 +17,8 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
----@type QuestieOptionsMinimapIcon
-local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieAuto
@@ -74,7 +74,7 @@ if  --Libs
     (not QuestieComms.data) or
     --Options
     (not QuestieOptions) or
-    (not QuestieOptionsMinimapIcon) or
+    (not MinimapIcon) or
     (not QuestieOptionsUtils) or
     (not QuestieOptions.tabs) or
     (not QuestieOptions.tabs.advanced) or
@@ -136,9 +136,6 @@ function Questie:ContinueInit()
     --Initialize the DB settings.
     Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
 
-    -- Creating the minimap config icon
-    Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
-    Questie.minimapConfigIcon:Register("Questie", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
 
     -- Update the default text on the map show/hide button for localization
     if Questie.db.char.enabled then

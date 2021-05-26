@@ -184,10 +184,9 @@ function QuestieStreamLib:_ReadByte_1short()
     elseif v == _1short_control then
         v = self:_readByte()
         return _1short_control_table[v]
-    else
-        return v
     end
-    return -1
+
+    return v
 end
 
 function QuestieStreamLib:_WriteByte_raw(e)

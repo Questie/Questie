@@ -66,6 +66,8 @@ local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
+local dungeons = ZoneDB:GetDungeons()
+
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
     Questie.db.char.complete = GetQuestsCompleted()
@@ -1342,7 +1344,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
 
                 if npc.waypoints then
                     for zone, waypoints in pairs(npc.waypoints) do
-                        if not ZoneDB.private.dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                        if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                             if not starterIcons[zone] then
                                 local data = {}
                                 data.Id = quest.Id;

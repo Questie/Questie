@@ -1,5 +1,6 @@
----@class QuestieOptionsMinimapIcon
-local QuestieOptionsMinimapIcon = QuestieLoader:CreateModule("QuestieOptionsMinimapIcon");
+---@class MinimapIcon
+local MinimapIcon = QuestieLoader:CreateModule("MinimapIcon");
+local _MinimapIcon = {}
 -------------------------
 --Import modules.
 -------------------------
@@ -16,21 +17,31 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local minimapIconLDB = nil
+local _LibDBIcon = LibStub("LibDBIcon-1.0");
 
-function QuestieOptionsMinimapIcon:Initialize()
-    minimapIconLDB = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
+
+function MinimapIcon:Init()
+    _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap);
+    Questie.minimapConfigIcon = _LibDBIcon
+end
+
+function _MinimapIcon:CreateDataBrokerObject()
+    return LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
         text = "Questie",
-        icon = ICON_TYPE_COMPLETE,
+        icon = "Interface\\Addons\\Questie\\Icons\\complete.blp",
 
-        OnClick = function (self, button)
+        OnClick = function (_, button)
+            if (not Questie.started) then
+                return
+            end
+
             if button == "LeftButton" then
                 if IsShiftKeyDown() and IsControlKeyDown() then
                     Questie.db.char.enabled = (not Questie.db.char.enabled)
                     QuestieQuest:ToggleNotes(Questie.db.char.enabled)
 
-                    -- CLose config window if it's open to avoid desyncing the Checkbox
+                    -- Close config window if it's open to avoid desyncing the Checkbox
                     QuestieOptions:HideFrame();
                     return;
                 elseif IsControlKeyDown() then
@@ -43,10 +54,10 @@ function QuestieOptionsMinimapIcon:Initialize()
                 if QuestieJourney:IsShown() then
                     QuestieJourney.ToggleJourneyWindow();
                 end
-                return;
 
+                return;
             elseif button == "RightButton" then
-                if not IsModifierKeyDown() then
+                if (not IsModifierKeyDown()) then
                     -- CLose config window if it's open to avoid desyncing the Checkbox
                     QuestieOptions:HideFrame();
 
@@ -71,6 +82,3 @@ function QuestieOptionsMinimapIcon:Initialize()
     });
 end
 
-function QuestieOptionsMinimapIcon:Get()
-    return minimapIconLDB
-end

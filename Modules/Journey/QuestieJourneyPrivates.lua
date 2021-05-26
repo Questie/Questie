@@ -86,7 +86,7 @@ end
 
 function _QuestieJourney:GetLevelDifficultyRanges(questLevel, questMinLevel)
 
-    local red, orange, yellow, green, gray = 0,0,0,0,0
+    local red, orange, yellow, green, gray
 
     -- Calculate Base Values
     red = questMinLevel

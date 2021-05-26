@@ -8,6 +8,13 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[63866] = {}; -- Claiming the Light
+    QuestieDB.questData[64139] = {}; -- A Summons from Lady Liadrin
+    QuestieDB.questData[64140] = {}; -- The Master's Path
+    QuestieDB.questData[64141] = {}; -- A Gesture of Commitment
+    QuestieDB.questData[64142] = {}; -- A Demonstration of Loyalty
+    QuestieDB.questData[64143] = {}; -- True Masters of the Light
+    QuestieDB.questData[64144] = {}; -- True Masters of the Light
+    QuestieDB.questData[64145] = {}; -- True Masters of the Light
     QuestieDB.questData[64319] = {}; -- A Study in Power
 
     -- Alliance boosted quests
@@ -28,8 +35,8 @@ function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[64053] = {}; -- Talented
     QuestieDB.questData[64063] = {}; -- The Dark Portal
     QuestieDB.questData[64064] = {}; -- Eastern Plaguelands
+    QuestieDB.questData[64128] = {}; -- Eastern Plaguelands
     QuestieDB.questData[64217] = {}; -- The Dark Portal
-
 
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
@@ -78,6 +85,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [1049] = { -- Not available to UNDEAD
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL+ raceIDs.BLOOD_ELF,
         },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36},},}},
@@ -210,6 +220,9 @@ function QuestieTBCQuestFixes:Load()
         [8473] = {
             [questKeys.preQuestSingle] = {},
         },
+        [8474] = {
+            [questKeys.startedBy] = {{15409},nil,{23228,},},
+        },
         [8476] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -229,6 +242,9 @@ function QuestieTBCQuestFixes:Load()
         [8548] = {
             [questKeys.specialFlags] = 1,
         },
+        [8551] = {
+            [questKeys.questLevel] = 42,
+        },
         [8572] = {
             [questKeys.specialFlags] = 1,
         },
@@ -241,20 +257,17 @@ function QuestieTBCQuestFixes:Load()
         [8894] = {
             [questKeys.preQuestSingle] = {},
         },
-        [9144] = {
-            [questKeys.requiredLevel] = 10,
-        },
-        [9149] = {
-            [questKeys.preQuestSingle] = {9327},
-        },
-        [8474] = {
-            [questKeys.startedBy] = {{15409},nil,{23228,},},
-        },
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
+        },
+        [9144] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [9149] = {
+            [questKeys.preQuestSingle] = {9327,9329},
         },
         [9152] = {
             [questKeys.preQuestSingle] = {9327,9329},
@@ -285,6 +298,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9206] = {
             [questKeys.specialFlags] = 1,
+        },
+        [9207] = {
+            [questKeys.requiredMinRep] = {922,3000},
         },
         [9212] = {
             [questKeys.triggerEnd] = {"Escort Ranger Lilatha back to the Farstrider Enclave", {[zoneIDs.GHOSTLANDS]={{72.24,30.21},},}},
@@ -335,38 +351,11 @@ function QuestieTBCQuestFixes:Load()
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
         },
-        [9449] = {
-            [questKeys.questLevel] = 4,
-        },
-        [9450] = {
-            [questKeys.questLevel] = 4,
-        },
-        [9451] = {
-            [questKeys.questLevel] = 4,
-        },
         [9454] = {
             [questKeys.preQuestSingle] = {},
         },
         [9457] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Gift of Naias near the Altar of Naias", 0, {{"object", 181636}}}}
-        },
-        [9461] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9462] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9464] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9465] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9467] = {
-            [questKeys.questLevel] = 10,
-        },
-        [9468] = {
-            [questKeys.questLevel] = 10,
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
@@ -384,25 +373,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [9500] = {
-            [questKeys.questLevel] = 20,
+            [questKeys.questLevel] = -1,
         },
         [9501] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9502] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9503] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9504] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9508] = {
-            [questKeys.questLevel] = 20,
-        },
-        [9509] = {
-            [questKeys.questLevel] = 20,
+            [questKeys.questLevel] = -1,
         },
         [9527] = {
             [questKeys.preQuestSingle] = {},
@@ -422,26 +396,8 @@ function QuestieTBCQuestFixes:Load()
         [9545] = {
             [questKeys.objectives] = {{{16852,"Vision Granted"},},nil,nil,nil,},
         },
-        [9547] = {
-            [questKeys.questLevel] = 30,
-        },
         [9549] = {
             [questKeys.preQuestSingle] = {},
-        },
-        [9551] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9552] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9553] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9554] = {
-            [questKeys.questLevel] = 30,
-        },
-        [9555] = {
-            [questKeys.questLevel] = 10,
         },
         [9558] = {
             [questKeys.preQuestSingle] = {10143,10483},
@@ -645,6 +601,9 @@ function QuestieTBCQuestFixes:Load()
         [9869] = {
             [questKeys.requiredMinRep] = {978,0},
         },
+        [9870] = {
+            [questKeys.requiredMinRep] = {941,0},
+        },
         [9871] = {
             [questKeys.startedBy] = {{18238},nil,{24559,},},
         },
@@ -716,6 +675,10 @@ function QuestieTBCQuestFixes:Load()
         [9944] = {
             [questKeys.requiredMinRep] = {941,0},
         },
+        [9945] = {
+            [questKeys.requiredMinRep] = {941,0},
+            [questKeys.preQuestSingle] = {},
+        },
         [9948] = {
             [questKeys.requiredMinRep] = {941,0},
         },
@@ -752,6 +715,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9983] = {
             [questKeys.exclusiveTo] = {9991},
+            [questKeys.requiredMinRep] = {941,0},
         },
         [9991] = {
             [questKeys.triggerEnd] = {"Forge Camps Surveyed", {[zoneIDs.NAGRAND]={{27.22,43.05},},}},
@@ -774,7 +738,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10019] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10211,10017},
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10024] = {
@@ -782,7 +746,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10025] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10211,10024},
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10039] = {
@@ -893,6 +857,9 @@ function QuestieTBCQuestFixes:Load()
         [10129] = {
             [questKeys.requiredSourceItems] = {40000},
         },
+        [10121] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10146] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
         },
@@ -930,6 +897,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10120] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [10166] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place Old Whitebark's Pendant by the runestone at the Scorched Grove.", 0, {{"object", 181260}}}},
         },
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
@@ -974,6 +944,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10277] = {
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.87,54.3},},}},
+        },
+        [10291] = {
+            [questKeys.preQuestSingle] = {},
         },
         [10297] = {
             [questKeys.triggerEnd] = {"The Dark Portal Opened", {[zoneIDs.TANARIS]={{57.21,62.92},},}},
@@ -1059,12 +1032,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10488] = {
             [questKeys.objectives] = {{{20748,"Use Gor'drek's Ointment to strengthen the Thunderlord Dire Wolves"},},nil,nil,nil,nil},
-        },
-        [10490] = {
-            [questKeys.questLevel] = 20,
-        },
-        [10491] = {
-            [questKeys.questLevel] = 30,
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"},},nil,nil,nil,nil},
@@ -1290,11 +1257,32 @@ function QuestieTBCQuestFixes:Load()
         [10886] = {
             [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.NETHERSTORM]={{74.5,57.67},},}},
         },
+        [10887] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.2,51.8}}}, ICON_TYPE_EVENT, "Help Akuno find his way to the Refugee Caravan in Terokkar Forest.",}},
+        },
         [10896] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited", 0, {{"monster", 22307}, {"monster", 22095}}}},
         },
+        [10897] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10898] = {
             [questKeys.triggerEnd] = {"Escort Skywing", {[zoneIDs.TEROKKAR_FOREST]={{55.71,69.68},},}},
+        },
+        [10899] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10902] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10905] = {
+            [questKeys.exclusiveTo] = {10899,10902,10906,10907},
+        },
+        [10906] = {
+            [questKeys.exclusiveTo] = {10897,10899,10905,10907},
+        },
+        [10907] = {
+            [questKeys.exclusiveTo] = {10897,10902,10905,10906},
         },
         [10908] = {
             [questKeys.exclusiveTo] = {10862,10863},
@@ -1470,6 +1458,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
+        },
+        [11146] = {
+            [questKeys.objectives] = {{{4351,"Raptors Captured"},},nil,nil,nil,},
         },
         [11152] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Lay the Wreath at the Hyal Family Monument", 0, {{"object", 186322}}}},
@@ -1700,6 +1691,112 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
         },
+        -- Blood Elf Paladin Epic Mount quest
+        [64139] = {
+            [questKeys.name] = "A Summons from Lady Liadrin",
+            [questKeys.startedBy] = {{17717},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Speak with Lady Liadrin in Silvermoon City."},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 64140,
+            [questKeys.questFlags] = 136,
+        },
+        [64140] = {
+            [questKeys.name] = "The Master's Path",
+            [questKeys.startedBy] = {{17076},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Speak with Lady Liadrin again to accept her offer of sponsorship."},
+            [questKeys.preQuestSingle] = {64139},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 64141,
+            [questKeys.questFlags] = 136,
+        },
+        [64141] = {
+            [questKeys.name] = "A Gesture of Commitment",
+            [questKeys.startedBy] = {{17076},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Bring 40 Runecloth, 6 Arcanite Bars, 10 Sungrass, 5 Dark Runes, and 150 Gold to Lady Liadrin in Silvermoon City. "},
+            [questKeys.objectives] = {nil,nil,{{14047,nil},{12360,nil},{8838,nil},{20520,nil},},nil,},
+            [questKeys.sourceItemId] = 24277,
+            [questKeys.preQuestSingle] = {64140},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 64142,
+            [questKeys.questFlags] = 128,
+        },
+        [64142] = {
+            [questKeys.name] = "A Demonstration of Loyalty",
+            [questKeys.startedBy] = {{17076},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to destroy 3 Scourge Meat Wagons and kill 15 Scourge Siege Engineers. "},
+            [questKeys.objectives] = {{{17878,nil},},{{182058,"Destroy Scourge Meat Wagons"},},nil,nil,},
+            [questKeys.preQuestSingle] = {64141},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 64143,
+            [questKeys.questFlags] = 136,
+        },
+        [64143] = {
+            [questKeys.name] = "True Masters of the Light",
+            [questKeys.startedBy] = {{17076},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring her a vial of Tyr's Hand Holy Water. "},
+            [questKeys.objectives] = {nil,nil,{{24284,nil},},nil,},
+            [questKeys.preQuestSingle] = {64142},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 64144,
+            [questKeys.questFlags] = 136,
+        },
+        [64144] = {
+            [questKeys.name] = "True Masters of the Light",
+            [questKeys.startedBy] = {{17076},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring him 1 Arcane Catalyst, 1 Crepuscular Powder, 1 Azerothian Diamond, and 1 Pristine Black Diamond."},
+            [questKeys.objectives] = {nil,nil,{{24286,nil},{24285,nil},{12800,nil},{18335,nil},},nil,},
+            [questKeys.preQuestSingle] = {64143},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.nextQuestInChain] = 64145,
+            [questKeys.questFlags] = 136,
+        },
+        [64145] = {
+            [questKeys.name] = "True Masters of the Light",
+            [questKeys.startedBy] = {{17076},nil,nil},
+            [questKeys.finishedBy] = {{17076},nil,nil},
+            [questKeys.requiredLevel] = 60,
+            [questKeys.questLevel] = 60,
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
+            [questKeys.objectivesText] = {"Use the Extinguishing Mixture near the eternal flame in the Alonsus Chapel to remove the Light's protection. Be prepared to fight anyone who may attempt to defend the chapel."},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{17910,17911,17912,17913,17914},17910,"Remove Alonsus Chapel Protection"}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Extinguishing Mixture near the eternal flame in the Alonsus Chapel to remove the Light's protection.", 0, {{"object", 182068}}}},
+            [questKeys.sourceItemId] = 24287,
+            [questKeys.preQuestSingle] = {64144},
+            [questKeys.zoneOrSort] = -141,
+            [questKeys.questFlags] = 128,
+        },
+        -------------
         [64319] = {
             [questKeys.name] = "A Study in Power",
             [questKeys.startedBy] = {{17717},nil,nil},
@@ -1708,7 +1805,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
+            [questKeys.objectives] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {9678},
             [questKeys.zoneOrSort] = -141,
@@ -1899,16 +1996,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [64064] = {
             [questKeys.name] = "Eastern Plaguelands",
-            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,3036},nil,nil},
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994},nil,nil},
             [questKeys.finishedBy] = {{11036},nil,nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
             [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"},},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {64052,64053,},
-            [questKeys.exclusiveTo] = {64063,64217},
+            [questKeys.preQuestSingle] = {64052,},
+            [questKeys.exclusiveTo] = {64063,64217,64128},
             [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
+        },
+        [64128] = {
+            [questKeys.name] = "Eastern Plaguelands",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{11036},nil,nil},
+            [questKeys.requiredLevel] = 58,
+            [questKeys.questLevel] = 58,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Travel to the Eastern Plaguelands and find Leonid Barthalomew. He awaits your arrival at Light's Hope Chapel. "},
+            [questKeys.objectives] = {{{9564, "Speak to Tal, the Wind Rider Master"},{9564, "Visit Zeppelin Master Frezza"},},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {64053,},
+            [questKeys.exclusiveTo] = {64063,64064,64217},
+            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64217] = {
             [questKeys.name] = "The Dark Portal",
@@ -1920,7 +2031,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Find Watch Warlord Dar'toon at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
-            [questKeys.exclusiveTo] = {64063},
+            [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
     }

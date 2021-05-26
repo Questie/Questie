@@ -21,7 +21,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD]={{35,80},{36.81,83.79},{38,80},},}, -- #1047
         },
         [314] = {
-            [npcKeys.name] = "Eliza",
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{28.82,30.91},},},
         },
@@ -29,7 +28,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [412] = {
-            [npcKeys.name] = "Stitches",
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{74.45,47.86},{44.81,66.02},{74.56,52.05},{64.52,60.65},{73.68,56.09},},},
         },
@@ -40,12 +38,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [583] = {
-            [npcKeys.name] = "Defias Ambusher",
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{34.06,55.59},},},
         },
         [643] = {
-            [npcKeys.name] = "Sneed",
             [npcKeys.zoneID] = zoneIDs.THE_DEADMINES,
             [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES] = {{-1,-1},},},
         },
@@ -77,7 +73,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{22.4,75.6},{22.6,75.4},{22.8,75.6},{24.8,82.4},{25,82.8},{25,83.8},{25.4,90.4},{25.4,91},{25.6,82.4},{25.8,84.4},{25.8,85.2},{26.2,89},{26.2,89.6},{26.2,90.6},{26.6,89.6},{26.6,90.8},{26.8,89},{27.4,81.4},{27.8,81.6},{28,81.4},{28.8,81},{35.6,87.8},{35.8,88.6},{36.6,88.6},{38.4,89.4},{38.4,89.6},{38.6,89},{38.6,89.6},{43.2,80.8},{43.4,80.4},{44.2,77},{44.2,81},{44.4,77.8},{44.6,77.8},{45.4,86.4},{45.6,76},{45.6,77},{45.8,85.4},{46,86.2},{47,80},{47.2,79.4},{47.8,76.6},{48.8,82.6},{49.2,74.6},{49.2,76},{49.4,81.6},{50.2,73.8},{53.2,84},{53.4,83.2},{53.8,83.8},{54,75.2},{54,75.6},{56.4,75},{57.2,76.4},{57.6,75.4},{58.8,68.2},{60.4,75.4},{60.4,79.2},{60.4,79.8},{60.4,80.8},{60.6,75.6},{60.6,79.4},{61,75.2},{61,79.6},{62.8,77.6},{63.4,76.4},{63.4,76.8},{63.4,79.4},{63.4,79.6},{63.6,76.4},{63.6,79.2},{64.4,62.6},{64.8,63.4},{65.4,78},{65.6,78.6},{65.8,77.4},{65.8,78},{68.2,64.4},{68.8,65.4},{69,65.6},{69.2,64.2},{70.4,74.4},{70.4,74.8},{70.8,74.6},{71,74.4},{71.4,61.2},{71.8,60.4},{71.8,61.2},{71.8,61.8},{72.6,60.2},{73.4,80.4},{73.4,81},{73.4,81.6},{73.6,81.4},{74.4,68.2},{74.6,66.4},{75,67},{75,67.6},{75.6,68.2},{76.8,76.6},{77,76.4},{77.2,60.6},{77.8,60.4},{78.2,61.6},{78.2,79.6},{78.4,61.4},{78.4,79.2},{78.6,61.6},{78.8,60.4},{78.8,61},{78.8,84.2},{79.6,82.8},{81.2,77.2},{81.4,58.4},{81.4,58.8},{81.6,58.4},{81.8,59},{82,59.6},{82.6,59},{82.8,84},{86,77.2},{86.4,63.4},{86.4,63.6},{86.4,64.8},{87.2,64.2},{87.4,64.8},{87.4,66},{87.4,69.4},{87.4,69.8},{87.6,64.4},{87.6,64.8},{87.6,65.8},{87.6,69},{88.4,77},{88.8,77.4},{88.8,77.8},},},
         },
         [775] = {
-            [npcKeys.name] = "Kurzen's Agent",
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{40.38,8.35},},},
         },
@@ -104,63 +99,49 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{38.14,3.89},},},
         },
         [1494] = {
-            [npcKeys.name] = "Negolash",
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{32.45,81.57},},},
         },
         [1511] = {
-            [npcKeys.name] = "Enraged Silverback Gorilla",
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.09,60.75},},},
         },
         [1514] = {
-            [npcKeys.name] = "Mokk the Savage",
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.05,60.88},},},
         },
         [1516] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{35.06,60.85},},},
         },
-        [1537] = {
-            [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{88.22,42.58},{87.44,42.91},{87.12,43.24},{87.45,43.43},{87.09,42.4},{86.83,42.25},{79.91,56.36},{80.29,57.09},{86.83,43.39},{86.99,41.51},{86.06,41.84},{85.8,43.46},{87.84,43.93},{87.35,41.71},{81.0,55.39},{48.82,66.18},{80.98,56.86},{53.66,66.0},{50.6,67.96},{81.67,54.78},{51.96,69.55},{54.34,69.28},{53.81,66.82},{52.66,67.36},{51.18,67.6},{50.46,64.71},{79.59,55.17},{77.13,55.12},{76.62,54.76},{76.25,55.21},{76.88,56.2},{77.18,56.77},{78.38,56.03},{85.34,42.75},{52.91,69.04},{52.15,68.56},{51.75,66.09},{52.15,67.13},{51.15,65.71},{51.52,67.59},{52.05,68.13},},},
-        },
         [1755] = {
-            [npcKeys.name] = "Marzon the Silent Blade",
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{68.22,14.34},},},
         },
         [1853] = {
-            [npcKeys.name] = "Darkmaster Gandling",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [1892] = {
-            [npcKeys.name] = "Moonrage Watcher",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.73,72.75},},},
         },
         [1893] = {
-            [npcKeys.name] = "Moonrage Sentry",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{45.35,73.06},},},
         },
         [1896] = {
-            [npcKeys.name] = "Moonrage Elder",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{45.93,73.08},},},
         },
         [1939] = {
-            [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.7,22.9},{64.1,25},{66.9,23.8},{65.2,27.9},{65.1,32},{67,34.7},{69.1,34.9},{67.6,31},},},
             [npcKeys.waypoints] = {},
         },
         [1946] = {
-            [npcKeys.name] = "Lillith Nefara",
             [npcKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{66.67,44.97},},},
         },
         [1981] = {
-            [npcKeys.name] = "Dark Iron Ambusher",
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{52.07,69.32},},},
         },
@@ -168,57 +149,46 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{44,21},{45,20},{45,21},},},
         },
         [2044] = {
-            [npcKeys.name] = "Forlorn Spirit",
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
             [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{41.49,66.91},},[zoneIDs.STORMWIND_CITY] = {{29.87,61.93},},[zoneIDs.ELWYNN_FOREST] = {{85.52,69.67},},},
         },
         [2060] = {
-            [npcKeys.name] = "Councilman Smithers",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.49,74.09},},},
         },
         [2061] = {
-            [npcKeys.name] = "Councilman Thatcher",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.5,74.05},},},
         },
         [2062] = {
-            [npcKeys.name] = "Councilman Hendricks",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.51,74.04},},},
         },
         [2063] = {
-            [npcKeys.name] = "Councilman Wilhelm",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.5,74.01},},},
         },
         [2064] = {
-            [npcKeys.name] = "Councilman Hartin",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.5,74},},},
         },
         [2065] = {
-            [npcKeys.name] = "Councilman Cooper",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.51,74.04},},},
         },
         [2066] = {
-            [npcKeys.name] = "Councilman Higarth",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.5,74.03},},},
         },
         [2067] = {
-            [npcKeys.name] = "Councilman Brunswick",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.5,74.02},},},
         },
         [2068] = {
-            [npcKeys.name] = "Lord Mayor Morrison",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.51,74.05},},},
         },
         [2149] = {
-            [npcKeys.name] = "Dark Iron Raider",
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [npcKeys.spawns] = {[zoneIDs.LOCH_MODAN] = {{63.12,65.93},},},
         },
@@ -226,17 +196,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{52.91,57.2},},},
         },
         [2158] = {
-            [npcKeys.name] = "Gravelflint Scout",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{35.21,84.83},},},
         },
         [2159] = {
-            [npcKeys.name] = "Gravelflint Bonesnapper",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{36.25,86.35},},},
         },
         [2160] = {
-            [npcKeys.name] = "Gravelflint Geomancer",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{36.37,86.28},},},
         },
@@ -256,7 +223,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS]={{60.4,43.8},{60.8,43.6},{61,43.4},{61.8,40.6},{62.4,40.2},{62.6,40.2},{63,43.4},{63.2,43.8},},},
         },
         [2433] = {
-            [npcKeys.name] = "Helcular's Remains",
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{51.75,53.69},},},
         },
@@ -274,7 +240,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{24.11,35.34},},},
         },
         [2520] = {
-            [npcKeys.name] = "Remote-Controlled Golem",
             [npcKeys.zoneID] = zoneIDs.THE_DEADMINES,
             [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES] = {{-1,-1},},},
         },
@@ -286,7 +251,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.ARATHI_HIGHLANDS] = {{{53.0,39.5},{51.9,41.8},{50.7,43.8},{48.8,43.9},{46.8,45.5},{45.6,47.1},{44.8,49.2},{44.2,50.9},{44.2,53.1},{43.4,54.6},{41.6,54.4},{39.6,54.0},{37.4,52.9},{35.0,52.1},{32.1,51.5},{29.5,50.2},{27.1,50.0},{26.2,52.5},{25.8,55.6},{25.9,58.3},},},},
         },
         [2624] = {
-            [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{24.97,23.58},},},
             [npcKeys.waypoints] = {},
         },
@@ -303,37 +267,30 @@ function QuestieNPCFixes:Load()
             },
         },
         [2707] = {
-            [npcKeys.name] = "Shadra",
             [npcKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{33.82,72.97},},},
         },
         [2755] = {
-            [npcKeys.name] = "Myzrael",
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{62.62,34.06},},},
         },
         [2757] = {
-            [npcKeys.name] = "Blacklash",
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{81.88,49.46},},},
         },
         [2759] = {
-            [npcKeys.name] = "Hematus",
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{82.03,49.93},},},
         },
         [2763] = {
-            [npcKeys.name] = "Thenan",
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{36.16,57.91},},},
         },
         [2794] = {
-            [npcKeys.name] = "Summoned Guardian",
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{18.62,67.99},},},
         },
         [2919] = {
-            [npcKeys.name] = "Fam'retor Guardian",
             [npcKeys.zoneID] = zoneIDs.BADLANDS,
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{26.01,45.78},},},
         },
@@ -341,17 +298,12 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{51.4,45.6},{51.4,47},{51.4,49.4},{51.4,54.2},{51.4,54.6},{51.4,58.4},{51.4,60.2},{51.6,46.8},{51.6,54.2},{51.6,54.6},{51.6,59.8},{51.6,62.8},{51.8,49.2},{51.8,49.6},{51.8,59.4},{51.8,61},{51.8,62},{52,46.4},{52.2,52.8},{52.4,47.8},{52.4,51.2},{52.4,51.6},{52.4,55.8},{52.4,56.6},{52.4,58},{52.6,46.8},{52.6,57},{52.6,57.6},{52.8,46.4},{52.8,50.8},{52.8,52.8},{53.2,44.8},{53.2,48.4},{53.2,49.6},{53.2,54.2},{53.2,55.4},{53.2,55.8},{53.4,49},{53.4,51.6},{53.6,46.6},{53.6,49.2},{53.6,54.8},{53.6,56},{54,41.2},{54,42.4},{54,53.2},{54.2,42.8},{54.2,43.8},{54.2,45.4},{54.2,45.6},{54.2,50},{54.2,54},{54.4,50.6},{54.4,51.6},{54.6,42.4},{54.6,42.8},{54.6,44},{54.6,46},{54.6,50.4},{54.8,44.8},{55,52.6},{55.2,51.4},{55.2,51.8},{55.4,46.6},{55.4,53.6},{55.6,43.6},{55.6,51.4},{55.6,52},{55.8,42.4},{55.8,43.4},{55.8,53.2},{55.8,54.2},{56,45.4},{56,45.8},{56.2,46.8},{56.4,48},{56.6,46.4},{56.6,46.8},{56.8,51.6},{57,51.4},{57,52.8},{57.4,53.6},{57.6,54.2},{58.2,49.8},{58.4,47.2},{58.4,48.2},{58.4,49},{58.4,50.6},{58.4,52.2},{58.4,52.8},{58.4,54.6},{58.6,46.8},{58.6,48.4},{58.6,49.2},{58.6,49.6},{58.6,52.8},{59,46.2},{59,51.2},{59.2,51.6},{59.4,54.2},{59.4,54.6},{59.6,50.4},{59.6,50.8},{59.6,51.8},{59.6,53.4},{59.6,54.4},{59.8,49.2},{60.2,55.4},{60.4,46.2},{60.4,55.8},{60.6,54.2},{60.8,55.6},{61,42.8},{61,46.4},{61.2,41.4},{61.2,41.6},{61.2,55.4},{61.4,43.8},{61.4,46.8},{61.4,47.8},{61.6,47.2},{61.6,48},{61.8,42},{61.8,45.4},{62,44.2},{62,49.4},{62,55.4},{62.2,45.8},{62.2,50.6},{62.2,55.8},{62.4,40.8},{62.4,43},{62.4,49.8},{62.4,51.6},{62.6,41},{62.6,45.6},{62.6,49.4},{62.6,55.4},{62.8,42},{62.8,42.8},{62.8,45.4},{62.8,51},{62.8,52.4},{62.8,54},{62.8,55.8},{63,43.6},{63,48},{63.4,47.4},{63.4,49.8},{63.4,53.4},{63.6,45.2},{63.6,46.4},{63.8,53.4},{63.8,53.6},{64,48.4},{64,51.4},{64,51.8},{64,54.8},{64,55.6},{64.2,49.4},{64.2,50.4},{64.6,50.2},{64.6,55.4},{64.6,55.6},{64.8,50.6},{64.8,52.4},{65.2,52.8},{65.4,57.4},{65.4,57.6},{65.6,53.2},{65.6,53.8},{65.6,57.8},{65.8,57.4},},},
         },
         [2937] = {
-            [npcKeys.name] = "Dagun the Ravenous",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{59.71,10.06},},},
         },
         [2992] = {
-            [npcKeys.name] = "Healing Ward V",
             [npcKeys.zoneID] = zoneIDs.RAZORFEN_KRAUL,
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{-1,-1},},},
-        },
-        [3056] = {
-            [npcKeys.spawns] = {[zoneIDs.MULGORE]={{33.17,25.24},{47.55,14.76},},},
         },
         [3111] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{43.2,50.6},{43.4,50.2},{44.2,49.4},{44.4,49.8},{44.6,48.8},{44.6,50.2},{46.4,48.8},{47.2,47.4},{47.4,48},{47.4,48.6},{47.4,49.6},{47.6,48},{47.6,48.6},{47.8,47.4},{49.2,48.4},{49.4,49.2},{49.6,48},{49.6,49.2},{50.2,49.6},{50.2,50.6},{50.8,48.8},{51,48.2},},},
@@ -380,12 +332,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [3395] = {
-            [npcKeys.name] = "Verog the Dervish",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{53.06,41.74},},},
         },
         [3450] = {
-            [npcKeys.name] = "Defias Companion",
             [npcKeys.zoneID] = zoneIDs.THE_DEADMINES,
             [npcKeys.spawns] = {[zoneIDs.THE_DEADMINES] = {{-1,-1},},},
         },
@@ -400,7 +350,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.THE_BARRENS]={{{46,49.4},{44.8,49},{45,52.6},{45.2,52.4},{47.2,51.6},{47.4,51.2},{49.4,53},{49.8,53.4},{49.8,53.6},{47.6,51},{46,49.6},},}},
         },
         [3475] = {
-            [npcKeys.name] = "Echeyakee",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{55.86,17.19},},},
         },
@@ -408,12 +357,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{63,52.4},{63.4,50.2},{63.4,53.4},{63.4,53.6},{63.6,53.4},{63.6,53.6},{64,52},{64.2,50.6},{64.4,50.4},{64.6,49.6},{64.6,50.8},{65.2,47.6},{65.4,47.2},{65.6,46.8},{65.6,47.8},},},
         },
         [3529] = {
-            [npcKeys.name] = "Moonrage Armorer",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.48,72.22},},},
         },
         [3531] = {
-            [npcKeys.name] = "Moonrage Tailor",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{46.72,72.44},},},
         },
@@ -427,21 +374,17 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{35.23,10.33},},},
         },
         [3619] = {
-            [npcKeys.name] = "Ghost Saber",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{59.11,22.4},{60.19,16.36},{57.6,18.13},},},
         },
         [3630] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{44.6,35.6},{45.2,35},{46,36.4},{46,36.6},{46.2,34.6},{46.8,36.6},{47,36.2},{47.8,35.2},},},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [3631] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{47.37,33.68},{48.24,32.22},{49.41,33.17},{49.1,33.8},{48.09,34.61},{48.18,34.37},{47.09,32.87},},},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [3632] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46.32,32.54},{46.57,34.22},{45.88,33.05},{46.19,34.26},{45.92,33.55},{46.2,34.8},{46.08,32.52},{46.3,35.06},{45.9,35.6},{46.18,35.27},{46.6,34.78},{45.79,34.09},},},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [3633] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{47.62,32.38},{47.9,32.62},{47.38,32.78},{48.79,32.56},{48.04,32.14},{47.62,32.83},{49.17,33.31},{49.19,32.72},{48.45,32.29},{48.84,31.98},{48.96,33.97},{48.34,34.25},{47.53,34.14},{47.41,33.39},},},
@@ -449,7 +392,6 @@ function QuestieNPCFixes:Load()
         },
         [3634] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{45.2,36.2},{46,36.4},{46,36.6},{46.6,36.2},{48.2,36.6},{48.8,35.6},},},
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [3654] = {
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS]={{-1,-1},},},
@@ -458,7 +400,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [3694] = {
-            [npcKeys.name] = "Sentinel Selarin",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{39.28,43.46},},},
         },
@@ -469,47 +410,38 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SHADOWFANG_KEEP] = {{-1,-1},},},
         },
         [3879] = {
-            [npcKeys.name] = "Dark Strand Assassin",
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{25.76,30.17},},},
         },
         [3893] = {
-            [npcKeys.name] = "Forsaken Scout",
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{26.67,23.88},},},
         },
         [3898] = {
-            [npcKeys.name] = "Aligar the Tormentor",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.57,94.44},},},
         },
         [3899] = {
-            [npcKeys.name] = "Balizar the Umbrage",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.54,94.32},},},
         },
         [3900] = {
-            [npcKeys.name] = "Caedakar the Vicious",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.52,94.39},},},
         },
         [3939] = {
-            [npcKeys.name] = "Razormane Wolf",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{54.77,25.88},{58.28,25.1},},},
         },
         [3998] = {
-            [npcKeys.name] = "Windshear Vermin",
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{71.76,60.29},},},
         },
         [4001] = {
-            [npcKeys.name] = "Windshear Tunnel Rat",
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{71.75,60.32},},},
         },
         [4002] = {
-            [npcKeys.name] = "Windshear Stonecutter",
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{71.76,60.45},},},
         },
@@ -529,12 +461,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{70.03,86.22},{68.38,82.32},{67.26,86.1},},},
         },
         [4263] = {
-            [npcKeys.name] = "Deepmoss Hatchling",
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{53.33,73.77},},},
         },
         [4264] = {
-            [npcKeys.name] = "Deepmoss Matriarch",
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS] = {{53.34,73.63},{60.92,62.71},{62.79,59.87},{76.66,44.99},},},
         },
@@ -551,12 +481,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{36.8,69},{37.4,67.4},{37.4,68.2},{37.8,68.2},{38.2,66.4},{38.2,66.8},{38.6,67.8},{38.8,64.6},{39,64.4},{39.2,66.4},{39.4,66.6},{39.4,74.4},{39.6,65.6},{39.8,65.2},{39.8,73.6},{42,67.2},{42.2,73.2},{42.4,75.2},{42.6,66.6},{42.8,69},{43,65.8},{43.2,81.2},{43.4,65.4},{43.8,66.2},{44.2,64.4},{44.4,65.4},{44.4,67.2},{44.6,65.4},{44.6,65.6},{44.8,64.4},{44.8,67.6},{44.8,69.2},{45,75.2},{45.2,67.2},{45.6,64.8},{45.6,66},{46,67.2},{48,81.8},{49.2,69},{51,71.6},},},
         },
         [4342] = {
-            [npcKeys.name] = "Drywallow Vicejaw",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{50.69,26.77},{46.04,22.01},{56.25,35.76},{42.82,38.64},{40.05,27.21},},},
         },
         [4355] = {
-            [npcKeys.name] = "Bloodfen Scytheclaw",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{40.76,41.67},{45.25,53.49},},},
         },
@@ -576,7 +504,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
         [4391] = {
-            [npcKeys.name] = "Swamp Ooze",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{41.09,51.04},{45,55.59},{45.8,59.09},},},
         },
@@ -601,7 +528,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
         [4413] = {
-            [npcKeys.name] = "Darkfang Spider",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{42.72,13.85},{56.01,23.25},},},
         },
@@ -615,7 +541,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{17.1,38.1},{10.6,23.1},},},
         },
         [4504] = {
-            [npcKeys.name] = "Frostmaw",
             [npcKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS] = {{37.51,67.2},},},
         },
@@ -623,12 +548,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{-1,-1},},},
         },
         [4535] = {
-            [npcKeys.name] = "Tamed Battleboar",
             [npcKeys.zoneID] = zoneIDs.RAZORFEN_KRAUL,
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{-1,-1},},},
         },
         [4660] = {
-            [npcKeys.name] = "Maraudine Bonepaw",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{39.65,61.37},},},
         },
@@ -668,27 +591,22 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{45.2,24.4},{59.6,41.2},{66.4,49.2},},},
         },
         [4969] = {
-            [npcKeys.name] = "Old Town Thug",
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{69.89,44.9},},},
         },
         [4977] = {
-            [npcKeys.name] = "Murkshallow Softshell",
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1},},},
         },
         [5044] = {
-            [npcKeys.name] = "Theramore Skirmisher",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{42.46,38.03},},},
         },
         [5045] = {
-            [npcKeys.name] = "Private Hallan",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{42.48,38.06},},},
         },
         [5046] = {
-            [npcKeys.name] = "Lieutenant Caldwell",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{42.48,38.05},},},
         },
@@ -699,7 +617,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{53,32},},},
         },
         [5402] = {
-            [npcKeys.name] = "Khan Hratha",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{29.55,52},},},
         },
@@ -715,12 +632,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE]={{73.2,41.8},{73.4,43},{74,43.6},{74.4,44.8},{73.6,46.6},{73,47.8},{74.6,48.8},},},
         },
         [5676] = {
-            [npcKeys.name] = "Summoned Voidwalker",
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{86.51,26.94},},[zoneIDs.STORMWIND_CITY] = {{25.16,77.49},},[zoneIDs.ORGRIMMAR] = {{49.66,50.14},},},
         },
         [5677] = {
-            [npcKeys.name] = "Summoned Succubus",
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{86.36,26.73},},[zoneIDs.STORMWIND_CITY] = {{25.2,77.52},},[zoneIDs.ORGRIMMAR] = {{49.73,50.14},},},
         },
@@ -731,12 +646,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
         [5762] = {
-            [npcKeys.name] = "Deviate Moccasin",
             [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{-1,-1},},},
         },
         [5763] = {
-            [npcKeys.name] = "Nightmare Ectoplasm",
             [npcKeys.zoneID] = zoneIDs.WAILING_CAVERNS,
             [npcKeys.spawns] = {[zoneIDs.WAILING_CAVERNS] = {{-1,-1},},},
         },
@@ -752,7 +665,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46,70},},},
         },
         [5895] = {
-            [npcKeys.name] = "Minor Manifestation of Water",
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{38.65,44.58},},},
         },
@@ -781,91 +693,70 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.REPAIR
         },
         [6069] = {
-            [npcKeys.name] = "Maraudine Khan Guard",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{29.63,52.36},},},
         },
         [6070] = {
-            [npcKeys.name] = "Maraudine Khan Advisor",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{29.56,52.05},},},
         },
         [6071] = {
-            [npcKeys.name] = "Legion Hound",
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.48,81.61},},},
         },
         [6180] = {
-            [npcKeys.name] = "Defias Raider",
             [npcKeys.zoneID] = zoneIDs.WESTFALL,
             [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{42.15,88.43},},},
         },
         [6215] = {
-            [npcKeys.name] = "Chomper",
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1},},},
         },
         [6238] = {
-            [npcKeys.name] = "Big Will",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{68.61,48.72},},},
         },
         [6239] = {
-            [npcKeys.name] = "Cyclonian",
             [npcKeys.zoneID] = zoneIDs.ALTERAC_MOUNTAINS,
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS] = {{80.32,62.14},},},
         },
         [6268] = {
-            [npcKeys.name] = "Summoned Felhunter",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{62.6,35.31},},},
         },
         [6390] = {
-            [npcKeys.name] = "Ulag the Cleaver",
             [npcKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{59.47,48.28},},},
         },
         [6549] = {
-            [npcKeys.name] = "Demon of the Orb",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{45.79,56.97},},},
         },
         [6550] = {
-            [npcKeys.name] = "Mana Surge",
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{45.83,56.94},},},
         },
-        [6569] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE]={{69.5,50.6},},}, -- #708
-            [npcKeys.zoneID] = zoneIDs.IRONFORGE, -- #708
-        },
         [6575] = {
-            [npcKeys.name] = "Scarlet Trainee",
             [npcKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1},},},
         },
         [6866] = {
-            [npcKeys.name] = "Defias Bodyguard",
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST] = {{48.23,87.39},},},
         },
         [6911] = {
-            [npcKeys.name] = "Minion of Sethir",
             [npcKeys.zoneID] = zoneIDs.TELDRASSIL,
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{37.46,23.71},},},
         },
         [7091] = {
-            [npcKeys.name] = "Shadowforge Ambusher",
             [npcKeys.zoneID] = zoneIDs.ULDAMAN,
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{-1,-1},},},
         },
         [7135] = {
-            [npcKeys.name] = "Infernal Bodyguard",
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{41.47,42.16},{43.69,39.06},},},
         },
         [7167] = {
-            [npcKeys.name] = "Polly",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{64.78,45.5},},},
         },
@@ -873,22 +764,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ULDAMAN] = {{-1,-1},},},
         },
         [7273] = {
-            [npcKeys.name] = "Gahz'rilla",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [7275] = {
-            [npcKeys.name] = "Shadowpriest Sezz'ziz",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [7276] = {
-            [npcKeys.name] = "Zul'Farrak Dead Hero",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [7286] = {
-            [npcKeys.name] = "Zul'Farrak Zombie",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
@@ -899,100 +786,78 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{-1,-1},},},
         },
         [7356] = {
-            [npcKeys.name] = "Plaguemaw the Rotting",
             [npcKeys.zoneID] = zoneIDs.RAZORFEN_DOWNS,
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_DOWNS] = {{-1,-1},},},
         },
         [7360] = {
-            [npcKeys.name] = "Dun Garok Soldier",
             [npcKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{30.85,55.78},},},
         },
         [7361] = {
-            [npcKeys.name] = "Grubbis",
             [npcKeys.zoneID] = zoneIDs.GNOMEREGAN,
             [npcKeys.spawns] = {[zoneIDs.GNOMEREGAN] = {{-1,-1},},},
         },
         [7664] = {
-            [npcKeys.name] = "Razelikh the Defiler",
             [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{47.64,29.83},},},
         },
         [7729] = {
-            [npcKeys.name] = "Spirit of Kirith",
             [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{68.8,31.07},},},
         },
         [7734] = {
-            [npcKeys.name] = "Ilifar",
             [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{47.61,29.9},},},
         },
         [7735] = {
-            [npcKeys.name] = "Felcular",
             [npcKeys.zoneID] = zoneIDs.BLASTED_LANDS,
             [npcKeys.spawns] = {[zoneIDs.BLASTED_LANDS] = {{47.63,30},},},
         },
         [7750] = {
-            [npcKeys.name] = "Corporal Thund Splithoof",
             [npcKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
             [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS] = {{33.49,65.99},},},
         },
         [7767] = {
-            [npcKeys.name] = "Witherbark Felhunter",
             [npcKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{36.32,72.07},{39.53,66.65},{33.04,75.53},},},
         },
         [7768] = {
-            [npcKeys.name] = "Witherbark Bloodling",
             [npcKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{33.77,70.84},{35.45,65.62},{25.07,65.8},},},
         },
-        [7777] = {
-            [npcKeys.waypoints] = {[zoneIDs.FERALAS]={{{75.88,43.52},{76.02,43.48},{76.16,43.45},{76.31,43.39},{76.43,43.29},{76.5,43.17},{76.5,43.17},{76.63,43.18},{76.74,43.25},{76.83,43.29},{76.94,43.22},{76.83,43.27},{76.73,43.29},{76.64,43.21},{76.5,43.06},{76.38,42.93},{76.27,42.8},{76.15,42.66},{76.22,42.79},{76.34,42.91},{76.4,43.07},{76.37,43.22},{76.28,43.34},{76.12,43.46},{76.0,43.51},{75.9,43.55},{75.78,43.58},{75.69,43.61},{75.55,43.64},{75.38,43.65},{75.18,43.69},{75.02,43.73},{74.82,43.78},{74.66,43.82},{74.46,43.84},{74.46,43.69},{74.53,43.89},{74.65,43.87},{74.65,43.87},{74.99,43.76},{75.3,43.68},{75.45,43.66},{75.53,43.64},{75.63,43.61},{75.7,43.59},},},},
-        },
         [7789] = {
-            [npcKeys.name] = "Sandfury Cretin",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [7796] = {
-            [npcKeys.name] = "Nekrum Gutchewer",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [7805] = {
-            [npcKeys.name] = "Wastewander Scofflaw",
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{66.16,34.99},},},
         },
         [7808] = {
-            [npcKeys.name] = "Marauding Owlbeast",
             [npcKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{58.76,51.05},},},
         },
         [7809] = {
-            [npcKeys.name] = "Vilebranch Ambusher",
             [npcKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{69.33,62.4},},},
         },
         [7848] = {
-            [npcKeys.name] = "Lurking Feral Scar",
             [npcKeys.zoneID] = zoneIDs.FERALAS,
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{55.29,53.76},},},
         },
         [7899] = {
-            [npcKeys.name] = "Treasure Hunting Pirate",
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.45,93.47},},},
         },
         [7901] = {
-            [npcKeys.name] = "Treasure Hunting Swashbuckler",
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.4,93.5},},},
         },
         [7902] = {
-            [npcKeys.name] = "Treasure Hunting Buccaneer",
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{54.34,93.58},},},
         },
@@ -1007,17 +872,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [8075] = {
-            [npcKeys.name] = "Edana Hatetalon",
             [npcKeys.zoneID] = zoneIDs.FERALAS,
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{40.55,8.6},},},
         },
         [8138] = {
-            [npcKeys.name] = "Sul'lithuz Broodling",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [8179] = {
-            [npcKeys.name] = "Greater Healing Ward",
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
@@ -1025,22 +887,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
         [8336] = {
-            [npcKeys.name] = "Hakkari Sapper",
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
         [8337] = {
-            [npcKeys.name] = "Dark Iron Steelshifter",
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{66.02,45.11},},},
         },
         [8391] = {
-            [npcKeys.name] = "Lathoric the Black",
             [npcKeys.zoneID] = zoneIDs.SEARING_GORGE,
             [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{41.32,25.53},},},
         },
         [8392] = {
-            [npcKeys.name] = "Pilot Xiggs Fuselighter",
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{77.81,91.4},},},
         },
@@ -1048,17 +906,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
         [8438] = {
-            [npcKeys.name] = "Hakkari Bloodkeeper",
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
         [8477] = {
-            [npcKeys.name] = "Skeletal Servant",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [8497] = {
-            [npcKeys.name] = "Nightmare Suppressor",
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
@@ -1067,7 +922,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [8578] = {
-            [npcKeys.name] = "Magus Rimtori",
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{59.51,31.37},},},
         },
@@ -1079,67 +933,54 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.FERALAS,
         },
         [8925] = {
-            [npcKeys.name] = "Dredge Worm",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [8926] = {
-            [npcKeys.name] = "Deep Stinger",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [8927] = {
-            [npcKeys.name] = "Dark Screecher",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [8928] = {
-            [npcKeys.name] = "Burrowing Thundersnout",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [8932] = {
-            [npcKeys.name] = "Borer Beetle",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [8933] = {
-            [npcKeys.name] = "Cave Creeper",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [8996] = {
-            [npcKeys.name] = "Voidwalker Minion",
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{59.3,37.95},},},
         },
         [9027] = {
-            [npcKeys.name] = "Gorosh the Dervish",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9028] = {
-            [npcKeys.name] = "Grizzle",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9029] = {
-            [npcKeys.name] = "Eviscerator",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9030] = {
-            [npcKeys.name] = "Ok'thor the Breaker",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9031] = {
-            [npcKeys.name] = "Anub'shiah",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9032] = {
-            [npcKeys.name] = "Hedrum the Creeper",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
@@ -1147,7 +988,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [9136] = {
-            [npcKeys.name] = "Sha'ni Proudtusk",
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{79.95,45.4},},},
         },
@@ -1158,42 +998,34 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{20.2,40},{20.4,60.2},{20.4,60.6},{21,40.2},{21,58.4},{21,58.8},{21,60.4},{21.2,38.8},{21.2,41},{21.4,61},{21.8,61},{22,40.4},{22,60},{22.2,41},{22.2,50.2},{22.4,59.4},{22.8,58.4},{22.8,58.6},{23,50},{23.2,41},{23.4,40.2},{23.4,49.4},{23.4,50.6},{23.4,59.8},{23.6,40.2},{23.6,41.6},{23.6,49.4},{23.6,50},{23.6,58.2},{23.8,59},{23.8,60},{24,39},{24.4,38.2},{24.4,61.4},{24.4,61.6},{24.6,61.4},{24.8,61.6},{25,38.4},{25,38.8},{25,41.6},{25.2,43},{25.4,39.8},{25.6,39},{25.6,43},{26.2,63.4},{26.2,64.2},{26.2,64.6},{26.4,37.2},{26.4,38.4},{26.6,64.4},{26.6,64.6},{26.8,38.2},{27,44.4},{27.2,33.8},{27.2,39.4},{27.2,39.6},{27.4,34.6},{27.4,45.2},{27.4,45.6},{27.4,54.4},{27.6,39.6},{27.6,45.4},{27.6,54.8},{27.8,46},{27.8,54.2},{27.8,56.6},{28.2,30},{28.2,41},{28.4,41.6},{28.8,41.2},{28.8,47.2},{29,47.6},{29.2,36.8},{29.2,42.4},{29.4,31.8},{29.4,32.6},{29.4,42.6},{29.6,31.8},{29.6,42.2},{29.8,31.4},{30.4,44.6},{30.6,28.4},{30.6,44.8},{30.8,29.2},{30.8,46},{31,33.4},{31,34.2},{31.2,70.8},{31.4,44.4},{31.4,71.6},{31.6,44.6},{31.6,71.4},{31.6,71.6},{31.8,44},{32.2,66.8},{32.2,67.6},{32.4,26},{32.4,37.4},{32.4,42},{32.4,43.4},{32.4,78.4},{32.4,78.8},{32.6,26},{32.6,37.6},{32.6,42},{32.6,78.2},{32.6,79},{32.8,37},{32.8,42.6},{33.2,32},{33.8,44.4},{34.2,29.4},{34.4,29.6},{34.4,30.6},{34.4,39.8},{34.6,29.6},{34.6,30.6},{34.6,45.6},{34.6,65},{34.6,65.6},{34.8,29.4},{34.8,39.6},{34.8,44.6},{35,39.4},{35,44.4},{35.4,34.8},{35.8,34.4},{35.8,35.2},{35.8,35.6},{36,31.4},{36,32.8},{36,36.6},{36.2,32.4},{36.2,42.2},{36.4,26.4},{36.4,26.8},{36.4,42.6},{36.4,63.4},{36.4,70.6},{36.4,76.4},{36.4,76.8},{36.4,79.2},{36.4,79.6},{36.6,26.4},{36.6,26.6},{36.6,63},{36.6,76.4},{36.6,79.4},{36.6,79.8},{36.8,76.6},{37.2,41.6},{37.4,40.4},{37.4,40.8},{37.6,40},{37.6,40.6},{37.8,34.4},{37.8,35.2},{37.8,39.2},{38,38.2},{38,45.6},{38.2,29.2},{38.4,37.4},{38.4,50.4},{38.6,50.8},{38.8,29.2},{38.8,29.6},{39,19.4},{39,49.4},{39,50},{39.4,19.8},{39.4,44.4},{39.6,42.2},{39.6,45},{39.6,68.4},{39.8,68.6},{40,65.6},{40,76.6},{40.2,31.4},{40.2,31.6},{40.2,48.2},{40.2,48.8},{40.2,76.2},{40.4,37.8},{40.4,65.4},{40.8,64.4},{41,64.8},{41.2,28.6},{41.2,52.4},{41.2,52.6},{41.4,28.4},{41.4,39},{41.6,28.4},{41.6,28.6},{41.6,39.4},{41.8,39.8},{41.8,53.2},{42.2,36.8},{42.4,30.4},{42.4,30.8},{42.4,36.4},{42.6,30.6},{42.6,36.4},},},
         },
         [9396] = {
-            [npcKeys.name] = "Ground Pounder",
             [npcKeys.zoneID] = zoneIDs.TANARIS,
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{50.03,30.57},{56.45,25.44},{56.69,32.35},{48.71,27.81},{44.84,27.89},},},
         },
         [9398] = {
-            [npcKeys.name] = "Twilight's Hammer Executioner",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9438] = {
-            [npcKeys.name] = "Dark Keeper Bethek",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9439] = {
-            [npcKeys.name] = "Dark Keeper Uggel",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9441] = {
-            [npcKeys.name] = "Dark Keeper Zimrel",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9442] = {
-            [npcKeys.name] = "Dark Keeper Ofgut",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9443] = {
-            [npcKeys.name] = "Dark Keeper Pelver",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9445] = {
-            [npcKeys.name] = "Dark Guard",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
@@ -1201,7 +1033,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TANARIS] = {{70.4,49.9},},},
         },
         [9456] = {
-            [npcKeys.name] = "Warlord Krom'zar",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.53,28.15},},},
         },
@@ -1210,37 +1041,30 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
         [9476] = {
-            [npcKeys.name] = "Watchman Doomgrip",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9477] = {
-            [npcKeys.name] = "Cloned Ooze",
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{56.3,63.89},{46.45,25.45},{45.44,66.04},{56.2,18.13},{59.39,60.37},},},
         },
         [9522] = {
-            [npcKeys.name] = "Blackrock Ambusher",
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{33.22,51.02},{42.84,41.59},},},
         },
         [9523] = {
-            [npcKeys.name] = "Kolkar Stormseer",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.55,27.78},},},
         },
         [9524] = {
-            [npcKeys.name] = "Kolkar Invader",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{44.62,27.75},},},
         },
         [9537] = {
-            [npcKeys.name] = "Hurley Blackbreath",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [9541] = {
-            [npcKeys.name] = "Blackbreath Crony",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
@@ -1249,7 +1073,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.FELWOOD, -- #1516
         },
         [9621] = {
-            [npcKeys.name] = "Gargantuan Ooze",
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{46.27,25.21},{56.83,69.68},{56.61,18.16},{56.77,63.03},{51.99,17.82},},},
         },
@@ -1258,7 +1081,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
         },
         [9684] = {
-            [npcKeys.name] = "Lar'korwi",
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{79.65,49.83},},},
         },
@@ -1266,12 +1088,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{91.2,65.4},{91.2,68.8},{91.4,67},{91.6,64.4},{91.8,67.6},{92,65.2},{92.4,62},{93,53.2},{93,61.8},{93.4,51.6},{93.6,63.8},{93.8,51.4},{94.2,59.6},{94.4,51.8},{95,52.6},{95.2,51.2},},},
         },
         [10040] = {
-            [npcKeys.name] = "Gorishi Hive Guard",
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{43.89,81.33},},},
         },
         [10041] = {
-            [npcKeys.name] = "Gorishi Hive Queen",
             [npcKeys.zoneID] = zoneIDs.UN_GORO_CRATER,
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{43.85,81.39},},},
         },
@@ -1280,17 +1100,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
         },
         [10258] = {
-            [npcKeys.name] = "Rookery Guardian",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10263] = {
-            [npcKeys.name] = "Burning Felguard",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10264] = {
-            [npcKeys.name] = "Solakar Flamewreath",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
@@ -1301,7 +1118,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1, -1},},},
         },
         [10323] = {
-            [npcKeys.name] = "Murkdeep",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{36.44,76.51},},},
         },
@@ -1309,7 +1125,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10373] = {
-            [npcKeys.name] = "Xabraxxis",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{52.48,33.39},},},
         },
@@ -1317,22 +1132,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [10389] = {
-            [npcKeys.name] = "Wrath Phantom",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [10394] = {
-            [npcKeys.name] = "Black Guard Sentry",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [10429] = {
-            [npcKeys.name] = "Warchief Rend Blackhand",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10439] = {
-            [npcKeys.name] = "Ramstein the Gorger",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
@@ -1340,12 +1151,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [10447] = {
-            [npcKeys.name] = "Chromatic Dragonspawn",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10506] = {
-            [npcKeys.name] = "Kirtonos the Herald",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
@@ -1353,7 +1162,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER]={{49,45},},}, -- #2055
         },
         [10584] = {
-            [npcKeys.name] = "Urok Doomhowl",
             [npcKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
@@ -1361,17 +1169,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.TIRISFAL_GLADES]={{{57.4,48.8},{57.6,49},{57.8,49.6},{58.4,47.8},{58.6,47.6},{59,47.2},},},},
         },
         [10680] = {
-            [npcKeys.name] = "Summoned Blackhand Dreadweaver",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10681] = {
-            [npcKeys.name] = "Summoned Blackhand Veteran",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10683] = {
-            [npcKeys.name] = "Rookery Hatcher",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
@@ -1380,7 +1185,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
         },
         [10737] = {
-            [npcKeys.name] = "Shy-Rotam",
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.81,9.8},},},
         },
@@ -1389,17 +1193,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
         },
         [10741] = {
-            [npcKeys.name] = "Sian-Rotam",
             [npcKeys.zoneID] = zoneIDs.WINTERSPRING,
             [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{49.85,9.8},},},
         },
         [10742] = {
-            [npcKeys.name] = "Blackhand Dragon Handler",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [10776] = {
-            [npcKeys.name] = "Finkle Einhorn",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
@@ -1416,7 +1217,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.WINTERSPRING]={{{58,62.1},{59.9,61.5},{61.6,61.5},{62.1,59},{62.6,57.2},{60.3,55.9},{58.4,54.7},{56.3,52.6},{55,50.2},{54.2,47.3},{54.2,44.8},},}},
         },
         [10808] = {
-            [npcKeys.name] = "Timmy the Cruel",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
@@ -1424,7 +1224,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME]={{-1,-1},},},
         },
         [10836] = {
-            [npcKeys.name] = "Farmer Dalson",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{48.23,49.67},},},
         },
@@ -1432,36 +1231,26 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.THUNDER_BLUFF]={{{40.37,52.75},{39.98,52.21},{39.27,51.59},{38.39,50.86},{37.75,51.18},{36.93,51.93},{36.48,52.97},{36.25,54.09},{36.34,54.78},{36.6,55.84},{36.77,56.94},{37.01,58.12},{37.19,59.38},{37.36,60.36},{37.63,61.36},{38.28,62.12},{38.89,62.84},{39.45,63.19},{40.15,62.98},{40.63,62.33},{41.32,61.33},{42.3,59.92},{42.59,59.32},{43.2,60.1},{43.5,64.6},{44.7,68.8},{46,69.4},{48.7,67.2},{49.4,65.4},{49.7,62.4},{52.2,61.6},{56.6,61.6},{57,59.4},{56.1,54.7},{57.8,54.3},{59,52.5},{58.9,50.1},{57.8,48.5},{56.1,47.9},{54.1,48.7},{52.9,50.7},{53.1,52.6},{54.3,54.1},{56.1,54.7},{57,59.4},{56.6,61.6},{52.2,61.6},{49.7,62.4},{49.4,65.4},{48.7,67.2},{46,69.4},{44.7,68.8},{43.5,64.6},{43.2,60.1},{42.59,59.32},{42.74,58.43},{42.98,56.87},{42.56,56.13},{42.18,55.5},{41.56,54.53},{40.96,53.61},},},},
         },
         [10882] = {
-            [npcKeys.name] = "Arikara",
             [npcKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES] = {{38.09,35.38},},},
         },
         [10928] = {
-            [npcKeys.name] = "Succubus Minion",
             [npcKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{28.54,82.09},},},
-        },
-        [10931] = {
-            [npcKeys.name] = "Aurius",
-            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{48.33,21.84},},},
         },
         [10936] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{39.2,91.33},},},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [10946] = {
-            [npcKeys.name] = "Horgus the Ravager",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{38.44,89.3},},},
         },
         [10979] = {
-            [npcKeys.name] = "Scarlet Hound",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{40.53,52.51},{51.73,44.27},{47.18,51.36},{38.94,55.98},{43.48,67.57},},},
         },
         [10996] = {
-            [npcKeys.name] = "Fallen Hero",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{63.32,58.06},{68.93,74.74},{45.07,71.39},{67.97,84.26},},[zoneIDs.EASTERN_PLAGUELANDS] = {{58.2,79.97},},},
         },
@@ -1469,7 +1258,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{36.88,54.9},},},
         },
         [11058] = {
-            [npcKeys.name] = "Fras Siabi",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
@@ -1478,37 +1266,30 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [11075] = {
-            [npcKeys.name] = "Cauldron Lord Bilemaw",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{36.93,57.41},},},
         },
         [11076] = {
-            [npcKeys.name] = "Cauldron Lord Razarch",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{52.88,66.08},},},
         },
         [11077] = {
-            [npcKeys.name] = "Cauldron Lord Malvinious",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{46.11,52.61},},},
         },
         [11078] = {
-            [npcKeys.name] = "Cauldron Lord Soulwrath",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{62.18,59.06},},},
         },
         [11120] = {
-            [npcKeys.name] = "Crimson Hammersmith",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [11121] = {
-            [npcKeys.name] = "Black Guard Swordsmith",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [11122] = {
-            [npcKeys.name] = "Restless Soul",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},}, -- #919
         },
@@ -1516,22 +1297,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [11142] = {
-            [npcKeys.name] = "Undead Postman",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [11143] = {
-            [npcKeys.name] = "Postmaster Malown",
             [npcKeys.zoneID] = zoneIDs.STRATHOLME,
             [npcKeys.spawns] = {[zoneIDs.STRATHOLME] = {{-1,-1},},},
         },
         [11284] = {
-            [npcKeys.name] = "Dark Shade",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{69.01,72.8},},},
         },
         [11460] = {
-            [npcKeys.name] = "Alzzin's Minion",
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1},},},
         },
@@ -1539,22 +1316,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{62.5,30.37},},},
         },
         [11502] = {
-            [npcKeys.name] = "Ragnaros",
             [npcKeys.zoneID] = zoneIDs.MOLTEN_CORE,
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{-1,-1},},},
         },
         [11560] = {
-            [npcKeys.name] = "Magrami Spectre",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{64.18,91.63},},},
         },
         [11583] = {
-            [npcKeys.name] = "Nefarian",
             [npcKeys.zoneID] = zoneIDs.BLACKWING_LAIR,
             [npcKeys.spawns] = {[zoneIDs.BLACKWING_LAIR] = {{-1,-1},},},
         },
         [11598] = {
-            [npcKeys.name] = "Risen Guardian",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
@@ -1572,12 +1345,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE]={{51.41,58.29},{49.45,59.73},{52.42,62.2},{53.94,60.99},{52.61,57.46},{50.51,56.63},{48.29,60.25},{52.24,60.64},{50.82,61.17},{53.65,56.69},{51.95,56.1},{58.03,34.84},{58.63,34.44},{58.93,34.32},{49.36,41.23},{49.37,40.48},{49.37,40.17},{57.76,71.05},{56.74,82.06},{56.79,82.99},{56.94,82.97},{51.47,59.16},{47.0,58.86},{48.52,56.9},{53.65,58.03},{49.13,55.62},{49.57,58.32},{46.48,60.66},{50.3,58.31},{54.97,58.23},{54.27,63.24},{58.42,34.24},{55.68,62.65},{49.49,40.82},{54.2,61},{60.4,62},{60.6,62},},},
         },
         [11663] = {
-            [npcKeys.name] = "Flamewaker Healer",
             [npcKeys.zoneID] = zoneIDs.MOLTEN_CORE,
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{-1,-1},},},
         },
         [11664] = {
-            [npcKeys.name] = "Flamewaker Elite",
             [npcKeys.zoneID] = zoneIDs.MOLTEN_CORE,
             [npcKeys.spawns] = {[zoneIDs.MOLTEN_CORE] = {{-1,-1},},},
         },
@@ -1588,7 +1359,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{28.5,63.05},},},
         },
         [11714] = {
-            [npcKeys.name] = "Marosh the Devious",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.84,90.41},},},
         },
@@ -1602,7 +1372,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
         [11836] = {
-            [npcKeys.name] = "Captured Rabid Thistle Bear",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{49.1,29.89},{49.95,34.58},{39,63.09},{38.62,77},{39.28,68.07},},},
         },
@@ -1610,12 +1379,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE]={{55.00,26.60},},},
         },
         [11886] = {
-            [npcKeys.name] = "Mercutio Filthgorger",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{28.34,86.62},},},
         },
         [11887] = {
-            [npcKeys.name] = "Crypt Robber",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{28.32,86.56},},},
         },
@@ -1637,17 +1404,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [12126] = {
-            [npcKeys.name] = "Lord Tirion Fordring",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{53.93,24.61},},},
         },
         [12128] = {
-            [npcKeys.name] = "Crimson Elite",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{51.93,23.82},},},
         },
         [12138] = {
-            [npcKeys.name] = "Lunaclaw",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.33,45.85},},[zoneIDs.THE_BARRENS] = {{41.96,60.79},},},
         },
@@ -1655,7 +1419,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = 128,
         },
         [12238] = {
-            [npcKeys.name] = "Zaetar's Spirit",
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
@@ -1666,7 +1429,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.48,79.27},},},
         },
         [12261] = {
-            [npcKeys.name] = "Infected Mossflayer",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{70.02,17.32},},},
         },
@@ -1677,22 +1439,18 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE]={{44.48,24.36},{35.17,89.26},{46.56,24.97},{34.57,87.25},{38.36,77.52},{36.19,81.94},{44.56,27.62},{43.7,64.03},{46.81,51.18},{46.17,48.28},{41.95,69.65},{45.02,44.31},{39.1,61.87},{46.99,44.1},{43.62,31.44},{46.0,41.38},{41.85,38.14},{43.97,52.89},{40.08,69.85},{42.2,73.37},{43.07,75.47},{43.97,80.14},{47.14,42.21},{47.17,41.27},{45.82,41.49},{38.56,36.07},{43.77,41.38},{48.13,33.97},{46.92,33.91},{45.56,31.68},{43.18,88.41},{39.11,89.9},{40.67,89.83},{41.02,77.81},{49.48,35.21},{49.11,36.08},{41.44,52.68},{41.04,34.8},{51.1,33.53},{51.92,32.75},{41.23,48.31},{38.57,59.21},{40.3,81.84},{38.92,70.36},{51.18,29.79},{49.48,28.58},{41.5,46.08},{38.68,54.53},{40.84,60.16},{47.68,27.5},{43.53,83.42},{43.35,40.79},{42.3,39.6},{40.34,52.3},{43.28,66.94},{37.06,91.2},{39.09,47.85},{43.81,48.22},{48.17,38.98},},},
         },
         [12319] = {
-            [npcKeys.name] = "Burning Blade Toxicologist",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{48.31,18.89},},},
         },
         [12320] = {
-            [npcKeys.name] = "Burning Blade Crusher",
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{48.31,18.92},},},
         },
         [12321] = {
-            [npcKeys.name] = "Stormscale Toxicologist",
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{54.92,32.99},},},
         },
         [12339] = {
-            [npcKeys.name] = "Demetria",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{72.18,78.85},},},
             [npcKeys.waypoints] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{{59.17,38.49},{59.32,38.7},{59.64,39.13},{59.9,39.5},{60.16,39.87},{60.67,40.65},{60.92,41.14},{61.11,41.61},{61.47,42.55},{61.84,43.48},{62.02,43.95},{62.2,44.42},{62.38,44.89},{62.56,45.36},{62.75,45.82},{62.94,46.28},{63.31,47.21},{63.5,47.68},{63.71,48.2},{63.71,48.2},{63.75,48.74},{63.8,49.27},{63.84,50.14},{63.75,50.58},{63.67,50.74},{63.47,51.19},{63.13,52.07},{63.13,52.07},{62.97,52.56},{62.69,53.49},{62.69,53.49},{62.55,53.99},{62.43,54.74},{62.43,55.28},{62.44,55.82},{62.5,56.99},{62.5,56.99},{62.6,57.51},{62.77,58.47},{62.77,58.47},{63.0,59.5},{63.11,60.01},{63.24,60.52},{63.28,60.68},{63.31,61.21},{63.3,62.05},{63.16,62.77},{63.0,63.25},{62.83,63.74},{62.59,64.39},{62.18,65.2},{61.93,65.58},{61.67,65.96},{61.3,66.53},{61.04,66.91},{60.76,67.25},{60.49,67.61},{60.09,68.22},{60.09,68.22},{60.36,69.01},{60.58,69.45},{60.81,69.87},{61.23,70.58},{61.56,70.82},{61.89,71.04},{62.23,71.23},{62.75,71.48},{62.75,71.48},{63.19,71.77},{63.62,72.15},{63.96,72.59},{63.96,72.59},{64.32,73.39},{64.32,73.39},{64.67,74.34},{64.85,74.81},{65.0,75.16},{65.0,75.16},{65.24,75.55},{65.62,76.04},{65.95,76.31},{65.95,76.31},{66.62,76.7},{66.96,76.89},{67.3,77.06},{67.66,77.18},{68.1,77.34},{68.1,77.34},{68.74,77.7},{69.15,77.86},{69.51,77.97},{69.86,78.07},{70.22,78.18},{70.57,78.27},{71.29,78.45},{71.64,78.57},{72.18,78.85},{72.48,79.16},{73.07,79.78},{73.38,80.06},{73.69,80.33},{74.03,80.51},{74.37,80.7},{75.05,81.07},{75.39,81.25},{75.73,81.44},{76.42,81.77},{76.74,81.81},{77.33,81.81},{77.65,81.7},{78.04,81.63},{78.38,81.63},{78.67,81.63},{79.03,81.65},{79.39,81.66},{80.05,81.68},{80.05,81.68},{80.41,81.78},{81.14,82.33},{81.34,82.8},{81.65,82.73},{81.88,82.51},{82.08,82.29},{82.08,82.29},{82.43,82.43},{82.97,82.71},{83.24,82.85},{83.24,82.85},{83.92,83.22},{84.26,83.4},{84.46,83.52},{84.46,83.52},{85.01,83.82},{85.11,83.89},{85.56,84.19},{85.56,84.19},{84.94,83.77},{84.59,83.58},{84.42,83.49},{84.17,83.35},{83.87,83.18},{83.52,82.99},{83.13,82.79},{83.13,82.79},{82.79,82.62},{82.16,82.27},{82.03,82.07},{81.9,81.68},{81.73,81.44},{81.46,81.49},{80.96,81.93},{80.96,81.93},{80.25,81.78},{79.89,81.68},{79.55,81.65},{79.19,81.66},{78.83,81.64},{78.09,81.63},{77.73,81.68},{77.35,81.78},{77.03,81.81},{76.56,81.77},{76.21,81.63},{75.86,81.48},{75.52,81.31},{75.18,81.15},{74.83,80.97},{74.15,80.6},{73.84,80.42},{73.51,80.17},{73.2,79.9},{72.9,79.6},{72.61,79.27},{72.12,78.74},{72.12,78.74},{71.43,78.41},{71.35,78.39},{70.8,78.35},{70.45,78.25},{70.1,78.13},{69.39,77.88},{69.04,77.75},{68.69,77.6},{68.0,77.28},{67.65,77.15},{66.96,76.83},{66.62,76.65},{66.28,76.47},{65.94,76.28},{65.51,75.95},{65.34,75.73},{65.0,75.13},{64.81,74.67},{64.65,74.18},{64.38,73.45},{64.26,73.14},{63.99,72.64},{63.78,72.4},{63.5,72.11},{63.18,71.82},{62.83,71.55},{62.83,71.55},{62.45,71.32},{62.1,71.16},{61.43,70.81},{61.19,70.53},{61.19,70.53},{60.73,69.69},{60.5,69.27},{60.26,68.82},{60.23,68.37},{60.23,67.94},{60.54,67.55},{60.85,67.15},{61.12,66.78},{61.38,66.42},{61.64,66.04},{61.89,65.64},{62.13,65.24},{62.43,64.7},{62.63,64.25},{62.82,63.81},{62.99,63.33},{63.13,62.83},{63.29,61.85},{63.31,61.24},{63.22,60.72},{63.13,60.19},{63.03,59.67},{62.8,58.54},{62.71,58.02},{62.55,56.96},{62.5,56.42},{62.45,55.09},{62.45,54.75},{62.67,53.53},{62.67,53.53},{62.97,52.55},{63.11,52.13},{63.28,51.78},{63.5,51.34},{63.84,50.59},{63.85,50.28},{63.84,49.74},{63.8,48.88},{63.66,48.13},{63.59,47.85},{63.24,46.9},{63.05,46.44},{62.66,45.53},{62.33,44.71},{61.97,43.77},{61.78,43.3},{61.42,42.36},{61.24,41.89},{60.89,41.04},{60.4,40.25},{60.14,39.86},{59.88,39.49},{59.36,38.74},{59.09,38.37},{58.53,37.63},{58.23,37.34},{57.92,37.05},{57.59,36.74},{56.96,36.19},{56.45,35.78},{56.45,35.78},{55.76,35.45},{55.41,35.34},{54.7,35.16},{54.34,35.07},{53.63,34.91},{53.27,34.85},{52.55,34.72},{52.19,34.64},{51.48,34.46},{51.12,34.36},{50.42,34.13},{50.06,34.01},{49.36,33.78},{48.84,33.59},{48.16,33.24},{47.82,33.04},{46.93,32.52},{46.56,32.28},{46.29,32.12},{45.95,31.93},{45.56,31.69},{45.22,31.58},{44.89,31.51},{44.56,31.38},{44.21,31.24},{43.53,30.88},{42.86,30.6},{42.53,30.4},{42.19,30.2},{41.65,29.87},{41.32,29.66},{40.98,29.47},{40.65,29.27},{39.97,28.87},{39.64,28.67},{39.05,28.43},{38.67,28.63},{38.35,28.88},{38.02,29.13},{37.55,29.46},{37.55,29.46},{36.83,29.42},{36.83,29.42},{36.11,29.42},{35.75,29.41},{35.09,29.29},{34.84,29.23},{34.38,29.1},{33.94,28.88},{33.62,28.64},{33.34,28.41},{33.07,28.14},{32.67,27.62},{32.4,27.27},{32.12,26.91},{31.75,26.39},{31.48,25.92},{31.48,25.92},{31.38,25.0},{31.22,24.6},{31.13,24.22},{31.09,23.68},{31.04,23.14},{30.99,22.61},{30.93,21.62},{30.93,21.62},{30.89,20.71},{30.88,20.05},{30.88,20.05},{30.87,19.04},{30.98,18.69},{30.82,18.46},{30.72,18.72},{30.84,19.02},{30.84,19.43},{30.85,20.06},{30.85,20.06},{30.87,20.6},{30.92,21.68},{30.96,22.22},{31.0,22.76},{31.04,23.3},{31.13,24.27},{31.27,24.78},{31.42,25.27},{31.42,25.27},{31.59,26.14},{31.78,26.48},{32.14,26.95},{32.41,27.31},{32.69,27.66},{32.96,28.02},{33.45,28.61},{33.71,28.78},{33.71,28.78},{34.42,29.13},{34.77,29.22},{35.26,29.31},{35.61,29.37},{36.14,29.42},{36.14,29.42},{36.86,29.43},{37.41,29.43},{37.67,29.38},{37.97,29.22},{37.97,29.22},{38.45,28.82},{38.73,28.62},{38.73,28.62},{39.34,28.53},{39.64,28.68},{39.64,28.68},{40.32,29.07},{40.65,29.26},{41.33,29.66},{41.64,29.84},{41.97,30.05},{42.3,30.27},{42.63,30.48},{42.97,30.66},{43.53,30.94},{43.88,31.1},{44.22,31.26},{44.57,31.4},{44.92,31.55},{45.52,31.69},{45.76,31.82},{46.08,32.05},{46.42,32.25},{46.76,32.45},{47.43,32.83},{47.77,33.02},{48.11,33.21},{48.79,33.59},{49.38,33.88},{49.73,33.99},{50.09,34.1},{50.44,34.2},{51.15,34.41},{51.86,34.6},{52.22,34.67},{52.94,34.81},{53.66,34.96},{54.37,35.12},{54.73,35.17},{55.36,35.29},{56.05,35.6},{56.39,35.79},{56.72,36.01},{57.36,36.52},{57.67,36.8},{58.28,37.38},{58.73,37.84},},}},
@@ -1707,22 +1465,14 @@ function QuestieNPCFixes:Load()
             },
         },
         [12580] = {
-            [npcKeys.name] = "Reginald Windsor",
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{69.56,85.9},{73.52,23.41},{67.82,82.49},{65.66,78.08},{69.67,28.27},},},
-        },
-        [12677] = {
-            [npcKeys.waypoints] = {[zoneIDs.ASHENVALE]={{{57.44,56.08},{57.23,56.0},{56.99,55.89},{56.7,55.76},{56.43,55.63},{56.08,55.5},{55.76,55.42},{55.55,55.38},{55.16,55.26},{54.92,55.11},{54.69,54.97},{54.43,54.92},{54.59,54.74},{54.93,54.88},{55.17,55.01},{55.35,55.12},{55.67,55.35},{56.0,55.5},{56.33,55.66},{56.56,55.77},{56.93,55.94},{57.07,55.98},{57.4,56.05},{57.73,55.95},{57.86,55.87},{58.0,55.78},{58.1,55.7},{58.38,55.5},{58.57,55.31},{58.83,55.2},{59.04,54.79},{59.19,54.33},{59.44,54.02},{59.25,54.26},{59.04,54.59},{58.92,54.85},{58.79,55.35},{58.59,55.53},{58.33,55.7},{58.08,55.77},{57.83,55.88},{57.71,55.93},},},},
-        },
-        [12678] = {
-            [npcKeys.waypoints] = {[zoneIDs.ASHENVALE]={{{41.93,68.6},{41.81,68.29},{41.69,67.98},{41.52,67.57},{41.45,67.23},{41.41,66.81},{41.48,66.42},{41.67,65.74},{41.85,65.48},{42.01,65.21},{42.17,64.94},{42.36,64.63},{42.44,64.53},{42.66,64.37},{42.88,64.25},{43.11,64.13},{43.6,63.94},{43.78,64.01},{44.05,64.22},{44.3,64.62},{44.44,65.15},{44.57,65.46},{44.61,65.76},{44.62,66.22},{44.59,66.79},{44.56,67.27},{44.46,67.85},{44.31,68.29},{44.05,68.56},{43.81,68.51},{43.37,68.4},{43.04,68.42},{42.84,68.42},{42.53,68.45},{42.25,68.59},},},},
         },
         [12759] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE]={{46,70},},},
             [npcKeys.waypoints] = {[zoneIDs.ASHENVALE]={{{46,70},{47,70},{48,69},{48,70},{49,71},{51,70},{51,71},{51,72},},}},
         },
         [12860] = {
-            [npcKeys.name] = "Duriel Moonfire",
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{64.63,75.34},},},
         },
@@ -1730,7 +1480,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46.2,90.2},{47.8,90.6},{48,92.4},{48.2,92.6},{48.4,95.4},{48.4,95.6},{48.6,95.4},{48.6,95.6},},},
         },
         [12876] = {
-            [npcKeys.name] = "Baron Aquanis",
             [npcKeys.zoneID] = zoneIDs.BLACKFATHOM_DEEPS,
             [npcKeys.spawns] = {[zoneIDs.BLACKFATHOM_DEEPS] = {{-1,-1},},},
         },
@@ -1739,7 +1488,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.SWAMP_OF_SORROWS]={{{76,66.6},{76.9,68.8},{78.4,70.1},{79.8,70.9},{81.2,71.1},{82.6,71.1},{83.9,70.3},{84.8,67.4},{85.1,65.5},{85.2,62.8},{86.1,60.6},{86.6,57.7},{86.5,54.8},{85.3,52.1},{84.4,49.6},{83.3,46.6},{81.5,45.1},{79.8,46.3},{78.7,48.4},{78.5,50.7},{78.5,52.9},{78.6,55.4},{78.9,57.5},{78.5,59.1},{77.7,60.4},{76.8,62.4},{76,64.3},{76,66.6},},}},
         },
         [12918] = {
-            [npcKeys.name] = "Chief Murgut",
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{56.43,63.5},},},
         },
@@ -1762,17 +1510,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{67.79,49.06},},},
         },
         [12940] = {
-            [npcKeys.name] = "Vorsha the Lasher",
             [npcKeys.zoneID] = zoneIDs.ASHENVALE,
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.57,27.56},},},
         },
         [12976] = {
-            [npcKeys.name] = "Kolkar Waylayer",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.95,43.74},{67.73,52},},},
         },
         [12977] = {
-            [npcKeys.name] = "Kolkar Ambusher",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{67.91,43.72},{67.72,51.99},},},
         },
@@ -1788,7 +1533,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [13136] = {
-            [npcKeys.name] = "Hive'Ashi Drone",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{61.73,52.51},{62.79,49.69},},},
         },
@@ -1802,7 +1546,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{44.9,14.6},{49.84,85.91},},},
         },
         [13279] = {
-            [npcKeys.name] = "Discordant Surge",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{71.43,34.56},{51.02,48.94},},},
         },
@@ -1884,7 +1627,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [13456] = {
-            [npcKeys.name] = "Noxxion's Spawn",
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
@@ -1957,32 +1699,26 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [13696] = {
-            [npcKeys.name] = "Noxxious Scion",
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
         [13716] = {
-            [npcKeys.name] = "Celebras the Redeemed",
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1},},},
         },
         [13739] = {
-            [npcKeys.name] = "Maraudos",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{30.37,54.62},},},
         },
         [13740] = {
-            [npcKeys.name] = "Magra",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{35.18,60.2},},},
         },
         [13741] = {
-            [npcKeys.name] = "Gelk",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{29.05,57.15},},},
         },
         [13742] = {
-            [npcKeys.name] = "Kolk",
             [npcKeys.zoneID] = zoneIDs.DESOLACE,
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{29.82,60.3},},},
         },
@@ -2025,7 +1761,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{37.8,50.29},{49.06,57.33},{44.08,50.17},{42.35,55},{47.26,54.65},},},
         },
         [14305] = {
-            [npcKeys.name] = "Human Orphan",
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
             [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{41.21,43.05},},[zoneIDs.DUSTWALLOW_MARSH] = {{66.29,49.08},},[zoneIDs.WESTFALL] = {{30.25,85.64},},[zoneIDs.STORMWIND_CITY] = {{47.32,38.58},},[zoneIDs.LOCH_MODAN] = {{47.71,14.26},},},
         },
@@ -2033,7 +1768,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44},},},
         },
         [14444] = {
-            [npcKeys.name] = "Orcish Orphan",
             [npcKeys.zoneID] = zoneIDs.UNDERCITY,
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{59.32,51.65},},[zoneIDs.THE_BARRENS] = {{47.91,5.49},{63.11,38.16},},[zoneIDs.ORGRIMMAR] = {{70.92,25.62},},[zoneIDs.UNDERCITY] = {{66.06,36.97},},},
         },
@@ -2042,62 +1776,50 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE, -- #1506
         },
         [14502] = {
-            [npcKeys.name] = "Xorothian Dreadsteed",
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1},},},
         },
         [14504] = {
-            [npcKeys.name] = "Dreadsteed Spirit",
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1},},},
         },
         [14506] = {
-            [npcKeys.name] = "Lord Hel'nurath",
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1},},},
         },
         [14515] = {
-            [npcKeys.name] = "High Priestess Arlokk",
             [npcKeys.zoneID] = zoneIDs.ZUL_GURUB,
             [npcKeys.spawns] = {[zoneIDs.ZUL_GURUB] = {{-1,-1},},},
         },
         [14516] = {
-            [npcKeys.name] = "Death Knight Darkreaver",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [14518] = {
-            [npcKeys.name] = "Aspect of Banality",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [14519] = {
-            [npcKeys.name] = "Aspect of Corruption",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [14520] = {
-            [npcKeys.name] = "Aspect of Malice",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [14521] = {
-            [npcKeys.name] = "Aspect of Shadow",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [14524] = {
-            [npcKeys.name] = "Vartrus the Ancient",
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{47.78,24.08},},},
         },
         [14525] = {
-            [npcKeys.name] = "Stoma the Ancient",
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{48.39,22.29},},},
         },
         [14526] = {
-            [npcKeys.name] = "Hastat the Ancient",
             [npcKeys.zoneID] = zoneIDs.FELWOOD,
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{46.7,24.06},},},
         },
@@ -2105,17 +1827,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UN_GORO_CRATER] = {{50.13,76.59},{31.31,44.93},{51.62,68.79},{45.03,61.14},},},
         },
         [14564] = {
-            [npcKeys.name] = "Terrordale Spirit",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{20.62,34.74},{16.87,32.52},},},
         },
         [14566] = {
-            [npcKeys.name] = "Ancient Equine Spirit",
             [npcKeys.zoneID] = zoneIDs.DIRE_MAUL,
             [npcKeys.spawns] = {[zoneIDs.DIRE_MAUL] = {{-1,-1},},},
         },
         [14568] = {
-            [npcKeys.name] = "Darkreaver's Fallen Charger",
             [npcKeys.zoneID] = zoneIDs.SCHOLOMANCE,
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
@@ -2182,13 +1901,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [14842] = {
-            [npcKeys.zoneID] = zoneIDs.IRONFORGE,
             [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{29.65,75.25},},},
-            [npcKeys.waypoints] = {[zoneIDs.IRONFORGE] = {{{31.64,78.36},{29.65,75.25},{27.58,71.68},{24.97,66.97},{23.38,62.81},{22.38,58.13},{21.78,54.25},{21.56,50.41},{21.48,47.63},{21.56,43.81},{21.73,40.75},{22.3,36.8},{22.9,34.03},{24.24,34.15},{24.76,35.01},{24.34,37.9},{24.49,39.16},{24.54,40.85},{24.19,44.54},{23.81,47.81},{24.47,52.25},{25.04,56.1},{25.33,58.08},{26.3,60.84},{28.78,65.23},{30.82,68.81},{32.21,71.26},{33.39,73.34},{34.68,75.28},{36.0,76.98},{37.81,78.22},{40.32,79.37},{41.78,79.98},{42.85,80.12},{44.2,80.44},{46.47,80.61},{47.45,80.77},{49.36,81.07},{50.27,81.22},{50.53,83.71},{49.19,84.47},{46.53,84.65},{43.28,84.31},{41.55,83.87},{38.55,82.34},{36.72,81.3},{34.22,79.88},},},},
         },
         [14843] = {
-            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.9,66.56},},},
             [npcKeys.waypoints] = {[zoneIDs.ORGRIMMAR] = {{{52.9,66.56},{52.18,65.03},{50.65,63.06},{49.57,61.45},{48.8,59.66},{47.62,59.31},{46.42,59.55},{45.38,60.66},{44.61,61.93},{44.18,62.91},{44.06,64.4},{44.46,66.06},{45.59,68.07},{46.15,69.06},{46.51,70.88},{47.32,72.9},{48.54,74.38},{49.63,75.51},{50.66,76.29},{51.66,76.39},{52.63,76.48},{53.79,74.35},{54.1,72.74},{53.82,71.14},{53.24,68.91},},[17]={{68.64,0.02},{68.76,0.3},{68.92,0.51},{69.07,0.67},{69.22,0.77},{69.36,0.79},{69.49,0.8},{69.65,0.5},{69.69,0.28},{69.65,0.06},},},},
         },
         [14845] = {
@@ -2266,37 +1981,30 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1},},},
         },
         [15205] = {
-            [npcKeys.name] = "Baron Kazum",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{40.11,45.21},{20.07,82.9},},},
         },
         [15206] = {
-            [npcKeys.name] = "The Duke of Cynders",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.43,45},{24.65,32.98},},},
         },
         [15207] = {
-            [npcKeys.name] = "The Duke of Fathoms",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.38,45.1},{17.17,84.51},},},
         },
         [15208] = {
-            [npcKeys.name] = "The Duke of Shards",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.39,45.13},{24.26,32.36},},},
         },
         [15209] = {
-            [npcKeys.name] = "Crimson Templar",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.59,44.18},{24.85,35.43},},},
         },
         [15211] = {
-            [npcKeys.name] = "Azure Templar",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.42,45.61},{38.89,42.5},{24.84,35.24},{18.54,81.98},},},
         },
         [15212] = {
-            [npcKeys.name] = "Hoary Templar",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.5,44.6},{18.63,82.14},{25.21,34.83},},},
         },
@@ -2304,17 +2012,14 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{50.5,99},},},
         },
         [15220] = {
-            [npcKeys.name] = "The Duke of Zephyrs",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.47,45.02},},},
         },
         [15305] = {
-            [npcKeys.name] = "Lord Skwol",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.8,45.3},{18.49,82.82},},},
         },
         [15307] = {
-            [npcKeys.name] = "Earthen Templar",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.48,44.4},{25.44,34.16},{18.32,81.48},},},
         },
@@ -2330,7 +2035,6 @@ function QuestieNPCFixes:Load()
             },
         },
         [15362] = {
-            [npcKeys.name] = "Malfurion Stormrage",
             [npcKeys.zoneID] = zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR,
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
         },
@@ -2342,7 +2046,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [15449] = {
-            [npcKeys.name] = "Hive'Zora Abomination",
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{32.74,52.64},},},
         },
@@ -2437,7 +2140,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [15517] = {
-            [npcKeys.name] = "Ouro",
             [npcKeys.zoneID] = zoneIDs.AHN_QIRAJ,
             [npcKeys.spawns] = {[zoneIDs.AHN_QIRAJ] = {{-1,-1},},},
         },
@@ -2484,23 +2186,14 @@ function QuestieNPCFixes:Load()
         [15565] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{39.79,63.67},},},
         },
-        [15567] = {
-            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE]={{21.46,78.97},},},
-        },
         [15570] = {
             [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{23.08,11.84},},},
         },
         [15573] = {
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{36.30,80.54},},},
         },
-        [15575] = {
-            [npcKeys.spawns] = {[zoneIDs.MULGORE]={{48.41,53.44},},},
-        },
         [15576] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{27.62,74.26},},},
-        },
-        [15584] = {
-            [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{45.43,50.08},},},
         },
         [15586] = {
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{51.47,27.85},},},
@@ -2510,12 +2203,6 @@ function QuestieNPCFixes:Load()
         },
         [15594] = {
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{69.18,73.45},},},
-        },
-        [15598] = {
-            [npcKeys.spawns] = {[zoneIDs.DARNASSUS]={{33.46,14.29},},},
-        },
-        [15603] = {
-            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{37.72,53.01},},},
         },
         [15604] = {
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{79.20,77.05},},},
@@ -2579,18 +2266,6 @@ function QuestieNPCFixes:Load()
         [15739] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{33.1,71.5},},},
         },
-        [15761] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{46.3,35.1},},},
-        },
-        [15763] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{69.7,46.0},},},
-        },
-        [15764] = {
-            [npcKeys.spawns] = {[zoneIDs.IRONFORGE] = {{43.2,46.5},},},
-        },
-        [15765] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{42.5,38.7},},},
-        },
         [15797] = {
             [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{49.47,37.3},},},
         },
@@ -2628,7 +2303,6 @@ function QuestieNPCFixes:Load()
             },
         },
         [16031] = {
-            [npcKeys.name] = "Ysida Harmon",
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{48.31,21.93},{31.14,15.84},},},
         },
@@ -2636,12 +2310,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
         [16059] = {
-            [npcKeys.name] = "Theldren",
             [npcKeys.zoneID] = zoneIDs.BLACKROCK_DEPTHS,
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1},},},
         },
         [16073] = {
-            [npcKeys.name] = "Spirit of Lord Valthalak",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1},},},
         },
@@ -2661,7 +2333,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE] = {{-1,-1},},},
         },
         [16143] = {
-            [npcKeys.name] = "Shadow of Doom",
             [npcKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{44.13,71.5},},},
         },
@@ -2706,7 +2377,6 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{63.8,75.6},},},
         },
         [16479] = {
-            [npcKeys.name] = "Polymorph Clone",
             [npcKeys.zoneID] = zoneIDs.AZSHARA,
             [npcKeys.spawns] = {[zoneIDs.AZSHARA] = {{29.94,53.51},{36.16,54.59},},},
         },
