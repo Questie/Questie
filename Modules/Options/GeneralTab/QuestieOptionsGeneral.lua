@@ -94,7 +94,8 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function() return Questie.db.char.hideUnexploredMapIcons; end,
                         set = function(info, value)
                             Questie.db.char.hideUnexploredMapIcons = value
-                            QuestieQuest:ToggleNotes(value);
+                            QuestieQuest:ToggleNotes(not value);
+                            QuestieQuest:SmoothReset()
                         end,
                     },
                     seperatingHeader1 = {

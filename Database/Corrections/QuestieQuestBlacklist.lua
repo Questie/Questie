@@ -16,6 +16,7 @@ function QuestieQuestBlacklist:Load()
         [615] = true, -- Duplicate of 8553. See #2215
         [618] = true, -- Duplicate of 8554
         [934] = true, -- Duplicate of 7383. See #2386
+        [960] = true, -- Duplicate of 961
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
@@ -25,6 +26,7 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
+        [9177] = true, -- Duplicate of 9180
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -742,7 +744,14 @@ function QuestieQuestBlacklist:Load()
         [10872] = true, -- Zuluhed the Whacked
         [10925] = true, -- Evil Draws Near
 
+        -- <NYI> quests
+        [3482] = true, -- <NYI> <TXT> The Pocked Black Box
+        [7741] = true, -- Praise from the Emerald Circle <NYI> <TXT>
+        [8339] = true, -- Royalty of the Council <NYI> <TXT> UNUSED
+        [8340] = true, -- Twilight Signet Ring <NYI> <TXT>
+
         -- [Not Used] quests
+        [620] = true, -- UNUSED The Monogrammed Sash
         [1390] = true, -- BETA Oops, We Killed Them Again.
         [2019] = true, -- Tools of the Trade
         [5383] = true, -- Krastinov's Bag of Horrors
@@ -750,12 +759,18 @@ function QuestieQuestBlacklist:Load()
         [8618] = true, -- The Horde Needs More Singed Corestones!
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
+        [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
         [10970] = true, -- A Mission of Mercy (Retail Only)
 
+        [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
+        [8329] = true, -- Warrior Training / Not in the game
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
+
+        [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+        [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
 
         -- [OLD] quests. Classic quests deprecated in TBC
         [708] = true,
@@ -835,6 +850,8 @@ function QuestieQuestBlacklist:Load()
         [8443] = true,
         [9712] = true,
         [10377] = true,
+        [10459] = true,
+        [10558] = true,
         [11052] = true,
 
         -- Phase 2 - Serpentshrine Cavern, Tempest Keep
@@ -950,6 +967,7 @@ function QuestieQuestBlacklist:Load()
         -- Phase 4 Zul'Aman
         [11130] = true,
         [11132] = true,
+        [11163] = true,
         [11164] = true,
         [11178] = true,
         [11196] = true,

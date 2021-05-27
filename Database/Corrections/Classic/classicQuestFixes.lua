@@ -229,6 +229,9 @@ function QuestieQuestFixes:Load()
         [535] = {
             [questKeys.parentQuest] = 533,
         },
+        [546] = {
+            [questKeys.preQuestSingle] = {527},
+        },
         [549] = {
             [questKeys.nextQuestInChain] = 566, -- #1134
         },
@@ -456,9 +459,6 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {944}, -- #1517
             [questKeys.exclusiveTo] = {950}, -- #1517
         },
-        [968] = {
-            [questKeys.startedBy] = {{2338,2339},nil,{5352,},},
-        },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39},},},},
         },
@@ -631,6 +631,9 @@ function QuestieQuestFixes:Load()
         },
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
+        },
+        [1388] = {
+            [questKeys.preQuestSingle] = {1383},
         },
         [1392] = {
             [questKeys.startedBy] = {{5477},nil,{6196}},

@@ -103,7 +103,6 @@ function QuestieSearch:Search(query, searchType, queryType)
     end
     local database = favorites[searchType];
     local queryLength = string.len(query)
-    -- We have a query meeting the minimal search length criteria, change to actualDatabase
 
     if (queryLength < minLengthChars) and (tonumber(query) == nil or queryLength < minLengthInt) then
         databaseKeys = database;

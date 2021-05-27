@@ -89,7 +89,6 @@ function l10n:PostBoot()
 
     l10n.continentLookup = l10n.continentLookup[locale] or l10n.continentLookup["enUS"] or {}
     l10n.zoneLookup = l10n.zoneLookup[locale] or l10n.zoneLookup["enUS"] or {}
-    l10n.zoneCategoryLookup = l10n.zoneCategoryLookup[locale] or l10n.zoneCategoryLookup["enUS"] or {}
     l10n.questCategoryLookup = l10n.questCategoryLookup[locale] or l10n.questCategoryLookup["enUS"] or {}
 end
 
