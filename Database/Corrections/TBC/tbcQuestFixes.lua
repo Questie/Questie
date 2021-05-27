@@ -384,6 +384,9 @@ function QuestieTBCQuestFixes:Load()
         [9501] = {
             [questKeys.questLevel] = -1,
         },
+        [9523] = {
+            [questKeys.preQuestSingle] = {9506,9512,},
+        },
         [9527] = {
             [questKeys.preQuestSingle] = {},
         },
