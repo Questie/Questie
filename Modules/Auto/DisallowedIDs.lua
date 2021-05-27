@@ -32,7 +32,9 @@ _QuestieAuto.disallowedNPC = {
     -- Stray
     [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
     [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
+    [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
     [15192] = true, -- Anachronos (Caverns of Time)
+    [18166] = true, -- Khadgar (Allegiance to Aldor/Scryer, Shattrath)
     -- AQ gear turnin
     [15378] = true,
     [15380] = true,
@@ -114,6 +116,8 @@ _QuestieAuto.disallowedQuests = {
     [5068] = true,
     [8196] = true,
     [9338] = true, -- Allegiance to Cenarion Circle
+    [10346] = true, -- Gryphoneer Windbellow (Return to the Abyssal Shelf) (Alliance)
+    [10347] = true, -- Wing Commander Brack (Return to the Abyssal Shelf) (Horde)
     -- The Barrens Bloodshard quests
     [889] = true,
     [5042] = true,
