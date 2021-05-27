@@ -281,6 +281,9 @@ function QuestieTBCQuestFixes:Load()
         [9174] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
+        [9177] = {
+            [questKeys.finishedBy] = {{10181},nil,nil},
+        },
         [9181] = {
             [questKeys.specialFlags] = 1,
         },
