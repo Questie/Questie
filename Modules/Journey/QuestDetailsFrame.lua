@@ -88,13 +88,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             return
         end
         
-        local continent = l10n("Unknown Zone")
-        for category, data in pairs(l10n.zoneLookup) do
-            if data[startindex] then
-                continent = l10n.zoneLookup[category][startindex]
-                break
-            end
-        end
+        local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
         startNPCZoneLabel:SetText(continent)
         startNPCZoneLabel:SetFullWidth(true)
@@ -178,12 +172,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 startindex = i
             end
 
-            local continent = l10n("Unknown Zone")
-            for i, v in ipairs(QuestieJourney.zones) do
-                if v[startindex] then
-                    continent = QuestieJourney.zones[i][startindex]
-                end
-            end
+            local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
             startObjectZoneLabel:SetText(continent)
             startObjectZoneLabel:SetFullWidth(true)
@@ -269,13 +258,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             endindex = i
         end
 
-        local continent = l10n("Unknown Zone")
-        for i, v in ipairs(QuestieJourney.zones) do
-            if v[endindex] then
-                continent = QuestieJourney.zones[i][endindex]
-            end
-        end
-
+        local continent = QuestieJourneyUtils:GetZoneName(startindex)
+        
         endNPCZoneLabel:SetText(continent)
         endNPCZoneLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCZoneLabel)

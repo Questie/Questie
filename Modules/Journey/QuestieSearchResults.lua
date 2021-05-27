@@ -225,14 +225,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             end
         end
 
-        local continent = l10n("Unknown Zone");
-        for category, data in pairs(l10n.zoneLookup) do
-            if data[startindex] then
-                continent = l10n.zoneLookup[category][startindex];
-                break;
-            end
-        end
-
+        local continent = QuestieJourneyUtils:GetZoneName(startindex)
+        
         spawnZone:SetText(continent);
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
