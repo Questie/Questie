@@ -89,9 +89,10 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         end
         
         local continent = l10n("Unknown Zone")
-        for i, v in ipairs(QuestieJourney.zones) do
-            if v[startindex] then
-                continent = QuestieJourney.zones[i][startindex]
+        for category, data in pairs(l10n.zoneLookup) do
+            if data[startindex] then
+                continent = l10n.zoneLookup[category][startindex]
+                break
             end
         end
 
