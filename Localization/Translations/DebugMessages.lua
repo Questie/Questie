@@ -340,7 +340,7 @@ local debugMessagesLocales = {
     },
     ["The quest %s is missing from Questie's database, Please report this on GitHub or Discord!"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Задание %s отсутствует в БД Questie. Пожалуйста, сообщите нам об этом на GitHub или в Discord!",
         ["frFR"] = nil,
         ["koKR"] = nil,
         ["zhCN"] = nil,
