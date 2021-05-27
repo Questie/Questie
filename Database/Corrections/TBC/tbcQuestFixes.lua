@@ -1403,6 +1403,9 @@ function QuestieTBCQuestFixes:Load()
         [11047] = {
             [questKeys.exclusiveTo] = {11048},
         },
+        [11056] = {
+            [questKeys.preQuestSingle] = {11028},
+        },
         [11057] = {
             [questKeys.requiredLevel] = 70,
         },
