@@ -67,6 +67,7 @@ _QuestieAuto.disallowedQuests = {
     [1222] = true, -- Stinky Ignatz (Stinky's Escape)
     [1270] = true, -- Stinky Ignatz (Stinky's Escape)
     [1273] = true, -- Ogron (Questioning Reethe)
+    [1324] = true, -- Private Hendel (The Missing Diplomat)
     [1393] = true, -- Galen Goodward (Galen's Escape)
     [1440] = true, -- Dalinda Malem (Return to Vahlarriel)
     [1560] = true, -- Tooga (Tooga's Quest)
