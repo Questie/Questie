@@ -52,5 +52,8 @@ Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEven
 -- preinit placeholder to stop tukui crashing from literally force-removing one of our features no matter what users select in the config ui
 Questie.db = {profile={minimap={hide=false}}}
 
+-- prevent multiple warnings for the same ID, not sure the best place to put this
+Questie._sessionWarnings = {}
+
 Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC

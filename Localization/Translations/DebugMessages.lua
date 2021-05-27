@@ -337,6 +337,18 @@ local debugMessagesLocales = {
         ["deDE"] = "Fehler während der Initialisierung!",
         ["esES"] = nil,
         ["esMX"] = nil,
+    },
+    ["The quest %s is missing from Questie's database, Please report this on GitHub or Discord!"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
+        ["frFR"] = nil,
+        ["koKR"] = nil,
+        ["zhCN"] = nil,
+        ["enUS"] = true,
+        ["zhTW"] = nil,
+        ["deDE"] = "Der Quest %s fehlt in Questie's Datenbank, bitte melde dies auf GitHub oder Discord!",
+        ["esES"] = nil,
+        ["esMX"] = nil,
     }
 }
 
