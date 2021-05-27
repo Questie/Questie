@@ -239,7 +239,7 @@ function ZoneDB:GetRelevantZones()
             if (not zoneQuests) then
                 zones[category][id] = nil
             else
-                zones[category][id] = l10n.zoneCategoryLookup[locale][id] or zoneName
+                zones[category][id] = l10n.zoneCategoryLookup[locale][category][id] or zoneName
             end
         end
     end
