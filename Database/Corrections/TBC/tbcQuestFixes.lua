@@ -819,17 +819,6 @@ function QuestieTBCQuestFixes:Load()
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483,},
         },
-        [10094] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
-        },
-        [10095] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
-        },
-        [10097] = {
-            [questKeys.requiredMaxRep]= {934,0},
-        },
         [10226] = {
             [questKeys.objectives] = {nil,nil,{{28548,"Zap Sundered Rumblers and Warp Aberrations before killing them"},},nil,},
         },
@@ -1449,7 +1438,16 @@ function QuestieTBCQuestFixes:Load()
         [11090] = {
             [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79},},}},
         },
+        [11094] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [11095] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
         [11097] = {
+            [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
         [11099] = {
