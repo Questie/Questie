@@ -258,7 +258,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             endindex = i
         end
 
-        local continent = QuestieJourneyUtils:GetZoneName(startindex)
+        local continent = QuestieJourneyUtils:GetZoneName(endindex)
         
         endNPCZoneLabel:SetText(continent)
         endNPCZoneLabel:SetFullWidth(true)
