@@ -194,6 +194,18 @@ local townsfolkLocales = {
         ["esES"] = "Maestro de establos",
         ["frFR"] = "Maître des écuries",
     },
+    ["Portal Trainer"] = {
+        ["ptBR"] = "Treinamento de Portais",
+        ["ruRU"] = "Мастер порталов",
+        ["deDE"] = "Portallehrer",
+        ["koKR"] = "순간이동 전문 마법사",
+        ["esMX"] = "Instructor de portal",
+        ["enUS"] = true,
+        ["zhCN"] = "传送门训练师",
+        ["zhTW"] = "傳送門訓練師",
+        ["esES"] = "Instructor de portal",
+        ["frFR"] = "Maître des portails",
+    },
     ["Trade Goods"] = {
         ["ptBR"] = nil,
         ["ruRU"] = "Хозяйственные товары",
