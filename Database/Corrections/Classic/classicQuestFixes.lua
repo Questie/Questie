@@ -820,14 +820,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1192
         },
         [1861] = {
-            [questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [questKeys.exclusiveTo] = {1880}, -- #1192
         },
         [1879] = {
             [questKeys.exclusiveTo] = {}, -- #1192
         },
         [1880] = {
-            [questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [questKeys.exclusiveTo] = {1861}, -- #1192
         },
         [1882] = {
@@ -839,6 +837,9 @@ function QuestieQuestFixes:Load()
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn", 0, {{"monster", 6492}}}}
+        },
+        [1939] = {
+            [questKeys.startedBy] = {{5144,5497},nil,nil,},
         },
         [1943] = {
             [questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
