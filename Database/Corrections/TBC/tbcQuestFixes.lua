@@ -146,6 +146,9 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
         },
+        [7484] = {
+            [questKeys.specialFlags] = 1,
+        },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000}
         },
