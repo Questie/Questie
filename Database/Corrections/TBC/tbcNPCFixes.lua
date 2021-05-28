@@ -28,6 +28,13 @@ function QuestieTBCNpcFixes:Load()
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8},},}, -- New position in TBC
         },
+        [5676] = {
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+            [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{27,15.2},},[zoneIDs.UNDERCITY] = {{86.51,26.94},},[zoneIDs.STORMWIND_CITY] = {{25.16,77.49},},[zoneIDs.ORGRIMMAR] = {{49.66,50.14},},},
+        },
+        [8580] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
+        },
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0},},},
             [npcKeys.waypoints] = {},
@@ -304,6 +311,14 @@ function QuestieTBCNpcFixes:Load()
         },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [178420] = {
+            [npcKeys.name] = "Magister Astalor Bloodsworn",
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5},},},
+            [npcKeys.friendlyToFaction] = "H",
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the

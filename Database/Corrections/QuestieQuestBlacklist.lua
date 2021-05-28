@@ -759,16 +759,35 @@ function QuestieQuestBlacklist:Load()
         [8618] = true, -- The Horde Needs More Singed Corestones!
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
+		[9599] = true, -- <UNUSED>
         [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
-        [10970] = true, -- A Mission of Mercy (Retail Only)
+        [10970] = true, -- A Mission of Mercy (Retail Only)rd
 
         [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [8329] = true, -- Warrior Training / Not in the game
+        [9681] = true, -- Replaced with [A Study in Power (64319)]
+        [9684] = true, -- Replaced with [Claiming the Light (63866)]
+        [9721] = true, -- Replaced with [A Summons from Lady Liadrin (64139)]
+        [9722] = true, -- Replaced with [The Master's Path (64140)]
+        [9723] = true, -- Replaced with [A Gesture of Commitment (64141)]
+        [9725] = true, -- Replaced with [A Demonstration of Loyalty (64142)]
+        [9735] = true, -- Replaced with [True Masters of the Light (64143)]
+        [9736] = true, -- Replaced with [True Masters of the Light (64144)]
+        [9737] = true, -- Replaced with [True Masters of the Light  (64145)]
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
+        [10364] = true, -- Caedmos (Unavailable Priest quest)
+        [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
+        [10534] = true, -- Returning Home (Unavailable Priest quest)
+        [10539] = true, -- Returning Home (Unavailable Priest quest)
+        [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
         [10779] = true, -- The Hunter's Path (Unused)
+        [10931] = true, -- Level 0 Priest quest
+        [10932] = true, -- Level 0 Priest quest
+        [10933] = true, -- Level 0 Priest quest
+        [10934] = true, -- Level 0 Priest quest
 
         [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
         [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
@@ -974,7 +993,6 @@ function QuestieQuestBlacklist:Load()
         [11196] = true,
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
-        [9684] = true, -- Remember to blacklist 63866 and change the item source of 24156 to NPC 17845
         [11481] = true,
         [11482] = true,
         [11488] = true,

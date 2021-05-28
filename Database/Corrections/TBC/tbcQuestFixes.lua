@@ -167,6 +167,9 @@ function QuestieTBCQuestFixes:Load()
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
+        [8259] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [8325] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
@@ -311,9 +314,23 @@ function QuestieTBCQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9287] = {
+            [questKeys.preQuestSingle] = {9280},
+        },
         [9288] = {
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
             [questKeys.preQuestSingle] = {9280},
+        },
+        [9289] = {
+            [questKeys.preQuestSingle] = {9280},
+        },
+        [9290] = {
+            [questKeys.preQuestSingle] = {9280},
+            [questKeys.startedBy] = {{16500,},nil,nil,},
+        },
+        [9291] = {
+            [questKeys.preQuestSingle] = {9280},
+            [questKeys.startedBy] = {{16502,},nil,nil,},
         },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
@@ -450,6 +467,9 @@ function QuestieTBCQuestFixes:Load()
         [9594] = {
             [questKeys.startedBy] = {{17528},nil,{23900,},},
         },
+        [9601] = {
+            [questKeys.startedBy] = {{16681,20406},nil,nil,},
+        },
         [9607] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93},},}},
         },
@@ -490,6 +510,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9678] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Light the brazier", 0, {{"object", 181956}}}},
+        },
+        [9685] = {
+            [questKeys.preQuestSingle] = {9684,63866,},
         },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
@@ -1703,7 +1726,7 @@ function QuestieTBCQuestFixes:Load()
 
         [63866] = {
             [questKeys.name] = "Claiming the Light",
-            [questKeys.startedBy] = {{17718},nil,nil},
+            [questKeys.startedBy] = {{178420},nil,nil},
             [questKeys.finishedBy] = {{17717},nil,nil},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
@@ -1712,7 +1735,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
             [questKeys.objectives] = {nil,nil,{{24156},},nil,},
             [questKeys.sourceItemId] = 24157,
-            [questKeys.preQuestSingle] = {9681},
+            [questKeys.preQuestSingle] = {9681,64319},
             [questKeys.zoneOrSort] = -141,
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
@@ -1826,7 +1849,7 @@ function QuestieTBCQuestFixes:Load()
         [64319] = {
             [questKeys.name] = "A Study in Power",
             [questKeys.startedBy] = {{17717},nil,nil},
-            [questKeys.finishedBy] = {{17718},nil,nil},
+            [questKeys.finishedBy] = {{178420},nil,nil},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
