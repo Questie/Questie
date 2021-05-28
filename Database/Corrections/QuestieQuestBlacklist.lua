@@ -759,12 +759,12 @@ function QuestieQuestBlacklist:Load()
         [8618] = true, -- The Horde Needs More Singed Corestones!
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
-		[9599] = true, -- <UNUSED>
+        [9599] = true, -- <UNUSED>
         [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
-        [10970] = true, -- A Mission of Mercy (Retail Only)rd
+        [10970] = true, -- A Mission of Mercy (Retail Only)
 
         [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
         [8329] = true, -- Warrior Training / Not in the game
