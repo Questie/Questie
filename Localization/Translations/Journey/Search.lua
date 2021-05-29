@@ -148,7 +148,7 @@ local searchLocales = {
     },
     ["Found in"] = {
         ["ptBR"] = "Encontrado em",
-        ["ruRU"] = "Найдено в",
+        ["ruRU"] = "Находится в",
         ["deDE"] = "Gefunden in",
         ["koKR"] = nil,
         ["esMX"] = "Encontrado en",
