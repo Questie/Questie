@@ -28,6 +28,13 @@ function QuestieTBCNpcFixes:Load()
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS] = {{8.4,61.8},},}, -- New position in TBC
         },
+        [5676] = {
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
+            [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{27,15.2},},[zoneIDs.UNDERCITY] = {{86.51,26.94},},[zoneIDs.STORMWIND_CITY] = {{25.16,77.49},},[zoneIDs.ORGRIMMAR] = {{49.66,50.14},},},
+        },
+        [8580] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1},},},
+        },
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0},},},
             [npcKeys.waypoints] = {},
@@ -299,11 +306,22 @@ function QuestieTBCNpcFixes:Load()
         [23861] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{52.2,22.2},{52.4,24.2},{52.4,24.6},{52.4,27.4},{52.8,27.6},{53.0,21.6},{53.0,23.6},{53.0,27.2},{53.4,20.8},{53.6,27.8},{54.0,23.0},{54.0,29.0},{54.4,25.0},{55.0,21.4},{55.2,22.6},{55.4,22.0},{55.4,24.0},{55.8,21.0},{55.8,22.6},{56.0,24.0},{56.0,28.2},{56.0,28.6},{56.4,22.4},{56.4,27.4},{56.8,22.4},{56.8,23.4},{56.8,25.0},{57.0,23.8},{57.0,26.2},{57.0,30.4},{57.2,21.0},{57.2,26.8},{57.2,28.2},{57.4,30.6},{57.6,21.4},{57.6,23.2},{57.6,27.8},{57.6,28.8},{58.2,22.0},{58.2,26.4},{58.6,22.4},{58.6,26.0},{58.8,23.4},{59.2,25.0},},},
         },
+        [24782] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{16.9,33.4},},},
+        },
         [24885] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8},},},
         },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
+        },
+        [178420] = {
+            [npcKeys.name] = "Magister Astalor Bloodsworn",
+            [npcKeys.minLevel] = 60,
+            [npcKeys.maxLevel] = 60,
+            [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5},},},
+            [npcKeys.friendlyToFaction] = "H",
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the

@@ -146,6 +146,9 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
         },
+        [7484] = {
+            [questKeys.specialFlags] = 1,
+        },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000}
         },
@@ -166,6 +169,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [8259] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8325] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -281,6 +287,9 @@ function QuestieTBCQuestFixes:Load()
         [9174] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
+        [9177] = {
+            [questKeys.finishedBy] = {{10181},nil,nil},
+        },
         [9181] = {
             [questKeys.specialFlags] = 1,
         },
@@ -308,8 +317,23 @@ function QuestieTBCQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9287] = {
+            [questKeys.preQuestSingle] = {9280},
+        },
         [9288] = {
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
+            [questKeys.preQuestSingle] = {9280},
+        },
+        [9289] = {
+            [questKeys.preQuestSingle] = {9280},
+        },
+        [9290] = {
+            [questKeys.preQuestSingle] = {9280},
+            [questKeys.startedBy] = {{16500,},nil,nil,},
+        },
+        [9291] = {
+            [questKeys.preQuestSingle] = {9280},
+            [questKeys.startedBy] = {{16502,},nil,nil,},
         },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
@@ -375,11 +399,17 @@ function QuestieTBCQuestFixes:Load()
         [9489] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
+        [9498] = {
+            [questKeys.preQuestSingle] = {10123},
+        },
         [9500] = {
             [questKeys.questLevel] = -1,
         },
         [9501] = {
             [questKeys.questLevel] = -1,
+        },
+        [9523] = {
+            [questKeys.preQuestSingle] = {9506,9512,},
         },
         [9527] = {
             [questKeys.preQuestSingle] = {},
@@ -440,6 +470,9 @@ function QuestieTBCQuestFixes:Load()
         [9594] = {
             [questKeys.startedBy] = {{17528},nil,{23900,},},
         },
+        [9601] = {
+            [questKeys.startedBy] = {{16681,20406},nil,nil,},
+        },
         [9607] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93},},}},
         },
@@ -480,6 +513,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9678] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Light the brazier", 0, {{"object", 181956}}}},
+        },
+        [9685] = {
+            [questKeys.preQuestSingle] = {9684,63866,},
         },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
@@ -812,17 +848,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483,},
-        },
-        [10094] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
-        },
-        [10095] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
-        },
-        [10097] = {
-            [questKeys.requiredMaxRep]= {934,0},
         },
         [10226] = {
             [questKeys.objectives] = {nil,nil,{{28548,"Zap Sundered Rumblers and Warp Aberrations before killing them"},},nil,},
@@ -1400,6 +1425,9 @@ function QuestieTBCQuestFixes:Load()
         [11047] = {
             [questKeys.exclusiveTo] = {11048},
         },
+        [11056] = {
+            [questKeys.preQuestSingle] = {11028},
+        },
         [11057] = {
             [questKeys.requiredLevel] = 70,
         },
@@ -1440,7 +1468,16 @@ function QuestieTBCQuestFixes:Load()
         [11090] = {
             [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79},},}},
         },
+        [11094] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [11095] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
         [11097] = {
+            [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
         [11099] = {
@@ -1692,7 +1729,7 @@ function QuestieTBCQuestFixes:Load()
 
         [63866] = {
             [questKeys.name] = "Claiming the Light",
-            [questKeys.startedBy] = {{17718},nil,nil},
+            [questKeys.startedBy] = {{178420},nil,nil},
             [questKeys.finishedBy] = {{17717},nil,nil},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
@@ -1701,7 +1738,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
             [questKeys.objectives] = {nil,nil,{{24156},},nil,},
             [questKeys.sourceItemId] = 24157,
-            [questKeys.preQuestSingle] = {9681},
+            [questKeys.preQuestSingle] = {9681,64319},
             [questKeys.zoneOrSort] = -141,
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
@@ -1815,7 +1852,7 @@ function QuestieTBCQuestFixes:Load()
         [64319] = {
             [questKeys.name] = "A Study in Power",
             [questKeys.startedBy] = {{17717},nil,nil},
-            [questKeys.finishedBy] = {{17718},nil,nil},
+            [questKeys.finishedBy] = {{178420},nil,nil},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
