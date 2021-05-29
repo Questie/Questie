@@ -136,7 +136,7 @@ local myJourneyLocales = {
     },
     ["Accepted"] = {
         ["ptBR"] = "Aceita",
-        ["ruRU"] = "Принято",
+        ["ruRU"] = "принято",
         ["deDE"] = "Angenommen",
         ["koKR"] = "수락",
         ["esMX"] = "Aceptada",
