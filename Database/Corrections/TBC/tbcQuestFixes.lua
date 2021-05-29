@@ -1123,11 +1123,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
         },
         [10606] = {
-            [questKeys.requiredSourceItems] = {30712},
+            [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil},},nil,},
         },
         [10609] = {
             -- TODO: Change the ICON_TYPE_OBJECT in the database references, once that is supported. {"monster", 20021} -> {"monster", 20021, ICON_TYPE_SLAY}
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches", 0, {{"object", 184867}, {"monster", 20021}}}},
+        },
+        [10611] = {
+            [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil},},nil,},
         },
         [10612] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel", 0, {{"object", 185057}}}}
