@@ -854,6 +854,7 @@ function QuestieDBCompiler:Compile()
     Questie.db.global.dbCompiledOnVersion = QuestieLib:GetAddonVersionString()
     Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
     Questie.db.global.dbIsCompiled = true
+    Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
 
     if Questie.db.global.debugEnabled then
         Questie:Debug(DEBUG_DEVELOP, "Validating objects...")

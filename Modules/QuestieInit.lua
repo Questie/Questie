@@ -104,7 +104,8 @@ function QuestieInit:InitAllModules()
         QuestieCorrections:MinimalInit()
     end
 
-    if not Questie.db.char.townsfolk then
+    if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
+        Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
         coroutine.yield()
         QuestieMenu:BuildCharacterTownsfolk()
     end
@@ -185,10 +186,6 @@ function QuestieInit:LoadDatabase(key)
 end
 
 function QuestieInit:LoadBaseDB()
-    -- reset townsfolk on all characters before compile
-    for _, char in pairs(QuestieConfig.char) do
-        char.townsfolk = nil
-    end
 
     -- load NPC data
     QuestieInit:LoadDatabase("npcData")
