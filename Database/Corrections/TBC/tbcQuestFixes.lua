@@ -1129,6 +1129,12 @@ function QuestieTBCQuestFixes:Load()
             -- TODO: Change the ICON_TYPE_OBJECT in the database references, once that is supported. {"monster", 20021} -> {"monster", 20021, ICON_TYPE_SLAY}
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches", 0, {{"object", 184867}, {"monster", 20021}}}},
         },
+        [10612] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel", 0, {{"object", 185057}}}}
+        },
+        [10613] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel", 0, {{"object", 185059}}}}
+        },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
         },
