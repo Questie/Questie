@@ -1230,6 +1230,12 @@ function QuestieTBCQuestFixes:Load()
         [10752] = {
             [questKeys.exclusiveTo] = {},
         },
+        [10754] = {
+            [questKeys.startedBy] = {{22037,},nil,nil,},
+        },
+        [10755] = {
+            [questKeys.startedBy] = {{22037,},nil,nil,},
+        },
         [10772] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19},},}},
         },
