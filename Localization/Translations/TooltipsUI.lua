@@ -40,7 +40,7 @@ local tooltipsUILocales = {
     },
     ["Requirements"] = {
         ["ptBR"] = "Requisitos",
-        ["ruRU"] = "Требуется для выполнения",
+        ["ruRU"] = "Требуется:",
         ["deDE"] = "Voraussetzungen",
         ["koKR"] = "요구사항",
         ["esMX"] = "Requisitos",

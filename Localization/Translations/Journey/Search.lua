@@ -148,7 +148,7 @@ local searchLocales = {
     },
     ["Found in"] = {
         ["ptBR"] = "Encontrado em",
-        ["ruRU"] = "Найдено в",
+        ["ruRU"] = "Местонахождение",
         ["deDE"] = "Gefunden in",
         ["koKR"] = nil,
         ["esMX"] = "Encontrado en",
@@ -196,7 +196,7 @@ local searchLocales = {
     },
     ["Items"] = {
         ["ptBR"] = "Itens",
-        ["ruRU"] = "Предметов",
+        ["ruRU"] = "Предметы",
         ["deDE"] = "Items",
         ["koKR"] = nil,
         ["esMX"] = "Objetos",
@@ -256,7 +256,7 @@ local searchLocales = {
     },
     ["Quest Start NPC Information"] = {
         ["ptBR"] = "Informação sobre o NPC que inicia a missão",
-        ["ruRU"] = "Информация о начинающем задание NPC",
+        ["ruRU"] = "Информация о начинающем задание NPC:",
         ["deDE"] = "Quest-Start-NPC-Informationen",
         ["koKR"] = "퀘스트 시작 NPC 정보",
         ["esMX"] = "Información del PNJ que comienza la misión",
@@ -268,7 +268,7 @@ local searchLocales = {
     },
     ["Quest Turn-in NPC Information"] = {
         ["ptBR"] = "Informação sobre o NPC de entrega da missão",
-        ["ruRU"] = "Информация о завершающем задание NPC",
+        ["ruRU"] = "Информация о завершающем задание NPC:",
         ["deDE"] = "Quest-Abgabe-NPC-Informationen",
         ["koKR"] = "퀘스트 완료 NPC 정보",
         ["esMX"] = "Información del PNJ al que se entrega la misión",
@@ -364,7 +364,7 @@ local searchLocales = {
     },
     ["NPCs starting this quest:"] = {
         ["ptBR"] = "NPCs que iniciam esta missão:",
-        ["ruRU"] = "NPC, начинающие это задание",
+        ["ruRU"] = "NPC, начинающие это задание:",
         ["deDE"] = "NPCs welche diese Quest starten:",
         ["koKR"] = nil,
         ["esMX"] = "PNJs que inician esta misión:",
@@ -376,7 +376,7 @@ local searchLocales = {
     },
     ["NPCs finishing this quest:"] = {
         ["ptBR"] = "NPCs que finalizam esta missão:",
-        ["ruRU"] = "NPC, завершающие это задание",
+        ["ruRU"] = "NPC, завершающие это задание:",
         ["deDE"] = "NPCs welche diese Quest beenden:",
         ["koKR"] = nil,
         ["esMX"] = "PNJs que terminan esta misión:",
