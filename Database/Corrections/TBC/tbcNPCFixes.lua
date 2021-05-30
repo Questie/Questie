@@ -204,6 +204,21 @@ function QuestieTBCNpcFixes:Load()
         [18369] = {
             [npcKeys.waypoints] = {},
         },
+        [18398] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{43.7,20.4},},},
+        },
+        [18399] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{43.7,20.4},},},
+        },
+        [18400] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{43.7,20.4},},},
+        },
+        [18401] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{43.7,20.4},},},
+        },
+        [18402] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{43.7,20.4},},},
+        },
         [18472] = {
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
         },
