@@ -1585,6 +1585,12 @@ function QuestieTBCQuestFixes:Load()
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
         },
+        [11185] = {
+            [questKeys.startedBy] = {{23881,},nil,nil,},
+        },
+        [11186] = {
+            [questKeys.startedBy] = {{23881,},nil,nil,},
+        },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
         },
