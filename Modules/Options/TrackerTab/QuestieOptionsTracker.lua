@@ -15,7 +15,10 @@ QuestieOptions.tabs.tracker = {...}
 
 local _GetShortcuts
 
+local SharedMedia = LibStub("LibSharedMedia-3.0")
+
 function QuestieOptions.tabs.tracker:Initialize()
+    local fontTable = SharedMedia:HashTable("font")
     return {
         name = function() return l10n('Tracker'); end,
         type = "group",
@@ -452,7 +455,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 3.45,
-                values = AceGUIWidgetLSMlists.font,
+                values = fontTable,
                 style = 'dropdown',
                 name = function() return l10n('Font for Active Quests'); end,
                 desc = function() return l10n('The font Active Quests uses.'); end,
@@ -488,7 +491,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 3.55,
-                values = AceGUIWidgetLSMlists.font,
+                values = fontTable,
                 style = 'dropdown',
                 name = function() return l10n('Font for Zone Names'); end,
                 desc = function() return l10n('The font used for zone names.'); end,
@@ -524,7 +527,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 3.65,
-                values = AceGUIWidgetLSMlists.font,
+                values = fontTable,
                 style = 'dropdown',
                 name = function() return l10n('Font for Quest Titles'); end,
                 desc = function() return l10n('The font used for quest titles.'); end,
@@ -558,7 +561,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 3.75,
-                values = AceGUIWidgetLSMlists.font,
+                values = fontTable,
                 style = 'dropdown',
                 name = function() return l10n('Font for Objectives'); end,
                 desc = function() return l10n('The font used for objectives.'); end,
