@@ -3,8 +3,6 @@ local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type ZoneDB
@@ -216,10 +214,6 @@ end
 -- called by the PLAYER_LOGIN event handler
 -- this function creates the coroutine that runs "InitAllModules"
 function QuestieInit:Init()
-
-    -- we do this here because its required for Questie:Error
-    Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
-
     local initFrame = CreateFrame("Frame")
     local routine = coroutine.create(QuestieInit.InitAllModules)
     initFrame:SetScript("OnUpdate", function()
