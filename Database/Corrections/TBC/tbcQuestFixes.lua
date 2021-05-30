@@ -1014,6 +1014,12 @@ function QuestieTBCQuestFixes:Load()
         [10389] = {
             [questKeys.preQuestSingle] = {10392},
         },
+        [10393] = {
+            [questKeys.startedBy] = {{20798,},nil,nil,},
+        },
+        [10395] = {
+            [questKeys.startedBy] = {{19298,},nil,nil,},
+        },
         [10403] = {
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil,},
         },
