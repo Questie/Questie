@@ -906,6 +906,9 @@ function QuestieTBCQuestFixes:Load()
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
         },
+        [10182] = {
+            [questKeys.startedBy] = {{19543,},nil,nil,},
+        },
         [10183] = {
             [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042,},
         },
@@ -987,6 +990,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [10302] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [10305] = {
+            [questKeys.startedBy] = {{19546,},nil,nil,},
+        },
+        [10306] = {
+            [questKeys.startedBy] = {{19544,},nil,nil,},
+        },
+        [10307] = {
+            [questKeys.startedBy] = {{19545,},nil,nil,},
         },
         [10310] = {
             [questKeys.preQuestSingle] = {},
