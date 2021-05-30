@@ -1150,6 +1150,12 @@ function QuestieTBCQuestFixes:Load()
         [10613] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel", 0, {{"object", 185059}}}}
         },
+        [10621] = {
+            [questKeys.startedBy] = {{21499,},nil,nil,},
+        },
+        [10623] = {
+            [questKeys.startedBy] = {{21499,},nil,nil,},
+        },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
         },
