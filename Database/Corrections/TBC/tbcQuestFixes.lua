@@ -1339,6 +1339,9 @@ function QuestieTBCQuestFixes:Load()
         [10915] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the coffin and kill its content", 0, {{"object", 184999}}}},
         },
+        [10917] = {
+            [questKeys.requiredMaxRep] = {},
+        },
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9},},}},
         },
