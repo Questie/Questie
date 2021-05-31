@@ -67,7 +67,6 @@ Database\compiler.lua
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
-Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
 Localization\lookups\Classic\lookupItems\lookupItems.xml
