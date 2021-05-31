@@ -28,16 +28,12 @@ local parentZoneToSubZone = {} -- Generated
 
 local zoneMap = {} -- Generated
 
-local locale
-
 
 function ZoneDB:Initialize()
     areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = unpack(ZoneDB:GetZoneTables())
 
     _ZoneDB:GenerateUiMapIdToAreaIdTable()
     _ZoneDB:GenerateParentZoneToStartingZoneTable()
-
-    locale = l10n:GetUILocale()
 end
 
 function _ZoneDB:GenerateUiMapIdToAreaIdTable()
