@@ -376,7 +376,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9433] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control near the Concealed Command Console hidden in a small cluster of bushes", 0, {{"object", 181825}}}},
         },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
