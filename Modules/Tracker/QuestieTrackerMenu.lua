@@ -12,7 +12,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 
 local tinsert = table.insert

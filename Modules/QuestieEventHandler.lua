@@ -52,7 +52,7 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 local didPlayerEnterWorld = false
 local shouldRunQLU = false
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
     for i=1, GetNumQuestLogEntries() do

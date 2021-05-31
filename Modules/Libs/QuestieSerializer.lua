@@ -354,7 +354,12 @@ function QuestieSerializer:Test()
     local numEntries, numQuests = GetNumQuestLogEntries();
     for index = 1, numEntries do
         local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if(not isHeader) then
+        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+            if not Questie._sessionWarnings[questId] then
+                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie._sessionWarnings[questId] = true
+            end
+        elseif (not isHeader) then
             -- The id is not needed due to it being used as a key, but send it anyway to keep the same structure.
             local quest = {};
             quest.id = questId;

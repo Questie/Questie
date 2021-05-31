@@ -23,9 +23,9 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
             else
                 objective = objectiveProgress.." "..objectiveText
             end
-            message = "{rt1} Questie: " .. l10n("%s for %s!", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = "{rt1} Questie : " .. l10n("%s for %s!", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         elseif progressType == "item" then
-            message = "{rt1} Questie: " .. l10n("Picked up %s which starts %s!", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = "{rt1} Questie : " .. l10n("Picked up %s which starts %s!", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
         end
 
         SendChatMessage(message, "PARTY")

@@ -116,14 +116,16 @@ function QuestieLib:IsResponseCorrect(questId)
             good = false
         else
             for _, objective in pairs(objectiveList) do
-                local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
-                if (objective.text == nil or objective.text == "" or distance < 5) then
-                    Questie:Debug(DEBUG_SPAM, count,
-                            " : Objective text is strange!", "'",
-                            objective.text, "'", " distance",
-                            distance)
-                    good = false
-                    break
+                if objective.type and string.len(objective.type) > 0 then
+                    local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
+                    if (objective.text == nil or objective.text == "" or distance < 5) then
+                        Questie:Debug(DEBUG_SPAM, count,
+                                " : Objective text is strange!", "'",
+                                objective.text, "'", " distance",
+                                distance)
+                        good = false
+                        break
+                    end
                 end
             end
         end
@@ -369,7 +371,12 @@ function QuestieLib:CacheAllItemNames()
     local numEntries, _ = GetNumQuestLogEntries()
     for index = 1, numEntries do
         local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if (not isHeader) then QuestieLib:CacheItemNames(questId) end
+        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+            if not Questie._sessionWarnings[questId] then
+                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie._sessionWarnings[questId] = true
+            end
+        elseif (not isHeader) then QuestieLib:CacheItemNames(questId) end
     end
 end
 

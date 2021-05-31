@@ -19,6 +19,7 @@ function QuestieQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
     local raceIDs = QuestieDB.raceKeys
+    local classIDs = QuestieDB.classKeys
 
     return {
         [2] = {
@@ -632,6 +633,9 @@ function QuestieQuestFixes:Load()
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
         },
+        [1388] = {
+            [questKeys.preQuestSingle] = {1383},
+        },
         [1392] = {
             [questKeys.startedBy] = {{5477},nil,{6196}},
         },
@@ -817,21 +821,26 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {}, -- #1192
         },
         [1861] = {
-            [questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [questKeys.exclusiveTo] = {1880}, -- #1192
         },
         [1879] = {
             [questKeys.exclusiveTo] = {}, -- #1192
         },
         [1880] = {
-            [questKeys.preQuestSingle] = {1860,1879}, -- #1380
             [questKeys.exclusiveTo] = {1861}, -- #1192
+        },
+        [1882] = {
+            [questKeys.preQuestSingle] = {},
         },
         [1918] = {
             [questKeys.startedBy] = {{12759},nil,{16408}},
         },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn", 0, {{"monster", 6492}}}}
+        },
+        [1939] = {
+            [questKeys.startedBy] = {{5144,5497},nil,nil,},
         },
         [1943] = {
             [questKeys.exclusiveTo] = {1944}, -- mage robe breadcrumb
@@ -847,6 +856,10 @@ function QuestieQuestFixes:Load()
         },
         [1959] = {
             [questKeys.startedBy] = {{2128,3049,5880,7311},nil,nil,},
+        },
+        [1960] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn", 0, {{"monster", 6492}}}}
         },
         [2039] = {
             [questKeys.exclusiveTo] = {2038},
@@ -1114,6 +1127,7 @@ function QuestieQuestFixes:Load()
         },
         [3765] = {
             [questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
+            [questKeys.requiredLevel] = 18,
         },
         [3789] = {
             [questKeys.exclusiveTo] = {3763,3790,3764},
@@ -1440,6 +1454,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {164,275},
         },
         [5126] = {
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
             [questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[zoneIDs.WINTERSPRING]={{63.82,73.79},},},},
         },
         [5156] = {

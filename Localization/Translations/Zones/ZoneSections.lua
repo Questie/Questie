@@ -35,7 +35,7 @@ local zoneSectionLocales = {
         ["enUS"] = true,
         ["frFR"] = "Événements",
         ["esES"] = "Eventos",
-        ["zhTW"] = "Events",
+        ["zhTW"] = "節慶",
         ["zhCN"] = "事件",
     },
     ["Outland"] = {
@@ -59,7 +59,7 @@ local zoneSectionLocales = {
         ["enUS"] = true,
         ["frFR"] = "Métiers",
         ["esES"] = "Profesiones",
-        ["zhTW"] = "Professions",
+        ["zhTW"] = "專業技能",
         ["zhCN"] = "专业",
     },
     ["Class"] = {

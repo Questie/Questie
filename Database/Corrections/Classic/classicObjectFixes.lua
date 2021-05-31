@@ -82,6 +82,12 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{52,50.8}}},
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
         },
+        [105174] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.STORMWIND_CITY]={{38.7,79.1},},
+                [zoneIDs.UNDERCITY]={{85.5,10.2},},
+            },
+        },
         [112877] = {
             [objectKeys.spawns] = {[zoneIDs.ULDAMAN]={{-1,-1},},},
             [objectKeys.zoneID] = zoneIDs.ULDAMAN,
@@ -258,9 +264,6 @@ function QuestieObjectFixes:LoadFactionFixes()
     local zoneIDs = ZoneDB.zoneIDs
 
     local objectFixesHorde = {
-        [105174] = {
-            [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{52.7,73.5},{52.8,75.9},{53.3,74.5},{53.9,73.2},{54.4,71.1},{54.8,73.0},{55.0,70.2},{55.8,71.2},{57.3,66.1},{58.1,69.5},},}, -- #1328
-        },
         [180743] = {
             [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{52.39,69.52},},},
         },
@@ -279,9 +282,6 @@ function QuestieObjectFixes:LoadFactionFixes()
     }
 
     local objectFixesAlliance = {
-        [105174] = {
-            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{39.6,86.5},{39.7,84.2},{40.3,91.8},{40.4,87.5},{40.4,90.3},{40.7,92.7},{41.3,90.4},{41.4,88.0},},}, -- #1328
-        },
         [180743] = {
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{33.86,65.69},},},
         },

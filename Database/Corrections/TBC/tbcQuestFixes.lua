@@ -86,8 +86,14 @@ function QuestieTBCQuestFixes:Load()
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [1046] = {
+            [questKeys.objectives] = {nil,nil,{{5388,nil},{5462,nil},},nil,},
+        },
         [1049] = { -- Not available to UNDEAD
-            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL+ raceIDs.BLOOD_ELF,
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL + raceIDs.BLOOD_ELF,
+        },
+        [1135] = {
+            [questKeys.startedBy] = {{4456,},nil,nil,},
         },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36},},}},
@@ -146,6 +152,9 @@ function QuestieTBCQuestFixes:Load()
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
         },
+        [7484] = {
+            [questKeys.specialFlags] = 1,
+        },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000}
         },
@@ -166,6 +175,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [8259] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [8325] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -281,6 +293,9 @@ function QuestieTBCQuestFixes:Load()
         [9174] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Bundle of Medallions", 0, {{"object", 181157}}}},
         },
+        [9177] = {
+            [questKeys.finishedBy] = {{10181},nil,nil},
+        },
         [9181] = {
             [questKeys.specialFlags] = 1,
         },
@@ -308,8 +323,23 @@ function QuestieTBCQuestFixes:Load()
         [9280] = {
             [questKeys.preQuestSingle] = {},
         },
+        [9287] = {
+            [questKeys.preQuestSingle] = {9280},
+        },
         [9288] = {
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
+            [questKeys.preQuestSingle] = {9280},
+        },
+        [9289] = {
+            [questKeys.preQuestSingle] = {9280},
+        },
+        [9290] = {
+            [questKeys.preQuestSingle] = {9280},
+            [questKeys.startedBy] = {{16500,},nil,nil,},
+        },
+        [9291] = {
+            [questKeys.preQuestSingle] = {9280},
+            [questKeys.startedBy] = {{16502,},nil,nil,},
         },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
@@ -346,7 +376,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.DRAENEI,
         },
         [9433] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control and navigate it to Thalanaar", 0, {{"object", 181631}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Robotron Control near the Concealed Command Console hidden in a small cluster of bushes", 0, {{"object", 181825}}}},
         },
         [9446] = {
             [questKeys.triggerEnd] = {"Escort Anchorite Truuen to Uther's Tomb", {[zoneIDs.WESTERN_PLAGUELANDS]={{52.06,83.26},},}},
@@ -356,6 +386,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9457] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Gift of Naias near the Altar of Naias", 0, {{"object", 181636}}}}
+        },
+        [9460] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Pickpocket the Lacy Handkerchief from the Sentinel Leader", 0, {{"monster", 17210}}}}
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
@@ -372,11 +405,17 @@ function QuestieTBCQuestFixes:Load()
         [9489] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
+        [9498] = {
+            [questKeys.preQuestSingle] = {10123},
+        },
         [9500] = {
             [questKeys.questLevel] = -1,
         },
         [9501] = {
             [questKeys.questLevel] = -1,
+        },
+        [9523] = {
+            [questKeys.preQuestSingle] = {9506,9512,},
         },
         [9527] = {
             [questKeys.preQuestSingle] = {},
@@ -414,7 +453,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9565] = {
             [questKeys.preQuestGroup] = {},
-            [questKeys.preQuestSingle] = {9562},
+            [questKeys.preQuestSingle] = {9560,9562,},
         },
         [9573] = {
             [questKeys.preQuestSingle] = {9560,9562,},
@@ -436,6 +475,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9594] = {
             [questKeys.startedBy] = {{17528},nil,{23900,},},
+        },
+        [9601] = {
+            [questKeys.startedBy] = {{16681,20406},nil,nil,},
         },
         [9607] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93},},}},
@@ -477,6 +519,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9678] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Light the brazier", 0, {{"object", 181956}}}},
+        },
+        [9685] = {
+            [questKeys.preQuestSingle] = {9684,63866,},
         },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7},},}},
@@ -810,17 +855,6 @@ function QuestieTBCQuestFixes:Load()
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483,},
         },
-        [10094] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
-        },
-        [10095] = {
-            [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
-        },
-        [10097] = {
-            [questKeys.requiredMaxRep]= {934,0},
-        },
         [10226] = {
             [questKeys.objectives] = {nil,nil,{{28548,"Zap Sundered Rumblers and Warp Aberrations before killing them"},},nil,},
         },
@@ -872,8 +906,14 @@ function QuestieTBCQuestFixes:Load()
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
         },
+        [10182] = {
+            [questKeys.startedBy] = {{19543,},nil,nil,},
+        },
         [10183] = {
             [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042,},
+        },
+        [10184] = {
+            [questKeys.preQuestSingle] = {10300},
         },
         [10189] = {
             [questKeys.preQuestSingle] = {10551,10552},
@@ -954,6 +994,15 @@ function QuestieTBCQuestFixes:Load()
         [10302] = {
             [questKeys.preQuestSingle] = {},
         },
+        [10305] = {
+            [questKeys.startedBy] = {{19546,},nil,nil,},
+        },
+        [10306] = {
+            [questKeys.startedBy] = {{19544,},nil,nil,},
+        },
+        [10307] = {
+            [questKeys.startedBy] = {{19545,},nil,nil,},
+        },
         [10310] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38},},}},
@@ -979,6 +1028,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [10389] = {
             [questKeys.preQuestSingle] = {10392},
+        },
+        [10393] = {
+            [questKeys.startedBy] = {{20798,},nil,nil,},
+        },
+        [10395] = {
+            [questKeys.startedBy] = {{19298,},nil,nil,},
         },
         [10403] = {
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil,},
@@ -1068,6 +1123,9 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
         },
+        [10596] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
+        },
         [10570] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place the Bundle of Bloodthistle at the end of the bridge", 0, {{"object", 184841}}}},
         },
@@ -1092,11 +1150,26 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
         },
         [10606] = {
-            [questKeys.requiredSourceItems] = {30712},
+            [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil},},nil,},
         },
         [10609] = {
             -- TODO: Change the ICON_TYPE_OBJECT in the database references, once that is supported. {"monster", 20021} -> {"monster", 20021, ICON_TYPE_SLAY}
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches", 0, {{"object", 184867}, {"monster", 20021}}}},
+        },
+        [10611] = {
+            [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil},},nil,},
+        },
+        [10612] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel", 0, {{"object", 185057}}}}
+        },
+        [10613] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel", 0, {{"object", 185059}}}}
+        },
+        [10621] = {
+            [questKeys.startedBy] = {{21499,},nil,nil,},
+        },
+        [10623] = {
+            [questKeys.startedBy] = {{21499,},nil,nil,},
         },
         [10629] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
@@ -1178,11 +1251,20 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45},},}},
             [questKeys.requiredSourceItems] = {31121},
         },
+        [10747] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Throw a net at the targeted wyrmcult blackwhelp", 0, {{"monster", 21387}}}},
+        },
         [10750] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19},},}},
         },
         [10752] = {
             [questKeys.exclusiveTo] = {},
+        },
+        [10754] = {
+            [questKeys.startedBy] = {{22037,},nil,nil,},
+        },
+        [10755] = {
+            [questKeys.startedBy] = {{22037,},nil,nil,},
         },
         [10772] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19},},}},
@@ -1195,6 +1277,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
+        },
+        [10797] = {
+            [questKeys.startedBy] = {{20753,},nil,nil,},
+            [questKeys.preQuestSingle] = {},
         },
         [10807] = {
             [questKeys.preQuestSingle] = {10552},
@@ -1295,6 +1381,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10915] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the coffin and kill its content", 0, {{"object", 184999}}}},
+        },
+        [10917] = {
+            [questKeys.requiredMaxRep] = {},
         },
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9},},}},
@@ -1397,6 +1486,9 @@ function QuestieTBCQuestFixes:Load()
         [11047] = {
             [questKeys.exclusiveTo] = {11048},
         },
+        [11056] = {
+            [questKeys.preQuestSingle] = {11028},
+        },
         [11057] = {
             [questKeys.requiredLevel] = 70,
         },
@@ -1437,7 +1529,16 @@ function QuestieTBCQuestFixes:Load()
         [11090] = {
             [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79},},}},
         },
+        [11094] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
+        [11095] = {
+            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep]= {934,0},
+        },
         [11097] = {
+            [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01},},}},
         },
         [11099] = {
@@ -1458,6 +1559,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11119] = {
             [questKeys.requiredLevel] = 70,
+        },
+        [11123] = {
+            [questKeys.preQuestSingle] = {},
         },
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87},},}},
@@ -1486,6 +1590,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
+        },
+        [11185] = {
+            [questKeys.startedBy] = {{23881,},nil,nil,},
+        },
+        [11186] = {
+            [questKeys.startedBy] = {{23881,},nil,nil,},
         },
         [11198] = {
             [questKeys.triggerEnd] = {"Defend Theramore Docks from Tethyr", {[zoneIDs.DUSTWALLOW_MARSH]={{70.01,51.88},},}},
@@ -1686,7 +1796,7 @@ function QuestieTBCQuestFixes:Load()
 
         [63866] = {
             [questKeys.name] = "Claiming the Light",
-            [questKeys.startedBy] = {{17718},nil,nil},
+            [questKeys.startedBy] = {{178420},nil,nil},
             [questKeys.finishedBy] = {{17717},nil,nil},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
@@ -1695,7 +1805,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Use the Shimmering Vessel on M'uru to fill it and return to Knight-Lord Bloodvalor in Silvermoon City."},
             [questKeys.objectives] = {nil,nil,{{24156},},nil,},
             [questKeys.sourceItemId] = 24157,
-            [questKeys.preQuestSingle] = {9681},
+            [questKeys.preQuestSingle] = {9681,64319},
             [questKeys.zoneOrSort] = -141,
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
@@ -1809,7 +1919,7 @@ function QuestieTBCQuestFixes:Load()
         [64319] = {
             [questKeys.name] = "A Study in Power",
             [questKeys.startedBy] = {{17717},nil,nil},
-            [questKeys.finishedBy] = {{17718},nil,nil},
+            [questKeys.finishedBy] = {{178420},nil,nil},
             [questKeys.requiredLevel] = 12,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
