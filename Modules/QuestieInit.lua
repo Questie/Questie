@@ -3,8 +3,6 @@ local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type ZoneDB
@@ -104,7 +102,8 @@ function QuestieInit:InitAllModules()
         QuestieCorrections:MinimalInit()
     end
 
-    if not Questie.db.char.townsfolk then
+    if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
+        Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
         coroutine.yield()
         QuestieMenu:BuildCharacterTownsfolk()
     end
@@ -185,10 +184,6 @@ function QuestieInit:LoadDatabase(key)
 end
 
 function QuestieInit:LoadBaseDB()
-    -- reset townsfolk on all characters before compile
-    for _, char in pairs(QuestieConfig.char) do
-        char.townsfolk = nil
-    end
 
     -- load NPC data
     QuestieInit:LoadDatabase("npcData")
@@ -219,10 +214,6 @@ end
 -- called by the PLAYER_LOGIN event handler
 -- this function creates the coroutine that runs "InitAllModules"
 function QuestieInit:Init()
-
-    -- we do this here because its required for Questie:Error
-    Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
-
     local initFrame = CreateFrame("Frame")
     local routine = coroutine.create(QuestieInit.InitAllModules)
     initFrame:SetScript("OnUpdate", function()

@@ -26,11 +26,7 @@ local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 ---@param link string
 function ItemRefTooltip:SetHyperlink(link, ...)
     local _, isQuestieLink, questId
-    if Questie.IsTBC then
-        isQuestieLink, questId = string.match(link, "(questie):(%d+):")
-    else
-        _, _, isQuestieLink, questId = string.match(link, "(questie):(%d+):")
-    end
+    isQuestieLink, questId = string.match(link, "(questie):(%d+):")
     QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
 
     if isQuestieLink and questId then

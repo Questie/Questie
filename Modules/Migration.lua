@@ -4,13 +4,15 @@ local Migration = QuestieLoader:CreateModule("Migration")
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
 local migrationFunctions = {
-    [1] = function()
+    [1] = function(hasRunAccountWide)
         Questie:Print("[Migration] Migrating Questie for v6.0.0")
     
         -- This is not needed anymore since we calculate the quests with zones at each login.
         -- If not we would have to store the zoneMap for each character because we only show
         -- quests in the Journey a character (race + class) can accept.
-        Questie.db.global.zoneMapCache = nil
+        if not hasRunAccountWide then
+            Questie.db.global.zoneMapCache = nil
+        end
     
         if Questie.db.char.manualMinLevelOffset and Questie.db.char.absoluteLevelOffset then
             Questie.db.char.manualMinLevelOffset = false
@@ -28,28 +30,35 @@ local migrationFunctions = {
     
         Questie:Print("[Migration] Migrated Questie to v6.0.0 and removed", removedPartyEntries, "party entries from the Journey")
     end,
-    [2] = function()
-        Questie.db.global.stickyDurabilityFrame = false
+    [2] = function(hasRunAccountWide)
+        if not hasRunAccountWide then
+            Questie.db.global.stickyDurabilityFrame = false
+        end
     end,
-    [3] = function()
+    [3] = function(hasRunAccountWide)
         local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
 
         local journey
-        local migrationTable
+        local migrationTable, globalMigrationTable
 
         if Questie.db.char then
             journey = Questie.db.char.journey
         end
 
-        if Questie.db.global then
-            migrationTable = Questie.db.global.migrationVersion
+        if not hasRunAccountWide then
+            if Questie.db.global then
+                migrationTable = Questie.db.global.migrationVersion
+                globalMigrationTable = Questie.db.global.globalMigrationSteps
+            end
+            Questie.db.global = {}
         end
 
-        Questie.db.global = {}
         Questie.db.char = {}
 
-        for k,v in pairs(optionsDefaults.global) do
-            Questie.db.global[k] = v
+        if not hasRunAccountWide then
+            for k,v in pairs(optionsDefaults.global) do
+                Questie.db.global[k] = v
+            end
         end
 
         -- only toggle questie if it's off (must be called before resetting the value)
@@ -67,11 +76,17 @@ local migrationFunctions = {
             Questie.db.char.journey = journey
         end
 
-        if migrationTable then
-            Questie.db.global.migrationVersion = migrationTable
-        end
+        if not hasRunAccountWide then 
+            if migrationTable then
+                Questie.db.global.migrationVersion = migrationTable
+            end
 
-        Questie.db.global.dbIsCompiled = false
+            if globalMigrationTable then
+                Questie.db.global.globalMigrationSteps = globalMigrationTable
+            end
+
+            Questie.db.global.dbIsCompiled = false
+        end
     end,
     [4] = function()
         Questie.db.char.enableMinimalisticIcons = nil -- Remove unused remnants of minimalistic icons
@@ -84,6 +99,10 @@ function Migration:Migrate()
         Questie.db.global.migrationVersion = {}
     end
 
+    if not Questie.db.global.globalMigrationSteps then
+        Questie.db.global.globalMigrationSteps = {}
+    end
+
     local player = UnitName("Player") .. GetRealmName()
     local currentVersion = Questie.db.global.migrationVersion[player] or 0
     local targetVersion = table.getn(migrationFunctions)
@@ -92,7 +111,8 @@ function Migration:Migrate()
 
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1
-        migrationFunctions[currentVersion]()
+        migrationFunctions[currentVersion](Questie.db.global.globalMigrationSteps[currentVersion])
+        Questie.db.global.globalMigrationSteps[currentVersion] = true
     end
 
     Questie.db.global.migrationVersion[player] = currentVersion

@@ -690,7 +690,16 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             return 1
         end
 
-        return 0
+        -- validate objectives
+        local complete = 1
+        for _, objective in pairs(C_QuestLog.GetQuestObjectives(self.Id)) do
+            if objective.numRequired and objective.numFulfilled and objective.numRequired ~= objective.numFulfilled then
+                complete = 0
+                break
+            end
+        end
+
+        return complete
     end
 
     function QO:IsDoable() -- temporary

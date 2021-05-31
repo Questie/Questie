@@ -310,7 +310,7 @@ local debugMessagesLocales = {
         ["zhCN"] = nil,
         ["enUS"] = true,
         ["zhTW"] = "[Questie] 隨著更新到燃燒的遠征， Questie 正在進行快速的開發，因此你可能會遇到臭蟲。請保持 Questie 在最新版本以獲得最佳體驗！我們也會在 TBC 上線後不久進行一次包含新功能及改善的大更新。",
-        ["deDE"] = nil,
+        ["deDE"] = "[Questie] Mit dem Wechsel zu Burning Crusade befindet sich Questie in einer rasanten Entwicklung, weshalb vermehrt Bugs auftreten können. Bitte halte Questie immer aktuell für die best mögliche Spielerfahrung! Wir werden ein großes Update, mit vielen Verbesserungen und neuen Funktionalitäten, kurz nach dem Start von TBC veröffentlichen.",
         ["esES"] = nil,
         ["esMX"] = nil,
     },

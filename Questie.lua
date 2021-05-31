@@ -17,6 +17,8 @@ local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieOptionsDefaults
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 ---@type QuestieOptionsUtils
@@ -74,6 +76,7 @@ if  --Libs
     (not QuestieComms.data) or
     --Options
     (not QuestieOptions) or
+    (not QuestieOptionsDefaults) or
     (not MinimapIcon) or
     (not QuestieOptionsUtils) or
     (not QuestieOptions.tabs) or
@@ -115,6 +118,9 @@ end
 
 function Questie:OnInitialize()
     Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
+
+    -- This has to happen OnInitialize to be available asap
+    Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
     QuestieEventHandler:RegisterEarlyEvents()
 end
