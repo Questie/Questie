@@ -328,7 +328,7 @@ local debugMessagesLocales = {
     },
     ["Error during initialization!"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Ошибка во время инициализации!",
         ["frFR"] = nil,
         ["koKR"] = nil,
         ["zhCN"] = nil,
