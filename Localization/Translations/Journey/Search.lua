@@ -36,7 +36,7 @@ local searchLocales = {
         ["zhCN"] = "根据任务名称搜索",
         ["zhTW"] = "根據任務名稱搜尋",
         ["esES"] = "Buscar por nombre",
-        ["frFR"] = "Recherche par nom de quête",
+        ["frFR"] = "Recherche par nom",
     },
     ["Search By ID"] = {
         ["ptBR"] = "Buscar por ID da missão",
@@ -48,7 +48,7 @@ local searchLocales = {
         ["zhCN"] = "根据任务ID搜索",
         ["zhTW"] = "根據任務ID搜尋",
         ["esES"] = "Buscar por ID",
-        ["frFR"] = "Recherche par identifiant de quête",
+        ["frFR"] = "Recherche par ID",
     },
     ["Enter in your Search"] = {
         ["ptBR"] = "Digite sua busca",
@@ -84,7 +84,7 @@ local searchLocales = {
         ["zhCN"] = "无任务可列出",
         ["zhTW"] = "無任務可列出",
         ["esES"] = "No hay misiones que listar",
-        ["frFR"] = "Aucune quête à lister",
+        ["frFR"] = "Aucunes quêtes à lister",
     },
     ["No spawn data available."] = {
         ["ptBR"] = "Não há dados de spawn disponíveis.",
@@ -372,7 +372,7 @@ local searchLocales = {
         ["zhCN"] = "开始这个任务的NPC:",
         ["zhTW"] = "開始這個任務的 NPC:",
         ["esES"] = "PNJs que inician esta misión:",
-        ["frFR"] = "PNJ qui débute cette quête",
+        ["frFR"] = "PNJs qui débutent cette quête",
     },
     ["NPCs finishing this quest:"] = {
         ["ptBR"] = "NPCs que finalizam esta missão:",
@@ -384,7 +384,7 @@ local searchLocales = {
         ["zhCN"] = "完成此任务的NPC:",
         ["zhTW"] = "完成這個任務的 NPC:",
         ["esES"] = "PNJs que terminan esta misión:",
-        ["frFR"] = "PNJ qui termine cette quête",
+        ["frFR"] = "PNJs qui terminent cette quête",
     },
     ["Objects starting this quest:"] = {
         ["ptBR"] = "Objetos que iniciam esta missão:",
@@ -396,7 +396,7 @@ local searchLocales = {
         ["zhCN"] = "开始此任务的对象:",
         ["zhTW"] = "開始此任務的對象:",
         ["esES"] = "Objetos que inician esta misión",
-        ["frFR"] = "Objet qui démarre cette quête",
+        ["frFR"] = "Objets qui démarrent cette quête",
     },
     ["Objects finishing this quest:"] = {
         ["ptBR"] = "Objetos que finalizam esta missão:",
@@ -408,7 +408,7 @@ local searchLocales = {
         ["zhCN"] = "完成此任务的对象:",
         ["zhTW"] = "完成此任務的對象:",
         ["esES"] = "Objetos que terminan esta misión:",
-        ["frFR"] = "Objet qui termine cette quête",
+        ["frFR"] = "Objets qui terminent cette quête",
     },
     ["Items starting this quest:"] = {
         ["ptBR"] = "Itens que inicial esta missão:",
@@ -420,7 +420,7 @@ local searchLocales = {
         ["zhCN"] = "开始此任务的物品:",
         ["zhTW"] = "開始此任務的物品:",
         ["esES"] = "Ítems que inician esta misión:",
-        ["frFR"] = "Item qui démarre cette quête",
+        ["frFR"] = "Objets qui démarrent cette quête",
     },
 }
 
