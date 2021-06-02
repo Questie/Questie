@@ -234,6 +234,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
                     Questie.db.global.dbIsCompiled = false
+					
+					Questie.db.char.hidden = nil
 
                     ReloadUI()
 
