@@ -1136,6 +1136,13 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.npcDrops] = {2397,8307},
             [itemKeys.objectDrops] = {},
         },
+        -- TBC
+        [25911] = {
+            [itemKeys.objectDrops] = {182936},
+        },
+        [25912] = {
+            [itemKeys.objectDrops] = {182937,182938},
+        },
     }
 
     local itemFixesAlliance = {
@@ -1149,6 +1156,13 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.relatedQuests] = {555,1218,},
             [itemKeys.npcDrops] = {2381,4897},
             [itemKeys.objectDrops] = {},
+        },
+        -- TBC
+        [25911] = {
+            [itemKeys.objectDrops] = {182799},
+        },
+        [25912] = {
+            [itemKeys.objectDrops] = {182798,182797},
         },
     }
 
