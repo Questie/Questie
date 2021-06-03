@@ -1255,6 +1255,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45},},}},
             [questKeys.requiredSourceItems] = {31121},
         },
+        [10723] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
+        },
         [10747] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Throw a net at the targeted wyrmcult blackwhelp", 0, {{"monster", 21387}}}},
         },
@@ -1285,6 +1288,9 @@ function QuestieTBCQuestFixes:Load()
         [10797] = {
             [questKeys.startedBy] = {{20753,},nil,nil,},
             [questKeys.preQuestSingle] = {},
+        },
+        [10802] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
         },
         [10807] = {
             [questKeys.preQuestSingle] = {10552},
