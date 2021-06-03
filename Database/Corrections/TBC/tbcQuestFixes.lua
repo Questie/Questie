@@ -904,7 +904,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {40000},
         },
         [10163] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Gryphongar", 0, {{"monster", 20232}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Gryphoneer Windbellow", 0, {{"monster", 20235}}}},
+            [questKeys.preQuestSingle] = {10146},
         },
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
