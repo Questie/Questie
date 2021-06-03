@@ -892,22 +892,22 @@ function QuestieItemFixes:Load()
         [16967] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400000},
+            [itemKeys.objectDrops] = {500000},
         },
         [16968] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400002},
+            [itemKeys.objectDrops] = {500002},
         },
         [16969] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400003},
+            [itemKeys.objectDrops] = {500003},
         },
         [16970] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400001},
+            [itemKeys.objectDrops] = {500001},
         },
         [16973] = { -- #1156
             [itemKeys.relatedQuests] = {5247},
@@ -1153,6 +1153,7 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.objectDrops] = {177792},
         },
         [3713] = {
+            [itemKeys.name] = "Soothing Spices",
             [itemKeys.relatedQuests] = {555,1218,},
             [itemKeys.npcDrops] = {2381,4897},
             [itemKeys.objectDrops] = {},
