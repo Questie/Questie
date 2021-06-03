@@ -1617,13 +1617,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{57,62}}}, ICON_TYPE_EVENT, "Smear the Fish Paste on yourself and swim to the ship wreck"}},
         },
         [11211] = {
-            [questKeys.exclusiveTo] = {11158},
+            [questKeys.exclusiveTo] = {11158,11214,11215},
         },
         [11214] = {
-            [questKeys.exclusiveTo] = {11158},
+            [questKeys.exclusiveTo] = {11158,11211,11215},
         },
         [11215] = {
-            [questKeys.exclusiveTo] = {11158},
+            [questKeys.exclusiveTo] = {11158,11214,11211},
         },
         [11216] = {
             [questKeys.nextQuestInChain] = 9824,
