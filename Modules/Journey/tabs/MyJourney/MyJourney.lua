@@ -23,8 +23,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
 
         journeyTreeFrame.treeframe:SetWidth(220);
 
-        local journeyTree = {};
-        journeyTree = _QuestieJourney:GetHistory();
+        local journeyTree = _QuestieJourney:GetHistory();
         journeyTreeFrame:SetTree(journeyTree);
         local latestMonth, latestYear = _QuestieJourney:GetMonthAndYearOfLatestEntry()
         if latestMonth and latestYear then
@@ -84,7 +83,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                     f:AddChild(created);
 
                 elseif entry.Event == "Quest" then
-                    local state = '';
+                    local state
                     if entry.SubType == "Accept" then
                         state = l10n("Accepted");
                     elseif entry.SubType == "Complete" then

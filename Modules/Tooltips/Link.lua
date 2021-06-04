@@ -26,11 +26,7 @@ local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 ---@param link string
 function ItemRefTooltip:SetHyperlink(link, ...)
     local _, isQuestieLink, questId
-    if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
-        isQuestieLink, questId = string.match(link, "(questie):(%d+):")
-    else
-        _, _, isQuestieLink, questId = string.match(link, "(questie):(%d+):")
-    end
+    isQuestieLink, questId = string.match(link, "(questie):(%d+):")
     QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
 
     if isQuestieLink and questId then

@@ -1,15 +1,12 @@
 
 tremove = table.remove
 tinsert = table.insert
-unpack = table.unpack
-loadstring = load
+coroutine.yield = function() end -- no need to yield in the cli (TODO: maybe find a less hacky fix)
 mod = function(a, b)
     return a % b
 end
 bit = require("bit32")
-stderr = function(text)
-    io.stderr:write(tostring(text) .. "\n")
-end
+
 GetBuildInfo = function()
     return "2.5.1", "38644", "May 11 2021", "20501"
 end
@@ -39,12 +36,12 @@ CreateFrame = function()
 end
 C_QuestLog = {}
 C_Timer = {
-    After = function(time, f)
+    After = function(_, f)
         f()
     end,
-    NewTicker = function(time, f, times)
+    NewTicker = function(_, f, times)
         if times then
-            for i=1,times do
+            for _=1,times do
                 f()
             end
         else
@@ -67,7 +64,7 @@ local function loadTOC(file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r, e = pcall(dofile, line)
+            local r, _ = pcall(dofile, line)
             if r then
                 --print("Loaded " .. line)
             else
@@ -77,10 +74,18 @@ local function loadTOC(file)
     end
 end
 
-loadTOC("Questie-BCC.toc")
+loadTOC("Questie.toc")
 
 function Questie:Debug(...)
     --print(...)
+end
+
+function Questie:Error(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
+end
+
+function Questie:Warning(text, ...)
+    io.stderr:write(tostring(text) .. "\n")
 end
 
 Questie.db = {
@@ -95,7 +100,6 @@ QuestieConfig = {}
 
 print("Running compiler...")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -118,25 +122,26 @@ QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataT
 QuestieDB.itemData = QuestieDB.itemData()
 QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
 print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-if QuestieDB.questDataTBC then
-    QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
-    QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
-    QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
-    QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
-end
 
 
 QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
 QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
-QuestieCorrections:Initialize()
+QuestieCorrections:Initialize({
+    ["npcData"] = QuestieDB.npcDataTBC,
+    ["objectData"] = QuestieDB.objectDataTBC,
+    ["itemData"] = QuestieDB.itemDataTBC,
+    ["questData"] = QuestieDB.questDataTBC
+})
 
-QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
 QuestieDBCompiler:Compile(function() end)
 print("Validating objects...")
-QuestieDBCompiler:Validate()
+QuestieDBCompiler:ValidateObjects()
 print("Validating items...")
 QuestieDBCompiler:ValidateItems()
+print("Validating NPCs...")
+QuestieDBCompiler:ValidateNPCs()
 print("Validating quests...")
 QuestieDBCompiler:ValidateQuests()

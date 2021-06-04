@@ -167,37 +167,13 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
     end
 end
 
-
---Override OnMapChanged from MapCanvasDataProviderMixin (https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74)
---This could in theory be skipped by instead using our own MapCanvasDataProviderMixin
---The reason i don't is becauase i want the scaling to happen AFTER HBD has processed all the icons.
-HBDPins.worldmapProvider.ORG_OnMapChanged = HBDPins.worldmapProvider.OnMapChanged;
 function QuestieMap:GetScaleValue()
     local mapId = HBDPins.worldmapProvider:GetMap():GetMapID();
     local scaling = 1;
     if(mapId == 947) then --Azeroth
-        if(Questie.db.char.enableMinimalisticIcons) then
-            scaling = 0.4
-        else
-            scaling = 0.85
-        end
+        scaling = 0.85
     elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
-        if(Questie.db.char.enableMinimalisticIcons) then
-            scaling = 0.5
-        else
-            scaling = 0.9
-        end
-    end
-end
-
-function HBDPins.worldmapProvider:OnMapChanged()
-    --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
-    HBDPins.worldmapProvider:ORG_OnMapChanged();
-
-    local scaling = QuestieMap:GetScaleValue()
-    for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        local frame = pin.icon;
-        QuestieMap.utils:RecaleIcon(frame, scaling)
+        scaling = 0.9
     end
 end
 
@@ -381,8 +357,6 @@ function QuestieMap:DrawLineIcon(lineFrame, areaID, x, y)
         error("Questie"..": AddWorldMapIconMap: 'AreaID', 'x' and 'y' must be numbers "..areaID.." "..x.." "..y)
     end
 
-    --print("Drawing line in " .. ZoneDB.zoneIDToInternalName[areaID])
-
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
 
     HBDPins:AddWorldMapIconMap(Questie, lineFrame, uiMapId, x, y, HBD_PINS_WORLDMAP_SHOW_CURRENT)
@@ -411,7 +385,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        Questie:Error("No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
+        Questie:Debug(DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon
@@ -628,7 +602,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
 
     --Hide unexplored logic
-    if(not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and Questie.db.char.hideUnexploredMapIcons) then
+    if (not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and Questie.db.char.hideUnexploredMapIcons) then
         iconMap:FakeHide()
         iconMinimap:FakeHide()
     end
@@ -884,9 +858,6 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
 }
 
 function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y, color)
-    --local cnt = 0 for _, a in pairs(waypoints) do for _ in pairs(a) do cnt = cnt + 1 end end
-    --print("Drawing ways in " .. ZoneDB.zoneIDToInternalName[zone] .. " for " .. icon.data.Name .. " " .. tostring(cnt) .. " pts")
-
     if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
         local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
         for _, lineFrame in ipairs(lineFrames) do

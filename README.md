@@ -1,10 +1,10 @@
 # Questie
 
-[![Discord](https://img.shields.io/badge/discord-Questie-738bd7)](https://discord.gg/phKnHVu)
+[![Discord](https://img.shields.io/badge/discord-Questie-738bd7)](https://discord.gg/s33MAYKeZd)
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v6.3.9/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v6.3.11/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -19,10 +19,11 @@ If you have problems, please read the [Frequently Asked Questions](https://githu
 
 ## Information
 - [Frequently Asked Questions](https://github.com/Questie/Questie/wiki/FAQ)
-- Come chat with us on [our Discord server](https://discord.gg/stPdSWdUR7).
+- Come chat with us on [our Discord server](https://discord.gg/s33MAYKeZd).
 - You can use the [issue tracker](https://github.com/Questie/Questie/issues) to report bugs and post feature requests (requires a Github account).
 - When creating an issue please follow the templated structure to speed up a possible fix.
 - If you get an error message from the WoW client, please include the **complete** text or a screenshot of it in your report.
+    - You need to enter `/console scriptErrors 1` once in the ingame chat for Lua error messages to be shown. You can later disable them again with `/console scriptErrors 0`.
 
 Trust us it's (Good)!
 
@@ -30,7 +31,7 @@ Trust us it's (Good)!
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 - We are happy about every help and contribution we get, so feel free to sumbit a Pull Request on Github
-- Translators can search for missing translations by: `["<yourLanguage>"] = nil` (e.g. `["deDE] = nil`) and replace the `nil` with a string of the new translation. Current translations can be found in the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations)
+- Translators can search for missing translations by: `["<yourLanguage>"] = nil` (e.g. `["deDE"] = nil`) and replace the `nil` with a string of the new translation. Current translations can be found in the [Translation folder](https://github.com/Questie/Questie/tree/master/Localization/Translations)
 - Additional information you might find interesting can be found [here](https://github.com/Questie/Questie/wiki/Contributing)
 
 

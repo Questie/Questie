@@ -12,7 +12,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 
 local tinsert = table.insert
@@ -247,7 +247,15 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         if langShort == "en." then
             langShort = ""
         end
-        self.editBox:SetText("https://" .. langShort .. "classic.wowhead.com/quest=" .. questID);
+
+        local wowheadLink = ""
+        if Questie.IsTBC then
+            wowheadLink = "https://" .. langShort .. "tbc.wowhead.com/quest=" .. questID
+        else
+            wowheadLink = "https://" .. langShort .. "classic.wowhead.com/quest=" .. questID
+        end
+
+        self.editBox:SetText(wowheadLink);
         self.editBox:SetFocus();
         self.editBox:HighlightText();
     end,

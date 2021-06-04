@@ -4,7 +4,7 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-if (not GetClassicExpansionLevel) or GetClassicExpansionLevel() == LE_EXPANSION_CLASSIC then
+if Questie.IsClassic then
     local npcsToUpdate = {
         [239] = 2,
         [240] = 2,

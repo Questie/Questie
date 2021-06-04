@@ -23,11 +23,24 @@ jobs:
       - name: Fetch tags
         run: git fetch --prune --unshallow --tags
 
+      - name: Install Lua
+        uses: leafo/gh-actions-lua@v8.0.0
+        with:
+          luaVersion: "5.1"
+
       - name: Install and run Luacheck
         uses: nebularg/actions-luacheck@v1
         with:
-          files: Database Localization
+          files: Database Localization Modules/Auto Modules/FramePool Modules/Journey Modules/Tooltips Modules/Migration.lua Modules/MinimapIcon.lua Modules/QuestieAnnounce.lua Modules/QuestieCleanup.lua Modules/QuestieCoordinates.lua Modules/QuestieDBMIntegration.lua Modules/QuestieEventHandler.lua Modules/QuestieInit.lua Modules/QuestieMenu.lua Modules/QuestieNameplate.lua Modules/QuestiePlayer.lua Modules/QuestieProfessions.lua Modules/QuestieReputation.lua Modules/QuestieSlash.lua Modules/QuestieStream.lua Modules/TaskQueue.lua Modules/VersionCheck.lua Questie.lua
           args: "--no-color -q"
+
+      - name: Install Luarocks
+        uses: leafo/gh-actions-luarocks@v4.0.0
+
+      - name: Validate Questie database
+        run: |
+          luarocks install bit32
+          lua cli.lua
 
       - name: Setup Python
         uses: actions/setup-python@v2

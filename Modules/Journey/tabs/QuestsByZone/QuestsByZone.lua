@@ -148,6 +148,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 local queryResult = QuestieDB.QueryQuest(
                         questId,
                         "exclusiveTo",
+                        "nextQuestInChain",
                         "parentQuest",
                         "preQuestSingle",
                         "preQuestGroup",
@@ -155,15 +156,16 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "requiredMaxRep"
                 ) or {}
                 local exclusiveTo = queryResult[1]
-                local parentQuest = queryResult[2]
-                local preQuestSingle = queryResult[3]
-                local preQuestGroup = queryResult[4]
-                local requiredMinRep = queryResult[5]
-                local requiredMaxRep = queryResult[6]
+                local nextQuestInChain = queryResult[2]
+                local parentQuest = queryResult[3]
+                local preQuestSingle = queryResult[4]
+                local preQuestGroup = queryResult[5]
+                local requiredMinRep = queryResult[6]
+                local requiredMaxRep = queryResult[7]
 
-                -- Exclusive quests will never be available since another quests permantly blocks them.
+                -- Exclusive quests will never be available since another quests permanently blocks them.
                 -- Marking them as complete should be the most satisfying solution for user
-                if exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo) then
+                if (nextQuestInChain and Questie.db.char.complete[nextQuestInChain]) or (exclusiveTo and QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)) then
                     tinsert(zoneTree[3].children, temp)
                     completedCounter = completedCounter + 1
                 -- The parent quest has been completed

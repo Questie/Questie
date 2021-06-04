@@ -1,17 +1,18 @@
-## Interface: 11307
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (B2)|r
+## Interface: 20501
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.3.14 (Beta 7)|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.3.9
+## Version: 6.3.14
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
 
+embeds.xml
+
 Modules\VersionCheck.lua
 
-embeds.xml
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.lua
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
@@ -35,6 +36,10 @@ Database\Classic\classicItemDB.lua
 Database\Classic\classicNpcDB.lua
 Database\Classic\classicObjectDB.lua
 Database\Classic\classicQuestDB.lua
+Database\TBC\tbcItemDB.lua
+Database\TBC\tbcNpcDB.lua
+Database\TBC\tbcObjectDB.lua
+Database\TBC\tbcQuestDB.lua
 Database\QuestieDB.lua
 Database\questDB.lua
 Database\objectDB.lua
@@ -69,12 +74,12 @@ Database\compiler.lua
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
-Localization\lookups\lookupItems\lookupItems.xml
-Localization\lookups\lookupNpcs\lookupNpcs.xml
-Localization\lookups\lookupObjects\lookupObjects.xml
 Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
-Localization\lookups\lookupQuests\lookupQuests.xml
 Localization\lookups\lookupZones\lookupZones.xml
+Localization\lookups\TBC\lookupItems\lookupItems.xml
+Localization\lookups\TBC\lookupNpcs\lookupNpcs.xml
+Localization\lookups\TBC\lookupObjects\lookupObjects.xml
+Localization\lookups\TBC\lookupQuests\lookupQuests.xml
 
 ##Libs
 Modules\Libs\QuestieLib.lua
@@ -84,6 +89,8 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
 ##Modules
+Modules\QuestieInit.lua
+Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
 Modules\QuestieReputation.lua
 Modules\QuestieEventHandler.lua
@@ -112,6 +119,7 @@ Modules\FramePool\QuestieFrame.lua
 #Map
 Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
+Modules\Map\HBDHooks.lua
 
 #Quest
 Modules\Quest\QuestieQuest.lua
@@ -154,7 +162,6 @@ Modules\QuestieSlash.lua
 Modules\Options\QuestieOptions.lua
 Modules\Options\QuestieOptionsDefaults.lua
 Modules\Options\QuestieOptionsUtils.lua
-Modules\Options\QuestieOptionsMinimapIcon.lua
 Modules\Options\AdvancedTab\QuestieOptionsAdvanced.lua
 Modules\Options\DBMTab\QuestieOptionsDBM.lua
 Modules\Options\GeneralTab\QuestieOptionsGeneral.lua
@@ -167,8 +174,8 @@ Modules\Options\TooltipTab\QuestieOptionsTooltip.lua
 #Cleanup
 Modules\QuestieCleanup.lua
 
-#Debug
-Modules\Debug.lua
+#Profiler
+Modules\QuestieProfiler.lua
 
 #Main
 Questie.lua

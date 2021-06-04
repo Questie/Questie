@@ -22,7 +22,7 @@ local mapLocales = {
         ["esMX"] = "Zona Desconocida",
         ["enUS"] = true,
         ["zhCN"] = "未知区域",
-        ["zhTW"] = nil,
+        ["zhTW"] = "未知區域",
         ["esES"] = "Zona Desconocida",
         ["frFR"] = "Zone inconnue",
     }

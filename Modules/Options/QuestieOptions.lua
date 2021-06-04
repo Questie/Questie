@@ -7,8 +7,6 @@ local QuestieOptions = QuestieLoader:CreateModule("QuestieOptions");
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
----@type QuestieOptionsMinimapIcon
-local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -48,7 +46,6 @@ function QuestieOptions:Initialize()
     QuestieConfigFrame = configFrame
     table.insert(UISpecialFrames, "QuestieConfigFrame")
 
-    QuestieOptionsMinimapIcon:Initialize()
     Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initialization done")
 end
 

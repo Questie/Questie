@@ -12,7 +12,7 @@ l10n.continentLookup['esES']= {
 }
 
 l10n.zoneLookup['esES']= {
-    [0] = {
+    [1] = {
         [1] = "Dun Morogh",
         [2] = "Playa Larga",
         [3] = "Tierras Inhóspitas",
@@ -506,7 +506,7 @@ l10n.zoneLookup['esES']= {
         [3486] = "Mansión Ravenholdt",
         [4067] = "Torre del Bosque de la Peste",
     },
-    [1] = {
+    [2] = {
         [14] = "Durotar",
         [15] = "Marjal Revolcafango",
         [16] = "Azshara",

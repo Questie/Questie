@@ -7,27 +7,33 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
-    table.insert(QuestieDB.objectData, 184588, {}) -- Captain Tyralis's Prison
-    table.insert(QuestieDB.objectData, 190483, {}) -- Document chest
-    table.insert(QuestieDB.objectData, 190484, {}) -- Document chest
-    table.insert(QuestieDB.objectData, 400000, {})
-    table.insert(QuestieDB.objectData, 400001, {})
-    table.insert(QuestieDB.objectData, 400002, {})
-    table.insert(QuestieDB.objectData, 400003, {})
-    table.insert(QuestieDB.objectData, 400004, {})
-    table.insert(QuestieDB.objectData, 400005, {})
-    table.insert(QuestieDB.objectData, 400006, {})
-    table.insert(QuestieDB.objectData, 400007, {})
-    table.insert(QuestieDB.objectData, 400008, {})
-    table.insert(QuestieDB.objectData, 400009, {})
-    table.insert(QuestieDB.objectData, 400010, {})
-    table.insert(QuestieDB.objectData, 400011, {})
-    table.insert(QuestieDB.objectData, 400012, {})
+    QuestieDB.objectData[184588] = {}; -- Captain Tyralis's Prison
+    QuestieDB.objectData[190483] = {}; -- Document chest
+    QuestieDB.objectData[190484] = {}; -- Document chest
+    QuestieDB.objectData[400000] = {};
+    QuestieDB.objectData[400001] = {};
+    QuestieDB.objectData[400002] = {};
+    QuestieDB.objectData[400003] = {};
+    QuestieDB.objectData[400004] = {};
+    QuestieDB.objectData[400005] = {};
+    QuestieDB.objectData[400006] = {};
+    QuestieDB.objectData[400007] = {};
+    QuestieDB.objectData[400008] = {};
+    QuestieDB.objectData[400009] = {};
+    QuestieDB.objectData[400010] = {};
+    QuestieDB.objectData[400011] = {};
+    QuestieDB.objectData[400012] = {};
 
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [177281] = {
+            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06},},},
+        },
+        [177790] = {
+            [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{29.56,29.2},},},
+        },
         [181138] = {
             [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{12.53,26.51},{14.7,26.4},{13.69,26.84},},},
         },
@@ -49,6 +55,12 @@ function QuestieTBCObjectFixes:Load()
         [181897] = {
             [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{68.3,21.7},{69.98,26.3},{70.6,16.5},{71.4,11.7},{71.4,28.2},{72.7,21.4},{74.7,16.3},{75,8.7},{75.4,19.1},{75.7,28.4},{75.54,13.85},{76,24.8},{76.8,21.4},},},
         },
+        [182116] = {
+            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{61.5,56.1},{62.4,53.0},{62.4,59.2},{62.5,53.0},{62.5,59.2},{62.9,45.5},{63.0,45.4},{64.1,51.2},{64.8,49.3},{64.8,49.5},{65.0,53.8},{65.4,50.6},{65.6,50.7},{65.8,47.5},{65.9,47.4},{66.0,62.2},{66.1,46.4},{66.4,52.1},{66.5,52.1},{66.6,47.9},{67.3,50.1},{67.3,54.7},{67.7,53.4},{68.0,48.3},{68.3,44.7},{68.3,53.7},{68.6,54.4},{68.6,54.5},{68.8,47.8},{70.2,47.9},{70.7,50.2},{71.0,53.9},{71.1,51.7},{71.2,47.2},{71.6,45.4},{71.6,45.5},{73.1,46.8},},},
+        },
+        [182950] = {
+            [objectKeys.factionID] = 80,
+        },
         [183050] = {
             [objectKeys.spawns] = {[zoneIDs.SETHEKK_HALLS]={{-1,-1}}},
         },
@@ -62,6 +74,18 @@ function QuestieTBCObjectFixes:Load()
         },
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
+        },
+        [185574] = {
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{20.5,17.8}}},
+        },
+        [186273] = {
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2},},},
+        },
+        [187260] = {
+            [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
+        }, 
+        [188123] = {
+            [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.18,16.47}}}, -- TBC only Mailbox
         },
         [190483] = {
             [objectKeys.name] = "Document Chest",

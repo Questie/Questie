@@ -39,6 +39,7 @@ function QuestieItemBlacklist:Load()
         [7909] = true, -- aquamarine
         [7910] = true, -- star ruby
         [8153] = true, -- wildvine
+        [8244] = true, -- flawless-draenethyst-sphere
         [8831] = true, -- purple lotus
         [8836] = true, -- arthas tears
         [8838] = true, -- sungrass
@@ -47,6 +48,7 @@ function QuestieItemBlacklist:Load()
         [8846] = true, -- gromsblood
         [8932] = true, -- Alterac Swiss
         [10561] = true, -- Mithril Casing
+        [10593] = true, -- imperfect-draenethyst-fragment
         [12207] = true, -- giant egg
         [12361] = true, -- blue sapphire
         [12363] = true, -- arcane crystal
@@ -185,6 +187,7 @@ function QuestieItemBlacklist:Load()
         [22578] = true, -- Mote of Water
         [22829] = true, -- Super Healing Potion
         [22832] = true, -- Super Mana Potion
+        [23445] = true, -- Fel Iron Bar
         [24246] = true, -- Sanguine Hibiscus
         [24401] = true, -- Unidentified Plant Parts  
     }

@@ -50,7 +50,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
     local name, link = self:GetItem()
     local itemId
     if link then
-        if GetClassicExpansionLevel and GetClassicExpansionLevel() == LE_EXPANSION_BURNING_CRUSADE then
+        if Questie.IsTBC then
             itemId = select(3, string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?"))
         else
             local _, _, _, _, id, _, _, _, _, _, _, _, _, _ = string.match(link, "|?c?f?f?(%x*)|?H?([^:]*):?(%d+):?(%d*):?(%d*):?(%d*):?(%d*):?(%d*):?(%-?%d*):?(%-?%d*):?(%d*):?(%d*):?(%-?%d*)|?h?%[?([^%[%]]*)%]?|?h?|?r?")
@@ -85,7 +85,7 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
     end
     if name then
         local tooltipAdded = false
-        for index, gameObjectId in pairs(l10n.objectNameLookup[name] or {}) do
+        for _, gameObjectId in pairs(l10n.objectNameLookup[name] or {}) do
             local tooltipData = QuestieTooltips:GetTooltip("o_" .. gameObjectId);
 
             if type(gameObjectId) == "number" and tooltipData then

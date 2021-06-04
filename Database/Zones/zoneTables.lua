@@ -1,6 +1,5 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-local _ZoneDB = ZoneDB.private
 
 
 --- This table maps the areaId (used in the DB for example) to
@@ -8,7 +7,7 @@ local _ZoneDB = ZoneDB.private
 --- The UiMapId identifies a map which can be displayed ingame on the worldmap.
 --- Dungeons don't have a UiMapId!
 --- https://wow.gamepedia.com/UiMapID/Classic
-_ZoneDB.areaIdToUiMapId = {
+local areaIdToUiMapId = {
     [0] = 947,
     [1] = 1426,
     [3] = 1418,
@@ -45,6 +44,7 @@ _ZoneDB.areaIdToUiMapId = {
     [400] = 1441,
     [405] = 1443,
     [406] = 1442,
+    [1941] = 1446,
     [440] = 1446,
     [490] = 1449,
     [493] = 1450,
@@ -60,6 +60,7 @@ _ZoneDB.areaIdToUiMapId = {
     [2597] = 1459,
     [3277] = 1460,
     [3358] = 1461,
+    [3535] = 246,
     [3714] = 246,
     [3790] = 257,
     [3791] = 259,
@@ -84,6 +85,7 @@ _ZoneDB.areaIdToUiMapId = {
     [3524] = 1943,
     [3483] = 1944,
     [676] = 1945,
+    [3905] = 1946,
     [3521] = 1946,
     [3557] = 1947,
     [3520] = 1948,
@@ -91,6 +93,7 @@ _ZoneDB.areaIdToUiMapId = {
     [3525] = 1950,
     [3518] = 1951,
     [3519] = 1952,
+    [3842] = 1953,
     [3523] = 1953,
     [3487] = 1954,
     [3703] = 1955,
@@ -99,7 +102,7 @@ _ZoneDB.areaIdToUiMapId = {
 }
 
 -- [areaId] = {"name", alternative areaId (a sub zone), parentId}
-_ZoneDB.dungeons = {
+local dungeons = {
     [209] = {"Shadowfang Keep", 236, 130},
     [491] = {"Razorfen Kraul", 1717, 17},
     [717] = {"The Stockades", nil, 1519},
@@ -122,23 +125,29 @@ _ZoneDB.dungeons = {
     [2367] = {"Old Hillsbrad Foothills", nil, 440},
     [2437] = {"Ragefire Chasm", nil, 1637},
     [2557] = {"Dire Maul", 2577, 357},
+    [3457] = {"Kharazan", nil, 41},
     [3562] = {"Hellfire Ramparts",nil,3483},
+    [3606] = {"Hyjal Summit", nil, 440},
     [3713] = {"The Blood Furnace",nil,3483},
-    [3714] = {"The Shattered Halls",nil,3483},
+    [3714] = {"The Shattered Halls",3535,3483},
     [3715] = {"The Steamvault",nil,3521},
     [3716] = {"The Underbog",nil,3521},
     [3717] = {"The Slave Pens",nil,3521},
-    [3847] = {"The Botanica",nil,3523},
-    [3848] = {"The Arcatraz",nil,3523},
-    [3849] = {"The Mechanar",nil,3523},
     [3789] = {"Shadow Labyrinth",nil,3519},
     [3790] = {"Auchenai Crypts",nil,3519},
     [3791] = {"Sethekk Halls",nil,3519},
     [3792] = {"Mana-Tombs",nil,3519},
+    [3847] = {"The Botanica",nil,3523},
+    [3848] = {"The Arcatraz",nil,3523},
+    [3849] = {"The Mechanar",nil,3523},
 }
 
+function ZoneDB:GetDungeons()
+    return dungeons
+end
+
 -- [areaId] = {{areaId, locationX, locationY}, ...}
-_ZoneDB.dungeonLocations = {
+local dungeonLocations = {
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
     [717] = {{1519, 40.5, 55.9}},
@@ -161,8 +170,8 @@ _ZoneDB.dungeonLocations = {
     [2100] = {{405, 29.5, 62.5}},
     [2159] = {{15, 52.4, 76.4}},
     [2257] = {{1519, 60.3, 12.5}, {1537, 72.8, 50.3}},
-    [2366] = {{440, 66.3, 35.5}},
-    [2367] = {{440, 66.3, 35.5}},
+    [2366] = {{440, 57.4, 62.8}},
+    [2367] = {{440, 55.6, 53.7}},
     [2437] = {{1637, 51.7, 49.8}},
     [2557] = {{357, 59.2, 45.1}},
     [2597] = {{36, 66.6, 51.3},},
@@ -173,7 +182,9 @@ _ZoneDB.dungeonLocations = {
     [3428] = {{1377, 29, 95}},
     [3429] = {{1377, 29, 95}},
     [3456] = {{139, 39.9, 25.8}},
+    [3457] = {{41, 46.71, 70.22}},
     [3562] = {{3483, 47.7, 53.6}},
+    [3606] = {{440, 57.2, 49.9}},
     [3713] = {{3483, 46.0, 51.8}},
     [3714] = {{3483, 47.7, 52.0}},
     [3715] = {{3521, 50.4, 40.9}},
@@ -190,7 +201,7 @@ _ZoneDB.dungeonLocations = {
 }
 
 -- [dungeonZone] = parentZone
-_ZoneDB.dungeonParentZones = {
+local dungeonParentZones = {
     [236] = 209,
     [1717] = 491,
     [2797] = 719,
@@ -204,12 +215,18 @@ _ZoneDB.dungeonParentZones = {
 }
 
 -- [subZone] = parentZone
-_ZoneDB.subZoneToParentZone = {
+local subZoneToParentZone = {
     [2839] = 2597,
     [35] = 33,
     [1116] = 357,
     [702] = 141,
     [1769] = 361,
+    [3917] = 3688,
+    [3696] = 3522,
+    [2300] = 1941,
+    [3545] = 3535,
+    [3563] = 3535,
+    [3845] = 3842,
     -- starting zones
     [9] = 12,
     [132] = 1,
@@ -217,7 +234,19 @@ _ZoneDB.subZoneToParentZone = {
     [188] = 141,
     [220] = 215,
     [363] = 14,
+    [3431] = 3430,
+    [3526] = 3524,
 }
+
+function ZoneDB:GetZoneTables()
+    return {
+        areaIdToUiMapId,
+        dungeons,
+        dungeonLocations,
+        dungeonParentZones,
+        subZoneToParentZone
+    }
+end
 
 -- Different source of zoneIds
 -- These are not in use anymore but are quite helpful when fixing the database
@@ -336,9 +365,3 @@ ZoneDB.zoneIDs = {
     ISLE_OF_QUEL_DANAS = 4080,
     UPPER_BLACKROCK_SPIRE = 7307,
 }
-
-ZoneDB.zoneIDToInternalName = {}
-
-for name, id in pairs(ZoneDB.zoneIDs) do
-    ZoneDB.zoneIDToInternalName[id] = name
-end

@@ -381,8 +381,10 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     local mapId = self:GetMap():GetMapID()
     if(lastUiMapId ~= mapId or worldmapProvider.forceUpdate) then
         self:RemoveAllData()
+        local cacheMap = self:GetMap()
+        local uiMapID = cacheMap:GetMapID()
         for icon, data in pairs(worldmapPins) do
-            self:HandlePin(icon, data)
+            self:HandlePin(icon, data, uiMapID, cacheMap)
         end
         --DEFAULT_CHAT_FRAME:AddMessage(mapId .. " - " .. lastUiMapId .. " : " .. tostring(worldmapProvider.forceUpdate));
         lastUiMapId = mapId;
@@ -390,8 +392,8 @@ function worldmapProvider:RefreshAllData(fromOnShow)
     end
 end
 
-function worldmapProvider:HandlePin(icon, data)
-    local uiMapID = self:GetMap():GetMapID()
+function worldmapProvider:HandlePin(icon, data, uiMapId, cacheMap)
+    local uiMapID = uiMapId or self:GetMap():GetMapID()
 
     -- check for a valid map
     if not uiMapID then return end
@@ -458,7 +460,7 @@ function worldmapProvider:HandlePin(icon, data)
     end
     if x and y then
         --worldmapProvider.forceUpdate = true;
-        self:GetMap():AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
+        (cacheMap or self:GetMap()):AcquirePin("HereBeDragonsPinsTemplateQuestie", icon, x, y, data.frameLevelType)
     end
 end
 

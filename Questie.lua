@@ -1,6 +1,3 @@
-if not QuestieConfigCharacter then
-    QuestieConfigCharacter = {}
-end
 
 -- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
 -- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
@@ -10,9 +7,6 @@ DEBUG_INFO = "|cff00bc32[INFO]|r"
 DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 DEBUG_SPAM = "|cffff8484[SPAM]|r"
 
---Initialized below
----@class Questie
-Questie = {...}
 
 -------------------------
 --Import modules.
@@ -24,9 +18,9 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
-local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults");
----@type QuestieOptionsMinimapIcon
-local QuestieOptionsMinimapIcon = QuestieLoader:ImportModule("QuestieOptionsMinimapIcon");
+local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieAuto
@@ -35,8 +29,6 @@ local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto");
 local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 ---@type QuestieMap
@@ -71,10 +63,6 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@type Migration
-local Migration = QuestieLoader:ImportModule("Migration")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -89,7 +77,7 @@ if  --Libs
     --Options
     (not QuestieOptions) or
     (not QuestieOptionsDefaults) or
-    (not QuestieOptionsMinimapIcon) or
+    (not MinimapIcon) or
     (not QuestieOptionsUtils) or
     (not QuestieOptions.tabs) or
     (not QuestieOptions.tabs.advanced) or
@@ -103,7 +91,6 @@ if  --Libs
     (not QuestieAuto) or
     (not QuestieCoords) or
     (not QuestieEventHandler) or
-    (not QuestieFramePool) or
     (not QuestieJourney) or
     --Map
     (not QuestieMap) or
@@ -126,84 +113,67 @@ if  --Libs
     C_Timer.After(8, function()
         print(Questie:Colorize(l10n("WARNING!"), "red") .. " " .. l10n("You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"))
     end)
-  else
-    -- Initialize Questie
-    Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
-    local _Questie = {...}
 end
 
 
 function Questie:OnInitialize()
-    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = "|cFFFF0000(B2) |r"
+    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
 
-    self.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
-    QuestieFramePool:SetIcons()
+    -- This has to happen OnInitialize to be available asap
+    Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
-    Migration:Migrate()
+    QuestieEventHandler:RegisterEarlyEvents()
+end
 
-    -- Set proper locale. Either default to client Locale or override based on user.
-    if Questie.db.global.questieLocaleDiff then
-        l10n:SetUILocale(Questie.db.global.questieLocale);
+function Questie:ContinueInit()
+    --QuestieTracker:Initialize() --moved to stage 2 init event function
+    QuestieTooltips:Initialize()
+    QuestieCoords:Initialize()
+    QuestieQuestTimers:Initialize()
+    QuestieCombatQueue:Initialize()
+    QuestieComms:Initialize()
+
+    -- Register Slash Commands
+    Questie:RegisterChatCommand("questieclassic", "HandleSlash")
+    Questie:RegisterChatCommand("questie", "HandleSlash")
+
+    QuestieOptions:Initialize()
+
+    --Initialize the DB settings.
+    Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
+
+
+    -- Update the default text on the map show/hide button for localization
+    if Questie.db.char.enabled then
+        Questie_Toggle:SetText(l10n("Hide Questie"));
     else
-        l10n:SetUILocale(GetLocale());
+        Questie_Toggle:SetText(l10n("Show Questie"));
     end
 
-    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
-    ZoneDB:Initialize()
+    -- Update status of Map button on hide between play sessions
+    if Questie.db.global.mapShowHideEnabled then
+        Questie_Toggle:Show();
+    else
+        Questie_Toggle:Hide();
+    end
 
-    QuestieEventHandler:RegisterAllEvents(function()
-        --QuestieTracker:Initialize() --moved to stage 2 init event function
-        QuestieTooltips:Initialize()
-        QuestieCoords:Initialize()
-        QuestieQuestTimers:Initialize()
-        QuestieCombatQueue:Initialize()
-        QuestieComms:Initialize()
-
-        -- Register Slash Commands
-        Questie:RegisterChatCommand("questieclassic", "HandleSlash")
-        Questie:RegisterChatCommand("questie", "HandleSlash")
-
-        QuestieOptions:Initialize()
-
-        --Initialize the DB settings.
-        Questie:Debug(DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
-
-        -- Creating the minimap config icon
-        Questie.minimapConfigIcon = LibStub("LibDBIcon-1.0");
-        Questie.minimapConfigIcon:Register("Questie", QuestieOptionsMinimapIcon:Get(), Questie.db.profile.minimap);
-
-        -- Update the default text on the map show/hide button for localization
-        if Questie.db.char.enabled then
-            Questie_Toggle:SetText(l10n("Show Questie"));
-        else
-            Questie_Toggle:SetText(l10n("Hide Questie"));
-        end
-
-        -- Update status of Map button on hide between play sessions
-        if Questie.db.global.mapShowHideEnabled then
-            Questie_Toggle:Show();
-        else
-            Questie_Toggle:Hide();
-        end
-
-        -- Change position of Map button when continent dropdown is hidden
-        C_Timer.After(1, function()
-            if not WorldMapContinentDropDown:IsShown() then
-                Questie_Toggle:ClearAllPoints();
-                if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
-                    AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
-                    AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
-                    Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
-                else
-                    Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
-                end
+    -- Change position of Map button when continent dropdown is hidden
+    C_Timer.After(1, function()
+        if not WorldMapContinentDropDown:IsShown() then
+            Questie_Toggle:ClearAllPoints();
+            if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
+                AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
+                AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
+                Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
+            else
+                Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
             end
-        end)
-
-        if Questie.db.global.dbmHUDEnable then
-            QuestieDBMIntegration:EnableHUD()
         end
     end)
+
+    if Questie.db.global.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
 end
 
 function Questie:OnUpdate()
@@ -282,6 +252,12 @@ function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
+function Questie:Warning(...)
+    if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
+        Questie:Print("|cffffff00[WARNING]|r", ...)
+    end
+end
+
 function Questie:Debug(...)
     if(Questie.db.global.debugEnabled) then
         -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
@@ -296,9 +272,6 @@ function Questie:Debug(...)
         if(bit.band(Questie.db.global.debugLevel, math.pow(2, 1)) == 0 and select(1, ...) == DEBUG_ELEVATED)then return; end
         if(bit.band(Questie.db.global.debugLevel, math.pow(2, 0)) == 0 and select(1, ...) == DEBUG_CRITICAL)then return; end
         --Questie:Print(...)
-        if(QuestieConfigCharacter.log) then
-            QuestieConfigCharacter = {};
-        end
 
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)

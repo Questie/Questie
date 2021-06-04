@@ -70,19 +70,19 @@ local function CreateShowHideButton(id)
         button:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
     end
     -- Functions for showing/hiding and switching behaviour afterwards
-    function button:RemoveFromMap(self)
+    button.RemoveFromMap = function(self)
         QuestieMap:UnloadManualFrames(self.id)
         self:SetText(l10n('Show on Map'))
-        self:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
+        self:SetCallback('OnClick', function() self:ShowOnMap(self) end)
     end
-    function button:ShowOnMap(self)
+    button.ShowOnMap = function(self)
         if self.id > 0 then
             QuestieMap:ShowNPC(self.id)
         elseif self.id < 0 then
             QuestieMap:ShowObject(-self.id)
         end
         self:SetText(l10n('Remove from Map'))
-        self:SetCallback('OnClick', function(self) self:RemoveFromMap(self) end)
+        self:SetCallback('OnClick', function() self:RemoveFromMap(self) end)
     end
     return button
 end
@@ -225,14 +225,8 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             end
         end
 
-        local continent = l10n("Unknown Zone");
-        for category, data in pairs(l10n.zoneLookup) do
-            if data[startindex] then
-                continent = l10n.zoneLookup[category][startindex];
-                break;
-            end
-        end
-
+        local continent = QuestieJourneyUtils:GetZoneName(startindex)
+        
         spawnZone:SetText(continent);
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
@@ -335,19 +329,14 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
 
     local results = {}
     local database
-    local key
     if resultType == "quest" then
-        database = QuestieDB.QueryQuestSingle--QuestieDB.questData
-        key = QuestieDB.questKeys.name
+        database = QuestieDB.QueryQuestSingle
     elseif resultType == "npc" then
-        database = QuestieDB.QueryNPCSingle--QuestieDB.npcData
-        key = QuestieDB.npcKeys.name
+        database = QuestieDB.QueryNPCSingle
     elseif resultType == "object" then
-        database = QuestieDB.QueryObjectSingle--QuestieDB.objectData
-        key = QuestieDB.objectKeys.name
+        database = QuestieDB.QueryObjectSingle
     elseif resultType == "item" then
-        database = QuestieDB.QueryItemSingle--QuestieDB.itemData
-        key = QuestieDB.itemKeys.name
+        database = QuestieDB.QueryItemSingle
     else
         return
     end
@@ -389,8 +378,8 @@ _HandleOnGroupSelected = function (resultType)
     -- This is either the questId, npcId, objectId or itemId
     local selectedId = tonumber(resultType.localstatus.selected)
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
-        local questName = QuestieDB.QueryQuestSingle(questId, "name")
-        local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+        local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
+        local questLevel, _ = QuestieLib:GetTbcLevel(selectedId);
 
         if Questie.db.global.trackerShowQuestLevel then
             ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")

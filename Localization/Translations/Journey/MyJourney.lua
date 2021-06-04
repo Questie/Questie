@@ -136,7 +136,7 @@ local myJourneyLocales = {
     },
     ["Accepted"] = {
         ["ptBR"] = "Aceita",
-        ["ruRU"] = "Принято",
+        ["ruRU"] = "принято",
         ["deDE"] = "Angenommen",
         ["koKR"] = "수락",
         ["esMX"] = "Aceptada",
@@ -232,7 +232,7 @@ local myJourneyLocales = {
     },
     ["No Note was entered. You must enter a note before submitting."] = {
         ["ptBR"] = "Nenhuma anotação foi inserida. Você deve inserir uma anotação antes de submeter.",
-        ["ruRU"] = "Вы не ввели описание заметки. Введите описание для добавления заметки",
+        ["ruRU"] = "Вы не ввели описание заметки. Введите описание для добавления заметки.",
         ["deDE"] = "Keine Notiz angegeben. Du musst eine Notiz angeben, bevor ein Eintrag angelegt werden kann.",
         ["koKR"] = "내용이 입력되지 않았습니다. 메모를 추가하려면 내용을 입력해주세요.",
         ["esMX"] = "No has introducido una nota. Tienes que introducir una antes de crear tu nota.",
@@ -244,7 +244,7 @@ local myJourneyLocales = {
     },
     ["No Title was entered. You must enter a title before submitting your note."] = {
         ["ptBR"] = "Nenhum título foi inserido. Você deve inserir um título antes de submeter sua anotação.",
-        ["ruRU"] = "Вы не ввели название заметки. Введите название для добавления заметки",
+        ["ruRU"] = "Вы не ввели название заметки. Введите название для добавления заметки.",
         ["deDE"] = "Kein Titel angegeben. Du musst einen Titel angeben, bevor ein Eintrag angelegt werden kann.",
         ["koKR"] = "제목이 입력되지 않았습니다. 메모를 추가하려면 제목을 입력해주세요.",
         ["esMX"] = "No has introducido un título. Tienes que introducir uno antes de crear tu nota.",

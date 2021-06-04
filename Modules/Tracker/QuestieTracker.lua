@@ -1,6 +1,5 @@
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
 
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
@@ -34,7 +33,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieArrow
 local QuestieArrow = QuestieLoader:ImportModule("QuestieArrow")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 

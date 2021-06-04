@@ -66,11 +66,13 @@ local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
+local dungeons = ZoneDB:GetDungeons()
+
 function QuestieQuest:Initialize()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
     Questie.db.char.complete = GetQuestsCompleted()
 
-    --QuestieProfessions:Update()
+    QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
     QuestieHash:LoadQuestLogHashes()
@@ -499,7 +501,12 @@ function QuestieQuest:GetAllQuestIds()
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if (not isHeader) then
+        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+            if not Questie._sessionWarnings[questId] then
+                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie._sessionWarnings[questId] = true
+            end
+        elseif (not isHeader) then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -527,7 +534,12 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestiePlayer.currentQuestlog = {}
     for index = 1, numEntries do
         local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if(not isHeader) then
+        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+            if not Questie._sessionWarnings[questId] then
+                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+                Questie._sessionWarnings[questId] = true
+            end
+        elseif (not isHeader) then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -561,7 +573,7 @@ function QuestieQuest:AddFinisher(quest)
     local questId = quest.Id
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]", "Adding finisher for quest", questId)
 
-    if(QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and IsQuestComplete(questId) and (not Questie.db.char.complete[questId])) then
+    if(QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (IsQuestComplete(questId) or quest:IsComplete() == 1) and (not Questie.db.char.complete[questId])) then
         local finisher
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
@@ -1060,7 +1072,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
     for objectiveIndex, objective in pairs(questObjectives) do
-        if objective.type and objective.type ~= "reputation" then
+        if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
                 Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
@@ -1084,7 +1096,8 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         spawnList = {},
                         AlreadySpawned = {},
                         Update = _ObjectiveUpdate,
-                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates -- Only for type "event"
+                        Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
+                        RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue
                     }
                 end
 
@@ -1188,6 +1201,7 @@ local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED
 local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 local _has_seen_incomplete = {}
+local _has_sent_announce = {}
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
     local questObjectives = QuestieLib:GetQuestObjectives(questId);
@@ -1239,8 +1253,9 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
                 if (not completed) then
                     _has_seen_incomplete[objective.text] = true
-                elseif _has_seen_incomplete[objective.text] then
+                elseif _has_seen_incomplete[objective.text] and not _has_sent_announce[objective.text] then
                     _has_seen_incomplete[objective.text] = nil
+                    _has_sent_announce[objective.text] = true
                     QuestieAnnounce:Announce(questId, "objective", spawnItemId, objective.text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
                 end
             else
@@ -1359,7 +1374,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
 
                 if npc.waypoints then
                     for zone, waypoints in pairs(npc.waypoints) do
-                        if not ZoneDB.private.dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                        if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                             if not starterIcons[zone] then
                                 local data = {}
                                 data.Id = quest.Id;

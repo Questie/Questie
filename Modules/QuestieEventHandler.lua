@@ -38,103 +38,21 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
----@type Cleanup
-local QuestieCleanup = QuestieLoader:ImportModule("Cleanup")
----@type DBCompiler
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type QuestieMenu
-local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieDatabaseUnification
-local QuestieDatabaseUnification = QuestieLoader:ImportModule("QuestieDatabaseUnification")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieInit
+local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 
 --- LOCAL ---
 --False -> true -> nil
 local didPlayerEnterWorld = false
-local hasFirstQLU = false
 local shouldRunQLU = false
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
-
-local continueInit
-
-
---- This function registeres all required ingame events to the global "Questie"
-function QuestieEventHandler:RegisterAllEvents(callback)
-    -- Putting it here reduces the size of the QuestieEventHandler, since all the regular
-    -- event handlers can be local
-
-    -- Player Events
-    Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
-    
-    continueInit = function()
-        Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
-        Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
-        Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
-
-        -- Miscellaneous Events
-        Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
-        Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _EventHandler.ModifierStateChanged)
-        -- Events to update a players professions and reputations
-        Questie:RegisterEvent("CHAT_MSG_SKILL", _EventHandler.ChatMsgSkill)
-        Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
-
-        -- Quest Events
-        Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
-        Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
-        Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
-        Questie:RegisterEvent("QUEST_REMOVED", _EventHandler.QuestRemoved)
-        Questie:RegisterEvent("QUEST_FINISHED", _EventHandler.QuestFinished)
-        -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
-        -- Might be able to change this to 0.5 seconds instead, further testing needed.
-        Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _EventHandler.QuestLogUpdate)
-        Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
-        Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-        Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
-        Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
-        Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
-        Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
-        Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
-
-        -- Questie Comms Events
-
-        -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
-        Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _EventHandler.GroupRosterUpdate)
-        Questie:RegisterEvent("GROUP_JOINED", _EventHandler.GroupJoined) -- This is not local because QuestieComms needs to call it
-        Questie:RegisterEvent("GROUP_LEFT", _EventHandler.GroupLeft)
-
-        -- Nameplate / Target Frame Objective Events
-        Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
-        Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
-        Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
-
-        -- dropdown fix
-        Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
-
-        -- quest announce
-        Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
-
-        -- since icon updates are disabled in instances, we need to reset on P_E_W
-        Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
-            if Questie.started then
-                QuestieMap:InitializeQueue()
-                if not IsInInstance() then
-                    QuestieQuest:SmoothReset()
-                end
-            end
-        end)
-        callback()
-    end
-
-end
-
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
     for i=1, GetNumQuestLogEntries() do
@@ -143,161 +61,93 @@ local function _Hack_prime_log() -- this seems to make it update the data much q
     end
 end
 
-function _EventHandler:PlayerLogin()
-    local function stage1()
-        QuestieDB:Initialize()
-        QuestieLib:CacheAllItemNames()
+function QuestieEventHandler:RegisterEarlyEvents()
+    local savedVarsTimer
+    Questie:RegisterEvent("PLAYER_LOGIN", function()
+        MinimapIcon:Init() -- This needs to happen outside of a Timer
 
-        -- if compiled db exists and is up to date
-            QuestieCleanup:Run()
-        -- end
-    end
+        local maxTickerRuns = 50 -- 50 * 0.1 seconds = 5 seconds
+        local tickCounter = 0
 
-    local function stage2()
-        -- We want the framerate to be HIGH!!!
-        continueInit()
-        QuestieMap:InitializeQueue()
-        _Hack_prime_log()
-        QuestiePlayer:Initialize()
-        l10n:PostBoot()
-        QuestieJourney:Initialize()
-        QuestieQuest:Initialize()
-        QuestieQuest:GetAllQuestIdsNoObjectives()
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
-        QuestieNameplate:Initialize()
-        QuestieMenu:PopulateTownsfolkPostBoot()
-        Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-        didPlayerEnterWorld = true
-        -- manually fire QLU since enter has been delayed past the first QLU
-        if hasFirstQLU then
-            _EventHandler:QuestLogUpdate()
-        end
-        -- Initialize the tracker
-        QuestieTracker:Initialize()
-
-        local dateToday = date("%y-%m-%d")
-
-        if Questie.db.char.showAQWarEffortQuests and (Questie.db.char.aqWarningPrintDate == nil or Questie.db.char.aqWarningPrintDate < dateToday) then
-            Questie.db.char.aqWarningPrintDate = dateToday
-            C_Timer.After(2, function()
-                print("|cffff0000-----------------------------|r")
-                Questie:Print("|cffff0000The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the General settings of Questie!|r");
-                print("|cffff0000-----------------------------|r")
-            end)
-        end
-
-        QuestieMenu:OnLogin()
-
-        TEST_QUESTIE_ROUTES() -- todo: refactor this (no globals)
-        BUILD_NEW_TRACKER() -- todo: refactor this (no globals)
-
-        if Questie.db.global.debugEnabled then
-            QuestieLoader:PopulateGlobals()
-        end
-
-        Questie.started = true
-
-    end
-
-    if QuestieLib:GetAddonVersionString() ~= QuestieConfig.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= QuestieConfig.dbCompiledLang then
-        QuestieConfig.dbIsCompiled = nil -- we need to recompile
-    end
-
-    if QuestieConfig.dbIsCompiled then -- todo: check for updates or language change and recompile
-
-        if not Questie.db.char.townsfolk then
-            QuestieMenu:BuildCharacterTownsfolk()
-        end
-
-        QuestieCorrections:MinimalInit()
-        C_Timer.After(1, stage1)
-        C_Timer.After(4, stage2)
-    else
-        -- reset townsfolk on all characters before compile
-        for _, char in pairs(QuestieConfig.char) do
-            char.townsfolk = nil
-        end
-        --Questie.minimapConfigIcon:Hide("Questie") -- prevent opening journey / settings while compiling
-        local callTable = {
-            function()
-                print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
-                -- give it an extra second, this runs right at player_logged_in and we don't want to lag users too much
-            end,
-            function()
-                print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-                QuestieDB.npcData = loadstring(QuestieDB.npcData)
-                QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and loadstring(QuestieDB.npcDataTBC) or nil
-            end,
-            function() -- secondary function to avoid lag spikes
-                QuestieDB.npcData = QuestieDB.npcData()
-                QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and QuestieDB.npcDataTBC() or nil
-            end,
-            function() 
-                QuestieDB.objectData = loadstring(QuestieDB.objectData)
-                QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and loadstring(QuestieDB.objectDataTBC) or nil
-            end,
-            function()
-                QuestieDB.objectData = QuestieDB.objectData()
-                QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and QuestieDB.objectDataTBC() or nil
-            end,
-            function()
-                QuestieDB.questData = loadstring(QuestieDB.questData)
-                QuestieDB.questDataTBC = QuestieDB.questDataTBC and loadstring(QuestieDB.questDataTBC) or nil
-            end,
-            function()
-                QuestieDB.questData = QuestieDB.questData()
-                QuestieDB.questDataTBC = QuestieDB.questDataTBC and QuestieDB.questDataTBC() or nil
-            end,
-            function()
-                QuestieDB.itemData = loadstring(QuestieDB.itemData)
-                QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataTBC) or nil
-            end,
-            function()
-                QuestieDB.itemData = QuestieDB.itemData()
-                QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
-            end,
-            function()
-                print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-
-                if QuestieDB.questDataTBC then
-                    -- combine tbc and classic db where relevant
-                    QuestieDB.questData = QuestieDatabaseUnification:CombineQuests(QuestieDB.questData, QuestieDB.questDataTBC)
-                    QuestieDB.objectData = QuestieDatabaseUnification:CombineObjects(QuestieDB.objectData, QuestieDB.objectDataTBC)
+        savedVarsTimer = C_Timer.NewTicker(0.1, function()
+            tickCounter = tickCounter + 1
+            if (not QuestieConfig) then
+                -- The Saved Variables are not loaded yet
+                if tickCounter == (maxTickerRuns - 1) then
+                    -- The time is over, must be a fresh install
+                    _EventHandler:PlayerLogin()
                 end
-            end,
-            function()
-                if QuestieDB.questDataTBC then
-                    QuestieDB.npcData = QuestieDatabaseUnification:CombineNPCs(QuestieDB.npcData, QuestieDB.npcDataTBC)
-                    QuestieDB.itemData = QuestieDatabaseUnification:CombineItems(QuestieDB.itemData, QuestieDB.itemDataTBC)
-                end
-            end,
-            function()
-                QuestieCorrections:Initialize()
-                QuestieMenu:PopulateTownsfolk()
-            end,
-            function()
-                print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
-                l10n:Initialize()
-            end,
-            function()
-                QuestieDB.private:DeleteGatheringNodes()
-                QuestieCorrections:PreCompile(function()
-                    QuestieDBCompiler:Compile(function()
-                        stage1()
-                        QuestieMenu:BuildCharacterTownsfolk()
-                        QuestieMenu:PopulateTownsfolkPostBoot()
-                        stage2()
-                        --Questie.minimapConfigIcon:Show("Questie")
-                    end)
-                end)
+                return
             end
-        }
-        local callIndex = 1
-        C_Timer.NewTicker(0.5, function() 
-            callTable[callIndex]()
-            callIndex = callIndex + 1
-        end, #callTable)
-    end
+
+            savedVarsTimer:Cancel()
+            _EventHandler:PlayerLogin()
+        end, maxTickerRuns)
+    end)
+end
+
+function QuestieEventHandler:RegisterLateEvents()
+    Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
+    Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
+    Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
+
+    -- Miscellaneous Events
+    Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
+    Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _EventHandler.ModifierStateChanged)
+    -- Events to update a players professions and reputations
+    Questie:RegisterEvent("CHAT_MSG_SKILL", _EventHandler.ChatMsgSkill)
+    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
+
+    -- Quest Events
+    Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
+    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
+    Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
+    Questie:RegisterEvent("QUEST_REMOVED", _EventHandler.QuestRemoved)
+    Questie:RegisterEvent("QUEST_FINISHED", _EventHandler.QuestFinished)
+    -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
+    -- Might be able to change this to 0.5 seconds instead, further testing needed.
+    Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _EventHandler.QuestLogUpdate)
+    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
+    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
+    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
+    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
+
+    -- Questie Comms Events
+
+    -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
+    Questie:RegisterBucketEvent("GROUP_ROSTER_UPDATE", 1, _EventHandler.GroupRosterUpdate)
+    Questie:RegisterEvent("GROUP_JOINED", _EventHandler.GroupJoined)
+    Questie:RegisterEvent("GROUP_LEFT", _EventHandler.GroupLeft)
+
+    -- Nameplate / Target Frame Objective Events
+    Questie:RegisterEvent("NAME_PLATE_UNIT_ADDED", QuestieNameplate.NameplateCreated)
+    Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
+    Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
+
+    -- dropdown fix
+    Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
+
+    -- quest announce
+    Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
+
+    -- since icon updates are disabled in instances, we need to reset on P_E_W
+    Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
+        if Questie.started then
+            QuestieMap:InitializeQueue()
+            if not IsInInstance() then
+                QuestieQuest:SmoothReset()
+            end
+        end
+    end)
+
+    Questie:ContinueInit() -- continue startup inside Questie.lua
+end
+
+function _EventHandler:PlayerLogin()
+    QuestieInit:Init()
 end
 
 

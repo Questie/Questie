@@ -9,7 +9,7 @@ local minimapIconLocales = {
         ["koKR"] = "메뉴 표시",
         ["zhCN"] = "切换菜单",
         ["enUS"] = true,
-        ["zhTW"] = nil,
+        ["zhTW"] = "切換目錄",
         ["deDE"] = "Menü zeigen/verstecken",
         ["esES"] = "Mostrar menú",
         ["esMX"] = "Mostrar Menú",
@@ -28,7 +28,7 @@ local minimapIconLocales = {
     },
     ["Toggle My Journey"] = {
         ["ptBR"] = "Alternar minha viagem",
-        ["ruRU"] = "Открыть \"Мое путешествие\"",
+        ["ruRU"] = "Открыть 'Путешествие'",
         ["deDE"] = "Meine Reise zeigen/verstecken",
         ["koKR"] = "나의 여정 창 열기",
         ["esMX"] = "Mostrar mi viaje",

@@ -88,12 +88,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             return
         end
         
-        local continent = l10n("Unknown Zone")
-        for i, v in ipairs(QuestieJourney.zones) do
-            if v[startindex] then
-                continent = QuestieJourney.zones[i][startindex]
-            end
-        end
+        local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
         startNPCZoneLabel:SetText(continent)
         startNPCZoneLabel:SetFullWidth(true)
@@ -177,12 +172,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 startindex = i
             end
 
-            local continent = l10n("Unknown Zone")
-            for i, v in ipairs(QuestieJourney.zones) do
-                if v[startindex] then
-                    continent = QuestieJourney.zones[i][startindex]
-                end
-            end
+            local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
             startObjectZoneLabel:SetText(continent)
             startObjectZoneLabel:SetFullWidth(true)
@@ -261,31 +251,28 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         local endNPCZoneLabel = AceGUI:Create("Label")
         local endindex = 0
-        if not endNPC.spawns then
+        if (not endNPC.spawns) then
             return
         end
         for i in pairs(endNPC.spawns) do
             endindex = i
         end
 
-        local continent = l10n("Unknown Zone")
-        for i, v in ipairs(QuestieJourney.zones) do
-            if v[endindex] then
-                continent = QuestieJourney.zones[i][endindex]
-            end
-        end
-
+        local continent = QuestieJourneyUtils:GetZoneName(endindex)
+        
         endNPCZoneLabel:SetText(continent)
         endNPCZoneLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCZoneLabel)
 
-        local endx = endNPC.spawns[endindex][1][1]
-        local endy = endNPC.spawns[endindex][1][2]
-        if (endx ~= -1 or endy ~= -1) then
-            local endNPCLocLabel = AceGUI:Create("Label")
-            endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
-            endNPCLocLabel:SetFullWidth(true)
-            endNPCGroup:AddChild(endNPCLocLabel)
+        if (next(endNPC.spawns)) then
+            local endx = endNPC.spawns[endindex][1][1]
+            local endy = endNPC.spawns[endindex][1][2]
+            if (endx ~= -1 or endy ~= -1) then
+                local endNPCLocLabel = AceGUI:Create("Label")
+                endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
+                endNPCLocLabel:SetFullWidth(true)
+                endNPCGroup:AddChild(endNPCLocLabel)
+            end
         end
 
         local endNPCIdLabel = AceGUI:Create("Label")
@@ -325,9 +312,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
                 endNPCGroup:AddChild(noQuestLabel)
             end
 
+            QuestieJourneyUtils:Spacer(endNPCGroup)
         end
-
-        QuestieJourneyUtils:Spacer(endNPCGroup)
 
         -- Fix for sometimes the scroll content will max out and not show everything until window is resized
         container.content:SetHeight(10000)
@@ -387,7 +373,6 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     ---@class AceInlineGroup
     local preQuestInlineGroup = AceGUI:Create("InlineGroup")
     local preQuestCounter = 1
-    local preQuests = {}
 
     preQuestInlineGroup:SetLayout("List")
     preQuestInlineGroup:SetTitle(l10n('Pre Quests'))
@@ -396,11 +381,8 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     if (quest.preQuestSingle and next(quest.preQuestSingle)) then
         for _, v in pairs(quest.preQuestSingle) do
             if not (v == quest.Id) then
-                preQuests[preQuestCounter] = {}
                 local preQuest = QuestieDB:GetQuest(v)
                 local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
-                preQuests[preQuestCounter].frame = label
-                preQuests[preQuestCounter].quest = preQuest
                 preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
             end
@@ -410,11 +392,8 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     if (quest.preQuestGroup and next(quest.preQuestGroup)) then
         for _, v in pairs(quest.preQuestGroup) do
             if not (v == quest.Id) then
-                preQuests[preQuestCounter] = {}
                 local preQuest = QuestieDB:GetQuest(v)
                 local label = _QuestieJourney:GetInteractiveQuestLabel(preQuest)
-                preQuests[preQuestCounter].frame = label
-                preQuests[preQuestCounter].quest = preQuest
                 preQuestInlineGroup:AddChild(label)
                 preQuestCounter = preQuestCounter + 1
             end

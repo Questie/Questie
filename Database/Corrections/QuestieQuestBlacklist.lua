@@ -1,5 +1,7 @@
 ---@class QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieQuestBlacklist:Load()
     return {
@@ -14,6 +16,7 @@ function QuestieQuestBlacklist:Load()
         [615] = true, -- Duplicate of 8553. See #2215
         [618] = true, -- Duplicate of 8554
         [934] = true, -- Duplicate of 7383. See #2386
+        [960] = true, -- Duplicate of 961
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
@@ -23,6 +26,7 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
+        [9177] = true, -- Duplicate of 9180
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -283,7 +287,7 @@ function QuestieQuestBlacklist:Load()
         [8983] = true,
         [8984] = true,
         -- TBC event quests
-        [9249] = true,
+        [9249] = QuestieCorrections.TBC_ONLY,
         [10938] = true,
         [10939] = true,
         [10940] = true,
@@ -325,6 +329,8 @@ function QuestieQuestBlacklist:Load()
         [11580] = true,
         [11581] = true,
         [11583] = true,
+        [11691] = true,
+        [11696] = true,
         [11731] = true,
         [11732] = true,
         [11734] = true,
@@ -632,6 +638,7 @@ function QuestieQuestBlacklist:Load()
         [1281] = true, -- Jim's Song <CHANGE TO GOSSIP>
         [1289] = true, -- Vimes's Report
         [1500] = true, -- Waking Naralex
+        [7961] = true, -- Waskily Wabbits!
         [8478] = true, -- Choose Your Weapon
         [8489] = true, -- An Intact Converter
         [8896] = true, -- The Dwarven Spy
@@ -737,7 +744,14 @@ function QuestieQuestBlacklist:Load()
         [10872] = true, -- Zuluhed the Whacked
         [10925] = true, -- Evil Draws Near
 
+        -- <NYI> quests
+        [3482] = true, -- <NYI> <TXT> The Pocked Black Box
+        [7741] = true, -- Praise from the Emerald Circle <NYI> <TXT>
+        [8339] = true, -- Royalty of the Council <NYI> <TXT> UNUSED
+        [8340] = true, -- Twilight Signet Ring <NYI> <TXT>
+
         -- [Not Used] quests
+        [620] = true, -- UNUSED The Monogrammed Sash
         [1390] = true, -- BETA Oops, We Killed Them Again.
         [2019] = true, -- Tools of the Trade
         [5383] = true, -- Krastinov's Bag of Horrors
@@ -745,13 +759,127 @@ function QuestieQuestBlacklist:Load()
         [8618] = true, -- The Horde Needs More Singed Corestones!
         [9380] = true, -- BETA Hounded for More
         [9510] = true, -- BETA Bristlehide Clefthoof Hides
+        [9599] = true, -- <UNUSED>
+        [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
         [10970] = true, -- A Mission of Mercy (Retail Only)
 
-        [9751] = true, -- The Bloodcurse Legacy (duplicate of 9672 which is way easier to get)
+        [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
+        [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
+        [8329] = true, -- Warrior Training / Not in the game
+        [8547] = true, -- Welcome!
+        [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
+        [9278] = true, -- Welcome!
+        [9681] = true, -- Replaced with [A Study in Power (64319)]
+        [9684] = true, -- Replaced with [Claiming the Light (63866)]
+        [9721] = true, -- Replaced with [A Summons from Lady Liadrin (64139)]
+        [9722] = true, -- Replaced with [The Master's Path (64140)]
+        [9723] = true, -- Replaced with [A Gesture of Commitment (64141)]
+        [9725] = true, -- Replaced with [A Demonstration of Loyalty (64142)]
+        [9735] = true, -- Replaced with [True Masters of the Light (64143)]
+        [9736] = true, -- Replaced with [True Masters of the Light (64144)]
+        [9737] = true, -- Replaced with [True Masters of the Light  (64145)]
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
+        [10364] = true, -- Caedmos (Unavailable Priest quest)
+        [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
+        [10534] = true, -- Returning Home (Unavailable Priest quest)
+        [10539] = true, -- Returning Home (Unavailable Priest quest)
+        [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
+        [10779] = true, -- The Hunter's Path (Unused)
+        [10931] = true, -- Level 0 Priest quest
+        [10932] = true, -- Level 0 Priest quest
+        [10933] = true, -- Level 0 Priest quest
+        [10934] = true, -- Level 0 Priest quest
+        [64028] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64046] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64047] = true, -- First quest for boosted characters. Blocked to not show for others
+
+        [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+        [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
+
+        -- [OLD] quests. Classic quests deprecated in TBC
+        [708] = true,
+        [909] = true,
+        [1288] = true,
+        [1661] = true,
+        [3366] = true,
+        [3381] = true,
+        [3631] = true,
+        [4487] = true,
+        [4488] = true,
+        [4489] = true,
+        [4490] = true,
+        [5627] = true,
+        [5641] = true,
+        [5645] = true,
+        [5647] = true,
+        [6131] = true,
+        [6221] = true,
+        [6241] = true,
+        [7364] = true,
+        [7365] = true,
+        [7421] = true,
+        [7422] = true,
+        [7423] = true,
+        [7425] = true,
+        [7426] = true,
+        [7521] = true,
+        [8368] = true,
+        [8369] = true,
+        [8370] = true,
+        [8372] = true,
+        [8374] = true,
+        [8375] = true,
+        [8383] = true,
+        [8384] = true,
+        [8386] = true,
+        [8387] = true,
+        [8389] = true,
+        [8390] = true,
+        [8391] = true,
+        [8392] = true,
+        [8393] = true,
+        [8394] = true,
+        [8395] = true,
+        [8396] = true,
+        [8397] = true,
+        [8398] = true,
+        [8399] = true,
+        [8400] = true,
+        [8401] = true,
+        [8402] = true,
+        [8403] = true,
+        [8404] = true,
+        [8405] = true,
+        [8406] = true,
+        [8407] = true,
+        [8408] = true,
+        [8411] = true,
+        [8426] = true,
+        [8427] = true,
+        [8428] = true,
+        [8429] = true,
+        [8430] = true,
+        [8431] = true,
+        [8432] = true,
+        [8433] = true,
+        [8434] = true,
+        [8435] = true,
+        [8436] = true,
+        [8437] = true,
+        [8438] = true,
+        [8439] = true,
+        [8440] = true,
+        [8441] = true,
+        [8442] = true,
+        [8443] = true,
+        [9712] = true,
+        [10377] = true,
+        [10459] = true,
+        [10558] = true,
+        [11052] = true,
 
         -- Phase 2 - Serpentshrine Cavern, Tempest Keep
         [11007] = true,
@@ -866,12 +994,12 @@ function QuestieQuestBlacklist:Load()
         -- Phase 4 Zul'Aman
         [11130] = true,
         [11132] = true,
+        [11163] = true,
         [11164] = true,
         [11178] = true,
         [11196] = true,
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
-        [9684] = true, -- Remember to blacklist 63866 and change the item source of 24156 to NPC 17845
         [11481] = true,
         [11482] = true,
         [11488] = true,
@@ -1020,4 +1148,5 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [8795] = true,
     [8796] = true,
     [8797] = true,
+    [10501] = true,
 }
