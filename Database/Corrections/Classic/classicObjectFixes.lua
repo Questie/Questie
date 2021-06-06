@@ -15,10 +15,10 @@ function QuestieObjectFixes:Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    QuestieDB.objectData[400000] = {} -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
-    QuestieDB.objectData[400001] = {}
-    QuestieDB.objectData[400002] = {}
-    QuestieDB.objectData[400003] = {}
+    QuestieDB.objectData[500000] = {} -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
+    QuestieDB.objectData[500001] = {}
+    QuestieDB.objectData[500002] = {}
+    QuestieDB.objectData[500003] = {}
 
     return {
         [167] = {
