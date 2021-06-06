@@ -929,6 +929,9 @@ function QuestieTBCQuestFixes:Load()
         [10198] = {
             [questKeys.triggerEnd] = {"Information Gathering", {[zoneIDs.NETHERSTORM]={{48.18,84.08},},}},
         },
+        [10200] = {
+            [questKeys.requiredMinRep] = {934,3000},
+        },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73},},}},
             [questKeys.requiredSourceItems] = {28452},
