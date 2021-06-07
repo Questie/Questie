@@ -998,6 +998,9 @@ function QuestieTBCQuestFixes:Load()
         [10297] = {
             [questKeys.triggerEnd] = {"The Dark Portal Opened", {[zoneIDs.TANARIS]={{57.21,62.92},},}},
         },
+        [10299] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down", 0, {{"object", 183770}}}},
+        },
         [10302] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1014,14 +1017,35 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38},},}},
         },
+        [10321] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down", 0, {{"object", 183956}}}},
+        },
+        [10322] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down", 0, {{"object", 184311}}}},
+        },
+        [10323] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
+        },
         [10325] = {
             [questKeys.preQuestSingle] = {10211},
+        },
+        [10329] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down", 0, {{"object", 183770}}}},
+        },
+        [10330] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down", 0, {{"object", 183956}}}},
         },
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97},},}},
         },
+        [10338] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down", 0, {{"object", 184311}}}},
+        },
         [10340] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
+        },
+        [10365] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},
