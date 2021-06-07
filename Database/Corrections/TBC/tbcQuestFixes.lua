@@ -1398,6 +1398,9 @@ function QuestieTBCQuestFixes:Load()
         [10909] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, ICON_TYPE_EVENT, "Place the Achorite Relic and slay Shattered Hand Berserkers near it"}},
         },
+        [10911] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Naturalized Ammunition to take control of the Death's Door Fel Cannon", 0, {{"object", 185306}}}},
+        },
         [10915] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the coffin and kill its content", 0, {{"object", 184999}}}},
         },
