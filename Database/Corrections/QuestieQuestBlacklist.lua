@@ -1002,6 +1002,16 @@ function QuestieQuestBlacklist:Load()
         [11178] = true,
         [11196] = true,
 
+        -- Daily quests for level 70 dungeons. Patch 2.3.0 (2007-11-13): Added.
+        [11364] = true,
+        [11371] = true,
+        [11376] = true,
+        [11383] = true,
+        [11385] = true,
+        [11387] = true,
+        [11389] = true,
+        [11500] = true,
+
         -- Phase 5 Sunwell and Isle of Quel'Danas
         [11481] = true,
         [11482] = true,
