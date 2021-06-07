@@ -966,6 +966,9 @@ function QuestieTBCQuestFixes:Load()
         [10246] = {
             [questKeys.preQuestSingle] = {10299},
         },
+        [10248] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Take control of the Scrap Reaver X6000.", 0, {{"monster", 19849}}}},
+        },
         [10250] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Blow the Unyielding Battle Horn near the Alliance Banner", 0, {{"object", 184002 }}}},
         },
