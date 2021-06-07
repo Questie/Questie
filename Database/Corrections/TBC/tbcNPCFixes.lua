@@ -231,6 +231,12 @@ function QuestieTBCNpcFixes:Load()
         [18538] = {
             [npcKeys.waypoints] = {},
         },
+        [18816] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2},},},
+        },
+        [18817] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2},},},
+        },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12},},},
         },

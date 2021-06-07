@@ -192,5 +192,7 @@ function QuestieItemBlacklist:Load()
         [23793] = true, -- Heavy Knothide Leather
         [24246] = true, -- Sanguine Hibiscus
         [24401] = true, -- Unidentified Plant Parts
+        [26042] = true, -- Oshu'gun Crystal Powder Sample
+        [26043] = true, -- Oshu'gun Crystal Powder Sample
     }
 end
