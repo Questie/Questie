@@ -1130,6 +1130,9 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
         },
+        [10567] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven at the Ruuan'ok Oracle Circle", 0, {{"object", 184943}}}},
+        },
         [10596] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
         },
