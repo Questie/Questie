@@ -333,6 +333,9 @@ function QuestieTBCNpcFixes:Load()
         [22408] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{35.6,66.6},},},
         },
+        [22423] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{61.4,59.9},{64.9,68.1},},},
+        },
         [22434] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{30.59,22.19},},},
         },
