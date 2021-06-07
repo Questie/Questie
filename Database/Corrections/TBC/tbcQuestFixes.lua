@@ -1267,6 +1267,9 @@ function QuestieTBCQuestFixes:Load()
         [10723] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
         },
+        [10742] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Rexxar's Battle Horn at the Altar of Goc", 0, {{"object", 185309}}}},
+        },
         [10747] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Throw a net at the targeted wyrmcult blackwhelp", 0, {{"monster", 21387}}}},
         },
@@ -1300,6 +1303,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10802] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
+        },
+        [10806] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Sablemane's Signet at the Altar of Goc", 0, {{"object", 185309}}}},
         },
         [10807] = {
             [questKeys.preQuestSingle] = {10552},
