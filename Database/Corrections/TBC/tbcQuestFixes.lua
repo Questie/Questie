@@ -1404,6 +1404,9 @@ function QuestieTBCQuestFixes:Load()
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9},},}},
         },
+        [10923] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Dread Relic with 20 Doom Skulls near the Writhing Mound Summoning Circle to call Teribus the Cursed", 0, {{"object", 185311}}}},
+        },
         [10929] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{31.5,75.7}}}, ICON_TYPE_EVENT, "Use the Fumper to lure Mature Bone Sifter", 0}},
         },
