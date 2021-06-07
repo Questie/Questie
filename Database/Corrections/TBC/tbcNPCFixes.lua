@@ -296,7 +296,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
         },
         [20518] = {
-            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{60.98,41.52},},},
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{71.2,38.8},},},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
         [20680] = {
