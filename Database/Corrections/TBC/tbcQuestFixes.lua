@@ -1077,9 +1077,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10409] = {
             [questKeys.triggerEnd] = {"Deathblow to the Legion", {[zoneIDs.NETHERSTORM]={{29.56,14.29},},}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat", 0, {{"object", 184606}}}}
         },
         [10411] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Navuud's Concoction before attacking the Void Wastes", 0, {{"monster", 20778}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge", 0, {{"monster", 20501}, {"monster", 20778}}}},
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {},
@@ -1124,6 +1125,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10506] = {
             [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"},},nil,nil,nil,nil},
+        },
+        [10507] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat", 0, {{"object", 184606}}}}
         },
         [10512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
