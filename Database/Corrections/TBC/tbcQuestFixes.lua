@@ -1371,6 +1371,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
         },
+        [10857] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability", 0, {{"monster", 16943}}}},
+        },
         [10859] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orb collected"},},nil,nil,nil,},
         },
