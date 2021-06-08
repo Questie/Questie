@@ -85,8 +85,6 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
     end
 end
 
-function 
-
 function ChatFilter:RegisterEvents() -- todo: register immediately and cache calls until db is available
     -- The message filter that triggers the above local function
     -- Party
