@@ -1,7 +1,7 @@
-if GetLocale() ~= "koKR" then
-  return
-end
 
+if GetLocale() ~= "koKR" then
+    return
+end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -9323,7 +9323,7 @@ l10n.npcNameLookup["koKR"] = {
 [15462] = {"독액 스카라베",nil},
 [15463] = {"은총의 토템 III",nil},
 [15464] = {"대지력 토템 V",nil},
-[15465] = {"공용 전문 보석세공인","전문 연금술사"},
+[15465] = {"공용 전문 보석세공인","전문 보석세공인"},
 [15466] = {"오멘의 부하",nil},
 [15467] = {"오멘",nil},
 [15468] = {"선스트라이더 마나 추출 누산기",nil},

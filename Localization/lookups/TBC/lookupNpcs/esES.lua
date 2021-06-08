@@ -1,7 +1,7 @@
-if GetLocale() ~= "esES" then
-  return
-end
 
+if GetLocale() ~= "esES" then
+    return
+end
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
