@@ -1104,6 +1104,9 @@ function QuestieTBCQuestFixes:Load()
         [10427] = {
             [questKeys.objectives] = {{{20610,"Talbuk Tagged"},{20777,"Talbuk Tagged"},},nil,nil,nil,},
         },
+        [10438] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Protecotrate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit", 0, {{"monster", 20903}}}},
+        },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18},},}},
         },
