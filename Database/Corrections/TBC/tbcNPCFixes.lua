@@ -336,6 +336,9 @@ function QuestieTBCNpcFixes:Load()
         [21998] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{51.23,62.75},{52.45,59.19},},},
         },
+        [22025] = {
+            [npcKeys.waypoints] = {[zoneIDs.SHADOWMOON_VALLEY] = {{{39.78,30.03},{39.77,30.3},{39.88,30.65},{40.04,30.92},{40.12,30.89},{40.25,30.57},{40.41,30.42},{40.46,30.12},{40.45,29.65},{40.32,29.19},{39.71,29.14},},},},
+        },
         [22059] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{51.23,62.75},{52.45,59.19},},},
         },
