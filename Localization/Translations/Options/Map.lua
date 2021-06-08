@@ -168,7 +168,7 @@ local mapOptionsLocales = {
         ["zhCN"] = "4. 事件图标大小",
         ["zhTW"] = "事件圖示大小",
         ["esES"] = "Tamaño de iconos de evento",
-        ["frFR"] = "Échelle des icônes d'événement",
+        ["frFR"] = "Échelle des icônes d'évènement",
     },
     ["How large the event icons are.  ( Default: %s )"] = {
         ["ptBR"] = "Qual é o tamanho dos ícones do evento. (Por defeito: %s)",
@@ -180,7 +180,7 @@ local mapOptionsLocales = {
         ["zhCN"] = "调整事件图标的缩放比例（默认：%s）",
         ["zhTW"] = "調整事件圖示的縮放比例（預設：%s）",
         ["esES"] = "Especifíca la escala de los iconos evento. ( Por defecto: %s )",
-        ["frFR"] = "Définis la taille des icônes d'événement. (Par défaut : %s)",
+        ["frFR"] = "Définis la taille des icônes d'évènement. (Par défaut : %s)",
     },
     ["Scale for Loot Icons"] = {
         ["ptBR"] = "Saldo para ícones de pilhagem",

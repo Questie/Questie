@@ -12,7 +12,7 @@ local townsfolkLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = "武器商人",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Munitions",
     },
     ["Auctioneer"] = {
         ["ptBR"] = "Leiloeiro",
@@ -36,7 +36,7 @@ local townsfolkLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = "背包商人",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Sacs",
     },
     ["Banker"] = {
         ["ptBR"] = "Banqueiro",
@@ -84,7 +84,7 @@ local townsfolkLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = "水商",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Boissons",
     },
     ["Flight Master"] = {
         ["ptBR"] = "Mestre de voo",
@@ -108,7 +108,7 @@ local townsfolkLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = "麵包商人",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Nourriture",
     },
     ["Innkeeper"] = {
         ["ptBR"] = "Estalajadeiro",
@@ -216,7 +216,7 @@ local townsfolkLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = "交易員",
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Fournitures",
     },
     ["Vendor"] = {
         ["ptBR"] = "Vendedor",
