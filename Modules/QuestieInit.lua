@@ -39,6 +39,8 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type HBDHooks
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
+---@type ChatFilter
+local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
@@ -116,6 +118,7 @@ function QuestieInit:InitAllModules()
 
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
+    ChatFilter:RegisterEvents()
 
     QuestieMap:InitializeQueue()
 
@@ -169,7 +172,6 @@ function QuestieInit:InitAllModules()
     end
 
     Questie.started = true
-
 end
 
 function QuestieInit:LoadDatabase(key)

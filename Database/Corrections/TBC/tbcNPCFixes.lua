@@ -231,6 +231,12 @@ function QuestieTBCNpcFixes:Load()
         [18538] = {
             [npcKeys.waypoints] = {},
         },
+        [18816] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2},},},
+        },
+        [18817] = {
+            [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2},},},
+        },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12},},},
         },
@@ -251,6 +257,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [19657] = {
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{57.45,67.37},{57.36,67.08},{57.27,66.84},{57.17,66.59},{57.13,66.47},{57.2,66.31},{57.22,66.12},{57.24,65.95},{57.26,65.78},{57.12,65.76},{57.06,65.77},{57.12,65.76},{57.26,65.78},{57.24,65.95},{57.22,66.12},{57.2,66.31},{57.13,66.47},{57.17,66.59},{57.27,66.84},{57.36,67.08},},},
+        },
+        [19705] = {
+            [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{56.06,66.4},{56.2,66.18},{56.42,66.34},{56.62,66.04},{56.81,65.71},{56.61,66.07},{56.42,66.35},{56.2,66.2},{56.05,66.43},{55.97,66.69},{55.8,66.74},{55.63,66.74},{55.39,66.82},{55.19,66.86},{55.4,66.81},{55.65,66.73},{55.82,66.74},},},
         },
         [19909] = {
             [npcKeys.friendlyToFaction] = "H",
@@ -287,12 +296,15 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
         },
         [20518] = {
-            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{60.98,41.52},},},
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{71.2,38.8},},},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
         [20680] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{14.32,62.18},},},
             [npcKeys.waypoints] = {[zoneIDs.HELLFIRE_PENINSULA] = {{{14.34,61.07},{14.32,59.92},{14.32,58.88},{14.32,57.9},{14.32,56.98},{14.33,58.76},{14.31,59.58},{14.31,60.21},{14.31,60.95},{14.32,62.16},{14.32,62.16},},},},
+        },
+        [21181] = {
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{43.2,46.2},},},
         },
         [21118] = {
             [npcKeys.waypoints] = {},
@@ -329,6 +341,15 @@ function QuestieTBCNpcFixes:Load()
         },
         [22408] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{35.6,66.6},},},
+        },
+        [22423] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{61.4,59.9},{64.9,68.1},},},
+        },
+        [22434] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{30.59,22.19},},},
+        },
+        [22441] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{48.7,67.2},},},
         },
         [22454] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{44.4,74.0},{44.6,75.4},{45.0,74.4},{45.6,73.6},},},

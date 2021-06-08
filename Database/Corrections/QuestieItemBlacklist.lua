@@ -178,6 +178,7 @@ function QuestieItemBlacklist:Load()
         [22529] = true, -- savage frond
         
         -- TBC Phase 1
+        [21887] = true, -- Knothide Leather
         [22572] = true, -- Mote of Air
         [22573] = true, -- Mote of Earth
         [22574] = true, -- Mote of Fire
@@ -188,7 +189,10 @@ function QuestieItemBlacklist:Load()
         [22829] = true, -- Super Healing Potion
         [22832] = true, -- Super Mana Potion
         [23445] = true, -- Fel Iron Bar
+        [23793] = true, -- Heavy Knothide Leather
         [24246] = true, -- Sanguine Hibiscus
-        [24401] = true, -- Unidentified Plant Parts  
+        [24401] = true, -- Unidentified Plant Parts
+        [26042] = true, -- Oshu'gun Crystal Powder Sample
+        [26043] = true, -- Oshu'gun Crystal Powder Sample
     }
 end

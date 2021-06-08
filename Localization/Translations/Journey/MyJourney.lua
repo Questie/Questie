@@ -160,7 +160,7 @@ local myJourneyLocales = {
     },
     ["Abandoned"] = {
         ["ptBR"] = "Abandonada",
-        ["ruRU"] = "Отменено",
+        ["ruRU"] = "отменено",
         ["deDE"] = "Abgebrochen",
         ["koKR"] = "포기",
         ["esMX"] = "Abandonada",

@@ -184,7 +184,7 @@ local genericsLocales = {
     },
     ["xp"] = {
         ["ptBR"] = "xp",
-        ["ruRU"] = "ед. опыта",
+        ["ruRU"] = " опыта",
         ["deDE"] = "xp",
         ["koKR"] = "경험치",
         ["esMX"] = "exp",

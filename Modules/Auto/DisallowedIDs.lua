@@ -35,6 +35,8 @@ _QuestieAuto.disallowedNPC = {
     [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
     [15192] = true, -- Anachronos (Caverns of Time)
     [18166] = true, -- Khadgar (Allegiance to Aldor/Scryer, Shattrath)
+    [18253] = true, -- Archmage Leryda (Violet Eye)
+    [18471] = true, -- Gurgthock (The Ring of Blood)
     -- AQ gear turnin
     [15378] = true,
     [15380] = true,
