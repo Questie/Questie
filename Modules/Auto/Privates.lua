@@ -64,7 +64,7 @@ function _QuestieAuto:IsAllowedQuest()
         if exclusive and (#exclusive) > 0 then
             return false -- dont auto-accept or auto-complete exclusiveTo quests
         end
-        Questie:Debug(DEBUG_INFO, "[QuestieAuto]", "Is questId", questId, "allowed:", allowed)
+        Questie:Debug(DEBUG_INFO, "[QuestieAuto]", "Is questId", questId)
         return true
     end
 
