@@ -169,7 +169,6 @@ function QuestieInit:InitAllModules()
     end
 
     Questie.started = true
-
 end
 
 function QuestieInit:LoadDatabase(key)

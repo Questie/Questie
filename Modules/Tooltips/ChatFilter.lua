@@ -10,6 +10,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 --- Message Event Filter which intercepts incoming linked quests and replaces them with Hyperlinks
 local function QuestsFilter(chatFrame, _, msg, playerName, languageName, channelName, playerName2, specialFlags, zoneChannelID, channelIndex, channelBaseName, unused, lineID, senderGUID, bnSenderID, ...)
+    if (not Questie.started) then
+        return
+    end
+
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
