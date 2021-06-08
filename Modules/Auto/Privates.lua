@@ -1,6 +1,8 @@
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
 local _QuestieAuto = QuestieAuto.private
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 
 function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
@@ -54,15 +56,19 @@ end
 
 function _QuestieAuto:IsAllowedQuest()
     local questId = GetQuestID()
-    local allowed = true
-    if questId > 0 then
+    if questId and questId > 0 then
         if (_QuestieAuto.disallowedQuests[questId] ~= nil) then
-            allowed = false
+            return false
+        end
+        local exclusive = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+        if exclusive and (#exclusive) > 0 then
+            return false -- dont auto-accept or auto-complete exclusiveTo quests
         end
         Questie:Debug(DEBUG_INFO, "[QuestieAuto]", "Is questId", questId, "allowed:", allowed)
+        return true
     end
 
-    return allowed
+    return false -- no quest id, we can't be sure (better be safe)
 end
 
 
