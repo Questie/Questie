@@ -124,7 +124,7 @@ local tooltipsUILocales = {
     },
     ["Completed on:"] = {
         ["ptBR"] = "Concluído em:",
-        ["ruRU"] = "Выполнено в:",
+        ["ruRU"] = "Выполнено:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
         ["esMX"] = "Terminada el:",

@@ -388,7 +388,7 @@ local searchLocales = {
     },
     ["Objects starting this quest:"] = {
         ["ptBR"] = "Objetos que iniciam esta missão:",
-        ["ruRU"] = "Объекты, начинающие это задание",
+        ["ruRU"] = "Объекты, начинающие это задание:",
         ["deDE"] = "Objekte welche diese Quest starten:",
         ["koKR"] = nil,
         ["esMX"] = "Objetos que inician esta misión",
@@ -400,7 +400,7 @@ local searchLocales = {
     },
     ["Objects finishing this quest:"] = {
         ["ptBR"] = "Objetos que finalizam esta missão:",
-        ["ruRU"] = "Объекты, завершающие это задание",
+        ["ruRU"] = "Объекты, завершающие это задание:",
         ["deDE"] = "Objekte welche diese Quest beenden:",
         ["koKR"] = nil,
         ["esMX"] = "Objetos que terminan esta misión:",
@@ -412,7 +412,7 @@ local searchLocales = {
     },
     ["Items starting this quest:"] = {
         ["ptBR"] = "Itens que inicial esta missão:",
-        ["ruRU"] = "Предметы, начинающие это задание",
+        ["ruRU"] = "Предметы, начинающие это задание:",
         ["deDE"] = "Gegenstände welche diese Quest starten:",
         ["koKR"] = nil,
         ["esMX"] = "Ítems que inician esta misión:",
