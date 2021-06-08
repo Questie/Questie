@@ -36,7 +36,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "启用/禁用叠加在地图插件上的 DBM HUD。",
         ["zhTW"] = "啟用/停用疊加於地圖物件上的 DBM 抬頭顯示",
         ["esES"] = "Habilita o deshabilita la superposición del Heads Up Display (HUD) de DBM para objetos del mapa.",
-        ["frFR"] = "Activez ou désactivez la superposition DBM Heads Up Display (HUD) pour afficher les objets cartographiques.",
+        ["frFR"] = "Activer ou désactiver la superposition DBM Heads Up Display (HUD) pour afficher les objets cartographiques.",
     },
     ["Filter Options"] = {
         ["ptBR"] = "Opções de filtro",
@@ -60,7 +60,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "显示起始任务图标",
         ["zhTW"] = "顯示提供任務者圖示",
         ["esES"] = "Mostrar iconos de proveedores de misiones",
-        ["frFR"] = "Afficher les icônes des donneurs de quête",
+        ["frFR"] = "Afficher les icônes des donneurs de quêtes",
     },
     ["Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )"] = {
         ["ptBR"] = "Alterna se os ícones de missão disponíveis/completos não aparecem ou não no HUD. ( Por defeito: %s )",
@@ -72,7 +72,7 @@ local dbmHudOptionsLocales = {
         ["zhCN"] = "切换是否在HUD上显示可用/完成任务图标。（默认：%s）",
         ["zhTW"] = "切換是否在 HUD 上顯示可用/完成任務圖示。（預設：%s）",
         ["esES"] = "Alterna si los iconos de misiones disponibles / completas aparecen o no en HUD. ( Por Defecto: %s )",
-        ["frFR"] = "Indique si les icônes de quête disponibles/complètes apparaissent ou non sur le HUD. (Par défaut : %s)",
+        ["frFR"] = "Indique si les icônes de quête disponibles/terminées apparaissent ou non sur le HUD. (Par défaut : %s)",
     },
     ["Show quest objective icons"] = {
         ["ptBR"] = "Mostrar ícones de objetivos da missão",

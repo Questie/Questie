@@ -781,6 +781,9 @@ function QuestieQuestBlacklist:Load()
         [9735] = true, -- Replaced with [True Masters of the Light (64143)]
         [9736] = true, -- Replaced with [True Masters of the Light (64144)]
         [9737] = true, -- Replaced with [True Masters of the Light  (64145)]
+        [9926] = true, -- FLAG Shadow Council/Warmaul Questline
+        [10048] = true, -- A Handful of Magic Dust BETA
+        [10049] = true, -- A Handful of Magic Dust BETA
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
         [10364] = true, -- Caedmos (Unavailable Priest quest)
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)

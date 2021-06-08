@@ -353,6 +353,9 @@ function QuestieTBCQuestFixes:Load()
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92},},}},
         },
+        [9383] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use the Sanctified Crystal against a wounded Uncontrolled Voidwalker", 0, {{"monster", 16975}}}},
+        },
         [9400] = {
             [questKeys.triggerEnd] = {"Find Krun Spinebreaker", {[zoneIDs.HELLFIRE_PENINSULA]={{33.59,43.62},},}},
         },
@@ -783,7 +786,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10019] = {
-            [questKeys.preQuestSingle] = {10211,10017},
+            [questKeys.preQuestGroup] = {10211,10017},
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10024] = {
@@ -791,7 +794,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10025] = {
-            [questKeys.preQuestSingle] = {10211,10024},
+            [questKeys.preQuestGroup] = {10211,10024},
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10039] = {
@@ -901,7 +904,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {40000},
         },
         [10163] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Gryphongar", 0, {{"monster", 20232}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Gryphoneer Windbellow", 0, {{"monster", 20235}}}},
+            [questKeys.preQuestSingle] = {10146},
         },
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
@@ -924,6 +928,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10198] = {
             [questKeys.triggerEnd] = {"Information Gathering", {[zoneIDs.NETHERSTORM]={{48.18,84.08},},}},
+        },
+        [10200] = {
+            [questKeys.requiredMinRep] = {934,3000},
         },
         [10204] = {
             [questKeys.triggerEnd] = {"Siphon Bloodgem Crystal", {[zoneIDs.NETHERSTORM]={{25.42,66.51},{22.37,65.73},},}},
@@ -959,6 +966,9 @@ function QuestieTBCQuestFixes:Load()
         [10246] = {
             [questKeys.preQuestSingle] = {10299},
         },
+        [10248] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Take control of the Scrap Reaver X6000.", 0, {{"monster", 19849}}}},
+        },
         [10250] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Blow the Unyielding Battle Horn near the Alliance Banner", 0, {{"object", 184002 }}}},
         },
@@ -991,6 +1001,9 @@ function QuestieTBCQuestFixes:Load()
         [10297] = {
             [questKeys.triggerEnd] = {"The Dark Portal Opened", {[zoneIDs.TANARIS]={{57.21,62.92},},}},
         },
+        [10299] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down", 0, {{"object", 183770}}}},
+        },
         [10302] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -1007,14 +1020,35 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38},},}},
         },
+        [10321] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down", 0, {{"object", 183956}}}},
+        },
+        [10322] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down", 0, {{"object", 184311}}}},
+        },
+        [10323] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
+        },
         [10325] = {
             [questKeys.preQuestSingle] = {10211},
+        },
+        [10329] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down", 0, {{"object", 183770}}}},
+        },
+        [10330] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down", 0, {{"object", 183956}}}},
         },
         [10337] = {
             [questKeys.triggerEnd] = {"Escort Bessy on her way home.", {[zoneIDs.NETHERSTORM]={{57.71,84.97},},}},
         },
+        [10338] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down", 0, {{"object", 184311}}}},
+        },
         [10340] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
+        },
+        [10365] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},
@@ -1043,13 +1077,17 @@ function QuestieTBCQuestFixes:Load()
         },
         [10409] = {
             [questKeys.triggerEnd] = {"Deathblow to the Legion", {[zoneIDs.NETHERSTORM]={{29.56,14.29},},}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat", 0, {{"object", 184606}}}}
         },
         [10411] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Navuud's Concoction before attacking the Void Wastes", 0, {{"monster", 20778}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge", 0, {{"monster", 20501}, {"monster", 20778}}}},
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10211},
+        },
+        [10413] = {
+            [questKeys.startedBy] = {{20779,},nil,nil,},
         },
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
@@ -1091,6 +1129,9 @@ function QuestieTBCQuestFixes:Load()
         [10506] = {
             [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"},},nil,nil,nil,nil},
         },
+        [10507] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat", 0, {{"object", 184606}}}}
+        },
         [10512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995,},19995,"Bladespire Ogres drunken"}},
         },
@@ -1123,6 +1164,9 @@ function QuestieTBCQuestFixes:Load()
         [10563] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
         },
+        [10567] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven at the Ruuan'ok Oracle Circle", 0, {{"object", 184943}}}},
+        },
         [10596] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Box o'Tricks while standing near the communication device", 0, {{"object", 184833}}}},
         },
@@ -1145,6 +1189,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10585] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{37,38}}}, ICON_TYPE_EVENT, "Use the Elemental Displacer to disrupt the ritual in the summoning chamber", 0}},
+        },
+        [10588] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use The Cipher of Damnation at Altar of Damnation", 0, {{"object", 184907}}}},
         },
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83},},}},
@@ -1251,6 +1298,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45},},}},
             [questKeys.requiredSourceItems] = {31121},
         },
+        [10723] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
+        },
+        [10742] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Rexxar's Battle Horn at the Altar of Goc", 0, {{"object", 185309}}}},
+        },
         [10747] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Throw a net at the targeted wyrmcult blackwhelp", 0, {{"monster", 21387}}}},
         },
@@ -1281,6 +1334,12 @@ function QuestieTBCQuestFixes:Load()
         [10797] = {
             [questKeys.startedBy] = {{20753,},nil,nil,},
             [questKeys.preQuestSingle] = {},
+        },
+        [10802] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
+        },
+        [10806] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Sablemane's Signet at the Altar of Goc", 0, {{"object", 185309}}}},
         },
         [10807] = {
             [questKeys.preQuestSingle] = {10552},
@@ -1318,6 +1377,9 @@ function QuestieTBCQuestFixes:Load()
         [10842] = {
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
+        },
+        [10857] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability", 0, {{"monster", 16943}}}},
         },
         [10859] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orb collected"},},nil,nil,nil,},
@@ -1379,6 +1441,9 @@ function QuestieTBCQuestFixes:Load()
         [10909] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, ICON_TYPE_EVENT, "Place the Achorite Relic and slay Shattered Hand Berserkers near it"}},
         },
+        [10911] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Naturalized Ammunition to take control of the Death's Door Fel Cannon", 0, {{"object", 185306}}}},
+        },
         [10915] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the coffin and kill its content", 0, {{"object", 184999}}}},
         },
@@ -1387,6 +1452,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10922] = {
             [questKeys.triggerEnd] = {"Protect the Explorers", {[zoneIDs.TEROKKAR_FOREST]={{30.12,70.9},},}},
+        },
+        [10923] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Dread Relic with 20 Doom Skulls near the Writhing Mound Summoning Circle to call Teribus the Cursed", 0, {{"object", 185311}}}},
         },
         [10929] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{31.5,75.7}}}, ICON_TYPE_EVENT, "Use the Fumper to lure Mature Bone Sifter", 0}},
@@ -1607,13 +1675,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{57,62}}}, ICON_TYPE_EVENT, "Smear the Fish Paste on yourself and swim to the ship wreck"}},
         },
         [11211] = {
-            [questKeys.exclusiveTo] = {11158},
+            [questKeys.exclusiveTo] = {11158,11214,11215},
         },
         [11214] = {
-            [questKeys.exclusiveTo] = {11158},
+            [questKeys.exclusiveTo] = {11158,11211,11215},
         },
         [11215] = {
-            [questKeys.exclusiveTo] = {11158},
+            [questKeys.exclusiveTo] = {11158,11214,11211},
         },
         [11216] = {
             [questKeys.nextQuestInChain] = 9824,

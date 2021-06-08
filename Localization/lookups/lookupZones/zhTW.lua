@@ -7,8 +7,8 @@ l10n.continentLookup['zhTW']= {
     [3] = "副本",
     [4] = "戰場",
     [5] = "Class",
-    [6] = "Professions",
-    [7] = "Events",
+    [6] = "專業技能",
+    [7] = "節慶",
     [530] = "外域"
 }
 
@@ -1897,16 +1897,16 @@ l10n.zoneCategoryLookup['zhTW']= {
         [-324] = "急救",
     },
     [7] = {
-        [-364] = "Darkmoon Faire",
-        [-366] = "Lunar Festival",
-        [-369] = "Midsummer",
+        [-364] = "暗月馬戲團",
+        [-366] = "新年慶典",
+        [-369] = "仲夏火焰節慶",
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
-        [-400] = "Love is in the Air",
-        [-401] = "Childrens Week",
-        [-402] = "Harvest Festival",
-        [-403] = "Hallows End",
-        [-404] = "Winter Veil",
+        [-400] = "愛就在身邊",
+        [-401] = "兒童週",
+        [-402] = "收穫節",
+        [-403] = "萬鬼節",
+        [-404] = "冬幕節",
     },
 }

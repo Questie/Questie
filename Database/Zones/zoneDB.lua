@@ -44,6 +44,7 @@ function _ZoneDB:GenerateUiMapIdToAreaIdTable()
     for areaId, uiMapId in pairs(areaIdToUiMapId) do
         uiMapIdToAreaId[uiMapId] = areaId
     end
+    uiMapIdToAreaId[1946] = 3521 -- fix zangarmarsh reverse lookup (todo: better solution)
 end
 
 function _ZoneDB:GenerateParentZoneToStartingZoneTable()

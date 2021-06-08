@@ -204,7 +204,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用事件任务图标",
         ["zhTW"] = "事件任務圖示",
         ["esES"] = "Habilitar iconos de misiones de eventos",
-        ["frFR"] = "Icônes des quêtes d'évênement",
+        ["frFR"] = "Icônes des quêtes d'évènement",
     },
     ["When this is enabled, the locations of events quest will be shown on the map/minimap."] = {
         ["ptBR"] = "Quando isso estiver ativado, a busca de locais de eventos será mostrada no mapa/minimapa.",
@@ -216,7 +216,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "启用此功能后，事件任务的位置将显示在 世界地图/小地图上。",
         ["zhTW"] = "在世界地圖/小地圖上顯示可取得事件任務的地點",
         ["esES"] = "Si está marcado, la localización de misiones de eventos mostrará en el mapa y minimapa.",
-        ["frFR"] = "Active l'affichage des quêtes des évênements mondiaux sur la carte/mini-carte.",
+        ["frFR"] = "Active l'affichage des quêtes des évènements mondiaux sur la carte/mini-carte.",
     },
     ["Enable Objective Icons"] = {
         ["ptBR"] = "Ativar ícones do objectivo",
@@ -528,7 +528,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "自动接受低级任务",
         ["zhTW"] = "接受低等級任務",
         ["esES"] = "Aceptar misiones triviales (de bajo nivel)",
-        ["frFR"] = "Accepter les quêtes obsolètes",
+        ["frFR"] = "Accepter les quêtes obsolètes (bas niveau)",
     },
     ["When this is enabled trivial (gray) quests will be auto accepted as well."] = {
         ["ptBR"] = "Quando isso estiver ativado, missões triviais (cinza) também serão aceitas automaticamente.",
@@ -660,7 +660,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "< 低于等级",
         ["zhTW"] = "< 低於等級",
         ["esES"] = "< Niveles por debajo",
-        ["frFR"] = "<Niveaux inférieurs max>",
+        ["frFR"] = "< Afficher sous le niveau",
     },
     ["How many levels below your character to show. ( Default: %s )"] = {
         ["ptBR"] = "Quantos níveis sobre o seu personagem para exibir. (Por defeito: %s",
@@ -696,7 +696,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "显示最低任务等级。",
         ["zhTW"] = "顯示的最低任務等級",
         ["esES"] = "Nivel mínimo de misión para mostrar.",
-        ["frFR"] = "Niveau des quêtes minimal à afficher.",
+        ["frFR"] = "Niveau minimum des quêtes à afficher.",
     },
     ["Level to"] = {
         ["ptBR"] = "Para Nível",
@@ -708,7 +708,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "到等级",
         ["zhTW"] = "到等級",
         ["esES"] = "A nivel",
-        ["frFR"] = "au niveau :",
+        ["frFR"] = "Au niveau :",
     },
     ["Maximum quest level to show."] = {
         ["ptBR"] = "Nível máximo de missões para mostrar.",
@@ -720,7 +720,7 @@ local generalOptionsLocales = {
         ["zhCN"] = "显示最高任务等级",
         ["zhTW"] = "顯示的最高任務等級",
         ["esES"] = "Máximo nivel de misión para mostrar.",
-        ["frFR"] = "Niveau des quêtes maximal à afficher.",
+        ["frFR"] = "Niveau maximum des quêtes à afficher.",
     },
     ["Enable absolute level range"] = {
         ["ptBR"] = "Ativar faixa de nível absoluto",

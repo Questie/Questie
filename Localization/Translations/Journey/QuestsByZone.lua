@@ -120,7 +120,7 @@ local questsByZoneLocales = {
         ["zhCN"] = "完成",
         ["zhTW"] = "完成",
         ["esES"] = "Completada",
-        ["frFR"] = "terminée",
+        ["frFR"] = "Terminée",
     },
     ["Repeatable Quests"] = {
         ["ptBR"] = "Missões repetíveis",
@@ -132,7 +132,7 @@ local questsByZoneLocales = {
         ["zhCN"] = "可重复的任务",
         ["zhTW"] = "可重複的任務",
         ["esES"] = "Misiones repetibles",
-        ["frFR"] = "Quêtes répétable",
+        ["frFR"] = "Quêtes répétables",
     },
     ["Missing Pre Quest"] = {
         ["ptBR"] = "Faltando missão de pré-requisito",
