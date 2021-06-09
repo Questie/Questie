@@ -1263,7 +1263,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10669] = {
             [questKeys.preQuestSingle] = {10640,10689,},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{15,41}}}, ICON_TYPE_EVENT, "Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"}}
+            [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{15.9,40.5}}}, ICON_TYPE_EVENT, "Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"}}
         },
         [10674] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped"},},nil,nil,nil,},
