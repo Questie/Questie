@@ -1516,6 +1516,9 @@ function QuestieTBCQuestFixes:Load()
         [10997] = {
             [questKeys.preQuestSingle] = {10983,10989,11057},
         },
+        [10998] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Vim'gol must be summoned by yourself, and four others, each standing within a different fire ring at his circle.", 0, {{"monster", 22911}}}},
+        },
         [11023] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010},
