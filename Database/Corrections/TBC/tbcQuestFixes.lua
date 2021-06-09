@@ -1047,6 +1047,9 @@ function QuestieTBCQuestFixes:Load()
         [10340] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Wing Commander Dabir'ee", 0, {{"monster", 19409}}}},
         },
+        [10344] = {
+            [questKeys.exclusiveTo] = {10163},
+        },
         [10365] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
