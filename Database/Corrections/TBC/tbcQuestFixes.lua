@@ -1147,6 +1147,9 @@ function QuestieTBCQuestFixes:Load()
         [10519] = {
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48},},}},
         },
+        [10522] = {
+            [questKeys.requiredSourceItems] = {30426},
+        },
         [10525] = {
             [questKeys.triggerEnd] = {"Final Thunderlord artifact discovered", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{52.76,58.89},},}},
         },
