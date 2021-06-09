@@ -1867,6 +1867,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
+            [questKeys.finishedBy] = {{28126},nil,nil},
         },
         [12515] = {
             [questKeys.exclusiveTo] = {12513},
