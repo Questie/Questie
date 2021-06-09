@@ -1753,6 +1753,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
+        [11381] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Cook Spiritual Soup at the Ancestral Grounds in Nagrand", 0, {{"object", 184317}}}},
+        },
         [11383] = {
             [questKeys.objectives] = {{{17839},},nil,nil,nil,nil,},
         },
