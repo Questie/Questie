@@ -823,8 +823,6 @@ local function newTracker(tracker)
  
         -- set self.scrollframe points to the first frame that you created (in this case, self)
         scrollParent.scroll:SetAllPoints(scrollParent)
-
-        print("Created new tracker frame")
         --frm:Show()
         --frm.texture:Show()
         __frm = frm
