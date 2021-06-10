@@ -2428,9 +2428,8 @@ _GetContinent = function(uiMapId)
         return "Kalimdor"
     elseif uiMapId > 1900 and uiMapId < 2000 then
         return "Outland"
-    else
-
-        Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
+    else -- todo: check C_Map.GetMapInfo parent (we need to test that more, this is safe for now)
+        return "Outland" --Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
     end
 end
 

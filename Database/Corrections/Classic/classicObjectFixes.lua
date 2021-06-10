@@ -15,10 +15,10 @@ function QuestieObjectFixes:Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    QuestieDB.objectData[400000] = {} -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
-    QuestieDB.objectData[400001] = {}
-    QuestieDB.objectData[400002] = {}
-    QuestieDB.objectData[400003] = {}
+    QuestieDB.objectData[500000] = {} -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
+    QuestieDB.objectData[500001] = {}
+    QuestieDB.objectData[500002] = {}
+    QuestieDB.objectData[500003] = {}
 
     return {
         [167] = {
@@ -227,28 +227,28 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
         -- Fake IDs
-        [400000] = {
+        [500000] = {
             [objectKeys.name] = "Feralas Ahi Fishing Location",
             [objectKeys.questStarts] = {},
             [objectKeys.questEnds] = {},
             [objectKeys.spawns] = {[zoneIDs.FERALAS]={{62.1,51.4},{62.2,49.9},{62.4,52.4},{62.4,52.5},{62.6,49.3},{62.6,50.2},{62.7,50.6},{62.8,51.5},{62.9,52.5},{63.5,53.6},{63.7,52.4},{64,53.2},},},
             [objectKeys.zoneID] = zoneIDs.FERALAS
         },
-        [400001] = {
+        [500001] = {
             [objectKeys.name] = "Misty Reed Mahi Mahi Fishing Location",
             [objectKeys.questStarts] = {},
             [objectKeys.questEnds] = {},
             [objectKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{74.4,3.7},{74.5,3.3},{74.5,3.8},{75.1,95.9},{76,95.4},{76.3,4.3},{77.4,4.3},{77.4,95.5},{78.7,5.3},{78.9,95.7},{79.1,94.7},{79.8,94.7},{80.2,94.2},{81.2,93.6},{82.1,94.2},{84.4,91.6},{84.5,92.9},{84.9,92.1},{85.6,89.2},{86.2,88},{86.4,86.4},{86.6,16.8},{86.6,85.6},{87.3,80.7},{87.4,82.1},{87.7,79.7},{87.7,81.9},{88.5,76.6},{89.1,20},{89.8,23},{89.9,74.5},{90.2,22.4},{90.3,73.4},{90.4,71.9},{90.4,73.6},{90.5,73.5},{90.6,73},{90.7,72.1},{91.1,82.2},{91.4,30.1},{91.5,82.1},{91.7,30.4},{91.8,82.9},{93.6,37.2},{93.8,66.5},{94,38.4},{94.2,40.6},{94.2,65.1},{94.3,39.3},{94.3,64.3},{94.8,41.6},{95,43.8},{95.1,45.2},{95.2,45.9},{95.3,56.2},{95.7,47.5},},},
             [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS
         },
-        [400002] = {
+        [500002] = {
             [objectKeys.name] = "Sar'theris Striker Fishing Location",
             [objectKeys.questStarts] = {},
             [objectKeys.questEnds] = {},
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{22.2,87.6},{22.8,76.8},{24.3,82.5},{24.5,81.9},{24.9,81.3},{25.6,81},{25.8,77.4},{25.8,77.5},{25.9,78.7},{26,80.1},{26.2,75.4},{26.2,76.2},{27.2,42.9},{33,36.8},{35.3,31.7},{36.1,32.8},{36.1,34.8},{38.8,23.2},{40.1,22.1},},},
             [objectKeys.zoneID] = zoneIDs.DESOLACE
         },
-        [400003] = {
+        [500003] = {
             [objectKeys.name] = "Savage Coast Blue Sailfin Fishing Location",
             [objectKeys.questStarts] = {},
             [objectKeys.questEnds] = {},

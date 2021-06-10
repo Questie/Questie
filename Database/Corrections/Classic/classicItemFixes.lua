@@ -892,22 +892,22 @@ function QuestieItemFixes:Load()
         [16967] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400000},
+            [itemKeys.objectDrops] = {500000},
         },
         [16968] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400002},
+            [itemKeys.objectDrops] = {500002},
         },
         [16969] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400003},
+            [itemKeys.objectDrops] = {500003},
         },
         [16970] = {
             [itemKeys.relatedQuests] = {6607},
             [itemKeys.npcDrops] = {},
-            [itemKeys.objectDrops] = {400001},
+            [itemKeys.objectDrops] = {500001},
         },
         [16973] = { -- #1156
             [itemKeys.relatedQuests] = {5247},
@@ -1136,6 +1136,13 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.npcDrops] = {2397,8307},
             [itemKeys.objectDrops] = {},
         },
+        -- TBC
+        [25911] = {
+            [itemKeys.objectDrops] = {182936},
+        },
+        [25912] = {
+            [itemKeys.objectDrops] = {182937,182938},
+        },
     }
 
     local itemFixesAlliance = {
@@ -1146,9 +1153,17 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.objectDrops] = {177792},
         },
         [3713] = {
+            [itemKeys.name] = "Soothing Spices",
             [itemKeys.relatedQuests] = {555,1218,},
             [itemKeys.npcDrops] = {2381,4897},
             [itemKeys.objectDrops] = {},
+        },
+        -- TBC
+        [25911] = {
+            [itemKeys.objectDrops] = {182799},
+        },
+        [25912] = {
+            [itemKeys.objectDrops] = {182798,182797},
         },
     }
 

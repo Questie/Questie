@@ -37,9 +37,6 @@ function QuestieTBCItemFixes:Load()
         [23339] = {
             [itemKeys.npcDrops] = {},
         },
-        [23442] = {
-            [itemKeys.npcDrops] = {16975},
-        },
         [23486] = {
             [itemKeys.objectDrops] = {181582},
         },
@@ -103,6 +100,9 @@ function QuestieTBCItemFixes:Load()
         [24226] = {
             [itemKeys.npcDrops] = {17832},
         },
+        [25807] = {
+            [itemKeys.npcDrops] = {18476,18477,},
+        },
         [25852] = {
             [itemKeys.objectDrops] = {184842},
         },
@@ -114,6 +114,9 @@ function QuestieTBCItemFixes:Load()
         },
         [29162] = {
             [itemKeys.objectDrops] = {184162},
+        },
+        [30426] = {
+            [itemKeys.npcDrops] = {19762,19768,19789,},
         },
         [30430] = {
             [itemKeys.objectDrops] = {184715},
@@ -130,11 +133,17 @@ function QuestieTBCItemFixes:Load()
         [30659] = {
             [itemKeys.npcDrops] = {21725}
         },
+        [30823] = {
+            [itemKeys.npcDrops] = {19678},
+        },
         [30890] = {
             [itemKeys.npcDrops] = {21057},
         },
         [31130] = {
             [itemKeys.npcDrops] = {21387},
+        },
+        [31252] = {
+            [itemKeys.npcDrops] = {18733},
         },
         [31530] = {
             [itemKeys.objectDrops] = {177281},

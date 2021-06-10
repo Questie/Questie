@@ -235,6 +235,8 @@ function QuestieOptions.tabs.advanced:Initialize()
 
                     Questie.db.global.dbIsCompiled = false
 
+                    Questie.db.char.hidden = nil
+
                     ReloadUI()
 
                 end,
