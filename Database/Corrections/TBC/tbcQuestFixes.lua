@@ -1283,6 +1283,9 @@ function QuestieTBCQuestFixes:Load()
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
         },
+        [10708] = {
+            [questKeys.exclusiveTo] = {11052},
+        },
         [10710] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
             [questKeys.triggerEnd] = {"Throw caution to the wind.", {}},
