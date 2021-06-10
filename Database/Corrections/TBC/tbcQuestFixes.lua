@@ -1765,6 +1765,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
+        [11379] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains", 0, {{"monster", 19973}}}},
+        },
         [11381] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Cook Spiritual Soup at the Ancestral Grounds in Nagrand", 0, {{"object", 184317}}}},
         },
