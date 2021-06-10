@@ -1347,6 +1347,9 @@ function QuestieTBCQuestFixes:Load()
         [10802] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse", 0, {{"object", 185234}}}},
         },
+        [10804] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill flayers and take their carcasses. Place a carcass in the field", 0, {{"monster", 21477}, {"monster", 21478}}}}
+        },
         [10806] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Sablemane's Signet at the Altar of Goc", 0, {{"object", 185309}}}},
         },
@@ -1386,6 +1389,9 @@ function QuestieTBCQuestFixes:Load()
         [10842] = {
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
             [questKeys.preQuestSingle] = {10852},
+        },
+        [10854] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake", 0, {{"monster", 21722}}}}
         },
         [10857] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Mental Interference Rod on the Mo'arg and use their Detonate Teleporter ability", 0, {{"monster", 16943}}}},

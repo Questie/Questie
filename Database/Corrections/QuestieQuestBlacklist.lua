@@ -928,8 +928,7 @@ function QuestieQuestBlacklist:Load()
         [11885] = true, 
 
         -- Netherwing
-        [10804] = true,
-        [10870] = true,
+        [11012] = true,
         [11013] = true,
         [11015] = true,
         [11016] = true,

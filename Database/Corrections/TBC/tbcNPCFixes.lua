@@ -39,6 +39,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0},},},
             [npcKeys.waypoints] = {},
         },
+        [11980] = {
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{71.0,62.2},},},
+            [npcKeys.waypoints] = {},
+        },
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
