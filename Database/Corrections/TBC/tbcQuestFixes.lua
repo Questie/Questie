@@ -808,6 +808,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [10044] = {
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
+            [questKeys.preQuestGroup] = {9934,9868,10011},
+            [questKeys.preQuestSingle] = {},
         },
         [10047] = {
             [questKeys.preQuestSingle] = {10143,10483,},
