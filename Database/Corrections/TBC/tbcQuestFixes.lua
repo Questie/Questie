@@ -1580,6 +1580,10 @@ function QuestieTBCQuestFixes:Load()
         [11047] = {
             [questKeys.exclusiveTo] = {11048},
         },
+        [11052] = {
+            [questKeys.exclusiveTo] = {10708},
+            [questKeys.finishedBy] = {{18481},nil,nil},
+        },
         [11056] = {
             [questKeys.preQuestSingle] = {11028},
         },
