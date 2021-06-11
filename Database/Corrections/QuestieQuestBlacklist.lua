@@ -888,6 +888,25 @@ function QuestieQuestBlacklist:Load()
         -- Phase 2 - Serpentshrine Cavern, Tempest Keep
         [11007] = true,
 
+        -- Druid Swift Flight Form
+        [10955] = true,
+        [10961] = true,
+        [10964] = true,
+        [10965] = true,
+        [10978] = true,
+        [10979] = true,
+        [10980] = true,
+        [10986] = true,
+        [10987] = true,
+        [10988] = true,
+        [10990] = true,
+        [10991] = true,
+        [10992] = true,
+        [10993] = true,
+        [10994] = true,
+        [11001] = true,
+        [11011] = true,
+
         -- Ogri'la & Sha'tari Skyguard
         [11004] = true, 
         [11005] = true, 
