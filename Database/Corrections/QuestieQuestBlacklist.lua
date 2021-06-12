@@ -764,7 +764,6 @@ function QuestieQuestBlacklist:Load()
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
-        [10970] = true, -- A Mission of Mercy (Retail Only)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
@@ -1028,6 +1027,8 @@ function QuestieQuestBlacklist:Load()
         [11482] = true,
         [11488] = true,
         [11496] = true,
+        [11513] = true,
+        [11514] = true,
         [11517] = true,
         [11520] = true,
         [11521] = true,
@@ -1058,6 +1059,7 @@ function QuestieQuestBlacklist:Load()
         [11555] = true,
         [11556] = true,
         [11557] = true,
+        [11877] = true,
     }
 end
 
