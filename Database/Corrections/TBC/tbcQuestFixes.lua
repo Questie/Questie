@@ -950,6 +950,9 @@ function QuestieTBCQuestFixes:Load()
         [10166] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place Old Whitebark's Pendant by the runestone at the Scorched Grove.", 0, {{"object", 181260}}}},
         },
+        [10168] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits.", 0, {{"monster", 18688}}}},
+        },
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
         },
