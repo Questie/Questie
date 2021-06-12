@@ -357,6 +357,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use the Sanctified Crystal against a wounded Uncontrolled Voidwalker", 0, {{"monster", 16975}}}},
         },
         [9400] = {
+            [questKeys.preQuestSingle] = {10124},
             [questKeys.triggerEnd] = {"Find Krun Spinebreaker", {[zoneIDs.HELLFIRE_PENINSULA]={{33.59,43.62},},}},
         },
         [9410] = {
