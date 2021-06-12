@@ -384,7 +384,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{55.8,53.8},},},
         },
         [25580] = {
-            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{38.6,12.8},},},
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{38.73,12.8},},},
         },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
