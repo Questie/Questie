@@ -1241,10 +1241,10 @@ local function newTracker(tracker)
                         end)
 
                         local complete = true
-                        for type, ids in pairs(data.objectives) do
-                            for id, players in pairs(ids) do
-                                for player, status in pairs(players) do
-                                    if status.collected ~= status.needed then
+                        for _, ids in pairs(data.objectives) do
+                            for _, players in pairs(ids) do
+                                for _, status in pairs(players) do
+                                    if type(status) == "table" and status.collected ~= status.needed then
                                         complete = false
                                         break
                                     end
