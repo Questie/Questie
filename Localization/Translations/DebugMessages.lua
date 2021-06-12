@@ -292,7 +292,7 @@ local debugMessagesLocales = {
     },
     ["Picked up %s which starts %s!"] = {
         ["ptBR"] = "Pegou %s que começa %s!",
-        ["ruRU"] = "Данный предмет - %s - начинает %s!",
+        ["ruRU"] = "Получен предмет %s, который начинает задание %s",
         ["frFR"] = "Ramassé %s qui démarre %s !",
         ["koKR"] = "%s를 획득하여 %s!를 시작 할 수 있습니다.",
         ["zhCN"] = "拾取 %s 自动接受任务： %s!",
