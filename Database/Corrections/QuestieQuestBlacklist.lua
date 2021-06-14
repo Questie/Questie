@@ -906,13 +906,6 @@ function QuestieQuestBlacklist:Load()
         [11001] = true,
         [11011] = true,
 
-        -- The Consortium
-
-        [10974] = true,
-        [10975] = true,
-        [10976] = true,
-        [10982] = true,
-
         -- Ogri'la & Sha'tari Skyguard
         [11004] = true,
         [11005] = true,

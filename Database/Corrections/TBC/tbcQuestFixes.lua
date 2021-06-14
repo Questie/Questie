@@ -1519,8 +1519,18 @@ function QuestieTBCQuestFixes:Load()
         [10968] = {
             [questKeys.triggerEnd] = {"Dornaa taken to Farseer Nobundo", {[zoneIDs.THE_EXODAR]={{30.8,29.88},},}},
         },
+        [10974] = {
+            [questKeys.requiredMinRep] = {933,21000},
+        },
+        [10975] = {
+            [questKeys.requiredMinRep] = {933,21000},
+        },
+        [10976] = {
+            [questKeys.requiredMinRep] = {933,21000},
+        },
         [10977] = {
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54},},}},
+            [questKeys.requiredMinRep] = {933,21000},
         },
         [10984] = {
             [questKeys.exclusiveTo] = {10983,10989,11057,},
