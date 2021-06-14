@@ -789,6 +789,7 @@ function QuestieQuestBlacklist:Load()
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
         [10534] = true, -- Returning Home (Unavailable Priest quest)
         [10539] = true, -- Returning Home (Unavailable Priest quest)
+        [10561] = true, -- Revered Among the Keepers of Time
         [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
         [10779] = true, -- The Hunter's Path (Unused)
         [10931] = true, -- Level 0 Priest quest
