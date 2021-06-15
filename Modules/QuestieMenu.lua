@@ -462,9 +462,17 @@ function QuestieMenu:PopulateTownsfolk()
             if factionID == 0 then
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
-            elseif bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 then
+            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                print("Found shared non-zero faction mailbox: " .. tostring(id))
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
-            elseif bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 then
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+            else
+                print("Found unknown faction mailbox: " .. tostring(id))
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
             end
         else
