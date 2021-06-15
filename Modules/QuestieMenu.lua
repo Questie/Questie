@@ -311,7 +311,7 @@ end
 function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.townsfolk = {
         ["Repair"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR, true), 
-        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER, true),
+        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER, false),
         ["Banker"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER, true),
         ["Battlemaster"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER, true),
         ["Flight Master"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
