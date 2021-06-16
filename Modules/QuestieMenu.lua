@@ -495,8 +495,8 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
     if Questie.db.global.townsfolkNeedsUpdatedGlobalVendors then
         Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = nil
         -- insert item-based profession vendors
-        _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
-        _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), professionTrainers[QuestieProfessions.professionKeys.FISHING])
+        _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
+        _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.FISHING])
     end
 
     -- item ids for class-specific reagents
