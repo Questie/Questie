@@ -283,8 +283,8 @@ function QuestieMenu:Show()
     EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 
-local function _reformatVendors(lst)
-    local newList = {}
+local function _reformatVendors(lst, existingTable)
+    local newList = existingTable or {}
     for k in pairs(lst) do
         tinsert(newList, k)
     end
@@ -407,6 +407,10 @@ function QuestieMenu:PopulateTownsfolk()
     end
 
     Questie.db.global.professionTrainers = professionTrainers
+
+    -- insert item-based profession vendors
+    _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
+    _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), professionTrainers[QuestieProfessions.professionKeys.FISHING])
 
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
