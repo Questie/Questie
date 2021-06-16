@@ -318,6 +318,7 @@ function QuestieMenu:PopulateTownsfolk()
         ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER, true),
         ["Weapon Master"] = {}, -- populated below
     }
+    Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = true
     local classTrainers = Questie.IsTBC and {
         ["MAGE"] = {198, 313, 328, 331, 944, 1228, 2124, 2128, 3047, 3048, 3049, 4566, 4567, 4568, 4987, 5144, 5145, 5146, 5497, 5498, 5880, 5882, 5883, 5884, 5885, 7311, 7312, 15279, 16269, 16500, 16651, 16652, 16653, 16749, 17481, 17513, 17514, 26326, 27704},
         ["SHAMAN"] = {986, 3030, 3031, 3032, 3062, 3066, 3157, 3173, 3344, 3403, 4991, 13417, 17089, 17204, 17212, 17219, 17519, 17520, 20407, 23127, 26330},
@@ -408,10 +409,6 @@ function QuestieMenu:PopulateTownsfolk()
 
     Questie.db.global.professionTrainers = professionTrainers
 
-    -- insert item-based profession vendors
-    _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
-    _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), professionTrainers[QuestieProfessions.professionKeys.FISHING])
-
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
     Questie.db.global.classSpecificTownsfolk = {}
@@ -494,6 +491,14 @@ function QuestieMenu:PopulateTownsfolk()
 end
 
 function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
+
+    if Questie.db.global.townsfolkNeedsUpdatedGlobalVendors then
+        Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = nil
+        -- insert item-based profession vendors
+        _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
+        _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), professionTrainers[QuestieProfessions.professionKeys.FISHING])
+    end
+
     -- item ids for class-specific reagents
     local reagents = {
         ["MAGE"] = {17031, 17032, 17020},
