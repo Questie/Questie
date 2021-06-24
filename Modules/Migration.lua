@@ -90,6 +90,9 @@ local migrationFunctions = {
     end,
     [4] = function()
         Questie.db.char.enableMinimalisticIcons = nil -- Remove unused remnants of minimalistic icons
+    end,
+    [5] = function()
+        Questie.db.char.showEventQuests = true -- Enable event quests again since some might have disabled it to hide the delayed Midsummer quests
     end
 }
 
