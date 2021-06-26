@@ -188,8 +188,8 @@ local latestTurnedInQuestIds = {}
 function _EventHandler:QuestRemoved(questId)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questId)
     _Hack_prime_log()
-    if latestTurnedInQuestIds[questId] then
-        latestTurnedInQuestIds[questId] = nil
+    if latestTurnedInQuestIds[1] then
+        table.remove(latestTurnedInQuestIds, 1)
         shouldRunQLU = false
         _EventHandler:CompleteQuest(questId)
         --Broadcast our removal!
@@ -235,7 +235,7 @@ end
 function _EventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questId, xpReward, moneyReward)
     _Hack_prime_log()
-    latestTurnedInQuestIds[questId] = true
+    table.insert(latestTurnedInQuestIds, questId)
 
     -- Some repeatable sub quests don't fire a UQLC event when they're completed.
     -- Therefore we have to check here to make sure the next QLU updates the state.
@@ -263,7 +263,7 @@ function _EventHandler:QuestFinished()
         Questie:Debug(DEBUG_DEVELOP, "shouldRunQLU still active")
         if next(latestTurnedInQuestIds) then
             Questie:Debug(DEBUG_DEVELOP, "finishedEventReceived is questId")
-            local quest = QuestieDB:GetQuest(latestTurnedInQuestIds)
+            local quest = QuestieDB:GetQuest(latestTurnedInQuestIds[1])
             Questie:Debug(DEBUG_DEVELOP, "Completing automatic completion quest")
             QuestieQuest:CompleteQuest(quest)
         else
