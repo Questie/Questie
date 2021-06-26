@@ -1840,7 +1840,13 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11667] = {
-            [questKeys.extraObjectives] = {{{[3518]={{62,35}}}, ICON_TYPE_EVENT, "Fish Here for World's Largest Mudfish"}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.NAGRAND]={{62,35}}}, ICON_TYPE_EVENT, "Fish here for World's Largest Mudfish"}},
+        },
+        [11668] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{75.6,82.9}}}, ICON_TYPE_EVENT, "Fish here for Bloated Barbed Gill Trout"}},
+        },
+        [11669] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{39.4,43}},[zoneIDs.SHADOWMOON_VALLEY]={{24,32.5},{31.9,29.9},{40.1,60.1}}}, ICON_TYPE_EVENT, "Fish here for Monstrous Felblood Snapper"}},
         },
         [11731] = {
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
