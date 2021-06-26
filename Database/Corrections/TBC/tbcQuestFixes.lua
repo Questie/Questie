@@ -1921,6 +1921,12 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{68.62,8.01},},
             }},
         },
+        [11933] = {
+            [questKeys.startedBy] = {nil,{188128},{35569,},},
+        },
+        [11935] = {
+            [questKeys.startedBy] = {nil,{188129},{35568,},},
+        },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil,nil},

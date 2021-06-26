@@ -8,6 +8,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
     QuestieDB.objectData[184588] = {}; -- Captain Tyralis's Prison
+    QuestieDB.objectData[188128] = {}; -- Flame of the Exodar
+    QuestieDB.objectData[188129] = {}; -- Flame of Silvermoon
     QuestieDB.objectData[190483] = {}; -- Document chest
     QuestieDB.objectData[190484] = {}; -- Document chest
     QuestieDB.objectData[400000] = {};
@@ -89,6 +91,16 @@ function QuestieTBCObjectFixes:Load()
         }, 
         [188123] = {
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.18,16.47}}}, -- TBC only Mailbox
+        },
+        [188128] = {
+            [objectKeys.name] = "Flame of the Exodar",
+            [objectKeys.spawns] = {[zoneIDs.THE_EXODAR] = {{41.7,25.0}}},
+            [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
+        },
+        [188129] = {
+            [objectKeys.name] = "Flame of Silvermoon",
+            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{69.1,43.5}}},
+            [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
         [190483] = {
             [objectKeys.name] = "Document Chest",
