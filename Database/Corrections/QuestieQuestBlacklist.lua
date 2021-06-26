@@ -797,8 +797,14 @@ function QuestieQuestBlacklist:Load()
         [10933] = true, -- Level 0 Priest quest
         [10934] = true, -- Level 0 Priest quest
         [64028] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64037] = true, -- Boosted character quest
+        [64038] = true, -- Boosted character quest
         [64046] = true, -- First quest for boosted characters. Blocked to not show for others
         [64047] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64063] = true, -- Boosted character quest
+        [64064] = true, -- Boosted character quest
+        [64128] = true, -- Boosted character quest
+        [64217] = true, -- Boosted character quest
 
         [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
         [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
