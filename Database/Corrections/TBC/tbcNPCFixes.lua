@@ -192,6 +192,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1},},},
             [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
         },
+        [18099] = {
+            [npcKeys.waypoints] = {[zoneIDs.NAGRAND] = {{{60.68,25.15},{60.07,24.67},{59.31,24.05},{60.03,24.71},{61.12,24.83},},},},
+        },
         [18120] = {
             [npcKeys.waypoints] = {},
         },
