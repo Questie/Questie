@@ -50,6 +50,8 @@ local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes"
 QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 
+QuestieCorrections.reversedKillCreditQuestIDs = {} -- Only used for TBC quests
+
 -- used during Precompile, how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
 local TICKS_PER_YIELD = 72
@@ -415,17 +417,12 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
 end
 
 function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
-    local timer
     local ops = {}
-    --local totalPoints = 0
 
     for id, data in pairs(QuestieDB.npcData) do
         local way = data[QuestieDB.npcKeys["waypoints"]]
         if way then
             tinsert(ops, {way, id})
-            --for _,waypoints in pairs(way) do
-            --    totalPoints = totalPoints + #waypoints
-            --end
         end
     end
 

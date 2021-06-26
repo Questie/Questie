@@ -5,6 +5,12 @@ local QuestieTBCQuestFixes = QuestieLoader:CreateModule("QuestieTBCQuestFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+
+QuestieCorrections.reversedKillCreditQuestIDs = {
+    [10503] = true, -- The Bladespire Threat
+}
 
 function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[63866] = {}; -- Claiming the Light
