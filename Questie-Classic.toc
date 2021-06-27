@@ -54,12 +54,6 @@ Database\Corrections\Classic\classicNPCFixes.lua
 Database\Corrections\Classic\classicItemFixes.lua
 Database\Corrections\Classic\classicObjectFixes.lua
 
-## TBC Corrections
-Database\Corrections\TBC\tbcQuestFixes.lua
-Database\Corrections\TBC\tbcNPCFixes.lua
-Database\Corrections\TBC\tbcItemFixes.lua
-Database\Corrections\TBC\tbcObjectFixes.lua
-
 #Compiler
 Database\compiler.lua
 
