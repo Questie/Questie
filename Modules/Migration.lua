@@ -93,6 +93,9 @@ local migrationFunctions = {
     end,
     [5] = function()
         Questie.db.char.showEventQuests = true -- Enable event quests again since some might have disabled it to hide the delayed Midsummer quests
+        if Questie.db.char.townsfolkConfig then
+            Questie.db.char.townsfolkConfig["Meeting Stones"] = true
+        end
     end
 }
 

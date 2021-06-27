@@ -194,6 +194,18 @@ local townsfolkLocales = {
         ["esES"] = "Maestro de establos",
         ["frFR"] = "Maître des écuries",
     },
+    ["Meeting Stones"] = {
+        ["ptBR"] = "Pedra de Encontro",
+        ["ruRU"] = "Камни встреч",
+        ["deDE"] = "Versammlungssteine",
+        ["koKR"] = "만남의 돌",
+        ["esMX"] = "Rocas de encuentro",
+        ["enUS"] = true,
+        ["zhCN"] = "集合石",
+        ["zhTW"] = "集合石",
+        ["esES"] = "Rocas de encuentro",
+        ["frFR"] = "Pierre de rencontre",
+    },
     ["Portal Trainer"] = {
         ["ptBR"] = "Treinamento de Portais",
         ["ruRU"] = "Мастер порталов",
