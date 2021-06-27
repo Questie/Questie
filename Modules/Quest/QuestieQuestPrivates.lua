@@ -156,7 +156,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                     ret[id].GetIconScale = function() return Questie.db.global.objectScale or 1 end
                                     ret[id].IconScale = ret[id]:GetIconScale()
                                 else
-                                    ret[id].Icon = itemId < QuestieDB.fakeTbcItemStartId and ICON_TYPE_LOOT or ICON_TYPE_EVENT
+                                    ret[id].Icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and ICON_TYPE_LOOT or ICON_TYPE_EVENT
                                     ret[id].GetIconScale = function() return Questie.db.global.lootScale or 1 end
                                     ret[id].IconScale = ret[id]:GetIconScale()
                                 end

@@ -316,7 +316,7 @@ end
 
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
----@param id number
+---@param questId number
 ---@return table<number, string>
 function QuestieDB:GetQuestTagInfo(questId)
     local questType, questTag = GetQuestTagInfo(questId)
@@ -797,6 +797,13 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 Text = rawdata[10][5][3]
             }
             tinsert(QO.ObjectiveData, obj);
+        end
+
+        -- There are quest(s) which have the killCredit at first so we need to switch them
+        if QuestieCorrections.reversedKillCreditQuestIDs[questId] then
+            local tmp = QO.ObjectiveData[1]
+            QO.ObjectiveData[1] = QO.ObjectiveData[2]
+            QO.ObjectiveData[2] = tmp
         end
     end
 

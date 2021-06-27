@@ -180,7 +180,7 @@ function _EventHandler:MapExplorationUpdated()
 end
 
 -- Needed to distinguish finished quests from abandoned quests
-local questTurnedInEventReceived = false
+local latestTurnedInQuestIds = {}
 
 --- Fires when a quest is removed from the questlog, this includes turning it in
 --- and abandoning it.
@@ -188,8 +188,8 @@ local questTurnedInEventReceived = false
 function _EventHandler:QuestRemoved(questId)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questId)
     _Hack_prime_log()
-    if questTurnedInEventReceived == questId then
-        questTurnedInEventReceived = false
+    if latestTurnedInQuestIds[1] then
+        table.remove(latestTurnedInQuestIds, 1)
         shouldRunQLU = false
         _EventHandler:CompleteQuest(questId)
         --Broadcast our removal!
@@ -235,7 +235,7 @@ end
 function _EventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] QUEST_TURNED_IN", questId, xpReward, moneyReward)
     _Hack_prime_log()
-    questTurnedInEventReceived = questId
+    table.insert(latestTurnedInQuestIds, questId)
 
     -- Some repeatable sub quests don't fire a UQLC event when they're completed.
     -- Therefore we have to check here to make sure the next QLU updates the state.
@@ -261,13 +261,13 @@ function _EventHandler:QuestFinished()
     -- So shouldRunQLU is still active from QUEST_TURNED_IN
     if shouldRunQLU then
         Questie:Debug(DEBUG_DEVELOP, "shouldRunQLU still active")
-        if questTurnedInEventReceived then
+        if next(latestTurnedInQuestIds) then
             Questie:Debug(DEBUG_DEVELOP, "finishedEventReceived is questId")
-            local quest = QuestieDB:GetQuest(questTurnedInEventReceived)
+            local quest = QuestieDB:GetQuest(latestTurnedInQuestIds[1])
             Questie:Debug(DEBUG_DEVELOP, "Completing automatic completion quest")
             QuestieQuest:CompleteQuest(quest)
         else
-            Questie:Debug(DEBUG_DEVELOP, "questTurnedInEventReceived is false. Something is off?")
+            Questie:Debug(DEBUG_DEVELOP, "latestTurnedInQuestIds is empty. Something is off?")
         end
         shouldRunQLU = false
     end

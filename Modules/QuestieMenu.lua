@@ -27,6 +27,7 @@ local playerFaction = UnitFactionGroup("player")
 
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
+    ["Meeting Stones"] = QuestieLib.AddonPath.."Icons\\mstone.blp",
     ["Class Trainer"] = "Interface\\Minimap\\tracking\\class",
     ["Stable Master"] = "Interface\\Minimap\\tracking\\stablemaster",
     ["Spirit Healer"] = "Interface\\raidframe\\raid-icon-rez",
@@ -63,17 +64,21 @@ local _townsfolk_texturemap = {
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
 
 local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("QuestieMap"):ShowNPC(525, nil, 1, "teaste", {}, true)
-    local ids = Questie.db.global.townsfolk[key] or Questie.db.char.townsfolk[key] or Questie.db.global.professionTrainers[key] or Questie.db.char.vendorList[key]
-    if not ids then 
-        Questie:Debug(DEBUG_INFO, " Invalid townsfolk key " .. tostring(key))
+    local ids = Questie.db.global.townsfolk[key] or
+            Questie.db.char.townsfolk[key] or
+            Questie.db.global.professionTrainers[key] or
+            Questie.db.char.vendorList[key]
+
+    if (not ids) then
+        Questie:Debug(DEBUG_INFO, "Invalid townsfolk key " .. tostring(key))
         return
     end
 
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
-    if key == "Mailbox" then -- the only obnject-type townsfolk
-        if Questie.db.char.townsfolkConfig[key] and not forceRemove then
+    if key == "Mailbox" or key == "Meeting Stones" then -- object type townsfolk
+        if Questie.db.char.townsfolkConfig[key] and (not forceRemove) then
             for _, id in pairs(ids) do
-                QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n('Mailbox'), "white"), {}, true, key)
+                QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white"), {}, true, key)
             end
         else
             for _, id in pairs(ids) do
@@ -81,7 +86,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             end
         end
     else
-        if Questie.db.char.townsfolkConfig[key] and not forceRemove then
+        if Questie.db.char.townsfolkConfig[key] and (not forceRemove) then
             local faction = UnitFactionGroup("Player")
             local timer
             local e = 1
@@ -90,9 +95,9 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                 local start = e
                 while e < max and e-start < 32 do
                     local id = ids[e]
-                    if not _spawned[id] then
+                    if (not _spawned[id]) then
                         local friendly = QuestieDB.QueryNPCSingle(id, "friendlyToFaction")
-                        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and not QuestieCorrections.questNPCBlacklist[id] then
+                        if ((not friendly) or friendly == "AH" or (faction == "Alliance" and friendly == "A") or (faction == "Horde" and friendly == "H")) and (not QuestieCorrections.questNPCBlacklist[id]) then
                             QuestieMap:ShowNPC(id, icon, 1.2, Questie:Colorize(QuestieDB.QueryNPCSingle(id, "name") or ("Missing NPC name for " .. tostring(id)), "white") .. " (" .. (QuestieDB.QueryNPCSingle(id, "subName") or l10n(tostring(key)) or key) .. ")", {}--[[{key, ""}]], true, key, true)
                             _spawned[id] = true
                         end
@@ -140,14 +145,14 @@ local function buildLocalized(key, localizedText)
     }
 end
 
-function QuestieMenu:OnLogin(forceRemove) -- toggle all icons 
-
+function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
     QuestieMenu:UpdatePlayerVendors()
 
-    if not Questie.db.char.townsfolkConfig then
+    if (not Questie.db.char.townsfolkConfig) then
         Questie.db.char.townsfolkConfig = {
             ["Flight Master"] = true,
-            ["Mailbox"] = true
+            ["Mailbox"] = true,
+            ["Meeting Stones"] = true
         }
     end
     for key in pairs(Questie.db.char.townsfolkConfig) do
@@ -283,8 +288,8 @@ function QuestieMenu:Show()
     EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 
-local function _reformatVendors(lst)
-    local newList = {}
+local function _reformatVendors(lst, existingTable)
+    local newList = existingTable or {}
     for k in pairs(lst) do
         tinsert(newList, k)
     end
@@ -311,13 +316,14 @@ end
 function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.townsfolk = {
         ["Repair"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR, true), 
-        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER, true),
+        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER, false),
         ["Banker"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER, true),
         ["Battlemaster"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER, true),
         ["Flight Master"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
         ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER, true),
         ["Weapon Master"] = {}, -- populated below
     }
+    Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = true
     local classTrainers = Questie.IsTBC and {
         ["MAGE"] = {198, 313, 328, 331, 944, 1228, 2124, 2128, 3047, 3048, 3049, 4566, 4567, 4568, 4987, 5144, 5145, 5146, 5497, 5498, 5880, 5882, 5883, 5884, 5885, 7311, 7312, 15279, 16269, 16500, 16651, 16652, 16653, 16749, 17481, 17513, 17514, 26326, 27704},
         ["SHAMAN"] = {986, 3030, 3031, 3032, 3062, 3066, 3157, 3173, 3344, 3403, 4991, 13417, 17089, 17204, 17212, 17219, 17519, 17520, 20407, 23127, 26330},
@@ -408,6 +414,19 @@ function QuestieMenu:PopulateTownsfolk()
 
     Questie.db.global.professionTrainers = professionTrainers
 
+    if Questie.IsTBC then
+        local meetingStones = {
+            178824,178825,178826,178827,178828,178829,178831,178832,178833,178834,178844,178845,178884,179554,179555,179584,179585,
+            179586,179587,179595,179596,179597,182558,182559,182560,184455,184456,184458,184462,184463,185321,185322,185433,185550,
+            186251,188171,188172,
+        }
+
+        Questie.db.global.townsfolk["Meeting Stones"] = {}
+        for _, id in pairs(meetingStones) do
+            tinsert(Questie.db.global.townsfolk["Meeting Stones"], id)
+        end
+    end
+
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
     Questie.db.global.classSpecificTownsfolk = {}
@@ -462,9 +481,15 @@ function QuestieMenu:PopulateTownsfolk()
             if factionID == 0 then
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
-            elseif bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 then
+            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
-            elseif bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 then
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+            else
+                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
             end
         else
@@ -484,6 +509,15 @@ function QuestieMenu:PopulateTownsfolk()
 end
 
 function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
+
+    if Questie.db.global.townsfolkNeedsUpdatedGlobalVendors then
+        Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = nil
+        -- insert item-based profession vendors
+        _reformatVendors(QuestieMenu:PopulateVendors({22012, 21992, 21993, 16084, 16112, 16113, 16085, 19442, 6454, 8547, 23689}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.FIRST_AID])
+        _reformatVendors(QuestieMenu:PopulateVendors({27532, 16082, 16083}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.FISHING])
+        _reformatVendors(QuestieMenu:PopulateVendors({27736, 16072, 16073}), Questie.db.global.professionTrainers[QuestieProfessions.professionKeys.COOKING])
+    end
+
     -- item ids for class-specific reagents
     local reagents = {
         ["MAGE"] = {17031, 17032, 17020},

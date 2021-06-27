@@ -561,27 +561,6 @@ function QuestieSearchResults:DrawSearchTab(container)
     end
 end
 
-function QuestieSearchResults:JumpToQuest(button)
-    local id = button:GetUserData('id');
-    local name = button:GetUserData('name');
-
-    if (not QuestieJourney:IsShown()) then
-        QuestieJourney:ToggleJourneyWindow()
-    end
-    if (not _QuestieJourney.lastOpenWindow == 'search') then
-        QuestieJourney.tabGroup:SelectTab('search');
-    end
-
-    if Questie.db.char.searchType == 1 then
-        searchBox:SetText(name)
-    else
-        searchBox:SetText(id)
-    end
-
-    searchButton:SetDisabled(false)
-    QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, name, false);
-end
-
 function QuestieSearchResults:GetDetailFrame(detailType, id)
     local frame = AceGUI:Create("Frame")
     frame:SetHeight(300)

@@ -5,6 +5,12 @@ local QuestieTBCQuestFixes = QuestieLoader:CreateModule("QuestieTBCQuestFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieCorrections
+local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+
+QuestieCorrections.reversedKillCreditQuestIDs = {
+    [10503] = true, -- The Bladespire Threat
+}
 
 function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[63866] = {}; -- Claiming the Light
@@ -148,6 +154,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [6421] = {
             [questKeys.triggerEnd] = {"Investigate Cave in Boulderslide Ravine", {[zoneIDs.STONETALON_MOUNTAINS]={{58.96,90.16},},}},
+        },
+        [6681] = {
+            [questKeys.startedBy] = {{332,918,3327,3328,3401,4214,4215,4163,4582,4583,4584,5165,5166,5167,6467,13283,16684,16685,16686,},nil,{17126}}
         },
         [6761] = {
             [questKeys.preQuestSingle] = {1015,1019,1047,},
@@ -357,6 +366,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use the Sanctified Crystal against a wounded Uncontrolled Voidwalker", 0, {{"monster", 16975}}}},
         },
         [9400] = {
+            [questKeys.preQuestSingle] = {10124},
             [questKeys.triggerEnd] = {"Find Krun Spinebreaker", {[zoneIDs.HELLFIRE_PENINSULA]={{33.59,43.62},},}},
         },
         [9410] = {
@@ -808,6 +818,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [10044] = {
             [questKeys.triggerEnd] = {"Listen to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31},},}},
+            [questKeys.preQuestGroup] = {9934,9868,10011},
+            [questKeys.preQuestSingle] = {},
         },
         [10047] = {
             [questKeys.preQuestSingle] = {10143,10483,},
@@ -947,6 +959,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10166] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place Old Whitebark's Pendant by the runestone at the Scorched Grove.", 0, {{"object", 181260}}}},
+        },
+        [10168] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits.", 0, {{"monster", 18688}}}},
         },
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
@@ -1283,6 +1298,9 @@ function QuestieTBCQuestFixes:Load()
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
         },
+        [10708] = {
+            [questKeys.exclusiveTo] = {11052},
+        },
         [10710] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
             [questKeys.triggerEnd] = {"Throw caution to the wind.", {}},
@@ -1411,6 +1429,9 @@ function QuestieTBCQuestFixes:Load()
         [10867] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Razaani ethereals to lure Nexus-Prince Razaan out", 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}}},
         },
+        [10872] = {
+            [questKeys.finishedBy] = {{22112},nil,nil},
+        },
         [10873] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
         },
@@ -1510,8 +1531,18 @@ function QuestieTBCQuestFixes:Load()
         [10968] = {
             [questKeys.triggerEnd] = {"Dornaa taken to Farseer Nobundo", {[zoneIDs.THE_EXODAR]={{30.8,29.88},},}},
         },
+        [10974] = {
+            [questKeys.requiredMinRep] = {933,21000},
+        },
+        [10975] = {
+            [questKeys.requiredMinRep] = {933,21000},
+        },
+        [10976] = {
+            [questKeys.requiredMinRep] = {933,21000},
+        },
         [10977] = {
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54},},}},
+            [questKeys.requiredMinRep] = {933,21000},
         },
         [10984] = {
             [questKeys.exclusiveTo] = {10983,10989,11057,},
@@ -1527,6 +1558,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10998] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Vim'gol must be summoned by yourself, and four others, each standing within a different fire ring at his circle.", 0, {{"monster", 22911}}}},
+        },
+        [11000] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Vim'gol's Grimoire at Soulgrinder's Altar", 0, {{"object", 185880}}}},
         },
         [11023] = {
             [questKeys.requiredLevel] = 70,
@@ -1571,6 +1605,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [11047] = {
             [questKeys.exclusiveTo] = {11048},
+        },
+        [11052] = {
+            [questKeys.exclusiveTo] = {10708},
+            [questKeys.finishedBy] = {{18481},nil,nil},
         },
         [11056] = {
             [questKeys.preQuestSingle] = {11028},
@@ -1804,8 +1842,17 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{64.58,8.08},},
             }},
         },
+        [11666] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{51.9,34.7},{55.3,44.1},{60.2,53.9}}}, ICON_TYPE_EVENT, "Fish here for Blackfin Darter"}},
+        },
         [11667] = {
-            [questKeys.extraObjectives] = {{{[3518]={{62,35}}}, ICON_TYPE_EVENT, "Fish Here for World's Largest Mudfish"}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.NAGRAND]={{62,35}}}, ICON_TYPE_EVENT, "Fish here for World's Largest Mudfish"}},
+        },
+        [11668] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{75.6,82.9}}}, ICON_TYPE_EVENT, "Fish here for Bloated Barbed Gill Trout"}},
+        },
+        [11669] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{39.4,43}},[zoneIDs.SHADOWMOON_VALLEY]={{24,32.5},{31.9,29.9},{40.1,60.1}}}, ICON_TYPE_EVENT, "Fish here for Monstrous Felblood Snapper"}},
         },
         [11731] = {
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
@@ -1876,6 +1923,12 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.IRONFORGE]={{65,23.68},},
                 [zoneIDs.UNDERCITY]={{68.62,8.01},},
             }},
+        },
+        [11933] = {
+            [questKeys.startedBy] = {nil,{188128},{35569,},},
+        },
+        [11935] = {
+            [questKeys.startedBy] = {nil,{188129},{35568,},},
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
