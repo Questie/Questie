@@ -29,6 +29,10 @@ Database\Zones\zoneDB.lua
 Database\Zones\zoneTables.lua
 
 #Databases
+Database\Classic\classicItemDB.lua
+Database\Classic\classicNpcDB.lua
+Database\Classic\classicObjectDB.lua
+Database\Classic\classicQuestDB.lua
 Database\TBC\tbcItemDB.lua
 Database\TBC\tbcNpcDB.lua
 Database\TBC\tbcObjectDB.lua
