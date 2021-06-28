@@ -196,7 +196,7 @@ local townsfolkLocales = {
     },
     ["Meeting Stones"] = {
         ["ptBR"] = "Pedra de Encontro",
-        ["ruRU"] = "Камни встреч",
+        ["ruRU"] = "Камень встреч",
         ["deDE"] = "Versammlungssteine",
         ["koKR"] = "만남의 돌",
         ["esMX"] = "Rocas de encuentro",
