@@ -2745,4 +2745,5 @@ globals = {
     "ICON_TYPE_REPEATABLE",
     "Questie_Toggle",
     "stderr",
+    "L_UIDROPDOWNMENU_MAXLEVELS",
 }
