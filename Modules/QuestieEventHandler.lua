@@ -128,7 +128,33 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
     -- dropdown fix
-    Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
+    Questie:RegisterEvent("CURSOR_UPDATE", function()
+        --No reason to work before Questie is up
+        if Questie.started then
+            --Checks for libuidropdownmenu 
+            if L_UIDROPDOWNMENU_MAXLEVELS ~= nil then
+                for i=1, L_UIDROPDOWNMENU_MAXLEVELS do
+                    if _G["DropDownList"] ~= nil then
+                        --Check if visible
+                        if _G["L_DropDownList"..i]:IsVisible() then
+                            _G["L_DropDownList"..i]:Hide()
+                        end
+                    end
+                end
+            end
+            --Check for default dropdownmenu
+            if UIDROPDOWNMENU_MAXLEVELS ~= nil then
+                for i=1, UIDROPDOWNMENU_MAXLEVELS do
+                    if _G["DropDownList"] ~= nil the
+                        --Check if visible
+                        if _G["DropDownList"..i]:IsVisible() then
+                            _G["DropDownList"..i]:Hide()
+                        end
+                    end
+                end 
+            end
+        end
+    end)
 
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
