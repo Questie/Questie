@@ -1,5 +1,6 @@
 ---@class QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
+local _QuestieAnnounce = {}
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
@@ -13,7 +14,7 @@ QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted 
 
 QuestieAnnounce._AlreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
-function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, objectiveProgress)
+function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveText, objectiveProgress)
     if "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
         local message
 
@@ -45,9 +46,17 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
     end
 end
 
+function _QuestieAnnounce:AnnounceSelf(questId, itemId)
+    local questLink = QuestieLink:GetQuestLinkStringByQuestId(questId);
+    local itemLink = select(2, GetItemInfo(itemId));
+
+    Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questLink));
+end
+
 local _playerName
+---@return string
 local function _GetPlayerName()
-    _playerName = UnitName("Player")
+    _playerName = UnitName("player")
     return _playerName
 end
 
@@ -57,9 +66,14 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
         if not QuestieAnnounce._itemCache[itemId] and QuestieDB.QueryItemSingle then -- check QueryItemSingle because this event can fire before db init is complete
             QuestieAnnounce._itemCache[itemId] = QuestieDB.QueryItemSingle(itemId, "startQuest") or false -- we do "or false" here because nil cant be inserted into _itemCache
         end
-        local startQuest = QuestieAnnounce._itemCache[itemId]
-        if startQuest and startQuest > 0 then
-            QuestieAnnounce:Announce(startQuest, "item", itemId)
+        local startQuestId = QuestieAnnounce._itemCache[itemId]
+        if startQuestId and startQuestId > 0 then
+            if (not UnitInParty("player")) then
+                _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
+                return
+            end
+
+            QuestieAnnounce:AnnounceParty(startQuestId, "item", itemId)
         end
     end
 end
