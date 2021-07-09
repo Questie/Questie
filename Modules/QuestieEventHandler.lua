@@ -142,10 +142,9 @@ function QuestieEventHandler:RegisterLateEvents()
                 end
             end
             --Check for default dropdownmenu
-            if UIDROPDOWNMENU_MAXLEVELS ~= nil then
+            if UIDROPDOWNMENU_MAXLEVELS then
                 for i=1, UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] ~= nil the
-                        --Check if visible
+                    if _G["DropDownList"] the
                         if _G["DropDownList"..i]:IsVisible() then
                             _G["DropDownList"..i]:Hide()
                         end
