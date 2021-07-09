@@ -37,7 +37,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n("This is the same as 'Enable automatic quest tracking' in interface options. When enabled, the Questie Tracker will automatically track all quests in your log. This prevents shift-click manual tracking."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.autoTrackQuests; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.autoTrackQuests = value
                     if value then
                         SetCVar("autoQuestWatch", "1")
@@ -59,7 +59,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, completed quests will show in the Questie Tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerShowCompleteQuests; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerShowCompleteQuests = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -73,7 +73,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, completed quests will automatically minimize.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.collapseCompletedQuests; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.collapseCompletedQuests = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -87,7 +87,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Quest Level Tags for Quest Titles will show in the Questie Tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerShowQuestLevel; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerShowQuestLevel = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -101,7 +101,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the default Blizzard Timer Frame for quests will be shown instead of being embedded inside the tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return (Questie.db.global.showBlizzardQuestTimer or (not Questie.db.global.trackerEnabled)); end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.showBlizzardQuestTimer = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -115,7 +115,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requires /reload).'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.hookTracking; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.hookTracking = value
                     if value == true then
                         -- may not have been initialized yet
@@ -134,7 +134,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Questie Tracker Header will become visible and the total number of quests you have in your log will be shown.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerHeaderEnabled; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerHeaderEnabled = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -148,7 +148,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n("When this is checked, the Questie Tracker Header will automatically move to the bottom of the Questie Tracker while the Tracker is placed in the bottom area of your screen. Otherwise, it will remain at the top always.\n\nNOTE: This setting only works while the 'Tracker SetPoint' is using the default 'Auto' mode."); end,
                 disabled = function() return not Questie.db.global.trackerHeaderEnabled or not Questie.db.global.trackerEnabled or Questie.db[Questie.db.global.questieTLoc].trackerSetpoint ~= "AUTO"; end,
                 get = function() return Questie.db.global.trackerHeaderAutoMove; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerHeaderAutoMove = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -162,7 +162,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the durability frame will be placed on the left or right side of the Tracker depending on where the Tracker is placed on your screen.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return (Questie.db.global.stickyDurabilityFrame and Questie.db.global.trackerEnabled); end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.stickyDurabilityFrame = value
                     if value then
                         QuestieTracker:MoveDurabilityFrame()
@@ -179,7 +179,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Tracker will automatically be minimized while entering combat.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.hideTrackerInCombat; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.hideTrackerInCombat = value
                 end
             },
@@ -191,7 +191,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Minimize and Maximize Buttons will fade and become transparent when not in use.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFadeMinMaxButtons; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFadeMinMaxButtons = value
                     if value == true then
                         QuestieTracker.FadeMMBTickerValue = 1
@@ -227,7 +227,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Quest Item Buttons will fade and become transparent when not in use.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFadeQuestItemButtons; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFadeQuestItemButtons = value
                     if value == true then
                         QuestieTracker.FadeQIBTickerValue = 1
@@ -267,7 +267,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Questie Tracker Background becomes visible.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerBackdropEnabled; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerBackdropEnabled = value
                     QuestieTracker:Update()
                 end
@@ -280,7 +280,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Questie Tracker Border becomes visible.'); end,
                 disabled = function() return not Questie.db.global.trackerBackdropEnabled or not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerBorderEnabled; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerBorderEnabled = value
                     if value == true and not Questie.db.global.trackerBackdropFader then
                         _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 1)
@@ -298,7 +298,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('When this is checked, the Questie Tracker Backdrop and Border (if enabled) will fade and become transparent when not in use.'); end,
                 disabled = function() return not Questie.db.global.trackerBackdropEnabled or not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerBackdropFader; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerBackdropFader = value
                     if value == true then
                         QuestieTracker.FadeBGTickerValue = 1
@@ -340,7 +340,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('Change the color of objectives in the tracker by how complete they are.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerColorObjectives; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.global.trackerColorObjectives = key
                     QuestieTracker:Update()
                 end
@@ -361,7 +361,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('How objectives are sorted in the tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerSortObjectives; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.global.trackerSortObjectives = key
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -381,7 +381,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('The tracker shortcut to open TomTom'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerbindSetTomTom; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.global.trackerbindSetTomTom = key
                 end
             },
@@ -394,7 +394,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('The tracker shortcut to show the quest in the quest log.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerbindOpenQuestLog; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.global.trackerbindOpenQuestLog = key
                 end
             },
@@ -407,7 +407,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('Removes a quest from the Tracker when the chat input box is not visible, otherwise this will link a quest to chat.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerbindUntrack; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.global.trackerbindUntrack = key
                 end
             },
@@ -426,7 +426,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n("This determines the direction in which the tracker grows. The default setting will adjust based on where you drag the tracker automatically or you can override it and force it to populate however you like.\n\nFor example, if you select 'Bottom Left' then the tracker will grow from Left to Right and Quests will be populated from the Bottom of the Tracker to the Top. This setting is ideal when you want the tracker to be placed in the 'Bottom Left' region of your UI etc.\n\nNOTE: If you change this setting then 'Auto Move Header' will be disabled and will remain at the top of the Tracker even while minimized."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db[Questie.db.global.questieTLoc].trackerSetpoint; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = key
                     QuestieTracker:ResetLocation()
                     QuestieTracker:MoveDurabilityFrame()
@@ -446,7 +446,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled or not Questie.db.global.trackerHeaderEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeHeader; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontSizeHeader = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -462,7 +462,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('The font Active Quests uses.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled or not Questie.db.global.trackerHeaderEnabled; end,
                 get = function() return Questie.db.global.trackerFontHeader or "Friz Quadrata TT"; end,
-                set = function(info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontHeader = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -482,7 +482,7 @@ function QuestieOptions.tabs.tracker:Initialize()
 
                 disabled = function() return not Questie.db.global.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone"; end,
                 get = function() return Questie.db.global.trackerFontSizeZone; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontSizeZone = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -500,7 +500,7 @@ function QuestieOptions.tabs.tracker:Initialize()
 
                 disabled = function() return not Questie.db.global.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone"; end,
                 get = function() return Questie.db.global.trackerFontZone or "Friz Quadrata TT"; end,
-                set = function(info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontZone = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -518,7 +518,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeQuest; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontSizeQuest = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -534,7 +534,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('The font used for quest titles.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontQuest or "Friz Quadrata TT"; end,
-                set = function(info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontQuest = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -552,7 +552,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeObjective; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontSizeObjective = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -568,7 +568,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function() return l10n('The font used for objectives.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontObjective or "Friz Quadrata TT"; end,
-                set = function(info, value)
+                set = function(_, value)
                     Questie.db.global.trackerFontObjective = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -586,7 +586,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 step = 1,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerQuestPadding; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerQuestPadding = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -603,7 +603,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 step = 5,
                 disabled = function() return not Questie.db.global.trackerBackdropEnabled or not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerBackdropAlpha*100; end,
-                set = function (info, value)
+                set = function(_, value)
                     Questie.db.global.trackerBackdropAlpha = value/100
                     QuestieTracker:Update()
                 end
@@ -618,7 +618,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() local buttonName if Questie.db.global.trackerEnabled then buttonName = l10n('Disable The Tracker') elseif not Questie.db.global.trackerEnabled then buttonName = l10n('Enable The Tracker') end return buttonName; end,
                 desc = function() local buttonName if Questie.db.global.trackerEnabled then buttonName = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.') elseif not Questie.db.global.trackerEnabled then buttonName = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.') end return buttonName; end,
                 disabled = function() return false; end,
-                func = function ()
+                func = function()
                     if Questie.db.global.trackerEnabled then
                         QuestieTracker:Disable()
                         Questie.db.global.trackerEnabled = false
@@ -639,7 +639,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return l10n('Reset Tracker Position'); end,
                 desc = function() return l10n("If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
-                func = function (info, value)
+                func = function()
                     QuestieTracker:ResetLocation()
                 end
             },
@@ -653,7 +653,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = l10n('Save Tracker Per Char') elseif not Questie.db.global.globalTrackerLocation then buttonName = l10n('Save Tracker Global') end return buttonName; end,
                 desc = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = l10n("You are currently saving the Questie Tracker Location and Size Per Character. This allows you to cusomize each character's tracker location.\n\nNOTE: Upon enabling Per Character, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.") elseif not Questie.db.global.globalTrackerLocation then buttonName = l10n("You are currently saving the  Questie Tracker Location and Size Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.") end return buttonName; end,
                 disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
-                func = function (info, value)
+                func = function()
                     if Questie.db.global.globalTrackerLocation then
                         Questie.db.global.questieTLoc = "global"
                         Questie.db.global.globalTrackerLocation = false
