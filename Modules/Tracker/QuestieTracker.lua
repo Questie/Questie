@@ -28,6 +28,8 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -2165,7 +2167,7 @@ _OnClick = function(self, button)
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
 
             if Questie.db.global.trackerShowQuestLevel then
-                ChatEdit_InsertLink("[["..self.Quest.level.."] "..self.Quest.name.." ("..self.Quest.Id..")]")
+                ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.Quest.level, self.Quest.name, self.Quest.Id))
             else
                 ChatEdit_InsertLink("["..self.Quest.name.." ("..self.Quest.Id..")]")
             end

@@ -4,6 +4,8 @@ local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -15,19 +17,22 @@ function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, 
     if "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
         local message
 
-        local questName = QuestieDB.QueryQuestSingle(questId, "name")
+        local questName = QuestieDB.QueryQuestSingle(questId, "name");
         local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+        local questLink = QuestieLink:GetQuestLinkString(questLevel, questName, questId);
 
         if progressType == "objective" then
             local objective
             if itemId then
-                objective = objectiveProgress.." "..(select(2,GetItemInfo(itemId)))
+                local itemLink = select(2, GetItemInfo(itemId))
+                objective = objectiveProgress.." "..itemLink
             else
                 objective = objectiveProgress.." "..objectiveText
             end
-            message = "{rt1} Questie : " .. l10n("%s for %s!", objective, "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            message = "{rt1} Questie : " .. l10n("%s for %s!", objective, questLink)
         elseif progressType == "item" then
-            message = "{rt1} Questie : " .. l10n("Picked up %s which starts %s!", (select(2,GetItemInfo(itemId))), "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]")
+            local itemLink = select(2, GetItemInfo(itemId))
+            message = "{rt1} Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questLink)
         end
 
         if (not message) or QuestieAnnounce._AlreadySentBandaid[message] then
