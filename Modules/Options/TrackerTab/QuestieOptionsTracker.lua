@@ -71,6 +71,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 width = 1.0,
                 name = function() return l10n('Min Complete Quests'); end,
                 desc = function() return l10n('When this is checked, completed quests will automatically minimize.'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.collapseCompletedQuests; end,
                 set = function (info, value)
                     Questie.db.global.collapseCompletedQuests = value
