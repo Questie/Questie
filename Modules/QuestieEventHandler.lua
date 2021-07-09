@@ -128,7 +128,16 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
     -- dropdown fix
-    Questie:RegisterEvent("CURSOR_UPDATE", function() pcall(LibDropDown.CloseDropDownMenus) end)
+    Questie:RegisterEvent("CURSOR_UPDATE", function() 
+        for i=1, L_UIDROPDOWNMENU_MAXLEVELS do
+            if _G["L_DropDownList"..i]:IsVisible() then
+                _G["L_DropDownList"..i]:Hide()
+            end
+            if _G["DropDownList"..i]:IsVisible() then
+                _G["DropDownList"..i]:Hide()
+            end
+        end
+    end)
 
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
