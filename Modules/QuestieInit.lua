@@ -42,6 +42,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 ---@type ChatFilter
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
+---@type Hooks
+local Hooks = QuestieLoader:ImportModule("Hooks")
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
@@ -136,6 +138,7 @@ function QuestieInit:InitAllModules()
     coroutine.yield()
     QuestiePlayer:Initialize()
     l10n:PostBoot()
+    Hooks:HookQuestLogTitle()
 
     coroutine.yield()
     QuestieJourney:Initialize()
