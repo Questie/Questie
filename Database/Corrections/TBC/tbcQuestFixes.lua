@@ -785,6 +785,9 @@ function QuestieTBCQuestFixes:Load()
         [10004] = {
             [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96},},}},
         },
+        [10008] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [10012] = {
             [questKeys.preQuestSingle] = {9998,10000},
         },

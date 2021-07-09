@@ -151,7 +151,7 @@ function QuestieEventHandler:RegisterLateEvents()
                             _G["DropDownList"..i]:Hide()
                         end
                     end
-                end 
+                end
             end
         end
     end)
