@@ -132,10 +132,9 @@ function QuestieEventHandler:RegisterLateEvents()
         --No reason to work before Questie is up
         if Questie.started then
             --Checks for libuidropdownmenu 
-            if L_UIDROPDOWNMENU_MAXLEVELS ~= nil then
+            if L_UIDROPDOWNMENU_MAXLEVELS then
                 for i=1, L_UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] ~= nil then
-                        --Check if visible
+                    if _G["DropDownList"] then
                         if _G["L_DropDownList"..i]:IsVisible() then
                             _G["L_DropDownList"..i]:Hide()
                         end
