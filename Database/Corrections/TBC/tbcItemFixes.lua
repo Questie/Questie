@@ -103,6 +103,9 @@ function QuestieTBCItemFixes:Load()
         [24226] = {
             [itemKeys.npcDrops] = {17832},
         },
+        [25460] = {
+            [itemKeys.npcDrops] = {},
+        },
         [25461] = {
             [itemKeys.npcDrops] = {18472},
         },

@@ -182,6 +182,18 @@ local searchLocales = {
         ["esES"] = "No se encontraron misiones",
         ["frFR"] = "Aucune quête trouvée",
     },
+    ["NPC"] = {
+        ["ptBR"] = "NPC",
+        ["ruRU"] = "NPC",
+        ["deDE"] = "NPC",
+        ["koKR"] = "NPC",
+        ["esMX"] = "PNJ",
+        ["enUS"] = true,
+        ["zhCN"] = "NPC",
+        ["zhTW"] = "NPC",
+        ["esES"] = "PNJ",
+        ["frFR"] = "PNJ",
+    },
     ["NPCs"] = {
         ["ptBR"] = "NPCs",
         ["ruRU"] = "NPC",
@@ -326,7 +338,7 @@ local searchLocales = {
         ["esES"] = "Oculta",
         ["frFR"] = "Masqué",
     },
-    ["Quests is hidden"] = {
+    ["Quest is hidden"] = {
         ["ptBR"] = "Missão escondida",
         ["ruRU"] = "Задание скрыто",
         ["deDE"] = "Quest ist versteckt",
