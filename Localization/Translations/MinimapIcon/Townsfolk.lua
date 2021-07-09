@@ -208,7 +208,7 @@ local townsfolkLocales = {
     },
     ["Pet Food"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Еда для питомцев",
         ["deDE"] = "Futter",
         ["koKR"] = nil,
         ["esMX"] = nil,
