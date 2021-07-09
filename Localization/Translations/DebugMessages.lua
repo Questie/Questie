@@ -304,7 +304,7 @@ local debugMessagesLocales = {
     },
     ["You picked up %s which starts %s!"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Вы получили предмет %s, который начинает задание %s",
         ["frFR"] = nil,
         ["koKR"] = nil,
         ["zhCN"] = nil,
