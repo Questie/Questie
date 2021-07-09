@@ -615,8 +615,24 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "execute",
                 order = 4.1,
                 width = 1.0,
-                name = function() local buttonName if Questie.db.global.trackerEnabled then buttonName = l10n('Disable The Tracker') elseif not Questie.db.global.trackerEnabled then buttonName = l10n('Enable The Tracker') end return buttonName; end,
-                desc = function() local buttonName if Questie.db.global.trackerEnabled then buttonName = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.') elseif not Questie.db.global.trackerEnabled then buttonName = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.') end return buttonName; end,
+                name = function()
+                    local buttonName
+                    if Questie.db.global.trackerEnabled then
+                        buttonName = l10n('Disable The Tracker')
+                    elseif (not Questie.db.global.trackerEnabled) then
+                        buttonName = l10n('Enable The Tracker')
+                    end
+                    return buttonName
+                end,
+                desc = function()
+                    local description
+                    if Questie.db.global.trackerEnabled then
+                        description = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.')
+                    elseif (not Questie.db.global.trackerEnabled) then
+                        description = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.')
+                    end
+                    return description
+                end,
                 disabled = function() return false; end,
                 func = function()
                     if Questie.db.global.trackerEnabled then
@@ -626,7 +642,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         QuestieTracker:Enable()
                         Questie.db.global.trackerEnabled = true
                     end
-
                 end
             },
 
