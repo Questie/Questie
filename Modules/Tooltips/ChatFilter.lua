@@ -4,6 +4,8 @@ local ChatFilter = QuestieLoader:CreateModule("ChatFilter")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
 ---------------------------------------------------------------------------------------------------
 -- These must be loaded in order together and loaded before the hook for custom quest links
@@ -37,14 +39,12 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                 end
 
                 if realQuestName and questId then
-                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
-
-                    if senderGUID == nil then
+                    if (not senderGUID) then
                         playerName = BNGetFriendInfoByID(bnSenderID)
                         senderGUID = bnSenderID
                     end
 
-                    local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(realQuestLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(realQuestLevel, "]").."|h"
+                    local questLink = QuestieLink:GetQuestHyperLink(questId, senderGUID)
 
                     -- Escape the magic characters
                     local function escapeMagic(toEsc)

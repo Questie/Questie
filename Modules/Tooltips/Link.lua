@@ -62,11 +62,15 @@ function QuestieLink:GetQuestLinkString(questLevel, questName, questId)
 end
 
 ---@return string
-function QuestieLink:GetQuestLinkStringByQuestId(questId)
-    local questName = QuestieDB.QueryQuestSingle(questId, "name")
+function QuestieLink:GetQuestHyperLink(questId, senderGUID)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
     local questLevel, _ = QuestieLib:GetTbcLevel(questId);
 
-    return QuestieLink:GetQuestLinkString(questLevel, questName, questId)
+    if (not senderGUID) then
+        senderGUID = UnitGUID("player")
+    end
+
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]").."|h"
 end
 
 function QuestieLink:CreateQuestTooltip(link)

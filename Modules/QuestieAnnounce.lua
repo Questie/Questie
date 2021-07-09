@@ -47,7 +47,7 @@ function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveT
 end
 
 function _QuestieAnnounce:AnnounceSelf(questId, itemId)
-    local questLink = QuestieLink:GetQuestLinkStringByQuestId(questId);
+    local questLink = QuestieLink:GetQuestHyperLink(questId);
     local itemLink = select(2, GetItemInfo(itemId));
 
     Questie:Print(l10n("You picked up %s which starts %s!", itemLink, questLink));
