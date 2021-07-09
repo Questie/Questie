@@ -2720,6 +2720,8 @@ globals = {
     "SUFUnittarget",
     "ElvUF_Target",
     "PitBull4_Frames_Target",
+    "UIDROPDOWNMENU_MAXLEVELS",
+    "L_UIDROPDOWNMENU_MAXLEVELS",
     "-----------------------------------------------------> Project Specific",
     "Questie",
     "l10n",
@@ -2745,5 +2747,4 @@ globals = {
     "ICON_TYPE_REPEATABLE",
     "Questie_Toggle",
     "stderr",
-    "L_UIDROPDOWNMENU_MAXLEVELS",
 }
