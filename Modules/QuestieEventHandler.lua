@@ -52,8 +52,6 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 local didPlayerEnterWorld = false
 local shouldRunQLU = false
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
-
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
     for i=1, GetNumQuestLogEntries() do
         GetQuestLogTitle(i)
@@ -144,7 +142,7 @@ function QuestieEventHandler:RegisterLateEvents()
             --Check for default dropdownmenu
             if UIDROPDOWNMENU_MAXLEVELS then
                 for i=1, UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] the
+                    if _G["DropDownList"] then
                         if _G["DropDownList"..i]:IsVisible() then
                             _G["DropDownList"..i]:Hide()
                         end
