@@ -138,7 +138,6 @@ function QuestieInit:InitAllModules()
     coroutine.yield()
     QuestiePlayer:Initialize()
     l10n:PostBoot()
-    Hooks:HookQuestLogTitle()
 
     coroutine.yield()
     QuestieJourney:Initialize()
@@ -160,6 +159,7 @@ function QuestieInit:InitAllModules()
     -- Initialize the tracker
     coroutine.yield()
     QuestieTracker:Initialize()
+    Hooks:HookQuestLogTitle()
 
     local dateToday = date("%y-%m-%d")
 
