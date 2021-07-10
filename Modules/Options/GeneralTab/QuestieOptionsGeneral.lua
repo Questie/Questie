@@ -316,19 +316,13 @@ function QuestieOptions.tabs.general:Initialize()
             },
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
             questannounce = {
-                type = "select",
+                type = "toggle",
                 order = 9,
-                values = {
-                    ['disabled'] = l10n('Disabled'),
-                    ['party'] = l10n('Enabled'),
-                },
-                style = 'dropdown',
                 name = function() return l10n('Quest Announce') end,
                 desc = function() return l10n('Announce objective completion to party members'); end,
-                disabled = false,
-                get = function() return Questie.db.char.questAnnounce or 'party' end,
-                set = function(input, key)
-                    Questie.db.char.questAnnounce = key
+                get = function() return Questie.db.char.questAnnounce end,
+                set = function(_, value)
+                    Questie.db.char.questAnnounce = value
                 end,
             },
             Spacer_B = QuestieOptionsUtils:HorizontalSpacer(1.722, 0.5),

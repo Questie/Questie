@@ -96,6 +96,13 @@ local migrationFunctions = {
         if Questie.db.char.townsfolkConfig then
             Questie.db.char.townsfolkConfig["Meeting Stones"] = true
         end
+    end,
+    [6] = function()
+        if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
+            Questie.db.char.questAnnounce = false
+        else
+            Questie.db.char.questAnnounce = true
+        end
     end
 }
 

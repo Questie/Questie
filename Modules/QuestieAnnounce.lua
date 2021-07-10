@@ -12,7 +12,7 @@ QuestieAnnounce._itemCache = {} -- cache data since this happens on item looted 
 QuestieAnnounce._AlreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
 function QuestieAnnounce:Announce(questId, progressType, itemId, objectiveText, objectiveProgress)
-    if "disabled" ~= Questie.db.char.questAnnounce and UnitInParty("player") then
+    if Questie.db.char.questAnnounce and UnitInParty("player") then
         local message
 
         local questName = QuestieDB.QueryQuestSingle(questId, "name")
