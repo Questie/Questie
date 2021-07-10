@@ -56,6 +56,23 @@ function ItemRefTooltip:SetHyperlink(link, ...)
     end
 end
 
+---@return string
+function QuestieLink:GetQuestLinkString(questLevel, questName, questId)
+    return "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]"
+end
+
+---@return string
+function QuestieLink:GetQuestHyperLink(questId, senderGUID)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
+    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+
+    if (not senderGUID) then
+        senderGUID = UnitGUID("player")
+    end
+
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]").."|h"
+end
+
 function QuestieLink:CreateQuestTooltip(link)
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
