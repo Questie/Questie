@@ -783,10 +783,12 @@ function _QuestieFramePool:QuestieTooltip()
 
                     if reputationReward and next(reputationReward) then
                         local rewardTable = {}
-                        local factionName
+                        local factionId, factionName
                         local rewardValue
+                        local aldorPenalty, scryerPenalty
                         for _, rewardPair in pairs(reputationReward) do
-                            factionName = select(1, GetFactionInfoByID(rewardPair[1]))
+                            factionId = rewardPair[1]
+                            factionName = select(1, GetFactionInfoByID(factionId))
                             rewardValue = rewardPair[2]
 
                             if playerIsHuman and rewardValue > 0 then
@@ -794,8 +796,23 @@ function _QuestieFramePool:QuestieTooltip()
                                 rewardValue = math.floor(rewardValue * 1.1)
                             end
 
+                            if factionId == 932 then -- Aldor
+                                scryerPenalty = 0 - math.floor(rewardValue * 1.1)
+                            elseif factionId == 934 then -- Scryer
+                                aldorPenalty = 0 - math.floor(rewardValue * 1.1)
+                            end
+
                             rewardTable[#rewardTable+1] = (rewardValue > 0 and " +" or " ") .. rewardValue .. " " .. factionName
                         end
+
+                        if aldorPenalty then
+                            factionName = select(1, GetFactionInfoByID(932))
+                            rewardTable[#rewardTable+1] = " ".. aldorPenalty .. " " .. factionName
+                        elseif scryerPenalty then
+                            factionName = select(1, GetFactionInfoByID(934))
+                            rewardTable[#rewardTable+1] = " " .. scryerPenalty .. " " .. factionName
+                        end
+
                         self:AddLine("Reputation:" .. Questie:Colorize(table.concat(rewardTable), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                     end
                 end
