@@ -44,7 +44,7 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
-local reputationIconPath = QuestieLib.AddonPath.."Icons\\achievement_reputation_01.blp"
+local reputationIconPath = QuestieLib.AddonPath.."Icons\\reputation.blp"
 local reputationIconTexture = "|T" .. reputationIconPath .. ":14:14:2:0|t"
 
 local transparentIconPath = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
