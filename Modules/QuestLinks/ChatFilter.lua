@@ -1,9 +1,7 @@
 ---@class ChatFilter
 local ChatFilter = QuestieLoader:CreateModule("ChatFilter")
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
 ---------------------------------------------------------------------------------------------------
 -- These must be loaded in order together and loaded before the hook for custom quest links
@@ -19,7 +17,7 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
     if string.find(msg, "%[(..-) %((%d+)%)%]") then
         if chatFrame and chatFrame.historyBuffer and #(chatFrame.historyBuffer.elements) > 0 and chatFrame ~= _G.ChatFrame2 then
             for k in string.gmatch(msg, "%[%[?%d?..?%]?..-%]") do
-                local sqid, questId, questLevel, questName, realQuestName, realQuestLevel
+                local sqid, questId, questLevel, questName
 
                 questName, sqid = string.match(k, "%[(..-) %((%d+)%)%]")
 
@@ -29,22 +27,15 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     if string.find(questName, "(%[%d+.-%]) ") ~= nil then
                         questLevel, questName = string.match(questName, "%[(..-)%] (.+)")
                     end
-
-                    if QuestieDB.QueryQuest then
-                        realQuestName = QuestieDB.QueryQuestSingle(questId, "name");
-                        realQuestLevel, _ = QuestieLib:GetTbcLevel(questId);
-                    end
                 end
 
-                if realQuestName and questId then
-                    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
-
-                    if senderGUID == nil then
+                if questId then
+                    if (not senderGUID) then
                         playerName = BNGetFriendInfoByID(bnSenderID)
                         senderGUID = bnSenderID
                     end
 
-                    local questLink = "|Hquestie:"..sqid..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(realQuestLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(realQuestLevel, "]").."|h"
+                    local questLink = QuestieLink:GetQuestHyperLink(questId, senderGUID)
 
                     -- Escape the magic characters
                     local function escapeMagic(toEsc)

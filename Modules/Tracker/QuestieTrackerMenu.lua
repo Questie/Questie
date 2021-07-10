@@ -9,6 +9,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -172,13 +174,13 @@ _AddLinkToChatOption = function (menu, quest)
 
         if ( not ChatFrame1EditBox:IsVisible() ) then
             if Questie.db.global.trackerShowQuestLevel then
-                ChatFrame_OpenChat("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+                ChatFrame_OpenChat(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
             else
                 ChatFrame_OpenChat("["..quest.name.." ("..quest.Id..")]")
             end
         else
             if Questie.db.global.trackerShowQuestLevel then
-                ChatEdit_InsertLink("[["..quest.level.."] "..quest.name.." ("..quest.Id..")]")
+                ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
             else
                 ChatEdit_InsertLink("["..quest.name.." ("..quest.Id..")]")
             end
