@@ -68,7 +68,7 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
         end
         local startQuestId = QuestieAnnounce._itemCache[itemId]
         if startQuestId and startQuestId > 0 then
-            if (not UnitInParty("player")) then
+            if (not UnitInParty("player")) or (not Questie.db.char.questAnnounce) then
                 _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
                 return
             end
