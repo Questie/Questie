@@ -808,20 +808,22 @@ function _QuestieFramePool:QuestieTooltip()
                             end
 
                             factionName = select(1, GetFactionInfoByID(factionId))
-                            rewardValue = rewardPair[2]
+                            if factionName then
+                                rewardValue = rewardPair[2]
 
-                            if playerIsHuman and rewardValue > 0 then
-                                -- Humans get 10% more reputation
-                                rewardValue = math.floor(rewardValue * 1.1)
+                                if playerIsHuman and rewardValue > 0 then
+                                    -- Humans get 10% more reputation
+                                    rewardValue = math.floor(rewardValue * 1.1)
+                                end
+
+                                if factionId == 932 then -- Aldor
+                                    scryersPenalty = 0 - math.floor(rewardValue * 1.1)
+                                elseif factionId == 934 then -- Scryers
+                                    aldorPenalty = 0 - math.floor(rewardValue * 1.1)
+                                end
+
+                                rewardTable[#rewardTable+1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
                             end
-
-                            if factionId == 932 then -- Aldor
-                                scryersPenalty = 0 - math.floor(rewardValue * 1.1)
-                            elseif factionId == 934 then -- Scryers
-                                aldorPenalty = 0 - math.floor(rewardValue * 1.1)
-                            end
-
-                            rewardTable[#rewardTable+1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
                         end
 
                         if aldorPenalty then
