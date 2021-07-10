@@ -44,8 +44,11 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
-local reputationIcon = QuestieLib.AddonPath.."Icons\\achievement_reputation_01.blp"
-local transparentIcon = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
+local reputationIconPath = QuestieLib.AddonPath.."Icons\\achievement_reputation_01.blp"
+local reputationIconTexture = "|T" .. reputationIconPath .. ":14:14:2:0|t"
+
+local transparentIconPath = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
+local transparentIconTexture = "|T" .. transparentIconPath .. ":14:14:2:0|t"
 
 
 function QuestieFramePool:SetIcons()
@@ -775,12 +778,11 @@ function _QuestieFramePool:QuestieTooltip()
                         rewardString = rewardString .. questData.type
                     end
 
-                    self:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                     if (not shift) and reputationReward and next(reputationReward) then
-                        self:AddTexture(reputationIcon)
+                        self:AddDoubleLine(reputationIconTexture .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                     else
-                        -- This is a transparent icon which is needed to achieve the same margin-right as with the reputation icon
-                        self:AddTexture(transparentIcon)
+                        -- We use a transparent icon because this eases setting the correct margin
+                        self:AddDoubleLine(transparentIconTexture .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                     end
                 end
                 if questData.subData and shift then
@@ -834,8 +836,7 @@ function _QuestieFramePool:QuestieTooltip()
                             rewardTable[#rewardTable+1] = scryersPenalty .. " " .. factionName
                         end
 
-                        self:AddLine(Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
-                        self:AddTexture(reputationIcon)
+                        self:AddLine(reputationIconTexture .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                     end
                 end
             end
