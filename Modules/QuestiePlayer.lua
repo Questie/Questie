@@ -151,7 +151,6 @@ end
 function QuestiePlayer:GetPartyMemberList()
     local members = {}
     if(UnitInParty("player") or UnitInRaid("player")) then
-        local player = {}
         for index=1, 40 do
             local name = UnitName("party"..index)
             if name then
