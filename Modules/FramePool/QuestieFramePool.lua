@@ -44,6 +44,9 @@ local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 HBDPins.MinimapGroup = CreateFrame("Frame", "QuestieFrameGroup", Minimap)
 --HBDPins:SetMinimapObject(_CreateMinimapParent())
 
+local reputationIcon = QuestieLib.AddonPath.."Icons\\achievement_reputation_01.blp"
+local transparentIcon = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
+
 
 function QuestieFramePool:SetIcons()
     ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
@@ -754,22 +757,30 @@ function _QuestieFramePool:QuestieTooltip()
             end
 
             for _, questData in pairs(quests) do
+                local reputationReward = QuestieDB.QueryQuestSingle(questData.questId, "reputationReward")
+
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId)
+                    local rewardString = ""
                     if (quest and shift) then
-                        local rewardString = ""
                         local xpReward = GetQuestLogRewardXP(questData.questId)
                         if xpReward > 0 then
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
-                        if moneyReward > 0 then -- Quest rewards money
+                        if moneyReward > 0 then
                             rewardString = rewardString .. Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
                         end
-                        self:AddDoubleLine("   " .. questData.title, rewardString .. questData.type, 1, 1, 1, 1, 1, 0);
+                        rewardString = rewardString .. questData.type
+                    end
+
+                    self:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                    if (not shift) and reputationReward and next(reputationReward) then
+                        self:AddTexture(reputationIcon)
                     else
-                        self:AddDoubleLine("   " .. questData.title, questData.type, 1, 1, 1, 1, 1, 0);
+                        -- This is a transparent icon which is needed to achieve the same margin-right as with the reputation icon
+                        self:AddTexture(transparentIcon)
                     end
                 end
                 if questData.subData and shift then
@@ -781,8 +792,6 @@ function _QuestieFramePool:QuestieTooltip()
                     elseif dataType == "string" then
                         self:AddLine(questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
                     end
-
-                    local reputationReward = QuestieDB.QueryQuestSingle(questData.questId, "reputationReward")
 
                     if reputationReward and next(reputationReward) then
                         local rewardTable = {}
@@ -823,7 +832,8 @@ function _QuestieFramePool:QuestieTooltip()
                             rewardTable[#rewardTable+1] = scryersPenalty .. " " .. factionName
                         end
 
-                        self:AddLine("Reputation: " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                        self:AddLine(Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                        self:AddTexture(reputationIcon)
                     end
                 end
             end
