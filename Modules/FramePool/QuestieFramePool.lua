@@ -13,6 +13,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieEvent
@@ -734,6 +736,7 @@ function _QuestieFramePool:QuestieTooltip()
         local haveGiver = false -- hack
         local firstLine = true;
         local playerIsHuman = QuestiePlayer:GetRaceId() == 1
+        local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, {935, 8999}))
         for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then
@@ -788,6 +791,13 @@ function _QuestieFramePool:QuestieTooltip()
                         local aldorPenalty, scryersPenalty
                         for _, rewardPair in pairs(reputationReward) do
                             factionId = rewardPair[1]
+
+                            if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
+                                -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
+                                -- with the Sha'tar
+                                break
+                            end
+
                             factionName = select(1, GetFactionInfoByID(factionId))
                             rewardValue = rewardPair[2]
 
