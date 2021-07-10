@@ -733,24 +733,30 @@ function _QuestieFramePool:QuestieTooltip()
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
+        local playerIsHuman = QuestiePlayer:GetRaceId() == 1
         for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
+            if shift and (not firstLine) then
+                -- Spacer between NPCs
+                self:AddLine("             ")
+            end
             if (firstLine and not shift) then
-                self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43); --"(Shift+click)"
+                self:AddDoubleLine(questTitle, "(".. l10n('Hold Shift')..")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
                 self:AddLine(questTitle, 0.2, 1, 0.2);
                 firstLine = false;
             else
-              self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(questTitle, 0.2, 1, 0.2);
             end
+
             for _, questData in pairs(quests) do
                 if questData.title ~= nil then
                     local quest = QuestieDB:GetQuest(questData.questId)
                     if (quest and shift) then
                         local rewardString = ""
                         local xpReward = GetQuestLogRewardXP(questData.questId)
-                        if xpReward > 0 then -- Quest rewards XP
+                        if xpReward > 0 then
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
 
@@ -771,7 +777,26 @@ function _QuestieFramePool:QuestieTooltip()
                         end
                     elseif dataType == "string" then
                         self:AddLine(questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
-                        --self:AddLine("      |cFFDDDDDD" .. v2.subData);
+                    end
+
+                    local reputationReward = QuestieDB.QueryQuestSingle(questData.questId, "reputationReward")
+
+                    if reputationReward and next(reputationReward) then
+                        local rewardTable = {}
+                        local factionName
+                        local rewardValue
+                        for _, rewardPair in pairs(reputationReward) do
+                            factionName = select(1, GetFactionInfoByID(rewardPair[1]))
+                            rewardValue = rewardPair[2]
+
+                            if playerIsHuman and rewardValue > 0 then
+                                -- Humans get 10% more reputation
+                                rewardValue = math.floor(rewardValue * 1.1)
+                            end
+
+                            rewardTable[#rewardTable+1] = (rewardValue > 0 and " +" or " ") .. rewardValue .. " " .. factionName
+                        end
+                        self:AddLine("Reputation:" .. Questie:Colorize(table.concat(rewardTable), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                     end
                 end
             end
@@ -847,6 +872,12 @@ function _QuestieFramePool:QuestieTooltip()
                 end
             end
         end
+
+        if next(self.npcOrder) and next(self.manualOrder) then
+            -- Spacer before townsfolk
+            self:AddLine("             ")
+        end
+
         for title, data in pairs(self.manualOrder) do
             local body = data.Body
             self:AddLine(title)
