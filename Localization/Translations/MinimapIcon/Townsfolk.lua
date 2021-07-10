@@ -206,6 +206,18 @@ local townsfolkLocales = {
         ["esES"] = "Rocas de encuentro",
         ["frFR"] = "Pierre de rencontre",
     },
+    ["Pet Food"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = "Еда для питомцев",
+        ["deDE"] = "Futter",
+        ["koKR"] = nil,
+        ["esMX"] = nil,
+        ["enUS"] = true,
+        ["zhCN"] = nil,
+        ["zhTW"] = nil,
+        ["esES"] = nil,
+        ["frFR"] = nil,
+    },
     ["Portal Trainer"] = {
         ["ptBR"] = "Treinamento de Portais",
         ["ruRU"] = "Мастер порталов",

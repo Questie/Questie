@@ -93,11 +93,14 @@ Modules\QuestieAnnounce.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 
+#QuestLinks
+Modules\QuestLinks\ChatFilter.lua
+Modules\QuestLinks\Hooks.lua
+Modules\QuestLinks\Link.lua
+
 ##Tooltips
 Modules\Tooltips\Tooltip.lua
 Modules\Tooltips\TooltipHandler.lua
-Modules\Tooltips\ChatFilter.lua
-Modules\Tooltips\Link.lua
 
 #Auto
 Modules\Auto\QuestieAuto.lua
