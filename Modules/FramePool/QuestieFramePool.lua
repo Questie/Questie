@@ -785,7 +785,7 @@ function _QuestieFramePool:QuestieTooltip()
                         local rewardTable = {}
                         local factionId, factionName
                         local rewardValue
-                        local aldorPenalty, scryerPenalty
+                        local aldorPenalty, scryersPenalty
                         for _, rewardPair in pairs(reputationReward) do
                             factionId = rewardPair[1]
                             factionName = select(1, GetFactionInfoByID(factionId))
@@ -797,23 +797,23 @@ function _QuestieFramePool:QuestieTooltip()
                             end
 
                             if factionId == 932 then -- Aldor
-                                scryerPenalty = 0 - math.floor(rewardValue * 1.1)
-                            elseif factionId == 934 then -- Scryer
+                                scryersPenalty = 0 - math.floor(rewardValue * 1.1)
+                            elseif factionId == 934 then -- Scryers
                                 aldorPenalty = 0 - math.floor(rewardValue * 1.1)
                             end
 
-                            rewardTable[#rewardTable+1] = (rewardValue > 0 and " +" or " ") .. rewardValue .. " " .. factionName
+                            rewardTable[#rewardTable+1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
                         end
 
                         if aldorPenalty then
                             factionName = select(1, GetFactionInfoByID(932))
-                            rewardTable[#rewardTable+1] = " ".. aldorPenalty .. " " .. factionName
-                        elseif scryerPenalty then
+                            rewardTable[#rewardTable+1] = aldorPenalty .. " " .. factionName
+                        elseif scryersPenalty then
                             factionName = select(1, GetFactionInfoByID(934))
-                            rewardTable[#rewardTable+1] = " " .. scryerPenalty .. " " .. factionName
+                            rewardTable[#rewardTable+1] = scryersPenalty .. " " .. factionName
                         end
 
-                        self:AddLine("Reputation:" .. Questie:Colorize(table.concat(rewardTable), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                        self:AddLine("Reputation: " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
                     end
                 end
             end
