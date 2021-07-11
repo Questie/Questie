@@ -775,8 +775,8 @@ function _QuestieFramePool:QuestieTooltip()
                         if moneyReward > 0 then
                             rewardString = rewardString .. Questie:Colorize("("..GetCoinTextureString(moneyReward)..") ", "white")
                         end
-                        rewardString = rewardString .. questData.type
                     end
+                    rewardString = rewardString .. questData.type
 
                     if (not shift) and reputationReward and next(reputationReward) then
                         self:AddDoubleLine(reputationIconTexture .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
