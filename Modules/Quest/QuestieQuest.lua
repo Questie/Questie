@@ -336,6 +336,11 @@ function QuestieQuest:HideQuest(id)
     QuestieMap:UnloadQuestFrames(id);
 end
 
+function QuestieQuest:HideDailyQuest(id)
+    Questie.db.char.hiddenDaylies[id] = true
+    QuestieMap:UnloadQuestFrames(id);
+end
+
 function QuestieQuest:UnhideQuest(id)
     Questie.db.char.hidden[id] = nil
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()

@@ -152,9 +152,120 @@ function QuestieComms:GetQuest(questId, playerName)
     return nil;
 end
 
+local cookingDailyIds = {
+    11377,
+    11379,
+    11380,
+    11381,
+};
+
+local fishingDailyIds = {
+    11667,
+    11665,
+    11666,
+    11668,
+    11669,
+};
+
+local nhcDailyIds = {
+    11364,
+    11371,
+    11376,
+    11383,
+    11385,
+    11387,
+    11389,
+    11500,
+};
+
+local hcDailyIds = {
+    11354,
+    11362,
+    11363,
+    11368,
+    11369,
+    11370,
+    11372,
+    11373,
+    11374,
+    11375,
+    11378,
+    11382,
+    11384,
+    11386,
+    11388,
+};
+
+local pvpDailyIds = {
+    8367,
+    11339,
+    11340,
+    11341,
+    11342,
+}
+
 function QuestieComms:Initialize()
     -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
     Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
+
+    Questie:RegisterComm("REPUTABLE", function(prefix, message, distribution, sender)
+        --print("REPUTABLE Event")
+
+        if message then
+        --if message  and sender and sender ~= UnitName("player") then
+            --TODO: Add some sort of times requirement to run this event
+
+
+
+            local _, _, nhcQuestId, nhcTimeLeft, hcQuestId, hcTimeLeft, cookingQuestId, cookingTimeLeft, fishingQuestId, fishingTimeLeft, pvpQuestId, pvpTimeLeft = strsplit(":", message);
+
+            --print("NHC", nhcQuestId, nhcTimeLeft)
+            --print("HC", hcQuestId, hcTimeLeft)
+            --print("Cooking", cookingQuestId, cookingTimeLeft)
+            --print("Fishing", fishingQuestId, fishingTimeLeft)
+            --print("PVP", pvpQuestId, pvpTimeLeft)
+
+            if nhcQuestId and nhcQuestId ~= "" then
+                for _, questId in pairs(nhcDailyIds) do
+                    if (not (questId == tonumber(nhcQuestId))) then
+                        QuestieQuest:HideDailyQuest(questId);
+                    end
+                end
+            end
+
+            if hcQuestId and hcQuestId ~= "" then
+                for _, questId in pairs(hcDailyIds) do
+                    if (not (questId == tonumber(hcQuestId))) then
+                        QuestieQuest:HideDailyQuest(questId);
+                    end
+                end
+            end
+
+            if cookingQuestId and cookingQuestId ~= "" then
+                for _, questId in pairs(cookingDailyIds) do
+                    if (not (questId == tonumber(cookingQuestId))) then
+                        QuestieQuest:HideDailyQuest(questId);
+                    end
+                end
+            end
+
+            if fishingQuestId and fishingQuestId ~= "" then
+                for _, questId in pairs(fishingDailyIds) do
+                    if (not (questId == tonumber(fishingQuestId))) then
+                        QuestieQuest:HideDailyQuest(questId);
+                    end
+                end
+            end
+
+            if pvpQuestId and pvpQuestId ~= "" then
+                for _, questId in pairs(pvpDailyIds) do
+                    if (not (questId == tonumber(pvpQuestId))) then
+                        QuestieQuest:HideDailyQuest(questId);
+                    end
+                end
+            end
+        end
+    end)
 
     -- Events to be used to broadcast updates to other people
     Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);
