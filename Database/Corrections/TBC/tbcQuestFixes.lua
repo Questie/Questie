@@ -1068,6 +1068,12 @@ function QuestieTBCQuestFixes:Load()
         [10344] = {
             [questKeys.exclusiveTo] = {10163},
         },
+        [10357] = {
+            [questKeys.preQuestGroup] = {10352,10354,10356,},
+        },
+        [10362] = {
+            [questKeys.preQuestGroup] = {10359,10360,10361,},
+        },
         [10365] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
@@ -1105,7 +1111,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10552},
         },
         [10413] = {
             [questKeys.startedBy] = {{20779,},nil,nil,},
