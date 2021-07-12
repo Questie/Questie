@@ -39,16 +39,16 @@ local battlegroundsLocales = {
         ["zhCN"] = "阿拉希盆地",
     },
     ["Eye of the Storm"] = {
-        ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ptBR"] = "Olho da Tormenta",
+        ["ruRU"] = "Око Бури",
         ["deDE"] = "Auge des Sturms",
-        ["koKR"] = nil,
-        ["esMX"] = nil,
+        ["koKR"] = "폭풍의 눈",
+        ["esMX"] = "Ojo de la Tormenta",
         ["enUS"] = true,
-        ["frFR"] = nil,
-        ["esES"] = nil,
+        ["frFR"] = "L'Œil du cyclone",
+        ["esES"] = "Ojo de la Tormenta",
         ["zhTW"] = nil,
-        ["zhCN"] = nil,
+        ["zhCN"] = "风暴之眼",
     },
 }
 
