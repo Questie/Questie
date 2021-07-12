@@ -403,16 +403,19 @@ function _QuestieJourney:CreatePreQuestGroup(quest)
     return preQuestCounter, preQuestInlineGroup
 end
 
----@param preQuest Quest
+---@param quest Quest
 ---@return AceInteractiveLabel
-function _QuestieJourney:GetInteractiveQuestLabel(preQuest)
+function _QuestieJourney:GetInteractiveQuestLabel(quest)
     ---@class AceInteractiveLabel
     local label = AceGUI:Create("InteractiveLabel")
+    local questId = quest.Id
 
-    label:SetText(QuestieLib:GetColoredQuestName(preQuest.Id, Questie.db.global.enableTooltipsQuestLevel, false, true))
-    label:SetUserData('id', preQuest.Id)
-    label:SetUserData('name', preQuest.name)
-    label:SetCallback("OnClick", _QuestieJourney.JumpToQuest)
+    label:SetText(QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, false, true))
+    label:SetUserData('id', questId)
+    label:SetUserData('name', quest.name)
+    label:SetCallback("OnClick", function()
+        ItemRefTooltip:SetHyperlink("%|Hquestie:" .. questId .. ":.*%|h", "%[%[" .. quest.level .. "%] " .. quest.name .. " %(" .. questId .. "%)%]")
+    end)
     label:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
     label:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
 

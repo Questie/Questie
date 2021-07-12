@@ -12,7 +12,7 @@ local myJourneyLocales = {
         ["zhCN"] = "打开 Questie",
         ["zhTW"] = "打開 Questie",
         ["esES"] = "Opciones de Questie",
-        ["frFR"] = "Questie options",
+        ["frFR"] = "Options Questie",
     },
     ["My Journey"] = {
         ["ptBR"] = "Minha jornada",
@@ -60,7 +60,7 @@ local myJourneyLocales = {
         ["zhCN"] = "是时候踏上旅程了！",
         ["zhTW"] = "是時候踏上旅程了！",
         ["esES"] = "¡Es hora de que te embarques en tu primera aventura!",
-        ["frFR"] = "Il est temps que vous embarquiez pour votre premier voyage !",
+        ["frFR"] = "Il est temps d'embarquer pour votre premier voyage !",
     },
     ["Congratulations! You reached %s !"] = {
         ["ptBR"] = "Parabéns! Você alcançou %s!",
@@ -144,7 +144,7 @@ local myJourneyLocales = {
         ["zhCN"] = "接受",
         ["zhTW"] = "接受",
         ["esES"] = "Aceptada",
-        ["frFR"] = "acceptée",
+        ["frFR"] = "Acceptée",
     },
     ["You Abandoned the quest %s"] = {
         ["ptBR"] = "Você abandonou a missão %s",
@@ -160,7 +160,7 @@ local myJourneyLocales = {
     },
     ["Abandoned"] = {
         ["ptBR"] = "Abandonada",
-        ["ruRU"] = "Отменено",
+        ["ruRU"] = "отменено",
         ["deDE"] = "Abgebrochen",
         ["koKR"] = "포기",
         ["esMX"] = "Abandonada",
@@ -168,7 +168,7 @@ local myJourneyLocales = {
         ["zhCN"] = "放弃",
         ["zhTW"] = "放棄",
         ["esES"] = "Abandonada",
-        ["frFR"] = "abandonnée",
+        ["frFR"] = "Abandonnée",
     },
     ["Entry Title"] = {
         ["ptBR"] = "Título da entrada",
@@ -276,7 +276,7 @@ local myJourneyLocales = {
         ["zhCN"] = "笔记：%s",
         ["zhTW"] = "筆記：%s",
         ["esES"] = "Nota: %s",
-        ["frFR"] = "Remarque : %s",
+        ["frFR"] = "Note : %s",
     },
     ["Add New Adventure Note"] = {
         ["ptBR"] = "Adicione uma nova anotação de aventura",

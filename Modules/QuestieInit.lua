@@ -1,5 +1,6 @@
 ---@class QuestieInit
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
+local _QuestieInit = {}
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -39,6 +40,10 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 ---@type HBDHooks
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
+---@type ChatFilter
+local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
+---@type Hooks
+local Hooks = QuestieLoader:ImportModule("Hooks")
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
@@ -71,6 +76,7 @@ function QuestieInit:InitAllModules()
         print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
 
         QuestieInit:LoadBaseDB()
+        _QuestieInit:OverrideDBWithTBCData()
 
         print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
@@ -95,6 +101,8 @@ function QuestieInit:InitAllModules()
             print("\124cFFFFFF00" ..l10n("[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."))
         end
     else
+        _QuestieInit:OverrideDBWithTBCData()
+
         coroutine.yield()
         l10n:Initialize()
 
@@ -116,6 +124,7 @@ function QuestieInit:InitAllModules()
 
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
+    ChatFilter:RegisterEvents()
 
     QuestieMap:InitializeQueue()
 
@@ -150,6 +159,7 @@ function QuestieInit:InitAllModules()
     -- Initialize the tracker
     coroutine.yield()
     QuestieTracker:Initialize()
+    Hooks:HookQuestLogTitle()
 
     local dateToday = date("%y-%m-%d")
 
@@ -169,7 +179,6 @@ function QuestieInit:InitAllModules()
     end
 
     Questie.started = true
-
 end
 
 function QuestieInit:LoadDatabase(key)
@@ -201,6 +210,9 @@ function QuestieInit:LoadBaseDB()
     QuestieInit:LoadDatabase("itemData")
     QuestieInit:LoadDatabase("itemDataTBC")
 
+end
+
+function _QuestieInit:OverrideDBWithTBCData()
     if QuestieDB.questDataTBC then
         -- we loaded the TBC db, alias the tables
         QuestieDB.questData = QuestieDB.questDataTBC
@@ -208,7 +220,6 @@ function QuestieInit:LoadBaseDB()
         QuestieDB.npcData = QuestieDB.npcDataTBC
         QuestieDB.itemData = QuestieDB.itemDataTBC
     end
-
 end
 
 -- called by the PLAYER_LOGIN event handler

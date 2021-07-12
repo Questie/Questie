@@ -25,9 +25,14 @@ local oldItemSetHyperlink = ItemRefTooltip.SetHyperlink
 --- Override of the default SetHyperlink function to filter Questie links
 ---@param link string
 function ItemRefTooltip:SetHyperlink(link, ...)
-    local _, isQuestieLink, questId
-    isQuestieLink, questId = string.match(link, "(questie):(%d+):")
-    QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
+    local questiePrefix, questId = string.match(link, "(questie):(%d+):")
+    local isQuestieLink = questiePrefix == "questie"
+
+    if (not ItemRefTooltip:IsShown()) then
+        QuestieLink.lastItemRefTooltip = ""
+    else
+        QuestieLink.lastItemRefTooltip = QuestieLink.lastItemRefTooltip or link
+    end
 
     if isQuestieLink and questId then
         Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:ItemRefTooltip] SetHyperlink: " .. link)
@@ -49,6 +54,23 @@ function ItemRefTooltip:SetHyperlink(link, ...)
         -- Make sure to call the default function so everything that is not Questie can be handled (item links e.g.)
         oldItemSetHyperlink(self, link, ...)
     end
+end
+
+---@return string
+function QuestieLink:GetQuestLinkString(questLevel, questName, questId)
+    return "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]"
+end
+
+---@return string
+function QuestieLink:GetQuestHyperLink(questId, senderGUID)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
+    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+
+    if (not senderGUID) then
+        senderGUID = UnitGUID("player")
+    end
+
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]").."|h"
 end
 
 function QuestieLink:CreateQuestTooltip(link)

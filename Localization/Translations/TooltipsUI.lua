@@ -12,7 +12,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "你正在进行这项任务",
         ["zhTW"] = "你正在進行這項任務",
         ["esES"] = "Tienes esta misión",
-        ["frFR"] = "Vous avez cette quête",
+        ["frFR"] = "Vous effectuez cette quête",
     },
     ["You have not done this quest"] = {
         ["ptBR"] = "Você não fez esta missão",
@@ -24,7 +24,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "你并完成这项任务",
         ["zhTW"] = "你並未完成這項任務",
         ["esES"] = "No has completado esta misión",
-        ["frFR"] = "Vous n'avez pas fait cette quête",
+        ["frFR"] = "Vous n'avez pas terminé cette quête",
     },
     ["Nearby"] = {
         ["ptBR"] = "Nas proximidades",
@@ -84,7 +84,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "你的进度",
         ["zhTW"] = "你的進度",
         ["esES"] = "Progreso",
-        ["frFR"] = "Progrès",
+        ["frFR"] = "Progression",
     },
     ["You have completed this quest"] = {
         ["ptBR"] = "Você concluiu esta missão",
@@ -124,7 +124,7 @@ local tooltipsUILocales = {
     },
     ["Completed on:"] = {
         ["ptBR"] = "Concluído em:",
-        ["ruRU"] = "Выполнено в:",
+        ["ruRU"] = "Выполнено:",
         ["deDE"] = "Abgeschlossen am",
         ["koKR"] = "완료",
         ["esMX"] = "Terminada el:",
@@ -132,7 +132,7 @@ local tooltipsUILocales = {
         ["zhCN"] = "完成于:",
         ["zhTW"] = "完成於:",
         ["esES"] = "Terminada el:",
-        ["frFR"] = "Complété  le:",
+        ["frFR"] = "Complété le:",
     }
 }
 

@@ -20,7 +20,7 @@ function QuestieQuestBlacklist:Load()
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = true, -- Not in the game
-        [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805 
+        [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
         [4603] = true, -- Duplicate of 2953
@@ -764,7 +764,6 @@ function QuestieQuestBlacklist:Load()
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
-        [10970] = true, -- A Mission of Mercy (Retail Only)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
@@ -781,11 +780,16 @@ function QuestieQuestBlacklist:Load()
         [9735] = true, -- Replaced with [True Masters of the Light (64143)]
         [9736] = true, -- Replaced with [True Masters of the Light (64144)]
         [9737] = true, -- Replaced with [True Masters of the Light  (64145)]
+        [9926] = true, -- FLAG Shadow Council/Warmaul Questline
+        [10048] = true, -- A Handful of Magic Dust BETA
+        [10049] = true, -- A Handful of Magic Dust BETA
         [10169] = true, -- Losing Gracefully (removed with 2.4.0)
+        [10259] = true, -- Into the Breach (TBC Pre patch event)
         [10364] = true, -- Caedmos (Unavailable Priest quest)
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
         [10534] = true, -- Returning Home (Unavailable Priest quest)
         [10539] = true, -- Returning Home (Unavailable Priest quest)
+        [10561] = true, -- Revered Among the Keepers of Time
         [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
         [10779] = true, -- The Hunter's Path (Unused)
         [10931] = true, -- Level 0 Priest quest
@@ -793,8 +797,14 @@ function QuestieQuestBlacklist:Load()
         [10933] = true, -- Level 0 Priest quest
         [10934] = true, -- Level 0 Priest quest
         [64028] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64037] = true, -- Boosted character quest
+        [64038] = true, -- Boosted character quest
         [64046] = true, -- First quest for boosted characters. Blocked to not show for others
         [64047] = true, -- First quest for boosted characters. Blocked to not show for others
+        [64063] = true, -- Boosted character quest
+        [64064] = true, -- Boosted character quest
+        [64128] = true, -- Boosted character quest
+        [64217] = true, -- Boosted character quest
 
         [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
         [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
@@ -884,48 +894,68 @@ function QuestieQuestBlacklist:Load()
         -- Phase 2 - Serpentshrine Cavern, Tempest Keep
         [11007] = true,
 
+        -- Druid Swift Flight Form
+        [10955] = true,
+        [10961] = true,
+        [10964] = true,
+        [10965] = true,
+        [10978] = true,
+        [10979] = true,
+        [10980] = true,
+        [10986] = true,
+        [10987] = true,
+        [10988] = true,
+        [10990] = true,
+        [10991] = true,
+        [10992] = true,
+        [10993] = true,
+        [10994] = true,
+        [11001] = true,
+        [11011] = true,
+
         -- Ogri'la & Sha'tari Skyguard
-        [11004] = true, 
-        [11005] = true, 
-        [11006] = true, 
-        [11008] = true, 
-        [11009] = true, 
-        [11010] = true, 
-        [11021] = true, 
-        [11023] = true, 
-        [11024] = true, 
-        [11025] = true, 
-        [11026] = true, 
-        [11028] = true, 
-        [11029] = true, 
-        [11030] = true, 
-        [11051] = true, 
-        [11056] = true, 
-        [11057] = true, 
-        [11058] = true, 
-        [11059] = true, 
-        [11061] = true, 
-        [11062] = true, 
-        [11065] = true, 
-        [11066] = true, 
-        [11072] = true, 
-        [11073] = true, 
-        [11074] = true, 
-        [11078] = true, 
-        [11079] = true, 
-        [11080] = true, 
-        [11085] = true, 
-        [11091] = true, 
-        [11093] = true, 
-        [11096] = true, 
-        [11098] = true, 
-        [11102] = true, 
-        [11119] = true, 
-        [11885] = true, 
+        [11004] = true,
+        [11005] = true,
+        [11006] = true,
+        [11008] = true,
+        [11009] = true,
+        [11010] = true,
+        [11021] = true,
+        [11023] = true,
+        [11024] = true,
+        [11025] = true,
+        [11026] = true,
+        [11027] = true,
+        [11028] = true,
+        [11029] = true,
+        [11030] = true,
+        [11051] = true,
+        [11056] = true,
+        [11057] = true,
+        [11058] = true,
+        [11059] = true,
+        [11060] = true,
+        [11061] = true,
+        [11062] = true,
+        [11065] = true,
+        [11066] = true,
+        [11072] = true,
+        [11073] = true,
+        [11074] = true,
+        [11078] = true,
+        [11079] = true,
+        [11080] = true,
+        [11085] = true,
+        [11091] = true,
+        [11093] = true,
+        [11096] = true,
+        [11098] = true,
+        [11102] = true,
+        [11119] = true,
+        [11885] = true,
 
         -- Netherwing
-        [10804] = true,
-        [10870] = true,
+        [11012] = true,
         [11013] = true,
         [11015] = true,
         [11016] = true,
@@ -1004,6 +1034,10 @@ function QuestieQuestBlacklist:Load()
         [11482] = true,
         [11488] = true,
         [11496] = true,
+        [11513] = true,
+        [11514] = true,
+        [11515] = true,
+        [11516] = true,
         [11517] = true,
         [11520] = true,
         [11521] = true,
@@ -1034,6 +1068,9 @@ function QuestieQuestBlacklist:Load()
         [11555] = true,
         [11556] = true,
         [11557] = true,
+        [11875] = true,
+        [11880] = true,
+        [11877] = true,
     }
 end
 

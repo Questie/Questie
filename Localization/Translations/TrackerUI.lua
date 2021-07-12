@@ -36,7 +36,7 @@ local trackerUILocales = {
         ["zhCN"] = "任务完成!",
         ["zhTW"] = "任務完成!",
         ["esES"] = "¡Misión completada!",
-        ["frFR"] = "Quête terminée!",
+        ["frFR"] = "Quête terminée !",
     },
     ["Quest completion failed!"] = {
         ["ptBR"] = "A missão falhou!",
@@ -48,7 +48,7 @@ local trackerUILocales = {
         ["zhCN"] = "任务失败!",
         ["zhTW"] = "任務失敗!",
         ["esES"] = "¡La misión ha fracasado!",
-        ["frFR"] = "Échec de la quête!",
+        ["frFR"] = "Échec de la quête !",
     },
     ["Untrack Quest"] = {
         ["ptBR"] = "Não rastrear a missão",
@@ -144,7 +144,7 @@ local trackerUILocales = {
         ["zhCN"] = "将任务连接到聊天框",
         ["zhTW"] = "將任務連結貼到對話",
         ["esES"] = "Vincular misión al chat",
-        ["frFR"] = "Linker la quêter dans la chat",
+        ["frFR"] = "Linker la quêter dans la discussion",
     },
     ["Show in Quest Log"] = {
         ["ptBR"] = "Mostrar no registro de missões",

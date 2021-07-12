@@ -209,7 +209,7 @@ QuestieEvent.eventDates = {
         endDate = "19/5"
     },
     ["Children's Week"] = {startDate = "1/5", endDate = "7/5"},
-    ["Midsummer"] = {startDate = "21/6", endDate = "5/7"},
+    ["Midsummer"] = {startDate = "20/7", endDate = "4/8"},
     ["Brewfest"] = {startDate = "20/9", endDate = "6/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = {startDate = "27/9", endDate = "4/10"},
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},

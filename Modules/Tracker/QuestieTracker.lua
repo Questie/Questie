@@ -28,6 +28,8 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -57,7 +59,7 @@ _QuestieTracker.IsFirstRun = true
 
 -- Forward declaration
 local _OnClick, _OnEnter, _OnLeave, _OnHighlightEnter, _OnHighlightLeave
-local _AQW_Insert, _RemoveQuestWatch
+local _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
 
@@ -2079,40 +2081,21 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
-        hooksecurefunc("AutoQuestWatch_Insert", _AQW_Insert)
-        hooksecurefunc("AddQuestWatch", _AQW_Insert)
+        hooksecurefunc("AutoQuestWatch_Insert", function(index, button)
+            QuestieTracker:AQW_Insert(index, button)
+        end)
+        hooksecurefunc("AddQuestWatch", function(index, button)
+            QuestieTracker:AQW_Insert(index, button)
+        end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
-        -- completed/objectiveless tracking fix
-        -- blizzard quest tracker
-
-        local baseQLTB_OnClick = QuestLogTitleButton_OnClick
-        QuestLogTitleButton_OnClick = function(self, button) -- I wanted to use hooksecurefunc but this needs to be a pre-hook to work properly unfortunately
-            if (not self) or self.isHeader or not IsShiftKeyDown() then baseQLTB_OnClick(self, button) return end
-            local questLogLineIndex = self:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame)
-            local questId = GetQuestIDFromLogIndex(questLogLineIndex)
-
-            if ( IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow() ) then
-                if (self.isHeader) then
-                    return
-                end
-                ChatEdit_InsertLink("["..gsub(self:GetText(), " *(.*)", "%1").." ("..questId..")]")
-
-            else
-                if GetNumQuestLeaderBoards(questLogLineIndex) == 0 and not IsQuestWatched(questLogLineIndex) then -- only call if we actually want to fix this quest (normal quests already call AQW_insert)
-                    _AQW_Insert(questLogLineIndex, QUEST_WATCH_NO_EXPIRE)
-                    QuestWatch_Update()
-                    QuestLog_SetSelection(questLogLineIndex)
-                    QuestLog_Update()
-                else
-                    baseQLTB_OnClick(self, button)
-                end
-            end
-        end
-        -- other addons
-
         -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-        QuestWatchFrame:HookScript("OnShow", function(self) if QuestieTracker._disableHooks then return end self:Hide() end)
+        QuestWatchFrame:HookScript("OnShow", function(self)
+            if QuestieTracker._disableHooks then
+                return
+            end
+            self:Hide()
+        end)
         QuestieTracker._alreadyHookedSecure = true
     end
 
@@ -2165,7 +2148,7 @@ _OnClick = function(self, button)
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
 
             if Questie.db.global.trackerShowQuestLevel then
-                ChatEdit_InsertLink("[["..self.Quest.level.."] "..self.Quest.name.." ("..self.Quest.Id..")]")
+                ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.Quest.level, self.Quest.name, self.Quest.Id))
             else
                 ChatEdit_InsertLink("["..self.Quest.name.." ("..self.Quest.Id..")]")
             end
@@ -2277,7 +2260,7 @@ _RemoveQuestWatch = function(index, isQuestie)
     end
 end
 
-_AQW_Insert = function(index, expire)
+function QuestieTracker:AQW_Insert(index, expire)
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
     if QuestieTracker._disableHooks then
         return
@@ -2428,9 +2411,8 @@ _GetContinent = function(uiMapId)
         return "Kalimdor"
     elseif uiMapId > 1900 and uiMapId < 2000 then
         return "Outland"
-    else
-
-        Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
+    else -- todo: check C_Map.GetMapInfo parent (we need to test that more, this is safe for now)
+        return "Outland" --Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
     end
 end
 

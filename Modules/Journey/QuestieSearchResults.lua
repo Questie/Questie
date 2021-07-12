@@ -20,6 +20,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -382,7 +384,7 @@ _HandleOnGroupSelected = function (resultType)
         local questLevel, _ = QuestieLib:GetTbcLevel(selectedId);
 
         if Questie.db.global.trackerShowQuestLevel then
-            ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")
+            ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))
         else
             ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
         end
@@ -559,27 +561,6 @@ function QuestieSearchResults:DrawSearchTab(container)
         local text = string.trim(searchBox:GetText(), " \n\r\t[]")
         QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, true)
     end
-end
-
-function QuestieSearchResults:JumpToQuest(button)
-    local id = button:GetUserData('id');
-    local name = button:GetUserData('name');
-
-    if (not QuestieJourney:IsShown()) then
-        QuestieJourney:ToggleJourneyWindow()
-    end
-    if (not _QuestieJourney.lastOpenWindow == 'search') then
-        QuestieJourney.tabGroup:SelectTab('search');
-    end
-
-    if Questie.db.char.searchType == 1 then
-        searchBox:SetText(name)
-    else
-        searchBox:SetText(id)
-    end
-
-    searchButton:SetDisabled(false)
-    QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, name, false);
 end
 
 function QuestieSearchResults:GetDetailFrame(detailType, id)

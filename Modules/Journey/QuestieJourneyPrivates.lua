@@ -38,11 +38,6 @@ function _QuestieJourney:HideJourneyTooltip()
     end
 end
 
-function _QuestieJourney:JumpToQuest()
-    QuestieSearchResults:JumpToQuest(self)
-    _QuestieJourney:HideJourneyTooltip()
-end
-
 function _QuestieJourney:CreateObjectiveText(desc)
     local objText = ""
 

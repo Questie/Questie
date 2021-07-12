@@ -13,6 +13,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -69,7 +71,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         -- Add the quest to the open chat window if it was a shift click
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             if Questie.db.global.trackerShowQuestLevel then
-                ChatEdit_InsertLink("[[" .. quest.level .. "] " .. quest.name .. " (" .. quest.Id .. ")]")
+                ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
             else
                 ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
             end
