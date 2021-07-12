@@ -11,6 +11,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type MeetingStones
+local MeetingStones = QuestieLoader:ImportModule("MeetingStones")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieQuest
@@ -78,7 +80,14 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
     if key == "Mailbox" or key == "Meeting Stones" then -- object type townsfolk
         if Questie.db.char.townsfolkConfig[key] and (not forceRemove) then
             for _, id in pairs(ids) do
-                QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white"), {}, true, key)
+                if key == "Meeting Stones" then
+                    local dungeonName, levelRange = MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(id)
+                    if dungeonName and levelRange then
+                        QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white") .. "|n" .. dungeonName .. " " .. levelRange, {}, true, key)
+                    end
+                else
+                    QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white"), {}, true, key)
+                end
             end
         else
             for _, id in pairs(ids) do

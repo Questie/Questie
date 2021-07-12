@@ -43,6 +43,7 @@ Database\objectDB.lua
 Database\npcDB.lua
 Database\itemDB.lua
 Database\Constants.lua
+Database\MeetingStones.lua
 
 # Corrections
 Database\Corrections\AutoTableUpdates.lua
