@@ -62,6 +62,18 @@ local easternKingdomsLocales = {
         ["zhTW"] = "詛咒之地",
         ["zhCN"] = "诅咒之地",
     },
+    ["Blackrock Mountain"] = {
+        ["ptBR"] = "Montanha Rocha Negra",
+        ["ruRU"] = "Черная гора",
+        ["deDE"] = "Der Schwarzfels",
+        ["koKR"] = "검은바위 산",
+        ["esMX"] = "Montaña Roca Negra",
+        ["enUS"] = true,
+        ["frFR"] = "Mont Rochenoire",
+        ["esES"] = "Montaña Roca Negra",
+        ["zhTW"] = "黑石山",
+        ["zhCN"] = "黑石山",
+    },
     ["Redridge Mountains"] = {
         ["ptBR"] = "Montanhas Cristarrubra",
         ["ruRU"] = "Красногорье",

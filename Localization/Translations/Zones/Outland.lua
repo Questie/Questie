@@ -2306,18 +2306,6 @@ local outlandLocales = {
         ["zhTW"] = "法力熔爐杜羅",
         ["zhCN"] = "法力熔炉：杜隆",
     },
-    ["Sunwell Plateau"] = {
-        ["ptBR"] = "Platô da Nascente do Sol",
-        ["ruRU"] = "Плато Солнечного Колодца",
-        ["deDE"] = "Sonnenbrunnenplateau",
-        ["koKR"] = "태양샘 고원",
-        ["esMX"] = "Meseta de La Fuente del Sol",
-        ["enUS"] = true,
-        ["frFR"] = "Plateau du Puits de soleil",
-        ["esES"] = "Meseta de La Fuente del Sol",
-        ["zhTW"] = "太陽之井高地",
-        ["zhCN"] = "太阳之井高地",
-    },
     ["Grangol'var Village"] = {
         ["ptBR"] = "Aldeia Grangol'var",
         ["ruRU"] = "Деревня Грангол'вар",
