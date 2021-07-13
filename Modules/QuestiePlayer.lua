@@ -21,9 +21,10 @@ local math_max = math.max;
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
 
-    local _, _, raceIndex = UnitRace("player")
-    raceIndex = math.pow(2, raceIndex-1)
-    _QuestiePlayer.raceIndex = raceIndex
+    local _, _, raceId = UnitRace("player")
+    _QuestiePlayer.raceId = raceId
+    raceId = math.pow(2, raceId -1)
+    _QuestiePlayer.raceIndex = raceId
 
     local className, _, classIndex = UnitClass("player")
     classIndex = math.pow(2, classIndex-1)
@@ -44,6 +45,11 @@ end
 function QuestiePlayer:GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);
+end
+
+---@return number
+function QuestiePlayer:GetRaceId()
+    return _QuestiePlayer.raceId
 end
 
 ---@return string
@@ -145,7 +151,6 @@ end
 function QuestiePlayer:GetPartyMemberList()
     local members = {}
     if(UnitInParty("player") or UnitInRaid("player")) then
-        local player = {}
         for index=1, 40 do
             local name = UnitName("party"..index)
             if name then
