@@ -194,6 +194,18 @@ local townsfolkLocales = {
         ["esES"] = "Maestro de establos",
         ["frFR"] = "Maître des écuries",
     },
+    ["Meeting Stone"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
+        ["deDE"] = "Versammlungsstein",
+        ["koKR"] = nil,
+        ["esMX"] = nil,
+        ["enUS"] = true,
+        ["zhCN"] = nil,
+        ["zhTW"] = nil,
+        ["esES"] = nil,
+        ["frFR"] = nil,
+    },
     ["Meeting Stones"] = {
         ["ptBR"] = "Pedra de Encontro",
         ["ruRU"] = "Камень встреч",

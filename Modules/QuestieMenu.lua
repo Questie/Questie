@@ -83,7 +83,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
                 if key == "Meeting Stones" then
                     local dungeonName, levelRange = MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(id)
                     if dungeonName and levelRange then
-                        QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white") .. "|n" .. dungeonName .. " " .. levelRange, {}, true, key)
+                        QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n("Meeting Stone"), "white") .. "|n" .. dungeonName .. " " .. levelRange, {}, true, key)
                     end
                 else
                     QuestieMap:ShowObject(id, icon, 1.2, Questie:Colorize(l10n(key), "white"), {}, true, key)
