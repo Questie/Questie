@@ -431,7 +431,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Citadelle des Flammes infernales",
         ["esES"] = "Ciudadela del Fuego Infernal",
-        ["zhTW"] = nil,
+        ["zhTW"] = "地獄火堡壘",
         ["zhCN"] = "地狱火堡垒",
     },
     ["The Shattered Halls"] = {
