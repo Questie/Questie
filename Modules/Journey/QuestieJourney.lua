@@ -42,8 +42,13 @@ QuestieJourney.questCategoryKeys = {
 }
 
 function QuestieJourney:Initialize()
-    self.continents = l10n.continentLookup
-    self.continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+    local continents = {}
+    for id, name in pairs(l10n.continentLookup) do
+        continents[id] = l10n(name)
+    end
+    continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
+
+    self.continents = continents
     self.zoneMap = ZoneDB:GetZonesWithQuests()
     self.zones = ZoneDB:GetRelevantZones()
 

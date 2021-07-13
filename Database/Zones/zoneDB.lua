@@ -28,16 +28,12 @@ local parentZoneToSubZone = {} -- Generated
 
 local zoneMap = {} -- Generated
 
-local locale
-
 
 function ZoneDB:Initialize()
     areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = unpack(ZoneDB:GetZoneTables())
 
     _ZoneDB:GenerateUiMapIdToAreaIdTable()
     _ZoneDB:GenerateParentZoneToStartingZoneTable()
-
-    locale = l10n:GetUILocale()
 end
 
 function _ZoneDB:GenerateUiMapIdToAreaIdTable()
@@ -233,14 +229,14 @@ end
 
 function ZoneDB:GetRelevantZones()
     local zones = {}
-    for category, data in pairs(l10n.zoneCategoryLookup["enUS"]) do
+    for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
         for id, zoneName in pairs(data) do
             local zoneQuests = zoneMap[id]
             if (not zoneQuests) then
                 zones[category][id] = nil
             else
-                zones[category][id] = l10n.zoneCategoryLookup[locale][category][id] or zoneName
+                zones[category][id] = l10n(zoneName)
             end
         end
     end
