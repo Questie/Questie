@@ -1612,8 +1612,14 @@ function QuestieTBCQuestFixes:Load()
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044,10642},
         },
+        [11046] = {
+            [questKeys.exclusiveTo] = {11047,11048},
+        },
         [11047] = {
-            [questKeys.exclusiveTo] = {11048},
+            [questKeys.exclusiveTo] = {11045,11048},
+        },
+        [11048] = {
+            [questKeys.exclusiveTo] = {11046,11047},
         },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},
