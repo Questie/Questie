@@ -446,6 +446,18 @@ local dungeonLocales = {
         ["zhTW"] = "亞克崔茲",
         ["zhCN"] = "禁魔监狱",
     },
+    ["Magisters' Terrace"] = {
+        ["ptBR"] = "Terraço dos Magísteres",
+        ["ruRU"] = "Терраса Магистров",
+        ["deDE"] = "Terrasse der Magister",
+        ["koKR"] = "마법학자의 정원",
+        ["esMX"] = "Bancal del Magister",
+        ["enUS"] = true,
+        ["frFR"] = "Terrasse des Magistères",
+        ["esES"] = "Bancal del Magister",
+        ["zhTW"] = "博學者殿堂",
+        ["zhCN"] = "魔导师平台",
+    },
 }
 
 for k, v in pairs(dungeonLocales) do
