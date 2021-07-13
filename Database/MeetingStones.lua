@@ -12,7 +12,6 @@ function MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(objectId)
     local tableEntry = _MeetingStones.levelRanges[objectId]
 
     if (not tableEntry) then
-        print("Missing entry for", objectId)
         return nil, nil
     end
 
