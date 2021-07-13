@@ -229,8 +229,13 @@ function MapIconTooltip:Show()
                     if (not shift) and reputationReward and next(reputationReward) then
                         self:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
                     else
-                        -- We use a transparent icon because this eases setting the correct margin
-                        self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                        if shift then
+                            self:AddDoubleLine(questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                        else
+                            -- We use a transparent icon because this eases setting the correct margin
+                            self:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " ..questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+                        end
+
                     end
                 end
                 if questData.subData and shift then
