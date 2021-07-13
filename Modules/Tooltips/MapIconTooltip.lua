@@ -17,6 +17,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
