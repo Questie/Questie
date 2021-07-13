@@ -904,7 +904,7 @@ local outlandLocales = {
     },
     ["Zangarmarsh"] = {
         ["ptBR"] = "Pântano Zíngaro",
-        ["ruRU"] = "Zangarmarsh",
+        ["ruRU"] = "Зангартопь",
         ["deDE"] = "Zangarmarschen",
         ["koKR"] = "장가르 습지대",
         ["esMX"] = "Marisma de Zangar",
@@ -952,7 +952,7 @@ local outlandLocales = {
     },
     ["Nagrand"] = {
         ["ptBR"] = "Nagrand",
-        ["ruRU"] = "Nagrand",
+        ["ruRU"] = "Награнд",
         ["deDE"] = "Nagrand",
         ["koKR"] = "나그란드",
         ["esMX"] = "Nagrand",
@@ -1816,7 +1816,7 @@ local outlandLocales = {
     },
     ["Auchindoun"] = {
         ["ptBR"] = "Auchindoun",
-        ["ruRU"] = "Auchindoun",
+        ["ruRU"] = "Аукиндон",
         ["deDE"] = "Auchindoun",
         ["koKR"] = "아킨둔",
         ["esMX"] = "Auchindoun",

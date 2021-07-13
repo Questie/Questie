@@ -23,7 +23,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Cryptes Auchenaï",
         ["esES"] = "Criptas Auchenai",
-        ["zhTW"] = nil,
+        ["zhTW"] = "奧奇奈地穴",
         ["zhCN"] = "奥金尼地穴",
     },
     ["Blackrock Spire"] = {
@@ -47,7 +47,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Contreforts de Hautebrande d'antan",
         ["esES"] = "Antiguas Laderas de Trabalomas",
-        ["zhTW"] = nil,
+        ["zhTW"] = "希爾斯布萊德丘陵舊址",
         ["zhCN"] = "旧希尔斯布莱德丘陵",
     },
     ["Scarlet Monastery"] = {
@@ -71,7 +71,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "La Basse-tourbière",
         ["esES"] = "La Sotiénaga",
-        ["zhTW"] = nil,
+        ["zhTW"] = "深幽泥沼",
         ["zhCN"] = "幽暗沼泽",
     },
     ["The Black Morass"] = {
@@ -83,7 +83,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le Noir Marécage",
         ["esES"] = "La Ciénaga Negra",
-        ["zhTW"] = nil,
+        ["zhTW"] = "黑色沼澤",
         ["zhCN"] = "黑色沼泽",
     },
     ["Maraudon"] = {
@@ -107,7 +107,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Sommet d'Hyjal",
         ["esES"] = "La Cima Hyjal",
-        ["zhTW"] = nil,
+        ["zhTW"] = "海加爾山",
         ["zhCN"] = "海加尔峰",
     },
     ["Hellfire Ramparts"] = {
@@ -119,7 +119,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Remparts des Flammes infernales",
         ["esES"] = "Murallas del Fuego Infernal",
-        ["zhTW"] = nil,
+        ["zhTW"] = "地獄火壁壘",
         ["zhCN"] = "地狱火城墙",
     },
     ["Stratholme"] = {
@@ -143,7 +143,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Tombes-mana",
         ["esES"] = "Tumbas de Maná",
-        ["zhTW"] = nil,
+        ["zhTW"] = "法力墓地",
         ["zhCN"] = "法力陵墓",
     },
     ["Wailing Caverns"] = {
@@ -215,7 +215,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Les salles des Sethekk",
         ["esES"] = "Salas Sethekk",
-        ["zhTW"] = nil,
+        ["zhTW"] = "塞司克大廳",
         ["zhCN"] = "塞泰克大厅",
     },
     ["Razorfen Downs"] = {
@@ -263,7 +263,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le Caveau de la vapeur",
         ["esES"] = "La Cámara de Vapor",
-        ["zhTW"] = nil,
+        ["zhTW"] = "蒸汽洞窟",
         ["zhCN"] = "蒸汽地窟",
     },
     ["Blackfathom Deeps"] = {
@@ -299,7 +299,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Grottes du temps",
         ["esES"] = "Cavernas del Tiempo",
-        ["zhTW"] = nil,
+        ["zhTW"] = "時光之穴",
         ["zhCN"] = "时光之穴",
     },
     ["The Blood Furnace"] = {
@@ -311,7 +311,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "La Fournaise du sang",
         ["esES"] = "El Horno de Sangre",
-        ["zhTW"] = nil,
+        ["zhTW"] = "血熔爐",
         ["zhCN"] = "鲜血熔炉",
     },
     ["Shadowfang Keep"] = {
@@ -347,7 +347,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Karazhan",
         ["esES"] = "Karazhan",
-        ["zhTW"] = nil,
+        ["zhTW"] = "卡拉贊",
         ["zhCN"] = "卡拉赞",
     },
     ["Tempest Keep"] = {
@@ -359,7 +359,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Donjon de la Tempête",
         ["esES"] = "El Castillo de la Tempestad",
-        ["zhTW"] = nil,
+        ["zhTW"] = "風暴要塞",
         ["zhCN"] = "风暴要塞",
     },
     ["Razorfen Kraul"] = {
@@ -383,7 +383,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Les enclos aux esclaves",
         ["esES"] = "Recinto de los Esclavos",
-        ["zhTW"] = nil,
+        ["zhTW"] = "奴隸監獄",
         ["zhCN"] = "奴隶围栏",
     },
     ["The Mechanar"] = {
@@ -395,7 +395,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Le Méchanar",
         ["esES"] = "El Mechanar",
-        ["zhTW"] = nil,
+        ["zhTW"] = "麥克納爾",
         ["zhCN"] = "能源舰",
     },
     ["Gnomeregan"] = {
@@ -443,7 +443,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "Les Salles brisées",
         ["esES"] = "Las Salas Arrasadas",
-        ["zhTW"] = nil,
+        ["zhTW"] = "地獄火堡壘",
         ["zhCN"] = "破碎大厅",
     },
     ["Blackrock Depths"] = {
@@ -467,7 +467,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "La Botanica",
         ["esES"] = "El Invernáculo",
-        ["zhTW"] = nil,
+        ["zhTW"] = "波塔尼卡",
         ["zhCN"] = "生态船",
     },
     ["The Arcatraz"] = {
@@ -479,7 +479,7 @@ local dungeonLocales = {
         ["enUS"] = true,
         ["frFR"] = "L'Arcatraz",
         ["esES"] = "El Arcatraz",
-        ["zhTW"] = nil,
+        ["zhTW"] = "亞克崔茲",
         ["zhCN"] = "禁魔监狱",
     },
 }
