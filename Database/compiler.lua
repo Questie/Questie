@@ -391,7 +391,7 @@ QuestieDBCompiler.writers = {
                 stream:WriteShort((v[2] or 0) + 32767)
             end
         else
-            stream:WriteShort(0)
+            stream:WriteByte(0)
         end
     end,
     ["u16u16array"] = function(stream, value)
