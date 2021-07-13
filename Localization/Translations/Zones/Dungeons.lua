@@ -326,7 +326,7 @@ local dungeonLocales = {
         ["zhTW"] = "影牙城堡",
         ["zhCN"] = "影牙城堡",
     },
-    ["The Stockades"] = {
+    ["The Stockade"] = {
         ["ptBR"] = "O Cárcere",
         ["ruRU"] = "Тюрьма",
         ["deDE"] = "Das Verlies",
