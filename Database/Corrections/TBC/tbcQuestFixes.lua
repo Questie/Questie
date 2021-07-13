@@ -1129,7 +1129,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20774,"Test Energy Modulator"},},nil,nil,nil,},
         },
         [10427] = {
-            [questKeys.objectives] = {{{20610,"Talbuk Tagged"},{20777,"Talbuk Tagged"},},nil,nil,nil,},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{20610,20777},20777,"Talbuk Tagged",},},
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Protecotrate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit", 0, {{"monster", 20903}}}},
