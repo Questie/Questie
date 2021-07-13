@@ -38,7 +38,8 @@ QuestieDB.questKeys = {
     ['questFlags'] = 23, -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = 24, -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
-    ['extraObjectives'] = 26, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+    ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
+    ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
 }
 
 QuestieDB.questKeysReversed = {}
@@ -72,7 +73,8 @@ QuestieDB.questCompilerTypes = {
     ['questFlags'] = "u16", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = "u16", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
-    ['extraObjectives'] = "extraobjectives"
+    ['reputationReward'] = "u8s16pairs",
+    ['extraObjectives'] = "extraobjectives",
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
@@ -82,7 +84,7 @@ QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficie
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
-    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives', 'extraObjectives'
+    'objectivesText', 'triggerEnd', 'startedBy', 'finishedBy', 'objectives', 'reputationReward', 'extraObjectives'
 }
 
 QuestieDB.questFlags = {

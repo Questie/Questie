@@ -205,8 +205,8 @@ function Questie:Colorize(str, color)
         c = '|cB900FFFF';
     elseif color == 'lightBlue' then
         c = '|cB900FFFF';
-    elseif color == 'blizzardBlue' then
-        c = '|cFF00c0ff';
+    elseif color == 'reputationBlue' then
+        c = '|cFF8080ff';
     elseif color == 'yellow' then
         c = '|cFFffff00';
     elseif color == 'orange' then

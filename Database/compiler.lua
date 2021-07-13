@@ -387,8 +387,8 @@ QuestieDBCompiler.writers = {
             local count = 0 for _ in pairs(value) do count = count + 1 end
             stream:WriteByte(count)
             for _,v in pairs(value) do
-                stream:WriteShort(v[1] + 32767)
-                stream:WriteShort(v[2] + 32767)
+                stream:WriteShort((v[1] or 0) + 32767)
+                stream:WriteShort((v[2] or 0) + 32767)
             end
         else
             stream:WriteShort(0)

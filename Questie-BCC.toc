@@ -100,6 +100,7 @@ Modules\QuestLinks\Link.lua
 
 ##Tooltips
 Modules\Tooltips\Tooltip.lua
+Modules\Tooltips\MapIconTooltip.lua
 Modules\Tooltips\TooltipHandler.lua
 
 #Auto
