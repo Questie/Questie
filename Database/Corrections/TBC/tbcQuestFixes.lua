@@ -1068,6 +1068,12 @@ function QuestieTBCQuestFixes:Load()
         [10344] = {
             [questKeys.exclusiveTo] = {10163},
         },
+        [10357] = {
+            [questKeys.preQuestGroup] = {10352,10354,10356,},
+        },
+        [10362] = {
+            [questKeys.preQuestGroup] = {10359,10360,10361,},
+        },
         [10365] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
@@ -1105,7 +1111,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10552},
         },
         [10413] = {
             [questKeys.startedBy] = {{20779,},nil,nil,},
@@ -1123,7 +1129,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20774,"Test Energy Modulator"},},nil,nil,nil,},
         },
         [10427] = {
-            [questKeys.objectives] = {{{20610,"Talbuk Tagged"},{20777,"Talbuk Tagged"},},nil,nil,nil,},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{20610,20777},20777,"Talbuk Tagged",},},
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Protecotrate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit", 0, {{"monster", 20903}}}},
@@ -1606,8 +1612,14 @@ function QuestieTBCQuestFixes:Load()
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044,10642},
         },
+        [11046] = {
+            [questKeys.exclusiveTo] = {11047,11048},
+        },
         [11047] = {
-            [questKeys.exclusiveTo] = {11048},
+            [questKeys.exclusiveTo] = {11045,11048},
+        },
+        [11048] = {
+            [questKeys.exclusiveTo] = {11046,11047},
         },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},

@@ -25,6 +25,7 @@ QuestieDBCompiler.supportedTypes = {
         ["s24pair"] = true,
         ["u8u16array"] = true,
         ["u16u16array"] = true,
+        ["u8s16pairs"] = true,
         ["spawnlist"] = true,
         ["trigger"] = true,
         ["questgivers"] = true,
@@ -125,6 +126,14 @@ QuestieDBCompiler.readers = {
 
         for _ = 1, count do
             tinsert(list, stream:ReadShort())
+        end
+        return list
+    end,
+    ["u8s16pairs"] = function(stream)
+        local list = {}
+        local count = stream:ReadByte()
+        for _ = 1, count do
+            tinsert(list, {stream:ReadShort() - 32767, stream:ReadShort() - 32767})
         end
         return list
     end,
@@ -373,6 +382,18 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["u8s16pairs"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _,v in pairs(value) do
+                stream:WriteShort((v[1] or 0) + 32767)
+                stream:WriteShort((v[2] or 0) + 32767)
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["u16u16array"] = function(stream, value)
         if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
@@ -559,6 +580,7 @@ QuestieDBCompiler.skippers = {
     ["u8string"] = function(stream) stream._pointer = stream:ReadByte() + stream._pointer end,
     ["u16string"] = function(stream) stream._pointer = stream:ReadShort() + stream._pointer end,
     ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
+    ["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end,
     ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
     ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
     ["waypointlist"]  = function(stream)
@@ -635,6 +657,7 @@ QuestieDBCompiler.dynamics = {
     ["u8string"] = true,
     ["u16string"] = true,
     ["u8u16array"] = true,
+    ["u8s16pairs"] = true,
     ["u16u16array"] = true,
     ["u8u24array"] = true,
     ["u8u16stringarray"] = true,

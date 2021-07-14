@@ -20,6 +20,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieLink
+local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -226,7 +228,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         end
 
         local continent = QuestieJourneyUtils:GetZoneName(startindex)
-        
+
         spawnZone:SetText(continent);
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
@@ -382,7 +384,7 @@ _HandleOnGroupSelected = function (resultType)
         local questLevel, _ = QuestieLib:GetTbcLevel(selectedId);
 
         if Questie.db.global.trackerShowQuestLevel then
-            ChatEdit_InsertLink("[[" .. questLevel .. "] " .. questName .. " (" .. selectedId .. ")]")
+            ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))
         else
             ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
         end

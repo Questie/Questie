@@ -77,6 +77,9 @@ function QuestieTBCObjectFixes:Load()
         [184998] = {
             [objectKeys.name] = "Ethereum Prison",
         },
+        [185322] = {
+            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{28.7,98.7},},},
+        },
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
         },

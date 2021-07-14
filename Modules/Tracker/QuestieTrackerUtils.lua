@@ -50,7 +50,7 @@ function QuestieTracker.utils:SetTomTomTarget(title, zone, x, y)
 end
 
 function QuestieTracker.utils:ShowObjectiveOnMap(objective)
-    local spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
+    local spawn, zone = QuestieMap:GetNearestSpawn(objective)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -60,7 +60,7 @@ function QuestieTracker.utils:ShowObjectiveOnMap(objective)
 end
 
 function QuestieTracker.utils:ShowFinisherOnMap(quest)
-    local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
+    local spawn, zone = QuestieMap:GetNearestQuestSpawn(quest)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -135,8 +135,8 @@ function QuestieTracker.utils:FlashObjective(objective) -- really terrible anima
                                 end
                             end)
                             C_Timer.After(0.5, function()
-                                for questId, framelist in pairs(QuestieMap.questIdFrames) do
-                                    for index, frameName in pairs(framelist) do
+                                for _, framelist in pairs(QuestieMap.questIdFrames) do
+                                    for _, frameName in pairs(framelist) do
                                         local icon = _G[frameName];
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
@@ -159,7 +159,7 @@ function QuestieTracker.utils:FlashFinisher(quest) -- really terrible animation 
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= quest.Id then
-            for index, frameName in pairs(framelist) do
+            for _, frameName in pairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
 
@@ -171,7 +171,7 @@ function QuestieTracker.utils:FlashFinisher(quest) -- really terrible animation 
                 end
             end
         else
-            for index, frameName in ipairs(framelist) do
+            for _, frameName in ipairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
@@ -214,8 +214,8 @@ function QuestieTracker.utils:FlashFinisher(quest) -- really terrible animation 
                             end
                         end)
                         C_Timer.After(0.5, function()
-                            for questId, framelist in pairs(QuestieMap.questIdFrames) do
-                                for index, frameName in pairs(framelist) do
+                            for _, framelist in pairs(QuestieMap.questIdFrames) do
+                                for _, frameName in pairs(framelist) do
                                     local icon = _G[frameName];
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
@@ -352,11 +352,12 @@ function QuestieTracker.utils:GetZoneNameByID(zoneId)
     if QuestieTracker.utils._zoneCache[zoneId] then
         return QuestieTracker.utils._zoneCache[zoneId]
     end
-    for cont, zone in pairs(l10n.zoneLookup) do
-        for zoneIDnum, zoneName in pairs(zone) do
+    for _, zones in pairs(l10n.zoneLookup) do
+        for zoneIDnum, zoneName in pairs(zones) do
             if zoneIDnum == zoneId then
-                QuestieTracker.utils._zoneCache[zoneId] = zoneName
-                return zoneName
+                local translatedZoneName = l10n(zoneName)
+                QuestieTracker.utils._zoneCache[zoneId] = translatedZoneName
+                return translatedZoneName
             end
         end
     end
@@ -365,7 +366,7 @@ end
 function QuestieTracker.utils:GetCategoryNameByID(cataId)
     for cat, name in pairs(l10n.questCategoryLookup) do
         if cataId == cat then
-            return name
+            return l10n(name)
         end
     end
 end

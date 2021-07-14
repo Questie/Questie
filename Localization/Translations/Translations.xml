@@ -15,12 +15,23 @@
     <Script file="Options\Tooltips.lua"/>
     <Script file="Options\Tracker.lua"/>
 
+    <Script file="Zones\Battlegrounds.lua"/>
+    <Script file="Zones\Dungeons.lua"/>
+    <Script file="Zones\EasternKingdoms.lua"/>
+    <Script file="Zones\Kalimdor.lua"/>
+    <Script file="Zones\Outland.lua"/>
+    <Script file="Zones\Raids.lua"/>
+    <Script file="Zones\ZoneSections.lua"/>
+
+    <Script file="Classes.lua"/>
     <Script file="DebugMessages.lua"/>
+    <Script file="Events.lua"/>
     <Script file="Generics.lua"/>
     <Script file="KeyboardShortcuts.lua"/>
     <Script file="Map.lua"/>
     <Script file="Professions.lua"/>
     <Script file="QuestStates.lua"/>
+    <Script file="Races.lua"/>
     <Script file="TooltipsUI.lua"/>
     <Script file="TrackerUI.lua"/>
 </Ui>

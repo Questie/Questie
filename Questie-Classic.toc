@@ -1,8 +1,8 @@
 ## Interface: 11307
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.4.1|r
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.5.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.4.1
+## Version: 6.5.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -39,6 +39,7 @@ Database\objectDB.lua
 Database\npcDB.lua
 Database\itemDB.lua
 Database\Constants.lua
+Database\MeetingStones.lua
 
 # Corrections
 Database\Corrections\AutoTableUpdates.lua
@@ -61,8 +62,8 @@ Database\compiler.lua
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
-Localization\lookups\lookupQuestCategories\lookupQuestCategories.xml
-Localization\lookups\lookupZones\lookupZones.xml
+Localization\lookups\lookupQuestCategories.lua
+Localization\lookups\lookupZones.lua
 Localization\lookups\Classic\lookupItems\lookupItems.xml
 Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
 Localization\lookups\Classic\lookupObjects\lookupObjects.xml
@@ -87,11 +88,15 @@ Modules\QuestieAnnounce.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 
+#QuestLinks
+Modules\QuestLinks\ChatFilter.lua
+Modules\QuestLinks\Hooks.lua
+Modules\QuestLinks\Link.lua
+
 ##Tooltips
 Modules\Tooltips\Tooltip.lua
+Modules\Tooltips\MapIconTooltip.lua
 Modules\Tooltips\TooltipHandler.lua
-Modules\Tooltips\ChatFilter.lua
-Modules\Tooltips\Link.lua
 
 #Auto
 Modules\Auto\QuestieAuto.lua

@@ -111,6 +111,7 @@ function QuestieOptionsDefaults:Load()
             autocomplete = false,
             autoModifier = "shift",
             acceptTrivial = false,
+            questAnnounce = true,
             isTrackerExpanded = true,
             hideUnexploredMapIcons = false,
             showRepeatableQuests = true,

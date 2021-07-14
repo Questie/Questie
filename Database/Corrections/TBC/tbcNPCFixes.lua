@@ -198,6 +198,10 @@ function QuestieTBCNpcFixes:Load()
         [17923] = {
             [npcKeys.waypoints] = {[zoneIDs.ZANGARMARSH] = {{{19,62.4},{19,63.5},{19.2,64.6},},},},
         },
+        [17976] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+        },
         [18099] = {
             [npcKeys.waypoints] = {[zoneIDs.NAGRAND] = {{{60.68,25.15},{60.07,24.67},{59.31,24.05},{60.03,24.71},{61.12,24.83},},},},
         },
@@ -315,6 +319,10 @@ function QuestieTBCNpcFixes:Load()
         [20680] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{14.32,62.18},},},
             [npcKeys.waypoints] = {[zoneIDs.HELLFIRE_PENINSULA] = {{{14.34,61.07},{14.32,59.92},{14.32,58.88},{14.32,57.9},{14.32,56.98},{14.33,58.76},{14.31,59.58},{14.31,60.21},{14.31,60.95},{14.32,62.16},{14.32,62.16},},},},
+        },
+        [20706] = {
+            [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.SETHEKK_HALLS,
         },
         [21181] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{43.2,46.2},},},

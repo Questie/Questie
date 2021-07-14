@@ -138,6 +138,7 @@ _QuestieAuto.disallowedQuests = {
     [10451] = true, -- Escape from Coilskar Cistern
     [10898] = true, -- Skywing
     [10922] = true, -- Digging Through Bones
+    [10975] = true, -- Purging the Chambers of Bash'ir
     [11085] = true, -- Escape from Skettis
     -- The Barrens Bloodshard quests
     [889] = true,
