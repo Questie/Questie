@@ -28,7 +28,7 @@ local easternKingdomsLocales = {
     },
     ["Eastern Plaguelands"] = {
         ["ptBR"] = "Terras Pestilentas Orientais",
-        ["ruRU"] = "Восточные чумные земли",
+        ["ruRU"] = "Восточные Чумные земли",
         ["deDE"] = "Östliche Pestländer",
         ["koKR"] = "동부 역병지대",
         ["esMX"] = "Tierras de la Peste del Este",
@@ -40,7 +40,7 @@ local easternKingdomsLocales = {
     },
     ["Duskwood"] = {
         ["ptBR"] = "Floresta do Crepúsculo",
-        ["ruRU"] = "Сумречный лес",
+        ["ruRU"] = "Сумеречный лес",
         ["deDE"] = "Dämmerwald",
         ["koKR"] = "그늘숲",
         ["esMX"] = "Bosque del Ocaso",
@@ -160,7 +160,7 @@ local easternKingdomsLocales = {
     },
     ["Tirisfal Glade"] = {
         ["ptBR"] = "Clareiras de Tirisfal",
-        ["ruRU"] = "Трисфальские леса",
+        ["ruRU"] = "Тирисфальские леса",
         ["deDE"] = "Tirisfal",
         ["koKR"] = "티리스팔 숲",
         ["esMX"] = "Claros de Tirisfal",
@@ -172,7 +172,7 @@ local easternKingdomsLocales = {
     },
     ["Elwynn Forest"] = {
         ["ptBR"] = "Floresta de Elwynn",
-        ["ruRU"] = "Элвинский лес",
+        ["ruRU"] = "Элвиннский лес",
         ["deDE"] = "Wald von Elwynn",
         ["koKR"] = "엘윈 숲",
         ["esMX"] = "Bosque de Elwynn",
@@ -196,7 +196,7 @@ local easternKingdomsLocales = {
     },
     ["Western Plaguelands"] = {
         ["ptBR"] = "Terras Pestilentas Ocidentais",
-        ["ruRU"] = "Западные чумные земли",
+        ["ruRU"] = "Западные Чумные земли",
         ["deDE"] = "Westliche Pestländer",
         ["koKR"] = "서부 역병지대",
         ["esMX"] = "Tierras de la Peste del Oeste",
@@ -280,7 +280,7 @@ local easternKingdomsLocales = {
     },
     ["Deadwind Pass"] = {
         ["ptBR"] = "Trilha do Vento Morto",
-        ["ruRU"] = "Перевал мертвого ветра",
+        ["ruRU"] = "Перевал Мертвого Ветра",
         ["deDE"] = "Gebirgspass der Totenwinde",
         ["koKR"] = "죽음의 고개",
         ["esMX"] = "Paso de la Muerte",
