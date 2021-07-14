@@ -100,7 +100,7 @@ local easternKingdomsLocales = {
     },
     ["Westfall"] = {
         ["ptBR"] = "Cerro Oeste",
-        ["ruRU"] = "Западный край",
+        ["ruRU"] = "Западный Край",
         ["deDE"] = "Westfall",
         ["koKR"] = "서부 몰락지대",
         ["esMX"] = "Páramos de Poniente",
@@ -292,7 +292,7 @@ local easternKingdomsLocales = {
     },
     ["Swamp of Sorrows"] = {
         ["ptBR"] = "Pântano das Mágoas",
-        ["ruRU"] = "Болото печали",
+        ["ruRU"] = "Болото Печали",
         ["deDE"] = "Sümpfe des Elends",
         ["koKR"] = "슬픔의 늪",
         ["esMX"] = "Pantano de las Penas",
