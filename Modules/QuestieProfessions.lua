@@ -8,7 +8,6 @@ local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
 local alternativeProfessionNames = {}
-local sortIds = {}
 
 function QuestieProfessions:Init()
 
@@ -115,7 +114,7 @@ professionNames = {
     [QuestieProfessions.professionKeys.RIDING] = "Riding",
 }
 
-sortIds = {
+local sortIds = {
     [QuestieProfessions.professionKeys.FIRST_AID] = -324,
     [QuestieProfessions.professionKeys.BLACKSMITHING] = -121,
     [QuestieProfessions.professionKeys.LEATHERWORKING] = -182,
