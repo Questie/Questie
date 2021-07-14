@@ -172,7 +172,7 @@ local outlandLocales = {
     },
     ["Northmaul Tower"] = {
         ["ptBR"] = "Torre Martelo do Norte",
-        ["ruRU"] = "находиться на башне Северного Молота",
+        ["ruRU"] = "Башня Северного Молота",
         ["deDE"] = "Nordschlägerturm",
         ["koKR"] = "북녘망치 탑",
         ["esMX"] = "Torre Quiebranorte",
@@ -508,7 +508,7 @@ local outlandLocales = {
     },
     ["Invasion Point: Destroyer"] = {
         ["ptBR"] = "Ponto de Invasão: Destruidor",
-        ["ruRU"] = "Точка вторжения: Разрушение",
+        ["ruRU"] = "Точка вторжения: Разрушитель",
         ["deDE"] = "Invasionspunkt: Zerstörer",
         ["koKR"] = "파괴자의 침공 거점",
         ["esMX"] = "Punto de Invasión: Destructor",
@@ -568,7 +568,7 @@ local outlandLocales = {
     },
     ["Test"] = {
         ["ptBR"] = "Test",
-        ["ruRU"] = "Test",
+        ["ruRU"] = "Тест",
         ["deDE"] = "Test",
         ["koKR"] = "시험용",
         ["esMX"] = "Test",
@@ -1192,7 +1192,7 @@ local outlandLocales = {
     },
     ["Skettis"] = {
         ["ptBR"] = "Skettis",
-        ["ruRU"] = "Skettis",
+        ["ruRU"] = "Скеттис",
         ["deDE"] = "Skettis",
         ["koKR"] = "스케티스",
         ["esMX"] = "Skettis",
@@ -2692,7 +2692,7 @@ local outlandLocales = {
     },
     ["Ghostlands"] = {
         ["ptBR"] = "Terra Fantasma",
-        ["ruRU"] = "Ghostlands",
+        ["ruRU"] = "Призрачные земли",
         ["deDE"] = "Geisterlande",
         ["koKR"] = "유령의 땅",
         ["esMX"] = "Tierras Fantasma",
@@ -3868,7 +3868,7 @@ local outlandLocales = {
     },
     ["Elrendar Falls"] = {
         ["ptBR"] = "Cachoeira Elrendar",
-        ["ruRU"] = "находиться возле водопада Элрендар",
+        ["ruRU"] = "Водопад Элрендар",
         ["deDE"] = "Elrendarfälle",
         ["koKR"] = "엘렌다르 폭포",
         ["esMX"] = "Cascadas Elrendar",
@@ -5572,7 +5572,7 @@ local outlandLocales = {
     },
     ["The Dawnchaser"] = {
         ["ptBR"] = "Conquistador da Aurora",
-        ["ruRU"] = "\"Рассветный охотник\"",
+        ["ruRU"] = "Рассветный охотник",
         ["deDE"] = "Die Morgensturm",
         ["koKR"] = "새벽추적자호",
         ["esMX"] = "El Cazador del Albor",
@@ -5824,7 +5824,7 @@ local outlandLocales = {
     },
     ["The Arcatraz"] = {
         ["ptBR"] = "Arcatraz",
-        ["ruRU"] = "The Arcatraz",
+        ["ruRU"] = "Аркатрац",
         ["deDE"] = "Die Arkatraz",
         ["koKR"] = "알카트라즈",
         ["esMX"] = "El Arcatraz",
