@@ -130,10 +130,8 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local repeatableCounter = 0
 
     local unobtainableQuestIds = {}
- -- /dump QuestieLoader:ImportModule("QuestieReputation"):HasReputation(nil, {577,0})
- -- /dump QuestieLoader:ImportModule("QuestieReputation"):HasReputation(unpack(QuestieLoader:ImportModule("QuestieDB").QueryQuest(9266, "requiredMinRep", "requiredMaxRep")))
-    -- /dump
     local temp = {}
+
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
         ---@type QuestId
         local questId = levelAndQuest[2]

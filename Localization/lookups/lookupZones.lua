@@ -1917,6 +1917,9 @@ l10n.zoneCategoryLookup = {
         [-264] = "Tailoring",
         [-304] = "Cooking",
         [-324] = "First Aid",
+        [-666] = "Skinning", -- Dummy ID
+        [-667] = "Mining", -- Dummy ID
+        [-668] = "Enchanting", -- Dummy ID
     },
     [7] = {
         [-364] = "Darkmoon Faire",
