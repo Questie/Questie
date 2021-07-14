@@ -2117,6 +2117,24 @@ function QuestieQuestFixes:Load()
         [7843] = {
             [questKeys.triggerEnd] = {"Message to the Wildhammer Delivered", {[zoneIDs.THE_HINTERLANDS]={{14.34,48.07},},},},
         },
+        [7863] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7864] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7865] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7866] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7867] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7868] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
             [questKeys.finishedBy] = {{14733},nil,},
