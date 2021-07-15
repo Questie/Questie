@@ -16,7 +16,7 @@ local kalimdorLocales = {
     },
     ["Thousand Needles"] = {
         ["ptBR"] = "Mil Agulhas",
-        ["ruRU"] = "Тысяча игл",
+        ["ruRU"] = "Тысяча Игл",
         ["deDE"] = "Tausend Nadeln",
         ["koKR"] = "버섯구름 봉우리",
         ["esMX"] = "Las Mil Agujas",
@@ -64,7 +64,7 @@ local kalimdorLocales = {
     },
     ["Un'Goro Crater"] = {
         ["ptBR"] = "Cratera Un'Goro",
-        ["ruRU"] = "Крастер Ун'Горо",
+        ["ruRU"] = "Кратер Ун'Горо",
         ["deDE"] = "Un'Goro-Krater",
         ["koKR"] = "운고로 분화구",
         ["esMX"] = "Cráter de Un'Goro",

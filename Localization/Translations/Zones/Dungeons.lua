@@ -376,7 +376,7 @@ local dungeonLocales = {
     },
     ["Zul'Farrak"] = {
         ["ptBR"] = "Zul'Farrak",
-        ["ruRU"] = "Зуль'Фаррак",
+        ["ruRU"] = "Зул'Фаррак",
         ["deDE"] = "Zul'Farrak",
         ["koKR"] = "줄파락",
         ["esMX"] = "Zul'Farrak",
@@ -436,7 +436,7 @@ local dungeonLocales = {
     },
     ["The Arcatraz"] = {
         ["ptBR"] = "Arcatraz",
-        ["ruRU"] = "The Arcatraz",
+        ["ruRU"] = "Аркатрац",
         ["deDE"] = "Die Arkatraz",
         ["koKR"] = "알카트라즈",
         ["esMX"] = "El Arcatraz",
