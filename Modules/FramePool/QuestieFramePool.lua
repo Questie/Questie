@@ -330,9 +330,36 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineBorder:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
     lineBorder:SetThickness(lineWidth+2);
 
-
-
     lineFrame:EnableMouse(true)
+
+    function lineFrame:FakeHide()
+        if not self.hidden then
+            self.shouldBeShowing = self:IsShown();
+            self._show = self.Show;
+            self.Show = function()
+                self.shouldBeShowing = true;
+            end
+            self:Hide();
+            self._hide = self.Hide;
+            self.Hide = function()
+                self.shouldBeShowing = false;
+            end
+            self.hidden = true
+        end
+    end
+
+    function lineFrame:FakeUnhide()
+        if self.hidden then
+            self.hidden = false
+            self.Show = self._show;
+            self.Hide = self._hide;
+            self._show = nil
+            self._hide = nil
+            if self.shouldBeShowing then
+                self:Show();
+            end
+        end
+    end
 
     --lineFrame:SetBackdrop({ -- mouseover debugging
     --    bgFile = "Interface/Tooltips/UI-Tooltip-Background",

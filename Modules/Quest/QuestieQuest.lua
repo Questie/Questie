@@ -110,6 +110,12 @@ _UnhideQuestIcons = function()
                     if (Questie.db.char.TrackerHiddenObjectives == nil) or (Questie.db.char.TrackerHiddenObjectives[objectiveString] == nil) then
                         if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
                             icon:FakeUnhide()
+
+                            if icon.data.lineFrames then
+                                for _, lineIcon in pairs(icon.data.lineFrames) do
+                                    lineIcon:FakeUnhide()
+                                end
+                            end
                         end
                         if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                             icon:FadeOut()
@@ -144,6 +150,12 @@ _HideQuestIcons = function()
             local icon = _G[frameName];
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 icon:FakeHide()
+
+                if icon.data.lineFrames then
+                    for _, lineIcon in pairs(icon.data.lineFrames) do
+                        lineIcon:FakeHide()
+                    end
+                end
             end
             if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                 icon:FadeOut()
