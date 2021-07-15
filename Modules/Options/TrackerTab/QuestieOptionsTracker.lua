@@ -183,6 +183,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db.global.hideTrackerInCombat = value
                 end
             },
+            minimizeInDungeons = {
+                type = "toggle",
+                order = 2.05,
+                width = 1.0,
+                name = function() return l10n('Minimize in Dungeons'); end,
+                desc = function() return l10n('When this is checked, the Tracker will automatically be minimized when entering a dungeon.'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.hideTrackerInDungeons; end,
+                set = function(_, value)
+                    Questie.db.global.hideTrackerInDungeons = value
+                end
+            },
             fadeMinMaxButtons = {
                 type = "toggle",
                 order = 2.1,
