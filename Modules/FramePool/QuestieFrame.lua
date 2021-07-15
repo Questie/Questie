@@ -107,7 +107,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.FadeOut = _Qframe.FadeOut
     newFrame.FadeIn = _Qframe.FadeIn
     newFrame.FakeHide = _Qframe.FakeHide
-    newFrame.FakeUnhide = _Qframe.FakeUnhide
+    newFrame.FakeShow = _Qframe.FakeShow
     newFrame.OnShow = _Qframe.OnShow
     newFrame.OnHide = _Qframe.OnHide
     newFrame.ShouldBeHidden = _Qframe.ShouldBeHidden
@@ -364,6 +364,7 @@ function _Qframe:FadeIn()
     end
 end
 
+--- This is needed because HBD will show the icons again after switching zones and stuff like that
 function _Qframe:FakeHide()
     if not self.hidden then
         self.shouldBeShowing = self:IsShown();
@@ -380,7 +381,8 @@ function _Qframe:FakeHide()
     end
 end
 
-function _Qframe:FakeUnhide()
+--- This is needed because HBD will show the icons again after switching zones and stuff like that
+function _Qframe:FakeShow()
     if self.hidden then
         self.hidden = false
         self.Show = self._show;
