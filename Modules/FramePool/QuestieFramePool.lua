@@ -218,7 +218,7 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     return lineFrameList;
 end
 
-local lineFrames = 1
+local lineFrameCount = 1
 
 ---@param iconFrame IconFrame @The parent frame for the current line.
 ---@param startX number @A value between 0-100
@@ -236,12 +236,12 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         QuestieFramePool.Routes_Lines={}
     end
     --Names are not stricktly needed, but it is nice for debugging.
-    local frameName = "questieLineFrame"..lineFrames;
+    local frameName = "questieLineFrame".. lineFrameCount;
 
     --tremove default always picks the last element, however counting arrays is kinda bugged? So just get index 1 instead.
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
-        lineFrame.frameId = lineFrames;
+        lineFrame.frameId = lineFrameCount;
     end
 
     local canvas = WorldMapFrame:GetCanvas()
@@ -330,9 +330,38 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineBorder:SetEndPoint("TOPLEFT", endX - framePosX, endY - framePosY)
     lineBorder:SetThickness(lineWidth+2);
 
-
-
     lineFrame:EnableMouse(true)
+
+    --- This is needed because HBD will show the icons again after switching zones and stuff like that
+    function lineFrame:FakeHide()
+        if not self.hidden then
+            self.shouldBeShowing = self:IsShown();
+            self._show = self.Show;
+            self.Show = function()
+                self.shouldBeShowing = true;
+            end
+            self:Hide();
+            self._hide = self.Hide;
+            self.Hide = function()
+                self.shouldBeShowing = false;
+            end
+            self.hidden = true
+        end
+    end
+
+    --- This is needed because HBD will show the icons again after switching zones and stuff like that
+    function lineFrame:FakeShow()
+        if self.hidden then
+            self.hidden = false
+            self.Show = self._show;
+            self.Hide = self._hide;
+            self._show = nil
+            self._hide = nil
+            if self.shouldBeShowing then
+                self:Show();
+            end
+        end
+    end
 
     --lineFrame:SetBackdrop({ -- mouseover debugging
     --    bgFile = "Interface/Tooltips/UI-Tooltip-Background",
@@ -369,7 +398,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
         end
     end)
 
-    --line:Hide()
     lineFrame:Hide();
 
 
@@ -382,6 +410,6 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
 
     --Keep a total lineFrame count for names.
-    lineFrames = lineFrames + 1;
+    lineFrameCount = lineFrameCount + 1;
     return lineFrame
 end
