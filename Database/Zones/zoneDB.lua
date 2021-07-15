@@ -220,11 +220,11 @@ function _ZoneDB:SplitSeasonalQuests()
         local eventName = QuestieEvent:GetEventNameFor(questId)
         if eventName == "Love is in the Air" then
             updatedZoneMap[-400][questId] = true
-        elseif eventName == "Childrens Week" then
+        elseif eventName == "Children's Week" then
             updatedZoneMap[-401][questId] = true
         elseif eventName == "Harvest Festival" then
             updatedZoneMap[-402][questId] = true
-        elseif eventName == "Hallows End" then
+        elseif eventName == "Hallow's End" then
             updatedZoneMap[-403][questId] = true
         elseif eventName == "Winter Veil" then
             updatedZoneMap[-404][questId] = true
