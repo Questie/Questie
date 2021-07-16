@@ -1653,6 +1653,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75},},}},
         },
         [11069] = {
+            [questKeys.startedBy] = {{23345,},nil,nil,},
             [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09},},}},
         },
         [11070] = {
