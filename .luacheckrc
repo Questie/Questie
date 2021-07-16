@@ -2598,6 +2598,7 @@ globals = {
     "QuestInfoTimerFrame",
     "QuestLogFrame",
     "QuestLogListScrollFrame",
+    "QuestLogTitleButton_OnClick",
     "QuestNPCModel",
     "QuestTimerFrame",
     "QuestWatchFrame",
