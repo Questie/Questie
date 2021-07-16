@@ -1492,12 +1492,14 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10838,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {5226},
         },
         [5238] = {
             [questKeys.startedBy] = {{10837,},nil,nil,},
             [questKeys.finishedBy] = {{10837,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {5236},
         },
         [5261] = {
             [questKeys.exclusiveTo] = {33}, -- #1726
