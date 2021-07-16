@@ -1297,6 +1297,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10640,10689,},
             [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{15.9,40.5}}}, ICON_TYPE_EVENT, "Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"}}
         },
+        [10672] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Arcano Control Unit and then swim in the lava to tag the Greater Felfire Diemetradon", 0, {{"object", 185008},}}},
+        },
         [10674] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped"},},nil,nil,nil,},
         },
