@@ -71,7 +71,7 @@ local zoneSectionLocales = {
         ["enUS"] = true,
         ["frFR"] = "Classe",
         ["esES"] = "Clase",
-        ["zhTW"] = "Class",
+        ["zhTW"] = "職業",
         ["zhCN"] = "职业",
     },
     ["Kalimdor"] = {
