@@ -177,6 +177,7 @@ function QuestieMap:GetScaleValue()
     elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
         scaling = 0.9
     end
+    return scaling
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
@@ -794,7 +795,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         if finisherSpawns then -- redundant code
             local bestDistance = 999999999
             local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
-            local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+            local bestSpawn, bestSpawnZone, bestSpawnType, bestSpawnName
             for zone, spawns in pairs(finisherSpawns) do
                 for _, spawn in pairs(spawns) do
                     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -814,7 +815,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
                     end
                 end
             end
-            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnType, bestDistance
         end
         return nil
     end
@@ -859,7 +860,7 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
 --    [38] = {0,0.6,1,1} -- loch modan
 }
 
-function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y, color)
+function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
     if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
         local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
         for _, lineFrame in ipairs(lineFrames) do

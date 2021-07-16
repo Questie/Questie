@@ -650,7 +650,7 @@ function QuestieQuest:AddFinisher(quest)
                             finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                             finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                         end
-                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone, finisherLocs[zone][1], finisherLocs[zone][2])
+                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)
                     end
                 end
             end
@@ -965,7 +965,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 end
                 local ipz = iconPerZone[zone]
                 if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, ipz[2], ipz[3], spawnData.Hostile and {1,0.2,0,0.7} or nil)
+                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1,0.2,0,0.7} or nil)
                 end
             end
         end
@@ -1379,7 +1379,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                                 starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                             end
-                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone, starterLocs[zone][1], starterLocs[zone][2])
+                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
                         end
                     end
                 end
