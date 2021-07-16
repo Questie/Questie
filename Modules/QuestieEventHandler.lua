@@ -160,7 +160,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
         if Questie.started then
             QuestieMap:InitializeQueue()
-            if not IsInInstance() then
+            local isInInstance, instanceType = IsInInstance()
+
+            if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
                 QuestieQuest:SmoothReset()
             end
         end

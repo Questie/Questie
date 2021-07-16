@@ -59,6 +59,9 @@ local tunpack = unpack;
 QuestieMap.drawTimer = nil;
 QuestieMap.fadeLogicTimerShown = nil;
 
+local isDrawQueueDisabled = false
+
+
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(questId)
     local frames = {}
@@ -151,8 +154,9 @@ QuestieMap._minimapDrawQueue = minimapDrawQueue
 function QuestieMap:InitializeQueue() -- now called on every loading screen
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
-    if not isInInstance or instanceType == "pvp" then -- dont run map updates while in raid
-        QuestieMap._disableQueue = nil
+
+    if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
+        isDrawQueueDisabled = false
         if not QuestieMap.drawTimer then 
             QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
             QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
@@ -165,7 +169,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
             QuestieMap.fadeLogicTimerShown:Cancel()
             QuestieMap.fadeLogicTimerShown = nil
         end
-        QuestieMap._disableQueue = true
+        isDrawQueueDisabled = true
     end
 end
 
@@ -205,7 +209,7 @@ function QuestieMap:ProcessShownMinimapIcons()
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
-    if not QuestieMap._disableQueue then -- dont queue when in raid
+    if (not isDrawQueueDisabled) then -- dont queue when in raid
         if(drawType == QuestieMap.ICON_MAP_TYPE) then
             tinsert(mapDrawQueue, {...});
         elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
