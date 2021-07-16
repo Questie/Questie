@@ -398,7 +398,7 @@ local trackerOptionsLocales = {
         ["esES"] = nil,
         ["frFR"] = nil,
     },
-    ["When this is checked, the Tracker will automatically be minimized while entering combat."] = {
+    ["When this is checked, the Tracker will automatically be minimized when entering a dungeon."] = {
         ["ptBR"] = nil,
         ["ruRU"] = nil,
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch minimiert.",
