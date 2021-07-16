@@ -270,7 +270,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.Name = npc.name
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
-    data.ManualTooltipData.Title = title or (npc.name.." (".. l10n(NPC) .. ")")
+    data.ManualTooltipData.Title = title or (npc.name.." (".. l10n("NPC") .. ")")
     local level = tostring(npc.minLevel)
     local health = tostring(npc.minLevelHealth)
     if npc.minLevel ~= npc.maxLevel then
