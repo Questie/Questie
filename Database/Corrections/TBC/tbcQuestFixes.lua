@@ -307,6 +307,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9177] = {
             [questKeys.finishedBy] = {{10181},nil,nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF, -- 9180 is the blood elf version of this quest
+            [questKeys.preQuestSingle] = {9175},
         },
         [9181] = {
             [questKeys.specialFlags] = 1,
