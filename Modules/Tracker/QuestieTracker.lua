@@ -192,6 +192,10 @@ function QuestieTracker:Initialize()
             end
         end
 
+        if Questie.db.global.hideTrackerInDungeons and IsInInstance() then
+            QuestieTracker:Collapse()
+        end
+
         -- Font's and cooldowns can occationally not apply upon login
         QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
