@@ -87,7 +87,7 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
     end
 
     for _, questId in pairs(possibleQuestIds) do
-        if (not (questId == tonumber(currentQuestId))) then
+        if (not (questId == currentQuestId)) then
             _DailyQuests:HideDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = true;
         else
@@ -97,24 +97,35 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
     end
 end
 
----@param id number
+---@param questId number
 ---@return nil
-function _DailyQuests:HideDailyQuest(id)
-    if QuestieMap.questIdFrames[id] then
-        for _, iconName in pairs(QuestieMap.questIdFrames[id]) do
+function _DailyQuests:HideDailyQuest(questId)
+    if QuestieMap.questIdFrames[questId] then
+        for _, iconName in pairs(QuestieMap.questIdFrames[questId]) do
             _G[iconName]:FakeHide()
         end
     end
 end
 
----@param id number
+---@param questId number
 ---@return nil
-function _DailyQuests:ShowDailyQuest(id)
-    if QuestieMap.questIdFrames[id] then
-        for _, iconName in pairs(QuestieMap.questIdFrames[id]) do
+function _DailyQuests:ShowDailyQuest(questId)
+    if QuestieMap.questIdFrames[questId] then
+        for _, iconName in pairs(QuestieMap.questIdFrames[questId]) do
             _G[iconName]:FakeShow()
         end
     end
+end
+
+---@param questId number
+---@return boolean
+function DailyQuests:IsDailyQuestActive(questId)
+    local hiddenQuests = Questie.db.char.hiddenDailies
+    return not (hiddenQuests.nhc[questId] or
+        hiddenQuests.hc[questId] or
+        hiddenQuests.cooking[questId] or
+        hiddenQuests.fishing[questId] or
+        hiddenQuests.pvp[questId]);
 end
 
 nhcDailyIds = {
