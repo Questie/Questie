@@ -28,11 +28,8 @@ function DailyQuests:FilterDailies(message, _, _)
 
         local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _DailyQuests:GetDailyIds(message);
 
-        --print(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId)
-
         local somethingChanged = _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId);
         if (not somethingChanged) then
-            --print("nothing changed")
             -- We are already showing the correct quests
             return;
         end
@@ -117,24 +114,14 @@ end
 ---@param questId number
 ---@return nil
 function _DailyQuests:HideDailyQuest(questId)
-    if QuestieMap.questIdFrames[questId] then
-        for _, iconName in pairs(QuestieMap.questIdFrames[questId]) do
-            _G[iconName]:FakeHide();
-            QuestieTooltips:RemoveQuest(questId);
-        end
-    end
+    QuestieMap:UnloadQuestFrames(questId);
+    QuestieTooltips:RemoveQuest(questId);
 end
 
 ---@param questId number
 ---@return nil
 function _DailyQuests:ShowDailyQuest(questId)
-    if QuestieMap.questIdFrames[questId] then
-        for _, iconName in pairs(QuestieMap.questIdFrames[questId]) do
-            --print("FakeShow quest", questId)
-            _G[iconName]:FakeShow();
-        end
-    else
-        --print("Drawing quest", questId)
+    if (not QuestieMap.questIdFrames[questId]) then
         QuestieQuest:DrawDailyQuest(questId);
     end
 end
