@@ -228,7 +228,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         end
 
         local continent = QuestieJourneyUtils:GetZoneName(startindex)
-        
+
         spawnZone:SetText(continent);
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);

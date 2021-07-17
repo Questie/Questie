@@ -62,6 +62,9 @@ function QuestieTBCQuestFixes:Load()
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82},},}},
         },
+        [225] = {
+            [questKeys.requiredLevel] = 25,
+        },
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2},},}},
         },
@@ -304,6 +307,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9177] = {
             [questKeys.finishedBy] = {{10181},nil,nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF, -- 9180 is the blood elf version of this quest
+            [questKeys.preQuestSingle] = {9175},
         },
         [9181] = {
             [questKeys.specialFlags] = 1,
@@ -1129,7 +1134,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20774,"Test Energy Modulator"},},nil,nil,nil,},
         },
         [10427] = {
-            [questKeys.objectives] = {{{20610,"Talbuk Tagged"},{20777,"Talbuk Tagged"},},nil,nil,nil,},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{20610,20777},20777,"Talbuk Tagged",},},
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Protecotrate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit", 0, {{"monster", 20903}}}},
@@ -1291,6 +1296,9 @@ function QuestieTBCQuestFixes:Load()
         [10669] = {
             [questKeys.preQuestSingle] = {10640,10689,},
             [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{15.9,40.5}}}, ICON_TYPE_EVENT, "Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"}}
+        },
+        [10672] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Arcano Control Unit and then swim in the lava to tag the Greater Felfire Diemetradon", 0, {{"object", 185008},}}},
         },
         [10674] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped"},},nil,nil,nil,},
@@ -1612,8 +1620,14 @@ function QuestieTBCQuestFixes:Load()
         [11045] = {
             [questKeys.exclusiveTo] = {11043,11044,10642},
         },
+        [11046] = {
+            [questKeys.exclusiveTo] = {11047,11048},
+        },
         [11047] = {
-            [questKeys.exclusiveTo] = {11048},
+            [questKeys.exclusiveTo] = {11045,11048},
+        },
+        [11048] = {
+            [questKeys.exclusiveTo] = {11046,11047},
         },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},
@@ -1642,6 +1656,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75},},}},
         },
         [11069] = {
+            [questKeys.startedBy] = {{23345,},nil,nil,},
             [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09},},}},
         },
         [11070] = {

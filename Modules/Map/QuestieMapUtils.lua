@@ -157,7 +157,7 @@ function QuestieMap.utils:MapExplorationUpdate()
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
                 if (QuestieMap.utils:IsExplored(frame.UiMapID, frame.x, frame.y)) then
-                    frame:FakeUnhide()
+                    frame:FakeShow()
                 end
             end
         end

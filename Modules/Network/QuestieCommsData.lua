@@ -50,9 +50,9 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                 elseif((objective.type == "object" or objective.type == "o") and objective.id) then
                     oName = QuestieDB:GetObject(objective.id).name;
                 elseif((objective.type == "item" or objective.type == "i") and objective.id) then
-                    local item = QuestieDB:GetItem(objective.id);
-                    if(item and item.name and (not item.Hidden)) then
-                        oName = item.name;-- this is capital letters for some reason...
+                    local dbItem = QuestieDB:GetItem(objective.id);
+                    if(dbItem and dbItem.name and (not dbItem.Hidden)) then
+                        oName = dbItem.name;-- this is capital letters for some reason...
                     else
                         local itemName = GetItemInfo(objective.id)
                         if(itemName) then
@@ -61,9 +61,9 @@ function QuestieComms.data:GetTooltip(tooltipKey)
                             oName = "Item missing from DB, fetching from server!";
                             local item = Item:CreateFromItemID(objective.id)
                             item:ContinueOnItemLoad(function()
-                                local itemName = item:GetItemName();
-                                oName = itemName;
-                                tooltipData[questId][playerName][objectiveIndex].text = itemName;
+                                local name = item:GetItemName();
+                                oName = name;
+                                tooltipData[questId][playerName][objectiveIndex].text = name;
                             end)
                         end
                     end

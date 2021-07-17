@@ -59,6 +59,9 @@ local tunpack = unpack;
 QuestieMap.drawTimer = nil;
 QuestieMap.fadeLogicTimerShown = nil;
 
+local isDrawQueueDisabled = false
+
+
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(questId)
     local frames = {}
@@ -151,8 +154,9 @@ QuestieMap._minimapDrawQueue = minimapDrawQueue
 function QuestieMap:InitializeQueue() -- now called on every loading screen
     Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
-    if not isInInstance or instanceType == "pvp" then -- dont run map updates while in raid
-        QuestieMap._disableQueue = nil
+
+    if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
+        isDrawQueueDisabled = false
         if not QuestieMap.drawTimer then 
             QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
             QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
@@ -165,7 +169,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
             QuestieMap.fadeLogicTimerShown:Cancel()
             QuestieMap.fadeLogicTimerShown = nil
         end
-        QuestieMap._disableQueue = true
+        isDrawQueueDisabled = true
     end
 end
 
@@ -177,6 +181,7 @@ function QuestieMap:GetScaleValue()
     elseif(mapId == 1414 or mapId == 1415) then -- EK and Kalimdor
         scaling = 0.9
     end
+    return scaling
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
@@ -204,7 +209,7 @@ function QuestieMap:ProcessShownMinimapIcons()
 end
 
 function QuestieMap:QueueDraw(drawType, ...)
-    if not QuestieMap._disableQueue then -- dont queue when in raid
+    if (not isDrawQueueDisabled) then -- dont queue when in raid
         if(drawType == QuestieMap.ICON_MAP_TYPE) then
             tinsert(mapDrawQueue, {...});
         elseif(drawType == QuestieMap.ICON_MINIMAP_TYPE) then
@@ -269,7 +274,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     data.Name = npc.name
     data.IsObjectiveNote = false
     data.ManualTooltipData = {}
-    data.ManualTooltipData.Title = title or (npc.name.." (".. l10n(NPC) .. ")")
+    data.ManualTooltipData.Title = title or (npc.name.." (".. l10n("NPC") .. ")")
     local level = tostring(npc.minLevel)
     local health = tostring(npc.minLevelHealth)
     if npc.minLevel ~= npc.maxLevel then
@@ -794,7 +799,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         if finisherSpawns then -- redundant code
             local bestDistance = 999999999
             local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
-            local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
+            local bestSpawn, bestSpawnZone, bestSpawnType, bestSpawnName
             for zone, spawns in pairs(finisherSpawns) do
                 for _, spawn in pairs(spawns) do
                     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
@@ -814,7 +819,7 @@ function QuestieMap:GetNearestQuestSpawn(quest)
                     end
                 end
             end
-            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
+            return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnType, bestDistance
         end
         return nil
     end
@@ -859,7 +864,7 @@ QuestieMap.zoneWaypointHoverColorOverrides = {
 --    [38] = {0,0.6,1,1} -- loch modan
 }
 
-function QuestieMap:DrawWaypoints(icon, waypoints, zone, x, y, color)
+function QuestieMap:DrawWaypoints(icon, waypoints, zone, color)
     if waypoints and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then -- check that waypoint data actually exists
         local lineFrames = QuestieFramePool:CreateWaypoints(icon, waypoints, nil, color or QuestieMap.zoneWaypointColorOverrides[zone], zone)
         for _, lineFrame in ipairs(lineFrames) do

@@ -818,16 +818,16 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12},},},},
         },
         [1860] = {
-            [questKeys.exclusiveTo] = {}, -- #1192
+            [questKeys.exclusiveTo] = {1861, 1880},
         },
         [1861] = {
-            [questKeys.exclusiveTo] = {1880}, -- #1192
+            [questKeys.exclusiveTo] = {1880},
         },
         [1879] = {
-            [questKeys.exclusiveTo] = {}, -- #1192
+            [questKeys.exclusiveTo] = {1861, 1880},
         },
         [1880] = {
-            [questKeys.exclusiveTo] = {1861}, -- #1192
+            [questKeys.exclusiveTo] = {1861},
         },
         [1882] = {
             [questKeys.preQuestSingle] = {},
@@ -1492,12 +1492,14 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10838,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {5226},
         },
         [5238] = {
             [questKeys.startedBy] = {{10837,},nil,nil,},
             [questKeys.finishedBy] = {{10837,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {5236},
         },
         [5261] = {
             [questKeys.exclusiveTo] = {33}, -- #1726
@@ -2116,6 +2118,24 @@ function QuestieQuestFixes:Load()
         },
         [7843] = {
             [questKeys.triggerEnd] = {"Message to the Wildhammer Delivered", {[zoneIDs.THE_HINTERLANDS]={{14.34,48.07},},},},
+        },
+        [7863] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7864] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7865] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7866] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7867] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7868] = {
+            [questKeys.zoneOrSort] = 3277,
         },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},

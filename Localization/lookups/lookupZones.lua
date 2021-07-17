@@ -1,7 +1,7 @@
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-l10n.continentLookup['enUS']= {
+l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",
     [3] = "Dungeons",
@@ -12,7 +12,7 @@ l10n.continentLookup['enUS']= {
     [530] = "Outland"
 }
 
-l10n.zoneLookup['enUS']= {
+l10n.zoneLookup = {
     [1]={
         [1]="Dun Morogh",
         [2]="Longshore",
@@ -1795,7 +1795,7 @@ l10n.zoneLookup['enUS']= {
     },
 }
 
-l10n.zoneCategoryLookup['enUS']= {
+l10n.zoneCategoryLookup = {
     [1] = {
         [36] = "Alterac Mountains",
         [45] = "Arathi Highlands",
@@ -1847,11 +1847,11 @@ l10n.zoneCategoryLookup['enUS']= {
         [490] = "Un'Goro Crater",
         [618] = "Winterspring",
     },
-    [530] = l10n.zoneLookup['enUS'][530],
+    [530] = l10n.zoneLookup[530],
     [3] = {
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
-        [717] = "The Stockades",
+        [717] = "The Stockade",
         [718] = "Wailing Caverns",
         [719] = "Blackfathom Deeps",
         [721] = "Gnomeregan",
@@ -1873,6 +1873,7 @@ l10n.zoneCategoryLookup['enUS']= {
         [2437] = "Ragefire Chasm",
         [2557] = "Dire Maul",
         [3457] = "Kharazan",
+        [3535] = "Hellfire Citadel",
         [3562] = "Hellfire Ramparts",
         [3606] = "Hyjal Summit",
         [3713] = "The Blood Furnace",
@@ -1880,7 +1881,6 @@ l10n.zoneCategoryLookup['enUS']= {
         [3715] = "The Steamvault",
         [3716] = "The Underbog",
         [3717] = "The Slave Pens",
-        [3789] = "Shadow Labyrinth",
         [3790] = "Auchenai Crypts",
         [3791] = "Sethekk Halls",
         [3792] = "Mana-Tombs",
@@ -1888,6 +1888,7 @@ l10n.zoneCategoryLookup['enUS']= {
         [3847] = "The Botanica",
         [3848] = "The Arcatraz",
         [3849] = "The Mechanar",
+        [3789] = "Shadow Labyrinth",
         [3905] = "Coilfang Reservoir",
     },
     [4] = {
@@ -1916,6 +1917,9 @@ l10n.zoneCategoryLookup['enUS']= {
         [-264] = "Tailoring",
         [-304] = "Cooking",
         [-324] = "First Aid",
+        [-666] = "Skinning", -- Dummy ID
+        [-667] = "Mining", -- Dummy ID
+        [-668] = "Enchanting", -- Dummy ID
     },
     [7] = {
         [-364] = "Darkmoon Faire",
@@ -1925,9 +1929,9 @@ l10n.zoneCategoryLookup['enUS']= {
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
         [-400] = "Love is in the Air",
-        [-401] = "Childrens Week",
+        [-401] = "Children's Week",
         [-402] = "Harvest Festival",
-        [-403] = "Hallows End",
+        [-403] = "Hallow's End",
         [-404] = "Winter Veil",
     },
 }

@@ -88,6 +88,7 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
+    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", _EventHandler.ZoneChangedNewArea)
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
@@ -159,7 +160,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
         if Questie.started then
             QuestieMap:InitializeQueue()
-            if not IsInInstance() then
+            local isInInstance, instanceType = IsInInstance()
+
+            if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
                 QuestieQuest:SmoothReset()
             end
         end
@@ -453,6 +456,20 @@ end
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
     if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
+        QuestieTracker:Expand()
+    end
+end
+
+function _EventHandler:ZoneChangedNewArea()
+    if (not Questie.db.global.hideTrackerInDungeons) then
+        return
+    end
+
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+    if IsInInstance() then
+        previousTrackerState = Questie.db.char.isTrackerExpanded
+        QuestieTracker:Collapse()
+    else
         QuestieTracker:Expand()
     end
 end

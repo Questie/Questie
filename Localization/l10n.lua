@@ -8,10 +8,6 @@ l10n.npcNameLookup = {}
 l10n.objectNameLookup = {}
 l10n.objectLookup = {}
 l10n.questLookup = {}
-l10n.continentLookup = {}
-l10n.zoneLookup = {}
-l10n.zoneCategoryLookup = {}
-l10n.questCategoryLookup = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -86,10 +82,6 @@ function l10n:PostBoot()
             table.insert(l10n.objectNameLookup[name], id)
         end
     end
-
-    l10n.continentLookup = l10n.continentLookup[locale] or l10n.continentLookup["enUS"] or {}
-    l10n.zoneLookup = l10n.zoneLookup[locale] or l10n.zoneLookup["enUS"] or {}
-    l10n.questCategoryLookup = l10n.questCategoryLookup[locale] or l10n.questCategoryLookup["enUS"] or {}
 end
 
 function _l10n:translate(key, ...)

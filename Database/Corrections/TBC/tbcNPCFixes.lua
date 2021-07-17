@@ -39,6 +39,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0},},},
             [npcKeys.waypoints] = {},
         },
+        [11943] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{51,41},},},
+        },
         [11980] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{71.0,62.2},},},
             [npcKeys.waypoints] = {},
