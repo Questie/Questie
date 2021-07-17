@@ -485,6 +485,11 @@ function QuestieDB:IsDoable(questId)
         return false
     end
 
+    if Questie.db.char.hiddenDailies[questId] then
+        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] quest is a daily quest not active today!")
+        return false
+    end
+
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
