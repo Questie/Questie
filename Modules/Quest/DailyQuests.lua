@@ -2,6 +2,8 @@
 local DailyQuests = QuestieLoader:CreateModule("DailyQuests");
 local _DailyQuests = {}
 
+local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 
@@ -54,23 +56,23 @@ end
 ---@return boolean
 function _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId)
     local somethingChanged = false
-    if Questie.db.char.hiddenDailies.nhc[nhcQuestId] or (not next(Questie.db.char.hiddenDailies.nhc)) then
+    if (Questie.db.char.hiddenDailies.nhc[nhcQuestId] or (not next(Questie.db.char.hiddenDailies.nhc))) and (not IsQuestFlaggedCompleted(nhcQuestId)) then
         Questie.db.char.hiddenDailies.nhc = {};
         somethingChanged = true;
     end
-    if Questie.db.char.hiddenDailies.hc[hcQuestId] or (not next(Questie.db.char.hiddenDailies.nhc)) then
+    if (Questie.db.char.hiddenDailies.hc[hcQuestId] or (not next(Questie.db.char.hiddenDailies.hc))) and (not IsQuestFlaggedCompleted(hcQuestId)) then
         Questie.db.char.hiddenDailies.hc = {};
         somethingChanged = true;
     end
-    if Questie.db.char.hiddenDailies.cooking[cookingQuestId] or (not next(Questie.db.char.hiddenDailies.nhc)) then
+    if (Questie.db.char.hiddenDailies.cooking[cookingQuestId] or (not next(Questie.db.char.hiddenDailies.cooking))) and (not IsQuestFlaggedCompleted(cookingQuestId)) then
         Questie.db.char.hiddenDailies.cooking = {};
         somethingChanged = true;
     end
-    if Questie.db.char.hiddenDailies.fishing[fishingQuestId] or (not next(Questie.db.char.hiddenDailies.nhc)) then
+    if (Questie.db.char.hiddenDailies.fishing[fishingQuestId] or (not next(Questie.db.char.hiddenDailies.fishing))) and (not IsQuestFlaggedCompleted(fishingQuestId)) then
         Questie.db.char.hiddenDailies.fishing = {};
         somethingChanged = true;
     end
-    if Questie.db.char.hiddenDailies.pvp[pvpQuestId] or (not next(Questie.db.char.hiddenDailies.nhc)) then
+    if (Questie.db.char.hiddenDailies.pvp[pvpQuestId] or (not next(Questie.db.char.hiddenDailies.pvp))) and (not IsQuestFlaggedCompleted(pvpQuestId)) then
         Questie.db.char.hiddenDailies.pvp = {};
         somethingChanged = true;
     end
