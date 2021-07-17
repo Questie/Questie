@@ -10,6 +10,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 
 local nhcDailyIds, hcDailyIds, cookingDailyIds, fishingDailyIds, pvpDailyIds
 
@@ -18,7 +20,7 @@ local lastCheck
 ---@param message string
 ---@return nil
 function DailyQuests:FilterDailies(message, _, _)
-    if message then
+    if message and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then
         if (not lastCheck) then
             lastCheck = GetTime();
         elseif GetTime() - lastCheck < 10 then
