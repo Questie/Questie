@@ -8,6 +8,8 @@ local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration"
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -400,7 +402,7 @@ end
 function _Qframe:ShouldBeHidden()
     local questieGlobalDB = Questie.db.global
     if (not Questie.db.char.enabled)
-        or (Questie.db.char.hiddenDailies[self.data.Id])
+        or (not DailyQuests:IsActiveDailyQuest(self.data.Id))
         or ((not questieGlobalDB.enableObjectives) and (self.data.Type == "monster" or self.data.Type == "object" or self.data.Type == "event" or self.data.Type == "item"))
         or ((not questieGlobalDB.enableTurnins) and self.data.Type == "complete")
         or ((not questieGlobalDB.enableAvailable) and self.data.Type == "available")
