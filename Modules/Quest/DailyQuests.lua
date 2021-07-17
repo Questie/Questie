@@ -16,11 +16,8 @@ function DailyQuests:FilterDailies(message, _, _)
     if message then
         local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _DailyQuests:GetDailyIds(message);
 
-        print(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId)
-
         local somethingChanged = _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId);
         if (not somethingChanged) then
-            print("Nothing changed")
             -- We are already showing the correct quests
             return;
         end
