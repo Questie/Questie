@@ -119,7 +119,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function DailyQuests:IsDailyQuestActive(questId)
+function DailyQuests:IsActiveDailyQuest(questId)
     local hiddenQuests = Questie.db.char.hiddenDailies
     return not (hiddenQuests.nhc[questId] or
         hiddenQuests.hc[questId] or
