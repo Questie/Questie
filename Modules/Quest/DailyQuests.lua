@@ -28,8 +28,11 @@ function DailyQuests:FilterDailies(message, _, _)
 
         local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _DailyQuests:GetDailyIds(message);
 
+        --print(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId)
+
         local somethingChanged = _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId);
         if (not somethingChanged) then
+            --print("nothing changed")
             -- We are already showing the correct quests
             return;
         end
@@ -101,7 +104,7 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
     end
 
     for _, questId in pairs(possibleQuestIds) do
-        if questId == currentQuestId or (not next(Questie.db.char.hiddenDailies[type])) then
+        if questId == currentQuestId then
             _DailyQuests:ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
         else
