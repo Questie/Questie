@@ -17,6 +17,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieComms
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -98,6 +100,11 @@ function MapIconTooltip:Show()
         if iconData == nil then
             Questie:Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
             return
+        end
+
+        if (not DailyQuests:IsActiveDailyQuest(iconData.Id)) then
+            -- Workaround to not show the tooltip on hidden daily quests
+            return;
         end
 
         if (not icon.miniMapIcon) and self.data.Id == iconData.Id then -- Recolor hovered icons

@@ -6,14 +6,26 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 
 local nhcDailyIds, hcDailyIds, cookingDailyIds, fishingDailyIds, pvpDailyIds
 
+local lastCheck
 
 ---@param message string
 ---@return nil
 function DailyQuests:FilterDailies(message, _, _)
     if message then
+        if (not lastCheck) then
+            lastCheck = GetTime();
+        elseif GetTime() - lastCheck < 10 then
+            lastCheck = GetTime();
+            return;
+        end
+
         local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _DailyQuests:GetDailyIds(message);
 
         local somethingChanged = _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId);
@@ -32,6 +44,8 @@ end
 
 -- /run DailyQuests:FilterDailies("0:0:11364:0:11354:0:11377:0:11667:0:11340:0")
 
+-- /run Questie.db.char.hiddenDailies = {nhc={},hc={},cooking={},fishing={},pvp={}}
+
 ---@param message string
 ---@return table<number, number, number, number, number>
 function _DailyQuests:GetDailyIds(message)
@@ -42,7 +56,7 @@ function _DailyQuests:GetDailyIds(message)
         tonumber(hcQuestId) or 0,
         tonumber(cookingQuestId) or 0,
         tonumber(fishingQuestId) or 0,
-        tonumber(pvpQuestId) or 0
+        tonumber(pvpQuestId) or 0;
 end
 
 ---@param nhcQuestId number
@@ -53,23 +67,23 @@ end
 ---@return boolean
 function _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId)
     local somethingChanged = false
-    if (Questie.db.char.hiddenDailies.nhc[nhcQuestId] or (not next(Questie.db.char.hiddenDailies.nhc))) and (not IsQuestFlaggedCompleted(nhcQuestId)) then
+    if nhcQuestId > 0 and (Questie.db.char.hiddenDailies.nhc[nhcQuestId] or (not next(Questie.db.char.hiddenDailies.nhc))) and (not IsQuestFlaggedCompleted(nhcQuestId)) then
         Questie.db.char.hiddenDailies.nhc = {};
         somethingChanged = true;
     end
-    if (Questie.db.char.hiddenDailies.hc[hcQuestId] or (not next(Questie.db.char.hiddenDailies.hc))) and (not IsQuestFlaggedCompleted(hcQuestId)) then
+    if hcQuestId > 0 and (Questie.db.char.hiddenDailies.hc[hcQuestId] or (not next(Questie.db.char.hiddenDailies.hc))) and (not IsQuestFlaggedCompleted(hcQuestId)) then
         Questie.db.char.hiddenDailies.hc = {};
         somethingChanged = true;
     end
-    if (Questie.db.char.hiddenDailies.cooking[cookingQuestId] or (not next(Questie.db.char.hiddenDailies.cooking))) and (not IsQuestFlaggedCompleted(cookingQuestId)) then
+    if cookingQuestId > 0 and (Questie.db.char.hiddenDailies.cooking[cookingQuestId] or (not next(Questie.db.char.hiddenDailies.cooking))) and (not IsQuestFlaggedCompleted(cookingQuestId)) then
         Questie.db.char.hiddenDailies.cooking = {};
         somethingChanged = true;
     end
-    if (Questie.db.char.hiddenDailies.fishing[fishingQuestId] or (not next(Questie.db.char.hiddenDailies.fishing))) and (not IsQuestFlaggedCompleted(fishingQuestId)) then
+    if fishingQuestId > 0 and (Questie.db.char.hiddenDailies.fishing[fishingQuestId] or (not next(Questie.db.char.hiddenDailies.fishing))) and (not IsQuestFlaggedCompleted(fishingQuestId)) then
         Questie.db.char.hiddenDailies.fishing = {};
         somethingChanged = true;
     end
-    if (Questie.db.char.hiddenDailies.pvp[pvpQuestId] or (not next(Questie.db.char.hiddenDailies.pvp))) and (not IsQuestFlaggedCompleted(pvpQuestId)) then
+    if pvpQuestId > 0 and (Questie.db.char.hiddenDailies.pvp[pvpQuestId] or (not next(Questie.db.char.hiddenDailies.pvp))) and (not IsQuestFlaggedCompleted(pvpQuestId)) then
         Questie.db.char.hiddenDailies.pvp = {};
         somethingChanged = true;
     end
@@ -87,12 +101,12 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
     end
 
     for _, questId in pairs(possibleQuestIds) do
-        if (not (questId == currentQuestId)) then
-            _DailyQuests:HideDailyQuest(questId);
-            Questie.db.char.hiddenDailies[type][questId] = true;
-        else
+        if questId == currentQuestId or (not next(Questie.db.char.hiddenDailies[type])) then
             _DailyQuests:ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
+        else
+            _DailyQuests:HideDailyQuest(questId);
+            Questie.db.char.hiddenDailies[type][questId] = true;
         end
     end
 end
@@ -102,7 +116,8 @@ end
 function _DailyQuests:HideDailyQuest(questId)
     if QuestieMap.questIdFrames[questId] then
         for _, iconName in pairs(QuestieMap.questIdFrames[questId]) do
-            _G[iconName]:FakeHide()
+            _G[iconName]:FakeHide();
+            QuestieTooltips:RemoveQuest(questId);
         end
     end
 end
@@ -112,8 +127,12 @@ end
 function _DailyQuests:ShowDailyQuest(questId)
     if QuestieMap.questIdFrames[questId] then
         for _, iconName in pairs(QuestieMap.questIdFrames[questId]) do
-            _G[iconName]:FakeShow()
+            --print("FakeShow quest", questId)
+            _G[iconName]:FakeShow();
         end
+    else
+        --print("Drawing quest", questId)
+        QuestieQuest:DrawDailyQuest(questId);
     end
 end
 
