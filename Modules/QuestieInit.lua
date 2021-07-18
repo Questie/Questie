@@ -180,7 +180,7 @@ function QuestieInit:InitAllModules()
 
     Questie.started = true
 
-    if Questie.IsTBC and C_ChatInfo.SendAddonMessage and Questie.db.char.dailiesRequestedToday ~= date("%d-%m-%y") then
+    if Questie.IsTBC and C_ChatInfo.SendAddonMessage and QuestiePlayer:GetPlayerLevel() == 70 and Questie.db.char.dailiesRequestedToday ~= date("%d-%m-%y") then
         -- We send empty Reputable events to ask for the current daily quests. But only once a day.
         C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "GUILD");
         C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "YELL");
