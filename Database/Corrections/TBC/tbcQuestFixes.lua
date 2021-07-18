@@ -83,6 +83,9 @@ function QuestieTBCQuestFixes:Load()
         [663] = {
             [questKeys.requiredLevel] = 35,
         },
+        [729] = {
+            [questKeys.requiredLevel] = 15,
+        },
         [748] = {
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
