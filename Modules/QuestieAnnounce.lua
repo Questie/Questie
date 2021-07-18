@@ -21,6 +21,7 @@ function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveT
         local questName = QuestieDB.QueryQuestSingle(questId, "name");
         local questLevel, _ = QuestieLib:GetTbcLevel(questId);
         local questLink = QuestieLink:GetQuestLinkString(questLevel, questName, questId);
+        local raidMarker = l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}";
 
         if progressType == "objective" then
             local objective
@@ -30,10 +31,10 @@ function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveT
             else
                 objective = objectiveProgress.." "..objectiveText
             end
-            message = "{rt1} Questie : " .. l10n("%s for %s!", objective, questLink)
+            message = raidMarker .. " Questie : " .. l10n("%s for %s!", objective, questLink)
         elseif progressType == "item" then
             local itemLink = select(2, GetItemInfo(itemId))
-            message = "{rt1} Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questLink)
+            message = raidMarker .. " Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questLink)
         end
 
         if (not message) or alreadySentBandaid[message] then
