@@ -238,6 +238,12 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8412] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [8413] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [8423] = {
             [questKeys.preQuestSingle] = {},
         },
