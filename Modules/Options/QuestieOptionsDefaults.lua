@@ -121,7 +121,8 @@ function QuestieOptionsDefaults:Load()
             showRaidQuests = true,
             showPvPQuests = true,
             showAQWarEffortQuests = false,
-            showQuestsInNpcTooltip = true
+            showQuestsInNpcTooltip = true,
+            ldbDisplayText = "Questie"
         },
         profile = {minimap = {hide = false}}
     }
