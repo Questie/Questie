@@ -19,16 +19,15 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local _LibDBIcon = LibStub("LibDBIcon-1.0");
 
-
 function MinimapIcon:Init()
     _LibDBIcon:Register("Questie", _MinimapIcon:CreateDataBrokerObject(), Questie.db.profile.minimap);
     Questie.minimapConfigIcon = _LibDBIcon
 end
 
 function _MinimapIcon:CreateDataBrokerObject()
-    return LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
+    local LDBDataObject = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
-        text = "Questie",
+        text = Questie.db.char.ldbDisplayText,
         icon = "Interface\\Addons\\Questie\\Icons\\complete.blp",
 
         OnClick = function (_, button)
@@ -80,5 +79,15 @@ function _MinimapIcon:CreateDataBrokerObject()
             tooltip:AddLine(Questie:Colorize(l10n('Ctrl + Left Click'),   'gray') .. ": ".. l10n('Reload Questie'));
         end,
     });
+
+    self.LDBDataObject = LDBDataObject
+
+    return LDBDataObject
+end
+
+--- Update the LibDataBroker text
+function MinimapIcon:UpdateText(text)
+    Questie.db.char.ldbDisplayText = text
+    _MinimapIcon.LDBDataObject.text = text
 end
 

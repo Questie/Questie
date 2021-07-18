@@ -99,6 +99,7 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- Quest Events
     Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
+    Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_REMOVED", _EventHandler.QuestRemoved)
@@ -194,6 +195,23 @@ function _EventHandler:QuestAccepted(questLogIndex, questId)
         end
     end)
 
+end
+
+--- Fires when a UI Info Message (yellow text) appears near the top of the screen
+---@param errorType The error type value from the UI_INFO_MESSAGE event
+---@param message The message value from the UI_INFO_MESSAGE event
+function _EventHandler:UiInfoMessage(errorType, message)
+    -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
+    -- Global Strings used:
+    -- 287: ERR_QUEST_OBJECTIVE_COMPLETE_S
+    -- 288: ERR_QUEST_UNKNOWN_COMPLETE
+    -- 289: ERR_QUEST_ADD_KILL_SII
+    -- 290: ERR_QUEST_ADD_FOUND_SII
+    -- 291: ERR_QUEST_ADD_ITEM_SII
+    -- 292: ERR_QUEST_ADD_PLAYER_KILL_SII
+    if errorType >= 287 and errorType <= 292 then
+        MinimapIcon:UpdateText(message)
+    end
 end
 
 --- Fires on MAP_EXPLORATION_UPDATED.
