@@ -1507,6 +1507,9 @@ function QuestieQuestFixes:Load()
         [5262] = {
             [questKeys.startedBy] = {{10813},nil,{13250}},
         },
+        [5305]  ={
+            [questKeys.exclusiveTo] = {8869},
+        },
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91},},},},
         },
@@ -2813,6 +2816,9 @@ function QuestieQuestFixes:Load()
         },
         [8868] = {
             [questKeys.triggerEnd] = {"Receive Elune's Blessing.", {[zoneIDs.MOONGLADE]={{63.89,62.5},},},},
+        },
+        [8869]  ={
+            [questKeys.exclusiveTo] = {5305},
         },
         [8870] = {
             [questKeys.exclusiveTo] = {8867,8871,8872},
