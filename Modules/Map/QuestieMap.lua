@@ -129,16 +129,16 @@ function QuestieMap:ResetManualFrames(typ)
 end
 
 -- Rescale all the icons
-function QuestieMap:RescaleIcons(modifier)
+function QuestieMap:RescaleIcons()
     for _, framelist in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(framelist) do
-            QuestieMap.utils:RecaleIcon(frameName, modifier)
+            QuestieMap.utils:RescaleIcon(frameName)
         end
     end
     for _, frameTypeList in pairs(QuestieMap.manualFrames) do
         for _, framelist in pairs(frameTypeList) do
             for _, frameName in ipairs(framelist) do
-                QuestieMap.utils:RecaleIcon(frameName, modifier)
+                QuestieMap.utils:RescaleIcon(frameName)
             end
         end
     end
@@ -457,7 +457,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
         end
     end
 
-    QuestieMap.utils:RecaleIcon(icon, QuestieMap:GetScaleValue())
+    QuestieMap.utils:RescaleIcon(icon)
 
     -- return the frames in case they need to be stored seperately from QuestieMap.manualFrames
     return icon, iconMinimap;
