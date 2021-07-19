@@ -102,7 +102,7 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
         return;
     end
 
-    for _, questId in pairs(possibleQuestIds) do
+    for questId, _ in pairs(possibleQuestIds) do
         if questId == currentQuestId then
             _DailyQuests:ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
@@ -142,63 +142,69 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests:IsDailyQuest(questId)
-    return not (nhcDailyIds[questId] or
-            hcDailyIds[questId] or
-            cookingDailyIds[questId] or
-            fishingDailyIds[questId] or
-            pvpDailyIds[questId]);
+    print(nhcDailyIds[questId])
+    print(hcDailyIds[questId])
+    print(cookingDailyIds[questId])
+    print(fishingDailyIds[questId])
+    print(pvpDailyIds[questId])
+
+    return nhcDailyIds[questId] ~= nil or
+            hcDailyIds[questId] ~= nil or
+            cookingDailyIds[questId] ~= nil or
+            fishingDailyIds[questId] ~= nil or
+            pvpDailyIds[questId] ~= nil;
 end
 
 nhcDailyIds = {
-    11364,
-    11371,
-    11376,
-    11383,
-    11385,
-    11387,
-    11389,
-    11500,
+    [11364] = true,
+    [11371] = true,
+    [11376] = true,
+    [11383] = true,
+    [11385] = true,
+    [11387] = true,
+    [11389] = true,
+    [11500] = true,
 };
 
 hcDailyIds = {
-    11354,
-    11362,
-    11363,
-    11368,
-    11369,
-    11370,
-    11372,
-    11373,
-    11374,
-    11375,
-    11378,
-    11382,
-    11384,
-    11386,
-    11388,
+    [11354] = true,
+    [11362] = true,
+    [11363] = true,
+    [11368] = true,
+    [11369] = true,
+    [11370] = true,
+    [11372] = true,
+    [11373] = true,
+    [11374] = true,
+    [11375] = true,
+    [11378] = true,
+    [11382] = true,
+    [11384] = true,
+    [11386] = true,
+    [11388] = true,
 };
 
 cookingDailyIds = {
-    11377,
-    11379,
-    11380,
-    11381,
+    [11377] = true,
+    [11379] = true,
+    [11380] = true,
+    [11381] = true,
 };
 
 fishingDailyIds = {
-    11667,
-    11665,
-    11666,
-    11668,
-    11669,
+    [11667] = true,
+    [11665] = true,
+    [11666] = true,
+    [11668] = true,
+    [11669] = true,
 };
 
 pvpDailyIds = {
-    11336,
-    11337,
-    11338,
-    11339,
-    11340,
-    11341,
-    11342,
+    [11336] = true,
+    [11337] = true,
+    [11338] = true,
+    [11339] = true,
+    [11340] = true,
+    [11341] = true,
+    [11342] = true,
 }
