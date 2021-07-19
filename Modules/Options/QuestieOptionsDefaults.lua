@@ -109,6 +109,7 @@ function QuestieOptionsDefaults:Load()
                 fishing = {},
                 pvp = {},
             },
+            lastDailyRequestResetTime = 0,
             lastDailySetDate = "",
             enabled = true,
             lowlevel = false,
