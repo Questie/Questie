@@ -139,6 +139,16 @@ function DailyQuests:IsActiveDailyQuest(questId)
         hiddenQuests.pvp[questId]);
 end
 
+---@param questId number
+---@return boolean
+function DailyQuests:IsDailyQuest(questId)
+    return not (nhcDailyIds[questId] or
+            hcDailyIds[questId] or
+            cookingDailyIds[questId] or
+            fishingDailyIds[questId] or
+            pvpDailyIds[questId]);
+end
+
 nhcDailyIds = {
     11364,
     11371,
