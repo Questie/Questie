@@ -405,7 +405,7 @@ function QuestieQuest:CompleteQuest(quest)
     QuestiePlayer.currentQuestlog[questId] = nil;
     -- Only quests that aren't repeatable and not a daily quest should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) and (not quest.IsRepeatable);
+    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not quest.IsRepeatable);
 
     QuestieHash:RemoveQuestHash(questId)
 
