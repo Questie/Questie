@@ -1806,17 +1806,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},{66.58,56.23},},
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},},
                 [zoneIDs.STORMWIND_CITY]={{82.45,12.92},},
-                [zoneIDs.ORGRIMMAR]={{79.39,30.08},},
                 [zoneIDs.IRONFORGE]={{70.12,89.41},},
             }},
         },
         [11336] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04},{67.49,34.31},},
+                [zoneIDs.SHATTRATH_CITY]={{67.49,34.31},},
                 [zoneIDs.STORMWIND_CITY]={{82.12,12.83},},
-                [zoneIDs.ORGRIMMAR]={{79.09,31.1},},
                 [zoneIDs.IRONFORGE]={{70.09,90.26},},
             }},
         },
@@ -1829,40 +1827,33 @@ function QuestieTBCQuestFixes:Load()
         },
         [11338] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64},{66.62,57.45},},
+                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64},},
                 [zoneIDs.STORMWIND_CITY]={{82.5,13.26},},
-                [zoneIDs.ORGRIMMAR]={{79.03,30.65},},
                 [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
         [11339] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},{66.58,56.23},},
-                [zoneIDs.STORMWIND_CITY]={{82.45,12.92},},
+                [zoneIDs.SHATTRATH_CITY]={{66.58,56.23},},
                 [zoneIDs.ORGRIMMAR]={{79.39,30.08},},
-                [zoneIDs.IRONFORGE]={{70.12,89.41},},
             }},
         },
         [11340] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04},{67.49,34.31},},
-                [zoneIDs.STORMWIND_CITY]={{82.12,12.83},},
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04},},
                 [zoneIDs.ORGRIMMAR]={{79.09,31.1},},
-                [zoneIDs.IRONFORGE]={{70.09,90.26},},
             }},
         },
         [11341] = {
             [questKeys.triggerEnd] = {"Victory in Eye of the Storm", {
-                [zoneIDs.SHATTRATH_CITY]={{67.02,56.14},{63.9,58.34},},
+                [zoneIDs.SHATTRATH_CITY]={{67.02,56.14},},
                 [zoneIDs.ORGRIMMAR]={{79.21,30.08},},
             }},
         },
         [11342] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64},{66.62,57.45},},
-                [zoneIDs.STORMWIND_CITY]={{82.5,13.26},},
+                [zoneIDs.SHATTRATH_CITY]={{66.62,57.45},},
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65},},
-                [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
         [11379] = {
