@@ -180,13 +180,17 @@ function QuestieInit:InitAllModules()
 
     Questie.started = true
 
-    if Questie.IsTBC and C_ChatInfo.SendAddonMessage and QuestiePlayer:GetPlayerLevel() == 70 and
-            (Questie.db.char.dailiesRequestedToday ~= date("%d-%m-%y") or (Questie.db.char.lastDailyRequestDate == date("%d-%m-%y") and Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime())) then
-        -- We send empty Reputable events to ask for the current daily quests. But only once a day.
-        C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "GUILD");
-        C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "YELL");
-        Questie.db.char.lastDailyRequestDate = date("%d-%m-%y");
-        Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
+    if Questie.IsTBC and QuestiePlayer:GetPlayerLevel() == 70 then
+        local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
+        local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
+
+        if lastRequestWasYesterday or isPastDailyReset then
+            -- We send empty Reputable events to ask for the current daily quests. Other users of the addon will answer if they have better data.
+            C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "GUILD");
+            C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "YELL");
+            Questie.db.char.lastDailyRequestDate = date("%d-%m-%y");
+            Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
+        end
     end
 end
 
