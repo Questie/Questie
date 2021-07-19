@@ -119,6 +119,7 @@ Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 
 #Quest
+Modules\Quest\DailyQuests.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
 

@@ -20,6 +20,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieEvent
@@ -482,6 +484,11 @@ function QuestieDB:IsDoable(questId)
 
     if Questie.db.char.hidden[questId] then
         Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden manually!")
+        return false
+    end
+
+    if (not DailyQuests:IsActiveDailyQuest(questId)) then
+        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] quest is a daily quest not active today!")
         return false
     end
 

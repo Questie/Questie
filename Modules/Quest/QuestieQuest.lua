@@ -1487,3 +1487,10 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
         end
     end)
 end
+
+function QuestieQuest:DrawDailyQuest(questId)
+    local quest = QuestieDB:GetQuest(questId)
+    if QuestieDB:IsDoable(questId) then
+        _QuestieQuest:DrawAvailableQuest(quest)
+    end
+end
