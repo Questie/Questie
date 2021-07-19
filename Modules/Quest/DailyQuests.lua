@@ -142,12 +142,6 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests:IsDailyQuest(questId)
-    print(nhcDailyIds[questId])
-    print(hcDailyIds[questId])
-    print(cookingDailyIds[questId])
-    print(fishingDailyIds[questId])
-    print(pvpDailyIds[questId])
-
     return nhcDailyIds[questId] ~= nil or
             hcDailyIds[questId] ~= nil or
             cookingDailyIds[questId] ~= nil or
