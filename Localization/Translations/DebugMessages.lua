@@ -303,7 +303,7 @@ local debugMessagesLocales = {
         ["esMX"] = "Despojó %s que empieza %s!",
     },
     ["You picked up %s which starts %s!"] = {
-        ["ptBR"] = "Você pegou %s que começa %s!,
+        ["ptBR"] = "Você pegou %s que começa %s!",
         ["ruRU"] = "Вы получили предмет %s, который начинает задание %s",
         ["frFR"] = "Vous avez ramassé %s qui démarre %s !",
         ["koKR"] = nil,
