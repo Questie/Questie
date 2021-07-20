@@ -223,11 +223,11 @@ local debugMessagesLocales = {
         ["ruRU"] = "Загрузка базы данных",
         ["deDE"] = "Datenbank wird geladen",
         ["koKR"] = "데이터베이스 로딩중",
-        ["esMX"] = "Cargando el base de datos",
+        ["esMX"] = "Cargando la base de datos",
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = "載入資料庫中",
-        ["esES"] = "Cargando el base de datos",
+        ["esES"] = "Cargando la base de datos",
         ["frFR"] = "Chargement base de données",
     },
     ["Applying database corrections"] = {
