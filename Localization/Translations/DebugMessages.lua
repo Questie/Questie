@@ -231,7 +231,7 @@ local debugMessagesLocales = {
         ["frFR"] = "Chargement base de données",
     },
     ["Applying database corrections"] = {
-        ["ptBR"] = "Aplicando correções de banco de dados"
+        ["ptBR"] = "Aplicando correções de banco de dados",
         ["ruRU"] = "Применение исправлений БД",
         ["deDE"] = "Datenbankkorrekturen werden eingespielt",
         ["koKR"] = "데이터베이스 수정 적용중",
