@@ -22,6 +22,7 @@ function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[64144] = {}; -- True Masters of the Light
     QuestieDB.questData[64145] = {}; -- True Masters of the Light
     QuestieDB.questData[64319] = {}; -- A Study in Power
+    QuestieDB.questData[64845] = {}; -- Alliance War Effort
 
     -- Alliance boosted quests
     QuestieDB.questData[64028] = {}; -- A New Beginning
@@ -2009,6 +2010,18 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
         },
+        [64845] = {
+            [questKeys.name] = "Alliance War Effort",
+            [questKeys.startedBy] = {{15351},nil,nil},
+            [questKeys.finishedBy] = {{15351},nil,nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Win a battleground match and return to an Alliance Brigadier General at any Alliance capital city or Shattrath."},
+            [questKeys.triggerEnd] = {"Victory in a battleground match", {[zoneIDs.SHATTRATH_CITY]={{67.41,33.86},},}},
+            [questKeys.zoneOrSort] = -25,
+            [questKeys.questFlags] = 64,
+        },
         -- Blood Elf Paladin Epic Mount quest
         [64139] = {
             [questKeys.name] = "A Summons from Lady Liadrin",
@@ -2123,7 +2136,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectives] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
+            [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {9678},
             [questKeys.zoneOrSort] = -141,

@@ -25,6 +25,7 @@ QuestieDB.sortKeys = {
     DARKMOON_FAIRE = -364,
     LUNAR_FESTIVAL = -366,
     MIDSUMMER = -369,
+    BREWFEST = -370,
 }
 
 local isTBC = string.byte(GetBuildInfo(), 1) == 50

@@ -1925,6 +1925,7 @@ l10n.zoneCategoryLookup = {
         [-364] = "Darkmoon Faire",
         [-366] = "Lunar Festival",
         [-369] = "Midsummer",
+		[-370] = "Brewfest",
         -- Below are dummy IDs to not interfere with other IDs
         -- These are needed because the events are listed as "seasonal" or "special",
         -- not with a separate ID
