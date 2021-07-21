@@ -818,16 +818,16 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12},},},},
         },
         [1860] = {
-            [questKeys.exclusiveTo] = {}, -- #1192
+            [questKeys.exclusiveTo] = {1861, 1880},
         },
         [1861] = {
-            [questKeys.exclusiveTo] = {1880}, -- #1192
+            [questKeys.exclusiveTo] = {1880},
         },
         [1879] = {
-            [questKeys.exclusiveTo] = {}, -- #1192
+            [questKeys.exclusiveTo] = {1861, 1880},
         },
         [1880] = {
-            [questKeys.exclusiveTo] = {1861}, -- #1192
+            [questKeys.exclusiveTo] = {1861},
         },
         [1882] = {
             [questKeys.preQuestSingle] = {},
@@ -1457,6 +1457,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
             [questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[zoneIDs.WINTERSPRING]={{63.82,73.79},},},},
         },
+        [5149] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [5156] = {
             [questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[zoneIDs.FELWOOD]={{41.03,41.96},},},},
         },
@@ -1492,18 +1495,23 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{10838,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {5226},
         },
         [5238] = {
             [questKeys.startedBy] = {{10837,},nil,nil,},
             [questKeys.finishedBy] = {{10837,},nil,},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.exclusiveTo] = {},
+            [questKeys.preQuestSingle] = {5236},
         },
         [5261] = {
             [questKeys.exclusiveTo] = {33}, -- #1726
         },
         [5262] = {
             [questKeys.startedBy] = {{10813},nil,{13250}},
+        },
+        [5305]  ={
+            [questKeys.exclusiveTo] = {8869},
         },
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91},},},},
@@ -2116,6 +2124,24 @@ function QuestieQuestFixes:Load()
         },
         [7843] = {
             [questKeys.triggerEnd] = {"Message to the Wildhammer Delivered", {[zoneIDs.THE_HINTERLANDS]={{14.34,48.07},},},},
+        },
+        [7863] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7864] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7865] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7866] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7867] = {
+            [questKeys.zoneOrSort] = 3277,
+        },
+        [7868] = {
+            [questKeys.zoneOrSort] = 3277,
         },
         [7886] = { -- #1435
             [questKeys.startedBy] = {{14733},nil,nil},
@@ -2793,6 +2819,9 @@ function QuestieQuestFixes:Load()
         },
         [8868] = {
             [questKeys.triggerEnd] = {"Receive Elune's Blessing.", {[zoneIDs.MOONGLADE]={{63.89,62.5},},},},
+        },
+        [8869]  ={
+            [questKeys.exclusiveTo] = {5305},
         },
         [8870] = {
             [questKeys.exclusiveTo] = {8867,8871,8872},

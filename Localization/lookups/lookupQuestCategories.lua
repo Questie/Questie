@@ -7,7 +7,7 @@ l10n.questCategoryLookup = {
     [-22] = "Seasonal",
     [-23] = "Undercity",
     [-24] = "Herbalism",
-    [-25] = "Scarlet Monastery",
+    [-25] = "Battlegrounds",
     [-41] = "Uldaman",
     [-61] = "Warlock",
     [-81] = "Warrior",
@@ -36,4 +36,5 @@ l10n.questCategoryLookup = {
     [-367] = "Reputation",
     [-368] = "Invasion",
     [-369] = "Midsummer",
+    [-370] = "Brewfest",
 };

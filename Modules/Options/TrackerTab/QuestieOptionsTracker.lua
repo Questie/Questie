@@ -183,6 +183,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db.global.hideTrackerInCombat = value
                 end
             },
+            minimizeInDungeons = {
+                type = "toggle",
+                order = 2.05,
+                width = 1.0,
+                name = function() return l10n('Minimize in Dungeons'); end,
+                desc = function() return l10n('When this is checked, the Tracker will automatically be minimized when entering a dungeon.'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.hideTrackerInDungeons; end,
+                set = function(_, value)
+                    Questie.db.global.hideTrackerInDungeons = value
+                end
+            },
             fadeMinMaxButtons = {
                 type = "toggle",
                 order = 2.1,
@@ -321,6 +333,77 @@ function QuestieOptions.tabs.tracker:Initialize()
                         end)
                     end
                     QuestieTracker:Update()
+                end
+            },
+
+            Spacer_B = QuestieOptionsUtils:Spacer(2.51),
+
+            enableQuestieTracker = {
+                type = "execute",
+                order = 2.52,
+                width = 1.0,
+                name = function()
+                    local buttonName
+                    if Questie.db.global.trackerEnabled then
+                        buttonName = l10n('Disable The Tracker')
+                    elseif (not Questie.db.global.trackerEnabled) then
+                        buttonName = l10n('Enable The Tracker')
+                    end
+                    return buttonName
+                end,
+                desc = function()
+                    local description
+                    if Questie.db.global.trackerEnabled then
+                        description = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.')
+                    elseif (not Questie.db.global.trackerEnabled) then
+                        description = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.')
+                    end
+                    return description
+                end,
+                disabled = function() return false; end,
+                func = function()
+                    if Questie.db.global.trackerEnabled then
+                        QuestieTracker:Disable()
+                        Questie.db.global.trackerEnabled = false
+                    else
+                        QuestieTracker:Enable()
+                        Questie.db.global.trackerEnabled = true
+                    end
+                end
+            },
+
+            Space_X = QuestieOptionsUtils:HorizontalSpacer(2.53, 0.1),
+
+            resetTrackerLocation = {
+                type = "execute",
+                order = 2.54,
+                width = 1.0,
+                name = function() return l10n('Reset Tracker Position'); end,
+                desc = function() return l10n("If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)."); end,
+                disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
+                func = function()
+                    QuestieTracker:ResetLocation()
+                end
+            },
+
+            Space_Y = QuestieOptionsUtils:HorizontalSpacer(2.55, 0.1),
+
+            globalTrackerLocation = {
+                type = "execute",
+                order = 2.56,
+                width = 1.0,
+                name = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = l10n('Save Tracker Per Char') elseif not Questie.db.global.globalTrackerLocation then buttonName = l10n('Save Tracker Global') end return buttonName; end,
+                desc = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = l10n("You are currently saving the Questie Tracker Location and Size Per Character. This allows you to cusomize each character's tracker location.\n\nNOTE: Upon enabling Per Character, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.") elseif not Questie.db.global.globalTrackerLocation then buttonName = l10n("You are currently saving the  Questie Tracker Location and Size Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.") end return buttonName; end,
+                disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
+                func = function()
+                    if Questie.db.global.globalTrackerLocation then
+                        Questie.db.global.questieTLoc = "global"
+                        Questie.db.global.globalTrackerLocation = false
+                    else
+                        Questie.db.global.questieTLoc = "char"
+                        Questie.db.global.globalTrackerLocation = true
+                    end
+                    QuestieTracker:ResetLocation()
                 end
             },
 
@@ -608,77 +691,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-
-            Spacer_B = QuestieOptionsUtils:Spacer(4.0),
-
-            enableQuestieTracker = {
-                type = "execute",
-                order = 4.1,
-                width = 1.0,
-                name = function()
-                    local buttonName
-                    if Questie.db.global.trackerEnabled then
-                        buttonName = l10n('Disable The Tracker')
-                    elseif (not Questie.db.global.trackerEnabled) then
-                        buttonName = l10n('Enable The Tracker')
-                    end
-                    return buttonName
-                end,
-                desc = function()
-                    local description
-                    if Questie.db.global.trackerEnabled then
-                        description = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.')
-                    elseif (not Questie.db.global.trackerEnabled) then
-                        description = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.')
-                    end
-                    return description
-                end,
-                disabled = function() return false; end,
-                func = function()
-                    if Questie.db.global.trackerEnabled then
-                        QuestieTracker:Disable()
-                        Questie.db.global.trackerEnabled = false
-                    else
-                        QuestieTracker:Enable()
-                        Questie.db.global.trackerEnabled = true
-                    end
-                end
-            },
-
-            Space_X = QuestieOptionsUtils:HorizontalSpacer(4.2, 0.1),
-
-            resetTrackerLocation = {
-                type = "execute",
-                order = 4.3,
-                width = 1.0,
-                name = function() return l10n('Reset Tracker Position'); end,
-                desc = function() return l10n("If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)."); end,
-                disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
-                func = function()
-                    QuestieTracker:ResetLocation()
-                end
-            },
-
-            Space_Y = QuestieOptionsUtils:HorizontalSpacer(4.4, 0.1),
-
-            globalTrackerLocation = {
-                type = "execute",
-                order = 4.5,
-                width = 1.0,
-                name = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = l10n('Save Tracker Per Char') elseif not Questie.db.global.globalTrackerLocation then buttonName = l10n('Save Tracker Global') end return buttonName; end,
-                desc = function() local buttonName if Questie.db.global.globalTrackerLocation then buttonName = l10n("You are currently saving the Questie Tracker Location and Size Per Character. This allows you to cusomize each character's tracker location.\n\nNOTE: Upon enabling Per Character, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.") elseif not Questie.db.global.globalTrackerLocation then buttonName = l10n("You are currently saving the  Questie Tracker Location and Size Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.") end return buttonName; end,
-                disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
-                func = function()
-                    if Questie.db.global.globalTrackerLocation then
-                        Questie.db.global.questieTLoc = "global"
-                        Questie.db.global.globalTrackerLocation = false
-                    else
-                        Questie.db.global.questieTLoc = "char"
-                        Questie.db.global.globalTrackerLocation = true
-                    end
-                    QuestieTracker:ResetLocation()
-                end
-            }
         }
     }
 end

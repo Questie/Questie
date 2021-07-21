@@ -13,6 +13,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -103,11 +105,18 @@ function ZoneDB:GetZonesWithQuests()
     for questId in pairs(QuestieDB.QuestPointers) do
 
         if (not QuestieCorrections.hiddenQuests[questId]) then
-            local queryResult = QuestieDB.QueryQuest(questId, "startedBy", "finishedBy", "requiredRaces", "requiredClasses", "zoneOrSort")
-            local startedBy, finishedBy, requiredRaces, requiredClasses, zoneOrSort = unpack(queryResult)
+            local queryResult = QuestieDB.QueryQuest(questId, "startedBy", "finishedBy", "requiredRaces", "requiredClasses", "zoneOrSort", "requiredSkill")
+            local startedBy, finishedBy, requiredRaces, requiredClasses, zoneOrSort, requiredSkill = unpack(queryResult)
 
             if QuestiePlayer:HasRequiredRace(requiredRaces) and QuestiePlayer:HasRequiredClass(requiredClasses) then
-                if zoneOrSort > 0 then
+                if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
+                    zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
+
+                    if (not zoneMap[zoneOrSort]) then
+                        zoneMap[zoneOrSort] = {}
+                    end
+                    zoneMap[zoneOrSort][questId] = true
+                elseif zoneOrSort > 0 then
                     local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
 
                     if parentZoneId then
@@ -211,11 +220,11 @@ function _ZoneDB:SplitSeasonalQuests()
         local eventName = QuestieEvent:GetEventNameFor(questId)
         if eventName == "Love is in the Air" then
             updatedZoneMap[-400][questId] = true
-        elseif eventName == "Childrens Week" then
+        elseif eventName == "Children's Week" then
             updatedZoneMap[-401][questId] = true
         elseif eventName == "Harvest Festival" then
             updatedZoneMap[-402][questId] = true
-        elseif eventName == "Hallows End" then
+        elseif eventName == "Hallow's End" then
             updatedZoneMap[-403][questId] = true
         elseif eventName == "Winter Veil" then
             updatedZoneMap[-404][questId] = true

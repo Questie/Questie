@@ -7,6 +7,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
+local ZOOM_MODIFIER = 1;
+
 -- All the speed we can get is worth it.
 local tinsert = table.insert
 local pairs = pairs
@@ -157,7 +159,7 @@ function QuestieMap.utils:MapExplorationUpdate()
             local frame = _G[frameName]
             if (frame and frame.x and frame.y and frame.UiMapID and frame.hidden) then
                 if (QuestieMap.utils:IsExplored(frame.UiMapID, frame.x, frame.y)) then
-                    frame:FakeUnhide()
+                    frame:FakeShow()
                 end
             end
         end
@@ -166,29 +168,23 @@ end
 
 --- Rescale a single icon
 ---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
-function QuestieMap.utils:RecaleIcon(frameRef, modifier)
-    local zoomModifier = modifier or 1;
+function QuestieMap.utils:RescaleIcon(frameRef)
     local frame = frameRef;
-    if(type(frameRef) == "string") then
+    if type(frameRef) == "string" then
         frame = _G[frameRef];
     end
     if frame and frame.data then
-        if(frame.data.GetIconScale) then
+        if frame.data.GetIconScale then
             frame.data.IconScale = frame.data:GetIconScale();
             local scale
-            if(frame.miniMapIcon) then
+            if frame.miniMapIcon then
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
             else
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
             end
 
-            if(frame.miniMapIcon) then
-                zoomModifier = 1;
-            end
-
             if scale > 1 then
-                --frame:SetScale(zoomModifier)
-                frame:SetSize(scale*zoomModifier, scale*zoomModifier);
+                frame:SetSize(scale * ZOOM_MODIFIER, scale * ZOOM_MODIFIER);
             end
         else
             Questie:Error("A frame is lacking the GetIconScale function for resizing!", frame.data.Id);

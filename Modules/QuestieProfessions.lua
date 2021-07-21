@@ -1,19 +1,19 @@
 ---@class QuestieProfessions
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
-local _QuestieProfessions = {}
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local playerProfessions = {}
 local professionTable = {}
+local professionNames = {}
 local alternativeProfessionNames = {}
 
 function QuestieProfessions:Init()
 
     -- Generate professionTable with translations for all available locals.
     -- We need the translated values because the API returns localized profession names
-    for professionId, professionName in pairs(_QuestieProfessions.professionNames) do
+    for professionId, professionName in pairs(professionNames) do
         for _, translation in pairs(l10n.translations[professionName]) do
             if translation == true then
                 professionTable[professionName] = professionId
@@ -53,13 +53,13 @@ function QuestieProfessions:GetPlayerProfessions()
     return playerProfessions
 end
 
-function QuestieProfessions:GetProfessionNames()
-    local professionNames = {}
+function QuestieProfessions:GetPlayerProfessionNames()
+    local playerProfessionNames = {}
     for _, data in pairs(playerProfessions) do
-        table.insert(professionNames, data[1])
+        table.insert(playerProfessionNames, data[1])
     end
 
-    return professionNames
+    return playerProfessionNames
 end
 
 local function _HasProfession(profession)
@@ -97,7 +97,7 @@ QuestieProfessions.professionKeys = {
     RIDING = 762,
 }
 
-_QuestieProfessions.professionNames = {
+professionNames = {
     [QuestieProfessions.professionKeys.FIRST_AID] = "First Aid",
     [QuestieProfessions.professionKeys.BLACKSMITHING] = "Blacksmithing",
     [QuestieProfessions.professionKeys.LEATHERWORKING] = "Leatherworking",
@@ -114,8 +114,31 @@ _QuestieProfessions.professionNames = {
     [QuestieProfessions.professionKeys.RIDING] = "Riding",
 }
 
+local sortIds = {
+    [QuestieProfessions.professionKeys.FIRST_AID] = -324,
+    [QuestieProfessions.professionKeys.BLACKSMITHING] = -121,
+    [QuestieProfessions.professionKeys.LEATHERWORKING] = -182,
+    [QuestieProfessions.professionKeys.ALCHEMY] = -181,
+    [QuestieProfessions.professionKeys.HERBALISM] = -24,
+    [QuestieProfessions.professionKeys.COOKING] = -304,
+    [QuestieProfessions.professionKeys.MINING] = -667, -- Dummy Id
+    [QuestieProfessions.professionKeys.TAILORING] = -264,
+    [QuestieProfessions.professionKeys.ENGINEERING] = -201,
+    [QuestieProfessions.professionKeys.ENCHANTING] = -668, -- Dummy Id
+    [QuestieProfessions.professionKeys.FISHING] = -101,
+    [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
+    --[QuestieProfessions.professionKeys.JEWELCRAFTING] = ,
+    --[QuestieProfessions.professionKeys.RIDING] = ,
+}
+
+---@return string
 function QuestieProfessions:GetProfessionName(professionKey)
-    return _QuestieProfessions.professionNames[professionKey]
+    return professionNames[professionKey]
+end
+
+---@return number
+function QuestieProfessions:GetSortIdByProfessionId(professionId)
+    return sortIds[professionId]
 end
 
 -- alternate naming scheme (used by DB)

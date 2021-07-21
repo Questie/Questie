@@ -22,6 +22,7 @@ function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[64144] = {}; -- True Masters of the Light
     QuestieDB.questData[64145] = {}; -- True Masters of the Light
     QuestieDB.questData[64319] = {}; -- A Study in Power
+    QuestieDB.questData[64845] = {}; -- Alliance War Effort
 
     -- Alliance boosted quests
     QuestieDB.questData[64028] = {}; -- A New Beginning
@@ -62,6 +63,9 @@ function QuestieTBCQuestFixes:Load()
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82},},}},
         },
+        [225] = {
+            [questKeys.requiredLevel] = 25,
+        },
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2},},}},
         },
@@ -80,6 +84,9 @@ function QuestieTBCQuestFixes:Load()
         [663] = {
             [questKeys.requiredLevel] = 35,
         },
+        [729] = {
+            [questKeys.requiredLevel] = 15,
+        },
         [748] = {
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
@@ -97,6 +104,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [1049] = { -- Not available to UNDEAD
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL + raceIDs.BLOOD_ELF,
+        },
+        [1109] = {
+            [questKeys.requiredLevel] = 22,
+            [questKeys.questLevel] = 26,
         },
         [1135] = {
             [questKeys.startedBy] = {{4456,},nil,nil,},
@@ -133,6 +144,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44},},}},
+        },
+        [5168] = {
+            [questKeys.preQuestSingle] = {5210},
         },
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5},},}},
@@ -235,6 +249,12 @@ function QuestieTBCQuestFixes:Load()
         [8371] = {
             [questKeys.requiredLevel] = 61,
         },
+        [8412] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [8413] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [8423] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -304,6 +324,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [9177] = {
             [questKeys.finishedBy] = {{10181},nil,nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE - raceIDs.BLOOD_ELF, -- 9180 is the blood elf version of this quest
+            [questKeys.preQuestSingle] = {9175},
         },
         [9181] = {
             [questKeys.specialFlags] = 1,
@@ -426,6 +448,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9501] = {
             [questKeys.questLevel] = -1,
+        },
+        [9514] = {
+            [questKeys.preQuestSingle] = {9506},
         },
         [9523] = {
             [questKeys.preQuestSingle] = {9506,9512,},
@@ -852,23 +877,39 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{15279,},nil,nil,},
             [questKeys.exclusiveTo] = {8330},
             [questKeys.preQuestSingle] = {8328},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.MAGE,
         },
         [10069] = {
             [questKeys.startedBy] = {{15280,},nil,nil,},
             [questKeys.exclusiveTo] = {8330},
             [questKeys.preQuestSingle] = {9676},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
         },
         [10070] = {
+            [questKeys.startedBy] = {{15513,},nil,nil,},
             [questKeys.exclusiveTo] = {8330},
+            [questKeys.preQuestSingle] = {9393},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
         },
         [10071] = {
             [questKeys.exclusiveTo] = {8330},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
         },
         [10072] = {
+            [questKeys.startedBy] = {{15284,},nil,nil,},
             [questKeys.exclusiveTo] = {8330},
+            [questKeys.preQuestSingle] = {8564},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
         },
         [10073] = {
             [questKeys.exclusiveTo] = {8330},
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
         },
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483,},
@@ -1292,6 +1333,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10640,10689,},
             [questKeys.extraObjectives] = {{{[zoneIDs.ZANGARMARSH]={{15.9,40.5}}}, ICON_TYPE_EVENT, "Use the Imbued Silver Spear at Portal Clearing near Marshlight Lake to awake Xeleth"}}
         },
+        [10672] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use a Arcano Control Unit and then swim in the lava to tag the Greater Felfire Diemetradon", 0, {{"object", 185008},}}},
+        },
         [10674] = {
             [questKeys.objectives] = {{{20635,"Razaani Light Orbs trapped"},},nil,nil,nil,},
         },
@@ -1366,6 +1410,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10788] = {
             [questKeys.startedBy] = {{5675,5875,},nil,nil,},
+        },
+        [10793] = {
+            [questKeys.startedBy] = {{21979},nil,{31345,},},
         },
         [10797] = {
             [questKeys.startedBy] = {{20753,},nil,nil,},
@@ -1648,6 +1695,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75},},}},
         },
         [11069] = {
+            [questKeys.startedBy] = {{23345,},nil,nil,},
             [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09},},}},
         },
         [11070] = {
@@ -1759,17 +1807,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},{66.58,56.23},},
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},},
                 [zoneIDs.STORMWIND_CITY]={{82.45,12.92},},
-                [zoneIDs.ORGRIMMAR]={{79.39,30.08},},
                 [zoneIDs.IRONFORGE]={{70.12,89.41},},
             }},
         },
         [11336] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04},{67.49,34.31},},
+                [zoneIDs.SHATTRATH_CITY]={{67.49,34.31},},
                 [zoneIDs.STORMWIND_CITY]={{82.12,12.83},},
-                [zoneIDs.ORGRIMMAR]={{79.09,31.1},},
                 [zoneIDs.IRONFORGE]={{70.09,90.26},},
             }},
         },
@@ -1782,40 +1828,33 @@ function QuestieTBCQuestFixes:Load()
         },
         [11338] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64},{66.62,57.45},},
+                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64},},
                 [zoneIDs.STORMWIND_CITY]={{82.5,13.26},},
-                [zoneIDs.ORGRIMMAR]={{79.03,30.65},},
                 [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
         [11339] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8},{66.58,56.23},},
-                [zoneIDs.STORMWIND_CITY]={{82.45,12.92},},
+                [zoneIDs.SHATTRATH_CITY]={{66.58,56.23},},
                 [zoneIDs.ORGRIMMAR]={{79.39,30.08},},
-                [zoneIDs.IRONFORGE]={{70.12,89.41},},
             }},
         },
         [11340] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
-                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04},{67.49,34.31},},
-                [zoneIDs.STORMWIND_CITY]={{82.12,12.83},},
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04},},
                 [zoneIDs.ORGRIMMAR]={{79.09,31.1},},
-                [zoneIDs.IRONFORGE]={{70.09,90.26},},
             }},
         },
         [11341] = {
             [questKeys.triggerEnd] = {"Victory in Eye of the Storm", {
-                [zoneIDs.SHATTRATH_CITY]={{67.02,56.14},{63.9,58.34},},
+                [zoneIDs.SHATTRATH_CITY]={{67.02,56.14},},
                 [zoneIDs.ORGRIMMAR]={{79.21,30.08},},
             }},
         },
         [11342] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{67.4,34.64},{66.62,57.45},},
-                [zoneIDs.STORMWIND_CITY]={{82.5,13.26},},
+                [zoneIDs.SHATTRATH_CITY]={{66.62,57.45},},
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65},},
-                [zoneIDs.IRONFORGE]={{70.5,89.56},},
             }},
         },
         [11379] = {
@@ -1971,6 +2010,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
         },
+        [64845] = {
+            [questKeys.name] = "Alliance War Effort",
+            [questKeys.startedBy] = {{15351},nil,nil},
+            [questKeys.finishedBy] = {{15351},nil,nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Win a battleground match and return to an Alliance Brigadier General at any Alliance capital city or Shattrath."},
+            [questKeys.triggerEnd] = {"Victory in a battleground match", {[zoneIDs.SHATTRATH_CITY]={{67.41,33.86},},}},
+            [questKeys.zoneOrSort] = -25,
+            [questKeys.questFlags] = 64,
+            [questKeys.specialFlags] = 1,
+        },
         -- Blood Elf Paladin Epic Mount quest
         [64139] = {
             [questKeys.name] = "A Summons from Lady Liadrin",
@@ -2085,7 +2137,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
-            [questKeys.objectives] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
+            [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {9678},
             [questKeys.zoneOrSort] = -141,

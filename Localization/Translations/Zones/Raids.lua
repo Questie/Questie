@@ -63,6 +63,18 @@ local raidLocales = {
         ["zhTW"] = "安其拉廢墟",
         ["zhCN"] = "安其拉废墟",
     },
+    ["Ahn'Qiraj"] = {
+        ["ptBR"] = "Ahn'Qiraj",
+        ["ruRU"] = "Ан'Кираж",
+        ["deDE"] = "Ahn'Qiraj",
+        ["koKR"] = "안퀴라즈",
+        ["esMX"] = "Ahn'Qiraj",
+        ["enUS"] = true,
+        ["frFR"] = "Ahn'Qiraj",
+        ["esES"] = "Ahn'Qiraj",
+        ["zhTW"] = "安其拉",
+        ["zhCN"] = "安其拉",
+    },
     ["Naxxramas"] = {
         ["ptBR"] = "Naxxramas",
         ["ruRU"] = "Наксрамас",

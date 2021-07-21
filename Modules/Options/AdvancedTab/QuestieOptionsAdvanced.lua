@@ -84,7 +84,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n('When this is checked, the ID of quests will show in the tooltips and the tracker.'); end,
                 width = "full",
                 get = function() return Questie.db.global.enableTooltipsQuestID; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.global.enableTooltipsQuestID = value
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -97,7 +97,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n('Enable or disable debug functionality.'); end,
                 width = "full",
                 get = function () return Questie.db.global.debugEnabled; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.global.debugEnabled = value
                     if Questie.db.global.debugEnabled then
                         QuestieLoader:PopulateGlobals()
@@ -112,7 +112,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n('Enable or disable debug functionality.').."-PRINT" end,
                 width = "full",
                 get = function () return Questie.db.global.debugEnabledPrint; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.global.debugEnabledPrint = value
                 end,
             },
@@ -129,12 +129,12 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Debug level to print'); end,
                 width = "normal",
                 disabled = function() return not Questie.db.global.debugEnabled; end,
-                get = function(state, key)
+                get = function(_, key)
                     --Questie:Debug(DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
                     --Questie:Debug(DEBUG_SPAM, "Debug Level:", Questie.db.global.debugLevel, bit.band(Questie.db.global.debugLevel, math.pow(2, key)))
                     return bit.band(Questie.db.global.debugLevel, math.pow(2, key)) > 0
                 end,
-                set = function (info, value)
+                set = function (_, value)
                     local currentValue = Questie.db.global.debugLevel
                     local flag = math.pow(2, value)
                     --Questie:Debug(DEBUG_SPAM, "Setting Debug:", currentValue, flag, bit.band(currentValue, flag)>0)
@@ -179,7 +179,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                         return l10n:GetUILocale();
                     end
                 end,
-                set = function(input, lang)
+                set = function(_, lang)
                     if lang == 'auto' then
                         local clientLocale = GetLocale()
                         l10n:SetUILocale(clientLocale)
@@ -214,7 +214,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.2,
                 name = function() return l10n('Reset Questie'); end,
                 desc = function() return l10n('Reset Questie to the default values for all settings.'); end,
-                func = function (info, value)
+                func = function (_, _)
                     -- update all values to default
                     for k,v in pairs(optionsDefaults.global) do
                        Questie.db.global[k] = v
@@ -236,6 +236,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.global.dbIsCompiled = false
 
                     Questie.db.char.hidden = nil
+                    Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
 
                     ReloadUI()
 
@@ -247,7 +248,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.4,
                 name = function() return l10n('Recompile Database'); end,
                 desc = function() return l10n('Forces a recompile of the Questie database. This will also reload the UI.'); end,
-                func = function (info, value)
+                func = function (_, _)
                     Questie.db.global.dbIsCompiled = false
                     ReloadUI()
                 end,
@@ -258,7 +259,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 4.6,
                 name = function() return l10n('Open Profiler'); end,
                 desc = function() return l10n('Open the Questie profiler, this is useful for tracking down the source of lag / frame spikes.'); end,
-                func = function (info, value)
+                func = function (_, _)
                     QuestieLoader:ImportModule("Profiler"):Start()
                 end,
             },

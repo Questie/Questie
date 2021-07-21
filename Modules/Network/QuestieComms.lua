@@ -17,8 +17,12 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests");
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -152,9 +156,12 @@ function QuestieComms:GetQuest(questId, playerName)
     return nil;
 end
 
+
 function QuestieComms:Initialize()
     -- Lets us send any length of message. Also implements ChatThrottleLib to not get disconnected.
     Questie:RegisterComm(_QuestieComms.prefix, _QuestieComms.OnCommReceived);
+
+    Questie:RegisterComm("REPUTABLE", DailyQuests.FilterDailies);
 
     -- Events to be used to broadcast updates to other people
     Questie:RegisterMessage("QC_ID_BROADCAST_QUEST_UPDATE", _QuestieComms.BroadcastQuestUpdate);

@@ -69,6 +69,7 @@ function QuestieOptionsDefaults:Load()
             trackerHeaderAutoMove = false,
             stickyDurabilityFrame = false,
             hideTrackerInCombat = false,
+            hideTrackerInDungeons = true,
             trackerFadeMinMaxButtons = true,
             trackerFadeQuestItemButtons = false,
             trackerBackdropEnabled = false,
@@ -101,6 +102,15 @@ function QuestieOptionsDefaults:Load()
             maxLevelFilter = 7,
             complete = {},
             hidden = {},
+            hiddenDailies = {
+                nhc = {},
+                hc = {},
+                cooking = {},
+                fishing = {},
+                pvp = {},
+            },
+            lastDailyRequestResetTime = 0,
+            lastDailySetDate = "",
             enabled = true,
             lowlevel = false,
             manualMinLevelOffset = false,
@@ -120,7 +130,8 @@ function QuestieOptionsDefaults:Load()
             showRaidQuests = true,
             showPvPQuests = true,
             showAQWarEffortQuests = false,
-            showQuestsInNpcTooltip = true
+            showQuestsInNpcTooltip = true,
+            ldbDisplayText = "Questie"
         },
         profile = {minimap = {hide = false}}
     }

@@ -110,7 +110,7 @@ _HandleContinentSelection = function(key, _)
         zoneDropdown.frame:Hide()
     elseif (key.value == QuestieJourney.questCategoryKeys.PROFESSIONS) then
         local professionList = QuestieJourney.zones[key.value]
-        local playerProfessions = QuestieProfessions:GetProfessionNames()
+        local playerProfessions = QuestieProfessions:GetPlayerProfessionNames()
 
         local relevantProfessions = {}
         for id, possibleName in pairs(professionList) do

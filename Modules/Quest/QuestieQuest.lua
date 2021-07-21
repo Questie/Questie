@@ -35,6 +35,8 @@ local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCombatQueue
@@ -59,7 +61,6 @@ local smatch = string.match;
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 -- forward declaration
-local _UnhideQuestIcons, _HideQuestIcons, _UnhideManualIcons, _HideManualIcons
 local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
@@ -83,24 +84,24 @@ function QuestieQuest:ToggleNotes(showIcons)
     QuestieQuest:GetAllQuestIds() -- add notes that weren't added from previous hidden state
 
     if showIcons then
-        _UnhideQuestIcons()
-        _UnhideManualIcons()
+        _QuestieQuest:ShowQuestIcons()
+        _QuestieQuest:ShowManualIcons()
     else
-        _HideQuestIcons()
-        _HideManualIcons()
+        _QuestieQuest:HideQuestIcons()
+        _QuestieQuest:HideManualIcons()
     end
 end
 
-_UnhideQuestIcons = function()
+function _QuestieQuest:ShowQuestIcons()
     -- change map button
     if Questie.db.char.enabled then
         Questie_Toggle:SetText(l10n("Hide Questie"));
     end
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
-    for questId, framelist in pairs(QuestieMap.questIdFrames) do
+    for questId, frameList in pairs(QuestieMap.questIdFrames) do
         if (trackerHiddenQuests == nil) or (trackerHiddenQuests[questId] == nil) then -- Skip quests which are completly hidden from the Tracker menu
-            for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+            for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 ---@type IconFrame
                 local icon = _G[frameName];
                 if icon.data == nil then
@@ -109,7 +110,13 @@ _UnhideQuestIcons = function()
                     local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
                     if (Questie.db.char.TrackerHiddenObjectives == nil) or (Questie.db.char.TrackerHiddenObjectives[objectiveString] == nil) then
                         if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
-                            icon:FakeUnhide()
+                            icon:FakeShow()
+
+                            if icon.data.lineFrames then
+                                for _, lineIcon in pairs(icon.data.lineFrames) do
+                                    lineIcon:FakeShow()
+                                end
+                            end
                         end
                         if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                             icon:FadeOut()
@@ -123,27 +130,33 @@ _UnhideQuestIcons = function()
     end
 end
 
-_UnhideManualIcons = function()
+function _QuestieQuest:ShowManualIcons()
     for _, frameList in pairs(QuestieMap.manualFrames) do
         for _, frameName in pairs(frameList) do
             local icon = _G[frameName];
             if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then -- check for function to make sure its a frame
-                icon:FakeUnide()
+                icon:FakeShow()
             end
         end
     end
 end
 
-_HideQuestIcons = function()
+function _QuestieQuest:HideQuestIcons()
     if (not Questie.db.char.enabled) then
         Questie_Toggle:SetText(l10n("Show Questie"));
     end
 
-    for _, framelist in pairs(QuestieMap.questIdFrames) do
-        for _, frameName in pairs(framelist) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
+    for _, frameList in pairs(QuestieMap.questIdFrames) do
+        for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
                 icon:FakeHide()
+
+                if icon.data.lineFrames then
+                    for _, lineIcon in pairs(icon.data.lineFrames) do
+                        lineIcon:FakeHide()
+                    end
+                end
             end
             if (icon.data.QuestData.FadeIcons or (icon.data.ObjectiveData and icon.data.ObjectiveData.FadeIcons)) and icon.data.Type ~= "complete" then
                 icon:FadeOut()
@@ -154,7 +167,7 @@ _HideQuestIcons = function()
     end
 end
 
-_HideManualIcons = function()
+function _QuestieQuest:HideManualIcons()
     for _, frameList in pairs(QuestieMap.manualFrames) do
         for _, frameName in pairs(frameList) do
             local icon = _G[frameName];
@@ -390,8 +403,9 @@ end
 function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
-    -- Only quests that aren't repeatable should be marked complete, otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = not quest.IsRepeatable
+    -- Only quests that aren't repeatable and not a daily quest should be marked complete,
+    -- otherwise objectives for repeatable quests won't track correctly - #1433
+    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not quest.IsRepeatable);
 
     QuestieHash:RemoveQuestHash(questId)
 
@@ -639,7 +653,7 @@ function QuestieQuest:AddFinisher(quest)
                             finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                             finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                         end
-                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone, finisherLocs[zone][1], finisherLocs[zone][2])
+                        QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)
                     end
                 end
             end
@@ -954,7 +968,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                 end
                 local ipz = iconPerZone[zone]
                 if ipz then
-                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, ipz[2], ipz[3], spawnData.Hostile and {1,0.2,0,0.7} or nil)
+                    QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and {1,0.2,0,0.7} or nil)
                 end
             end
         end
@@ -1368,7 +1382,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                                 starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                             end
-                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone, starterLocs[zone][1], starterLocs[zone][2])
+                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
                         end
                     end
                 end
@@ -1475,4 +1489,11 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
             index = next(data, index)
         end
     end)
+end
+
+function QuestieQuest:DrawDailyQuest(questId)
+    local quest = QuestieDB:GetQuest(questId)
+    if QuestieDB:IsDoable(questId) then
+        _QuestieQuest:DrawAvailableQuest(quest)
+    end
 end

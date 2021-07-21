@@ -88,6 +88,7 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
+    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", _EventHandler.ZoneChangedNewArea)
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
@@ -98,6 +99,7 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- Quest Events
     Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
+    Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
     Questie:RegisterEvent("QUEST_REMOVED", _EventHandler.QuestRemoved)
@@ -159,7 +161,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()
         if Questie.started then
             QuestieMap:InitializeQueue()
-            if not IsInInstance() then
+            local isInInstance, instanceType = IsInInstance()
+
+            if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
                 QuestieQuest:SmoothReset()
             end
         end
@@ -191,6 +195,23 @@ function _EventHandler:QuestAccepted(questLogIndex, questId)
         end
     end)
 
+end
+
+--- Fires when a UI Info Message (yellow text) appears near the top of the screen
+---@param errorType The error type value from the UI_INFO_MESSAGE event
+---@param message The message value from the UI_INFO_MESSAGE event
+function _EventHandler:UiInfoMessage(errorType, message)
+    -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
+    -- Global Strings used:
+    -- 287: ERR_QUEST_OBJECTIVE_COMPLETE_S
+    -- 288: ERR_QUEST_UNKNOWN_COMPLETE
+    -- 289: ERR_QUEST_ADD_KILL_SII
+    -- 290: ERR_QUEST_ADD_FOUND_SII
+    -- 291: ERR_QUEST_ADD_ITEM_SII
+    -- 292: ERR_QUEST_ADD_PLAYER_KILL_SII
+    if errorType >= 287 and errorType <= 292 then
+        MinimapIcon:UpdateText(message)
+    end
 end
 
 --- Fires on MAP_EXPLORATION_UPDATED.
@@ -453,6 +474,20 @@ end
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
     if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
+        QuestieTracker:Expand()
+    end
+end
+
+function _EventHandler:ZoneChangedNewArea()
+    if (not Questie.db.global.hideTrackerInDungeons) then
+        return
+    end
+
+    Questie:Debug(DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+    if IsInInstance() then
+        previousTrackerState = Questie.db.char.isTrackerExpanded
+        QuestieTracker:Collapse()
+    else
         QuestieTracker:Expand()
     end
 end
