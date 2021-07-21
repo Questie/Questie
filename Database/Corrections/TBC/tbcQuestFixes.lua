@@ -2021,6 +2021,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Victory in a battleground match", {[zoneIDs.SHATTRATH_CITY]={{67.41,33.86},},}},
             [questKeys.zoneOrSort] = -25,
             [questKeys.questFlags] = 64,
+            [questKeys.specialFlags] = 1,
         },
         -- Blood Elf Paladin Epic Mount quest
         [64139] = {
