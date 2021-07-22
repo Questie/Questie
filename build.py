@@ -70,8 +70,13 @@ filesToSkip = ['.gitattributes', '.gitignore', '.luacheckrc', 'build.py', 'chang
 def copy_content_to(release_folder_path):
     for _, directories, files in os.walk('.'):
         for directory in directories:
+            m = re.search(r"-only-(?P<dirVersion>\w+)", directory)
+            newdir = re.sub("-only-\w+", "", directory)
+            if m and m.group("dirVersion") != interfaceVersion:
+                print("Skipping " + directory)
+                directoriesToSkip.append(directory)
             if directory not in directoriesToSkip:
-                shutil.copytree(directory, '%s/%s' % (release_folder_path, directory))
+                shutil.copytree(directory, '%s/%s' % (release_folder_path, newdir), dirs_exist_ok=True)
         for file in files:
             if file not in filesToSkip:
                 shutil.copy2(file, '%s/%s' % (release_folder_path, file))
