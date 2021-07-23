@@ -1887,7 +1887,24 @@ function QuestieTBCQuestFixes:Load()
         [11523] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21},},}},
         },
+        [11580] = {
+            [questKeys.startedBy] = {nil,{187559,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11581] = {
+            [questKeys.startedBy] = {nil,{187564,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11583] = {
+            [questKeys.startedBy] = {{25910,},nil,nil,},
+        },
+        [11584] = {
+            [questKeys.startedBy] = {{25939,},nil,nil,},
+        },
         [11657] = {
+            [questKeys.startedBy] = {{25975,},nil,nil,},
+            [questKeys.finishedBy] = {{25975},nil,nil},
+            [questKeys.preQuestSingle] = {11731},
             [questKeys.triggerEnd] = {"Catch 4 torches in a row.", {
                 [zoneIDs.ORGRIMMAR]={{47.02,36.83},},
                 [zoneIDs.THUNDER_BLUFF]={{21.95,26.74},},
@@ -1909,6 +1926,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{39.4,43}},[zoneIDs.SHADOWMOON_VALLEY]={{24,32.5},{31.9,29.9},{40.1,60.1}}}, ICON_TYPE_EVENT, "Fish here for Monstrous Felblood Snapper"}},
         },
         [11731] = {
+            [questKeys.startedBy] = {{25975,},nil,nil,},
+            [questKeys.finishedBy] = {{25975},nil,nil},
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
                 [zoneIDs.TELDRASSIL]={{56.59,92.06},},
                 [zoneIDs.ORGRIMMAR]={{46.65,38.17},},
@@ -1917,14 +1936,450 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{68.58,7.88},},
             }},
         },
+        [11732] = {
+            [questKeys.startedBy] = {nil,{187914,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11734] = {
+            [questKeys.startedBy] = {nil,{187916,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11735] = {
+            [questKeys.startedBy] = {nil,{187917,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11736] = {
+            [questKeys.startedBy] = {nil,{187919,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11737] = {
+            [questKeys.startedBy] = {nil,{187920,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11738] = {
+            [questKeys.startedBy] = {nil,{187921,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11739] = {
+            [questKeys.startedBy] = {nil,{187922,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11740] = {
+            [questKeys.startedBy] = {nil,{187923,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11741] = {
+            [questKeys.startedBy] = {nil,{187924,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11742] = {
+            [questKeys.startedBy] = {nil,{187925,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11743] = {
+            [questKeys.startedBy] = {nil,{187926,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11744] = {
+            [questKeys.startedBy] = {nil,{187927,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11745] = {
+            [questKeys.startedBy] = {nil,{187928,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11746] = {
+            [questKeys.startedBy] = {nil,{187929,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11747] = {
+            [questKeys.startedBy] = {nil,{187930,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11748] = {
+            [questKeys.startedBy] = {nil,{187931,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11749] = {
+            [questKeys.startedBy] = {nil,{187932,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11750] = {
+            [questKeys.startedBy] = {nil,{187933,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11751] = {
+            [questKeys.startedBy] = {nil,{187934,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11752] = {
+            [questKeys.startedBy] = {nil,{187935,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11753] = {
+            [questKeys.startedBy] = {nil,{187936,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11754] = {
+            [questKeys.startedBy] = {nil,{187937,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11755] = {
+            [questKeys.startedBy] = {nil,{187938,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11756] = {
+            [questKeys.startedBy] = {nil,{187939,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11757] = {
+            [questKeys.startedBy] = {nil,{187940,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11758] = {
+            [questKeys.startedBy] = {nil,{187941,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11759] = {
+            [questKeys.startedBy] = {nil,{187942,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11760] = {
+            [questKeys.startedBy] = {nil,{187943,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11761] = {
+            [questKeys.startedBy] = {nil,{187944,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11762] = {
+            [questKeys.startedBy] = {nil,{187945,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11763] = {
+            [questKeys.startedBy] = {nil,{187946,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [11764] = {
+            [questKeys.startedBy] = {nil,{187947,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11765] = {
+            [questKeys.startedBy] = {nil,{187948,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11766] = {
+            [questKeys.startedBy] = {nil,{187954,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11767] = {
+            [questKeys.startedBy] = {nil,{187955,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11768] = {
+            [questKeys.startedBy] = {nil,{187956,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11769] = {
+            [questKeys.startedBy] = {nil,{187957,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11770] = {
+            [questKeys.startedBy] = {nil,{187958,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11771] = {
+            [questKeys.startedBy] = {nil,{187959,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11772] = {
+            [questKeys.startedBy] = {nil,{187960,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11773] = {
+            [questKeys.startedBy] = {nil,{187961,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11774] = {
+            [questKeys.startedBy] = {nil,{187962,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11775] = {
+            [questKeys.startedBy] = {nil,{187963,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11776] = {
+            [questKeys.startedBy] = {nil,{187964,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11777] = {
+            [questKeys.startedBy] = {nil,{187965,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11778] = {
+            [questKeys.startedBy] = {nil,{187966,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11779] = {
+            [questKeys.startedBy] = {nil,{187967,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11780] = {
+            [questKeys.startedBy] = {nil,{187968,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11781] = {
+            [questKeys.startedBy] = {nil,{187969,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11782] = {
+            [questKeys.startedBy] = {nil,{187970,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11783] = {
+            [questKeys.startedBy] = {nil,{187971,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11784] = {
+            [questKeys.startedBy] = {nil,{187972,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11785] = {
+            [questKeys.startedBy] = {nil,{187973,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11786] = {
+            [questKeys.startedBy] = {nil,{187974,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11787] = {
+            [questKeys.startedBy] = {nil,{187975,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11799] = {
+            [questKeys.startedBy] = {nil,{187949,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11800] = {
+            [questKeys.startedBy] = {nil,{187950,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11801] = {
+            [questKeys.startedBy] = {nil,{187951,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11802] = {
+            [questKeys.startedBy] = {nil,{187952,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11803] = {
+            [questKeys.startedBy] = {nil,{187953,},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [11804] = {
+            [questKeys.startedBy] = {{25887,},nil,nil,},
+        },
+        [11805] = {
+            [questKeys.startedBy] = {{25883,},nil,nil,},
+        },
+        [11806] = {
+            [questKeys.startedBy] = {{25888,},nil,nil,},
+        },
+        [11807] = {
+            [questKeys.startedBy] = {{25889,},nil,nil,},
+        },
+        [11808] = {
+            [questKeys.startedBy] = {{25890,},nil,nil,},
+        },
+        [11809] = {
+            [questKeys.startedBy] = {{25891,},nil,nil,},
+        },
+        [11810] = {
+            [questKeys.startedBy] = {{25892,},nil,nil,},
+        },
+        [11811] = {
+            [questKeys.startedBy] = {{25893,},nil,nil,},
+        },
+        [11812] = {
+            [questKeys.startedBy] = {{25894,},nil,nil,},
+        },
+        [11813] = {
+            [questKeys.startedBy] = {{25895,},nil,nil,},
+        },
+        [11814] = {
+            [questKeys.startedBy] = {{25896,},nil,nil,},
+        },
+        [11815] = {
+            [questKeys.startedBy] = {{25897,},nil,nil,},
+        },
+        [11816] = {
+            [questKeys.startedBy] = {{25898,},nil,nil,},
+        },
+        [11817] = {
+            [questKeys.startedBy] = {{25899,},nil,nil,},
+        },
+        [11818] = {
+            [questKeys.startedBy] = {{25900,},nil,nil,},
+        },
+        [11819] = {
+            [questKeys.startedBy] = {{25901,},nil,nil,},
+        },
+        [11820] = {
+            [questKeys.startedBy] = {{25902,},nil,nil,},
+        },
+        [11821] = {
+            [questKeys.startedBy] = {{25903,},nil,nil,},
+        },
+        [11822] = {
+            [questKeys.startedBy] = {{25904,},nil,nil,},
+        },
+        [11823] = {
+            [questKeys.startedBy] = {{25905,},nil,nil,},
+        },
+        [11824] = {
+            [questKeys.startedBy] = {{25906,},nil,nil,},
+        },
+        [11825] = {
+            [questKeys.startedBy] = {{25907,},nil,nil,},
+        },
+        [11826] = {
+            [questKeys.startedBy] = {{25908,},nil,nil,},
+        },
+        [11827] = {
+            [questKeys.startedBy] = {{25909,},nil,nil,},
+        },
+        [11828] = {
+            [questKeys.startedBy] = {{25911,},nil,nil,},
+        },
+        [11829] = {
+            [questKeys.startedBy] = {{25912,},nil,nil,},
+        },
+        [11830] = {
+            [questKeys.startedBy] = {{25913,},nil,nil,},
+        },
+        [11831] = {
+            [questKeys.startedBy] = {{25914,},nil,nil,},
+        },
+        [11832] = {
+            [questKeys.startedBy] = {{25915,},nil,nil,},
+        },
+        [11833] = {
+            [questKeys.startedBy] = {{25916,},nil,nil,},
+        },
+        [11834] = {
+            [questKeys.startedBy] = {{25917,},nil,nil,},
+        },
+        [11835] = {
+            [questKeys.startedBy] = {{25918,},nil,nil,},
+        },
+        [11836] = {
+            [questKeys.startedBy] = {{25919,},nil,nil,},
+        },
+        [11837] = {
+            [questKeys.startedBy] = {{25920,},nil,nil,},
+        },
+        [11838] = {
+            [questKeys.startedBy] = {{25921,},nil,nil,},
+        },
+        [11839] = {
+            [questKeys.startedBy] = {{25922,},nil,nil,},
+        },
+        [11840] = {
+            [questKeys.startedBy] = {{25923,},nil,nil,},
+        },
+        [11841] = {
+            [questKeys.startedBy] = {{25884,},nil,nil,},
+        },
+        [11842] = {
+            [questKeys.startedBy] = {{25925,},nil,nil,},
+        },
+        [11843] = {
+            [questKeys.startedBy] = {{25926,},nil,nil,},
+        },
+        [11844] = {
+            [questKeys.startedBy] = {{25927,},nil,nil,},
+        },
+        [11845] = {
+            [questKeys.startedBy] = {{25928,},nil,nil,},
+        },
+        [11846] = {
+            [questKeys.startedBy] = {{25929,},nil,nil,},
+        },
+        [11847] = {
+            [questKeys.startedBy] = {{25930,},nil,nil,},
+        },
+        [11848] = {
+            [questKeys.startedBy] = {{25931,},nil,nil,},
+        },
+        [11849] = {
+            [questKeys.startedBy] = {{25932,},nil,nil,},
+        },
+        [11850] = {
+            [questKeys.startedBy] = {{25933,},nil,nil,},
+        },
+        [11851] = {
+            [questKeys.startedBy] = {{25934,},nil,nil,},
+        },
+        [11852] = {
+            [questKeys.startedBy] = {{25936,},nil,nil,},
+        },
+        [11853] = {
+            [questKeys.startedBy] = {{25935,},nil,nil,},
+        },
+        [11854] = {
+            [questKeys.startedBy] = {{25937,},nil,nil,},
+        },
+        [11855] = {
+            [questKeys.startedBy] = {{25938,},nil,nil,},
+        },
+        [11856] = {
+            [questKeys.startedBy] = {{25940,},nil,nil,},
+        },
+        [11857] = {
+            [questKeys.startedBy] = {{25941,},nil,nil,},
+        },
+        [11858] = {
+            [questKeys.startedBy] = {{25942,},nil,nil,},
+        },
+        [11859] = {
+            [questKeys.startedBy] = {{25943,},nil,nil,},
+        },
+        [11860] = {
+            [questKeys.startedBy] = {{25944,},nil,nil,},
+        },
+        [11861] = {
+            [questKeys.startedBy] = {{25945,},nil,nil,},
+        },
+        [11862] = {
+            [questKeys.startedBy] = {{25946,},nil,nil,},
+        },
+        [11863] = {
+            [questKeys.startedBy] = {{25947,},nil,nil,},
+        },
+        [11882] = {
+            [questKeys.startedBy] = {{25962,},nil,nil,},
+            [questKeys.finishedBy] = {{25975},nil,nil},
+        },
         [11885] = {
             [questKeys.requiredSourceItems] = {32620},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Summon and defeat each of the descendants by using 10 Time-Lost Scrolls at the Skull Piles", 0, {{"object", 185913}}}},
         },
+        [11886] = {
+            [questKeys.objectives] = {nil,nil,{{35277,nil},},nil,},
+            [questKeys.finishedBy] = {{25324},nil,nil},
+        },
         [11891] = {
             [questKeys.triggerEnd] = {"Listen to the plan of the Twilight Cultists", {[zoneIDs.ASHENVALE]={{9.15,12.41},},}},
+            [questKeys.startedBy] = {{25324,},nil,nil,},
+            [questKeys.finishedBy] = {{25324},nil,nil},
+            [questKeys.preQuestSingle] = {11886},
+        },
+        [11915] = {
+            [questKeys.startedBy] = {{25994,},nil,nil,},
         },
         [11922] = {
+            [questKeys.startedBy] = {{26113,},nil,nil,},
+            [questKeys.finishedBy] = {{26113},nil,nil},
             [questKeys.triggerEnd] = {"Hit 8 braziers.", {
                 [zoneIDs.TELDRASSIL]={{56.59,92.06},},
                 [zoneIDs.ORGRIMMAR]={{46.65,38.17},},
@@ -1934,6 +2389,10 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11921] = {
+            [questKeys.startedBy] = {{25975,},nil,nil,},
+            [questKeys.finishedBy] = {{25975},nil,nil},
+            [questKeys.preQuestSingle] = {11657},
+            [questKeys.specialFlags] = 0,
             [questKeys.triggerEnd] = {"Hit 20 braziers.", {
                 [zoneIDs.ORGRIMMAR]={{46.67,38.13},},
                 [zoneIDs.THUNDER_BLUFF]={{20.99,26.46},},
@@ -1943,6 +2402,9 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11923] = {
+            [questKeys.startedBy] = {{26113,},nil,nil,},
+            [questKeys.finishedBy] = {{26113},nil,nil},
+            [questKeys.preQuestSingle] = {11922},
             [questKeys.triggerEnd] = {"Catch 4 torches in a row.", {
                 [zoneIDs.ORGRIMMAR]={{47.02,36.83},},
                 [zoneIDs.THUNDER_BLUFF]={{21.95,26.74},},
@@ -1952,6 +2414,10 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11924] = {
+            [questKeys.startedBy] = {{25975,},nil,nil,},
+            [questKeys.finishedBy] = {{25975},nil,nil},
+            [questKeys.specialFlags] = 0,
+            [questKeys.preQuestSingle] = {11657},
             [questKeys.triggerEnd] = {"Catch 10 torches in a row.", {
                 [zoneIDs.ORGRIMMAR]={{47.11,36.69},},
                 [zoneIDs.THE_EXODAR]={{41.63,22.55},},
@@ -1961,6 +2427,10 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11925] = {
+            [questKeys.startedBy] = {{26113,},nil,nil,},
+            [questKeys.finishedBy] = {{26113},nil,nil},
+            [questKeys.specialFlags] = 0,
+            [questKeys.preQuestSingle] = {11923},
             [questKeys.triggerEnd] = {"Catch 10 torches in a row.", {
                 [zoneIDs.ORGRIMMAR]={{47.11,36.69},},
                 [zoneIDs.THE_EXODAR]={{41.63,22.55},},
@@ -1970,6 +2440,10 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11926] = {
+            [questKeys.startedBy] = {{26113,},nil,nil,},
+            [questKeys.finishedBy] = {{26113},nil,nil},
+            [questKeys.specialFlags] = 0,
+            [questKeys.preQuestSingle] = {11923},
             [questKeys.triggerEnd] = {"Hit 20 braziers.", {
                 [zoneIDs.ORGRIMMAR]={{46.67,38.13},},
                 [zoneIDs.THUNDER_BLUFF]={{20.99,26.46},},
@@ -1983,6 +2457,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [11935] = {
             [questKeys.startedBy] = {nil,{188129},{35568,},},
+        },
+        [11964] = {
+            [questKeys.startedBy] = {{16817,},nil,nil,},
+        },
+        [12012] = {
+            [questKeys.startedBy] = {{25324,},nil,nil,},
+            [questKeys.finishedBy] = {{26221},nil,nil},
+            [questKeys.objectives] = {nil,nil,{{35828,nil},},nil,},
+            [questKeys.preQuestSingle] = {11891},
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},

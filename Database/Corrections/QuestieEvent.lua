@@ -327,14 +327,6 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9027}) -- Tracing the S
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9028}) -- The Source Revealed
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9029}) -- A Bubbling Cauldron
 
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9388}) -- Flickering Flames in Kalimdor
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9389}) -- Flickering Flames in the Eastern Kingdoms
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9319}) -- A Light in Dark Places
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9386}) -- A Light in Dark Places
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9367}) -- The Festival of Fire
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9368}) -- The Festival of Fire
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9322}) -- Wild Fires in Kalimdor
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9323}) -- Wild Fires in the Eastern Kingdoms
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 9324}) -- Stealing Orgrimmar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 9325}) -- Stealing Thunder Bluff's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 9326}) -- Stealing the Undercity's Flame

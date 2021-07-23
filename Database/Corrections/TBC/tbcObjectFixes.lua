@@ -8,6 +8,23 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
     QuestieDB.objectData[184588] = {}; -- Captain Tyralis's Prison
+    QuestieDB.objectData[187917] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187919] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187921] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187922] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187933] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187935] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187937] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187939] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187941] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187942] = {}; -- Alliance Bonfire (Midsummer)
+    QuestieDB.objectData[187949] = {}; -- Horde Bonfire (Midsummer)
+    QuestieDB.objectData[187955] = {}; -- Horde Bonfire (Midsummer)
+    QuestieDB.objectData[187958] = {}; -- Horde Bonfire (Midsummer)
+    QuestieDB.objectData[187960] = {}; -- Horde Bonfire (Midsummer)
+    QuestieDB.objectData[187962] = {}; -- Horde Bonfire (Midsummer)
+    QuestieDB.objectData[187967] = {}; -- Horde Bonfire (Midsummer)
+    QuestieDB.objectData[187974] = {}; -- Horde Bonfire (Midsummer)
     QuestieDB.objectData[188128] = {}; -- Flame of the Exodar
     QuestieDB.objectData[188129] = {}; -- Flame of Silvermoon
     QuestieDB.objectData[190483] = {}; -- Document chest
@@ -30,6 +47,94 @@ function QuestieTBCObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [187917] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{44.7,52.7}}},
+            [objectKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+        },
+        [187919] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.6,66.0}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [187921] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{55.8,68.8}}},
+            [objectKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
+        },
+        [187922] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{80.5,62.2}}},
+            [objectKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
+        [187929] = {
+            [objectKeys.spawns] = {[zoneIDs.FERALAS]={{28.2,44.1},},},
+        },
+        [187933] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.NAGRAND] = {{49.7,69.7}}},
+            [objectKeys.zoneID] = zoneIDs.NAGRAND,
+        },
+        [187935] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{39.6,54.4}}},
+            [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+        },
+        [187937] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{54.3,55.7}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [187939] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{43.5,82.9}}},
+            [objectKeys.zoneID] = zoneIDs.WESTERN_PLAGUELANDS,
+        },
+        [187941] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{68.8,52.0}}},
+            [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
+        },
+        [187942] = {
+            [objectKeys.name] = "Alliance Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{31.0,62.8}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [187949] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{32.3,68.3}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [187955] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{50.0,59.0}}},
+            [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
+        },
+        [187958] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR] = {{52.0,47.2}}},
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [187960] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{46.4,50.4}}},
+            [objectKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
+        },
+        [187962] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{47.1,26.1}}},
+            [objectKeys.zoneID] = zoneIDs.GHOSTLANDS,
+        },
+        [187967] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{33.5,30.3}}},
+            [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+        },
+        [187974] = {
+            [objectKeys.name] = "Horde Bonfire",
+            [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.0,51.7}}},
+            [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
+        },
         [177281] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06},},},
         },
@@ -92,6 +197,9 @@ function QuestieTBCObjectFixes:Load()
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
         }, 
+        [187965] = {
+            [objectKeys.spawns] = {[zoneIDs.MULGORE]={{52,60},},},
+        },
         [188123] = {
             [objectKeys.spawns] = {[zoneIDs.DARNASSUS]={{67.18,16.47}}}, -- TBC only Mailbox
         },
