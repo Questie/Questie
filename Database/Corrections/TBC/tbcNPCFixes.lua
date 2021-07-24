@@ -491,6 +491,24 @@ function QuestieTBCNpcFixes:Load()
         [25946] = {
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.2,51.8},},},
         },
+        [26116] = {
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{10.1,12.8},},},
+        },
+        [26178] = {
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.2,28.9},},},
+        },
+        [26204] = {
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{20.75,22.81},},},
+        },
+        [26214] = {
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.0,35.1},},},
+        },
+        [26215] = {
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{64.5,15.2},},},
+        },
+        [26216] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{84.2,47.0},{84.2,53.4},{85.4,47.0},{85.6,53.2},{85.8,47.2},{85.8,47.6},},},
+        },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
