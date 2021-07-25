@@ -306,9 +306,10 @@ function _EventHandler:QuestFinished()
         Questie:Debug(DEBUG_DEVELOP, "shouldRunQLU still active")
         if next(latestTurnedInQuestIds) then
             Questie:Debug(DEBUG_DEVELOP, "finishedEventReceived is questId")
-            local quest = QuestieDB:GetQuest(latestTurnedInQuestIds[1])
+            -- these quests won't fire QUEST_REMOVED event
+            local questId = table.remove(latestTurnedInQuestIds, 1)
             Questie:Debug(DEBUG_DEVELOP, "Completing automatic completion quest")
-            QuestieQuest:CompleteQuest(quest)
+            _EventHandler:CompleteQuest(questId)
         else
             Questie:Debug(DEBUG_DEVELOP, "latestTurnedInQuestIds is empty. Something is off?")
         end
