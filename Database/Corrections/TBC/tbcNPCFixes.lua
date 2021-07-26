@@ -435,7 +435,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{14.2,16.8},{14.4,18.2},{14.4,19.2},{14.4,19.8},{14.4,22.4},{15.0,18.2},{15.2,18.6},{15.4,17.4},{15.4,20.0},{15.4,20.8},{15.6,17.4},{15.6,20.2},{16.0,18.4},{16.0,19.2},{16.0,20.8},{16.6,19.2},{16.6,19.6},{16.8,18.4},{16.8,20.6},},},
         },
         [25888] = {
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{44.5,52.4},},},
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{44.5,52.5},},},
         },
         [25889] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.4,65.9},},},
