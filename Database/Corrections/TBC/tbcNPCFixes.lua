@@ -447,7 +447,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{80.3,62.9},},},
         },
         [25899] = {
-            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{28.4,44.0},},},
+            [npcKeys.spawns] = {[zoneIDs.FERALAS] = {{28.3,43.9},},},
         },
         [25903] = {
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{49.7,69.4},},},
