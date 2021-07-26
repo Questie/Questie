@@ -441,7 +441,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.4,65.9},},},
         },
         [25891] = {
-            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{55.6,68.1},},},
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{55.8,67.9},},},
         },
         [25892] = {
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{80.3,62.9},},},
