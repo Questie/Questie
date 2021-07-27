@@ -98,8 +98,9 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{38.6,61.8},},
                 [zoneIDs.IRONFORGE]={{63.81,25.31},},
                 [zoneIDs.SHATTRATH_CITY]={{61.39,31.91},},
+                [zoneIDs.THE_EXODAR]={{41.62,25.28},},
             },
-        },  
+        },
         [16818] = {
             [npcKeys.spawns] = {
                 [zoneIDs.THUNDER_BLUFF]={{21.33,26.44},},
