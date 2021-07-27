@@ -21,9 +21,10 @@ local lastCheck
 ---@return nil
 function DailyQuests:FilterDailies(message, _, _)
     if message and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then
-        if (not lastCheck) then
+        -- If the REPUTABLE message is empty, i.e contains "::::::::::" we don't count it as a check.
+        if (not lastCheck) and not string.find(message, "::::::::::") then
             lastCheck = GetTime();
-        elseif GetTime() - lastCheck < 10 then
+        elseif lastCheck and GetTime() - lastCheck < 10 and not string.find(message, "::::::::::") then
             lastCheck = GetTime();
             return;
         end

@@ -388,7 +388,7 @@ local trackerOptionsLocales = {
     },
     ["Minimize in Dungeons"] = {
         ["ptBR"] = "Minimizar em masmorras",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Свернуть в подземельях",
         ["deDE"] = "In Instanzen minimieren",
         ["koKR"] = nil,
         ["esMX"] = "Minimizar en calabozos",
@@ -400,7 +400,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Tracker will automatically be minimized when entering a dungeon."] = {
         ["ptBR"] = "Quando isso estiver marcado, o Rastreador será minimizado automaticamente ao entrar em uma masmorra.",
-        ["ruRU"] = nil,
+        ["ruRU"] = "Когда включено, при входе в подземелье трекер будет автоматически свернут",
         ["deDE"] = "Wenn dies aktiviert ist, wird der Tracker beim Betreten eines Dungeons automatisch minimiert.",
         ["koKR"] = nil,
         ["esMX"] = "Cuando esto está marcado, el Rastreador se minimizará automáticamente al entrar a un calabozo.",
