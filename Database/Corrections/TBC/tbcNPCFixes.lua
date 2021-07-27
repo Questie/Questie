@@ -596,7 +596,7 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.IRONFORGE]={{65.14,27.71},},
                 [zoneIDs.ORGRIMMAR]={{46.44,38.69},},
                 [zoneIDs.SILVERMOON_CITY]={{68.68,42.94},},
-                [zoneIDs.THE_EXODAR]={{43.27,26.26}},
+                [zoneIDs.THE_EXODAR]={{43.27,26.26},},
                 [zoneIDs.STORMWIND_CITY]={{38.31,61.84},},
             },
         },
