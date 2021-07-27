@@ -206,14 +206,15 @@ function QuestieMap:ProcessShownMinimapIcons()
     local count
     local lastUpdate = getTime()
 
-    local xd, yd, totalDistance = 0, 0, 0
+    local xd, yd
+    local totalDistance = 0
 
     --This coroutine never dies, we want it to keep looping forever
     --yield stops it from being "infinite" and crashing the game
     while true do
         count = 0
 
-        playerX, playerY, _ = getWorldPos()
+        playerX, playerY = getWorldPos()
 
         --Calculate squared distance
         xd = mathAbs((playerX or 0) - (QuestieMap.playerX or 0))
