@@ -492,19 +492,19 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.2,51.8},},},
         },
         [26116] = {
-            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{10.1,12.8},},},
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{9.62,12.20},{9.25,11.50},{9.66,11.17},},},
         },
         [26178] = {
-            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.2,28.9},},},
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{40.35,30.27},{40.26,31.35},{39.28,30.35},},},
         },
         [26204] = {
-            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{20.75,22.81},},},
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{21.17,22.74},{21.30,23.36},{21.26,24.30},},},
         },
         [26214] = {
-            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.0,35.1},},},
+            [npcKeys.spawns] = {[zoneIDs.SEARING_GORGE] = {{16.02,36.87},{14.66,34.22},{13.55,37.20},},},
         },
         [26215] = {
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{64.5,15.2},},},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{66.60,20.62},{67.03,18.72},{67.45,20.14},},},
         },
         [26216] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{84.2,47.0},{84.2,53.4},{85.4,47.0},{85.6,53.2},{85.8,47.2},{85.8,47.6},},},
