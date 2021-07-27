@@ -46,11 +46,10 @@ function DailyQuests:FilterDailies(message, _, _)
 end
 
 -- /run DailyQuests:FilterDailies("0:0:11364:0:11354:0:11377:0:11667:0:11340:0")
-
 -- /run Questie.db.char.hiddenDailies = {nhc={},hc={},cooking={},fishing={},pvp={}}
 
 ---@param message string
----@return table<number, number, number, number, number>
+---@return number, number, number, number, number
 function _DailyQuests:GetDailyIds(message)
     -- Each questId is followed by the timestamp from GetQuestResetTime(). We don't use that timestamp (yet)
     local _, _, nhcQuestId, _, hcQuestId, _, cookingQuestId, _, fishingQuestId, _, pvpQuestId, _ = strsplit(":", message);
@@ -108,8 +107,10 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
             _DailyQuests:ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
         else
-            _DailyQuests:HideDailyQuest(questId);
-            Questie.db.char.hiddenDailies[type][questId] = true;
+            if (not QuestiePlayer.currentQuestlog[questId]) then
+                _DailyQuests:HideDailyQuest(questId);
+                Questie.db.char.hiddenDailies[type][questId] = true;
+            end
         end
     end
 end
