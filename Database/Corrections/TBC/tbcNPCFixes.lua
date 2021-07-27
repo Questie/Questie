@@ -502,6 +502,14 @@ function QuestieTBCNpcFixes:Load()
         [26204] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{20.75,22.81},},},
         },
+        [26113] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY]={{68.87,8.47},},
+                [zoneIDs.THUNDER_BLUFF]={{21.72,25.35},},
+                [zoneIDs.ORGRIMMAR]={{47.14,38.15},},
+                [zoneIDs.SILVERMOON_CITY]={{69.48,42.45},},
+            },
+        },
         [26214] = {
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.0,35.1},},},
         },
