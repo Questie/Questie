@@ -2482,7 +2482,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{26221,},nil,nil,},
             [questKeys.finishedBy] = {{26221,},nil,},
             [questKeys.preQuestSingle] = {12012},
-            [questKeys.requiredLevel] = 65,
+            [questKeys.requiredLevel] = 64,
         },
         [11955] = {
             [questKeys.startedBy] = {{26221,},nil,nil,},
