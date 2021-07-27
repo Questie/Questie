@@ -98,16 +98,18 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{38.6,61.8},},
                 [zoneIDs.IRONFORGE]={{63.81,25.31},},
                 [zoneIDs.SHATTRATH_CITY]={{61.39,31.91},},
+                [zoneIDs.THE_EXODAR]={{41.62,25.28},},
             },
-        },  
+        },
         [16818] = {
             [npcKeys.spawns] = {
                 [zoneIDs.THUNDER_BLUFF]={{21.33,26.44},},
                 [zoneIDs.SHATTRATH_CITY]={{62.16,32.04},},
                 [zoneIDs.UNDERCITY]={{67.62,8.28},},
                 [zoneIDs.ORGRIMMAR]={{46.7,38.0},},
+                [zoneIDs.SILVERMOON_CITY]={{69.83,42.99},},
             },
-        },  
+        },
         [16927] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{37.8,58.71},{37.7,58.88},{37.37,61.08},{36.55,57.83},{37.18,59.21},{37.79,62.12},{35.31,62.14},{35.18,62.99},{36.99,64.38},{35.36,63.18},{36.53,64.41},{35.31,69.79},{35.21,69.45},{34.57,66.62},{34.66,66.76},{34.15,65.74},{34.05,65.65},{33.3,64.8},{33.25,65.03},{32.8,65.87},{32.87,65.84},{35.04,59.27},{33.84,60.63},{33.96,60.9},{34.32,59.03},{34.36,58.67},{33.29,60.46},{33.51,58.77},{33.42,59.07},{34.6,57.88},{33.07,60.34},{32.09,61.48},{32.33,61.24},{32.06,61.02},{32.61,63.69},{32.81,63.61},{31.46,65.95},{31.46,66.1},{30.66,66.84},{30.54,66.36},{31.02,64.56},{31.03,64.77},{31.16,63.3},{31.14,62.91},{31.32,61.74},{31.49,61.91},{29.64,64.99},{30.79,61.11},{30.75,60.85},{31.32,60.41},{29.4,63.24},{30.28,60.1},{30.0,59.98},{31.39,60.21},{30.28,59.75},{29.44,65.19},{28.32,66.86},{28.45,66.54},{28.01,68.25},{27.8,68.29},{28.99,69.8},{28.97,69.83},{29.44,68.62},{29.58,68.61},{27.72,69.55},{27.38,69.08},{28.97,71.66},{29.59,70.57},{29.52,70.47},{28.89,71.41},{30.12,71.48},{30.16,71.71},{29.47,72.84},{29.46,72.62},},},
         },
@@ -491,6 +493,14 @@ function QuestieTBCNpcFixes:Load()
         [25946] = {
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.2,51.8},},},
         },
+        [25975] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.56,92.09},},
+                [zoneIDs.IRONFORGE]={{65.36,25.06},},
+                [zoneIDs.STORMWIND_CITY]={{39.36,62.2},},
+                [zoneIDs.THE_EXODAR]={{40.90,25.59},},
+            },
+        },
         [26116] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{10.1,12.8},},},
         },
@@ -500,6 +510,30 @@ function QuestieTBCNpcFixes:Load()
         [26204] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{20.75,22.81},},},
         },
+        [26113] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY]={{68.87,8.47},},
+                [zoneIDs.THUNDER_BLUFF]={{21.72,25.35},},
+                [zoneIDs.ORGRIMMAR]={{47.14,38.15},},
+                [zoneIDs.SILVERMOON_CITY]={{69.48,42.45},},
+            },
+        },
+        [26123] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{64.82,26.28},},
+                [zoneIDs.TELDRASSIL]={{56.02,92.22},},
+                [zoneIDs.THE_EXODAR]={{42.51,25.97},},
+                [zoneIDs.STORMWIND_CITY]={{37.92,61.42},},
+            },
+        },
+        [26124] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY]={{68.07,11.2},},
+                [zoneIDs.THUNDER_BLUFF]={{20.87,24.18},},
+                [zoneIDs.ORGRIMMAR]={{47.36,39.22},},
+                [zoneIDs.SILVERMOON_CITY]={{70.39,44.30},},
+            },
+        },
         [26214] = {
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.0,35.1},},},
         },
@@ -508,6 +542,19 @@ function QuestieTBCNpcFixes:Load()
         },
         [26216] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{84.2,47.0},{84.2,53.4},{85.4,47.0},{85.6,53.2},{85.8,47.2},{85.8,47.6},},},
+        },
+        [26221] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.1,92.16},},
+                [zoneIDs.UNDERCITY]={{66.9,13.53},},
+                [zoneIDs.THUNDER_BLUFF]={{22.16,23.98},},
+                [zoneIDs.SHATTRATH_CITY]={{60.68,30.62},},
+                [zoneIDs.IRONFORGE]={{65.14,27.71},},
+                [zoneIDs.ORGRIMMAR]={{46.44,38.69},},
+                [zoneIDs.SILVERMOON_CITY]={{68.68,42.94},},
+                [zoneIDs.THE_EXODAR]={{43.27,26.26},},
+                [zoneIDs.STORMWIND_CITY]={{38.31,61.84},},
+            },
         },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
