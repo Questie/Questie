@@ -58,6 +58,7 @@ local tunpack = unpack;
 
 QuestieMap.drawTimer = nil;
 QuestieMap.fadeLogicTimerShown = nil;
+local fadeLogicCoroutine
 
 local isDrawQueueDisabled = false
 
@@ -159,8 +160,15 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
         isDrawQueueDisabled = false
         if not QuestieMap.drawTimer then 
             QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
-            QuestieMap.processCounter = 0 -- used to reduce calls on edge notes
-            QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.3, QuestieMap.ProcessShownMinimapIcons)
+            -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
+            QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
+                if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
+                    coroutine.resume(fadeLogicCoroutine)
+                end
+            end)
+        end
+        if not fadeLogicCoroutine then
+            fadeLogicCoroutine = coroutine.create(QuestieMap.ProcessShownMinimapIcons)
         end
     else
         if QuestieMap.drawTimer then -- cancel existing timer while in dungeon/raid
@@ -185,26 +193,71 @@ function QuestieMap:GetScaleValue()
 end
 
 function QuestieMap:ProcessShownMinimapIcons()
-    local doEdgeUpdate = false
-    QuestieMap.processCounter = QuestieMap.processCounter + 1
-    if QuestieMap.processCounter > 13 then -- only update icons on the edge every 4 seconds
-        QuestieMap.processCounter = 0
-        doEdgeUpdate = true
-    end
+    --Upvalue the most used functions in here
+    local getTime, cYield, getWorldPos, mathAbs = GetTime, coroutine.yield, HBD.GetPlayerWorldPosition, math.abs
 
-    local playerX, playerY, _ = HBD:GetPlayerWorldPosition()
-    QuestieMap.playerX = playerX
-    QuestieMap.playerY = playerY
-    ---@param minimapFrame IconFrame
-    for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
-        if minimapFrame.miniMapIcon and ((data.distanceFromMinimapCenter < 1.1) or doEdgeUpdate) then
-            if minimapFrame.FadeLogic then
-                minimapFrame:FadeLogic()
+    --Max icons per tick
+    local maxCount = 50
+
+    --Local variables defined here instead of in loop
+    --saves time because it doesn't need to remake the variables
+    local doEdgeUpdate = true
+    local playerX, playerY
+    local count
+    local lastUpdate = getTime()
+
+    local xd, yd
+    local totalDistance = 0
+
+    --This coroutine never dies, we want it to keep looping forever
+    --yield stops it from being "infinite" and crashing the game
+    while true do
+        count = 0
+
+        playerX, playerY = getWorldPos()
+
+        --Calculate squared distance
+        xd = mathAbs((playerX or 0) - (QuestieMap.playerX or 0))
+        yd = mathAbs((playerY or 0) - (QuestieMap.playerY or 0))
+        --Instead of math.sqrt we just used the square distance for speed
+        totalDistance = totalDistance + (xd * xd + yd * yd)
+
+
+        --These variables are used inside the fadelogic
+        QuestieMap.playerX = playerX
+        QuestieMap.playerY = playerY
+
+        -- Only update icons on the edge every 1 seconds
+        -- totalDistance is used because sometimes we move so fast that we need to update it more often.
+        -- ! Remember to update the distance variable if you change the timer
+        if totalDistance > 3 or getTime() - lastUpdate >= 1 then
+            doEdgeUpdate = true
+            lastUpdate = getTime()
+            --print("Dist:", totalDistance)
+            totalDistance = 0
+        end
+
+        ---@param minimapFrame IconFrame
+        for minimapFrame, data in pairs(HBDPins.activeMinimapPins) do
+            if minimapFrame.miniMapIcon and ((data.distanceFromMinimapCenter < 1.1) or doEdgeUpdate) then
+                if minimapFrame.FadeLogic then
+                    minimapFrame:FadeLogic()
+                end
+                if minimapFrame.GlowUpdate then
+                    minimapFrame:GlowUpdate()
+                end
             end
-            if minimapFrame.GlowUpdate then
-                minimapFrame:GlowUpdate()
+
+            --Never run more than maxCount in a single run
+            if count > maxCount then
+                cYield()
+                count = 0
+            else
+                count = count + 1
             end
         end
+        cYield()
+        doEdgeUpdate = false
     end
 end
 
