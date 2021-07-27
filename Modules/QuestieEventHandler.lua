@@ -457,12 +457,12 @@ function _EventHandler:GroupLeft()
     QuestieComms:ResetAll()
 end
 
-local previousTrackerState
+local wasTrackerExpanded
 
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat then
-        previousTrackerState = Questie.db.char.isTrackerExpanded
+        wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
     end
     if InCombatLockdown() then
@@ -474,7 +474,7 @@ end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
+    if Questie.db.global.hideTrackerInCombat and (wasTrackerExpanded == true) then
         QuestieTracker:Expand()
     end
 end
@@ -484,11 +484,13 @@ function _EventHandler:ZoneChangedNewArea()
         return
     end
 
+    print("ZONE CHANGE", wasTrackerExpanded)
+
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     if IsInInstance() then
-        previousTrackerState = Questie.db.char.isTrackerExpanded
+        wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
-    else
+    elseif wasTrackerExpanded == false then
         QuestieTracker:Expand()
     end
 end
