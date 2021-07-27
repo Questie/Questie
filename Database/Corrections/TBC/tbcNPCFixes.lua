@@ -493,6 +493,14 @@ function QuestieTBCNpcFixes:Load()
         [25946] = {
             [npcKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES] = {{57.2,51.8},},},
         },
+        [25975] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.56,92.09},},
+                [zoneIDs.IRONFORGE]={{65.36,25.06},},
+                [zoneIDs.STORMWIND_CITY]={{39.36,62.2},},
+                [zoneIDs.THE_EXODAR]={{40.90,25.59},},
+            },
+        },
         [26116] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{10.1,12.8},},},
         },
