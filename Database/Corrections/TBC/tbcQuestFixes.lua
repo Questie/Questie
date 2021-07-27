@@ -2377,6 +2377,11 @@ function QuestieTBCQuestFixes:Load()
         [11915] = {
             [questKeys.startedBy] = {{25994,},nil,nil,},
         },
+        [11917] = {
+            [questKeys.finishedBy] = {{26221,},nil,},
+            [questKeys.preQuestSingle] = {12012},
+            [questKeys.specialFlags] = 0,
+        },
         [11922] = {
             [questKeys.startedBy] = {{26113,},nil,nil,},
             [questKeys.finishedBy] = {{26113},nil,nil},
@@ -2457,6 +2462,33 @@ function QuestieTBCQuestFixes:Load()
         },
         [11935] = {
             [questKeys.startedBy] = {nil,{188129},{35568,},},
+        },
+        [11947] = {
+            [questKeys.finishedBy] = {{26221,},nil,},
+            [questKeys.preQuestSingle] = {12012},
+            [questKeys.specialFlags] = 0,
+        },
+        [11948] = {
+            [questKeys.finishedBy] = {{26221,},nil,},
+            [questKeys.preQuestSingle] = {12012},
+            [questKeys.specialFlags] = 0,
+        },
+        [11952] = {
+            [questKeys.finishedBy] = {{26221,},nil,},
+            [questKeys.preQuestSingle] = {12012},
+            [questKeys.specialFlags] = 0,
+        },
+        [11953] = {
+            [questKeys.finishedBy] = {{26221,},nil,},
+            [questKeys.preQuestSingle] = {12012},
+            [questKeys.specialFlags] = 0,
+        },
+        [11954] = {
+            [questKeys.startedBy] = {{26221,},nil,nil,},
+            [questKeys.finishedBy] = {{26221,},nil,},
+            [questKeys.preQuestSingle] = {12012},
+            [questKeys.requiredLevel] = 64,
+            [questKeys.specialFlags] = 0,
         },
         [11955] = {
             [questKeys.startedBy] = {{26221,},nil,nil,},
