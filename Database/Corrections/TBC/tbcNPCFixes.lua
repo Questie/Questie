@@ -518,6 +518,14 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.SILVERMOON_CITY]={{69.48,42.45},},
             },
         },
+        [26123] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{64.82,26.28},},
+                [zoneIDs.TELDRASSIL]={{56.02,92.22},},
+                [zoneIDs.THE_EXODAR]={{42.51,25.97},},
+                [zoneIDs.STORMWIND_CITY]={{37.92,61.42},},
+            },
+        },
         [26124] = {
             [npcKeys.spawns] = {
                 [zoneIDs.UNDERCITY]={{68.07,11.2},},
