@@ -518,6 +518,14 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.SILVERMOON_CITY]={{69.48,42.45},},
             },
         },
+        [26124] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY]={{68.07,11.2},},
+                [zoneIDs.THUNDER_BLUFF]={{20.87,24.18},},
+                [zoneIDs.ORGRIMMAR]={{47.36,39.22},},
+                [zoneIDs.SILVERMOON_CITY]={{70.39,44.30},},
+            },
+        },
         [26214] = {
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{15.0,35.1},},},
         },
