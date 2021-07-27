@@ -650,6 +650,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11833}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11933}) -- Stealing the Exodar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11954}) -- Striking Back (level 67)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528}) -- A Winter Veil Gift
