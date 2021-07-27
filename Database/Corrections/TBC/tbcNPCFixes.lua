@@ -509,6 +509,19 @@ function QuestieTBCNpcFixes:Load()
         [26216] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{84.2,47.0},{84.2,53.4},{85.4,47.0},{85.6,53.2},{85.8,47.2},{85.8,47.6},},},
         },
+        [26221] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.1,92.16},},
+                [zoneIDs.UNDERCITY]={{66.9,13.53},},
+                [zoneIDs.THUNDER_BLUFF]={{22.16,23.98},},
+                [zoneIDs.SHATTRATH_CITY]={{60.68,30.62},},
+                [zoneIDs.IRONFORGE]={{65.14,27.71},},
+                [zoneIDs.ORGRIMMAR]={{46.44,38.69},},
+                [zoneIDs.SILVERMOON_CITY]={{68.68,42.94},},
+                [zoneIDs.THE_EXODAR]={{43.27,26.26}},
+                [zoneIDs.STORMWIND_CITY]={{38.31,61.84},},
+            },
+        },
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
