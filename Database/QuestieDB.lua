@@ -331,7 +331,7 @@ function QuestieDB:GetQuestTagInfo(questId)
     return questType, questTag
 end
 
----@param questId
+---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
