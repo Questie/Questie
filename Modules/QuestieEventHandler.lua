@@ -484,8 +484,6 @@ function _EventHandler:ZoneChangedNewArea()
         return
     end
 
-    print("ZONE CHANGE", wasTrackerExpanded)
-
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     if IsInInstance() then
         wasTrackerExpanded = Questie.db.char.isTrackerExpanded
