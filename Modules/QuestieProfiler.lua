@@ -409,7 +409,7 @@ function QuestieProfiler:CreateUI()
     search:SetPoint("TOPLEFT", base, 220, 20)
     search:SetText("\124cFF888888Filter...")
     search:SetBackdrop({
-        bgFile="Interface\\DialogFrame\\UI-DialogBox-Background",
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
         edgeFile = nil,
         tile = true, tileSize = 0, edgeSize = 0, 
         insets = { left = 0, right = 0, top = 0, bottom = 0 }
