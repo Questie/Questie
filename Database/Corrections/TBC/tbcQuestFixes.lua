@@ -2365,6 +2365,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Summon and defeat each of the descendants by using 10 Time-Lost Scrolls at the Skull Piles", 0, {{"object", 185913}}}},
         },
         [11886] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.objectives] = {nil,nil,{{35277,nil},},nil,},
             [questKeys.finishedBy] = {{25324},nil,nil},
         },
