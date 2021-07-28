@@ -351,13 +351,6 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsRepeatable(questId)
-    local specialFlags = unpack(QuestieDB.QueryQuest(questId, "specialFlags"))
-    return mod(specialFlags, 2) == 1
-end
-
----@param questId number
----@return boolean
 function QuestieDB:IsActiveEventQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end

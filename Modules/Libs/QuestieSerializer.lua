@@ -12,6 +12,8 @@ local QuestieStreamLib = QuestieLoader:ImportModule("QuestieStreamLib");
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n");
 
 
 function QuestieSerializer:Hash(value)
@@ -338,8 +340,8 @@ function QuestieSerializer:Deserialize(data, encoding)
     QuestieSerializer:SetupStream(encoding)
     self.stream:Load(data)
     --local meta = _ReadTable(self, 1)
-    local data = _ReadTable(self, 1)
-    return data[1]
+    local retData = _ReadTable(self, 1)
+    return retData[1]
 end
 
 local _libAS = LibStub("AceSerializer-3.0")
@@ -348,7 +350,6 @@ local _CPTable = _libCP:GetAddonEncodeTable()
 function QuestieSerializer:Test()
     --Questie.db.char.HashTable = QuestieSerializer.SerializerHashDB
     --self.stream = QuestieStreamLib:GetStream("1short")
-    local testtable = {}
     local rawQuestList = {}
         -- Maybe this should be its own function in QuestieQuest...
     local numEntries, numQuests = GetNumQuestLogEntries();
@@ -368,10 +369,11 @@ function QuestieSerializer:Test()
             rawQuestList[quest.id] = quest;
         end
     end
-    testtable = rawQuestList
-    testtable.npcs = {}
+
+    local testTable = rawQuestList
+    testTable.npcs = {}
     for i=1, 10 do
-        testtable.npcs[i] = QuestieDB:GetNPC(3100 + i)
+        testTable.npcs[i] = QuestieDB:GetNPC(3100 + i)
     end
     --testtable.quest = QuestieDB:GetQuest(1642)
     --testtable.npc1 = QuestieDB:GetNPC(5513)
@@ -381,7 +383,7 @@ function QuestieSerializer:Test()
     --testtable.npc5 = QuestieDB:GetNPC(1411)
 
     local now = GetTime()
-    local serQ = QuestieSerializer:Serialize(testtable)
+    local serQ = QuestieSerializer:Serialize(testTable)
     local serQR = QuestieSerializer.stream:SaveRaw()
 
     Questie.db.char.WriteTest = serQ
@@ -405,7 +407,7 @@ function QuestieSerializer:Test()
     print(" ")
     now = GetTime()
 
-    local serA = _libAS:Serialize(testtable)
+    local serA = _libAS:Serialize(testTable)
 
     print("AceSerializer:")
     QuestieSerializer:SetupStream()

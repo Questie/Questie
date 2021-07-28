@@ -250,7 +250,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
             langShort = ""
         end
 
-        local wowheadLink = ""
+        local wowheadLink
         if Questie.IsTBC then
             wowheadLink = "https://" .. langShort .. "tbc.wowhead.com/quest=" .. questID
         else
