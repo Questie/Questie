@@ -198,8 +198,8 @@ function _EventHandler:QuestAccepted(questLogIndex, questId)
 end
 
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
----@param errorType The error type value from the UI_INFO_MESSAGE event
----@param message The message value from the UI_INFO_MESSAGE event
+---@param errorType number The error type value from the UI_INFO_MESSAGE event
+---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
     -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
     -- Global Strings used:
@@ -457,7 +457,7 @@ function _EventHandler:GroupLeft()
     QuestieComms:ResetAll()
 end
 
-local wasTrackerExpanded
+local wasTrackerExpanded = false
 
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
@@ -490,7 +490,7 @@ function _EventHandler:ZoneChangedNewArea()
     if IsInInstance() then
         wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
-    elseif wasTrackerExpanded == false then
+    elseif wasTrackerExpanded then
         QuestieTracker:Expand()
     end
 end
