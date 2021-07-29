@@ -1,5 +1,6 @@
 ---@class QuestieNameplate
 local QuestieNameplate = QuestieLoader:CreateModule("QuestieNameplate")
+local _QuestieNameplate = {}
 -------------------------
 --Import modules.
 -------------------------
@@ -11,14 +12,14 @@ local npFrames = {}
 local npUnusedFrames = {}
 local npFramesCount = 0
 
-QuestieNameplate.ticker = nil
+local activeTargetFrame
+
 
 function QuestieNameplate:Initialize()
-    -- QuestieNameplate.ticker = C_Timer.NewTicker(0.5, QuestieNameplate.UpdateNameplate)
+    -- Nothing to initialize
 end
 
-function QuestieNameplate:GetFrame(guid)
-
+function _QuestieNameplate:GetFrame(guid)
     if npFrames[guid] and npFrames[guid] ~= nil then
         return npFrames[guid]
     end
@@ -62,7 +63,7 @@ function QuestieNameplate:RedrawIcons()
     end
 end
 
-function QuestieNameplate:RemoveFrame(guid)
+function _QuestieNameplate:RemoveFrame(guid)
     if npFrames[guid] then
         table.insert(npUnusedFrames, npFrames[guid])
         npFrames[guid].Icon:SetTexture(nil) -- fix for overlapping icons
@@ -71,7 +72,7 @@ function QuestieNameplate:RemoveFrame(guid)
     end
 end
 
-local function _GetValidIcon(tooltips) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+function _QuestieNameplate:GetValidIcon(tooltips) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
     if tooltips then
         for _, tooltip in pairs(tooltips) do
             if tooltip.objective and tooltip.objective.Update then
@@ -109,7 +110,7 @@ function QuestieNameplate:NameplateCreated(token)
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
 
     if unitType == "Creature" then
-        local icon = _GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+        local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 
         if icon then
             activeGUIDs[unitGUID] = token
@@ -123,6 +124,11 @@ function QuestieNameplate:NameplateCreated(token)
 end
 
 function QuestieNameplate:NameplateDestroyed(token)
+    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
+
+    if (not Questie.db.global.nameplateEnabled) then
+        return
+    end
 
     local unitGUID = UnitGUID(token)
 
@@ -130,9 +136,7 @@ function QuestieNameplate:NameplateDestroyed(token)
         activeGUIDs[unitGUID] = nil
         QuestieNameplate:RemoveFrame(unitGUID)
     end
-
 end
-
 
 function QuestieNameplate:UpdateNameplate()
     Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
@@ -146,7 +150,7 @@ function QuestieNameplate:UpdateNameplate()
             return
         end
 
-        local icon = _GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+        local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 
         if icon then
             local frame = QuestieNameplate:GetFrame(guid)
@@ -171,84 +175,86 @@ function QuestieNameplate:HideCurrentFrames()
     end
 end
 
-
-local activeTargetFrame
-
 function QuestieNameplate:DrawTargetFrame()
     Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
-    if Questie.db.global.nameplateTargetFrameEnabled then
+    if (not Questie.db.global.nameplateEnabled) or (not Questie.db.global.nameplateTargetFrameEnabled) then
+        return
+    end
 
-        -- always remove the previous frame if it exists
-        if activeTargetFrame ~= nil then
-            activeTargetFrame.Icon:SetTexture(nil)
-            activeTargetFrame:Hide()
-        end
+    -- always remove the previous frame if it exists
+    if activeTargetFrame ~= nil then
+        activeTargetFrame.Icon:SetTexture(nil)
+        activeTargetFrame:Hide()
+    end
 
-        local unitGUID = UnitGUID("target")
-        local unitName = UnitName("target")
+    local unitGUID = UnitGUID("target")
+    local unitName = UnitName("target")
 
-        if unitName and unitGUID then 
-            local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
+    if (not unitName) or (not unitGUID) then
+        -- We need the GUID and name, this should not happen
+        return
+    end
 
-            if unitType == "Creature" then
-                local icon = _GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
 
-                if icon then
-                    if activeTargetFrame == nil then
-                        activeTargetFrame = CreateFrame("Frame")
+    if unitType == "Creature" then
+        local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 
-                        local iconScale = Questie.db.global.nameplateTargetFrameScale
+        if icon then
+            if activeTargetFrame == nil then
+                activeTargetFrame = CreateFrame("Frame")
 
-                        activeTargetFrame:SetFrameStrata("LOW")
-                        activeTargetFrame:SetFrameLevel(10)
-                        activeTargetFrame:SetWidth(16 * iconScale)
-                        activeTargetFrame:SetHeight(16 * iconScale)
-                        activeTargetFrame:EnableMouse(false)
+                local iconScale = Questie.db.global.nameplateTargetFrameScale
 
-                        local targetFrame = TargetFrame -- Default Blizzard target frame
-                        if ElvUF_Target then
-                            targetFrame = ElvUF_Target
-                        elseif PitBull4_Frames_Target then
-                            targetFrame = PitBull4_Frames_Target
-                        elseif SUFUnittarget then
-                            targetFrame = SUFUnittarget
-                            activeTargetFrame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
-                        end
+                activeTargetFrame:SetFrameStrata("LOW")
+                activeTargetFrame:SetFrameLevel(10)
+                activeTargetFrame:SetWidth(16 * iconScale)
+                activeTargetFrame:SetHeight(16 * iconScale)
+                activeTargetFrame:EnableMouse(false)
 
-                        activeTargetFrame:SetParent(targetFrame)
-                        activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
-
-                        activeTargetFrame.Icon = activeTargetFrame:CreateTexture(nil, "ARTWORK")
-                        activeTargetFrame.Icon:ClearAllPoints()
-                        activeTargetFrame.Icon:SetAllPoints(activeTargetFrame)
-                    end
-
-                    activeTargetFrame.Icon:SetTexture(icon)
-                    activeTargetFrame:Show()
-
+                local targetFrame = TargetFrame -- Default Blizzard target frame
+                if ElvUF_Target then
+                    targetFrame = ElvUF_Target
+                elseif PitBull4_Frames_Target then
+                    targetFrame = PitBull4_Frames_Target
+                elseif SUFUnittarget then
+                    targetFrame = SUFUnittarget
+                    activeTargetFrame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
                 end
+
+                activeTargetFrame:SetParent(targetFrame)
+                activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
+
+                activeTargetFrame.Icon = activeTargetFrame:CreateTexture(nil, "ARTWORK")
+                activeTargetFrame.Icon:ClearAllPoints()
+                activeTargetFrame.Icon:SetAllPoints(activeTargetFrame)
             end
+
+            activeTargetFrame.Icon:SetTexture(icon)
+            activeTargetFrame:Show()
         end
     end
 end
 
 function QuestieNameplate:HideCurrentTargetFrame()
-    if activeTargetFrame then
-        activeTargetFrame.Icon:SetTexture(nil)
-        activeTargetFrame:Hide()
-        activeTargetFrame = nil
+    if (not activeTargetFrame) then
+        return
     end
+
+    activeTargetFrame.Icon:SetTexture(nil)
+    activeTargetFrame:Hide()
+    activeTargetFrame = nil
 end
 
 
 function QuestieNameplate:RedrawFrameIcon()
-    if Questie.db.global.nameplateTargetFrameEnabled then
-        if activeTargetFrame then
-            local iconScale = Questie.db.global.nameplateTargetFrameScale
-            activeTargetFrame:SetWidth(16 * iconScale)
-            activeTargetFrame:SetHeight(16 * iconScale)
-            activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
-        end
+    if (not Questie.db.global.nameplateTargetFrameEnabled) or (not activeTargetFrame) then
+        return
     end
+
+    local iconScale = Questie.db.global.nameplateTargetFrameScale
+    activeTargetFrame:SetWidth(16 * iconScale)
+    activeTargetFrame:SetHeight(16 * iconScale)
+    activeTargetFrame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
 end
