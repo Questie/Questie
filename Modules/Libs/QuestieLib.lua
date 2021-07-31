@@ -409,8 +409,9 @@ function QuestieLib:CacheItemNames(questId)
 end
 
 function QuestieLib:Euclid(x, y, i, e)
-    local xd = math_abs(x - i)
-    local yd = math_abs(y - e)
+    -- No need for absolute values as these are used only as squared
+    local xd = x - i
+    local yd = y - e
     return math_sqrt(xd * xd + yd * yd)
 end
 
