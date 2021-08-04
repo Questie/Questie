@@ -30,7 +30,12 @@ function QuestieTBCNpcFixes:Load()
         },
         [5676] = {
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
-            [npcKeys.spawns] = {[zoneIDs.GHOSTLANDS] = {{27,15.2}},[zoneIDs.UNDERCITY] = {{86.51,26.94}},[zoneIDs.STORMWIND_CITY] = {{25.16,77.49}},[zoneIDs.ORGRIMMAR] = {{49.66,50.14}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.GHOSTLANDS] = {{27,15.2}},
+                [zoneIDs.UNDERCITY] = {{86.51,26.94}},
+                [zoneIDs.STORMWIND_CITY] = {{25.16,77.49}},
+                [zoneIDs.ORGRIMMAR] = {{49.66,50.14}},
+            },
         },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
@@ -156,7 +161,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
         },
         [17311] = {
-            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{54.08,55.1}},[zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.BLOODMYST_ISLE]={{54.08,55.1}},
+                [zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}},
+            },
         },
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35}}},

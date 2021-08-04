@@ -150,7 +150,11 @@ function QuestieNPCFixes:Load()
         },
         [2044] = {
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
-            [npcKeys.spawns] = {[zoneIDs.WESTFALL] = {{41.49,66.91}},[zoneIDs.STORMWIND_CITY] = {{29.87,61.93}},[zoneIDs.ELWYNN_FOREST] = {{85.52,69.67}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTFALL] = {{41.49,66.91}},
+                [zoneIDs.STORMWIND_CITY] = {{29.87,61.93}},
+                [zoneIDs.ELWYNN_FOREST] = {{85.52,69.67}},
+            },
         },
         [2060] = {
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
@@ -633,11 +637,19 @@ function QuestieNPCFixes:Load()
         },
         [5676] = {
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
-            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{86.51,26.94}},[zoneIDs.STORMWIND_CITY] = {{25.16,77.49}},[zoneIDs.ORGRIMMAR] = {{49.66,50.14}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.51,26.94}},
+                [zoneIDs.STORMWIND_CITY] = {{25.16,77.49}},
+                [zoneIDs.ORGRIMMAR] = {{49.66,50.14}},
+            },
         },
         [5677] = {
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
-            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{86.36,26.73}},[zoneIDs.STORMWIND_CITY] = {{25.2,77.52}},[zoneIDs.ORGRIMMAR] = {{49.73,50.14}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.UNDERCITY] = {{86.36,26.73}},
+                [zoneIDs.STORMWIND_CITY] = {{25.2,77.52}},
+                [zoneIDs.ORGRIMMAR] = {{49.73,50.14}},
+            },
         },
         [5720] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
@@ -1252,7 +1264,10 @@ function QuestieNPCFixes:Load()
         },
         [10996] = {
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-            [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{63.32,58.06},{68.93,74.74},{45.07,71.39},{67.97,84.26}},[zoneIDs.EASTERN_PLAGUELANDS] = {{58.2,79.97}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.WESTERN_PLAGUELANDS] = {{63.32,58.06},{68.93,74.74},{45.07,71.39},{67.97,84.26}},
+                [zoneIDs.EASTERN_PLAGUELANDS] = {{58.2,79.97}},
+            },
         },
         [11018] = {
             [npcKeys.spawns] = {[zoneIDs.FELWOOD] = {{36.88,54.9}}},
@@ -1413,7 +1428,10 @@ function QuestieNPCFixes:Load()
         },
         [12138] = {
             [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-            [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{43.33,45.85}},[zoneIDs.THE_BARRENS] = {{41.96,60.79}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DARKSHORE] = {{43.33,45.85}},
+                [zoneIDs.THE_BARRENS] = {{41.96,60.79}},
+            },
         },
         [12196] = {
             [npcKeys.npcFlags] = 128,
@@ -1762,14 +1780,25 @@ function QuestieNPCFixes:Load()
         },
         [14305] = {
             [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
-            [npcKeys.spawns] = {[zoneIDs.DARNASSUS] = {{41.21,43.05}},[zoneIDs.DUSTWALLOW_MARSH] = {{66.29,49.08}},[zoneIDs.WESTFALL] = {{30.25,85.64}},[zoneIDs.STORMWIND_CITY] = {{47.32,38.58}},[zoneIDs.LOCH_MODAN] = {{47.71,14.26}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.DARNASSUS] = {{41.21,43.05}},
+                [zoneIDs.DUSTWALLOW_MARSH] = {{66.29,49.08}},
+                [zoneIDs.WESTFALL] = {{30.25,85.64}},
+                [zoneIDs.STORMWIND_CITY] = {{47.32,38.58}},
+                [zoneIDs.LOCH_MODAN] = {{47.71,14.26}},
+            },
         },
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
         },
         [14444] = {
             [npcKeys.zoneID] = zoneIDs.UNDERCITY,
-            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{59.32,51.65}},[zoneIDs.THE_BARRENS] = {{47.91,5.49},{63.11,38.16}},[zoneIDs.ORGRIMMAR] = {{70.92,25.62}},[zoneIDs.UNDERCITY] = {{66.06,36.97}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.THUNDER_BLUFF] = {{59.32,51.65}},
+                [zoneIDs.THE_BARRENS] = {{47.91,5.49},{63.11,38.16}},
+                [zoneIDs.ORGRIMMAR] = {{70.92,25.62}},
+                [zoneIDs.UNDERCITY] = {{66.06,36.97}},
+            },
         },
         [14500] = {
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1, -1}}}, -- #1506
@@ -2337,7 +2366,11 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS] = {{44.13,71.5}}},
         },
         [16255] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.5,73.7}},[zoneIDs.UNDERCITY] = {{66.2,47}},[zoneIDs.THUNDER_BLUFF] = {{42.8,58.6}}},
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR] = {{52.5,73.7}},
+                [zoneIDs.UNDERCITY] = {{66.2,47}},
+                [zoneIDs.THUNDER_BLUFF] = {{42.8,58.6}},
+            },
         },
         [16281] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.91,60.34}}},
