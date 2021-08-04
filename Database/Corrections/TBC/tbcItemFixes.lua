@@ -11,19 +11,19 @@ function QuestieTBCItemFixes:Load()
 
     return {
         [4503] = {
-            [itemKeys.npcDrops] = {2557,2556,2555,2553,2552,2558,2554,},
+            [itemKeys.npcDrops] = {2557,2556,2555,2553,2552,2558,2554},
         },
         [5959] = {
-            [itemKeys.npcDrops] = {4376,4378,4379,4411,4412,4413,4414,4415,4380,},
+            [itemKeys.npcDrops] = {4376,4378,4379,4411,4412,4413,4414,4415,4380},
         },
         [12366] = {
-            [itemKeys.npcDrops] = {7457,7458,7459,7460,},
+            [itemKeys.npcDrops] = {7457,7458,7459,7460},
         },
         [21771] = {
-            [itemKeys.npcDrops] = {15668,15669,},
+            [itemKeys.npcDrops] = {15668,15669},
         },
         [22435] = {
-            [itemKeys.npcDrops] = {6551,6552,6553,6554,6555,10040,10041,},
+            [itemKeys.npcDrops] = {6551,6552,6553,6554,6555,10040,10041},
         },
         [22775] = {
             [itemKeys.npcDrops] = {16442},
@@ -59,13 +59,13 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {107047},
         },
         [23789] = {
-            [itemKeys.npcDrops] = {17186,17187,17188,},
+            [itemKeys.npcDrops] = {17186,17187,17188},
         },
         [23848] = {
             [itemKeys.npcDrops] = {3546},
         },
         [23849] = {
-            [itemKeys.npcDrops] = {17190,17191,17192,},
+            [itemKeys.npcDrops] = {17190,17191,17192},
         },
         [23878] = {
             [itemKeys.objectDrops] = {181779},
@@ -77,7 +77,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {181781},
         },
         [23984] = {
-            [itemKeys.npcDrops] = {17324,17327,17339,17342,17343,17344,17346,17347,17348,17350,17352,17353,17522,17523,17527,17588,17589,17661,17683,17322,17323,17325,17326,17328,17329,17330,17334,17336,17337,17338,17340,17341,17358,17494,17550,17604,17606,17607,17608,17609,17610,17713,17714,17715,},
+            [itemKeys.npcDrops] = {17324,17327,17339,17342,17343,17344,17346,17347,17348,17350,17352,17353,17522,17523,17527,17588,17589,17661,17683,17322,17323,17325,17326,17328,17329,17330,17334,17336,17337,17338,17340,17341,17358,17494,17550,17604,17606,17607,17608,17609,17610,17713,17714,17715},
         },
         [23997] = {
             [itemKeys.objectDrops] = {181699},
@@ -95,7 +95,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {182074},
         },
         [24502] = {
-            [itemKeys.npcDrops] = {17138,18037,18064,18065,},
+            [itemKeys.npcDrops] = {17138,18037,18064,18065},
         },
         [24573] = {
             [itemKeys.npcDrops] = {18197},
@@ -113,13 +113,13 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.npcDrops] = {16807},
         },
         [25807] = {
-            [itemKeys.npcDrops] = {18476,18477,},
+            [itemKeys.npcDrops] = {18476,18477},
         },
         [25852] = {
             [itemKeys.objectDrops] = {184842},
         },
         [28548] = {
-            [itemKeys.npcDrops] = {18865,18881,},
+            [itemKeys.npcDrops] = {18865,18881},
         },
         [29112] = {
             [itemKeys.npcDrops] = {18907},
@@ -128,7 +128,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {184162},
         },
         [30426] = {
-            [itemKeys.npcDrops] = {19762,19768,19789,},
+            [itemKeys.npcDrops] = {19762,19768,19789},
         },
         [30430] = {
             [itemKeys.objectDrops] = {184715},
@@ -137,7 +137,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {184729},
         },
         [30451] = {
-            [itemKeys.npcDrops] = {19799,19800,19802,21337,21656,},
+            [itemKeys.npcDrops] = {19799,19800,19802,21337,21656},
         },
         [30658] = {
             [itemKeys.npcDrops] = {21727},
@@ -197,7 +197,7 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.objectDrops] = {500004,500005,500006},
         },
         [35277] = {
-            [itemKeys.npcDrops] = {25866,25863,25924,},
+            [itemKeys.npcDrops] = {25866,25863,25924},
         },
 
         -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
@@ -205,19 +205,19 @@ function QuestieTBCItemFixes:Load()
 
         [40000] = {
             [itemKeys.name] = "Speak with Wing Commander Brack",
-            [itemKeys.relatedQuests] = {10129,},
+            [itemKeys.relatedQuests] = {10129},
             [itemKeys.npcDrops] = {19401},
             [itemKeys.objectDrops] = {},
         },
         [40001] = {
             [itemKeys.name] = "Kill Bristlelimb Furbolgs to lure 'High Chief Bristlelimb'",
-            [itemKeys.relatedQuests] = {9667,},
+            [itemKeys.relatedQuests] = {9667},
             [itemKeys.npcDrops] = {40002},
             [itemKeys.objectDrops] = {},
         },
         [40002] = {
             [itemKeys.name] = "Matis the Cruel Captured",
-            [itemKeys.relatedQuests] = {9711,},
+            [itemKeys.relatedQuests] = {9711},
             [itemKeys.npcDrops] = {17664},
             [itemKeys.objectDrops] = {},
         },
