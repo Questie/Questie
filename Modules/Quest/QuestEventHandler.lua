@@ -9,7 +9,6 @@ local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
     QUEST_TURNED_IN = "QUEST_TURNED_IN",
     QUEST_REMOVED = "QUEST_REMOVED",
-    QUEST_COMPLETED = "QUEST_COMPLETED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 
@@ -75,21 +74,16 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     print("[Quest Event] QUEST_TURNED_IN", questId)
     table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_TURNED_IN)
 
-    -- QUEST_REMOVED fired before QUEST_TURNED_IN --> quest was still turned in
-    if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
+    if questLog[questId] and questLog[questId].timer then
         -- Cancel the timer so the quest is not marked as abandoned
         questLog[questId].timer:Cancel()
         questLog[questId].timer = nil
-
-        print("Quest", questId, "was turned in. Marking it as completed")
-        questLog[questId].state = QUEST_LOG_STATES.QUEST_COMPLETED
-        table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_COMPLETED)
-
-        -- TODO: Call quest completed logic
-        return
     end
 
+    print("Quest", questId, "was turned in and is completed")
     questLog[questId].state = QUEST_LOG_STATES.QUEST_TURNED_IN
+
+    -- TODO: Call quest completed logic
 end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
@@ -100,11 +94,7 @@ function _QuestEventHandler:QuestRemoved(questId)
 
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
-        print("Quest", questId, "was turned in. Marking it as completed")
-        questLog[questId].state = QUEST_LOG_STATES.QUEST_COMPLETED
-        table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_COMPLETED)
-
-        -- TODO: Call quest completed logic
+        print("Quest", questId, "was turned in before. Nothing do to.")
         return
     end
 
