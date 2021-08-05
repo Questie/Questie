@@ -143,7 +143,7 @@ local townsfolkLocales = {
         ["enUS"] = true,
         ["zhCN"] = "专业训练师",
         ["zhTW"] = "專業技能訓練師",
-        ["esES"] = "Instructores de profesiones",
+        ["esES"] = "Instructore de profesión",
         ["frFR"] = "Maîtres de métier",
     },
     ["Reagents"] = {
@@ -199,11 +199,11 @@ local townsfolkLocales = {
         ["ruRU"] = "Камень встреч",
         ["deDE"] = "Versammlungsstein",
         ["koKR"] = "만남의 돌",
-        ["esMX"] = "Rocas de encuentro",
+        ["esMX"] = "Roca de encuentro",
         ["enUS"] = true,
         ["zhCN"] = "集合石",
         ["zhTW"] = "集合石",
-        ["esES"] = "Rocas de encuentro",
+        ["esES"] = "Roca de encuentro",
         ["frFR"] = "Pierre de rencontre",
     },
     ["Meeting Stones"] = {
