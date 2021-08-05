@@ -122,6 +122,7 @@ Modules\Map\HBDHooks.lua
 
 #Quest
 Modules\Quest\DailyQuests.lua
+Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
 
