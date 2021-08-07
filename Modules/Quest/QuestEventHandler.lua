@@ -14,7 +14,7 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 
-local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame", UIParent)
+local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
 local questLog = {}
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
