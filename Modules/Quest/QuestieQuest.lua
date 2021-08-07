@@ -400,12 +400,13 @@ function QuestieQuest:AcceptQuest(questId)
     end
 end
 
-function QuestieQuest:CompleteQuest(quest)
-    local questId = quest.Id
+---@param questId number
+function QuestieQuest:CompleteQuest(questId)
     QuestiePlayer.currentQuestlog[questId] = nil;
+    local isRepeatable =  mod(QuestieDB.QueryQuestSingle(questId, "specialFlags"), 2) == 1
     -- Only quests that aren't repeatable and not a daily quest should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not quest.IsRepeatable);
+    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not isRepeatable);
 
     QuestieHash:RemoveQuestHash(questId)
 
