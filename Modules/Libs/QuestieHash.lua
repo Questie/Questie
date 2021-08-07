@@ -28,7 +28,7 @@ function QuestieHash:LoadQuestLogHashes()
 
     local numEntries, _ = GetNumQuestLogEntries()
     for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
         if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
@@ -76,7 +76,7 @@ function QuestieHash:CompareQuestHashes()
 
     local numEntries, _ = GetNumQuestLogEntries()
     for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, isCollapsed, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
         if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
@@ -148,7 +148,7 @@ function QuestieHash:CompareQuestHash(questId)
 
             if oldhash ~= newHash then
                 Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                _SafeUpdateQuest(questId, newHash);
+                questLogHashes[questId] = newHash
                 hashChanged = true
             end
         end

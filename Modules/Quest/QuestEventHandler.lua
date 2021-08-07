@@ -10,6 +10,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
@@ -251,6 +253,7 @@ function _QuestEventHandler:UpdateQuest(questId)
 
     if hashChanged then
         QuestieNameplate:UpdateNameplate()
+        QuestieQuest:UpdateQuest(questId)
     else
         table.insert(questLogUpdateQueue, function()
             _QuestEventHandler:UpdateQuest(questId)
