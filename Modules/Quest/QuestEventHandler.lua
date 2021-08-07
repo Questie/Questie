@@ -2,8 +2,13 @@
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
 local _QuestEventHandler = {}
 
-local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame", UIParent)
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieJourney
+local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 
+
+local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame", UIParent)
 local questLog = {}
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -64,7 +69,7 @@ function _QuestEventHandler:AcceptQuest(questId)
 
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
         if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
-            print("Objective text is not correct yet")
+            print("Objective texts are not correct yet")
             table.insert(qluTaskQueue, function()
                 _QuestEventHandler:AcceptQuest(questId)
             end)
@@ -73,8 +78,9 @@ function _QuestEventHandler:AcceptQuest(questId)
         end
     end
 
-    print("Objectives are correct")
-    --TODO: Call quest accepted logic
+    print("Objectives are correct. Calling accept logic")
+    QuestieQuest:AcceptQuest(questId)
+    QuestieJourney:AcceptQuest(questId)
 end
 
 --- Fires when a quest is turned in

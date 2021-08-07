@@ -98,7 +98,7 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
 
     -- Quest Events
-    Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
+    --Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
     Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
