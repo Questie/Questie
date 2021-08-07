@@ -46,8 +46,8 @@ end
 local initTries = 0
 -- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 function _QuestEventHandler:InitQuestLog()
-    ExpandQuestHeader(0)
     local numEntries, numQuests = GetNumQuestLogEntries()
+    print("numEntries:", numEntries, "numQuests:", numQuests)
 
     -- Without cached information the first QLU does not have any quest log entries. After 5 tries we stop trying
     if numEntries == 0 and initTries < 5 then
@@ -58,8 +58,12 @@ function _QuestEventHandler:InitQuestLog()
         return
     end
 
-    for i = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+    for i = 1, numEntries + numQuests do
+        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        if (not title) then
+            -- We exceeded the valid quest log entries
+            break
+        end
         if (not isHeader) then
             questLog[questId] = {
                 state = QUEST_LOG_STATES.QUEST_ACCEPTED
