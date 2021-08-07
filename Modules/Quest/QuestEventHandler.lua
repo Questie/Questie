@@ -12,6 +12,8 @@ local QUEST_LOG_STATES = {
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 local playerJustLoggedIn = false
+local qluTaskQueue = {}
+
 
 -- This is used just for debugging purpose
 local questLogEventTrace = {}
@@ -48,8 +50,36 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
         state = QUEST_LOG_STATES.QUEST_ACCEPTED
     }
     table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
+    _QuestEventHandler:AcceptQuest(questId)
+end
 
-    --TODO: Call quest accepted logic
+function _QuestEventHandler:AcceptQuest(questId)
+    local questObjectivesCorrect = _QuestEventHandler:AreQuestObjectivesCorrect(questId)
+    if questObjectivesCorrect then
+        print("Objectives are correct")
+        --TODO: Call quest accepted logic
+    end
+end
+
+---@return boolean true if the quest has no objectives or all are loaded correctly, false otherwise
+function _QuestEventHandler:AreQuestObjectivesCorrect(questId)
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId)
+    for _, objective in pairs(questObjectives) do
+        print("Objective type:", objective.type)
+        print("Objective text:", objective.text)
+
+        -- When the objective text is not cached yet it looks similar to " slain 0/1"
+        if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
+            print("Objective text is not correct yet")
+            table.insert(qluTaskQueue, function()
+                _QuestEventHandler:AcceptQuest(questId)
+            end)
+            -- No need to check other objectives since we have to check them all again already
+            return false
+        end
+    end
+
+    return true
 end
 
 --- Fires when a quest is turned in
@@ -96,7 +126,7 @@ end
 
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
-        print("Quest", questId, "was removed before. Marking it as abandoned")
+        print("Quest", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
         table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ABANDONED)
 
@@ -109,6 +139,12 @@ function _QuestEventHandler:QuestLogUpdate()
     print("[Quest Event] QUEST_LOG_UPDATE")
     if playerJustLoggedIn then
         _QuestEventHandler:InitQuestLog()
+    end
+
+    -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
+    -- We are now calling the function which the event added.
+    if next(qluTaskQueue) then
+        table.remove(qluTaskQueue, 1)()
     end
 end
 
