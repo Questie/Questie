@@ -54,6 +54,7 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     _QuestEventHandler:AcceptQuest(questId)
 end
 
+---@param questId number
 function _QuestEventHandler:AcceptQuest(questId)
     local questObjectivesCorrect = _QuestEventHandler:AreQuestObjectivesCorrect(questId)
     if questObjectivesCorrect then
@@ -62,6 +63,7 @@ function _QuestEventHandler:AcceptQuest(questId)
     end
 end
 
+---@param questId number
 ---@return boolean true if the quest has no objectives or all are loaded correctly, false otherwise
 function _QuestEventHandler:AreQuestObjectivesCorrect(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
@@ -125,6 +127,7 @@ function _QuestEventHandler:QuestRemoved(questId)
     }
 end
 
+---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         print("Quest", questId, "was abandoned")
