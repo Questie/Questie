@@ -254,6 +254,7 @@ function _QuestEventHandler:UpdateQuest(questId)
     if hashChanged then
         QuestieNameplate:UpdateNameplate()
         QuestieQuest:UpdateQuest(questId)
+        QuestieTracker:AQW_Insert(GetQuestLogIndexByID(questId))
     else
         table.insert(questLogUpdateQueue, function()
             _QuestEventHandler:UpdateQuest(questId)
