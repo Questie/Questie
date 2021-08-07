@@ -10,6 +10,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 
 local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame", UIParent)
@@ -60,6 +62,7 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
         state = QUEST_LOG_STATES.QUEST_ACCEPTED
     }
     table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
+    QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:AcceptQuest(questId)
 end
 
