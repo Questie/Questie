@@ -56,16 +56,7 @@ end
 
 ---@param questId number
 function _QuestEventHandler:AcceptQuest(questId)
-    local questObjectivesCorrect = _QuestEventHandler:AreQuestObjectivesCorrect(questId)
-    if questObjectivesCorrect then
-        print("Objectives are correct")
-        --TODO: Call quest accepted logic
-    end
-end
-
----@param questId number
----@return boolean true if the quest has no objectives or all are loaded correctly, false otherwise
-function _QuestEventHandler:AreQuestObjectivesCorrect(questId)
+    -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
         print("Objective type:", objective.type)
@@ -78,11 +69,12 @@ function _QuestEventHandler:AreQuestObjectivesCorrect(questId)
                 _QuestEventHandler:AcceptQuest(questId)
             end)
             -- No need to check other objectives since we have to check them all again already
-            return false
+            return
         end
     end
 
-    return true
+    print("Objectives are correct")
+    --TODO: Call quest accepted logic
 end
 
 --- Fires when a quest is turned in
