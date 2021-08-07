@@ -2088,11 +2088,13 @@ function QuestieTracker:HookBaseTracker()
         hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
             QuestEventHandler:AddToQuestLogUpdateQueue(function()
                 QuestieTracker:AQW_Insert(index, watchTimer)
+                return true
             end)
         end)
         hooksecurefunc("AddQuestWatch", function(index, watchTimer)
             QuestEventHandler:AddToQuestLogUpdateQueue(function()
                 QuestieTracker:AQW_Insert(index, watchTimer)
+                return true
             end)
         end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)

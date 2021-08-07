@@ -41,15 +41,16 @@ function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
 
     -- We always want to skip the first QLU event after login as the client will never have correct data
-    table.insert(questLogUpdateQueue, function() end)
+    table.insert(questLogUpdateQueue, function() return true end)
 
     table.insert(questLogUpdateQueue, function()
-        _QuestEventHandler:InitQuestLog()
+        return _QuestEventHandler:InitQuestLog()
     end)
 end
 
 local initTries = 0
 -- On Login mark all quests in the quest log with QUEST_ACCEPTED state
+---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
     local numEntries, numQuests = GetNumQuestLogEntries()
     print("numEntries:", numEntries, "numQuests:", numQuests)
@@ -58,9 +59,9 @@ function _QuestEventHandler:InitQuestLog()
     if numEntries == 0 and initTries < 5 then
         initTries = initTries + 1
         table.insert(questLogUpdateQueue, function()
-            _QuestEventHandler:InitQuestLog()
+            return _QuestEventHandler:InitQuestLog()
         end)
-        return
+        return false
     end
 
     for i = 1, numEntries + numQuests do
@@ -81,6 +82,8 @@ function _QuestEventHandler:InitQuestLog()
             table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
         end
     end
+
+    return true
 end
 
 --- Fires when a quest is accepted in anyway.
@@ -121,16 +124,18 @@ function _QuestEventHandler:AcceptQuest(questId)
         if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
             print("Objective texts are not correct yet")
             table.insert(questLogUpdateQueue, function()
-                _QuestEventHandler:AcceptQuest(questId)
+                return _QuestEventHandler:AcceptQuest(questId)
             end)
             -- No need to check other objectives since we have to check them all again already
-            return
+            return false
         end
     end
 
     print("Objectives are correct. Calling accept logic")
     QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
+
+    return true
 end
 
 --- Fires when a quest is turned in
@@ -192,10 +197,11 @@ end
 function _QuestEventHandler:QuestLogUpdate()
     print("[Quest Event] QUEST_LOG_UPDATE")
 
+    local continueQueuing = true
     -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
     -- We are now calling the function which the event added.
-    if next(questLogUpdateQueue) then
-        table.remove(questLogUpdateQueue, 1)()
+    while continueQueuing and next(questLogUpdateQueue) do
+        continueQueuing = table.remove(questLogUpdateQueue, 1)()
     end
 end
 
@@ -245,11 +251,12 @@ function _QuestEventHandler:QuestWatchUpdate(questId)
     print("[Quest Event] QUEST_WATCH_UPDATE", questId)
 
     table.insert(questLogUpdateQueue, function()
-        _QuestEventHandler:UpdateQuest(questId)
+        return _QuestEventHandler:UpdateQuest(questId)
     end)
 end
 
 ---@param questId number
+---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:UpdateQuest(questId)
     local hashChanged = QuestieHash:CompareQuestHash(questId)
     print("hashChanged:", hashChanged)
@@ -257,10 +264,12 @@ function _QuestEventHandler:UpdateQuest(questId)
     if hashChanged then
         QuestieNameplate:UpdateNameplate()
         QuestieQuest:UpdateQuest(questId)
+        return true
     else
         table.insert(questLogUpdateQueue, function()
-            _QuestEventHandler:UpdateQuest(questId)
+            return _QuestEventHandler:UpdateQuest(questId)
         end)
+        return false
     end
 end
 
