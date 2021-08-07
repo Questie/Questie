@@ -43,7 +43,8 @@ end
 local initTries = 0
 -- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 function _QuestEventHandler:InitQuestLog()
-    local numEntries, _ = GetNumQuestLogEntries()
+    ExpandQuestHeader(0)
+    local numEntries, numQuests = GetNumQuestLogEntries()
 
     -- Without cached information the first QLU does not have any quest log entries. After 5 tries we stop trying
     if numEntries == 0 and initTries < 5 then
