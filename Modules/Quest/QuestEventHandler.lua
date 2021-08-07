@@ -25,7 +25,7 @@ local QUEST_LOG_STATES = {
 local questLogUpdateQueue = {}
 
 
--- This is used just for debugging purpose
+-- TODO: Remove me - This is only used just for debugging purpose
 local questLogEventTrace = {}
 function QuestEventHandler:GetEventTrace()
     return questLogEventTrace
@@ -34,6 +34,9 @@ end
 -- TODO: Move PLAYER_LOGIN handling somewhere else and call the code in here from that handler
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
+
+    -- We always want to skip the first QLU event after login as the client will never have correct data
+    table.insert(questLogUpdateQueue, function() end)
 
     table.insert(questLogUpdateQueue, function()
         _QuestEventHandler:InitQuestLog()
