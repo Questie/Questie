@@ -6,6 +6,10 @@ local _QuestEventHandler = {}
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
+---@type QuestieHash
+local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
+---@type QuestieNameplate
+local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 
 
 local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame", UIParent)
@@ -100,7 +104,8 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     print("Quest", questId, "was turned in and is completed")
     questLog[questId].state = QUEST_LOG_STATES.QUEST_TURNED_IN
 
-    -- TODO: Call quest completed logic
+    QuestieQuest:CompleteQuest(questId)
+    QuestieJourney:CompleteQuest(questId)
 end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
@@ -132,7 +137,8 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
         table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ABANDONED)
 
-        -- TODO: Call quest abandoned logic
+        QuestieQuest:AbandonedQuest(questId)
+        QuestieJourney:AbandonQuest(questId)
     end
 end
 
