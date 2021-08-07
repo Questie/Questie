@@ -25,6 +25,9 @@ local QUEST_LOG_STATES = {
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 local questLogUpdateQueue = {}
+function QuestEventHandler:AddToQuestLogUpdateQueue(func)
+    table.insert(questLogUpdateQueue, func)
+end
 
 
 -- TODO: Remove me - This is only used just for debugging purpose
@@ -254,7 +257,6 @@ function _QuestEventHandler:UpdateQuest(questId)
     if hashChanged then
         QuestieNameplate:UpdateNameplate()
         QuestieQuest:UpdateQuest(questId)
-        QuestieTracker:AQW_Insert(GetQuestLogIndexByID(questId))
     else
         table.insert(questLogUpdateQueue, function()
             _QuestEventHandler:UpdateQuest(questId)

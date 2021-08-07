@@ -10,6 +10,8 @@ local _Tracker = {}
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestEventHandler
+local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
@@ -2083,12 +2085,16 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
-        --hooksecurefunc("AutoQuestWatch_Insert", function(index, button)
-        --    QuestieTracker:AQW_Insert(index, button)
-        --end)
-        --hooksecurefunc("AddQuestWatch", function(index, button)
-        --    QuestieTracker:AQW_Insert(index, button)
-        --end)
+        hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
+            QuestEventHandler:AddToQuestLogUpdateQueue(function()
+                QuestieTracker:AQW_Insert(index, watchTimer)
+            end)
+        end)
+        hooksecurefunc("AddQuestWatch", function(index, watchTimer)
+            QuestEventHandler:AddToQuestLogUpdateQueue(function()
+                QuestieTracker:AQW_Insert(index, watchTimer)
+            end)
+        end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
         -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
