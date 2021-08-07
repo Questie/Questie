@@ -100,13 +100,13 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Quest Events
     --Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
-    Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
-    Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
-    Questie:RegisterEvent("QUEST_REMOVED", _EventHandler.QuestRemoved)
+    --Questie:RegisterEvent("UNIT_QUEST_LOG_CHANGED", _EventHandler.UnitQuestLogChanged)
+    --Questie:RegisterEvent("QUEST_TURNED_IN", _EventHandler.QuestTurnedIn)
+    --Questie:RegisterEvent("QUEST_REMOVED", _EventHandler.QuestRemoved)
     Questie:RegisterEvent("QUEST_FINISHED", _EventHandler.QuestFinished)
     -- Use bucket for QUEST_LOG_UPDATE to let information propagate through to the blizzard API
     -- Might be able to change this to 0.5 seconds instead, further testing needed.
-    Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _EventHandler.QuestLogUpdate)
+    --Questie:RegisterBucketEvent("QUEST_LOG_UPDATE", 1, _EventHandler.QuestLogUpdate)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)

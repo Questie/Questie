@@ -40,6 +40,36 @@ function _QuestEventHandler:PlayerLogin()
     end)
 end
 
+local initTries = 0
+-- On Login mark all quests in the quest log with QUEST_ACCEPTED state
+function _QuestEventHandler:InitQuestLog()
+    local numEntries, _ = GetNumQuestLogEntries()
+
+    -- Without cached information the first QLU does not have any quest log entries. After 5 tries we stop trying
+    if numEntries == 0 and initTries < 5 then
+        initTries = initTries + 1
+        table.insert(questLogUpdateQueue, function()
+            _QuestEventHandler:InitQuestLog()
+        end)
+        return
+    end
+
+    for i = 1, numEntries do
+        local _, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        if (not isHeader) then
+            questLog[questId] = {
+                state = QUEST_LOG_STATES.QUEST_ACCEPTED
+            }
+
+            if (not questLogEventTrace[questId]) then
+                questLogEventTrace[questId] = {}
+            end
+
+            table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
+        end
+    end
+end
+
 --- Fires when a quest is accepted in anyway.
 ---@param questLogIndex number
 ---@param questId number
@@ -156,33 +186,67 @@ function _QuestEventHandler:QuestLogUpdate()
     end
 end
 
-local initTries = 0
--- On Login mark all quests in the quest log with QUEST_ACCEPTED state
-function _QuestEventHandler:InitQuestLog()
-    local numEntries, _ = GetNumQuestLogEntries()
+----- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
+-----@param unitTarget string
+--function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
+--    print("[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
+--
+--    if unitTarget ~= "player" then
+--        -- The quest log of some other unit changed, which we don't care about
+--        return
+--    end
+--
+--    -- TODO: We need to find a way to add this only if a quest changed. UQLC is also fired if a quest is accepted or removed
+--
+--    table.insert(questLogUpdateQueue, function()
+--        _QuestEventHandler:UpdateQuests()
+--    end)
+--end
 
-    -- Without cached information the first QLU does not have any quest log entries. After 5 tries we stop trying
-    if numEntries == 0 and initTries < 5 then
-        initTries = initTries + 1
-        table.insert(qluTaskQueue, function()
-            _QuestEventHandler:InitQuestLog()
+--function _QuestEventHandler:UpdateQuests()
+--    local questIdsToCheck = {}
+--    ExpandQuestHeader(0) -- Expand all headers
+--
+--    local numEntries, _ = GetNumQuestLogEntries()
+--    for questLogIndex = 1, numEntries do
+--        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+--        if (not isHeader) and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
+--            questIdsToCheck[questId] = isComplete
+--        end
+--    end
+--
+--    local hashChanged = QuestieHash:CompareAcceptedQuestHashes(questIdsToCheck)
+--    print("hashChanged:", hashChanged)
+--    QuestieNameplate:UpdateNameplate()
+--
+--    if (not hashChanged) then
+--        table.insert(qluTaskQueue, function()
+--            _QuestEventHandler:UpdateQuests()
+--        end)
+--    end
+--end
+
+--- Fires whenever a quest objective progressed
+---@param questId number
+function _QuestEventHandler:QuestWatchUpdate(questId)
+    print("[Quest Event] QUEST_WATCH_UPDATE", questId)
+
+    table.insert(questLogUpdateQueue, function()
+        _QuestEventHandler:UpdateQuest(questId)
+    end)
+end
+
+---@param questId number
+function _QuestEventHandler:UpdateQuest(questId)
+    local hashChanged = QuestieHash:CompareQuestHash(questId)
+    print("hashChanged:", hashChanged)
+
+    if hashChanged then
+        QuestieNameplate:UpdateNameplate()
+    else
+        table.insert(questLogUpdateQueue, function()
+            _QuestEventHandler:UpdateQuest(questId)
         end)
-        return
-    end
-
-    for i = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
-        if (not isHeader) then
-            questLog[questId] = {
-                state = QUEST_LOG_STATES.QUEST_ACCEPTED
-            }
-
-            if (not questLogEventTrace[questId]) then
-                questLogEventTrace[questId] = {}
-            end
-
-            table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
-        end
     end
 end
 
@@ -199,6 +263,10 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestRemoved(...)
     elseif event == "QUEST_LOG_UPDATE" then
         _QuestEventHandler:QuestLogUpdate()
+    --elseif event == "UNIT_QUEST_LOG_CHANGED" then
+    --    _QuestEventHandler:UnitQuestLogChanged(...)
+    elseif event == "QUEST_WATCH_UPDATE" then
+        _QuestEventHandler:QuestWatchUpdate(...)
     end
 end
 
@@ -207,4 +275,6 @@ eventFrame:RegisterEvent("QUEST_ACCEPTED")
 eventFrame:RegisterEvent("QUEST_TURNED_IN")
 eventFrame:RegisterEvent("QUEST_REMOVED")
 eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
+--eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
 eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
