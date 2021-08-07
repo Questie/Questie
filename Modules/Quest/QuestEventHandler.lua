@@ -16,7 +16,7 @@ local QUEST_LOG_STATES = {
     QUEST_REMOVED = "QUEST_REMOVED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
-local qluTaskQueue = {}
+local questLogUpdateQueue = {}
 
 
 -- This is used just for debugging purpose
@@ -29,7 +29,7 @@ end
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
 
-    table.insert(qluTaskQueue, function()
+    table.insert(questLogUpdateQueue, function()
         _QuestEventHandler:InitQuestLog()
     end)
 end
@@ -70,7 +70,7 @@ function _QuestEventHandler:AcceptQuest(questId)
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
         if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
             print("Objective texts are not correct yet")
-            table.insert(qluTaskQueue, function()
+            table.insert(questLogUpdateQueue, function()
                 _QuestEventHandler:AcceptQuest(questId)
             end)
             -- No need to check other objectives since we have to check them all again already
@@ -142,8 +142,8 @@ function _QuestEventHandler:QuestLogUpdate()
 
     -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
     -- We are now calling the function which the event added.
-    if next(qluTaskQueue) then
-        table.remove(qluTaskQueue, 1)()
+    if next(questLogUpdateQueue) then
+        table.remove(questLogUpdateQueue, 1)()
     end
 end
 
