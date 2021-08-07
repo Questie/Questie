@@ -113,6 +113,7 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
 end
 
 ---@param questId number
+---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:AcceptQuest(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
