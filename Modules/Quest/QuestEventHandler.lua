@@ -11,6 +11,7 @@ local QUEST_LOG_STATES = {
     QUEST_REMOVED = "QUEST_REMOVED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
+local playerJustLoggedIn = false
 
 -- This is used just for debugging purpose
 local questLogEventTrace = {}
@@ -22,22 +23,7 @@ end
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
 
-    -- On Login mark all quests in the quest log with QUEST_ACCEPTED state
-    local numEntries, _ = GetNumQuestLogEntries()
-    for i=1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
-        if (not isHeader) then
-            questLog[questId] = {
-                state = QUEST_LOG_STATES.QUEST_ACCEPTED
-            }
-
-            if (not questLogEventTrace[questId]) then
-                questLogEventTrace[questId] = {}
-            end
-
-            table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
-        end
-    end
+    playerJustLoggedIn = true
 end
 
 --- Fires when a quest is accepted in anyway.
@@ -118,6 +104,44 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     end
 end
 
+---Fires when the quest log changed in any way. This event fires very often!
+function _QuestEventHandler:QuestLogUpdate()
+    print("[Quest Event] QUEST_LOG_UPDATE")
+    if playerJustLoggedIn then
+        _QuestEventHandler:InitQuestLog()
+    end
+end
+
+local initTries = 0
+-- On Login mark all quests in the quest log with QUEST_ACCEPTED state
+function _QuestEventHandler:InitQuestLog()
+    local numEntries, _ = GetNumQuestLogEntries()
+
+    -- Without cached information the first QLU does not have any quest log entries. After 5 tries we continue
+    -- and disable playerJustLoggedIn
+    if numEntries == 0 and initTries < 5 then
+        initTries = initTries + 1
+        return
+    end
+
+    for i = 1, numEntries do
+        local _, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        if (not isHeader) then
+            questLog[questId] = {
+                state = QUEST_LOG_STATES.QUEST_ACCEPTED
+            }
+
+            if (not questLogEventTrace[questId]) then
+                questLogEventTrace[questId] = {}
+            end
+
+            table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
+        end
+    end
+
+    playerJustLoggedIn = false
+end
+
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
@@ -129,6 +153,8 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestTurnedIn(...)
     elseif event == "QUEST_REMOVED" then
         _QuestEventHandler:QuestRemoved(...)
+    elseif event == "QUEST_LOG_UPDATE" then
+        _QuestEventHandler:QuestLogUpdate()
     end
 end
 
@@ -136,4 +162,5 @@ eventFrame:RegisterEvent("PLAYER_LOGIN")
 eventFrame:RegisterEvent("QUEST_ACCEPTED")
 eventFrame:RegisterEvent("QUEST_TURNED_IN")
 eventFrame:RegisterEvent("QUEST_REMOVED")
+eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
 eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
