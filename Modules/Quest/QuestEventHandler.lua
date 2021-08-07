@@ -74,7 +74,7 @@ end
 ---@param questLogIndex number
 ---@param questId number
 function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
-    print("[Quest Event] QUEST_ACCEPTED", questId)
+    print("[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
         -- We had a QUEST_REMOVED event which started this timer and now it was accepted again.
@@ -125,7 +125,7 @@ end
 ---@param xpReward number
 ---@param moneyReward number
 function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
-    print("[Quest Event] QUEST_TURNED_IN", questId)
+    print("[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
     table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_TURNED_IN)
 
     if questLog[questId] and questLog[questId].timer then
