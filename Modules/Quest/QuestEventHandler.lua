@@ -11,7 +11,6 @@ local QUEST_LOG_STATES = {
     QUEST_REMOVED = "QUEST_REMOVED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
-local playerJustLoggedIn = false
 local qluTaskQueue = {}
 
 
@@ -25,7 +24,9 @@ end
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
 
-    playerJustLoggedIn = true
+    table.insert(qluTaskQueue, function()
+        _QuestEventHandler:InitQuestLog()
+    end)
 end
 
 --- Fires when a quest is accepted in anyway.
@@ -137,9 +138,6 @@ end
 ---Fires when the quest log changed in any way. This event fires very often!
 function _QuestEventHandler:QuestLogUpdate()
     print("[Quest Event] QUEST_LOG_UPDATE")
-    if playerJustLoggedIn then
-        _QuestEventHandler:InitQuestLog()
-    end
 
     -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
     -- We are now calling the function which the event added.
@@ -153,10 +151,12 @@ local initTries = 0
 function _QuestEventHandler:InitQuestLog()
     local numEntries, _ = GetNumQuestLogEntries()
 
-    -- Without cached information the first QLU does not have any quest log entries. After 5 tries we continue
-    -- and disable playerJustLoggedIn
+    -- Without cached information the first QLU does not have any quest log entries. After 5 tries we stop trying
     if numEntries == 0 and initTries < 5 then
         initTries = initTries + 1
+        table.insert(qluTaskQueue, function()
+            _QuestEventHandler:InitQuestLog()
+        end)
         return
     end
 
@@ -174,8 +174,6 @@ function _QuestEventHandler:InitQuestLog()
             table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
         end
     end
-
-    playerJustLoggedIn = false
 end
 
 --- Is executed whenever an event is fired and triggers relevant event handling.
