@@ -10,8 +10,6 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
@@ -118,9 +116,6 @@ function _QuestEventHandler:AcceptQuest(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
-        print("Objective type:", objective.type)
-        print("Objective text:", objective.text)
-
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
         if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
             print("Objective texts are not correct yet")
