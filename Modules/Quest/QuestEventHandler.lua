@@ -28,12 +28,6 @@ function QuestEventHandler:AddToQuestLogUpdateQueue(func)
 end
 
 
--- TODO: Remove me - This is only used just for debugging purpose
-local questLogEventTrace = {}
-function QuestEventHandler:GetEventTrace()
-    return questLogEventTrace
-end
-
 -- TODO: Move PLAYER_LOGIN handling somewhere else and call the code in here from that handler
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
@@ -47,7 +41,7 @@ function _QuestEventHandler:PlayerLogin()
 end
 
 local initTries = 0
--- On Login mark all quests in the quest log with QUEST_ACCEPTED state
+--- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 ---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
     local numEntries, numQuests = GetNumQuestLogEntries()
@@ -72,12 +66,6 @@ function _QuestEventHandler:InitQuestLog()
             questLog[questId] = {
                 state = QUEST_LOG_STATES.QUEST_ACCEPTED
             }
-
-            if (not questLogEventTrace[questId]) then
-                questLogEventTrace[questId] = {}
-            end
-
-            table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
         end
     end
 
@@ -98,14 +86,9 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
         _QuestEventHandler:MarkQuestAsAbandoned(questId)
     end
 
-    if (not questLogEventTrace[questId]) then
-        questLogEventTrace[questId] = {}
-    end
-
     questLog[questId] = {
         state = QUEST_LOG_STATES.QUEST_ACCEPTED
     }
-    table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ACCEPTED)
     QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:AcceptQuest(questId)
 end
@@ -140,7 +123,6 @@ end
 ---@param moneyReward number
 function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     print("[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
-    table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_TURNED_IN)
 
     if questLog[questId] and questLog[questId].timer then
         -- Cancel the timer so the quest is not marked as abandoned
@@ -159,7 +141,6 @@ end
 ---@param questId number
 function _QuestEventHandler:QuestRemoved(questId)
     print("[Quest Event] QUEST_REMOVED", questId)
-    table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_REMOVED)
 
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
@@ -182,7 +163,6 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         print("Quest", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
-        table.insert(questLogEventTrace[questId], QUEST_LOG_STATES.QUEST_ABANDONED)
 
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
