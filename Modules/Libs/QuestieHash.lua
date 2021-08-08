@@ -1,6 +1,6 @@
 --- COMPATIBILITY ---
 local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
+local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
 
 
 ---@class QuestieHash
@@ -144,7 +144,7 @@ function QuestieHash:CompareQuestHash(questId)
     else
         local oldhash = questLogHashes[questId]
         if oldhash ~= nil then
-            local newHash = QuestieHash:GetQuestHash(questId, IsQuestFlaggedCompleted(questId))
+            local newHash = QuestieHash:GetQuestHash(questId, IsQuestComplete(questId))
 
             if oldhash ~= newHash then
                 Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
