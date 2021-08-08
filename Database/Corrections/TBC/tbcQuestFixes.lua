@@ -1606,6 +1606,18 @@ function QuestieTBCQuestFixes:Load()
         [10985] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.", {[zoneIDs.SHADOWMOON_VALLEY]={{71.05,46.11},{66.29,44.06}}}},
         },
+        [10987] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, "Use the Sparrowhawk Net to capture a Wild Sparrowhawk", 0, {{"monster", 22979}}}}
+        },
+        [10990] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Defeat the Guardian of the Eagle and obtain the Essence of the Eagle", 0, {{"object", 185547}}}}
+        },
+        [10991] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Defeat the Guardian of the Falcon and obtain the Essence of the Falcon", 0, {{"object", 185553}}}}
+        },
+        [10992] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Defeat the Guardian of the Hawk and obtain the Essence of the Hawk", 0, {{"object", 185551}}}}
+        },
         [10996] = {
             [questKeys.preQuestSingle] = {10983,10989,11057},
         },
