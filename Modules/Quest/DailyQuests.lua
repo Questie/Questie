@@ -21,9 +21,10 @@ local lastCheck
 ---@return nil
 function DailyQuests:FilterDailies(message, _, _)
     if message and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then
-        if (not lastCheck) then
+        -- If the REPUTABLE message is empty, i.e contains "::::::::::" we don't count it as a check.
+        if (not lastCheck) and not string.find(message, "::::::::::") then
             lastCheck = GetTime();
-        elseif GetTime() - lastCheck < 10 then
+        elseif lastCheck and GetTime() - lastCheck < 10 and not string.find(message, "::::::::::") then
             lastCheck = GetTime();
             return;
         end
@@ -45,11 +46,10 @@ function DailyQuests:FilterDailies(message, _, _)
 end
 
 -- /run DailyQuests:FilterDailies("0:0:11364:0:11354:0:11377:0:11667:0:11340:0")
-
 -- /run Questie.db.char.hiddenDailies = {nhc={},hc={},cooking={},fishing={},pvp={}}
 
 ---@param message string
----@return table<number, number, number, number, number>
+---@return number, number, number, number, number
 function _DailyQuests:GetDailyIds(message)
     -- Each questId is followed by the timestamp from GetQuestResetTime(). We don't use that timestamp (yet)
     local _, _, nhcQuestId, _, hcQuestId, _, cookingQuestId, _, fishingQuestId, _, pvpQuestId, _ = strsplit(":", message);
@@ -107,7 +107,10 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
             _DailyQuests:ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
         else
-            _DailyQuests:HideDailyQuest(questId);
+            -- If the quest is not in the questlog remove all frames
+            if (GetQuestLogIndexByID(questId) == 0) then
+                _DailyQuests:HideDailyQuest(questId);
+            end
             Questie.db.char.hiddenDailies[type][questId] = true;
         end
     end

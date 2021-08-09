@@ -14,7 +14,7 @@ GetAddOnInfo = function()
     return "Questie", "|cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (TBC B2)|r", "A standalone Classic QuestHelper", true, "INSECURE", false
 end
 GetAddOnMetadata = function()
-    return "6.3.9"
+    return "6.5.1"
 end
 GetTime = function()
     return os.time(os.date("!*t")) - 1616930000 -- convert unix time to wow time (actually accurate)

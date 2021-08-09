@@ -327,23 +327,6 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9027}) -- Tracing the S
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9028}) -- The Source Revealed
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9029}) -- A Bubbling Cauldron
 
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9388}) -- Flickering Flames in Kalimdor
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9389}) -- Flickering Flames in the Eastern Kingdoms
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9319}) -- A Light in Dark Places
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9386}) -- A Light in Dark Places
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9367}) -- The Festival of Fire
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9368}) -- The Festival of Fire
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9322}) -- Wild Fires in Kalimdor
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9323}) -- Wild Fires in the Eastern Kingdoms
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9324}) -- Stealing Orgrimmar's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9325}) -- Stealing Thunder Bluff's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9326}) -- Stealing the Undercity's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9330}) -- Stealing Stormwind's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9331}) -- Stealing Ironforge's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9332}) -- Stealing Darnassus's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9339}) -- A Thief's Reward
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 9365}) -- A Thief's Reward
-
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 171}) -- A Warden of the Alliance
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 5502}) -- A Warden of the Horde
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 172}) -- Children's Week
@@ -553,111 +536,169 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11446}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 
+
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9324}) -- Stealing Orgrimmar's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9325}) -- Stealing Thunder Bluff's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9326}) -- Stealing the Undercity's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9330}) -- Stealing Stormwind's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9331}) -- Stealing Ironforge's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9332}) -- Stealing Darnassus's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9339}) -- A Thief's Reward
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 9365}) -- A Thief's Reward
+
+-- Removed in TBC
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9388}) -- Flickering Flames in Kalimdor
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9389}) -- Flickering Flames in the Eastern Kingdoms
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9319}) -- A Light in Dark Places
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9386}) -- A Light in Dark Places
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9367}) -- The Festival of Fire
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9368}) -- The Festival of Fire
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9322}) -- Wild Fires in Kalimdor
+--tinsert(QuestieEvent.eventQuests, {"Midsummer", 9323}) -- Wild Fires in the Eastern Kingdoms
+
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11580}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11581}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11583}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11584}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11691}) -- Summon Ahune
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11696}) -- Ahune is Here!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11768}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11758}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11817}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11580}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11732}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11737}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11741}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11745}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11749}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11753}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11757}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11761}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11765}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11769}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11773}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11777}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11781}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11785}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11800}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11804}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11808}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11812}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11816}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11820}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11824}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11828}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11832}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11886}) -- Unusual Activity
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11731}) -- Torch Tossing
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11736}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11740}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11744}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11748}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11752}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11756}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11760}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11764}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11772}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11776}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11780}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11784}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11799}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11803}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11807}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11811}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11815}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11819}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11823}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11827}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11831}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11882}) -- Playing with Fire
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11583}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11735}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11739}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11743}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11747}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11751}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11755}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11759}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11763}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11767}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11771}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11775}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11779}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11783}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11787}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11802}) -- Desecrate this Fire!
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11806}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11810}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11814}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11818}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11822}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11826}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11830}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11834}) -- Honor the Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11964}) -- Incense for the Summer Scorchlings
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11581}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11732}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11734}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11735}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11736}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11737}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11738}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11739}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11740}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11741}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11742}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11743}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11744}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11745}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11746}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11747}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11748}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11749}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11750}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11751}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11752}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11753}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11754}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11755}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11756}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11757}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11758}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11759}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11760}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11761}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11762}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11763}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11764}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11765}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11766}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11767}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11768}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11769}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11770}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11771}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11772}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11773}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11774}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11775}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11776}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11777}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11778}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11779}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11780}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11781}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11782}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11783}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11784}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11785}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11786}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11787}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11799}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11800}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11801}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11802}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11803}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11804}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11805}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11806}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11807}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11808}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11809}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11810}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11811}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11812}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11813}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11814}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11815}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11816}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11817}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11818}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11819}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11820}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11821}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11822}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11823}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11824}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11825}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11826}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11827}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11828}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11829}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11830}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11831}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11832}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11833}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11834}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11835}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11836}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11837}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11838}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11839}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11840}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11841}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11842}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11843}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11844}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11845}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11846}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11847}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11848}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11849}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11850}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11851}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11852}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11853}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11854}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11855}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11856}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11857}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11858}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11859}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11860}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11861}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11862}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11863}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11882}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11886}) -- Unusual Activity
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11921}) -- Midsummer
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11922}) -- Midsummer
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11923}) -- Midsummer
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11924}) -- Midsummer
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11925}) -- Midsummer
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11926}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11933}) -- Stealing the Exodar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11954}) -- Striking Back (level 67)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11955}) -- Ahune, the Frost Lord
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11964}) -- Incense for the Summer Scorchlings
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528}) -- A Winter Veil Gift

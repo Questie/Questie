@@ -684,7 +684,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                     local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
-                        itemID = tonumber(itemID)
                         isFound = true
                         break
                     end
@@ -698,7 +697,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                     local texture = GetInventoryItemTexture("player", j)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
-                        itemID = tonumber(itemID)
                         isFound = true
                         break
                     end

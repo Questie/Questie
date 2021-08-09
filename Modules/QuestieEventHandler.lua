@@ -198,8 +198,8 @@ function _EventHandler:QuestAccepted(questLogIndex, questId)
 end
 
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
----@param errorType The error type value from the UI_INFO_MESSAGE event
----@param message The message value from the UI_INFO_MESSAGE event
+---@param errorType number The error type value from the UI_INFO_MESSAGE event
+---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
     -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
     -- Global Strings used:
@@ -306,9 +306,10 @@ function _EventHandler:QuestFinished()
         Questie:Debug(DEBUG_DEVELOP, "shouldRunQLU still active")
         if next(latestTurnedInQuestIds) then
             Questie:Debug(DEBUG_DEVELOP, "finishedEventReceived is questId")
-            local quest = QuestieDB:GetQuest(latestTurnedInQuestIds[1])
+            -- these quests won't fire QUEST_REMOVED event
+            local questId = table.remove(latestTurnedInQuestIds, 1)
             Questie:Debug(DEBUG_DEVELOP, "Completing automatic completion quest")
-            QuestieQuest:CompleteQuest(quest)
+            _EventHandler:CompleteQuest(questId)
         else
             Questie:Debug(DEBUG_DEVELOP, "latestTurnedInQuestIds is empty. Something is off?")
         end
@@ -456,12 +457,12 @@ function _EventHandler:GroupLeft()
     QuestieComms:ResetAll()
 end
 
-local previousTrackerState
+local wasTrackerExpanded = false
 
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat then
-        previousTrackerState = Questie.db.char.isTrackerExpanded
+        wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
     end
     if InCombatLockdown() then
@@ -473,7 +474,7 @@ end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.global.hideTrackerInCombat and (previousTrackerState == true) then
+    if Questie.db.global.hideTrackerInCombat and (wasTrackerExpanded == true) then
         QuestieTracker:Expand()
     end
 end
@@ -485,9 +486,9 @@ function _EventHandler:ZoneChangedNewArea()
 
     Questie:Debug(DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     if IsInInstance() then
-        previousTrackerState = Questie.db.char.isTrackerExpanded
+        wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
-    else
+    elseif wasTrackerExpanded then
         QuestieTracker:Expand()
     end
 end

@@ -1,8 +1,8 @@
 ## Interface: 20501
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.5.0|r
-## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Dyaxler/Schaka/Zoey/Everyone else
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.5.1|r
+## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.5.0
+## Version: 6.5.1
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -17,6 +17,8 @@ Libs\LibUIDropDownMenu\LibUIDropDownMenu.lua
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
+
+LibsOnlyTBC\LibQuestXP\LibQuestXP.xml
 
 #Loader module
 Modules\Libs\QuestieLoader.lua

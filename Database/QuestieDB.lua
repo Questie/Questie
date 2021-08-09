@@ -331,7 +331,7 @@ function QuestieDB:GetQuestTagInfo(questId)
     return questType, questTag
 end
 
----@param questId
+---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
@@ -347,13 +347,6 @@ function QuestieDB:IsComplete(questId)
     end
 
     return 0
-end
-
----@param questId number
----@return boolean
-function QuestieDB:IsRepeatable(questId)
-    local specialFlags = unpack(QuestieDB.QueryQuest(questId, "specialFlags"))
-    return mod(specialFlags, 2) == 1
 end
 
 ---@param questId number

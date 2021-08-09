@@ -32,6 +32,17 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and false then
     return
 end
 
+if GetAddOnMetadata("Questie", "Version") ~= "6.5.1" then
+    StaticPopupDialogs["QUESTIE_NOT_RESTARTED"] = {
+        text = "You just updated Questie but forgot to restart the WoW client. Questie will not work properly if you don't restart!",
+        button2 = "Okay, I will restart",
+        hasEditBox = false,
+        whileDead = true
+    }
+    StaticPopup_Show("QUESTIE_NOT_RESTARTED")
+    return
+end
+
 if Questie then
     C_Timer.After(4, function()
         error("ERROR!! -> Questie already loaded! Please only have one Questie installed!")

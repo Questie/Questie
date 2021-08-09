@@ -445,7 +445,7 @@ function QuestieLib:GetAddonVersionInfo()
 
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
     local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
-    hash = "nil"
+    local hash = "nil"
 
     local buildType
 
@@ -557,7 +557,7 @@ function QuestieLib:Levenshtein(str1, str2)
     local len1 = string.len(str1)
     local len2 = string.len(str2)
     local matrix = {}
-    local cost = 0
+    local cost
     -- quick cut-offs to save time
     if (len1 == 0) then
         return len2

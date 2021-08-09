@@ -8,9 +8,11 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local startDragAnchor = {}
 local startDragPos = {}
 local endDragPos = {}
-local preSetPoint = nil
+local preSetPoint
 
 local mouselookTicker = {}
+local updateTimer
+local tempTrackerLocation
 
 function _QuestieTracker:OnDragStart(button)
     Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
@@ -94,8 +96,7 @@ function _QuestieTracker:OnResizeStart(button)
                 _QuestieTracker.isSizing = true
                 tempTrackerLocation = {baseFrame:GetPoint()}
                 baseFrame:StartSizing("RIGHT")
-                _QuestieUpdateTimer = C_Timer.NewTicker(0.1, function()
-                    local baseFrame = QuestieTracker:GetBaseFrame()
+                updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
                     QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
@@ -118,7 +119,7 @@ function _QuestieTracker:OnResizeStop(button)
     end
     _QuestieTracker.isSizing = false
     baseFrame:StopMovingOrSizing()
-    _QuestieUpdateTimer:Cancel()
+    updateTimer:Cancel()
     baseFrame:ClearAllPoints()
     baseFrame:SetPoint(unpack(tempTrackerLocation))
 end
@@ -189,6 +190,8 @@ function _QuestieTracker:AutoConvertSetPoint(frame)
         elseif frame:GetHeight()/GetScreenHeight() > 0.75 then
             yAdj = frame:GetHeight()
         end
+
+        local xOff, yOff
 
         -- setPoint Topleft = Down and Right
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[4] < 0 and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[5] > yAdj and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] ~= "TOPLEFT" then
@@ -287,9 +290,10 @@ function _QuestieTracker:ConvertSetPointCords(frame, setpoint)
         local setPoint = setpoint
         local xOn = ({frame:GetPoint()})[4]
         local yOn = ({frame:GetPoint()})[5]
-        if not (height or width or preSetPoint or xOn or yOn or setPoint or preSetPoint)then return end
+        if not (height or width or preSetPoint or xOn or yOn or setPoint or preSetPoint) then return end
         if (setPoint ~= preSetPoint) then
 
+            local xOff, yOff
             -- To "TOPLEFT" from...
             if setPoint == "TOPLEFT" then
                 if preSetPoint == "TOPRIGHT" then
