@@ -34,9 +34,6 @@ end
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
 
-    -- We always want to skip the first QLU event after login as the client will never have correct data
-    table.insert(questLogUpdateQueue, function() return false end)
-
     table.insert(questLogUpdateQueue, function()
         return _QuestEventHandler:InitQuestLog()
     end)
