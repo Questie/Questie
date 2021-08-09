@@ -22,6 +22,8 @@ local QUEST_LOG_STATES = {
     QUEST_REMOVED = "QUEST_REMOVED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
+local skipNextUQLCEvent = false;
+
 local questLogUpdateQueue = {}
 function QuestEventHandler:AddToQuestLogUpdateQueue(func)
     table.insert(questLogUpdateQueue, func)
@@ -89,6 +91,7 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     questLog[questId] = {
         state = QUEST_LOG_STATES.QUEST_ACCEPTED
     }
+    skipNextUQLCEvent = true
     QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:AcceptQuest(questId)
 end
@@ -133,6 +136,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     print("Quest", questId, "was turned in and is completed")
     questLog[questId].state = QUEST_LOG_STATES.QUEST_TURNED_IN
 
+    skipNextUQLCEvent = true
     QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
 end
@@ -156,6 +160,7 @@ function _QuestEventHandler:QuestRemoved(questId)
             _QuestEventHandler:MarkQuestAsAbandoned(questId)
         end, 1)
     }
+    skipNextUQLCEvent = true
 end
 
 ---@param questId number
@@ -181,46 +186,6 @@ function _QuestEventHandler:QuestLogUpdate()
     end
 end
 
------ Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
------@param unitTarget string
---function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
---    print("[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
---
---    if unitTarget ~= "player" then
---        -- The quest log of some other unit changed, which we don't care about
---        return
---    end
---
---    -- TODO: We need to find a way to add this only if a quest changed. UQLC is also fired if a quest is accepted or removed
---
---    table.insert(questLogUpdateQueue, function()
---        _QuestEventHandler:UpdateQuests()
---    end)
---end
-
---function _QuestEventHandler:UpdateQuests()
---    local questIdsToCheck = {}
---    ExpandQuestHeader(0) -- Expand all headers
---
---    local numEntries, _ = GetNumQuestLogEntries()
---    for questLogIndex = 1, numEntries do
---        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
---        if (not isHeader) and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
---            questIdsToCheck[questId] = isComplete
---        end
---    end
---
---    local hashChanged = QuestieHash:CompareAcceptedQuestHashes(questIdsToCheck)
---    print("hashChanged:", hashChanged)
---    QuestieNameplate:UpdateNameplate()
---
---    if (not hashChanged) then
---        table.insert(qluTaskQueue, function()
---            _QuestEventHandler:UpdateQuests()
---        end)
---    end
---end
-
 --- Fires whenever a quest objective progressed
 ---@param questId number
 function _QuestEventHandler:QuestWatchUpdate(questId)
@@ -229,6 +194,66 @@ function _QuestEventHandler:QuestWatchUpdate(questId)
     table.insert(questLogUpdateQueue, function()
         return _QuestEventHandler:UpdateQuest(questId)
     end)
+    skipNextUQLCEvent = true
+end
+
+----- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
+-----@param unitTarget string
+function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
+    print("[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
+
+    if unitTarget ~= "player" then
+        -- The quest log of some other unit changed, which we don't care about
+        return
+    end
+
+    -- TODO: We need to find a way to add this only if a quest changed. UQLC is also fired if a quest is accepted or removed
+    -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
+    -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
+    if (not skipNextUQLCEvent) then
+        table.insert(questLogUpdateQueue, function()
+            -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
+            -- (Accept, removed, ...)
+            if (not skipNextUQLCEvent) then
+                _QuestEventHandler:UpdateQuests()
+            else
+                print("Skipping full check")
+            end
+            skipNextUQLCEvent = false
+        end)
+    else
+        print("Skipping full check")
+    end
+    skipNextUQLCEvent = false
+end
+
+function _QuestEventHandler:UpdateQuests()
+    local questIdsToCheck = {}
+
+    local numEntries, numQuests = GetNumQuestLogEntries()
+    for questLogIndex = 1, numEntries + numQuests do
+        local title, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        if (not title) then
+            break
+        end
+        if (not isHeader) and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
+            questIdsToCheck[questId] = isComplete
+        end
+    end
+
+    local questIdToUpdate = QuestieHash:CompareAcceptedQuestHashes(questIdsToCheck)
+    print("questIdToUpdate:", questIdToUpdate)
+
+    if questIdToUpdate then
+        QuestieNameplate:UpdateNameplate()
+        QuestieQuest:UpdateQuest(questIdToUpdate)
+        return true
+    else
+        table.insert(questLogUpdateQueue, function()
+            return _QuestEventHandler:UpdateQuests()
+        end)
+        return false
+    end
 end
 
 ---@param questId number
@@ -262,10 +287,10 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestRemoved(...)
     elseif event == "QUEST_LOG_UPDATE" then
         _QuestEventHandler:QuestLogUpdate()
-    --elseif event == "UNIT_QUEST_LOG_CHANGED" then
-    --    _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "QUEST_WATCH_UPDATE" then
         _QuestEventHandler:QuestWatchUpdate(...)
+    elseif event == "UNIT_QUEST_LOG_CHANGED" then
+        _QuestEventHandler:UnitQuestLogChanged(...)
     end
 end
 
@@ -274,6 +299,6 @@ eventFrame:RegisterEvent("QUEST_ACCEPTED")
 eventFrame:RegisterEvent("QUEST_TURNED_IN")
 eventFrame:RegisterEvent("QUEST_REMOVED")
 eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
---eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
 eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
+eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
 eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)

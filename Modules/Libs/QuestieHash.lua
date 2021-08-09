@@ -101,35 +101,38 @@ function QuestieHash:CompareQuestHashes()
     return hashChanged
 end
 
---function QuestieHash:CompareAcceptedQuestHashes(questIdList)
---    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
---    local hashChanged = false
---
---    if questLogHashes == nil then
---        return hashChanged
---    end
---
---    for questId, isComplete in pairs(questIdList) do
---        if (not QuestieDB.QuestPointers[questId]) then
---            Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
---            Questie._sessionWarnings[questId] = true
---        else
---            local oldhash = questLogHashes[questId]
---            if oldhash ~= nil then
---                local newHash = QuestieHash:GetQuestHash(questId, isComplete)
---
---                if oldhash ~= newHash then
---                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
---                    _SafeUpdateQuest(questId, newHash);
---                    hashChanged = true
---                end
---            end
---        end
---    end
---
---    return hashChanged
---end
+---@param questId number
+---@return number returns the questId of the quest which hash changed, nil otherwise
+function QuestieHash:CompareAcceptedQuestHashes(questIdList)
+    --Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
 
+    if questLogHashes == nil then
+        return nil
+    end
+
+    for questId, isComplete in pairs(questIdList) do
+        if (not QuestieDB.QuestPointers[questId]) then
+            Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
+            Questie._sessionWarnings[questId] = true
+        else
+            local oldhash = questLogHashes[questId]
+            if oldhash ~= nil then
+                local newHash = QuestieHash:GetQuestHash(questId, isComplete)
+
+                if oldhash ~= newHash then
+                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
+                    _SafeUpdateQuest(questId, newHash);
+                    return questId
+                end
+            end
+        end
+    end
+
+    return nil
+end
+
+---@param questId number
+---@return boolean true if the hash of the questId changed, false otherwise
 function QuestieHash:CompareQuestHash(questId)
     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHash")
     local hashChanged = false
