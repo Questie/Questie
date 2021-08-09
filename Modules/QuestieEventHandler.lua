@@ -1,5 +1,4 @@
 --- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 --- GLOBAL ---

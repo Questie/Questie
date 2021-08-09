@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
 ---@class QuestieComms
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 local _QuestieComms = QuestieComms.private

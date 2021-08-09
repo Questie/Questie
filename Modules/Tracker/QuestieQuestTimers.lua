@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
-
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
 local _QuestieQuestTimers = {}

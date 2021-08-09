@@ -1,7 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
-
 ---@class QuestieHash
 local QuestieHash = QuestieLoader:CreateModule("QuestieHash")
 

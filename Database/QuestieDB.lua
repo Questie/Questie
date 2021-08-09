@@ -1,8 +1,3 @@
---- COMPATIBILITY ---
-local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
-local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
-local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
-
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
