@@ -1,8 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
-
-
 ---@class QuestieHash
 local QuestieHash = QuestieLoader:CreateModule("QuestieHash")
 

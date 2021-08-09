@@ -1,8 +1,4 @@
 --- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
-local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
-local GetQuestGreenRange = GetQuestGreenRange or UnitQuestTrivialLevelRange
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 ---@class QuestieQuest

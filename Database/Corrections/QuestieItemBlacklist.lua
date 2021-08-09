@@ -194,5 +194,9 @@ function QuestieItemBlacklist:Load()
         [24401] = true, -- Unidentified Plant Parts
         [26042] = true, -- Oshu'gun Crystal Powder Sample
         [26043] = true, -- Oshu'gun Crystal Powder Sample
+
+        [22786] = true, -- Dreaming Glory
+        [22790] = true, -- Ancient Lichen
+        [32569] = true, -- Apexis Shard
     }
 end
