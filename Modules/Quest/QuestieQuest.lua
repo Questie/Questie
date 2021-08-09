@@ -72,7 +72,7 @@ function QuestieQuest:Initialize()
     QuestieProfessions:Update()
     QuestieReputation:Update(true)
 
-    QuestieHash:LoadQuestLogHashes()
+    QuestieHash:InitQuestLogHashes()
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
