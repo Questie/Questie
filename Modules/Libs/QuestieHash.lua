@@ -7,12 +7,10 @@ local IsQuestComplete = IsQuestComplete or C_QuestLog.IsComplete
 local QuestieHash = QuestieLoader:CreateModule("QuestieHash")
 
 ---@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib");
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local libS = QuestieLoader:ImportModule("QuestieSerializer")
@@ -20,32 +18,33 @@ local libC = LibStub:GetLibrary("LibCompress")
 
 local questLogHashes = {}
 
--- forward declaration
-local _SafeUpdateQuest
 
 function QuestieHash:LoadQuestLogHashes()
-    ExpandQuestHeader(0) -- Expand all headers
-
-    local numEntries, _ = GetNumQuestLogEntries()
-    for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+    local numEntries, numQuests = GetNumQuestLogEntries()
+    for questLogIndex = 1, numEntries + numQuests do
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
+        if (not title) then
+            -- We exceeded the valid quest log entries
+            break
+        end
         if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
         elseif not isHeader then
-            local hash = QuestieHash:GetQuestHash(questId, isComplete)
-            tinsert(questLogHashes, questId, hash)
+            questLogHashes[questId] = QuestieHash:GetQuestHash(questId)
         end
     end
 end
 
-function QuestieHash:GetQuestHash(questId, isComplete)
+---@param questId number
+---@return string a hash of the quest objectives + the state if the quest is complete
+function QuestieHash:GetQuestHash(questId)
     local hash = libC:fcs32init()
     local data = {}
     data.questId = questId
-    data.isComplete = isComplete
+    data.isComplete = IsQuestComplete(questId)
     data.questObjectives = QuestieLib:GetQuestObjectives(questId);
 
     hash = libC:fcs32update(hash, libS:Serialize(data))
@@ -55,9 +54,7 @@ end
 
 function QuestieHash:AddNewQuestHash(questId)
     Questie:Debug(DEBUG_DEVELOP, "AddNewQuestHash:", questId)
-    local hash = QuestieHash:GetQuestHash(questId, false)
-
-    questLogHashes[questId] = hash
+    questLogHashes[questId] = QuestieHash:GetQuestHash(questId)
 end
 
 function QuestieHash:RemoveQuestHash(questId)
@@ -65,70 +62,35 @@ function QuestieHash:RemoveQuestHash(questId)
     questLogHashes[questId] = nil
 end
 
-function QuestieHash:CompareQuestHashes()
+---@param questIdList table<number, number> A list of questIds whose hash should to be checked
+---@return table<number, number> A list questIds whose hash has changed
+function QuestieHash:CompareHashesOfQuestIdList(questIdList)
     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
-    local hashChanged = false
-
-    if questLogHashes == nil then
-        return hashChanged
-    end
-    ExpandQuestHeader(0) -- Expand all headers
-
-    local numEntries, _ = GetNumQuestLogEntries()
-    for questLogIndex=1, numEntries do
-        local _, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
-                Questie._sessionWarnings[questId] = true
-            end
-        elseif not isHeader then
-            local oldhash = questLogHashes[questId]
-            if oldhash ~= nil then
-                local newHash = QuestieHash:GetQuestHash(questId, isComplete)
-
-                if oldhash ~= newHash then
-                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                    _SafeUpdateQuest(questId, newHash);
-                    hashChanged = true
-                end
-            else
-                Questie:Debug(DEBUG_CRITICAL, "[QuestieHash:CompareQuestHashes] Quest hash is missing for", questId)
-            end
-        end
-    end
-
-    return hashChanged
-end
-
----@param questId number
----@return number returns the questId of the quest which hash changed, nil otherwise
-function QuestieHash:CompareAcceptedQuestHashes(questIdList)
-    --Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
+    local updatedQuestIds = {}
 
     if questLogHashes == nil then
         return nil
     end
 
-    for questId, isComplete in pairs(questIdList) do
+    for _, questId in pairs(questIdList) do
         if (not QuestieDB.QuestPointers[questId]) then
             Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
             Questie._sessionWarnings[questId] = true
         else
-            local oldhash = questLogHashes[questId]
-            if oldhash ~= nil then
-                local newHash = QuestieHash:GetQuestHash(questId, isComplete)
+            local oldHash = questLogHashes[questId]
+            if oldHash ~= nil then
+                local newHash = QuestieHash:GetQuestHash(questId)
 
-                if oldhash ~= newHash then
-                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
-                    _SafeUpdateQuest(questId, newHash);
-                    return questId
+                if oldHash ~= newHash then
+                    Questie:Debug(DEBUG_DEVELOP, "Hash changed for questId:", questId)
+                    table.insert(updatedQuestIds, questId)
+                    questLogHashes[questId] = newHash
                 end
             end
         end
     end
 
-    return nil
+    return updatedQuestIds
 end
 
 ---@param questId number
@@ -145,11 +107,11 @@ function QuestieHash:CompareQuestHash(questId)
         Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
         Questie._sessionWarnings[questId] = true
     else
-        local oldhash = questLogHashes[questId]
-        if oldhash ~= nil then
+        local oldHash = questLogHashes[questId]
+        if oldHash ~= nil then
             local newHash = QuestieHash:GetQuestHash(questId, IsQuestComplete(questId))
 
-            if oldhash ~= newHash then
+            if oldHash ~= newHash then
                 Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
                 questLogHashes[questId] = newHash
                 hashChanged = true
@@ -158,24 +120,4 @@ function QuestieHash:CompareQuestHash(questId)
     end
 
     return hashChanged
-end
-
-_SafeUpdateQuest = function(questId, hash, count)
-    if (not count) then
-        count = 0;
-    end
-    if (QuestieLib:IsResponseCorrect(questId)) then
-        QuestieQuest:UpdateQuest(questId)
-        questLogHashes[questId] = hash
-        Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
-    else
-        if (count < 50) then
-            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest " .. questId .. ". Waiting with timer...");
-            C_Timer.After(0.1, function()
-                _SafeUpdateQuest(questId, hash, count + 1);
-            end)
-        else
-            Questie:Debug(DEBUG_CRITICAL, "Didn't get a correct response after 50 tries, stopping");
-        end
-    end
 end

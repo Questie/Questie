@@ -232,27 +232,27 @@ function _QuestEventHandler:UpdateQuests()
 
     local numEntries, numQuests = GetNumQuestLogEntries()
     for questLogIndex = 1, numEntries + numQuests do
-        local title, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
+            -- We exceeded the valid quest log entries
             break
         end
         if (not isHeader) and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
-            questIdsToCheck[questId] = isComplete
+            table.insert(questIdsToCheck, questId)
         end
     end
 
-    local questIdToUpdate = QuestieHash:CompareAcceptedQuestHashes(questIdsToCheck)
-    print("questIdToUpdate:", questIdToUpdate)
+    local questIdToUpdate = QuestieHash:CompareHashesOfQuestIdList(questIdsToCheck)
 
-    if questIdToUpdate then
-        QuestieNameplate:UpdateNameplate()
-        QuestieQuest:UpdateQuest(questIdToUpdate)
+    if next(questIdToUpdate) then
+        for _, questId in pairs(questIdToUpdate) do
+            print("questIdToUpdate:", questId)
+            QuestieNameplate:UpdateNameplate()
+            QuestieQuest:UpdateQuest(questId)
+        end
         return true
     else
-        table.insert(questLogUpdateQueue, function()
-            return _QuestEventHandler:UpdateQuests()
-        end)
-        return false
+        print("Nothing to update. Something is off")
     end
 end
 
