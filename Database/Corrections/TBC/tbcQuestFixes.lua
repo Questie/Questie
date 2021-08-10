@@ -1362,12 +1362,14 @@ function QuestieTBCQuestFixes:Load()
         [10711] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
             [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10710, 10657},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10712] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
             [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying", 0, {{"monster", 21461}}}},
         },
