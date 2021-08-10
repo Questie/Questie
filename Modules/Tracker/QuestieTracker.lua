@@ -636,18 +636,6 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
     frm:EnableMouse(true)
     frm:RegisterForDrag("LeftButton")
 
-    frm:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
-    frm:RegisterEvent("BANKFRAME_CLOSED")
-
-    frm:SetScript("OnEvent", function(_, event, ...)
-        if (event == "BAG_NEW_ITEMS_UPDATED" or event == "BANKFRAME_CLOSED") then
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:ResetLinesForChange()
-                QuestieTracker:Update()
-            end)
-        end
-    end)
-
     frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
     frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
     frm:SetScript("OnEnter", _OnEnter)

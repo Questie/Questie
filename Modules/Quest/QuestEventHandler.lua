@@ -204,7 +204,6 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
         return
     end
 
-    -- TODO: We need to find a way to add this only if a quest changed. UQLC is also fired if a quest is accepted or removed
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
@@ -247,9 +246,8 @@ function _QuestEventHandler:UpdateQuests()
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
-        return true
     else
-        print("Nothing to update. Something is off")
+        print("Nothing to update")
     end
 end
 
@@ -271,6 +269,20 @@ function _QuestEventHandler:UpdateQuest(questId)
     end
 end
 
+local isFirstBankFrameClosedEvent = true
+--- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
+--- So we hook the BANKFRAME_CLOSED which fires twice after closing the bank frame and do a full quest log check.
+function _QuestEventHandler:BankFrameClosed()
+    print("[Event] BANKFRAME_CLOSED")
+
+    if isFirstBankFrameClosedEvent then
+        _QuestEventHandler:UpdateQuests()
+        isFirstBankFrameClosedEvent = false
+    else
+        isFirstBankFrameClosedEvent = true
+    end
+end
+
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
@@ -288,6 +300,8 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" then
         _QuestEventHandler:UnitQuestLogChanged(...)
+    elseif event == "BANKFRAME_CLOSED" then
+        _QuestEventHandler:BankFrameClosed()
     end
 end
 
@@ -298,4 +312,5 @@ eventFrame:RegisterEvent("QUEST_REMOVED")
 eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
 eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
 eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+eventFrame:RegisterEvent("BANKFRAME_CLOSED")
 eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
