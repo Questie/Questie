@@ -1,4 +1,33 @@
 ---@class QuestieDB
+---@field npcCompilerTypes table
+---@field npcCompilerOrder table
+---@field npcKeys table
+---@field npcKeysReversed table
+---@field questCompilerTypes table
+---@field questCompilerOrder table
+---@field questKeys table
+---@field questKeysReversed table
+---@field objectCompilerTypes table
+---@field objectCompilerOrder table
+---@field objectKeys table
+---@field objectKeysReversed table
+---@field itemCompilerTypes table
+---@field itemCompilerOrder table
+---@field itemKeys table
+---@field itemKeysReversed table
+---@field npcData any
+---@field questData any
+---@field objectData any
+---@field itemData any
+---@field questDataTBC nil | table
+---@field objectDataTBC nil | table
+---@field npcDataTBC nil | table
+---@field itemDataTBC nil | table
+---@field sortKeys table
+---@field _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field _npcAdapterQueryOrder table @temporary, until we remove the old db funcitons
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
