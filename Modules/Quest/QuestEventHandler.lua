@@ -23,11 +23,7 @@ local QUEST_LOG_STATES = {
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
 local skipNextUQLCEvent = false;
-
 local questLogUpdateQueue = {}
-function QuestEventHandler:AddToQuestLogUpdateQueue(func)
-    table.insert(questLogUpdateQueue, func)
-end
 
 
 -- TODO: Move PLAYER_LOGIN handling somewhere else and call the code in here from that handler
@@ -271,7 +267,7 @@ end
 
 local isFirstBankFrameClosedEvent = true
 --- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
---- So we hook the BANKFRAME_CLOSED which fires twice after closing the bank frame and do a full quest log check.
+--- So we hook the BANKFRAME_CLOSED event which fires twice after closing the bank frame and do a full quest log check.
 function _QuestEventHandler:BankFrameClosed()
     print("[Event] BANKFRAME_CLOSED")
 

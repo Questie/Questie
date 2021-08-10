@@ -7,8 +7,6 @@ local _Tracker = {}
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestEventHandler
-local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
@@ -2071,16 +2069,10 @@ function QuestieTracker:HookBaseTracker()
 
     if not QuestieTracker._alreadyHookedSecure then
         hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
-            QuestEventHandler:AddToQuestLogUpdateQueue(function()
-                QuestieTracker:AQW_Insert(index, watchTimer)
-                return true
-            end)
+            QuestieTracker:AQW_Insert(index, watchTimer)
         end)
         hooksecurefunc("AddQuestWatch", function(index, watchTimer)
-            QuestEventHandler:AddToQuestLogUpdateQueue(function()
-                QuestieTracker:AQW_Insert(index, watchTimer)
-                return true
-            end)
+            QuestieTracker:AQW_Insert(index, watchTimer)
         end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
@@ -2256,6 +2248,7 @@ _RemoveQuestWatch = function(index, isQuestie)
 end
 
 function QuestieTracker:AQW_Insert(index, expire)
+    print("AQW_Insert", index, expire)
     Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
     if QuestieTracker._disableHooks then
         return
