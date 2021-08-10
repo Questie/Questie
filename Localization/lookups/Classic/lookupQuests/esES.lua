@@ -3872,7 +3872,6 @@ l10n.questLookup["esES"] = {
 [8845] = {"Diez sellos de honor", nil, nil},
 [8846] = {"Cinco sellos para los suministros bélicos", nil, nil},
 [8847] = {"Diez sellos para los suministros bélicos", nil, nil},
-[8858] = {"Los secretos de los Colosos: Regal", {"Nada me gustaría más que estampar esta coraza de bicho en la cara de Puñaceite... Pero aquí estoy, recogiendo muestras para esa cucaracha hipertrofiada. Con lo grande que es el bicho, estaré aquí hasta que cante el gallo. Llévale la muestra a Puñaceite, <clase>, y date prisa: ¡paga muy bien! Ve a Puesto del Torio, en La Garganta de Fuego."}, {"Lleva la coraza del coloso de Regal al sobrestante Puñaceite a La Garganta de Fuego."}},
 [8849] = {"Veinte sellos para los suministros bélicos", nil, nil},
 [8850] = {"Treinta sellos para los suministros bélicos", nil, nil},
 [8851] = {"Cinco sellos para los suministros bélicos", nil, nil},
