@@ -1171,7 +1171,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     local ret = {}
                     for index,key in pairs({...}) do
                         local rootIndex = keyToRootIndex[key]
-                        if override and rootIndex and override[rootIndex] ~= nil then
+                        if rootIndex and override[rootIndex] ~= nil then
                             ret[index] = override[rootIndex]
                         end
                     end

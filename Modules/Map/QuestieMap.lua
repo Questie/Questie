@@ -194,7 +194,7 @@ end
 
 function QuestieMap:ProcessShownMinimapIcons()
     --Upvalue the most used functions in here
-    local getTime, cYield, getWorldPos, mathAbs = GetTime, coroutine.yield, HBD.GetPlayerWorldPosition, math.abs
+    local getTime, cYield, getWorldPos = GetTime, coroutine.yield, HBD.GetPlayerWorldPosition
 
     --Max icons per tick
     local maxCount = 50
@@ -217,8 +217,9 @@ function QuestieMap:ProcessShownMinimapIcons()
         playerX, playerY = getWorldPos()
 
         --Calculate squared distance
-        xd = mathAbs((playerX or 0) - (QuestieMap.playerX or 0))
-        yd = mathAbs((playerY or 0) - (QuestieMap.playerY or 0))
+        -- No need for absolute values as these are used only as squared
+        xd = (playerX or 0) - (QuestieMap.playerX or 0)
+        yd = (playerY or 0) - (QuestieMap.playerY or 0)
         --Instead of math.sqrt we just used the square distance for speed
         totalDistance = totalDistance + (xd * xd + yd * yd)
 
