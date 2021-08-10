@@ -252,10 +252,10 @@ local townsfolkLocales = {
         ["zhCN"] = "商人",
         ["zhTW"] = "交易員",
         ["esES"] = "Objetos comerciables",
-        ["frFR"] = "Fournitures",
+        ["frFR"] = "Fournitures d'artisanat",
     },
     ["Vendor"] = {
-        ["ptBR"] = "Vendedor",
+        ["ptBR"] = "Comerciante",
         ["ruRU"] = "Торговец",
         ["deDE"] = "Händler",
         ["koKR"] = "상인",
@@ -264,7 +264,7 @@ local townsfolkLocales = {
         ["zhCN"] = "商人",
         ["zhTW"] = "正在購買物品",
         ["esES"] = "Vendedor",
-        ["frFR"] = "Vendeur",
+        ["frFR"] = "Marchand",
     },
     ["Weapon Master"] = {
         ["ptBR"] = "Mestre de Armas",
