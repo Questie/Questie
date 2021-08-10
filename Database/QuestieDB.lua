@@ -609,7 +609,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public startedBy table
     ---@field public triggerEnd table
     ---@field public zoneOrSort number
-
     local QO = {}
     QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
