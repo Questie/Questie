@@ -127,7 +127,11 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     print("Quest", questId, "was turned in and is completed")
-    questLog[questId].state = QUEST_LOG_STATES.QUEST_TURNED_IN
+    if questLog[questId] then
+        -- There are quests which you just turn in so there is no preceding QUEST_ACCEPTED event and questLog[questId]
+        -- is empty
+        questLog[questId].state = QUEST_LOG_STATES.QUEST_TURNED_IN
+    end
 
     skipNextUQLCEvent = true
     QuestieQuest:CompleteQuest(questId)
@@ -229,7 +233,7 @@ function _QuestEventHandler:UpdateQuests()
             -- We exceeded the valid quest log entries
             break
         end
-        if (not isHeader) and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
+        if (not isHeader) and questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             table.insert(questIdsToCheck, questId)
         end
     end
