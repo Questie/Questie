@@ -66,55 +66,6 @@ local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
--- check if user has updated but not restarted the game (todo: add future new source files to this)
-if  --Libs
-    (not QuestieLib) or
-    (not QuestiePlayer) or
-    (not QuestieSerializer) or
-    --Comms
-    (not QuestieComms) or
-    (not QuestieComms.data) or
-    --Options
-    (not QuestieOptions) or
-    (not QuestieOptionsDefaults) or
-    (not MinimapIcon) or
-    (not QuestieOptionsUtils) or
-    (not QuestieOptions.tabs) or
-    (not QuestieOptions.tabs.advanced) or
-    (not QuestieOptions.tabs.dbm) or
-    (not QuestieOptions.tabs.general) or
-    (not QuestieOptions.tabs.map) or
-    (not QuestieOptions.tabs.minimap) or
-    (not QuestieOptions.tabs.nameplate) or
-    (not QuestieOptions.tabs.tracker) or
-
-    (not QuestieAuto) or
-    (not QuestieCoords) or
-    (not QuestieEventHandler) or
-    (not QuestieJourney) or
-    --Map
-    (not QuestieMap) or
-    (not QuestieMap.utils) or
-
-    (not QuestieNameplate) or
-    (not QuestieProfessions) or
-    (not QuestieQuest) or
-    (not QuestieReputation) or
-    --Search
-    (not QuestieSearch) or
-    (not QuestieSearchResults) or
-
-    (not QuestieStreamLib) or
-    (not QuestieTooltips) or
-    (not QuestieSearchResults) or
-    (not QuestieCombatQueue) or
-    (not QuestieTracker) then
-    --Delay the warning.
-    C_Timer.After(8, function()
-        print(Questie:Colorize(l10n("WARNING!"), "red") .. " " .. l10n("You have updated Questie without restarting the game, this will likely cause problems. Please restart the game before continuing"))
-    end)
-end
-
 
 function Questie:OnInitialize()
     Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
