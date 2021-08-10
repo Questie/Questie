@@ -2068,12 +2068,13 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
-        hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
-            QuestieTracker:AQW_Insert(index, watchTimer)
-        end)
-        hooksecurefunc("AddQuestWatch", function(index, watchTimer)
-            QuestieTracker:AQW_Insert(index, watchTimer)
-        end)
+        --TODO: Check if it is save to remove these
+        --hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
+        --    --QuestieTracker:AQW_Insert(index, watchTimer)
+        --end)
+        --hooksecurefunc("AddQuestWatch", function(index, watchTimer)
+        --    --QuestieTracker:AQW_Insert(index, watchTimer)
+        --end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
         -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
