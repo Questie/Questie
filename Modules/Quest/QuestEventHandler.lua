@@ -45,9 +45,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
-    _QuestLogUpdateQueue:Insert(function()
-        return _QuestEventHandler:InitQuestLog()
-    end)
+    _QuestEventHandler:InitQuestLog()
 end
 
 local initQuestLogTries = 0
