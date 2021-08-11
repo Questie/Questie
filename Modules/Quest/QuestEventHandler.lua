@@ -13,6 +13,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
+local tableInsert = table.insert
+local stringSub = string.sub
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -46,7 +48,7 @@ end
 function _QuestEventHandler:PlayerLogin()
     print("[Event] PLAYER_LOGIN")
 
-    table.insert(questLogUpdateQueue, function()
+    tableInsert(questLogUpdateQueue, function()
         return _QuestEventHandler:InitQuestLog()
     end)
 end
@@ -120,9 +122,9 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
-        if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
+        if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
             print("Objective texts are not correct yet")
-            table.insert(questLogUpdateQueue, function()
+            tableInsert(questLogUpdateQueue, function()
                 return _QuestEventHandler:HandleQuestAccepted(questId)
             end)
             objectiveTextTries = objectiveTextTries + 1
@@ -220,7 +222,7 @@ end
 function _QuestEventHandler:QuestWatchUpdate(questId)
     print("[Quest Event] QUEST_WATCH_UPDATE", questId)
 
-    table.insert(questLogUpdateQueue, function()
+    tableInsert(questLogUpdateQueue, function()
         return _QuestEventHandler:UpdateQuest(questId)
     end)
     skipNextUQLCEvent = true
@@ -239,7 +241,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
-        table.insert(questLogUpdateQueue, function()
+        tableInsert(questLogUpdateQueue, function()
             -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
             -- (Accept, removed, ...)
             if (not skipNextUQLCEvent) then
@@ -267,7 +269,7 @@ function _QuestEventHandler:UpdateAllQuests()
             break
         end
         if (not isHeader) and questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
-            table.insert(questIdsToCheck, questId)
+            tableInsert(questIdsToCheck, questId)
         end
     end
 
@@ -295,7 +297,7 @@ function _QuestEventHandler:UpdateQuest(questId)
         QuestieQuest:UpdateQuest(questId)
         return true
     else
-        table.insert(questLogUpdateQueue, function()
+        tableInsert(questLogUpdateQueue, function()
             return _QuestEventHandler:UpdateQuest(questId)
         end)
         return false
