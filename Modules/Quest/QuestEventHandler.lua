@@ -86,12 +86,12 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     }
     skipNextUQLCEvent = true
     QuestieLib:CacheItemNames(questId)
-    _QuestEventHandler:AcceptQuest(questId)
+    _QuestEventHandler:HandleQuestAccepted(questId)
 end
 
 ---@param questId number
 ---@return boolean true if the function was successful, false otherwise
-function _QuestEventHandler:AcceptQuest(questId)
+function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
@@ -99,7 +99,7 @@ function _QuestEventHandler:AcceptQuest(questId)
         if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
             print("Objective texts are not correct yet")
             table.insert(questLogUpdateQueue, function()
-                return _QuestEventHandler:AcceptQuest(questId)
+                return _QuestEventHandler:HandleQuestAccepted(questId)
             end)
             -- No need to check other objectives since we have to check them all again already
             return false
@@ -216,7 +216,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
             -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
             -- (Accept, removed, ...)
             if (not skipNextUQLCEvent) then
-                _QuestEventHandler:UpdateQuests()
+                _QuestEventHandler:UpdateAllQuests()
             else
                 print("Skipping full check")
             end
@@ -228,7 +228,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     skipNextUQLCEvent = false
 end
 
-function _QuestEventHandler:UpdateQuests()
+function _QuestEventHandler:UpdateAllQuests()
     local questIdsToCheck = {}
 
     local numEntries, numQuests = GetNumQuestLogEntries()
@@ -281,7 +281,7 @@ function _QuestEventHandler:BankFrameClosed()
     print("[Event] BANKFRAME_CLOSED")
 
     if isFirstBankFrameClosedEvent then
-        _QuestEventHandler:UpdateQuests()
+        _QuestEventHandler:UpdateAllQuests()
         isFirstBankFrameClosedEvent = false
     else
         isFirstBankFrameClosedEvent = true
