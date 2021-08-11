@@ -35,6 +35,7 @@ local skipNextUQLCEvent = false;
 
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
+    print("[Quest Event] RegisterEvents")
     eventFrame:RegisterEvent("QUEST_ACCEPTED")
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("QUEST_REMOVED")
@@ -54,7 +55,7 @@ local initQuestLogTries = 0
 ---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
     local numEntries, numQuests = GetNumQuestLogEntries()
-    print("numEntries:", numEntries, "numQuests:", numQuests)
+    print("--> numEntries:", numEntries, "numQuests:", numQuests)
 
     -- Without cached information the first QLU does not have any quest log entries.
     -- After MAX_INIT_QUEST_LOG_TRIES tries we stop trying
@@ -111,7 +112,7 @@ local objectiveTextTries = 0
 function _QuestEventHandler:HandleQuestAccepted(questId)
     if objectiveTextTries == MAX_OBJECTIVE_TEXT_TRIES then
         -- Check for failing recursion. Something is up if the objective texts are still invalid.
-        print("Objective texts are not correct after", MAX_OBJECTIVE_TEXT_TRIES, "- Please report this!")
+        print("--> Objective texts are not correct after", MAX_OBJECTIVE_TEXT_TRIES, "- Please report this!")
         return true
     end
 
@@ -120,7 +121,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     for _, objective in pairs(questObjectives) do
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
         if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
-            print("Objective texts are not correct yet")
+            print("--> Objective texts are not correct yet")
             _QuestLogUpdateQueue:Insert(function()
                 return _QuestEventHandler:HandleQuestAccepted(questId)
             end)
@@ -131,7 +132,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         end
     end
 
-    print("Objectives are correct. Calling accept logic")
+    print("--> Objectives are correct. Calling accept logic")
     QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
 
@@ -152,7 +153,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
         questLog[questId].timer = nil
     end
 
-    print("Quest", questId, "was turned in and is completed")
+    print("--> Quest", questId, "was turned in and is completed")
     if questLog[questId] then
         -- There are quests which you just turn in so there is no preceding QUEST_ACCEPTED event and questLog[questId]
         -- is empty
@@ -170,13 +171,13 @@ function _QuestEventHandler:QuestRemoved(questId)
     print("[Quest Event] QUEST_REMOVED", questId)
 
     if (not questLog[questId]) then
-        print("questLog[questId] was nil")
+        print("--> questLog[questId] was nil")
         questLog[questId] = {}
     end
 
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
-        print("Quest", questId, "was turned in before. Nothing do to.")
+        print("--> Quest", questId, "was turned in before. Nothing do to.")
         return
     end
 
@@ -195,7 +196,7 @@ end
 ---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
-        print("Quest", questId, "was abandoned")
+        print("--> Quest", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestieQuest:AbandonedQuest(questId)
@@ -245,13 +246,13 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
             if (not skipNextUQLCEvent) then
                 return _QuestEventHandler:UpdateAllQuests()
             else
-                print("Skipping full check")
+                print("--> Skipping full check")
             end
             skipNextUQLCEvent = false
             return true
         end)
     else
-        print("Skipping full check")
+        print("--> Skipping full check")
     end
     skipNextUQLCEvent = false
 end
@@ -279,12 +280,12 @@ function _QuestEventHandler:UpdateAllQuests()
 
     if next(questIdToUpdate) then
         for _, questId in pairs(questIdToUpdate) do
-            print("questIdToUpdate:", questId)
+            print("--> questIdToUpdate:", questId)
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
     else
-        print("Nothing to update")
+        print("--> Nothing to update")
     end
 end
 
@@ -292,7 +293,7 @@ end
 ---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:UpdateQuest(questId)
     local hashChanged = QuestieHash:CompareQuestHash(questId)
-    print("hashChanged:", hashChanged)
+    print("--> hashChanged:", hashChanged)
 
     if hashChanged then
         QuestieNameplate:UpdateNameplate()
