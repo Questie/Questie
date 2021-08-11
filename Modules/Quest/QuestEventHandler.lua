@@ -228,11 +228,12 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
             -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
             -- (Accept, removed, ...)
             if (not skipNextUQLCEvent) then
-                _QuestEventHandler:UpdateAllQuests()
+                return _QuestEventHandler:UpdateAllQuests()
             else
                 print("Skipping full check")
             end
             skipNextUQLCEvent = false
+            return true
         end)
     else
         print("Skipping full check")
