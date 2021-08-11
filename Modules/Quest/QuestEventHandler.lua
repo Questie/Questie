@@ -25,6 +25,8 @@ local QUEST_LOG_STATES = {
 local skipNextUQLCEvent = false;
 local questLogUpdateQueue = {}
 
+local MAX_OBJECTIVE_TEXT_TRIES = 3
+
 
 -- TODO: Move PLAYER_LOGIN handling somewhere else and call the code in here from that handler
 function _QuestEventHandler:PlayerLogin()
@@ -89,9 +91,16 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     _QuestEventHandler:HandleQuestAccepted(questId)
 end
 
+local objectiveTextTries = 0
 ---@param questId number
 ---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
+    if objectiveTextTries == MAX_OBJECTIVE_TEXT_TRIES then
+        -- Check for failing recursion. Something is up if the objective texts are still invalid.
+        print("Objective texts are not correct after", MAX_OBJECTIVE_TEXT_TRIES, "- Please report this!")
+        return true
+    end
+
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
@@ -101,6 +110,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
             table.insert(questLogUpdateQueue, function()
                 return _QuestEventHandler:HandleQuestAccepted(questId)
             end)
+            objectiveTextTries = objectiveTextTries + 1
             -- No need to check other objectives since we have to check them all again already
             return false
         end
@@ -110,6 +120,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
 
+    objectiveTextTries = 0
     return true
 end
 
