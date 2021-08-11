@@ -356,27 +356,6 @@ function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     return now, count
 end
 
--- To try and create a fix for errors regarding items that do not exist in our DB,
--- this function tries to prefetch all the items on startup and accept.
-function QuestieLib:CacheAllItemNames()
-    --[[
-        1 name
-        2 for quest
-        3 dropped by
-        [4103]={"Shackle Key",{630},{1559},{}},
-    ]]
-    local numEntries, _ = GetNumQuestLogEntries()
-    for index = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
-                Questie._sessionWarnings[questId] = true
-            end
-        elseif (not isHeader) then QuestieLib:CacheItemNames(questId) end
-    end
-end
-
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB:GetQuest(questId)
     if (quest and quest.ObjectiveData) then

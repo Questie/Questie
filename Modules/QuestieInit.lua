@@ -121,7 +121,6 @@ function QuestieInit:InitAllModules()
     coroutine.yield()
     QuestieDB:Initialize()
 
-    QuestieLib:CacheAllItemNames() -- todo: remove this, blizzard said we shouldn't query more than once a second
     QuestieCleanup:Run()
 
     -- register events that rely on questie being initialized

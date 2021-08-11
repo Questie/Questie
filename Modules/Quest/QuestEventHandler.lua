@@ -74,6 +74,7 @@ function _QuestEventHandler:InitQuestLog()
             questLog[questId] = {
                 state = QUEST_LOG_STATES.QUEST_ACCEPTED
             }
+            QuestieLib:CacheItemNames(questId)
         end
     end
 
