@@ -33,7 +33,6 @@ local skipNextUQLCEvent = false;
 
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
-    eventFrame:RegisterEvent("PLAYER_LOGIN")
     eventFrame:RegisterEvent("QUEST_ACCEPTED")
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("QUEST_REMOVED")
@@ -42,11 +41,6 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
-end
-
--- TODO: Move PLAYER_LOGIN handling somewhere else and call the code in here from that handler
-function _QuestEventHandler:PlayerLogin()
-    print("[Event] PLAYER_LOGIN")
 
     tableInsert(questLogUpdateQueue, function()
         return _QuestEventHandler:InitQuestLog()

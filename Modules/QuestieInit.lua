@@ -2,6 +2,8 @@
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
 local _QuestieInit = {}
 
+---@type QuestEventHandler
+local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieFramePool
@@ -124,7 +126,9 @@ function QuestieInit:InitAllModules()
 
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
+    QuestEventHandler:RegisterEvents()
     ChatFilter:RegisterEvents()
+    coroutine.yield()
 
     QuestieMap:InitializeQueue()
 

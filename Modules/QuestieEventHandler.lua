@@ -6,8 +6,6 @@ local _EventHandler = {}
 -------------------------
 --Import modules.
 -------------------------
----@type QuestEventHandler
-local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieJourney
@@ -147,7 +145,6 @@ function QuestieEventHandler:RegisterLateEvents()
 end
 
 function _EventHandler:PlayerLogin()
-    QuestEventHandler:RegisterEvents()
     QuestieInit:Init()
 end
 
