@@ -14,19 +14,33 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 
-local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
-local questLog = {}
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
     QUEST_TURNED_IN = "QUEST_TURNED_IN",
     QUEST_REMOVED = "QUEST_REMOVED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
-local skipNextUQLCEvent = false;
-local questLogUpdateQueue = {}
-
+local MAX_INIT_QUEST_LOG_TRIES = 3
 local MAX_OBJECTIVE_TEXT_TRIES = 3
 
+local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
+local questLog = {}
+local questLogUpdateQueue = {}
+local skipNextUQLCEvent = false;
+
+
+--- Registers all events that are required for questing (accepting, removing, objective updates, ...)
+function QuestEventHandler:RegisterEvents()
+    eventFrame:RegisterEvent("PLAYER_LOGIN")
+    eventFrame:RegisterEvent("QUEST_ACCEPTED")
+    eventFrame:RegisterEvent("QUEST_TURNED_IN")
+    eventFrame:RegisterEvent("QUEST_REMOVED")
+    eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
+    eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
+    eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+    eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+    eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
+end
 
 -- TODO: Move PLAYER_LOGIN handling somewhere else and call the code in here from that handler
 function _QuestEventHandler:PlayerLogin()
@@ -37,17 +51,18 @@ function _QuestEventHandler:PlayerLogin()
     end)
 end
 
-local initTries = 0
+local initQuestLogTries = 0
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 ---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
     local numEntries, numQuests = GetNumQuestLogEntries()
     print("numEntries:", numEntries, "numQuests:", numQuests)
 
-    -- Without cached information the first QLU does not have any quest log entries. After 5 tries we stop trying
-    if numEntries == 0 and initTries < 5 then
-        initTries = initTries + 1
-        table.insert(questLogUpdateQueue, function()
+    -- Without cached information the first QLU does not have any quest log entries.
+    -- After MAX_INIT_QUEST_LOG_TRIES tries we stop trying
+    if numEntries == 0 and initQuestLogTries < MAX_INIT_QUEST_LOG_TRIES then
+        initQuestLogTries = initQuestLogTries + 1
+        tableInsert(questLogUpdateQueue, function()
             return _QuestEventHandler:InitQuestLog()
         end)
         return false
@@ -322,13 +337,3 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:BankFrameClosed()
     end
 end
-
-eventFrame:RegisterEvent("PLAYER_LOGIN")
-eventFrame:RegisterEvent("QUEST_ACCEPTED")
-eventFrame:RegisterEvent("QUEST_TURNED_IN")
-eventFrame:RegisterEvent("QUEST_REMOVED")
-eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
-eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
-eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
-eventFrame:RegisterEvent("BANKFRAME_CLOSED")
-eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)

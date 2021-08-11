@@ -6,6 +6,8 @@ local _EventHandler = {}
 -------------------------
 --Import modules.
 -------------------------
+---@type QuestEventHandler
+local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieJourney
@@ -35,7 +37,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieInit
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type MinimapIcon
-local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 
 
 function QuestieEventHandler:RegisterEarlyEvents()
@@ -145,6 +147,7 @@ function QuestieEventHandler:RegisterLateEvents()
 end
 
 function _EventHandler:PlayerLogin()
+    QuestEventHandler:RegisterEvents()
     QuestieInit:Init()
 end
 
