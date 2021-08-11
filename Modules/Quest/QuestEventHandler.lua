@@ -1,6 +1,8 @@
 ---@class QuestEventHandler
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
 local _QuestEventHandler = {}
+local _QuestLogUpdateQueue = {} -- Helper module
+local questLogUpdateQueue = {} -- The actual queue
 
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -13,8 +15,8 @@ local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
-local tableInsert = table.insert
 local stringSub = string.sub
+local tableRemove = table.remove
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -27,7 +29,7 @@ local MAX_OBJECTIVE_TEXT_TRIES = 3
 
 local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
 local questLog = {}
-local questLogUpdateQueue = {}
+local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false;
 
 
@@ -42,7 +44,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
-    tableInsert(questLogUpdateQueue, function()
+    _QuestLogUpdateQueue:Insert(function()
         return _QuestEventHandler:InitQuestLog()
     end)
 end
@@ -58,7 +60,7 @@ function _QuestEventHandler:InitQuestLog()
     -- After MAX_INIT_QUEST_LOG_TRIES tries we stop trying
     if numEntries == 0 and initQuestLogTries < MAX_INIT_QUEST_LOG_TRIES then
         initQuestLogTries = initQuestLogTries + 1
-        tableInsert(questLogUpdateQueue, function()
+        _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:InitQuestLog()
         end)
         return false
@@ -119,9 +121,10 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
         if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
             print("Objective texts are not correct yet")
-            tableInsert(questLogUpdateQueue, function()
+            _QuestLogUpdateQueue:Insert(function()
                 return _QuestEventHandler:HandleQuestAccepted(questId)
             end)
+
             objectiveTextTries = objectiveTextTries + 1
             -- No need to check other objectives since we have to check them all again already
             return false
@@ -208,7 +211,7 @@ function _QuestEventHandler:QuestLogUpdate()
     -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
     -- We are now calling the function which the event added.
     while continueQueuing and next(questLogUpdateQueue) do
-        continueQueuing = table.remove(questLogUpdateQueue, 1)()
+        continueQueuing = _QuestLogUpdateQueue:GetFirst()()
     end
 end
 
@@ -217,7 +220,7 @@ end
 function _QuestEventHandler:QuestWatchUpdate(questId)
     print("[Quest Event] QUEST_WATCH_UPDATE", questId)
 
-    tableInsert(questLogUpdateQueue, function()
+    _QuestLogUpdateQueue:Insert(function()
         return _QuestEventHandler:UpdateQuest(questId)
     end)
     skipNextUQLCEvent = true
@@ -236,7 +239,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
-        tableInsert(questLogUpdateQueue, function()
+        _QuestLogUpdateQueue:Insert(function()
             -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
             -- (Accept, removed, ...)
             if (not skipNextUQLCEvent) then
@@ -253,8 +256,11 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     skipNextUQLCEvent = false
 end
 
+--- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
+--- since the last check
 function _QuestEventHandler:UpdateAllQuests()
     local questIdsToCheck = {}
+    local questIdsToCheckSize = 1
 
     local numEntries, numQuests = GetNumQuestLogEntries()
     for questLogIndex = 1, numEntries + numQuests do
@@ -264,7 +270,8 @@ function _QuestEventHandler:UpdateAllQuests()
             break
         end
         if (not isHeader) and questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
-            tableInsert(questIdsToCheck, questId)
+            questIdsToCheck[questIdsToCheckSize] = questId
+            questIdsToCheckSize = questIdsToCheckSize + 1
         end
     end
 
@@ -292,7 +299,7 @@ function _QuestEventHandler:UpdateQuest(questId)
         QuestieQuest:UpdateQuest(questId)
         return true
     else
-        tableInsert(questLogUpdateQueue, function()
+        _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:UpdateQuest(questId)
         end)
         return false
@@ -311,6 +318,19 @@ function _QuestEventHandler:BankFrameClosed()
     else
         isFirstBankFrameClosedEvent = true
     end
+end
+
+--- Helper function to insert a callback to the questLogUpdateQueue and increase the index
+function _QuestLogUpdateQueue:Insert(func)
+    questLogUpdateQueue[questLogUpdateQueueSize] = func
+    questLogUpdateQueueSize = questLogUpdateQueueSize + 1
+end
+
+--- Helper function to retrieve the first element of questLogUpdateQueue
+---@return function The callback that was inserted first into questLogUpdateQueue
+function _QuestLogUpdateQueue:GetFirst()
+    questLogUpdateQueueSize = questLogUpdateQueueSize - 1
+    return tableRemove(questLogUpdateQueue, 1)
 end
 
 --- Is executed whenever an event is fired and triggers relevant event handling.
