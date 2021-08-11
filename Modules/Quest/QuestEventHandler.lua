@@ -143,6 +143,11 @@ end
 function _QuestEventHandler:QuestRemoved(questId)
     print("[Quest Event] QUEST_REMOVED", questId)
 
+    if (not questLog[questId]) then
+        print("questLog[questId] was nil")
+        questLog[questId] = {}
+    end
+
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
         print("Quest", questId, "was turned in before. Nothing do to.")
