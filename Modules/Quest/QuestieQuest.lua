@@ -386,6 +386,8 @@ function QuestieQuest:AcceptQuest(questId)
             function() QuestieHash:AddNewQuestHash(questId) end,
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
+            function() QuestieTracker:ResetLinesForChange() end,
+            function() QuestieTracker:Update() end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
 
