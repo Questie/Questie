@@ -29,9 +29,6 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     if MBB_Ignore then
         tinsert(MBB_Ignore, newFrame:GetName())
     end
-    if frameId > 5000 then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", frameId)
-    end
 
     newFrame.glow = CreateFrame("Button", "QuestieFrame"..frameId.."Glow", newFrame) -- glow frame
     newFrame.glow:SetFrameStrata("FULLSCREEN");
@@ -319,8 +316,8 @@ function _Qframe:Unload()
     end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
-        for index, lineFrame in pairs(self.data.lineFrames) do
-            lineFrame:Unload();
+        for _, lineFrame in pairs(self.data.lineFrames) do
+            lineFrame:Unload()
         end
     end
 
