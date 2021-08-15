@@ -397,26 +397,34 @@ function _Qframe:FakeShow()
     end
 end
 
----Checks wheather the frame/icon should be hidden or not
----@return boolean @True if the frame/icon should be hidden and :FakeHide should be called, false otherwise
+---Checks wheather the frame/icon should be hidden or not. Only for quest icons/frames.
+---@return boolean @True if the frame/icon should be hidden and :FakeHide() should be called, false otherwise
 function _Qframe:ShouldBeHidden()
     local questieGlobalDB = Questie.db.global
-    if (not Questie.db.char.enabled)
-        or (not DailyQuests:IsActiveDailyQuest(self.data.Id))
-        or ((not questieGlobalDB.enableObjectives) and (self.data.Type == "monster" or self.data.Type == "object" or self.data.Type == "event" or self.data.Type == "item"))
-        or ((not questieGlobalDB.enableTurnins) and self.data.Type == "complete")
-        or ((not questieGlobalDB.enableAvailable) and self.data.Type == "available")
-        or ((not Questie.db.char.showRepeatableQuests) and QuestieDB:IsRepeatable(self.data.Id))
-        or ((not Questie.db.char.showEventQuests) and QuestieDB:IsActiveEventQuest(self.data.Id))
-        or ((not Questie.db.char.showDungeonQuests) and QuestieDB:IsDungeonQuest(self.data.Id))
-        or ((not Questie.db.char.showRaidQuests) and QuestieDB:IsRaidQuest(self.data.Id))
-        or ((not Questie.db.char.showPvPQuests) and QuestieDB:IsPvPQuest(self.data.Id))
-        or ((not Questie.db.char.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[self.data.Id])
+    local questieCharDB = Questie.db.char
+    local data = self.data
+    local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
+    local questId = data.Id
+
+    if (not questieCharDB.enabled) -- all quest icons disabled
         or ((not questieGlobalDB.enableMapIcons) and (not self.miniMapIcon))
         or ((not questieGlobalDB.enableMiniMapIcons) and (self.miniMapIcon))
-        or (self.data.ObjectiveData and self.data.ObjectiveData.HideIcons)
-        or (self.data.QuestData and self.data.QuestData.HideIcons and self.data.Type ~= "complete") then
-
+        or ((not questieGlobalDB.enableTurnins) and iconType == "complete")
+        or ((not questieGlobalDB.enableAvailable) and iconType == "available")
+        or ((not questieGlobalDB.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
+        or (data.ObjectiveData and data.ObjectiveData.HideIcons)
+        or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
+        -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
+        -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
+        or ((not DailyQuests:IsActiveDailyQuest(questId)) and iconType == "available") -- hide not-today-dailies
+        or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId) and iconType == "available")
+        or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId) and iconType == "available")
+        or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId) and iconType == "available")
+        or ((not questieCharDB.showRaidQuests) and QuestieDB:IsRaidQuest(questId) and iconType == "available")
+        or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId) and iconType == "available")
+        -- this quest group isn't loaded at all when disabled:
+        -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId] and iconType == "available")
+    then
         return true
     end
 
