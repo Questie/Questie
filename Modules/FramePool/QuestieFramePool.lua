@@ -16,8 +16,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
-local tinsert = tinsert
-local tremove = tremove
+local tinsert = table.insert
+local tremove = table.remove
 
 -- set pins parent to QuestieFrameGroup for easier compatibility with other addons
 -- cant use this because it fucks with everything, but we gotta stick with HereBeDragonsQuestie anyway
@@ -76,7 +76,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 ---Helper function to do some (re)initialization of frame.
 ---TODO: Move to QuestieFrame.lua ?
 ---@param frame IconFrame @will be modified
-local function reinitFrame(frame)
+local function _reinitFrame(frame)
     if frame.hidden and frame._show ~= nil and frame._hide ~= nil then -- restore state to normal (toggle questie)
         frame.hidden = false
         frame.Show = frame._show;
@@ -119,6 +119,7 @@ end
 
 -- Global Functions --
 
+---Get a new IconFrame or old unused one.
 ---@return IconFrame
 function QuestieFramePool:GetFrame()
     --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
@@ -135,7 +136,7 @@ function QuestieFramePool:GetFrame()
     end
     usedFrames[frame.frameId] = frame
 
-    reinitFrame(frame)
+    _reinitFrame(frame)
 
     return frame
 end
@@ -242,6 +243,8 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     local lineFrame = tremove(QuestieFramePool.Routes_Lines, 1) or CreateFrame("Button", frameName, iconFrame);
     if not lineFrame.frameId then
         lineFrame.frameId = lineFrameCount;
+        --Keep a total lineFrame count for names.
+        lineFrameCount = lineFrameCount + 1
     end
 
     local canvas = WorldMapFrame:GetCanvas()
@@ -409,7 +412,5 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     --end
     --tinsert(QuestieMap.questIdFrames[lineFrame.iconFrame.data.Id], lineFrame:GetName());
 
-    --Keep a total lineFrame count for names.
-    lineFrameCount = lineFrameCount + 1;
     return lineFrame
 end
