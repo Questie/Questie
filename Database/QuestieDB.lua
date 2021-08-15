@@ -24,10 +24,11 @@
 ---@field npcDataTBC nil | table
 ---@field itemDataTBC nil | table
 ---@field sortKeys table
----@field _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
----@field _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
----@field _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
----@field _npcAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private private table
+---@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _npcAdapterQueryOrder table @temporary, until we remove the old db funcitons
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
