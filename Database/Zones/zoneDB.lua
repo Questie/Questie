@@ -1,7 +1,7 @@
 ---@class ZoneDB
 ---@field zoneIDs table
----@field GetDungeons function @return table
----@field GetZoneTables function @return table
+---@field GetDungeons fun():table
+---@field GetZoneTables fun():table
 local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
 local _ZoneDB = {}
 
