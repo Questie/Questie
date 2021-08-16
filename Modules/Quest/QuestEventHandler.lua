@@ -30,7 +30,8 @@ local MAX_OBJECTIVE_TEXT_TRIES = 3
 local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
 local questLog = {}
 local questLogUpdateQueueSize = 1
-local skipNextUQLCEvent = false;
+local skipNextUQLCEvent = false
+local doFullQuestLogScan = false
 
 
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
@@ -212,6 +213,11 @@ function _QuestEventHandler:QuestLogUpdate()
     while continueQueuing and next(questLogUpdateQueue) do
         continueQueuing = _QuestLogUpdateQueue:GetFirst()()
     end
+
+    if doFullQuestLogScan then
+        _QuestEventHandler:UpdateAllQuests()
+        doFullQuestLogScan = false
+    end
 end
 
 --- Fires whenever a quest objective progressed
@@ -219,9 +225,10 @@ end
 function _QuestEventHandler:QuestWatchUpdate(questId)
     print("[Quest Event] QUEST_WATCH_UPDATE", questId)
 
-    _QuestLogUpdateQueue:Insert(function()
-        return _QuestEventHandler:UpdateQuest(questId)
-    end)
+    -- We do a full scan even though we have the questId because many QUEST_WATCH_UPDATE can fire before
+    -- a QUEST_LOG_UPDATE. Also not every QUEST_WATCH_UPDATE gets a single QUEST_LOG_UPDATE and doing a full
+    -- scan is less error prone
+    doFullQuestLogScan = true
     skipNextUQLCEvent = true
 end
 
@@ -244,13 +251,13 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
             if (not skipNextUQLCEvent) then
                 return _QuestEventHandler:UpdateAllQuests()
             else
-                print("--> Skipping full check")
+                print("--> Skipping UnitQuestLogChanged")
             end
             skipNextUQLCEvent = false
             return true
         end)
     else
-        print("--> Skipping full check")
+        print("--> Skipping UnitQuestLogChanged")
     end
     skipNextUQLCEvent = false
 end
@@ -258,6 +265,7 @@ end
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
 --- since the last check
 function _QuestEventHandler:UpdateAllQuests()
+    print("--> Running full questlog check")
     local questIdsToCheck = {}
     local questIdsToCheckSize = 1
 
@@ -278,30 +286,12 @@ function _QuestEventHandler:UpdateAllQuests()
 
     if next(questIdToUpdate) then
         for _, questId in pairs(questIdToUpdate) do
-            print("--> questIdToUpdate:", questId)
+            print("----> questIdToUpdate:", questId)
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
     else
-        print("--> Nothing to update")
-    end
-end
-
----@param questId number
----@return boolean true if the function was successful, false otherwise
-function _QuestEventHandler:UpdateQuest(questId)
-    local hashChanged = QuestieHash:CompareQuestHash(questId)
-    print("--> hashChanged:", hashChanged)
-
-    if hashChanged then
-        QuestieNameplate:UpdateNameplate()
-        QuestieQuest:UpdateQuest(questId)
-        return true
-    else
-        _QuestLogUpdateQueue:Insert(function()
-            return _QuestEventHandler:UpdateQuest(questId)
-        end)
-        return false
+        print("----> Nothing to update")
     end
 end
 
