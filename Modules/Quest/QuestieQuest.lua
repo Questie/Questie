@@ -1129,12 +1129,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 end
 
 _ObjectiveUpdate = function(self)
-    local now = GetTime();
-    if now - self._lastUpdate < 0.5 then
-        return {self.Collected, self.Needed, self.Completed} -- updated too recently
-    end
-    self._lastUpdate = now
-
     -- Use different variable names from above to avoid confusion.
     local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId);
 
