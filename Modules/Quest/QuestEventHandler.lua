@@ -245,15 +245,17 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
+        doFullQuestLogScan = true
         _QuestLogUpdateQueue:Insert(function()
             -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
             -- (Accept, removed, ...)
             if (not skipNextUQLCEvent) then
-                return _QuestEventHandler:UpdateAllQuests()
+                doFullQuestLogScan = true
             else
+                doFullQuestLogScan = false
+                skipNextUQLCEvent = false
                 print("--> Skipping UnitQuestLogChanged")
             end
-            skipNextUQLCEvent = false
             return true
         end)
     else
