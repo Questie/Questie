@@ -5,6 +5,8 @@ local QuestieHash = QuestieLoader:CreateModule("QuestieHash")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieSerializer
@@ -52,11 +54,13 @@ end
 function QuestieHash:AddNewQuestHash(questId)
     Questie:Debug(DEBUG_DEVELOP, "AddNewQuestHash:", questId)
     questLogHashes[questId] = QuestieHash:GetQuestHash(questId)
+    QuestieQuest:SetObjectivesDirty(questId)
 end
 
 function QuestieHash:RemoveQuestHash(questId)
     Questie:Debug(DEBUG_DEVELOP, "RemoveQuestHash:", questId)
     questLogHashes[questId] = nil
+    QuestieQuest:SetObjectivesDirty(questId)
 end
 
 ---@param questIdList table<number, number> A list of questIds whose hash should to be checked
@@ -78,6 +82,7 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
                     Questie:Debug(DEBUG_DEVELOP, "Hash changed for questId:", questId)
                     questLogHashes[questId] = newHash
                     table.insert(updatedQuestIds, questId)
+                    QuestieQuest:SetObjectivesDirty(questId)
                 end
             end
         end
@@ -104,6 +109,7 @@ function QuestieHash:CompareQuestHash(questId)
                 Questie:Debug(DEBUG_DEVELOP, "Hash changed for questId:", questId)
                 questLogHashes[questId] = newHash
                 hashChanged = true
+                QuestieQuest:SetObjectivesDirty(questId)
             end
         end
     end
