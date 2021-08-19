@@ -107,7 +107,7 @@ function QuestieLib:IsResponseCorrect(questId)
     local count = 0
     local objectiveList
     local good = true
-    while (true and count < 1) do
+    while (count < 1) do
         good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if (not objectiveList) then
@@ -135,12 +135,12 @@ function QuestieLib:IsResponseCorrect(questId)
     return good
 end
 
----@param questId QuestId @The quest ID
+---@param questId number @The quest ID
 ---@return table
 function QuestieLib:GetQuestObjectives(questId)
     local count = 0
     local objectiveList
-    while (true and count < 1) do
+    while (count < 1) do
         local good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if not objectiveList then
