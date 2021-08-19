@@ -101,12 +101,13 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----@param questId QuestId @The quest ID
+---@param questId number @The quest ID
+---@return boolean
 function QuestieLib:IsResponseCorrect(questId)
     local count = 0
     local objectiveList
     local good = true
-    while (true and count < 50) do
+    while (true and count < 1) do
         good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if (not objectiveList) then
@@ -139,7 +140,7 @@ end
 function QuestieLib:GetQuestObjectives(questId)
     local count = 0
     local objectiveList
-    while (true and count < 50) do
+    while (true and count < 1) do
         local good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if not objectiveList then

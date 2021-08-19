@@ -24,8 +24,8 @@ local QUEST_LOG_STATES = {
     QUEST_REMOVED = "QUEST_REMOVED",
     QUEST_ABANDONED = "QUEST_ABANDONED"
 }
-local MAX_INIT_QUEST_LOG_TRIES = 3
-local MAX_OBJECTIVE_TEXT_TRIES = 3
+local MAX_INIT_QUEST_LOG_TRIES = 10
+local MAX_OBJECTIVE_TEXT_TRIES = 5
 
 local eventFrame = CreateFrame("Frame", "QuestieQuestEventFrame")
 local questLog = {}
