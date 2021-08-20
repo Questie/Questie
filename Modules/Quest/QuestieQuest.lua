@@ -222,9 +222,9 @@ function QuestieQuest:AddAllNotes()
     QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
-    for quest in pairs (QuestiePlayer.currentQuestlog) do
-        QuestieQuest:UpdateQuest(quest)
-        _UpdateSpecials(quest)
+    for questId,_ in pairs(QuestiePlayer.currentQuestlog) do
+        QuestieQuest:UpdateQuest(questId)
+        _UpdateSpecials(questId)
     end
 end
 
@@ -498,6 +498,16 @@ function QuestieQuest:UpdateQuest(questId)
         end)
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+    end
+end
+
+---@param questId number
+function QuestieQuest:SetObjectivesDirty(questId)
+    local quest = QuestieDB:GetQuest(questId)
+    if quest and quest.Objectives then
+        for _, objective in pairs(quest.Objectives) do
+            objective.isUpdated = false
+        end
     end
 end
 
@@ -1129,6 +1139,10 @@ function QuestieQuest:GetAllQuestObjectives(quest)
 end
 
 _ObjectiveUpdate = function(self)
+    if self.isUpdated then
+        --print("*** Skipping update:", self.questId, self.Index)
+        return
+    end
     -- Use different variable names from above to avoid confusion.
     local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId);
 
@@ -1145,9 +1159,13 @@ _ObjectiveUpdate = function(self)
             self.Collected = tonumber(obj.numFulfilled);
             self.Needed = tonumber(obj.numRequired);
             self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+            -- Mark objective updated
+            self.isUpdated = true
         end
     end
-    return {self.Collected, self.Needed, self.Completed}
+    --print("*** Updated? :", self.questId, self.Index, self.isUpdated)
+    --return {self.Collected, self.Needed, self.Completed}
+    return
 end
 
 --- Quests like "The Nightmare's Corruption" have multiple objectives with the same
