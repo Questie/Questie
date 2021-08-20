@@ -112,7 +112,7 @@ function QuestieHash:CompareQuestHash(questId)
     else
         local oldHash = questLogHashes[questId]
         if oldHash then
-            local newHash = QuestieHash:GetQuestHash(questId, IsQuestComplete(questId))
+            local newHash = QuestieHash:GetQuestHash(questId)
 
             if oldHash ~= newHash then
                 Questie:Debug(DEBUG_DEVELOP, "Hash changed for questId:", questId)
