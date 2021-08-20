@@ -74,6 +74,7 @@ end
 function QuestieHash:CompareHashesOfQuestIdList(questIdList)
     Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] CompareQuestHashes")
     local updatedQuestIds = {}
+    local updatedQuestIdsSize = 0
 
     for _, questId in pairs(questIdList) do
         if (not QuestieDB.QuestPointers[questId]) then
@@ -88,13 +89,15 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
                 if oldHash ~= newHash then
                     Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
                     questLogHashes[questId] = newHash
-                    table.insert(updatedQuestIds, questId)
+                    updatedQuestIdsSize = updatedQuestIdsSize + 1
+                    updatedQuestIds[updatedQuestIdsSize] = questId
                     QuestieQuest:SetObjectivesDirty(questId)
                 end
             else
                 -- Quest isn't accepted yet or has been already removed. Not sure what to do.
                 Questie:Debug(DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
-                table.insert(updatedQuestIds, questId)
+                updatedQuestIdsSize = updatedQuestIdsSize + 1
+                updatedQuestIds[updatedQuestIdsSize] = questId
             end
         end
     end
