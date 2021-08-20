@@ -24,6 +24,7 @@ local MAX_QUEST_LOG_INDEX = 75
 
 
 function QuestieHash:InitQuestLogHashes()
+    questLogHashes = {}
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
