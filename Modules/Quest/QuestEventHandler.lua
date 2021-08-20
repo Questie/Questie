@@ -55,7 +55,7 @@ end
 
 local initQuestLogTries = 0
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
----@return boolean true if the function was successful, false otherwise
+---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
     local numEntries, _ = GetNumQuestLogEntries()
     print("--> numEntries:", numEntries, "numQuests:", numQuests)
@@ -113,7 +113,7 @@ end
 
 local objectiveTextTries = 0
 ---@param questId number
----@return boolean true if the function was successful, false otherwise
+---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     if objectiveTextTries == MAX_OBJECTIVE_TEXT_TRIES then
         -- Check for failing recursion. Something is up if the objective texts are still invalid.
@@ -241,8 +241,8 @@ function _QuestEventHandler:QuestWatchUpdate(questId)
     skipNextUQLCEvent = true
 end
 
------ Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
------@param unitTarget string
+--- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
+---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     print("[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
 
@@ -326,7 +326,7 @@ function _QuestLogUpdateQueue:Insert(func)
 end
 
 --- Helper function to retrieve the first element of questLogUpdateQueue
----@return function The callback that was inserted first into questLogUpdateQueue
+---@return function @The callback that was inserted first into questLogUpdateQueue
 function _QuestLogUpdateQueue:GetFirst()
     questLogUpdateQueueSize = questLogUpdateQueueSize - 1
     return tableRemove(questLogUpdateQueue, 1)

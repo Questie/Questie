@@ -14,7 +14,7 @@ local libS = QuestieLoader:ImportModule("QuestieSerializer")
 
 local libC = LibStub:GetLibrary("LibCompress")
 
----questLogHashes[questId] = hash
+--- questLogHashes[questId] = hash
 ---@type table<number, number>
 local questLogHashes = {}
 
