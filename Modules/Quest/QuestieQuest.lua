@@ -52,6 +52,10 @@ local ipairs = ipairs;
 local strim = string.trim;
 local smatch = string.match;
 
+-- 3 * (Max possible number of quests in game quest log)
+-- This is a safe value, even smaller would be enough. Too large won't effect performance
+local MAX_QUEST_LOG_INDEX = 75
+
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 -- forward declaration
@@ -538,10 +542,13 @@ end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(DEBUG_INFO, "[QuestieQuest]: Getting all quests without objectives)");
-    local numEntries, _ = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
-    for index = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+    for index = 1, MAX_QUEST_LOG_INDEX do
+        local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if (not title) then
+            -- We exceeded the valid quest log entries
+            break
+        end
         if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
