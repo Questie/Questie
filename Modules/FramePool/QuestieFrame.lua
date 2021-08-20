@@ -416,14 +416,17 @@ function _Qframe:ShouldBeHidden()
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
-        or ((not DailyQuests:IsActiveDailyQuest(questId)) and iconType == "available") -- hide not-today-dailies
-        or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId) and iconType == "available")
-        or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId) and iconType == "available")
-        or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId) and iconType == "available")
-        or ((not questieCharDB.showRaidQuests) and QuestieDB:IsRaidQuest(questId) and iconType == "available")
-        or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId) and iconType == "available")
-        -- this quest group isn't loaded at all when disabled:
-        -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId] and iconType == "available")
+        or (iconType == "available"
+            and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
+                or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId))
+                or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId))
+                or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId))
+                or ((not questieCharDB.showRaidQuests) and QuestieDB:IsRaidQuest(questId))
+                or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId))
+                -- this quest group isn't loaded at all while disabled:
+                -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
+            )
+        )
     then
         return true
     end
