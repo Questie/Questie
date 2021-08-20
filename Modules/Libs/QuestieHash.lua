@@ -84,13 +84,16 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
             local oldHash = questLogHashes[questId]
             if oldHash then
                 local newHash = QuestieHash:GetQuestHash(questId)
-
                 if oldHash ~= newHash then
                     Questie:Debug(DEBUG_DEVELOP, "Hash changed for questId:", questId)
                     questLogHashes[questId] = newHash
                     table.insert(updatedQuestIds, questId)
                     QuestieQuest:SetObjectivesDirty(questId)
                 end
+            else
+                -- Quest isn't accepted yet or has been already removed. Not sure what to do.
+                Questie:Debug(DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
+                table.insert(updatedQuestIds, questId)
             end
         end
     end
@@ -120,6 +123,10 @@ function QuestieHash:CompareQuestHash(questId)
                 hashChanged = true
                 QuestieQuest:SetObjectivesDirty(questId)
             end
+        else
+            -- Quest isn't accepted yet or has been already removed. Not sure what to do.
+            Questie:Debug(DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
+            hashChanged = true
         end
     end
 
