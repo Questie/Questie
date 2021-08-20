@@ -76,8 +76,10 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
 
     for _, questId in pairs(questIdList) do
         if (not QuestieDB.QuestPointers[questId]) then
-            Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", questId))
-            Questie._sessionWarnings[questId] = true
+            if not Questie._sessionWarnings[questId] then
+                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", questId))
+                Questie._sessionWarnings[questId] = true
+            end
         else
             local oldHash = questLogHashes[questId]
             if oldHash then
@@ -103,8 +105,10 @@ function QuestieHash:CompareQuestHash(questId)
     local hashChanged = false
 
     if (not QuestieDB.QuestPointers[questId]) then
-        Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", questId))
-        Questie._sessionWarnings[questId] = true
+        if not Questie._sessionWarnings[questId] then
+            Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", questId))
+            Questie._sessionWarnings[questId] = true
+        end
     else
         local oldHash = questLogHashes[questId]
         if oldHash then
