@@ -57,7 +57,7 @@ local initQuestLogTries = 0
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 ---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
-    local numEntries, _ = GetNumQuestLogEntries()
+    local numEntries, numQuests = GetNumQuestLogEntries()
     print("--> numEntries:", numEntries, "numQuests:", numQuests)
 
     -- Without cached information the first QLU does not have any quest log entries.
