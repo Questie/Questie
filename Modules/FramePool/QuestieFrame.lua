@@ -425,8 +425,8 @@ function _Qframe:ShouldBeHidden()
                 or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId))
                 -- this quest group isn't loaded at all while disabled:
                 -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
+                )
             )
-        )
     then
         return true
     end
