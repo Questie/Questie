@@ -14,12 +14,17 @@ local libS = QuestieLoader:ImportModule("QuestieSerializer")
 
 local libC = LibStub:GetLibrary("LibCompress")
 
+---questLogHashes[questId] = hash
+---@type table<number, number>
 local questLogHashes = {}
+
+-- 3 * (Max possible number of quests in game quest log)
+-- This is a safe value, even smaller would be enough. Too large won't effect performance
+local MAX_QUEST_LOG_INDEX = 75
 
 
 function QuestieHash:InitQuestLogHashes()
-    local numEntries, numQuests = GetNumQuestLogEntries()
-    for questLogIndex = 1, numEntries + numQuests do
+    for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
             -- We exceeded the valid quest log entries
@@ -37,7 +42,7 @@ function QuestieHash:InitQuestLogHashes()
 end
 
 ---@param questId number
----@return string a hash of the quest objectives + the state if the quest is complete
+---@return number @a hash of the quest objectives + the state if the quest is complete
 function QuestieHash:GetQuestHash(questId)
     local hash = libC:fcs32init()
     local data = {
@@ -63,8 +68,8 @@ function QuestieHash:RemoveQuestHash(questId)
     QuestieQuest:SetObjectivesDirty(questId)
 end
 
----@param questIdList table<number, number> A list of questIds whose hash should to be checked
----@return table<number, number> A list questIds whose hash has changed
+---@param questIdList table<number, number> @A list of questIds whose hash should to be checked
+---@return table<number, number> @A list questIds whose hash has changed
 function QuestieHash:CompareHashesOfQuestIdList(questIdList)
     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
     local updatedQuestIds = {}
@@ -92,7 +97,7 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
 end
 
 ---@param questId number
----@return boolean true if the hash of the questId changed, false otherwise
+---@return boolean true @if the hash of the questId changed, false otherwise
 function QuestieHash:CompareQuestHash(questId)
     Questie:Debug(DEBUG_DEVELOP, "CompareQuestHash")
     local hashChanged = false

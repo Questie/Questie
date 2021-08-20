@@ -18,6 +18,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local stringSub = string.sub
 local tableRemove = table.remove
 
+-- 3 * (Max possible number of quests in game quest log)
+-- This is a safe value, even smaller would be enough. Too large won't effect performance
+local MAX_QUEST_LOG_INDEX = 75
+
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
     QUEST_TURNED_IN = "QUEST_TURNED_IN",
@@ -53,7 +57,7 @@ local initQuestLogTries = 0
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 ---@return boolean true if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
-    local numEntries, numQuests = GetNumQuestLogEntries()
+    local numEntries, _ = GetNumQuestLogEntries()
     print("--> numEntries:", numEntries, "numQuests:", numQuests)
 
     -- Without cached information the first QLU does not have any quest log entries.
@@ -66,7 +70,7 @@ function _QuestEventHandler:InitQuestLog()
         return false
     end
 
-    for i = 1, numEntries + numQuests do
+    for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
         if (not title) then
             -- We exceeded the valid quest log entries
@@ -276,8 +280,7 @@ function _QuestEventHandler:UpdateAllQuests()
     local questIdsToCheck = {}
     local questIdsToCheckSize = 1
 
-    local numEntries, numQuests = GetNumQuestLogEntries()
-    for questLogIndex = 1, numEntries + numQuests do
+    for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
             -- We exceeded the valid quest log entries
