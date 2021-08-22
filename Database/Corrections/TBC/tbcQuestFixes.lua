@@ -178,6 +178,24 @@ function QuestieTBCQuestFixes:Load()
         [7484] = {
             [questKeys.specialFlags] = 1,
         },
+        [7792] = {
+            [questKeys.startedBy] = {{20604},nil,nil},
+            [questKeys.finishedBy] = {{20604},nil},
+            [questKeys.inGroupWith] = {7798,10356},
+            [questKeys.reputationReward] = {{930,350}},
+        },
+        [7798] = {
+            [questKeys.startedBy] = {{20604},nil,nil},
+            [questKeys.finishedBy] = {{20604},nil},
+            [questKeys.inGroupWith] = {7792,10356},
+            [questKeys.reputationReward] = {{930,350}},
+        },
+        [7799] = {
+            [questKeys.inGroupWith] = {10352,10354},
+        },
+        [7800] = {
+            [questKeys.preQuestGroup] = {7799,10352,10354},
+        },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000}
         },
@@ -1109,8 +1127,23 @@ function QuestieTBCQuestFixes:Load()
         [10344] = {
             [questKeys.exclusiveTo] = {10163},
         },
+        [10352] = {
+            [questKeys.startedBy] = {{14725},nil,nil},
+            [questKeys.finishedBy] = {{14725},nil},
+            [questKeys.inGroupWith] = {7799,10354},
+            [questKeys.reputationReward] = {{69,350}},
+        },
+        [10354] = {
+            [questKeys.startedBy] = {{14725},nil,nil},
+            [questKeys.finishedBy] = {{14725},nil},
+            [questKeys.inGroupWith] = {7799,10352},
+            [questKeys.reputationReward] = {{69,350}},
+        },
+        [10356] = {
+            [questKeys.inGroupWith] = {7792,7798},
+        },
         [10357] = {
-            [questKeys.preQuestGroup] = {10352,10354,10356},
+            [questKeys.preQuestGroup] = {7792,7798,10356},
         },
         [10362] = {
             [questKeys.preQuestGroup] = {10359,10360,10361},
