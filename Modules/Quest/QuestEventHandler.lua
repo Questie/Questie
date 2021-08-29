@@ -309,7 +309,7 @@ local lastTimeBankFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
 --- So we hook the BANKFRAME_CLOSED event which fires twice after closing the bank frame and do a full quest log check.
 function _QuestEventHandler:BankFrameClosed()
-    print("[Event] BANKFRAME_CLOSED", lastTimeBankFrameClosedEvent)
+    print("[Event] BANKFRAME_CLOSED", GetTime())
 
     local now = GetTime()
     if lastTimeBankFrameClosedEvent ~= now then
