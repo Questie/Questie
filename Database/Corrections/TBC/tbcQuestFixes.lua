@@ -1089,7 +1089,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
         [10325] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10329] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down", 0, {{"object", 183770}}}},
@@ -1152,7 +1153,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10552},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10413] = {
             [questKeys.startedBy] = {{20779},nil,nil},
@@ -1317,11 +1318,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07}}}},
         },
         [10653] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10656] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10657] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents", 0, {{"monster", 20749}}}},
