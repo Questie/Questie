@@ -93,7 +93,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 end
             end
         end
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames: %s", questId)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames: %s", questId)
     end
 end
 
@@ -153,7 +153,7 @@ QuestieMap._mapDrawQueue = mapDrawQueue
 QuestieMap._minimapDrawQueue = minimapDrawQueue
 
 function QuestieMap:InitializeQueue() -- now called on every loading screen
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
 
     if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
@@ -308,7 +308,7 @@ end
 ---@param npcID number @The ID of the NPC
 function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemove, typ, excludeDungeon)
     if type(npcID) ~= "number" then
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap:ShowNPC]", "Got <" .. type(npcID) .. "> instead of <number>")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap:ShowNPC]", "Got <" .. type(npcID) .. "> instead of <number>")
         return
     end
     -- get the NPC data
@@ -446,7 +446,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        Questie:Debug(DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
+        Questie:Debug(Questie.DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon

@@ -6,7 +6,7 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
 
 function Hooks:HookQuestLogTitle()
-    Questie:Debug(DEBUG_DEVELOP, "[Hooks] Hooking Quest Log Title")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Hooks] Hooking Quest Log Title")
     local baseQLTB_OnClick = QuestLogTitleButton_OnClick
 
     -- We can not use hooksecurefunc because this needs to be a pre-hook to work properly unfortunately

@@ -86,7 +86,7 @@ local function _GetValidIcon(tooltips) -- helper function to get the first valid
 end
 
 function QuestieNameplate:NameplateCreated(token)
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
     -- if nameplates are disbaled, don't create new nameplates.
     if (not Questie.db.global.nameplateEnabled) then
         return
@@ -135,7 +135,7 @@ end
 
 
 function QuestieNameplate:UpdateNameplate()
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
 
     for guid, token in pairs(activeGUIDs) do
 
@@ -175,7 +175,7 @@ end
 local activeTargetFrame
 
 function QuestieNameplate:DrawTargetFrame()
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
     if Questie.db.global.nameplateTargetFrameEnabled then
 
