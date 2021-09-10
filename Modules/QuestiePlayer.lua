@@ -115,7 +115,8 @@ function QuestiePlayer:GetPartyMembers()
         for _, v in pairs(partyMembers) do
             local member = {}
             member.Name = v;
-            member.Class, _, _ = UnitClass(v);
+            local class, _, _ = UnitClass(v)
+            member.Class = class
             member.Level = UnitLevel(v);
             table.insert(party, member);
         end

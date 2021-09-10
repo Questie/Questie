@@ -1060,7 +1060,9 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     end
     local logID = GetQuestLogIndexByID(quest.Id);
     if logID ~= 0 then
-        _, _, _, _, _, quest.isComplete, _, _, _, _, _, _, _, _, _, quest.isHidden = GetQuestLogTitle(logID)
+        local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, isHidden = GetQuestLogTitle(logID)
+        quest.isComplete = isComplete
+        quest.isHidden = isHidden
         if quest.isComplete ~= nil and quest.isComplete == 1 then
             quest.isComplete = true
         end
