@@ -64,7 +64,7 @@ L_UIDROPDOWNMENUQUESTIE_SHOW_TIME = 2;
 -- Default dropdown text height
 L_UIDROPDOWNMENUQUESTIE_DEFAULT_TEXT_HEIGHT = nil;
 -- List of open menus
-L_OPEN_DROPDOWNMENUS = {};
+L_OPEN_QUESTIEDROPDOWNMENUS = {};
 
 local L_DropDownList1, L_DropDownList2
 
@@ -450,7 +450,7 @@ local function creatre_DropDownList(name, parent)
 			self.onHide = nil;
 		end
 		lib:CloseDropDownMenus(id+1);
-		L_OPEN_DROPDOWNMENUS[id] = nil;
+		L_OPEN_QUESTIEDROPDOWNMENUS[id] = nil;
 		if (id == 1) then
 			L_UIDROPDOWNMENUQUESTIE_OPEN_MENU = nil;
 		end
@@ -1607,7 +1607,7 @@ function lib:ToggleDropDownMenu(level, value, dropDownFrame, anchorName, xOffset
 			end
 
 			listFrame:ClearAllPoints();
-			listFrame.parentLevel = tonumber(strmatch(anchorFrame:GetName(), "L_DropDownList(%d+)"));
+			listFrame.parentLevel = tonumber(strmatch(anchorFrame:GetName(), "L_DropDownListQuestie(%d+)"));
 			listFrame.parentID = anchorFrame:GetID();
 			listFrame:SetPoint(point, anchorFrame, relativePoint, xOffset, yOffset);
 		end
