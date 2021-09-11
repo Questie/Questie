@@ -529,6 +529,10 @@ local function OnEventHandler(frame, event, ...)
         -- recheck cvars after login
         rotateMinimap = GetCVar("rotateMinimap") == "1"
     elseif event == "PLAYER_ENTERING_WORLD" then
+        -- Workaround for taint spreading from map to dropdownmenus
+        WorldMapZoneDropDown:Hide()
+        WorldMapContinentDropDown:Hide()
+
         UpdateMinimap()
         UpdateWorldMap()
     end
