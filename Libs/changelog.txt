@@ -1,3 +1,43 @@
+Ace3 Release - Revision r1252 (May 17th, 2021)
+--------------------------------------------------
+- AceConfigDialog-3.0: Increased the frame level of dialogs to allow other addons to draw below them.
+- AceConfigDialog-3.0: The validation/confirmation popup is now opaque and not click-through, to avoid accidentally activating options below it.
+- AceHook-3.0: Allow UnhookAll to be used without embedding (Fixes #558)
+
+Ace3 Release - Revision r1241 (October 13th, 2020)
+--------------------------------------------------
+- AceAddon-3.0: Suppress more Blizzard addon load events from activating Ace3 addons "too early", causing loading issues.
+- AceGUI-3.0: Updated for Backdrop changes in WoW 9.0
+- AceGUI-3.0: Re-structured widget releasing to avoid recursive release in some circumstances
+- AceGUI-3.0: Label: Anchors are being refreshed when the font is changed (Ticket #540)
+- AceGUI-3.0: Dropdown: Initialize the widget with an empty list so that AddItem can be used on a fresh dropdown (Ticket #542)
+
+Ace3 Release - Revision r1227 (August 12th, 2019)
+-------------------------------------------------
+- AceConfigDialog-3.0: Fixed an issue with a missing template on WoW Classic (Ticket #517)
+
+Ace3 Release - Revision r1224 (August 1st, 2019)
+------------------------------------------------
+- AceConfigDialog-3.0: Replace use of StaticPopup with a custom frame to minimize taint
+- AceGUI-3.0: Ensure the OnLeave callback on various widgets still fires when its being released while visible (Ticket #505)
+- AceGUI-3.0: Various fixes for anchoring problems in WoW 8.2 (Ticket #512, and other reports)
+
+Ace3 Release - Revision r1214 (June 26th, 2019)
+-----------------------------------------------
+- AceConfigDialog-3.0: Exposed "select" type sorting control through a new "sorting" config table member
+- AceConfigDialog-3.0: Clear existing anchors on the GameTooltip before re-anchoring it for 8.2 compatibility
+- AceConfigDialog-3.0: Improved options table sorting algorithm to produce a stable result in certain edge cases (Ticket #501)
+- AceConfigRegistry-3.0: Added missing custom controls entries for all types added in the last release (Ticket  #494)
+- AceGUI-3.0: ColorPicker: Removed usage of Show/HideUIPanel for WoW 8.2 compatibiliy
+- AceGUI-3.0: DropDown: Improved dropdown sorting algorithm to support tables with mixed string and numeric keys
+
+Ace3 Release - Revision r1200 (January 24th, 2019)
+--------------------------------------------------
+- Cleanup for WoW 8.0 improvements
+- AceGUI-3.0: Worked around various quirks in the WoW 8.0/8.1 API
+- AceGUI-3.0: ColorPicker: Store references to the background/checkers textures (Ticket #473)
+- AceConfigDialog-3.0: Allow custom controls for almost all option types (Ticket #475)
+
 Ace3 Release - Revision r1182 (July 17th, 2018)
 -----------------------------------------------
 - AceComm-3.0: Support numeric targets for custom channels (Ticket #419)
@@ -179,7 +219,7 @@ Ace3 Release - Revision r900 (December 8th, 2009)
 - AceGUI-3.0: TreeGroup: Allow iconCoords to be passed for the tree elements. (Ticket #59)
 - AceGUI-3.0: Slider: Add a more visible backdrop/border around the manual input area (Ticket #98, #46)
 - AceGUI-3.0: Allow displaying a image in front of the checkbox label. (Ticket #82)
-- AceConfig-3.0: Added an experimental "descStyle" member to all option table nodes that allows you to control the way the description is presented. 
+- AceConfig-3.0: Added an experimental "descStyle" member to all option table nodes that allows you to control the way the description is presented.
                  Supported values are "tooltip" for the old behaviour, and "inline" for a inline display of the description, pending support in AceGUI-3.0 widgets.
 - AceConfigCmd-3.0: Properly parse functions and methods supplied for the "hidden" option table member. (Ticket #96)
 - AceConfigDialog-3.0: Fix the unpacking of the basepath arguments when internally calling :Open (Ticket #90)
