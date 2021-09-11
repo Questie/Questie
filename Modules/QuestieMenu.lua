@@ -22,7 +22,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenu-4.0")
 
 local _, playerClass = UnitClass("player")
 local playerFaction = UnitFactionGroup("player")
@@ -294,7 +294,7 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
-    EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 
 local function _reformatVendors(lst, existingTable)

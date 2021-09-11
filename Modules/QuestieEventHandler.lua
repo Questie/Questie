@@ -126,33 +126,6 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
-    -- dropdown fix
-    Questie:RegisterEvent("CURSOR_UPDATE", function()
-        --No reason to work before Questie is up
-        if Questie.started then
-            --Checks for libuidropdownmenu 
-            if L_UIDROPDOWNMENU_MAXLEVELS then
-                for i=1, L_UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] then
-                        if _G["L_DropDownList"..i]:IsVisible() then
-                            _G["L_DropDownList"..i]:Hide()
-                        end
-                    end
-                end
-            end
-            --Check for default dropdownmenu
-            if UIDROPDOWNMENU_MAXLEVELS then
-                for i=1, UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] then
-                        if _G["DropDownList"..i]:IsVisible() then
-                            _G["DropDownList"..i]:Hide()
-                        end
-                    end
-                end
-            end
-        end
-    end)
-
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
 
