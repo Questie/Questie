@@ -50,13 +50,13 @@ Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieEvent.lua
 
-## Classic Corrections
+# Classic Corrections
 Database\Corrections\Classic\classicQuestFixes.lua
 Database\Corrections\Classic\classicNPCFixes.lua
 Database\Corrections\Classic\classicItemFixes.lua
 Database\Corrections\Classic\classicObjectFixes.lua
 
-## TBC Corrections
+# TBC Corrections
 Database\Corrections\TBC\tbcQuestFixes.lua
 Database\Corrections\TBC\tbcNPCFixes.lua
 Database\Corrections\TBC\tbcItemFixes.lua
