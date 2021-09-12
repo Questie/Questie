@@ -9,6 +9,8 @@
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
 
+Modules\WorldMapTaintWorkaround.lua
+
 embeds.xml
 
 Modules\VersionCheck.lua
