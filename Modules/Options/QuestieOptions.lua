@@ -20,7 +20,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local _CreateOptionsTable
 
 function QuestieOptions:Initialize()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
     local optionsTable = _CreateOptionsTable()
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", optionsTable)
@@ -46,7 +46,7 @@ function QuestieOptions:Initialize()
     QuestieConfigFrame = configFrame
     table.insert(UISpecialFrames, "QuestieConfigFrame")
 
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieOptions]: Initialization done")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieOptions]: Initialization done")
 end
 
 -- Generic function to hide the config frame.
@@ -75,7 +75,7 @@ end
 -- set option value
 function QuestieOptions:SetGlobalOptionValue(info, value)
     if debug and Questie.db.global[info[#info]] ~= value then
-        Questie:Debug(DEBUG_SPAM, "DEBUG: global option "..info[#info].." changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
+        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option "..info[#info].." changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
     end
     Questie.db.global[info[#info]] = value
 end
@@ -85,7 +85,7 @@ function QuestieOptions:AvailableQuestRedraw()
 end
 
 function QuestieOptions:ClusterRedraw()
-    Questie:Debug(DEBUG_INFO, "Clustering changed, redrawing!")
+    Questie:Debug(Questie.DEBUG_INFO, "Clustering changed, redrawing!")
     --Redraw clusters here
     QuestieQuest:SmoothReset();
 end

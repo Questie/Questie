@@ -6,13 +6,13 @@ local blizzardTimerLocation = {}
 local timer
 
 function QuestieQuestTimers:Initialize()
-    Questie:Debug(DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
 
     if QuestTimerFrame_Update == nil then
-        Questie:Debug(DEBUG_CRITICAL, "QuestTimerFrame_Update is nil. Retrying to hooksecurefunc in 5 seconds.")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "QuestTimerFrame_Update is nil. Retrying to hooksecurefunc in 5 seconds.")
         C_Timer.After(5, function()
             if QuestTimerFrame_Update == nil then
-                Questie:Debug(DEBUG_CRITICAL, "QuestTimerFrame_Update is still nil. Something is strange.")
+                Questie:Debug(Questie.DEBUG_CRITICAL, "QuestTimerFrame_Update is still nil. Something is strange.")
                 return
             end
             hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)

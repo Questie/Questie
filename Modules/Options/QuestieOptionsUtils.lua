@@ -37,6 +37,6 @@ function QuestieOptionsUtils:Delay(time, func, message)
     end
     _optionsTimer = Questie:ScheduleTimer(function()
         func()
-        Questie:Debug(DEBUG_DEVELOP, message)
+        Questie:Debug(Questie.DEBUG_DEVELOP, message)
     end, time)
 end

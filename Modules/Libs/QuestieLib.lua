@@ -117,7 +117,7 @@ function QuestieLib:IsResponseCorrect(questId)
                 if objective.type and string.len(objective.type) > 0 then
                     local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
                     if (objective.text == nil or objective.text == "" or distance < 5) then
-                        Questie:Debug(DEBUG_SPAM, count,
+                        Questie:Debug(Questie.DEBUG_SPAM, count,
                                 " : Objective text is strange!", "'",
                                 objective.text, "'", " distance",
                                 distance)
@@ -149,7 +149,7 @@ function QuestieLib:GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do
                 if (objective.text == nil or objective.text == "" or
                     QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(DEBUG_SPAM, count,
+                    Questie:Debug(Questie.DEBUG_SPAM, count,
                                   " : Objective text is strange!", "'",
                                   objective.text, "'", " distance",
                                   QuestieLib:Levenshtein(": 0/1", objective.text))
@@ -161,7 +161,7 @@ function QuestieLib:GetQuestObjectives(questId)
         count = count + 1
         if good then break end
     end
-    --Questie:Debug(DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
+    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
     return objectiveList
 end
 
@@ -384,7 +384,7 @@ function QuestieLib:CacheItemNames(questId)
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
-                    Questie:Debug(DEBUG_DEVELOP,
+                    Questie:Debug(Questie.DEBUG_DEVELOP,
                                   "Requesting item information for missing itemId:",
                                   objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
@@ -396,7 +396,7 @@ function QuestieLib:CacheItemNames(questId)
                             else
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
-                            Questie:Debug(DEBUG_DEVELOP,
+                            Questie:Debug(Questie.DEBUG_DEVELOP,
                                           "Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
                         end)

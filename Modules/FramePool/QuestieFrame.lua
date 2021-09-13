@@ -30,7 +30,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
         tinsert(MBB_Ignore, newFrame:GetName())
     end
     if frameId > 5000 then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", frameId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", frameId)
     end
 
     newFrame.glow = CreateFrame("Button", "QuestieFrame"..frameId.."Glow", newFrame) -- glow frame
@@ -278,7 +278,7 @@ function _Qframe:Unload()
     end
     self._needsUnload = nil
     self._loaded = nil
-    --Questie:Debug(DEBUG_SPAM, "[_Qframe:Unload]")
+    --Questie:Debug(Questie.DEBUG_SPAM, "[_Qframe:Unload]")
     self:SetScript("OnUpdate", nil)
     self:SetScript("OnShow", nil)
     self:SetScript("OnHide", nil)

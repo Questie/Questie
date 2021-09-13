@@ -28,7 +28,7 @@ function QuestieCompress:Compress(data)
     -- Set the compression type char.
     compressedData = string.char(QuestieCompress.method)..compressedData;
     local compressedAndEncoded = libCE:Encode(compressedData);
-    Questie:Debug(DEBUG_SPAM, "[QuestieCompress] Compressed&Encoded", compressedAndEncoded);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieCompress] Compressed&Encoded", compressedAndEncoded);
     return compressedAndEncoded;
 end
 
@@ -52,9 +52,9 @@ end
 
 function _QuestieCompress:LibAceCompress(data)
     local serializedData = libS:Serialize(data);
-    Questie:Debug(DEBUG_SPAM, "[QuestieCompress] Serialized", serializedData);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieCompress] Serialized", serializedData);
     local compressedData = libC:CompressHuffman(serializedData);
-    Questie:Debug(DEBUG_SPAM, "[QuestieCompress] Compressed", compressedData);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieCompress] Compressed", compressedData);
     return compressedData
 end
 
