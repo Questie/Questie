@@ -2,7 +2,8 @@
 -- This should be independednt of Questie and all libraries.
 
 local function doWorkaround()
-    -- Blizzard's bugs #114 and #165
+    -- Blizzard's bugs
+    -- https://github.com/Stanzilla/WoWUIBugs/issues/114 and https://github.com/Stanzilla/WoWUIBugs/issues/165
     -- HDB (and Questie fork of it) uses WorldMapFrame:AddDataProvider(  ).
     print("|cff30fc96Questie:|r |cffff0000Hiding drop-down menus on the World Map.|r This should stop taint issues spreading from World Map via drop-down menus.")
     --WorldMapZoneDropDown_Update = function() end
