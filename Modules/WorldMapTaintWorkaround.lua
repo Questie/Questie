@@ -20,7 +20,7 @@ if finished then
     doWorkaround()
 else
     local f = CreateFrame("Frame")
-    local function addonLoaded(addOnName)
+    local function addonLoaded(_, _, addOnName)
         if addOnName == "Blizzard_WorldMap" then
             doWorkaround()
         end
