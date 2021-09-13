@@ -326,9 +326,9 @@ function _QuestieTracker:CreateBaseFrame()
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
 
             if QuestWatchFrame then
-                result, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+                local result2, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
-                if (not result) then
+                if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                     _QuestieTracker:SetSafePoint(frm)
                 end
