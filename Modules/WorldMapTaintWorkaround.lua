@@ -6,12 +6,18 @@ local function doWorkaround()
     -- https://github.com/Stanzilla/WoWUIBugs/issues/114 and https://github.com/Stanzilla/WoWUIBugs/issues/165
     -- HDB (and Questie fork of it) uses WorldMapFrame:AddDataProvider(  ).
     print("|cff30fc96Questie:|r |cffff0000Hiding drop-down menus on the World Map.|r This should stop taint issues spreading from World Map via drop-down menus.")
-    --WorldMapZoneDropDown_Update = function() end
-    --WorldMapContinentDropDown_Update = function() end
-    WorldMapZoneMinimapDropDown_Update = function() end
-    WorldMapZoneDropDown:Hide()
-    WorldMapContinentDropDown:Hide()
-    WorldMapZoneMinimapDropDown:Hide()
+    if WorldMapZoneMinimapDropDown then
+        WorldMapZoneMinimapDropDown_Update = function() end
+        WorldMapZoneMinimapDropDown:Hide()
+    end
+    if WorldMapContinentDropDown then
+        --WorldMapContinentDropDown_Update = function() end
+        WorldMapContinentDropDown:Hide()
+    end
+    if WorldMapZoneDropDown then
+        --WorldMapZoneDropDown_Update = function() end
+        WorldMapZoneDropDown:Hide()
+    end
     --WorldMapMagnifyingGlassButton:Hide()
 end
 
