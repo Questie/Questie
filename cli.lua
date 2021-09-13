@@ -1,3 +1,7 @@
+WOW_PROJECT_ID = 5
+WOW_PROJECT_CLASSIC = 2
+WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
+WOW_PROJECT_MAINLINE = 1
 
 tremove = table.remove
 tinsert = table.insert
@@ -59,12 +63,20 @@ C_Timer = {
     end
 }
 
+-- WoW addon namespace
+local addonName = "Questie"
+local addonTable = {}
+
 local function loadTOC(file)
     local rfile = io.open(file, "r")
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r, _ = pcall(dofile, line)
+            local r = nil
+            local chunck = loadfile(line)
+            if chunck then
+                r = pcall(chunck, addonName, addonTable)
+            end
             if r then
                 --print("Loaded " .. line)
             else
