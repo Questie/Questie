@@ -1,4 +1,8 @@
 ---@class l10n
+---@field continentLookup table
+---@field zoneLookup table
+---@field zoneCategoryLookup table
+---@field questCategoryLookup table
 local l10n = QuestieLoader:CreateModule("l10n")
 local _l10n = {}
 l10n.translations = {}

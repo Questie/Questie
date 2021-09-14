@@ -1,4 +1,34 @@
 ---@class QuestieDB
+---@field npcCompilerTypes table
+---@field npcCompilerOrder table
+---@field npcKeys table
+---@field npcKeysReversed table
+---@field questCompilerTypes table
+---@field questCompilerOrder table
+---@field questKeys table
+---@field questKeysReversed table
+---@field objectCompilerTypes table
+---@field objectCompilerOrder table
+---@field objectKeys table
+---@field objectKeysReversed table
+---@field itemCompilerTypes table
+---@field itemCompilerOrder table
+---@field itemKeys table
+---@field itemKeysReversed table
+---@field npcData table
+---@field questData table
+---@field objectData table
+---@field itemData table
+---@field questDataTBC nil | table
+---@field objectDataTBC nil | table
+---@field npcDataTBC nil | table
+---@field itemDataTBC nil | table
+---@field sortKeys table
+---@field private private table
+---@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _npcAdapterQueryOrder table @temporary, until we remove the old db funcitons
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
@@ -609,7 +639,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public startedBy table
     ---@field public triggerEnd table
     ---@field public zoneOrSort number
-
     local QO = {}
     QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
