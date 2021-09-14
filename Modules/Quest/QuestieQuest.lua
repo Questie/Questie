@@ -21,8 +21,6 @@ local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration"
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type QuestieHash
-local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type TaskQueue
@@ -71,8 +69,6 @@ function QuestieQuest:Initialize()
 
     QuestieProfessions:Update()
     QuestieReputation:Update(true)
-
-    QuestieHash:InitQuestLogHashes()
 end
 
 function QuestieQuest:ToggleNotes(showIcons)
@@ -383,7 +379,6 @@ function QuestieQuest:AcceptQuest(questId)
             --Get all the Frames for the quest and unload them, the available quest icon for example.
             function() QuestieMap:UnloadQuestFrames(questId) end,
             function() QuestieTooltips:RemoveQuest(questId) end,
-            function() QuestieHash:AddNewQuestHash(questId) end,
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
             function() QuestieTracker:ResetLinesForChange() end,
@@ -405,8 +400,6 @@ function QuestieQuest:CompleteQuest(questId)
     -- Only quests that aren't repeatable and not a daily quest should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not isRepeatable);
-
-    QuestieHash:RemoveQuestHash(questId)
 
     QuestieMap:UnloadQuestFrames(questId)
     if (QuestieMap.questIdFrames[questId]) then
@@ -430,8 +423,6 @@ function QuestieQuest:AbandonedQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
-
-        QuestieHash:RemoveQuestHash(questId)
 
         QuestieMap:UnloadQuestFrames(questId);
 

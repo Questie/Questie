@@ -80,6 +80,8 @@ function _QuestEventHandler:InitQuestLog()
         end
     end
 
+    QuestieHash:InitQuestLogHashes()
+
     return true
 end
 
@@ -111,7 +113,7 @@ local objectiveTextTries = 0
 function _QuestEventHandler:HandleQuestAccepted(questId)
     if objectiveTextTries == MAX_OBJECTIVE_TEXT_TRIES then
         -- Check for failing recursion. Something is up if the objective texts are still invalid.
-        print("--> Objective texts are not correct after", MAX_OBJECTIVE_TEXT_TRIES, "- Please report this!")
+        print("--> Objective texts are not correct after", MAX_OBJECTIVE_TEXT_TRIES, "tries - Please report this!")
         return true
     end
 
@@ -131,7 +133,8 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         end
     end
 
-    print("--> Objectives are correct. Calling accept logic")
+    print("--> Objectives are correct. Calling accept logic. quest:", questId)
+    QuestieHash:AddNewQuestHash(questId)
     QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
 
@@ -160,6 +163,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     skipNextUQLCEvent = true
+    QuestieHash:RemoveQuestHash(questId)
     QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
 end
@@ -198,6 +202,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         print("--> Quest", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
+        QuestieHash:RemoveQuestHash(questId)
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
     end
