@@ -24,7 +24,7 @@
 ---@field npcDataTBC nil | table
 ---@field itemDataTBC nil | table
 ---@field sortKeys table
----@field private private table
+---@field private table
 ---@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
 ---@field private _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
 ---@field private _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
