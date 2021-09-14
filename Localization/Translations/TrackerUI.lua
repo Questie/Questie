@@ -160,7 +160,7 @@ local trackerUILocales = {
     },
     ["Can't open Quest Log while in combat. Open it manually."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Невозможно автоматически открыть журнал заданий, находясь в бою. Откройте его вручную.",
         ["deDE"] = "Das Quest Log kann nicht im Kampf geöffnet werden. Bitte öffne es manuell.",
         ["koKR"] = false,
         ["esMX"] = false,
