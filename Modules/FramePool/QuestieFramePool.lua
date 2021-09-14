@@ -72,7 +72,7 @@ StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
 -- Global Functions --
 ---@return IconFrame
 function QuestieFramePool:GetFrame()
-    --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
+    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame]")
 
     ---@type IconFrame
     local returnFrame = next(unusedFrames)
@@ -80,13 +80,13 @@ function QuestieFramePool:GetFrame()
 
     if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
+        --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
         returnFrame = nil
     end
     if not returnFrame then
         returnFrame = _QuestieFramePool:QuestieCreateFrame()
     else
-        --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
+        --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame] Reusing frame")
         unusedFrames[returnFrame.frameId] = nil
     end
     if returnFrame ~= nil and returnFrame.hidden and returnFrame._show ~= nil and returnFrame._hide ~= nil then -- restore state to normal (toggle questie)
@@ -176,13 +176,13 @@ function QuestieFramePool:UpdateColorConfig(mini, enable)
 end
 
 function QuestieFramePool:RecycleFrame(frame)
-    --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
+    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:RecycleFrame]")
     usedFrames[frame.frameId] = nil
     unusedFrames[frame.frameId] = frame
 end
 
 function _QuestieFramePool:QuestieCreateFrame()
-    --Questie:Debug(DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
+    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:QuestieCreateFrame]")
     numberOfFrames = numberOfFrames + 1
     local newFrame = QuestieFramePool.Qframe:New(numberOfFrames, MapIconTooltip.Show)
 

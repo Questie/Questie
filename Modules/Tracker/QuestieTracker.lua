@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
@@ -329,9 +326,9 @@ function _QuestieTracker:CreateBaseFrame()
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
 
             if QuestWatchFrame then
-                result, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+                local result2, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
-                if (not result) then
+                if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                     _QuestieTracker:SetSafePoint(frm)
                 end
@@ -1228,7 +1225,7 @@ function QuestieTracker:IsExpanded()
 end
 
 function QuestieTracker:Update()
-    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Update")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update")
     if (not QuestieTracker.started) then
         return
     end
@@ -2053,7 +2050,7 @@ function QuestieTracker:FocusQuest(questId)
 end
 
 function QuestieTracker:Untrack(quest)
-    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: Untrack")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Untrack")
     if GetCVar("autoQuestWatch") == "0" then
         Questie.db.char.TrackedQuests[quest.Id] = nil
     else
@@ -2130,9 +2127,9 @@ function QuestieTracker:HookBaseTracker()
 end
 
 _OnClick = function(self, button)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
     if _QuestieTracker.isMoving == true then
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieTracker:_OnClick]", "Tracker is being dragged. Don't show the menu")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick]", "Tracker is being dragged. Don't show the menu")
         return
     end
 
@@ -2164,7 +2161,7 @@ _OnClick = function(self, button)
 
     elseif button == "RightButton" then
         local menu = QuestieTracker.menu:GetMenuForQuest(self.Quest)
-        EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
+        LibDropDown:EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
     end
 end
 
@@ -2196,7 +2193,7 @@ _OnHighlightLeave = function()
 end
 
 function QuestieTracker:ResetLinesForChange()
-    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: ResetLinesForChange")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: ResetLinesForChange")
     if InCombatLockdown() or not Questie.db.global.trackerEnabled then return end
     for _, line in pairs(_QuestieTracker.LineFrames) do
         line.mode = nil
@@ -2213,7 +2210,7 @@ function QuestieTracker:ResetLinesForChange()
 end
 
 function QuestieTracker:RemoveQuest(id)
-    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: RemoveQuest")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuest")
     if Questie.db.char.TrackerFocus then
         if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == id)
         or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(id)) == tostring(id)) then
@@ -2236,7 +2233,7 @@ function _QuestieTracker:PrintProgressColor(percent, text)
 end
 
 _RemoveQuestWatch = function(index, isQuestie)
-    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch")
     if QuestieTracker._disableHooks then
         return
     end
@@ -2263,7 +2260,7 @@ _RemoveQuestWatch = function(index, isQuestie)
 end
 
 function QuestieTracker:AQW_Insert(index, expire)
-    Questie:Debug(DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
     if QuestieTracker._disableHooks then
         return
     end

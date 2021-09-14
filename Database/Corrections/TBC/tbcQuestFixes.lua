@@ -178,6 +178,19 @@ function QuestieTBCQuestFixes:Load()
         [7484] = {
             [questKeys.specialFlags] = 1,
         },
+        [7792] = {
+            [questKeys.startedBy] = {{20604},nil,nil},
+            [questKeys.finishedBy] = {{20604},nil},
+            [questKeys.reputationReward] = {{930,350}},
+        },
+        [7798] = {
+            [questKeys.startedBy] = {{20604},nil,nil},
+            [questKeys.finishedBy] = {{20604},nil},
+            [questKeys.reputationReward] = {{930,350}},
+        },
+        [7800] = {
+            [questKeys.preQuestGroup] = {7799,10352,10354},
+        },
         [7863] = {
             [questKeys.requiredMinRep] = {890,3000}
         },
@@ -1089,7 +1102,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down", 0, {{"object", 184312}}}},
         },
         [10325] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10329] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down", 0, {{"object", 183770}}}},
@@ -1109,8 +1123,18 @@ function QuestieTBCQuestFixes:Load()
         [10344] = {
             [questKeys.exclusiveTo] = {10163},
         },
+        [10352] = {
+            [questKeys.startedBy] = {{14725},nil,nil},
+            [questKeys.finishedBy] = {{14725},nil},
+            [questKeys.reputationReward] = {{69,350}},
+        },
+        [10354] = {
+            [questKeys.startedBy] = {{14725},nil,nil},
+            [questKeys.finishedBy] = {{14725},nil},
+            [questKeys.reputationReward] = {{69,350}},
+        },
         [10357] = {
-            [questKeys.preQuestGroup] = {10352,10354,10356},
+            [questKeys.preQuestGroup] = {7792,7798,10356},
         },
         [10362] = {
             [questKeys.preQuestGroup] = {10359,10360,10361},
@@ -1152,7 +1176,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10412] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10552},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10413] = {
             [questKeys.startedBy] = {{20779},nil,nil},
@@ -1317,11 +1341,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07}}}},
         },
         [10653] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredMaxRep] = {},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10656] = {
             [questKeys.requiredMaxRep] = {},
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {10551,10552},
         },
         [10657] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents", 0, {{"monster", 20749}}}},
@@ -1362,12 +1387,14 @@ function QuestieTBCQuestFixes:Load()
         [10711] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
             [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10710, 10657},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium", 0, {{"monster", 21461}}}},
         },
         [10712] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
             [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {}},
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying", 0, {{"monster", 21461}}}},
         },
@@ -1450,6 +1477,15 @@ function QuestieTBCQuestFixes:Load()
         [10830] = {
             [questKeys.requiredSourceItems] = {31517,31495},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Exorcism Feathers to summon Koi-Koi Spirits", 0, {{"monster", 21326}}}},
+        },
+        [10831] = {
+            [questKeys.requiredSkill] = {197,350},
+        },
+        [10832] = {
+            [questKeys.requiredSkill] = {197,350},
+        },
+        [10833] = {
+            [questKeys.requiredSkill] = {197,350},
         },
         [10838] = {
             [questKeys.extraObjectives] = {{{[3483]={{44,51}}}, ICON_TYPE_EVENT, "Use the Demoniac Scryer"}},

@@ -64,7 +64,7 @@ end
 
 ---@param questId number
 function QuestieTooltips:RemoveQuest(questId)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:RemoveQuest]", questId)
     if (not QuestieTooltips.lookupKeysByQuestId[questId]) then
         return
     end
@@ -94,7 +94,7 @@ end
 
 ---@param key string
 function QuestieTooltips:GetTooltip(key)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieTooltips:GetTooltip]", key)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:GetTooltip]", key)
     if key == nil then
         return nil
     end

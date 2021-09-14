@@ -31,14 +31,14 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         local name = QuestieDB.QueryNPCSingle(npcId, "name")
 
         if (not name) then
-            Questie:Debug(DEBUG_CRITICAL, "Name missing for NPC:", npcId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for NPC:", npcId)
             return nil
         end
 
         local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
 
         if (not spawns) then
-            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
             spawns = {}
         end
 
@@ -76,14 +76,14 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         local name = QuestieDB.QueryObjectSingle(objectId, "name")
 
         if (not name) then
-            Questie:Debug(DEBUG_CRITICAL, "Name missing for object:", objectId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for object:", objectId)
             return nil
         end
 
         local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
 
         if (not spawns) then
-            Questie:Debug(DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
             spawns = {}
         end
 

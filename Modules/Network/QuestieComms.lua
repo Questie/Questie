@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
 ---@class QuestieComms
 local QuestieComms = QuestieLoader:CreateModule("QuestieComms");
 local _QuestieComms = QuestieComms.private
@@ -182,10 +179,10 @@ end
 -- Local Functions --
 
 function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update to group or raid
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Questid", questId, tostring(questId));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Questid", questId, tostring(questId));
     if(questId) then
         local partyType = QuestiePlayer:GetGroupType()
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] partyType", tostring(partyType));
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] partyType", tostring(partyType));
         if partyType then
             if partyType ~= "raid" then
                 QuestieComms:YellProgress(questId)
@@ -212,7 +209,7 @@ end
 -- Removes the quest from everyones external quest-log
 function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update to group or raid
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] QuestId:", questId, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] QuestId:", questId, "partyType:", tostring(partyType));
     if partyType then
         --Do we really need to make this?
         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE);
@@ -271,7 +268,7 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
     end
 
 
-    Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
 
     return offset, count
 end
@@ -303,7 +300,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
     end
 
 
-    Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
 
     return offset, count
 end
@@ -510,7 +507,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
         return
     end
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
     if partyType then
         local rawQuestList = {}
         -- Maybe this should be its own function in QuestieQuest...
@@ -625,7 +622,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         return
     end
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
     if partyType then
         
         -- Maybe this should be its own function in QuestieQuest...
@@ -740,7 +737,7 @@ end
 -- The "Hi" of questie, request others to send their questlog.
 function _QuestieComms:RequestQuestLog(eventName) -- broadcast quest update to group or raid
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
     if partyType then
         --Do we really need to make this?
         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST);
@@ -780,7 +777,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
             end
         end
     end
-    Questie:Debug(DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
     return quest;
 end
 
@@ -822,7 +819,7 @@ end
 _QuestieComms.packets = {
     [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATE] = { --1
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATE")
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestPacket)
@@ -833,27 +830,27 @@ _QuestieComms.packets = {
             local playerName = remoteQuestPacket.playerName;
             local quest = remoteQuestPacket.quest;
 
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATE", "Player:", playerName)
 
             QuestieComms:InsertQuestDataPacket(quest, playerName);
         end
     },
     [_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE] = { --2
       write = function(self)
-        Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_REMOVE")
         _QuestieComms:Broadcast(self.data);
       end,
       read = function(remoteQuestPacket)
         if(remoteQuestPacket == nil) then
             Questie:Error("[QuestieComms]", "QC_ID_BROADCAST_QUEST_REMOVE", "remoteQuestPacket = nil");
         end
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_REMOVE")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_REMOVE")
 
         local playerName = remoteQuestPacket.playerName;
         local questId = remoteQuestPacket.id;
 
         if(QuestieComms.remoteQuestLogs[questId] and QuestieComms.remoteQuestLogs[questId][playerName]) then
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Removed quest:", questId, "for player:", playerName);
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Removed quest:", questId, "for player:", playerName);
             QuestieComms.remoteQuestLogs[questId][playerName] = nil;
         end
         QuestieComms.data:RemoveQuestFromPlayer(questId, playerName);
@@ -861,7 +858,7 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLIST] = { --10
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_FULL_QUESTLIST")
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestList)
@@ -872,7 +869,7 @@ _QuestieComms.packets = {
             local playerName = remoteQuestList.playerName;
             local questList = remoteQuestList.rawQuestList;
 
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_FULL_QUESTLIST", "Player:", playerName, questList)
 
             --Don't save our own quests.
             if questList then
@@ -884,11 +881,11 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST] = { --11
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLIST")
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLIST")
             --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST");
             --if tonumber(major) > 5 then
             --    QuestieComms:BroadcastQuestLogV2(self.playerName, "WHISPER")--Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLISTV2");
@@ -907,11 +904,11 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_BROADCAST_FULL_QUESTLISTV2] = {-- 12
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLISTV2")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_REQUEST_FULL_QUESTLISTV2")
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLISTV2")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_REQUEST_FULL_QUESTLISTV2")
             local offset = 2
             local count = self[1][1]
             for _= 1, count do
@@ -921,13 +918,13 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_YELL_PROGRESS] = { --13
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_YELL_PROGRESS")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_YELL_PROGRESS")
             if not badYellLocations[C_Map.GetBestMapForUnit("player")] then
                _QuestieComms:Broadcast(self.data);
             end
         end,
         read = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_YELL_PROGRESS")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_YELL_PROGRESS")
             if not Questie.db.global.disableYellComms and not badYellLocations[C_Map.GetBestMapForUnit("player")] then
                 QuestieComms.remotePlayerTimes[self.playerName] = GetTime()
                 QuestieComms:InsertQuestDataPacketV2(self[1], self.playerName, 1, true)
@@ -937,11 +934,11 @@ _QuestieComms.packets = {
     },
     [_QuestieComms.QC_ID_BROADCAST_QUEST_UPDATEV2] = { -- 14
         write = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATEV2")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Sending: QC_ID_BROADCAST_QUEST_UPDATEV2")
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(self)
-            Questie:Debug(DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATEV2")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", "Received: QC_ID_BROADCAST_QUEST_UPDATEV2")
             QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(self[1], self.playerName, 1, false)
         end
     }
@@ -965,11 +962,11 @@ function _QuestieComms:Broadcast(packet)
     packet.writeMode = nil -- we dont need to include these in the packet data
     if packetWriteMode == _QuestieComms.QC_WRITE_WHISPER then
         local compressedData = QuestieSerializer:Serialize(packet);
-        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
+        Questie:Debug(Questie.DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, packetTarget, packetPriority)
     elseif packetWriteMode == _QuestieComms.QC_WRITE_CHANNEL then
         local compressedData = QuestieSerializer:Serialize(packet);
-        Questie:Debug(DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
+        Questie:Debug(Questie.DEBUG_DEVELOP,"send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
         -- Always do channel messages as BULK priority
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, GetChannelName("questiecom"), "BULK")
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, "CHANNEL", GetChannelName("questiecom"))
@@ -981,7 +978,7 @@ function _QuestieComms:Broadcast(packet)
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, "BULK")
     else
         local compressedData = QuestieSerializer:Serialize(packet);
-        Questie:Debug(DEBUG_DEVELOP, "send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "send(|cFFFF2222" ..string.len(compressedData) .. "|r)")
         Questie:SendCommMessage(_QuestieComms.prefix, compressedData, packetWriteMode, nil, packetPriority)
         --OLD: C_ChatInfo.SendAddonMessage("questie", compressedData, packet.writeMode)
     end
@@ -993,7 +990,7 @@ end
 
 function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
     --print("[" .. distribution .."][" .. sender .. "] " .. message)
-    Questie:Debug(DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
+    Questie:Debug(Questie.DEBUG_DEVELOP, "|cFF22FF22", "sender:", "|r", sender, "distribution:", distribution, "Packet length:",string.len(message))
     if message and sender and sender ~= UnitName("player") then
         local decompressedData
         if distribution == "YELL" then
@@ -1007,7 +1004,7 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
         --Check if the message version is the same base value
         if distribution == "YELL" and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId] then
             decompressedData.playerName = sender;
-            Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender)
             _QuestieComms.packets[decompressedData.msgId].read(decompressedData)
         elseif(decompressedData and decompressedData.msgVer and floor(decompressedData.msgVer) == floor(commMessageVersion)) then
             if(decompressedData and decompressedData.msgId and _QuestieComms.packets[decompressedData.msgId]) then
@@ -1029,11 +1026,11 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
                 end
 
                 decompressedData.playerName = sender;
-                Questie:Debug(DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender, "MessageVersion:", decompressedData.msgVer)
+                Questie:Debug(Questie.DEBUG_DEVELOP, "Executing message ID: ", decompressedData.msgId, "From: ", sender, "MessageVersion:", decompressedData.msgVer)
 
                 _QuestieComms.packets[decompressedData.msgId].read(decompressedData);
             else
-                Questie:Debug(DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieComms]", decompressedData, decompressedData.msgId, _QuestieComms.packets[decompressedData.msgId])
                 Questie:Error("Error reading QuestieComm message (If it persist try updating) Player:", sender, "PacketLength:", string.len(message));
             end
         elseif(decompressedData and not warnedUpdate and decompressedData.msgVer) then
@@ -1098,7 +1095,7 @@ end]]--
 
 --[[ NOT USED
 function QuestieComms:MessageReceived(channel, message, type, source) -- pcall this
-    Questie:Debug(DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "recv(|cFF22FF22" .. message .. "|r)")
     if channel == "questie" and source then
       local decompressedData = QuestieCompress:decompress(message);
       _QuestieComms.packets[message.msgId].read(decompressedData);

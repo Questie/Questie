@@ -2,7 +2,7 @@
 -- Note: This library is not yet finalized.
 -- @class file
 -- @name AceTab-3.0
--- @release $Id: AceTab-3.0.lua 1148 2016-07-18 09:13:02Z nevcairiel $
+-- @release $Id: AceTab-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
 
 local ACETAB_MAJOR, ACETAB_MINOR = 'AceTab-3.0', 9
 local AceTab, oldminor = LibStub:NewLibrary(ACETAB_MAJOR, ACETAB_MINOR)
@@ -131,7 +131,7 @@ function AceTab:RegisterTabCompletion(descriptor, prematches, wordlist, usagefun
 	elseif type(listenframes) ~= 'table' or type(listenframes[0]) == 'userdata' and type(listenframes.IsObjectType) == 'function' then  -- single frame or framename
 		listenframes = { listenframes }
 	end
-	
+
 	-- Hook each registered listenframe and give it a matches table.
 	for _, f in pairs(listenframes) do
 		if type(f) == 'string' then
@@ -148,7 +148,7 @@ function AceTab:RegisterTabCompletion(descriptor, prematches, wordlist, usagefun
 			end
 		end
 	end
-	
+
 	-- Everything checks out; register this completion.
 	if not registry[descriptor] then
 		registry[descriptor] = { prematches = pmtable, wordlist = wordlist, usagefunc = usagefunc, listenframes = listenframes, postfunc = postfunc, pmoverwrite = pmoverwrite }
@@ -358,7 +358,7 @@ function AceTab:OnTabPressed(this)
 	firstPMLength = 0
 	hasNonFallback = false
 	for i in pairs(pmolengths) do pmolengths[i] = nil end
-	
+
 	for desc in pairs(notfallbacks) do
 		fillMatches(this, desc)
 	end
@@ -368,7 +368,7 @@ function AceTab:OnTabPressed(this)
 		end
 	end
 
-	if not firstMatch then 
+	if not firstMatch then
 		this.at3_last_precursor = "\0"
 		return true
 	end
@@ -390,7 +390,7 @@ function AceTab:OnTabPressed(this)
 		for desc, matches in pairs(this.at3matches) do
 			-- Don't print usage statements for fallback completion groups if we have 'real' completion groups with matches.
 			if hasNonFallback and fallbacks[desc] then break end
-			
+
 			-- Use the group's description as a heading for its usage statements.
 			DEFAULT_CHAT_FRAME:AddMessage(desc..":")
 

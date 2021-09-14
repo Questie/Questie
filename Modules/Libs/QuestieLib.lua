@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 
@@ -37,7 +34,7 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF8040" .. text .. "|r" -- Orange
     elseif (levelDiff >= -2) then
         return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
+    elseif (-levelDiff <= GetQuestGreenRange("player")) then
         return "|cFF40C040" .. text .. "|r" -- Green
     else
         return "|cFFC0C0C0" .. text .. "|r" -- Grey
@@ -58,7 +55,7 @@ function QuestieLib:GetDifficultyColorPercent(level)
     elseif (levelDiff >= -2) then
         -- return "|cFFFFFF00"..text.."|r"; -- Yellow
         return 1, 1, 0
-    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
+    elseif (-levelDiff <= GetQuestGreenRange("player")) then
         -- return "|cFF40C040"..text.."|r"; -- Green
         return 0.251, 0.753, 0.251
     else
@@ -104,12 +101,13 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----@param questId QuestId @The quest ID
+---@param questId number @The quest ID
+---@return boolean
 function QuestieLib:IsResponseCorrect(questId)
     local count = 0
     local objectiveList
     local good = true
-    while (true and count < 50) do
+    while (count < 1) do
         good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if (not objectiveList) then
@@ -119,7 +117,7 @@ function QuestieLib:IsResponseCorrect(questId)
                 if objective.type and string.len(objective.type) > 0 then
                     local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
                     if (objective.text == nil or objective.text == "" or distance < 5) then
-                        Questie:Debug(DEBUG_SPAM, count,
+                        Questie:Debug(Questie.DEBUG_SPAM, count,
                                 " : Objective text is strange!", "'",
                                 objective.text, "'", " distance",
                                 distance)
@@ -137,12 +135,12 @@ function QuestieLib:IsResponseCorrect(questId)
     return good
 end
 
----@param questId QuestId @The quest ID
+---@param questId number @The quest ID
 ---@return table
 function QuestieLib:GetQuestObjectives(questId)
     local count = 0
     local objectiveList
-    while (true and count < 50) do
+    while (count < 1) do
         local good = true
         objectiveList = C_QuestLog.GetQuestObjectives(questId)
         if not objectiveList then
@@ -151,7 +149,7 @@ function QuestieLib:GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do
                 if (objective.text == nil or objective.text == "" or
                     QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(DEBUG_SPAM, count,
+                    Questie:Debug(Questie.DEBUG_SPAM, count,
                                   " : Objective text is strange!", "'",
                                   objective.text, "'", " distance",
                                   QuestieLib:Levenshtein(": 0/1", objective.text))
@@ -163,7 +161,7 @@ function QuestieLib:GetQuestObjectives(questId)
         count = count + 1
         if good then break end
     end
-    Questie:Debug(DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
+    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
     return objectiveList
 end
 
@@ -386,7 +384,7 @@ function QuestieLib:CacheItemNames(questId)
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
-                    Questie:Debug(DEBUG_DEVELOP,
+                    Questie:Debug(Questie.DEBUG_DEVELOP,
                                   "Requesting item information for missing itemId:",
                                   objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
@@ -398,7 +396,7 @@ function QuestieLib:CacheItemNames(questId)
                             else
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
-                            Questie:Debug(DEBUG_DEVELOP,
+                            Questie:Debug(Questie.DEBUG_DEVELOP,
                                           "Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
                         end)
@@ -409,8 +407,9 @@ function QuestieLib:CacheItemNames(questId)
 end
 
 function QuestieLib:Euclid(x, y, i, e)
-    local xd = math_abs(x - i)
-    local yd = math_abs(y - e)
+    -- No need for absolute values as these are used only as squared
+    local xd = x - i
+    local yd = y - e
     return math_sqrt(xd * xd + yd * yd)
 end
 
@@ -437,8 +436,7 @@ local cachedVersion
 -- Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()
     if (not cachedTitle) or (not cachedVersion) then
-        local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
-        if (reason == "MISSING") then name, title = GetAddOnInfo("Questie") end
+        local name, title = GetAddOnInfo("Questie")
         cachedTitle = title
         cachedVersion = GetAddOnMetadata(name, "Version")
     end

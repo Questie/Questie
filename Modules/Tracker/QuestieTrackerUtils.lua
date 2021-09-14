@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetQuestLogIndexByID = GetQuestLogIndexByID or C_QuestLog.GetLogIndexForQuestID
-
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 QuestieTracker.utils = {}
@@ -20,7 +17,7 @@ local tinsert = table.insert
 function QuestieTracker.utils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame;
-    HideUIPanel(questFrame);
+    --HideUIPanel(questFrame); -- don't use as I don't see why to use and protected function taints in combat
     local questLogIndex = GetQuestLogIndexByID(quest.Id);
     SelectQuestLogEntry(questLogIndex)
 
@@ -28,11 +25,17 @@ function QuestieTracker.utils:ShowQuestLog(quest)
     local scrollSteps = QuestLogListScrollFrame.ScrollBar:GetValueStep()
     QuestLogListScrollFrame.ScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3);
 
-    ShowUIPanel(questFrame);
+    if not questFrame:IsShown() then
+        if not InCombatLockdown() then
+            ShowUIPanel(questFrame)
 
-    --Addon specific behaviors
-    if(QuestLogEx) then
-        QuestLogEx:Maximize();
+            --Addon specific behaviors
+            if(QuestLogEx) then
+                QuestLogEx:Maximize();
+            end
+        else
+            Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
+        end
     end
 
     QuestLog_UpdateQuestDetails()

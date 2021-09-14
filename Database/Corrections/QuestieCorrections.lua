@@ -191,7 +191,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
     for id, data in pairs(QuestieObjectFixes:Load()) do
         for key, value in pairs(data) do
             if not QuestieDB.objectData[id] then
-                Questie:Debug(DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
+                Questie:Debug(Questie.DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
             else
                 if doValidation then
                     if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
@@ -259,7 +259,7 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
         for id, data in pairs(QuestieTBCObjectFixes:Load()) do
             for key, value in pairs(data) do
                 if not QuestieDB.objectData[id] then
-                    Questie:Debug(DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
+                    Questie:Debug(Questie.DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
                 else
                     if doValidation then
                         if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then

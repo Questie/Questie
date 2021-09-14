@@ -273,7 +273,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
                     Questie.db.char.autoaccept = value
-                    Questie:Debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
             },
             autocomplete = {
@@ -285,7 +285,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
                     Questie.db.char.autocomplete = value
-                    Questie:Debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
             },
             autoModifier = {
@@ -356,7 +356,7 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.lowlevel = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, "Gray Quests toggled to:", value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Gray Quests toggled to:", value)
                 end,
             },
             manualMinLevelOffset = {
@@ -370,7 +370,7 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.manualMinLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
                 end,
             },
             absoluteLevelOffset = {
@@ -384,7 +384,7 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.absoluteLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
                 end,
             },
             minLevelFilter = {

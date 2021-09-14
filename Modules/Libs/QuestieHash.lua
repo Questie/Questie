@@ -1,7 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
-
 ---@class QuestieHash
 local QuestieHash = QuestieLoader:CreateModule("QuestieHash")
 
@@ -53,19 +49,19 @@ function QuestieHash:GetQuestHash(questId, isComplete)
 end
 
 function QuestieHash:AddNewQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "AddNewQuestHash:", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "AddNewQuestHash:", questId)
     local hash = QuestieHash:GetQuestHash(questId, false)
 
     questLogHashes[questId] = hash
 end
 
 function QuestieHash:RemoveQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "RemoveQuestHash:", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "RemoveQuestHash:", questId)
     questLogHashes[questId] = nil
 end
 
 function QuestieHash:CompareQuestHashes()
-    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "CompareQuestHashes")
     local hashChanged = false
 
     if questLogHashes == nil then
@@ -87,12 +83,12 @@ function QuestieHash:CompareQuestHashes()
                 local newHash = QuestieHash:GetQuestHash(questId, isComplete)
 
                 if oldhash ~= newHash then
-                    Questie:Debug(DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "CompareQuestHashes: Hash changed for questId:", questId)
                     _SafeUpdateQuest(questId, newHash);
                     hashChanged = true
                 end
             else
-                Questie:Debug(DEBUG_CRITICAL, "[QuestieHash:CompareQuestHashes] Quest hash is missing for", questId)
+                Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieHash:CompareQuestHashes] Quest hash is missing for", questId)
             end
         end
     end
@@ -107,15 +103,15 @@ _SafeUpdateQuest = function(questId, hash, count)
     if (QuestieLib:IsResponseCorrect(questId)) then
         QuestieQuest:UpdateQuest(questId)
         questLogHashes[questId] = hash
-        Questie:Debug(DEBUG_DEVELOP, "Accept seems correct, cancel timer");
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Accept seems correct, cancel timer");
     else
         if (count < 50) then
-            Questie:Debug(DEBUG_CRITICAL, "Response is wrong for quest " .. questId .. ". Waiting with timer...");
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Response is wrong for quest " .. questId .. ". Waiting with timer...");
             C_Timer.After(0.1, function()
                 _SafeUpdateQuest(questId, hash, count + 1);
             end)
         else
-            Questie:Debug(DEBUG_CRITICAL, "Didn't get a correct response after 50 tries, stopping");
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Didn't get a correct response after 50 tries, stopping");
         end
     end
 end

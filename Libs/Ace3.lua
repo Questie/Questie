@@ -60,14 +60,14 @@ function Ace3:Open()
 		self:Print("No Configs are Registered")
 		return
 	end
-	
+
 	if not frame then
 		frame = gui:Create("Frame")
 		frame:ReleaseChildren()
 		frame:SetTitle("Ace3 Options")
 		frame:SetLayout("FILL")
 		frame:SetCallback("OnClose", frameOnClose)
-	
+
 		select = gui:Create("DropdownGroup")
 		select:SetGroupList(configs)
 		select:SetCallback("OnGroupSelected", ConfigSelected)

@@ -93,7 +93,7 @@ function QuestieMap:UnloadQuestFrames(questId, iconType)
                 end
             end
         end
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames: %s", questId)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap]: Unloading quest frames: %s", questId)
     end
 end
 
@@ -153,7 +153,7 @@ QuestieMap._mapDrawQueue = mapDrawQueue
 QuestieMap._minimapDrawQueue = minimapDrawQueue
 
 function QuestieMap:InitializeQueue() -- now called on every loading screen
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
 
     if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
@@ -194,7 +194,7 @@ end
 
 function QuestieMap:ProcessShownMinimapIcons()
     --Upvalue the most used functions in here
-    local getTime, cYield, getWorldPos, mathAbs = GetTime, coroutine.yield, HBD.GetPlayerWorldPosition, math.abs
+    local getTime, cYield, getWorldPos = GetTime, coroutine.yield, HBD.GetPlayerWorldPosition
 
     --Max icons per tick
     local maxCount = 50
@@ -217,8 +217,9 @@ function QuestieMap:ProcessShownMinimapIcons()
         playerX, playerY = getWorldPos()
 
         --Calculate squared distance
-        xd = mathAbs((playerX or 0) - (QuestieMap.playerX or 0))
-        yd = mathAbs((playerY or 0) - (QuestieMap.playerY or 0))
+        -- No need for absolute values as these are used only as squared
+        xd = (playerX or 0) - (QuestieMap.playerX or 0)
+        yd = (playerY or 0) - (QuestieMap.playerY or 0)
         --Instead of math.sqrt we just used the square distance for speed
         totalDistance = totalDistance + (xd * xd + yd * yd)
 
@@ -307,7 +308,7 @@ end
 ---@param npcID number @The ID of the NPC
 function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemove, typ, excludeDungeon)
     if type(npcID) ~= "number" then
-        Questie:Debug(DEBUG_DEVELOP, "[QuestieMap:ShowNPC]", "Got <" .. type(npcID) .. "> instead of <number>")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap:ShowNPC]", "Got <" .. type(npcID) .. "> instead of <number>")
         return
     end
     -- get the NPC data
@@ -445,7 +446,7 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
 
     local uiMapId = ZoneDB:GetUiMapIdByAreaId(areaID)
     if (not uiMapId) then
-        Questie:Debug(DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
+        Questie:Debug(Questie.DEBUG_CRITICAL, "No UiMapID for areaId :".. areaID .. " " .. tostring(data.Name))
         return nil, nil
     end
     -- set the icon

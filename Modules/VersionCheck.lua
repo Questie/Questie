@@ -1,11 +1,13 @@
+local addonName, _ = ...
+
 if GetBuildInfo() <= '1.13' then
-    StaticPopupDialogs["VERSION_ERROR"] = {
+    StaticPopupDialogs["QUESTIE_VERSION_ERROR"] = {
         text = "|cffff0000ERROR|r\nYou're trying to use Questie on vanilla WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
         button2 = "Okay, maybe I will",
         hasEditBox = false,
         whileDead = true
     }
-    StaticPopup_Show("VERSION_ERROR")
+    StaticPopup_Show("QUESTIE_VERSION_ERROR")
 
     DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
     DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adYou're trying to use Questie on vanilla WoW!|r")
@@ -13,8 +15,8 @@ if GetBuildInfo() <= '1.13' then
     return
 end
 
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and false then
-    StaticPopupDialogs["RETAIL_ERROR"] = {
+if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+    StaticPopupDialogs["QUESTIE_RETAIL_ERROR"] = {
         text = "|cffff0000ERROR|r\nYou're trying to use Questie on retail WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
         button2 = "Okay, maybe I will",
         hasEditBox = false,
@@ -28,18 +30,30 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE and false then
         DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
         error("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
     end)
-    StaticPopup_Show("RETAIL_ERROR")
+    StaticPopup_Show("QUESTIE_RETAIL_ERROR")
     return
 end
 
-if GetAddOnMetadata("Questie", "Version") ~= "6.5.1" then
-    StaticPopupDialogs["QUESTIE_NOT_RESTARTED"] = {
-        text = "You just updated Questie but forgot to restart the WoW client. Questie will not work properly if you don't restart!",
-        button2 = "Okay, I will restart",
+-- Check addon is not renamed to avoid conflicts in global name space.
+if addonName ~= "Questie" then
+    local msg = { "You have renamed Questie addon.", "This is restricted to avoid issues.", "Please remove '"..addonName.."'", "and reinstall the original version."}
+    StaticPopupDialogs["QUESTIE_ADDON_NAME_ERROR"] = {
+        text = "|cffff0000ERROR|r\n"..msg[1].."\n"..msg[2].."\n\n"..msg[3].."\n"..msg[4],
+        button2 = "OK",
         hasEditBox = false,
-        whileDead = true
+        whileDead = true,
     }
-    StaticPopup_Show("QUESTIE_NOT_RESTARTED")
+
+    C_Timer.After(4, function()
+        DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
+        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5ad"..msg[1].."|r")
+        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5ad"..msg[2].."|r")
+        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5ad"..msg[3].."|r")
+        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5ad"..msg[4].."|r")
+        DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
+        error("ERROR: "..msg[1].." "..msg[2].." "..msg[3])
+    end)
+    StaticPopup_Show("QUESTIE_ADDON_NAME_ERROR")
     return
 end
 
@@ -59,6 +73,7 @@ end
 --Initialized below
 ---@class Questie
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceSerializer-3.0", "AceBucket-3.0")
+local Questie = Questie
 
 -- preinit placeholder to stop tukui crashing from literally force-removing one of our features no matter what users select in the config ui
 Questie.db = {profile={minimap={hide=false}}}

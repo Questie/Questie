@@ -880,13 +880,13 @@ function QuestieDBCompiler:Compile()
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
 
     if Questie.db.global.debugEnabled then
-        Questie:Debug(DEBUG_DEVELOP, "Validating objects...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating objects...")
         coroutine.yield()
         QuestieDBCompiler:ValidateObjects()
-        Questie:Debug(DEBUG_DEVELOP, "Validating items...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating items...")
         coroutine.yield()
         QuestieDBCompiler:ValidateItems()
-        Questie:Debug(DEBUG_DEVELOP, "Validating quests...")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating quests...")
         coroutine.yield()
         QuestieDBCompiler:ValidateQuests()
     end
@@ -925,7 +925,7 @@ function QuestieDBCompiler:ValidateNPCs()
         end
     end
 
-    Questie:Debug(DEBUG_DEVELOP, "Finished NPC validation without issues!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished NPC validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateObjects()
@@ -961,7 +961,7 @@ function QuestieDBCompiler:ValidateObjects()
         end
     end
 
-    Questie:Debug(DEBUG_DEVELOP, "Finished validation without issues!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished validation without issues!")
 end
 
 
@@ -1020,7 +1020,7 @@ function QuestieDBCompiler:ValidateItems()
         --end
     end
 
-    Questie:Debug(DEBUG_DEVELOP, "Finished Item validation without issues!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished Item validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateQuests()
@@ -1056,7 +1056,7 @@ function QuestieDBCompiler:ValidateQuests()
         end
     end
 
-    Questie:Debug(DEBUG_DEVELOP, "Finished Quest validation without issues!")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished Quest validation without issues!")
 end
 
 function QuestieDBCompiler:Initialize()
@@ -1171,7 +1171,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     local ret = {}
                     for index,key in pairs({...}) do
                         local rootIndex = keyToRootIndex[key]
-                        if override and rootIndex and override[rootIndex] ~= nil then
+                        if rootIndex and override[rootIndex] ~= nil then
                             ret[index] = override[rootIndex]
                         end
                     end
