@@ -2722,7 +2722,7 @@
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
-        "Libs/Lib*": false
+        "Libs/Lib*": true
     },
     "editor.tabSize": 4
 }
