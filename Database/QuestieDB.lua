@@ -15,10 +15,10 @@
 ---@field itemCompilerOrder table
 ---@field itemKeys table
 ---@field itemKeysReversed table
----@field npcData any
----@field questData any
----@field objectData any
----@field itemData any
+---@field npcData table
+---@field questData table
+---@field objectData table
+---@field itemData table
 ---@field questDataTBC nil | table
 ---@field objectDataTBC nil | table
 ---@field npcDataTBC nil | table
