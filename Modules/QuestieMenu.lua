@@ -294,7 +294,7 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
-    EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 
 local function _reformatVendors(lst, existingTable)

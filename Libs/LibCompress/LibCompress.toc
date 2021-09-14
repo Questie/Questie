@@ -1,9 +1,9 @@
-﻿## Interface: 70300
+## Interface: 90002
 
 ## Title: Lib: Compress
 ## Notes: Compression and Decompression library
 ## Author: Galmok at Stormrage-EU (Horde) and JJSheets
-## Version: @project-version@
+## Version: r86-release
 ## X-Website: http://www.wowace.com/addons/libcompress/
 ## X-Category: Library
 ## X-eMail: galmok AT gmail DOT com, sheets DOT jeff AT gmail DOT com

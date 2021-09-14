@@ -2161,7 +2161,7 @@ _OnClick = function(self, button)
 
     elseif button == "RightButton" then
         local menu = QuestieTracker.menu:GetMenuForQuest(self.Quest)
-        EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
+        LibDropDown:EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
     end
 end
 

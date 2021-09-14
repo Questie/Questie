@@ -9,28 +9,30 @@
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
 
+Modules\WorldMapTaintWorkaround.lua
+
 embeds.xml
 
 Modules\VersionCheck.lua
 
-Libs\LibUIDropDownMenu\LibUIDropDownMenu.lua
+Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
 LibsOnlyClassic\LibQuestXP\LibQuestXP.xml
 
-#Loader module
+# Loader module
 Modules\Libs\QuestieLoader.lua
 
-#stream module (used by DB)
+# stream module (used by DB)
 Modules\QuestieStream.lua
 
-#Zones
+# Zones
 Database\Zones\zoneDB.lua
 Database\Zones\zoneTables.lua
 
-#Databases
+# Databases
 Database\Classic\classicItemDB.lua
 Database\Classic\classicNpcDB.lua
 Database\Classic\classicObjectDB.lua
@@ -51,16 +53,16 @@ Database\Corrections\QuestieNPCBlacklist.lua
 Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\QuestieEvent.lua
 
-## Classic Corrections
+# Classic Corrections
 Database\Corrections\Classic\classicQuestFixes.lua
 Database\Corrections\Classic\classicNPCFixes.lua
 Database\Corrections\Classic\classicItemFixes.lua
 Database\Corrections\Classic\classicObjectFixes.lua
 
-#Compiler
+# Compiler
 Database\compiler.lua
 
-#Localization
+# Localization
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
@@ -71,14 +73,14 @@ Localization\lookups\Classic\lookupNpcs\lookupNpcs.xml
 Localization\lookups\Classic\lookupObjects\lookupObjects.xml
 Localization\lookups\Classic\lookupQuests\lookupQuests.xml
 
-##Libs
+# Libs
 Modules\Libs\QuestieLib.lua
 #Modules\Libs\QuestieCompress.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
-##Modules
+# Modules
 Modules\QuestieInit.lua
 Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
@@ -90,31 +92,31 @@ Modules\QuestieAnnounce.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 
-#QuestLinks
+# QuestLinks
 Modules\QuestLinks\ChatFilter.lua
 Modules\QuestLinks\Hooks.lua
 Modules\QuestLinks\Link.lua
 
-##Tooltips
+# Tooltips
 Modules\Tooltips\Tooltip.lua
 Modules\Tooltips\MapIconTooltip.lua
 Modules\Tooltips\TooltipHandler.lua
 
-#Auto
+# Auto
 Modules\Auto\QuestieAuto.lua
 Modules\Auto\Privates.lua
 Modules\Auto\DisallowedIDs.lua
 
-#FramePool
+# FramePool
 Modules\FramePool\QuestieFramePool.lua
 Modules\FramePool\QuestieFrame.lua
 
-#Map
+# Map
 Modules\Map\QuestieMap.lua
 Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 
-#Quest
+# Quest
 Modules\Quest\DailyQuests.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
@@ -122,11 +124,11 @@ Modules\Quest\QuestieQuestPrivates.lua
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 
-#Network
+# Network
 Modules\Network\QuestieComms.lua
 Modules\Network\QuestieCommsData.lua
 
-#Journey
+# Journey
 Modules\Journey\QuestieJourney.lua
 Modules\Journey\QuestieJourneyPrivates.lua
 Modules\Journey\QuestieJourneyUtils.lua
@@ -142,7 +144,7 @@ Modules\Journey\tabs\QuestsByZone\QuestsByZoneTab.lua
 Modules\Journey\QuestieSearch.lua
 Modules\Journey\QuestieSearchResults.lua
 
-#Tracker
+# Tracker
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\QuestieTrackerUtils.lua
 Modules\Tracker\QuestieTrackerMenu.lua
@@ -152,7 +154,7 @@ Modules\Tracker\QuestieQuestTimers.lua
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
 
-#Options
+# Options
 Modules\Options\QuestieOptions.lua
 Modules\Options\QuestieOptionsDefaults.lua
 Modules\Options\QuestieOptionsUtils.lua
@@ -165,11 +167,11 @@ Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
 Modules\Options\TrackerTab\QuestieOptionsTracker.lua
 Modules\Options\TooltipTab\QuestieOptionsTooltip.lua
 
-#Cleanup
+# Cleanup
 Modules\QuestieCleanup.lua
 
-#Profiler
+# Profiler
 Modules\QuestieProfiler.lua
 
-#Main
+# Main
 Questie.lua
