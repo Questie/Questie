@@ -158,6 +158,18 @@ local trackerUILocales = {
         ["esES"] = "Mostrar en registro de misiones",
         ["frFR"] = "Afficher dans le journal de quête",
     },
+    ["Can't open Quest Log while in combat. Open it manually."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Das Quest Log kann nicht im Kampf geöffnet werden. Bitte öffne es manuell.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(trackerUILocales) do

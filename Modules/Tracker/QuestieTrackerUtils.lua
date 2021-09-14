@@ -34,7 +34,7 @@ function QuestieTracker.utils:ShowQuestLog(quest)
                 QuestLogEx:Maximize();
             end
         else
-            Questie:Print("Can't open Quest Log while in combat. Open it manually.")
+            Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
         end
     end
 
