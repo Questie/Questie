@@ -329,11 +329,13 @@ function QuestieDB:IsPvPQuest(questId)
     return questType == 41
 end
 
+--[[ Commented out because not used anywhere
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsAQWarEffortQuest(questId)
     return QuestieQuestBlacklist.AQWarEffortQuests[questId]
 end
+]]--
 
 ---@param class string
 ---@return number
@@ -685,9 +687,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return QuestieEvent.activeQuests[self.Id] == true
     end
 
+    --[[ Commented out because not used anywhere
     function QO:IsAQWarEffortQuest()
         return QuestieQuestBlacklist.AQWarEffortQuests[self.Id]
     end
+    ]]--
 
     --- Wrapper function for the GetQuestTagInfo API to correct
     --- quests that are falsely marked by Blizzard
