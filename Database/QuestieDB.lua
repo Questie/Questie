@@ -592,7 +592,7 @@ end
 
 
 
----@param questId QuestId @The quest ID
+---@param questId number
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     if questId == nil then
@@ -612,7 +612,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     ---@class ObjectiveIndex
-    ---@class QuestId
 
     ---@class Quest
     ---@field public Id number

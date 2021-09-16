@@ -473,7 +473,7 @@ function QuestieQuest:AbandonedQuest(questId)
     end
 end
 
----@param questId QuestId
+---@param questId number
 function QuestieQuest:UpdateQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
     ---@type Quest
