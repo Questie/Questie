@@ -31,8 +31,6 @@ local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type DailyQuests
-local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCombatQueue
@@ -403,9 +401,9 @@ end
 function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
-    -- Only quests that aren't repeatable and not a daily quest should be marked complete,
+    -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not quest.IsRepeatable);
+    Questie.db.char.complete[questId] = QuestieDB:IsDailyQuest(questId) or (not quest.IsRepeatable);
 
     QuestieHash:RemoveQuestHash(questId)
 
