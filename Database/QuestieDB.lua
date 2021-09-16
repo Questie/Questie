@@ -616,29 +616,33 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     ---@class Quest
     ---@field public Id number
-    ---@field public childQuests table
-    ---@field public exclusiveTo table
-    ---@field public finishedBy table
-    ---@field public inGroupWith table
     ---@field public name string
-    ---@field public nextQuestInChain number
-    ---@field public objectives table
+    ---@field public startedBy table
+    ---@field public finishedBy table
+    ---@field public requiredLevel number
+    ---@field public questLevel number
+    ---@field public requiredRaces number @bitmask
+    ---@field public requiredClasses number @bitmask
     ---@field public objectivesText table
-    ---@field public parentQuest table
+    ---@field public triggerEnd table
+    ---@field public objectives table
+    ---@field public sourceItemId number
     ---@field public preQuestGroup table
     ---@field public preQuestSingle table
-    ---@field public questLevel number
-    ---@field public requiredLevel number
-    ---@field public requiredClasses number
-    ---@field public requiredRaces number
-    ---@field public requiredMinRep table
-    ---@field public requiredSkill table
-    ---@field public requiredSourceItems table
-    ---@field public sourceItemId number
-    ---@field public specialFlags number
-    ---@field public startedBy table
-    ---@field public triggerEnd table
+    ---@field public childQuests table
+    ---@field public inGroupWith table
+    ---@field public exclusiveTo table
     ---@field public zoneOrSort number
+    ---@field public requiredSkill table
+    ---@field public requiredMinRep table
+    ---@field public requiredMaxRep table
+    ---@field public requiredSourceItems table
+    ---@field public nextQuestInChain number
+    ---@field public questFlags number @bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
+    ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
+    ---@field public parentQuest number
+    ---@field public reputationReward table
+    ---@field public extraObjectives table
     local QO = {}
     QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
