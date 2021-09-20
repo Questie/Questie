@@ -318,6 +318,9 @@ function QuestieQuest:SmoothReset()
             return (not QuestieQuest._resetNeedsAvailables) and #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0
         end,
         function()
+            DailyQuests.StartDailyResetTimer()
+        end,
+        function()
             QuestieQuest._isResetting = nil
             if QuestieQuest._resetAgain then
                 QuestieQuest._resetAgain = nil

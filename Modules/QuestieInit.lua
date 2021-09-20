@@ -44,6 +44,8 @@ local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 
 -- initialize all questie modules
 -- this function runs inside a coroutine
@@ -181,6 +183,8 @@ function QuestieInit:InitAllModules()
     Questie.started = true
 
     if Questie.IsTBC and QuestiePlayer:GetPlayerLevel() == 70 then
+        DailyQuests.StartDailyResetTimer()
+
         local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
         local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
 
