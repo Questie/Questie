@@ -165,7 +165,7 @@ function QuestieLib:GetQuestObjectives(questId)
     return objectiveList
 end
 
----@param questId QuestId @The quest ID
+---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
@@ -206,12 +206,12 @@ function QuestieLib:GetRandomColor(randomSeed)
     }
 end
 
----@param id QuestId @The quest ID
+---@param questId number
 ---@param name string @The (localized) name of the quest
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetQuestString(id, name, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(id)
+function QuestieLib:GetQuestString(questId, name, level, blizzLike)
+    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
 
     if questType and questTag then
         local char = "+"
@@ -266,12 +266,11 @@ function QuestieLib:GetTbcLevel(questId)
     return questLevel, requiredLevel;
 end
 
----@param id QuestId @The quest ID
----@param name string @The (localized) name of the quest
+---@param questId number
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetLevelString(id, _, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(id)
+function QuestieLib:GetLevelString(questId, _, level, blizzLike)
+    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
 
     if questType and questTag then
         local char = "+"

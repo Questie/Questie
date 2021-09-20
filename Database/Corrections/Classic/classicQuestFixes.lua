@@ -314,7 +314,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {738}, --#2069
         },
         [715] = {
-            [QuestieDB.questKeys.requiredSkill] = {},
+            [questKeys.requiredSkill] = {},
         },
         [717] = {
             [questKeys.requiredSourceItems] = {4843,4844,4845},
@@ -1916,10 +1916,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6961,7024},
         },
         [7022] = {
-            [QuestieDB.questKeys.startedBy] = {{13433},nil,nil},
+            [questKeys.startedBy] = {{13433},nil,nil},
         },
         [7023] = {
-            [QuestieDB.questKeys.startedBy] = {{13435},nil,nil},
+            [questKeys.startedBy] = {{13435},nil,nil},
         },
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},

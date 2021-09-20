@@ -315,7 +315,7 @@ function QuestieQuest:SmoothReset()
             return not QuestieQuest._nextRestQuest
         end,
         function()
-            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 and (not QuestieQuest._resetNeedsAvailables)
+            return (not QuestieQuest._resetNeedsAvailables) and #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0
         end,
         function()
             QuestieQuest._isResetting = nil
@@ -331,9 +331,9 @@ function QuestieQuest:SmoothReset()
     ticker = C_Timer.NewTicker(0.01, function()
         if stepTable[step]() then
             step = step + 1
-        end
-        if not stepTable[step] then
-            ticker:Cancel()
+            if not stepTable[step] then
+                ticker:Cancel()
+            end
         end
         if QuestieQuest._resetAgain and not QuestieQuest._resetNeedsAvailables then -- we can stop the current reset
             ticker:Cancel()
@@ -473,7 +473,7 @@ function QuestieQuest:AbandonedQuest(questId)
     end
 end
 
----@param questId QuestId
+---@param questId number
 function QuestieQuest:UpdateQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
     ---@type Quest
@@ -505,10 +505,13 @@ end
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all quests");
-    local numEntries, _ = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
-    for index = 1, numEntries do
+    for index = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if (not title) then
+            -- We exceeded the valid quest log entries
+            break
+        end
         if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))

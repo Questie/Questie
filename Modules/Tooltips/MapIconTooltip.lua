@@ -294,7 +294,7 @@ function MapIconTooltip:Show()
                 end
             end
         end
-        ---@param questId QuestId
+        ---@param questId number
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
             local quest = QuestieDB:GetQuest(questId);

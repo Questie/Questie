@@ -199,7 +199,7 @@ local latestTurnedInQuestIds = {}
 
 --- Fires when a quest is removed from the questlog, this includes turning it in
 --- and abandoning it.
----@param questId QuestId
+---@param questId number
 function _EventHandler:QuestRemoved(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] QUEST_REMOVED", questId)
     _Hack_prime_log()
@@ -220,7 +220,7 @@ function _EventHandler:QuestRemoved(questId)
 end
 
 --- Helper function to remove quests correctly
----@param questId QuestId
+---@param questId number
 ---@param count number @The amount of calls already made in recursion
 function _EventHandler:CompleteQuest(questId, count)
     if(not count) then
@@ -244,7 +244,7 @@ end
 
 --- Fires when a quest is turned in, but before it is remove from the quest log.
 --- We need to save the ID of the finished quest to check it in QR event.
----@param questId QuestId
+---@param questId number
 ---@param xpReward number
 ---@param moneyReward number
 function _EventHandler:QuestTurnedIn(questId, xpReward, moneyReward)

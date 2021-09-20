@@ -1730,9 +1730,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10708},
             [questKeys.finishedBy] = {{18481},nil},
         },
-        [11056] = {
-            [questKeys.preQuestSingle] = {11028},
-        },
         [11057] = {
             [questKeys.requiredLevel] = 70,
         },
