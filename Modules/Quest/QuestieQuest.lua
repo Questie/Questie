@@ -505,10 +505,13 @@ end
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all quests");
-    local numEntries, _ = GetNumQuestLogEntries();
     QuestiePlayer.currentQuestlog = {}
-    for index = 1, numEntries do
+    for index = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        if (not title) then
+            -- We exceeded the valid quest log entries
+            break
+        end
         if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
