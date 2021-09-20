@@ -420,6 +420,9 @@ function QuestieTBCNpcFixes:Load()
         [22920] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{51.1,11.6}}},
         },
+        [22932] = {
+            [npcKeys.waypoints] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{{29.54,59.72},{30.6,59.5},{31.5,58.1},{31.5,56.8},{30.5,56.2},{30.0,54.5},{30.5,56.2},{31.5,56.8},{31.5,58.1},{30.6,59.5},{29.54,59.72}}}},
+        },
         [23035] = {
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1},},},
         },
