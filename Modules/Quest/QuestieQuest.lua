@@ -315,7 +315,7 @@ function QuestieQuest:SmoothReset()
             return not QuestieQuest._nextRestQuest
         end,
         function()
-            return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 and (not QuestieQuest._resetNeedsAvailables)
+            return (not QuestieQuest._resetNeedsAvailables) and #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0
         end,
         function()
             QuestieQuest._isResetting = nil
@@ -331,9 +331,9 @@ function QuestieQuest:SmoothReset()
     ticker = C_Timer.NewTicker(0.01, function()
         if stepTable[step]() then
             step = step + 1
-        end
-        if not stepTable[step] then
-            ticker:Cancel()
+            if not stepTable[step] then
+                ticker:Cancel()
+            end
         end
         if QuestieQuest._resetAgain and not QuestieQuest._resetNeedsAvailables then -- we can stop the current reset
             ticker:Cancel()
