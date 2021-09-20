@@ -507,7 +507,7 @@ function QuestieDB:IsDoable(questId)
         return false
     end
 
-    if (not DailyQuests:IsActiveDailyQuest(questId)) then
+    if (DailyQuests.IsHiddenDailyQuest(questId)) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is a daily quest not active today!")
         return false
     end

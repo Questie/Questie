@@ -403,9 +403,8 @@ end
 function QuestieQuest:CompleteQuest(quest)
     local questId = quest.Id
     QuestiePlayer.currentQuestlog[questId] = nil;
-    -- Only quests that aren't repeatable and not a daily quest should be marked complete,
-    -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = DailyQuests:IsDailyQuest(questId) or (not quest.IsRepeatable);
+    -- Don't mark repeatable non-daily quests as complete or those won't work correctly - #1433
+    Questie.db.char.complete[questId] = DailyQuests.IsDailyQuest(questId) or (not quest.IsRepeatable);
 
     QuestieHash:RemoveQuestHash(questId)
 
@@ -1500,8 +1499,8 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
 end
 
 function QuestieQuest:DrawDailyQuest(questId)
-    local quest = QuestieDB:GetQuest(questId)
     if QuestieDB:IsDoable(questId) then
+        local quest = QuestieDB:GetQuest(questId)
         _QuestieQuest:DrawAvailableQuest(quest)
     end
 end

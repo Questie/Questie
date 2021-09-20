@@ -417,7 +417,7 @@ function _Qframe:ShouldBeHidden()
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
-            and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
+            and ((DailyQuests.IsHiddenDailyQuest(questId)) -- hide not-today-dailies
                 or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId))
                 or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId))
                 or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId))
