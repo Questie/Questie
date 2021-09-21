@@ -1,43 +1,39 @@
 ---@class DailyQuests
-local DailyQuests = QuestieLoader:CreateModule("DailyQuests");
+local DailyQuests = QuestieLoader:CreateModule("DailyQuests")
 local Questie = _G.Questie
 
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 ---@type QuestieMap
-local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieTooltips
-local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
 -- Forward declarations
 local nhcDailyIds, hcDailyIds, cookingDailyIds, fishingDailyIds, pvpDailyIds, everydayDailyIds
 
 
-local nextCheck = -1
+local nextCheck = -1 -- -1 is always smaller than GetTime()
 local dailyResetTimer
 
 
 ---@param questId number
 ---@return nil
 local function _HideDailyQuest(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _HideDailyQuest", questId) -- TEMPORARY
-    QuestieMap:UnloadQuestFrames(questId);
-    QuestieTooltips:RemoveQuest(questId);
+    QuestieMap:UnloadQuestFrames(questId)
+    QuestieTooltips:RemoveQuest(questId)
 end
 
 
 ---@param questId number
 ---@return nil
 local function _ShowDailyQuest(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _ShowDailyQuest", questId, "no frames, isDoable:", (not QuestieMap.questIdFrames[questId]), QuestieDB:IsDoable(questId)) -- TEMPORARY
     if (not QuestieMap.questIdFrames[questId]) then
-        QuestieQuest:DrawDailyQuest(questId);
+        QuestieQuest:DrawDailyQuest(questId)
     end
 end
 
@@ -48,7 +44,7 @@ end
 --- Start Timer to reset again
 ---@return nil
 local function _ResetEverydayDailyQuests()
-    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: ResetEverydayDailyQuests() - This okey to get run also at non-reset times")
+    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: ResetEverydayDailyQuests() - Okey to get run also at non-reset times")
 
     local dbCharCompletedQuests = Questie.db.char.complete
 
@@ -120,13 +116,11 @@ end
 ---@param possibleQuestIds table<number, boolean>
 ---@param currentQuestId number @today's daily quest
 ---@param type string
----@return boolean @true = reset required and done
+---@return nil
 local function _ResetHiddenIfRequired(possibleQuestIds, currentQuestId, type)
     if currentQuestId > 0 and (Questie.db.char.hiddenDailies[type][currentQuestId] or (not next(Questie.db.char.hiddenDailies[type]))) and (not IsQuestFlaggedCompleted(currentQuestId)) then
         Questie.db.char.hiddenDailies[type] = _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId)
-        return true
     end
-    return false
 end
 
 
@@ -177,15 +171,11 @@ function DailyQuests:FilterDailies(message, _, _)
 
         local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _GetTodaysDailyIdsFromMessage(message);
 
-        local somethingReset = false
-        somethingReset = _ResetHiddenIfRequired(nhcDailyIds, nhcQuestId, "nhc") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(hcDailyIds, hcQuestId, "hc") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(cookingDailyIds, cookingQuestId, "cooking") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(fishingDailyIds, fishingQuestId, "fishing") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(pvpDailyIds, pvpQuestId, "pvp") or somethingReset
-
-        --TODO remove this debug
-        print("'"..message.."'", nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId, somethingReset)
+        _ResetHiddenIfRequired(nhcDailyIds, nhcQuestId, "nhc")
+        _ResetHiddenIfRequired(hcDailyIds, hcQuestId, "hc")
+        _ResetHiddenIfRequired(cookingDailyIds, cookingQuestId, "cooking")
+        _ResetHiddenIfRequired(fishingDailyIds, fishingQuestId, "fishing")
+        _ResetHiddenIfRequired(pvpDailyIds, pvpQuestId, "pvp")
     end
 end
 
