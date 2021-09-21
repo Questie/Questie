@@ -35,19 +35,20 @@ end
 ---@param questId number
 ---@return nil
 local function _ShowDailyQuest(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _ShowDailyQuest", questId, (not QuestieMap.questIdFrames[questId]), QuestieDB:IsDoable(questId)) -- TEMPORARY
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _ShowDailyQuest", questId, "no frames, isDoable:", (not QuestieMap.questIdFrames[questId]), QuestieDB:IsDoable(questId)) -- TEMPORARY
     if (not QuestieMap.questIdFrames[questId]) then
         QuestieQuest:DrawDailyQuest(questId);
     end
 end
 
 
---- Reset which quests are completed
+--- Reset which daily quests are completed,
+---  can freely be run also at not-daily-reset-time
 --- And Show quests as necessary
 --- Start Timer to reset again
 ---@return nil
 local function _ResetEverydayDailyQuests()
-    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: ResetEverydayDailyQuests")
+    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: ResetEverydayDailyQuests() - This okey to get run also at non-reset times")
 
     local dbCharCompletedQuests = Questie.db.char.complete
 
@@ -178,10 +179,10 @@ function DailyQuests:FilterDailies(message, _, _)
 
         local somethingReset = false
         somethingReset = _ResetHiddenIfRequired(nhcDailyIds, nhcQuestId, "nhc") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(hcDailyIds, hcQuestId, "nhc") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(cookingDailyIds, cookingQuestId, "nhc") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(fishingDailyIds, fishingQuestId, "nhc") or somethingReset
-        somethingReset = _ResetHiddenIfRequired(pvpDailyIds, pvpQuestId, "nhc") or somethingReset
+        somethingReset = _ResetHiddenIfRequired(hcDailyIds, hcQuestId, "hc") or somethingReset
+        somethingReset = _ResetHiddenIfRequired(cookingDailyIds, cookingQuestId, "cooking") or somethingReset
+        somethingReset = _ResetHiddenIfRequired(fishingDailyIds, fishingQuestId, "fishing") or somethingReset
+        somethingReset = _ResetHiddenIfRequired(pvpDailyIds, pvpQuestId, "pvp") or somethingReset
 
         --TODO remove this debug
         print("'"..message.."'", nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId, somethingReset)
@@ -196,7 +197,7 @@ end
 ---@return boolean
 function DailyQuests.IsHiddenDailyQuest(questId)
     local hiddenQuests = Questie.db.char.hiddenDailies
-    return not not (hiddenQuests.nhc[questId] -- "not not" to covert to boolean
+    return not not (hiddenQuests.nhc[questId] -- "not not" to convert to boolean
                 or hiddenQuests.hc[questId]
                 or hiddenQuests.cooking[questId]
                 or hiddenQuests.fishing[questId]
@@ -207,7 +208,7 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests.IsDailyQuest(questId)
-    return not not (nhcDailyIds[questId] -- "not not" to covert to boolean
+    return not not (nhcDailyIds[questId] -- "not not" to convert to boolean
                 or hcDailyIds[questId]
                 or cookingDailyIds[questId]
                 or fishingDailyIds[questId]
