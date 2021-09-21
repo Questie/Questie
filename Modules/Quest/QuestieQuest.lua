@@ -319,6 +319,7 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             DailyQuests.StartDailyResetTimer()
+            return true
         end,
         function()
             QuestieQuest._isResetting = nil

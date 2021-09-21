@@ -63,7 +63,8 @@ local function _ResetEverydayDailyQuests()
         DailyQuests.StopDailyResetTimer()
     end
     Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: Creating new dailyResetTimer")
-    dailyResetTimer = C_Timer.NewTimer(C_DateAndTime.GetSecondsUntilDailyReset() + 10, _ResetEverydayDailyQuests)
+    -- +20s delay to try compensate server not doing reset at its announced time
+    dailyResetTimer = C_Timer.NewTimer(C_DateAndTime.GetSecondsUntilDailyReset() + 20, _ResetEverydayDailyQuests)
 end
 
 
@@ -132,20 +133,20 @@ end
 ---@return number, number, number, number, number
 local function _GetTodaysDailyIdsFromMessage(message)
     -- Each questId is followed by the timestamp from GetQuestResetTime(). We don't use that timestamp (yet)
-    local _, _, nhcQuestId, _, hcQuestId, _, cookingQuestId, _, fishingQuestId, _, pvpQuestId, _ = strsplit(":", message);
+    local _, _, nhcQuestId, _, hcQuestId, _, cookingQuestId, _, fishingQuestId, _, pvpQuestId, _ = strsplit(":", message)
 
     return tonumber(nhcQuestId) or 0,
         tonumber(hcQuestId) or 0,
         tonumber(cookingQuestId) or 0,
         tonumber(fishingQuestId) or 0,
-        tonumber(pvpQuestId) or 0;
+        tonumber(pvpQuestId) or 0
 end
 
 
 --- This handles only non-random everyday dailies.
 ---@return nil
 function DailyQuests.StartDailyResetTimer()
-    if Questie.IsTBC then
+    if Questie.IsTBC and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then
         _ResetEverydayDailyQuests()
     end
 end
@@ -164,7 +165,7 @@ end
 
 ---@param message string
 ---@return nil
-function DailyQuests.FilterDailies(_, message, _, _)
+function DailyQuests:FilterDailies(message, _, _)
     if message and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then
         -- If the REPUTABLE message is empty, i.e contains "::::::::::" we don't count it as a check.
         if GetTime() < nextCheck or string.find(message, "::::::::::") then
@@ -194,23 +195,23 @@ end
 ---@return boolean
 function DailyQuests.IsHiddenDailyQuest(questId)
     local hiddenQuests = Questie.db.char.hiddenDailies
-    return hiddenQuests.nhc[questId] or
-        hiddenQuests.hc[questId] or
-        hiddenQuests.cooking[questId] or
-        hiddenQuests.fishing[questId] or
-        hiddenQuests.pvp[questId]
+    return not not (hiddenQuests.nhc[questId] -- "not not" to covert to boolean
+                or hiddenQuests.hc[questId]
+                or hiddenQuests.cooking[questId]
+                or hiddenQuests.fishing[questId]
+                or hiddenQuests.pvp[questId])
 end
 
 
 ---@param questId number
 ---@return boolean
 function DailyQuests.IsDailyQuest(questId)
-    return nhcDailyIds[questId] ~= nil or
-            hcDailyIds[questId] ~= nil or
-            cookingDailyIds[questId] ~= nil or
-            fishingDailyIds[questId] ~= nil or
-            pvpDailyIds[questId] ~= nil or
-            everydayDailyIds[questId] ~= nil
+    return not not (nhcDailyIds[questId] -- "not not" to covert to boolean
+                or hcDailyIds[questId]
+                or cookingDailyIds[questId]
+                or fishingDailyIds[questId]
+                or pvpDailyIds[questId]
+                or everydayDailyIds[questId])
 end
 
 
