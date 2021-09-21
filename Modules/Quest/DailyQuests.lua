@@ -77,35 +77,23 @@ local function _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId)
     local hiddenDailies = {}
     local dbCharCompletedQuests = Questie.db.char.complete
 
-    local someIsCompleted = false
     for questId, _ in pairs(possibleQuestIds) do
-        if IsQuestFlaggedCompleted(currentQuestId) then
-            someIsCompleted = true
-        else
-            -- Mark the quest uncompleted so it can be available again
+        if not IsQuestFlaggedCompleted(questId) then
+            -- If daily reset happens while online, mark old dailies uncompleted so those can be shown again
             dbCharCompletedQuests[questId] = nil
         end
-    end
 
-    if someIsCompleted then
-        -- Hide all dailies of this daily type as we have already completed one today
-        for questId, _ in pairs(possibleQuestIds) do
-            -- No need to call HideDailyQuest() as one quest is completed already, so none can be visible
-            hiddenDailies[questId] = true
-        end
-    else
-        -- Hide quests dailies of this type which aren't available today
-        for questId, _ in pairs(possibleQuestIds) do
-            if questId == currentQuestId then
-                _ShowDailyQuest(questId)
-                hiddenDailies[questId] = nil
-            else
+        if questId == currentQuestId then
+            -- Show today's daily quest
+            _ShowDailyQuest(questId)
+            hiddenDailies[questId] = nil
+        else
+            if (GetQuestLogIndexByID(questId) == 0) then
                 -- If the quest is not in the questlog remove all frames
-                if (GetQuestLogIndexByID(questId) == 0) then
-                    _HideDailyQuest(questId)
-                end
-                hiddenDailies[questId] = true
+                _HideDailyQuest(questId)
             end
+            -- Objectives & Turn-in are shown for all quests in the questlog -> safe to mark hidden
+            hiddenDailies[questId] = true
         end
     end
 
