@@ -144,6 +144,7 @@ end
 
 
 --- This handles only non-random everyday dailies.
+--- Does reset check ALSO when called.
 ---@return nil
 function DailyQuests.StartDailyResetTimer()
     if Questie.IsTBC and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then

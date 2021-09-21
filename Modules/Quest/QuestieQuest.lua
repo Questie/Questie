@@ -263,6 +263,7 @@ function QuestieQuest:SmoothReset()
     
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
+    DailyQuests.StopDailyResetTimer()
     local stepTable = {
         function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
