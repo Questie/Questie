@@ -13,6 +13,7 @@ QuestieCorrections.reversedKillCreditQuestIDs = {
 }
 
 function QuestieTBCQuestFixes:Load()
+    QuestieDB.questData[12192] = {}; -- This One Time, When I Was Drunk... (Horde)
     QuestieDB.questData[63866] = {}; -- Claiming the Light
     QuestieDB.questData[64139] = {}; -- A Summons from Lady Liadrin
     QuestieDB.questData[64140] = {}; -- The Master's Path
@@ -2585,6 +2586,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
+        },
+        [12192] = {
+            [questKeys.name] = "This One Time, When I Was Drunk...",
+            [questKeys.startedBy] = {nil,{189989,},nil,},
+            [questKeys.finishedBy] = {{27216,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Talk to Bizzle Quicklift in the Brewfest camp.",},
+            [questKeys.preQuestSingle] = {12022,},
+            [questKeys.zoneOrSort] = -370,
+            [questKeys.specialFlags] = 1,
+            [questKeys.questFlags] = 4096,
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},

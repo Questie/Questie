@@ -521,6 +521,7 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12020}) -- This One Time, When I Was Drunk...
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12192}) -- This One Time, When I Was Drunk...
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11437}) -- [PH] Beer Garden A
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11454}) -- Seek the Saboteurs
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12420}) -- Brew of the Month Club
