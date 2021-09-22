@@ -13,9 +13,14 @@ local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 
--- Forward declarations
-local nhcDailyIds, hcDailyIds, cookingDailyIds, fishingDailyIds, pvpDailyIds, everydayDailyIds
+--- Example: ramdomDailies.cooking[11377] = true
+---@type table<string, table<number, boolean>>
+local randomDailies = {}
+--- Example: regularDailies[11023] = true
+---@type table<number, boolean>
+local generalDailies = {}
 
+local sessionWarningsMissingDailies = {}
 
 local nextCheck = -1 -- -1 is always smaller than GetTime()
 local dailyResetTimer
@@ -24,6 +29,7 @@ local dailyResetTimer
 ---@param questId number
 ---@return nil
 local function _HideDailyQuest(questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _HideDailyQuest", questId)
     QuestieMap:UnloadQuestFrames(questId)
     QuestieTooltips:RemoveQuest(questId)
 end
@@ -32,6 +38,7 @@ end
 ---@param questId number
 ---@return nil
 local function _ShowDailyQuest(questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _ShowDailyQuest", questId, "no frames:", (not QuestieMap.questIdFrames[questId]))
     if (not QuestieMap.questIdFrames[questId]) then
         QuestieQuest:DrawDailyQuest(questId)
     end
@@ -43,13 +50,13 @@ end
 --- And Show quests as necessary
 --- Start Timer to reset again
 ---@return nil
-local function _ResetEverydayDailyQuests()
-    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: _ResetEverydayDailyQuests() - Okey to get run also at non-reset times")
+local function _ResetGeneralDailyQuests()
+    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: _ResetGeneralDailyQuests() - Okey to get run also at non-reset times")
 
     local dbCharCompletedQuests = Questie.db.char.complete
 
-    for questId, _ in pairs(everydayDailyIds) do
-        if not IsQuestFlaggedCompleted(questId) then
+    for questId, _ in pairs(generalDailies) do
+        if dbCharCompletedQuests[questId] and (not IsQuestFlaggedCompleted(questId)) then
             -- Mark the quest uncompleted so it can be available again
             dbCharCompletedQuests[questId] = nil
             _ShowDailyQuest(questId)
@@ -60,12 +67,12 @@ local function _ResetEverydayDailyQuests()
         DailyQuests.StopDailyResetTimer()
     end
     Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: Creating new dailyResetTimer")
-    -- +20s delay to try compensate server not doing reset at its announced time
-    dailyResetTimer = C_Timer.NewTimer(C_DateAndTime.GetSecondsUntilDailyReset() + 20, _ResetEverydayDailyQuests)
+    -- +10s delay to try compensate server not doing reset at its announced time
+    dailyResetTimer = C_Timer.NewTimer(C_DateAndTime.GetSecondsUntilDailyReset() + 10, _ResetGeneralDailyQuests)
 end
 
 
---- Generate list of hidden dailies of type for today from possibleQuestIds
+--- Reset hidden dailies of type for today from possibleQuestIds excluding currentQuestId
 --- And update if quest is completed or not
 --- And Show/Hide quest as necessary
 ---@param possibleQuestIds table<number, boolean>
@@ -75,7 +82,8 @@ end
 local function _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId, type)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _ResetHiddenDailyQuests(  ) currentQuestId, type:", currentQuestId, type)
 
-    local hiddenDailies = {}
+    Questie.db.char.hiddenDailies[type] = {}
+    local hiddenDailies = Questie.db.char.hiddenDailies[type]
     local dbCharCompletedQuests = Questie.db.char.complete
 
     for questId, _ in pairs(possibleQuestIds) do
@@ -84,29 +92,41 @@ local function _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId, type)
             dbCharCompletedQuests[questId] = nil
         end
 
-        if questId == currentQuestId then
-            -- Show today's daily quest
+        if (questId == currentQuestId) or (currentQuestId == nil) then
+            -- Show today's daily quest (or all)
+            -- must be set non-hidden first to be able draw it at _ShowDailyQuest()
+            -- hiddenDailies[questId] = nil --done at start with = {}
             _ShowDailyQuest(questId)
-            hiddenDailies[questId] = nil
         else
+            -- Objectives & Turn-in are shown for all quests in the questlog -> safe to mark hidden
+            hiddenDailies[questId] = true
             if (GetQuestLogIndexByID(questId) == 0) then
                 -- If the quest is not in the questlog remove all frames
                 _HideDailyQuest(questId)
             end
-            -- Objectives & Turn-in are shown for all quests in the questlog -> safe to mark hidden
-            hiddenDailies[questId] = true
         end
     end
-    Questie.db.char.hiddenDailies[type] = hiddenDailies
 end
 
 
----@param possibleQuestIds table<number, boolean>
 ---@param currentQuestId number @today's daily quest
 ---@param type string
 ---@return nil
-local function _ResetHiddenIfRequired(possibleQuestIds, currentQuestId, type)
+local function _ResetHiddenIfRequired(type, currentQuestId)
     if currentQuestId > 0 and (Questie.db.char.hiddenDailies[type][currentQuestId] or (not next(Questie.db.char.hiddenDailies[type]))) and (not IsQuestFlaggedCompleted(currentQuestId)) then
+        -- Alert if currentQuestId is not a known daily
+        local possibleQuestIds = randomDailies[type]
+        local found = false
+        for questId, _ in pairs(possibleQuestIds) do
+            if questId == currentQuestId then
+                found = true
+                break
+            end
+        end
+        if (not found) and (not sessionWarningsMissingDailies[currentQuestId]) then
+            sessionWarningsMissingDailies[currentQuestId] = true
+            --TODO show some warning or not? or add to known dailies dynamically? -> would break a lot of stuff possibly?
+        end
         _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId, type)
     end
 end
@@ -131,7 +151,7 @@ end
 ---@return nil
 function DailyQuests.StartDailyResetTimer()
     if Questie.IsTBC and Questie.db.char.showRepeatableQuests and QuestiePlayer:GetPlayerLevel() == 70 then
-        _ResetEverydayDailyQuests()
+        _ResetGeneralDailyQuests()
     end
 end
 
@@ -157,13 +177,13 @@ function DailyQuests:FilterDailies(message, _, _)
         end
         nextCheck = GetTime() + 10 -- seconds
 
-        local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _GetTodaysDailyIdsFromMessage(message);
+        local nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId = _GetTodaysDailyIdsFromMessage(message)
 
-        _ResetHiddenIfRequired(nhcDailyIds, nhcQuestId, "nhc")
-        _ResetHiddenIfRequired(hcDailyIds, hcQuestId, "hc")
-        _ResetHiddenIfRequired(cookingDailyIds, cookingQuestId, "cooking")
-        _ResetHiddenIfRequired(fishingDailyIds, fishingQuestId, "fishing")
-        _ResetHiddenIfRequired(pvpDailyIds, pvpQuestId, "pvp")
+        _ResetHiddenIfRequired("nhc", nhcQuestId)
+        _ResetHiddenIfRequired("hc", hcQuestId)
+        _ResetHiddenIfRequired("cooking", cookingQuestId)
+        _ResetHiddenIfRequired("fishing", fishingQuestId)
+        _ResetHiddenIfRequired("pvp", pvpQuestId)
     end
 end
 
@@ -186,16 +206,16 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests.IsDailyQuest(questId)
-    return not not (nhcDailyIds[questId] -- "not not" to convert to boolean
-                or hcDailyIds[questId]
-                or cookingDailyIds[questId]
-                or fishingDailyIds[questId]
-                or pvpDailyIds[questId]
-                or everydayDailyIds[questId])
+    return not not (randomDailies.nhc[questId] -- "not not" to convert to boolean
+                or randomDailies.hc[questId]
+                or randomDailies.cooking[questId]
+                or randomDailies.fishing[questId]
+                or randomDailies.pvp[questId]
+                or generalDailies[questId])
 end
 
 
-nhcDailyIds = {
+randomDailies.nhc = {
     [11364] = true,
     [11371] = true,
     [11376] = true,
@@ -206,7 +226,7 @@ nhcDailyIds = {
     [11500] = true,
 }
 
-hcDailyIds = {
+randomDailies.hc = {
     [11354] = true,
     [11362] = true,
     [11363] = true,
@@ -225,14 +245,14 @@ hcDailyIds = {
     [11499] = true,
 }
 
-cookingDailyIds = {
+randomDailies.cooking = {
     [11377] = true,
     [11379] = true,
     [11380] = true,
     [11381] = true,
 }
 
-fishingDailyIds = {
+randomDailies.fishing = {
     [11665] = true,
     [11666] = true,
     [11667] = true,
@@ -240,7 +260,7 @@ fishingDailyIds = {
     [11669] = true,
 }
 
-pvpDailyIds = {
+randomDailies.pvp = {
     [11335] = true,
     [11336] = true,
     [11337] = true,
@@ -251,7 +271,7 @@ pvpDailyIds = {
     [11342] = true,
 }
 
-everydayDailyIds = {
+generalDailies = {
     -- P = pvp, O = P2 Oggrila/Skettis, N = Netherwing
     -- EB = Event Brewfest, EH = Event Halloween, ES = Event mid Summer
     -- NOTE: Checked to be correct: P, O
