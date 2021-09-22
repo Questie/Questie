@@ -74,6 +74,18 @@ local eventsLocales = {
         ["zhTW"] = "仲夏",
         ["zhCN"] = "仲夏",
     },
+    ["Brewfest"] = {
+        ["ptBR"] = "CervaFest",
+        ["ruRU"] = "Хмельной фестиваль",
+        ["deDE"] = "Braufest",
+        ["koKR"] = "가을 축제",
+        ["esMX"] = "Fiesta de la Cerveza",
+        ["enUS"] = true,
+        ["frFR"] = "Fête des Brasseurs",
+        ["esES"] = "Fiesta de la Cerveza",
+        ["zhTW"] = false,
+        ["zhCN"] = "美酒节",
+    },
     ["Harvest Festival"] = {
         ["ptBR"] = "Festival da Colheita",
         ["ruRU"] = "Неделя урожая",
