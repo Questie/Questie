@@ -2614,6 +2614,11 @@ function QuestieTBCQuestFixes:Load()
         [12194] = {
             [questKeys.preQuestSingle] = {11409,},
         },
+        [12318] = {
+            [questKeys.startedBy] = {{27584,28329},nil,nil,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.preQuestSingle] = {},
+        },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil},
