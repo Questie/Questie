@@ -44,7 +44,7 @@ end
 --- Start Timer to reset again
 ---@return nil
 local function _ResetEverydayDailyQuests()
-    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: ResetEverydayDailyQuests() - Okey to get run also at non-reset times")
+    Questie:Debug(Questie.DEBUG_INFO, "[DailyQuests]: _ResetEverydayDailyQuests() - Okey to get run also at non-reset times")
 
     local dbCharCompletedQuests = Questie.db.char.complete
 
@@ -69,10 +69,11 @@ end
 --- And update if quest is completed or not
 --- And Show/Hide quest as necessary
 ---@param possibleQuestIds table<number, boolean>
----@param currentQuestId number @today's daily quest
----@return table<number, boolean> @list of hidden dailies of type
-local function _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId)
-    assert(currentQuestId and (currentQuestId > 0), "ResetHiddenDailyQuests(): Invalid currentQuestId")
+---@param currentQuestId number|nil @today's daily quest. nil -> we don't know and show all
+---@param type string @Which type of dailies we are checking. examples: "nhc" "hc" "cooking" "fishing"
+---@return nil
+local function _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId, type)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[DailyQuests]: _ResetHiddenDailyQuests(  ) currentQuestId, type:", currentQuestId, type)
 
     local hiddenDailies = {}
     local dbCharCompletedQuests = Questie.db.char.complete
@@ -96,8 +97,7 @@ local function _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId)
             hiddenDailies[questId] = true
         end
     end
-
-    return hiddenDailies
+    Questie.db.char.hiddenDailies[type] = hiddenDailies
 end
 
 
@@ -107,7 +107,7 @@ end
 ---@return nil
 local function _ResetHiddenIfRequired(possibleQuestIds, currentQuestId, type)
     if currentQuestId > 0 and (Questie.db.char.hiddenDailies[type][currentQuestId] or (not next(Questie.db.char.hiddenDailies[type]))) and (not IsQuestFlaggedCompleted(currentQuestId)) then
-        Questie.db.char.hiddenDailies[type] = _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId)
+        _ResetHiddenDailyQuests(possibleQuestIds, currentQuestId, type)
     end
 end
 
