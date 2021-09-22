@@ -2593,6 +2593,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
         },
+        [12020] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12062] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -2604,7 +2607,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Talk to Bizzle Quicklift in the Brewfest camp.",},
-            [questKeys.preQuestSingle] = {12022,},
             [questKeys.zoneOrSort] = -370,
             [questKeys.specialFlags] = 1,
             [questKeys.questFlags] = 4096,
