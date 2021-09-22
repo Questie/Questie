@@ -1947,6 +1947,12 @@ function QuestieTBCQuestFixes:Load()
         [11383] = {
             [questKeys.objectives] = {{{17839}},nil,nil,nil,nil},
         },
+        [11441] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173},nil,nil}
+        },
+        [11446] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil}
+        },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21}}}},
         },
