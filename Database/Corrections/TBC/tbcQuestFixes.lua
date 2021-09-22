@@ -2593,6 +2593,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
         },
+        [12062] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12192] = {
             [questKeys.name] = "This One Time, When I Was Drunk...",
             [questKeys.startedBy] = {nil,{189989,},nil,},
