@@ -73,7 +73,6 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
             -- we do "or false" here because nil would mean not cached
             startQuestId = (startQuestId and startQuestId > 0) and startQuestId or false
             itemCache[itemId] = startQuestId
-            print("Queried startQuest of item", itemId, startQuestId)
         end
 
         if startQuestId then
