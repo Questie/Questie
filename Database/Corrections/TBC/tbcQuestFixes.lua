@@ -14,6 +14,7 @@ QuestieCorrections.reversedKillCreditQuestIDs = {
 
 function QuestieTBCQuestFixes:Load()
     QuestieDB.questData[12192] = {}; -- This One Time, When I Was Drunk... (Horde)
+    QuestieDB.questData[12420] = {}; -- Brew of the Month Club (Alliance)
     QuestieDB.questData[63866] = {}; -- Claiming the Light
     QuestieDB.questData[64139] = {}; -- A Summons from Lady Liadrin
     QuestieDB.questData[64140] = {}; -- The Master's Path
@@ -2618,6 +2619,17 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{27584,28329},nil,nil,},
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {},
+        },
+        [12420] = {
+            [questKeys.name] = "Brew of the Month Club",
+            [questKeys.startedBy] = {nil,{37571,},nil,},
+            [questKeys.finishedBy] = {{27478,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Bring the \"Brew of the Month\" club membership form to Larkin Thunderbrew in the Stonefire Tavern in Ironforge.",},
+            [questKeys.sourceItemId] = 37571,
+            [questKeys.zoneOrSort] = -370,
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
