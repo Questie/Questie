@@ -73,7 +73,7 @@ function QuestieEvent:Load()
     QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
     local activeEvents = {}
 
-    local eventCorrections = QuestieEvent.eventDateCorrections[WOW_PROJECT_ID]
+    local eventCorrections = Questie.IsTBC and QuestieEvent.eventDateCorrections["TBC"] or QuestieEvent.eventDateCorrections["CLASSIC"]
     for eventName,dates in pairs(eventCorrections) do
         if dates then
             QuestieEvent.eventDates[eventName] = dates
@@ -244,11 +244,12 @@ QuestieEvent.eventDates = {
 
 -- ["EventName"] = false -> event doesn't exists in expansion
 -- ["EventName"] = {startDate = "12/3", endDate = "12/3"} -> change dates for the expansion
-QuestieEvent.eventDateCorrections = {}
-QuestieEvent.eventDateCorrections[WOW_PROJECT_CLASSIC] = {
-    ["Brewfest"] = false
-}
-QuestieEvent.eventDateCorrections[WOW_PROJECT_BURNING_CRUSADE_CLASSIC] = {
+QuestieEvent.eventDateCorrections = {
+    ["CLASSIC"] = {
+        ["Brewfest"] = false,
+    },
+    ["TBC"] = {
+    },
 }
 
 QuestieEvent.lunarFestival = {
