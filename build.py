@@ -64,7 +64,7 @@ def get_args():
 
 
 directoriesToSkip = ['.git', '.github', '.history', '.idea', '.vscode', 'ExternalScripts(DONOTINCLUDEINRELEASE)', 'releases']
-filesToSkip = ['.gitattributes', '.gitignore', '.luacheckrc', 'build.py', 'changelog.py', 'cli.lua']
+filesToSkip = ['.gitattributes', '.gitignore', '.luacheckrc', 'build.py', 'changelog.py', 'cli.lua', '.DS_Store']
 
 
 def copy_content_to(release_folder_path):
