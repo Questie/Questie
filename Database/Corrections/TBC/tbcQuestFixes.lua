@@ -941,13 +941,16 @@ function QuestieTBCQuestFixes:Load()
         },
         [10106] = {
             [questKeys.preQuestSingle] = {10143,10483},
-            [questKeys.requiredMaxRep] = {946,41999},
+            [questKeys.requiredMaxRep] = {},
         },
         [10107] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59}}}},
         },
         [10108] = {
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59}}}},
+        },
+        [10110] = {
+            [questKeys.requiredMaxRep] = {},
         },
         [10190] = {
             [questKeys.objectives] = {{{18879,"Battery Charge Level"}},nil,nil,nil},
