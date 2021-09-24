@@ -1723,7 +1723,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11047,11048},
         },
         [11047] = {
-            [questKeys.exclusiveTo] = {11045,11048},
+            [questKeys.exclusiveTo] = {11046,11048},
         },
         [11048] = {
             [questKeys.exclusiveTo] = {11046,11047},
