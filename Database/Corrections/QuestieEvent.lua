@@ -30,6 +30,21 @@ Day of the Dead    1st Nov - 2nd Nov    Day of the Dead
 WoW's Anniversary    16th Nov - 30th Nov
 Pilgrim's Bounty    22nd Nov - 28th Nov    Thanksgiving
 Feast of Winter Veil    15th Dec - 2nd Jan    Christmas
+
+Harvest Festival history:         lunar calendar 15/8 in gregorian calendar:
+2009: Su-Sa 27/9 - 3/10 (wowpedia)    3/10
+2010: Th-We 16/9 - 22/9 (wowpedia)   22/9
+2011: Tu-Mo  6/9 - 12/9 (wowpedia)   12/9
+2012: Mo-Mo 24/9 - 1/10 (wowpedia)   30/9
+2013: Fr-Fr 13/9 - 20/9 (wowpedia)   19/9
+2014: Tu-Tu  2/9 -  9/9 (Blizz post)  8/9
+2015: Mo-Mo 21/9 - 28/9 (wowpedia)   27/9
+2016: Fr-Fr  9/9 - 16/9 (Blizz post) 15/9
+2017: Fr-Fr 29/9 - 6/10 (wowpedia)    4/10
+2018: Tu-Tu 18/9 - 25/9 (wowpedia)   24/9
+2019: Tu-Tu 10/9 - 17/9 (classic Blizz post) 13/9
+2020: Tu-Tu 29/9 - 6/10 (retail Blizz post)   1/10
+2021: Fr-Fr 17/9 - 24/9 (retail Blizz post)  21/9
 ]] --
 
 ---@class QuestieEvent
@@ -58,6 +73,13 @@ function QuestieEvent:Load()
     QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
     local activeEvents = {}
 
+    local eventCorrections = Questie.IsTBC and QuestieEvent.eventDateCorrections["TBC"] or QuestieEvent.eventDateCorrections["CLASSIC"]
+    for eventName,dates in pairs(eventCorrections) do
+        if dates then
+            QuestieEvent.eventDates[eventName] = dates
+        end
+    end
+
     for eventName, eventData in pairs(QuestieEvent.eventDates) do
         local startDay, startMonth = strsplit("/", eventData.startDate)
         local endDay, endMonth = strsplit("/", eventData.endDate)
@@ -67,7 +89,7 @@ function QuestieEvent:Load()
         endDay = tonumber(endDay)
         endMonth = tonumber(endMonth)
 
-        if _WithinDates(startDay, startMonth, endDay, endMonth) then
+        if _WithinDates(startDay, startMonth, endDay, endMonth) and (eventCorrections[eventName] ~= false) then
             print(Questie:Colorize("[Questie]", "yellow"), l10n("The '%s' world event is active!", eventName))
             activeEvents[eventName] = true
         end
@@ -211,10 +233,23 @@ QuestieEvent.eventDates = {
     ["Children's Week"] = {startDate = "1/5", endDate = "7/5"},
     ["Midsummer"] = {startDate = "21/6", endDate = "5/7"},
     ["Brewfest"] = {startDate = "20/9", endDate = "6/10"}, -- TODO: This might be different (retail date)
-    ["Harvest Festival"] = {startDate = "27/9", endDate = "4/10"},
+    ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
+        startDate = "17/9",
+        endDate = "24/9"
+    },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
     ["Winter Veil"] = {startDate = "15/12", endDate = "2/1"}
+}
+
+-- ["EventName"] = false -> event doesn't exists in expansion
+-- ["EventName"] = {startDate = "12/3", endDate = "12/3"} -> change dates for the expansion
+QuestieEvent.eventDateCorrections = {
+    ["CLASSIC"] = {
+        ["Brewfest"] = false,
+    },
+    ["TBC"] = {
+    },
 }
 
 QuestieEvent.lunarFestival = {
