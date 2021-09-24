@@ -951,11 +951,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10110] = {
             [questKeys.requiredMaxRep] = {},
-        },
-        [10190] = {
-            [questKeys.objectives] = {{{18879,"Battery Charge Level"}},nil,nil,nil},
-        },
-        [10110] = {
             [questKeys.preQuestSingle] = {10124},
         },
         [10113] = {
@@ -996,6 +991,9 @@ function QuestieTBCQuestFixes:Load()
         [10189] = {
             [questKeys.preQuestSingle] = {10551,10552},
             [questKeys.requiredMinRep] = {934,3000},
+        },
+        [10190] = {
+            [questKeys.objectives] = {{{18879,"Battery Charge Level"}},nil,nil,nil},
         },
         [10191] = {
             [questKeys.triggerEnd] = {"Escort the Maxx A. Million Mk. V safely through the Ruins of Enkaat", {[zoneIDs.NETHERSTORM]={{31.54,56.47}}}},
