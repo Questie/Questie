@@ -13,6 +13,8 @@ QuestieCorrections.reversedKillCreditQuestIDs = {
 }
 
 function QuestieTBCQuestFixes:Load()
+    QuestieDB.questData[12192] = {}; -- This One Time, When I Was Drunk... (Horde)
+    QuestieDB.questData[12420] = {}; -- Brew of the Month Club (Alliance)
     QuestieDB.questData[63866] = {}; -- Claiming the Light
     QuestieDB.questData[64139] = {}; -- A Summons from Lady Liadrin
     QuestieDB.questData[64140] = {}; -- The Master's Path
@@ -1943,6 +1945,12 @@ function QuestieTBCQuestFixes:Load()
         [11383] = {
             [questKeys.objectives] = {{{17839}},nil,nil,nil,nil},
         },
+        [11441] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173},nil,nil}
+        },
+        [11446] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil}
+        },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21}}}},
         },
@@ -2582,6 +2590,43 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{26221},nil},
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
+        },
+        [12020] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [12062] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [12192] = {
+            [questKeys.name] = "This One Time, When I Was Drunk...",
+            [questKeys.startedBy] = {nil,{189989,},nil,},
+            [questKeys.finishedBy] = {{27216,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Talk to Bizzle Quicklift in the Brewfest camp.",},
+            [questKeys.zoneOrSort] = -370,
+            [questKeys.specialFlags] = 1,
+            [questKeys.questFlags] = 4096,
+        },
+        [12194] = {
+            [questKeys.preQuestSingle] = {11409,},
+        },
+        [12318] = {
+            [questKeys.startedBy] = {{27584,28329},nil,nil,},
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.preQuestSingle] = {},
+        },
+        [12420] = {
+            [questKeys.name] = "Brew of the Month Club",
+            [questKeys.startedBy] = {nil,{37571,},nil,},
+            [questKeys.finishedBy] = {{27478,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Bring the \"Brew of the Month\" club membership form to Larkin Thunderbrew in the Stonefire Tavern in Ironforge.",},
+            [questKeys.sourceItemId] = 37571,
+            [questKeys.zoneOrSort] = -370,
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},

@@ -213,6 +213,15 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{69.1,43.5}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
+        [189989] = {
+            [objectKeys.questStarts] = {12192},
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [189990] = {
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.82}}},
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
         [190483] = {
             [objectKeys.name] = "Document Chest",
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{33.76,39.99}}},

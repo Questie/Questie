@@ -521,18 +521,21 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12020}) -- This One Time, When I Was Drunk...
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12192}) -- This One Time, When I Was Drunk...
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11437}) -- [PH] Beer Garden A
-tinsert(QuestieEvent.eventQuests, {"Brewfest", 11454}) -- Seek the Saboteurs
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 11454}) -- Seek the Saboteurs
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12420}) -- Brew of the Month Club
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12306}) -- Brew of the Month Club
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11120}) -- Pink Elekks On Parade
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11400}) -- Brewfest Riding Rams
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11442}) -- Welcome to Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11447}) -- Welcome to Brewfest!
-tinsert(QuestieEvent.eventQuests, {"Brewfest", 12278}) -- Brew of the Month Club
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 12278}) -- Brew of the Month Club
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11118}) -- Pink Elekks On Parade
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11320}) -- [NYI] Now this is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11441}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11446}) -- Brewfest!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12062}) -- Insult Coren Direbrew
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 
