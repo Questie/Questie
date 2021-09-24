@@ -69,7 +69,9 @@ local DB_NPC_FRIENDLY = 13
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
 local QUEST_FLAGS_DAILY = 4096
-local QUEST_FLAGS_MAX =  8192 -- This is the highest single possible quest flag
+-- This is the highest single possible quest flag according to the docs. We need it for the modulus to
+-- find quests with QUEST_FLAGS_DAILY set
+local QUEST_FLAGS_UNK5 =  8192
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
@@ -316,7 +318,7 @@ end
 ---@return boolean
 function QuestieDB:IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
-    return flags and (flags % QUEST_FLAGS_MAX) >= QUEST_FLAGS_DAILY
+    return flags and (flags % QUEST_FLAGS_UNK5) >= QUEST_FLAGS_DAILY
 end
 
 ---@param questId number
