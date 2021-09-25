@@ -560,7 +560,8 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 12192}) -- This One Time, When I 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11437}) -- [PH] Beer Garden A
 --tinsert(QuestieEvent.eventQuests, {"Brewfest", 11454}) -- Seek the Saboteurs
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12420}) -- Brew of the Month Club
-tinsert(QuestieEvent.eventQuests, {"Brewfest", 12306}) -- Brew of the Month Club
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12421}) -- Brew of the Month Club
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 12306}) -- Brew of the Month Club
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11120}) -- Pink Elekks On Parade
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11400}) -- Brewfest Riding Rams
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11442}) -- Welcome to Brewfest!
