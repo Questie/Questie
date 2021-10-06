@@ -1743,6 +1743,9 @@ function QuestieTBCQuestFixes:Load()
         [11059] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 35 Apexis Shards to activate Apexis Monument. Apexis Guardian will spawn after six rounds", 0, {{"object", 185944}}}}
         },
+        [11060] = {
+            [questKeys.specialFlags] = 1,
+        },
         [11061] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Purchase 1 Unstable Flask of the Sorcerer for the cost of 10 Apexis Shards", 0, {{"object", 185921}}}}
         },

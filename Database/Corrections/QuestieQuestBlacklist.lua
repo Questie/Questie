@@ -801,6 +801,7 @@ function QuestieQuestBlacklist:Load()
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
+        [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
