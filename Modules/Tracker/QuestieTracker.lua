@@ -675,8 +675,8 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             local validTexture
             local isFound = false
 
-            for bag = 0 , 5 do
-                for slot = 0 , 24 do
+            for bag = 0 , 4 do
+                for slot = 1, GetContainerNumSlots(bag) do
                     local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
