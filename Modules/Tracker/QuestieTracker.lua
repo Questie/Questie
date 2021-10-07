@@ -386,7 +386,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
 
-            local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuests()
+            local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
 
             self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND .. l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
