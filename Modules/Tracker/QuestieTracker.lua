@@ -2208,11 +2208,12 @@ function QuestieTracker:ResetLinesForChange()
     end
 end
 
-function QuestieTracker:RemoveQuest(id)
+function QuestieTracker:RemoveQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuest")
+    Questie.db.char.collapsedQuests[questId] = nil  -- forget the collapsed/expanded state
     if Questie.db.char.TrackerFocus then
-        if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == id)
-        or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(id)) == tostring(id)) then
+        if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == questId)
+        or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(questId)) == tostring(questId)) then
             QuestieTracker:UnFocus()
             QuestieQuest:ToggleNotes(true)
         end
