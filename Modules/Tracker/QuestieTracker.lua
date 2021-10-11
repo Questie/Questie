@@ -657,7 +657,7 @@ end
 
 function _QuestieTracker:CreateTrackedQuestItemButtons()
     -- create buttons for quest items
-    for i = 1, C_QuestLog.GetMaxNumQuests() do
+    for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
         local buttonName = "Questie_ItemButton"..i
         local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate, ActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
@@ -1703,7 +1703,7 @@ function QuestieTracker:Update()
 
     -- Hide unused item buttons
     QuestieCombatQueue:Queue(function()
-        for i = startUnusedButtons, 20 do
+        for i = startUnusedButtons, C_QuestLog.GetMaxNumQuestsCanAccept() do
             local button = _QuestieTracker.ItemButtons[i]
             if button.itemID then
                 button:FakeHide()
