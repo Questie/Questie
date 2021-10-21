@@ -194,6 +194,14 @@ function QuestieTBCObjectFixes:Load()
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},
         },
+        [186887] = {
+            [objectKeys.spawns] = {
+                [zoneIDs.DUROTAR]={{52.6,42.5}},
+                [zoneIDs.ELWYNN_FOREST]={{42.5,65.8}},
+                [zoneIDs.DUN_MOROGH]={{46.4,52.2}},
+                [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
+            },
+        },
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
         }, 

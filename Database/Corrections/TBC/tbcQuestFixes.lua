@@ -1802,6 +1802,9 @@ function QuestieTBCQuestFixes:Load()
         [11123] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11131] = {
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
+        },
         [11142] = {
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87}}}},
         },
@@ -1908,6 +1911,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.SHATTRATH_CITY]={{66.62,57.45}},
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
             }},
+        },
+        [11361] = {
+            [questKeys.questLevel] = -1,
         },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains", 0, {{"monster", 19973}}}},
@@ -2569,6 +2575,56 @@ function QuestieTBCQuestFixes:Load()
         },
         [12062] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [12133] = {
+            [questKeys.name] = "Smash the Pumpkin",
+            [questKeys.startedBy] = {nil,{186887},nil,},
+            [questKeys.finishedBy] = {{24519,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Costumed Orphan Matron.",},
+            [questKeys.sourceItemId] = 36876,
+            [questKeys.zoneOrSort] = -22,
+            [questKeys.specialFlags] = 1,
+        },
+        [12135] = {
+            [questKeys.name] = "Let the Fires Come!",
+            [questKeys.startedBy] = {{24519},nil,nil,},
+            [questKeys.finishedBy] = {{24519,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"The Costumed Orphan Matron wants you to help put out all the village fires after the Headless Horseman lights them. When they are out, speak again to the Costumed Orphan Matron.",},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
+            [questKeys.preQuestSingle] = {11360},
+            [questKeys.zoneOrSort] = -22,
+            [questKeys.specialFlags] = 1,
+        },
+        [12139] = {
+            [questKeys.name] = "Let the Fires Come!",
+            [questKeys.startedBy] = {{23973},nil,nil,},
+            [questKeys.finishedBy] = {{23973,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"The Masked Orphan Matron wants you to help put out all the village fires. When they are out, speak again to the Masked Orphan Matron in town.",},
+            [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUROTAR]={{52.6,41.7}},[zoneIDs.TIRISFAL_GLADES]={{60.8,52.5}},[zoneIDs.EVERSONG_WOODS]={{47.4,47}}}},
+            [questKeys.preQuestSingle] = {11361},
+            [questKeys.zoneOrSort] = -22,
+            [questKeys.specialFlags] = 1,
+        },
+        [12155] = {
+            [questKeys.name] = "Smash the Pumpkin",
+            [questKeys.startedBy] = {nil,{186887},nil,},
+            [questKeys.finishedBy] = {{24519,},nil,},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Give the Scorched Holy Symbol to the Masked Orphan Matron.",},
+            [questKeys.sourceItemId] = 36876,
+            [questKeys.zoneOrSort] = -22,
+            [questKeys.specialFlags] = 1,
         },
         [12192] = {
             [questKeys.name] = "This One Time, When I Was Drunk...",
@@ -3735,7 +3791,12 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[64128] = {} -- Eastern Plaguelands
     QuestieDB.questData[64217] = {} -- The Dark Portal
 
-    -- Halloween Candy Bucket quests
+    -- Halloween Candy quests
+    QuestieDB.questData[12133] = {} -- Smash the Pumpkin
+    QuestieDB.questData[12135] = {} -- Let the Fires Come!
+    QuestieDB.questData[12139] = {} -- Let the Fires Come!
+    QuestieDB.questData[12155] = {} -- Smash the Pumpkin
+
     QuestieDB.questData[12286] = {} -- Candy Bucket
     QuestieDB.questData[12331] = {} -- Candy Bucket
     QuestieDB.questData[12332] = {} -- Candy Bucket
