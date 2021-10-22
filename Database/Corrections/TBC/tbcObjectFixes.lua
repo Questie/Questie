@@ -411,7 +411,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [190078] = {
-            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{57.9,47.3},},},
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{62.5,19.3},},},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [190079] = {
@@ -419,7 +419,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
         [190080] = {
-            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{50.4,63.8},},},
+            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{47.8,61.6},},},
             [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [190081] = {
@@ -427,7 +427,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
         [190082] = {
-            [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{69,33.4},},},
+            [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{73.9,33.4},},},
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
         },
         [190083] = {
@@ -435,7 +435,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
         [190084] = {
-            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{37.3,51.7},},},
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{27.1,77.3},},},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [190085] = {
@@ -495,7 +495,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [190103] = {
-            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{27.1, 77.3},},},
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{27.1,77.3},},},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [190104] = {
@@ -511,7 +511,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
         },
         [190107] = {
-            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{55.4,36.7},},},
+            [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51.8,38.1},},},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
         },
         [190108] = {
@@ -524,10 +524,6 @@ function QuestieTBCObjectFixes:Load()
         },
         [190110] = {
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{27.9,49.5},},},
-            [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
-        },
-        [190111] = {
-            [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{56.1,81.4},},},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
         [190112] = {
@@ -544,10 +540,6 @@ function QuestieTBCObjectFixes:Load()
         },
         [190115] = {
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{61,28.2},},},
-            [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
-        },
-        [190116] = {
-            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{56.3,59.8},},},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
         },
         [190483] = {
