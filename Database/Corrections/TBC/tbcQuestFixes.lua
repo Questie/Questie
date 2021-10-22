@@ -186,6 +186,18 @@ function QuestieTBCQuestFixes:Load()
         [7868] = {
             [questKeys.requiredMinRep] = {889,21000}
         },
+        [8114] = {
+            [questKeys.triggerEnd] = {"Take Four Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{45.9,45.8}}}},
+        },
+        [8115] = {
+            [questKeys.triggerEnd] = {"Take Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{45.9,45.8}}}},
+        },
+        [8121] = {
+            [questKeys.triggerEnd] = {"Hold Four Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
+        },
+        [8122] = {
+            [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
+        },
         [8151] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
