@@ -976,7 +976,6 @@ function QuestieQuestBlacklist:Load()
         [11108] = true,
 
         -- Phase 3 - Hyjal, Black Temple
-        [10445] = true,
         [10460] = true,
         [10461] = true,
         [10462] = true,
