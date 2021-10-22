@@ -52,6 +52,9 @@ function QuestieTBCNpcFixes:Load()
                 [zoneIDs.ORGRIMMAR] = {{49.66,50.14}},
             },
         },
+        [6072] = {
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{78.95,84.67},{78.8,82.4},{77.8,83.6},{78.6,85.6}}},
+        },
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
