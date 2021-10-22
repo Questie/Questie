@@ -521,8 +521,10 @@ function QuestieQuest:GetAllQuestIds()
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
-                QuestieQuest:PopulateQuestLogInfo(quest)
-                QuestieQuest:PopulateObjectiveNotes(quest)
+                if ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
+                    QuestieQuest:PopulateQuestLogInfo(quest)
+                    QuestieQuest:PopulateObjectiveNotes(quest)
+                end
                 if title and strlen(title) > 1 then
                     quest.LocalizedName = title
                 end
