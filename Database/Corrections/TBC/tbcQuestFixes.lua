@@ -2653,7 +2653,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{189303,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12318] = {
@@ -2667,7 +2667,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190034,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12332] = {
@@ -2676,7 +2676,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190036,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12333] = {
@@ -2685,7 +2685,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190037,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12334] = {
@@ -2694,7 +2694,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190038,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12335] = {
@@ -2703,7 +2703,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190039,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12336] = {
@@ -2712,7 +2712,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190040,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12337] = {
@@ -2721,7 +2721,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190041,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12338] = {
@@ -2730,7 +2730,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190042,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12339] = {
@@ -2739,7 +2739,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190043,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12340] = {
@@ -2748,7 +2748,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190047,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12341] = {
@@ -2757,7 +2757,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190045,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12342] = {
@@ -2766,7 +2766,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190046,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12343] = {
@@ -2775,7 +2775,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190044,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12344] = {
@@ -2784,7 +2784,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190048,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12345] = {
@@ -2793,7 +2793,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190035,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12346] = {
@@ -2802,7 +2802,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190049,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12347] = {
@@ -2811,7 +2811,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190050,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12348] = {
@@ -2820,7 +2820,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190051,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12349] = {
@@ -2829,7 +2829,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190052,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12350] = {
@@ -2838,7 +2838,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190053,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12351] = {
@@ -2847,7 +2847,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190054,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12352] = {
@@ -2856,7 +2856,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190055,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12353] = {
@@ -2865,7 +2865,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190056,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12354] = {
@@ -2874,7 +2874,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190057,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12355] = {
@@ -2883,7 +2883,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190058,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12356] = {
@@ -2892,7 +2892,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190059,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12357] = {
@@ -2901,7 +2901,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190060,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12358] = {
@@ -2910,7 +2910,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190061,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12359] = {
@@ -2919,7 +2919,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190062,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12360] = {
@@ -2928,7 +2928,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190063,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = 1101,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12361] = {
