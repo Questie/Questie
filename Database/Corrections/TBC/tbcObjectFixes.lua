@@ -259,7 +259,7 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.IRONFORGE,
         },
         [190040] = {
-            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{60.5,75.3},},},
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{52.9,65.5},},},
             [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
         },
         [190041] = {
