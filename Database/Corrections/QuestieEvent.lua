@@ -487,6 +487,7 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10941}) -- Darkmoon Lunacy 
 
 --tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11450}) -- Fire Training
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11356}) -- Costumed Orphan Matron
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12360}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11131}) -- Stop the Fires!
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11135}) -- The Headless Horseman
@@ -518,7 +519,6 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12398}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12402}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12406}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12410}) -- Candy Bucket
-tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11357}) -- Masked Orphan Matron
 --tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11440}) -- Fire Brigade Practice
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12286}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12334}) -- Candy Bucket

@@ -1912,6 +1912,12 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
             }},
         },
+        [11356] = {
+            [questKeys.exclusiveTo] = {11360},
+        },
+        [11357] = {
+            [questKeys.exclusiveTo] = {11361},
+        },
         [11361] = {
             [questKeys.questLevel] = -1,
         },
