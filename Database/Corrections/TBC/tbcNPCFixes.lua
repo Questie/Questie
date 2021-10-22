@@ -277,6 +277,9 @@ function QuestieTBCNpcFixes:Load()
         [18538] = {
             [npcKeys.waypoints] = {},
         },
+        [18542] = {
+            [npcKeys.npcFlags] = 128,
+        },
         [18816] = {
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{41.2,44.2}}},
         },
