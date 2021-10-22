@@ -386,7 +386,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
 
-            local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuests()
+            local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
 
             self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND .. l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
@@ -634,11 +634,10 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
     frm:EnableMouse(true)
     frm:RegisterForDrag("LeftButton")
 
-    frm:RegisterEvent("BAG_NEW_ITEMS_UPDATED")
     frm:RegisterEvent("BANKFRAME_CLOSED")
 
     frm:SetScript("OnEvent", function(_, event, ...)
-        if (event == "BAG_NEW_ITEMS_UPDATED" or event == "BANKFRAME_CLOSED") then
+        if (event == "BANKFRAME_CLOSED") then
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:ResetLinesForChange()
                 QuestieTracker:Update()
@@ -658,7 +657,7 @@ end
 
 function _QuestieTracker:CreateTrackedQuestItemButtons()
     -- create buttons for quest items
-    for i = 1, C_QuestLog.GetMaxNumQuests() do
+    for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
         local buttonName = "Questie_ItemButton"..i
         local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate, ActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
@@ -676,8 +675,8 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             local validTexture
             local isFound = false
 
-            for bag = 0 , 5 do
-                for slot = 0 , 24 do
+            for bag = 0 , 4 do
+                for slot = 1, GetContainerNumSlots(bag) do
                     local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
@@ -1704,7 +1703,7 @@ function QuestieTracker:Update()
 
     -- Hide unused item buttons
     QuestieCombatQueue:Queue(function()
-        for i = startUnusedButtons, 20 do
+        for i = startUnusedButtons, C_QuestLog.GetMaxNumQuestsCanAccept() do
             local button = _QuestieTracker.ItemButtons[i]
             if button.itemID then
                 button:FakeHide()
@@ -2209,11 +2208,12 @@ function QuestieTracker:ResetLinesForChange()
     end
 end
 
-function QuestieTracker:RemoveQuest(id)
+function QuestieTracker:RemoveQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuest")
+    Questie.db.char.collapsedQuests[questId] = nil  -- forget the collapsed/expanded state
     if Questie.db.char.TrackerFocus then
-        if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == id)
-        or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(id)) == tostring(id)) then
+        if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == questId)
+        or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(questId)) == tostring(questId)) then
             QuestieTracker:UnFocus()
             QuestieQuest:ToggleNotes(true)
         end

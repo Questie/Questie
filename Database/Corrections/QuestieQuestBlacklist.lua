@@ -470,6 +470,14 @@ function QuestieQuestBlacklist:Load()
         [11970] = true,
         [11971] = true,
         [12020] = true,
+        [12192] = true,
+        [11293] = true,
+        [11294] = true,
+        [11407] = true,
+        [11408] = true,
+        [11412] = true,
+        [11122] = true,
+        [12318] = true,
         [12022] = true,
         [12133] = true,
         [12191] = true,
@@ -801,6 +809,7 @@ function QuestieQuestBlacklist:Load()
         [9767] = true, -- Know Your Enemy
         [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
+        [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
         [1] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [2881] = QuestieCorrections.TBC_ONLY, -- Wildhammer faction removed in TBC. Repeatable to gain rep
@@ -967,7 +976,6 @@ function QuestieQuestBlacklist:Load()
         [11108] = true,
 
         -- Phase 3 - Hyjal, Black Temple
-        [10445] = true,
         [10460] = true,
         [10461] = true,
         [10462] = true,

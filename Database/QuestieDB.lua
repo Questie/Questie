@@ -67,6 +67,12 @@ local tinsert = table.insert
 local DB_OBJ_SPAWNS = 4
 local DB_NPC_FRIENDLY = 13
 
+-- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
+local QUEST_FLAGS_DAILY = 4096
+-- This is the highest single possible quest flag according to the docs. We need it for the modulus to
+-- find quests with QUEST_FLAGS_DAILY set
+local QUEST_FLAGS_UNK5 =  8192
+
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
 ---@type table<number, table<number, string>>
@@ -310,6 +316,13 @@ end
 
 ---@param questId number
 ---@return boolean
+function QuestieDB:IsDailyQuest(questId)
+    local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
+    return flags and (flags % QUEST_FLAGS_UNK5) >= QUEST_FLAGS_DAILY
+end
+
+---@param questId number
+---@return boolean
 function QuestieDB:IsDungeonQuest(questId)
     local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 81
@@ -329,11 +342,13 @@ function QuestieDB:IsPvPQuest(questId)
     return questType == 41
 end
 
+--[[ Commented out because not used anywhere
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsAQWarEffortQuest(questId)
     return QuestieQuestBlacklist.AQWarEffortQuests[questId]
 end
+]]--
 
 ---@param class string
 ---@return number
@@ -592,7 +607,7 @@ end
 
 
 
----@param questId QuestId @The quest ID
+---@param questId number
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     if questId == nil then
@@ -612,33 +627,36 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     ---@class ObjectiveIndex
-    ---@class QuestId
 
     ---@class Quest
     ---@field public Id number
-    ---@field public childQuests table
-    ---@field public exclusiveTo table
-    ---@field public finishedBy table
-    ---@field public inGroupWith table
     ---@field public name string
-    ---@field public nextQuestInChain number
-    ---@field public objectives table
+    ---@field public startedBy table
+    ---@field public finishedBy table
+    ---@field public requiredLevel number
+    ---@field public questLevel number
+    ---@field public requiredRaces number @bitmask
+    ---@field public requiredClasses number @bitmask
     ---@field public objectivesText table
-    ---@field public parentQuest table
+    ---@field public triggerEnd table
+    ---@field public objectives table
+    ---@field public sourceItemId number
     ---@field public preQuestGroup table
     ---@field public preQuestSingle table
-    ---@field public questLevel number
-    ---@field public requiredLevel number
-    ---@field public requiredClasses number
-    ---@field public requiredRaces number
-    ---@field public requiredMinRep table
-    ---@field public requiredSkill table
-    ---@field public requiredSourceItems table
-    ---@field public sourceItemId number
-    ---@field public specialFlags number
-    ---@field public startedBy table
-    ---@field public triggerEnd table
+    ---@field public childQuests table
+    ---@field public inGroupWith table
+    ---@field public exclusiveTo table
     ---@field public zoneOrSort number
+    ---@field public requiredSkill table
+    ---@field public requiredMinRep table
+    ---@field public requiredMaxRep table
+    ---@field public requiredSourceItems table
+    ---@field public nextQuestInChain number
+    ---@field public questFlags number @bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
+    ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
+    ---@field public parentQuest number
+    ---@field public reputationReward table
+    ---@field public extraObjectives table
     local QO = {}
     QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
@@ -682,9 +700,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return QuestieEvent.activeQuests[self.Id] == true
     end
 
+    --[[ Commented out because not used anywhere
     function QO:IsAQWarEffortQuest()
         return QuestieQuestBlacklist.AQWarEffortQuests[self.Id]
     end
+    ]]--
 
     --- Wrapper function for the GetQuestTagInfo API to correct
     --- quests that are falsely marked by Blizzard
