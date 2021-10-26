@@ -159,16 +159,16 @@ local trackerUILocales = {
         ["frFR"] = "Afficher dans le journal de quête",
     },
     ["Can't open Quest Log while in combat. Open it manually."] = {
-        ["ptBR"] = false,
+        ["ptBR"] = "Não é possível abrir o registro de missões durante o combate. Abra-o manualmente.",
         ["ruRU"] = "Невозможно автоматически открыть журнал заданий, находясь в бою. Откройте его вручную.",
         ["deDE"] = "Das Quest Log kann nicht im Kampf geöffnet werden. Bitte öffne es manuell.",
         ["koKR"] = "전투 중에는 퀘스트 목록을 열 수 없습니다. 수동으로 열어주세요.",
-        ["esMX"] = false,
+        ["esMX"] = "No se puede abrir el registro de misiones durante el combate. Ábrelo manualmente.",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["esES"] = "No se puede abrir el registro de misiones durante el combate. Ábrelo manualmente.",
+        ["frFR"] = "Impossible d'ouvrir le journal des quêtes en combat. Ouvrez-le manuellement.",
     },
 }
 
