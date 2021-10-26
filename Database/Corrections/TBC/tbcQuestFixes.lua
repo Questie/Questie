@@ -2946,7 +2946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190063,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12361] = {
