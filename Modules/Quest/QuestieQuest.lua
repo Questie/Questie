@@ -521,7 +521,10 @@ function QuestieQuest:GetAllQuestIds()
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
-                if ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
+
+                local trackedAuto = GetCVar("autoQuestWatch") == "1" and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
+                local trackedManual = GetCVar("autoQuestWatch") == "0" and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
+                if (trackedAuto or trackedManual) then
                     QuestieQuest:PopulateQuestLogInfo(quest)
                     QuestieQuest:PopulateObjectiveNotes(quest)
                 end
