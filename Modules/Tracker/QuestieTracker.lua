@@ -2335,7 +2335,6 @@ function QuestieTracker:AQW_Insert(index, expire)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
-            QuestieQuest:PopulateQuestLogInfo(quest)
             QuestieQuest:PopulateObjectiveNotes(quest)
         end)
     end

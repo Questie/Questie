@@ -521,13 +521,15 @@ function QuestieQuest:GetAllQuestIds()
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
+                QuestieQuest:PopulateQuestLogInfo(quest)
 
+                -- Don't show quest icons on map/minimap unless it's tracked
                 local trackedAuto = GetCVar("autoQuestWatch") == "1" and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
                 local trackedManual = GetCVar("autoQuestWatch") == "0" and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
                 if (trackedAuto or trackedManual) then
-                    QuestieQuest:PopulateQuestLogInfo(quest)
                     QuestieQuest:PopulateObjectiveNotes(quest)
                 end
+
                 if title and strlen(title) > 1 then
                     quest.LocalizedName = title
                 end
