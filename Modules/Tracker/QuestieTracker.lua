@@ -2251,20 +2251,26 @@ _RemoveQuestWatch = function(index, isQuestie)
             else
                 Questie.db.char.AutoUntrackedQuests[questId] = true
             end
-            QuestieMap:UnloadQuestFrames(questId)
-            local quest = QuestieDB:GetQuest(questId)
-            if quest then
-                if quest.Objectives then
-                    for _, objective in pairs(quest.Objectives) do
-                        objective.AlreadySpawned = {}
+
+            if Questie.db.char.hideUntrackedQuestsMapIcons then
+                -- Remove quest Icons from map when untracking quest.
+                -- Also reset caches of spawned Icons so re-tracking works.
+                QuestieMap:UnloadQuestFrames(questId)
+                local quest = QuestieDB:GetQuest(questId)
+                if quest then
+                    if quest.Objectives then
+                        for _, objective in pairs(quest.Objectives) do
+                            objective.AlreadySpawned = {}
+                        end
                     end
-                end
-                if next(quest.SpecialObjectives) then
-                    for _, objective in pairs(quest.SpecialObjectives) do
-                        objective.AlreadySpawned = {}
+                    if next(quest.SpecialObjectives) then
+                        for _, objective in pairs(quest.SpecialObjectives) do
+                            objective.AlreadySpawned = {}
+                        end
                     end
                 end
             end
+
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:ResetLinesForChange()
                 QuestieTracker:Update()
@@ -2335,7 +2341,10 @@ function QuestieTracker:AQW_Insert(index, expire)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
-            QuestieQuest:PopulateObjectiveNotes(quest)
+            if Questie.db.char.hideUntrackedQuestsMapIcons then
+                -- Quest had its Icons removed, paint them again
+                QuestieQuest:PopulateObjectiveNotes(quest)
+            end
         end)
     end
 end
