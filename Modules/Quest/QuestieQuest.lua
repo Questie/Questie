@@ -386,7 +386,7 @@ function QuestieQuest:AcceptQuest(questId)
             function() QuestieMap:UnloadQuestFrames(questId) end,
             function() QuestieTooltips:RemoveQuest(questId) end,
             function() QuestieHash:AddNewQuestHash(questId) end,
-            function() Questie.db.char.collapsedQuests[questId] = nil end,  -- re-accepted quest can be collapsed. expand it. specially dailies.
+            function() if Questie.db.char.collapsedQuests then Questie.db.char.collapsedQuests[questId] = nil end end,  -- re-accepted quest can be collapsed. expand it. specially dailies.
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
