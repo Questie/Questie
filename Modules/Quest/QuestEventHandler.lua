@@ -18,6 +18,10 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local stringSub = string.sub
 local tableRemove = table.remove
 
+-- 3 * (Max possible number of quests in game quest log)
+-- This is a safe value, even smaller would be enough. Too large won't effect performance
+local MAX_QUEST_LOG_INDEX = 75
+
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
     QUEST_TURNED_IN = "QUEST_TURNED_IN",
@@ -51,7 +55,7 @@ end
 
 local initQuestLogTries = 0
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
----@return boolean true if the function was successful, false otherwise
+---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:InitQuestLog()
     local numEntries, numQuests = GetNumQuestLogEntries()
     print("--> numEntries:", numEntries, "numQuests:", numQuests)
@@ -66,7 +70,7 @@ function _QuestEventHandler:InitQuestLog()
         return false
     end
 
-    for i = 1, numEntries + numQuests do
+    for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
         if (not title) then
             -- We exceeded the valid quest log entries
@@ -109,7 +113,7 @@ end
 
 local objectiveTextTries = 0
 ---@param questId number
----@return boolean true if the function was successful, false otherwise
+---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     if objectiveTextTries == MAX_OBJECTIVE_TEXT_TRIES then
         -- Check for failing recursion. Something is up if the objective texts are still invalid.
@@ -237,8 +241,8 @@ function _QuestEventHandler:QuestWatchUpdate(questId)
     skipNextUQLCEvent = true
 end
 
------ Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
------@param unitTarget string
+--- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
+---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     print("[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
 
@@ -276,8 +280,7 @@ function _QuestEventHandler:UpdateAllQuests()
     local questIdsToCheck = {}
     local questIdsToCheckSize = 1
 
-    local numEntries, numQuests = GetNumQuestLogEntries()
-    for questLogIndex = 1, numEntries + numQuests do
+    for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
         if (not title) then
             -- We exceeded the valid quest log entries
@@ -302,17 +305,17 @@ function _QuestEventHandler:UpdateAllQuests()
     end
 end
 
-local isFirstBankFrameClosedEvent = true
+local lastTimeBankFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
---- So we hook the BANKFRAME_CLOSED event which fires twice after closing the bank frame and do a full quest log check.
+--- So we hook the BANKFRAME_CLOSED event which fires once or twice after closing the bank frame and do a full quest log check.
 function _QuestEventHandler:BankFrameClosed()
     print("[Event] BANKFRAME_CLOSED")
 
-    if isFirstBankFrameClosedEvent then
+    local now = GetTime()
+    -- Don't do update if event fired twice
+    if lastTimeBankFrameClosedEvent ~= now then
+        lastTimeBankFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
-        isFirstBankFrameClosedEvent = false
-    else
-        isFirstBankFrameClosedEvent = true
     end
 end
 
@@ -323,7 +326,7 @@ function _QuestLogUpdateQueue:Insert(func)
 end
 
 --- Helper function to retrieve the first element of questLogUpdateQueue
----@return function The callback that was inserted first into questLogUpdateQueue
+---@return function @The callback that was inserted first into questLogUpdateQueue
 function _QuestLogUpdateQueue:GetFirst()
     questLogUpdateQueueSize = questLogUpdateQueueSize - 1
     return tableRemove(questLogUpdateQueue, 1)
