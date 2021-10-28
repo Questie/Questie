@@ -3329,8 +3329,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [12404] = {
             [questKeys.name] = "Candy Bucket",
-            [questKeys.startedBy] = {nil,{190110,},nil,},
-            [questKeys.finishedBy] = {nil,{190110,},},
+            [questKeys.startedBy] = {nil,{190110,190111},nil},
+            [questKeys.finishedBy] = {nil,{190110,190111}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL,
@@ -3365,8 +3365,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [12409] = {
             [questKeys.name] = "Candy Bucket",
-            [questKeys.startedBy] = {nil,{190115,},nil,},
-            [questKeys.finishedBy] = {nil,{190115,},},
+            [questKeys.startedBy] = {nil,{190115,190116},nil},
+            [questKeys.finishedBy] = {nil,{190115,190116}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL,
