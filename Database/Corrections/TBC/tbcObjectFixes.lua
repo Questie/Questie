@@ -355,107 +355,107 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
         },
         [190064] = {
-            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{51.6,41.7},},},
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{51.6,41.6}}},
             [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [190065] = {
-            [objectKeys.spawns] = {[zoneIDs.MULGORE]={{46.8,60.4},},},
+            [objectKeys.spawns] = {[zoneIDs.MULGORE]={{46.6,61.0}}},
             [objectKeys.zoneID] = zoneIDs.MULGORE,
         },
         [190066] = {
-            [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{60.9,51.4},},},
+            [objectKeys.spawns] = {[zoneIDs.TIRISFAL_GLADES]={{61.8,52.2}}},
             [objectKeys.zoneID] = zoneIDs.TIRISFAL_GLADES,
         },
         [190067] = {
-            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{48.1,47.8},},},
+            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{48.1,47.8}}},
             [objectKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
         },
         [190068] = {
-            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{43.7,71.1},},},
+            [objectKeys.spawns] = {[zoneIDs.EVERSONG_WOODS]={{43.7,71.1}}},
             [objectKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
         },
         [190069] = {
-            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{46.9,6.7},},},
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{54.45,68.64}}},
             [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [190070] = {
-            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{45.4,64.1},},},
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{45.6,64.4}}},
             [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
         },
         [190071] = {
-            [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{67.4,38.2},},},
+            [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{67.76,37.40}}},
             [objectKeys.zoneID] = zoneIDs.UNDERCITY,
         },
         [190072] = {
-            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{79.4,57.9},},},
+            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{79.42,57.65}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
         [190073] = {
-            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{67.4,73.2},},},
+            [objectKeys.spawns] = {[zoneIDs.SILVERMOON_CITY]={{67.58,72.88}}},
             [objectKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
         },
         [190074] = {
-            [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{46.4,42.8},},},
+            [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{43.2,41.4}}},
             [objectKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
         },
         [190075] = {
-            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{48.6,32},},},
+            [objectKeys.spawns] = {[zoneIDs.GHOSTLANDS]={{48.7,32.0}}},
             [objectKeys.zoneID] = zoneIDs.GHOSTLANDS,
         },
         [190076] = {
-            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{52.0,29.9},},},
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{52.0,29.9}}},
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [190077] = {
-            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{45.6,59.1},},},
+            [objectKeys.spawns] = {[zoneIDs.THE_BARRENS]={{45.6,59.0}}},
             [objectKeys.zoneID] = zoneIDs.THE_BARRENS,
         },
         [190078] = {
-            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{62.5,19.3},},},
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{62.8,19.0}}},
             [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
         },
         [190079] = {
-            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{73.9,60.7},},},
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{73.9,60.7}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
         [190080] = {
-            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{47.8,61.6},},},
+            [objectKeys.spawns] = {[zoneIDs.STONETALON_MOUNTAINS]={{47.5,62.1}}},
             [objectKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
         },
         [190081] = {
-            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{46.1,51.4},},},
+            [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{46.1,51.4}}},
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
         [190082] = {
-            [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{73.9,33.4},},},
+            [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{73.9,32.6}}},
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
         },
         [190083] = {
-            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{24,68.5},},},
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{24.1,68.3}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
         [190084] = {
-            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{27.1,77.3},},},
+            [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{31.5,29.7}}},
             [objectKeys.zoneID] = zoneIDs.STRANGLETHORN_VALE,
         },
         [190085] = {
-            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{36.8,32.4},},},
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{36.8,32.4}}},
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
         },
         [190086] = {
-            [objectKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{46.9,56.7},},},
+            [objectKeys.spawns] = {[zoneIDs.SWAMP_OF_SORROWS]={{45.1,56.6}}},
             [objectKeys.zoneID] = zoneIDs.SWAMP_OF_SORROWS,
         },
         [190087] = {
-            [objectKeys.spawns] = {[zoneIDs.BADLANDS]={{3,46.1},},},
+            [objectKeys.spawns] = {[zoneIDs.BADLANDS]={{2.9,46.0}}},
             [objectKeys.zoneID] = zoneIDs.BADLANDS,
         },
         [190088] = {
-            [objectKeys.spawns] = {[zoneIDs.FERALAS]={{74.8,45.1},},},
+            [objectKeys.spawns] = {[zoneIDs.FERALAS]={{74.8,45.1}}},
             [objectKeys.zoneID] = zoneIDs.FERALAS,
         },
         [190089] = {
-            [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{78.2,81.4},},},
+            [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{78.2,81.4}}},
             [objectKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
         },
         [190090] = {
@@ -519,11 +519,15 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [190109] = {
-            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{78.4,62.8},},},
+            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{78.5,62.9}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
         },
         [190110] = {
-            [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{27.9,49.5},},},
+            [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{28.24,49.10}}},
+            [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+        },
+        [190111] = {
+            [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{56.31,81.96}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
         [190112] = {
@@ -540,6 +544,10 @@ function QuestieTBCObjectFixes:Load()
         },
         [190115] = {
             [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{61,28.2},},},
+            [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
+        },
+        [190116] = {
+            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{56.4,59.7},},},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
         },
         [190483] = {
