@@ -541,12 +541,12 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12401}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12402}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12403}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12404}) -- Candy Bucket
-tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12405}) -- Candy Bucket ???
+--tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12405}) -- Candy Bucket -- doesn't exist
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12406}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12407}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12408}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12409}) -- Candy Bucket
-tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12410}) -- Candy Bucket ???
+--tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12410}) -- Candy Bucket -- doesn't exist
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11392}) -- Call the Headless Horseman
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11401}) -- Call the Headless Horseman
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman
