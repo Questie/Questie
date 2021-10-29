@@ -342,15 +342,15 @@ function QuestieQuest:SmoothReset()
     end)
 end
 
-function QuestieQuest:ShouldShowQuestNotes(id)
+function QuestieQuest:ShouldShowQuestNotes(questId)
     if not Questie.db.char.hideUntrackedQuestsMapIcons then
         -- Always show quest notes (map icons) unless option is enabled
         return true
     end
 
     local autoWatch = (GetCVar("autoQuestWatch") == "1")
-    local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[id])
-    local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[id])
+    local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
+    local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
     return trackedAuto or trackedManual
 end
 
