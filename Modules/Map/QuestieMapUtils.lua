@@ -78,48 +78,43 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
 
     local range = rangeR or 100;
     local hotzones = {};
-    while(true) do
-        local FoundUntouched
-        for _, point in pairs(points) do
-            if(point.touched == nil) then
-                local notes = {};
-                FoundUntouched = true;
-                point.touched = true;
-                tinsert(notes, point);
-                for _, point2 in pairs(points) do
-                    --We only want to cluster icons that are on the same map.
-                    if(point.UiMapID == point2.UiMapID) then
-                        local times = 1;
+    for _, point in pairs(points) do
+        if(point.touched == nil) then
+            local notes = {};
+            point.touched = true;
+            tinsert(notes, point);
+            for _, point2 in pairs(points) do
+                --We only want to cluster icons that are on the same map.
+                if(point.UiMapID == point2.UiMapID) then
+                    local times = 1;
 
-                        --We want things further away to be clustered more
-                        local movingRange = range;
-                        if(point.distance and point.distance > 1000 and count > 100) then
-                            movingRange = movingRange * (point.distance/1000);
-                        end
+                    --We want things further away to be clustered more
+                    local movingRange = range;
+                    if(point.distance and point.distance > 1000 and count > 100) then
+                        movingRange = movingRange * (point.distance/1000);
+                    end
 
-                        if (point.x > 1 and point.y > 1) then
-                            times = 100
-                        end
-                        local aX, aY = HBD:GetWorldCoordinatesFromZone(
-                                            point.x / times, point.y / times,
-                                            point.UiMapID)
-                        local bX, bY = HBD:GetWorldCoordinatesFromZone(
-                                            point2.x / times, point2.y / times,
-                                            point2.UiMapID)
-                        -- local dX = (point.x*times) - (point2.x*times)
-                        -- local dY = (point.y*times) - (point2.y*times);
-                        local distance =
-                            QuestieLib:Euclid(aX or 0, aY or 0, bX or 0, bY or 0)
-                        if (distance < movingRange and point2.touched == nil) then
-                            point2.touched = true
-                            tinsert(notes, point2)
-                        end
+                    if (point.x > 1 and point.y > 1) then
+                        times = 100
+                    end
+                    local aX, aY = HBD:GetWorldCoordinatesFromZone(
+                                        point.x / times, point.y / times,
+                                        point.UiMapID)
+                    local bX, bY = HBD:GetWorldCoordinatesFromZone(
+                                        point2.x / times, point2.y / times,
+                                        point2.UiMapID)
+                    -- local dX = (point.x*times) - (point2.x*times)
+                    -- local dY = (point.y*times) - (point2.y*times);
+                    local distance =
+                        QuestieLib:Euclid(aX or 0, aY or 0, bX or 0, bY or 0)
+                    if (distance < movingRange and point2.touched == nil) then
+                        point2.touched = true
+                        tinsert(notes, point2)
                     end
                 end
-                tinsert(hotzones, notes)
             end
+            tinsert(hotzones, notes)
         end
-        if (FoundUntouched == nil) then break end
     end
     return hotzones
 end
