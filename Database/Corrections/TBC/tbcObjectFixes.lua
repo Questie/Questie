@@ -459,35 +459,35 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
         },
         [190090] = {
-            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{56.8,37.4},},},
+            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{56.8,37.5}}},
             [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
         },
         [190091] = {
-            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{26.9,59.4},},},
+            [objectKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{26.9,59.6}}},
             [objectKeys.zoneID] = zoneIDs.HELLFIRE_PENINSULA,
         },
         [190096] = {
-            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{30.7,50.9},},},
+            [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{30.7,50.9}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
         },
         [190097] = {
-            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{48.8,45.2},},},
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{48.8,45.2}}},
             [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
         },
         [190098] = {
-            [objectKeys.spawns] = {[zoneIDs.NAGRAND]={{56.7,34.4},},},
+            [objectKeys.spawns] = {[zoneIDs.NAGRAND]={{56.7,34.6}}},
             [objectKeys.zoneID] = zoneIDs.NAGRAND,
         },
         [190099] = {
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{53.4,55.4},},},
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{53.4,55.5}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [190100] = {
-            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{76.2,60.4},},},
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{76.2,60.4}}},
             [objectKeys.zoneID] = zoneIDs.BLADES_EDGE_MOUNTAINS,
         },
         [190101] = {
-            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{30.3,27.8},},},
+            [objectKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{30.3,27.8}}},
             [objectKeys.zoneID] = zoneIDs.SHADOWMOON_VALLEY,
         },
         [190102] = {
