@@ -78,12 +78,14 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
 
     local range = rangeR or 100;
     local hotzones = {};
-    for _, point in pairs(points) do
+    for j=1, #points do
+        local point = points[j]
         if(point.touched == nil) then
             local notes = {};
             point.touched = true;
             tinsert(notes, point);
-            for _, point2 in pairs(points) do
+            for i=j, #points do
+                local point2 = points[i]
                 --We only want to cluster icons that are on the same map.
                 if(point.UiMapID == point2.UiMapID) then
                     local times = 1;
