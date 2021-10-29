@@ -170,7 +170,7 @@ local generalOptionsLocales = {
         ["esES"] = "Esconder iconos en áreas inexploradas.",
         ["frFR"] = "Désactive l'affichage des icônes dans les zones inexplorées.",
     },
-    ["Hide untracked Quest Icons"] = {
+    ["Hide icons of untracked quests"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Icons nicht getrackter Quests verbergen",

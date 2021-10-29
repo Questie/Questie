@@ -342,7 +342,7 @@ function QuestieQuest:SmoothReset()
     end)
 end
 
-function QuestieQuest:shouldShowQuestNotes(id)
+function QuestieQuest:ShouldShowQuestNotes(id)
     if not Questie.db.char.hideUntrackedQuestsMapIcons then
         -- Always show quest notes (map icons) unless option is enabled
         return true
@@ -492,7 +492,7 @@ function QuestieQuest:UpdateQuest(questId)
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
 
-        if QuestieQuest:shouldShowQuestNotes(questId) then
+        if QuestieQuest:ShouldShowQuestNotes(questId) then
             QuestieQuest:UpdateObjectiveNotes(quest)
         end
 
@@ -539,7 +539,7 @@ function QuestieQuest:GetAllQuestIds()
                 QuestiePlayer.currentQuestlog[questId] = quest
                 QuestieQuest:PopulateQuestLogInfo(quest)
 
-                if QuestieQuest:shouldShowQuestNotes(questId) then
+                if QuestieQuest:ShouldShowQuestNotes(questId) then
                     QuestieQuest:PopulateObjectiveNotes(quest)
                 end
 

@@ -101,7 +101,7 @@ function QuestieOptions.tabs.general:Initialize()
                     hideMapIconsForUntrackedToggle = {
                         type = "toggle",
                         order = 4,
-                        name = function() return l10n('Hide untracked Quest Icons'); end,
+                        name = function() return l10n('Hide icons of untracked quests'); end,
                         desc = function() return l10n('Hide icons for quests that are not tracked.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
