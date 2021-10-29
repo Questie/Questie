@@ -78,7 +78,6 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
 
     local range = rangeR or 100;
     local hotzones = {};
-    local itt = 0;
     while(true) do
         local FoundUntouched
         for _, point in pairs(points) do
@@ -121,7 +120,6 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
             end
         end
         if (FoundUntouched == nil) then break end
-        itt = itt + 1
     end
     return hotzones
 end
