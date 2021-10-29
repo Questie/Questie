@@ -2946,7 +2946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190063,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = -22,
         },
         [12361] = {
@@ -3261,7 +3261,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190102,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.zoneOrSort] = -22,
         },
         [12397] = {
@@ -3270,7 +3270,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190103,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.zoneOrSort] = -22,
         },
         [12398] = {
@@ -3279,7 +3279,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190104,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.zoneOrSort] = -22,
         },
         [12399] = {
@@ -3329,8 +3329,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [12404] = {
             [questKeys.name] = "Candy Bucket",
-            [questKeys.startedBy] = {nil,{190110,},nil,},
-            [questKeys.finishedBy] = {nil,{190110,},},
+            [questKeys.startedBy] = {nil,{190110,190111},nil},
+            [questKeys.finishedBy] = {nil,{190110,190111}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL,
@@ -3365,8 +3365,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [12409] = {
             [questKeys.name] = "Candy Bucket",
-            [questKeys.startedBy] = {nil,{190115,},nil,},
-            [questKeys.finishedBy] = {nil,{190115,},},
+            [questKeys.startedBy] = {nil,{190115,190116},nil},
+            [questKeys.finishedBy] = {nil,{190115,190116}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL,
