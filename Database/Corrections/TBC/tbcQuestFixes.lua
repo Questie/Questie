@@ -3603,7 +3603,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64035},
             [questKeys.exclusiveTo] = {64038},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [64028] = {
             [questKeys.name] = "A New Beginning",
@@ -3613,7 +3612,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Meet with your class trainer in Stormwind."},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [64031] = {
             [questKeys.name] = "Tools for Survival",
@@ -3625,7 +3623,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{400009, "Open the Survival Kit"}, {400010, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64028},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [64034] = {
             [questKeys.name] = "Combat Training",
@@ -3637,7 +3634,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
             [questKeys.objectives] = {nil,{{400011, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64031},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [64035] = {
             [questKeys.name] = "Talented",
@@ -3649,7 +3645,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate a Talent Point."},
             [questKeys.objectives] = {nil,{{400012, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64034},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [64038] = {
             [questKeys.name] = "The Dark Portal",
@@ -3661,7 +3656,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Find Watch Commander Relthorn Netherwane at the Blasted Lands. He awaits your arrival before the Dark Portal."},
             [questKeys.objectives] = {{{352, "Speak to Dungar Longdrink, the Gryphon Master"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64035},
-            [questKeys.zoneOrSort] = zoneIDs.STORMWIND_CITY,
         },
         [64046] = {
             [questKeys.name] = "A New Beginning",
@@ -3671,7 +3665,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 58,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.objectivesText] = {"Meet with your class trainer in Orgrimmar."},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64047] = {
             [questKeys.name] = "A New Beginning",
@@ -3682,7 +3675,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.TAUREN,
             [questKeys.requiredClasses] = classIDs.DRUID,
             [questKeys.objectivesText] = {"Meet with your Druid trainer in Thunderbluff."},
-            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64048] = {
             [questKeys.name] = "Tools for Survival",
@@ -3694,7 +3686,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{400001, "Open the Survival Kit"}, {400002, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64046},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64049] = {
             [questKeys.name] = "Tools for Survival",
@@ -3707,7 +3698,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
             [questKeys.objectives] = {nil,{{400003, "Open the Survival Kit"}, {400004, "Equip a Weapon"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64047},
-            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64050] = {
             [questKeys.name] = "Combat Training",
@@ -3719,7 +3709,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
             [questKeys.objectives] = {nil,{{400005, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64048},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64051] = {
             [questKeys.name] = "Combat Training",
@@ -3732,7 +3721,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Train a spell by speaking to your Druid trainer."},
             [questKeys.objectives] = {nil,{{400006, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64049},
-            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64052] = {
             [questKeys.name] = "Talented",
@@ -3744,7 +3732,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate five Talent Points."},
             [questKeys.objectives] = {nil,{{400007, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64050},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64053] = {
             [questKeys.name] = "Talented",
@@ -3757,7 +3744,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Activate the Talents interface and allocate five Talent Points."},
             [questKeys.objectives] = {nil,{{400008, "Train a Spell"}},nil,nil,nil},
             [questKeys.preQuestSingle] = {64051},
-            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64063] = {
             [questKeys.name] = "The Dark Portal",
@@ -3770,7 +3756,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64217},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64064] = {
             [questKeys.name] = "Eastern Plaguelands",
@@ -3783,7 +3768,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{9564, "Visit Zeppelin Master Frezza"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64052},
             [questKeys.exclusiveTo] = {64063,64217,64128},
-            [questKeys.zoneOrSort] = zoneIDs.ORGRIMMAR,
         },
         [64128] = {
             [questKeys.name] = "Eastern Plaguelands",
@@ -3797,7 +3781,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{9564, "Speak to Tal, the Wind Rider Master"},{9564, "Visit Zeppelin Master Frezza"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64217},
-            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
         [64217] = {
             [questKeys.name] = "The Dark Portal",
@@ -3810,7 +3793,6 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{12136, "Visit Snurk Bucksqick by the Zepplin Master"},{1387, "Speak to Thysta at Grom'Gol Base Camp"}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
-            [questKeys.zoneOrSort] = zoneIDs.THUNDER_BLUFF,
         },
     }
 end
