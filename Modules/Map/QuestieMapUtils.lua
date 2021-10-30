@@ -78,7 +78,8 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
 
     local range = rangeR or 100;
     local hotzones = {};
-    for j=1, #points do
+    local pointsCount = #points
+    for j=1, pointsCount do
         local point = points[j]
         if(point.touched == nil) then
             local notes = {};
@@ -99,18 +100,17 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
             local aX, aY = HBD:GetWorldCoordinatesFromZone(
                                 point.x / times, point.y / times,
                                 point.UiMapID)
+            aX = aX or 0
+            aY = aY or 0
 
-            for i=j, #points do
+            for i=j, pointsCount do
                 local point2 = points[i]
                 --We only want to cluster icons that are on the same map.
                 if (point2.touched == nil) and (point.UiMapID == point2.UiMapID) then
                     local bX, bY = HBD:GetWorldCoordinatesFromZone(
                                         point2.x / times, point2.y / times,
                                         point2.UiMapID)
-                    -- local dX = (point.x*times) - (point2.x*times)
-                    -- local dY = (point.y*times) - (point2.y*times);
-                    local distance =
-                        QuestieLib:Euclid(aX or 0, aY or 0, bX or 0, bY or 0)
+                    local distance = QuestieLib:Euclid(aX, aY, bX or 0, bY or 0)
                     if (distance < movingRange) then
                         point2.touched = true
                         tinsert(notes, point2)
