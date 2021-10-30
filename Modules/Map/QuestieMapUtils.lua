@@ -80,6 +80,7 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
     local hotzones = {};
     local pointsCount = #points
     if pointsCount == 1 then
+        -- This is execution shortcut to skip loop in case table size == 1
         points[1].touched = true
         hotzones = { { points[1] } }
     else
@@ -107,7 +108,7 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
                 aX = aX or 0
                 aY = aY or 0
 
-                for i=j, pointsCount do
+                for i=j+1, pointsCount do
                     local point2 = points[i]
                     --We only want to cluster icons that are on the same map.
                     if (point2.touched == nil) and (point.UiMapID == point2.UiMapID) then
