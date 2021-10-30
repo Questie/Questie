@@ -353,22 +353,23 @@ function QuestieQuest:UnhideQuest(id)
 end
 
 function QuestieQuest:GetRawLeaderBoardDetails(questLogIndex)
-    local quest = {}
-    local title, level, _, _, _, isComplete, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
-    quest.title = title;
-    quest.level = level;
-    quest.Id = questId
-    quest.isComplete = isComplete;
-
-    quest.Objectives = {}
+    local title, level, _, _, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
+    local quest = {
+        title = title,
+        level = level,
+        Id = questId,
+        isComplete = isComplete,
+        Objectives = {},
+    }
     local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {}
     for objectiveIndex, objective in pairs(objectiveList) do
-        quest.Objectives[objectiveIndex] = {}
-        quest.Objectives[objectiveIndex].description = objective.text;
-        quest.Objectives[objectiveIndex].objectiveType = objective.type;
-        quest.Objectives[objectiveIndex].isCompleted = objective.finished;
-        quest.Objectives[objectiveIndex].numFulfilled = objective.numFulfilled;
-        quest.Objectives[objectiveIndex].numRequired = objective.numRequired;
+        quest.Objectives[objectiveIndex] = {
+            description = objective.text,
+            objectiveType = objective.type,
+            isCompleted = objective.finished,
+            numFulfilled = objective.numFulfilled,
+            numRequired = objective.numRequired,
+        }
     end
 
     return quest;
@@ -506,7 +507,7 @@ function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all quests");
     QuestiePlayer.currentQuestlog = {}
     for index = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(index)
         if (not title) then
             -- We exceeded the valid quest log entries
             break
@@ -542,7 +543,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all quests without objectives)");
     QuestiePlayer.currentQuestlog = {}
     for index = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(index)
         if (not title) then
             -- We exceeded the valid quest log entries
             break
@@ -581,6 +582,10 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
     end
 end
 
+local function _GetIconScaleForAvailable()
+    return Questie.db.global.availableScale or 1.3
+end
+
 function QuestieQuest:AddFinisher(quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
     local questId = quest.Id
@@ -607,15 +612,16 @@ function QuestieQuest:AddFinisher(quest)
             for finisherZone, spawns in pairs(finisher.spawns) do
                 if(finisherZone ~= nil and spawns ~= nil) then
                     for _, coords in ipairs(spawns) do
-                        local data = {}
-                        data.Id = questId;
-                        data.Icon = ICON_TYPE_COMPLETE;
-                        data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                        data.IconScale = data:GetIconScale();
-                        data.Type = "complete";
-                        data.QuestData = quest;
-                        data.Name = finisher.name
-                        data.IsObjectiveNote = false
+                        local data = {
+                            Id = questId,
+                            Icon = ICON_TYPE_COMPLETE,
+                            GetIconScale = _GetIconScaleForAvailable,
+                            IconScale = _GetIconScaleForAvailable(),
+                            Type = "complete",
+                            QuestData = quest,
+                            Name = finisher.name,
+                            IsObjectiveNote = false,
+                        }
                         if(coords[1] == -1 or coords[2] == -1) then
                             local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
                             if dungeonLocation ~= nil then
@@ -646,15 +652,16 @@ function QuestieQuest:AddFinisher(quest)
                 for zone, waypoints in pairs(finisher.waypoints) do
                     if (not ZoneDB:IsDungeonZone(zone)) then
                         if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1]  then
-                            local data = {}
-                            data.Id = questId;
-                            data.Icon = ICON_TYPE_COMPLETE;
-                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                            data.IconScale = data:GetIconScale();
-                            data.Type = "complete";
-                            data.QuestData = quest;
-                            data.Name = finisher.name
-                            data.IsObjectiveNote = false
+                            local data = {
+                                Id = questId,
+                                Icon = ICON_TYPE_COMPLETE,
+                                GetIconScale = _GetIconScaleForAvailable,
+                                IconScale = _GetIconScaleForAvailable(),
+                                Type = "complete",
+                                QuestData = quest,
+                                Name = finisher.name,
+                                IsObjectiveNote = false,
+                            }
                             finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                             finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                         end
@@ -676,9 +683,10 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
         local miniRefs = {}
         for _, spawnData in pairs(_QuestieQuest.objectiveSpawnListCallTable[type](id)) do
             spawnData.Type = type
-            spawnData.CustomTooltipData = {}
-            spawnData.CustomTooltipData.Title = label or "Forced Icon"
-            spawnData.CustomTooltipData.Body = {[spawnData.Name]=spawnData.Name}
+            spawnData.CustomTooltipData = {
+                Title = label or "Forced Icon",
+                Body = {[spawnData.Name]=spawnData.Name},
+            }
             if customScale then
                 spawnData.GetIconScale = function()
                     return customScale
@@ -689,8 +697,8 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
                 for _, spawn in pairs(spawns) do
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
                     if iconMap and iconMini then
-                        tinsert(mapRefs, iconMap);
-                        tinsert(miniRefs, iconMini);
+                        mapRefs[#mapRefs+1] =  iconMap
+                        miniRefs[#miniRefs+1] =  iconMini
                     end
                 end
             end
@@ -827,30 +835,36 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                 ObjectiveData = objective,
                 Icon = spawnData.Icon,
                 IconColor = quest.Color,
-                GetIconScale = function() return spawnData:GetIconScale() or 1 end,
+                GetIconScale = spawnData.GetIconScale,
+                IconScale = spawnData.GetIconScale(),
                 Name = spawnData.Name,
                 Type = objective.Type,
                 ObjectiveTargetId = spawnData.Id
             }
-            data.IconScale = data:GetIconScale()
 
-            objective.AlreadySpawned[id] = {};
-            objective.AlreadySpawned[id].data = data;
-            objective.AlreadySpawned[id].minimapRefs = {};
-            objective.AlreadySpawned[id].mapRefs = {};
+            objective.AlreadySpawned[id] = {
+                data = data,
+                minimapRefs = {},
+                mapRefs = {},
+            }
 
             for zone, spawns in pairs(spawnData.Spawns) do
                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
                 for _, spawn in pairs(spawns) do
                     if(spawn[1] and spawn[2]) then
-                        local drawIcon = {};
-                        drawIcon.AlreadySpawnedId = id;
-                        drawIcon.data = data;
-                        drawIcon.zone = zone;
-                        drawIcon.AreaID = zone;
-                        drawIcon.UiMapID = uiMapId
-                        drawIcon.x = spawn[1];
-                        drawIcon.y = spawn[2];
+                        local drawIcon = {
+                            AlreadySpawnedId = id,
+                            data = data,
+                            zone = zone,
+                            AreaID = zone,
+                            UiMapID = uiMapId,
+                            x = spawn[1],
+                            y = spawn[2],
+                            worldX = 0,
+                            worldY = 0,
+                            distance = 0,
+                            touched = nil,
+                        }
                         local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
                         x = x or 0
                         y = y or 0
@@ -1315,16 +1329,17 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                 for zone, spawns in pairs(obj.spawns) do
                     if(zone ~= nil and spawns ~= nil) then
                         for _, coords in ipairs(spawns) do
-                            local data = {}
-                            data.Id = quest.Id;
-                            data.Icon = _QuestieQuest:GetQuestIcon(quest)
-                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                            data.IconScale = data:GetIconScale()
-                            data.Type = "available";
-                            data.QuestData = quest;
-                            data.Name = obj.name
+                            local data = {
+                                Id = quest.Id,
+                                Icon = _QuestieQuest:GetQuestIcon(quest),
+                                GetIconScale = _GetIconScaleForAvailable,
+                                IconScale = _GetIconScaleForAvailable(),
+                                Type = "available",
+                                QuestData = quest,
+                                Name = obj.name,
+                                IsObjectiveNote = false,
+                            }
 
-                            data.IsObjectiveNote = false
                             if(coords[1] == -1 or coords[2] == -1) then
                                 local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
                                 if dungeonLocation ~= nil then
@@ -1354,15 +1369,16 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                     if(npcZone ~= nil and spawns ~= nil) then
 
                         for _, coords in ipairs(spawns) do
-                            local data = {}
-                            data.Id = quest.Id;
-                            data.Icon = _QuestieQuest:GetQuestIcon(quest)
-                            data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                            data.IconScale = data.GetIconScale();
-                            data.Type = "available";
-                            data.QuestData = quest;
-                            data.Name = npc.name
-                            data.IsObjectiveNote = false
+                            local data = {
+                                Id = quest.Id,
+                                Icon = _QuestieQuest:GetQuestIcon(quest),
+                                GetIconScale = _GetIconScaleForAvailable,
+                                IconScale = _GetIconScaleForAvailable(),
+                                Type = "available",
+                                QuestData = quest,
+                                Name = npc.name,
+                                IsObjectiveNote = false,
+                            }
                             if(coords[1] == -1 or coords[2] == -1) then
                                 local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
                                 if dungeonLocation ~= nil then
@@ -1390,15 +1406,16 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                     for zone, waypoints in pairs(npc.waypoints) do
                         if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
                             if not starterIcons[zone] then
-                                local data = {}
-                                data.Id = quest.Id;
-                                data.Icon = _QuestieQuest:GetQuestIcon(quest)
-                                data.GetIconScale = function() return Questie.db.global.availableScale or 1.3 end
-                                data.IconScale = data.GetIconScale();
-                                data.Type = "available";
-                                data.QuestData = quest;
-                                data.Name = npc.name
-                                data.IsObjectiveNote = false
+                                local data = {
+                                    Id = quest.Id,
+                                    Icon = _QuestieQuest:GetQuestIcon(quest),
+                                    GetIconScale = _GetIconScaleForAvailable,
+                                    IconScale = _GetIconScaleForAvailable(),
+                                    Type = "available",
+                                    QuestData = quest,
+                                    Name = npc.name,
+                                    IsObjectiveNote = false,
+                                }
                                 starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                                 starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                             end
@@ -1413,7 +1430,7 @@ end
 
 ---@param quest Quest
 function _QuestieQuest:GetQuestIcon(quest)
-    local icon = {}
+    local icon = ICON_TYPE_AVAILABLE
     if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
         icon = ICON_TYPE_AVAILABLE_GRAY
     elseif quest.IsRepeatable then
@@ -1421,7 +1438,7 @@ function _QuestieQuest:GetQuestIcon(quest)
     elseif(quest:IsTrivial()) then
         icon = ICON_TYPE_AVAILABLE_GRAY
     else
-        icon = ICON_TYPE_AVAILABLE
+        --icon = ICON_TYPE_AVAILABLE
     end
     return icon
 end
