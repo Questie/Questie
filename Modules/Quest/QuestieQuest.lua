@@ -804,37 +804,40 @@ _UnloadAlreadySpawnedIcons = function(objective)
 end
 QuestieQuest._UnloadAlreadySpawnedIcons = _UnloadAlreadySpawnedIcons -- for profiling
 
-_DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCenter)
+---@param quest Quest
+---@param objectiveIndex number
+---@param objectiveCenter Point
+_DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter)
     local iconsToDraw = {}
     local spawnItemId
 
-    for id, spawnData in pairs(oObjective.spawnList) do
+    for id, spawnData in pairs(objective.spawnList) do
         if spawnData.ItemId then
             spawnItemId = spawnData.ItemId
         end
 
-        if (not oObjective.Icon) and spawnData.Icon then
-            oObjective.Icon = spawnData.Icon
+        if (not objective.Icon) and spawnData.Icon then
+            objective.Icon = spawnData.Icon
         end
-        if (not oObjective.AlreadySpawned[id]) and (not oObjective.Completed) and Questie.db.global.enableObjectives then
+        if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.global.enableObjectives then
             local data = {
                 Id = quest.Id,
                 ObjectiveIndex = objectiveIndex,
                 QuestData = quest,
-                ObjectiveData = oObjective,
+                ObjectiveData = objective,
                 Icon = spawnData.Icon,
                 IconColor = quest.Color,
                 GetIconScale = function() return spawnData:GetIconScale() or 1 end,
                 Name = spawnData.Name,
-                Type = oObjective.Type,
+                Type = objective.Type,
                 ObjectiveTargetId = spawnData.Id
             }
             data.IconScale = data:GetIconScale()
 
-            oObjective.AlreadySpawned[id] = {};
-            oObjective.AlreadySpawned[id].data = data;
-            oObjective.AlreadySpawned[id].minimapRefs = {};
-            oObjective.AlreadySpawned[id].mapRefs = {};
+            objective.AlreadySpawned[id] = {};
+            objective.AlreadySpawned[id].data = data;
+            objective.AlreadySpawned[id].minimapRefs = {};
+            objective.AlreadySpawned[id].mapRefs = {};
 
             for zone, spawns in pairs(spawnData.Spawns) do
                 local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
