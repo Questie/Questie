@@ -881,7 +881,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     local icon
     local iconPerZone = {}
 
-    local iconCount, orderedList = _GetIconsSortedByDistance(questId, iconsToDraw, spawnedIconCount, maxPerType)
+    local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 
     local range = Questie.db.global.clusterLevelHotzone
     if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
@@ -937,25 +937,25 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
 end
 QuestieQuest._DrawObjectiveIcons = _DrawObjectiveIcons
 
-_GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerType)
+_GetIconsSortedByDistance = function(icons)
     local iconCount = 0;
     local orderedList = {}
     local tableKeys = {}
 
+    local i = 0
     for k in pairs(icons) do
-        tinsert(tableKeys, k)
+        i = i + 1
+        tableKeys[i] = k
+--        tinsert(tableKeys, k)
     end
     table.sort(tableKeys)
 
     -- use the keys to retrieve the values in the sorted order
     for _, distance in ipairs(tableKeys) do
         for _, icon in ipairs(icons[distance]) do
-            if(spawnedIconCount > maxPerType) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                break;
-            end
-            iconCount = iconCount + 1;
-            tinsert(orderedList, icon);
+            iconCount = iconCount + 1
+            orderedList[iconCount] = icon
+            --tinsert(orderedList, icon);
         end
     end
     return iconCount, orderedList
