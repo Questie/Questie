@@ -891,7 +891,6 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
 
     local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
 
---    for _, hotzone in pairs(hotzones or {}) do
     for i=1, #hotzones do
         local hotzone = hotzones[i]
         if(spawnedIconCount > maxPerType) then
@@ -905,49 +904,35 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         local spawnsMapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs
         local spawnsMinimapRefs = objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs
 
---        local midPoint = QuestieMap.utils:CenterPoint2(hotzone);
         local centerX, centerY = QuestieMap.utils.CenterPoint(hotzone)
 
         local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
 
---        if dungeonLocation and midPoint.x == -1 and midPoint.y == -1 then
         if dungeonLocation and centerX == -1 and centerY == -1 then
             if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
                 local secondDungeonLocation = dungeonLocation[2]
                 icon.zone = secondDungeonLocation[1]
-                --midPoint.x = secondDungeonLocation[2]
-                --midPoint.y = secondDungeonLocation[3]
                 centerX = secondDungeonLocation[2]
                 centerY = secondDungeonLocation[3]
 
---                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as mindist is more than 0
                 if iconMap and iconMini then
---                    iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
                     iconPerZone[icon.zone] = {iconMap, centerX, centerY}
---                    tinsert(spawnsMapRefs, iconMap);
                     spawnsMapRefs[#spawnsMapRefs+1] = iconMap
---                    tinsert(spawnsMinimapRefs, iconMini);
                     spawnsMinimapRefs[#spawnsMinimapRefs+1] = iconMini
                 end
                 spawnedIconCount = spawnedIconCount + 1;
             end
             local firstDungeonLocation = dungeonLocation[1]
             icon.zone = firstDungeonLocation[1]
---            midPoint.x = firstDungeonLocation[2]
---            midPoint.y = firstDungeonLocation[3]
             centerX = firstDungeonLocation[2]
             centerY = firstDungeonLocation[3]
         end
 
---        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
         local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as mindist is more than 0
         if iconMap and iconMini then
---            iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
             iconPerZone[icon.zone] = {iconMap, centerX, centerY}
---            tinsert(spawnsMapRefs, iconMap);
             spawnsMapRefs[#spawnsMapRefs+1] = iconMap
---            tinsert(spawnsMinimapRefs, iconMini);
             spawnsMinimapRefs[#spawnsMinimapRefs+1] = iconMini
         end
         spawnedIconCount = spawnedIconCount + 1;
