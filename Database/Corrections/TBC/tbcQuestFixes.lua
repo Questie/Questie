@@ -83,6 +83,9 @@ function QuestieTBCQuestFixes:Load()
         [1135] = {
             [questKeys.startedBy] = {{4456},nil,nil},
         },
+        [1437] = {
+            [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
+        },
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36}}}},
         },
