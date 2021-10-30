@@ -857,7 +857,15 @@ _DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCen
                         -- This will create a distance of 0 but it doesn't matter.
                         local distance = QuestieLib:Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x or 0, y or 0);
                         drawIcon.distance = distance or 0;
-                        iconsToDraw[floor(distance)] = drawIcon;
+--                        iconsToDraw[floor(distance)] = drawIcon;
+                        -- there can be multiple icons at same distance at different directions
+                        --local distance = floor(distance) --floored is slower overall
+                        local iconList = iconsToDraw[distance]
+                        if iconList then
+                            iconList[#iconList+1] = drawIcon
+                        else
+                            iconsToDraw[distance] = { drawIcon }
+                        end
                     end
                 end
             end
@@ -941,12 +949,14 @@ _GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerTyp
 
     -- use the keys to retrieve the values in the sorted order
     for _, distance in ipairs(tableKeys) do
-        if(spawnedIconCount > maxPerType) then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-            break;
+        for _, icon in ipairs(icons[distance]) do
+            if(spawnedIconCount > maxPerType) then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+                break;
+            end
+            iconCount = iconCount + 1;
+            tinsert(orderedList, icon);
         end
-        iconCount = iconCount + 1;
-        tinsert(orderedList, icons[distance]);
     end
     return iconCount, orderedList
 end
