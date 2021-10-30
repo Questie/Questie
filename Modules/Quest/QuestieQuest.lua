@@ -768,7 +768,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         end
 
         iconsToDraw, spawnItemId  = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
-        local icon, iconPerZone = _DrawObjectiveIcons(iconsToDraw, objective, maxPerType)
+        local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
     end
     
@@ -821,9 +821,6 @@ _DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCen
             oObjective.Icon = spawnData.Icon
         end
         if (not oObjective.AlreadySpawned[id]) and (not oObjective.Completed) and Questie.db.global.enableObjectives then
-            if(not iconsToDraw[quest.Id]) then
-                iconsToDraw[quest.Id] = {}
-            end
             local data = {
                 Id = quest.Id,
                 ObjectiveIndex = objectiveIndex,
@@ -860,7 +857,7 @@ _DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCen
                         -- This will create a distance of 0 but it doesn't matter.
                         local distance = QuestieLib:Euclid(objectiveCenter.x or 0, objectiveCenter.y or 0, x or 0, y or 0);
                         drawIcon.distance = distance or 0;
-                        iconsToDraw[quest.Id][floor(distance)] = drawIcon;
+                        iconsToDraw[floor(distance)] = drawIcon;
                     end
                 end
             end
@@ -869,72 +866,68 @@ _DetermineIconsToDraw = function(quest, oObjective, objectiveIndex, objectiveCen
 
     return iconsToDraw, spawnItemId
 end
+QuestieQuest._DetermineIconsToDraw = _DetermineIconsToDraw
 
-_DrawObjectiveIcons = function(iconsToDraw, objective, maxPerType)
-    local spawnedIconCount = {}
+_DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
+    local spawnedIconCount = 0
     local icon
     local iconPerZone = {}
 
-    for questId, icons in pairs(iconsToDraw) do
-        if(not spawnedIconCount[questId]) then
-            spawnedIconCount[questId] = 0;
+    local iconCount, orderedList = _GetIconsSortedByDistance(questId, iconsToDraw, spawnedIconCount, maxPerType)
+
+    local range = Questie.db.global.clusterLevelHotzone
+    if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+        range = range * 0.2;  -- Only use 20% of the default range.
+    end
+
+    local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
+
+    for _, hotzone in pairs(hotzones or {}) do
+        if(spawnedIconCount > maxPerType) then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
+            break;
         end
 
-        local iconCount, orderedList = _GetIconsSortedByDistance(questId, icons, spawnedIconCount, maxPerType)
+        --Any icondata will do because they are all the same
+        icon = hotzone[1];
 
-        local range = Questie.db.global.clusterLevelHotzone
-        if orderedList and orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
-            range = range * 0.2;  -- Only use 20% of the default range.
-        end
+        local midPoint = QuestieMap.utils:CenterPoint(hotzone);
 
-        local hotzones = QuestieMap.utils:CalcHotzones(orderedList, range, iconCount);
+        local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
 
-        for _, hotzone in pairs(hotzones or {}) do
-            if(spawnedIconCount[questId] > maxPerType) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
-                break;
-            end
+        if dungeonLocation and midPoint.x == -1 and midPoint.y == -1 then
+            if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
+                local secondDungeonLocation = dungeonLocation[2]
+                icon.zone = secondDungeonLocation[1]
+                midPoint.x = secondDungeonLocation[2]
+                midPoint.y = secondDungeonLocation[3]
 
-            --Any icondata will do because they are all the same
-            icon = hotzone[1];
-
-            local midPoint = QuestieMap.utils:CenterPoint(hotzone);
-
-            local dungeonLocation = ZoneDB:GetDungeonLocation(icon.zone)
-
-            if dungeonLocation and midPoint.x == -1 and midPoint.y == -1 then
-                if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
-                    local secondDungeonLocation = dungeonLocation[2]
-                    icon.zone = secondDungeonLocation[1]
-                    midPoint.x = secondDungeonLocation[2]
-                    midPoint.y = secondDungeonLocation[3]
-
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-                    if iconMap and iconMini then
-                        iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
-                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                        tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-                    end
-                    spawnedIconCount[questId] = spawnedIconCount[questId] + 1;
+                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+                if iconMap and iconMini then
+                    iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
+                    tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+                    tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                 end
-                local firstDungeonLocation = dungeonLocation[1]
-                icon.zone = firstDungeonLocation[1]
-                midPoint.x = firstDungeonLocation[2]
-                midPoint.y = firstDungeonLocation[3]
+                spawnedIconCount = spawnedIconCount + 1;
             end
-
-            local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
-            if iconMap and iconMini then
-                iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
-                tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
-                tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
-            end
-            spawnedIconCount[questId] = spawnedIconCount[questId] + 1;
+            local firstDungeonLocation = dungeonLocation[1]
+            icon.zone = firstDungeonLocation[1]
+            midPoint.x = firstDungeonLocation[2]
+            midPoint.y = firstDungeonLocation[3]
         end
+
+        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, midPoint.x, midPoint.y) -- clustering code takes care of duplicates as long as mindist is more than 0
+        if iconMap and iconMini then
+            iconPerZone[icon.zone] = {iconMap, midPoint.x, midPoint.y}
+            tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
+            tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
+        end
+        spawnedIconCount = spawnedIconCount + 1;
     end
 
     return icon, iconPerZone
 end
+QuestieQuest._DrawObjectiveIcons = _DrawObjectiveIcons
 
 _GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerType)
     local iconCount = 0;
@@ -948,7 +941,7 @@ _GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerTyp
 
     -- use the keys to retrieve the values in the sorted order
     for _, distance in ipairs(tableKeys) do
-        if(spawnedIconCount[questId] > maxPerType) then
+        if(spawnedIconCount > maxPerType) then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]", "Too many icons for quest:", questId)
             break;
         end
@@ -957,6 +950,7 @@ _GetIconsSortedByDistance = function(questId, icons, spawnedIconCount, maxPerTyp
     end
     return iconCount, orderedList
 end
+QuestieQuest._GetIconsSortedByDistance = _GetIconsSortedByDistance
 
 _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
