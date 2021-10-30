@@ -191,15 +191,14 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
     for id, data in pairs(QuestieObjectFixes:Load()) do
         for key, value in pairs(data) do
             if not QuestieDB.objectData[id] then
-                Questie:Debug(Questie.DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
-            else
-                if doValidation then
-                    if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
-                        Questie:Warning("Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                    end
-                end
-                QuestieDB.objectData[id][key] = value
+                QuestieDB.objectData[id] = {}
             end
+            if doValidation then
+                if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
+                    Questie:Warning("Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
+                end
+            end
+            QuestieDB.objectData[id][key] = value
         end
     end
 
@@ -259,15 +258,14 @@ function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
         for id, data in pairs(QuestieTBCObjectFixes:Load()) do
             for key, value in pairs(data) do
                 if not QuestieDB.objectData[id] then
-                    Questie:Debug(Questie.DEBUG_CRITICAL, "Attempt to correct missing object " .. tostring(id))
-                else
-                    if doValidation then
-                        if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
-                            Questie:Warning("TBC-only Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                        end
-                    end
-                    QuestieDB.objectData[id][key] = value
+                    QuestieDB.objectData[id] = {}
                 end
+                if doValidation then
+                    if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
+                        Questie:Warning("TBC-only Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
+                    end
+                end
+                QuestieDB.objectData[id][key] = value
             end
         end
 

@@ -15,14 +15,6 @@ function QuestieObjectFixes:Load()
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
-    QuestieDB.objectData[500000] = {} -- Adding fake IDs to show additional locations (e.g. Fishing for "Nat Pagle, Angler Extreme")
-    QuestieDB.objectData[500001] = {}
-    QuestieDB.objectData[500002] = {}
-    QuestieDB.objectData[500003] = {}
-    QuestieDB.objectData[500004] = {}
-    QuestieDB.objectData[500005] = {}
-    QuestieDB.objectData[500006] = {}
-
     return {
         [167] = {
             [objectKeys.spawns] = {[zoneIDs.DUSKWOOD]={{33.42,76.35}}},

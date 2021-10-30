@@ -7,42 +7,6 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieTBCObjectFixes:Load()
-    QuestieDB.objectData[184588] = {}; -- Captain Tyralis's Prison
-    QuestieDB.objectData[187917] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187919] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187921] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187922] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187933] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187935] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187937] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187939] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187941] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187942] = {}; -- Alliance Bonfire (Midsummer)
-    QuestieDB.objectData[187949] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[187955] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[187958] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[187960] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[187962] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[187967] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[187974] = {}; -- Horde Bonfire (Midsummer)
-    QuestieDB.objectData[188128] = {}; -- Flame of the Exodar
-    QuestieDB.objectData[188129] = {}; -- Flame of Silvermoon
-    QuestieDB.objectData[190483] = {}; -- Document chest
-    QuestieDB.objectData[190484] = {}; -- Document chest
-    QuestieDB.objectData[400000] = {};
-    QuestieDB.objectData[400001] = {};
-    QuestieDB.objectData[400002] = {};
-    QuestieDB.objectData[400003] = {};
-    QuestieDB.objectData[400004] = {};
-    QuestieDB.objectData[400005] = {};
-    QuestieDB.objectData[400006] = {};
-    QuestieDB.objectData[400007] = {};
-    QuestieDB.objectData[400008] = {};
-    QuestieDB.objectData[400009] = {};
-    QuestieDB.objectData[400010] = {};
-    QuestieDB.objectData[400011] = {};
-    QuestieDB.objectData[400012] = {};
-
     local objectKeys = QuestieDB.objectKeys
     local zoneIDs = ZoneDB.zoneIDs
 
