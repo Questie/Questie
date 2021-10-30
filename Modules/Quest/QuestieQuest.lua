@@ -940,22 +940,22 @@ QuestieQuest._DrawObjectiveIcons = _DrawObjectiveIcons
 _GetIconsSortedByDistance = function(icons)
     local iconCount = 0;
     local orderedList = {}
-    local tableKeys = {}
+    local distances = {}
 
     local i = 0
-    for k in pairs(icons) do
+    for distance in pairs(icons) do
         i = i + 1
-        tableKeys[i] = k
---        tinsert(tableKeys, k)
+        distances[i] = distance
     end
-    table.sort(tableKeys)
+    table.sort(distances)
 
     -- use the keys to retrieve the values in the sorted order
-    for _, distance in ipairs(tableKeys) do
-        for _, icon in ipairs(icons[distance]) do
+    for distIndex = 1, #distances do
+        local iconsAtDisntace = icons[distances[distIndex]]
+        for iconIndex = 1, #iconsAtDisntace do
+            local icon = iconsAtDisntace[iconIndex]
             iconCount = iconCount + 1
             orderedList[iconCount] = icon
-            --tinsert(orderedList, icon);
         end
     end
     return iconCount, orderedList
