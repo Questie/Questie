@@ -789,7 +789,6 @@ _RegisterObjectiveTooltips = function(objective, questId)
     end
     objective.hasRegisteredTooltips = true
 end
-QuestieQuest._RegisterObjectiveTooltips = _RegisterObjectiveTooltips -- for profiling
 
 _UnloadAlreadySpawnedIcons = function(objective)
     if next(objective.spawnList) then
@@ -810,7 +809,6 @@ _UnloadAlreadySpawnedIcons = function(objective)
         objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
     end
 end
-QuestieQuest._UnloadAlreadySpawnedIcons = _UnloadAlreadySpawnedIcons -- for profiling
 
 ---@param quest Quest
 ---@param objectiveIndex number
@@ -891,7 +889,6 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
 
     return iconsToDraw, spawnItemId
 end
-QuestieQuest._DetermineIconsToDraw = _DetermineIconsToDraw -- for profiling
 
 _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     local spawnedIconCount = 0
@@ -957,7 +954,6 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
 
     return icon, iconPerZone
 end
-QuestieQuest._DrawObjectiveIcons = _DrawObjectiveIcons -- for profiling
 
 _GetIconsSortedByDistance = function(icons)
     local iconCount = 0;
@@ -982,7 +978,6 @@ _GetIconsSortedByDistance = function(icons)
     end
     return iconCount, orderedList
 end
-QuestieQuest._GetIconsSortedByDistance = _GetIconsSortedByDistance -- for profiling
 
 _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     for _, spawnData in pairs(objective.spawnList) do -- spawnData.Name, spawnData.Spawns
@@ -1005,7 +1000,6 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
         end
     end
 end
-QuestieQuest._DrawObjectiveWaypoints = _DrawObjectiveWaypoints -- for profiling
 
 local function _CallPopulateObjective(quest)
     for k, v in pairs(quest.Objectives) do
