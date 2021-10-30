@@ -204,6 +204,13 @@ function QuestieTBCQuestFixes:Load()
         [8259] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [8311] = {
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = -1,
+        },
+        [8312] = {
+            [questKeys.requiredLevel] = 10,
+        },
         [8325] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
@@ -244,6 +251,32 @@ function QuestieTBCQuestFixes:Load()
         },
         [8347] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [8353] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8354] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8355] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8356] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8357] = {
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = -1,
+        },
+        [8358] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8359] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8360] = {
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = -1,
         },
         [8367] = {
             [questKeys.requiredLevel] = 61,
