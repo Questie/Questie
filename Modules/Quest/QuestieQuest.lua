@@ -861,7 +861,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                             worldX = 0,
                             worldY = 0,
                             distance = 0,
-                            touched = nil,
+                            touched = nil, -- TODO change. This is ment to let lua reserve memory for all keys needed for sure.
                         }
                         local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
                         x = x or 0
