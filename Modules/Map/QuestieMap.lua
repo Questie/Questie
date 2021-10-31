@@ -54,7 +54,7 @@ local pairs = pairs;
 local ipairs = ipairs;
 local tremove = table.remove;
 local tunpack = unpack;
-
+local coroutine = coroutine
 
 QuestieMap.drawTimer = nil;
 QuestieMap.fadeLogicTimerShown = nil;
@@ -152,20 +152,23 @@ local minimapDrawQueue = {};
 QuestieMap._mapDrawQueue = mapDrawQueue
 QuestieMap._minimapDrawQueue = minimapDrawQueue
 
+--- Callback function for Ticker to resume fadeLogicCoroutine
+function QuestieMap.ResumeFadeLogicCoroutine()
+    if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
+        coroutine.resume(fadeLogicCoroutine)
+    end
+end
+
 function QuestieMap:InitializeQueue() -- now called on every loading screen
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap] Starting draw queue timer!")
     local isInInstance, instanceType = IsInInstance()
 
     if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
         isDrawQueueDisabled = false
-        if not QuestieMap.drawTimer then 
+        if not QuestieMap.drawTimer then
             QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
             -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
-            QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
-                if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
-                    coroutine.resume(fadeLogicCoroutine)
-                end
-            end)
+            QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, QuestieMap.ResumeFadeLogicCoroutine)
         end
         if not fadeLogicCoroutine then
             fadeLogicCoroutine = coroutine.create(QuestieMap.ProcessShownMinimapIcons)
@@ -273,7 +276,7 @@ function QuestieMap:QueueDraw(drawType, ...)
 end
 
 
-function QuestieMap:ProcessQueue()
+function QuestieMap.ProcessQueue()
     if next(mapDrawQueue) ~= nil or next(minimapDrawQueue) ~= nil then
         for _ = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
             local mapDrawCall = tremove(mapDrawQueue, 1);
