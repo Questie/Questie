@@ -153,41 +153,49 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                     else
                         for id, sourceData in pairs(sourceList) do
                             if not ret[id] then
-                                ret[id] = {}
-                                ret[id].Name = sourceData.Name
-                                ret[id].Spawns = {}
-                                ret[id].Waypoints = {}
-                                ret[id].Hostile = true
-                                ret[id].ItemId = item.Id
+                                local icon, GetIconScale
                                 if source.Type == "object" then
-                                    ret[id].Icon = ICON_TYPE_OBJECT
-                                    ret[id].GetIconScale = _GetIconScaleForObject
-                                    ret[id].IconScale = _GetIconScaleForObject()
+                                    icon = ICON_TYPE_OBJECT
+                                    GetIconScale = _GetIconScaleForObject
                                 else
-                                    ret[id].Icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and ICON_TYPE_LOOT or ICON_TYPE_EVENT
-                                    ret[id].GetIconScale = _GetIconScaleForLoot
-                                    ret[id].IconScale = _GetIconScaleForLoot()
+                                    icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and ICON_TYPE_LOOT or ICON_TYPE_EVENT
+                                    GetIconScale = _GetIconScaleForLoot
                                 end
-                                ret[id].TooltipKey = sourceData.TooltipKey
-                                ret[id].Id = id
+
+                                ret[id] = {
+                                    Name = sourceData.Name,
+                                    Spawns = {},
+                                    Waypoints = {},
+                                    Hostile = true,
+                                    ItemId = item.Id,
+                                    TooltipKey = sourceData.TooltipKey,
+                                    Id = id,
+                                    Icon = icon,
+                                    GetIconScale = GetIconScale,
+                                    IconScale = GetIconScale(),
+                                }
                             end
                             if sourceData.Spawns and not item.Hidden then
+                                local itemSpawns = ret[id].Spawns
                                 for zone, spawns in pairs(sourceData.Spawns) do
-                                    if not ret[id].Spawns[zone] then
-                                        ret[id].Spawns[zone] = {};
+                                    if not itemSpawns[zone] then
+                                        itemSpawns[zone] = {}
                                     end
+                                    local itemSpawnsInZone = itemSpawns[zone]
                                     for _, spawn in pairs(spawns) do
-                                        tinsert(ret[id].Spawns[zone], spawn);
+                                        itemSpawnsInZone[#itemSpawnsInZone+1] = spawn
                                     end
                                 end
                             end
                             if sourceData.Waypoints and not Item.Hidden then
+                                local itemWaypoints = ret[id].Waypoints
                                 for zone, spawns in pairs(sourceData.Waypoints) do
-                                    if not ret[id].Waypoints[zone] then
-                                        ret[id].Waypoints[zone] = {};
+                                    if not itemWaypoints[zone] then
+                                        itemWaypoints[zone] = {}
                                     end
+                                    local itemWaypointsInZone = itemWaypoints[zone]
                                     for _, spawn in pairs(spawns) do
-                                        tinsert(ret[id].Waypoints[zone], spawn);
+                                        itemWaypointsInZone[#itemWaypointsInZone+1] = spawn
                                     end
                                 end
                             end
