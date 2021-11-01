@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
-import re
 import os
 import shutil
 import subprocess
@@ -20,47 +18,53 @@ Example usage:
 This will create a new Classic release in 'releases/<version>-classic-<latestCommit>'
 
 '''
-interfaceVersion = 'tbc'
 addonDir = 'Questie'
-versionDir = None
 
 
 def main():
-    version_dir, addon_dir, zip_name = get_args()
+    universal_version_dir, tbc_version_dir, era_version_dir = get_version_dirs()
 
-    if os.path.isdir('releases/%s' % version_dir):
+    if os.path.isdir('releases/%s' % universal_version_dir):
         print("Warning: Folder already exists, removing!")
-        shutil.rmtree('releases/%s' % version_dir)
+        shutil.rmtree('releases/%s' % universal_version_dir)
 
-    release_folder_path = 'releases/%s/%s' % (version_dir, addon_dir)
+    release_folder_path = 'releases/%s' % universal_version_dir
+    release_addon_folder_path = release_folder_path + ('/%s' % addonDir)
+    questie_toc_path = release_addon_folder_path + '/Questie.toc'
 
-    copy_content_to(release_folder_path)
-    zip_release_folder(zip_name, version_dir, addon_dir)
+    copy_content_to(release_addon_folder_path)
 
-    print('New release "%s" created successfully' % version_dir)
+    zip_name = '%s-%s' % (addonDir, universal_version_dir)
+    zip_release_folder(zip_name, universal_version_dir, addonDir)
+
+    zip_name = '%s-%s' % (addonDir, era_version_dir)
+    os.remove(questie_toc_path)
+    os.rename(release_addon_folder_path + '/Questie-Classic.toc', questie_toc_path)
+    zip_release_folder(zip_name, universal_version_dir, addonDir)
+
+    zip_name = '%s-%s' % (addonDir, tbc_version_dir)
+    os.remove(questie_toc_path)
+    os.rename(release_addon_folder_path + '/Questie-BCC.toc', questie_toc_path)
+    zip_release_folder(zip_name, universal_version_dir, addonDir)
+
+    print('New release "%s" created successfully' % universal_version_dir)
 
 
-def get_args():
-    global interfaceVersion
-    global addonDir
-    global versionDir
-
-    if len(sys.argv) > 1:
-        interfaceVersion = sys.argv[1]
-
+def get_version_dirs():
     version, nr_of_commits, recent_commit = get_git_information()
     print("Tag: " + version)
-    versionDir = "%s-%s-%s" % (version, interfaceVersion, recent_commit)
+    tbc_version_dir = "%s-tbc-%s" % (version, recent_commit)
+    era_version_dir = "%s-era-%s" % (version, recent_commit)
+    universal_version_dir = "%s-%s" % (version, recent_commit)
 
     print("Number of commits since tag: " + nr_of_commits)
     print("Most Recent commit: " + recent_commit)
     branch = get_branch()
     if branch != "master":
-        versionDir += "-%s" % branch
+        tbc_version_dir += "-%s" % branch
     print("Current branch: " + branch)
-    zip_name = '%s-%s' % (addonDir, versionDir)
 
-    return versionDir, addonDir, zip_name
+    return universal_version_dir, tbc_version_dir, era_version_dir
 
 
 directoriesToSkip = ['.git', '.github', '.history', '.idea', '.vscode', 'ExternalScripts(DONOTINCLUDEINRELEASE)', 'releases']
@@ -81,6 +85,7 @@ def copy_content_to(release_folder_path):
 def zip_release_folder(zip_name, version_dir, addon_dir):
     root = os.getcwd()
     os.chdir('releases/%s' % version_dir)
+    print("Zipping %s" % zip_name)
     shutil.make_archive(zip_name, "zip", ".", addon_dir)
     os.chdir(root)
 
@@ -88,7 +93,6 @@ def zip_release_folder(zip_name, version_dir, addon_dir):
 def get_git_information():
     if is_tool("git"):
         script_dir = os.path.dirname(os.path.realpath(__file__))
-        tag_string = ''
         p = subprocess.check_output(["git", "describe", "--tags", "--long"], cwd=script_dir, stderr=subprocess.STDOUT)
         tag_string = str(p).rstrip("\\n'").lstrip("b'")
 
