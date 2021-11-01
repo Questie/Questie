@@ -3,26 +3,27 @@
 import os
 import shutil
 import subprocess
+import sys
 
 '''
 This program accepts one optional command line option:
 
-interfaceVersion    If provided sets the interface version to the Classic or TBC version
+release If provided this will create release ready ZIP files
 
-                    Default: 'tbc'
-
-Example usage:
-
-'python build.py classic'
-
-This will create a new Classic release in 'releases/<version>-classic-<latestCommit>'
+        Default: 'False'
 
 '''
 addonDir = 'Questie'
+isReleaseBuild = False
 
 
 def main():
-    universal_version_dir, tbc_version_dir, era_version_dir = get_version_dirs()
+    global isReleaseBuild
+    if len(sys.argv) > 1:
+        isReleaseBuild = sys.argv[1]
+        print("Creating a release build")
+
+    universal_version_dir, tbc_version_dir, era_version_dir = get_version_dirs(isReleaseBuild)
 
     if os.path.isdir('releases/%s' % universal_version_dir):
         print("Warning: Folder already exists, removing!")
@@ -50,12 +51,17 @@ def main():
     print('New release "%s" created successfully' % universal_version_dir)
 
 
-def get_version_dirs():
+def get_version_dirs(is_release_build):
     version, nr_of_commits, recent_commit = get_git_information()
     print("Tag: " + version)
-    tbc_version_dir = "%s-tbc-%s" % (version, recent_commit)
-    era_version_dir = "%s-era-%s" % (version, recent_commit)
-    universal_version_dir = "%s-%s" % (version, recent_commit)
+    if is_release_build:
+        tbc_version_dir = "%s-tbc" % version
+        era_version_dir = "%s-era" % version
+        universal_version_dir = "%s" % version
+    else:
+        tbc_version_dir = "%s-tbc-%s" % (version, recent_commit)
+        era_version_dir = "%s-era-%s" % (version, recent_commit)
+        universal_version_dir = "%s-%s" % (version, recent_commit)
 
     print("Number of commits since tag: " + nr_of_commits)
     print("Most Recent commit: " + recent_commit)
