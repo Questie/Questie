@@ -72,7 +72,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             Questie.db.char.vendorList[key]
 
     if (not ids) then
-        Questie:Debug(DEBUG_INFO, "Invalid townsfolk key " .. tostring(key))
+        Questie:Debug(Questie.DEBUG_INFO, "Invalid townsfolk key " .. tostring(key))
         return
     end
 
@@ -294,7 +294,7 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, {text= l10n('Cancel'), func=function() end})
-    EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
+    LibDropDown:EasyMenu(menuTable, QuestieMenu.menu, "cursor", -80, 0, "MENU")
 end
 
 local function _reformatVendors(lst, existingTable)
@@ -501,7 +501,7 @@ function QuestieMenu:PopulateTownsfolk()
                 tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
             end
         else
-            Questie:Debug(DEBUG_DEVELOP, "Missing mailbox: " .. tostring(id))
+            Questie:Debug(Questie.DEBUG_DEVELOP, "Missing mailbox: " .. tostring(id))
         end
     end
 

@@ -62,7 +62,7 @@ function QuestieInit:InitAllModules()
         l10n:SetUILocale(GetLocale());
     end
 
-    Questie:Debug(DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
 
     coroutine.yield()
     ZoneDB:Initialize()
@@ -154,7 +154,7 @@ function QuestieInit:InitAllModules()
     QuestieNameplate:Initialize()
     coroutine.yield()
     QuestieMenu:PopulateTownsfolkPostBoot()
-    Questie:Debug(DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
+    Questie:Debug(Questie.DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
 
     coroutine.yield()
     QuestieQuest:GetAllQuestIds()
@@ -204,7 +204,7 @@ function QuestieInit:LoadDatabase(key)
         coroutine.yield()
         QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
     else
-        Questie:Debug(DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
     end
 end
 

@@ -2,6 +2,8 @@
 local ChatFilter = QuestieLoader:CreateModule("ChatFilter")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 ---------------------------------------------------------------------------------------------------
 -- These must be loaded in order together and loaded before the hook for custom quest links
@@ -29,7 +31,7 @@ ChatFilter.Filter = function(chatFrame, _, msg, playerName, languageName, channe
                     end
                 end
 
-                if questId then
+                if questId and QuestieDB.QuestPointers[questId] then
                     if (not senderGUID) then
                         playerName = BNGetFriendInfoByID(bnSenderID)
                         senderGUID = bnSenderID

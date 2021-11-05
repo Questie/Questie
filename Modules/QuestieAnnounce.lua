@@ -1,3 +1,4 @@
+local Questie = _G.Questie
 ---@class QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:CreateModule("QuestieAnnounce")
 local _QuestieAnnounce = {}
@@ -64,13 +65,17 @@ end
 function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     if (playerNameCache or _GetPlayerName()) == playerName or (string.len(playerName) == 0 and playerNameCache == notPlayerName) then
         local itemId = tonumber(string.match(text, "item:(%d+)"))
-        
-        if (not itemCache[itemId]) and QuestieDB.QueryItemSingle then -- check QueryItemSingle because this event can fire before db init is complete
-            itemCache[itemId] = QuestieDB.QueryItemSingle(itemId, "startQuest") or false -- we do "or false" here because nil cant be inserted into _itemCache
-        end
-        
+
         local startQuestId = itemCache[itemId]
-        if startQuestId and startQuestId > 0 then
+        if (startQuestId == nil) and QuestieDB.QueryItemSingle then -- check QueryItemSingle because this event can fire before db init is complete
+            startQuestId = QuestieDB.QueryItemSingle(itemId, "startQuest")
+            -- filter 0 values away so itemCache value is a valid questId if it evaluates to true
+            -- we do "or false" here because nil would mean not cached
+            startQuestId = (startQuestId and startQuestId > 0) and startQuestId or false
+            itemCache[itemId] = startQuestId
+        end
+
+        if startQuestId then
             if (not UnitInParty("player")) or (not Questie.db.char.questAnnounce) then
                 _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
                 return

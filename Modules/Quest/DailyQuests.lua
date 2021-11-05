@@ -197,6 +197,7 @@ fishingDailyIds = {
 };
 
 pvpDailyIds = {
+    [11335] = true,
     [11336] = true,
     [11337] = true,
     [11338] = true,

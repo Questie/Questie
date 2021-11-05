@@ -38,11 +38,11 @@ local lastTooltipShowTimestamp = GetTime()
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then
-        Questie:Debug(DEBUG_DEVELOP, "[MapIconTooltip:Show]", "Alpha of texture is 0, nothing to show")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show]", "Alpha of texture is 0, nothing to show")
         return
     end
     if GetTime() - lastTooltipShowTimestamp < 0.05 and GameTooltip:IsShown() then
-        Questie:Debug(DEBUG_DEVELOP, "[MapIconTooltip:Show]", "Call has been too fast, not showing again")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[MapIconTooltip:Show]", "Call has been too fast, not showing again")
         return
     end
     lastTooltipShowTimestamp = GetTime()
@@ -294,7 +294,7 @@ function MapIconTooltip:Show()
                 end
             end
         end
-        ---@param questId QuestId
+        ---@param questId number
         for questId, textList in pairs(self.questOrder) do -- this logic really needs to be improved
             ---@type Quest
             local quest = QuestieDB:GetQuest(questId);
@@ -487,7 +487,7 @@ function _MapIconTooltip:GetObjectiveTooltip(icon)
                 if playerColor then
                     local objectiveEntry = objectiveData[iconData.ObjectiveIndex]
                     if not objectiveEntry then
-                        Questie:Debug(DEBUG_DEVELOP, "[_MapIconTooltip:GetObjectiveTooltip]", "No objective data for quest", quest.Id)
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[_MapIconTooltip:GetObjectiveTooltip]", "No objective data for quest", quest.Id)
                         objectiveEntry = {} -- This will make "GetRGBForObjective" return default color
                     end
                     local remoteColor = QuestieLib:GetRGBForObjective(objectiveEntry)

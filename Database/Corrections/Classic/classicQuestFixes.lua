@@ -101,6 +101,9 @@ function QuestieQuestFixes:Load()
         [273] = {
             [questKeys.triggerEnd] = {"Find Huldar, Miran, and Saean",{[zoneIDs.LOCH_MODAN]={{51.16, 68.96}}}},
         },
+        [282] = {
+            [questKeys.exclusiveTo] = {287},
+        },
         [287] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -311,7 +314,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {738}, --#2069
         },
         [715] = {
-            [QuestieDB.questKeys.requiredSkill] = {},
+            [questKeys.requiredSkill] = {},
         },
         [717] = {
             [questKeys.requiredSourceItems] = {4843,4844,4845},
@@ -1913,10 +1916,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6961,7024},
         },
         [7022] = {
-            [QuestieDB.questKeys.startedBy] = {{13433},nil,nil},
+            [questKeys.startedBy] = {{13433},nil,nil},
         },
         [7023] = {
-            [QuestieDB.questKeys.startedBy] = {{13435},nil,nil},
+            [questKeys.startedBy] = {{13435},nil,nil},
         },
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},

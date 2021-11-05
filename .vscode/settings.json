@@ -2708,15 +2708,8 @@
         "Database/TEMP_questie4items.lua",
         "Database/TEMP_repprof.lua",
         "Database/zoneDB.lua",
-        "Locale/deDE/**",
-        "Locale/enUS/**",
-        "Locale/esES/**",
-        "Locale/frFR/**",
-        "Locale/koKR/**",
-        "Locale/ptBR/**",
-        "Locale/ruRU/**",
-        "Locale/zhCN/**",
-        "Locale/zhTW/**"
+        "Localization/lookups/**",
+        "Localization/Translations/**"
     ],
     "files.exclude": {
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,

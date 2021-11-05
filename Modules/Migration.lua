@@ -120,7 +120,7 @@ function Migration:Migrate()
     local currentVersion = Questie.db.global.migrationVersion[player] or 0
     local targetVersion = table.getn(migrationFunctions)
 
-    Questie:Debug(DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
 
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1

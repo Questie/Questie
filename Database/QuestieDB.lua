@@ -1,4 +1,34 @@
 ---@class QuestieDB
+---@field npcCompilerTypes table
+---@field npcCompilerOrder table
+---@field npcKeys table
+---@field npcKeysReversed table
+---@field questCompilerTypes table
+---@field questCompilerOrder table
+---@field questKeys table
+---@field questKeysReversed table
+---@field objectCompilerTypes table
+---@field objectCompilerOrder table
+---@field objectKeys table
+---@field objectKeysReversed table
+---@field itemCompilerTypes table
+---@field itemCompilerOrder table
+---@field itemKeys table
+---@field itemKeysReversed table
+---@field npcData table
+---@field questData table
+---@field objectData table
+---@field itemData table
+---@field questDataTBC nil | table
+---@field objectDataTBC nil | table
+---@field npcDataTBC nil | table
+---@field itemDataTBC nil | table
+---@field sortKeys table
+---@field private private table
+---@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
+---@field private _npcAdapterQueryOrder table @temporary, until we remove the old db funcitons
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
@@ -36,6 +66,12 @@ local tinsert = table.insert
 -- DB keys
 local DB_OBJ_SPAWNS = 4
 local DB_NPC_FRIENDLY = 13
+
+-- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
+local QUEST_FLAGS_DAILY = 4096
+-- This is the highest single possible quest flag according to the docs. We need it for the modulus to
+-- find quests with QUEST_FLAGS_DAILY set
+local QUEST_FLAGS_UNK5 =  8192
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
@@ -212,7 +248,7 @@ function QuestieDB:GetObject(objectId)
     local rawdata = QuestieDB.QueryObject(objectId, unpack(QuestieDB._objectAdapterQueryOrder))
 
     if not rawdata then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetObject] rawdata is nil for objectID:", objectId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetObject] rawdata is nil for objectID:", objectId)
         return nil
     end
 
@@ -239,7 +275,7 @@ function QuestieDB:GetItem(itemId)
     local rawdata = QuestieDB.QueryItem(itemId, unpack(QuestieDB._itemAdapterQueryOrder))
 
     if not rawdata then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemId)
         return nil
     end
 
@@ -280,6 +316,13 @@ end
 
 ---@param questId number
 ---@return boolean
+function QuestieDB:IsDailyQuest(questId)
+    local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
+    return flags and (flags % QUEST_FLAGS_UNK5) >= QUEST_FLAGS_DAILY
+end
+
+---@param questId number
+---@return boolean
 function QuestieDB:IsDungeonQuest(questId)
     local questType, _ = QuestieDB:GetQuestTagInfo(questId)
     return questType == 81
@@ -299,11 +342,13 @@ function QuestieDB:IsPvPQuest(questId)
     return questType == 41
 end
 
+--[[ Commented out because not used anywhere
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsAQWarEffortQuest(questId)
     return QuestieQuestBlacklist.AQWarEffortQuests[questId]
 end
+]]--
 
 ---@param class string
 ---@return number
@@ -466,31 +511,31 @@ end
 function QuestieDB:IsDoable(questId)
 
     if QuestieCorrections.hiddenQuests[questId] then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden!")
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden!")
         return false
     end
 
     if Questie.db.char.hidden[questId] then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden manually!")
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden manually!")
         return false
     end
 
     if (not DailyQuests:IsActiveDailyQuest(questId)) then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] quest is a daily quest not active today!")
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is a daily quest not active today!")
         return false
     end
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] race requirement not fulfilled for questId: " .. questId)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] race requirement not fulfilled for questId: " .. questId)
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
     if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId: " .. questId)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId: " .. questId)
         return false
     end
 
@@ -498,7 +543,7 @@ function QuestieDB:IsDoable(questId)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] part of a chain we dont have!")
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] part of a chain we dont have!")
             return false
         end
     end
@@ -508,7 +553,7 @@ function QuestieDB:IsDoable(questId)
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] we have completed a quest that locks out this quest!")
+                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] we have completed a quest that locks out this quest!")
                 return false
             end
         end
@@ -520,14 +565,14 @@ function QuestieDB:IsDoable(questId)
         local isParentQuestActive = QuestieDB:IsParentQuestActive(parentQuest)
         -- If the quest has a parent quest then only show it if the
         -- parent quest is in the quest log
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] isParentQuestActive:", isParentQuestActive)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isParentQuestActive:", isParentQuestActive)
         return isParentQuestActive
     end
 
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
     if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] Player does not meet profession requirements for", questId)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Player does not meet profession requirements for", questId)
         return false
     end
 
@@ -535,7 +580,7 @@ function QuestieDB:IsDoable(questId)
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
 
     if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] Player does not meet reputation requirements for", questId)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Player does not meet reputation requirements for", questId)
         return false
     end
 
@@ -544,7 +589,7 @@ function QuestieDB:IsDoable(questId)
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
     if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
         local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
         return isPreQuestGroupFulfilled
     end
 
@@ -553,7 +598,7 @@ function QuestieDB:IsDoable(questId)
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-        Questie:Debug(DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
         return isPreQuestSingleFulfilled
     end
 
@@ -562,11 +607,11 @@ end
 
 
 
----@param questId QuestId @The quest ID
+---@param questId number
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     if questId == nil then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
         return nil
     end
     if _QuestieDB.questCache[questId] ~= nil then
@@ -577,39 +622,41 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     local rawdata = QuestieDB.QueryQuest(questId, unpack(QuestieDB._questAdapterQueryOrder))
 
     if not rawdata then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questId)
         return nil
     end
 
     ---@class ObjectiveIndex
-    ---@class QuestId
 
     ---@class Quest
     ---@field public Id number
-    ---@field public childQuests table
-    ---@field public exclusiveTo table
-    ---@field public finishedBy table
-    ---@field public inGroupWith table
     ---@field public name string
-    ---@field public nextQuestInChain number
-    ---@field public objectives table
+    ---@field public startedBy table
+    ---@field public finishedBy table
+    ---@field public requiredLevel number
+    ---@field public questLevel number
+    ---@field public requiredRaces number @bitmask
+    ---@field public requiredClasses number @bitmask
     ---@field public objectivesText table
-    ---@field public parentQuest table
+    ---@field public triggerEnd table
+    ---@field public objectives table
+    ---@field public sourceItemId number
     ---@field public preQuestGroup table
     ---@field public preQuestSingle table
-    ---@field public questLevel number
-    ---@field public requiredLevel number
-    ---@field public requiredClasses number
-    ---@field public requiredRaces number
-    ---@field public requiredMinRep table
-    ---@field public requiredSkill table
-    ---@field public requiredSourceItems table
-    ---@field public sourceItemId number
-    ---@field public specialFlags number
-    ---@field public startedBy table
-    ---@field public triggerEnd table
+    ---@field public childQuests table
+    ---@field public inGroupWith table
+    ---@field public exclusiveTo table
     ---@field public zoneOrSort number
-
+    ---@field public requiredSkill table
+    ---@field public requiredMinRep table
+    ---@field public requiredMaxRep table
+    ---@field public requiredSourceItems table
+    ---@field public nextQuestInChain number
+    ---@field public questFlags number @bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
+    ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
+    ---@field public parentQuest number
+    ---@field public reputationReward table
+    ---@field public extraObjectives table
     local QO = {}
     QO.Id = questId --Key
     for stringKey, intKey in pairs(QuestieDB.questKeys) do
@@ -653,9 +700,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return QuestieEvent.activeQuests[self.Id] == true
     end
 
+    --[[ Commented out because not used anywhere
     function QO:IsAQWarEffortQuest()
         return QuestieQuestBlacklist.AQWarEffortQuests[self.Id]
     end
+    ]]--
 
     --- Wrapper function for the GetQuestTagInfo API to correct
     --- quests that are falsely marked by Blizzard
@@ -814,7 +863,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
 
     if(rawdata[12] ~= nil and next(rawdata[12]) ~= nil and rawdata[13] ~= nil and next(rawdata[13]) ~= nil) then
-        Questie:Debug(DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
     end
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
@@ -1013,7 +1062,7 @@ function QuestieDB:GetNPC(npcId)
 
 
     if not rawdata then
-        Questie:Debug(DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcId)
         return nil
     end
 
@@ -1029,7 +1078,7 @@ function QuestieDB:GetNPC(npcId)
     ---@class Point
     ---@class Zone
     if npc.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
-        Questie:Debug(DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
         ---@type table<Zone, table<Point, Point>>
         npc.waypoints = rawdata[QuestieDB.npcKeys.waypoints];
     end
@@ -1138,5 +1187,5 @@ function _QuestieDB:HideClassAndRaceQuests()
             end
         end
     end
-    Questie:Debug(DEBUG_DEVELOP, "Other class and race quests hidden");
+    Questie:Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
 end

@@ -99,33 +99,6 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("NAME_PLATE_UNIT_REMOVED", QuestieNameplate.NameplateDestroyed)
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
-    -- dropdown fix
-    Questie:RegisterEvent("CURSOR_UPDATE", function()
-        --No reason to work before Questie is up
-        if Questie.started then
-            --Checks for libuidropdownmenu 
-            if L_UIDROPDOWNMENU_MAXLEVELS then
-                for i=1, L_UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] then
-                        if _G["L_DropDownList"..i]:IsVisible() then
-                            _G["L_DropDownList"..i]:Hide()
-                        end
-                    end
-                end
-            end
-            --Check for default dropdownmenu
-            if UIDROPDOWNMENU_MAXLEVELS then
-                for i=1, UIDROPDOWNMENU_MAXLEVELS do
-                    if _G["DropDownList"] then
-                        if _G["DropDownList"..i]:IsVisible() then
-                            _G["DropDownList"..i]:Hide()
-                        end
-                    end
-                end
-            end
-        end
-    end)
-
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
 
@@ -168,7 +141,7 @@ end
 
 --- Fires on MAP_EXPLORATION_UPDATED.
 function _EventHandler:MapExplorationUpdated()
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] MAP_EXPLORATION_UPDATED")
     if Questie.db.char.hideUnexploredMapIcons then
         QuestieMap.utils:MapExplorationUpdate()
     end
@@ -177,7 +150,7 @@ end
 --- Fires when the player levels up
 ---@param level number
 function _EventHandler:PlayerLevelUp(level)
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_LEVEL_UP", level)
 
     QuestiePlayer:SetPlayerLevel(level)
 
@@ -211,7 +184,7 @@ end
 
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
-    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_SKILL")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_SKILL")
     local isProfUpdate = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
     if isProfUpdate then
@@ -221,7 +194,7 @@ end
 
 --- Fires when some chat messages about reputations are displayed
 function _EventHandler:ChatMsgCompatFactionChange()
-    Questie:Debug(DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
     local factionChanged = QuestieReputation:Update(false)
     if factionChanged then
         QuestieCombatQueue:Queue(function()
@@ -247,7 +220,7 @@ function _EventHandler:GroupRosterUpdate()
 end
 
 function _EventHandler:GroupJoined()
-    Questie:Debug(DEBUG_DEVELOP, "GROUP_JOINED")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
     checkTimer = C_Timer.NewTicker(0.1, function()
@@ -256,13 +229,13 @@ function _EventHandler:GroupJoined()
         local isInRaid = UnitInRaid("raid1")
         if partyPending then
             if (isInParty or isInRaid) then
-                Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "Player joined party/raid, ask for questlogs")
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler]", "Player joined party/raid, ask for questlogs")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
             end
         else
-            Questie:Debug(DEBUG_DEVELOP, "[QuestieEventHandler]", "Player no longer in a party or pending invite. Cancel timer")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler]", "Player no longer in a party or pending invite. Cancel timer")
             checkTimer:Cancel()
         end
     end)
@@ -276,7 +249,7 @@ end
 local wasTrackerExpanded = false
 
 function _EventHandler:PlayerRegenDisabled()
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat then
         wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
@@ -289,7 +262,7 @@ function _EventHandler:PlayerRegenDisabled()
 end
 
 function _EventHandler:PlayerRegenEnabled()
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
     if Questie.db.global.hideTrackerInCombat and (wasTrackerExpanded == true) then
         QuestieTracker:Expand()
     end
@@ -300,7 +273,7 @@ function _EventHandler:ZoneChangedNewArea()
         return
     end
 
-    Questie:Debug(DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     if IsInInstance() then
         wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()

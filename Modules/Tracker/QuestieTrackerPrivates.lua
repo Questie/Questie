@@ -15,7 +15,7 @@ local updateTimer
 local tempTrackerLocation
 
 function _QuestieTracker:OnDragStart(button)
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
     if IsMouseButtonDown(button) then
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
@@ -45,7 +45,7 @@ function _QuestieTracker:OnDragStart(button)
 end
 
 function _QuestieTracker:OnDragStop(button)
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]", button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]", button)
 
     if IsMouseButtonDown(button) or not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
         return
@@ -84,7 +84,7 @@ function _QuestieTracker:OnDragStop(button)
 end
 
 function _QuestieTracker:OnResizeStart(button)
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStart]", button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStart]", button)
     if InCombatLockdown() then
         return
     end
@@ -112,7 +112,7 @@ function _QuestieTracker:OnResizeStart(button)
 end
 
 function _QuestieTracker:OnResizeStop(button)
-    Questie:Debug(DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStop]", button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnResizeStop]", button)
     local baseFrame = QuestieTracker:GetBaseFrame()
     if button == "RightButton" or _QuestieTracker.isSizing ~= true then
         return

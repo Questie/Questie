@@ -58,13 +58,13 @@ function QuestieHash:GetQuestHash(questId)
 end
 
 function QuestieHash:AddNewQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] AddNewQuestHash:", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] AddNewQuestHash:", questId)
     questLogHashes[questId] = QuestieHash:GetQuestHash(questId)
     QuestieQuest:SetObjectivesDirty(questId)
 end
 
 function QuestieHash:RemoveQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] RemoveQuestHash:", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] RemoveQuestHash:", questId)
     questLogHashes[questId] = nil
     QuestieQuest:SetObjectivesDirty(questId)
 end
@@ -72,7 +72,7 @@ end
 ---@param questIdList table<number, number> @A list of questIds whose hash should to be checked
 ---@return table<number, number> @A list questIds whose hash has changed
 function QuestieHash:CompareHashesOfQuestIdList(questIdList)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] CompareQuestHashes")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] CompareQuestHashes")
     local updatedQuestIds = {}
     local updatedQuestIdsSize = 0
 
@@ -87,7 +87,7 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
             if oldHash then
                 local newHash = QuestieHash:GetQuestHash(questId)
                 if oldHash ~= newHash then
-                    Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
                     questLogHashes[questId] = newHash
                     updatedQuestIdsSize = updatedQuestIdsSize + 1
                     updatedQuestIds[updatedQuestIdsSize] = questId
@@ -95,7 +95,7 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
                 end
             else
                 -- Quest isn't accepted yet or has been already removed. Not sure what to do.
-                Questie:Debug(DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
+                Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
                 updatedQuestIdsSize = updatedQuestIdsSize + 1
                 updatedQuestIds[updatedQuestIdsSize] = questId
             end
@@ -108,7 +108,7 @@ end
 ---@param questId number
 ---@return boolean true @if the hash of the questId changed, false otherwise
 function QuestieHash:CompareQuestHash(questId)
-    Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] CompareQuestHash")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] CompareQuestHash")
     local hashChanged = false
 
     if (not QuestieDB.QuestPointers[questId]) then
@@ -122,14 +122,14 @@ function QuestieHash:CompareQuestHash(questId)
             local newHash = QuestieHash:GetQuestHash(questId)
 
             if oldHash ~= newHash then
-                Questie:Debug(DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
                 questLogHashes[questId] = newHash
                 hashChanged = true
                 QuestieQuest:SetObjectivesDirty(questId)
             end
         else
             -- Quest isn't accepted yet or has been already removed. Not sure what to do.
-            Questie:Debug(DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
             hashChanged = true
         end
     end
