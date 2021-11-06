@@ -113,6 +113,9 @@ function QuestieTBCQuestFixes:Load()
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21}}}},
         },
+        [4021] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, ICON_TYPE_EVENT, "Defeat Centaur to summon Warlord Krom'zar", 0}}
+        },
         [4485] = {
             [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
         },
