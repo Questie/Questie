@@ -101,8 +101,12 @@ function QuestieTBCQuestFixes:Load()
         [2501] = {
             [questKeys.zoneOrSort] = -181,
         },
+        [2841] = {
+            [questKeys.childQuests] = {},
+        },
         [2842] = {
             [questKeys.requiredLevel] = 20,
+            [questKeys.parentQuest] = 0,
         },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42}}}},
