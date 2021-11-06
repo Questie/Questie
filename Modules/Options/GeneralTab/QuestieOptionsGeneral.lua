@@ -98,14 +98,28 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    hideMapIconsForUntrackedToggle = {
+                        type = "toggle",
+                        order = 4,
+                        name = function() return l10n('Hide icons of untracked quests'); end,
+                        desc = function() return l10n('Hide icons for quests that are not tracked.'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function() return Questie.db.char.hideUntrackedQuestsMapIcons; end,
+                        set = function(info, value)
+                            Questie.db.char.hideUntrackedQuestsMapIcons = value
+                            QuestieQuest:ToggleNotes(not value);
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
                     seperatingHeader1 = {
                         type = "header",
-                        order = 4,
+                        order = 5,
                         name = "",
                     },
                     enableObjectivesToggle = {
                         type = "toggle",
-                        order = 5,
+                        order = 6,
                         name = function() return l10n('Enable Objective Icons'); end,
                         desc = function() return l10n('When this is enabled, quest objective icons will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -119,7 +133,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     enableTurninsToggle = {
                         type = "toggle",
-                        order = 6,
+                        order = 7,
                         name = function() return l10n('Enable Completed Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the quest turn-in locations will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -133,7 +147,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     enableAvailableToggle = {
                         type = "toggle",
-                        order = 7,
+                        order = 8,
                         name = function() return l10n('Enable Available Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of available quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -147,7 +161,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showRepeatableQuests = {
                         type = "toggle",
-                        order = 8,
+                        order = 9,
                         name = function() return l10n('Enable Repeatable Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of repeatable quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -161,7 +175,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showEventQuests = {
                         type = "toggle",
-                        order = 9,
+                        order = 10,
                         name = function() return l10n('Enable Event Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of events quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -175,7 +189,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showDungeonQuests = {
                         type = "toggle",
-                        order = 10,
+                        order = 11,
                         name = function() return l10n('Enable Dungeon Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of dungeon quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -189,7 +203,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showRaidQuests = {
                         type = "toggle",
-                        order = 10,
+                        order = 12,
                         name = function() return l10n('Enable Raid Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of raid quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -203,7 +217,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showPvPQuests = {
                         type = "toggle",
-                        order = 11,
+                        order = 13,
                         name = function() return l10n('Enable PvP Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of PvP quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -217,7 +231,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showAQWarEffortQuests = {
                         type = "toggle",
-                        order = 12,
+                        order = 14,
                         name = function() return l10n('Enable AQ War Effort Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quest will be shown on the map/minimap.'); end,
                         width = 1.5,
