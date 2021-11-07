@@ -523,7 +523,7 @@ function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all quests");
     QuestiePlayer.currentQuestlog = {}
     for index = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(index)
+        local title, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(index)
         if (not title) then
             -- We exceeded the valid quest log entries
             break
@@ -533,7 +533,7 @@ function QuestieQuest:GetAllQuestIds()
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
-        elseif (not isHeader) then
+        elseif (not isHeader) and isComplete ~= -1 then
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -790,7 +790,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
             objectiveCenter = { x = x, y = y}
         end
 
-        local iconsToDraw, spawnItemId  = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
+        local iconsToDraw, _  = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
         local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
     end
