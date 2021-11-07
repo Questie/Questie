@@ -166,6 +166,13 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
         questLog[questId].state = QUEST_LOG_STATES.QUEST_TURNED_IN
     end
 
+    local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
+    if parentQuest then
+        -- Quests like "The Warsong Reports" have child quests which are just turned in. These child quests only
+        -- fire QUEST_TURNED_IN + QUEST_LOG_UPDATE
+        doFullQuestLogScan = true
+    end
+
     skipNextUQLCEvent = true
     QuestieHash:RemoveQuestHash(questId)
     QuestieQuest:CompleteQuest(questId)
