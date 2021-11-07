@@ -48,7 +48,7 @@ function QuestieHash:GetQuestHash(questId)
     local hash = libC:fcs32init()
     local data = {
         questId = questId,
-        isComplete = IsQuestComplete(questId),
+        isComplete = QuestieDB:IsComplete(questId),
         questObjectives = QuestieLib:GetQuestObjectives(questId);
     }
 
