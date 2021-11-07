@@ -77,7 +77,9 @@ local function _GetValidIcon(tooltips) -- helper function to get the first valid
             if tooltip.objective and tooltip.objective.Update then
                 tooltip.objective:Update() -- get latest qlog data if its outdated
                 if (not tooltip.objective.Completed) and tooltip.objective.Icon then
-                    return tooltip.objective.Icon
+                    -- If the tooltip icon is ICON_TYPE_OBJECT we use ICON_TYPE_LOOT because NPCs should never show
+                    -- a cogwheel icon.
+                    return tooltip.objective.Icon == ICON_TYPE_OBJECT and ICON_TYPE_LOOT or tooltip.objective.Icon
                 end
             end
         end
