@@ -4,7 +4,7 @@ local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist"
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieQuestBlacklist:Load()
-    return {
+    local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
@@ -1090,6 +1090,20 @@ function QuestieQuestBlacklist:Load()
         [11880] = true,
         [11877] = true,
     }
+
+    --if Questie.db.char.isSoMCharacter then -- This is only required for SoM characters
+    if true then
+        print("Blacklisting SoM quests...")
+        local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
+        for phase= 1, #questsByPhase do
+            for questId, _ in pairs(questsByPhase[phase]) do
+                print("Hiding quest " .. questId)
+                questsToBlacklist[questId] = true
+            end
+        end
+    end
+
+    return questsToBlacklist
 end
 
 QuestieQuestBlacklist.AQWarEffortQuests = {
