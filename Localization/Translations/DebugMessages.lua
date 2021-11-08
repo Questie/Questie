@@ -314,18 +314,6 @@ local debugMessagesLocales = {
         ["esES"] = "¡Despojas %s que empieza %s!",
         ["esMX"] = "¡Despojas %s que empieza %s!",
     },
-    ["[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."] = {
-        ["ptBR"] = "[Questie] Com a mudança para Burning Crusade, Questie está passando por um rápido desenvolvimento, como tal, você pode encontrar insetos. Por favor, mantenha Questie atualizado para a melhor experiência! Também lançaremos uma grande atualização algum tempo após o lançamento do TBC, com muitas melhorias e novos recursos.",
-        ["ruRU"] = "[Questie] В связи с переходом на Burning Crusade аддон Questie находится в состоянии ускоренной разработки, поэтому вы можете столкнуться с ошибками. Пожалуйста, своевременно обновляйте Questie! Также мы выпустим большое обновление после выпуска TBC со множеством улучшений и новых возможностей.",
-        ["koKR"] = "[Questie] '불타는 성전'으로 업데이트하면서 퀘스티는 빠른 발전을 거듭하고 있습니다. 그렇게 하면 버그가 생길 수도 있습니다. 최상의 경험을 위해 Questie를 최신 상태로 업데이트해주세요! 우리는 또한 TBC 출시 후 많은 개선점과 새로운 기능을 갖춘 대규모 업데이트를 출시할 예정입니다.",
-        ["frFR"] = "[Questie] Questie est en phase de développement avec le passage à Burning Crusade, il se peut que vous rencontriez des bugs. Veuillez régulièrement mettre à jour Questie pour une meilleur expérience de jeu ! Nous publierons également une importante mise à jour peu après la sortie de TBC, avec de nombreuses améliorations et de nouvelles fonctionnalités.",
-        ["zhCN"] = "[Questie] 随着更新到了燃烧的远征， Questie 正在进行快速的开发，因此你可以会遇到问题。请保持 Questie 最新的版本已获得最佳的体验！我們也会在 TBC 上先后不久进行一次包含新功能及改善的大更新。",
-        ["enUS"] = true,
-        ["zhTW"] = "[Questie] 隨著更新到燃燒的遠征， Questie 正在進行快速的開發，因此你可能會遇到臭蟲。請保持 Questie 在最新版本以獲得最佳體驗！我們也會在 TBC 上線後不久進行一次包含新功能及改善的大更新。",
-        ["deDE"] = "[Questie] Mit dem Wechsel zu Burning Crusade befindet sich Questie in einer rasanten Entwicklung, weshalb vermehrt Bugs auftreten können. Bitte halte Questie immer aktuell für die best mögliche Spielerfahrung! Wir werden ein großes Update, mit vielen Verbesserungen und neuen Funktionalitäten, kurz nach dem Start von TBC veröffentlichen.",
-        ["esES"] = "[Questie] Con el cambio a Burning Crusade, Questie está experimentando un rápido desarrollo, por lo que puede encontrar errores. ¡Mantén Questie actualizado para disfrutar de la mejor experiencia! También lanzaremos una gran actualización algún tiempo después del lanzamiento de TBC, con muchas mejoras y nuevas funciones.",
-        ["esMX"] = "[Questie] Con el cambio a Burning Crusade, Questie está experimentando un rápido desarrollo, por lo que puede encontrar errores. ¡Mantén Questie actualizado para disfrutar de la mejor experiencia! También lanzaremos una gran actualización algún tiempo después del lanzamiento de TBC, con muchas mejoras y nuevas funciones.",
-    },
     ["The '%s' world event is active!"] = {
         ["ptBR"] = "O evento mundial '%s' está ativo!",
         ["ruRU"] = "Игровое событие '%s' активно!",

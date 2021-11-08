@@ -103,7 +103,10 @@ local migrationFunctions = {
         else
             Questie.db.char.questAnnounce = true
         end
-    end
+    end,
+    [7] =  function()
+        Questie.db.global.hasSeenBetaMessage = nil
+    end,
 }
 
 function Migration:Migrate()
