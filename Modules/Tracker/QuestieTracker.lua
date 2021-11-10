@@ -2050,12 +2050,7 @@ end
 
 function QuestieTracker:Untrack(quest)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Untrack")
-    if GetCVar("autoQuestWatch") == "0" then
-        Questie.db.char.TrackedQuests[quest.Id] = nil
-    else
-        Questie.db.char.AutoUntrackedQuests[quest.Id] = true
-    end
-    QuestieTracker:Update()
+    QuestieTracker:UntrackQuestId(quest.Id)
 end
 
 function QuestieTracker:Unhook()
@@ -2248,37 +2243,41 @@ _RemoveQuestWatch = function(index, isQuestie)
             questId = index;
         end
         if questId then
-            if "0" == GetCVar("autoQuestWatch") then
-                Questie.db.char.TrackedQuests[questId] = nil
-            else
-                Questie.db.char.AutoUntrackedQuests[questId] = true
-            end
-
-            if Questie.db.char.hideUntrackedQuestsMapIcons then
-                -- Remove quest Icons from map when untracking quest.
-                -- Also reset caches of spawned Icons so re-tracking works.
-                QuestieMap:UnloadQuestFrames(questId)
-                local quest = QuestieDB:GetQuest(questId)
-                if quest then
-                    if quest.Objectives then
-                        for _, objective in pairs(quest.Objectives) do
-                            objective.AlreadySpawned = {}
-                        end
-                    end
-                    if next(quest.SpecialObjectives) then
-                        for _, objective in pairs(quest.SpecialObjectives) do
-                            objective.AlreadySpawned = {}
-                        end
-                    end
-                end
-            end
-
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:ResetLinesForChange()
-                QuestieTracker:Update()
-            end)
+            QuestieTracker:UntrackQuestId(questId)
         end
     end
+end
+
+function QuestieTracker:UntrackQuestId(questId)
+    if "0" == GetCVar("autoQuestWatch") then
+        Questie.db.char.TrackedQuests[questId] = nil
+    else
+        Questie.db.char.AutoUntrackedQuests[questId] = true
+    end
+
+    if Questie.db.char.hideUntrackedQuestsMapIcons then
+        -- Remove quest Icons from map when untracking quest.
+        -- Also reset caches of spawned Icons so re-tracking works.
+        QuestieMap:UnloadQuestFrames(questId)
+        local quest = QuestieDB:GetQuest(questId)
+        if quest then
+            if quest.Objectives then
+                for _, objective in pairs(quest.Objectives) do
+                    objective.AlreadySpawned = {}
+                end
+            end
+            if next(quest.SpecialObjectives) then
+                for _, objective in pairs(quest.SpecialObjectives) do
+                    objective.AlreadySpawned = {}
+                end
+            end
+        end
+    end
+
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:ResetLinesForChange()
+        QuestieTracker:Update()
+    end)
 end
 
 function QuestieTracker:AQW_Insert(index, expire)
