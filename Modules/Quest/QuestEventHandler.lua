@@ -103,9 +103,7 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
         _QuestEventHandler:MarkQuestAsAbandoned(questId)
     end
 
-    questLog[questId] = {
-        state = QUEST_LOG_STATES.QUEST_ACCEPTED
-    }
+    questLog[questId] = {}
     skipNextUQLCEvent = true
     QuestieLib:CacheItemNames(questId)
     _QuestEventHandler:HandleQuestAccepted(questId)
@@ -138,6 +136,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     end
 
     print("--> Objectives are correct. Calling accept logic. quest:", questId)
+    questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieHash:AddNewQuestHash(questId)
     QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
