@@ -6,7 +6,7 @@ Questie.DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
 Questie.DEBUG_INFO = "|cff00bc32[INFO]|r"
 Questie.DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 Questie.DEBUG_SPAM = "|cffff8484[SPAM]|r"
-Questie.DEBUG_SPAMDOABLE = "|cffff8484[SPAMDOABLE]|r"
+Questie.DEBUG_SPAMDOABLE = "|cffff8484[SPAMDOABLE]|r" --hack
 
 local band = bit.band
 
@@ -179,10 +179,9 @@ function Questie:Warning(...)
     end
 end
 
-function Questie:Debug(...)
-    if (Questie.db.global.debugEnabled) then
+function Questie:Debug(msgDebugLevel, ...)
+    if (Questie.db.global.debugEnabled and Questie.db.global.debugEnabledPrint) then
         local optionsDebugLevel = Questie.db.global.debugLevel
-        local msgDebugLevel = select(1, ...)
         -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
         -- DEBUG_CRITICAL = 0
         -- DEBUG_ELEVATED = 1
@@ -190,14 +189,15 @@ function Questie:Debug(...)
         -- DEBUG_DEVELOP = 3
         -- DEBUG_SPAM = 4
         -- DEBUG_SPAMDOABLE = 4 --hack
-        if ((band(optionsDebugLevel, 2^4) == 0) and ((msgDebugLevel == Questie.DEBUG_SPAM) --[[or msgDebugLevel == Questie.DEBUG_SPAMDOABLE]])) then return; end
+        if (msgDebugLevel == Questie.DEBUG_SPAMDOABLE) then return; end
+        if ((band(optionsDebugLevel, 2^4) == 0) and ((msgDebugLevel == Questie.DEBUG_SPAM) or (msgDebugLevel == Questie.DEBUG_SPAMDOABLE))) then return; end
         if ((band(optionsDebugLevel, 2^3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
         if ((band(optionsDebugLevel, 2^2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
         if ((band(optionsDebugLevel, 2^1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
         if ((band(optionsDebugLevel, 2^0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
         if Questie.db.global.debugEnabledPrint then
-            Questie:Print(...)
+            Questie:Print(msgDebugLevel, ...)
         end
     end
 end
