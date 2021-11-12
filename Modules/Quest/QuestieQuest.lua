@@ -1107,7 +1107,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
                 if quest.Objectives[objectiveIndex] == nil then
-                    quest.Objectives[objectiveIndex] = {}
 
                     -- Sometimes we need to retry to get the correct text from the API
                     if (not objective.text) or objective.text:sub(1, 1) == " " then
@@ -1116,6 +1115,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         objective.text = retry[objectiveIndex].text
                         Questie:Debug(Questie.DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
                     end
+
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
