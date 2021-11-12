@@ -196,8 +196,6 @@ function Questie:Debug(msgDebugLevel, ...)
         if ((band(optionsDebugLevel, 2^1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
         if ((band(optionsDebugLevel, 2^0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
-        if Questie.db.global.debugEnabledPrint then
-            Questie:Print(msgDebugLevel, ...)
-        end
+        Questie:Print(msgDebugLevel, ...)
     end
 end
