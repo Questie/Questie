@@ -72,6 +72,28 @@ function _QuestEventHandler:InitQuestLog()
 
     for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        if (not title) then break end -- We exceeded the valid quest log entries
+        if (not isHeader) then
+            local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+            for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
+                if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
+                    -- Game hasn't cached the quest fully yet
+                    initQuestLogTries = initQuestLogTries + 1
+
+                    _QuestLogUpdateQueue:Insert(function()
+                        return _QuestEventHandler:InitQuestLog()
+                    end)
+                    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game has not yet cached objectives for questId:", questId)
+                    return false
+                end
+            end
+        end
+    end
+
+    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's questlog is okey.")
+
+    for i = 1, MAX_QUEST_LOG_INDEX do
+        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
         if (not title) then
             -- We exceeded the valid quest log entries
             break
