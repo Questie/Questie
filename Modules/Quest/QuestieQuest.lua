@@ -1236,7 +1236,8 @@ local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
-    local questObjectives = QuestieLib:GetQuestObjectives(questId);
+    --local questObjectives = QuestieLib:GetQuestObjectives(questId);
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     if not questObjectives then
         -- Some quests just don't have a real objective e.g. 2744
         return nil
@@ -1244,15 +1245,16 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
     --Questie:Print(questId)
     for _, objective in pairs(questObjectives) do
-        if(objective.text) then
-            local text = objective.text;
+        local originalText = objective.text
+        if (originalText and (string.sub(originalText,1,1) ~= " ")) then
+            local text = originalText;
             if(objective.type == "monster") then
                 local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
                 if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
                     monsterName = n
                 end
 
-                if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
+                if((monsterName and strlen(monsterName) == strlen(originalText)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
                     local cleanerText = smatch(monsterName or text, "(.*)：");
                     text = cleanerText
@@ -1276,25 +1278,26 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
             if(text == nil) then
-                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$") or smatch(objective.text, "^(.*)：%s") or objective.text;
+                text = smatch(originalText, "^(.*):%s") or smatch(originalText, "%s：(.*)$") or smatch(originalText, "^(.*)：%s") or originalText
             end
             --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
-                objective.text = strim(text);
+                text = strim(text)
+                objective.text = text
                 local completed = objective.numRequired == objective.numFulfilled
 
                 if (not completed) then
-                    _has_seen_incomplete[objective.text] = true
-                elseif _has_seen_incomplete[objective.text] and not _has_sent_announce[objective.text] then
-                    _has_seen_incomplete[objective.text] = nil
-                    _has_sent_announce[objective.text] = true
-                    QuestieAnnounce:AnnounceParty(questId, "objective", spawnItemId, objective.text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
+                    _has_seen_incomplete[text] = true
+                elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
+                    _has_seen_incomplete[text] = nil
+                    _has_sent_announce[text] = true
+                    QuestieAnnounce:AnnounceParty(questId, "objective", spawnItemId, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
                 end
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
         else
-            DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
+            Questie:Error("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text))
         end
     end
     return questObjectives;
