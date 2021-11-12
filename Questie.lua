@@ -6,7 +6,7 @@ Questie.DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
 Questie.DEBUG_INFO = "|cff00bc32[INFO]|r"
 Questie.DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
 Questie.DEBUG_SPAM = "|cffff8484[SPAM]|r"
-Questie.DEBUG_SPAMDOABLE = "|cffff8484[SPAM]|r"
+Questie.DEBUG_SPAMDOABLE = "|cffff8484[SPAMDOABLE]|r"
 
 local band = bit.band
 
@@ -190,7 +190,7 @@ function Questie:Debug(...)
         -- DEBUG_DEVELOP = 3
         -- DEBUG_SPAM = 4
         -- DEBUG_SPAMDOABLE = 4 --hack
-        if ((band(optionsDebugLevel, 2^4) == 0) and ((msgDebugLevel == Questie.DEBUG_SPAM) or msgDebugLevel == Questie.DEBUG_SPAMDOABLE)) then return; end
+        if ((band(optionsDebugLevel, 2^4) == 0) and ((msgDebugLevel == Questie.DEBUG_SPAM) --[[or msgDebugLevel == Questie.DEBUG_SPAMDOABLE]])) then return; end
         if ((band(optionsDebugLevel, 2^3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
         if ((band(optionsDebugLevel, 2^2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
         if ((band(optionsDebugLevel, 2^1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
