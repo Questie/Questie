@@ -179,7 +179,7 @@ function QuestieQuest:ClearAllNotes()
             return
         end
 
-        quest.Objectives = {}
+        quest.Objectives = nil
 
         if next(quest.SpecialObjectives) then
             for _,s in pairs(quest.SpecialObjectives) do
@@ -421,7 +421,7 @@ function QuestieQuest:AbandonedQuest(questId)
 
         local quest = QuestieDB:GetQuest(questId);
         if quest then
-            quest.Objectives = {};
+            quest.Objectives = nil;
 
             if quest.ObjectiveData then
                 for _, objective in pairs(quest.ObjectiveData) do
