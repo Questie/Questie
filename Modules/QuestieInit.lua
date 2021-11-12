@@ -127,13 +127,6 @@ function QuestieInit:InitAllModules()
     QuestieMap:InitializeQueue()
 
     coroutine.yield()
-    for i=1, GetNumQuestLogEntries() do
-        GetQuestLogTitle(i)
-        coroutine.yield()
-        QuestieQuest:GetRawLeaderBoardDetails(i)
-    end
-
-    coroutine.yield()
     QuestiePlayer:Initialize()
     l10n:PostBoot()
 

@@ -360,29 +360,6 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
-function QuestieQuest:GetRawLeaderBoardDetails(questLogIndex)
-    local title, level, _, _, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
-    local quest = {
-        title = title,
-        level = level,
-        Id = questId,
-        isComplete = isComplete,
-        Objectives = {},
-    }
-    local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {}
-    for objectiveIndex, objective in pairs(objectiveList) do
-        quest.Objectives[objectiveIndex] = {
-            description = objective.text,
-            objectiveType = objective.type,
-            isCompleted = objective.finished,
-            numFulfilled = objective.numFulfilled,
-            numRequired = objective.numRequired,
-        }
-    end
-
-    return quest;
-end
-
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Accepted Quest:", questId);
