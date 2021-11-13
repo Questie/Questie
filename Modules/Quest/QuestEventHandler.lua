@@ -48,6 +48,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+    eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
     _QuestEventHandler:InitQuestLog()
@@ -379,5 +380,7 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
+    elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
+        doFullQuestLogScan = true
     end
 end
