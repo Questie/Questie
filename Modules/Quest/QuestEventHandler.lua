@@ -50,7 +50,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
-    eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
+    eventFrame:RegisterEvent("UNIT_FACTION")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
     _QuestEventHandler:InitQuestLog()
@@ -350,8 +350,8 @@ function _QuestEventHandler:BankFrameClosed()
     end
 end
 
-function _QuestEventHandler:ChatMsgCombatFactionChange()
-    print("[Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
+function _QuestEventHandler:UnitFaction()
+    print("[Event] UNIT_FACTION")
 
     --- Reputation level changes changing quest progression don't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
     doFullQuestLogScan = true
@@ -389,7 +389,7 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
-    elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
-        _QuestEventHandler:ChatMsgCombatFactionChange()
+    elseif event == "UNIT_FACTION" and select(1, ...) == "player" then
+        _QuestEventHandler:UnitFaction()
     end
 end
