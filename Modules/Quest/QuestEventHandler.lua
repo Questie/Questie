@@ -14,6 +14,8 @@ local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local stringSub = string.sub
 local tableRemove = table.remove
