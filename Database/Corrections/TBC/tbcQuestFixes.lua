@@ -80,6 +80,10 @@ function QuestieTBCQuestFixes:Load()
         [1049] = { -- Not available to UNDEAD
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TAUREN + raceIDs.TROLL + raceIDs.BLOOD_ELF,
         },
+        [1103] = {
+            [questKeys.preQuestSingle] = {100},
+            [questKeys.parentQuest] = 0,
+        },
         [1109] = {
             [questKeys.requiredLevel] = 22,
             [questKeys.questLevel] = 26,
