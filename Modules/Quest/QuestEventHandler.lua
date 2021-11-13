@@ -350,6 +350,13 @@ function _QuestEventHandler:BankFrameClosed()
     end
 end
 
+function _QuestEventHandler:ChatMsgCombatFactionChange()
+    print("[Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
+
+    --- Reputation level changes changing quest progression don't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
+    doFullQuestLogScan = true
+end
+
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
 function _QuestLogUpdateQueue:Insert(func)
     questLogUpdateQueue[questLogUpdateQueueSize] = func
@@ -383,6 +390,6 @@ function _QuestEventHandler:OnEvent(event, ...)
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
-        doFullQuestLogScan = true
+        _QuestEventHandler:ChatMsgCombatFactionChange()
     end
 end
