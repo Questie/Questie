@@ -33,7 +33,7 @@ local WRAP_TEXT = 1;
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8}
 
 local lastTooltipShowTimestamp = GetTime()
-
+local isSoM = C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery
 
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
@@ -216,6 +216,9 @@ function MapIconTooltip:Show()
                     if (quest and shift) then
                         local xpReward = GetQuestLogRewardXP(questData.questId)
                         if xpReward > 0 then
+                            if isSoM then
+                                xpReward = xpReward * 1.4 -- 40% increased quest XP
+                            end
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
 
@@ -307,6 +310,9 @@ function MapIconTooltip:Show()
                 local xpReward = GetQuestLogRewardXP(questId)
                 if (quest and shift and xpReward > 0) then
                     r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
+                    if isSoM then
+                        xpReward = xpReward * 1.4 -- 40% increased quest XP
+                    end
                     self:AddDoubleLine(questTitle, "("..FormatLargeNumber(xpReward)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
