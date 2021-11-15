@@ -26,6 +26,7 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
+        [936] = true,  -- Seems to not be in the game
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -687,7 +688,7 @@ function QuestieQuestBlacklist:Load()
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
-        -- Phase 6 Invasion quests
+        -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
         [9260] = true,
         [9261] = true,
@@ -922,30 +923,15 @@ function QuestieQuestBlacklist:Load()
         [7426] = true,
         [7521] = true,
         [8368] = true,
-        [8369] = true,
-        [8370] = true,
-        [8372] = true,
-        [8374] = true,
-        [8375] = true,
         [8383] = true,
         [8384] = true,
         [8386] = true,
         [8387] = true,
-        [8389] = true,
         [8390] = true,
         [8391] = true,
         [8392] = true,
-        [8393] = true,
-        [8394] = true,
-        [8395] = true,
-        [8396] = true,
         [8397] = true,
         [8398] = true,
-        [8399] = true,
-        [8400] = true,
-        [8401] = true,
-        [8402] = true,
-        [8403] = true,
         [8404] = true,
         [8405] = true,
         [8406] = true,
@@ -957,15 +943,6 @@ function QuestieQuestBlacklist:Load()
         [8428] = true,
         [8429] = true,
         [8430] = true,
-        [8431] = true,
-        [8432] = true,
-        [8433] = true,
-        [8434] = true,
-        [8435] = true,
-        [8436] = true,
-        [8437] = true,
-        [8438] = true,
-        [8439] = true,
         [8440] = true,
         [8441] = true,
         [8442] = true,
@@ -973,6 +950,32 @@ function QuestieQuestBlacklist:Load()
         [9712] = true,
         [10377] = true,
         [11052] = true,
+
+        -- Classic only PvP quests
+        [8369] = QuestieCorrections.TBC_ONLY,
+        [8370] = QuestieCorrections.TBC_ONLY,
+        [8372] = QuestieCorrections.TBC_ONLY,
+        [8374] = QuestieCorrections.TBC_ONLY,
+        [8375] = QuestieCorrections.TBC_ONLY,
+        [8389] = QuestieCorrections.TBC_ONLY,
+        [8393] = QuestieCorrections.TBC_ONLY,
+        [8394] = QuestieCorrections.TBC_ONLY,
+        [8395] = QuestieCorrections.TBC_ONLY,
+        [8396] = QuestieCorrections.TBC_ONLY,
+        [8399] = QuestieCorrections.TBC_ONLY,
+        [8400] = QuestieCorrections.TBC_ONLY,
+        [8401] = QuestieCorrections.TBC_ONLY,
+        [8402] = QuestieCorrections.TBC_ONLY,
+        [8403] = QuestieCorrections.TBC_ONLY,
+        [8431] = QuestieCorrections.TBC_ONLY,
+        [8432] = QuestieCorrections.TBC_ONLY,
+        [8433] = QuestieCorrections.TBC_ONLY,
+        [8434] = QuestieCorrections.TBC_ONLY,
+        [8435] = QuestieCorrections.TBC_ONLY,
+        [8436] = QuestieCorrections.TBC_ONLY,
+        [8437] = QuestieCorrections.TBC_ONLY,
+        [8438] = QuestieCorrections.TBC_ONLY,
+        [8439] = QuestieCorrections.TBC_ONLY,
 
         -- Netherwing
         [11012] = true,
@@ -1091,8 +1094,8 @@ function QuestieQuestBlacklist:Load()
         [11877] = true,
     }
 
-    --if Questie.db.char.isSoMCharacter then -- This is only required for SoM characters
-    if true then
+    local isSoM = C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery
+    if isSoM then
         print("Blacklisting SoM quests...")
         local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
         for phase= 1, #questsByPhase do
