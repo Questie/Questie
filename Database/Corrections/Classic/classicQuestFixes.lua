@@ -2948,6 +2948,9 @@ function QuestieQuestFixes:Load()
         [9050] = {
             [questKeys.specialFlags] = 1,
         },
+        [9052] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9054] = {
             [questKeys.specialFlags] = 1,
         },
@@ -2973,6 +2976,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9063] = {
+            [questKeys.exclusiveTo] = 9052,
             [questKeys.zoneOrSort] = 493,
         },
         [9069] = {
