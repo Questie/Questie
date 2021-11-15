@@ -5,10 +5,10 @@ local currentPhase = 1 -- TODO: Use API function which hopefully will come in th
 
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoMPhase = {
-    [1] = {}, -- This is required for counting, but should stay empty
-    [2] = { -- Phase 2 World Bosses
+    [1] = {}, -- Phase 1 - Regular Phase 1 + Dire Maul + Tier 0.5 quests (this is required for counting, but should stay empty)
+    [2] = { -- Phase 2 - World Bosses
     },
-    [3] = { -- Phase 3 BWL
+    [3] = { -- Phase 3 - BWL + Darkmoon Faire
         [7761] = true, -- Blackhand's Command BWL pre quest
         [7787] = true,
         -- Darkmoon Faire quests
@@ -190,7 +190,7 @@ local questsToBlacklistBySoMPhase = {
         [8318] = true,
         [8314] = true,
     },
-    [5] = { -- Phase 5 AQ
+    [5] = { -- Phase 5 - AQ
         [8747] = true,
         [8748] = true,
         [8749] = true,
