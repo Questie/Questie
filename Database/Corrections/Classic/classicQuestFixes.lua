@@ -2976,7 +2976,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9063] = {
-            [questKeys.exclusiveTo] = 9052,
+            [questKeys.exclusiveTo] = {9052},
             [questKeys.zoneOrSort] = 493,
         },
         [9069] = {
