@@ -1094,8 +1094,7 @@ function QuestieQuestBlacklist:Load()
         [11877] = true,
     }
 
-    local isSoM = C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery
-    if isSoM then
+    if Questie.IsSoM then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoM quests...")
         local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
         for phase= 1, #questsByPhase do

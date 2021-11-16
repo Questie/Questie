@@ -33,7 +33,7 @@ local WRAP_TEXT = 1;
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8}
 
 local lastTooltipShowTimestamp = GetTime()
-local isSoM = C_Seasons and C_Seasons.GetActiveSeason and C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery
+local isSoM = Questie.IsSoM
 
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
@@ -218,6 +218,7 @@ function MapIconTooltip:Show()
                         if xpReward > 0 then
                             if isSoM then
                                 xpReward = xpReward * 1.4 -- 40% increased quest XP
+                                --xpReward = xpReward * 1.4 * ((quest:IsDungeonQuest() or quest:IsEliteQuest()) and 1.15 or 1) -- 40% increased quest XP ; extra 15% bonus for Elite & Dungeon quests
                             end
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
                         end
@@ -312,6 +313,7 @@ function MapIconTooltip:Show()
                     r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
                     if isSoM then
                         xpReward = xpReward * 1.4 -- 40% increased quest XP
+                        --xpReward = xpReward * 1.4 * ((quest:IsDungeonQuest() or quest:IsEliteQuest()) and 1.15 or 1) -- 40% increased quest XP ; extra 15% bonus for Elite & Dungeon quests
                     end
                     self:AddDoubleLine(questTitle, "("..FormatLargeNumber(xpReward)..xpString..")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
