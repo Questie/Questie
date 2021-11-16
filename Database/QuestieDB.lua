@@ -696,6 +696,13 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return questType == 41
     end
 
+--[[ preparation for Elite & Dungeon quests' experience boost in SoM
+    function QO:IsEliteQuest()
+        local questType = self:GetQuestTagInfo()
+        return questType == 1
+    end
+]]--
+
     function QO:IsActiveEventQuest()
         return QuestieEvent.activeQuests[self.Id] == true
     end
