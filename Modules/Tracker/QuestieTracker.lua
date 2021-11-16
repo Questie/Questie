@@ -1311,7 +1311,7 @@ function QuestieTracker:Update()
             elseif qA.zoneOrSort < 0 then
                 qAZone = QuestieTracker.utils:GetCategoryNameByID(qA.zoneOrSort)
             else
-                qAZone = qA.zoneOrSort
+                qAZone = tostring(qA.zoneOrSort)
                 _Tracker:ReportErrorMessage(qAZone)
             end
 
@@ -1320,7 +1320,7 @@ function QuestieTracker:Update()
             elseif qB.zoneOrSort < 0 then
                 qBZone = QuestieTracker.utils:GetCategoryNameByID(qB.zoneOrSort)
             else
-                qBZone = qB.zoneOrSort
+                qBZone = tostring(qB.zoneOrSort)
                 _Tracker:ReportErrorMessage(qBZone)
             end
 
@@ -1400,7 +1400,7 @@ function QuestieTracker:Update()
 
         -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
         else
-            zoneName = quest.zoneOrSort
+            zoneName = tostring(quest.zoneOrSort)
             _Tracker:ReportErrorMessage(zoneName)
         end
 
