@@ -119,9 +119,10 @@ function QuestieEvent:Load()
     end
 
     -- Darkmoon Faire is quite special because of its setup days where just two quests are available
-    if Questie.IsEra then -- load DMF only on Era realms, not on TBC, not on SoM
-        _LoadDarkmoonFaire()
-    end
+    -- ** Disable DMF fully now as Dates are calculated wrong **
+    --if Questie.IsEra then -- load DMF only on Era realms, not on TBC, not on SoM
+    --    _LoadDarkmoonFaire()
+    --end
 
     -- Clear the quests to save memory
     QuestieEvent.eventQuests = nil
