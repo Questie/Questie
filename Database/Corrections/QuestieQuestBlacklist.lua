@@ -4,7 +4,7 @@ local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist"
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieQuestBlacklist:Load()
-    return {
+    local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
@@ -26,6 +26,7 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
+        [936] = true,  -- Seems to not be in the game
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -483,6 +484,7 @@ function QuestieQuestBlacklist:Load()
         [12191] = true,
         [12194] = true,
         [12278] = true,
+        [12155] = true,
         [12286] = true,
         [12331] = true,
         [12332] = true,
@@ -514,6 +516,40 @@ function QuestieQuestBlacklist:Load()
         [12358] = true,
         [12359] = true,
         [12360] = true,
+        [12361] = true,
+        [12362] = true,
+        [12363] = true,
+        [12364] = true,
+        [12365] = true,
+        [12366] = true,
+        [12367] = true,
+        [12368] = true,
+        [12369] = true,
+        [12370] = true,
+        [12371] = true,
+        [12373] = true,
+        [12374] = true,
+        [12375] = true,
+        [12376] = true,
+        [12377] = true,
+        [12378] = true,
+        [12379] = true,
+        [12380] = true,
+        [12381] = true,
+        [12382] = true,
+        [12383] = true,
+        [12384] = true,
+        [12385] = true,
+        [12386] = true,
+        [12387] = true,
+        [12388] = true,
+        [12389] = true,
+        [12390] = true,
+        [12391] = true,
+        [12392] = true,
+        [12393] = true,
+        [12394] = true,
+        [12395] = true,
         [12396] = true,
         [12397] = true,
         [12398] = true,
@@ -523,12 +559,10 @@ function QuestieQuestBlacklist:Load()
         [12402] = true,
         [12403] = true,
         [12404] = true,
-        [12405] = true,
         [12406] = true,
         [12407] = true,
         [12408] = true,
         [12409] = true,
-        [12410] = true,
         [12420] = true,
         ----------------
 
@@ -654,7 +688,7 @@ function QuestieQuestBlacklist:Load()
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
-        -- Phase 6 Invasion quests
+        -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
         [9260] = true,
         [9261] = true,
@@ -835,7 +869,6 @@ function QuestieQuestBlacklist:Load()
         [10379] = true, -- Touch of Weakness (Followup of NOT A QUEST)
         [10534] = true, -- Returning Home (Unavailable Priest quest)
         [10539] = true, -- Returning Home (Unavailable Priest quest)
-        [10561] = true, -- Revered Among the Keepers of Time
         [10638] = true, -- NOT A QUEST (Unavailable Priest quest)
         [10779] = true, -- The Hunter's Path (Unused)
         [10931] = true, -- Level 0 Priest quest
@@ -851,6 +884,13 @@ function QuestieQuestBlacklist:Load()
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
         [64217] = true, -- Boosted character quest
+
+        -- Revered Among X quests
+        [10459] = true,
+        [10558] = true,
+        [10559] = true,
+        [10560] = true,
+        [10561] = true,
 
         [11497] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
         [11498] = true, -- Learning to Fly (requires NOT to have flying skill, which can't be handled atm)
@@ -883,30 +923,15 @@ function QuestieQuestBlacklist:Load()
         [7426] = true,
         [7521] = true,
         [8368] = true,
-        [8369] = true,
-        [8370] = true,
-        [8372] = true,
-        [8374] = true,
-        [8375] = true,
         [8383] = true,
         [8384] = true,
         [8386] = true,
         [8387] = true,
-        [8389] = true,
         [8390] = true,
         [8391] = true,
         [8392] = true,
-        [8393] = true,
-        [8394] = true,
-        [8395] = true,
-        [8396] = true,
         [8397] = true,
         [8398] = true,
-        [8399] = true,
-        [8400] = true,
-        [8401] = true,
-        [8402] = true,
-        [8403] = true,
         [8404] = true,
         [8405] = true,
         [8406] = true,
@@ -918,24 +943,39 @@ function QuestieQuestBlacklist:Load()
         [8428] = true,
         [8429] = true,
         [8430] = true,
-        [8431] = true,
-        [8432] = true,
-        [8433] = true,
-        [8434] = true,
-        [8435] = true,
-        [8436] = true,
-        [8437] = true,
-        [8438] = true,
-        [8439] = true,
         [8440] = true,
         [8441] = true,
         [8442] = true,
         [8443] = true,
         [9712] = true,
         [10377] = true,
-        [10459] = true,
-        [10558] = true,
         [11052] = true,
+
+        -- Classic only PvP quests
+        [8369] = QuestieCorrections.TBC_ONLY,
+        [8370] = QuestieCorrections.TBC_ONLY,
+        [8372] = QuestieCorrections.TBC_ONLY,
+        [8374] = QuestieCorrections.TBC_ONLY,
+        [8375] = QuestieCorrections.TBC_ONLY,
+        [8389] = QuestieCorrections.TBC_ONLY,
+        [8393] = QuestieCorrections.TBC_ONLY,
+        [8394] = QuestieCorrections.TBC_ONLY,
+        [8395] = QuestieCorrections.TBC_ONLY,
+        [8396] = QuestieCorrections.TBC_ONLY,
+        [8399] = QuestieCorrections.TBC_ONLY,
+        [8400] = QuestieCorrections.TBC_ONLY,
+        [8401] = QuestieCorrections.TBC_ONLY,
+        [8402] = QuestieCorrections.TBC_ONLY,
+        [8403] = QuestieCorrections.TBC_ONLY,
+        [8431] = QuestieCorrections.TBC_ONLY,
+        [8432] = QuestieCorrections.TBC_ONLY,
+        [8433] = QuestieCorrections.TBC_ONLY,
+        [8434] = QuestieCorrections.TBC_ONLY,
+        [8435] = QuestieCorrections.TBC_ONLY,
+        [8436] = QuestieCorrections.TBC_ONLY,
+        [8437] = QuestieCorrections.TBC_ONLY,
+        [8438] = QuestieCorrections.TBC_ONLY,
+        [8439] = QuestieCorrections.TBC_ONLY,
 
         -- Netherwing
         [11012] = true,
@@ -992,7 +1032,6 @@ function QuestieQuestBlacklist:Load()
         [10473] = true,
         [10474] = true,
         [10475] = true,
-        [10560] = true,
         [10944] = true,
         [10946] = true,
         [10947] = true,
@@ -1054,6 +1093,18 @@ function QuestieQuestBlacklist:Load()
         [11880] = true,
         [11877] = true,
     }
+
+    if Questie.IsSoM then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoM quests...")
+        local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
+        for phase= 1, #questsByPhase do
+            for questId, _ in pairs(questsByPhase[phase]) do
+                questsToBlacklist[questId] = true
+            end
+        end
+    end
+
+    return questsToBlacklist
 end
 
 QuestieQuestBlacklist.AQWarEffortQuests = {

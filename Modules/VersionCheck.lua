@@ -81,5 +81,15 @@ Questie.db = {profile={minimap={hide=false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
+--- Addon is running on Classic TBC client
+---@type boolean
 Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
+--- Addon is running on Classic "Vanilla" client: Means Classic Era and its seasons like SoM
+---@type boolean
 Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+--- Addon is running on Classic "Vanilla" client and on Era realm
+---@type boolean
+Questie.IsEra = Questie.IsClassic and (not C_Seasons.HasActiveSeason())
+--- Addon is running on Classic "Vanilla" client and on Seasons of Mastery realm
+---@type boolean
+Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery)

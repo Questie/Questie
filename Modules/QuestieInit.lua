@@ -95,11 +95,6 @@ function QuestieInit:InitAllModules()
         coroutine.yield()
         QuestieCorrections:PreCompile()
         QuestieDBCompiler:Compile()
-        
-        if not Questie.db.global.hasSeenBetaMessage then
-            Questie.db.global.hasSeenBetaMessage = true
-            print("\124cFFFFFF00" ..l10n("[Questie] With the move to Burning Crusade, Questie is undergoing rapid development, as such you may encounter bugs. Please keep Questie up to date for the best experience! We will also be releasing a large update some time after TBC launch, with many improvements and new features."))
-        end
     else
         _QuestieInit:OverrideDBWithTBCData()
 

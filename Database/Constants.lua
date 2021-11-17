@@ -24,6 +24,7 @@ QuestieDB.sortKeys = {
     FIRST_AID = -324,
     DARKMOON_FAIRE = -364,
     LUNAR_FESTIVAL = -366,
+    REPUTATION = -367,
     MIDSUMMER = -369,
     BREWFEST = -370,
 }

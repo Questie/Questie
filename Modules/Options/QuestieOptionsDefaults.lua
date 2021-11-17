@@ -124,6 +124,7 @@ function QuestieOptionsDefaults:Load()
             questAnnounce = true,
             isTrackerExpanded = true,
             hideUnexploredMapIcons = false,
+            hideUntrackedQuestsMapIcons = false,
             showRepeatableQuests = true,
             showEventQuests = true,
             showDungeonQuests = true,
