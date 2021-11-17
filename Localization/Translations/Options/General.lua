@@ -160,7 +160,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons in unexplored areas."] = {
         ["ptBR"] = "Oculta ícones em áreas inexploradas.",
-        ["ruRU"] = "Когда включено, значки в неисследованных областях карты мира не отображаются",
+        ["ruRU"] = "Скрывает значки в неисследованных областях карты",
         ["deDE"] = "Verbirgt die Questie Icons in nicht entdeckten Gebieten.",
         ["koKR"] = "미탐험 지역의 아이콘을 가립니다.",
         ["esMX"] = "Esconder iconos en áreas inexploradas.",
@@ -172,7 +172,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons of untracked quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть значки неотслеживаемых заданий",
         ["deDE"] = "Icons nicht getrackter Quests verbergen",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -184,7 +184,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons for quests that are not tracked."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрывает значки заданий, которые не отслеживаются в трекере",
         ["deDE"] = "Verbirgt die Icons aller Quests die nicht vom Tracker getrackt werden.",
         ["koKR"] = false,
         ["esMX"] = false,
