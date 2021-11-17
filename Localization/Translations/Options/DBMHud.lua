@@ -28,7 +28,7 @@ local dbmHudOptionsLocales = {
     },
     ["Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects."] = {
         ["ptBR"] = "Ativa ou desativa a sobreposição HUD (DBM Heads Up Display) para mostrar objetos de mapa.",
-        ["ruRU"] = "Включить/отключить DBM HUD",
+        ["ruRU"] = "Включить/отключить DBM HUD - оверлей для отображения объектов карты",
         ["deDE"] = "Aktiviert/Deaktiviert das DBM-HUD zur Anzeige von Kartenobjekten.",
         ["koKR"] = "DBM 애드온의 HUD 오버레이 기능을 사용해서 지도상의 오브젝트를 화면에 표시합니다.",
         ["esMX"] = "Habilita o deshabilita la superposición del Heads Up Display (HUD) de DBM para objetos del mapa.",
