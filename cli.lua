@@ -148,7 +148,7 @@ local function _CheckClassicDatabase()
     print("Validating quests...")
     QuestieDBCompiler:ValidateQuests()
 
-    print("Classic database compiled successfully")
+    print("Classic database compiled successfully\n")
 end
 _CheckClassicDatabase()
 
@@ -222,6 +222,6 @@ local function _CheckTBCDatabase()
     print("Validating quests...")
     QuestieDBCompiler:ValidateQuests()
 
-    print("Classic database compiled successfully")
+    print("TBC database compiled successfully")
 end
 _CheckTBCDatabase()
