@@ -428,11 +428,17 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
         },
+        [9339] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [9360] = {
             [questKeys.startedBy] = {{15407},nil,{23249}},
+        },
+        [9365] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92}}}},
