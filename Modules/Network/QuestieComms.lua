@@ -250,7 +250,7 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
 
     local count = 0
 
-    if questObject and questObject.Objectives then
+    if questObject and next(questObject.Objectives) then
         quest[offset] = questId
         local countOffset = offset+1
 
@@ -280,7 +280,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
 
     local count = 0
 
-    if questObject and questObject.Objectives then
+    if questObject and next(questObject.Objectives) then
         quest[offset] = questId
         local countOffset = offset+1
         local _, classFilename = UnitClass("player")
@@ -763,7 +763,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
     quest.id = questId;
     local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
     quest.objectives = {}
-    if questObject and questObject.Objectives then
+    if questObject and next(questObject.Objectives) then
         for objectiveIndex, objective in pairs(rawObjectives) do
             if questObject.Objectives[objectiveIndex] then
                 quest.objectives[objectiveIndex] = {};

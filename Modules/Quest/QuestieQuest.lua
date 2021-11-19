@@ -201,6 +201,7 @@ function QuestieQuest:ClearAllNotes()
 end
 
 -- this is only needed for reset, normally special objectives don't need to update
+---@param questId number
 local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and next(quest.SpecialObjectives) then
@@ -338,6 +339,7 @@ function QuestieQuest:SmoothReset()
     end)
 end
 
+---@param questId number
 function QuestieQuest:ShouldShowQuestNotes(questId)
     if not Questie.db.char.hideUntrackedQuestsMapIcons then
         -- Always show quest notes (map icons) unless option is enabled
@@ -360,6 +362,7 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
+---@param questId number
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Accepted Quest:", questId);
@@ -412,6 +415,7 @@ function QuestieQuest:CompleteQuest(questId)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Completed Quest:", questId)
 end
 
+---@param questId number
 function QuestieQuest:AbandonedQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId]) then
@@ -492,7 +496,7 @@ end
 ---@param questId number
 function QuestieQuest:SetObjectivesDirty(questId)
     local quest = QuestieDB:GetQuest(questId)
-    if quest and quest.Objectives then
+    if quest then
         for _, objective in pairs(quest.Objectives) do
             objective.isUpdated = false
         end
@@ -568,17 +572,16 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
 end
 
 -- iterate all notes, update / remove as needed
+---@param quest Quest
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
-    if quest.Objectives then
-        for objectiveIndex, objective in pairs(quest.Objectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-                print(err)
-                print(debugstack())
-            end, QuestieQuest, quest, objectiveIndex, objective, false);
-            if (not result) then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err);
-            end
+    for objectiveIndex, objective in pairs(quest.Objectives) do
+        local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+            print(err)
+            print(debugstack())
+        end, QuestieQuest, quest, objectiveIndex, objective, false);
+        if (not result) then
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err);
         end
     end
 end
@@ -587,6 +590,7 @@ local function _GetIconScaleForAvailable()
     return Questie.db.global.availableScale or 1.3
 end
 
+---@param quest Quest
 function QuestieQuest:AddFinisher(quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
     local questId = quest.Id
@@ -1079,10 +1083,6 @@ end
 
 ---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
-    if quest.Objectives == nil then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: Creating new objective table")
-        quest.Objectives = {}
-    end
     local logID = GetQuestLogIndexByID(quest.Id);
     if logID ~= 0 then
         local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, isHidden = GetQuestLogTitle(logID)
@@ -1093,7 +1093,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", quest.isComplete, quest.name)
     else
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: Error: No logid:", quest.name, quest.Id )
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Error: No quest log index for:", quest.name, quest.Id )
     end
     QuestieQuest:GetAllQuestObjectives(quest)
 end
@@ -1138,7 +1138,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
         end
 
         if (not quest.Objectives[objectiveIndex]) or (not quest.Objectives[objectiveIndex].Id) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objective.type, objective.text)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Error finding entry ID for objective", objectiveIndex, objective.type, objective.text, "of questid:", quest.Id)
         end
     end
 
