@@ -1,4 +1,4 @@
-WOW_PROJECT_ID = 5
+WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_MAINLINE = 1
@@ -156,6 +156,7 @@ Questie = nil -- Reset for second test
 
 local function _CheckTBCDatabase()
     print("Compiling TBC database...")
+    WOW_PROJECT_ID = 5
 
     loadTOC("Questie-BCC.toc")
 
