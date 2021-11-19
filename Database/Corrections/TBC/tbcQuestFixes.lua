@@ -1192,6 +1192,14 @@ function QuestieTBCQuestFixes:Load()
         [10367] = {
             [questKeys.preQuestSingle] = {},
         },
+        [10373] = {
+            [questKeys.startedBy] = {{20722},nil,nil},
+            [questKeys.exclusiveTo] = {5066,5090,5091},
+        },
+        [10374] = {
+            [questKeys.startedBy] = {{20724},nil,nil},
+            [questKeys.exclusiveTo] = {5093,5094,5095},
+        },
         [10382] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Gryphoneer Windbellow", 0, {{"monster", 20235}}}},
         },
