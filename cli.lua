@@ -72,7 +72,7 @@ local function loadTOC(file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r = nil
+            local r
             local chunck = loadfile(line)
             if chunck then
                 r = pcall(chunck, addonName, addonTable)
@@ -86,7 +86,7 @@ local function loadTOC(file)
     end
 end
 
-loadTOC("Questie.toc")
+loadTOC("Questie-BCC.toc")
 
 function Questie:Debug(...)
     --print(...)
