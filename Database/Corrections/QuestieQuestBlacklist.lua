@@ -564,6 +564,7 @@ function QuestieQuestBlacklist:Load()
         [12408] = true,
         [12409] = true,
         [12420] = true,
+        [12421] = true,
         ----------------
 
         --mount replacement
