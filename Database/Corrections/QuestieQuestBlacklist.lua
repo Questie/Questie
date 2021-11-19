@@ -466,6 +466,7 @@ function QuestieQuestBlacklist:Load()
         [11935] = true,
         [11954] = true,
         [11955] = true,
+        [11972] = true,
         [11964] = true,
         [11966] = true,
         [11970] = true,
@@ -480,7 +481,10 @@ function QuestieQuestBlacklist:Load()
         [11122] = true,
         [12318] = true,
         [12022] = true,
+        [12062] = true,
         [12133] = true,
+        [12135] = true,
+        [12139] = true,
         [12191] = true,
         [12194] = true,
         [12278] = true,
@@ -564,6 +568,7 @@ function QuestieQuestBlacklist:Load()
         [12408] = true,
         [12409] = true,
         [12420] = true,
+        [12421] = true,
         ----------------
 
         --mount replacement

@@ -428,11 +428,17 @@ function QuestieTBCQuestFixes:Load()
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
         },
+        [9339] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
         [9360] = {
             [questKeys.startedBy] = {{15407},nil,{23249}},
+        },
+        [9365] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [9375] = {
             [questKeys.triggerEnd] = {"Escort Wounded Blood Elf Pilgrim to Falcon Watch", {[zoneIDs.HELLFIRE_PENINSULA]={{27.09,61.92}}}},
@@ -1186,6 +1192,14 @@ function QuestieTBCQuestFixes:Load()
         [10367] = {
             [questKeys.preQuestSingle] = {},
         },
+        [10373] = {
+            [questKeys.startedBy] = {{20722},nil,nil},
+            [questKeys.exclusiveTo] = {5066,5090,5091},
+        },
+        [10374] = {
+            [questKeys.startedBy] = {{20724},nil,nil},
+            [questKeys.exclusiveTo] = {5093,5094,5095},
+        },
         [10382] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak with Gryphoneer Windbellow", 0, {{"monster", 20235}}}},
         },
@@ -1279,6 +1293,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [10519] = {
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48}}}},
+        },
+        [10520] = {
+            [questKeys.startedBy] = {{16739},nil,nil},
+            [questKeys.exclusiveTo] = {3516,3789,3790},
         },
         [10522] = {
             [questKeys.requiredSourceItems] = {30426},
@@ -1999,6 +2017,10 @@ function QuestieTBCQuestFixes:Load()
         [11383] = {
             [questKeys.objectives] = {{{17839}},nil,nil,nil,nil},
         },
+        [11403] = {
+            [questKeys.startedBy] = {{23904},nil,nil},
+            [questKeys.finishedBy] = {{23973},nil},
+        },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173},nil,nil}
         },
@@ -2638,6 +2660,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [11964] = {
             [questKeys.startedBy] = {{16817},nil,nil},
+        },
+        [11972] = {
+            [questKeys.startedBy] = {nil,{187892},{35723,},},
+            [questKeys.finishedBy] = {{25697},nil},
         },
         [12012] = {
             [questKeys.startedBy] = {{25324},nil,nil},
