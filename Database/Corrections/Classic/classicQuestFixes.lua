@@ -206,6 +206,9 @@ function QuestieQuestFixes:Load()
         [484] = {
             [questKeys.requiredMinRep] = {72,0}, -- #1501
         },
+        [489] = {
+            [questKeys.startedBy] = {{2081,2083,2151,2155},nil,nil},
+        },
         [495] = {
             [questKeys.exclusiveTo] = {518},
         },
