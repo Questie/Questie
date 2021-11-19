@@ -1999,6 +1999,10 @@ function QuestieTBCQuestFixes:Load()
         [11383] = {
             [questKeys.objectives] = {{{17839}},nil,nil,nil,nil},
         },
+        [11403] = {
+            [questKeys.startedBy] = {{23904},nil,nil},
+            [questKeys.finishedBy] = {{23973},nil},
+        },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173},nil,nil}
         },
