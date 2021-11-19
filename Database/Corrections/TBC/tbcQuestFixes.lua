@@ -1295,7 +1295,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48}}}},
         },
         [10520] = {
-            [questKeys.startedBy] = {16739},
+            [questKeys.startedBy] = {{16739},nil,nil},
             [questKeys.exclusiveTo] = {3516,3789,3790},
         },
         [10522] = {
