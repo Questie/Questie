@@ -179,7 +179,7 @@ function QuestieQuest:ClearAllNotes()
             return
         end
 
-        quest.Objectives = nil
+        quest.Objectives = {}
 
         if next(quest.SpecialObjectives) then
             for _,s in pairs(quest.SpecialObjectives) do
@@ -421,7 +421,7 @@ function QuestieQuest:AbandonedQuest(questId)
 
         local quest = QuestieDB:GetQuest(questId);
         if quest then
-            quest.Objectives = nil;
+            quest.Objectives = {}
 
             if quest.ObjectiveData then
                 for _, objective in pairs(quest.ObjectiveData) do
@@ -1077,10 +1077,11 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 end
 
+---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
     if quest.Objectives == nil then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: Creating new objective table")
-        quest.Objectives = {};
+        quest.Objectives = {}
     end
     local logID = GetQuestLogIndexByID(quest.Id);
     if logID ~= 0 then
@@ -1098,6 +1099,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
 end
 
 --Uses the category order to draw the quests and trusts the database order.
+---@param quest Quest
 function QuestieQuest:GetAllQuestObjectives(quest)
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 

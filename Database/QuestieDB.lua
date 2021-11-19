@@ -637,7 +637,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public requiredClasses number @bitmask
     ---@field public objectivesText table
     ---@field public triggerEnd table
-    ---@field public objectives table
+    ---@field public objectives table -- objectives from DB & corrections
     ---@field public sourceItemId number
     ---@field public preQuestGroup table
     ---@field public preQuestSingle table
@@ -784,7 +784,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    QO.ObjectiveData = {} -- to differentiate from the current quest log info
+    --- to differentiate from the current quest log info.
+    --- Quest objects generated from DB+Corrections.
+    --- Data itself is for example for monster type { Type = "monster", Id = 16518, Text = "Nestlewood Owlkin inoculated" }
+    ---@type table<number, table>
+    QO.ObjectiveData = {}
 
     if rawdata[10] ~= nil then
         if rawdata[10][1] ~= nil then
@@ -865,6 +869,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
+
+    --- Quest Objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
+    --- Includes also icons drawn to maps, and other stuff.
+    ---@type table<number, table>
+    QO.Objectives = {}
 
     QO.SpecialObjectives = {}
     local requiredSourceItems = rawdata[21]
