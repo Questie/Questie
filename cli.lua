@@ -185,6 +185,11 @@ local function _CheckTBCDatabase()
     local l10n = QuestieLoader:ImportModule("l10n")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+    -- Classic fields need to be filled, because we only load the database and not all Questie files
+    QuestieDB.npcData = {}
+    QuestieDB.objectData = {}
+    QuestieDB.questData = {}
+    QuestieDB.itemData = {}
     QuestieDB.npcDataTBC = loadstring(QuestieDB.npcDataTBC)
     QuestieDB.npcDataTBC = QuestieDB.npcDataTBC()
     QuestieDB.objectDataTBC = loadstring(QuestieDB.objectDataTBC)
