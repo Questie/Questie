@@ -482,6 +482,8 @@ function QuestieQuestBlacklist:Load()
         [12022] = true,
         [12062] = true,
         [12133] = true,
+        [12135] = true,
+        [12139] = true,
         [12191] = true,
         [12194] = true,
         [12278] = true,
