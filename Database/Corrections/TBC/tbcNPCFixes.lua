@@ -103,6 +103,9 @@ function QuestieTBCNpcFixes:Load()
         [15669] = {
             [npcKeys.waypoints] = {},
         },
+        [15920] = {
+            [npcKeys.waypoints] = {[zoneIDs.EVERSONG_WOODS]={30,58.6}},
+        },
         [15967] = {
             [npcKeys.waypoints] = {},
         },
