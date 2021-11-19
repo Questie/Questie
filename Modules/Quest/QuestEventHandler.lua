@@ -341,9 +341,7 @@ end
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
-    if event == "PLAYER_LOGIN" then
-        _QuestEventHandler:PlayerLogin(...)
-    elseif event == "QUEST_ACCEPTED" then
+    if event == "QUEST_ACCEPTED" then
         _QuestEventHandler:QuestAccepted(...)
     elseif event == "QUEST_TURNED_IN" then
         _QuestEventHandler:QuestTurnedIn(...)
