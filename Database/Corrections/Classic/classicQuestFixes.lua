@@ -1336,6 +1336,9 @@ function QuestieQuestFixes:Load()
         [4737] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [4743] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy.", 0, {{"monster", 10321}}}},
+        },
         [4763] = {
             [questKeys.requiredSourceItems] = {12347,12341,12342,12343}, -- #798
         },
