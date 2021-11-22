@@ -1923,6 +1923,9 @@ function QuestieTBCQuestFixes:Load()
         [11180] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Information Gathered", 0, {{"monster", 23554},{"monster", 23555}}}},
         },
+        [11183] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{55.2,26.6}}}, ICON_TYPE_EVENT, "Plant the torch at the end of the dock"}},
+        },
         [11185] = {
             [questKeys.startedBy] = {{23881},nil,nil},
         },
