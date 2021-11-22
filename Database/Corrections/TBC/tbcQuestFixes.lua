@@ -1920,6 +1920,9 @@ function QuestieTBCQuestFixes:Load()
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
         },
+        [11180] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Information Gathered", 0, {{"monster", 23554},{"monster", 23555}}}},
+        },
         [11185] = {
             [questKeys.startedBy] = {{23881},nil,nil},
         },
