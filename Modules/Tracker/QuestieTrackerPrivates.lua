@@ -18,6 +18,9 @@ local dragButton
 
 function _QuestieTracker:OnDragStart(button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnDragStart]", button)
+    if InCombatLockdown() then
+        return
+    end
     local baseFrame = QuestieTracker:GetBaseFrame()
     if IsMouseButtonDown(button) then
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
