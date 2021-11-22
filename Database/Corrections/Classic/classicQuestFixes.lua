@@ -578,6 +578,9 @@ function QuestieQuestFixes:Load()
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
         },
+        [1206] = {
+            [questKeys.objectivesText] = {"Bring 40 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
+        },
         [1222] = {
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
         },
