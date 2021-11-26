@@ -41,8 +41,6 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
----@type QuestieQuestBlacklist
-local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieProfessions
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type DailyQuests
@@ -416,6 +414,11 @@ end
 ---@return boolean
 function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = QuestieLib:GetTbcLevel(questId)
+
+    local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
+    if QuestieDB:IsParentQuestActive(parentQuestId) then
+        return true
+    end
 
     if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
