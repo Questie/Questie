@@ -1104,6 +1104,9 @@ function QuestieQuestFixes:Load()
         [3513] = {
             [questKeys.startedBy] = {{5797},nil,{10621}},
         },
+        [3520] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse..", 0, {{"monster", 5308}}}},
+        },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
         },
