@@ -91,6 +91,9 @@ function QuestieTBCQuestFixes:Load()
         [1135] = {
             [questKeys.startedBy] = {{4456},nil,nil},
         },
+        [1204] = {--no required pre-quest anymore with tbc
+            [questKeys.preQuestSingle] = {},
+        },        
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },
