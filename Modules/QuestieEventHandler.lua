@@ -160,6 +160,7 @@ function _EventHandler:QuestAccepted(questLogIndex, questId)
         if(QuestieLib:IsResponseCorrect(questId)) then
             QuestieQuest:AcceptQuest(questId)
             QuestieJourney:AcceptQuest(questId)
+            QuestieAnnounce:AcceptQuest(questId)
             timer:Cancel()
             Questie:Debug(Questie.DEBUG_DEVELOP, "Accept seems correct, cancel timer")
         else
@@ -213,6 +214,7 @@ function _EventHandler:QuestRemoved(questId)
     end
     QuestieQuest:AbandonedQuest(questId)
     QuestieJourney:AbandonQuest(questId)
+    QuestieAnnounce:AbandonQuest(questId)
     shouldRunQLU = false
 
     --Broadcast our removal!
@@ -234,6 +236,7 @@ function _EventHandler:CompleteQuest(questId, count)
     if(IsQuestFlaggedCompleted(questId) or quest.IsRepeatable or count > 50) then
         QuestieQuest:CompleteQuest(quest)
         QuestieJourney:CompleteQuest(questId)
+        QuestieAnnounce:CompleteQuest(questId)
     else
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieEventHandler]", questId, ":Quest not complete starting timer! IsQuestFlaggedCompleted", IsQuestFlaggedCompleted(questId), "Repeatable:", quest.IsRepeatable, "Count:", count)
         C_Timer.After(0.1, function()
