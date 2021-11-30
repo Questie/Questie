@@ -353,31 +353,31 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.questAnnounce); end,
                         get = function () return Questie.db.char.questAnnounceAccepted; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.char.questAnnounceAccepted = value
                         end,
                     },
                     questAnnounceAbandoned = {
                         type = "toggle",
-                        order = 1,
+                        order = 2,
                         name = function() return l10n('Quest abandoned'); end,
                         desc = function() return l10n('Announce quest abortion to party members'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.questAnnounce); end,
                         get = function () return Questie.db.char.questAnnounceAbandoned; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.char.questAnnounceAbandoned = value
                         end,
                     },
                     questAnnounceCompleted = {
                         type = "toggle",
-                        order = 1,
+                        order = 3,
                         name = function() return l10n('Quest completed'); end,
                         desc = function() return l10n('Announce quest completion to party members'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.questAnnounce); end,
                         get = function () return Questie.db.char.questAnnounceCompleted; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.char.questAnnounceCompleted = value
                         end,
                     },

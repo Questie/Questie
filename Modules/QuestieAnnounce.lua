@@ -15,6 +15,30 @@ local itemCache = {} -- cache data since this happens on item looted it could ha
 
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
+---@return table<string, number, string>
+local function _GetQuestInfos(questId)
+    local questName = QuestieDB.QueryQuestSingle(questId, "name");
+    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+    local questLink = QuestieLink:GetQuestLinkString(questLevel, questName, questId);
+
+    return questName, questLevel, questLink
+end
+
+---@return string
+local function _GetAnnounceMarker()
+    return l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}";
+end
+
+local function _AnnounceParty(message, allowRepeat)
+    if (not message) or (not allowRepeat and alreadySentBandaid[message]) then
+        return
+    end
+
+    alreadySentBandaid[message] = true
+
+    SendChatMessage(message, "PARTY")
+end
+
 function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveText, objectiveProgress)
     if Questie.db.char.questAnnounce and UnitInParty("player") then
         local message
@@ -34,18 +58,8 @@ function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveT
             message = _GetAnnounceMarker() .. " Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questLink)
         end
 
-        _QuestieAnnounce:AnnounceParty(message, false)
+        _AnnounceParty(message, false)
     end
-end
-
-function _QuestieAnnounce:AnnounceParty(message, allowRepeat)
-    if (not message) or ((allowRepeat == nil or not allowRepeat) and alreadySentBandaid[message]) then
-        return
-    end
-
-    alreadySentBandaid[message] = true
-
-    SendChatMessage(message, "PARTY")
 end
 
 function _QuestieAnnounce:AnnounceSelf(questId, itemId)
@@ -86,26 +100,13 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
     end
 end
 
----@return table<string, number, string>
-local function _GetQuestInfos(questId)
-    local questName = QuestieDB.QueryQuestSingle(questId, "name");
-    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
-    local questLink = QuestieLink:GetQuestLinkString(questLevel, questName, questId);
-
-    return questName, questLevel, questLink
-end
-
----@return string
-local function _GetAnnounceMarker()
-    return l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}";
-end
 
 function QuestieAnnounce:AcceptQuest(questId)
     if Questie.db.char.questAnnounce and Questie.db.char.questAnnounceAccepted and UnitInParty("player") then
         local questName, _, questLink = _GetQuestInfos(questId);
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Accepted'), questLink or questName or "no quest name")
 
-        _QuestieAnnounce:AnnounceParty(message, true)
+        _AnnounceParty(message, true)
     end
 end
 
@@ -114,7 +115,7 @@ function QuestieAnnounce:AbandonQuest(questId)
         local questName, _, questLink = _GetQuestInfos(questId);
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Abandoned'), questLink or questName or "no quest name")
 
-        _QuestieAnnounce:AnnounceParty(message, true)
+        _AnnounceParty(message, true)
     end
 end
 
@@ -123,6 +124,6 @@ function QuestieAnnounce:CompleteQuest(questId)
         local questName, _, questLink = _GetQuestInfos(questId);
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Completed'), questLink or questName or "no quest name")
 
-       _QuestieAnnounce:AnnounceParty(message, true)
+       _AnnounceParty(message, true)
     end
 end
