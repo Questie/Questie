@@ -50,6 +50,7 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 --False -> true -> nil
 local didPlayerEnterWorld = false
 local shouldRunQLU = false
+local ERR_QUEST_COMPLETE_S  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
     for i=1, GetNumQuestLogEntries() do
@@ -95,6 +96,7 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Events to update a players professions and reputations
     Questie:RegisterEvent("CHAT_MSG_SKILL", _EventHandler.ChatMsgSkill)
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
+    Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- Quest Events
     Questie:RegisterEvent("QUEST_ACCEPTED", _EventHandler.QuestAccepted)
@@ -184,14 +186,18 @@ end
 ---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
     -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
-    -- Global Strings used:
-    -- 287: ERR_QUEST_OBJECTIVE_COMPLETE_S
-    -- 288: ERR_QUEST_UNKNOWN_COMPLETE
-    -- 289: ERR_QUEST_ADD_KILL_SII
-    -- 290: ERR_QUEST_ADD_FOUND_SII
-    -- 291: ERR_QUEST_ADD_ITEM_SII
-    -- 292: ERR_QUEST_ADD_PLAYER_KILL_SII
-    if errorType >= 287 and errorType <= 292 then
+    -- Error types with their global error string constants
+    local errors = {
+        -- [143] = true, -- ERR_QUEST_COMPLETE_S
+        -- [144] = true, -- ERR_QUEST_FAILED_S
+        [287] = true, -- ERR_QUEST_OBJECTIVE_COMPLETE_S
+        [288] = true, -- ERR_QUEST_UNKNOWN_COMPLETE
+        [289] = true, -- ERR_QUEST_ADD_KILL_SII
+        [290] = true, -- ERR_QUEST_ADD_FOUND_SII
+        [291] = true, -- ERR_QUEST_ADD_ITEM_SII
+        [292] = true  -- ERR_QUEST_ADD_PLAYER_KILL_SII
+    }
+    if errors[errorType] == true then
         MinimapIcon:UpdateText(message)
     end
 end
