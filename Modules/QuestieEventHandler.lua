@@ -186,16 +186,14 @@ end
 ---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
     -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
-    -- Error types with their global error string constants
-    local errors = {
-        [287] = true, -- ERR_QUEST_OBJECTIVE_COMPLETE_S
-        [288] = true, -- ERR_QUEST_UNKNOWN_COMPLETE
-        [289] = true, -- ERR_QUEST_ADD_KILL_SII
-        [290] = true, -- ERR_QUEST_ADD_FOUND_SII
-        [291] = true, -- ERR_QUEST_ADD_ITEM_SII
-        [292] = true  -- ERR_QUEST_ADD_PLAYER_KILL_SII
-    }
-    if errors[errorType] == true then
+    -- Global Strings used:
+    -- 287: ERR_QUEST_OBJECTIVE_COMPLETE_S
+    -- 288: ERR_QUEST_UNKNOWN_COMPLETE
+    -- 289: ERR_QUEST_ADD_KILL_SII
+    -- 290: ERR_QUEST_ADD_FOUND_SII
+    -- 291: ERR_QUEST_ADD_ITEM_SII
+    -- 292: ERR_QUEST_ADD_PLAYER_KILL_SII
+    if errorType >= 287 and errorType <= 292 then
         MinimapIcon:UpdateText(message)
     end
 end
