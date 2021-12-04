@@ -169,6 +169,16 @@ function _EventHandler:QuestAccepted(questLogIndex, questId)
 
 end
 
+--- Fires when a System Message (yellow text) is output to the main chat window
+---@param message string The message value from the CHAT_MSG_SYSTEM event
+function _EventHandler:ChatMsgSystem(message)
+    -- When a completed quest is turned in, update the LibDataBroker text with the "quest completed" message
+    local questComplete = string.find(message, ERR_QUEST_COMPLETE_S)
+    if questComplete == 1 then
+        MinimapIcon:UpdateText(message)
+    end
+end
+
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
 ---@param errorType number The error type value from the UI_INFO_MESSAGE event
 ---@param message string The message value from the UI_INFO_MESSAGE event
