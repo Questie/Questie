@@ -188,8 +188,6 @@ function _EventHandler:UiInfoMessage(errorType, message)
     -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
     -- Error types with their global error string constants
     local errors = {
-        -- [143] = true, -- ERR_QUEST_COMPLETE_S
-        -- [144] = true, -- ERR_QUEST_FAILED_S
         [287] = true, -- ERR_QUEST_OBJECTIVE_COMPLETE_S
         [288] = true, -- ERR_QUEST_UNKNOWN_COMPLETE
         [289] = true, -- ERR_QUEST_ADD_KILL_SII
