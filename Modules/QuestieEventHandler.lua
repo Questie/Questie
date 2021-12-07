@@ -50,7 +50,8 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon");
 --False -> true -> nil
 local didPlayerEnterWorld = false
 local shouldRunQLU = false
-local ERR_QUEST_COMPLETE_S  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
+local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
+local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
 
 local function _Hack_prime_log() -- this seems to make it update the data much quicker
     for i=1, GetNumQuestLogEntries() do
@@ -174,9 +175,8 @@ end
 --- Fires when a System Message (yellow text) is output to the main chat window
 ---@param message string The message value from the CHAT_MSG_SYSTEM event
 function _EventHandler:ChatMsgSystem(message)
-    -- When a completed quest is turned in, update the LibDataBroker text with the "quest completed" message
-    local questComplete = string.find(message, ERR_QUEST_COMPLETE_S)
-    if questComplete == 1 then
+    -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
+    if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
     end
 end
