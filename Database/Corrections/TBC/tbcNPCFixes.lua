@@ -64,6 +64,10 @@ function QuestieTBCNpcFixes:Load()
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
+        [8888] = {
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93},},},
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0}}},
             [npcKeys.waypoints] = {},
