@@ -68,6 +68,13 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93},},},
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
+        [9046] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES]={{34.94,27.86},},
+                [zoneIDs.SEARING_GORGE]={{43.34,99.17},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0}}},
             [npcKeys.waypoints] = {},
