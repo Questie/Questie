@@ -15,28 +15,33 @@ local itemCache = {} -- cache data since this happens on item looted it could ha
 
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
-local _GetQuestInfos, _GetAnnounceMarker
+local _GetQuestInfos
+local _GetAnnounceMarker
 
-function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveText, objectiveProgress)
-    if Questie.db.char.questAnnounce and UnitInParty("player") then
+function QuestieAnnounce:AnnounceObjective(questId, itemId, objectiveText, objectiveProgress)
+    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() then
         local message
         local _, _, questLink = _GetQuestInfos(questId);
 
-        if progressType == "objective" then
-            local objective
-            if itemId then
-                local itemLink = select(2, GetItemInfo(itemId))
-                objective = objectiveProgress.." "..itemLink
-            else
-                objective = objectiveProgress.." "..objectiveText
-            end
-            message = _GetAnnounceMarker() .. " Questie : " .. l10n("%s for %s!", objective, questLink)
-        elseif progressType == "item" then
+        local objective
+        if itemId then
             local itemLink = select(2, GetItemInfo(itemId))
-            message = _GetAnnounceMarker() .. " Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questLink)
+            objective = objectiveProgress.." "..itemLink
+        else
+            objective = objectiveProgress.." "..objectiveText
         end
+        message = _GetAnnounceMarker() .. " Questie : " .. l10n("%s for %s!", objective, questLink)
+        _QuestieAnnounce:AnnounceToChannel(message, false)
+    end
+end
 
-        _QuestieAnnounce:AnnounceParty(message, false)
+function QuestieAnnounce:AnnounceItem(questId, itemId)
+    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() then
+        local _, _, questLink = _GetQuestInfos(questId);
+        local itemLink = select(2, GetItemInfo(itemId))
+
+        local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questLink)
+        _QuestieAnnounce:AnnounceToChannel(message, false)
     end
 end
 
@@ -68,12 +73,12 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
         end
 
         if startQuestId then
-            if (not UnitInParty("player")) or (not Questie.db.char.questAnnounce) then
-                _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
+            if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() then
+                QuestieAnnounce:AnnounceItem(startQuestId, itemId)
                 return
             end
 
-            QuestieAnnounce:AnnounceParty(startQuestId, "item", itemId)
+            _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
         end
     end
 end
@@ -92,39 +97,52 @@ _GetAnnounceMarker = function()
     return l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}";
 end
 
-function _QuestieAnnounce:AnnounceParty(message, allowRepeat)
+---@return boolean
+function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
+    if Questie.db.char.questAnnounceChannel == "both" then
+        return IsInRaid() or IsInGroup()
+    elseif Questie.db.char.questAnnounceChannel == "raid" then
+        return IsInRaid()
+    elseif Questie.db.char.questAnnounceChannel == "group" then
+        return IsInGroup()
+    else
+        return false
+    end
+end
+
+function _QuestieAnnounce:AnnounceToChannel(message, allowRepeat)
     if (not message) or (not allowRepeat and alreadySentBandaid[message]) then
         return
     end
 
     alreadySentBandaid[message] = true
 
-    SendChatMessage(message, "PARTY")
+    SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup() and "PARTY"))
 end
 
 function QuestieAnnounce:AcceptQuest(questId)
-    if Questie.db.char.questAnnounce and Questie.db.char.questAnnounceAccepted and UnitInParty("player") then
+    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceAccepted then
         local questName, _, questLink = _GetQuestInfos(questId);
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Accepted'), questLink or questName or "no quest name")
 
-        _QuestieAnnounce:AnnounceParty(message, true)
+        _QuestieAnnounce:AnnounceToChannel(message, true)
     end
 end
 
 function QuestieAnnounce:AbandonQuest(questId)
-    if Questie.db.char.questAnnounce and Questie.db.char.questAnnounceAbandoned and UnitInParty("player") then
+    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceAbandoned then
         local questName, _, questLink = _GetQuestInfos(questId);
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Abandoned'), questLink or questName or "no quest name")
 
-        _QuestieAnnounce:AnnounceParty(message, true)
+        _QuestieAnnounce:AnnounceToChannel(message, true)
     end
 end
 
 function QuestieAnnounce:CompleteQuest(questId)
-    if Questie.db.char.questAnnounce and Questie.db.char.questAnnounceCompleted and UnitInParty("player") then
+    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceCompleted then
         local questName, _, questLink = _GetQuestInfos(questId);
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Completed'), questLink or questName or "no quest name")
 
-        _QuestieAnnounce:AnnounceParty(message, true)
+        _QuestieAnnounce:AnnounceToChannel(message, true)
     end
 end

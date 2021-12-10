@@ -121,7 +121,7 @@ function QuestieOptionsDefaults:Load()
             autocomplete = false,
             autoModifier = "shift",
             acceptTrivial = false,
-            questAnnounce = true,
+            questAnnounceChannel = "group",
             questAnnounceAccepted = false,
             questAnnounceAbandoned = false,
             questAnnounceCompleted = false,
