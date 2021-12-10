@@ -283,6 +283,9 @@ function QuestieQuestFixes:Load()
         [639] = {
             [questKeys.preQuestSingle] = {}, -- #1205
         },
+        [640] = {
+            [questKeys.objectivesText] = {"Retrieve the 11 Sigil Fragments from the defenders in Stromgarde, and bring them to Tor'gan in Hammerfall.",},
+        },
         [648] = {
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[zoneIDs.TANARIS]={{67.06,23.16}}}},
         },
