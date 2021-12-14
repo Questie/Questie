@@ -242,7 +242,7 @@ function QuestieQuest:Reset()
 
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
-    QuestieReputation:Update(false)
+    QuestieReputation:Update(true)
 
 
     QuestieMenu:OnLogin()
