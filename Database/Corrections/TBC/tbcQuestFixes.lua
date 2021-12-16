@@ -143,6 +143,9 @@ function QuestieTBCQuestFixes:Load()
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
         },
+        [5649] = {
+            [questKeys.requiredLevel] = 5,
+        },
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5}}}},
         },
