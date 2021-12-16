@@ -199,10 +199,11 @@ _WithinDates = function(startDay, startMonth, endDay, endMonth)
     local date = (C_DateAndTime.GetTodaysDate or C_DateAndTime.GetCurrentCalendarTime)()
     local day = date.day or date.monthDay
     local month = date.month
-    if (month < startMonth) or -- Too early in the year
-        (month > endMonth) or -- Too late in the year
-        (month == startMonth and day < startDay) or -- Too early in the correct month
-        (month == endMonth and day > endDay) then -- Too late in the correct month
+    if (startMonth <= endMonth) -- Event start and end during same year
+        and ((month < startMonth) or (month > endMonth)) -- Too early or late in the year
+        or ((month < startMonth) and (month > endMonth)) -- Event span across year change
+        or (month == startMonth and day < startDay) -- Too early in the correct month
+        or (month == endMonth and day > endDay) then -- Too late in the correct month
         return false
     else
         return true
