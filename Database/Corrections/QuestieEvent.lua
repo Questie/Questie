@@ -784,4 +784,4 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11966}) -- Incense for the Festi
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
 
-tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528}) -- A Winter Veil Gift
+tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A Winter Veil Gift
