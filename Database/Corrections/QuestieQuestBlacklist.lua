@@ -26,7 +26,7 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
-        [936] = true,  -- Seems to not be in the game
+        [936] = QuestieCorrections.CLASSIC_ONLY,
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -311,6 +311,7 @@ function QuestieQuestBlacklist:Load()
         [11392] = true,
         [11400] = true,
         [11401] = true,
+        [11403] = true,
         [11404] = true,
         [11405] = true,
         [11409] = true,

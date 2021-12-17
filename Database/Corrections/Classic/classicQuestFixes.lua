@@ -283,6 +283,9 @@ function QuestieQuestFixes:Load()
         [639] = {
             [questKeys.preQuestSingle] = {}, -- #1205
         },
+        [640] = {
+            [questKeys.objectivesText] = {"Retrieve the 11 Sigil Fragments from the defenders in Stromgarde, and bring them to Tor'gan in Hammerfall.",},
+        },
         [648] = {
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[zoneIDs.TANARIS]={{67.06,23.16}}}},
         },
@@ -577,6 +580,9 @@ function QuestieQuestFixes:Load()
         },
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
+        },
+        [1206] = {
+            [questKeys.objectivesText] = {"Bring 40 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
         },
         [1222] = {
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
@@ -1101,6 +1107,9 @@ function QuestieQuestFixes:Load()
         [3513] = {
             [questKeys.startedBy] = {{5797},nil,{10621}},
         },
+        [3520] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse..", 0, {{"monster", 5308}}}},
+        },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
         },
@@ -1335,6 +1344,9 @@ function QuestieQuestFixes:Load()
         },
         [4737] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [4743] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy.", 0, {{"monster", 10321}}}},
         },
         [4763] = {
             [questKeys.requiredSourceItems] = {12347,12341,12342,12343}, -- #798
