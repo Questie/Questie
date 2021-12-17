@@ -17,23 +17,24 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieOptions.tabs.advanced = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
-StaticPopupDialogs["QUESTIE_LANG_CHANGED_RELOAD"] = {
-    button1 = l10n('Reload UI'),
-    button2 = l10n('Cancel'),
-    OnAccept = function()
-        ReloadUI()
-    end,
-    text = l10n('The database needs to be updated to change language. Press reload to apply the new language'),
-    OnShow = function(self)
-        self:SetFrameStrata("TOOLTIP")
-    end,
-    timeout = 0,
-    whileDead = true,
-    hideOnEscape = true,
-    preferredIndex = 3
-}
-
 function QuestieOptions.tabs.advanced:Initialize()
+    -- This needs to be called inside of the Init process for l10n to be fully loaded
+    StaticPopupDialogs["QUESTIE_LANG_CHANGED_RELOAD"] = {
+        button1 = l10n('Reload UI'),
+        button2 = l10n('Cancel'),
+        OnAccept = function()
+            ReloadUI()
+        end,
+        text = l10n('The database needs to be updated to change language. Press reload to apply the new language'),
+        OnShow = function(self)
+            self:SetFrameStrata("TOOLTIP")
+        end,
+        timeout = 0,
+        whileDead = true,
+        hideOnEscape = true,
+        preferredIndex = 3
+    }
+
     return {
         name = function() return l10n('Advanced'); end,
         type = "group",
