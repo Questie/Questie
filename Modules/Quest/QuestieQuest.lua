@@ -201,6 +201,7 @@ function QuestieQuest:ClearAllNotes()
 end
 
 -- this is only needed for reset, normally special objectives don't need to update
+---@param questId number
 local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and next(quest.SpecialObjectives) then
@@ -338,6 +339,8 @@ function QuestieQuest:SmoothReset()
     end)
 end
 
+---@param questId number
+---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
     if not Questie.db.char.hideUntrackedQuestsMapIcons then
         -- Always show quest notes (map icons) unless option is enabled
@@ -360,29 +363,7 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 end
 
-function QuestieQuest:GetRawLeaderBoardDetails(questLogIndex)
-    local title, level, _, _, _, isComplete, _, questId = GetQuestLogTitle(questLogIndex)
-    local quest = {
-        title = title,
-        level = level,
-        Id = questId,
-        isComplete = isComplete,
-        Objectives = {},
-    }
-    local objectiveList  = C_QuestLog.GetQuestObjectives(questId) or {}
-    for objectiveIndex, objective in pairs(objectiveList) do
-        quest.Objectives[objectiveIndex] = {
-            description = objective.text,
-            objectiveType = objective.type,
-            isCompleted = objective.finished,
-            numFulfilled = objective.numFulfilled,
-            numRequired = objective.numRequired,
-        }
-    end
-
-    return quest;
-end
-
+---@param questId number
 function QuestieQuest:AcceptQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId] == nil) then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Accepted Quest:", questId);
@@ -435,6 +416,7 @@ function QuestieQuest:CompleteQuest(questId)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Completed Quest:", questId)
 end
 
+---@param questId number
 function QuestieQuest:AbandonedQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     if(QuestiePlayer.currentQuestlog[questId]) then
@@ -444,7 +426,7 @@ function QuestieQuest:AbandonedQuest(questId)
 
         local quest = QuestieDB:GetQuest(questId);
         if quest then
-            quest.Objectives = {};
+            quest.Objectives = {}
 
             if quest.ObjectiveData then
                 for _, objective in pairs(quest.ObjectiveData) do
@@ -515,7 +497,7 @@ end
 ---@param questId number
 function QuestieQuest:SetObjectivesDirty(questId)
     local quest = QuestieDB:GetQuest(questId)
-    if quest and quest.Objectives then
+    if quest then
         for _, objective in pairs(quest.Objectives) do
             objective.isUpdated = false
         end
@@ -591,17 +573,16 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
 end
 
 -- iterate all notes, update / remove as needed
+---@param quest Quest
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: UpdateObjectiveNotes:", quest.Id)
-    if quest.Objectives then
-        for objectiveIndex, objective in pairs(quest.Objectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-                print(err)
-                print(debugstack())
-            end, QuestieQuest, quest, objectiveIndex, objective, false);
-            if (not result) then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err);
-            end
+    for objectiveIndex, objective in pairs(quest.Objectives) do
+        local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
+            print(err)
+            print(debugstack())
+        end, QuestieQuest, quest, objectiveIndex, objective, false);
+        if (not result) then
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err);
         end
     end
 end
@@ -610,6 +591,7 @@ local function _GetIconScaleForAvailable()
     return Questie.db.global.availableScale or 1.3
 end
 
+---@param quest Quest
 function QuestieQuest:AddFinisher(quest)
     --We should never ever add the quest if IsQuestFlaggedComplete true.
     local questId = quest.Id
@@ -731,6 +713,7 @@ function QuestieQuest:ForceToMap(type, id, label, customScale)
     end
 end
 
+---@param quest Quest
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. objective.Description)
 
@@ -1100,12 +1083,9 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 end
 
+---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
-    if quest.Objectives == nil then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateQuestLogInfo: Creating new objective table")
-        quest.Objectives = {};
-    end
-    local logID = GetQuestLogIndexByID(quest.Id);
+    local logID = GetQuestLogIndexByID(quest.Id)
     if logID ~= 0 then
         local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, isHidden = GetQuestLogTitle(logID)
         quest.isComplete = isComplete
@@ -1115,12 +1095,13 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", quest.isComplete, quest.name)
     else
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: Error: No logid:", quest.name, quest.Id )
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Error: No quest log index for:", quest.name, quest.Id)
     end
     QuestieQuest:GetAllQuestObjectives(quest)
 end
 
 --Uses the category order to draw the quests and trusts the database order.
+---@param quest Quest
 function QuestieQuest:GetAllQuestObjectives(quest)
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
 
@@ -1130,7 +1111,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
                 if quest.Objectives[objectiveIndex] == nil then
-                    quest.Objectives[objectiveIndex] = {}
 
                     -- Sometimes we need to retry to get the correct text from the API
                     if (not objective.text) or objective.text:sub(1, 1) == " " then
@@ -1139,6 +1119,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         objective.text = retry[objectiveIndex].text
                         Questie:Debug(Questie.DEBUG_INFO, "Received text is:", retry[objectiveIndex].text)
                     end
+
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
@@ -1159,7 +1140,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
         end
 
         if (not quest.Objectives[objectiveIndex]) or (not quest.Objectives[objectiveIndex].Id) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: Error finding entry ID for objective", objective.type, objective.text)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Error finding entry ID for objective", objectiveIndex, objective.type, objective.text, "of questId:", quest.Id)
         end
     end
 
@@ -1257,9 +1238,11 @@ local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
 local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
+
+---@param questId number
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
-    local questObjectives = QuestieLib:GetQuestObjectives(questId);
+    local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     if not questObjectives then
         -- Some quests just don't have a real objective e.g. 2744
         return nil
@@ -1267,15 +1250,16 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
     --Questie:Print(questId)
     for _, objective in pairs(questObjectives) do
-        if(objective.text) then
-            local text = objective.text;
+        local originalText = objective.text
+        if (originalText and (string.sub(originalText,1,1) ~= " ")) then
+            local text = originalText
             if(objective.type == "monster") then
                 local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
                 if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
                     monsterName = n
                 end
 
-                if((monsterName and objective.text and strlen(monsterName) == strlen(objective.text)) or not monsterName) then
+                if((monsterName and strlen(monsterName) == strlen(originalText)) or not monsterName) then
                     --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
                     local cleanerText = smatch(monsterName or text, "(.*)：");
                     text = cleanerText
@@ -1299,25 +1283,26 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
             end
             -- If the functions above do not give a good answer fall back to older regex to get something.
             if(text == nil) then
-                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$") or smatch(objective.text, "^(.*)：%s") or objective.text;
+                text = smatch(originalText, "^(.*):%s") or smatch(originalText, "%s：(.*)$") or smatch(originalText, "^(.*)：%s") or originalText
             end
             --If objective.text is nil, this will be nil, throw error!
             if(text ~= nil) then
-                objective.text = strim(text);
+                text = strim(text)
+                objective.text = text
                 local completed = objective.numRequired == objective.numFulfilled
 
                 if (not completed) then
-                    _has_seen_incomplete[objective.text] = true
-                elseif _has_seen_incomplete[objective.text] and not _has_sent_announce[objective.text] then
-                    _has_seen_incomplete[objective.text] = nil
-                    _has_sent_announce[objective.text] = true
-                    QuestieAnnounce:AnnounceParty(questId, "objective", spawnItemId, objective.text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
+                    _has_seen_incomplete[text] = true
+                elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
+                    _has_seen_incomplete[text] = nil
+                    _has_sent_announce[text] = true
+                    QuestieAnnounce:AnnounceParty(questId, "objective", nil, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
                 end
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
             end
         else
-            DEFAULT_CHAT_FRAME:AddMessage("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text));
+            Questie:Error("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text))
         end
     end
     return questObjectives;

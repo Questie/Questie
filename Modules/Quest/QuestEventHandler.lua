@@ -14,6 +14,8 @@ local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local stringSub = string.sub
 local tableRemove = table.remove
@@ -48,6 +50,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+    eventFrame:RegisterEvent("UNIT_FACTION")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
     _QuestEventHandler:InitQuestLog()
@@ -73,8 +76,29 @@ function _QuestEventHandler:InitQuestLog()
     for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
         if (not title) then
-            -- We exceeded the valid quest log entries
-            break
+            break -- We exceeded the valid quest log entries
+        end
+        if (not isHeader) then
+            local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+            for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
+                if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
+                    -- Game hasn't cached the quest fully yet
+                    initQuestLogTries = initQuestLogTries + 1
+
+                    _QuestLogUpdateQueue:Insert(function()
+                        return _QuestEventHandler:InitQuestLog()
+                    end)
+                    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game has not yet cached objectives for questId:", questId)
+                    return false
+                end
+            end
+        end
+    end
+
+    for i = 1, MAX_QUEST_LOG_INDEX do
+        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        if (not title) then
+            break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
             questLog[questId] = {
@@ -325,6 +349,13 @@ function _QuestEventHandler:BankFrameClosed()
     end
 end
 
+function _QuestEventHandler:UnitFaction()
+    print("[Event] UNIT_FACTION")
+
+    -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
+    doFullQuestLogScan = true
+end
+
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
 function _QuestLogUpdateQueue:Insert(func)
     questLogUpdateQueue[questLogUpdateQueueSize] = func
@@ -355,5 +386,7 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
+    elseif event == "UNIT_FACTION" and select(1, ...) == "player" then
+        _QuestEventHandler:UnitFaction()
     end
 end
