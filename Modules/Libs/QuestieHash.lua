@@ -1,8 +1,6 @@
 ---@class QuestieHash
 local QuestieHash = QuestieLoader:CreateModule("QuestieHash")
 
----@type QuestieLib
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuest
@@ -49,7 +47,7 @@ function QuestieHash:GetQuestHash(questId)
     local data = {
         questId = questId,
         isComplete = QuestieDB:IsComplete(questId),
-        questObjectives = QuestieLib:GetQuestObjectives(questId),
+        questObjectives = C_QuestLog.GetQuestObjectives(questId),
     }
 
     hash = libC:fcs32update(hash, libS:Serialize(data))

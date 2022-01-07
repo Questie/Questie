@@ -135,36 +135,6 @@ function QuestieLib:IsResponseCorrect(questId)
     return good
 end
 
----@param questId number @The quest ID
----@return table
-function QuestieLib:GetQuestObjectives(questId)
-    local count = 0
-    local objectiveList
-    while (count < 1) do
-        local good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if not objectiveList then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if (objective.text == nil or objective.text == "" or
-                    QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(Questie.DEBUG_SPAM, count,
-                                  " : Objective text is strange!", "'",
-                                  objective.text, "'", " distance",
-                                  QuestieLib:Levenshtein(": 0/1", objective.text))
-                    good = false
-                    break
-                end
-            end
-        end
-        count = count + 1
-        if good then break end
-    end
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
-    return objectiveList
-end
-
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
