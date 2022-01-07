@@ -1067,9 +1067,6 @@ function QuestieTBCQuestFixes:Load()
         [10120] = {
             [questKeys.preQuestSingle] = {},
         },
-        [10166] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place Old Whitebark's Pendant by the runestone at the Scorched Grove.", 0, {{"object", 181260}}}},
-        },
         [10168] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits.", 0, {{"monster", 18688}}}},
         },
@@ -1382,7 +1379,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{21499},nil,nil},
         },
         [10629] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16863}}}},
         },
         [10634] = {
             [questKeys.preQuestSingle] = {10633,10644},
@@ -1559,11 +1556,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Attempt to purify the Darkstone of Terrok", {[zoneIDs.TEROKKAR_FOREST]={{30.84,42.03}}}},
         },
         [10840] = {
-            [questKeys.preQuestSingle] = {10849,10852},
+            [questKeys.preQuestSingle] = {10915,10852},
         },
         [10842] = {
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
-            [questKeys.preQuestSingle] = {10849,10852},
+            [questKeys.preQuestSingle] = {10915,10852},
         },
         [10854] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake", 0, {{"monster", 21722}}}}

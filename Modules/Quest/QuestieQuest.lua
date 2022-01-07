@@ -239,7 +239,7 @@ function QuestieQuest:Reset()
 
     Questie.db.char.complete = GetQuestsCompleted()
     QuestieProfessions:Update()
-    QuestieReputation:Update(false)
+    QuestieReputation:Update(true)
 
 
     QuestieMenu:OnLogin()
@@ -282,7 +282,7 @@ function QuestieQuest:SmoothReset()
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
-            QuestieReputation:Update(false)
+            QuestieReputation:Update(true)
 
             -- draw available quests
             QuestieQuest:GetAllQuestIdsNoObjectives()
