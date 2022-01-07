@@ -15,6 +15,7 @@ local itemCache = {} -- cache data since this happens on item looted it could ha
 
 local alreadySentBandaid = {} -- TODO: rewrite the entire thing its a lost cause
 
+-- TODO Split this function into "AnnounceObjectiveToParty" and "AnnounceQuestItemLootedToParty" (or something similar)
 function QuestieAnnounce:AnnounceParty(questId, progressType, itemId, objectiveText, objectiveProgress)
     if Questie.db.char.questAnnounce and UnitInParty("player") then
         local message

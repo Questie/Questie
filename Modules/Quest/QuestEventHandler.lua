@@ -95,6 +95,8 @@ function _QuestEventHandler:InitQuestLog()
         end
     end
 
+    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's quest log is okay.")
+
     for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
         if (not title) then
