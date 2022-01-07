@@ -35,7 +35,7 @@ end
 ---@return boolean
 _ReachedNewStanding = function(previousValues, standingId)
     return previousValues == nil -- New faction
-        or (previousValues ~= nil and previousValues[1] ~= standingId) -- Standing changed
+        or (previousValues[1] ~= standingId) -- Standing changed
 end
 
 ---@return boolean
