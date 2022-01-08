@@ -76,24 +76,24 @@ function _QuestEventHandler:InitQuestLog()
         return false
     end
 
-    local gameCacheGood = true
-    local goodQuestsCount = 0 --for debug stats
+    local isGameCacheGood = true
+    local goodQuestsCount = 0 -- for debug stats
 
     for i = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
         if (not title) then
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
-            local hasInvalidObjective --for debug stats
+            local hasInvalidObjective -- for debug stats
             local objectiveList = C_QuestLog.GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
                 if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
                     -- Game hasn't cached the quest fully yet
-                    gameCacheGood = false
+                    isGameCacheGood = false
                     hasInvalidObjective = true
 
-                    -- No early return false here to force iterate whole quest log and speed up caching.
+                    -- No early "return false" here to force iterate whole quest log and speed up caching
                 end
             end
             if not hasInvalidObjective then
@@ -102,7 +102,7 @@ function _QuestEventHandler:InitQuestLog()
         end
     end
 
-    if not gameCacheGood then
+    if not isGameCacheGood then
         _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:InitQuestLog()
         end)
@@ -111,14 +111,14 @@ function _QuestEventHandler:InitQuestLog()
     end
 
     if goodQuestsCount ~= numQuests then
-        --This shouldn't be possible
-        Questie:Error("Report this error! Game QuestLog cache is broken. Good quest: "..goodQuestsCount.."/"..numQuests) --TODO fix message and add translations?
+        -- This shouldn't be possible
+        Questie:Error("Report this error! Game QuestLog cache is broken. Good quest: "..goodQuestsCount.."/"..numQuests) -- TODO fix message and add translations?
     end
 
     print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's quest log is okay. Good quest: "..goodQuestsCount.."/"..numQuests)
 
     for i = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
         if (not title) then
             break -- We exceeded the valid quest log entries
         end
