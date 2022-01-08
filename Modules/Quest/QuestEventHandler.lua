@@ -85,18 +85,18 @@ function _QuestEventHandler:InitQuestLog()
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
-            local hasInvalidObject --for debug stats
+            local hasInvalidObjective --for debug stats
             local objectiveList = C_QuestLog.GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
                 if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
                     -- Game hasn't cached the quest fully yet
                     gameCacheGood = false
-                    hasInvalidObject = true
+                    hasInvalidObjective = true
 
                     -- No early return false here to force iterate whole quest log and speed up caching.
                 end
             end
-            if not hasInvalidObject then
+            if not hasInvalidObjective then
                 goodQuestsCount = goodQuestsCount + 1
             end
         end
