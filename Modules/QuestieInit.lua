@@ -47,10 +47,22 @@ local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
 
--- initialize all questie modules
--- this function runs inside a coroutine
-function QuestieInit:InitAllModules()
+-- 3 * (Max possible number of quests in game quest log)
+-- This is a safe value, even smaller would be enough. Too large won't effect performance
+local MAX_QUEST_LOG_INDEX = 75
 
+local MAX_INIT_QUEST_LOG_TRIES = 5
+local initQuestLogTries = 0
+local eventFrame
+
+
+-- ********************************************************************************
+-- Start of QuestieInit.Stages ******************************************************
+
+-- stage worker functions. Most are coroutines.
+QuestieInit.Stages = {}
+
+QuestieInit.Stages[1] = function() -- run as a coroutine
     HBDHooks:Init()
 
     QuestieFramePool:SetIcons()
@@ -118,6 +130,15 @@ function QuestieInit:InitAllModules()
 
     QuestieCleanup:Run()
 
+    -- continue to next Init Stage
+    coroutine.yield(QuestieInit.Stages[2])
+end
+
+QuestieInit.Stages[2] = function() -- not a coroutine
+    _QuestieInit.WaitForGameCache()
+end
+
+QuestieInit.Stages[3] = function() -- run as a coroutine
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
     QuestEventHandler:RegisterEvents()
@@ -185,6 +206,11 @@ function QuestieInit:InitAllModules()
     end
 end
 
+-- End of QuestieInit.Stages ******************************************************
+-- ********************************************************************************
+
+
+
 function QuestieInit:LoadDatabase(key)
     if QuestieDB[key] then
         coroutine.yield()
@@ -226,20 +252,122 @@ function _QuestieInit:OverrideDBWithTBCData()
     end
 end
 
--- called by the PLAYER_LOGIN event handler
--- this function creates the coroutine that runs "InitAllModules"
-function QuestieInit:Init()
+
+local function _WaitForGameCache_TryAgainAtEvent()
+    if not eventFrame then
+        eventFrame = CreateFrame("Frame")
+        eventFrame:SetScript("OnEvent", _QuestieInit.WaitForGameCache)
+        eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
+    end
+end
+
+local function _WaitForGameCache_DestroyEventFrame()
+    if eventFrame then
+        eventFrame:UnregisterAllEvents()
+        eventFrame:SetScript("OnEvent", nil)
+        eventFrame:SetParent(nil)
+        eventFrame = nil
+    end
+end
+
+-- called directly and OnEvent
+function _QuestieInit.WaitForGameCache()
+    local numEntries, numQuests = GetNumQuestLogEntries()
+    print("--> _QuestieInit.WaitForGameCache() numEntries:", numEntries, "numQuests:", numQuests)
+
+    -- Player can have 0 quests in questlog OR game's cache can have empty questlog while cache is invalid
+    -- This is a workaround to wait and see if player really has 0 quests.
+    -- Without cached information the first QLU does not have any quest log entries.
+    -- After MAX_INIT_QUEST_LOG_TRIES tries we stop trying
+    if numEntries == 0 then
+        if initQuestLogTries < MAX_INIT_QUEST_LOG_TRIES then
+            initQuestLogTries = initQuestLogTries + 1
+            print("--> _QuestieInit.WaitForGameCache()", GetTime(), "Game's quest log is empty. Tries:", initQuestLogTries.."/"..MAX_INIT_QUEST_LOG_TRIES)
+            _WaitForGameCache_TryAgainAtEvent()
+            return
+        else
+            print("--> _QuestieInit.WaitForGameCache()", GetTime(), "Decide player has no quests for real.")
+        end
+    end
+
+    local isGameCacheGood = true
+    local goodQuestsCount = 0 -- for debug stats
+
+    for i = 1, MAX_QUEST_LOG_INDEX do
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
+        if (not title) then
+            break -- We exceeded the valid quest log entries
+        end
+        if (not isHeader) then
+            local hasInvalidObjective -- for debug stats
+            local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+            for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
+                if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
+                    -- Game hasn't cached the quest fully yet
+                    isGameCacheGood = false
+                    hasInvalidObjective = true
+
+                    -- No early "return false" here to force iterate whole quest log and speed up caching
+                end
+            end
+            if not hasInvalidObjective then
+                goodQuestsCount = goodQuestsCount + 1
+            end
+        end
+    end
+
+    if not isGameCacheGood then
+        print("--> _QuestieInit.WaitForGameCache()", GetTime(), "Game's quest log is not yet okey. Good quest: "..goodQuestsCount.."/"..numQuests)
+        _WaitForGameCache_TryAgainAtEvent()
+        return
+    end
+
+    if goodQuestsCount ~= numQuests then
+        -- This shouldn't be possible
+        Questie:Error("Report this error! Game QuestLog cache is broken. Good quest: "..goodQuestsCount.."/"..numQuests) -- TODO fix message and add translations?
+        -- TODO should we stop whole addon loading progress?
+    end
+
+    print("--> _QuestieInit.WaitForGameCache()", GetTime(), "Game's quest log is okay. Good quest: "..goodQuestsCount.."/"..numQuests)
+
+    -- Destroy eventFrame
+    _WaitForGameCache_DestroyEventFrame()
+
+    -- Continue to next Init Stage
+    _QuestieInit:StartStageCoroutine(3)
+end
+
+
+-- this function creates coroutine to run a function from QuestieInit.Stages[]
+---@param stage number @the stage to start
+function _QuestieInit:StartStageCoroutine(stage)
     local initFrame = CreateFrame("Frame")
-    local routine = coroutine.create(QuestieInit.InitAllModules)
-    initFrame:SetScript("OnUpdate", function()
-        local success, error = coroutine.resume(routine)
+    local routine = coroutine.create(QuestieInit.Stages[stage])
+
+    local function _OnUpdate()
+        local success, ret = coroutine.resume(routine)
         if success then
             if coroutine.status(routine) == "dead" then
                 initFrame:SetScript("OnUpdate", nil)
+                initFrame:SetParent(nil)
+                initFrame = nil
+                if type(ret) == "function" then -- continue to next stage, which is returned by coroutine
+                    ret()
+                end
             end
         else
-            Questie:Error(l10n("Error during initialization!"), error)
+            Questie:Error(l10n("Error during initialization!"), ret)
             initFrame:SetScript("OnUpdate", nil)
+            initFrame:SetParent(nil)
+            initFrame = nil
         end
-    end)
+    end
+
+    initFrame:SetScript("OnUpdate", _OnUpdate)
+    _OnUpdate() -- starts the coroutine imediately instead at next OnUpdate
+end
+
+-- called by the PLAYER_LOGIN event handler
+function QuestieInit:Init()
+    _QuestieInit:StartStageCoroutine(1)
 end
