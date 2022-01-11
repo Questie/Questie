@@ -63,6 +63,8 @@ function _QuestEventHandler:InitQuestLog()
     local numEntries, numQuests = GetNumQuestLogEntries()
     print("--> numEntries:", numEntries, "numQuests:", numQuests)
 
+    -- Player can have 0 quests in questlog OR game's cache can have empty questlog while cache is invalid
+    -- This is a workaround to wait and see if player really has 0 quests.
     -- Without cached information the first QLU does not have any quest log entries.
     -- After MAX_INIT_QUEST_LOG_TRIES tries we stop trying
     if numEntries == 0 and initQuestLogTries < MAX_INIT_QUEST_LOG_TRIES then
@@ -70,35 +72,53 @@ function _QuestEventHandler:InitQuestLog()
         _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:InitQuestLog()
         end)
+        print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's quest log is empty. Tries:", initQuestLogTries)
         return false
     end
 
+    local isGameCacheGood = true
+    local goodQuestsCount = 0 -- for debug stats
+
     for i = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
         if (not title) then
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) then
+            local hasInvalidObjective -- for debug stats
             local objectiveList = C_QuestLog.GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
                 if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
                     -- Game hasn't cached the quest fully yet
-                    initQuestLogTries = initQuestLogTries + 1
+                    isGameCacheGood = false
+                    hasInvalidObjective = true
 
-                    _QuestLogUpdateQueue:Insert(function()
-                        return _QuestEventHandler:InitQuestLog()
-                    end)
-                    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game has not yet cached objectives for questId:", questId)
-                    return false
+                    -- No early "return false" here to force iterate whole quest log and speed up caching
                 end
+            end
+            if not hasInvalidObjective then
+                goodQuestsCount = goodQuestsCount + 1
             end
         end
     end
 
-    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's quest log is okay.")
+    if not isGameCacheGood then
+        _QuestLogUpdateQueue:Insert(function()
+            return _QuestEventHandler:InitQuestLog()
+        end)
+        print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's quest log is not yet okey. Good quest: "..goodQuestsCount.."/"..numQuests)
+        return false
+    end
+
+    if goodQuestsCount ~= numQuests then
+        -- This shouldn't be possible
+        Questie:Error("Report this error! Game QuestLog cache is broken. Good quest: "..goodQuestsCount.."/"..numQuests) -- TODO fix message and add translations?
+    end
+
+    print("_QuestEventHandler:InitQuestLog()", GetTime(), "Game's quest log is okay. Good quest: "..goodQuestsCount.."/"..numQuests)
 
     for i = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId, _ = GetQuestLogTitle(i)
+        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
         if (not title) then
             break -- We exceeded the valid quest log entries
         end
