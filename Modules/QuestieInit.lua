@@ -47,6 +47,9 @@ local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
 
+local stringSub = string.sub
+local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
+
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
 local MAX_QUEST_LOG_INDEX = 75
@@ -130,12 +133,15 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     QuestieCleanup:Run()
 
+    coroutine.yield()
+
     -- continue to next Init Stage
-    coroutine.yield(QuestieInit.Stages[2])
+    return QuestieInit.Stages[2]
 end
 
 QuestieInit.Stages[2] = function() -- not a coroutine
     _QuestieInit.WaitForGameCache()
+    -- continues to next Init Stage from above function
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
@@ -300,7 +306,7 @@ function _QuestieInit.WaitForGameCache()
         end
         if (not isHeader) then
             local hasInvalidObjective -- for debug stats
-            local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+            local objectiveList = GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
                 if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
                     -- Game hasn't cached the quest fully yet
@@ -328,7 +334,7 @@ function _QuestieInit.WaitForGameCache()
         -- TODO should we stop whole addon loading progress?
     end
 
-    print("--> _QuestieInit.WaitForGameCache()", GetTime(), "Game's quest log is okay. Good quest: "..goodQuestsCount.."/"..numQuests)
+    print("--> _QuestieInit.WaitForGameCache()", GetTime(), "Game's quest log is |cff00bc32".."OK".."|r. Good quest: "..goodQuestsCount.."/"..numQuests)
 
     -- Destroy eventFrame
     _WaitForGameCache_DestroyEventFrame()
@@ -344,14 +350,14 @@ function _QuestieInit:StartStageCoroutine(stage)
     local initFrame = CreateFrame("Frame")
     local routine = coroutine.create(QuestieInit.Stages[stage])
 
-    local function _OnUpdate()
+    local function InitOnUpdate()
         local success, ret = coroutine.resume(routine)
         if success then
             if coroutine.status(routine) == "dead" then
                 initFrame:SetScript("OnUpdate", nil)
                 initFrame:SetParent(nil)
                 initFrame = nil
-                if type(ret) == "function" then -- continue to next stage, which is returned by coroutine
+                if type(ret) == "function" then -- continue to next stage, which was returned by coroutine
                     ret()
                 end
             end
@@ -363,11 +369,16 @@ function _QuestieInit:StartStageCoroutine(stage)
         end
     end
 
-    initFrame:SetScript("OnUpdate", _OnUpdate)
-    _OnUpdate() -- starts the coroutine imediately instead at next OnUpdate
+    initFrame:SetScript("OnUpdate", InitOnUpdate)
+    InitOnUpdate() -- starts the coroutine imediately instead at next OnUpdate
 end
 
 -- called by the PLAYER_LOGIN event handler
 function QuestieInit:Init()
+--[[ debugs
+    local f = CreateFrame("Frame")
+    f:SetScript("OnEvent", function(self, ...) print("Event:", ...) end)
+    f:RegisterEvent("LOADING_SCREEN_DISABLED")
+]]--
     _QuestieInit:StartStageCoroutine(1)
 end
