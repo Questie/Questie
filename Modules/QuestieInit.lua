@@ -133,15 +133,13 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     QuestieCleanup:Run()
 
-    coroutine.yield()
-
     -- continue to next Init Stage
     return QuestieInit.Stages[2]
 end
 
 QuestieInit.Stages[2] = function() -- not a coroutine
     _QuestieInit.WaitForGameCache()
-    -- continues to next Init Stage from above function
+    -- continues to next Init Stage in above function
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
@@ -357,7 +355,7 @@ function _QuestieInit:StartStageCoroutine(stage)
                 initFrame:SetScript("OnUpdate", nil)
                 initFrame:SetParent(nil)
                 initFrame = nil
-                if type(ret) == "function" then -- continue to next stage, which was returned by coroutine
+                if type(ret) == "function" then -- continue to next stage, if it was returned by coroutine
                     ret()
                 end
             end
