@@ -32,6 +32,8 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@class QuestieValidateGameCache
+local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -199,3 +201,6 @@ function Questie:Debug(...)
         end
     end
 end
+
+-- Start checking the game's cache.
+QuestieValidateGameCache.StartCheck()
