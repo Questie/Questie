@@ -136,7 +136,7 @@ QuestieInit.Stages[2] = function() -- not a coroutine
         -- continue to next Init Stage
         _QuestieInit:StartStageCoroutine(3)
     else
-        -- tell to game cache checker how to continue to next Init Stage
+        -- QuestieValidateGameCache will take care of starting the next init stage
         QuestieValidateGameCache.AddCallback(_QuestieInit.StartStageCoroutine, _QuestieInit, 3)
     end
 end
