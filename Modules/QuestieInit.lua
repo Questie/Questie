@@ -46,11 +46,18 @@ local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
+---@class QuestieValidateGameCache
+local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
--- initialize all questie modules
--- this function runs inside a coroutine
-function QuestieInit:InitAllModules()
 
+
+-- ********************************************************************************
+-- Start of QuestieInit.Stages ******************************************************
+
+-- stage worker functions. Most are coroutines.
+QuestieInit.Stages = {}
+
+QuestieInit.Stages[1] = function() -- run as a coroutine
     HBDHooks:Init()
 
     QuestieFramePool:SetIcons()
@@ -118,6 +125,23 @@ function QuestieInit:InitAllModules()
 
     QuestieCleanup:Run()
 
+    -- continue to next Init Stage
+    return QuestieInit.Stages[2]
+end
+
+QuestieInit.Stages[2] = function() -- not a coroutine
+    -- Wait for Game Cache's Questlog be cached okey by the game.
+
+    if QuestieValidateGameCache.IsCacheGood() then
+        -- continue to next Init Stage
+        _QuestieInit:StartStageCoroutine(3)
+    else
+        -- QuestieValidateGameCache will take care of starting the next init stage
+        QuestieValidateGameCache.AddCallback(_QuestieInit.StartStageCoroutine, _QuestieInit, 3)
+    end
+end
+
+QuestieInit.Stages[3] = function() -- run as a coroutine
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
     QuestEventHandler:RegisterEvents()
@@ -185,6 +209,11 @@ function QuestieInit:InitAllModules()
     end
 end
 
+-- End of QuestieInit.Stages ******************************************************
+-- ********************************************************************************
+
+
+
 function QuestieInit:LoadDatabase(key)
     if QuestieDB[key] then
         coroutine.yield()
@@ -226,20 +255,37 @@ function _QuestieInit:OverrideDBWithTBCData()
     end
 end
 
--- called by the PLAYER_LOGIN event handler
--- this function creates the coroutine that runs "InitAllModules"
-function QuestieInit:Init()
+
+-- this function creates coroutine to run a function from QuestieInit.Stages[]
+---@param stage number @the stage to start
+function _QuestieInit:StartStageCoroutine(stage)
     local initFrame = CreateFrame("Frame")
-    local routine = coroutine.create(QuestieInit.InitAllModules)
-    initFrame:SetScript("OnUpdate", function()
-        local success, error = coroutine.resume(routine)
+    local routine = coroutine.create(QuestieInit.Stages[stage])
+
+    local function InitOnUpdate()
+        local success, ret = coroutine.resume(routine)
         if success then
             if coroutine.status(routine) == "dead" then
                 initFrame:SetScript("OnUpdate", nil)
+                initFrame:SetParent(nil)
+                initFrame = nil
+                if type(ret) == "function" then -- continue to next stage, if it was returned by coroutine
+                    ret()
+                end
             end
         else
-            Questie:Error(l10n("Error during initialization!"), error)
+            Questie:Error(l10n("Error during initialization!"), ret)
             initFrame:SetScript("OnUpdate", nil)
+            initFrame:SetParent(nil)
+            initFrame = nil
         end
-    end)
+    end
+
+    initFrame:SetScript("OnUpdate", InitOnUpdate)
+    InitOnUpdate() -- starts the coroutine imediately instead at next OnUpdate
+end
+
+-- called by the PLAYER_LOGIN event handler
+function QuestieInit:Init()
+    _QuestieInit:StartStageCoroutine(1)
 end
