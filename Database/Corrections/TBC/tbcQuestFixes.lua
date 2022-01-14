@@ -797,6 +797,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9931] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{17138,18064},17138,"Expedition Researcher Freed"}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9932] = {
