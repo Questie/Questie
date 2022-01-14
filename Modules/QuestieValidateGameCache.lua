@@ -11,7 +11,7 @@ Flow:
 ---@class QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGameCache")
 
-local stringSub = string.sub
+local stringSub, tremove = string.sub, table.remove
 local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 local tpack = table.pack or function(...) return { n = select("#", ...), ... } end
@@ -23,12 +23,13 @@ local MAX_QUEST_LOG_INDEX = 75
 
 local eventFrame
 local numberOfQuestLogUpdatesToSkip
+local checkStarted = false
 
-local cacheGood = false
+local isCacheGood = false
 local callbacks = {} -- example: { [1] = {func, {arg1, arg2, arg3}}, [2] = {func, {arg1, arg2}}, }
 
 function QuestieValidateGameCache.IsCacheGood()
-    return cacheGood
+    return isCacheGood
 end
 
 ---@param func function @A function to call once cache is good.
@@ -52,44 +53,29 @@ local function OnQuestLogUpdate()
     local numEntries, numQuests = GetNumQuestLogEntries()
     print("--> QuestieValidateGameCache.OnQuestLogUpdate() numEntries:", numEntries, "numQuests:", numQuests)
 
+    -- Player can have 0 quests in quest log for real OR game's cached quest log can be empty while cache is still invalid
+    -- This is to wait until cache has atleast some refreshed data from a game server.
     if numberOfQuestLogUpdatesToSkip > 0 then
         numberOfQuestLogUpdatesToSkip = numberOfQuestLogUpdatesToSkip - 1
         print("--> QuestieValidateGameCache.OnQuestLogUpdate() Skipping event.")
         return
     end
 
-    --[[
-    -- Player can have 0 quests in questlog OR game's cache can have empty questlog while cache is invalid
-    -- This is a workaround to wait and see if player really has 0 quests.
-    -- Without cached information the first QLU does not have any quest log entries.
-    -- After MAX_INIT_QUEST_LOG_TRIES tries we stop trying
-    if numEntries == 0 then
-        initQuestLogTries = initQuestLogTries + 1
-        if initQuestLogTries < MAX_INIT_QUEST_LOG_TRIES then
-            print("--> QuestieValidateGameCache.OnQuestLogUpdate()", GetTime(), "Game's quest log is empty. Tries:", initQuestLogTries.."/"..MAX_INIT_QUEST_LOG_TRIES)
-            _WaitForGameCache_TryAgainAtEvent()
-            return
-        else
-            print("--> QuestieValidateGameCache.OnQuestLogUpdate()", GetTime(), "Decide player has no quests for real.")
-        end
-    end
-    ]]--
-
-    local isGameCacheGood = true
+    local isQuestLogGood = true
     local goodQuestsCount = 0 -- for debug stats
 
     for i = 1, MAX_QUEST_LOG_INDEX do
         local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
         if (not title) then
-            break -- We exceeded the valid quest log entries
+            break -- We exceeded the data in the quest log
         end
         if (not isHeader) then
             local hasInvalidObjective -- for debug stats
             local objectiveList = GetQuestObjectives(questId)
-            for _, objective in pairs(objectiveList) do -- objectiveList may be {} and that is validly cached quest in game log
+            for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
                 if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
                     -- Game hasn't cached the quest fully yet
-                    isGameCacheGood = false
+                    isQuestLogGood = false
                     hasInvalidObjective = true
 
                     -- No early "return false" here to force iterate whole quest log and speed up caching
@@ -101,7 +87,7 @@ local function OnQuestLogUpdate()
         end
     end
 
-    if not isGameCacheGood then
+    if not isQuestLogGood then
         print("--> QuestieValidateGameCache.OnQuestLogUpdate()", GetTime(), "Game's quest log is not yet okey. Good quest: "..goodQuestsCount.."/"..numQuests)
         return
     end
@@ -116,11 +102,11 @@ local function OnQuestLogUpdate()
 
     DestroyEventFrame()
 
-    cacheGood = true
+    isCacheGood = true
 
     -- Call all callbacks
     while (#callbacks > 0) do
-        local callback = table.remove(callbacks, 1)
+        local callback = tremove(callbacks, 1)
         local func, args = tunpack(callback)
         print("--> QuestieValidateGameCache.OnQuestLogUpdate()", "Calling a callback.")
         func(tunpack(args))
@@ -128,9 +114,11 @@ local function OnQuestLogUpdate()
 end
 
 local function OnPlayerEnteringWorld(_, _, isInitialLogin, isReloadingUi)
-    assert(isInitialLogin or isReloadingUi)
+    assert(isInitialLogin or isReloadingUi) -- We should get to here only at login or at /reload.
 
-    numberOfQuestLogUpdatesToSkip = isReloadingUi and 0 or 1
+    -- Game's quest log has still old cached data on the first QUEST_LOG_UPDATE after PLAYER_ENTERING_WORLD during login.
+    -- So we need to skip that event.
+    numberOfQuestLogUpdatesToSkip = isInitialLogin and 1 or 0
 
     eventFrame:UnregisterAllEvents()
     eventFrame:SetScript("OnEvent", OnQuestLogUpdate)
@@ -139,6 +127,9 @@ end
 
 -- MUST be started very early to count number of events firing.
 function QuestieValidateGameCache.StartCheck()
+    assert(not checkStarted) -- to avoid bugging the module by wrong usage
+    checkStarted = true
+
     eventFrame = CreateFrame("Frame")
     eventFrame:SetScript("OnEvent", OnPlayerEnteringWorld)
     eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
