@@ -282,10 +282,10 @@ function _QuestEventHandler:UpdateAllQuests()
         end
     end
 
-    local questIdToUpdate = QuestieHash:CompareHashesOfQuestIdList(questIdsToCheck)
+    local questIdsToUpdate = QuestieHash:CompareHashesOfQuestIdList(questIdsToCheck)
 
-    if next(questIdToUpdate) then
-        for _, questId in pairs(questIdToUpdate) do
+    if next(questIdsToUpdate) then
+        for _, questId in pairs(questIdsToUpdate) do
             print("----> questIdToUpdate:", questId)
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
