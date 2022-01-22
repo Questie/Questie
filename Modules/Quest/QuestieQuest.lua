@@ -56,8 +56,10 @@ local MAX_QUEST_LOG_INDEX = 75
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
+local NOP_FUNCTION = function() end
+
 -- forward declaration
-local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIcons
+local _GetObjectiveIdForSpecialQuest, _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
@@ -254,17 +256,16 @@ function QuestieQuest:SmoothReset()
     end
     QuestieQuest._isResetting = true
     QuestieQuest._resetNeedsAvailables = false
-    QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
-    
+
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
         function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
-        function() 
-            QuestieQuest:ClearAllNotes() 
-            return true 
+        function()
+            QuestieQuest:ClearAllNotes()
+            return true
         end,
         function()
             QuestieMenu:OnLogin(true) -- remove icons
@@ -284,8 +285,9 @@ function QuestieQuest:SmoothReset()
             QuestieProfessions:Update()
             QuestieReputation:Update(true)
 
-            -- draw available quests
+            -- populate QuestiePlayer.currentQuestlog
             QuestieQuest:GetAllQuestIdsNoObjectives()
+            QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
             return true
         end,
         function()
@@ -294,13 +296,13 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             QuestieQuest._resetNeedsAvailables = true
-            QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end) 
+            QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end)
             return true
         end,
         function()
             for _=1,64 do
                 if QuestieQuest._nextRestQuest then
-                    QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest) 
+                    QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest)
                     _UpdateSpecials(QuestieQuest._nextRestQuest)
                     QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
                 else
@@ -717,6 +719,7 @@ end
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. objective.Description)
 
+    objective:Update()
     local completed = objective.Completed
 
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
@@ -728,8 +731,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     -- Tooltips should always show.
     -- For completed and uncompleted objectives
     _RegisterObjectiveTooltips(objective, quest.Id)
-
-    objective:Update()
 
     if completed then
         _UnloadAlreadySpawnedIcons(objective)
@@ -1095,7 +1096,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", quest.isComplete, quest.name)
     else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Error: No quest log index for:", quest.name, quest.Id)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest]: Error: No quest log index for:", quest.name, quest.Id)
     end
     QuestieQuest:GetAllQuestObjectives(quest)
 end
@@ -1129,13 +1130,13 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         Description = objective.text,
                         spawnList = {},
                         AlreadySpawned = {},
-                        Update = _ObjectiveUpdate,
+                        Update = _QuestieQuest.ObjectiveUpdate,
                         Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
                         RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue
                     }
                 end
 
-                quest.Objectives[objectiveIndex]:Update()
+                quest.Objectives[objectiveIndex]:Update(questObjectives)
             end
         end
 
@@ -1152,7 +1153,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             end
 
             specialObjective.questId = quest.Id
-            specialObjective.Update = function() end
+            specialObjective.Update = NOP_FUNCTION
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
             specialObjective.spawnList = specialObjective.spawnList or {}
             specialObjective.AlreadySpawned = {}
@@ -1162,16 +1163,18 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     return quest.Objectives
 end
 
-_ObjectiveUpdate = function(self)
+---@param self table @quest.Objectives[] entry
+---@param questObjectives table @OPTIONAL GetAllLeaderBoardDetails() for the quest. For performance to not get it again.
+function _QuestieQuest.ObjectiveUpdate(self, questObjectives)
     if self.isUpdated then
         --print("*** Skipping update:", self.questId, self.Index)
         return
     end
-    -- Use different variable names from above to avoid confusion.
-    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId);
 
-    if qObjectives and qObjectives[self.Index] then
-        local obj = qObjectives[self.Index];
+    questObjectives = questObjectives or QuestieQuest:GetAllLeaderBoardDetails(self.questId)
+
+    if questObjectives and questObjectives[self.Index] then
+        local obj = questObjectives[self.Index];
         if (obj.type) then
             -- fixes for api bug
             if not obj.numFulfilled then obj.numFulfilled = 0; end
@@ -1187,9 +1190,6 @@ _ObjectiveUpdate = function(self)
             self.isUpdated = true
         end
     end
-    --print("*** Updated? :", self.questId, self.Index, self.isUpdated)
-    --return {self.Collected, self.Needed, self.Completed}
-    return
 end
 
 --- Quests like "The Nightmare's Corruption" have multiple objectives with the same
@@ -1495,7 +1495,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                             ---@type Quest
                             local quest = QuestieDB:GetQuest(questId)
                             if (not quest.tagInfoWasCached) then
-                                Questie:Debug(Questie.DEBUG_INFO, "Caching for quest", quest.Id)
+                                Questie:Debug(Questie.DEBUG_DEVELOP, "Caching for quest", quest.Id)
                                 quest:GetQuestTagInfo() -- cache to load in the tooltip
                                 quest.tagInfoWasCached = true
                             end

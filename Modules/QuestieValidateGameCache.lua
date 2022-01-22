@@ -28,14 +28,22 @@ local checkStarted = false
 local isCacheGood = false
 local callbacks = {} -- example: { [1] = {func, {arg1, arg2, arg3}}, [2] = {func, {arg1, arg2}}, }
 
+---@return boolean
 function QuestieValidateGameCache.IsCacheGood()
     return isCacheGood
 end
 
+--- Calls the callback function imediately if the cache is already good.
+--- Otherwise adds it to list of functions called once the cache comes good.
 ---@param func function @A function to call once cache is good.
 ---@param ... any @Possible arguments for function.
 function QuestieValidateGameCache.AddCallback(func, ...)
-    callbacks[#callbacks+1] = {func, tpack(...)}
+    if isCacheGood then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback function imediately.")
+        func(...)
+    else
+        callbacks[#callbacks+1] = {func, tpack(...)}
+    end
 end
 
 
@@ -51,13 +59,12 @@ end
 -- Called directly and OnEvent.
 local function OnQuestLogUpdate()
     local numEntries, numQuests = GetNumQuestLogEntries()
-    print("--> QuestieValidateGameCache.OnQuestLogUpdate() numEntries:", numEntries, "numQuests:", numQuests)
 
     -- Player can have 0 quests in quest log for real OR game's cached quest log can be empty while cache is still invalid
     -- This is to wait until cache has atleast some refreshed data from a game server.
     if numberOfQuestLogUpdatesToSkip > 0 then
         numberOfQuestLogUpdatesToSkip = numberOfQuestLogUpdatesToSkip - 1
-        print("--> QuestieValidateGameCache.OnQuestLogUpdate() Skipping event.")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Skipping a QUEST_LOG_UPDATE event. Quest log has entries, quests:", numEntries, numQuests)
         return
     end
 
@@ -88,19 +95,20 @@ local function OnQuestLogUpdate()
     end
 
     if not isQuestLogGood then
-        print("--> QuestieValidateGameCache.OnQuestLogUpdate()", GetTime(), "Game's quest log is not yet okey. Good quest: "..goodQuestsCount.."/"..numQuests)
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest: "..goodQuestsCount.."/"..numQuests )
         return
     end
 
     if goodQuestsCount ~= numQuests then
         -- This shouldn't be possible
-        Questie:Error("Report this error! Game QuestLog cache is broken. Good quest: "..goodQuestsCount.."/"..numQuests) -- TODO fix message and add translations? translations might not be available?
+
+        Questie:Error("Game Cache has still a broken quest log. Good quest: "..goodQuestsCount.."/"..numQuests..". Please report this on Github or Discord!") -- Translations might not be available yet.
         -- TODO should we stop whole addon loading progress?
     end
 
-    print("--> QuestieValidateGameCache.OnQuestLogUpdate()", GetTime(), "Game's quest log is |cff00bc32".."OK".."|r. Good quest: "..goodQuestsCount.."/"..numQuests)
-
     DestroyEventFrame()
+
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest: "..goodQuestsCount.."/"..numQuests )
 
     isCacheGood = true
 
@@ -108,7 +116,7 @@ local function OnQuestLogUpdate()
     while (#callbacks > 0) do
         local callback = tremove(callbacks, 1)
         local func, args = tunpack(callback)
-        print("--> QuestieValidateGameCache.OnQuestLogUpdate()", "Calling a callback.")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback.")
         func(tunpack(args))
     end
 end
