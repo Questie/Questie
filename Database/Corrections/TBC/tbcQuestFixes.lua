@@ -3863,6 +3863,101 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
         },
+        ----- Warlock Incubus quest chain -----
+        [65593] = {
+            [questKeys.name] = "Hearts of the Lovers",
+            [questKeys.startedBy] = {{5693},nil,nil},
+            [questKeys.finishedBy] = {{5675},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
+            [questKeys.objectives] = {nil,nil,{{190179,190180}},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [65597] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{5675},nil,nil},
+            [questKeys.finishedBy] = {{5675},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Lovers' Hearts, summon and subdue an incubus, then return the Lovers' Hearts to Carendin Halgar in the Magic Quarter of the Undercity."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65593},
+            [questKeys.requiredSourceItems] = {190181},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, "Use the Lovers' Hearts to summon an Incubus and slay it.",}},
+        },
+        [65601] = {
+            [questKeys.name] = "Love Hurts",
+            [questKeys.startedBy] = {{5909},nil,nil},
+            [questKeys.finishedBy] = {{3363},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
+            [questKeys.exclusiveTo] = {65593,65610},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [65602] = {
+            [questKeys.name] = "What Is Love?",
+            [questKeys.startedBy] = {{6244},nil,nil},
+            [questKeys.finishedBy] = {{6122},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
+            [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, "Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire.",}},
+        },
+        [65603] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{6122},nil,nil},
+            [questKeys.finishedBy] = {{6122},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Wooden Figurine, summon and subdue an incubus, then return the Wooden Figurine to Gakin the Darkbinder in the Slaughtered Lamb."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65602},
+            [questKeys.requiredSourceItems] = {190186},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+        },
+        [65604] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{5875},nil,nil},
+            [questKeys.finishedBy] = {{5875},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65610},
+            [questKeys.requiredSourceItems] = {190232},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+        },
+        [65610] = {
+            [questKeys.name] = "Wish You Were Here",
+            [questKeys.startedBy] = {{3363},nil,nil},
+            [questKeys.finishedBy] = {{5875},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
@@ -3986,4 +4081,12 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12407] = {} -- Candy Bucket
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
+
+    QuestieDB.questData[65593] = {} -- Hearts of the Lovers
+    QuestieDB.questData[65597] = {} -- The Binding
+    QuestieDB.questData[65601] = {} -- Love Hurts
+    QuestieDB.questData[65602] = {} -- What Is Love?
+    QuestieDB.questData[65603] = {} -- The Binding
+    QuestieDB.questData[65604] = {} -- The Binding
+    QuestieDB.questData[65610] = {} -- Wish You Were Here
 end
