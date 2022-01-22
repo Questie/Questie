@@ -3874,6 +3874,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
             [questKeys.objectives] = {nil,nil,{{190179,190180}},nil,nil},
+            [questKeys.exclusiveTo] = {65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
         [65597] = {
@@ -3956,6 +3957,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
+            [questKeys.exclusiveTo] = {65593},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
     }
