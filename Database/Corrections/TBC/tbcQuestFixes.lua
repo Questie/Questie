@@ -4082,7 +4082,11 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
 
+    QuestieDB.questData[65593] = {} -- Hearts of the Lovers
+    QuestieDB.questData[65597] = {} -- The Binding
     QuestieDB.questData[65601] = {} -- Love Hurts
-    QuestieDB.questData[65610] = {} -- Wish You Were Here
+    QuestieDB.questData[65602] = {} -- What Is Love?
+    QuestieDB.questData[65603] = {} -- The Binding
     QuestieDB.questData[65604] = {} -- The Binding
+    QuestieDB.questData[65610] = {} -- Wish You Were Here
 end
