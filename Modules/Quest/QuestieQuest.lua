@@ -1097,7 +1097,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: PopulateMeta:", quest.isComplete, quest.name)
     else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Error: No quest log index for:", quest.name, quest.Id)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest]: Error: No quest log index for:", quest.name, quest.Id)
     end
     QuestieQuest:GetAllQuestObjectives(quest)
 end
