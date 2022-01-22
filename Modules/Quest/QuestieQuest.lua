@@ -59,7 +59,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 local NOP_FUNCTION = function() end
 
 -- forward declaration
-local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIcons
+local _GetObjectiveIdForSpecialQuest, _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
@@ -1131,13 +1131,13 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                         Description = objective.text,
                         spawnList = {},
                         AlreadySpawned = {},
-                        Update = _ObjectiveUpdate,
+                        Update = _QuestieQuest.ObjectiveUpdate,
                         Coordinates = quest.ObjectiveData[objectiveIndex].Coordinates, -- Only for type "event"
                         RequiredRepValue = quest.ObjectiveData[objectiveIndex].RequiredRepValue
                     }
                 end
 
-                quest.Objectives[objectiveIndex]:Update()
+                quest.Objectives[objectiveIndex]:Update(questObjectives)
             end
         end
 
@@ -1164,16 +1164,18 @@ function QuestieQuest:GetAllQuestObjectives(quest)
     return quest.Objectives
 end
 
-_ObjectiveUpdate = function(self)
+---@param self table @quest.Objectives[] entry
+---@param questObjectives table @OPTIONAL GetAllLeaderBoardDetails() for the quest. For performance to not get it again.
+function _QuestieQuest.ObjectiveUpdate(self, questObjectives)
     if self.isUpdated then
         --print("*** Skipping update:", self.questId, self.Index)
         return
     end
-    -- Use different variable names from above to avoid confusion.
-    local qObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId);
 
-    if qObjectives and qObjectives[self.Index] then
-        local obj = qObjectives[self.Index];
+    questObjectives = questObjectives or QuestieQuest:GetAllLeaderBoardDetails(self.questId)
+
+    if questObjectives and questObjectives[self.Index] then
+        local obj = questObjectives[self.Index];
         if (obj.type) then
             -- fixes for api bug
             if not obj.numFulfilled then obj.numFulfilled = 0; end
