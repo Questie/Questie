@@ -826,6 +826,9 @@ function QuestieQuestFixes:Load()
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
         },
+        [1823] = {
+            [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
+        },
         [1860] = {
             [questKeys.exclusiveTo] = {1861, 1880},
         },
