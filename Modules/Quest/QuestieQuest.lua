@@ -719,6 +719,7 @@ end
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] " .. objective.Description)
 
+    objective:Update()
     local completed = objective.Completed
 
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
@@ -730,8 +731,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     -- Tooltips should always show.
     -- For completed and uncompleted objectives
     _RegisterObjectiveTooltips(objective, quest.Id)
-
-    objective:Update()
 
     if completed then
         _UnloadAlreadySpawnedIcons(objective)
