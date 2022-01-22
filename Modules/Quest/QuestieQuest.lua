@@ -1187,9 +1187,6 @@ _ObjectiveUpdate = function(self)
             self.isUpdated = true
         end
     end
-    --print("*** Updated? :", self.questId, self.Index, self.isUpdated)
-    --return {self.Collected, self.Needed, self.Completed}
-    return
 end
 
 --- Quests like "The Nightmare's Corruption" have multiple objectives with the same
