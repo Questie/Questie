@@ -56,6 +56,8 @@ local MAX_QUEST_LOG_INDEX = 75
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
+local NOP_FUNCTION = function() end
+
 -- forward declaration
 local _GetObjectiveIdForSpecialQuest, _ObjectiveUpdate, _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
@@ -1152,7 +1154,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             end
 
             specialObjective.questId = quest.Id
-            specialObjective.Update = function() end
+            specialObjective.Update = NOP_FUNCTION
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
             specialObjective.spawnList = specialObjective.spawnList or {}
             specialObjective.AlreadySpawned = {}
