@@ -130,15 +130,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 end
 
 QuestieInit.Stages[2] = function() -- not a coroutine
-    -- Wait for Game Cache's Questlog be cached okey by the game.
-
-    if QuestieValidateGameCache.IsCacheGood() then
-        -- continue to next Init Stage
-        _QuestieInit:StartStageCoroutine(3)
-    else
-        -- QuestieValidateGameCache will take care of starting the next init stage
-        QuestieValidateGameCache.AddCallback(_QuestieInit.StartStageCoroutine, _QuestieInit, 3)
-    end
+    -- Continue to the next Init Stage once Game Cache's Questlog is good
+    QuestieValidateGameCache.AddCallback(_QuestieInit.StartStageCoroutine, _QuestieInit, 3)
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine

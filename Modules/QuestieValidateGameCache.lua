@@ -28,14 +28,21 @@ local checkStarted = false
 local isCacheGood = false
 local callbacks = {} -- example: { [1] = {func, {arg1, arg2, arg3}}, [2] = {func, {arg1, arg2}}, }
 
+---@return boolean
 function QuestieValidateGameCache.IsCacheGood()
     return isCacheGood
 end
 
+--- Calls the callback function imediately if the cache is already good.
+--- Otherwise adds it to list of functions called once the cache comes good.
 ---@param func function @A function to call once cache is good.
 ---@param ... any @Possible arguments for function.
 function QuestieValidateGameCache.AddCallback(func, ...)
-    callbacks[#callbacks+1] = {func, tpack(...)}
+    if isCacheGood then
+        func(...)
+    else
+        callbacks[#callbacks+1] = {func, tpack(...)}
+    end
 end
 
 
