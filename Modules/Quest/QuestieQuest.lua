@@ -254,17 +254,16 @@ function QuestieQuest:SmoothReset()
     end
     QuestieQuest._isResetting = true
     QuestieQuest._resetNeedsAvailables = false
-    QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
-    
+
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
         function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
-        function() 
-            QuestieQuest:ClearAllNotes() 
-            return true 
+        function()
+            QuestieQuest:ClearAllNotes()
+            return true
         end,
         function()
             QuestieMenu:OnLogin(true) -- remove icons
@@ -284,8 +283,9 @@ function QuestieQuest:SmoothReset()
             QuestieProfessions:Update()
             QuestieReputation:Update(true)
 
-            -- draw available quests
+            -- populate QuestiePlayer.currentQuestlog
             QuestieQuest:GetAllQuestIdsNoObjectives()
+            QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog)
             return true
         end,
         function()
@@ -294,13 +294,13 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             QuestieQuest._resetNeedsAvailables = true
-            QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end) 
+            QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end)
             return true
         end,
         function()
             for _=1,64 do
                 if QuestieQuest._nextRestQuest then
-                    QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest) 
+                    QuestieQuest:UpdateQuest(QuestieQuest._nextRestQuest)
                     _UpdateSpecials(QuestieQuest._nextRestQuest)
                     QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
                 else
