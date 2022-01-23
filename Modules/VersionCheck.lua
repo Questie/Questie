@@ -1,6 +1,6 @@
 local addonName, _ = ...
 
-if GetBuildInfo() <= '1.13' then
+if type(GetBuildInfo) == "function" and GetBuildInfo() <= '1.13' then
     StaticPopupDialogs["QUESTIE_VERSION_ERROR"] = {
         text = "|cffff0000ERROR|r\nYou're trying to use Questie on vanilla WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
         button2 = "Okay, maybe I will",
@@ -11,11 +11,11 @@ if GetBuildInfo() <= '1.13' then
 
     DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
     DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adYou're trying to use Questie on vanilla WoW!|r")
-    DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adThis version of Questie supports WoW Classic only!")
+    DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adThis version of Questie supports WoW Classic only!|r")
     return
 end
 
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+if WOW_PROJECT_ID and WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
     StaticPopupDialogs["QUESTIE_RETAIL_ERROR"] = {
         text = "|cffff0000ERROR|r\nYou're trying to use Questie on retail WoW!\nQuestie is supporting WoW Classic only!\n\nYou should come and join the real WoW",
         button2 = "Okay, maybe I will",
@@ -26,7 +26,7 @@ if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
     C_Timer.After(4, function()
         DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
         DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adYou're trying to use Questie on retail WoW!|r")
-        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adQuestie is supporting WoW Classic only!")
+        DEFAULT_CHAT_FRAME:AddMessage("|cffff0000ERROR|r: |cff42f5adQuestie is supporting WoW Classic only!|r")
         DEFAULT_CHAT_FRAME:AddMessage("---------------------------------")
         error("ERROR: You're trying to use Questie on retail WoW. Questie is supporting WoW Classic only!")
     end)
