@@ -1,2 +1,8 @@
-# This file is intentionally empty to overwrite the deprecated TOC file left on installations.
+# This file is used to show unsupported game client message.
+# Supported client flavors load their own TOC file and unsupported ones fall back to this one.
 # Check expansion specific TOC files for the correct data.
+## Interface: 00000
+## Title: |cFFFFFFFFQuestie|r|cFFFF0000 game client not supported|r
+## Notes: Questie only supports Classic TBC and Classic Era/SoM.
+
+Modules\GameVersionError.lua
