@@ -1822,9 +1822,6 @@ function QuestieTracker:Update()
         end)
     end
 
-    if (not hasQuest) then
-        QuestieTracker:Collapse()
-    end
 
     if _QuestieTracker.IsFirstRun == nil then
         _QuestieTracker.baseFrame:Show()
