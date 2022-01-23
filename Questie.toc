@@ -1,4 +1,5 @@
-# This file is used to show unsupported game version message.
+# This file is used to show unsupported game client message.
+# Supported client flavors load their own TOC file and unsupported ones fall back to this one.
 # Check expansion specific TOC files for the correct data.
 ## Interface: 00000
 ## Title: |cFFFFFFFFQuestie|r|cFFFF0000 UNSUPPORTED WOW GAME CLIENT|r
