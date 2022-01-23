@@ -1,4 +1,7 @@
-local msg = { "You're trying to use Questie Addon on unsupported WoW Game client!", "Questie Addon is supporting WoW Classic (TBC/Era/SoM/etc) only!" }
+local msg = {
+    "You're trying to use Questie Addon on unsupported WoW Game client!",
+    "Questie Addon is supporting WoW Classic (TBC/Era/SoM/etc) only!",
+}
 StaticPopupDialogs["QUESTIE_VERSION_ERROR"] = {
     text = "|cffff0000ERROR|r\n"..msg[1].."\n"..msg[2],
     button2 = "OK",
