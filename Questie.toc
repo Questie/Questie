@@ -3,6 +3,6 @@
 # Check expansion specific TOC files for the correct data.
 ## Interface: 00000
 ## Title: |cFFFFFFFFQuestie|r|cFFFF0000 game client not supported|r
-## Notes: Questie Addon supports only Classic TBC and Classic Era/SoM.
+## Notes: Questie only supports Classic TBC and Classic Era/SoM.
 
 Modules\GameVersionError.lua
