@@ -1756,6 +1756,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11020] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_SLAY, "Kill any wildlife in Shadowmoon Valley to collect Fel Gland", 0, {{"monster", 21901},{"monster", 21462},{"monster", 21878},{"monster", 21879}}},
                 {nil, ICON_TYPE_EVENT, "Use Yarzill's Mutton together with the Fel Gland to poison Dragonmaw Peons", 0, {{"monster", 22252}}}
