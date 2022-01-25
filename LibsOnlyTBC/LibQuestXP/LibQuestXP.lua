@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibQuestXP-2.0", 2
+local MAJOR, MINOR = "LibQuestXP-2.0", 3
 local LibQuestXP = LibStub:NewLibrary(MAJOR, MINOR)
 
 if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE then
@@ -26,15 +26,6 @@ end
 
 function LibQuestXP:GetAdjustedXP(xp, qLevel)
     local charLevel = UnitLevel("player");
-
-    --Questie change.
-    if(QuestiePlayer) then
-        charLevel = QuestiePlayer:GetPlayerLevel();
-    else
-        QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
-        charLevel = QuestiePlayer:GetPlayerLevel();
-    end
-
     if (charLevel == 70) then
         return 0;
     end
@@ -61,7 +52,7 @@ function LibQuestXP:GetAdjustedXP(xp, qLevel)
 end
 
 function GetQuestLogRewardXP(questID)
-    local title, qLevel, xp
+    local title, qLevel, xp, _
 
     -- Try getting the quest from the quest log if no questID was provided
     if questID == nil and selectedQuestLogIndex ~= nil then
