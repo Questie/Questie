@@ -1376,7 +1376,6 @@ function QuestieTracker:Update()
         _QuestProximityTimer = nil
     end
 
-    local hasQuest = false
     local firstQuestInZone = false
     local zoneCheck
 
@@ -1426,7 +1425,6 @@ function QuestieTracker:Update()
         end
 
         if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
-            hasQuest = true
 
             -- Add zones
             if Questie.db.global.trackerSortObjectives == "byZone" then
