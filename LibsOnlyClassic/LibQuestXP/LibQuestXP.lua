@@ -1,4 +1,4 @@
-local MAJOR, MINOR = "LibQuestXP-1.0", 7
+local MAJOR, MINOR = "LibQuestXP-1.0", 8
 local LibQuestXP = LibStub:NewLibrary(MAJOR, MINOR)
 
 if _G.WOW_PROJECT_ID == _G.WOW_PROJECT_MAINLINE then
@@ -48,11 +48,20 @@ function LibQuestXP:GetAdjustedXP(xp, qLevel)
         xp = 50 * floor((xp + 25) / 50);
     end
 
+    if C_Seasons ~= nil and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery) then
+        local roundFactor = 50;
+        if xp < 1000 then
+            roundFactor = 10;
+        end
+
+        xp = floor(xp / roundFactor + 0.5) * roundFactor * 1.4;
+    end
+
     return xp;
 end
 
 function GetQuestLogRewardXP(questID)
-    local title, qLevel, xp
+    local title, qLevel, xp, _
 
     -- Try getting the quest from the quest log if no questID was provided
     if questID == nil and selectedQuestLogIndex ~= nil then

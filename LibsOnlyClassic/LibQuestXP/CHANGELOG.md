@@ -1,5 +1,8 @@
 ## LibQuestXP - Changelog
 
+**1.0.8**
+- Updated for SoM
+
 **1.0.7**
 
 - No longer loads on Retail
