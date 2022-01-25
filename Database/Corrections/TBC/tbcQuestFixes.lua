@@ -1732,6 +1732,35 @@ function QuestieTBCQuestFixes:Load()
         [11010] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks", 0, {{"object", 185861}}}}
         },
+        [11013] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11014] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11015] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11016] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11017] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11018] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11019] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.preQuestSingle] = {11013},
+        },
+        [11020] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_SLAY, "Kill any wildlife in Shadowmoon Valley to collect Fel Gland", 0, {{"monster", 21901},{"monster", 21462},{"monster", 21878},{"monster", 21879}}},
+                {nil, ICON_TYPE_EVENT, "Use Yarzill's Mutton together with the Fel Gland to poison Dragonmaw Peons", 0, {{"monster", 22252}}}
+            }
+        },
         [11023] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010},
@@ -1742,6 +1771,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11030] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards", 0, {{"object", 185920}}}}
+        },
+        [11035] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11036] = {
             [questKeys.exclusiveTo] = {10183,11037,11038,11039,11040,11042},
@@ -1762,6 +1794,9 @@ function QuestieTBCQuestFixes:Load()
         [11040] = {
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11042},
+        },
+        [11041] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11042] = {
             [questKeys.requiredLevel] = 67,
@@ -1789,6 +1824,12 @@ function QuestieTBCQuestFixes:Load()
         [11048] = {
             [questKeys.exclusiveTo] = {11046,11047},
         },
+        [11049] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11050] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},
             [questKeys.finishedBy] = {{18481},nil},
@@ -1808,7 +1849,11 @@ function QuestieTBCQuestFixes:Load()
         [11061] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Purchase 1 Unstable Flask of the Sorcerer for the cost of 10 Apexis Shards", 0, {{"object", 185921}}}}
         },
+        [11063] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11064] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Murg \"Oldie\" Muckjaw Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.76,85.05}}}},
         },
         [11065] = {
@@ -1820,9 +1865,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Wrangling Rope on weakened Aether Rays", 0, {{"monster", 22181}}}}
         },
         [11067] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Trope the Filth-Belcher Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.75,85}}}},
         },
         [11068] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75}}}},
         },
         [11069] = {
@@ -1830,10 +1877,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09}}}},
         },
         [11070] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Wing Commander Mulverick Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,84.36}}}},
         },
         [11071] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Captain Skyshatter Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.71,85.05}}}},
+        },
+        [11077] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11079] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 35 Apexis Shards to activate Fel Crystal Prism", 0, {{"object", 185927}}}}
@@ -1841,14 +1893,28 @@ function QuestieTBCQuestFixes:Load()
         [11080] = {
             [questKeys.triggerEnd] = {"Apexis Emanations attained", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.7,46.64},{27.3,68.39},{31.82,63.62},{33.42,51.9}}}},
         },
+        [11081] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11082] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Murkblood Information Gathered", {[zoneIDs.SHADOWMOON_VALLEY]={{73.06,82.26},{68.63,79.81}}}},
+        },
+        [11083] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11085] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Rescue the Skyguard Prisoner.", {[zoneIDs.TEROKKAR_FOREST]={{69.77,75.98},{62.41,73.85},{73.94,88.3}}}},
         },
+        [11086] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11089] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11090] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79}}}},
         },
         [11093] = {
@@ -1856,6 +1922,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray", 0, {{"monster", 23219}}}}
         },
         [11094] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
         },
@@ -1864,10 +1931,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [11097] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
         },
@@ -1876,6 +1945,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [11101] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
@@ -1884,6 +1954,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks", 0, {{"object", 185861}}}}
         },
         [11108] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Meeting with Illidan Stormrage", {[zoneIDs.SHADOWMOON_VALLEY]={{65.93,86.15}}}},
         },
         [11119] = {
