@@ -1,5 +1,9 @@
 ## LibQuestXP - Changelog
 
+**2.0.3**
+
+- Global _ taint fix
+
 **2.0.2**
 
 - Fixed level limit

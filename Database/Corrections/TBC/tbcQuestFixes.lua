@@ -797,6 +797,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9931] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{17138,18064},17138,"Expedition Researcher Freed"}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9932] = {
@@ -1066,9 +1067,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10120] = {
             [questKeys.preQuestSingle] = {},
-        },
-        [10166] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Place Old Whitebark's Pendant by the runestone at the Scorched Grove.", 0, {{"object", 181260}}}},
         },
         [10168] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits.", 0, {{"monster", 18688}}}},
@@ -1382,7 +1380,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{21499},nil,nil},
         },
         [10629] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16915}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use the Felhound Whistle and kill some Deranged Helboars", 0, {{"monster", 16863}}}},
         },
         [10634] = {
             [questKeys.preQuestSingle] = {10633,10644},
@@ -1559,11 +1557,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Attempt to purify the Darkstone of Terrok", {[zoneIDs.TEROKKAR_FOREST]={{30.84,42.03}}}},
         },
         [10840] = {
-            [questKeys.preQuestSingle] = {10849,10852},
+            [questKeys.preQuestSingle] = {10915,10852},
         },
         [10842] = {
             [questKeys.objectives] = {{{21638, "Vengeful Harbinger defeated"}}},
-            [questKeys.preQuestSingle] = {10849,10852},
+            [questKeys.preQuestSingle] = {10915,10852},
         },
         [10854] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake", 0, {{"monster", 21722}}}}
@@ -1734,6 +1732,36 @@ function QuestieTBCQuestFixes:Load()
         [11010] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks", 0, {{"object", 185861}}}}
         },
+        [11013] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11014] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11015] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11016] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11017] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11018] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11019] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.preQuestSingle] = {11013},
+        },
+        [11020] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredSourceItems] = {},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_SLAY, "Kill any wildlife in Shadowmoon Valley to collect Fel Gland", 0, {{"monster", 21901},{"monster", 21462},{"monster", 21878},{"monster", 21879}}},
+                {nil, ICON_TYPE_EVENT, "Use Yarzill's Mutton together with the Fel Gland to poison Dragonmaw Peons", 0, {{"monster", 22252}}}
+            }
+        },
         [11023] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010},
@@ -1744,6 +1772,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11030] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards", 0, {{"object", 185920}}}}
+        },
+        [11035] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11036] = {
             [questKeys.exclusiveTo] = {10183,11037,11038,11039,11040,11042},
@@ -1764,6 +1795,9 @@ function QuestieTBCQuestFixes:Load()
         [11040] = {
             [questKeys.requiredLevel] = 67,
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11042},
+        },
+        [11041] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11042] = {
             [questKeys.requiredLevel] = 67,
@@ -1791,6 +1825,12 @@ function QuestieTBCQuestFixes:Load()
         [11048] = {
             [questKeys.exclusiveTo] = {11046,11047},
         },
+        [11049] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11050] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},
             [questKeys.finishedBy] = {{18481},nil},
@@ -1810,7 +1850,11 @@ function QuestieTBCQuestFixes:Load()
         [11061] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Purchase 1 Unstable Flask of the Sorcerer for the cost of 10 Apexis Shards", 0, {{"object", 185921}}}}
         },
+        [11063] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11064] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Murg \"Oldie\" Muckjaw Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.76,85.05}}}},
         },
         [11065] = {
@@ -1822,9 +1866,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Wrangling Rope on weakened Aether Rays", 0, {{"monster", 22181}}}}
         },
         [11067] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Trope the Filth-Belcher Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.75,85}}}},
         },
         [11068] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75}}}},
         },
         [11069] = {
@@ -1832,10 +1878,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09}}}},
         },
         [11070] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Wing Commander Mulverick Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,84.36}}}},
         },
         [11071] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Captain Skyshatter Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.71,85.05}}}},
+        },
+        [11077] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11079] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use 35 Apexis Shards to activate Fel Crystal Prism", 0, {{"object", 185927}}}}
@@ -1843,14 +1894,28 @@ function QuestieTBCQuestFixes:Load()
         [11080] = {
             [questKeys.triggerEnd] = {"Apexis Emanations attained", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.7,46.64},{27.3,68.39},{31.82,63.62},{33.42,51.9}}}},
         },
+        [11081] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11082] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Murkblood Information Gathered", {[zoneIDs.SHADOWMOON_VALLEY]={{73.06,82.26},{68.63,79.81}}}},
+        },
+        [11083] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [11085] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Rescue the Skyguard Prisoner.", {[zoneIDs.TEROKKAR_FOREST]={{69.77,75.98},{62.41,73.85},{73.94,88.3}}}},
         },
+        [11086] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [11089] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [11090] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79}}}},
         },
         [11093] = {
@@ -1858,6 +1923,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray", 0, {{"monster", 23219}}}}
         },
         [11094] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
         },
@@ -1866,10 +1932,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [11097] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
         },
@@ -1878,6 +1946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [11101] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
@@ -1886,6 +1955,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks", 0, {{"object", 185861}}}}
         },
         [11108] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.triggerEnd] = {"Meeting with Illidan Stormrage", {[zoneIDs.SHADOWMOON_VALLEY]={{65.93,86.15}}}},
         },
         [11119] = {
@@ -1958,6 +2028,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [11216] = {
             [questKeys.nextQuestInChain] = 9824,
+        },
+        [11242] = {
+            [questKeys.startedBy] = {{23904},nil,nil},
+            [questKeys.finishedBy] = {{24519},nil},
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -3865,6 +3939,103 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
         },
+        ----- Warlock Incubus quest chain -----
+        [65593] = {
+            [questKeys.name] = "Hearts of the Lovers",
+            [questKeys.startedBy] = {{5693},nil,nil},
+            [questKeys.finishedBy] = {{5675},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
+            [questKeys.objectives] = {nil,nil,{{190179,190180}},nil,nil},
+            [questKeys.exclusiveTo] = {65610},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [65597] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{5675},nil,nil},
+            [questKeys.finishedBy] = {{5675},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Lovers' Hearts, summon and subdue an incubus, then return the Lovers' Hearts to Carendin Halgar in the Magic Quarter of the Undercity."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65593},
+            [questKeys.requiredSourceItems] = {190181},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, "Use the Lovers' Hearts to summon an Incubus and slay it.",}},
+        },
+        [65601] = {
+            [questKeys.name] = "Love Hurts",
+            [questKeys.startedBy] = {{5909},nil,nil},
+            [questKeys.finishedBy] = {{3363},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
+            [questKeys.exclusiveTo] = {65593,65610},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [65602] = {
+            [questKeys.name] = "What Is Love?",
+            [questKeys.startedBy] = {{6244},nil,nil},
+            [questKeys.finishedBy] = {{6122},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
+            [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, "Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire.",}},
+        },
+        [65603] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{6122},nil,nil},
+            [questKeys.finishedBy] = {{6122},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Wooden Figurine, summon and subdue an incubus, then return the Wooden Figurine to Gakin the Darkbinder in the Slaughtered Lamb."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65602},
+            [questKeys.requiredSourceItems] = {190186},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+        },
+        [65604] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{5875},nil,nil},
+            [questKeys.finishedBy] = {{5875},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65610},
+            [questKeys.requiredSourceItems] = {190232},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+        },
+        [65610] = {
+            [questKeys.name] = "Wish You Were Here",
+            [questKeys.startedBy] = {{3363},nil,nil},
+            [questKeys.finishedBy] = {{5875},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
+            [questKeys.exclusiveTo] = {65593},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
     }
 end
 
@@ -3988,4 +4159,12 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12407] = {} -- Candy Bucket
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
+
+    QuestieDB.questData[65593] = {} -- Hearts of the Lovers
+    QuestieDB.questData[65597] = {} -- The Binding
+    QuestieDB.questData[65601] = {} -- Love Hurts
+    QuestieDB.questData[65602] = {} -- What Is Love?
+    QuestieDB.questData[65603] = {} -- The Binding
+    QuestieDB.questData[65604] = {} -- The Binding
+    QuestieDB.questData[65610] = {} -- Wish You Were Here
 end

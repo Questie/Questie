@@ -371,8 +371,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     end
 
     frm.Update = function(self)
-        local _, activeQuests = GetNumQuestLogEntries()
-        if Questie.db.global.trackerHeaderEnabled and activeQuests > 0 then
+        if Questie.db.global.trackerHeaderEnabled then
             self:ClearAllPoints()
 
             self.questieIcon.texture:SetWidth(trackerFontSizeHeader)
@@ -388,6 +387,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
 
             local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
 
+            local _, activeQuests = GetNumQuestLogEntries()
             self.trackedQuests.label:SetText(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND .. l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
             self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
 
@@ -573,10 +573,6 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     frm.questieIcon = questieIcon
 
     frm.questieIcon:Hide()
-
-    -- Used for debugging purposes (can remove prior to v6.0 release)
-    -- frm:SetBackdrop({bgFile="Interface\\Tooltips\\UI-Tooltip-Background"})
-    -- frm:SetBackdropColor(0, 0, 0, 1)
 
     frm:SetWidth(frm.trackedQuests.label:GetUnboundedStringWidth())
     frm:SetHeight(trackerFontSizeHeader)
@@ -1380,7 +1376,6 @@ function QuestieTracker:Update()
         _QuestProximityTimer = nil
     end
 
-    local hasQuest = false
     local firstQuestInZone = false
     local zoneCheck
 
@@ -1430,7 +1425,6 @@ function QuestieTracker:Update()
         end
 
         if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
-            hasQuest = true
 
             -- Add zones
             if Questie.db.global.trackerSortObjectives == "byZone" then
@@ -1826,7 +1820,8 @@ function QuestieTracker:Update()
         end)
     end
 
-    if hasQuest and _QuestieTracker.IsFirstRun == nil then
+
+    if _QuestieTracker.IsFirstRun == nil then
         _QuestieTracker.baseFrame:Show()
     else
         _QuestieTracker.baseFrame:Hide()

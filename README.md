@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v6.8.2/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v6.8.3/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 
@@ -36,9 +36,7 @@ Trust us it's (Good)!
 
 
 ## Donation
-If you'd like to support the development of Questie by donating, you can do so on our [Patreon page](https://www.patreon.com/questie).
-
-You can also donate via PayPal here:
+If you'd like to support the development of Questie by donating, you can do so via PayPal:
 
 <a href='https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=aero1861%40gmail%2ecom&lc=CA&item_name=Questie%20Devs&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted'><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"/></a>
 

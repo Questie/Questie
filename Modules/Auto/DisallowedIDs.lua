@@ -37,7 +37,9 @@ _QuestieAuto.disallowedNPC = {
     [15500] = true,
     [15503] = true,
     -- Stray
+    [7802] = true, -- Galvan the Ancient (Blacksmith recipes, Stranglethorn Vale)
     [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
+    [14567] = true, -- Derotain Mudsipper (Blacksmith recipes, Tanaris)
     [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
     [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
     [15192] = true, -- Anachronos (Caverns of Time)

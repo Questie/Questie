@@ -718,6 +718,24 @@ function QuestieQuestFixes:Load()
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
         },
+        [1516] = {
+            [questKeys.exclusiveTo] = {1519},
+        },
+        [1517] = {
+            [questKeys.exclusiveTo] = {1520},
+        },
+        [1518] = {
+            [questKeys.exclusiveTo] = {1521},
+        },
+        [1519] = {
+            [questKeys.exclusiveTo] = {1516},
+        },
+        [1520] = {
+            [questKeys.exclusiveTo] = {1517},
+        },
+        [1521] = {
+            [questKeys.exclusiveTo] = {1518},
+        },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
         },
@@ -825,6 +843,9 @@ function QuestieQuestFixes:Load()
         },
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
+        },
+        [1823] = {
+            [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
         },
         [1860] = {
             [questKeys.exclusiveTo] = {1861, 1880},
