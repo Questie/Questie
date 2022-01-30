@@ -259,9 +259,9 @@ QuestieEvent.eventDateCorrections = {
 QuestieEvent.lunarFestival = {
     ["19"] = {startDate = "5/2", endDate = "19/2"},
     ["20"] = {startDate = "23/1", endDate = "10/2"},
+    ["21"] = {startDate = "5/2", endDate = "19/2"}, --when this was for real?
+    ["22"] = {startDate = "30/1", endDate = "18/2"},
     -- Below are estimates
-    ["21"] = {startDate = "5/2", endDate = "19/2"},
-    ["22"] = {startDate = "1/2", endDate = "15/2"},
     ["23"] = {startDate = "22/1", endDate = "5/2"},
     ["24"] = {startDate = "10/2", endDate = "24/2"},
     ["25"] = {startDate = "29/1", endDate = "12/2"},
