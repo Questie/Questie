@@ -43,16 +43,17 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     if stream then
         return stream
     else
-        stream = {}
-    end
+        stream = {
+            _pointer = 1,
+            _bin = {},
+            _raw_bin = {},
+            _rawptr = 1,
+            _level = 0,
+        }
+        end
     for k,v in pairs(QuestieStreamLib) do -- copy functions to new object
         stream[k] = v
     end
-    stream._pointer = 1
-    stream._bin = {}
-    stream._raw_bin = {}
-    stream._rawptr = 1
-    stream._level = 0
     stream.reset = function(self)
         self._pointer = 1
         self._bin = {}
