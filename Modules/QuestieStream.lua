@@ -68,6 +68,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream._mode = mode
         if mode == "raw" then
             stream.ReadByte = QuestieStreamLib._ReadByte_raw
+            stream.ReadShort = QuestieStreamLib._ReadShort_raw
             stream.ReadTinyString = QuestieStreamLib._ReadTinyStringBySubstring
             stream.ReadShortString = QuestieStreamLib._ReadShortStringBySubstring
             stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNilBySubstring
@@ -232,6 +233,13 @@ end
 
 function QuestieStreamLib:ReadShort()
     return lshift(self:ReadByte(), 8) + self:ReadByte();
+end
+
+function QuestieStreamLib:_ReadShort_raw()
+    local p = self._pointer
+    self._pointer = p + 2
+    local a,b = stringbyte(self._bin, p, p+1)
+    return a*256 + b
 end
 
 function QuestieStreamLib:ReadInt12Pair()
