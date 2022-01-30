@@ -337,9 +337,9 @@ end
 
 function QuestieStreamLib:_ReadShortStringBySubstring()
     local length = self:ReadShort()
-    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
-    self._pointer = self._pointer + length
-    return ret
+    local p = self._pointer
+    self._pointer = p + length
+    return stringsub(self._bin, p, p+length-1)
 end
 
 function QuestieStreamLib:WriteBytes(...)
