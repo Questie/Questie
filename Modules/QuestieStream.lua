@@ -296,16 +296,22 @@ end
 
 function QuestieStreamLib:_ReadTinyString_raw()
     local p = self._pointer
+
+    -- inline _ReadByte_raw
     local length = stringbyte(self._bin, p)
     p = p + 1
+
     self._pointer = p + length
     return stringsub(self._bin, p, p+length-1)
 end
 
 function QuestieStreamLib:_ReadTinyStringNil_raw()
     local p = self._pointer
+
+    -- inline _ReadByte_raw
     local length = stringbyte(self._bin, p)
     p = p + 1
+
     if length == 0 then
         self._pointer = p
         return nil
@@ -342,9 +348,12 @@ end
 
 function QuestieStreamLib:_ReadShortString_raw()
     local p = self._pointer
+
+    -- inline _ReadShort_raw
     local a,b = stringbyte(self._bin, p, p+1)
     local length = a*256 + b
     p = p + 2
+
     self._pointer = p + length
     return stringsub(self._bin, p, p+length-1)
 end
