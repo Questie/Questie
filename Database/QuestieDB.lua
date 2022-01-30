@@ -280,20 +280,18 @@ function QuestieDB:GetItem(itemId)
     local sources = {}
     if rawdata[QuestieDB.itemKeys.npcDrops] then
         for _, v in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-            local source = {
+            sources[#sources+1] = {
                 Type = "monster",
                 Id = v,
             }
-            sources[#sources+1] = source
         end
     end
     if rawdata[QuestieDB.itemKeys.objectDrops] then
         for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-            local source = {
+            sources[#sources+1] = {
                 Type = "object",
                 Id = v,
             }
-            sources[#sources+1] = source
         end
     end
 
