@@ -50,7 +50,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
             _rawptr = 1,
             _level = 0,
         }
-        end
+    end
     for k,v in pairs(QuestieStreamLib) do -- copy functions to new object
         stream[k] = v
     end
