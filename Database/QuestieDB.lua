@@ -277,31 +277,36 @@ function QuestieDB:GetItem(itemId)
         return nil
     end
 
-    local item = {};
+    local sources = {}
+    if rawdata[QuestieDB.itemKeys.npcDrops] then
+        for _, v in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+            local source = {
+                Type = "monster",
+                Id = v,
+            }
+            sources[#sources+1] = source
+        end
+    end
+    if rawdata[QuestieDB.itemKeys.objectDrops] then
+        for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
+            local source = {
+                Type = "object",
+                Id = v,
+            }
+            sources[#sources+1] = source
+        end
+    end
+
+    local item = {
+        Id = itemId,
+        Sources = sources,
+        Hidden = QuestieCorrections.questItemBlacklist[itemId],
+    }
 
     for stringKey, intKey in pairs(QuestieDB.itemKeys) do
         item[stringKey] = rawdata[intKey]
     end
 
-    item.Id = itemId;
-    item.Sources = {};
-    item.Hidden = QuestieCorrections.questItemBlacklist[itemId]
-    if rawdata[QuestieDB.itemKeys.npcDrops] then
-        for _, v in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-            local source = {};
-            source.Type = "monster";
-            source.Id = v;
-            tinsert(item.Sources, source);
-        end
-    end
-    if rawdata[QuestieDB.itemKeys.objectDrops] then
-        for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do -- droppedBy = 3, relatedQuests=2, containedIn=4
-            local source = {};
-            source.Type = "object";
-            source.Id = v;
-            tinsert(item.Sources, source);
-        end
-    end
     return item
 end
 
