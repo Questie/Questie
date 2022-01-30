@@ -195,11 +195,9 @@ function QuestieStreamLib:_WriteByte_raw(e)
 end
 
 function QuestieStreamLib:_ReadByte_raw()
-    local val = stringbyte(self._bin, self._pointer)
-    --print("Read data at " .. self._pointer .. " = " .. val)
-    self._pointer = self._pointer + 1
-    return val
-    --return self:_readByte()
+    local p = self._pointer
+    self._pointer = p + 1
+    return stringbyte(self._bin, p)
 end
 
 -- this is now set in GetStream based on type
