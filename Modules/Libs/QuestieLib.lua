@@ -14,6 +14,7 @@ local math_abs = math.abs
 local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
+local stringSub = string.sub
 
 --[[
     Red: 5+ level above player
@@ -104,63 +105,37 @@ end
 ---@param questId number @The quest ID
 ---@return boolean
 function QuestieLib:IsResponseCorrect(questId)
-    local count = 0
-    local objectiveList
-    local good = true
-    while (count < 1) do
-        good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if (not objectiveList) then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if objective.type and string.len(objective.type) > 0 then
-                    local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
-                    if (objective.text == nil or objective.text == "" or distance < 5) then
-                        Questie:Debug(Questie.DEBUG_SPAM, count,
-                                " : Objective text is strange!", "'",
-                                objective.text, "'", " distance",
-                                distance)
-                        good = false
-                        break
-                    end
-                end
-            end
-        end
-        if (good) then
-            break
-        end
-        count = count + 1
+    local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+
+    if not objectiveList then
+        return false
     end
-    return good
+
+    for key, objective in pairs(objectiveList) do
+        local text, objectiveType = objective.text, objective.type
+        if (not objectiveType) or objectiveType == ""
+        or (not text) or stringSub(text, 1, 1) == " " then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieLib:GetQuestObjectives] Objective not cached yet. questId=", questId, "objective=", key, "type=", objectiveType, "text=", text)
+            return false
+        end
+    end
+
+    return true
 end
 
 ---@param questId number @The quest ID
 ---@return table
 function QuestieLib:GetQuestObjectives(questId)
-    local count = 0
-    local objectiveList
-    while (count < 1) do
-        local good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if not objectiveList then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if (objective.text == nil or objective.text == "" or
-                    QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(Questie.DEBUG_SPAM, count,
-                                  " : Objective text is strange!", "'",
-                                  objective.text, "'", " distance",
-                                  QuestieLib:Levenshtein(": 0/1", objective.text))
-                    good = false
-                    break
-                end
-            end
+    local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+
+    for key, objective in pairs(objectiveList or {}) do
+        local text = objective.text
+        if (not text) or stringSub(text, 1, 1) == " " then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieLib:GetQuestObjectives] Objective not cached yet. questId=", questId, "objective=", key, "text=", text)
+            break -- old code didn't do anything smart with "strange objective", so not doing either
         end
-        count = count + 1
-        if good then break end
     end
+
     --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
     return objectiveList
 end
