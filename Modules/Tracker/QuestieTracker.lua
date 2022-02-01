@@ -1813,8 +1813,8 @@ function QuestieTracker:Update()
             end
         end
         _QuestieTracker.IsFirstRun = nil
-        QuestieCombatQueue:Queue(function()
-            C_Timer.After(2.0, function()
+        C_Timer.After(2.0, function()
+            QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
         end)
