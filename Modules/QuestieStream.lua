@@ -13,6 +13,7 @@ local rshift = bit.rshift
 local mod = mod
 local stringchar = string.char
 local stringbyte = string.byte
+local stringsub = string.sub
 
 -- shift level table
 local QSL_dltab = {};
@@ -264,7 +265,7 @@ end
 function QuestieStreamLib:_ReadTinyStringBySubstring()
     local length = self:ReadByte()
     if length == 0 then return "" end
-    local ret = string.sub(self._bin, self._pointer, self._pointer+length-1)
+    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
     self._pointer = self._pointer + length
     return ret
 end
@@ -272,7 +273,7 @@ end
 function QuestieStreamLib:_ReadTinyStringNilBySubstring()
     local length = self:ReadByte()
     if length == 0 then return nil end
-    local ret = string.sub(self._bin, self._pointer, self._pointer+length-1)
+    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
     self._pointer = self._pointer + length
     return ret
 end
@@ -305,7 +306,7 @@ end
 
 function QuestieStreamLib:_ReadShortStringBySubstring()
     local length = self:ReadShort()
-    local ret = string.sub(self._bin, self._pointer, self._pointer+length-1)
+    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
     self._pointer = self._pointer + length
     return ret
 end
