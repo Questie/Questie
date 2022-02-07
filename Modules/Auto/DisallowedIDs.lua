@@ -143,6 +143,13 @@ _QuestieAuto.disallowedQuests = {
     [10922] = true, -- Digging Through Bones
     [10975] = true, -- Purging the Chambers of Bash'ir
     [11085] = true, -- Escape from Skettis
+    -- Netherwing Drake quests
+    [11109] = true,
+    [11110] = true,
+    [11111] = true,
+    [11112] = true,
+    [11113] = true,
+    [11114] = true,
     -- The Barrens Bloodshard quests
     [889] = true,
     [5042] = true,
