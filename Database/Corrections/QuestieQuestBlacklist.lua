@@ -294,6 +294,14 @@ function QuestieQuestBlacklist:Load()
         [10941] = true,
         [10942] = true,
         [10943] = true,
+        -- Netherwing Drake quests
+        [11109] = true,
+        [11110] = true,
+        [11111] = true,
+        [11112] = true,
+        [11113] = true,
+        [11114] = true,
+        --
         [11117] = true,
         [11118] = true,
         [11120] = true,
