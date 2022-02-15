@@ -47,6 +47,7 @@ _QuestieAuto.disallowedNPC = {
     [18253] = true, -- Archmage Leryda (Violet Eye)
     [18471] = true, -- Gurgthock (The Ring of Blood)
     [19935] = true, -- Soridormi (The Scale of Sands)
+    [19936] = true, -- Arazmodu (The Scale of Sands)
 }
 
 _QuestieAuto.disallowedQuests = {
