@@ -49,7 +49,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
-    eventFrame:RegisterEvent("UNIT_FACTION")
+    eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
     _QuestEventHandler:InitQuestLog()
@@ -299,7 +299,7 @@ local lastTimeBankFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
 --- So we hook the BANKFRAME_CLOSED event which fires once or twice after closing the bank frame and do a full quest log check.
 function _QuestEventHandler:BankFrameClosed()
-    print("[Event] BANKFRAME_CLOSED")
+    print("[Quest Event] BANKFRAME_CLOSED")
 
     local now = GetTime()
     -- Don't do update if event fired twice
@@ -309,8 +309,8 @@ function _QuestEventHandler:BankFrameClosed()
     end
 end
 
-function _QuestEventHandler:UnitFaction()
-    print("[Event] UNIT_FACTION")
+function _QuestEventHandler:ReputationChange()
+    print("[Quest Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
 
     -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
     doFullQuestLogScan = true
@@ -346,7 +346,7 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
-    elseif event == "UNIT_FACTION" and select(1, ...) == "player" then
-        _QuestEventHandler:UnitFaction()
+    elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
+        _QuestEventHandler:ReputationChange()
     end
 end
