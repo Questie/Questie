@@ -360,6 +360,189 @@ function QuestieTBCQuestFixes:Load()
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [8619] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8635] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8636] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8642] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8643] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8644] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8645] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8646] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8647] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8648] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8649] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8650] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8651] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8652] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8653] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8654] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8670] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8671] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8672] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8673] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8674] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8675] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8676] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8677] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8678] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8679] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8680] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8681] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8682] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8683] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8684] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8685] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8686] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8688] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8713] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8714] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8715] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8716] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8717] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8718] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8719] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8720] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8721] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8722] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8723] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8724] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8725] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8726] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8727] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8862] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8863] = {
+            [questKeys.requiredLevel] = 1,
+        },
+        [8866] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8867] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8870] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8871] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8872] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8873] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8874] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8875] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8876] = {
+            [questKeys.requiredLevel] = 25,
+        },
+        [8883] = {
+            [questKeys.questLevel] = 70,
+        },
         [9130] = {
             [questKeys.requiredMinRep] = {},
         },
