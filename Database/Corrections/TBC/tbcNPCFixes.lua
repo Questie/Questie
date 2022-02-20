@@ -658,25 +658,6 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5}}},
             [npcKeys.friendlyToFaction] = "H",
         },
-        [185333] = {
-            [npcKeys.name] = "Avelina Lilly",
-            [npcKeys.minLevel] = 22,
-            [npcKeys.maxLevel] = 22,
-            [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
-            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.5,65.3}}},
-        },
-        [185334] = {
-            [npcKeys.name] = "Isaac Pearson",
-            [npcKeys.minLevel] = 22,
-            [npcKeys.maxLevel] = 22,
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{61.8,38.5}}},
-        },
-        [185335] = {
-            [npcKeys.name] = "Summoned Incubus",
-            [npcKeys.minLevel] = 20,
-            [npcKeys.maxLevel] = 20,
-        },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
         -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
