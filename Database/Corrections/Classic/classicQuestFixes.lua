@@ -1620,6 +1620,24 @@ function QuestieQuestFixes:Load()
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
         },
+        [5676] = {
+            [questKeys.exclusiveTo] = {5677,5678},
+        },
+        [5677] = {
+            [questKeys.exclusiveTo] = {5676,5678},
+        },
+        [5678] = {
+            [questKeys.name] = "Arcane Feedback",
+            [questKeys.startedBy] = {{376,5489,11406},nil,nil},
+            [questKeys.finishedBy] = {{376},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
+            [questKeys.exclusiveTo] = {5676,5677},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
+        },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},
         },
