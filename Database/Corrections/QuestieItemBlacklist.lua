@@ -179,6 +179,7 @@ function QuestieItemBlacklist:Load()
         
         -- TBC Phase 1
         [21887] = true, -- Knothide Leather
+        [22445] = true, -- Arcane Dust
         [22572] = true, -- Mote of Air
         [22573] = true, -- Mote of Earth
         [22574] = true, -- Mote of Fire
@@ -186,17 +187,22 @@ function QuestieItemBlacklist:Load()
         [22576] = true, -- Mote of Mana
         [22577] = true, -- Mote of Shadow
         [22578] = true, -- Mote of Water
+        [22786] = true, -- Dreaming Glory
+        [22790] = true, -- Ancient Lichen
         [22829] = true, -- Super Healing Potion
         [22832] = true, -- Super Mana Potion
         [23445] = true, -- Fel Iron Bar
         [23793] = true, -- Heavy Knothide Leather
         [24246] = true, -- Sanguine Hibiscus
+        [24368] = true, -- Coilfang Armaments
         [24401] = true, -- Unidentified Plant Parts
         [26042] = true, -- Oshu'gun Crystal Powder Sample
-        [26043] = true, -- Oshu'gun Crystal Powder Sample
-
-        [22786] = true, -- Dreaming Glory
-        [22790] = true, -- Ancient Lichen
+        [29425] = true, -- Mark of Kiljaeden
+        [29426] = true, -- Firewing Signet
+        [29739] = true, -- Arcane Tome
+        [29740] = true, -- Fel Armament
+        [30809] = true, -- Mark of Sargeras
+        [30810] = true, -- Sunfury Signet
         [32569] = true, -- Apexis Shard
     }
 end
