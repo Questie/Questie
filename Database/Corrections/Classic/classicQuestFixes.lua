@@ -2057,6 +2057,9 @@ function QuestieQuestFixes:Load()
         [7428] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [7463] = {
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
+        },
         [7481] = {
             [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71}}}},
         },
