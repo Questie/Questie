@@ -1605,6 +1605,9 @@ function QuestieQuestFixes:Load()
         [5510] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
         },
+        [5526] = {
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
         [5582] = {
             [questKeys.startedBy] = {{10678},nil,{13920}},
         },
