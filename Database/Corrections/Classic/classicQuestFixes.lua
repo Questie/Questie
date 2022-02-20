@@ -1523,6 +1523,9 @@ function QuestieQuestFixes:Load()
         [5211] = {
             [questKeys.preQuestSingle] = {}, -- #983
         },
+        [5214] = {
+            [questKeys.name] = "The Great Ezra Grimm",
+        },
         [5218] = {
             [questKeys.preQuestSingle] = {5217,5230},
         },
