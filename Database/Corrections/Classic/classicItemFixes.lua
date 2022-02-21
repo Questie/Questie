@@ -1120,6 +1120,38 @@ function QuestieItemFixes:Load()
         [22527] = {
             [itemKeys.npcDrops] = {6520,6521,7031,7032,7132,8519,8520,8521,8522,8909,8910,8911,9017,9025,9026,9816,9878,9879,11480,11483,11484,11744,11745,11746,11747,13279,13280,14399,14400,14455,14458,14460,14462},
         },
+        [190179] = {
+            [itemKeys.name] = "Avelina's Heart",
+            [itemKeys.npcDrops] = {185333},
+            [itemKeys.relatedQuests] = {65593},
+        },
+        [190180] = {
+            [itemKeys.name] = "Isaac's Heart",
+            [itemKeys.npcDrops] = {185334},
+            [itemKeys.relatedQuests] = {65593},
+        },
+        [190181] = {
+            [itemKeys.name] = "Lovers' Hearts",
+            [itemKeys.relatedQuests] = {65597},
+        },
+        [190186] = {
+            [itemKeys.name] = "Wooden Figurine",
+            [itemKeys.relatedQuests] = {65603},
+        },
+        [190187] = {
+            [itemKeys.name] = "Withered Scarf",
+            [itemKeys.npcDrops] = {3782,3784},
+            [itemKeys.relatedQuests] = {65610},
+        },
+        [190232] = {
+            [itemKeys.name] = "Withered Scarf",
+            [itemKeys.relatedQuests] = {65604},
+        },
+        [190309] = {
+            [itemKeys.name] = "Wooden Figurine",
+            [itemKeys.objectDrops] = {400013},
+            [itemKeys.relatedQuests] = {65602},
+        },
     }
 end
 

@@ -225,6 +225,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
         -- Fake IDs
+        [400013] = {
+            [objectKeys.name] = "Wooden Figurine",
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.6,22}}},
+            [objectKeys.zoneID] = zoneIDs.ASHENVALE,
+        },
         [500000] = {
             [objectKeys.name] = "Feralas Ahi Fishing Location",
             [objectKeys.questStarts] = {},

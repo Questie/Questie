@@ -97,6 +97,9 @@ function QuestieTBCQuestFixes:Load()
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36}}}},
         },
+        [1486] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
         },
@@ -359,6 +362,189 @@ function QuestieTBCQuestFixes:Load()
         },
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [8619] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8635] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8636] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8642] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8643] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8644] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8645] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8646] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8647] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8648] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8649] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8650] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8651] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8652] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8653] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8654] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8670] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8671] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8672] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8673] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8674] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8675] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8676] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8677] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8678] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8679] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8680] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8681] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8682] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8683] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8684] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8685] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8686] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8688] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8713] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8714] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8715] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8716] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8717] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8718] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8719] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8720] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8721] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8722] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8723] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8724] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8725] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8726] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8727] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8862] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8863] = {
+            [questKeys.requiredLevel] = 1,
+        },
+        [8866] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8867] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8870] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8871] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8872] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8873] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8874] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8875] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8876] = {
+            [questKeys.requiredLevel] = 25,
+        },
+        [8883] = {
+            [questKeys.questLevel] = 70,
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
@@ -3938,104 +4124,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
-        },
-        ----- Warlock Incubus quest chain -----
-        [65593] = {
-            [questKeys.name] = "Hearts of the Lovers",
-            [questKeys.startedBy] = {{5693},nil,nil},
-            [questKeys.finishedBy] = {{5675},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
-            [questKeys.objectives] = {nil,nil,{{190179,190180}},nil,nil},
-            [questKeys.exclusiveTo] = {65610},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
-        [65597] = {
-            [questKeys.name] = "The Binding",
-            [questKeys.startedBy] = {{5675},nil,nil},
-            [questKeys.finishedBy] = {{5675},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Using the Lovers' Hearts, summon and subdue an incubus, then return the Lovers' Hearts to Carendin Halgar in the Magic Quarter of the Undercity."},
-            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {65593},
-            [questKeys.requiredSourceItems] = {190181},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, "Use the Lovers' Hearts to summon an Incubus and slay it.",}},
-        },
-        [65601] = {
-            [questKeys.name] = "Love Hurts",
-            [questKeys.startedBy] = {{5909},nil,nil},
-            [questKeys.finishedBy] = {{3363},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
-            [questKeys.exclusiveTo] = {65593,65610},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
-        [65602] = {
-            [questKeys.name] = "What Is Love?",
-            [questKeys.startedBy] = {{6244},nil,nil},
-            [questKeys.finishedBy] = {{6122},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
-            [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, "Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire.",}},
-        },
-        [65603] = {
-            [questKeys.name] = "The Binding",
-            [questKeys.startedBy] = {{6122},nil,nil},
-            [questKeys.finishedBy] = {{6122},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Using the Wooden Figurine, summon and subdue an incubus, then return the Wooden Figurine to Gakin the Darkbinder in the Slaughtered Lamb."},
-            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {65602},
-            [questKeys.requiredSourceItems] = {190186},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
-        },
-        [65604] = {
-            [questKeys.name] = "The Binding",
-            [questKeys.startedBy] = {{5875},nil,nil},
-            [questKeys.finishedBy] = {{5875},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
-            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {65610},
-            [questKeys.requiredSourceItems] = {190232},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
-        },
-        [65610] = {
-            [questKeys.name] = "Wish You Were Here",
-            [questKeys.startedBy] = {{3363},nil,nil},
-            [questKeys.finishedBy] = {{5875},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
-            [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
-            [questKeys.exclusiveTo] = {65593},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
+        }
     }
 end
 
@@ -4159,12 +4248,4 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12407] = {} -- Candy Bucket
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
-
-    QuestieDB.questData[65593] = {} -- Hearts of the Lovers
-    QuestieDB.questData[65597] = {} -- The Binding
-    QuestieDB.questData[65601] = {} -- Love Hurts
-    QuestieDB.questData[65602] = {} -- What Is Love?
-    QuestieDB.questData[65603] = {} -- The Binding
-    QuestieDB.questData[65604] = {} -- The Binding
-    QuestieDB.questData[65610] = {} -- Wish You Were Here
 end
