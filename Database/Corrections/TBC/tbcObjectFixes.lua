@@ -61,6 +61,10 @@ function QuestieTBCObjectFixes:Load()
         [184998] = {
             [objectKeys.name] = "Ethereum Prison",
         },
+        [185015] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_MECHANAR,
+        },
         [185322] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{28.7,98.7}}},
         },
