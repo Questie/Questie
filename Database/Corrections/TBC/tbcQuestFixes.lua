@@ -1783,7 +1783,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69}}}},
         },
         [10886] = {
-            [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.NETHERSTORM]={{74.5,57.67}}}},
+            [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.THE_ARCATRAZ]={{-1,-1}}}},
         },
         [10887] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.2,51.8}}}, ICON_TYPE_EVENT, "Help Akuno find his way to the Refugee Caravan in Terokkar Forest."}},
