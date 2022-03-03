@@ -175,6 +175,7 @@ function _QuestEventHandler:QuestRemoved(questId)
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
         print("--> Quest", questId, "was turned in before. Nothing do to.")
+        questLog[questId] = nil
         return
     end
 
@@ -184,7 +185,6 @@ function _QuestEventHandler:QuestRemoved(questId)
         state = QUEST_LOG_STATES.QUEST_REMOVED,
         timer = C_Timer.NewTicker(1, function()
             _QuestEventHandler:MarkQuestAsAbandoned(questId)
-            questLog[questId].timer = nil
         end, 1)
     }
     skipNextUQLCEvent = true
@@ -199,6 +199,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         QuestieHash:RemoveQuestHash(questId)
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
+        questLog[questId] = nil
     end
 end
 
