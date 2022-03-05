@@ -232,6 +232,19 @@ function _QuestEventHandler:QuestWatchUpdate(questId)
     skipNextUQLCEvent = true
 end
 
+local _UnitQuestLogChangedCallback = function()
+    -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
+    -- (Accept, removed, ...)
+    if (not skipNextUQLCEvent) then
+        doFullQuestLogScan = true
+    else
+        doFullQuestLogScan = false
+        skipNextUQLCEvent = false
+        print("--> Skipping UnitQuestLogChanged")
+    end
+    return true
+end
+
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
@@ -246,18 +259,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
         doFullQuestLogScan = true
-        _QuestLogUpdateQueue:Insert(function()
-            -- We also check in here because UNIT_QUEST_LOG_CHANGED is fired before the relevant events
-            -- (Accept, removed, ...)
-            if (not skipNextUQLCEvent) then
-                doFullQuestLogScan = true
-            else
-                doFullQuestLogScan = false
-                skipNextUQLCEvent = false
-                print("--> Skipping UnitQuestLogChanged")
-            end
-            return true
-        end)
+        _QuestLogUpdateQueue:Insert(_UnitQuestLogChangedCallback)
     else
         print("--> Skipping UnitQuestLogChanged")
     end
