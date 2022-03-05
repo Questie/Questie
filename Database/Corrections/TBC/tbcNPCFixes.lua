@@ -205,6 +205,10 @@ function QuestieTBCNpcFixes:Load()
         [17241] = {
             [npcKeys.waypoints] = {},
         },
+        [17301] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
+        },
         [17311] = {
             [npcKeys.spawns] = {
                 [zoneIDs.BLOODMYST_ISLE]={{54.08,55.1}},
@@ -333,6 +337,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12}}},
+        },
+        [19412] = {
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.AUCHENAI_CRYPTS,
         },
         [19456] = {
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{37.8,86.2}}},
