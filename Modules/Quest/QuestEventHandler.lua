@@ -320,8 +320,8 @@ function _QuestEventHandler:ReputationChange()
 end
 
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
-function _QuestLogUpdateQueue:Insert(func)
-    questLogUpdateQueue[questLogUpdateQueueSize] = func
+function _QuestLogUpdateQueue:Insert(callback)
+    questLogUpdateQueue[questLogUpdateQueueSize] = callback
     questLogUpdateQueueSize = questLogUpdateQueueSize + 1
 end
 
