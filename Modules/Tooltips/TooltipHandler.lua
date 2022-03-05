@@ -29,11 +29,9 @@ function _QuestieTooltips:AddUnitDataToTooltip()
         lastGuid ~= guid
     ) then
         QuestieTooltips.lastGametooltipUnit = name
-        local tooltipData = QuestieTooltips:GetTooltip("m_" .. npcId);
-        if tooltipData then
-            for _, v in pairs (tooltipData) do
-                GameTooltip:AddLine(v)
-            end
+        local tooltipRows = QuestieTooltips:GetTooltip("m_" .. npcId);
+        for i = 0, #tooltipRows do
+            GameTooltip:AddLine(tooltipRows[i])
         end
         QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
     end

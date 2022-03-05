@@ -27,7 +27,7 @@ function QuestieNameplate:GetFrame(guid)
 
     local frame = tremove(npUnusedFrames)
 
-    if(not frame) then
+    if (not frame) then
         frame = CreateFrame("Frame")
         npFramesCount = npFramesCount + 1
     end
