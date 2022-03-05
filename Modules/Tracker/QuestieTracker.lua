@@ -2252,7 +2252,6 @@ _RemoveQuestWatch = function(index, isQuestie)
 end
 
 function QuestieTracker:AQW_Insert(index, expire)
-    print("AQW_Insert", index, expire)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
     if QuestieTracker._disableHooks then
         return

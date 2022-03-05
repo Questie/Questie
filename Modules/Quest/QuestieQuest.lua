@@ -223,7 +223,7 @@ function QuestieQuest:AddAllNotes()
     QuestieQuest:GetAllQuestIdsNoObjectives()
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
 
-    for questId,_ in pairs(QuestiePlayer.currentQuestlog) do
+    for questId, _ in pairs(QuestiePlayer.currentQuestlog) do
         QuestieQuest:UpdateQuest(questId)
         _UpdateSpecials(questId)
     end
@@ -1167,7 +1167,6 @@ end
 ---@param questObjectives table @OPTIONAL GetAllLeaderBoardDetails() for the quest. For performance to not get it again.
 function _QuestieQuest.ObjectiveUpdate(self, questObjectives)
     if self.isUpdated then
-        --print("*** Skipping update:", self.questId, self.Index)
         return
     end
 

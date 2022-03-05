@@ -238,15 +238,17 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
     end
 end
 
+local _QuestFinishedCallback = function()
+    if _QuestieAuto:AllQuestWindowsClosed() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "All quest windows closed! Resetting shouldRunAuto")
+        _QuestieAuto:ResetModifier()
+    end
+end
+
 function QuestieAuto:QUEST_FINISHED()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] QUEST_FINISHED")
 
-    C_Timer.After(0.5, function()
-        if _QuestieAuto:AllQuestWindowsClosed() then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "All quest windows closed! Resetting shouldRunAuto")
-            _QuestieAuto:ResetModifier()
-        end
-    end)
+    C_Timer.After(0.5, _QuestFinishedCallback)
 end
 
 function _QuestieAuto:AllQuestWindowsClosed()
