@@ -3415,6 +3415,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.preQuestSingle] = {65601},
             [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
             [questKeys.exclusiveTo] = {65593},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
