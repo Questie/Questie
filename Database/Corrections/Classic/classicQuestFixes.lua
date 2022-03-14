@@ -3360,6 +3360,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
+            [questKeys.preQuestSingle] = {1507},
             [questKeys.exclusiveTo] = {65593,65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
