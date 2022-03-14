@@ -325,6 +325,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.DUROTAR]={{{54.2,73.2},{54.4,74.2},{54.4,75},{54,76.2},{54.4,75},{54.4,74.2},{54.2,73.2}}}},
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{54.4,75}}},
         },
+        [3237] = {
+            [npcKeys.waypoints] = {},
+        },
         [3253] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{42,70}}},
             [npcKeys.waypoints] = {[zoneIDs.THE_BARRENS]={{{42,70},{44,69},{44,70},{44,73},{46,71},{47,69},{47,71}}}},
