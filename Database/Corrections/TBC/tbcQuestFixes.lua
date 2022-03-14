@@ -100,6 +100,9 @@ function QuestieTBCQuestFixes:Load()
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
         },
+        [1508] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
         },
