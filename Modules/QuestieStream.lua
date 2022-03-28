@@ -145,7 +145,7 @@ function QuestieStreamLib:_WriteByte_b89(e)
         return 
     end
     local level = math.floor(e / 86);
-    if not (self._level == level) then
+    if self._level ~= level then
         self._level = level
         self:_writeByte(QSL_ltab[level])
     end
