@@ -1621,7 +1621,26 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 5, -- #2306
         },
         [5634] = {
-            [questKeys.startedBy] = {{11401},nil,nil},
+            [questKeys.startedBy] = {{376},nil,nil},
+            [questKeys.objectivesText] = {},
+            [questKeys.exclusiveTo] = {5635,5636,5637,5638,5639,5640},
+        },
+        [5635] = {
+            [questKeys.startedBy] = {{377},nil,nil},
+            [questKeys.exclusiveTo] = {5634,5636,5637,5638,5639,5640},
+        },
+        [5636] = {
+            [questKeys.exclusiveTo] = {5634,5635,5637,5638,5639,5640},
+        },
+        [5637] = {
+            [questKeys.startedBy] = {{1226},nil,nil},
+            [questKeys.exclusiveTo] = {5634,5635,5636,5638,5639,5640},
+        },
+        [5638] = {
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5639,5640},
+        },
+        [5639] = {
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5640},
         },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
