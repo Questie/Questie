@@ -12,6 +12,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 -- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieQuestFixes:Load()
+    QuestieDB.questData[5640] = {} -- Desperate Prayer
+
     QuestieDB.questData[7668] = {} -- Add missing quest index
     QuestieDB.questData[7669] = {} -- Add missing quest index
     QuestieDB.questData[7670] = {} -- Add missing quest index #1432
@@ -1641,6 +1643,18 @@ function QuestieQuestFixes:Load()
         },
         [5639] = {
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5640},
+        },
+        [5640] = {
+            [questKeys.name] = "Desperate Prayer",
+            [questKeys.startedBy] = {{11401},nil,nil},
+            [questKeys.finishedBy] = {{376},nil},
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = bit.bor(raceIDs.HUMAN, raceIDs.DWARF),
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
