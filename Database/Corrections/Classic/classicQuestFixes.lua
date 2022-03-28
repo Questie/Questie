@@ -1650,7 +1650,7 @@ function QuestieQuestFixes:Load()
             [questKeys.finishedBy] = {{376},nil},
             [questKeys.requiredLevel] = 10,
             [questKeys.questLevel] = 10,
-            [questKeys.requiredRaces] = bit.bor(raceIDs.HUMAN, raceIDs.DWARF),
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF,
             [questKeys.requiredClasses] = classIDs.PRIEST,
             [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
             [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
