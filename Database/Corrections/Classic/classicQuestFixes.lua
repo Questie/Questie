@@ -3403,7 +3403,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
             [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {65610},
-            [questKeys.requiredSourceItems] = {190232},
+            [questKeys.requiredSourceItems] = {190187},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
         },
