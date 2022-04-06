@@ -1764,6 +1764,24 @@ function QuestieQuestFixes:Load()
         [5893] = {
             [questKeys.questLevel] = 55,
         },
+        [5923] = {
+            [questKeys.startedBy] = {{4218},nil,nil},
+        },
+        [5924] = {
+            [questKeys.startedBy] = {{5505},nil,nil},
+        },
+        [5925] = {
+            [questKeys.startedBy] = {{3602},nil,nil},
+        },
+        [5926] = {
+            [questKeys.startedBy] = {{6746},nil,nil},
+        },
+        [5927] = {
+            [questKeys.startedBy] = {{6929},nil,nil},
+        },
+        [5928] = {
+            [questKeys.startedBy] = {{3064},nil,nil},
+        },
         -----------------------
         [5929] = {
             [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
