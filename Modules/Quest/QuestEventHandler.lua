@@ -166,6 +166,7 @@ end
 ---@param questId number
 function _QuestEventHandler:QuestRemoved(questId)
     print("[Quest Event] QUEST_REMOVED", questId)
+    doFullQuestLogScan = false
 
     if (not questLog[questId]) then
         print("--> questLog[questId] was nil")
