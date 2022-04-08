@@ -229,7 +229,6 @@ function _QuestEventHandler:QuestWatchUpdate(questId)
     -- a QUEST_LOG_UPDATE. Also not every QUEST_WATCH_UPDATE gets a single QUEST_LOG_UPDATE and doing a full
     -- scan is less error prone
     doFullQuestLogScan = true
-    skipNextUQLCEvent = true
 end
 
 local _UnitQuestLogChangedCallback = function()
