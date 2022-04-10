@@ -3383,7 +3383,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
-            [questKeys.objectives] = {nil,nil,{{190179,190180}},nil,nil},
+            [questKeys.objectives] = {nil,nil,{{190179},{190180}},nil,nil},
             [questKeys.exclusiveTo] = {65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
