@@ -524,14 +524,14 @@ function QuestieSearchResults:DrawSearchTab(container)
     searchBox:SetLabel(l10n('Advanced Search') .. " (".. l10n('Quests') .. ", ".. l10n('NPCs') .. ", ".. l10n('Objects') .. ", ".. l10n('Items') .. ")");
     searchBox:DisableButton(true);
     searchBox:SetCallback("OnTextChanged", function()
-        if not (searchBox:GetText() == '') then
+        if searchBox:GetText() ~= '' then
             searchButton:SetDisabled(false);
         else
             searchButton:SetDisabled(true);
         end
     end);
     searchBox:SetCallback("OnEnterPressed", function()
-        if not (searchBox:GetText() == '') then
+        if searchBox:GetText() ~= '' then
             local text = string.trim(searchBox:GetText(), " \n\r\t[]");
             QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false);
             searchBox:ClearFocus()

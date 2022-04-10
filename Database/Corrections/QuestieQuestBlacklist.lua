@@ -985,12 +985,8 @@ function QuestieQuestBlacklist:Load()
         [8439] = QuestieCorrections.TBC_ONLY,
 
         -- Phase 4 Zul'Aman
-        [11130] = true,
-        [11132] = true,
-        [11163] = true,
-        [11164] = true,
-        [11178] = true,
-        [11196] = true,
+        [11195] = true, -- Not in the game
+        [11196] = true, -- Not in the game
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
         [11481] = true,

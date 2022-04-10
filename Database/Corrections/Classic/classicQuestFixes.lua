@@ -12,6 +12,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 -- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieQuestFixes:Load()
+    QuestieDB.questData[5640] = {} -- Desperate Prayer
+
     QuestieDB.questData[7668] = {} -- Add missing quest index
     QuestieDB.questData[7669] = {} -- Add missing quest index
     QuestieDB.questData[7670] = {} -- Add missing quest index #1432
@@ -1621,7 +1623,38 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 5, -- #2306
         },
         [5634] = {
+            [questKeys.startedBy] = {{376},nil,nil},
+            [questKeys.objectivesText] = {},
+            [questKeys.exclusiveTo] = {5635,5636,5637,5638,5639,5640},
+        },
+        [5635] = {
+            [questKeys.startedBy] = {{377},nil,nil},
+            [questKeys.exclusiveTo] = {5634,5636,5637,5638,5639,5640},
+        },
+        [5636] = {
+            [questKeys.exclusiveTo] = {5634,5635,5637,5638,5639,5640},
+        },
+        [5637] = {
+            [questKeys.startedBy] = {{1226},nil,nil},
+            [questKeys.exclusiveTo] = {5634,5635,5636,5638,5639,5640},
+        },
+        [5638] = {
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5639,5640},
+        },
+        [5639] = {
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5640},
+        },
+        [5640] = {
+            [questKeys.name] = "Desperate Prayer",
             [questKeys.startedBy] = {{11401},nil,nil},
+            [questKeys.finishedBy] = {{376},nil},
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
@@ -3360,6 +3393,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
+            [questKeys.preQuestSingle] = {1507},
             [questKeys.exclusiveTo] = {65593,65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
@@ -3402,7 +3436,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
             [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
             [questKeys.preQuestSingle] = {65610},
-            [questKeys.requiredSourceItems] = {190232},
+            [questKeys.requiredSourceItems] = {190187},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
             [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
         },
@@ -3415,6 +3449,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.preQuestSingle] = {65601},
             [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
             [questKeys.exclusiveTo] = {65593},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,

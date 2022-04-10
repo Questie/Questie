@@ -90,6 +90,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [1135] = {
             [questKeys.startedBy] = {{4456},nil,nil},
+            [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
         },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
@@ -99,6 +100,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [1508] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
@@ -2169,6 +2173,9 @@ function QuestieTBCQuestFixes:Load()
         [11162] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Plant the Stonemaul Banner", 0, {{"object", 186336}}}},
         },
+        [11164] = {
+            [questKeys.preQuestSingle] = {11132},
+        },
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345},4344,"Totem Tests Performed"}},
         },
@@ -2181,6 +2188,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
+        },
+        [11178] = {
+            [questKeys.startedBy] = {{23863},nil,{33102,},},
         },
         [11180] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Information Gathered", 0, {{"monster", 23554},{"monster", 23555}}}},

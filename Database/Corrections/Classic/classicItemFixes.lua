@@ -1140,12 +1140,12 @@ function QuestieItemFixes:Load()
         },
         [190187] = {
             [itemKeys.name] = "Withered Scarf",
-            [itemKeys.npcDrops] = {3782,3784},
-            [itemKeys.relatedQuests] = {65610},
+            [itemKeys.relatedQuests] = {65604},
         },
         [190232] = {
             [itemKeys.name] = "Withered Scarf",
-            [itemKeys.relatedQuests] = {65604},
+            [itemKeys.npcDrops] = {3782,3784},
+            [itemKeys.relatedQuests] = {65610},
         },
         [190309] = {
             [itemKeys.name] = "Wooden Figurine",
