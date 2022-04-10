@@ -1,6 +1,9 @@
 ## LibQuestXP - Changelog
 
 **1.0.8**
+- Increased SoM XP multiplier
+
+**1.0.8**
 - Updated for SoM
 
 **1.0.7**
