@@ -41,7 +41,7 @@ local doFullQuestLogScan = false
 
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
-    print("[Quest Event] RegisterEvents")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] RegisterEvents")
     eventFrame:RegisterEvent("QUEST_ACCEPTED")
     eventFrame:RegisterEvent("QUEST_TURNED_IN")
     eventFrame:RegisterEvent("QUEST_REMOVED")
@@ -77,7 +77,7 @@ end
 ---@param questLogIndex number
 ---@param questId number
 function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
-    print("[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
     if questLog[questId] and questLog[questId].timer then
         -- We had a QUEST_REMOVED event which started this timer and now it was accepted again.
@@ -99,7 +99,7 @@ local objectiveTextTries = 0
 function _QuestEventHandler:HandleQuestAccepted(questId)
     if objectiveTextTries == MAX_OBJECTIVE_TEXT_TRIES then
         -- Check for failing recursion. Something is up if the objective texts are still invalid.
-        print("--> Objective texts are not correct after", MAX_OBJECTIVE_TEXT_TRIES, "tries - Please report this!")
+        Questie:Error("Objective texts are not correct after " .. MAX_OBJECTIVE_TEXT_TRIES .. " tries - Please report this!")
         return true
     end
 
@@ -108,7 +108,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     for _, objective in pairs(questObjectives) do
         -- When the objective text is not cached yet it looks similar to " slain 0/1"
         if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
-            print("--> Objective texts are not correct yet")
+            Questie:Debug(Questie.DEBUG_SPAM, "Objective texts are not correct yet")
             _QuestLogUpdateQueue:Insert(function()
                 return _QuestEventHandler:HandleQuestAccepted(questId)
             end)
@@ -119,7 +119,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         end
     end
 
-    print("--> Objectives are correct. Calling accept logic. quest:", questId)
+    Questie:Debug(Questie.DEBUG_SPAM, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieHash:AddNewQuestHash(questId)
     QuestieQuest:AcceptQuest(questId)
@@ -134,7 +134,7 @@ end
 ---@param xpReward number
 ---@param moneyReward number
 function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
-    print("[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_TURNED_IN", xpReward, moneyReward, questId)
 
     if questLog[questId] and questLog[questId].timer then
         -- Cancel the timer so the quest is not marked as abandoned
@@ -142,7 +142,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
         questLog[questId].timer = nil
     end
 
-    print("--> Quest", questId, "was turned in and is completed")
+    Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in and is completed")
     if questLog[questId] then
         -- There are quests which you just turn in so there is no preceding QUEST_ACCEPTED event and questLog[questId]
         -- is empty
@@ -165,17 +165,16 @@ end
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
 ---@param questId number
 function _QuestEventHandler:QuestRemoved(questId)
-    print("[Quest Event] QUEST_REMOVED", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED", questId)
     doFullQuestLogScan = false
 
     if (not questLog[questId]) then
-        print("--> questLog[questId] was nil")
         questLog[questId] = {}
     end
 
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
-        print("--> Quest", questId, "was turned in before. Nothing do to.")
+        Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in before. Nothing do to.")
         questLog[questId] = nil
         return
     end
@@ -194,7 +193,7 @@ end
 ---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
-        print("--> Quest", questId, "was abandoned")
+        Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestieHash:RemoveQuestHash(questId)
@@ -206,7 +205,7 @@ end
 
 ---Fires when the quest log changed in any way. This event fires very often!
 function _QuestEventHandler:QuestLogUpdate()
-    print("[Quest Event] QUEST_LOG_UPDATE")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_LOG_UPDATE")
 
     local continueQueuing = true
     -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
@@ -224,7 +223,7 @@ end
 --- Fires whenever a quest objective progressed
 ---@param questId number
 function _QuestEventHandler:QuestWatchUpdate(questId)
-    print("[Quest Event] QUEST_WATCH_UPDATE", questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_WATCH_UPDATE", questId)
 
     -- We do a full scan even though we have the questId because many QUEST_WATCH_UPDATE can fire before
     -- a QUEST_LOG_UPDATE. Also not every QUEST_WATCH_UPDATE gets a single QUEST_LOG_UPDATE and doing a full
@@ -240,7 +239,7 @@ local _UnitQuestLogChangedCallback = function()
     else
         doFullQuestLogScan = false
         skipNextUQLCEvent = false
-        print("--> Skipping UnitQuestLogChanged")
+        Questie:Debug(Questie.DEBUG_SPAM, "Skipping UnitQuestLogChanged")
     end
     return true
 end
@@ -248,7 +247,7 @@ end
 --- Fires when an objective changed in the quest log of the unitTarget. The required data is not available yet though
 ---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
-    print("[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
 
     if unitTarget ~= "player" then
         -- The quest log of some other unit changed, which we don't care about
@@ -261,7 +260,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
         doFullQuestLogScan = true
         _QuestLogUpdateQueue:Insert(_UnitQuestLogChangedCallback)
     else
-        print("--> Skipping UnitQuestLogChanged")
+        Questie:Debug(Questie.DEBUG_SPAM, "Skipping UnitQuestLogChanged")
     end
     skipNextUQLCEvent = false
 end
@@ -269,7 +268,7 @@ end
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
 --- since the last check
 function _QuestEventHandler:UpdateAllQuests()
-    print("--> Running full questlog check")
+    Questie:Debug(Questie.DEBUG_SPAM, "Running full questlog check")
     local questIdsToCheck = {}
     local questIdsToCheckSize = 1
 
@@ -289,12 +288,12 @@ function _QuestEventHandler:UpdateAllQuests()
 
     if next(questIdsToUpdate) then
         for _, questId in pairs(questIdsToUpdate) do
-            print("----> questIdToUpdate:", questId)
+            Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "will be updated")
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
     else
-        print("----> Nothing to update")
+        Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
     end
 end
 
@@ -302,7 +301,7 @@ local lastTimeBankFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
 --- So we hook the BANKFRAME_CLOSED event which fires once or twice after closing the bank frame and do a full quest log check.
 function _QuestEventHandler:BankFrameClosed()
-    print("[Quest Event] BANKFRAME_CLOSED")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] BANKFRAME_CLOSED")
 
     local now = GetTime()
     -- Don't do update if event fired twice
@@ -313,7 +312,7 @@ function _QuestEventHandler:BankFrameClosed()
 end
 
 function _QuestEventHandler:ReputationChange()
-    print("[Quest Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] CHAT_MSG_COMBAT_FACTION_CHANGE")
 
     -- Reputational quest progression doesn't fire UNIT_QUEST_LOG_CHANGED event, only QUEST_LOG_UPDATE event.
     doFullQuestLogScan = true
