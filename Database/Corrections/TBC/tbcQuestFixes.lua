@@ -1562,6 +1562,9 @@ function QuestieTBCQuestFixes:Load()
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
         },
+        [10605] = {
+            [questKeys.exclusiveTo] = {1472,1507},
+        },
         [10606] = {
             [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil}},nil},
         },
