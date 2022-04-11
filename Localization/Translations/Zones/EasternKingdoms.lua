@@ -326,6 +326,18 @@ local easternKingdomsLocales = {
         ["zhTW"] = "奧特蘭克山脈",
         ["zhCN"] = "奥特兰克山脉",
     },
+    ["Dalaran"] = {
+        ["ptBR"] = true,
+        ["ruRU"] = "Даларан",
+        ["deDE"] = true,
+        ["koKR"] = false,
+        ["esMX"] = true,
+        ["enUS"] = true,
+        ["frFR"] = true,
+        ["esES"] = true,
+        ["zhTW"] = "達拉然",
+        ["zhCN"] = "达拉然",
+    },
 }
 
 for k, v in pairs(easternKingdomsLocales) do
