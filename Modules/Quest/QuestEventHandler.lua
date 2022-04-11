@@ -239,11 +239,6 @@ end
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
 
-    if unitTarget ~= "player" then
-        -- The quest log of some other unit changed, which we don't care about
-        return
-    end
-
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
     if (not skipNextUQLCEvent) then
@@ -334,7 +329,7 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestLogUpdate()
     elseif event == "QUEST_WATCH_UPDATE" then
         _QuestEventHandler:QuestWatchUpdate(...)
-    elseif event == "UNIT_QUEST_LOG_CHANGED" then
+    elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
