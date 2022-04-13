@@ -877,32 +877,31 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         end
         return nil
     end
+
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-    if quest.Objectives then -- to prevent error if nil
-        for _, objective in pairs(quest.Objectives) do
-            local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
-            if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
-                bestDistance = dist
-                bestSpawn = spawn
-                bestSpawnZone = zone
-                bestSpawnId = id
-                bestSpawnType = Type
-                bestSpawnName = Name
-            end
+
+    for _, objective in pairs(quest.Objectives) do
+        local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
+        if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
+            bestDistance = dist
+            bestSpawn = spawn
+            bestSpawnZone = zone
+            bestSpawnId = id
+            bestSpawnType = Type
+            bestSpawnName = Name
         end
-    end -- end of nil error prevention
-    if next(quest.SpecialObjectives) then
-        for _, objective in pairs(quest.SpecialObjectives) do
-            local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
-            if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
-                bestDistance = dist
-                bestSpawn = spawn
-                bestSpawnZone = zone
-                bestSpawnId = id
-                bestSpawnType = Type
-                bestSpawnName = Name
-            end
+    end
+
+    for _, objective in pairs(quest.SpecialObjectives) do
+        local spawn, zone, Name, id, Type, dist = QuestieMap:GetNearestSpawn(objective)
+        if spawn and dist < bestDistance and ((not objective.Needed) or objective.Needed ~= objective.Collected) then
+            bestDistance = dist
+            bestSpawn = spawn
+            bestSpawnZone = zone
+            bestSpawnId = id
+            bestSpawnType = Type
+            bestSpawnName = Name
         end
     end
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance

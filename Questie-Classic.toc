@@ -82,6 +82,7 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
 # Modules
+Modules\QuestieValidateGameCache.lua
 Modules\QuestieInit.lua
 Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
@@ -119,6 +120,7 @@ Modules\Map\HBDHooks.lua
 
 # Quest
 Modules\Quest\DailyQuests.lua
+Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
 

@@ -373,7 +373,7 @@ end
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
-    local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
+    local _, _, _, _, _, isComplete = GetQuestLogTitle(questLogIndex)
 
     if isComplete ~= nil then
         return isComplete -- 1 if the quest is completed, -1 if the quest is failed
@@ -796,7 +796,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    QO.ObjectiveData = {} -- to differentiate from the current quest log info
+    --- to differentiate from the current quest log info.
+    --- Quest objectives generated from DB+Corrections.
+    --- Data itself is for example for monster type { Type = "monster", Id = 16518, Text = "Nestlewood Owlkin inoculated" }
+    ---@type table<number, table>
+    QO.ObjectiveData = {}
 
     if rawdata[10] ~= nil then
         if rawdata[10][1] ~= nil then
@@ -877,6 +881,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     end
     QO.QuestGroup = rawdata[15] --Quests that are part of the same group, example complete this group of quests to open the next one.
     QO.ExclusiveQuestGroup = rawdata[16]
+
+    --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
+    --- Includes also icons drawn to maps, and other stuff.
+    ---@type table<number, table>
+    QO.Objectives = {}
 
     QO.SpecialObjectives = {}
     local requiredSourceItems = rawdata[21]
