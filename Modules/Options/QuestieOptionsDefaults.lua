@@ -66,6 +66,7 @@ function QuestieOptionsDefaults:Load()
             showBlizzardQuestTimer = false,
             hookTracking = true,
             trackerHeaderEnabled = true,
+            hideEmptyTracker = false,
             trackerHeaderAutoMove = false,
             stickyDurabilityFrame = false,
             hideTrackerInCombat = false,

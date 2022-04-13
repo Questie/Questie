@@ -140,6 +140,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
+            hideEmptyTracker = {
+                type = "toggle",
+                order = 1.75,
+                width = 1.0,
+                name = function() return l10n('Hide empty Tracker'); end,
+                desc = function() return l10n('When this is checked, the Questie Tracker automatically hides itself if no quests are tracked in the quest log.'); end,
+                get = function() return Questie.db.global.hideEmptyTracker; end,
+                set = function(_, value)
+                    Questie.db.global.hideEmptyTracker = value
+                    -- TODO: Find a good way to check if the player has any quests tracked or not
+                    QuestieTracker:Toggle(not value)
+                end
+            },
             autoMoveHeader = {
                 type = "toggle",
                 order = 1.8,
