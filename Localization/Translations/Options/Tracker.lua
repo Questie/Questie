@@ -964,7 +964,7 @@ local trackerOptionsLocales = {
     },
     ["Hide empty Tracker"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть пустой трекер",
         ["deDE"] = "Leeren Tracker verstecken",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -976,7 +976,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Tracker automatically hides itself if no quests are tracked in the quest log."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, трекер Questie автоматически скрывается, если в журнале заданий нет ни одного задания",
         ["deDE"] = "Wenn dies aktiviert ist, verschwindet der Tracker automatisch, wenn keine Quest im Quest Log verfolgt wird.",
         ["koKR"] = false,
         ["esMX"] = false,
