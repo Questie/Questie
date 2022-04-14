@@ -1897,6 +1897,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
         },
         [6163] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
         },
         [6382] = {
