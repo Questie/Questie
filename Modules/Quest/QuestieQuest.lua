@@ -271,7 +271,7 @@ function QuestieQuest:SmoothReset()
             QuestieMenu:OnLogin(true) -- remove icons
             return true
         end,
-        function() 
+        function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
@@ -279,7 +279,37 @@ function QuestieQuest:SmoothReset()
             QuestiePlayer.currentQuestlog = {}
             QuestieTooltips.lookupByKey = {}
             QuestieTooltips.lookupKeyByQuestId = {}
-
+            return true
+        end,
+        function()
+            local isQuestLogGood = true
+        
+            for i = 1, MAX_QUEST_LOG_INDEX do
+                local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
+                if (not title) then
+                    break -- We exceeded the data in the quest log
+                end
+                if (not isHeader) then
+                    local objectiveList = C_QuestLog.GetQuestObjectives(questId)
+                    for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
+                        if (not objective.text) or string.sub(objective.text, 1, 1) == " " then
+                            -- Game hasn't cached the quest fully yet
+                            isQuestLogGood = false      
+                            -- No early "return false" here to force iterate whole quest log and speed up caching
+                        end
+                    end
+                end
+            end
+        
+            if not isQuestLogGood then
+                Questie:Debug(Questie.DEBUG_INFO, "[SmoothReset] Quest log is NOT yet okey.")
+                return false
+            end
+        
+            Questie:Debug(Questie.DEBUG_INFO, "[SmoothReset] Quest log is ok.")
+            return true
+        end,
+        function()
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
             QuestieProfessions:Update()
