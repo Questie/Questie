@@ -785,10 +785,10 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 end
 
 _RegisterObjectiveTooltips = function(objective, questId)
-    Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for " .. objective.Description)
     if objective.spawnList then
         for id, spawnData in pairs(objective.spawnList) do
             if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) and (not objective.hasRegisteredTooltips) then
+                Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for " .. objective.Description)
                 QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
             end
         end
