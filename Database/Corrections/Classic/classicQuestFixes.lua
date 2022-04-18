@@ -656,6 +656,12 @@ function QuestieQuestFixes:Load()
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
         },
+        [1367] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Gelkis centaur to increase your reputation with the Magram Clan", 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}}
+        },
+        [1368] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Magram centaur to increase your reputation with the Gelkis Clan", 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}}
+        },
         [1388] = {
             [questKeys.preQuestSingle] = {1383},
         },
