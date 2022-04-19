@@ -57,6 +57,13 @@ function ItemRefTooltip:SetHyperlink(link, ...)
 end
 
 ---@return string
+function QuestieLink:GetQuestLinkStringById(questId)
+    local questName = QuestieDB.QueryQuestSingle(questId, "name");
+    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+    return QuestieLink:GetQuestLinkString(questLevel, questName, questId)
+end
+
+---@return string
 function QuestieLink:GetQuestLinkString(questLevel, questName, questId)
     return "[["..tostring(questLevel).."] "..questName.." ("..tostring(questId)..")]"
 end

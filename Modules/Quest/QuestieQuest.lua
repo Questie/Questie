@@ -1295,7 +1295,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
                 elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
                     _has_seen_incomplete[text] = nil
                     _has_sent_announce[text] = true
-                    QuestieAnnounce:AnnounceParty(questId, "objective", nil, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
+                    QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
                 end
             else
                 Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)

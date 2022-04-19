@@ -18,6 +18,8 @@ QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local _GetShortcuts
+local _GetAnnounceChannels
+local _IsAnnounceDisabled
 
 function QuestieOptions.tabs.general:Initialize()
     return {
@@ -329,20 +331,78 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
             },
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
-            questannounce = {
-                type = "toggle",
+            questAnnounceChannel = {
+                type = "select",
                 order = 9,
-                name = function() return l10n('Quest Announce') end,
-                desc = function() return l10n('Announce objective completion to party members'); end,
-                get = function() return Questie.db.char.questAnnounce end,
-                set = function(_, value)
-                    Questie.db.char.questAnnounce = value
+                values = _GetAnnounceChannels(),
+                style = 'dropdown',
+                name = function() return l10n('Announce quest updates via chat') end,
+                desc = function() return l10n('Announce quest updates to other players in your group or raid'); end,
+                get = function() return Questie.db.char.questAnnounceChannel; end,
+                set = function(_, key)
+                    Questie.db.char.questAnnounceChannel = key
                 end,
+            },
+            questAnnounceEvents = {
+                type = "group",
+                order = 10,
+                inline = true,
+                name = function() return l10n('Announce quest updates:'); end,
+                args = {
+                    questAnnounceAccepted = {
+                        type = "toggle",
+                        order = 1,
+                        name = function() return l10n('Quest accepted'); end,
+                        desc = function() return l10n('Announce quest acceptance to other players'); end,
+                        width = 1.5,
+                        disabled = function() return _IsAnnounceDisabled(); end,
+                        get = function () return Questie.db.char.questAnnounceAccepted; end,
+                        set = function (_, value)
+                            Questie.db.char.questAnnounceAccepted = value
+                        end,
+                    },
+                    questAnnounceAbandoned = {
+                        type = "toggle",
+                        order = 2,
+                        name = function() return l10n('Quest abandoned'); end,
+                        desc = function() return l10n('Announce quest abortion to other players'); end,
+                        width = 1.5,
+                        disabled = function() return _IsAnnounceDisabled(); end,
+                        get = function () return Questie.db.char.questAnnounceAbandoned; end,
+                        set = function (_, value)
+                            Questie.db.char.questAnnounceAbandoned = value
+                        end,
+                    },
+                    questAnnounceObjectives = {
+                        type = "toggle",
+                        order = 3,
+                        name = function() return l10n('Objective completed'); end,
+                        desc = function() return l10n('Announce completed objectives to other players'); end,
+                        width = 1.5,
+                        disabled = function() return _IsAnnounceDisabled(); end,
+                        get = function () return Questie.db.char.questAnnounceObjectives; end,
+                        set = function (_, value)
+                            Questie.db.char.questAnnounceObjectives = value
+                        end,
+                    },
+                    questAnnounceCompleted = {
+                        type = "toggle",
+                        order = 4,
+                        name = function() return l10n('Quest completed'); end,
+                        desc = function() return l10n('Announce quest completion to other players'); end,
+                        width = 1.5,
+                        disabled = function() return _IsAnnounceDisabled(); end,
+                        get = function () return Questie.db.char.questAnnounceCompleted; end,
+                        set = function (_, value)
+                            Questie.db.char.questAnnounceCompleted = value
+                        end,
+                    },
+                },
             },
             Spacer_B = QuestieOptionsUtils:HorizontalSpacer(1.722, 0.5),
             shareQuestsNearby = {
                 type = "toggle",
-                order = 10,
+                order = 11,
                 name = function() return l10n('Share quest progress with nearby players'); end,
                 desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
                 disabled = function() return false end,
@@ -357,12 +417,12 @@ function QuestieOptions.tabs.general:Initialize()
             },
             quest_options = {
                 type = "header",
-                order = 11,
+                order = 12,
                 name = function() return l10n('Quest Level Options'); end,
             },
             gray = {
                 type = "toggle",
-                order = 12,
+                order = 13,
                 name = function() return l10n('Show All Quests below range (Low level quests)'); end,
                 desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
                 width = "full",
@@ -375,7 +435,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             manualMinLevelOffset = {
                 type = "toggle",
-                order = 13,
+                order = 14,
                 name = function() return l10n('Enable manual minimum level offset'); end,
                 desc = function() return l10n('Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.'); end,
                 width = 1.5,
@@ -389,7 +449,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             absoluteLevelOffset = {
                 type = "toggle",
-                order = 14,
+                order = 15,
                 name = function() return l10n('Enable absolute level range'); end,
                 desc = function() return l10n('Change the level offset to absolute level values.'); end,
                 width = 1.5,
@@ -403,7 +463,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             minLevelFilter = {
                 type = "range",
-                order = 15,
+                order = 16,
                 name = function()
                     if Questie.db.char.absoluteLevelOffset then 
                         return l10n('Level from');
@@ -431,7 +491,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             maxLevelFilter = {
                 type = "range",
-                order = 16,
+                order = 17,
                 name = function()
                     return l10n('Level to');
                 end,
@@ -451,7 +511,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             clusterLevelHotzone = {
                 type = "range",
-                order = 17,
+                order = 18,
                 name = function() return l10n('Objective icon cluster amount'); end,
                 desc = function() return l10n('How much objective icons should cluster.'); end,
                 width = "double",
@@ -475,4 +535,18 @@ _GetShortcuts = function()
         ['alt'] = l10n('Alt'),
         ['disabled'] = l10n('Disabled'),
     }
+end
+
+_GetAnnounceChannels = function()
+    return {
+        ['disabled'] = l10n('Disabled'),
+        ['group'] = l10n('Group'),
+        ['raid'] = l10n('Raid'),
+        ['both'] = l10n('Both'),
+    }
+end
+
+---@return boolean
+_IsAnnounceDisabled = function()
+    return Questie.db.char.questAnnounceChannel == nil or Questie.db.char.questAnnounceChannel == "disabled";
 end

@@ -107,6 +107,15 @@ local migrationFunctions = {
     [7] =  function()
         Questie.db.global.hasSeenBetaMessage = nil
     end,
+    [8] =  function()
+        if not Questie.db.char.questAnnounceChannel then
+            if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
+                Questie.db.char.questAnnounceChannel = "disabled"
+            else
+                Questie.db.char.questAnnounceChannel = "group"
+            end
+        end
+    end,
 }
 
 function Migration:Migrate()
