@@ -53,7 +53,6 @@ function QuestieJourney:Initialize()
     end
     continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
-    local factions = {}
     local factionGroups = {}
     local factionWithoutId = -1
     for index=1, GetNumFactions() do
@@ -61,8 +60,6 @@ function QuestieJourney:Initialize()
         if factionID then
             if isHeader then
                 factionGroups[factionID] = l10n(name)
-            else
-                factions[factionID] = l10n(name)
             end
         else
             factionGroups[factionWithoutId] = l10n(name)

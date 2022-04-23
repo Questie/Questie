@@ -188,7 +188,6 @@ function MapIconTooltip:Show()
         local shift = IsShiftKeyDown()
         local haveGiver = false -- hack
         local firstLine = true;
-        local playerIsHuman = QuestiePlayer:GetRaceId() == 1
         for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then

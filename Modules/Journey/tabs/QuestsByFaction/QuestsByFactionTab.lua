@@ -20,6 +20,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 local RESET = -1000
 
 local _CreateFactionDropdown, _HandleFactionSelection
+local _CreateFactionGroupDropdown, _HandleFactionGroupSelection
 
 local currentFactionGroupId, currentFactionId
 local factionGroupDropdown, factionDropdown, treegroup
@@ -78,7 +79,10 @@ _CreateFactionDropdown = function()
     dropdown:SetText(l10n('Select Your Faction'))
     dropdown:SetCallback("OnValueChanged", _HandleFactionSelection)
     
-    _, _, _, _, _, currentFactionId = GetWatchedFactionInfo()
+    local _, _, _, _, _, localCurrentFactionId = GetWatchedFactionInfo()
+    if localCurrentFactionId then
+        currentFactionId = localCurrentFactionId
+    end
     if _QuestieJourney.lastFactionSelection[2] then
         currentFactionId = _QuestieJourney.lastFactionSelection[2]
     end

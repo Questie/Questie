@@ -1,6 +1,9 @@
 ---@class QuestieReputation
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 
+---@type QuestiePlayer
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+
 local playerReputations = {}
 
 local _ReachedNewStanding, _WinterSaberChanged
@@ -90,6 +93,7 @@ function QuestieReputation:GetReputationRewardTable(reputationReward)
         local factionId, factionName
         local rewardValue
         local aldorPenalty, scryersPenalty
+        local playerIsHuman = QuestiePlayer:GetRaceId() == 1
         local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, {935, 8999}))
         for _, rewardPair in pairs(reputationReward) do
             factionId = rewardPair[1]
