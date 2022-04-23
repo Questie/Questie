@@ -110,7 +110,6 @@ function ZoneDB:GetZonesWithQuests()
         if (not QuestieCorrections.hiddenQuests[questId]) then
             if QuestiePlayer:HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
             and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
-
                 local zoneOrSort, requiredSkill = unpack(QuestieDB.QueryQuest(questId, "zoneOrSort", "requiredSkill"))
                 if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
                     zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
@@ -154,7 +153,6 @@ function ZoneDB:GetZonesWithQuests()
             end
         end
     end
-
     zoneMap = _ZoneDB:SplitSeasonalQuests()
 
     return zoneMap

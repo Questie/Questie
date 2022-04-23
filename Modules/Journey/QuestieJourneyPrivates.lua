@@ -72,6 +72,9 @@ function _QuestieJourney:HandleTabChange(container, group)
         _QuestieJourney.questsByZone:DrawTab(container)
         _QuestieJourney.lastOpenWindow = "zone"
         return nil
+    elseif group == "faction" then
+        _QuestieJourney.questsByFaction:DrawTab(container)
+        _QuestieJourney.lastOpenWindow = "faction"
     elseif group == "search" then
         QuestieSearchResults:DrawSearchTab(container)
         _QuestieJourney.lastOpenWindow = "search"

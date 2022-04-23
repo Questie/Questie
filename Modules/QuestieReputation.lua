@@ -78,3 +78,45 @@ function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
     end
     return hasMinRep and hasMaxRep
 end
+
+-- TODO - Move to Faction Constants
+local Aldor = 932
+local Scryers = 934
+local Shatar = 935
+
+function QuestieReputation:GetReputationRewardTable(reputationReward)
+    if reputationReward and next(reputationReward) then
+        local rewardTable = {}
+        local factionId, factionName
+        local rewardValue
+        local aldorPenalty, scryersPenalty
+        local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, {935, 8999}))
+        for _, rewardPair in pairs(reputationReward) do
+            factionId = rewardPair[1]
+
+            if factionId == Shatar and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
+                -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
+                -- with the Sha'tar
+                break
+            end
+            rewardValue = rewardPair[2]
+            if playerIsHuman and rewardValue > 0 then
+                -- Humans get 10% more reputation
+                rewardValue = math.floor(rewardValue * 1.1)
+            end
+            if rewardValue < 0 then
+                rewardTable[factionId] = tostring(rewardValue)
+            else
+                rewardTable[factionId] = "+" .. tostring(rewardValue)
+            end
+            if factionId == Aldor then -- Aldor
+                scryersPenalty = 0 - math.floor(rewardValue * 1.1)
+                rewardTable[Scryers] = tostring(scryersPenalty)
+            elseif factionId == Scryers then -- Scryers
+                aldorPenalty = 0 - math.floor(rewardValue * 1.1)
+                rewardTable[Aldor] = tostring(aldorPenalty)
+            end
+        end
+        return rewardTable
+    end
+end

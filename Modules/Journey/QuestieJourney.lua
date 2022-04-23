@@ -9,6 +9,8 @@ QuestieJourneyFrame = nil
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
+---@type FactionDB
+local FactionDB = QuestieLoader:ImportModule("FactionDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -19,6 +21,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local tinsert = table.insert
 
 QuestieJourney.continents = {}
+QuestieJourney.factionGroups = {}
+QuestieJourney.factions = {}
 QuestieJourney.zones = {}
 QuestieJourney.tabGroup = nil
 
@@ -26,6 +30,7 @@ local AceGUI = LibStub("AceGUI-3.0")
 
 local isWindowShown = false
 _QuestieJourney.lastOpenWindow = "journey"
+_QuestieJourney.lastFactionSelection = {}
 _QuestieJourney.lastZoneSelection = {}
 
 local notesPopupWin
@@ -48,7 +53,28 @@ function QuestieJourney:Initialize()
     end
     continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
+    local factions = {}
+    local factionGroups = {}
+    local factionWithoutId = -1
+    for index=1, GetNumFactions() do
+        local name, _, _, _, _, _, _, _, isHeader, _, hasRep, _, _, factionID = GetFactionInfo(index)
+        if factionID then
+            if isHeader then
+                factionGroups[factionID] = l10n(name)
+            else
+                factions[factionID] = l10n(name)
+            end
+        else
+            factionGroups[factionWithoutId] = l10n(name)
+            factionWithoutId = factionWithoutId - 1
+        end
+    end
+
     self.continents = continents
+    self.factionGroups = factionGroups
+    self.factionMap = FactionDB:GetFactionsWithQuests()
+    self.factions = FactionDB:GetRelevantFactions()
+    self.factionIdToParentIdTable = FactionDB:GetFactionIdToParentIdTable()
     self.zoneMap = ZoneDB:GetZonesWithQuests()
     self.zones = ZoneDB:GetRelevantZones()
 
@@ -80,6 +106,10 @@ function QuestieJourney:BuildMainFrame()
             {
                 text = l10n('Quests by Zone'),
                 value="zone"
+            },
+            {
+                text = l10n('Quests by Faction'),
+                value="faction"
             },
             {
                 text = l10n('Advanced Search'),

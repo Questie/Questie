@@ -38,6 +38,7 @@ Database\TBC\tbcNpcDB.lua
 Database\TBC\tbcObjectDB.lua
 Database\TBC\tbcQuestDB.lua
 Database\QuestieDB.lua
+Database\factionDB.lua
 Database\questDB.lua
 Database\objectDB.lua
 Database\npcDB.lua
@@ -73,6 +74,7 @@ Database\compiler.lua
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
+Localization\lookups\lookupFactions.lua
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
 Localization\lookups\TBC\lookupItems\lookupItems.xml
@@ -148,6 +150,8 @@ Modules\Journey\tabs\MyJourney\MyJourney.lua
 Modules\Journey\tabs\MyJourney\MyJourneyTab.lua
 Modules\Journey\tabs\QuestsByZone\QuestsByZone.lua
 Modules\Journey\tabs\QuestsByZone\QuestsByZoneTab.lua
+Modules\Journey\tabs\QuestsByFaction\QuestsByFaction.lua
+Modules\Journey\tabs\QuestsByFaction\QuestsByFactionTab.lua
 #Modules\Journey\tabs\Search\Search.lua
 #Modules\Journey\tabs\Search\SearchTab.lua
 Modules\Journey\QuestieSearch.lua

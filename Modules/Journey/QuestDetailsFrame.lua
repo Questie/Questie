@@ -10,6 +10,8 @@ local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type QuestieReputation
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -57,6 +59,24 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(preQuestInlineGroup)
         container:AddChild(preQuestInlineGroup)
     end
+    
+    if quest.reputationReward then
+        local reputationRewardTable = QuestieReputation:GetReputationRewardTable(quest.reputationReward)
+        if reputationRewardTable then
+            local reputationRewardGroup = AceGUI:Create("InlineGroup")
+            reputationRewardGroup:SetLayout("List")
+            reputationRewardGroup:SetTitle(l10n('Reputation Reward Information'))
+            reputationRewardGroup:SetFullWidth(true)
+            for factionId, rewardValue in pairs(reputationRewardTable) do
+                local factionName = GetFactionInfoByID(factionId)
+                if factionName then
+                    reputationRewardGroup:AddChild(_QuestieJourney:CreateLabel(Questie:Colorize(l10n(factionName .. ': '), 'yellow') .. rewardValue, true))
+                end
+            end
+            container:AddChild(reputationRewardGroup)
+            QuestieJourneyUtils:Spacer(reputationRewardGroup)
+        end
+    end
 
     -- Get Quest Start NPC
     if quest.Starts and quest.Starts.NPC then
@@ -98,6 +118,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         local starty = startNpc.spawns[startindex][1][2]
         if (startx ~= -1 or starty ~= -1) then
             local startNPCLocLabel = AceGUI:Create("Label")
+            startx = string.format("%.1f", startx)
+            starty = string.format("%.1f", starty)
             startNPCLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
             startNPCLocLabel:SetFullWidth(true)
             startNPCGroup:AddChild(startNPCLocLabel)
@@ -111,7 +133,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         QuestieJourneyUtils:Spacer(startNPCGroup)
 
         -- Also Starts
-        if startNpc.questStarts then
+        if startNpc.questStarts and #startNpc.questStarts > 1 then
 
             local alsoStartsLabel = AceGUI:Create("Label")
             alsoStartsLabel:SetText(l10n('This NPC Also Starts the following quests:'))
@@ -123,7 +145,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local startQuests = {}
             local counter = 1
             for _, v in pairs(startNpc.questStarts) do
-                if (not v == quest.Id) then
+                if not (v == quest.Id) then
                     startQuests[counter] = {}
                     local startQuest = QuestieDB:GetQuest(v)
                     local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)
@@ -181,6 +203,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local startx = startObj.spawns[startindex][1][1]
             local starty = startObj.spawns[startindex][1][2]
             if (startx ~= -1 or starty ~= -1) then
+                startx = string.format("%.1f", startx)
+                starty = string.format("%.1f", starty)
                 local startObjectLocLabel = AceGUI:Create("Label")
                 startObjectLocLabel:SetText("X: ".. startx .." || Y: ".. starty)
                 startObjectLocLabel:SetFullWidth(true)
@@ -268,6 +292,8 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local endx = endNPC.spawns[endindex][1][1]
             local endy = endNPC.spawns[endindex][1][2]
             if (endx ~= -1 or endy ~= -1) then
+                endx = string.format("%.1f", endx)
+                endy = string.format("%.1f", endy)
                 local endNPCLocLabel = AceGUI:Create("Label")
                 endNPCLocLabel:SetText("X: ".. endx .." || Y: ".. endy)
                 endNPCLocLabel:SetFullWidth(true)

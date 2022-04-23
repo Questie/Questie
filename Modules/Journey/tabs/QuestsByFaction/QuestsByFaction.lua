@@ -1,8 +1,10 @@
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:CreateModule("QuestieJourney")
 local _QuestieJourney = QuestieJourney.private
-_QuestieJourney.questsByZone = {}
+_QuestieJourney.questsByFaction = {}
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieJourneyUtils
 local QuestieJourneyUtils = QuestieLoader:ImportModule("QuestieJourneyUtils")
 ---@type QuestieLink
@@ -11,30 +13,30 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local AceGUI = LibStub("AceGUI-3.0")
-local zoneTreeFrame
+local factionTreeFrame
 
 ---Manage the zone tree itself and the contents of the per-quest window
 ---@param container AceSimpleGroup @The container for the zone tree
----@param zoneTree table @The zone tree table
-function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
-    if zoneTreeFrame then
+---@param factionTree table @The zone tree table
+function _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
+    if factionTreeFrame then
         container:ReleaseChildren()
-        zoneTreeFrame = nil
-        _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
+        factionTreeFrame = nil
+        _QuestieJourney.questsByFaction:ManageTree(container, factionTree)
         return
     end
 
-    zoneTreeFrame = AceGUI:Create("TreeGroup")
-    zoneTreeFrame:SetFullWidth(true)
-    zoneTreeFrame:SetFullHeight(true)
-    zoneTreeFrame:SetTree(zoneTree)
+    factionTreeFrame = AceGUI:Create("TreeGroup")
+    factionTreeFrame:SetFullWidth(true)
+    factionTreeFrame:SetFullHeight(true)
+    factionTreeFrame:SetTree(factionTree)
 
-    zoneTreeFrame.treeframe:SetWidth(220)
-    zoneTreeFrame:SetCallback("OnClick", function(group, ...)
+    factionTreeFrame.treeframe:SetWidth(220)
+    factionTreeFrame:SetCallback("OnClick", function(group, ...)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick]", "No tree path given in Journey.")
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[factionTreeFrame:OnClick]", "No tree path given in Journey.")
             return
         end
         -- if they clicked on a header, don't do anything
@@ -72,13 +74,13 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         _QuestieJourney:DrawQuestDetailsFrame(scrollFrame, quest)
     end)
 
-    container:AddChild(zoneTreeFrame)
+    container:AddChild(factionTreeFrame)
 end
 
 ---Get all the available/completed/repeatable/unavailable quests
----@param zoneId number @The zone ID (Check `l10n.zoneLookup`)
----@return table<number,any> @The zoneTree table which represents the list of all the different quests
-function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
-    local quests = QuestieJourney.zoneMap[zoneId]
+---@param faction number @The faction ID (Check `l10n.factionLookup`)
+---@return table<number,any> @The factionTree table which represents the list of all the different quests
+function _QuestieJourney.questsByFaction:CollectFactionQuests(factionId)
+    local quests = QuestieJourney.factionMap[factionId]
     return QuestieJourneyUtils:CollectQuests(quests)
 end
