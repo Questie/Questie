@@ -62,13 +62,14 @@ function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
     elseif Questie.db.char.questAnnounceChannel == "raid" then
         return IsInRaid()
     elseif Questie.db.char.questAnnounceChannel == "group" then
-        return IsInGroup()
+        return IsInGroup() and not IsInRaid()
     else
         return false
     end
 end
 
 function _QuestieAnnounce:AnnounceToChannel(message)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] then
         return
     end
@@ -111,7 +112,6 @@ end
 
 function QuestieAnnounce:AcceptedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceAccepted then
-        -- TODO test if this works if quest hasn't yet been accepted by other party members
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
 
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Accepted'), questLink or "no quest name")
@@ -121,7 +121,6 @@ end
 
 function QuestieAnnounce:AbandonedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceAbandoned then
-        -- TODO test if this works if quest hasn't yet been accepted by other party members
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
 
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Abandoned'), questLink or "no quest name")
@@ -131,7 +130,6 @@ end
 
 function QuestieAnnounce:CompletedQuest(questId)
     if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceCompleted then
-        -- TODO test if this works if quest hasn't yet been accepted by other party members
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
 
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")
