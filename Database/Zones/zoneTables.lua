@@ -98,6 +98,7 @@ local areaIdToUiMapId = {
     [3487] = 1954,
     [3703] = 1955,
     [3820] = 1956,
+    [3959] = 339,
     [4080] = 1957,
 }
 
@@ -141,6 +142,7 @@ local dungeons = {
     [3847] = {"The Botanica",nil,3523},
     [3848] = {"The Arcatraz",nil,3523},
     [3849] = {"The Mechanar",nil,3523},
+    [3959] = {"Black Temple",nil,3520},
 }
 
 function ZoneDB:GetDungeons()
@@ -199,6 +201,7 @@ local dungeonLocations = {
     [3847] = {{3523, 71.7, 55.0}},
     [3848] = {{3523, 74.4, 57.7}},
     [3849] = {{3523, 70.6, 69.7}},
+    [3959] = {{3520, 71.1, 46.3}},
     [7307] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
 }
 
@@ -364,6 +367,7 @@ ZoneDB.zoneIDs = {
     SETHEKK_HALLS = 3791,
     MANA_TOMBS = 3792,
     ZUL_AMAN = 3805,
+    BLACK_TEMPLE = 3959,
     SUNWELL_PLATEAU = 4075,
     ISLE_OF_QUEL_DANAS = 4080,
     UPPER_BLACKROCK_SPIRE = 7307,
