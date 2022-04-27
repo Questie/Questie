@@ -124,7 +124,7 @@ local minimapOptionsLocales = {
     },
     ["Fades icons on the minimap when your player walks near them."] = {
         ["ptBR"] = "Desfoca os ícones no mini-mapa quando o jogador passa por perto.",
-        ["ruRU"] = "Когда включено, значки на миникарте блекнут, если игрок находится рядом с ними",
+        ["ruRU"] = "Значки на миникарте блекнут, если игрок находится рядом с ними",
         ["deDE"] = "Lässt Icons auf der Minimap verblassen, wenn der Spieler ihnen zu nahe kommt.",
         ["koKR"] = "플레이어 주변의 퀘스트 아이콘을 흐릿하게 표시합니다.",
         ["esMX"] = "Los iconos se desvanecen cuando el jugador se mueve cerca de ellos.",

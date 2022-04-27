@@ -29,21 +29,25 @@ _QuestieAuto.disallowedNPC = {
     [15734] = true, -- Ironforge Commendation Officer
     [15738] = true, -- Undercity Commendation Officer
     [15733] = true, -- Gnomeregan Commendation Officer
-    -- Stray
-    [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
-    [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
-    [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
-    [15192] = true, -- Anachronos (Caverns of Time)
-    [18166] = true, -- Khadgar (Allegiance to Aldor/Scryer, Shattrath)
-    [18253] = true, -- Archmage Leryda (Violet Eye)
-    [18471] = true, -- Gurgthock (The Ring of Blood)
     -- AQ gear turnin
     [15378] = true,
     [15380] = true,
     [15498] = true,
     [15499] = true,
     [15500] = true,
-    [15503] = true
+    [15503] = true,
+    -- Stray
+    [7802] = true, -- Galvan the Ancient (Blacksmith recipes, Stranglethorn Vale)
+    [12944] = true, -- Lokhtos Darkbargainer (Thorium Brotherhood, Blackrock Depths)
+    [14567] = true, -- Derotain Mudsipper (Blacksmith recipes, Tanaris)
+    [14828] = true, -- Gelvas Grimegate (Darkmoon Faire Ticket Redemption)
+    [14921] = true, -- Rin'wosho the Trader (Zul'Gurub Isle, Stranglethorn Vale)
+    [15192] = true, -- Anachronos (Caverns of Time)
+    [18166] = true, -- Khadgar (Allegiance to Aldor/Scryer, Shattrath)
+    [18253] = true, -- Archmage Leryda (Violet Eye)
+    [18471] = true, -- Gurgthock (The Ring of Blood)
+    [19935] = true, -- Soridormi (The Scale of Sands)
+    [19936] = true, -- Arazmodu (The Scale of Sands)
 }
 
 _QuestieAuto.disallowedQuests = {
@@ -140,6 +144,13 @@ _QuestieAuto.disallowedQuests = {
     [10922] = true, -- Digging Through Bones
     [10975] = true, -- Purging the Chambers of Bash'ir
     [11085] = true, -- Escape from Skettis
+    -- Netherwing Drake quests
+    [11109] = true,
+    [11110] = true,
+    [11111] = true,
+    [11112] = true,
+    [11113] = true,
+    [11114] = true,
     -- The Barrens Bloodshard quests
     [889] = true,
     [5042] = true,

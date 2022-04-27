@@ -34,7 +34,6 @@ local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8}
 
 local lastTooltipShowTimestamp = GetTime()
 
-
 function MapIconTooltip:Show()
     local _, _, _, alpha = self.texture:GetVertexColor();
     if alpha == 0 then

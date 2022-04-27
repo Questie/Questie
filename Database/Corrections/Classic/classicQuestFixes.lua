@@ -12,14 +12,25 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 -- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieQuestFixes:Load()
+    QuestieDB.questData[5640] = {} -- Desperate Prayer
+
     QuestieDB.questData[7668] = {} -- Add missing quest index
     QuestieDB.questData[7669] = {} -- Add missing quest index
     QuestieDB.questData[7670] = {} -- Add missing quest index #1432
+
+    QuestieDB.questData[65593] = {} -- Hearts of the Lovers
+    QuestieDB.questData[65597] = {} -- The Binding
+    QuestieDB.questData[65601] = {} -- Love Hurts
+    QuestieDB.questData[65602] = {} -- What Is Love?
+    QuestieDB.questData[65603] = {} -- The Binding
+    QuestieDB.questData[65604] = {} -- The Binding
+    QuestieDB.questData[65610] = {} -- Wish You Were Here
 
     local questKeys = QuestieDB.questKeys
     local zoneIDs = ZoneDB.zoneIDs
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
+    local sortKeys = QuestieDB.sortKeys
 
     return {
         [2] = {
@@ -206,6 +217,9 @@ function QuestieQuestFixes:Load()
         [484] = {
             [questKeys.requiredMinRep] = {72,0}, -- #1501
         },
+        [489] = {
+            [questKeys.startedBy] = {{2081,2083,2151,2155},nil,nil},
+        },
         [495] = {
             [questKeys.exclusiveTo] = {518},
         },
@@ -279,6 +293,9 @@ function QuestieQuestFixes:Load()
         },
         [639] = {
             [questKeys.preQuestSingle] = {}, -- #1205
+        },
+        [640] = {
+            [questKeys.objectivesText] = {"Retrieve the 11 Sigil Fragments from the defenders in Stromgarde, and bring them to Tor'gan in Hammerfall.",},
         },
         [648] = {
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to Steamwheedle Port", {[zoneIDs.TANARIS]={{67.06,23.16}}}},
@@ -572,8 +589,14 @@ function QuestieQuestFixes:Load()
         [1193] = {
             [questKeys.specialFlags] = 1, -- #1348
         },
+        [1198] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
+        },
+        [1206] = {
+            [questKeys.objectivesText] = {"Bring 40 Unpopped Darkmist Eyes to \"Swamp Eye\" Jarl at the Swamplight Manor.",},
         },
         [1222] = {
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
@@ -632,6 +655,12 @@ function QuestieQuestFixes:Load()
         },
         [1364] = {
             [questKeys.preQuestSingle] = {1363}, -- #1674
+        },
+        [1367] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Gelkis centaur to increase your reputation with the Magram Clan", 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}}
+        },
+        [1368] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Magram centaur to increase your reputation with the Gelkis Clan", 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}}
         },
         [1388] = {
             [questKeys.preQuestSingle] = {1383},
@@ -709,6 +738,24 @@ function QuestieQuestFixes:Load()
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
         },
+        [1516] = {
+            [questKeys.exclusiveTo] = {1519},
+        },
+        [1517] = {
+            [questKeys.exclusiveTo] = {1520},
+        },
+        [1518] = {
+            [questKeys.exclusiveTo] = {1521},
+        },
+        [1519] = {
+            [questKeys.exclusiveTo] = {1516},
+        },
+        [1520] = {
+            [questKeys.exclusiveTo] = {1517},
+        },
+        [1521] = {
+            [questKeys.exclusiveTo] = {1518},
+        },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
         },
@@ -778,6 +825,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1681}, -- #1724
         },
         [1684] = {
+            [questKeys.startedBy] = {{2151,3598,3657},nil,nil},
             [questKeys.exclusiveTo] = {1639,1666,1678,1686,1680},
         },
         [1686] = {
@@ -816,6 +864,9 @@ function QuestieQuestFixes:Load()
         },
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
+        },
+        [1823] = {
+            [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
         },
         [1860] = {
             [questKeys.exclusiveTo] = {1861, 1880},
@@ -1098,6 +1149,9 @@ function QuestieQuestFixes:Load()
         [3513] = {
             [questKeys.startedBy] = {{5797},nil,{10621}},
         },
+        [3520] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse..", 0, {{"monster", 5308}}}},
+        },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
         },
@@ -1333,6 +1387,9 @@ function QuestieQuestFixes:Load()
         [4737] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [4743] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy.", 0, {{"monster", 10321}}}},
+        },
         [4763] = {
             [questKeys.requiredSourceItems] = {12347,12341,12342,12343}, -- #798
         },
@@ -1475,6 +1532,9 @@ function QuestieQuestFixes:Load()
         [5211] = {
             [questKeys.preQuestSingle] = {}, -- #983
         },
+        [5214] = {
+            [questKeys.name] = "The Great Ezra Grimm",
+        },
         [5218] = {
             [questKeys.preQuestSingle] = {5217,5230},
         },
@@ -1560,6 +1620,9 @@ function QuestieQuestFixes:Load()
         [5510] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
         },
+        [5526] = {
+            [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
+        },
         [5582] = {
             [questKeys.startedBy] = {{10678},nil,{13920}},
         },
@@ -1567,10 +1630,59 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 5, -- #2306
         },
         [5634] = {
+            [questKeys.startedBy] = {{376},nil,nil},
+            [questKeys.objectivesText] = {},
+            [questKeys.exclusiveTo] = {5635,5636,5637,5638,5639,5640},
+        },
+        [5635] = {
+            [questKeys.startedBy] = {{377},nil,nil},
+            [questKeys.exclusiveTo] = {5634,5636,5637,5638,5639,5640},
+        },
+        [5636] = {
+            [questKeys.exclusiveTo] = {5634,5635,5637,5638,5639,5640},
+        },
+        [5637] = {
+            [questKeys.startedBy] = {{1226},nil,nil},
+            [questKeys.exclusiveTo] = {5634,5635,5636,5638,5639,5640},
+        },
+        [5638] = {
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5639,5640},
+        },
+        [5639] = {
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5640},
+        },
+        [5640] = {
+            [questKeys.name] = "Desperate Prayer",
             [questKeys.startedBy] = {{11401},nil,nil},
+            [questKeys.finishedBy] = {{376},nil},
+            [questKeys.requiredLevel] = 10,
+            [questKeys.questLevel] = 10,
+            [questKeys.requiredRaces] = raceIDs.HUMAN + raceIDs.DWARF,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
+            [questKeys.exclusiveTo] = {5634,5635,5636,5637,5638,5639},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [5647] = {
             [questKeys.startedBy] = {{11401},nil,nil}, -- #2424
+        },
+        [5676] = {
+            [questKeys.exclusiveTo] = {5677,5678},
+        },
+        [5677] = {
+            [questKeys.exclusiveTo] = {5676,5678},
+        },
+        [5678] = {
+            [questKeys.name] = "Arcane Feedback",
+            [questKeys.startedBy] = {{376,5489,11406},nil,nil},
+            [questKeys.finishedBy] = {{376},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = 20,
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
+            [questKeys.objectivesText] = {"Speak to High Priestess Laurena in Stormwind."},
+            [questKeys.exclusiveTo] = {5676,5677},
+            [questKeys.zoneOrSort] = sortKeys.PRIEST,
         },
         [5713] = {
             [questKeys.triggerEnd] = {"Protect Aynasha", {[zoneIDs.DARKSHORE]={{45.87,90.42}}}},
@@ -1658,6 +1770,24 @@ function QuestieQuestFixes:Load()
         },
         [5893] = {
             [questKeys.questLevel] = 55,
+        },
+        [5923] = {
+            [questKeys.startedBy] = {{4218},nil,nil},
+        },
+        [5924] = {
+            [questKeys.startedBy] = {{5505},nil,nil},
+        },
+        [5925] = {
+            [questKeys.startedBy] = {{3602},nil,nil},
+        },
+        [5926] = {
+            [questKeys.startedBy] = {{6746},nil,nil},
+        },
+        [5927] = {
+            [questKeys.startedBy] = {{6929},nil,nil},
+        },
+        [5928] = {
+            [questKeys.startedBy] = {{3064},nil,nil},
         },
         -----------------------
         [5929] = {
@@ -1773,6 +1903,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
         },
         [6163] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136}, -- #1950
         },
         [6382] = {
@@ -2011,6 +2142,9 @@ function QuestieQuestFixes:Load()
         },
         [7428] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [7463] = {
+            [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [7481] = {
             [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71}}}},
@@ -2662,6 +2796,9 @@ function QuestieQuestFixes:Load()
         [8733] = {
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
+        [8736] = {
+            [questKeys.triggerEnd] = {"The Redemption of Eranikus", {[zoneIDs.MOONGLADE]={{51.8,36.4}}}},
+        },
         [8747] = {
             [questKeys.exclusiveTo] = {8752,8753,8754,8755,8756,8757,8758,8759,8760,8761}, --protector neutral
         },
@@ -2948,6 +3085,9 @@ function QuestieQuestFixes:Load()
         [9050] = {
             [questKeys.specialFlags] = 1,
         },
+        [9052] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9054] = {
             [questKeys.specialFlags] = 1,
         },
@@ -2973,6 +3113,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9063] = {
+            [questKeys.exclusiveTo] = {9052},
             [questKeys.zoneOrSort] = 493,
         },
         [9069] = {
@@ -3239,6 +3380,107 @@ function QuestieQuestFixes:Load()
         },
         [9422] = {
             [questKeys.preQuestSingle] = {},
+        },
+        ----- Warlock Incubus quest chain -----
+        [65593] = {
+            [questKeys.name] = "Hearts of the Lovers",
+            [questKeys.startedBy] = {{5693},nil,nil},
+            [questKeys.finishedBy] = {{5675},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
+            [questKeys.objectives] = {nil,nil,{{190179},{190180}},nil,nil},
+            [questKeys.exclusiveTo] = {65610},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [65597] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{5675},nil,nil},
+            [questKeys.finishedBy] = {{5675},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Lovers' Hearts, summon and subdue an incubus, then return the Lovers' Hearts to Carendin Halgar in the Magic Quarter of the Undercity."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65593},
+            [questKeys.requiredSourceItems] = {190181},
+            [questKeys.exclusiveTo] = {65604},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, "Use the Lovers' Hearts to summon an Incubus and slay it.",}},
+        },
+        [65601] = {
+            [questKeys.name] = "Love Hurts",
+            [questKeys.startedBy] = {{5909},nil,nil},
+            [questKeys.finishedBy] = {{3363},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
+            [questKeys.preQuestSingle] = {1507},
+            [questKeys.exclusiveTo] = {65593,65610},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+        },
+        [65602] = {
+            [questKeys.name] = "What Is Love?",
+            [questKeys.startedBy] = {{6244},nil,nil},
+            [questKeys.finishedBy] = {{6122},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
+            [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, "Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire.",}},
+        },
+        [65603] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{6122},nil,nil},
+            [questKeys.finishedBy] = {{6122},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Wooden Figurine, summon and subdue an incubus, then return the Wooden Figurine to Gakin the Darkbinder in the Slaughtered Lamb."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65602},
+            [questKeys.requiredSourceItems] = {190186},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+        },
+        [65604] = {
+            [questKeys.name] = "The Binding",
+            [questKeys.startedBy] = {{5875},nil,nil},
+            [questKeys.finishedBy] = {{5875},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
+            [questKeys.preQuestSingle] = {65610},
+            [questKeys.requiredSourceItems] = {190187},
+            [questKeys.exclusiveTo] = {65597},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+        },
+        [65610] = {
+            [questKeys.name] = "Wish You Were Here",
+            [questKeys.startedBy] = {{3363},nil,nil},
+            [questKeys.finishedBy] = {{5875},nil},
+            [questKeys.requiredLevel] = 20,
+            [questKeys.questLevel] = -1,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
+            [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
+            [questKeys.preQuestSingle] = {65601},
+            [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
+            [questKeys.exclusiveTo] = {65593},
+            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
     }
 end

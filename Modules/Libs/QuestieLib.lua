@@ -14,6 +14,7 @@ local math_abs = math.abs
 local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
+local stringSub = string.sub
 
 --[[
     Red: 5+ level above player
@@ -104,65 +105,22 @@ end
 ---@param questId number @The quest ID
 ---@return boolean
 function QuestieLib:IsResponseCorrect(questId)
-    local count = 0
-    local objectiveList
-    local good = true
-    while (count < 1) do
-        good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if (not objectiveList) then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if objective.type and string.len(objective.type) > 0 then
-                    local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
-                    if (objective.text == nil or objective.text == "" or distance < 5) then
-                        Questie:Debug(Questie.DEBUG_SPAM, count,
-                                " : Objective text is strange!", "'",
-                                objective.text, "'", " distance",
-                                distance)
-                        good = false
-                        break
-                    end
-                end
-            end
-        end
-        if (good) then
-            break
-        end
-        count = count + 1
-    end
-    return good
-end
+    local objectiveList = C_QuestLog.GetQuestObjectives(questId)
 
----@param questId number @The quest ID
----@return table
-function QuestieLib:GetQuestObjectives(questId)
-    local count = 0
-    local objectiveList
-    while (count < 1) do
-        local good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if not objectiveList then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if (objective.text == nil or objective.text == "" or
-                    QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(Questie.DEBUG_SPAM, count,
-                                  " : Objective text is strange!", "'",
-                                  objective.text, "'", " distance",
-                                  QuestieLib:Levenshtein(": 0/1", objective.text))
-                    good = false
-                    break
-                end
-            end
-        end
-        count = count + 1
-        if good then break end
+    if not objectiveList then
+        return false
     end
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
-    return objectiveList
+
+    for key, objective in pairs(objectiveList) do
+        local text, objectiveType = objective.text, objective.type
+        if (not objectiveType) or objectiveType == ""
+        or (not text) or stringSub(text, 1, 1) == " " then
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieLib:GetQuestObjectives] Objective not cached yet. questId=", questId, "objective=", key, "type=", objectiveType, "text=", text)
+            return false
+        end
+    end
+
+    return true
 end
 
 ---@param questId number
@@ -250,7 +208,7 @@ end
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId number
----@return table<number, number> questLevel and requiredLevel
+---@return number, number @questLevel & requiredLevel
 function QuestieLib:GetTbcLevel(questId)
     local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
     if (questLevel == -1) then
@@ -354,27 +312,6 @@ function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
     local now, count = GetFunctionCPUUsage(functionReference, includeSubroutine)
     -- Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
     return now, count
-end
-
--- To try and create a fix for errors regarding items that do not exist in our DB,
--- this function tries to prefetch all the items on startup and accept.
-function QuestieLib:CacheAllItemNames()
-    --[[
-        1 name
-        2 for quest
-        3 dropped by
-        [4103]={"Shackle Key",{630},{1559},{}},
-    ]]
-    local numEntries, _ = GetNumQuestLogEntries()
-    for index = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
-                Questie._sessionWarnings[questId] = true
-            end
-        elseif (not isHeader) then QuestieLib:CacheItemNames(questId) end
-    end
 end
 
 function QuestieLib:CacheItemNames(questId)

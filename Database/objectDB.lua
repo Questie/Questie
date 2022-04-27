@@ -20,8 +20,8 @@ QuestieDB.objectCompilerTypes = {
     ['name'] = "u8string", 
     ['spawns'] = "spawnlist", 
     ['zoneID'] = "u16",
-    ['questStarts'] = "u8u16array", 
-    ['questEnds'] = "u8u16array",
+    ['questStarts'] = "u8u24array",
+    ['questEnds'] = "u8u24array",
     ['factionID'] = "u16"
 }
 

@@ -4,7 +4,7 @@ local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist"
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
 function QuestieQuestBlacklist:Load()
-    return {
+    local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583
         [5663] = true, -- Touch of Weakness of Dark Cleric Beryl - Fixing #730
         [5658] = true, -- Touch of Weakness of Father Lankester -- See #1603
@@ -26,6 +26,7 @@ function QuestieQuestBlacklist:Load()
         [4603] = true, -- Duplicate of 2953
         [4604] = true, -- Duplicate of 2953
         [8856] = true, -- Duplicate of 8497
+        [936] = QuestieCorrections.CLASSIC_ONLY,
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -301,6 +302,7 @@ function QuestieQuestBlacklist:Load()
         [11135] = true,
         [11219] = true,
         [11220] = true,
+        [11242] = true,
         [11318] = true,
         [11320] = true,
         [11356] = true,
@@ -310,6 +312,7 @@ function QuestieQuestBlacklist:Load()
         [11392] = true,
         [11400] = true,
         [11401] = true,
+        [11403] = true,
         [11404] = true,
         [11405] = true,
         [11409] = true,
@@ -465,6 +468,7 @@ function QuestieQuestBlacklist:Load()
         [11935] = true,
         [11954] = true,
         [11955] = true,
+        [11972] = true,
         [11964] = true,
         [11966] = true,
         [11970] = true,
@@ -479,7 +483,10 @@ function QuestieQuestBlacklist:Load()
         [11122] = true,
         [12318] = true,
         [12022] = true,
+        [12062] = true,
         [12133] = true,
+        [12135] = true,
+        [12139] = true,
         [12191] = true,
         [12194] = true,
         [12278] = true,
@@ -563,6 +570,7 @@ function QuestieQuestBlacklist:Load()
         [12408] = true,
         [12409] = true,
         [12420] = true,
+        [12421] = true,
         ----------------
 
         --mount replacement
@@ -687,7 +695,7 @@ function QuestieQuestBlacklist:Load()
 
         [8743] = true, -- Bang a Gong! (AQ40 opening quest)
 
-        -- Phase 6 Invasion quests
+        -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
         [9260] = true,
         [9261] = true,
@@ -922,30 +930,15 @@ function QuestieQuestBlacklist:Load()
         [7426] = true,
         [7521] = true,
         [8368] = true,
-        [8369] = true,
-        [8370] = true,
-        [8372] = true,
-        [8374] = true,
-        [8375] = true,
         [8383] = true,
         [8384] = true,
         [8386] = true,
         [8387] = true,
-        [8389] = true,
         [8390] = true,
         [8391] = true,
         [8392] = true,
-        [8393] = true,
-        [8394] = true,
-        [8395] = true,
-        [8396] = true,
         [8397] = true,
         [8398] = true,
-        [8399] = true,
-        [8400] = true,
-        [8401] = true,
-        [8402] = true,
-        [8403] = true,
         [8404] = true,
         [8405] = true,
         [8406] = true,
@@ -957,15 +950,6 @@ function QuestieQuestBlacklist:Load()
         [8428] = true,
         [8429] = true,
         [8430] = true,
-        [8431] = true,
-        [8432] = true,
-        [8433] = true,
-        [8434] = true,
-        [8435] = true,
-        [8436] = true,
-        [8437] = true,
-        [8438] = true,
-        [8439] = true,
         [8440] = true,
         [8441] = true,
         [8442] = true,
@@ -974,78 +958,35 @@ function QuestieQuestBlacklist:Load()
         [10377] = true,
         [11052] = true,
 
-        -- Netherwing
-        [11012] = true,
-        [11013] = true,
-        [11015] = true,
-        [11016] = true,
-        [11017] = true,
-        [11018] = true,
-        [11020] = true,
-        [11035] = true,
-        [11041] = true,
-        [11049] = true,
-        [11050] = true,
-        [11053] = true,
-        [11054] = true,
-        [11055] = true,
-        [11064] = true,
-        [11067] = true,
-        [11068] = true,
-        [11069] = true,
-        [11070] = true,
-        [11071] = true,
-        [11075] = true,
-        [11076] = true,
-        [11077] = true,
-        [11081] = true,
-        [11082] = true,
-        [11083] = true,
-        [11084] = true,
-        [11086] = true,
-        [11089] = true,
-        [11090] = true,
-        [11092] = true,
-        [11094] = true,
-        [11097] = true,
-        [11099] = true,
-        [11101] = true,
-        [11108] = true,
-
-        -- Phase 3 - Hyjal, Black Temple
-        [10460] = true,
-        [10461] = true,
-        [10462] = true,
-        [10463] = true,
-        [10464] = true,
-        [10465] = true,
-        [10466] = true,
-        [10467] = true,
-        [10468] = true,
-        [10469] = true,
-        [10470] = true,
-        [10471] = true,
-        [10472] = true,
-        [10473] = true,
-        [10474] = true,
-        [10475] = true,
-        [10944] = true,
-        [10946] = true,
-        [10947] = true,
-        [10948] = true,
-        [10949] = true,
-        [10957] = true,
-        [10958] = true,
-        [10959] = true,
-        [10985] = true,
+        -- Classic only PvP quests
+        [8369] = QuestieCorrections.TBC_ONLY,
+        [8370] = QuestieCorrections.TBC_ONLY,
+        [8372] = QuestieCorrections.TBC_ONLY,
+        [8374] = QuestieCorrections.TBC_ONLY,
+        [8375] = QuestieCorrections.TBC_ONLY,
+        [8389] = QuestieCorrections.TBC_ONLY,
+        [8393] = QuestieCorrections.TBC_ONLY,
+        [8394] = QuestieCorrections.TBC_ONLY,
+        [8395] = QuestieCorrections.TBC_ONLY,
+        [8396] = QuestieCorrections.TBC_ONLY,
+        [8399] = QuestieCorrections.TBC_ONLY,
+        [8400] = QuestieCorrections.TBC_ONLY,
+        [8401] = QuestieCorrections.TBC_ONLY,
+        [8402] = QuestieCorrections.TBC_ONLY,
+        [8403] = QuestieCorrections.TBC_ONLY,
+        [8431] = QuestieCorrections.TBC_ONLY,
+        [8432] = QuestieCorrections.TBC_ONLY,
+        [8433] = QuestieCorrections.TBC_ONLY,
+        [8434] = QuestieCorrections.TBC_ONLY,
+        [8435] = QuestieCorrections.TBC_ONLY,
+        [8436] = QuestieCorrections.TBC_ONLY,
+        [8437] = QuestieCorrections.TBC_ONLY,
+        [8438] = QuestieCorrections.TBC_ONLY,
+        [8439] = QuestieCorrections.TBC_ONLY,
 
         -- Phase 4 Zul'Aman
-        [11130] = true,
-        [11132] = true,
-        [11163] = true,
-        [11164] = true,
-        [11178] = true,
-        [11196] = true,
+        [11195] = true, -- Not in the game
+        [11196] = true, -- Not in the game
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
         [11481] = true,
@@ -1090,6 +1031,18 @@ function QuestieQuestBlacklist:Load()
         [11880] = true,
         [11877] = true,
     }
+
+    if Questie.IsSoM then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Blacklisting SoM quests...")
+        local questsByPhase = QuestieQuestBlacklist:GetSoMQuestsToBlacklist()
+        for phase= 1, #questsByPhase do
+            for questId, _ in pairs(questsByPhase[phase]) do
+                questsToBlacklist[questId] = true
+            end
+        end
+    end
+
+    return questsToBlacklist
 end
 
 QuestieQuestBlacklist.AQWarEffortQuests = {

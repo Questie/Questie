@@ -25,6 +25,12 @@ function QuestieTBCNpcFixes:Load()
         [2556] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{63.51,71.64},{67.08,70.15},{59.93,71.64},{62.55,73.17},{67.98,78.74},{67.65,77.23},{67.74,77.06},{67.93,76.49},{68.55,76.41},{69.97,68.65},{71.2,65.91},{71.25,69.92},{70.91,67.35},{70.64,69.64},{70.02,71.75},{69.03,71.98},{69.13,79.46},{72.68,64.43},{71.88,63.02},{64.28,68.95},{68.74,73.43},{66.03,81.88},{67.55,81.59},{66.28,82.24},{69.88,81.13},{69.55,81.58},{68.29,80.06},{69.17,81.66},{69.19,82.41},{68.17,79.5},{67.75,81.95},{67.18,80.83},{70.04,77.34},{68.99,78.68},{70.45,78.2},{69.75,78.01}}},
         },
+        [4323] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{41.87,80.76},{41.38,77.81},{42.77,81.06},{43.25,81.46},{42.14,76.6},{44.81,76.61},{45.68,84.1},{55.1,73.11},{51.06,74.15},{46.55,84.9},{51.74,67.65},{47.74,70.1},{44.76,73.97},{45.06,78.74},{54.38,70.54},{44.6,81.58},{46.67,82.35},{47.27,82.46},{43.57,70.0},{45.76,72.13},{45.51,73.14},{46.82,71.51},{50.51,71.97},{48.94,70.24},{50.01,69.05},{46.2,65.05},{48.18,80.52},{44.11,66.44},{44.93,64.48},{46.71,65.42},{47.21,67.19},{43.08,69.23},{43.71,64.4},{45.79,65.18},{45.95,67.21},},},
+        },
+        [4324] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{45.78,82.35},{41.5,79.51},{42.8,79.17},{42.19,78.86},{45.77,84.33},{55.46,83.41},{55.02,84.13},{51.41,71.02},{49.11,68.06},{44.83,75.86},{45.56,68.91},{45.07,69.71},{47.18,77.95},{52.72,70.07},{48.46,78.55},{56.37,70.08},{43.03,82.1},{45.21,67.98},{46.45,83.4},{46.48,67.42},{42.48,65.63},{47.74,66.3},{48.45,67.02},},},
+        },
         [4358] = {
             [npcKeys.spawns] = {},
             [npcKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
@@ -58,6 +64,17 @@ function QuestieTBCNpcFixes:Load()
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
+        [8888] = {
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93},},},
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
+        [9046] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES]={{34.94,27.86},},
+                [zoneIDs.SEARING_GORGE]={{43.34,99.17},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0}}},
             [npcKeys.waypoints] = {},
@@ -68,6 +85,13 @@ function QuestieTBCNpcFixes:Load()
         [11980] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{71.0,62.2}}},
             [npcKeys.waypoints] = {},
+        },
+        [14387] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
+                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},}
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1}}},
@@ -102,6 +126,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [15669] = {
             [npcKeys.waypoints] = {},
+        },
+        [15920] = {
+            [npcKeys.waypoints] = {[zoneIDs.EVERSONG_WOODS]={{30,58.6}}},
         },
         [15967] = {
             [npcKeys.waypoints] = {},
@@ -177,6 +204,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [17241] = {
             [npcKeys.waypoints] = {},
+        },
+        [17301] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
         [17311] = {
             [npcKeys.spawns] = {
@@ -306,6 +337,14 @@ function QuestieTBCNpcFixes:Load()
         },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12}}},
+        },
+        [19412] = {
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.AUCHENAI_CRYPTS,
+        },
+        [19456] = {
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{37.8,86.2}}},
+            [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
         },
         [19493] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{40.8,72.6}}},
@@ -464,6 +503,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [23861] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{52.2,22.2},{52.4,24.2},{52.4,24.6},{52.4,27.4},{52.8,27.6},{53.0,21.6},{53.0,23.6},{53.0,27.2},{53.4,20.8},{53.6,27.8},{54.0,23.0},{54.0,29.0},{54.4,25.0},{55.0,21.4},{55.2,22.6},{55.4,22.0},{55.4,24.0},{55.8,21.0},{55.8,22.6},{56.0,24.0},{56.0,28.2},{56.0,28.6},{56.4,22.4},{56.4,27.4},{56.8,22.4},{56.8,23.4},{56.8,25.0},{57.0,23.8},{57.0,26.2},{57.0,30.4},{57.2,21.0},{57.2,26.8},{57.2,28.2},{57.4,30.6},{57.6,21.4},{57.6,23.2},{57.6,27.8},{57.6,28.8},{58.2,22.0},{58.2,26.4},{58.6,22.4},{58.6,26.0},{58.8,23.4},{59.2,25.0}}},
+        },
+        [23904] = {
+            [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
         [24202] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52,66.6}},[zoneIDs.IRONFORGE]={{30.2,66.5}}},

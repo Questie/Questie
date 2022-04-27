@@ -1,4 +1,4 @@
-WOW_PROJECT_ID = 5
+WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_MAINLINE = 1
@@ -72,7 +72,7 @@ local function loadTOC(file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r = nil
+            local r
             local chunck = loadfile(line)
             if chunck then
                 r = pcall(chunck, addonName, addonTable)
@@ -86,74 +86,142 @@ local function loadTOC(file)
     end
 end
 
-loadTOC("Questie.toc")
+local function _CheckClassicDatabase()
+    print("Compiling Classic database...")
 
-function Questie:Debug(...)
-    --print(...)
-end
+    loadTOC("Questie-Classic.toc")
 
-function Questie:Error(text, ...)
-    io.stderr:write(tostring(text) .. "\n")
-end
+    function Questie:Debug(...)
+        --print(...)
+    end
 
-function Questie:Warning(text, ...)
-    io.stderr:write(tostring(text) .. "\n")
-end
+    function Questie:Error(text, ...)
+        io.stderr:write(tostring(text) .. "\n")
+    end
 
-Questie.db = {
-    char = {
-        showEventQuests = false
-    },
-    global = {
+    function Questie:Warning(text, ...)
+        io.stderr:write(tostring(text) .. "\n")
+    end
 
+    Questie.db = {
+        char = {
+            showEventQuests = false
+        },
+        global = {}
     }
-}
-QuestieConfig = {}
+    QuestieConfig = {}
 
-print("Running compiler...")
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
-local l10n = QuestieLoader:ImportModule("l10n")
+    local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+    local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+    local l10n = QuestieLoader:ImportModule("l10n")
 
--- taken from QuestieEventHandler
-print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-QuestieDB.npcData = loadstring(QuestieDB.npcData)
-QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and loadstring(QuestieDB.npcDataTBC) or nil
-QuestieDB.npcData = QuestieDB.npcData()
-QuestieDB.npcDataTBC = QuestieDB.npcDataTBC and QuestieDB.npcDataTBC() or nil
-QuestieDB.objectData = loadstring(QuestieDB.objectData)
-QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and loadstring(QuestieDB.objectDataTBC) or nil
-QuestieDB.objectData = QuestieDB.objectData()
-QuestieDB.objectDataTBC = QuestieDB.objectDataTBC and QuestieDB.objectDataTBC() or nil
-QuestieDB.questData = loadstring(QuestieDB.questData)
-QuestieDB.questDataTBC = QuestieDB.questDataTBC and loadstring(QuestieDB.questDataTBC) or nil
-QuestieDB.questData = QuestieDB.questData()
-QuestieDB.questDataTBC = QuestieDB.questDataTBC and QuestieDB.questDataTBC() or nil
-QuestieDB.itemData = loadstring(QuestieDB.itemData)
-QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and loadstring(QuestieDB.itemDataTBC) or nil
-QuestieDB.itemData = QuestieDB.itemData()
-QuestieDB.itemDataTBC = QuestieDB.itemDataTBC and QuestieDB.itemDataTBC() or nil
-print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+    QuestieDB.npcData = loadstring(QuestieDB.npcData)
+    QuestieDB.npcData = QuestieDB.npcData()
+    QuestieDB.objectData = loadstring(QuestieDB.objectData)
+    QuestieDB.objectData = QuestieDB.objectData()
+    QuestieDB.questData = loadstring(QuestieDB.questData)
+    QuestieDB.questData = QuestieDB.questData()
+    QuestieDB.itemData = loadstring(QuestieDB.itemData)
+    QuestieDB.itemData = QuestieDB.itemData()
+    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
+    QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
+    QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
-QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
-QuestieLoader:ImportModule("ZoneDB"):Initialize()
+    QuestieCorrections:Initialize({
+        ["npcData"] = QuestieDB.npcData,
+        ["objectData"] = QuestieDB.objectData,
+        ["itemData"] = QuestieDB.itemData,
+        ["questData"] = QuestieDB.questData
+    })
 
-QuestieCorrections:Initialize({
-    ["npcData"] = QuestieDB.npcDataTBC,
-    ["objectData"] = QuestieDB.objectDataTBC,
-    ["itemData"] = QuestieDB.itemDataTBC,
-    ["questData"] = QuestieDB.questDataTBC
-})
+    local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
-local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+    QuestieDBCompiler:Compile(function() end)
+    print("Validating objects...")
+    QuestieDBCompiler:ValidateObjects()
+    print("Validating items...")
+    QuestieDBCompiler:ValidateItems()
+    print("Validating NPCs...")
+    QuestieDBCompiler:ValidateNPCs()
+    print("Validating quests...")
+    QuestieDBCompiler:ValidateQuests()
 
-QuestieDBCompiler:Compile(function() end)
-print("Validating objects...")
-QuestieDBCompiler:ValidateObjects()
-print("Validating items...")
-QuestieDBCompiler:ValidateItems()
-print("Validating NPCs...")
-QuestieDBCompiler:ValidateNPCs()
-print("Validating quests...")
-QuestieDBCompiler:ValidateQuests()
+    print("Classic database compiled successfully\n")
+end
+_CheckClassicDatabase()
+
+Questie = nil -- Reset for second test
+
+local function _CheckTBCDatabase()
+    print("Compiling TBC database...")
+    WOW_PROJECT_ID = 5
+
+    loadTOC("Questie-BCC.toc")
+
+    function Questie:Debug(...)
+        --print(...)
+    end
+
+    function Questie:Error(text, ...)
+        io.stderr:write(tostring(text) .. "\n")
+    end
+
+    function Questie:Warning(text, ...)
+        io.stderr:write(tostring(text) .. "\n")
+    end
+
+    Questie.db = {
+        char = {
+            showEventQuests = false
+        },
+        global = {}
+    }
+    QuestieConfig = {}
+
+    local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+    local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+    local l10n = QuestieLoader:ImportModule("l10n")
+
+    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+    -- Classic fields need to be filled, because we only load the database and not all Questie files
+    QuestieDB.npcData = {}
+    QuestieDB.objectData = {}
+    QuestieDB.questData = {}
+    QuestieDB.itemData = {}
+    QuestieDB.npcDataTBC = loadstring(QuestieDB.npcDataTBC)
+    QuestieDB.npcDataTBC = QuestieDB.npcDataTBC()
+    QuestieDB.objectDataTBC = loadstring(QuestieDB.objectDataTBC)
+    QuestieDB.objectDataTBC = QuestieDB.objectDataTBC()
+    QuestieDB.questDataTBC = loadstring(QuestieDB.questDataTBC)
+    QuestieDB.questDataTBC = QuestieDB.questDataTBC()
+    QuestieDB.itemDataTBC = loadstring(QuestieDB.itemDataTBC)
+    QuestieDB.itemDataTBC = QuestieDB.itemDataTBC()
+    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+
+    QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
+    QuestieLoader:ImportModule("ZoneDB"):Initialize()
+
+    QuestieCorrections:Initialize({
+        ["npcData"] = QuestieDB.npcDataTBC,
+        ["objectData"] = QuestieDB.objectDataTBC,
+        ["itemData"] = QuestieDB.itemDataTBC,
+        ["questData"] = QuestieDB.questDataTBC
+    })
+
+    local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
+
+    QuestieDBCompiler:Compile(function() end)
+    print("Validating objects...")
+    QuestieDBCompiler:ValidateObjects()
+    print("Validating items...")
+    QuestieDBCompiler:ValidateItems()
+    print("Validating NPCs...")
+    QuestieDBCompiler:ValidateNPCs()
+    print("Validating quests...")
+    QuestieDBCompiler:ValidateQuests()
+
+    print("TBC database compiled successfully")
+end
+_CheckTBCDatabase()
