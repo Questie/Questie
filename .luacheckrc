@@ -2698,6 +2698,8 @@ globals = {
     "-----------------------------------------------------> Blizzard Data",
     "CALENDAR_FULLDATE_MONTH_NAMES",
     "CALENDAR_WEEKDAY_NAMES",
+    "ERR_QUEST_ACCEPTED_S",
+    "ERR_QUEST_COMPLETE_S",
     "INVENTORY_ALERT_STATUS_SLOTS",
     "QUEST_MONSTERS_KILLED",
     "QUEST_ITEMS_NEEDED",

@@ -37,6 +37,9 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 
+local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
+local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
+
 
 function QuestieEventHandler:RegisterEarlyEvents()
     local savedVarsTimer
@@ -75,6 +78,7 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Events to update a players professions and reputations
     Questie:RegisterEvent("CHAT_MSG_SKILL", _EventHandler.ChatMsgSkill)
     Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
+    Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
@@ -121,20 +125,29 @@ function _EventHandler:PlayerLogin()
     QuestieInit:Init()
 end
 
+--- Fires when a System Message (yellow text) is output to the main chat window
+---@param message string The message value from the CHAT_MSG_SYSTEM event
+function _EventHandler:ChatMsgSystem(message)
+    -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
+    if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
+        MinimapIcon:UpdateText(message)
+    end
+end
 
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
 ---@param errorType number The error type value from the UI_INFO_MESSAGE event
 ---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
-    -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
-    -- Global Strings used:
-    -- 287: ERR_QUEST_OBJECTIVE_COMPLETE_S
-    -- 288: ERR_QUEST_UNKNOWN_COMPLETE
-    -- 289: ERR_QUEST_ADD_KILL_SII
-    -- 290: ERR_QUEST_ADD_FOUND_SII
-    -- 291: ERR_QUEST_ADD_ITEM_SII
-    -- 292: ERR_QUEST_ADD_PLAYER_KILL_SII
-    if errorType >= 287 and errorType <= 292 then
+    local messages = {
+        ["ERR_QUEST_OBJECTIVE_COMPLETE_S"] = true,
+        ["ERR_QUEST_UNKNOWN_COMPLETE"] = true,
+        ["ERR_QUEST_ADD_KILL_SII"] = true,
+        ["ERR_QUEST_ADD_FOUND_SII"] = true,
+        ["ERR_QUEST_ADD_ITEM_SII"] = true,
+        ["ERR_QUEST_ADD_PLAYER_KILL_SII "] = true,
+        ["ERR_QUEST_FAILED_S"] = true,
+    }
+    if messages[GetGameMessageInfo(errorType)] then
         MinimapIcon:UpdateText(message)
     end
 end
