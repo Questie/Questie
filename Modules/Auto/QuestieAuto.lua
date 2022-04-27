@@ -238,6 +238,36 @@ function QuestieAuto:QUEST_COMPLETE(event, ...)
     end
 end
 
+local _QuestFinishedCallback = function()
+    if _QuestieAuto:AllQuestWindowsClosed() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "All quest windows closed! Resetting shouldRunAuto")
+        _QuestieAuto:ResetModifier()
+    end
+end
+
+function QuestieAuto:QUEST_FINISHED()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] QUEST_FINISHED")
+
+    C_Timer.After(0.5, _QuestFinishedCallback)
+end
+
+function _QuestieAuto:AllQuestWindowsClosed()
+    if GossipFrame and (not GossipFrame:IsVisible())
+            and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
+            and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
+            and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
+            and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
+            and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
+        return true
+    end
+    return false
+end
+
+function _QuestieAuto:ResetModifier()
+    shouldRunAuto = true
+    lastEvent = nil
+end
+
 --- The closingCounter needs to reach 1 for QuestieAuto to reset
 --- Whenever the gossip frame is closed this event is called once, HOWEVER
 --- when totally stop talking to an NPC this event is called twice.
@@ -255,9 +285,4 @@ function QuestieAuto:GOSSIP_CLOSED()
     else
         doneTalking = true
     end
-end
-
-function QuestieAuto:ResetModifier()
-    shouldRunAuto = true
-    lastEvent = nil
 end

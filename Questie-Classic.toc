@@ -1,8 +1,8 @@
-## Interface: 11401
-## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.8.1|r
+## Interface: 11402
+## Title: |cFFFFFFFFQuestie|r|cFF00FF00 v6.9.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 6.8.1
+## Version: 6.9.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibCompress, LibDataBroker-1.1, LibDBIcon-1.0, LibQuestXP, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -82,6 +82,7 @@ Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
 
 # Modules
+Modules\QuestieValidateGameCache.lua
 Modules\QuestieInit.lua
 Modules\MinimapIcon.lua
 Modules\QuestieProfessions.lua
@@ -119,6 +120,7 @@ Modules\Map\HBDHooks.lua
 
 # Quest
 Modules\Quest\DailyQuests.lua
+Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
 

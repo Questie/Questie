@@ -64,6 +64,17 @@ function QuestieTBCNpcFixes:Load()
         [8580] = {
             [npcKeys.spawns] = {[zoneIDs.THE_TEMPLE_OF_ATAL_HAKKAR] = {{-1,-1}}},
         },
+        [8888] = {
+            [npcKeys.spawns] = {[zoneIDs.BURNING_STEPPES] = {{28.96,28.93},},},
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
+        [9046] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES]={{34.94,27.86},},
+                [zoneIDs.SEARING_GORGE]={{43.34,99.17},},
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
+        },
         [10182] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{25.6,70.0}}},
             [npcKeys.waypoints] = {},
@@ -74,6 +85,13 @@ function QuestieTBCNpcFixes:Load()
         [11980] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{71.0,62.2}}},
             [npcKeys.waypoints] = {},
+        },
+        [14387] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.BURNING_STEPPES] = {{26.4,24.45},},
+                [zoneIDs.SEARING_GORGE] = {{32.13,94.7},}
+            },
+            [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1}}},
@@ -186,6 +204,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [17241] = {
             [npcKeys.waypoints] = {},
+        },
+        [17301] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
         [17311] = {
             [npcKeys.spawns] = {
@@ -315,6 +337,14 @@ function QuestieTBCNpcFixes:Load()
         },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12}}},
+        },
+        [19412] = {
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.AUCHENAI_CRYPTS,
+        },
+        [19456] = {
+            [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{37.8,86.2}}},
+            [npcKeys.zoneID] = zoneIDs.EVERSONG_WOODS,
         },
         [19493] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{40.8,72.6}}},
