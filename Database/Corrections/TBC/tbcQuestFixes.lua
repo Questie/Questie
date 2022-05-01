@@ -1861,38 +1861,63 @@ function QuestieTBCQuestFixes:Load()
         [10930] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Decrepit Clefthoofs and use the Fumper on their corpses", 0, {{"monster", 22105}}}},
         },
+        [10942] = {
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10943] = {
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [10945] = {
             [questKeys.triggerEnd] = {"Salandria taken to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.22,51.23}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10946] = {
             [questKeys.triggerEnd] = {"Ruse of the Ashtongue", {[zoneIDs.NETHERSTORM]={{73.88,63.76}}}},
         },
         [10950] = {
             [questKeys.triggerEnd] = {"Dornaa taken to the Ring of Observance", {[zoneIDs.TEROKKAR_FOREST]={{39.71,64.6}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10951] = {
             [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.33,50.19}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10952] = {
             [questKeys.triggerEnd] = {"Dornaa taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.26,50.32}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10953] = {
             [questKeys.triggerEnd] = {"Salandria taken to the Throne of the Elements", {[zoneIDs.NAGRAND]={{60.5,22.7}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10954] = {
             [questKeys.triggerEnd] = {"Dornaa taken to Aeris Landing", {[zoneIDs.NAGRAND]={{31.47,57.45}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10956] = {
             [questKeys.triggerEnd] = {"Dornaa taken to the Seat of the Naaru", {[zoneIDs.THE_EXODAR]={{56.65,40.73}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10960] = {
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10962] = {
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.52,57.74}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10963] = {
             [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.53,57.72}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10966] = {
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10967] = {
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10968] = {
             [questKeys.triggerEnd] = {"Dornaa taken to Farseer Nobundo", {[zoneIDs.THE_EXODAR]={{30.8,29.88}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10974] = {
             [questKeys.requiredMinRep] = {933,21000},
@@ -2964,6 +2989,9 @@ function QuestieTBCQuestFixes:Load()
         [11972] = {
             [questKeys.startedBy] = {nil,{187892},{35723,},},
             [questKeys.finishedBy] = {{25697},nil},
+        },
+        [11975] = {
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12012] = {
             [questKeys.startedBy] = {{25324},nil,nil},
