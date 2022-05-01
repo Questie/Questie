@@ -482,6 +482,20 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10942}) -- Children's Week
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10943}) -- Children's Week
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10945})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10950})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10951})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10952})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10953})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10954})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10956})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10962})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10963})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10966})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10967})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10968})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 11975})
 
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 9249}) -- 40 Tickets - Schematic: Steam Tonk Controller
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10938}) -- Darkmoon Blessings Deck
