@@ -35,7 +35,8 @@ function QuestieHash:InitQuestLogHashes()
                 Questie._sessionWarnings[questId] = true
             end
         elseif (not isHeader) then
-            questLogHashes[questId] = QuestieHash:GetQuestHash(questId)
+            local oldHash = questLogHashes[questId]
+            questLogHashes[questId] = QuestieHash:GetQuestHash(questId) or oldHash
         end
     end
 end
@@ -49,6 +50,12 @@ function QuestieHash:GetQuestHash(questId)
         isComplete = QuestieDB:IsComplete(questId),
         questObjectives = C_QuestLog.GetQuestObjectives(questId),
     }
+    -- Catch uninitialised objectives
+    for _, objective in pairs(data.questObjectives) do
+        if (objective.text and (string.sub(objective.text,1,1) == " ")) then
+            return nil
+        end
+    end
 
     hash = libC:fcs32update(hash, libS:Serialize(data))
     hash = libC:fcs32final(hash)
@@ -57,7 +64,8 @@ end
 
 function QuestieHash:AddNewQuestHash(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] AddNewQuestHash:", questId)
-    questLogHashes[questId] = QuestieHash:GetQuestHash(questId)
+    local oldHash = questLogHashes[questId]
+    questLogHashes[questId] = QuestieHash:GetQuestHash(questId) or oldHash
     QuestieQuest:SetObjectivesDirty(questId)
 end
 
@@ -83,7 +91,7 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
         else
             local oldHash = questLogHashes[questId]
             if oldHash then
-                local newHash = QuestieHash:GetQuestHash(questId)
+                local newHash = QuestieHash:GetQuestHash(questId) or oldHash
                 if oldHash ~= newHash then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
                     questLogHashes[questId] = newHash
@@ -117,7 +125,7 @@ function QuestieHash:CompareQuestHash(questId)
     else
         local oldHash = questLogHashes[questId]
         if oldHash then
-            local newHash = QuestieHash:GetQuestHash(questId)
+            local newHash = QuestieHash:GetQuestHash(questId) or oldHash
 
             if oldHash ~= newHash then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieHash] Hash changed for questId:", questId)
