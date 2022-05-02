@@ -367,19 +367,19 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9028}) -- The Source Re
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9029}) -- A Bubbling Cauldron
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 171}) -- A Warden of the Alliance
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 5502}) -- A Warden of the Horde
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 172}) -- Children's Week
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 1468}) -- Children's Week
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 915}) -- You Scream, I Scream...
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 4822}) -- You Scream, I Scream...
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 1687}) -- Spooky Lighthouse
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 558}) -- Jaina's Autograph
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 925}) -- Cairne's Hoofprint
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 1800}) -- Lordaeron Throne Room
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 1479}) -- The Bough of the Eternals
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 1558}) -- The Stonewrought Dam
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 910}) -- Down at the Docks
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 911}) -- Gateway to the Frontier
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 915}) -- You Scream, I Scream...
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 925}) -- Cairne's Hoofprint
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 1468}) -- Children's Week
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 1479}) -- The Bough of the Eternals
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 1558}) -- The Stonewrought Dam
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 1687}) -- Spooky Lighthouse
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 1800}) -- Lordaeron Throne Room
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 4822}) -- You Scream, I Scream...
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 5502}) -- A Warden of the Horde
 
 tinsert(QuestieEvent.eventQuests, {"Harvest Festival", 8149}) -- Honoring a Hero
 tinsert(QuestieEvent.eventQuests, {"Harvest Festival", 8150}) -- Honoring a Hero

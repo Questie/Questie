@@ -32,6 +32,12 @@ function QuestieTBCQuestFixes:Load()
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
         },
+        [171] = {
+            [questKeys.questLevel] = -1,
+        },
+        [172] = {
+            [questKeys.questLevel] = -1,
+        },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82}}}},
         },
@@ -50,6 +56,9 @@ function QuestieTBCQuestFixes:Load()
         [503] = {
             [questKeys.triggerEnd] = {"Find where Gol'dir is being held", {[zoneIDs.ALTERAC_VALLEY]={{60.58,43.86}}}},
         },
+        [558] = {
+            [questKeys.questLevel] = -1,
+        },
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98}}}},
         },
@@ -64,6 +73,18 @@ function QuestieTBCQuestFixes:Load()
         },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
+        },
+        [910] = {
+            [questKeys.questLevel] = -1,
+        },
+        [911] = {
+            [questKeys.questLevel] = -1,
+        },
+        [915] = {
+            [questKeys.questLevel] = -1,
+        },
+        [925] = {
+            [questKeys.questLevel] = -1,
         },
         [927] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -98,17 +119,32 @@ function QuestieTBCQuestFixes:Load()
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36}}}},
         },
+        [1468] = {
+            [questKeys.questLevel] = -1,
+        },
+        [1479] = {
+            [questKeys.questLevel] = -1,
+        },
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
         },
         [1508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [1558] = {
+            [questKeys.questLevel] = -1,
+        },
+        [1687] = {
+            [questKeys.questLevel] = -1,
+        },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
         },
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
+        },
+        [1800] = {
+            [questKeys.questLevel] = -1,
         },
         [1801] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
@@ -159,11 +195,17 @@ function QuestieTBCQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [4822] = {
+            [questKeys.questLevel] = -1,
+        },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44}}}},
         },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
+        },
+        [5502] = {
+            [questKeys.questLevel] = -1,
         },
         [5649] = {
             [questKeys.requiredLevel] = 5,
@@ -1865,12 +1907,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Decrepit Clefthoofs and use the Fumper on their corpses", 0, {{"monster", 22105}}}},
         },
         [10942] = {
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10943] = {
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10945] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.22,51.23}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
@@ -1878,47 +1923,59 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Ruse of the Ashtongue", {[zoneIDs.NETHERSTORM]={{73.88,63.76}}}},
         },
         [10950] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Ring of Observance", {[zoneIDs.TEROKKAR_FOREST]={{39.71,64.6}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10951] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.33,50.19}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10952] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.26,50.32}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10953] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Throne of the Elements", {[zoneIDs.NAGRAND]={{60.5,22.7}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10954] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to Aeris Landing", {[zoneIDs.NAGRAND]={{31.47,57.45}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10956] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Seat of the Naaru", {[zoneIDs.THE_EXODAR]={{56.65,40.73}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10960] = {
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10962] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.52,57.74}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10963] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.53,57.72}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10966] = {
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10967] = {
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10968] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to Farseer Nobundo", {[zoneIDs.THE_EXODAR]={{30.8,29.88}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
@@ -2994,6 +3051,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{25697},nil},
         },
         [11975] = {
+            [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12012] = {
