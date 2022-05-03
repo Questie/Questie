@@ -531,14 +531,14 @@ function QuestieDB:IsDoable(questId)
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] race requirement not fulfilled for questId: " .. questId)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] race requirement not fulfilled for questId:", questId)
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
     if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId: " .. questId)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId:", questId)
         return false
     end
 

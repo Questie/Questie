@@ -75,7 +75,7 @@ end
 -- set option value
 function QuestieOptions:SetGlobalOptionValue(info, value)
     if debug and Questie.db.global[info[#info]] ~= value then
-        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option "..info[#info].." changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
+        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
     end
     Questie.db.global[info[#info]] = value
 end
