@@ -179,10 +179,10 @@ end
 -- Local Functions --
 
 function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update to group or raid
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms:BroadcastQuestUpdate] Questid", questId, tostring(questId));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms:BroadcastQuestUpdate] Questid", questId)
     if(questId) then
         local partyType = QuestiePlayer:GetGroupType()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms:BroadcastQuestUpdate] partyType", tostring(partyType));
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms:BroadcastQuestUpdate] partyType", tostring(partyType))
         if partyType then
             if partyType ~= "raid" then
                 QuestieComms:YellProgress(questId)
@@ -209,7 +209,7 @@ end
 -- Removes the quest from everyones external quest-log
 function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update to group or raid
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms:BroadcastQuestRemove] QuestId:", questId, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms:BroadcastQuestRemove] QuestId:", questId, "partyType:", tostring(partyType))
     if partyType then
         --Do we really need to make this?
         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_BROADCAST_QUEST_REMOVE);
@@ -268,7 +268,7 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
     end
 
 
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest)
 
     return offset, count
 end
@@ -300,7 +300,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
     end
 
 
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest)
 
     return offset, count
 end
@@ -507,7 +507,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
         return
     end
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
         local rawQuestList = {}
         -- Maybe this should be its own function in QuestieQuest...
@@ -622,7 +622,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         return
     end
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
         
         -- Maybe this should be its own function in QuestieQuest...
@@ -737,7 +737,7 @@ end
 -- The "Hi" of questie, request others to send their questlog.
 function _QuestieComms:RequestQuestLog(eventName) -- broadcast quest update to group or raid
     local partyType = QuestiePlayer:GetGroupType()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType));
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
         --Do we really need to make this?
         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST);
@@ -777,7 +777,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
             end
         end
     end
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives);
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieComms] questPacket made: Objectivetable:", quest.objectives)
     return quest;
 end
 
