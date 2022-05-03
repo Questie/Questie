@@ -285,14 +285,6 @@ function QuestieLib:GetRaceString(raceMask)
     end
 end
 
-function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
-    -- Optional var
-    if (not includeSubroutine) then includeSubroutine = true end
-    local now, count = GetFunctionCPUUsage(functionReference, includeSubroutine)
-    -- Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
-    return now, count
-end
-
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB:GetQuest(questId)
     if (quest and quest.ObjectiveData) then
