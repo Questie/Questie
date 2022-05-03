@@ -324,16 +324,6 @@ function QuestieLib:Maxdist(x, y, i, e)
     return math_max(math_abs(x - i), math_abs(y - e))
 end
 
-function QuestieLib:GetTableSize(table)
-    local count = 0
-    if table then
-        for _,_ in pairs(table) do
-            count = count +1
-        end
-    end
-    return count
-end
-
 local cachedTitle
 local cachedVersion
 -- Move to Questie.lua after QuestieOptions move.
