@@ -59,7 +59,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 local NOP_FUNCTION = function() end
 
 -- forward declaration
-local _GetObjectiveIdForSpecialQuest, _UnloadAlreadySpawnedIcons
+local _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
@@ -1189,30 +1189,6 @@ function _QuestieQuest.ObjectiveUpdate(self, questObjectives)
             self.isUpdated = true
         end
     end
-end
-
---- Quests like "The Nightmare's Corruption" have multiple objectives with the same
---- text for each objective. Therefore these need to be handled separatly (see #2308)
----@return number
-_GetObjectiveIdForSpecialQuest = function(questId, objectiveIndex)
-    if questId == 8735 then
-        if objectiveIndex == 1 then
-            return 21147
-        elseif objectiveIndex == 2 then
-            return 21149
-        elseif objectiveIndex == 3 then
-            return 21148
-        elseif objectiveIndex == 4 then
-            return 21146
-        end
-    elseif questId == 4282 then
-        if objectiveIndex == 1 then
-            return 11464
-        else
-            return 11465
-        end
-    end
-    return 0
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
