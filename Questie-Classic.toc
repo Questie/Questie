@@ -76,7 +76,6 @@ Localization\lookups\Classic\lookupQuests\lookupQuests.xml
 
 # Libs
 Modules\Libs\QuestieLib.lua
-#Modules\Libs\QuestieCompress.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
 Modules\Libs\QuestieHash.lua
