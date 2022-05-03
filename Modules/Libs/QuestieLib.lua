@@ -102,27 +102,6 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----@param questId number @The quest ID
----@return boolean
-function QuestieLib:IsResponseCorrect(questId)
-    local objectiveList = C_QuestLog.GetQuestObjectives(questId)
-
-    if not objectiveList then
-        return false
-    end
-
-    for key, objective in pairs(objectiveList) do
-        local text, objectiveType = objective.text, objective.type
-        if (not objectiveType) or objectiveType == ""
-        or (not text) or stringSub(text, 1, 1) == " " then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieLib:GetQuestObjectives] Objective not cached yet. questId=", questId, "objective=", key, "type=", objectiveType, "text=", text)
-            return false
-        end
-    end
-
-    return true
-end
-
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
