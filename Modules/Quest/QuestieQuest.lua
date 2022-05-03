@@ -229,25 +229,6 @@ function QuestieQuest:AddAllNotes()
     end
 end
 
-function QuestieQuest:Reset()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:Reset]")
-    QuestieQuest:ClearAllNotes()
-
-
-    -- reset quest log and tooltips
-    QuestiePlayer.currentQuestlog = {}
-    QuestieTooltips.lookupByKey = {}
-    QuestieTooltips.lookupKeyByQuestId = {}
-
-    Questie.db.char.complete = GetQuestsCompleted()
-    QuestieProfessions:Update()
-    QuestieReputation:Update(true)
-
-
-    QuestieMenu:OnLogin()
-    QuestieQuest:AddAllNotes()
-end
-
 function QuestieQuest:SmoothReset()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     if QuestieQuest._isResetting then
