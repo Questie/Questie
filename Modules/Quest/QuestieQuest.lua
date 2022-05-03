@@ -219,16 +219,6 @@ local function _UpdateSpecials(questId)
     end
 end
 
-function QuestieQuest:AddAllNotes()
-    QuestieQuest:GetAllQuestIdsNoObjectives()
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
-
-    for questId, _ in pairs(QuestiePlayer.currentQuestlog) do
-        QuestieQuest:UpdateQuest(questId)
-        _UpdateSpecials(questId)
-    end
-end
-
 function QuestieQuest:SmoothReset()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:SmoothReset]")
     if QuestieQuest._isResetting then
