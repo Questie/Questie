@@ -131,14 +131,6 @@ function QuestieFramePool:GetFrame()
     return returnFrame
 end
 
-function QuestieFramePool:UnloadAll()
-    for _, frame in ipairs(allFrames) do
-        frame:Unload()
-    end
-    QuestieMap.questIdFrames = {}
-    QuestieMap.manualFrames = {}
-end
-
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
     if mode then
         for _, icon in pairs(usedFrames) do

@@ -59,7 +59,7 @@ QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 local NOP_FUNCTION = function() end
 
 -- forward declaration
-local _GetObjectiveIdForSpecialQuest, _UnloadAlreadySpawnedIcons
+local _UnloadAlreadySpawnedIcons
 local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
@@ -217,35 +217,6 @@ local function _UpdateSpecials(questId)
             end
         end
     end
-end
-
-function QuestieQuest:AddAllNotes()
-    QuestieQuest:GetAllQuestIdsNoObjectives()
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
-
-    for questId, _ in pairs(QuestiePlayer.currentQuestlog) do
-        QuestieQuest:UpdateQuest(questId)
-        _UpdateSpecials(questId)
-    end
-end
-
-function QuestieQuest:Reset()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:Reset]")
-    QuestieQuest:ClearAllNotes()
-
-
-    -- reset quest log and tooltips
-    QuestiePlayer.currentQuestlog = {}
-    QuestieTooltips.lookupByKey = {}
-    QuestieTooltips.lookupKeyByQuestId = {}
-
-    Questie.db.char.complete = GetQuestsCompleted()
-    QuestieProfessions:Update()
-    QuestieReputation:Update(true)
-
-
-    QuestieMenu:OnLogin()
-    QuestieQuest:AddAllNotes()
 end
 
 function QuestieQuest:SmoothReset()
@@ -683,37 +654,6 @@ function QuestieQuest:AddFinisher(quest)
     end
 end
 
--- this is for forcing specific things on to the map (That aren't quest related)
--- label and customScale can be nil
-function QuestieQuest:ForceToMap(type, id, label, customScale)
-    if _QuestieQuest.objectiveSpawnListCallTable[type] and type ~= "event" then
-        local mapRefs = {}
-        local miniRefs = {}
-        for _, spawnData in pairs(_QuestieQuest.objectiveSpawnListCallTable[type](id)) do
-            spawnData.Type = type
-            spawnData.CustomTooltipData = {
-                Title = label or "Forced Icon",
-                Body = {[spawnData.Name]=spawnData.Name},
-            }
-            if customScale then
-                spawnData.GetIconScale = function()
-                    return customScale
-                end
-                spawnData.IconScale = customScale
-            end
-            for zone, spawns in pairs(spawnData.Spawns) do
-                for _, spawn in pairs(spawns) do
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
-                    if iconMap and iconMini then
-                        mapRefs[#mapRefs+1] =  iconMap
-                        miniRefs[#miniRefs+1] =  iconMini
-                    end
-                end
-            end
-        end
-        return mapRefs, miniRefs
-    end
-end
 
 ---@param quest Quest
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
@@ -1189,30 +1129,6 @@ function _QuestieQuest.ObjectiveUpdate(self, questObjectives)
             self.isUpdated = true
         end
     end
-end
-
---- Quests like "The Nightmare's Corruption" have multiple objectives with the same
---- text for each objective. Therefore these need to be handled separatly (see #2308)
----@return number
-_GetObjectiveIdForSpecialQuest = function(questId, objectiveIndex)
-    if questId == 8735 then
-        if objectiveIndex == 1 then
-            return 21147
-        elseif objectiveIndex == 2 then
-            return 21149
-        elseif objectiveIndex == 3 then
-            return 21148
-        elseif objectiveIndex == 4 then
-            return 21146
-        end
-    elseif questId == 4282 then
-        if objectiveIndex == 1 then
-            return 11464
-        else
-            return 11465
-        end
-    end
-    return 0
 end
 
 --https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
