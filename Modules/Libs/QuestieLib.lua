@@ -367,20 +367,6 @@ function QuestieLib:GetAddonVersionString()
     return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. hash .. buildType
 end
 
--- Search for just Addon\\ at the front since the interface part often gets trimmed
--- Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0
-do
-    local path = string.match(debugstack(1, 1, 0),
-                              "AddOns\\(.+)Modules\\Libs\\QuestieLib.lua")
-    if path then
-        QuestieLib.AddonPath = "Interface\\AddOns\\" .. path
-    else
-        local major, minor, patch, commit = QuestieLib:GetAddonVersionInfo()
-        error("v" .. major .. "." .. minor .. "." .. patch .. "_" .. commit ..
-                  " cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
-    end
-end
-
 function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
     local count = 0
     for _, _ in pairs(table) do count = count + 1 end
