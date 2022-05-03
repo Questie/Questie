@@ -654,37 +654,6 @@ function QuestieQuest:AddFinisher(quest)
     end
 end
 
--- this is for forcing specific things on to the map (That aren't quest related)
--- label and customScale can be nil
-function QuestieQuest:ForceToMap(type, id, label, customScale)
-    if _QuestieQuest.objectiveSpawnListCallTable[type] and type ~= "event" then
-        local mapRefs = {}
-        local miniRefs = {}
-        for _, spawnData in pairs(_QuestieQuest.objectiveSpawnListCallTable[type](id)) do
-            spawnData.Type = type
-            spawnData.CustomTooltipData = {
-                Title = label or "Forced Icon",
-                Body = {[spawnData.Name]=spawnData.Name},
-            }
-            if customScale then
-                spawnData.GetIconScale = function()
-                    return customScale
-                end
-                spawnData.IconScale = customScale
-            end
-            for zone, spawns in pairs(spawnData.Spawns) do
-                for _, spawn in pairs(spawns) do
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(spawnData, zone, spawn[1], spawn[2])
-                    if iconMap and iconMini then
-                        mapRefs[#mapRefs+1] =  iconMap
-                        miniRefs[#miniRefs+1] =  iconMini
-                    end
-                end
-            end
-        end
-        return mapRefs, miniRefs
-    end
-end
 
 ---@param quest Quest
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
