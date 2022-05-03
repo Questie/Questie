@@ -2097,7 +2097,7 @@ end
 _OnClick = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
     if _QuestieTracker.isMoving == true then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick]", "Tracker is being dragged. Don't show the menu")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick] Tracker is being dragged. Don't show the menu")
         return
     end
 

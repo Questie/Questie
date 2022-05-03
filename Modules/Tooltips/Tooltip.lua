@@ -94,7 +94,7 @@ end
 
 ---@param key string
 function QuestieTooltips:GetTooltip(key)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTooltips:GetTooltip]", key)
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips:GetTooltip]", key)
     if key == nil then
         return nil
     end

@@ -95,7 +95,7 @@ local function OnQuestLogUpdate()
     end
 
     if not isQuestLogGood then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest: "..goodQuestsCount.."/"..numQuests )
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest:", goodQuestsCount.."/"..numQuests )
         return
     end
 
@@ -108,7 +108,7 @@ local function OnQuestLogUpdate()
 
     DestroyEventFrame()
 
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest: "..goodQuestsCount.."/"..numQuests )
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest:", goodQuestsCount.."/"..numQuests )
 
     isCacheGood = true
 
