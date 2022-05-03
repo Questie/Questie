@@ -292,7 +292,7 @@ function QuestieLib:CacheItemNames(questId)
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
                     Questie:Debug(Questie.DEBUG_DEVELOP,
-                                  "Requesting item information for missing itemId:",
+                                  "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:",
                                   objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
                     item:ContinueOnItemLoad(
@@ -304,7 +304,7 @@ function QuestieLib:CacheItemNames(questId)
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
                             Questie:Debug(Questie.DEBUG_DEVELOP,
-                                          "Created item information for item:",
+                                          "[QuestieLib:CacheItemNames] Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
                         end)
                 end

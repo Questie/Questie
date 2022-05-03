@@ -242,13 +242,13 @@ function _EventHandler:GroupJoined()
         local isInRaid = UnitInRaid("raid1")
         if partyPending then
             if (isInParty or isInRaid) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler]", "Player joined party/raid, ask for questlogs")
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler] Player joined party/raid, ask for questlogs")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler]", "Player no longer in a party or pending invite. Cancel timer")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler] Player no longer in a party or pending invite. Cancel timer")
             checkTimer:Cancel()
         end
     end)
