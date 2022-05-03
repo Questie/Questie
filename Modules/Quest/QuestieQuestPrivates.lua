@@ -4,8 +4,6 @@ local _QuestieQuest = QuestieQuest.private
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
