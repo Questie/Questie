@@ -324,10 +324,6 @@ function QuestieLib:Maxdist(x, y, i, e)
     return math_max(math_abs(x - i), math_abs(y - e))
 end
 
-function QuestieLib:Remap(value, low1, high1, low2, high2)
-    return low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-end
-
 function QuestieLib:GetTableSize(table)
     local count = 0
     if table then
