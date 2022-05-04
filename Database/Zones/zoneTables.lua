@@ -142,6 +142,7 @@ local dungeons = {
     [3848] = {"The Arcatraz",nil,3523},
     [3849] = {"The Mechanar",nil,3523},
     [3959] = {"Black Temple",nil,3520},
+    [4131] = {"Magisters' Terrace",nil,4080},
 }
 
 function ZoneDB:GetDungeons()
@@ -201,6 +202,7 @@ local dungeonLocations = {
     [3848] = {{3523, 74.4, 57.7}},
     [3849] = {{3523, 70.6, 69.7}},
     [3959] = {{3520, 71.1, 46.3}},
+    [4131] = {{4080, 61.4, 31.0}},
     [7307] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
 }
 
@@ -369,5 +371,6 @@ ZoneDB.zoneIDs = {
     BLACK_TEMPLE = 3959,
     SUNWELL_PLATEAU = 4075,
     ISLE_OF_QUEL_DANAS = 4080,
+    MAGISTERS_TERRACE = 4131,
     UPPER_BLACKROCK_SPIRE = 7307,
 }
