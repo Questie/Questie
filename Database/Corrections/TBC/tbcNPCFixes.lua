@@ -93,6 +93,10 @@ function QuestieTBCNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.BURNING_STEPPES,
         },
+        [17767] = {
+            [npcKeys.spawns] = {[zoneIDs.HYJAL_SUMMIT] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HYJAL_SUMMIT,
+        },
         [17830] = {
             [npcKeys.spawns] = {[zoneIDs.RAGEFIRE_CHASM] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.RAGEFIRE_CHASM,
