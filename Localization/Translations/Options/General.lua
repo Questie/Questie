@@ -592,7 +592,7 @@ local generalOptionsLocales = {
     },
     ["Both"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "И в группе, и в рейде",
+        ["ruRU"] = "Оба",
         ["deDE"] = "Beide",
         ["koKR"] = false,
         ["esMX"] = "Ambos",
@@ -604,7 +604,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates:"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Оповещать о:",
+        ["ruRU"] = "Типы оповещений:",
         ["deDE"] = "Quest Updates mitteilen:",
         ["koKR"] = false,
         ["esMX"] = false,
