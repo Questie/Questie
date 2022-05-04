@@ -1,7 +1,7 @@
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-local currentPhase = 1 -- TODO: Use API function which hopefully will come in the future
+local currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
 
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoMPhase = {
@@ -160,8 +160,6 @@ local questsToBlacklistBySoMPhase = {
         [8323] = true,
         [8324] = true,
         [8275] = true,
-        [8276] = true,
-        [8304] = true,
         [8309] = true,
         [8310] = true,
         [8315] = true,
@@ -173,24 +171,26 @@ local questsToBlacklistBySoMPhase = {
         [8332] = true,
         [8333] = true,
         [8306] = true,
-        [8320] = true,
         [8321] = true,
-        [8361] = true,
         [8362] = true,
         [8364] = true,
         [9248] = true,
-        [8280] = true,
         [8281] = true,
-        [8277] = true,
-        [8283] = true,
-        [8284] = true,
         [8285] = true,
         [8279] = true,
         [8287] = true,
-        [8318] = true,
         [8314] = true,
     },
     [5] = { -- Phase 5 - AQ
+        [8277] = true,
+        [8280] = true,
+        [8283] = true,
+        [8284] = true,
+        [8304] = true,
+        [8318] = true,
+        [8320] = true,
+        [8361] = true,
+        [8276] = true,
         [8747] = true,
         [8748] = true,
         [8749] = true,
@@ -472,6 +472,8 @@ local questsToBlacklistBySoMPhase = {
         [9118] = true,
         [9120] = true,
         [9121] = true,
+        [9122] = true,
+        [9123] = true,
         [9124] = true,
         [9125] = true,
         [9126] = true,

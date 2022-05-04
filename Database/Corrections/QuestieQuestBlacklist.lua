@@ -294,6 +294,19 @@ function QuestieQuestBlacklist:Load()
         [10941] = true,
         [10942] = true,
         [10943] = true,
+        [10945] = true,
+        [10950] = true,
+        [10951] = true,
+        [10952] = true,
+        [10953] = true,
+        [10954] = true,
+        [10956] = true,
+        [10960] = true,
+        [10962] = true,
+        [10963] = true,
+        [10966] = true,
+        [10967] = true,
+        [10968] = true,
         [11117] = true,
         [11118] = true,
         [11120] = true,
@@ -469,6 +482,7 @@ function QuestieQuestBlacklist:Load()
         [11954] = true,
         [11955] = true,
         [11972] = true,
+        [11975] = true,
         [11964] = true,
         [11966] = true,
         [11970] = true,
@@ -985,12 +999,8 @@ function QuestieQuestBlacklist:Load()
         [8439] = QuestieCorrections.TBC_ONLY,
 
         -- Phase 4 Zul'Aman
-        [11130] = true,
-        [11132] = true,
-        [11163] = true,
-        [11164] = true,
-        [11178] = true,
-        [11196] = true,
+        [11195] = true, -- Not in the game
+        [11196] = true, -- Not in the game
 
         -- Phase 5 Sunwell and Isle of Quel'Danas
         [11481] = true,

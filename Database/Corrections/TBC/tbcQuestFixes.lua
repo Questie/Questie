@@ -32,6 +32,12 @@ function QuestieTBCQuestFixes:Load()
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
         },
+        [171] = {
+            [questKeys.questLevel] = -1,
+        },
+        [172] = {
+            [questKeys.questLevel] = -1,
+        },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.73,10.82}}}},
         },
@@ -50,6 +56,9 @@ function QuestieTBCQuestFixes:Load()
         [503] = {
             [questKeys.triggerEnd] = {"Find where Gol'dir is being held", {[zoneIDs.ALTERAC_VALLEY]={{60.58,43.86}}}},
         },
+        [558] = {
+            [questKeys.questLevel] = -1,
+        },
         [578] = {
             [questKeys.triggerEnd] = {"Locate the haunted island", {[zoneIDs.STRANGLETHORN_VALE]={{21.56,21.98}}}},
         },
@@ -64,6 +73,18 @@ function QuestieTBCQuestFixes:Load()
         },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
+        },
+        [910] = {
+            [questKeys.questLevel] = -1,
+        },
+        [911] = {
+            [questKeys.questLevel] = -1,
+        },
+        [915] = {
+            [questKeys.questLevel] = -1,
+        },
+        [925] = {
+            [questKeys.questLevel] = -1,
         },
         [927] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -90,6 +111,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [1135] = {
             [questKeys.startedBy] = {{4456},nil,nil},
+            [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
         },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
@@ -97,11 +119,41 @@ function QuestieTBCQuestFixes:Load()
         [1448] = {
             [questKeys.triggerEnd] = {"Search for the Temple of Atal'Hakkar", {[zoneIDs.SWAMP_OF_SORROWS]={{64.67,48.82},{64.36,56.12},{64.09,51.95},{69.6,44.18},{73.97,46.36}}}},
         },
+        [1468] = {
+            [questKeys.questLevel] = -1,
+        },
+        [1479] = {
+            [questKeys.questLevel] = -1,
+        },
+        [1486] = {
+            [questKeys.requiredRaces] = raceIDs.ALL,
+        },
+        [1508] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [1558] = {
+            [questKeys.questLevel] = -1,
+        },
+        [1687] = {
+            [questKeys.questLevel] = -1,
+        },
         [1699] = {
             [questKeys.triggerEnd] = {"Enter the Rethban Caverns", {[zoneIDs.REDRIDGE_MOUNTAINS]={{19.22,25.25}}}},
         },
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
+        },
+        [1800] = {
+            [questKeys.questLevel] = -1,
+        },
+        [1801] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
+        [1803] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
+        [1805] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
@@ -118,6 +170,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42}}}},
+        },
+        [2996] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
+        [3001] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [3117] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
@@ -137,11 +195,17 @@ function QuestieTBCQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [4822] = {
+            [questKeys.questLevel] = -1,
+        },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44}}}},
         },
         [5168] = {
             [questKeys.preQuestSingle] = {5210},
+        },
+        [5502] = {
+            [questKeys.questLevel] = -1,
         },
         [5649] = {
             [questKeys.requiredLevel] = 5,
@@ -359,6 +423,189 @@ function QuestieTBCQuestFixes:Load()
         },
         [8484] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [8619] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8635] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8636] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8642] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8643] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8644] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8645] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8646] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8647] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8648] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8649] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8650] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8651] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8652] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8653] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8654] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8670] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8671] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8672] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8673] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8674] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8675] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8676] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8677] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8678] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8679] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8680] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8681] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8682] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8683] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8684] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8685] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8686] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8688] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8713] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8714] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8715] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8716] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8717] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8718] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8719] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8720] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8721] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8722] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8723] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8724] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8725] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8726] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8727] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8862] = {
+            [questKeys.requiredLevel] = 10,
+        },
+        [8863] = {
+            [questKeys.requiredLevel] = 1,
+        },
+        [8866] = {
+            [questKeys.questLevel] = -1,
+        },
+        [8867] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8870] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8871] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8872] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8873] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8874] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8875] = {
+            [questKeys.questLevel] = 70,
+        },
+        [8876] = {
+            [questKeys.requiredLevel] = 25,
+        },
+        [8883] = {
+            [questKeys.questLevel] = 70,
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
@@ -804,6 +1051,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9933] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {9931,9932},
         },
         [9934] = {
@@ -890,6 +1138,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [10019] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,10017},
             [questKeys.requiredMaxRep]= {932,0},
         },
@@ -898,6 +1147,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [10025] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10211,10024},
             [questKeys.requiredMaxRep]= {934,0},
         },
@@ -1357,6 +1607,9 @@ function QuestieTBCQuestFixes:Load()
         [10594] = {
             [questKeys.triggerEnd] = {"Singing crystal resonant frequency gauged", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{59.77,73.83}}}},
         },
+        [10605] = {
+            [questKeys.exclusiveTo] = {1472,1507},
+        },
         [10606] = {
             [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil}},nil},
         },
@@ -1597,7 +1850,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Attack thwarted", {[zoneIDs.SHATTRATH_CITY]={{51.62,20.69}}}},
         },
         [10886] = {
-            [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.NETHERSTORM]={{74.5,57.67}}}},
+            [questKeys.triggerEnd] = {"Millhouse Manastorm Rescued", {[zoneIDs.THE_ARCATRAZ]={{-1,-1}}}},
         },
         [10887] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.2,51.8}}}, ICON_TYPE_EVENT, "Help Akuno find his way to the Refugee Caravan in Terokkar Forest."}},
@@ -1653,38 +1906,78 @@ function QuestieTBCQuestFixes:Load()
         [10930] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Decrepit Clefthoofs and use the Fumper on their corpses", 0, {{"monster", 22105}}}},
         },
+        [10942] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10943] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
         [10945] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to Sporeggar", {[zoneIDs.ZANGARMARSH]={{19.22,51.23}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10946] = {
             [questKeys.triggerEnd] = {"Ruse of the Ashtongue", {[zoneIDs.NETHERSTORM]={{73.88,63.76}}}},
         },
         [10950] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Ring of Observance", {[zoneIDs.TEROKKAR_FOREST]={{39.71,64.6}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10951] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.33,50.19}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10952] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Dark Portal", {[zoneIDs.HELLFIRE_PENINSULA]={{88.26,50.32}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10953] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Throne of the Elements", {[zoneIDs.NAGRAND]={{60.5,22.7}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10954] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to Aeris Landing", {[zoneIDs.NAGRAND]={{31.47,57.45}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10956] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Seat of the Naaru", {[zoneIDs.THE_EXODAR]={{56.65,40.73}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10960] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10962] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.52,57.74}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10963] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.53,57.72}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10966] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [10967] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10968] = {
+            [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Dornaa taken to Farseer Nobundo", {[zoneIDs.THE_EXODAR]={{30.8,29.88}}}},
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10974] = {
             [questKeys.requiredMinRep] = {933,21000},
@@ -1983,6 +2276,9 @@ function QuestieTBCQuestFixes:Load()
         [11162] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Plant the Stonemaul Banner", 0, {{"object", 186336}}}},
         },
+        [11164] = {
+            [questKeys.preQuestSingle] = {11132},
+        },
         [11169] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345},4344,"Totem Tests Performed"}},
         },
@@ -1995,6 +2291,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
+        },
+        [11178] = {
+            [questKeys.startedBy] = {{23863},nil,{33102,},},
         },
         [11180] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Information Gathered", 0, {{"monster", 23554},{"monster", 23555}}}},
@@ -2750,6 +3049,10 @@ function QuestieTBCQuestFixes:Load()
         [11972] = {
             [questKeys.startedBy] = {nil,{187892},{35723,},},
             [questKeys.finishedBy] = {{25697},nil},
+        },
+        [11975] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12012] = {
             [questKeys.startedBy] = {{25324},nil,nil},
@@ -3938,104 +4241,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {64053},
             [questKeys.exclusiveTo] = {64063,64064,64128},
             [questKeys.zoneOrSort] = sortKeys.REPUTATION,
-        },
-        ----- Warlock Incubus quest chain -----
-        [65593] = {
-            [questKeys.name] = "Hearts of the Lovers",
-            [questKeys.startedBy] = {{5693},nil,nil},
-            [questKeys.finishedBy] = {{5675},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
-            [questKeys.objectives] = {nil,nil,{{190179,190180}},nil,nil},
-            [questKeys.exclusiveTo] = {65610},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
-        [65597] = {
-            [questKeys.name] = "The Binding",
-            [questKeys.startedBy] = {{5675},nil,nil},
-            [questKeys.finishedBy] = {{5675},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Using the Lovers' Hearts, summon and subdue an incubus, then return the Lovers' Hearts to Carendin Halgar in the Magic Quarter of the Undercity."},
-            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {65593},
-            [questKeys.requiredSourceItems] = {190181},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, "Use the Lovers' Hearts to summon an Incubus and slay it.",}},
-        },
-        [65601] = {
-            [questKeys.name] = "Love Hurts",
-            [questKeys.startedBy] = {{5909},nil,nil},
-            [questKeys.finishedBy] = {{3363},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Speak with Magar in Orgrimmar."},
-            [questKeys.exclusiveTo] = {65593,65610},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
-        [65602] = {
-            [questKeys.name] = "What Is Love?",
-            [questKeys.startedBy] = {{6244},nil,nil},
-            [questKeys.finishedBy] = {{6122},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
-            [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, "Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire.",}},
-        },
-        [65603] = {
-            [questKeys.name] = "The Binding",
-            [questKeys.startedBy] = {{6122},nil,nil},
-            [questKeys.finishedBy] = {{6122},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Using the Wooden Figurine, summon and subdue an incubus, then return the Wooden Figurine to Gakin the Darkbinder in the Slaughtered Lamb."},
-            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {65602},
-            [questKeys.requiredSourceItems] = {190186},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
-        },
-        [65604] = {
-            [questKeys.name] = "The Binding",
-            [questKeys.startedBy] = {{5875},nil,nil},
-            [questKeys.finishedBy] = {{5875},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Using the Withered Scarf, summon and subdue an incubus, then return the Withered Scarf to Gan'rul Bloodeye in Orgrimmar."},
-            [questKeys.objectives] = {{{185335}},nil,nil,nil,nil},
-            [questKeys.preQuestSingle] = {65610},
-            [questKeys.requiredSourceItems] = {190232},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
-        },
-        [65610] = {
-            [questKeys.name] = "Wish You Were Here",
-            [questKeys.startedBy] = {{3363},nil,nil},
-            [questKeys.finishedBy] = {{5875},nil},
-            [questKeys.requiredLevel] = 20,
-            [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = classIDs.WARLOCK,
-            [questKeys.objectivesText] = {"Investigate Fallen Sky Lake in Ashenvale and report your findings to Gan'rul Bloodeye in Orgrimmar."},
-            [questKeys.objectives] = {nil,nil,{{190232}},nil,nil},
-            [questKeys.exclusiveTo] = {65593},
-            [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-        },
+        }
     }
 end
 
@@ -4159,12 +4365,4 @@ function _QuestieTBCQuestFixes:InsertMissingQuestIds()
     QuestieDB.questData[12407] = {} -- Candy Bucket
     QuestieDB.questData[12408] = {} -- Candy Bucket
     QuestieDB.questData[12409] = {} -- Candy Bucket
-
-    QuestieDB.questData[65593] = {} -- Hearts of the Lovers
-    QuestieDB.questData[65597] = {} -- The Binding
-    QuestieDB.questData[65601] = {} -- Love Hurts
-    QuestieDB.questData[65602] = {} -- What Is Love?
-    QuestieDB.questData[65603] = {} -- The Binding
-    QuestieDB.questData[65604] = {} -- The Binding
-    QuestieDB.questData[65610] = {} -- Wish You Were Here
 end

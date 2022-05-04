@@ -205,6 +205,10 @@ function QuestieTBCNpcFixes:Load()
         [17241] = {
             [npcKeys.waypoints] = {},
         },
+        [17301] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
+        },
         [17311] = {
             [npcKeys.spawns] = {
                 [zoneIDs.BLOODMYST_ISLE]={{54.08,55.1}},
@@ -333,6 +337,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [19305] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA] = {{13.64,39.12}}},
+        },
+        [19412] = {
+            [npcKeys.spawns] = {[zoneIDs.AUCHENAI_CRYPTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.AUCHENAI_CRYPTS,
         },
         [19456] = {
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{37.8,86.2}}},
@@ -657,25 +665,6 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5}}},
             [npcKeys.friendlyToFaction] = "H",
-        },
-        [185333] = {
-            [npcKeys.name] = "Avelina Lilly",
-            [npcKeys.minLevel] = 22,
-            [npcKeys.maxLevel] = 22,
-            [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
-            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{63.5,65.3}}},
-        },
-        [185334] = {
-            [npcKeys.name] = "Isaac Pearson",
-            [npcKeys.minLevel] = 22,
-            [npcKeys.maxLevel] = 22,
-            [npcKeys.zoneID] = zoneIDs.THE_BARRENS,
-            [npcKeys.spawns] = {[zoneIDs.THE_BARRENS] = {{61.8,38.5}}},
-        },
-        [185335] = {
-            [npcKeys.name] = "Summoned Incubus",
-            [npcKeys.minLevel] = 20,
-            [npcKeys.maxLevel] = 20,
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the

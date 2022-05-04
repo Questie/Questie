@@ -42,7 +42,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick]", "No tree path given in Journey.")
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
         -- if they clicked on a header, don't do anything

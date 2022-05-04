@@ -14,6 +14,7 @@ local math_abs = math.abs
 local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
+local stringSub = string.sub
 
 --[[
     Red: 5+ level above player
@@ -101,70 +102,6 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----@param questId number @The quest ID
----@return boolean
-function QuestieLib:IsResponseCorrect(questId)
-    local count = 0
-    local objectiveList
-    local good = true
-    while (count < 1) do
-        good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if (not objectiveList) then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if objective.type and string.len(objective.type) > 0 then
-                    local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
-                    if (objective.text == nil or objective.text == "" or distance < 5) then
-                        Questie:Debug(Questie.DEBUG_SPAM, count,
-                                " : Objective text is strange!", "'",
-                                objective.text, "'", " distance",
-                                distance)
-                        good = false
-                        break
-                    end
-                end
-            end
-        end
-        if (good) then
-            break
-        end
-        count = count + 1
-    end
-    return good
-end
-
----@param questId number @The quest ID
----@return table
-function QuestieLib:GetQuestObjectives(questId)
-    local count = 0
-    local objectiveList
-    while (count < 1) do
-        local good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if not objectiveList then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if (objective.text == nil or objective.text == "" or
-                    QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(Questie.DEBUG_SPAM, count,
-                                  " : Objective text is strange!", "'",
-                                  objective.text, "'", " distance",
-                                  QuestieLib:Levenshtein(": 0/1", objective.text))
-                    good = false
-                    break
-                end
-            end
-        end
-        count = count + 1
-        if good then break end
-    end
-    --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
-    return objectiveList
-end
-
 ---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
@@ -216,7 +153,7 @@ function QuestieLib:GetQuestString(questId, name, level, blizzLike)
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
-            char = string.sub(questTag, 1, 1)
+            char = stringSub(questTag, 1, 1)
         end
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
@@ -250,7 +187,7 @@ end
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId number
----@return table<number, number> questLevel and requiredLevel
+---@return number, number @questLevel & requiredLevel
 function QuestieLib:GetTbcLevel(questId)
     local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
     if (questLevel == -1) then
@@ -275,7 +212,7 @@ function QuestieLib:GetLevelString(questId, _, level, blizzLike)
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
-            char = string.sub(questTag, 1, 1)
+            char = stringSub(questTag, 1, 1)
         end
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
@@ -348,35 +285,6 @@ function QuestieLib:GetRaceString(raceMask)
     end
 end
 
-function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
-    -- Optional var
-    if (not includeSubroutine) then includeSubroutine = true end
-    local now, count = GetFunctionCPUUsage(functionReference, includeSubroutine)
-    -- Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
-    return now, count
-end
-
--- To try and create a fix for errors regarding items that do not exist in our DB,
--- this function tries to prefetch all the items on startup and accept.
-function QuestieLib:CacheAllItemNames()
-    --[[
-        1 name
-        2 for quest
-        3 dropped by
-        [4103]={"Shackle Key",{630},{1559},{}},
-    ]]
-    local numEntries, _ = GetNumQuestLogEntries()
-    for index = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
-                Questie._sessionWarnings[questId] = true
-            end
-        elseif (not isHeader) then QuestieLib:CacheItemNames(questId) end
-    end
-end
-
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB:GetQuest(questId)
     if (quest and quest.ObjectiveData) then
@@ -384,7 +292,7 @@ function QuestieLib:CacheItemNames(questId)
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
                     Questie:Debug(Questie.DEBUG_DEVELOP,
-                                  "Requesting item information for missing itemId:",
+                                  "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:",
                                   objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
                     item:ContinueOnItemLoad(
@@ -396,7 +304,7 @@ function QuestieLib:CacheItemNames(questId)
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
                             Questie:Debug(Questie.DEBUG_DEVELOP,
-                                          "Created item information for item:",
+                                          "[QuestieLib:CacheItemNames] Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
                         end)
                 end
@@ -414,20 +322,6 @@ end
 
 function QuestieLib:Maxdist(x, y, i, e)
     return math_max(math_abs(x - i), math_abs(y - e))
-end
-
-function QuestieLib:Remap(value, low1, high1, low2, high2)
-    return low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-end
-
-function QuestieLib:GetTableSize(table)
-    local count = 0
-    if table then
-        for _,_ in pairs(table) do
-            count = count +1
-        end
-    end
-    return count
 end
 
 local cachedTitle
@@ -473,20 +367,6 @@ function QuestieLib:GetAddonVersionString()
     return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. hash .. buildType
 end
 
--- Search for just Addon\\ at the front since the interface part often gets trimmed
--- Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0
-do
-    local path = string.match(debugstack(1, 1, 0),
-                              "AddOns\\(.+)Modules\\Libs\\QuestieLib.lua")
-    if path then
-        QuestieLib.AddonPath = "Interface\\AddOns\\" .. path
-    else
-        local major, minor, patch, commit = QuestieLib:GetAddonVersionInfo()
-        error("v" .. major .. "." .. minor .. "." .. patch .. "_" .. commit ..
-                  " cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
-    end
-end
-
 function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
     local count = 0
     for _, _ in pairs(table) do count = count + 1 end
@@ -516,21 +396,6 @@ function QuestieLib:SanitizePattern(pattern)
     return sanitize_cache[pattern]
 end
 
-function QuestieLib:SortQuestsByLevel(quests)
-    local sortedQuestsByLevel = {}
-
-    local function compareTablesByIndex(a, b)
-        return a[1] < b[1]
-    end
-
-    for _, q in pairs(quests) do
-        tinsert(sortedQuestsByLevel, {q.questLevel, q})
-    end
-    table.sort(sortedQuestsByLevel, compareTablesByIndex)
-
-    return sortedQuestsByLevel
-end
-
 function QuestieLib:SortQuestIDsByLevel(quests)
     local sortedQuestsByLevel = {}
 
@@ -545,46 +410,6 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 
     return sortedQuestsByLevel
-end
-
----------------------------------------------------------------------------------------------------
--- Returns the Levenshtein distance between the two given strings
--- credit to https://gist.github.com/Badgerati/3261142
-function QuestieLib:Levenshtein(str1, str2)
-    local len1 = string.len(str1)
-    local len2 = string.len(str2)
-    local matrix = {}
-    local cost
-    -- quick cut-offs to save time
-    if (len1 == 0) then
-        return len2
-    elseif (len2 == 0) then
-        return len1
-    elseif (str1 == str2) then
-        return 0
-    end
-    -- initialise the base matrix values
-    for i = 0, len1, 1 do
-        matrix[i] = {}
-        matrix[i][0] = i
-    end
-    for j = 0, len2, 1 do
-        matrix[0][j] = j
-    end
-    -- actual Levenshtein algorithm
-    for i = 1, len1, 1 do
-        for j = 1, len2, 1 do
-            if (string.byte(str1, i) == string.byte(str2, j)) then
-                cost = 0
-            else
-                cost = 1
-            end
-            matrix[i][j] = math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1,
-                                    matrix[i - 1][j - 1] + cost)
-        end
-    end
-    -- return the last value - this is the Levenshtein distance
-    return matrix[len1][len2]
 end
 
 local randomSeed = 0
