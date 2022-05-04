@@ -568,7 +568,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates via chat"] = {
         ["ptBR"] = "Anúncio de missão",
-        ["ruRU"] = "Сообщить о задании",
+        ["ruRU"] = "Оповещения о заданиях в чате",
         ["frFR"] = "Annonce de quête",
         ["koKR"] = "퀘스트 알림",
         ["enUS"] = true,
@@ -580,7 +580,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates to other players in your group or raid"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Включает оповещения об обновлениях заданий в чатах группы или рейда",
         ["frFR"] = false,
         ["koKR"] = false,
         ["enUS"] = true,
@@ -592,7 +592,7 @@ local generalOptionsLocales = {
     },
     ["Both"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "И в группе, и в рейде",
         ["deDE"] = "Beide",
         ["koKR"] = false,
         ["esMX"] = "Ambos",
@@ -604,7 +604,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates:"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оповещать о:,
         ["deDE"] = "Quest Updates mitteilen:",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -616,7 +616,7 @@ local generalOptionsLocales = {
     },
     ["Quest accepted"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задание принято",
         ["deDE"] = "Quest angenommen",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -628,7 +628,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest acceptance to other players"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оповещение о принятии задания",
         ["deDE"] = "Teilt die Annahme von Quests anderen Spielern mit.",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -640,7 +640,7 @@ local generalOptionsLocales = {
     },
     ["Quest abandoned"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задание отменено",
         ["deDE"] = "Quest abgebrochen",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -652,7 +652,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest abortion to other players"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оповещение об отмене задания",
         ["deDE"] = "Teilt den Abbruch von Quests anderen Spielern mit.",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -664,7 +664,7 @@ local generalOptionsLocales = {
     },
     ["Objective completed"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Цель достигнута",
         ["deDE"] = "Questziel erfüllt",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -676,7 +676,7 @@ local generalOptionsLocales = {
     },
     ["Announce completed objectives to other players"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оповещение о достижении целей задания",
         ["deDE"] = "Teilt die Erfüllung von Questzielen anderen Spielern mit.",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -688,7 +688,7 @@ local generalOptionsLocales = {
     },
     ["Quest completed"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задание выполнено",
         ["deDE"] = "Quest abgeschlossen",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -700,7 +700,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest completion to other players"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оповещение о выполнении задания",
         ["deDE"] = "Teilt den Abschluß von Quests anderen Spielern mit.",
         ["koKR"] = false,
         ["esMX"] = false,
