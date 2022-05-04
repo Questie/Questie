@@ -568,7 +568,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates via chat"] = {
         ["ptBR"] = "Anúncio de missão",
-        ["ruRU"] = "Оповещения о заданиях в чате",
+        ["ruRU"] = "Оповещения о заданиях",
         ["frFR"] = "Annonce de quête",
         ["koKR"] = "퀘스트 알림",
         ["enUS"] = true,
