@@ -82,6 +82,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [915] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {910,911,1800},
         },
         [925] = {
             [questKeys.questLevel] = -1,
@@ -1949,6 +1950,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10956] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Seat of the Naaru", {[zoneIDs.THE_EXODAR]={{56.65,40.73}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
@@ -1958,12 +1960,14 @@ function QuestieTBCQuestFixes:Load()
         },
         [10962] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.52,57.74}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10963] = {
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.53,57.72}}}},
+            [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10966] = {
@@ -3052,6 +3056,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11975] = {
             [questKeys.questLevel] = -1,
+            [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.SILVERMOON_CITY]={{76.6,81.2}}}},
+            [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12012] = {
