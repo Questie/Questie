@@ -650,8 +650,16 @@ function QuestieQuestBlacklist:Load()
         [8156] = true,
         [8297] = true,
         -- Alterac Valley
+        [6861] = QuestieCorrections.CLASSIC_ONLY,
+        [6862] = QuestieCorrections.CLASSIC_ONLY,
+        [6864] = QuestieCorrections.CLASSIC_ONLY,
+        [6901] = QuestieCorrections.CLASSIC_ONLY,
         [7221] = true,
         [7222] = true,
+        [7281] = QuestieCorrections.CLASSIC_ONLY,
+        [7282] = QuestieCorrections.CLASSIC_ONLY,
+        [7301] = QuestieCorrections.CLASSIC_ONLY,
+        [7302] = QuestieCorrections.CLASSIC_ONLY,
         [7367] = true,
         [7368] = true,
         -- Master Ryson's All Seeing Eye
@@ -1170,5 +1178,6 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [8795] = true,
     [8796] = true,
     [8797] = true,
+    [10500] = true,
     [10501] = true,
 }
