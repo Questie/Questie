@@ -604,7 +604,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates:"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Оповещать о:,
+        ["ruRU"] = "Оповещать о:",
         ["deDE"] = "Quest Updates mitteilen:",
         ["koKR"] = false,
         ["esMX"] = false,
