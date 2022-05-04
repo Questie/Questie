@@ -198,6 +198,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [4822] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {1479,1558,1687},
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44}}}},
