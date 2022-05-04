@@ -1020,6 +1020,9 @@ function QuestieTBCQuestFixes:Load()
         [9889] = {
             [questKeys.triggerEnd] = {"Unkor Submits", {[zoneIDs.TEROKKAR_FOREST]={{20.02,63.05}}}},
         },
+        [9898] = {
+            [questKeys.name] = "The Respect of Another",
+        },
         [9902] = {
             [questKeys.requiredMinRep] = {978,0},
         },
