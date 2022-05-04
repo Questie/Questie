@@ -364,7 +364,7 @@ local genericsLocales = {
     },
     ["Group"] = {
         ["ptBR"] = "Grupo",
-        ["ruRU"] = "Группе",
+        ["ruRU"] = "Группа",
         ["deDE"] = "Gruppe",
         ["koKR"] = false,
         ["esMX"] = "Grupo",
@@ -376,7 +376,7 @@ local genericsLocales = {
     },
     ["Raid"] = {
         ["ptBR"] = "Raide",
-        ["ruRU"] = "Рейду",
+        ["ruRU"] = "Рейд",
         ["deDE"] = "Schlachtzug",
         ["koKR"] = false,
         ["esMX"] = "Banda",
