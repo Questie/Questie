@@ -144,6 +144,9 @@ function QuestieTBCQuestFixes:Load()
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
         },
+        [1799] = {
+            [questKeys.preQuestSingle] = {4967,4969},
+        },
         [1800] = {
             [questKeys.questLevel] = -1,
         },
