@@ -72,7 +72,7 @@ local debugMessagesLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Frimer avec le nombre de quêtes réalisées jusqu’à présent",
     },
     ["has completed a total of %d quests"] = {
         ["ptBR"] = false,
