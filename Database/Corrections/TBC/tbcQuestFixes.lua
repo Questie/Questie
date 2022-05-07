@@ -187,6 +187,11 @@ function QuestieTBCQuestFixes:Load()
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21}}}},
         },
+        [3631] = {
+            [questKeys.startedBy] = {{3326}},
+            [questKeys.finishedBy] = {{6251}},
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, ICON_TYPE_EVENT, "Defeat Centaur to summon Warlord Krom'zar", 0}}
         },
@@ -196,7 +201,22 @@ function QuestieTBCQuestFixes:Load()
         [4486] = {
             [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
         },
-        [4740] = {
+        [4487] = {
+            [questKeys.startedBy] = {{5172}},
+            [questKeys.finishedBy] = {{6251}},
+        },
+        [4488] = {
+            [questKeys.startedBy] = {{461}},
+            [questKeys.finishedBy] = {{6251}},
+        },
+        [4489] = {
+            [questKeys.startedBy] = {{4563}},
+            [questKeys.finishedBy] = {{6251}},
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
+        [4490] = {
+            [questKeys.startedBy] = {{6251}},
+            [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4822] = {
