@@ -421,6 +421,9 @@ function QuestieMenu:PopulateTownsfolk()
         end
     end
 
+    -- Fix NPC Gubber Blump (10216) can train fishing profession
+    tinsert(professionTrainers[QuestieProfessions.professionKeys.FISHING], 10216)
+
     Questie.db.global.professionTrainers = professionTrainers
 
     if Questie.IsTBC then
