@@ -62,7 +62,7 @@ local debugMessagesLocales = {
         ["esES"] = "Muestra el Rastreador. Agrega 'mostrar', 'ocultar y 'restablecer' para mostrar/ocultar y restablecer el Rastreador",
         ["frFR"] = "Active / désactive le traqueur. Ajouter 'afficher', 'masquer', 'réinitialiser' pour afficher / masquer ou réinitialiser explicitement le traqueur",
     },
-    ["Flex with the amount of quests you have competed so far"] = {
+    ["Flex the amount of quests you have completed so far"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Похвастаться количеством выполненных вами заданий",
         ["deDE"] = "Gib mit der Anzahl an Quests an die du bisher abgeschlossen hast",

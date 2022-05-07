@@ -47,7 +47,7 @@ function QuestieSlash:HandleCommands(input)
         print(Questie:Colorize("/questie minimap - " .. l10n("Toggles the Minimap Button for Questie"), "yellow"));
         print(Questie:Colorize("/questie journey - " .. l10n("Toggles the My Journey window"), "yellow"));
         print(Questie:Colorize("/questie tracker [show/hide/reset] - " .. l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
-        print(Questie:Colorize("/questie flex - " .. l10n("Flex with the amount of quests you have competed so far"), "yellow"));
+        print(Questie:Colorize("/questie flex - " .. l10n("Flex  the amount of quests you have completed so far"), "yellow"));
         return;
     end
 
