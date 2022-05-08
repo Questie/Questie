@@ -43,10 +43,11 @@ function QuestieSlash:HandleCommands(input)
         print(Questie:Colorize(l10n("Questie Commands"), "yellow"));
         print(Questie:Colorize("/questie - " .. l10n("Toggles the Config window"), "yellow"));
         print(Questie:Colorize("/questie toggle - " .. l10n("Toggles showing questie on the map and minimap"), "yellow"));
-        print(Questie:Colorize("/questie tomap [<npcId>/<npcName>/reset] -- " .. l10n("Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
+        print(Questie:Colorize("/questie tomap [<npcId>/<npcName>/reset] - " .. l10n("Adds manual notes to the map for a given NPC ID or name. If the name is ambiguous multipe notes might be added. Without a second command the target will be added to the map. The 'reset' command removes all notes"), "yellow"));
         print(Questie:Colorize("/questie minimap - " .. l10n("Toggles the Minimap Button for Questie"), "yellow"));
         print(Questie:Colorize("/questie journey - " .. l10n("Toggles the My Journey window"), "yellow"));
         print(Questie:Colorize("/questie tracker [show/hide/reset] - " .. l10n("Toggles the Tracker. Add 'show', 'hide', 'reset' to explicit show/hide or reset the Tracker"), "yellow"));
+        print(Questie:Colorize("/questie flex - " .. l10n("Flex the amount of quests you have completed so far"), "yellow"));
         return;
     end
 
@@ -128,6 +129,15 @@ function QuestieSlash:HandleCommands(input)
                 return
             end
         end
+    end
+
+    if mainCommand == "flex" then
+        local questCount = 0
+        for _, _ in pairs(Questie.db.char.complete) do
+            questCount = questCount + 1
+        end
+        SendChatMessage(l10n("has completed a total of %d quests", questCount), "EMOTE")
+        return
     end
 
     print(Questie:Colorize("[Questie] ", "yellow") .. l10n("Invalid command. For a list of options please type: ") .. Questie:Colorize("/questie help", "yellow"));

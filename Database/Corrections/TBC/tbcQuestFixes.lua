@@ -82,6 +82,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [915] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {910,911,1800},
         },
         [925] = {
             [questKeys.questLevel] = -1,
@@ -143,6 +144,9 @@ function QuestieTBCQuestFixes:Load()
         [1719] = {
             [questKeys.triggerEnd] = {"Step on the grate to begin the Affray", {[zoneIDs.THE_BARRENS]={{68.61,48.72}}}},
         },
+        [1799] = {
+            [questKeys.preQuestSingle] = {4967,4969},
+        },
         [1800] = {
             [questKeys.questLevel] = -1,
         },
@@ -183,6 +187,11 @@ function QuestieTBCQuestFixes:Load()
         [3505] = {
             [questKeys.triggerEnd] = {"Find Magus Rimtori's camp", {[zoneIDs.AZSHARA]={{59.29,31.21}}}},
         },
+        [3631] = {
+            [questKeys.startedBy] = {{3326}},
+            [questKeys.finishedBy] = {{6251}},
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, ICON_TYPE_EVENT, "Defeat Centaur to summon Warlord Krom'zar", 0}}
         },
@@ -192,11 +201,27 @@ function QuestieTBCQuestFixes:Load()
         [4486] = {
             [questKeys.startedBy] = {}, -- Hiding via startedBy because the quest does not exist in TBC, but does in Era
         },
-        [4740] = {
+        [4487] = {
+            [questKeys.startedBy] = {{5172}},
+            [questKeys.finishedBy] = {{6251}},
+        },
+        [4488] = {
+            [questKeys.startedBy] = {{461}},
+            [questKeys.finishedBy] = {{6251}},
+        },
+        [4489] = {
+            [questKeys.startedBy] = {{4563}},
+            [questKeys.finishedBy] = {{6251}},
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
+        [4490] = {
+            [questKeys.startedBy] = {{6251}},
+            [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [4822] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {1479,1558,1687},
         },
         [4842] = {
             [questKeys.triggerEnd] = {"Discover Darkwhisper Gorge", {[zoneIDs.WINTERSPRING]={{60.1,73.44}}}},
@@ -209,6 +234,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [5649] = {
             [questKeys.requiredLevel] = 5,
+        },
+        [5961] = {
+            [questKeys.requiredLevel] = 54,
         },
         [6025] = {
             [questKeys.triggerEnd] = {"Overlook Hearthglen from a high vantage point", {[zoneIDs.WESTERN_PLAGUELANDS]={{45.7,18.5}}}},
@@ -1017,6 +1045,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [9889] = {
             [questKeys.triggerEnd] = {"Unkor Submits", {[zoneIDs.TEROKKAR_FOREST]={{20.02,63.05}}}},
+        },
+        [9898] = {
+            [questKeys.name] = "The Respect of Another",
         },
         [9902] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -1949,6 +1980,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10956] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Seat of the Naaru", {[zoneIDs.THE_EXODAR]={{56.65,40.73}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
@@ -1958,12 +1990,14 @@ function QuestieTBCQuestFixes:Load()
         },
         [10962] = {
             [questKeys.questLevel] = -1,
+            [questKeys.preQuestGroup] = {10950,10952,10954},
             [questKeys.triggerEnd] = {"Dornaa taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.52,57.74}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10963] = {
             [questKeys.questLevel] = -1,
             [questKeys.triggerEnd] = {"Salandria taken to the Caverns of Time", {[zoneIDs.TANARIS]={{60.53,57.72}}}},
+            [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [10966] = {
@@ -3052,6 +3086,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [11975] = {
             [questKeys.questLevel] = -1,
+            [questKeys.triggerEnd] = {"Salandria taken to the Dark Portal", {[zoneIDs.SILVERMOON_CITY]={{76.6,81.2}}}},
+            [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [12012] = {
@@ -3882,7 +3918,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{24156}},nil},
             [questKeys.sourceItemId] = 24157,
             [questKeys.preQuestSingle] = {9681,64319},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 9685,
             [questKeys.questFlags] = 128,
         },
@@ -3894,8 +3930,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = 70,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Win a battleground match and return to an Alliance Brigadier General at any Alliance capital city or Shattrath."},
-            [questKeys.triggerEnd] = {"Victory in a battleground match", {[zoneIDs.SHATTRATH_CITY]={{67.41,33.86}}}},
-            [questKeys.zoneOrSort] = -25,
+            [questKeys.triggerEnd] = {"Victory in a battleground match", {
+                [zoneIDs.SHATTRATH_CITY] = {{67.41,33.86}},
+                [zoneIDs.IRONFORGE] = {{69.8,90.6}},
+                [zoneIDs.DARNASSUS] = {{58,34.4}},
+                [zoneIDs.STORMWIND_CITY] = {{79.4,18.0}},
+                [zoneIDs.ALTERAC_MOUNTAINS] = {{39.4,82.2}},
+                [zoneIDs.ARATHI_HIGHLANDS] = {{45.6,45.8}},
+                [zoneIDs.ASHENVALE] = {{61.8,83.8}},
+            }},
+            [questKeys.zoneOrSort] = sortKeys.BATTLEGROUND,
             [questKeys.questFlags] = 64,
             [questKeys.specialFlags] = 1,
         },
@@ -3909,7 +3953,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Speak with Lady Liadrin in Silvermoon City."},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64140,
             [questKeys.questFlags] = 136,
         },
@@ -3923,7 +3967,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Speak with Lady Liadrin again to accept her offer of sponsorship."},
             [questKeys.preQuestSingle] = {64139},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64141,
             [questKeys.questFlags] = 136,
         },
@@ -3939,7 +3983,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{14047,nil},{12360,nil},{8838,nil},{20520,nil}},nil},
             [questKeys.sourceItemId] = 24277,
             [questKeys.preQuestSingle] = {64140},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64142,
             [questKeys.questFlags] = 128,
         },
@@ -3954,7 +3998,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to destroy 3 Scourge Meat Wagons and kill 15 Scourge Siege Engineers. "},
             [questKeys.objectives] = {{{17878,nil}},{{182058,"Destroy Scourge Meat Wagons"}},nil,nil},
             [questKeys.preQuestSingle] = {64141},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64143,
             [questKeys.questFlags] = 136,
         },
@@ -3969,7 +4013,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring her a vial of Tyr's Hand Holy Water. "},
             [questKeys.objectives] = {nil,nil,{{24284,nil}},nil},
             [questKeys.preQuestSingle] = {64142},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64144,
             [questKeys.questFlags] = 136,
         },
@@ -3984,7 +4028,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Lady Liadrin in Silvermoon City wants you to bring him 1 Arcane Catalyst, 1 Crepuscular Powder, 1 Azerothian Diamond, and 1 Pristine Black Diamond."},
             [questKeys.objectives] = {nil,nil,{{24286,nil},{24285,nil},{12800,nil},{18335,nil}},nil},
             [questKeys.preQuestSingle] = {64143},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 64145,
             [questKeys.questFlags] = 136,
         },
@@ -4001,7 +4045,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use the Extinguishing Mixture near the eternal flame in the Alonsus Chapel to remove the Light's protection.", 0, {{"object", 182068}}}},
             [questKeys.sourceItemId] = 24287,
             [questKeys.preQuestSingle] = {64144},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.questFlags] = 128,
         },
         -------------
@@ -4016,7 +4060,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectivesText] = {"Speak with Magister Astalor Bloodsworn in the hidden chamber beneath Blood Knight headquarters."},
             [questKeys.objectives] = {},
             [questKeys.preQuestSingle] = {9678},
-            [questKeys.zoneOrSort] = -141,
+            [questKeys.zoneOrSort] = sortKeys.PALADIN,
             [questKeys.nextQuestInChain] = 63866,
             [questKeys.questFlags] = 136,
         },

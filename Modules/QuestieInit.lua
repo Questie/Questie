@@ -46,7 +46,7 @@ local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
----@class QuestieValidateGameCache
+---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
 
