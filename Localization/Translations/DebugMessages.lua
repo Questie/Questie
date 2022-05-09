@@ -64,7 +64,7 @@ local debugMessagesLocales = {
     },
     ["Flex the amount of quests you have completed so far"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Похвастаться количеством выполненных вами заданий",
+        ["ruRU"] = "похвастаться количеством выполненных вами заданий",
         ["deDE"] = "Gib mit der Anzahl an Quests an die du bisher abgeschlossen hast",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -76,7 +76,7 @@ local debugMessagesLocales = {
     },
     ["has completed a total of %d quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "всего выполнено %d заданий",
+        ["ruRU"] = "всего выполнено заданий - %d",
         ["deDE"] = "hat insgesamt %d Quests abgeschlossen",
         ["koKR"] = false,
         ["esMX"] = false,
