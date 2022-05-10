@@ -78,9 +78,23 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
             stream._WriteByte = QuestieStreamLib._writeByte
         elseif mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
+            stream.ReadShort = QuestieStreamLib._ReadShort
+            stream.ReadInt24 = QuestieStreamLib._ReadInt24
+            stream.ReadInt = QuestieStreamLib._ReadInt
+            stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair
+            stream.ReadTinyString = QuestieStreamLib._ReadTinyString
+            stream.ReadShortString = QuestieStreamLib._ReadShortString
+            stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
             stream._WriteByte = QuestieStreamLib._WriteByte_1short
         else
             stream.ReadByte = QuestieStreamLib._ReadByte_b89
+            stream.ReadShort = QuestieStreamLib._ReadShort
+            stream.ReadInt24 = QuestieStreamLib._ReadInt24
+            stream.ReadInt = QuestieStreamLib._ReadInt
+            stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair
+            stream.ReadTinyString = QuestieStreamLib._ReadTinyString
+            stream.ReadShortString = QuestieStreamLib._ReadShortString
+            stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
             stream._WriteByte = QuestieStreamLib._WriteByte_b89
 
             function stream:ReadTinyString()
@@ -102,6 +116,13 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         end
     else
         stream.ReadByte = QuestieStreamLib._ReadByte_b89
+        stream.ReadShort = QuestieStreamLib._ReadShort
+        stream.ReadInt24 = QuestieStreamLib._ReadInt24
+        stream.ReadInt = QuestieStreamLib._ReadInt
+        stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair
+        stream.ReadTinyString = QuestieStreamLib._ReadTinyString
+        stream.ReadShortString = QuestieStreamLib._ReadShortString
+        stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
         stream._WriteByte = QuestieStreamLib._WriteByte_b89
     end
     return stream
@@ -234,7 +255,7 @@ function QuestieStreamLib:ReadShorts(count)
     return unpack(ret)
 end
 
-function QuestieStreamLib:ReadShort()
+function QuestieStreamLib:_ReadShort()
     return lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
@@ -245,7 +266,7 @@ function QuestieStreamLib:_ReadShort_raw()
     return a*256 + b
 end
 
-function QuestieStreamLib:ReadInt12Pair()
+function QuestieStreamLib:_ReadInt12Pair()
     local a = self:ReadByte()
     return self:ReadByte() + lshift(band(a, 15), 8), self:ReadByte() + lshift(band(a, 240), 4)
 end
@@ -258,7 +279,7 @@ function QuestieStreamLib:_ReadInt12Pair_raw()
     return low4bit * 256 + b, (a - low4bit) * 16 + c
 end
 
-function QuestieStreamLib:ReadInt24()
+function QuestieStreamLib:_ReadInt24()
     return lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
@@ -269,7 +290,7 @@ function QuestieStreamLib:_ReadInt24_raw()
     return a*65536 + b*256 + c
 end
 
-function QuestieStreamLib:ReadInt()
+function QuestieStreamLib:_ReadInt()
     return lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
@@ -284,7 +305,7 @@ function QuestieStreamLib:ReadLong()
     return lshift(self:ReadByte(), 56) +lshift(self:ReadByte(), 48) +lshift(self:ReadByte(), 40) +lshift(self:ReadByte(), 32) +lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
-function QuestieStreamLib:ReadTinyString()
+function QuestieStreamLib:_ReadTinyString()
     local length = self:ReadByte()
     local ret = {};
     for i = 1, length do
@@ -313,7 +334,7 @@ function QuestieStreamLib:_ReadTinyStringNil_raw()
     return stringsub(self._bin, p, p+length-1)
 end
 
-function QuestieStreamLib:ReadTinyStringNil()
+function QuestieStreamLib:_ReadTinyStringNil()
     local length = self:ReadByte()
     if length == 0 then return nil end
     local ret = {};
@@ -323,7 +344,7 @@ function QuestieStreamLib:ReadTinyStringNil()
     return stringchar(unpack(ret))
 end
 
-function QuestieStreamLib:ReadShortString()
+function QuestieStreamLib:_ReadShortString()
     local length = self:ReadShort()
     local ret = {};
     if length > unpack_limit then
