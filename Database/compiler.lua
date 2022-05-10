@@ -793,7 +793,8 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
             local entry = tbl[id]
 
             QuestieDBCompiler.pointerMap[id] = QuestieDBCompiler.stream._pointer--pointerStart
-            for _, key in pairs(order) do
+            for i=1, #order do
+                local key = order[i]
                 local v = entry[lookup[key]]
                 local t = types[key]
 
@@ -823,7 +824,8 @@ function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for ra
     local ptr = 0
     local haveDynamic = false
     local lastIndex
-    for index, key in pairs(order) do
+    for index = 1, #order do
+        local key = order[index]
         local typ = types[key]
         indexToKey[index] = key
         keyToIndex[key] = index
@@ -878,14 +880,17 @@ function QuestieDBCompiler:Compile()
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
 
     if Questie.db.global.debugEnabled then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating objects...")
         coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating NPCs...")
+        QuestieDBCompiler:ValidateNPCs()
+        coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating objects...")
         QuestieDBCompiler:ValidateObjects()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating items...")
         coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating items...")
         QuestieDBCompiler:ValidateItems()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating quests...")
         coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating quests...")
         QuestieDBCompiler:ValidateQuests()
     end
 end
