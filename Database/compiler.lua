@@ -76,30 +76,30 @@ QuestieDBCompiler.readers = {
     ["u24"] = QuestieStream.ReadInt24,
     ["u32"] = QuestieStream.ReadInt,
     ["u12pair"] = function(stream)
-        local ret = {stream:ReadInt12Pair()}
+        local a,b = stream:ReadInt12Pair()
         -- bit of a hack
-        if ret[1] == 0 and ret[2] == 0 then
+        if a == 0 and b == 0 then
             return nil
         end
-        return ret
+        return {a, b}
     end,
     ["u24pair"] = function(stream)
-        local ret = {stream:ReadInt24(), stream:ReadInt24()}
+        local a,b = stream:ReadInt24(), stream:ReadInt24()
         -- bit of a hack
-        if ret[1] == 0 and ret[2] == 0 then
+        if a == 0 and b == 0 then
             return nil
         end
 
-        return ret
+        return {a, b}
     end,
     ["s24pair"] = function(stream)
-        local ret = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+        local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
         -- bit of a hack
-        if ret[1] == 0 and ret[2] == 0 then
+        if a == 0 and b == 0 then
             return nil
         end
 
-        return ret
+        return {a, b}
     end,
     ["u8string"] = function(stream)
         local ret = stream:ReadTinyString()
