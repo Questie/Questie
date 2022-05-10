@@ -287,35 +287,35 @@ function QuestieDB:GetItem(itemId)
         item[stringKey] = rawdata[intKey]
     end
 
+    local sources = item.Sources
+
     if rawdata[QuestieDB.itemKeys.npcDrops] then
         for _, npcId in pairs(rawdata[QuestieDB.itemKeys.npcDrops]) do
-            local source = {
+            sources[#sources+1] = {
                 Id = npcId,
                 Type = "monster",
             }
-            tinsert(item.Sources, source)
         end
     end
 
     if rawdata[QuestieDB.itemKeys.vendors] then
         for _, npcId in pairs(rawdata[QuestieDB.itemKeys.vendors]) do
-            local source = {
+            sources[#sources+1] = {
                 Id = npcId,
                 Type = "monster",
             }
-            tinsert(item.Sources, source)
         end
     end
 
     if rawdata[QuestieDB.itemKeys.objectDrops] then
         for _, v in pairs(rawdata[QuestieDB.itemKeys.objectDrops]) do
-            local source = {
+            sources[#sources+1] = {
                 Id = v,
                 Type = "object",
             }
-            tinsert(item.Sources, source)
         end
     end
+
     return item
 end
 
