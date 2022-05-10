@@ -68,6 +68,10 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream._mode = mode
         if mode == "raw" then
             stream.ReadByte = QuestieStreamLib._ReadByte_raw
+            stream.ReadShort = QuestieStreamLib._ReadShort_raw
+            stream.ReadInt24 = QuestieStreamLib._ReadInt24_raw
+            stream.ReadInt = QuestieStreamLib._ReadInt_raw
+            stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair_raw
             stream.ReadTinyString = QuestieStreamLib._ReadTinyStringBySubstring
             stream.ReadShortString = QuestieStreamLib._ReadShortStringBySubstring
             stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNilBySubstring
@@ -195,11 +199,9 @@ function QuestieStreamLib:_WriteByte_raw(e)
 end
 
 function QuestieStreamLib:_ReadByte_raw()
-    local val = stringbyte(self._bin, self._pointer)
-    --print("Read data at " .. self._pointer .. " = " .. val)
-    self._pointer = self._pointer + 1
-    return val
-    --return self:_readByte()
+    local p = self._pointer
+    self._pointer = p + 1
+    return stringbyte(self._bin, p)
 end
 
 -- this is now set in GetStream based on type
@@ -236,17 +238,46 @@ function QuestieStreamLib:ReadShort()
     return lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
+function QuestieStreamLib:_ReadShort_raw()
+    local p = self._pointer
+    self._pointer = p + 2
+    local a,b = stringbyte(self._bin, p, p+1)
+    return a*256 + b
+end
+
 function QuestieStreamLib:ReadInt12Pair()
     local a = self:ReadByte()
     return self:ReadByte() + lshift(band(a, 15), 8), self:ReadByte() + lshift(band(a, 240), 4)
+end
+
+function QuestieStreamLib:_ReadInt12Pair_raw()
+    local p = self._pointer
+    self._pointer = p + 3
+    local a,b,c = stringbyte(self._bin, p, p+2)
+    local low4bit = a % 16
+    return low4bit * 256 + b, (a - low4bit) * 16 + c
 end
 
 function QuestieStreamLib:ReadInt24()
     return lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
+function QuestieStreamLib:_ReadInt24_raw()
+    local p = self._pointer
+    self._pointer = p + 3
+    local a,b,c = stringbyte(self._bin, p, p+2)
+    return a*65536 + b*256 + c
+end
+
 function QuestieStreamLib:ReadInt()
     return lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
+end
+
+function QuestieStreamLib:_ReadInt_raw()
+    local p = self._pointer
+    self._pointer = p + 4
+    local a,b,c,d = stringbyte(self._bin, p, p+3)
+    return a*16777216 + b*65536 + c*256 + d
 end
 
 function QuestieStreamLib:ReadLong()
