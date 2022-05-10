@@ -2447,7 +2447,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil}
         },
         [11496] = {
-            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21}}}},
+            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}}},
         },
         [11502] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -2465,7 +2465,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Legion Gateway Destroyed", {[zoneIDs.HELLFIRE_PENINSULA]={{58.51,18.5}}}},
         },
         [11523] = {
-            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{47.7,34.52},{48.43,31.21}}}},
+            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.SUNWELL_PLATEAU]={{-1,-1}}}},
         },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559},nil},
