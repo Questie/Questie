@@ -880,14 +880,17 @@ function QuestieDBCompiler:Compile()
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
 
     if Questie.db.global.debugEnabled then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating objects...")
         coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating NPCs...")
+        QuestieDBCompiler:ValidateNPCs()
+        coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating objects...")
         QuestieDBCompiler:ValidateObjects()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating items...")
         coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating items...")
         QuestieDBCompiler:ValidateItems()
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Validating quests...")
         coroutine.yield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating quests...")
         QuestieDBCompiler:ValidateQuests()
     end
 end
