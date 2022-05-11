@@ -6,7 +6,7 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-QuestieOptions.tabs.nameplate = {...}
+QuestieOptions.tabs.social = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 function QuestieOptions.tabs.social:Initialize()
