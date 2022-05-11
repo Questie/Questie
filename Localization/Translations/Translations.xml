@@ -12,6 +12,7 @@
     <Script file="Options\Map.lua"/>
     <Script file="Options\Minimap.lua"/>
     <Script file="Options\Nameplates.lua"/>
+    <Script file="Options\Social.lua"/>
     <Script file="Options\Tooltips.lua"/>
     <Script file="Options\Tracker.lua"/>
 
