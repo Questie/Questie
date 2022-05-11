@@ -99,6 +99,7 @@ _CreateOptionsTable = function()
         childGroups = "tab",
         args = {
             general_tab = QuestieOptions.tabs.general:Initialize(),
+            social_tab = QuestieOptions.tabs.social:Initialize(),
             minimap_tab = QuestieOptions.tabs.minimap:Initialize(),
             map_tab = QuestieOptions.tabs.map:Initialize(),
             dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize(),
