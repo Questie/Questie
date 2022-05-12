@@ -2484,6 +2484,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Energize a Crystal Ward", 0, {{"object", 187078}}}},
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
         },
+        [11524] = {
+            [questKeys.objectives] = {{{24972, "Converted Sentry Deployed"}}},
+        },
+        [11525] = {
+            [questKeys.objectives] = {{{24972, "Converted Sentry Deployed"}}},
+        },
         [11532] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak to Ayren Cloudbreaker", 0, {{"monster", 25059}}}},
         },
