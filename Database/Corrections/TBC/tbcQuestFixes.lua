@@ -2476,6 +2476,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11516] = {
             [questKeys.triggerEnd] = {"Legion Gateway Destroyed", {[zoneIDs.HELLFIRE_PENINSULA]={{58.51,18.5}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Incandescent Fel Sparks after summoning your Living Flare", 0, {{"monster", 22323}}}},
         },
         [11517] = {
             [questKeys.requiredMinRep] = {932,3000},
