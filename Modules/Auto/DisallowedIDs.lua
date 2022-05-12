@@ -169,5 +169,6 @@ _QuestieAuto.disallowedQuests = {
     [10552] = true,
 
     [11545] = true, -- Shattered Sun charity quest
+    [11548] = true, -- Shattered Sun charity quest
     [11549] = true, -- Shattered Sun title
 }
