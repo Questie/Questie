@@ -2461,6 +2461,9 @@ function QuestieTBCQuestFixes:Load()
         [11506] = {
             [questKeys.triggerEnd] = {"Secure a Spirit Tower", {[zoneIDs.TEROKKAR_FOREST]={{42.49,54},{32.47,57.86},{48.98,60.29},{47.2,72.29},{40.48,77.99}}}},
         },
+        [11513] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11516] = {
             [questKeys.triggerEnd] = {"Legion Gateway Destroyed", {[zoneIDs.HELLFIRE_PENINSULA]={{58.51,18.5}}}},
         },
