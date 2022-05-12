@@ -2484,6 +2484,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Energize a Crystal Ward", 0, {{"object", 187078}}}},
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
         },
+        [11532] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak to Ayren Cloudbreaker", 0, {{"monster", 25059}}}},
+        },
+        [11533] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak to Ayren Cloudbreaker", 0, {{"monster", 25059}}}},
+        },
         [11534] = {
             [questKeys.requiredMinRep] = {934,3000},
         },
