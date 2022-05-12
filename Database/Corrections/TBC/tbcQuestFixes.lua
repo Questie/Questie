@@ -2471,6 +2471,9 @@ function QuestieTBCQuestFixes:Load()
         [11513] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11514] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11516] = {
             [questKeys.triggerEnd] = {"Legion Gateway Destroyed", {[zoneIDs.HELLFIRE_PENINSULA]={{58.51,18.5}}}},
         },
