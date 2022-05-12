@@ -85,6 +85,9 @@ function QuestieTBCObjectFixes:Load()
                 [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
             },
         },
+        [187078] = {
+            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{46.5,35.5},{48.63,35.37},{48.89,39.15},{49.14,29.53},{50.32,38.27},{50.34,42.36},{53.77,36.21},}},
+        },
         [187260] = {
             [objectKeys.spawns] = {[zoneIDs.FELWOOD]={{34.82,52.95}}}, -- TBC only Mailbox
         },

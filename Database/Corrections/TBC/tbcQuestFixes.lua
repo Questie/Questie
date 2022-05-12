@@ -2453,7 +2453,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {934,3000},
         },
         [11496] = {
-            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.ISLE_OF_QUEL_DANAS]={{47.7,34.52},{48.43,31.21}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Energize a Crystal Ward", 0, {{"object", 187078}}}},
+            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
         },
         [11502] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -2477,7 +2478,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {932,3000},
         },
         [11523] = {
-            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.ISLE_OF_QUEL_DANAS]={{47.7,34.52},{48.43,31.21}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Energize a Crystal Ward", 0, {{"object", 187078}}}},
+            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
         },
         [11534] = {
             [questKeys.requiredMinRep] = {934,3000},
