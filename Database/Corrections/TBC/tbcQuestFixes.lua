@@ -2449,6 +2449,9 @@ function QuestieTBCQuestFixes:Load()
         [11481] = {
             [questKeys.requiredMinRep] = {932,3000},
         },
+        [11482] = {
+            [questKeys.requiredMinRep] = {934,3000},
+        },
         [11496] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.ISLE_OF_QUEL_DANAS]={{47.7,34.52},{48.43,31.21}}}},
         },
