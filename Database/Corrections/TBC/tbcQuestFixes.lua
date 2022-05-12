@@ -2499,6 +2499,12 @@ function QuestieTBCQuestFixes:Load()
         [11534] = {
             [questKeys.requiredMinRep] = {934,3000},
         },
+        [11537] = {
+            [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"},},nil,nil,nil,{{24999,25001,25002,25008,25068,},25068},},
+        },
+        [11538] = {
+            [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"},},nil,nil,nil,{{24999,25001,25002,25008,25068,},25068},},
+        },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
