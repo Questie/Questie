@@ -2473,8 +2473,14 @@ function QuestieTBCQuestFixes:Load()
         [11516] = {
             [questKeys.triggerEnd] = {"Legion Gateway Destroyed", {[zoneIDs.HELLFIRE_PENINSULA]={{58.51,18.5}}}},
         },
+        [11517] = {
+            [questKeys.requiredMinRep] = {932,3000},
+        },
         [11523] = {
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {[zoneIDs.ISLE_OF_QUEL_DANAS]={{47.7,34.52},{48.43,31.21}}}},
+        },
+        [11534] = {
+            [questKeys.requiredMinRep] = {934,3000},
         },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559},nil},
