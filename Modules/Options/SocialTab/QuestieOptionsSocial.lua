@@ -47,7 +47,7 @@ function QuestieOptions.tabs.social:Initialize()
                         type = "group",
                         order = 2,
                         inline = true,
-                        name = function() return l10n('Types of updates to announce in group:'); end,
+                        name = function() return l10n('Types of updates to announce in chat'); end,
                         args = {
                             questAnnounceAccepted = {
                                 type = "toggle",
