@@ -4,6 +4,8 @@ import os
 import shutil
 import subprocess
 import sys
+import fileinput
+import re
 
 '''
 This program accepts one optional command line option:
@@ -14,16 +16,23 @@ release If provided this will create release ready ZIP files
 
 '''
 addonDir = 'Questie'
-isReleaseBuild = False
-
 
 def main():
-    global isReleaseBuild
+    isReleaseBuild = False
+    cliVersion = ''
     if len(sys.argv) > 1:
-        isReleaseBuild = sys.argv[1]
-        print("Creating a release build")
+        ver = False
+        for arg in sys.argv[1:]:
+            if ver:
+                cliVersion = arg
+                ver = False
+            elif arg in ['-r', '--release']:
+                isReleaseBuild = True
+                print("Creating a release build")
+            elif arg in ['-v', '--version']:
+                ver = True
 
-    release_dir = get_version_dir(isReleaseBuild)
+    release_dir = get_version_dir(isReleaseBuild, cliVersion)
 
     if os.path.isdir('releases/%s' % release_dir):
         print("Warning: Folder already exists, removing!")
@@ -31,9 +40,18 @@ def main():
 
     release_folder_path = 'releases/%s' % release_dir
     release_addon_folder_path = release_folder_path + ('/%s' % addonDir)
-    questie_toc_path = release_addon_folder_path + '/Questie.toc'
 
     copy_content_to(release_addon_folder_path)
+
+    if cliVersion != '':
+        for toc in ['/Questie-BCC.toc', '/Questie-Classic.toc']:
+            questie_toc_path = release_addon_folder_path + toc
+            with fileinput.FileInput(questie_toc_path, inplace=True) as file:
+                for line in file:
+                    if line[:10] == '## Version':
+                        print('## Version: ' + cliVersion)
+                    else:
+                        print(line, end='')
 
     zip_name = '%s-%s' % (addonDir, release_dir)
     zip_release_folder(zip_name, release_dir, addonDir)
@@ -41,8 +59,10 @@ def main():
     print('New release "%s" created successfully' % release_dir)
 
 
-def get_version_dir(is_release_build):
+def get_version_dir(is_release_build, cliVersion):
     version, nr_of_commits, recent_commit = get_git_information()
+    if cliVersion != '':
+        version = cliVersion
     print("Tag: " + version)
     if is_release_build:
         release_dir = "%s" % version
