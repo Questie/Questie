@@ -5,7 +5,6 @@ import shutil
 import subprocess
 import sys
 import fileinput
-import re
 
 '''
 This program accepts one optional command line option:
