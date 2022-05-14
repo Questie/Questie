@@ -2474,6 +2474,10 @@ function QuestieTBCQuestFixes:Load()
         [11514] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11515] = {
+            [questKeys.requiredSourceItems] = {34259},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Use Fel Siphon and then kill the weakened Felblood Initiate", 0, {{"monster", 24918}}}},
+        },
         [11516] = {
             [questKeys.triggerEnd] = {"Legion Gateway Destroyed", {[zoneIDs.HELLFIRE_PENINSULA]={{58.51,18.5}}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Incandescent Fel Sparks after summoning your Living Flare", 0, {{"monster", 22323}}}},
