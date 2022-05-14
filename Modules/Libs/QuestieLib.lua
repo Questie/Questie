@@ -15,6 +15,9 @@ local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
 local stringSub = string.sub
+local strim = string.trim
+local smatch = string.match
+local tostring, tonumber = tostring, tonumber
 
 --[[
     Red: 5+ level above player
@@ -449,3 +452,70 @@ function QuestieLib:UnpackBinary(val)
     end
     return ret
 end
+
+
+-- Link contains test bench for regex in lua.
+-- https://hastebin.com/anodilisuw.bash
+-- QUEST_MONSTERS_KILLED etc. patterns are from WoW API
+local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
+local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
+local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
+
+--- 'FooBar slain: 0/3' --> 'FooBar'
+--- 'EpicItem : 0/1' --> 'EpicItem'
+---@param text string @requires nil check and first character ~= " " check before call
+---@param objectiveType string
+function QuestieLib.TrimObjectiveText(text, objectiveType)
+    local originalText = text
+
+    if objectiveType == "monster" then
+        local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
+        if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
+            monsterName = n
+        end
+
+        if (not monsterName) or (strlen(monsterName) == strlen(originalText)) then
+            --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
+            text = smatch(monsterName or text, "(.*)：");
+        else
+            text = monsterName
+        end
+    elseif objectiveType == "item" then
+        local n, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
+        if tonumber(itemName) then -- SOME objectives are reversed in TBC, why blizzard?
+            itemName = n
+        end
+
+        text = itemName
+    elseif objectiveType == "object" then
+        local n, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
+        if tonumber(objectName) then -- SOME objectives are reversed in TBC, why blizzard?
+            objectName = n
+        end
+
+        text = objectName
+    end
+
+    -- If the functions above do not give a good answer fall back to older regex to get something.
+    if not text then
+        text = smatch(originalText, "^(.*):%s") or smatch(originalText, "%s：(.*)$") or smatch(originalText, "^(.*)：%s") or originalText
+    end
+
+    text = strim(text)
+    --Questie:Debug(Questie.DEBUG_DEVELOP, "[TrimObjectiveText] \""..originalText.."\" --> \""..text.."\"") -- Comment out this debug for speed when not used.
+    return text
+end
+
+--[[  KEEP THIS FOR NOW
+
+            -- Look if it contains "slain"
+            if(smatch(text, slain)) then
+                --English first, chinese after
+                text = smatch(objective.text, "(.*)"..slain.."%W*%d+/%d+") or smatch(objective.text, "%d+/%d+%W*"..slain.."(.*)")
+                --Capital %W is required due to chinese not being alphanumerical
+                --text = smatch(objective.text, '^(.*)%s+%w+:%s') or smatch(objective.text, '%s：%W+%s(.+)$');
+            else
+                --English first, chinese after
+                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$");
+            end
+]]--

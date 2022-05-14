@@ -47,8 +47,6 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
-local strim = string.trim;
-local smatch = string.match;
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
@@ -1145,11 +1143,6 @@ end
     return nil;
 end]]--
 
--- Link contains test bench for regex in lua.
--- https://hastebin.com/anodilisuw.bash
-local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
-local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
-local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
 
@@ -1164,77 +1157,27 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
 
     --Questie:Print(questId)
     for _, objective in pairs(questObjectives) do
-        local originalText = objective.text
-        if (originalText and (string.sub(originalText,1,1) ~= " ")) then
-            local text = originalText
-            if(objective.type == "monster") then
-                local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
-                if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
-                    monsterName = n
-                end
+        local text = objective.text
+        if text and (string.sub(text, 1, 1) ~= " ") then
+            text = QuestieLib.TrimObjectiveText(text, objective.type)
+            objective.text = text
 
-                if((monsterName and strlen(monsterName) == strlen(originalText)) or not monsterName) then
-                    --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
-                    local cleanerText = smatch(monsterName or text, "(.*)：");
-                    text = cleanerText
-                else
-                    text = monsterName;
-                end
-            elseif(objective.type == "item") then
-                local n, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
-                if tonumber(itemName) then -- SOME objectives are reversed in TBC, why blizzard?
-                    itemName = n
-                end
-
-                text = itemName;
-            elseif(objective.type == "object") then
-                local n, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
-                if tonumber(objectName) then -- SOME objectives are reversed in TBC, why blizzard?
-                    objectName = n
-                end
-
-                text = objectName;
-            end
-            -- If the functions above do not give a good answer fall back to older regex to get something.
-            if(text == nil) then
-                text = smatch(originalText, "^(.*):%s") or smatch(originalText, "%s：(.*)$") or smatch(originalText, "^(.*)：%s") or originalText
-            end
-            --If objective.text is nil, this will be nil, throw error!
-            if(text ~= nil) then
-                text = strim(text)
-                objective.text = text
-                local completed = objective.numRequired == objective.numFulfilled
-
-                if (not completed) then
-                    _has_seen_incomplete[text] = true
-                elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
-                    _has_seen_incomplete[text] = nil
-                    _has_sent_announce[text] = true
-                    QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
-                end
-            else
-                Questie:Print("WARNING! [QuestieQuest]", "Could not split out the objective out of the objective text! Please report the error!", questId, objective.text)
+            -- Announce completed objective
+            local completed = objective.numRequired == objective.numFulfilled
+            if (not completed) then
+                _has_seen_incomplete[text] = true
+            elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
+                _has_seen_incomplete[text] = nil
+                _has_sent_announce[text] = true
+                QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
             end
         else
-            Questie:Error("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(objective.text))
+            Questie:Error("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(text))
         end
     end
-    return questObjectives;
+    return questObjectives
 end
 
---[[  KEEP THIS FOR NOW
-
-            -- Look if it contains "slain"
-            if(smatch(text, slain)) then
-                --English first, chinese after
-                text = smatch(objective.text, "(.*)"..slain.."%W*%d+/%d+") or smatch(objective.text, "%d+/%d+%W*"..slain.."(.*)")
-                --Capital %W is required due to chinese not being alphanumerical
-                --text = smatch(objective.text, '^(.*)%s+%w+:%s') or smatch(objective.text, '%s：%W+%s(.+)$');
-            else
-                --English first, chinese after
-                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$");
-            end
-]]--
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 ---@param quest Quest
