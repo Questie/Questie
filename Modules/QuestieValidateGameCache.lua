@@ -82,6 +82,15 @@ local function OnQuestLogUpdate()
             else
                 local hasInvalidObjective -- for debug stats
                 local objectiveList = GetQuestObjectives(questId)
+
+                if type(objectiveList) ~= "table" then
+                    -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
+                    -- I guess older code queried data before HaveQuestData() was true.
+                    Questie:Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
+                    hasInvalidObjective = true
+                    objectiveList = {}
+                end
+
                 for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
                     if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
                         -- Game hasn't cached the quest fully yet
@@ -91,6 +100,7 @@ local function OnQuestLogUpdate()
                         -- No early "return false" here to force iterate whole quest log and speed up caching
                     end
                 end
+
                 if not hasInvalidObjective then
                     goodQuestsCount = goodQuestsCount + 1
                 end
