@@ -11,7 +11,7 @@ Flow:
 ---@class QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGameCache")
 
-local stringSub, tremove = string.sub, table.remove
+local stringByte, tremove = string.byte, table.remove
 local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
 local tpack = function(...) return { n = select("#", ...), ... } end
@@ -80,7 +80,7 @@ local function OnQuestLogUpdate()
             local hasInvalidObjective -- for debug stats
             local objectiveList = GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
-                if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
+                if (not objective.text) or (stringByte(objective.text, 1) == 32) then
                     -- Game hasn't cached the quest fully yet
                     isQuestLogGood = false
                     hasInvalidObjective = true
