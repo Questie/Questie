@@ -36,8 +36,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type DailyQuests
-local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 ---@type QuestieJourney
@@ -184,7 +184,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     if Questie.IsTBC and (not Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled) then
         C_Timer.After(2, function()
-            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", DailyQuests.GetIsleOfQuelDanasPhases()[Questie.db.global.isleOfQuelDanasPhase]))
+            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", IsleOfQuelDanas.GetPhases()[Questie.db.global.isleOfQuelDanasPhase]))
         end)
     end
 

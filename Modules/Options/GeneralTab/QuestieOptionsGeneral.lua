@@ -3,8 +3,8 @@
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
----@type DailyQuests
-local DailyQuests = QuestieLoader:ImportModule("DailyQuests");
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
@@ -254,7 +254,7 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "select",
                 order = 2.5,
                 width = 1.5,
-                values = DailyQuests.GetIsleOfQuelDanasPhases(),
+                values = IsleOfQuelDanas.GetPhases(),
                 style = 'dropdown',
                 name = function() return l10n("Isle of Quel'Danas Phase") end,
                 desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,

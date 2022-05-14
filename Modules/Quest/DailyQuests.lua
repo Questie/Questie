@@ -156,45 +156,6 @@ function DailyQuests:IsDailyQuest(questId)
             pvpDailyIds[questId] ~= nil;
 end
 
-local isleOfQuelDanasPhases = {
-    [1] = l10n("Phase 1 - Sun's Reach Sanctum"),
-    [2] = l10n("Phase 2 - Activating the Sunwell Portal"),
-    [3] = l10n("Phase 2.1 - Sun's Reach Armory"),
-    [4] = l10n("Phase 3 - Rebuilding the Anvil and Forge"),
-    [5] = l10n("Phase 3.1 - Sun's Reach Harbor"),
-    [6] = l10n("Phase 4 - Creating the Alchemy Lab"),
-    [7] = l10n("Phase 4.1 - Building the Monument to the Fallen"),
-    [8] = l10n("Phase 4.2 - Sun's Reach"),
-    [9] = l10n("Phase 5"),
-}
-
-local isleQuests = QuestieQuestBlacklist.IsleOfQuelDanasQuests
-DailyQuests.MAX_ISLE_OF_QUEL_DANAS_PHASES = #isleQuests
-
----@param questId number
----@return boolean
-function DailyQuests:CheckIsleOfQuelDanasPhase(questId)
-    if isleQuests[1][questId] and isleQuests[Questie.db.global.isleOfQuelDanasPhase][questId] then
-        -- The accepted quest is one from the Isle Of Quel'Danas
-        local phaseToSwitchTo = 1
-        for i= 2, #isleQuests do
-            if (not isleQuests[questId]) then
-                -- This is the phase that unlocked this quest
-                phaseToSwitchTo = i
-                break
-            end
-        end
-        Questie:Print(l10n("You picked up a quest from '%s'. Automatically switching to this phase...", isleOfQuelDanasPhases[phaseToSwitchTo]))
-        Questie.db.global.isleOfQuelDanasPhase = phaseToSwitchTo
-        return true
-    end
-    return false
-end
-
-DailyQuests.GetIsleOfQuelDanasPhases = function()
-    return isleOfQuelDanasPhases
-end
-
 nhcDailyIds = {
     [11364] = true,
     [11371] = true,

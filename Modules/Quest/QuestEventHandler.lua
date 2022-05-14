@@ -18,8 +18,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
----@type DailyQuests
-local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
 local stringSub = string.sub
 local tableRemove = table.remove
@@ -120,8 +120,8 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     QuestieJourney:AcceptQuest(questId)
     QuestieAnnounce:AcceptedQuest(questId)
 
-    local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == DailyQuests.MAX_ISLE_OF_QUEL_DANAS_PHASES
-    if Questie.IsTBC and (not isLastIslePhase) and DailyQuests:CheckIsleOfQuelDanasPhase(questId) then
+    local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES
+    if Questie.IsTBC and (not isLastIslePhase) and IsleOfQuelDanas:CheckForActivePhase(questId) then
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)
