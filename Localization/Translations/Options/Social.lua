@@ -60,7 +60,7 @@ local socialOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Canaux dans lesquels annoncer",
     },
     ["Both"] = {
         ["ptBR"] = nil,
@@ -84,7 +84,7 @@ local socialOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Types de mises à jour à annoncer dans le chat",
     },
     ["Quest accepted"] = {
         ["ptBR"] = nil,
