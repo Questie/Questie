@@ -1052,7 +1052,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 if quest.Objectives[objectiveIndex] == nil then
 
                     -- Sometimes we need to retry to get the correct text from the API
-                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then
+                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
                         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:GetAllQuestObjectives] Retrying to get objectiveText for '", objective.text, "'")
                         local retry = C_QuestLog.GetQuestObjectives(quest.Id)
                         objective.text = retry[objectiveIndex].text
@@ -1159,7 +1159,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     --Questie:Print(questId)
     for _, objective in pairs(questObjectives) do
         local text = objective.text
-        if text and (stringByte(text, 1) ~= 32) then
+        if text and (stringByte(text, 1) ~= 32) then -- if (text does NOT starts with a space " ") then
             text = QuestieLib.TrimObjectiveText(text, objective.type)
             objective.text = text
 

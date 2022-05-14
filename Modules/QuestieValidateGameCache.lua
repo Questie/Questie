@@ -80,7 +80,7 @@ local function OnQuestLogUpdate()
             local hasInvalidObjective -- for debug stats
             local objectiveList = GetQuestObjectives(questId)
             for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
-                if (not objective.text) or (stringByte(objective.text, 1) == 32) then
+                if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
                     -- Game hasn't cached the quest fully yet
                     isQuestLogGood = false
                     hasInvalidObjective = true
