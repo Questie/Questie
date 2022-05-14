@@ -111,10 +111,8 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         }
     end,
     ["event"] = function(id, objective)
-        local spawns = {}
-        if objective.Coordinates then
-            spawns = objective.Coordinates
-        else
+        local spawns = objective.Coordinates
+        if (not spawns) then
             Questie:Error("Missing event data for Objective:", objective.Description, "id:", id)
             spawns = {}
         end
