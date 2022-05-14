@@ -154,8 +154,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coroutine.yield()
     QuestieQuest:Initialize()
     coroutine.yield()
-    IsleOfQuelDanas.Initialize()
-    coroutine.yield()
     QuestieQuest:GetAllQuestIdsNoObjectives()
     coroutine.yield()
     QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
