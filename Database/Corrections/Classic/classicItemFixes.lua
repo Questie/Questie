@@ -221,7 +221,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [4371] = {
-            [itemKeys.npcDrops] = {3495,5519,5175}, -- #1476
+            [itemKeys.npcDrops] = {},
+            [itemKeys.vendors] = {1448,6777,2685,11185,14637,5519,5175,3413,3133,3495,8679,1694,2687,4587,8678,6730,9544,2682,2683,2684,2688,9676},
+            [itemKeys.relatedQuests] = {174,2609},
         },
         [4502] = {
             [itemKeys.relatedQuests] = {669},
