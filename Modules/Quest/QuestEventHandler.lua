@@ -18,6 +18,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
+---@type DailyQuests
+local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 
 local stringSub = string.sub
 local tableRemove = table.remove
@@ -115,9 +117,15 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieHash:AddNewQuestHash(questId)
-    QuestieQuest:AcceptQuest(questId)
     QuestieJourney:AcceptQuest(questId)
     QuestieAnnounce:AcceptedQuest(questId)
+
+    local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == DailyQuests.MAX_ISLE_OF_QUEL_DANAS_PHASES
+    if Questie.IsTBC and (not isLastIslePhase) and DailyQuests:CheckIsleOfQuelDanasPhase(questId) then
+        QuestieQuest:SmoothReset()
+    else
+        QuestieQuest:AcceptQuest(questId)
+    end
 
     return true
 end

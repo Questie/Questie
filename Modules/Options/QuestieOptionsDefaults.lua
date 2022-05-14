@@ -58,6 +58,11 @@ function QuestieOptionsDefaults:Load()
             enableMapIcons = true,
             enableMiniMapIcons = true,
 
+            -- TBC Isle of Quel'Danas
+            isleOfQuelDanasPhase = 1,
+            isIsleOfQuelDanasPhaseReminderDisabled = false,
+            --
+
             -- Tracker Settings Tab
             autoTrackQuests = true,
             trackerShowCompleteQuests = true,
