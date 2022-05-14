@@ -6,7 +6,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES = 9
 
-function IsleOfQuelDanas:Initialize()
+function IsleOfQuelDanas.Initialize()
     IsleOfQuelDanas.localizedPhaseNames = {
         l10n("Phase 1 - Sun's Reach Sanctum"),
         l10n("Phase 2 - Activating the Sunwell Portal"),
@@ -23,7 +23,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function IsleOfQuelDanas:CheckForActivePhase(questId)
+function IsleOfQuelDanas.CheckForActivePhase(questId)
     local isleQuests = IsleOfQuelDanas.quests
     if isleQuests[1][questId] and isleQuests[Questie.db.global.isleOfQuelDanasPhase][questId] then
         -- The accepted quest is one from the Isle Of Quel'Danas
