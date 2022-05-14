@@ -79,6 +79,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     coroutine.yield()
     Migration:Migrate()
 
+    IsleOfQuelDanas.Initialize() -- This has to happen before option init
+
     QuestieProfessions:Init()
 
     -- check if the DB needs to be recompiled

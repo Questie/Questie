@@ -34,8 +34,6 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
----@type IsleOfQuelDanas
-local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -56,7 +54,6 @@ function Questie:ContinueInit()
     QuestieQuestTimers:Initialize()
     QuestieCombatQueue:Initialize()
     QuestieComms:Initialize()
-    IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
     -- Register Slash Commands
     Questie:RegisterChatCommand("questieclassic", "HandleSlash")
