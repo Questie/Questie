@@ -71,10 +71,15 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [2594] = {
-            [itemKeys.npcDrops] = {1464},
+            [itemKeys.npcDrops] = {},
+            [itemKeys.vendors] = {12794,2832,12785,5140,5611,277,1301,258,5570,1311,5111,1305,1328,5848,955,1697,465,1464,5112},
+            [itemKeys.relatedQuests] = {288},
         },
         [2633] = {
             [itemKeys.npcDrops] = {940,941,942}, -- #2433
+        },
+        [2665] = {
+            [itemKeys.relatedQuests] = {90},
         },
         [2686] = {
             [itemKeys.relatedQuests] = {308},
@@ -218,7 +223,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
         },
         [4371] = {
-            [itemKeys.npcDrops] = {3495,5519,5175}, -- #1476
+            [itemKeys.npcDrops] = {},
+            [itemKeys.vendors] = {1448,6777,2685,11185,14637,5519,5175,3413,3133,3495,8679,1694,2687,4587,8678,6730,9544,2682,2683,2684,2688,9676},
+            [itemKeys.relatedQuests] = {174,2609},
         },
         [4502] = {
             [itemKeys.relatedQuests] = {669},
