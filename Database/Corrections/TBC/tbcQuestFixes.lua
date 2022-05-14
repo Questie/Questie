@@ -2483,6 +2483,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Kill Incandescent Fel Sparks after summoning your Living Flare", 0, {{"monster", 22323}}}},
         },
         [11517] = {
+            [questKeys.exclusiveTo] = {11513,11514},
             [questKeys.requiredMinRep] = {932,3000},
         },
         [11523] = {
@@ -2502,6 +2503,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak to Ayren Cloudbreaker", 0, {{"monster", 25059}}}},
         },
         [11534] = {
+            [questKeys.exclusiveTo] = {11513,11514},
             [questKeys.requiredMinRep] = {934,3000},
         },
         [11537] = {
