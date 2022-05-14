@@ -4,18 +4,17 @@ local IsleOfQuelDanas = QuestieLoader:CreateModule("IsleOfQuelDanas")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-
 IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES = 9
 local phases = {
-    [1] = l10n("Phase 1 - Sun's Reach Sanctum"),
-    [2] = l10n("Phase 2 - Activating the Sunwell Portal"),
-    [3] = l10n("Phase 2.1 - Sun's Reach Armory"),
-    [4] = l10n("Phase 3 - Rebuilding the Anvil and Forge"),
-    [5] = l10n("Phase 3.1 - Sun's Reach Harbor"),
-    [6] = l10n("Phase 4 - Creating the Alchemy Lab"),
-    [7] = l10n("Phase 4.1 - Building the Monument to the Fallen"),
-    [8] = l10n("Phase 4.2 - Sun's Reach"),
-    [9] = l10n("Phase 5"),
+    l10n("Phase 1 - Sun's Reach Sanctum"),
+    l10n("Phase 2 - Activating the Sunwell Portal"),
+    l10n("Phase 2.1 - Sun's Reach Armory"),
+    l10n("Phase 3 - Rebuilding the Anvil and Forge"),
+    l10n("Phase 3.1 - Sun's Reach Harbor"),
+    l10n("Phase 4 - Creating the Alchemy Lab"),
+    l10n("Phase 4.1 - Building the Monument to the Fallen"),
+    l10n("Phase 4.2 - Sun's Reach"),
+    l10n("Phase 5"),
 }
 
 IsleOfQuelDanas.GetPhases = function()
@@ -29,7 +28,7 @@ function IsleOfQuelDanas:CheckForActivePhase(questId)
     if isleQuests[1][questId] and isleQuests[Questie.db.global.isleOfQuelDanasPhase][questId] then
         -- The accepted quest is one from the Isle Of Quel'Danas
         local phaseToSwitchTo = 1
-        for i= 2, #isleQuests do
+        for i= 2, IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES do
             if (not isleQuests[i][questId]) then
                 -- This is the phase that unlocked this quest
                 phaseToSwitchTo = i
@@ -46,7 +45,7 @@ end
 
 -- These quests are the blacklisted ones for each phase
 IsleOfQuelDanas.quests = {
-    [1] = { -- Phase 1
+    { -- Phase 1
         [11513] = true,
         [11514] = true,
         [11517] = true,
@@ -74,7 +73,7 @@ IsleOfQuelDanas.quests = {
         [11548] = true,
         [11549] = true,
     },
-    [2] = { -- Phase 2
+    { -- Phase 2
         -- temp quests from previous phase
         [11496] = true,
         [11514] = true,
@@ -98,7 +97,7 @@ IsleOfQuelDanas.quests = {
         [11548] = true,
         [11549] = true,
     },
-    [3] = { -- Phase 2.1 Shatt Portal done
+    { -- Phase 2.1 Shatt Portal done
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
@@ -121,7 +120,7 @@ IsleOfQuelDanas.quests = {
         [11548] = true,
         [11549] = true,
     },
-    [4] = { -- Phase 3
+    { -- Phase 3
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
@@ -141,7 +140,7 @@ IsleOfQuelDanas.quests = {
         [11548] = true,
         [11549] = true,
     },
-    [5] = { -- Phase 3.1 Anvil and Forge done
+    { -- Phase 3.1 Anvil and Forge done
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
@@ -162,7 +161,7 @@ IsleOfQuelDanas.quests = {
         [11548] = true,
         [11549] = true,
     },
-    [6] = { -- Phase 4
+    { -- Phase 4
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
@@ -177,7 +176,7 @@ IsleOfQuelDanas.quests = {
         [11546] = true,
         [11548] = true,
     },
-    [7] = { -- Phase 4.1 - Alchemy Lab done
+    { -- Phase 4.1 - Alchemy Lab done
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
@@ -191,7 +190,7 @@ IsleOfQuelDanas.quests = {
         --
         [11548] = true,
     },
-    [8] = { -- Phase 4.2 - Monument of the Fallen done
+    { -- Phase 4.2 - Monument of the Fallen done
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
@@ -206,7 +205,7 @@ IsleOfQuelDanas.quests = {
         [11521] = true,
         [11546] = true,
     },
-    [9] = { -- Phase 5 - Both buildings done
+    { -- Phase 5 - Both buildings done
         -- temp quests from previous phases
         [11496] = true,
         [11513] = true,
