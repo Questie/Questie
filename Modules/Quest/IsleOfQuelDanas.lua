@@ -5,7 +5,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES = 9
+IsleOfQuelDanas.localizedPhaseNames = {}
 
+---@return void
 function IsleOfQuelDanas.Initialize()
     IsleOfQuelDanas.localizedPhaseNames = {
         l10n("Phase 1 - Sun's Reach Sanctum"),
@@ -19,7 +21,6 @@ function IsleOfQuelDanas.Initialize()
         l10n("Phase 5"),
     }
 end
-
 
 ---@param questId number
 ---@return boolean
@@ -42,8 +43,6 @@ function IsleOfQuelDanas.CheckForActivePhase(questId)
     end
     return false
 end
-
-IsleOfQuelDanas.localizedPhaseNames = {}
 
 -- These quests are the blacklisted ones for each phase
 IsleOfQuelDanas.quests = {
