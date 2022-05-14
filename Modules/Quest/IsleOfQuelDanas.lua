@@ -5,21 +5,21 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES = 9
-local phases = {
-    l10n("Phase 1 - Sun's Reach Sanctum"),
-    l10n("Phase 2 - Activating the Sunwell Portal"),
-    l10n("Phase 2.1 - Sun's Reach Armory"),
-    l10n("Phase 3 - Rebuilding the Anvil and Forge"),
-    l10n("Phase 3.1 - Sun's Reach Harbor"),
-    l10n("Phase 4 - Creating the Alchemy Lab"),
-    l10n("Phase 4.1 - Building the Monument to the Fallen"),
-    l10n("Phase 4.2 - Sun's Reach"),
-    l10n("Phase 5"),
-}
 
-IsleOfQuelDanas.GetPhases = function()
-    return phases
+function IsleOfQuelDanas:Initialize()
+    IsleOfQuelDanas.localizedPhaseNames = {
+        l10n("Phase 1 - Sun's Reach Sanctum"),
+        l10n("Phase 2 - Activating the Sunwell Portal"),
+        l10n("Phase 2.1 - Sun's Reach Armory"),
+        l10n("Phase 3 - Rebuilding the Anvil and Forge"),
+        l10n("Phase 3.1 - Sun's Reach Harbor"),
+        l10n("Phase 4 - Creating the Alchemy Lab"),
+        l10n("Phase 4.1 - Building the Monument to the Fallen"),
+        l10n("Phase 4.2 - Sun's Reach"),
+        l10n("Phase 5"),
+    }
 end
+
 
 ---@param questId number
 ---@return boolean
@@ -42,6 +42,8 @@ function IsleOfQuelDanas:CheckForActivePhase(questId)
     end
     return false
 end
+
+IsleOfQuelDanas.localizedPhaseNames = {}
 
 -- These quests are the blacklisted ones for each phase
 IsleOfQuelDanas.quests = {

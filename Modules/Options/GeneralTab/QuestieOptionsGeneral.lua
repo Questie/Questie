@@ -254,7 +254,7 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "select",
                 order = 2.5,
                 width = 1.5,
-                values = IsleOfQuelDanas.GetPhases(),
+                values = IsleOfQuelDanas.localizedPhaseNames,
                 style = 'dropdown',
                 name = function() return l10n("Isle of Quel'Danas Phase") end,
                 desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
