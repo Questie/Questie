@@ -36,7 +36,7 @@ function IsleOfQuelDanas.CheckForActivePhase(questId)
             end
         end
 
-        Questie:Print(l10n("You picked up a quest from '%s'. Automatically switching to this phase...", phases[phaseToSwitchTo]))
+        Questie:Print(l10n("You picked up a quest from '%s'. Automatically switching to this phase...", IsleOfQuelDanas.localizedPhaseNames[phaseToSwitchTo]))
         Questie.db.global.isleOfQuelDanasPhase = phaseToSwitchTo
         return true
     end
