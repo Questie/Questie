@@ -502,6 +502,7 @@ function QuestieLib.TrimObjectiveText(text, objectiveType)
     end
 
     text = strim(text)
+    --Questie:Debug(Questie.DEBUG_DEVELOP, "[TrimObjectiveText] \""..originalText.."\" --> \""..text.."\"") -- Comment out this debug for speed when not used.
     return text
 end
 
