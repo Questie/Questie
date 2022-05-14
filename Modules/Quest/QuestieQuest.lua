@@ -47,6 +47,7 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
+local stringByte = string.byte
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
@@ -1051,7 +1052,7 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 if quest.Objectives[objectiveIndex] == nil then
 
                     -- Sometimes we need to retry to get the correct text from the API
-                    if (not objective.text) or objective.text:sub(1, 1) == " " then
+                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
                         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:GetAllQuestObjectives] Retrying to get objectiveText for '", objective.text, "'")
                         local retry = C_QuestLog.GetQuestObjectives(quest.Id)
                         objective.text = retry[objectiveIndex].text
@@ -1158,7 +1159,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     --Questie:Print(questId)
     for _, objective in pairs(questObjectives) do
         local text = objective.text
-        if text and (string.sub(text, 1, 1) ~= " ") then
+        if text and (stringByte(text, 1) ~= 32) then -- if (text does NOT starts with a space " ") then
             text = QuestieLib.TrimObjectiveText(text, objective.type)
             objective.text = text
 

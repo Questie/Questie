@@ -19,7 +19,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieAnnounce
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 
-local stringSub = string.sub
+local stringByte = string.byte
 local tableRemove = table.remove
 
 -- 3 * (Max possible number of quests in game quest log)
@@ -100,8 +100,8 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
-        -- When the objective text is not cached yet it looks similar to " slain 0/1"
-        if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
+        -- When the objective text is not cached yet it looks similar to " slain: 0/1"
+        if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
             Questie:Debug(Questie.DEBUG_SPAM, "Objective texts are not correct yet")
             _QuestLogUpdateQueue:Insert(function()
                 return _QuestEventHandler:HandleQuestAccepted(questId)
