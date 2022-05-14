@@ -14,8 +14,8 @@ local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGame
 local stringSub, tremove = string.sub, table.remove
 local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
-local tpack = table.pack or function(...) return { n = select("#", ...), ... } end
-local tunpack = table.unpack or unpack
+local tpack = function(...) return { n = select("#", ...), ... } end
+local tunpack = unpack
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance

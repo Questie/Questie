@@ -1349,7 +1349,7 @@ end
 
 ---@param quest Quest
 function _QuestieQuest:GetQuestIcon(quest)
-    local icon = ICON_TYPE_AVAILABLE
+    local icon
     if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
         icon = ICON_TYPE_AVAILABLE_GRAY
     elseif quest.IsRepeatable then
@@ -1357,7 +1357,7 @@ function _QuestieQuest:GetQuestIcon(quest)
     elseif(quest:IsTrivial()) then
         icon = ICON_TYPE_AVAILABLE_GRAY
     else
-        --icon = ICON_TYPE_AVAILABLE
+        icon = ICON_TYPE_AVAILABLE
     end
     return icon
 end
