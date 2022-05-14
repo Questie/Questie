@@ -7,7 +7,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES = 9
 IsleOfQuelDanas.localizedPhaseNames = {}
 
----@return void
 function IsleOfQuelDanas.Initialize()
     IsleOfQuelDanas.localizedPhaseNames = {
         l10n("Phase 1 - Sun's Reach Sanctum"),
