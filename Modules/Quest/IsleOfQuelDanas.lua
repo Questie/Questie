@@ -27,8 +27,8 @@ function IsleOfQuelDanas.CheckForActivePhase(questId)
     local isleQuests = IsleOfQuelDanas.quests
     if isleQuests[1][questId] and isleQuests[Questie.db.global.isleOfQuelDanasPhase][questId] then
         -- The accepted quest is one from the Isle Of Quel'Danas
-        local phaseToSwitchTo = 1
-        for i= 2, IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES do
+        local phaseToSwitchTo = 2
+        for i = 2, IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES do
             if (not isleQuests[i][questId]) then
                 -- This is the phase that unlocked this quest
                 phaseToSwitchTo = i
