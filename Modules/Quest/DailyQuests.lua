@@ -12,10 +12,6 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
----@type QuestieQuestBlacklist
-local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist");
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n");
 
 local nhcDailyIds, hcDailyIds, cookingDailyIds, fishingDailyIds, pvpDailyIds
 
