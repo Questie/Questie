@@ -77,19 +77,23 @@ local function OnQuestLogUpdate()
             break -- We exceeded the data in the quest log
         end
         if (not isHeader) then
-            local hasInvalidObjective -- for debug stats
-            local objectiveList = GetQuestObjectives(questId)
-            for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
-                if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
-                    -- Game hasn't cached the quest fully yet
-                    isQuestLogGood = false
-                    hasInvalidObjective = true
+            if (not HaveQuestData(questId)) then
+                isQuestLogGood = false
+            else
+                local hasInvalidObjective -- for debug stats
+                local objectiveList = GetQuestObjectives(questId)
+                for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
+                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
+                        -- Game hasn't cached the quest fully yet
+                        isQuestLogGood = false
+                        hasInvalidObjective = true
 
-                    -- No early "return false" here to force iterate whole quest log and speed up caching
+                        -- No early "return false" here to force iterate whole quest log and speed up caching
+                    end
                 end
-            end
-            if not hasInvalidObjective then
-                goodQuestsCount = goodQuestsCount + 1
+                if not hasInvalidObjective then
+                    goodQuestsCount = goodQuestsCount + 1
+                end
             end
         end
     end
