@@ -179,6 +179,7 @@ hcDailyIds = {
     [11384] = true,
     [11386] = true,
     [11388] = true,
+    [11499] = true,
 };
 
 cookingDailyIds = {

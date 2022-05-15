@@ -116,6 +116,11 @@ local migrationFunctions = {
             end
         end
     end,
+    [9] = function()
+        if Questie.db.char.hiddenDailies and Questie.db.char.hiddenDailies.hc and next(Questie.db.char.hiddenDailies.hc) then
+            table.insert(Questie.db.char.hiddenDailies.hc, 11499, true) -- Add new HC daily to hiddenDailies
+        end
+    end,
 }
 
 function Migration:Migrate()
