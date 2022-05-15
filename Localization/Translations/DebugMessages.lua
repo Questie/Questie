@@ -64,7 +64,7 @@ local debugMessagesLocales = {
     },
     ["Flex the amount of quests you have completed so far"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "похвастаться количеством выполненных вами заданий",
+        ["ruRU"] = "похвастаться количеством выполненных вами заданий.",
         ["deDE"] = "Gib mit der Anzahl an Quests an die du bisher abgeschlossen hast",
         ["koKR"] = nil,
         ["esMX"] = nil,
