@@ -249,11 +249,12 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
-            Spacer_A1 = QuestieOptionsUtils:Spacer(2.1),
+            Spacer_A1 = QuestieOptionsUtils:Spacer(2.1, (not Questie.IsTBC)),
             isleOfQuelDanasPhase = {
                 type = "select",
                 order = 2.5,
                 width = 1.5,
+                hidden = (not Questie.IsTBC),
                 values = IsleOfQuelDanas.localizedPhaseNames,
                 style = 'dropdown',
                 name = function() return l10n("Isle of Quel'Danas Phase") end,
@@ -268,6 +269,7 @@ function QuestieOptions.tabs.general:Initialize()
             isleOfQuelDanasPhaseReminder = {
                 type = "toggle",
                 order = 2.6,
+                hidden = (not Questie.IsTBC),
                 name = function() return l10n('Disable Phase reminder'); end,
                 desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
                 disabled = function() return (not Questie.IsTBC) end,
@@ -277,7 +279,7 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled = value
                 end,
             },
-            Spacer_A = QuestieOptionsUtils:Spacer(2.9),
+            Spacer_A = QuestieOptionsUtils:Spacer(2.9, (not Questie.IsTBC)),
             minimapButtonEnabled = {
                 type = "toggle",
                 order = 3,
