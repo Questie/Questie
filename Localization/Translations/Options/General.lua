@@ -580,7 +580,7 @@ local generalOptionsLocales = {
     },
     ["Announce quest updates to other players in your group or raid"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Включает оповещения об обновлениях заданий в чатах группы или рейда",
+        ["ruRU"] = "Включает оповещения об обновлениях заданий в чатах группы и/или рейда",
         ["frFR"] = nil,
         ["koKR"] = nil,
         ["enUS"] = true,
@@ -592,7 +592,7 @@ local generalOptionsLocales = {
     },
     ["Both"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Оба",
+        ["ruRU"] = "Группа и рейд",
         ["deDE"] = "Beide",
         ["koKR"] = nil,
         ["esMX"] = "Ambos",
@@ -964,7 +964,7 @@ local generalOptionsLocales = {
     },
     ["Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Текущая фаза Острова Кель'Данас - '%s'. Для изменения фазы или для отключения этого сообщения проверьте раздел 'Общее' настроек",
+        ["ruRU"] = "Текущая фаза Острова Кель'Данас: '%s'. Для изменения фазы или для отключения этого сообщения проверьте настройки (вкладка 'Общее').",
         ["deDE"] = "Aktuell aktive Phase auf der Insel von Quel'Danas ist '%s'. Zum Ändern der Phase oder dieser Erinnerung schau in die Allgemein Einstellungen.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -988,7 +988,7 @@ local generalOptionsLocales = {
     },
     ["Phase 1 - Sun's Reach Sanctum"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 1 - cвятилище Солнечного Края",
+        ["ruRU"] = "Фаза 1 - Святилище Солнечного Края",
         ["deDE"] = "Phase 1 - Sanktum der Sonnenweiten",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1000,7 +1000,7 @@ local generalOptionsLocales = {
     },
     ["Phase 2 - Activating the Sunwell Portal"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 2 - портал в Шаттрате",
+        ["ruRU"] = "Фаза 2 - Портал в Шаттрате",
         ["deDE"] = "Phase 2 - Portal zur Insel von Quel'Danas",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1012,7 +1012,7 @@ local generalOptionsLocales = {
     },
     ["Phase 2.1 - Sun's Reach Armory"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 2.1 - оружейная Солнечного Края",
+        ["ruRU"] = "Фаза 2.1 - Оружейная",
         ["deDE"] = "Phase 2.1 - Waffenkammer der Sonnenweiten",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1024,7 +1024,7 @@ local generalOptionsLocales = {
     },
     ["Phase 3 - Rebuilding the Anvil and Forge"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 3 - восстановление наковальни и кузницы",
+        ["ruRU"] = "Фаза 3 - Наковальня и кузница",
         ["deDE"] = "Phase 3 - Schmiede und Amboss",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1036,7 +1036,7 @@ local generalOptionsLocales = {
     },
     ["Phase 3.1 - Sun's Reach Harbor"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 3.1 - гавань Солнечного Края",
+        ["ruRU"] = "Фаза 3.1 - Гавань Солнечного Края",
         ["deDE"] = "Phase 3.1 - Hafen der Sonnenweiten",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1048,7 +1048,7 @@ local generalOptionsLocales = {
     },
     ["Phase 4 - Creating the Alchemy Lab"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 4 - создание алхимической лаборатории",
+        ["ruRU"] = "Фаза 4 - Лаборатория",
         ["deDE"] = "Phase 4 - Alchemielabor",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1060,7 +1060,7 @@ local generalOptionsLocales = {
     },
     ["Phase 4.1 - Building the Monument to the Fallen"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Фаза 4.1 - постройка Монумента Павшим",
+        ["ruRU"] = "Фаза 4.1 - Монумент Павшим",
         ["deDE"] = "Phase 4.1 - Monument für die Gefallenen",
         ["koKR"] = nil,
         ["esMX"] = nil,
