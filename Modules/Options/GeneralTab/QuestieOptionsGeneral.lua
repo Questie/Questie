@@ -3,6 +3,8 @@
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
@@ -247,7 +249,35 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
-            Spacer_A = QuestieOptionsUtils:Spacer(1.22),
+            Spacer_A1 = QuestieOptionsUtils:Spacer(2.1),
+            isleOfQuelDanasPhase = {
+                type = "select",
+                order = 2.5,
+                width = 1.5,
+                values = IsleOfQuelDanas.localizedPhaseNames,
+                style = 'dropdown',
+                name = function() return l10n("Isle of Quel'Danas Phase") end,
+                desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
+                disabled = function() return (not Questie.IsTBC) end,
+                get = function() return Questie.db.global.isleOfQuelDanasPhase; end,
+                set = function(_, key)
+                    Questie.db.global.isleOfQuelDanasPhase = key
+                    QuestieQuest:SmoothReset()
+                end,
+            },
+            isleOfQuelDanasPhaseReminder = {
+                type = "toggle",
+                order = 2.6,
+                name = function() return l10n('Disable Phase reminder'); end,
+                desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
+                disabled = function() return (not Questie.IsTBC) end,
+                width = 1,
+                get = function () return Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled; end,
+                set = function (_, value)
+                    Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled = value
+                end,
+            },
+            Spacer_A = QuestieOptionsUtils:Spacer(2.9),
             minimapButtonEnabled = {
                 type = "toggle",
                 order = 3,
