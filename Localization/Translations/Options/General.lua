@@ -1027,11 +1027,11 @@ local generalOptionsLocales = {
         ["ruRU"] = "Фаза 3 - восстановление наковальни и кузницы",
         ["deDE"] = "Phase 3 - Schmiede und Amboss",
         ["koKR"] = nil,
-        ["esMX"] = "Fase 3 - Reconstruyendo el yunque y la fragua",
+        ["esMX"] = "Fase 3 - Reconstruyendo el Yunque y la Forja",
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = "Fase 3 - Reconstruyendo el yunque y la fragua",
+        ["esES"] = "Fase 3 - Reconstruyendo el Yunque y la Forja",
         ["frFR"] = "Phase 3 - Rebâtir la forge et l'enclume",
     },
     ["Phase 3.1 - Sun's Reach Harbor"] = {
