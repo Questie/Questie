@@ -2496,6 +2496,9 @@ function QuestieTBCQuestFixes:Load()
         [11525] = {
             [questKeys.objectives] = {{{24972, "Converted Sentry Deployed"}}},
         },
+        [11526] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11532] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Speak to Ayren Cloudbreaker", 0, {{"monster", 25059}}}},
         },
