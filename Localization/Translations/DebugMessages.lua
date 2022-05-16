@@ -64,7 +64,7 @@ local debugMessagesLocales = {
     },
     ["Flex the amount of quests you have completed so far"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "похвастаться количеством выполненных вами заданий",
+        ["ruRU"] = "похвастаться количеством выполненных вами заданий.",
         ["deDE"] = "Gib mit der Anzahl an Quests an die du bisher abgeschlossen hast",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -196,7 +196,7 @@ local debugMessagesLocales = {
     },
     ["Data is being processed, this may take a few moments and cause some lag..."] = {
         ["ptBR"] = "Os dados estão sendo processados, isso pode levar alguns instantes e causar alguma latência...",
-        ["ruRU"] = "Данные обрабатываются, это может занять некоторое время и явиться причиной зависаний...",
+        ["ruRU"] = "Данные обрабатываются, это может занять некоторое время и стать причиной зависаний...",
         ["deDE"] = "Die Daten werden verarbeitet, dies kann einige Momente dauern und etwas Lag verursachen...",
         ["koKR"] = "데이터가 처리중입니다. 이 작업은 몇 분 정도 걸릴 수 있으며, 약간의 지연이 발생할 수 있습니다.",
         ["esMX"] = "Los datos se están procesando, esto puede demorar unos minutos y causar latencia...",
