@@ -2251,7 +2251,7 @@ end
 
 function QuestieTracker:AQW_Insert(index, expire)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
-    if QuestieTracker._disableHooks then
+    if (not Questie.db.global.trackerEnabled) or QuestieTracker._disableHooks then
         return
     end
 
