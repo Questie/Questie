@@ -12,7 +12,7 @@ local socialOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = true,
     },
     ["Social Options"] = {
         ["ptBR"] = nil,
@@ -24,7 +24,7 @@ local socialOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Options sociales",
     },
     ["Announce quest updates via chat"] = {
         ["ptBR"] = "Anúncio de missão",
@@ -41,7 +41,7 @@ local socialOptionsLocales = {
     ["Announce quest updates to other players in your group or raid"] = {
         ["ptBR"] = nil,
         ["ruRU"] = "Включает оповещения об обновлениях заданий в чатах группы или рейда",
-        ["frFR"] = nil,
+        ["frFR"] = "Annoncer les mises à jour des quêtes aux autres joueurs du groupe ou du raid",
         ["koKR"] = nil,
         ["enUS"] = true,
         ["zhCN"] = "与您的队伍或团队中的其他玩家分享任务进度。",
@@ -96,7 +96,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "已接受任务",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Quête acceptée",
     },
     ["Announce quest acceptance to other players"] = {
         ["ptBR"] = nil,
@@ -108,7 +108,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "向其他玩家通报接受任务",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Annoncer l'acceptation des quêtes aux autres joueurs",
     },
     ["Quest abandoned"] = {
         ["ptBR"] = nil,
@@ -120,7 +120,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "放弃任务",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Quête abandonnée",
     },
     ["Announce quest abortion to other players"] = {
         ["ptBR"] = nil,
@@ -132,7 +132,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "向其他玩家通报放弃任务",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Annoncer l'annulation des quêtes aux autres joueurs",
     },
     ["Objective completed"] = {
         ["ptBR"] = nil,
@@ -144,7 +144,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "完成目标",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objectif complété",
     },
     ["Announce completed objectives to other players"] = {
         ["ptBR"] = nil,
@@ -156,7 +156,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "向其他玩家通报完成目标",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Annoncer les objectifs complétés aux autres joueurs",
     },
     ["Quest completed"] = {
         ["ptBR"] = nil,
@@ -168,7 +168,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "任务完成",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Quête complétée",
     },
     ["Announce quest completion to other players"] = {
         ["ptBR"] = nil,
@@ -180,7 +180,7 @@ local socialOptionsLocales = {
         ["zhCN"] = "向其他玩家通报任务完成",
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Annoncer la complétion des quêtes aux autres joueurs",
     },
     ["Share quest progress with nearby players"] = {
         ["ptBR"] = "Compartilhar o progresso da missão com jogadores próximos",
