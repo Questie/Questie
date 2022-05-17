@@ -52,7 +52,7 @@ local socialOptionsLocales = {
     },
     ["Channels to announce in"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Каналы для оповещений",
         ["deDE"] = "Kanäle in denen mitgeteilt wird",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -76,7 +76,7 @@ local socialOptionsLocales = {
     },
     ["Types of updates to announce in chat"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Типы обновлений для оповещения в чате",
         ["deDE"] = "Updatearten die im Chat mitgeteilt werden",
         ["koKR"] = nil,
         ["esMX"] = nil,
