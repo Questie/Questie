@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local socialOptionsLocales = {
     ["Social"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Чаты",
         ["deDE"] = "Soziales", -- TODO: Improve translation
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -16,7 +16,7 @@ local socialOptionsLocales = {
     },
     ["Social Options"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Настройки для чатов",
         ["deDE"] = "Soziale Einstellungen", -- TODO: Improve translation
         ["koKR"] = nil,
         ["esMX"] = nil,
