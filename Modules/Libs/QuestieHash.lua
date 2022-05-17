@@ -96,6 +96,7 @@ function QuestieHash:CompareHashesOfQuestIdList(questIdList)
                 Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
                 updatedQuestIdsSize = updatedQuestIdsSize + 1
                 updatedQuestIds[updatedQuestIdsSize] = questId
+                QuestieQuest:SetObjectivesDirty(questId)
             end
         end
     end
@@ -129,6 +130,7 @@ function QuestieHash:CompareQuestHash(questId)
             -- Quest isn't accepted yet or has been already removed. Not sure what to do.
             Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieHash] Old hash is missing for questId:", questId)
             hashChanged = true
+            QuestieQuest:SetObjectivesDirty(questId)
         end
     end
 
