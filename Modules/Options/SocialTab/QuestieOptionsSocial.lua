@@ -41,6 +41,7 @@ function QuestieOptions.tabs.social:Initialize()
                         get = function() return Questie.db.char.questAnnounceChannel; end,
                         set = function(_, key)
                             Questie.db.char.questAnnounceChannel = key
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Channels to announce changed to:", key)
                         end,
                     },
                     questAnnounceTypes = {
@@ -49,9 +50,22 @@ function QuestieOptions.tabs.social:Initialize()
                         inline = true,
                         name = function() return l10n('Types of updates to announce in chat'); end,
                         args = {
-                            questAnnounceAccepted = {
+                            questAnnounceItems = {
                                 type = "toggle",
                                 order = 1,
+                                name = function() return l10n('Items starting a quest'); end,
+                                desc = function() return l10n('Announce looted items that start a quest to other players'); end,
+                                width = 1.5,
+                                disabled = function() return _IsAnnounceDisabled(); end,
+                                get = function () return Questie.db.char.questAnnounceItems; end,
+                                set = function (_, value)
+                                    Questie.db.char.questAnnounceItems = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Items starting a quest changed to:", value)
+                                end,
+                            },
+                            questAnnounceAccepted = {
+                                type = "toggle",
+                                order = 2,
                                 name = function() return l10n('Quest accepted'); end,
                                 desc = function() return l10n('Announce quest acceptance to other players'); end,
                                 width = 1.5,
@@ -59,11 +73,12 @@ function QuestieOptions.tabs.social:Initialize()
                                 get = function () return Questie.db.char.questAnnounceAccepted; end,
                                 set = function (_, value)
                                     Questie.db.char.questAnnounceAccepted = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest accepted announce changed to:", value)
                                 end,
                             },
                             questAnnounceAbandoned = {
                                 type = "toggle",
-                                order = 2,
+                                order = 3,
                                 name = function() return l10n('Quest abandoned'); end,
                                 desc = function() return l10n('Announce quest abortion to other players'); end,
                                 width = 1.5,
@@ -71,11 +86,12 @@ function QuestieOptions.tabs.social:Initialize()
                                 get = function () return Questie.db.char.questAnnounceAbandoned; end,
                                 set = function (_, value)
                                     Questie.db.char.questAnnounceAbandoned = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest abandoned announce changed to:", value)
                                 end,
                             },
                             questAnnounceObjectives = {
                                 type = "toggle",
-                                order = 3,
+                                order = 4,
                                 name = function() return l10n('Objective completed'); end,
                                 desc = function() return l10n('Announce completed objectives to other players'); end,
                                 width = 1.5,
@@ -83,11 +99,12 @@ function QuestieOptions.tabs.social:Initialize()
                                 get = function () return Questie.db.char.questAnnounceObjectives; end,
                                 set = function (_, value)
                                     Questie.db.char.questAnnounceObjectives = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Objective completed announce changed to:", value)
                                 end,
                             },
                             questAnnounceCompleted = {
                                 type = "toggle",
-                                order = 4,
+                                order = 5,
                                 name = function() return l10n('Quest completed'); end,
                                 desc = function() return l10n('Announce quest completion to other players'); end,
                                 width = 1.5,
@@ -95,6 +112,7 @@ function QuestieOptions.tabs.social:Initialize()
                                 get = function () return Questie.db.char.questAnnounceCompleted; end,
                                 set = function (_, value)
                                     Questie.db.char.questAnnounceCompleted = value
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "Quest completed announce changed to:", value)
                                 end,
                             },
                         },
