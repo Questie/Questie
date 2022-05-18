@@ -2521,6 +2521,9 @@ function QuestieTBCQuestFixes:Load()
         [11538] = {
             [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"},},nil,nil,nil,{{24999,25001,25002,25008,25068,},25068},},
         },
+        [11544] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Break down Ata'mal Metal on the anvil to cleanse it", 0, {{"object", 187111}}}},
+        },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
