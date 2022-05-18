@@ -2486,6 +2486,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11513,11514},
             [questKeys.requiredMinRep] = {932,3000},
         },
+        [11520] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, "Use Razorthorn Flayer Gland on Razorthorn Ravager to tame it", 0, {{"monster", 24922}}},
+                {nil, ICON_TYPE_OBJECT, "Use Expose Razorthorn Root of your tamed Razorthorn Ravager to expose Razorthorn Root", 0, {{"object", 187073}}},
+            },
+        },
         [11523] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Energize a Crystal Ward", 0, {{"object", 187078}}}},
             [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
