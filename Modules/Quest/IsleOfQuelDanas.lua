@@ -151,11 +151,9 @@ IsleOfQuelDanas.quests = {
         --
         [11520] = true,
         [11521] = true,
-        [11536] = true,
         [11540] = true,
         [11541] = true,
         [11543] = true,
-        [11544] = true,
         [11545] = true,
         [11546] = true,
         [11548] = true,
