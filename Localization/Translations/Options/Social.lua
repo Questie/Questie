@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local socialOptionsLocales = {
     ["Social"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Чаты",
+        ["ruRU"] = "Социальное",
         ["deDE"] = "Soziales", -- TODO: Improve translation
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -16,7 +16,7 @@ local socialOptionsLocales = {
     },
     ["Social Options"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Настройки для чатов",
+        ["ruRU"] = "Социальные настройки",
         ["deDE"] = "Soziale Einstellungen", -- TODO: Improve translation
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -40,7 +40,7 @@ local socialOptionsLocales = {
     },
     ["Announce quest updates to other players in your group or raid"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Включает оповещения об обновлениях заданий в чатах группы или рейда",
+        ["ruRU"] = "Включает оповещения об обновлениях заданий в чатах группы и/или рейда",
         ["frFR"] = "Annoncer les mises à jour des quêtes aux autres joueurs du groupe ou du raid",
         ["koKR"] = nil,
         ["enUS"] = true,
@@ -52,7 +52,7 @@ local socialOptionsLocales = {
     },
     ["Channels to announce in"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Каналы для оповещений",
+        ["ruRU"] = "Чаты для оповещений",
         ["deDE"] = "Kanäle in denen mitgeteilt wird",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -64,7 +64,7 @@ local socialOptionsLocales = {
     },
     ["Both"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Оба",
+        ["ruRU"] = "Группа и рейд",
         ["deDE"] = "Beide",
         ["koKR"] = nil,
         ["esMX"] = "Ambos",
@@ -76,7 +76,7 @@ local socialOptionsLocales = {
     },
     ["Types of updates to announce in chat"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Типы обновлений для оповещения в чате",
+        ["ruRU"] = "Типы обновлений для оповещения в чатах",
         ["deDE"] = "Updatearten die im Chat mitgeteilt werden",
         ["koKR"] = nil,
         ["esMX"] = nil,
