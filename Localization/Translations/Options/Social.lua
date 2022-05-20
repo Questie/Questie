@@ -65,7 +65,7 @@ local socialOptionsLocales = {
     ["Questie ShutUp!"] = {
     -- TN: This was a stand-alone addon name, so you may want to leave it untranslated (change to true)
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Заткнись, Questie!",
         ["deDE"] = true,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -77,7 +77,7 @@ local socialOptionsLocales = {
     },
     ["Remove all Questie chat messages coming from other players and disable sending your own."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Скрывает в чатах все сообщения Questie от других игроков и отключает отправку ваших",
         ["deDE"] = "Alle Questie-Chatnachrichten anderer Spieler entfernen und das Senden der eigenen deaktivieren.",
         ["koKR"] = nil,
         ["esMX"] = nil,
