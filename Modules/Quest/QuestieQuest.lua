@@ -418,7 +418,7 @@ function QuestieQuest:AbandonedQuest(questId)
         for k, _ in pairs(QuestieQuest.availableQuests) do
             ---@type Quest
             local availableQuest = QuestieDB:GetQuest(k)
-            if (not availableQuest) or (not availableQuest:IsDoable()) then
+            if (not availableQuest) or (not QuestieDB:IsDoable(k)) then
                 QuestieMap:UnloadQuestFrames(k);
             end
         end
@@ -1357,8 +1357,8 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                             ---@type Quest
                             local quest = QuestieDB:GetQuest(questId)
                             if (not quest.tagInfoWasCached) then
-                                Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", quest.Id)
-                                quest:GetQuestTagInfo() -- cache to load in the tooltip
+                                Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
+                                QuestieDB:GetQuestTagInfo(questId) -- cache to load in the tooltip
                                 quest.tagInfoWasCached = true
                             end
                             --Draw a specific quest through the function
