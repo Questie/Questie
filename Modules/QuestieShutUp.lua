@@ -1,11 +1,8 @@
-local QuestieShutUp = CreateFrame("Frame");
+local QuestieShutUp = QuestieLoader:CreateModule("QuestieShutUp")
 
-QuestieShutUp:RegisterEvent("PLAYER_ENTERING_WORLD");
-QuestieShutUp:SetScript("OnEvent", function(self, event, arg1, arg2, arg3, arg4, arg5) QuestieShutUp_OnEvent(event, arg1, arg2, arg3, arg4, arg5) end);
+local Questie = _G.Questie
 
-local Questie = _G.Questie;
-
-function FilterFunc(self, event, msg, author, ...)
+function QuestieShutUp:FilterFunc(self, event, msg, author, ...)
     if not Questie.db.global.questieShutUp then
         return false;
     end
@@ -15,9 +12,17 @@ function FilterFunc(self, event, msg, author, ...)
     end
 end
 
-function QuestieShutUp_OnEvent(event, arg1, arg2, arg3, arg4, arg5)
-    if event == "PLAYER_ENTERING_WORLD" then
-        ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", FilterFunc);
-        ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", FilterFunc);
+function QuestieShutUp:ToggleFilters(value)
+    ChatFrame1:AddMessage("Questie ShutUp! toggled on or off")
+    if value then
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)
+        ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestieShutUp.FilterFunc)
+    else
+        ChatFrame_RemoveMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
+        ChatFrame_RemoveMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
+        ChatFrame_RemoveMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)
+        ChatFrame_RemoveMessageEventFilter("CHAT_MSG_RAID_LEADER", QuestieShutUp.FilterFunc)
     end
 end

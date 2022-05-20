@@ -1,10 +1,11 @@
-
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
+---@type QuestieShutUp
+local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -41,6 +42,7 @@ function QuestieOptions.tabs.social:Initialize()
                         get = function () return Questie.db.global.questieShutUp end,
                         set = function (_, value)
                             Questie.db.global.questieShutUp = value
+                            QuestieShutUp:ToggleFilters(value)
                         end,
                     },
                     questAnnounceChannel = {
