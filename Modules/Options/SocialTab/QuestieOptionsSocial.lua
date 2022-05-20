@@ -35,7 +35,7 @@ function QuestieOptions.tabs.social:Initialize()
                         type = "toggle",
                         order = 1,
                         name = function() return l10n('Questie ShutUp!'); end,
-                        desc = function() return l10n('Filter all Questie announce messages from other players and disable your own.'); end,
+                        desc = function() return l10n('Remove all Questie chat messages coming from other players and disable sending your own.'); end,
                         disabled = function() return false end,
                         width = 1.7,
                         get = function () return Questie.db.global.questieShutUp end,
