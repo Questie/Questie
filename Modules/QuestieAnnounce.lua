@@ -70,7 +70,7 @@ end
 
 function _QuestieAnnounce:AnnounceToChannel(message)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
-    if (not message) or alreadySentBandaid[message] then
+    if (not message) or alreadySentBandaid[message] or Questie.db.global.questieShutUp then
         return
     end
 

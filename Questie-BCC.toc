@@ -96,6 +96,7 @@ Modules\QuestieEventHandler.lua
 Modules\Migration.lua
 Modules\QuestieMenu.lua
 Modules\QuestieAnnounce.lua
+Modules\QuestieShutUp.lua
 Modules\TaskQueue.lua
 Modules\QuestiePlayer.lua
 
