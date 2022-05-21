@@ -1,20 +1,20 @@
+---@class QuestieShutUp
 local QuestieShutUp = QuestieLoader:CreateModule("QuestieShutUp")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
-local Questie = _G.Questie
+local stringFind = string.find
+local pattern
 
-function QuestieShutUp:FilterFunc(self, event, msg, author, ...)
-    if not Questie.db.global.questieShutUp then
-        return false;
-    end
-
-    if msg:find(" Questie : ") then
-        return true;
+function QuestieShutUp.FilterFunc(self, event, msg, author, ...)
+    if stringFind(msg, pattern) then
+        return true
     end
 end
 
 function QuestieShutUp:ToggleFilters(value)
-    ChatFrame1:AddMessage("Questie ShutUp! toggled on or off")
     if value then
+        pattern = "^"..(l10n:GetUILocale() == "ruRU" and "{звезда}" or "{rt1}").." Questie : "
         ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY", QuestieShutUp.FilterFunc)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_PARTY_LEADER", QuestieShutUp.FilterFunc)
         ChatFrame_AddMessageEventFilter("CHAT_MSG_RAID", QuestieShutUp.FilterFunc)
