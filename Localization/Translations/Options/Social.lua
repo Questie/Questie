@@ -73,7 +73,7 @@ local socialOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = true,
     },
     ["Remove all Questie chat messages coming from other players and disable sending your own."] = {
         ["ptBR"] = nil,
@@ -85,7 +85,7 @@ local socialOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Retire vos messages Questie du chat ainsi que ceux des autres joueurs",
     },
     ["Both"] = {
         ["ptBR"] = nil,
