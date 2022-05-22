@@ -71,7 +71,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Mostrar la cantidad de misiones que has completado hasta ahora",
         ["frFR"] = "Frimer avec le nombre de quêtes réalisées jusqu’à présent",
     },
     ["has completed a total of %d quests"] = {
@@ -83,7 +83,7 @@ local debugMessagesLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "ha completado un total de %d misiones",
         ["frFR"] = "a complété un total de %d quêtes",
     },
     ["Toggles the Minimap Button for Questie"] = {

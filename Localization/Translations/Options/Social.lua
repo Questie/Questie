@@ -11,7 +11,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = true,
         ["frFR"] = true,
     },
     ["Social Options"] = {
@@ -23,7 +23,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Opciones sociales",
         ["frFR"] = "Options sociales",
     },
     ["Announce quest updates via chat"] = {
@@ -59,7 +59,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Canales para anunciar en",
         ["frFR"] = "Canaux dans lesquels annoncer",
     },
     ["Questie ShutUp!"] = {
@@ -72,7 +72,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = true,
         ["frFR"] = true,
     },
     ["Remove all Questie chat messages coming from other players and disable sending your own."] = {
@@ -84,7 +84,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Elimina todos los mensajes de chat de Questie provenientes de otros jugadores y deshabilita el envío de los tuyos.",
         ["frFR"] = "Retire vos messages Questie du chat ainsi que ceux des autres joueurs",
     },
     ["Both"] = {
@@ -108,7 +108,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Tipos de actualizaciones para anunciar en el chat",
         ["frFR"] = "Types de mises à jour à annoncer dans le chat",
     },
     ["Quest accepted"] = {
