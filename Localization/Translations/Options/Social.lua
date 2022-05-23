@@ -88,7 +88,7 @@ local socialOptionsLocales = {
     },
     ["Items starting a quest"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Предметы, начинающие задание",
         ["deDE"] = "Quests startende Gegenstände",
         ["koKR"] = false,
         ["esMX"] = false,
