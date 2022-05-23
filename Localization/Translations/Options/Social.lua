@@ -96,7 +96,7 @@ local socialOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Objets commençant une quête",
     },
     ["Announce looted items that start a quest to other players"] = {
         ["ptBR"] = false,
