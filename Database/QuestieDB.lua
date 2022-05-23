@@ -695,54 +695,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         QO.IsRepeatable = mod(QO.specialFlags, 2) == 1
     end
 
-    -- This function is required because direct calls of GetQuestTagInfo while
-    -- initializing the quest object either returns false values or will make the
-    -- quest log appear empty
-    function QO:IsDungeonQuest()
-        local questType, _ = self:GetQuestTagInfo()
-        return questType == 81
-    end
-
-    function QO:IsRaidQuest()
-        local questType, _ = self:GetQuestTagInfo()
-        return questType == 62
-    end
-
-    function QO:IsPvPQuest()
-        local questType, _ = self:GetQuestTagInfo()
-        return questType == 41
-    end
-
---[[ preparation for Elite & Dungeon quests' experience boost in SoM
-    function QO:IsEliteQuest()
-        local questType = self:GetQuestTagInfo()
-        return questType == 1
-    end
-]]--
-
-    function QO:IsActiveEventQuest()
-        return QuestieEvent.activeQuests[self.Id] == true
-    end
-
-    --[[ Commented out because not used anywhere
-    function QO:IsAQWarEffortQuest()
-        return QuestieQuestBlacklist.AQWarEffortQuests[self.Id]
-    end
-    ]]--
-
-    --- Wrapper function for the GetQuestTagInfo API to correct
-    --- quests that are falsely marked by Blizzard
-    function QO:GetQuestTagInfo()
-        local questType, questTag = GetQuestTagInfo(self.Id)
-
-        if questTagCorrections[self.Id] then
-            questType = questTagCorrections[self.Id][1]
-            questTag = questTagCorrections[self.Id][2]
-        end
-
-        return questType, questTag
-    end
-
     --@param quest QuestieQuest @The quest to check for completion
     --@return number @Complete = 1, Failed = -1, Incomplete = 0
     function QO:IsComplete()
@@ -768,22 +720,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
 
         return complete
-    end
-
-    function QO:IsDoable() -- temporary
-        return QuestieDB:IsDoable(self.Id)
-    end
-
-    -- We always want to show a quest if it is a childQuest and its parent is in the quest log
-    function QO:IsParentQuestActive()
-        local parentID = self.parentID
-        if parentID == nil or parentID == 0 then
-            return false
-        end
-        if QuestiePlayer.currentQuestlog[parentID] then
-            return true
-        end
-        return false
     end
 
     -- reorganize to match wow api
@@ -940,60 +876,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         else
             return true -- Grey
         end
-    end
-
-    ---@return boolean @Returns true if any pre quest has been completed or none is listed, false otherwise
-    function QO:IsPreQuestSingleFulfilled()
-        local preQuestSingle = self.preQuestSingle
-        if not preQuestSingle or not next(preQuestSingle) then
-            return true
-        end
-        for _, preQuestId in pairs(preQuestSingle) do
-            local preQuest = QuestieDB:GetQuest(preQuestId);
-
-            -- If a quest is complete the requirement is fulfilled
-            if Questie.db.char.complete[preQuestId] then
-                return true
-            -- If one of the quests in the exclusive group is complete the requirement is fulfilled
-            elseif preQuest and preQuest.ExclusiveQuestGroup then
-                for _, v in pairs(preQuest.ExclusiveQuestGroup) do
-                    if Questie.db.char.complete[v] then
-                        return true
-                    end
-                end
-            end
-        end
-        -- No preQuest is complete
-        return false
-    end
-
-    ---@return boolean @Returns true if all listed pre quests are complete or none is listed, false otherwise
-    function QO:IsPreQuestGroupFulfilled()
-        local preQuestGroup = self.preQuestGroup
-        if not preQuestGroup or not next(preQuestGroup) then
-            return true
-        end
-        for _, preQuestId in pairs(preQuestGroup) do
-            -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
-            if not Questie.db.char.complete[preQuestId] then
-                local preQuest = QuestieDB:GetQuest(preQuestId);
-                if preQuest == nil or preQuest.ExclusiveQuestGroup == nil then
-                    return false
-                end
-
-                local anyExlusiveFinished = false
-                for _, v in pairs(preQuest.ExclusiveQuestGroup) do
-                    if Questie.db.char.complete[v] then
-                        anyExlusiveFinished = true
-                    end
-                end
-                if not anyExlusiveFinished then
-                    return false
-                end
-            end
-        end
-        -- All preQuests are complete
-        return true
     end
 
     local extraObjectives = rawdata[QuestieDB.questKeys.extraObjectives]

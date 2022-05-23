@@ -21,7 +21,7 @@ _GetAnnounceMarker = function()
 end
 
 function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveText, objectiveProgress)
-    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() then
+    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.char.questAnnounceObjectives then
         -- no hyperlink required here
         local questLink = QuestieLink:GetQuestLinkStringById(questId);
 
@@ -39,12 +39,15 @@ function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveTe
 end
 
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
-    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() then
+    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.char.questAnnounceItems then
         local questHyperLink = QuestieLink:GetQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
 
         local message = _GetAnnounceMarker() .. " Questie : " .. l10n("Picked up %s which starts %s!", itemLink, questHyperLink)
         _QuestieAnnounce:AnnounceToChannel(message)
+        return true
+    else
+        return false
     end
 end
 
@@ -70,7 +73,7 @@ end
 
 function _QuestieAnnounce:AnnounceToChannel(message)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
-    if (not message) or alreadySentBandaid[message] then
+    if (not message) or alreadySentBandaid[message] or Questie.db.global.questieShutUp then
         return
     end
 
@@ -100,12 +103,9 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
         end
 
         if startQuestId then
-            if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() then
-                QuestieAnnounce:AnnounceQuestItemLootedToChannel(startQuestId, itemId)
-                return
+            if not QuestieAnnounce:AnnounceQuestItemLootedToChannel(startQuestId, itemId) then
+                _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
             end
-
-            _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
         end
     end
 end

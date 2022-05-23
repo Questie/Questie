@@ -46,6 +46,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 ---@type ChatFilter
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
+---@type QuestieShutUp
+local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
 ---@type QuestieValidateGameCache
@@ -70,6 +72,8 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     else
         l10n:SetUILocale(GetLocale());
     end
+
+    QuestieShutUp:ToggleFilters(Questie.db.global.questieShutUp)
 
     Questie:Debug(Questie.DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
 
