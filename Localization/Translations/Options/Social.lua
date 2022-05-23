@@ -100,7 +100,7 @@ local socialOptionsLocales = {
     },
     ["Announce looted items that start a quest to other players"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оповещение о предметах, начинающих задание",
         ["deDE"] = "Teilt das Aufheben von Gegenständen, die eine Quests beginnen, anderen Spielern mit.",
         ["koKR"] = false,
         ["esMX"] = false,
