@@ -111,14 +111,21 @@ local migrationFunctions = {
         if not Questie.db.char.questAnnounceChannel then
             if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
                 Questie.db.char.questAnnounceChannel = "disabled"
+                Questie.db.char.questAnnounceObjectives = false
             else
                 Questie.db.char.questAnnounceChannel = "group"
+                Questie.db.char.questAnnounceObjectives = true
             end
         end
     end,
     [9] = function()
         if Questie.db.char.hiddenDailies and Questie.db.char.hiddenDailies.hc and next(Questie.db.char.hiddenDailies.hc) then
             table.insert(Questie.db.char.hiddenDailies.hc, 11499, true) -- Add new HC daily to hiddenDailies
+        end
+    end,
+    [10] = function()
+        if Questie.db.char.questAnnounceObjectives == nil then
+            Questie.db.char.questAnnounceObjectives = true
         end
     end,
 }
