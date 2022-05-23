@@ -78,7 +78,6 @@ Localization\lookups\Classic\lookupQuests\lookupQuests.xml
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
-Modules\Libs\QuestieHash.lua
 
 # Modules
 Modules\QuestieValidateGameCache.lua
@@ -119,6 +118,7 @@ Modules\Map\QuestieMapUtils.lua
 Modules\Map\HBDHooks.lua
 
 # Quest
+Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
 Modules\Quest\IsleOfQuelDanas.lua
 Modules\Quest\QuestEventHandler.lua

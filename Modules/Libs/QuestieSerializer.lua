@@ -341,6 +341,8 @@ function QuestieSerializer:Deserialize(data, encoding)
     return retData[1]
 end
 
+
+--[[ Commented out because doesn't match current codebase: Doesn't use QuestLogCache
 local _libAS = LibStub("AceSerializer-3.0")
 local _libCP = LibStub("LibCompress")
 local _CPTable = _libCP:GetAddonEncodeTable()
@@ -466,3 +468,4 @@ function QuestieSerializer:PrintChunk(data)
     end
     print(string.sub(data, idx))
 end
+]]--

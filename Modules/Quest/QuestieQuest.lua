@@ -43,17 +43,14 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
-local stringByte = string.byte
-
--- 3 * (Max possible number of quests in game quest log)
--- This is a safe value, even smaller would be enough. Too large won't effect performance
-local MAX_QUEST_LOG_INDEX = 75
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -232,6 +229,10 @@ function QuestieQuest:SmoothReset()
     -- bit of a hack (there has to be a better way to do logic like this
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
+        function()
+            -- Wait until game cache has quest log okey.
+            return QuestLogCache.TestGameCache() -- This is heavy :(
+        end,
         function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
@@ -483,18 +484,14 @@ end
 function QuestieQuest:GetAllQuestIds()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Getting all quests")
     QuestiePlayer.currentQuestlog = {}
-    for index = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, isComplete, _, questId = GetQuestLogTitle(index)
-        if (not title) then
-            -- We exceeded the valid quest log entries
-            break
-        end
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+
+    for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
+        if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
-        elseif (not isHeader) and isComplete ~= -1 then
+        elseif data.isComplete ~= -1 then -- WTF (this) old code did? this creates BUGS
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -505,11 +502,11 @@ function QuestieQuest:GetAllQuestIds()
                     QuestieQuest:PopulateObjectiveNotes(quest)
                 end
 
-                if title and strlen(title) > 1 then
-                    quest.LocalizedName = title
+                if data.title and strlen(data.title) > 1 then
+                    quest.LocalizedName = data.title
                 end
             else
-                QuestiePlayer.currentQuestlog[questId] = questId
+                QuestiePlayer.currentQuestlog[questId] = questId -- WTF? this creates BUGS! code is expecting this to be "quest" not "questId"
             end
             Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
         end
@@ -523,18 +520,14 @@ end
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Getting all quests without objectives")
     QuestiePlayer.currentQuestlog = {}
-    for index = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(index)
-        if (not title) then
-            -- We exceeded the valid quest log entries
-            break
-        end
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+
+    for questId in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
+        if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
-        elseif (not isHeader) then
+        else
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -572,7 +565,7 @@ function QuestieQuest:AddFinisher(quest)
     local questId = quest.Id
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
-    if(QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (IsQuestComplete(questId) or quest:IsComplete() == 1) and (not Questie.db.char.complete[questId])) then
+    if(QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1) and (not Questie.db.char.complete[questId])) then
         local finisher
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
@@ -1027,25 +1020,17 @@ end
 
 ---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
-    local logID = GetQuestLogIndexByID(quest.Id)
-    if logID ~= 0 then
-        local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, isHidden = GetQuestLogTitle(logID)
-        quest.isComplete = isComplete
-        quest.isHidden = isHidden
-        if quest.isComplete ~= nil and quest.isComplete == 1 then
-            quest.isComplete = true
-        end
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] PopulateMeta:", quest.isComplete, quest.name)
-    else
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Error: No quest log index for:", quest.name, quest.Id)
+    local cachedQuest = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
+
+    quest.isComplete = cachedQuest.isComplete
+    if quest.isComplete ~= nil and quest.isComplete == 1 then
+        quest.isComplete = true
     end
-    QuestieQuest:GetAllQuestObjectives(quest)
-end
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] PopulateMeta:", quest.isComplete, quest.name)
 
 --Uses the category order to draw the quests and trusts the database order.
----@param quest Quest
-function QuestieQuest:GetAllQuestObjectives(quest)
-    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}
+
+    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
 
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and string.len(objective.type) > 1 then
@@ -1053,15 +1038,6 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                 Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
                 if quest.Objectives[objectiveIndex] == nil then
-
-                    -- Sometimes we need to retry to get the correct text from the API
-                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
-                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:GetAllQuestObjectives] Retrying to get objectiveText for '", objective.text, "'")
-                        local retry = C_QuestLog.GetQuestObjectives(quest.Id)
-                        objective.text = retry[objectiveIndex].text
-                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:GetAllQuestObjectives] Received text is:", retry[objectiveIndex].text)
-                    end
-
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
@@ -1077,12 +1053,12 @@ function QuestieQuest:GetAllQuestObjectives(quest)
                     }
                 end
 
-                quest.Objectives[objectiveIndex]:Update(questObjectives)
+                quest.Objectives[objectiveIndex]:Update()
             end
         end
 
         if (not quest.Objectives[objectiveIndex]) or (not quest.Objectives[objectiveIndex].Id) then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:GetAllQuestObjectives] Error finding entry ID for objective", objectiveIndex, objective.type, objective.text, "of questId:", quest.Id)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateQuestLogInfo] Error finding entry ID for objective", objectiveIndex, objective.type, objective.text, "of questId:", quest.Id)
         end
     end
 
@@ -1100,88 +1076,47 @@ function QuestieQuest:GetAllQuestObjectives(quest)
             specialObjective.AlreadySpawned = {}
         end
     end
-
-    return quest.Objectives
 end
 
 ---@param self table @quest.Objectives[] entry
----@param questObjectives table @OPTIONAL GetAllLeaderBoardDetails() for the quest. For performance to not get it again.
-function _QuestieQuest.ObjectiveUpdate(self, questObjectives)
+function _QuestieQuest.ObjectiveUpdate(self)
     if self.isUpdated then
         return
     end
 
-    questObjectives = questObjectives or QuestieQuest:GetAllLeaderBoardDetails(self.questId)
+    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId) -- DO NOT MODIFY THE RETURNED TABLE
 
-    if questObjectives and questObjectives[self.Index] then
-        local obj = questObjectives[self.Index];
+    if questObjectives[self.Index] then
+        local obj = questObjectives[self.Index] -- DO NOT EDIT THE TABLE
         if (obj.type) then
             -- fixes for api bug
-            if not obj.numFulfilled then obj.numFulfilled = 0; end
-            if not obj.numRequired then obj.numRequired = 0; end
-            if not obj.finished then obj.finished = false; end -- ensure its boolean false and not nil (hack)
+            local numFulfilled = obj.numFulfilled or 0
+            local numRequired = obj.numRequired or 0
+            local finished = obj.finished or false -- ensure its boolean false and not nil (hack)
 
             self.Type = obj.type;
-            self.Description = obj.text;
-            self.Collected = tonumber(obj.numFulfilled);
-            self.Needed = tonumber(obj.numRequired);
-            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (obj.finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
+            self.Description = obj.text
+            self.Collected = tonumber(numFulfilled);
+            self.Needed = tonumber(numRequired);
+            self.Completed = (self.Needed == self.Collected and self.Needed > 0) or (finished and (self.Needed == 0 or (not self.Needed))) -- some objectives get removed on PLAYER_LOGIN because isComplete is set to true at random????
             -- Mark objective updated
             self.isUpdated = true
         end
     end
 end
 
---https://www.townlong-yak.com/framexml/live/Blizzard_APIDocumentation#C_QuestLog.GetQuestObjectives
---[[function _QuestieQuest:GetLeaderBoardDetails(objectiveIndex, questId)
-    local questObjectives = C_QuestLog.GetQuestObjectives(questId)-- or {};
-    if(questObjectives[objectiveIndex]) then
-        local objective = questObjectives[objectiveIndex];
-        local text = smatch(objective.text, "(.*)[：,:]");
-        -- If nothing is matched, we should just add the text as is.
-        if(text ~= nil) then
-            objective.text = text;
-        end
-        return objective.type, objective.text, objective.numFulfilled, objective.numRequired, objective.finished;
-    end
-    return nil;
-end]]--
-
-local _has_seen_incomplete = {}
-local _has_sent_announce = {}
-
 ---@param questId number
+---@return table @DO NOT EDIT RETURNED TABLE
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
-    local questObjectives = C_QuestLog.GetQuestObjectives(questId)
-    if not questObjectives then
-        -- Some quests just don't have a real objective e.g. 2744
-        return nil
-    end
-
-    --Questie:Print(questId)
+    local questObjectives = QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE
     for _, objective in pairs(questObjectives) do
-        local text = objective.text
-        if text and (stringByte(text, 1) ~= 32) then -- if (text does NOT starts with a space " ") then
-            text = QuestieLib.TrimObjectiveText(text, objective.type)
-            objective.text = text
-
-            -- Announce completed objective
-            local completed = objective.numRequired == objective.numFulfilled
-            if (not completed) then
-                _has_seen_incomplete[text] = true
-            elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
-                _has_seen_incomplete[text] = nil
-                _has_sent_announce[text] = true
-                QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(objective.numFulfilled) .. "/" .. tostring(objective.numRequired))
-            end
-        else
-            Questie:Error("ERROR! Something went wrong in GetAllLeaderBoardDetails"..tostring(questId).." - "..tostring(text))
-        end
+        -- TODO Move this to QuestEventHandler module or QuestieQuest:AcceptQuest( ) + QuestieQuest:UpdateQuest( ) (acceptquest one required to register objectives without progress)
+        -- TODO After ^^^ moving remove this function and use "QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE" in place of it.
+        QuestieAnnounce:ObjectiveChanged(questId, objective.text, objective.numFulfilled, objective.numRequired)
     end
     return questObjectives
 end
-
 
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 ---@param quest Quest

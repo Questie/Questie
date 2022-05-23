@@ -55,6 +55,8 @@ local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
 
@@ -386,17 +388,22 @@ end
 ---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
-    local questLogIndex = GetQuestLogIndexByID(questId)
-    local _, _, _, _, _, isComplete = GetQuestLogTitle(questLogIndex)
+    if (not QuestiePlayer.currentQuestlog[questId]) then
+        return 0
+    end
+
+    local isComplete = QuestLogCache.GetQuest(questId).isComplete
 
     if isComplete ~= nil then
         return isComplete -- 1 if the quest is completed, -1 if the quest is failed
     end
 
+    --[[
     isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
     if isComplete then
         return 1
     end
+    ]]--
 
     return 0
 end
@@ -698,6 +705,20 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     --@param quest QuestieQuest @The quest to check for completion
     --@return number @Complete = 1, Failed = -1, Incomplete = 0
     function QO:IsComplete()
+        local cachedQuest = QuestLogCache.GetQuest(self.Id) -- DO NOT MODIFY THE RETURNED TABLE
+        if cachedQuest.isComplete then
+            return cachedQuest.isComplete
+        else
+            local complete = 1
+            for _, objective in pairs(cachedQuest.objectives) do
+                if objective.numRequired and objective.numFulfilled and objective.numRequired ~= objective.numFulfilled then
+                    complete = 0
+                    break
+                end
+            end
+            return complete
+        end
+--[[
         local questLogIndex = GetQuestLogIndexByID(self.Id)
         local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
 
@@ -720,6 +741,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
 
         return complete
+]]--
     end
 
     -- reorganize to match wow api
