@@ -108,7 +108,7 @@ local socialOptionsLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Annonce le ramassage d’objets commençant une quête aux autres joueurs",
     },
     ["Quest accepted"] = {
         ["ptBR"] = nil,
