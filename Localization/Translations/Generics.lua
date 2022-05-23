@@ -112,7 +112,7 @@ local genericsLocales = {
     },
     ["Cancel"] = {
         ["ptBR"] = "Cancelar",
-        ["ruRU"] = "Закрыть это окно",
+        ["ruRU"] = "Отмена",
         ["deDE"] = "Abbrechen",
         ["koKR"] = "취소",
         ["esMX"] = "Cancelar",
