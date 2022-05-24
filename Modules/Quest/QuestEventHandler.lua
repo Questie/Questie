@@ -93,21 +93,24 @@ function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     questLog[questId] = {}
     skipNextUQLCEvent = true
     QuestieLib:CacheItemNames(questId)
-    _QuestEventHandler:HandleQuestAccepted(questId)
+    _QuestEventHandler:HandleQuestAccepted(questId, true)
 end
 
 ---@param questId number
----@return boolean true @if the function was successful, false otherwise
-function _QuestEventHandler:HandleQuestAccepted(questId)
+---@param insertToQueue boolean|nil @optional
+---@return boolean @true if the function was successful, false otherwise
+function _QuestEventHandler:HandleQuestAccepted(questId, insertToQueue)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local questObjectives = C_QuestLog.GetQuestObjectives(questId)
     for _, objective in pairs(questObjectives) do
         -- When the objective text is not cached yet it looks similar to " slain: 0/1"
         if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
             Questie:Debug(Questie.DEBUG_SPAM, "Objective texts are not correct yet")
-            _QuestLogUpdateQueue:Insert(function()
-                return _QuestEventHandler:HandleQuestAccepted(questId)
-            end)
+            if insertToQueue then
+                _QuestLogUpdateQueue:Insert(function()
+                    return _QuestEventHandler:HandleQuestAccepted(questId)
+                end)
+            end
 
             -- No need to check other objectives since we have to check them all again already
             return false
@@ -214,7 +217,7 @@ function _QuestEventHandler:QuestLogUpdate()
     -- Some of the other quest event didn't have the required information and ordered to wait for the next QLU.
     -- We are now calling the function which the event added.
     while continueQueuing and next(questLogUpdateQueue) do
-        continueQueuing = _QuestLogUpdateQueue:GetFirst()()
+        continueQueuing = _QuestLogUpdateQueue:ExecuteFirst()
     end
 
     if doFullQuestLogScan then
@@ -317,16 +320,20 @@ function _QuestEventHandler:ReputationChange()
 end
 
 --- Helper function to insert a callback to the questLogUpdateQueue and increase the index
+---@param callback function
 function _QuestLogUpdateQueue:Insert(callback)
     questLogUpdateQueue[questLogUpdateQueueSize] = callback
     questLogUpdateQueueSize = questLogUpdateQueueSize + 1
 end
 
 --- Helper function to retrieve the first element of questLogUpdateQueue
----@return function @The callback that was inserted first into questLogUpdateQueue
-function _QuestLogUpdateQueue:GetFirst()
-    questLogUpdateQueueSize = questLogUpdateQueueSize - 1
-    return tableRemove(questLogUpdateQueue, 1)
+---@return boolean success @true when callback succeed and was removed from queue, false otherwise and still in queue
+function _QuestLogUpdateQueue:ExecuteFirst()
+    local success = questLogUpdateQueue[1] and questLogUpdateQueue[1]()
+    if success then
+        tableRemove(questLogUpdateQueue, 1)
+    end
+    return success
 end
 
 --- Is executed whenever an event is fired and triggers relevant event handling.
