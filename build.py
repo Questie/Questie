@@ -12,7 +12,7 @@ This program accepts two optional command line options:
 
     -r
     --release
-        Do not unclude commit hash in directory/zip/version names
+        Do not include commit hash in directory/zip/version names
     -v <versionString>
     --version <versionString>
         Disregard git and toc versions, and use <versionString> instead
