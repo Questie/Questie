@@ -124,6 +124,7 @@ end
 function QuestLogCache.CheckForChanges(questIdsToCheck)
     local gameCacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
+    local questIdsChecked = {} -- for debug / error detection
 
     for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
         ----- title, level, questTag, isHeader, isCollapsed, isComplete, frequency, questID, startEvent, displayQuestID, isOnMap, hasLocalPOI, isTask, isBounty, isStory, isHidden, isScaling = GetQuestLogTitle(questLogIndex)
@@ -133,6 +134,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
             break -- We exceeded the valid quest log entries
         end
         if (not isHeader) and ((not questIdsToCheck) or questIdsToCheck[questId]) then -- check all quests if no list what to check, otherwise just ones in the list
+            questIdsChecked[questId] = true
             if HaveQuestData(questId) then
                 local cachedQuest = cache[questId]
                 local cachedObjectives = cachedQuest and cachedQuest.objectives or {}
@@ -198,6 +200,16 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 C_QuestLog_GetQuestObjectives(questId)
 
                 gameCacheMiss = true
+            end
+        end
+    end
+
+    -- debug / error detection to see if this happens sometimes.
+    if questIdsToCheck then
+        for questId in pairs(questIdsToCheck) do
+            if (not questIdsChecked[questId]) then
+                Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] QuestId didn't exist in Game's quest log:", questId)
+                Questie:Error("REPORT THIS EXCEPTION! QuestId didn't exist in Game's quest log:", questId)
             end
         end
     end
