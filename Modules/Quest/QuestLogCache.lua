@@ -220,10 +220,10 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     if questIdsToCheck then
         ids = ""
         for questId in pairs(questIdsToCheck) do
-            ids = ids..tostring(questId)..", " --yes, ugly extra comma at end. CBA
+            ids = ids..tostring(questId).."," --yes, ugly extra comma at end. CBA
         end
     end
-    print("CheckForChanges: questIdsToCheck=", ids)
+    print("questIdsToCheck=", ids)
     QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
 
     return cacheMiss, changes
