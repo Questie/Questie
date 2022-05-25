@@ -231,7 +231,7 @@ end
 
 
 function QuestLogCache.RemoveQuest(questId)
-    print("DebugPrint", "RemovingQuest:", questId, GetTime(), GetTimePreciseSec())
+    print("DebugPrint", "RemovingQuest:", questId, GetTime())
     cache[questId] = nil
 end
 
