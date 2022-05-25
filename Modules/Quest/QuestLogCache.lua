@@ -307,7 +307,7 @@ end
 
 --- Debug function, prints whole cache
 function QuestLogCache.DebugPrintCache()
-    print("DebugPrintCache", GetTime(), GetTimePreciseSec())
+    print("DebugPrintCache", GetTime())
     for questId, q in pairs(cache) do
         print("Quest: ("..questId..") \""..q.title.."\" questTag="..tostring(q.questTag) ,"isComplete="..tostring(q.isComplete))
         if not next(q.objectives) then
@@ -322,7 +322,8 @@ end
 
 --- Debug function, prints changes
 function QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
-    print("DebugPrintCacheChanges", GetTime(), GetTimePreciseSec(), "CacheMiss:", cacheMiss)
+    local hilight = ((not cacheMiss) and (not next(changes))) or (cacheMiss and next(changes))
+    print("DebugPrintCacheChanges", GetTime(), (hilight and "\124cffFF4444CacheMiss:\124r" or "CacheMiss"), cacheMiss)
     for questId, objIndexes in pairs(changes) do
         local q = cache[questId]
         print("Quest: ("..questId..") \""..q.title.."\" questTag="..tostring(q.questTag) ,"isComplete="..tostring(q.isComplete))
