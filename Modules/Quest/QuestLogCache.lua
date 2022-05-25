@@ -119,11 +119,11 @@ local function GetNewObjectives(questId, oldObjectives)
     return newObjectives, changedObjIds
 end
 
-
+--- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 ---@param questIdsToCheck table|nil @keys are the questIds
----@return boolean gameCacheMiss, table changes @gameCacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
+---@return boolean cacheMiss, table changes @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
 function QuestLogCache.CheckForChanges(questIdsToCheck)
-    local gameCacheMiss = false
+    local cacheMiss = false
     local changes = {} -- table key = questid of the changed quest, table value = list of changed objective ids
     local questIdsChecked = {} -- for debug / error detection
 
@@ -150,7 +150,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                         -- TODO Might be possible when the quest get complete(d). Should be tested!
 
                         -- For now go as nothing in the quest changed.
-                        gameCacheMiss = true
+                        cacheMiss = true
                     else
                         if (not cachedQuest) or (cachedQuest.title ~= title) or (cachedQuest.questTag ~= questTag) or (cachedQuest.isComplete ~= isComplete) then
                             -- Mark all objectives changed to force update those too.
@@ -185,7 +185,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                         end
                     end
                 else
-                    gameCacheMiss = true
+                    cacheMiss = true
                 end
             else
                 Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] HaveQuestData() == false. questId, index:", questId, questLogIndex)
@@ -200,7 +200,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                 -- Speed up caching of objective items as HaveQuestData() won't trigger game to cache those.
                 C_QuestLog_GetQuestObjectives(questId)
 
-                gameCacheMiss = true
+                cacheMiss = true
             end
         end
     end
@@ -215,8 +215,18 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
         end
     end
 
-    QuestLogCache.DebugPrintCacheChanges(gameCacheMiss, changes)
-    return gameCacheMiss, changes
+    -- DEBUG prints. -- TODO BEFORE RELEASE remove or comment out
+    local ids = "ALL"
+    if questIdsToCheck then
+        ids = ""
+        for questId in pairs(questIdsToCheck) do
+            ids = ids..tostring(questId)..", " --yes, ugly extra comma at end. CBA
+        end
+    end
+    print("CheckForChanges: questIdsToCheck=", ids)
+    QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
+
+    return cacheMiss, changes
 end
 
 
@@ -311,8 +321,8 @@ function QuestLogCache.DebugPrintCache()
 end
 
 --- Debug function, prints changes
-function QuestLogCache.DebugPrintCacheChanges(gameCacheMiss, changes)
-    print("DebugPrintCacheChanges", GetTime(), GetTimePreciseSec(), "CacheMiss:", gameCacheMiss)
+function QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
+    print("DebugPrintCacheChanges", GetTime(), GetTimePreciseSec(), "CacheMiss:", cacheMiss)
     for questId, objIndexes in pairs(changes) do
         local q = cache[questId]
         print("Quest: ("..questId..") \""..q.title.."\" questTag="..tostring(q.questTag) ,"isComplete="..tostring(q.isComplete))

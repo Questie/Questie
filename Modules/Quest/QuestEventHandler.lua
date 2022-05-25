@@ -56,8 +56,8 @@ end
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 function _QuestEventHandler:InitQuestLog()
     -- Fill the QuestLogCache for first time
-    local gameCacheMiss, changes = QuestLogCache.CheckForChanges(nil)
-    if gameCacheMiss then
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+    if cacheMiss then
         -- TODO actually can happen in rare edge case if player accepts new quest during questie init. *cough*
         -- or if someone managed to overflow game cache already at this point.
         -- TODO BEFORE RELEASE Change / remove message
@@ -99,8 +99,8 @@ end
 ---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local gameCacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true })
-    if gameCacheMiss then
+    local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true }) -- if cacheMiss, no need to check changes as only 1 questId
+    if cacheMiss then
         Questie:Debug(Questie.DEBUG_SPAM, "Objectives not cached yet")
         _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:HandleQuestAccepted(questId)
@@ -276,7 +276,7 @@ function _QuestEventHandler:UpdateAllQuests()
         end
     end
 
-    local gameCacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
     
     if next(changes) then
         for questId, objIds in pairs(changes) do
@@ -291,8 +291,8 @@ function _QuestEventHandler:UpdateAllQuests()
         Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
     end
 
-    -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "gameCacheMiss" (game's cache and addon's cache don't have required data yet)
-    doFullQuestLogScan = doFullQuestLogScan or gameCacheMiss
+    -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)
+    doFullQuestLogScan = doFullQuestLogScan or cacheMiss
 end
 
 local lastTimeBankFrameClosedEvent = -1
