@@ -1020,9 +1020,9 @@ end
 
 ---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
-    local cachedQuest = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
+    local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
 
-    quest.isComplete = cachedQuest.isComplete
+    quest.isComplete = questLogEngtry.isComplete
     if quest.isComplete ~= nil and quest.isComplete == 1 then
         quest.isComplete = true
     end

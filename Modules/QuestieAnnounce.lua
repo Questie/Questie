@@ -40,6 +40,7 @@ end
 
 local _has_seen_incomplete = {}
 local _has_sent_announce = {}
+
 function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequired)
     -- Announce completed objective
     if (numRequired ~= numFulfilled) then
