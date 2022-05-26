@@ -388,24 +388,8 @@ end
 ---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB:IsComplete(questId)
-    if (not QuestiePlayer.currentQuestlog[questId]) then
-        return 0
-    end
-
-    local isComplete = QuestLogCache.GetQuest(questId).isComplete
-
-    if isComplete ~= nil then
-        return isComplete -- 1 if the quest is completed, -1 if the quest is failed
-    end
-
-    --[[
-    isComplete = IsQuestComplete(questId) -- true if the quest is both in the quest log and complete, false otherwise
-    if isComplete then
-        return 1
-    end
-    ]]--
-
-    return 0
+    local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
+    return (questLogEntry and questLogEntry.isComplete) or 0
 end
 
 ---@param questId number
@@ -630,6 +614,12 @@ function QuestieDB:IsDoable(questId)
 end
 
 
+---@param self Quest
+---@return number @Complete = 1, Failed = -1, Incomplete = 0
+function _QuestieDB._QO_IsComplete(self)
+    local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[self.Id] -- DO NOT MODIFY THE RETURNED TABLE
+    return (questLogEntry and questLogEntry.isComplete) or 0
+end
 
 ---@param questId number
 ---@return Quest|nil @The quest object or nil if the quest is missing
@@ -702,47 +692,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         QO.IsRepeatable = mod(QO.specialFlags, 2) == 1
     end
 
-    --@param quest QuestieQuest @The quest to check for completion
-    --@return number @Complete = 1, Failed = -1, Incomplete = 0
-    function QO:IsComplete()
-        local cachedQuest = QuestLogCache.GetQuest(self.Id) -- DO NOT MODIFY THE RETURNED TABLE
-        if cachedQuest.isComplete then
-            return cachedQuest.isComplete
-        else
-            local complete = 1
-            for _, objective in pairs(cachedQuest.objectives) do
-                if objective.numRequired and objective.numFulfilled and objective.numRequired ~= objective.numFulfilled then
-                    complete = 0
-                    break
-                end
-            end
-            return complete
-        end
---[[
-        local questLogIndex = GetQuestLogIndexByID(self.Id)
-        local _, _, _, _, _, isComplete, _, _, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(questLogIndex)
-
-        if isComplete ~= nil then
-            return isComplete -- 1 if the quest is completed, -1 if the quest is failed
-        end
-
-        isComplete = IsQuestComplete(self.Id) -- true if the quest is both in the quest log and complete, false otherwise
-        if isComplete then
-            return 1
-        end
-
-        -- validate objectives
-        local complete = 1
-        for _, objective in pairs(C_QuestLog.GetQuestObjectives(self.Id)) do
-            if objective.numRequired and objective.numFulfilled and objective.numRequired ~= objective.numFulfilled then
-                complete = 0
-                break
-            end
-        end
-
-        return complete
-]]--
-    end
+    QO.IsComplete = _QuestieDB._QO_IsComplete
 
     -- reorganize to match wow api
     if rawdata[3][1] ~= nil then
