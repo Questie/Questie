@@ -252,6 +252,13 @@ function QuestieMap:ProcessShownMinimapIcons()
             --Never run more than maxCount in a single run
             if count > maxCount then
                 cYield()
+                if (not HBDPins.activeMinimapPins[minimapFrame]) then
+                    -- table has been edited during traversal
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "FadeLogic loop coroutine: HBDPins.activeMinimapPins doesn't have the key anymore.")
+                    -- force reupdate imeadiately
+                    totalDistance = 9000
+                    break
+                end
                 count = 0
             else
                 count = count + 1
