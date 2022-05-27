@@ -253,8 +253,8 @@ function QuestieMap:ProcessShownMinimapIcons()
             if count > maxCount then
                 cYield()
                 if (not HBDPins.activeMinimapPins[minimapFrame]) then
-                    -- table has been edited during traversal
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "FadeLogic loop coroutine: HBDPins.activeMinimapPins doesn't have the key anymore.")
+                    -- table has been edited during traversal at critical key. we can't continue iterating over it. stop iteration and start again.
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap:ProcessShownMinimapIcons] FadeLogic loop coroutine: HBDPins.activeMinimapPins doesn't have the key anymore.")
                     -- force reupdate imeadiately
                     totalDistance = 9000
                     break
