@@ -1225,9 +1225,9 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
         for _, npcId in ipairs(quest.Starts["NPC"]) do
             local npc = QuestieDB:GetNPC(npcId)
 
-            QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
-
             if (npc ~= nil and npc.spawns ~= nil) then
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
+
                 --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 local starterIcons = {}
                 local starterLocs = {}
