@@ -246,16 +246,17 @@ end
 function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest, offset)
     local questObject = QuestieDB:GetQuest(questId);
 
-    local rawObjectives = QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE
-
     local count = 0
+
+    local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not rawObjectives) then return offset, count end
 
     if questObject and next(questObject.Objectives) then
         quest[offset] = questId
         local countOffset = offset+1
 
         offset = offset + 2
-        for objectiveIndex, objective in pairs(rawObjectives) do
+        for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             quest[offset] = questObject.Objectives[objectiveIndex].Id
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
@@ -276,9 +277,10 @@ end
 function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
     local questObject = QuestieDB:GetQuest(questId);
 
-    local rawObjectives = QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE
-
     local count = 0
+
+    local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not rawObjectives) then return offset, count end
 
     if questObject and next(questObject.Objectives) then
         quest[offset] = questId
@@ -287,7 +289,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
         quest[offset+2] = _classToIndex[classFilename]
 
         offset = offset + 3
-        for objectiveIndex, objective in pairs(rawObjectives) do
+        for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             quest[offset] = questObject.Objectives[objectiveIndex].Id
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
@@ -752,12 +754,16 @@ function QuestieComms:CreateQuestDataPacket(questId)
     local questObject = QuestieDB:GetQuest(questId);
 
     ---@class QuestPacket
-    local quest = {};
-    quest.id = questId;
-    local rawObjectives = QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE
-    quest.objectives = {}
+    local quest = {
+        id = questId,
+        objectives = {},
+    }
+
+    local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not rawObjectives) then return quest end
+
     if questObject and next(questObject.Objectives) then
-        for objectiveIndex, objective in pairs(rawObjectives) do
+        for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             if questObject.Objectives[objectiveIndex] then
                 quest.objectives[objectiveIndex] = {};
                 quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;

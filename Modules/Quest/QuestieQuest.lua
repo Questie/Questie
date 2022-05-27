@@ -1021,6 +1021,7 @@ end
 ---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
     local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not questLogEngtry) then return end
 
     quest.isComplete = questLogEngtry.isComplete
     if quest.isComplete ~= nil and quest.isComplete == 1 then
@@ -1109,12 +1110,16 @@ end
 ---@return table @DO NOT EDIT RETURNED TABLE
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
-    local questObjectives = QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE
-    for _, objective in pairs(questObjectives) do
+
+    local questObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not questObjectives) then return end
+
+    for _, objective in pairs(questObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
         -- TODO Move this to QuestEventHandler module or QuestieQuest:AcceptQuest( ) + QuestieQuest:UpdateQuest( ) (acceptquest one required to register objectives without progress)
         -- TODO After ^^^ moving remove this function and use "QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE" in place of it.
         QuestieAnnounce:ObjectiveChanged(questId, objective.text, objective.numFulfilled, objective.numRequired)
     end
+
     return questObjectives
 end
 
