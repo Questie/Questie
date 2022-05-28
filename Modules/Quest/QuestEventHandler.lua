@@ -60,9 +60,7 @@ function _QuestEventHandler:InitQuestLog()
     if cacheMiss then
         -- TODO actually can happen in rare edge case if player accepts new quest during questie init. *cough*
         -- or if someone managed to overflow game cache already at this point.
-        -- TODO BEFORE RELEASE Change / remove message
-        Questie:Error("[_QuestEventHandler:InitQuestLog] Game's cache is not ok. This shouldn't happen. Please report.")
-        error("Questie: Game's cache is not ok. PLEASE REPORT to Questie developers.")
+        Questie:Error("Please report on Github or Discord. Game's quest log cache is not ok. This shouldn't happen. Questie may malfunction.")
     end
 
     for questId, _ in pairs(changes) do
@@ -99,7 +97,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true }) -- if cacheMiss, no need to check changes as only 1 questId
     if cacheMiss then
-        Questie:Debug(Questie.DEBUG_SPAM, "Objectives not cached yet")
+        Questie:Debug(Questie.DEBUG_SPAM, "Objectives are not cached yet")
         _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:HandleQuestAccepted(questId)
         end)
@@ -153,7 +151,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
 
     skipNextUQLCEvent = true
     QuestLogCache.RemoveQuest(questId)
-    QuestieQuest:SetObjectivesDirty(questId)
+    QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
 
     QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
@@ -195,7 +193,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestLogCache.RemoveQuest(questId)
-        QuestieQuest:SetObjectivesDirty(questId)
+        QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
 
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
