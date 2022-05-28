@@ -163,7 +163,11 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
             -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
             QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
                 if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
-                    coroutine.resume(fadeLogicCoroutine)
+                    local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
+                    if (not success) then
+                        Questie:Error("Minimap pins fade logic coroutine stopped:", errorMsg)
+                        fadeLogicCoroutine = nil
+                    end
                 end
             end)
         end
