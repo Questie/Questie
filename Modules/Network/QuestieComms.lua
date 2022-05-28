@@ -512,6 +512,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
         local sorted = {}
+
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
@@ -624,6 +625,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
         local sorted = {}
+
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
