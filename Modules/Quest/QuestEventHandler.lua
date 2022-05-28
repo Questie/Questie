@@ -71,8 +71,6 @@ function _QuestEventHandler:InitQuestLog()
         }
         QuestieLib:CacheItemNames(questId)
     end
-
-    -- TODO: we should propagate the changes[] to drawing quests and to tracker?
 end
 
 --- Fires when a quest is accepted in anyway.
@@ -121,7 +119,6 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)
-        -- TODO should draw the stuff from changes variable?
     end
 
     return true
@@ -220,6 +217,7 @@ function _QuestEventHandler:QuestLogUpdate()
 
     if doFullQuestLogScan then
         doFullQuestLogScan = false
+        -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
     end
 end
@@ -270,6 +268,7 @@ function _QuestEventHandler:UpdateAllQuests()
     Questie:Debug(Questie.DEBUG_SPAM, "Running full questlog check")
     local questIdsToCheck = {}
 
+    -- TODO replace with a ready table so no need to generate at each call
     for questId, data in pairs(questLog) do
         if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
             questIdsToCheck[questId] = true
@@ -277,13 +276,13 @@ function _QuestEventHandler:UpdateAllQuests()
     end
 
     local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
-    
+
     if next(changes) then
         for questId, objIds in pairs(changes) do
-            --print("Updating quest:", questId, " objectives:", table.concat(objIds, ", ")) -- TODO BEFORE RELEASE remove
+            --Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "objectives:", table.concat(objIds, ",") , "will be updated")
+            Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
 
-            -- TODO use objIds to update only changed objectives
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
