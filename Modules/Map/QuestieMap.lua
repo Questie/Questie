@@ -165,7 +165,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
                 if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
                     local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
                     if (not success) then
-                        Questie:Error("Minimap pins fade logic coroutine stopped:", errorMsg)
+                        Questie:Error("Please report on Github or Discord. Minimap pins fade logic coroutine stopped:", errorMsg)
                         fadeLogicCoroutine = nil
                     end
                 end
