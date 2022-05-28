@@ -38,6 +38,21 @@ function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveTe
     end
 end
 
+local _has_seen_incomplete = {}
+local _has_sent_announce = {}
+
+function QuestieAnnounce:ObjectiveChanged(questId, text, numFulfilled, numRequired)
+    -- Announce completed objective
+    if (numRequired ~= numFulfilled) then
+        _has_seen_incomplete[text] = true
+    elseif _has_seen_incomplete[text] and not _has_sent_announce[text] then
+        _has_seen_incomplete[text] = nil
+        _has_sent_announce[text] = true
+        QuestieAnnounce:AnnounceObjectiveToChannel(questId, nil, text, tostring(numFulfilled) .. "/" .. tostring(numRequired))
+    end
+end
+
+
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
     if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.char.questAnnounceItems then
         local questHyperLink = QuestieLink:GetQuestLinkStringById(questId);

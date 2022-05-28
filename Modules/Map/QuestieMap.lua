@@ -845,6 +845,7 @@ function QuestieMap:GetNearestSpawn(objective)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
+---@param quest Quest
 function QuestieMap:GetNearestQuestSpawn(quest)
     if quest == nil then
         return nil

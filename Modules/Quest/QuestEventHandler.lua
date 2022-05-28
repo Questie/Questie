@@ -1,15 +1,15 @@
 ---@class QuestEventHandler
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
-local _QuestEventHandler = {}
+local _QuestEventHandler = QuestEventHandler.private
 local _QuestLogUpdateQueue = {} -- Helper module
 local questLogUpdateQueue = {} -- The actual queue
 
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieJourney
 local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
----@type QuestieHash
-local QuestieHash = QuestieLoader:ImportModule("QuestieHash")
 ---@type QuestieNameplate
 local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieLib
@@ -21,12 +21,7 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
-local stringByte = string.byte
 local tableRemove = table.remove
-
--- 3 * (Max possible number of quests in game quest log)
--- This is a safe value, even smaller would be enough. Too large won't effect performance
-local MAX_QUEST_LOG_INDEX = 75
 
 local QUEST_LOG_STATES = {
     QUEST_ACCEPTED = "QUEST_ACCEPTED",
@@ -60,20 +55,20 @@ end
 
 --- On Login mark all quests in the quest log with QUEST_ACCEPTED state
 function _QuestEventHandler:InitQuestLog()
-    for i = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
-        if (not title) then
-            break -- We exceeded the valid quest log entries
-        end
-        if (not isHeader) then
-            questLog[questId] = {
-                state = QUEST_LOG_STATES.QUEST_ACCEPTED
-            }
-            QuestieLib:CacheItemNames(questId)
-        end
+    -- Fill the QuestLogCache for first time
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(nil)
+    if cacheMiss then
+        -- TODO actually can happen in rare edge case if player accepts new quest during questie init. *cough*
+        -- or if someone managed to overflow game cache already at this point.
+        Questie:Error("Please report on Github or Discord. Game's quest log cache is not ok. This shouldn't happen. Questie may malfunction.")
     end
 
-    QuestieHash:InitQuestLogHashes()
+    for questId, _ in pairs(changes) do
+        questLog[questId] = {
+            state = QUEST_LOG_STATES.QUEST_ACCEPTED
+        }
+        QuestieLib:CacheItemNames(questId)
+    end
 end
 
 --- Fires when a quest is accepted in anyway.
@@ -100,23 +95,20 @@ end
 ---@return boolean true @if the function was successful, false otherwise
 function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
-    local questObjectives = C_QuestLog.GetQuestObjectives(questId)
-    for _, objective in pairs(questObjectives) do
-        -- When the objective text is not cached yet it looks similar to " slain: 0/1"
-        if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
-            Questie:Debug(Questie.DEBUG_SPAM, "Objective texts are not correct yet")
-            _QuestLogUpdateQueue:Insert(function()
-                return _QuestEventHandler:HandleQuestAccepted(questId)
-            end)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true }) -- if cacheMiss, no need to check changes as only 1 questId
+    if cacheMiss then
+        Questie:Debug(Questie.DEBUG_SPAM, "Objectives are not cached yet")
+        _QuestLogUpdateQueue:Insert(function()
+            return _QuestEventHandler:HandleQuestAccepted(questId)
+        end)
 
-            -- No need to check other objectives since we have to check them all again already
-            return false
-        end
+        return false
     end
 
     Questie:Debug(Questie.DEBUG_SPAM, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
-    QuestieHash:AddNewQuestHash(questId)
+    QuestieQuest:SetObjectivesDirty(questId)
+
     QuestieJourney:AcceptQuest(questId)
     QuestieAnnounce:AcceptedQuest(questId)
 
@@ -158,7 +150,9 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     skipNextUQLCEvent = true
-    QuestieHash:RemoveQuestHash(questId)
+    QuestLogCache.RemoveQuest(questId)
+    QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+
     QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
@@ -198,7 +192,9 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
-        QuestieHash:RemoveQuestHash(questId)
+        QuestLogCache.RemoveQuest(questId)
+        QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
+
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
@@ -218,8 +214,9 @@ function _QuestEventHandler:QuestLogUpdate()
     end
 
     if doFullQuestLogScan then
-        _QuestEventHandler:UpdateAllQuests()
         doFullQuestLogScan = false
+        -- Function call updates doFullQuestLogScan. Order matters.
+        _QuestEventHandler:UpdateAllQuests()
     end
 end
 
@@ -268,31 +265,31 @@ end
 function _QuestEventHandler:UpdateAllQuests()
     Questie:Debug(Questie.DEBUG_SPAM, "Running full questlog check")
     local questIdsToCheck = {}
-    local questIdsToCheckSize = 1
 
-    for questLogIndex = 1, MAX_QUEST_LOG_INDEX do
-        local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
-        if (not title) then
-            -- We exceeded the valid quest log entries
-            break
-        end
-        if (not isHeader) and questLog[questId] and questLog[questId].state == QUEST_LOG_STATES.QUEST_ACCEPTED then
-            questIdsToCheck[questIdsToCheckSize] = questId
-            questIdsToCheckSize = questIdsToCheckSize + 1
+    -- TODO replace with a ready table so no need to generate at each call
+    for questId, data in pairs(questLog) do
+        if data.state == QUEST_LOG_STATES.QUEST_ACCEPTED then
+            questIdsToCheck[questId] = true
         end
     end
 
-    local questIdsToUpdate = QuestieHash:CompareHashesOfQuestIdList(questIdsToCheck)
+    local cacheMiss, changes = QuestLogCache.CheckForChanges(questIdsToCheck)
 
-    if next(questIdsToUpdate) then
-        for _, questId in pairs(questIdsToUpdate) do
+    if next(changes) then
+        for questId, objIds in pairs(changes) do
+            --Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "objectives:", table.concat(objIds, ",") , "will be updated")
             Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "will be updated")
+            QuestieQuest:SetObjectivesDirty(questId)
+
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
     else
         Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
     end
+
+    -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)
+    doFullQuestLogScan = doFullQuestLogScan or cacheMiss
 end
 
 local lastTimeBankFrameClosedEvent = -1
