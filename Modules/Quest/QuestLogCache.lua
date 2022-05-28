@@ -69,8 +69,8 @@ local function GetNewObjectives(questId, oldObjectives)
         -- This check is to catch if that is possible.
         -- TODO: Remove this if block once confirmed error never happens.
         -- I = Laume / Laumesis@Github
-        Questie:Error("REPORT THIS ERROR! Quest objectives aren't a table at CheckForChanges. questId =", questId)
-        error("REPORT THIS ERROR! Quest objectives aren't a table at CheckForChanges. questId = "..questId)
+        Questie:Error("Please report on Github or Discord! Quest objectives aren't a table at CheckForChanges. questId =", questId)
+        error("Please report on Github or Discord! Quest objectives aren't a table at CheckForChanges. questId = "..questId)
         -- execution ends here because of error ^
     end
 
@@ -151,7 +151,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
 
                 if newObjectives then
                     if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        Questie:Error("REPORT THIS EXCEPTION! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cache[questId].objectiveList, #newObjectives)
+                        Questie:Error("Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
                         -- Number of the objectives changed?! Shouldn't be possible.
                         -- For now go as nothing in the quest changed.
                         cacheMiss = true
@@ -194,7 +194,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
             else
                 Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestLogCache.CheckForChanges] HaveQuestData() == false. questId, index:", questId, questLogIndex)
 
-                -- In theory this shouldn't happen.
+                -- In theory this shouldn't happen. This is not error but an edge case.
 
                 -- Game's quest log has the questId, but game doesn't have data of the quest right now.
                 -- Use earlier cached version of the quest. This may very well be nonexisting version, which is okey.
@@ -213,7 +213,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     if questIdsToCheck then
         for questId in pairs(questIdsToCheck) do
             if (not questIdsChecked[questId]) then
-                Questie:Error("REPORT THIS EXCEPTION! QuestId doesn't exist in Game's quest log:", questId)
+                Questie:Error("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
             end
         end
     end
@@ -261,8 +261,8 @@ function QuestLogCache.TestGameCache()
                     -- This check is to catch if that is possible.
                     -- TODO: Remove this if block once confirmed error never happens.
                     -- I = Laume / Laumesis@Github
-                    Questie:Error("REPORT THIS ERROR! Quest objectives aren't a table at TestGameCache. questId =", questId)
-                    error("REPORT THIS ERROR! Quest objectives aren't a table at TestGameCache. questId = "..questId)
+                    Questie:Error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId =", questId)
+                    error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId = "..questId)
                     -- execution ends here because of error ^
                 end
 
