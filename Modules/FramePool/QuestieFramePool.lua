@@ -80,7 +80,7 @@ function QuestieFramePool:GetFrame()
 
     if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use. frameId:", returnFrame.frameId)
         returnFrame = nil
     end
     if not returnFrame then

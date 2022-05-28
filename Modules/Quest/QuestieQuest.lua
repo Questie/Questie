@@ -550,7 +550,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
             print(debugstack())
         end, QuestieQuest, quest, objectiveIndex, objective, false);
         if (not result) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err)
+            Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestieQuest] There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err)
         end
     end
 end
