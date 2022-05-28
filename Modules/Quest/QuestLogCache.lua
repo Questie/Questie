@@ -345,8 +345,8 @@ end
 
 --- Debug function, prints changes
 function QuestLogCache.DebugPrintCacheChanges(cacheMiss, changes)
-    local hilight = ((not cacheMiss) and (not next(changes))) or (cacheMiss and next(changes)) -- hilight untypical cases. they are okey, but sometimes interesting.
-    print("DebugPrintCacheChanges", GetTime(), (hilight and "\124cffFF4444CacheMiss:\124r" or "CacheMiss"), cacheMiss)
+    local highlight = ((not cacheMiss) and (not next(changes))) or (cacheMiss and next(changes)) -- highlight untypical cases. they are okey, but sometimes interesting.
+    print("DebugPrintCacheChanges", GetTime(), (highlight and "\124cffFF4444CacheMiss:\124r" or "CacheMiss"), cacheMiss)
 
     for questId, objIndexes in pairs(changes) do
         local q = cache[questId]
