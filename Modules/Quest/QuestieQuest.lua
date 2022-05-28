@@ -231,7 +231,7 @@ function QuestieQuest:SmoothReset()
     local stepTable = {
         function()
             -- Wait until game cache has quest log okey.
-            return QuestLogCache.TestGameCache() -- This is heavy :(
+            return QuestLogCache.TestGameCache()
         end,
         function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
@@ -491,22 +491,20 @@ function QuestieQuest:GetAllQuestIds()
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
-        elseif data.isComplete ~= -1 then -- WTF (this) old code did? this creates BUGS
+        elseif data.isComplete ~= -1 then -- TODO FIX LATER. Now currentQuestLog may have part of failed quests. Check what is needed? All or none of those?
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
                 QuestieQuest:PopulateQuestLogInfo(quest)
 
+                quest.LocalizedName = data.title
+
                 if QuestieQuest:ShouldShowQuestNotes(questId) then
                     QuestieQuest:PopulateObjectiveNotes(quest)
                 end
-
-                if data.title and strlen(data.title) > 1 then
-                    quest.LocalizedName = data.title
-                end
             else
-                QuestiePlayer.currentQuestlog[questId] = questId -- WTF? this creates BUGS! code is expecting this to be "quest" not "questId"
+                QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
             end
             Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
         end
@@ -565,7 +563,7 @@ function QuestieQuest:AddFinisher(quest)
     local questId = quest.Id
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
-    if(QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1) and (not Questie.db.char.complete[questId])) then
+    if (QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1) and (not Questie.db.char.complete[questId])) then
         local finisher
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
@@ -1020,6 +1018,8 @@ end
 
 ---@param quest Quest
 function QuestieQuest:PopulateQuestLogInfo(quest)
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
+
     local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
     if (not questLogEngtry) then return end
 
@@ -1027,11 +1027,10 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     if quest.isComplete ~= nil and quest.isComplete == 1 then
         quest.isComplete = true
     end
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] PopulateMeta:", quest.isComplete, quest.name)
 
 --Uses the category order to draw the quests and trusts the database order.
 
-    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
+    local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(quest.Id) or {}-- DO NOT MODIFY THE RETURNED TABLE
 
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and string.len(objective.type) > 1 then
@@ -1087,7 +1086,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
 
     local questObjectives = QuestieQuest:GetAllLeaderBoardDetails(self.questId) -- DO NOT MODIFY THE RETURNED TABLE
 
-    if questObjectives[self.Index] then
+    if questObjectives and questObjectives[self.Index] then
         local obj = questObjectives[self.Index] -- DO NOT EDIT THE TABLE
         if (obj.type) then
             -- fixes for api bug
