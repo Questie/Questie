@@ -4,8 +4,6 @@ local _QuestieComms = QuestieComms.private
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieQuest
-local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 ---@type QuestieSerializer
 local QuestieSerializer = QuestieLoader:ImportModule("QuestieSerializer");
 ---@type QuestieLib
@@ -20,6 +18,8 @@ local DailyQuests = QuestieLoader:ImportModule("DailyQuests");
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestLogCache
+local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
@@ -246,16 +246,17 @@ end
 function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest, offset)
     local questObject = QuestieDB:GetQuest(questId);
 
-    local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
-
     local count = 0
+
+    local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not rawObjectives) then return offset, count end
 
     if questObject and next(questObject.Objectives) then
         quest[offset] = questId
         local countOffset = offset+1
 
         offset = offset + 2
-        for objectiveIndex, objective in pairs(rawObjectives) do
+        for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             quest[offset] = questObject.Objectives[objectiveIndex].Id
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
@@ -276,9 +277,10 @@ end
 function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
     local questObject = QuestieDB:GetQuest(questId);
 
-    local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
-
     local count = 0
+
+    local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not rawObjectives) then return offset, count end
 
     if questObject and next(questObject.Objectives) then
         quest[offset] = questId
@@ -287,7 +289,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
         quest[offset+2] = _classToIndex[classFilename]
 
         offset = offset + 3
-        for objectiveIndex, objective in pairs(rawObjectives) do
+        for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             quest[offset] = questObject.Objectives[objectiveIndex].Id
             quest[offset + 1] = string.byte(string.sub(objective.type, 1, 1))
             quest[offset + 2] = objective.numFulfilled
@@ -509,19 +511,16 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
     local partyType = QuestiePlayer:GetGroupType()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
-        local rawQuestList = {}
-        -- Maybe this should be its own function in QuestieQuest...
-        local numEntries, _ = GetNumQuestLogEntries();
-
         local sorted = {}
-        for index = 1, numEntries do
-            local _, _, questType, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-            if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+
+        for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
+            if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
                     Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                     Questie._sessionWarnings[questId] = true
                 end
-            elseif not isHeader then
+            else
+                local questType = data.questTag
                 local entry = {}
                 entry.questId = questId
                 entry.questType = questType
@@ -557,6 +556,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
             end
         end)
 
+        local rawQuestList = {}
         local blocks = {}
         local entryCount = 0
         local blockCount = 2 -- the extra tick allows checking tremove() == nil to set _isBroadcasting=false
@@ -624,19 +624,16 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
     local partyType = QuestiePlayer:GetGroupType()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Message", eventName, "partyType:", tostring(partyType))
     if partyType then
-        
-        -- Maybe this should be its own function in QuestieQuest...
-        local numEntries, _ = GetNumQuestLogEntries();
-
         local sorted = {}
-        for index = 1, numEntries do
-            local _, _, questType, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-            if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
+
+        for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
+            if (not QuestieDB.QuestPointers[questId]) then
                 if not Questie._sessionWarnings[questId] then
                     Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                     Questie._sessionWarnings[questId] = true
                 end
-            elseif not isHeader then
+            else
+                local questType = data.questTag
                 local entry = {}
                 entry.questId = questId
                 entry.questType = questType
@@ -759,12 +756,16 @@ function QuestieComms:CreateQuestDataPacket(questId)
     local questObject = QuestieDB:GetQuest(questId);
 
     ---@class QuestPacket
-    local quest = {};
-    quest.id = questId;
-    local rawObjectives = QuestieQuest:GetAllLeaderBoardDetails(questId);
-    quest.objectives = {}
+    local quest = {
+        id = questId,
+        objectives = {},
+    }
+
+    local rawObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
+    if (not rawObjectives) then return quest end
+
     if questObject and next(questObject.Objectives) then
-        for objectiveIndex, objective in pairs(rawObjectives) do
+        for objectiveIndex, objective in pairs(rawObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
             if questObject.Objectives[objectiveIndex] then
                 quest.objectives[objectiveIndex] = {};
                 quest.objectives[objectiveIndex].id = questObject.Objectives[objectiveIndex].Id;--[_QuestieComms.idLookup["id"]] = questObject.Objectives[objectiveIndex].Id;

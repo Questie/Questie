@@ -163,7 +163,11 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
             -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
             QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
                 if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
-                    coroutine.resume(fadeLogicCoroutine)
+                    local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
+                    if (not success) then
+                        Questie:Error("Please report on Github or Discord. Minimap pins fade logic coroutine stopped:", errorMsg)
+                        fadeLogicCoroutine = nil
+                    end
                 end
             end)
         end
@@ -252,6 +256,13 @@ function QuestieMap:ProcessShownMinimapIcons()
             --Never run more than maxCount in a single run
             if count > maxCount then
                 cYield()
+                if (not HBDPins.activeMinimapPins[minimapFrame]) then
+                    -- table has been edited during traversal at critical key. we can't continue iterating over it. stop iteration and start again.
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieMap:ProcessShownMinimapIcons] FadeLogic loop coroutine: HBDPins.activeMinimapPins doesn't have the key anymore.")
+                    -- force reupdate imeadiately
+                    totalDistance = 9000
+                    break
+                end
                 count = 0
             else
                 count = count + 1
@@ -834,6 +845,7 @@ function QuestieMap:GetNearestSpawn(objective)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
+---@param quest Quest
 function QuestieMap:GetNearestQuestSpawn(quest)
     if quest == nil then
         return nil
