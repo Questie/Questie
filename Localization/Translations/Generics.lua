@@ -76,7 +76,7 @@ local genericsLocales = {
     },
     ["Reload UI"] = {
         ["ptBR"] = "Recarregar interface",
-        ["ruRU"] = "Перезагрузка интерфейса",
+        ["ruRU"] = "Перезагрузка",
         ["deDE"] = "Interface neu laden",
         ["koKR"] = "Reload UI",
         ["esMX"] = "Recargar IU",
