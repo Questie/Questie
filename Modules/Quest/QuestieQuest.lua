@@ -58,7 +58,7 @@ local NOP_FUNCTION = function() end
 
 -- forward declaration
 local _UnloadAlreadySpawnedIcons
-local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
+local _RegisterObjectiveTooltips, _RegisterAllObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
@@ -662,7 +662,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     -- Tooltips should always show.
     -- For completed and uncompleted objectives
-    _RegisterObjectiveTooltips(objective, quest.Id)
+    _RegisterObjectiveTooltips(objective, quest.Id, blockItemTooltips)
 
     if completed then
         _UnloadAlreadySpawnedIcons(objective)
@@ -671,14 +671,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     if (not objective.Color) then
         objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * objectiveIndex)
-    end
-
-    if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
-        local item = QuestieDB.QueryItemSingle(objective.Id, "name")
-        if item then
-            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. objective.Id, objective);
-        end
-        objective.registeredItemTooltips = true
     end
 
     if next(objective.spawnList) then
@@ -716,7 +708,14 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     end
 end
 
-_RegisterObjectiveTooltips = function(objective, questId)
+---@param quest Quest
+_RegisterAllObjectiveTooltips = function(quest)
+    for _, objective in pairs(quest.Objectives) do
+        _RegisterObjectiveTooltips(objective, quest.Id, false)
+    end
+end
+
+_RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
     Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for", objective.Description)
     if objective.spawnList then
         for id, spawnData in pairs(objective.spawnList) do
@@ -728,6 +727,14 @@ _RegisterObjectiveTooltips = function(objective, questId)
         Questie:Error("[QuestieQuest]: [Tooltips] ".. l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id", 0 or "No objective", "No error"));
     end
     objective.hasRegisteredTooltips = true
+
+    if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
+        local item = QuestieDB.QueryItemSingle(objective.Id, "name")
+        if item then
+            QuestieTooltips:RegisterObjectiveTooltip(questId, "i_" .. objective.Id, objective);
+        end
+        objective.registeredItemTooltips = true
+    end
 end
 
 _UnloadAlreadySpawnedIcons = function(objective)
@@ -985,6 +992,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     if quest:IsComplete() == 1 then
         _AddSourceItemObjective(quest)
+        _RegisterAllObjectiveTooltips(quest)
 
         QuestieQuest:AddFinisher(quest)
         return
