@@ -386,13 +386,6 @@ function QuestieDB:GetQuestTagInfo(questId)
 end
 
 ---@param questId number
----@return number @Complete = 1, Failed = -1, Incomplete = 0
-function QuestieDB:IsComplete(questId)
-    local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
-    return (questLogEntry and questLogEntry.isComplete) or 0
-end
-
----@param questId number
 ---@return boolean
 function QuestieDB:IsActiveEventQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
@@ -613,12 +606,23 @@ function QuestieDB:IsDoable(questId)
     return true
 end
 
+---@param questId number
+---@return number @Complete = 1, Failed = -1, Incomplete = 0
+function QuestieDB:IsComplete(questId)
+    local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
+    --[[ pseudo:
+    if no questLogEntry then return 0
+    if has questLogEntry.isComplete then return questLogEntry.isComplete
+    if no objectives then return 1
+    return 0
+    ]]--
+    return questLogEntry and (questLogEntry.isComplete or (questLogEntry.objectives[1] and 0) or 1) or 0
+end
 
 ---@param self Quest
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function _QuestieDB._QO_IsComplete(self)
-    local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[self.Id] -- DO NOT MODIFY THE RETURNED TABLE
-    return (questLogEntry and questLogEntry.isComplete) or 0
+    return QuestieDB:IsComplete(self.Id)
 end
 
 ---@param questId number
