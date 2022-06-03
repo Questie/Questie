@@ -718,19 +718,8 @@ end
 _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
     Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for", objective.Description)
 
-    if questId == 572 then
-        print("AAA")
-        print(objective.spawnList)
-    end
-    --local objectiveData = quest.ObjectiveData[objective.Index] or objective
-    --objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
-
     if objective.spawnList then
         for id, spawnData in pairs(objective.spawnList) do
-            print(id)
-            print(spawnData.TooltipKey)
-            print(objective.AlreadySpawned[id])
-            print(objective.hasRegisteredTooltips)
             if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) and (not objective.hasRegisteredTooltips) then
                 QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
             end
