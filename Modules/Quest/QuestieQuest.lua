@@ -656,7 +656,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
-    if (not completed) and (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+    if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
         objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
     end
 
@@ -717,8 +717,20 @@ end
 
 _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
     Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for", objective.Description)
+
+    if questId == 572 then
+        print("AAA")
+        print(objective.spawnList)
+    end
+    --local objectiveData = quest.ObjectiveData[objective.Index] or objective
+    --objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
+
     if objective.spawnList then
         for id, spawnData in pairs(objective.spawnList) do
+            print(id)
+            print(spawnData.TooltipKey)
+            print(objective.AlreadySpawned[id])
+            print(objective.hasRegisteredTooltips)
             if spawnData.TooltipKey and (not objective.AlreadySpawned[id]) and (not objective.hasRegisteredTooltips) then
                 QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
             end
@@ -992,7 +1004,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     if quest:IsComplete() == 1 then
         _AddSourceItemObjective(quest)
-        _RegisterAllObjectiveTooltips(quest)
+        --_RegisterAllObjectiveTooltips(quest)
+        _CallPopulateObjective(quest)
 
         QuestieQuest:AddFinisher(quest)
         return
