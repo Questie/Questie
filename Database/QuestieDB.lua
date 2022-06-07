@@ -432,6 +432,10 @@ function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
         end
     end
 
+    if maxLevel < requiredLevel then
+        return false
+    end
+
     return true
 end
 
