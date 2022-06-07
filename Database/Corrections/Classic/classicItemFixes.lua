@@ -34,15 +34,12 @@ function QuestieItemFixes:Load()
         },
         [1939] = {
             [itemKeys.relatedQuests] = {116},
-            [itemKeys.vendors] = {465},
         },
         [1941] = {
             [itemKeys.relatedQuests] = {116},
-            [itemKeys.vendors] = {277},
         },
         [1942] = {
             [itemKeys.relatedQuests] = {116},
-            [itemKeys.vendors] = {274},
         },
         [2318] = {
             [itemKeys.npcDrops] = {},
