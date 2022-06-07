@@ -1554,12 +1554,6 @@ function QuestieQuestFixes:Load()
         [5156] = {
             [questKeys.triggerEnd] = {"Explore the craters in Shatter Scar Vale", {[zoneIDs.FELWOOD]={{41.03,41.96}}}},
         },
-        [5166] = {
-            [questKeys.specialFlags] = 1, -- #1335
-        },
-        [5167] = {
-            [questKeys.specialFlags] = 1, -- #1335
-        },
         [5203] = {
             [questKeys.triggerEnd] = {"Protect Arko'narin out of Shadow Hold", {[zoneIDs.FELWOOD]={{35.45,59.06}}}},
         },
