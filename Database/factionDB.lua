@@ -27,10 +27,10 @@ function FactionDB:GetFactionsWithQuests()
             and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses"))
         then
             local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
-            for k, v in pairs(reputationReward) do
+            for _, v in pairs(reputationReward) do
                 local factionId, reputationRewardAmount = unpack(v)
                 if reputationRewardAmount > 0 then
-                    if not factionMap[factionId] then
+                    if (not factionMap[factionId]) then
                         factionMap[factionId] = {}
                     end
                     factionMap[factionId][questId] = true

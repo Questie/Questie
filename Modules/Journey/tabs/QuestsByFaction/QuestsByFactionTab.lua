@@ -106,7 +106,6 @@ _CreateFactionDropdown = function()
     return dropdown
 end
 
-
 _HandleFactionGroupSelection = function(key, _)
     local factions = QuestieJourney.factions[key.value]
     factionDropdown:SetList(factions)

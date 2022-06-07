@@ -69,7 +69,6 @@ function QuestieJourneyUtils:CollectQuests(quests)
         return nil
     end
 
-
     local tree = {
         [1] = {
             value = "a",
