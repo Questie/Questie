@@ -120,7 +120,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = "开始任务的物品",
         ["zhTW"] = false,
-        ["esES"] = false,
+        ["esES"] = "Objetos que inician una misión",
         ["frFR"] = "Objets commençant une quête",
     },
     ["Announce looted items that start a quest to other players"] = {
@@ -132,7 +132,7 @@ local socialOptionsLocales = {
         ["enUS"] = true,
         ["zhCN"] = "向队友通报开始任务的物品",
         ["zhTW"] = false,
-        ["esES"] = false,
+        ["esES"] = "Anunciar objetos despojados que inician una misión a otros jugadores",
         ["frFR"] = "Annonce le ramassage d’objets commençant une quête aux autres joueurs",
     },
     ["Quest accepted"] = {
