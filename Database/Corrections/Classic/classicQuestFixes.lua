@@ -127,12 +127,14 @@ function QuestieQuestFixes:Load()
         [308] = {
             [questKeys.exclusiveTo] = {311}, -- distracting jarven can't be completed once you get the followup
             [questKeys.specialFlags] = 1,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.parentQuest] = 310
         },
         [309] = {
             [questKeys.triggerEnd] = {"Escort Miran to the excavation site", {[zoneIDs.LOCH_MODAN]={{65.12,65.77}}}},
         },
         [310] = {
-            [questKeys.childQuests] = {403},
+            [questKeys.childQuests] = {308,403},
         },
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
