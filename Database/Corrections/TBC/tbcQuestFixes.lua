@@ -2484,7 +2484,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11517] = {
             [questKeys.exclusiveTo] = {11513,11514},
-            [questKeys.requiredMinRep] = {932,3000},
         },
         [11520] = {
             [questKeys.extraObjectives] = {
@@ -2513,7 +2512,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [11534] = {
             [questKeys.exclusiveTo] = {11513,11514},
-            [questKeys.requiredMinRep] = {934,3000},
         },
         [11537] = {
             [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"},},nil,nil,nil,{{24999,25001,25002,25008,25068,},25068},},
