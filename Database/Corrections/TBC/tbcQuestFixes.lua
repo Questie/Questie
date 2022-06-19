@@ -2524,6 +2524,9 @@ function QuestieTBCQuestFixes:Load()
         [11544] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Break down Ata'mal Metal on the anvil to cleanse it", 0, {{"object", 187111}}}},
         },
+        [11545] = {
+            [questKeys.requiredMaxRep] = {1077,42000},
+        },
         [11580] = {
             [questKeys.startedBy] = {nil,{187559},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
