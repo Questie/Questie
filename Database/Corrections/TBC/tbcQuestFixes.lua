@@ -2581,422 +2581,542 @@ function QuestieTBCQuestFixes:Load()
         [11732] = {
             [questKeys.startedBy] = {nil,{187914},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11734] = {
             [questKeys.startedBy] = {nil,{187916},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11735] = {
             [questKeys.startedBy] = {nil,{187917},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11736] = {
             [questKeys.startedBy] = {nil,{187919},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11737] = {
             [questKeys.startedBy] = {nil,{187920},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11738] = {
             [questKeys.startedBy] = {nil,{187921},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11739] = {
             [questKeys.startedBy] = {nil,{187922},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11740] = {
             [questKeys.startedBy] = {nil,{187923},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11741] = {
             [questKeys.startedBy] = {nil,{187924},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11742] = {
             [questKeys.startedBy] = {nil,{187925},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11743] = {
             [questKeys.startedBy] = {nil,{187926},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11744] = {
             [questKeys.startedBy] = {nil,{187927},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11745] = {
             [questKeys.startedBy] = {nil,{187928},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11746] = {
             [questKeys.startedBy] = {nil,{187929},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11747] = {
             [questKeys.startedBy] = {nil,{187930},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11748] = {
             [questKeys.startedBy] = {nil,{187931},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11749] = {
             [questKeys.startedBy] = {nil,{187932},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11750] = {
             [questKeys.startedBy] = {nil,{187933},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11751] = {
             [questKeys.startedBy] = {nil,{187934},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11752] = {
             [questKeys.startedBy] = {nil,{187935},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11753] = {
             [questKeys.startedBy] = {nil,{187936},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11754] = {
             [questKeys.startedBy] = {nil,{187937},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11755] = {
             [questKeys.startedBy] = {nil,{187938},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11756] = {
             [questKeys.startedBy] = {nil,{187939},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11757] = {
             [questKeys.startedBy] = {nil,{187940},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11758] = {
             [questKeys.startedBy] = {nil,{187941},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11759] = {
             [questKeys.startedBy] = {nil,{187942},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11760] = {
             [questKeys.startedBy] = {nil,{187943},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11761] = {
             [questKeys.startedBy] = {nil,{187944},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11762] = {
             [questKeys.startedBy] = {nil,{187945},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11763] = {
             [questKeys.startedBy] = {nil,{187946},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11764] = {
             [questKeys.startedBy] = {nil,{187947},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11765] = {
             [questKeys.startedBy] = {nil,{187948},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11766] = {
             [questKeys.startedBy] = {nil,{187954},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11767] = {
             [questKeys.startedBy] = {nil,{187955},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11768] = {
             [questKeys.startedBy] = {nil,{187956},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11769] = {
             [questKeys.startedBy] = {nil,{187957},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11770] = {
             [questKeys.startedBy] = {nil,{187958},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11771] = {
             [questKeys.startedBy] = {nil,{187959},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11772] = {
             [questKeys.startedBy] = {nil,{187960},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11773] = {
             [questKeys.startedBy] = {nil,{187961},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11774] = {
             [questKeys.startedBy] = {nil,{187962},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11775] = {
             [questKeys.startedBy] = {nil,{187963},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11776] = {
             [questKeys.startedBy] = {nil,{187964},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11777] = {
             [questKeys.startedBy] = {nil,{187965},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11778] = {
             [questKeys.startedBy] = {nil,{187966},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11779] = {
             [questKeys.startedBy] = {nil,{187967},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11780] = {
             [questKeys.startedBy] = {nil,{187968},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11781] = {
             [questKeys.startedBy] = {nil,{187969},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11782] = {
             [questKeys.startedBy] = {nil,{187970},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11783] = {
             [questKeys.startedBy] = {nil,{187971},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11784] = {
             [questKeys.startedBy] = {nil,{187972},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11785] = {
             [questKeys.startedBy] = {nil,{187973},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11786] = {
             [questKeys.startedBy] = {nil,{187974},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11787] = {
             [questKeys.startedBy] = {nil,{187975},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11799] = {
             [questKeys.startedBy] = {nil,{187949},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11800] = {
             [questKeys.startedBy] = {nil,{187950},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11801] = {
             [questKeys.startedBy] = {nil,{187951},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11802] = {
             [questKeys.startedBy] = {nil,{187952},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11803] = {
             [questKeys.startedBy] = {nil,{187953},nil},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11804] = {
             [questKeys.startedBy] = {{25887},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11805] = {
             [questKeys.startedBy] = {{25883},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11806] = {
             [questKeys.startedBy] = {{25888},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11807] = {
             [questKeys.startedBy] = {{25889},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11808] = {
             [questKeys.startedBy] = {{25890},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11809] = {
             [questKeys.startedBy] = {{25891},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11810] = {
             [questKeys.startedBy] = {{25892},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11811] = {
             [questKeys.startedBy] = {{25893},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11812] = {
             [questKeys.startedBy] = {{25894},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11813] = {
             [questKeys.startedBy] = {{25895},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11814] = {
             [questKeys.startedBy] = {{25896},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11815] = {
             [questKeys.startedBy] = {{25897},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11816] = {
             [questKeys.startedBy] = {{25898},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11817] = {
             [questKeys.startedBy] = {{25899},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11818] = {
             [questKeys.startedBy] = {{25900},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11819] = {
             [questKeys.startedBy] = {{25901},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11820] = {
             [questKeys.startedBy] = {{25902},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11821] = {
             [questKeys.startedBy] = {{25903},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11822] = {
             [questKeys.startedBy] = {{25904},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11823] = {
             [questKeys.startedBy] = {{25905},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11824] = {
             [questKeys.startedBy] = {{25906},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11825] = {
             [questKeys.startedBy] = {{25907},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11826] = {
             [questKeys.startedBy] = {{25908},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11827] = {
             [questKeys.startedBy] = {{25909},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11828] = {
             [questKeys.startedBy] = {{25911},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11829] = {
             [questKeys.startedBy] = {{25912},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11830] = {
             [questKeys.startedBy] = {{25913},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11831] = {
             [questKeys.startedBy] = {{25914},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11832] = {
             [questKeys.startedBy] = {{25915},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11833] = {
             [questKeys.startedBy] = {{25916},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11834] = {
             [questKeys.startedBy] = {{25917},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11835] = {
             [questKeys.startedBy] = {{25918},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11836] = {
             [questKeys.startedBy] = {{25919},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11837] = {
             [questKeys.startedBy] = {{25920},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11838] = {
             [questKeys.startedBy] = {{25921},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11839] = {
             [questKeys.startedBy] = {{25922},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11840] = {
             [questKeys.startedBy] = {{25923},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11841] = {
             [questKeys.startedBy] = {{25884},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11842] = {
             [questKeys.startedBy] = {{25925},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11843] = {
             [questKeys.startedBy] = {{25926},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11844] = {
             [questKeys.startedBy] = {{25927},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11845] = {
             [questKeys.startedBy] = {{25928},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11846] = {
             [questKeys.startedBy] = {{25929},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11847] = {
             [questKeys.startedBy] = {{25930},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11848] = {
             [questKeys.startedBy] = {{25931},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11849] = {
             [questKeys.startedBy] = {{25932},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11850] = {
             [questKeys.startedBy] = {{25933},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11851] = {
             [questKeys.startedBy] = {{25934},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11852] = {
             [questKeys.startedBy] = {{25936},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11853] = {
             [questKeys.startedBy] = {{25935},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11854] = {
             [questKeys.startedBy] = {{25937},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11855] = {
             [questKeys.startedBy] = {{25938},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11856] = {
             [questKeys.startedBy] = {{25940},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11857] = {
             [questKeys.startedBy] = {{25941},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11858] = {
             [questKeys.startedBy] = {{25942},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11859] = {
             [questKeys.startedBy] = {{25943},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11860] = {
             [questKeys.startedBy] = {{25944},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11861] = {
             [questKeys.startedBy] = {{25945},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11862] = {
             [questKeys.startedBy] = {{25946},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11863] = {
             [questKeys.startedBy] = {{25947},nil,nil},
+            [questKeys.zoneOrSort] = sortKeys.MIDSUMMER,
         },
         [11875] = {
             [questKeys.preQuestSingle] = {},
