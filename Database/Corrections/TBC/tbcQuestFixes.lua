@@ -3284,6 +3284,7 @@ function QuestieTBCQuestFixes:Load()
         [12012] = {
             [questKeys.startedBy] = {{25324},nil,nil},
             [questKeys.finishedBy] = {{26221},nil},
+            [questKeys.questLevel] = -1,
             [questKeys.objectives] = {nil,nil,{{35828,nil}},nil},
             [questKeys.preQuestSingle] = {11891},
         },
