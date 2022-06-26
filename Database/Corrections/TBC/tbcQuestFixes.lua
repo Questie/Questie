@@ -3271,6 +3271,9 @@ function QuestieTBCQuestFixes:Load()
         [11964] = {
             [questKeys.startedBy] = {{16817},nil,nil},
         },
+        [11970] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102},nil,nil},
+        },
         [11971] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil},
         },
