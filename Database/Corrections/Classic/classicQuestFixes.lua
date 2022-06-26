@@ -640,6 +640,9 @@ function QuestieQuestFixes:Load()
         [1265] = {
             [questKeys.triggerEnd] = {"Sentry Point explored",{[zoneIDs.DUSTWALLOW_MARSH]={{59.92,40.9}}}},
         },
+        [1267] = {
+            [questKeys.startedBy] = {{4968},nil,nil},
+        },
         [1268] = {
             [questKeys.startedBy] = {nil,{21015,21016},nil}, -- #1574
         },
