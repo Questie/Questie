@@ -1366,6 +1366,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {4341},
         },
         [4485] = {
+            [questKeys.startedBy] = {{6179},nil,nil},
             [questKeys.exclusiveTo] = {1661,4486},
         },
         [4486] = {
