@@ -1373,6 +1373,9 @@ function QuestieQuestFixes:Load()
         [4486] = {
             [questKeys.exclusiveTo] = {1661,4485},
         },
+        [4490] = {
+            [questKeys.preQuestSingle] = {3631,4487,4488,4489},
+        },
         [4491] = {
             [questKeys.triggerEnd] = {"Escort Ringo to Spraggle Frock at Marshal's Refuge", {[zoneIDs.UN_GORO_CRATER]={{43.71,8.29}}}},
         },
