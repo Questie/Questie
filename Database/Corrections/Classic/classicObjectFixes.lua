@@ -73,6 +73,9 @@ function QuestieObjectFixes:Load()
             },
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
+        [93192] = {
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{31.55,31.57}}},
+        },
         [103662] = {
             [objectKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS]={{52,50.8}}},
             [objectKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
