@@ -640,6 +640,10 @@ function QuestieTBCQuestFixes:Load()
         },
         [9144] = {
             [questKeys.requiredLevel] = 10,
+            [questKeys.exclusiveTo] = {9147},
+        },
+        [9147] = {
+            [questKeys.preQuestSingle] = {},
         },
         [9149] = {
             [questKeys.preQuestSingle] = {9327,9329},
