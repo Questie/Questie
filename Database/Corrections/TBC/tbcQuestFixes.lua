@@ -1276,6 +1276,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {9796},
         },
         [10106] = {
+            [questKeys.questLevel] = -1,
             [questKeys.preQuestSingle] = {10143,10483},
             [questKeys.requiredMaxRep] = {},
         },
@@ -1286,8 +1287,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59}}}},
         },
         [10110] = {
-            [questKeys.requiredMaxRep] = {},
+            [questKeys.questLevel] = -1,
             [questKeys.preQuestSingle] = {10124},
+            [questKeys.requiredMaxRep] = {},
         },
         [10113] = {
             [questKeys.exclusiveTo] = {9854,9857,9789},
