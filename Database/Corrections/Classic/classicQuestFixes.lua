@@ -900,6 +900,9 @@ function QuestieQuestFixes:Load()
         [1794] = {
             [questKeys.exclusiveTo] = {1649},
         },
+        [1799] = {
+            [questKeys.preQuestSingle] = {4965,4967,4968,4969},
+        },
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
