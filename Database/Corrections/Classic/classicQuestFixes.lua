@@ -13,6 +13,7 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 
 function QuestieQuestFixes:Load()
     QuestieDB.questData[5640] = {} -- Desperate Prayer
+    QuestieDB.questData[5678] = {} -- Arcane Feedback
 
     QuestieDB.questData[7668] = {} -- Add missing quest index
     QuestieDB.questData[7669] = {} -- Add missing quest index
