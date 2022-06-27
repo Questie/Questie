@@ -1562,6 +1562,7 @@ function QuestieQuestFixes:Load()
         [5126] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
             [questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[zoneIDs.WINTERSPRING]={{63.82,73.79}}}},
+            [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
         [5149] = {
             [questKeys.preQuestSingle] = {},
