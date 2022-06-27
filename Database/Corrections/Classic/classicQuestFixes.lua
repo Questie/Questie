@@ -2222,13 +2222,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
         },
         [7507] = {
-            [questKeys.requiredClasses] = 3,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
         },
         [7508] = {
-            [questKeys.requiredClasses] = 3,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
         },
         [7509] = {
-            [questKeys.requiredClasses] = 3,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
         },
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
@@ -2246,7 +2246,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.requiredClasses] = 64,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
             [questKeys.objectivesText] = {"Bring Darkreaver's Head to Sagorne Creststrider in the Valley of Wisdom, Orgrimmar."},
             [questKeys.objectives] = {nil,nil,{{18880,nil}},nil},
             [questKeys.sourceItemId] = 18746,
@@ -2256,13 +2256,13 @@ function QuestieQuestFixes:Load()
         },
         [7669] = { --#1449
             [questKeys.name] = "Again Into the Great Ossuary",
-            [questKeys.startedBy] = {{13417},nil,nil},            -- Quest is started by Lord Grayson Shadowbreaker
-            [questKeys.finishedBy] = {{13417},nil},                --       & ended*
+            [questKeys.startedBy] = {{13417},nil,nil},
+            [questKeys.finishedBy] = {{13417},nil},
             [questKeys.requiredLevel] = 58,
             [questKeys.questLevel] = 60,
-            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,                      -- Any race can take on quest
-            [questKeys.requiredClasses] = 64,                     -- This quest is for the Shaman class
-            [questKeys.zoneOrSort] = -141,                        -- <0: QuestSort.dbc ID
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
+            [questKeys.zoneOrSort] = -141,
             [questKeys.specialFlags] = 1,
             [questKeys.parentQuest] = 8258,
         },
@@ -2273,7 +2273,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredLevel] = 60,
             [questKeys.questLevel] = 60,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.requiredClasses] = 2,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Speak with Lord Grayson Shadowbreaker in Stormwind's Cathedral District."},
             [questKeys.nextQuestInChain] = 7637,
             [questKeys.exclusiveTo] = {7638},
@@ -2289,13 +2289,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{9046},nil,{18987}},
         },
         [7785] = {
-            [questKeys.requiredClasses] = 15,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
         },
         [7786] = {
-            [questKeys.requiredClasses] = 15,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
         },
         [7787] = {
-            [questKeys.requiredClasses] = 15,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
         },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
@@ -2406,31 +2406,31 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0,
         },
         [8184] = {
-            [questKeys.requiredClasses] = 1,
+            [questKeys.requiredClasses] = classIDs.WARRIOR,
         },
         [8185] = {
-            [questKeys.requiredClasses] = 2,
+            [questKeys.requiredClasses] = classIDs.PALADIN,
         },
         [8186] = {
-            [questKeys.requiredClasses] = 8,
+            [questKeys.requiredClasses] = classIDs.ROGUE,
         },
         [8187] = {
-            [questKeys.requiredClasses] = 4,
+            [questKeys.requiredClasses] = classIDs.HUNTER,
         },
         [8188] = {
-            [questKeys.requiredClasses] = 64,
+            [questKeys.requiredClasses] = classIDs.SHAMAN,
         },
         [8189] = {
-            [questKeys.requiredClasses] = 128,
+            [questKeys.requiredClasses] = classIDs.MAGE,
         },
         [8190] = {
-            [questKeys.requiredClasses] = 256,
+            [questKeys.requiredClasses] = classIDs.WARLOCK,
         },
         [8191] = {
-            [questKeys.requiredClasses] = 16,
+            [questKeys.requiredClasses] = classIDs.PRIEST,
         },
         [8192] = {
-            [questKeys.requiredClasses] = 1024,
+            [questKeys.requiredClasses] = classIDs.DRUID,
         },
         [8251] = {
             [questKeys.preQuestSingle] = {},
@@ -2893,12 +2893,12 @@ function QuestieQuestFixes:Load()
         },
         [8767] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
-            [questKeys.requiredClasses] = 0,
+            [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.exclusiveTo] = {8788},
         },
         [8788] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
-            [questKeys.requiredClasses] = 0,
+            [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.exclusiveTo] = {8767},
         },
         [8792] = {
@@ -3347,40 +3347,40 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {9033},
         },
         [9234] = {
-            [questKeys.requiredClasses] = 3,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
         },
         [9235] = {
-            [questKeys.requiredClasses] = 3,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
         },
         [9236] = {
-            [questKeys.requiredClasses] = 3,
+            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
         },
         [9238] = {
-            [questKeys.requiredClasses] = 400,
+            [questKeys.requiredClasses] = classIDs.PRIEST and classIDs.MAGE and classIDs.WARLOCK,
         },
         [9239] = {
-            [questKeys.requiredClasses] = 400,
+            [questKeys.requiredClasses] = classIDs.PRIEST and classIDs.MAGE and classIDs.WARLOCK,
         },
         [9240] = {
-            [questKeys.requiredClasses] = 400,
+            [questKeys.requiredClasses] = classIDs.PRIEST and classIDs.MAGE and classIDs.WARLOCK,
         },
         [9241] = {
-            [questKeys.requiredClasses] = 1032,
+            [questKeys.requiredClasses] = classIDs.ROGUE and classIDs.DRUID,
         },
         [9242] = {
-            [questKeys.requiredClasses] = 1032,
+            [questKeys.requiredClasses] = classIDs.ROGUE and classIDs.DRUID,
         },
         [9243] = {
-            [questKeys.requiredClasses] = 1032,
+            [questKeys.requiredClasses] = classIDs.ROGUE and classIDs.DRUID,
         },
         [9244] = {
-            [questKeys.requiredClasses] = 68,
+            [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
         },
         [9245] = {
-            [questKeys.requiredClasses] = 68,
+            [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
         },
         [9246] = {
-            [questKeys.requiredClasses] = 68,
+            [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
         },
         [9260] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},

@@ -121,6 +121,8 @@ QuestieDB.raceKeys = {
     DRAENEI = 1024
 }
 
+-- Combining these with "and" makes the order matter
+-- 1 and 2 ~= 2 and 1
 QuestieDB.classKeys = {
     NONE = 0,
 
