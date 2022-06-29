@@ -69,7 +69,7 @@ function QuestieObjectFixes:Load()
         [92423] = {
             [objectKeys.spawns] = {
                 [zoneIDs.THOUSAND_NEEDLES]={{43.4, 32.7}},
-                [zoneIDs.THE_BARRENS]={{49.02,96.77}}
+                [zoneIDs.THE_BARRENS]={{49.02,96.77}},
             },
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },

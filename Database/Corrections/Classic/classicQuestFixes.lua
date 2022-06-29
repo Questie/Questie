@@ -77,7 +77,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {39},
         },
         [90] = {
-            [questKeys.requiredSkill] = {185, 50}
+            [questKeys.requiredSkill] = {185, 50},
         },
         [100] = {
             [questKeys.childQuests] = {1103}, -- #1658
@@ -107,7 +107,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [201] = {
-            [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}}
+            [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
         },
         [219] = {
             [questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[zoneIDs.REDRIDGE_MOUNTAINS]={{33.36,48.7}}}},
@@ -292,7 +292,7 @@ function QuestieQuestFixes:Load()
         },
         [598] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {596,629}
+            [questKeys.preQuestGroup] = {596,629},
         },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
@@ -590,7 +590,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {1127}, -- #1084
         },
         [1123] = {
-            [questKeys.preQuestSingle] = {1000, 1004, 1018}
+            [questKeys.preQuestSingle] = {1000, 1004, 1018},
         },
         [1127] = {
             [questKeys.specialFlags] = 1, -- #884
@@ -692,10 +692,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1363}, -- #1674
         },
         [1367] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}},
         },
         [1368] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}},
         },
         [1388] = {
             [questKeys.preQuestSingle] = {1383},
@@ -932,7 +932,7 @@ function QuestieQuestFixes:Load()
         },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
         [1939] = {
             [questKeys.startedBy] = {{5144,5497},nil,nil},
@@ -954,7 +954,7 @@ function QuestieQuestFixes:Load()
         },
         [1960] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
         [2039] = {
             [questKeys.exclusiveTo] = {2038},
@@ -3310,22 +3310,22 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9124] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9126] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9128] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9131] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9136] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9141] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9154] = {
             [questKeys.questLevel] = 60,
@@ -3334,10 +3334,10 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9211] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9213] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9223] = {
             [questKeys.specialFlags] = 1,
