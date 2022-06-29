@@ -182,7 +182,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Speak with Wing Commander Dabir'ee"] = { -- 10146
+    ["Speak with Wing Commander Dabir'ee"] = { -- 10146 & 10340
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -194,7 +194,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Speak with Gryphoneer Windbellow"] = { -- 10163
+    ["Speak with Gryphoneer Windbellow"] = { -- 10163 & 10382
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -266,7 +266,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"] = { -- 10299
+    ["Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"] = { -- 10299 & 10329
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -278,7 +278,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"] = { -- 10321
+    ["Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"] = { -- 10321 & 10330
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -290,7 +290,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"] = { -- 10322
+    ["Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"] = { -- 10322 & 10338
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -302,7 +302,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"] = { -- 10323
+    ["Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"] = { -- 10323 & 10365
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -314,79 +314,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"] = { -- 10329
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"] = { -- 10330
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"] = { -- 10338
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Speak with Wing Commander Dabir'ee"] = { -- 10340
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Obtain the Ara Access Crystal from Overseer Azarad. Use it at the Manaforge Ara console to shut it down"] = { -- 10365
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Speak with Gryphoneer Windbellow"] = { -- 10382
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat"] = { -- 10409
+    ["Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat"] = { -- 10409 & 10507
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -470,18 +398,6 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat"] = { -- 10507
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
     ["Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber"] = { -- 10514
         ["ptBR"] = false,
         ["ruRU"] = false,
@@ -542,7 +458,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use the Box o'Tricks while standing near the communication device"] = { -- 10563
+    ["Use the Box o'Tricks while standing near the communication device"] = { -- 10563 & 10596
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -555,18 +471,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Use 6 Ruuan'ok Claws to summon a Harbinger of the Raven at the Ruuan'ok Oracle Circle"] = { -- 10567
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Use the Box o'Tricks while standing near the communication device"] = { -- 10596
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -638,19 +542,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"] = { -- 10612
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"] = { -- 10613
+    ["Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"] = { -- 10612 & 10613
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -710,7 +602,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Kill Razaani ethereals to lure Nexus-Prince Razaan out"] = { -- 10675
+    ["Kill Razaani ethereals to lure Nexus-Prince Razaan out"] = { -- 10675 & 10867
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -770,7 +662,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse"] = { -- 10723
+    ["Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse"] = { -- 10723 & 10802
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -807,18 +699,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Equip the Unfinished Headpiece, travel to the Altar of Damnation, and use it while standing near Gul'dan."] = { -- 10782
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse"] = { -- 10802
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -915,18 +795,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Collect Cursed Eggs to spawn Malevolent Hatchling"] = { -- 10861
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Kill Razaani ethereals to lure Nexus-Prince Razaan out"] = { -- 10867
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -1118,7 +986,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"] = { -- 11010
+    ["Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"] = { -- 11010 & 11023 & 11102
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -1143,18 +1011,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Use Yarzill's Mutton together with the Fel Gland to poison Dragonmaw Peons"] = { -- 11020
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"] = { -- 11023
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -1202,19 +1058,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use Wrangling Rope on weakened Aether Rays"] = { -- 11065
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Use Wrangling Rope on weakened Aether Rays"] = { -- 11066
+    ["Use Wrangling Rope on weakened Aether Rays"] = { -- 11065 & 11066
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -1239,18 +1083,6 @@ local tbcObjectiveLocales = {
         ["zhCN"] = false,
     },
     ["Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray"] = { -- 11093
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"] = { -- 11102
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -1346,7 +1178,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Energize a Crystal Ward"] = { -- 11496
+    ["Energize a Crystal Ward"] = { -- 11496 & 11523
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -1406,31 +1238,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Energize a Crystal Ward"] = { -- 11523
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Speak to Ayren Cloudbreaker"] = { -- 11532
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
-    ["Speak to Ayren Cloudbreaker"] = { -- 11533
+    ["Speak to Ayren Cloudbreaker"] = { -- 11532 & 11533
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
