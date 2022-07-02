@@ -632,7 +632,7 @@ function _QuestieDB._QO_IsComplete(self)
 end
 
 ---@return boolean @Returns true if the quest should be grey, false otherwise
-local function _IsTrivial()
+local function _IsTrivial(self)
     local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
     if (levelDiff >= 5) then
         return false -- Red
