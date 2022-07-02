@@ -62,11 +62,6 @@ local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
 
 local tinsert = table.insert
 
-
--- DB keys
-local DB_OBJ_SPAWNS = 4
-local DB_NPC_FRIENDLY = 13
-
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
 local QUEST_FLAGS_DAILY = 4096
 -- This is the highest single possible quest flag according to the docs. We need it for the modulus to
@@ -950,7 +945,7 @@ function QuestieDB:GetCreatureLevels(quest)
     return creatureLevels
 end
 
-QuestieDB.FactionGroup = UnitFactionGroup("player")
+local playerFaction = UnitFactionGroup("player")
 
 ---@param npcId number
 ---@return table
@@ -962,39 +957,37 @@ function QuestieDB:GetNPC(npcId)
         return _QuestieDB.npcCache[npcId]
     end
 
-    --local rawdata = QuestieDB.npcData[npcId]
     local rawdata = QuestieDB.QueryNPC(npcId, unpack(QuestieDB._npcAdapterQueryOrder))
-
-
-    if not rawdata then
+    if (not rawdata) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcId)
         return nil
     end
 
-    local npc = {}
-    npc.type = "monster"
-    npc.id = npcId
-    for stringKey, intKey in pairs(QuestieDB.npcKeys) do
+    local npcKeys = QuestieDB.npcKeys
+    local npc = {
+        id = npcId,
+        type = "monster",
+    }
+    for stringKey, intKey in pairs(npcKeys) do
         npc[stringKey] = rawdata[intKey]
     end
 
-    npc.Hidden = QuestieCorrections.questNPCBlacklist[npcId]
-
     ---@class Point
     ---@class Zone
-    if npc.waypoints == nil and rawdata[QuestieDB.npcKeys.waypoints] then
+    if npc.waypoints == nil and rawdata[npcKeys.waypoints] then
         Questie:Debug(Questie.DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
         ---@type table<Zone, table<Point, Point>>
-        npc.waypoints = rawdata[QuestieDB.npcKeys.waypoints];
+        npc.waypoints = rawdata[npcKeys.waypoints]
     end
 
-    if rawdata[DB_NPC_FRIENDLY] then
-        if rawdata[DB_NPC_FRIENDLY] == "AH" then
+    local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
+    if friendlyToFaction then
+        if friendlyToFaction == "AH" then
             npc.friendly = true
         else
-            if QuestieDB.FactionGroup == "Horde" and rawdata[DB_NPC_FRIENDLY] == "H" then
+            if playerFaction == "Horde" and friendlyToFaction == "H" then
                 npc.friendly = true
-            elseif QuestieDB.FactionGroup == "Alliance" and rawdata[DB_NPC_FRIENDLY] == "A" then
+            elseif playerFaction == "Alliance" and friendlyToFaction == "A" then
                 npc.friendly = true
             end
         end
@@ -1002,7 +995,6 @@ function QuestieDB:GetNPC(npcId)
         npc.friendly = true
     end
 
-    --_QuestieDB.npcCache[npcId] = npc
     return npc
 end
 
@@ -1066,9 +1058,10 @@ function _QuestieDB:DeleteGatheringNodes()
         1617,1618,1619,1620,1621,1622,1623,1624,1628, -- herbs
 
         1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
-    };
+    }
+    local objectSpawnsKey = QuestieDB.objectKeys.spawns
     for _,v in pairs(prune) do
-        QuestieDB.objectData[v][DB_OBJ_SPAWNS] = nil
+        QuestieDB.objectData[v][objectSpawnsKey] = nil
     end
 end
 
