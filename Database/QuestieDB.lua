@@ -631,6 +631,22 @@ function _QuestieDB._QO_IsComplete(self)
     return QuestieDB:IsComplete(self.Id)
 end
 
+---@return boolean @Returns true if the quest should be grey, false otherwise
+local function _IsTrivial()
+    local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
+    if (levelDiff >= 5) then
+        return false -- Red
+    elseif (levelDiff >= 3) then
+        return false -- Orange
+    elseif (levelDiff >= -2) then
+        return false -- Yellow
+    elseif (-levelDiff <= GetQuestGreenRange("player")) then
+        return false -- Green
+    else
+        return true -- Grey
+    end
+end
+
 ---@return number
 local _GetIconScale = function()
     return Questie.db.global.objectScale or 1
@@ -853,22 +869,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    --- function
-    ---@return boolean @Returns true if the quest should be grey, false otherwise
-    function QO:IsTrivial()
-        local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
-        if (levelDiff >= 5) then
-            return false -- Red
-        elseif (levelDiff >= 3) then
-            return false -- Orange
-        elseif (levelDiff >= -2) then
-            return false -- Yellow
-        elseif (-levelDiff <= GetQuestGreenRange("player")) then
-            return false -- Green
-        else
-            return true -- Grey
-        end
-    end
+    QO.IsTrivial = _IsTrivial
 
     local extraObjectives = rawdata[questKeys.extraObjectives]
     if extraObjectives then
