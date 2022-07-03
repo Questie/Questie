@@ -100,6 +100,7 @@ function QuestieOptionsDefaults:Load()
             --trackerReset = QuestieTracker:ResetLocation()
             trackerEnabled = true,
             globalTrackerLocation = true,
+            showQuestXpAtMaxLevel = true,
             questieTLoc = "char",
 
         },
@@ -143,7 +144,6 @@ function QuestieOptionsDefaults:Load()
             showPvPQuests = true,
             showAQWarEffortQuests = false,
             showQuestsInNpcTooltip = true,
-            showQuestXpAtMaxLevel = true,
             ldbDisplayText = "Questie"
         },
         profile = {minimap = {hide = false}}

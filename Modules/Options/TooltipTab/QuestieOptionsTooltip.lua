@@ -67,8 +67,8 @@ function QuestieOptions.tabs.tooltip:Initialize()
                 name = function() return l10n('Show quest XP at max level'); end,
                 desc = function() return l10n('Shows the quest XP values on quests even at max level.'); end,
                 width = 1.5,
-                get = function () return Questie.db.char.showQuestXpAtMaxLevel; end,
-                set = function (_, value) Questie.db.char.showQuestXpAtMaxLevel = value end
+                get = function () return Questie.db.global.showQuestXpAtMaxLevel; end,
+                set = function (_, value) Questie.db.global.showQuestXpAtMaxLevel = value end
             },
         }
     }
