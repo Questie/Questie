@@ -124,7 +124,7 @@ local tooltipOptionsLocales = {
     },
     ["Show quest XP at max level"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Опыт на макс. уровне",
         ["deDE"] = "Zeige XP auf Max-Level",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -136,7 +136,7 @@ local tooltipOptionsLocales = {
     },
     ["Shows the quest XP values on quests even at max level."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показывать опыт за задания даже на максимальном уровне персонажа",
         ["deDE"] = "Zeigt die Quest XP auch auf Max-Level an.",
         ["koKR"] = false,
         ["esMX"] = false,
