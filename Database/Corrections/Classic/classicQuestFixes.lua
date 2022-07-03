@@ -7,6 +7,8 @@ local QuestieQuestFixes = QuestieLoader:CreateModule("QuestieQuestFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- Further information on how to use this can be found at the wiki
 -- https://github.com/Questie/Questie/wiki/Corrections
@@ -75,7 +77,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {39},
         },
         [90] = {
-            [questKeys.requiredSkill] = {185, 50}
+            [questKeys.requiredSkill] = {185, 50},
         },
         [100] = {
             [questKeys.childQuests] = {1103}, -- #1658
@@ -105,7 +107,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [201] = {
-            [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}}
+            [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
         },
         [219] = {
             [questKeys.triggerEnd] = {"Escort Corporal Keeshan back to Redridge", {[zoneIDs.REDRIDGE_MOUNTAINS]={{33.36,48.7}}}},
@@ -290,7 +292,7 @@ function QuestieQuestFixes:Load()
         },
         [598] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {596,629}
+            [questKeys.preQuestGroup] = {596,629},
         },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
@@ -588,7 +590,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {1127}, -- #1084
         },
         [1123] = {
-            [questKeys.preQuestSingle] = {1000, 1004, 1018}
+            [questKeys.preQuestSingle] = {1000, 1004, 1018},
         },
         [1127] = {
             [questKeys.specialFlags] = 1, -- #884
@@ -604,7 +606,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #1738
         },
         [1136] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Use a Fresh Carcass at the Flame of Uzel", 0, {{"object", 1770}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use a Fresh Carcass at the Flame of Uzel"), 0, {{"object", 1770}}}},
         },
         [1144] = {
             [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.THE_BARRENS]={{42.27,89.88}}}},
@@ -690,10 +692,10 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {1363}, -- #1674
         },
         [1367] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Gelkis centaur to increase your reputation with the Magram Clan", 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Gelkis centaur to increase your reputation with the Magram Clan"), 0, {{"monster", 4653},{"monster", 4647},{"monster", 4646},{"monster", 4661},{"monster", 5602},{"monster", 4648},{"monster", 4649},{"monster", 4651},{"monster", 4652}}}},
         },
         [1368] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Magram centaur to increase your reputation with the Gelkis Clan", 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Magram centaur to increase your reputation with the Gelkis Clan"), 0, {{"monster", 4643},{"monster", 4645},{"monster", 4662},{"monster", 5601},{"monster", 4638},{"monster", 4641},{"monster", 6068},{"monster", 4640},{"monster", 4639},{"monster", 4642},{"monster", 4644}}}},
         },
         [1388] = {
             [questKeys.preQuestSingle] = {1383},
@@ -930,7 +932,7 @@ function QuestieQuestFixes:Load()
         },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn", 0, {{"monster", 6492}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
         [1939] = {
             [questKeys.startedBy] = {{5144,5497},nil,nil},
@@ -952,7 +954,7 @@ function QuestieQuestFixes:Load()
         },
         [1960] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, "Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn", 0, {{"monster", 6492}}}}
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Cantation of Manifestation to reveal Rift Spawn. Use Chest of Containment Coffers on stunned Rift Spawn"), 0, {{"monster", 6492}}}},
         },
         [2039] = {
             [questKeys.exclusiveTo] = {2038},
@@ -1192,7 +1194,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5797},nil,{10621}},
         },
         [3520] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, "Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse..", 0, {{"monster", 5308}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse."), 0, {{"monster", 5308}}}},
         },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
@@ -1434,7 +1436,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [4743] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, "Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy.", 0, {{"monster", 10321}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}}},
         },
         [4763] = {
             [questKeys.requiredSourceItems] = {12347,12341,12342,12343}, -- #798
@@ -3308,22 +3310,22 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9124] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9126] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9128] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9131] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9136] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9141] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9154] = {
             [questKeys.questLevel] = 60,
@@ -3332,10 +3334,10 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [9211] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9213] = {
-            [questKeys.requiredMinRep] = {529,3000}
+            [questKeys.requiredMinRep] = {529,3000},
         },
         [9223] = {
             [questKeys.specialFlags] = 1,
@@ -3456,7 +3458,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {190181},
             [questKeys.exclusiveTo] = {65604},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, "Use the Lovers' Hearts to summon an Incubus and slay it.",}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.UNDERCITY]={{86.4,26.4}}}, ICON_TYPE_EVENT, l10n("Use the Lovers' Hearts to summon an Incubus and slay it."),}},
         },
         [65601] = {
             [questKeys.name] = "Love Hurts",
@@ -3482,7 +3484,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectivesText] = {"Retrieve the Wooden Figurine and bring it to Gakin the Darkbinder in the Mage Quarter of Stormwind."},
             [questKeys.objectives] = {nil,nil,{{190309}},nil,nil},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, "Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire.",}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ASHENVALE]={{26.7,22.5}}}, ICON_TYPE_EVENT, l10n("Light the Unlit Torch near a fire and use the Burning Torch to set the Archaeoligst's Cart on fire."),}},
         },
         [65603] = {
             [questKeys.name] = "The Binding",
@@ -3497,7 +3499,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {65602},
             [questKeys.requiredSourceItems] = {190186},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.STORMWIND_CITY]={{25.2,77.4}}}, ICON_TYPE_EVENT, l10n("Use the Withered Scarf to summon an Incubus and slay it."),}},
         },
         [65604] = {
             [questKeys.name] = "The Binding",
@@ -3513,7 +3515,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSourceItems] = {190187},
             [questKeys.exclusiveTo] = {65597},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
-            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, "Use the Withered Scarf to summon an Incubus and slay it.",}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ORGRIMMAR]={{49.4,50}}}, ICON_TYPE_EVENT, l10n("Use the Withered Scarf to summon an Incubus and slay it."),}},
         },
         [65610] = {
             [questKeys.name] = "Wish You Were Here",

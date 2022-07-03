@@ -190,7 +190,7 @@ function QuestieItemFixes:Load()
             [itemKeys.itemDrops] = {11887},
         },
         [3823] = {
-            [itemKeys.relatedQuests] = {715}
+            [itemKeys.relatedQuests] = {715},
         },
         [3864] = {
             [itemKeys.npcDrops] = {},
@@ -232,7 +232,7 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {}, -- Kept empty to not confuse users doing quest #714
             [itemKeys.itemDrops] = {6357},
             [itemKeys.vendors] = {5175,2687,8679,5519,9544,3495,2684,4587,8678,6777,3133,1694,6730,2682,2685,3413,1448,2683,11185,14637},
-            [itemKeys.relatedQuests] = {714}
+            [itemKeys.relatedQuests] = {714},
         },
         [4502] = {
             [itemKeys.relatedQuests] = {669},
@@ -313,7 +313,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [5179] = {
-            [itemKeys.npcDrops] = {3535}
+            [itemKeys.npcDrops] = {3535},
         },
         [5184] = {
             [itemKeys.relatedQuests] = {921},
@@ -432,7 +432,7 @@ function QuestieItemFixes:Load()
         [6912] = {
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {93192},
-            [itemKeys.relatedQuests] = {1738}
+            [itemKeys.relatedQuests] = {1738},
         },
         [6992] = {
             [itemKeys.npcDrops] = {},
@@ -923,7 +923,7 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
         },
         [16882] = {
-            [itemKeys.itemDrops] = {}
+            [itemKeys.itemDrops] = {},
         },
         [16967] = {
             [itemKeys.relatedQuests] = {6607},
