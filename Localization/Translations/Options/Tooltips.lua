@@ -122,6 +122,30 @@ local tooltipOptionsLocales = {
         ["esES"] = "Muestra misiones (disponibles/completadas) en el tooltip del PNJ.",
         ["frFR"] = "Affiche les quêtes (disponibles / terminées) dans les info-bulles des PNJ.",
     },
+    ["Show quest XP at max level"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Zeige XP auf Max-Level",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["Shows the quest XP values on quests even at max level."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Zeigt die Quest XP auch auf Max-Level an.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(tooltipOptionsLocales) do

@@ -143,6 +143,7 @@ function QuestieOptionsDefaults:Load()
             showPvPQuests = true,
             showAQWarEffortQuests = false,
             showQuestsInNpcTooltip = true,
+            showQuestXpAtMaxLevel = true,
             ldbDisplayText = "Questie"
         },
         profile = {minimap = {hide = false}}
