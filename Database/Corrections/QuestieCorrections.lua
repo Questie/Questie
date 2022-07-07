@@ -36,6 +36,15 @@ local QuestieTBCItemFixes = QuestieLoader:ImportModule("QuestieTBCItemFixes")
 ---@type QuestieTBCObjectFixes
 local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes")
 
+---@type QuestieWotlkQuestFixes
+local QuestieWotlkQuestFixes = QuestieLoader:ImportModule("QuestieWotlkQuestFixes")
+---@type QuestieWotlkNpcFixes
+local QuestieWotlkNpcFixes = QuestieLoader:ImportModule("QuestieWotlkNpcFixes")
+---@type QuestieWotlkItemFixes
+local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes")
+---@type QuestieWotlkObjectFixes
+local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
+
 --[[
     This file load the corrections of the database files.
 
@@ -165,6 +174,13 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Questie.IsWotlk then
+        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     local patchCount = 0
