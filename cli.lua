@@ -3,6 +3,10 @@ WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_MAINLINE = 1
 
+QUEST_MONSTERS_KILLED = "QUEST_MONSTERS_KILLED"
+QUEST_ITEMS_NEEDED = "QUEST_ITEMS_NEEDED"
+QUEST_OBJECTS_FOUND = "QUEST_OBJECTS_FOUND"
+
 tremove = table.remove
 tinsert = table.insert
 coroutine.yield = function() end -- no need to yield in the cli (TODO: maybe find a less hacky fix)
