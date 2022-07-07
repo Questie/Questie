@@ -80,7 +80,7 @@ local function loadTOC(file)
             if r then
                 --print("Loaded " .. line)
             else
-                print("Error loading " .. line .. ": " .. e)
+                print("Error loading " .. line .. ": " .. r)
             end
         end
     end
