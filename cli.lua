@@ -23,6 +23,7 @@ end
 GetTime = function()
     return os.time(os.date("!*t")) - 1616930000 -- convert unix time to wow time (actually accurate)
 end
+IsAddOnLoaded = function() return false, true end
 UnitFactionGroup = function()
     return arg[1] or "Horde"
 end
