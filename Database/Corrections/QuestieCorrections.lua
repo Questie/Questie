@@ -130,138 +130,41 @@ function QuestieCorrections:MinimalInit() -- db already compiled
             QuestieEvent:Load()
         end)
     end
-
 end
 
-function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
-    local equals = QuestieLib.equals
-
-    for id, data in pairs(QuestieItemFixes:Load()) do
+---@param databaseTableName string The name of the QuestieDB field that should be manipulated (e.g. "itemData", "questData")
+---@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
+---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
+---@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
+local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables)
+    for id, data in pairs(corrections) do
         for key, value in pairs(data) do
-            if not QuestieDB.itemData[id] then
-                QuestieDB.itemData[id] = {}
+            if not QuestieDB[databaseTableName][id] then
+                QuestieDB[databaseTableName][id] = {}
             end
-            if doValidation then
-                if value and equals(QuestieDB.itemData[id][key], value) and doValidation.itemData[id] and equals(doValidation.itemData[id][key], value) then
-                    Questie:Warning("Correction of item " .. tostring(id) .. "." .. QuestieDB.itemKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
+            if validationTables then
+                if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
+                    Questie:Warning("Correction of " .. databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end
-            QuestieDB.itemData[id][key] = value
+            QuestieDB[databaseTableName][id][key] = value
         end
     end
+end
 
-    for id, data in pairs(QuestieNPCFixes:Load()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.npcData[id] then
-                QuestieDB.npcData[id] = {}
-            end
-            if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
-                QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
-            else
-                if doValidation then
-                    if value and equals(QuestieDB.npcData[id][key], value) and doValidation.npcData[id] and equals(doValidation.npcData[id][key], value)  then
-                        Questie:Warning("Correction of npc " .. tostring(id) .. "." .. QuestieDB.npcKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                    end
-                end
-                QuestieDB.npcData[id][key] = value
-            end
-        end
-    end
-
-    for id, data in pairs(QuestieObjectFixes:Load()) do
-        for key, value in pairs(data) do
-            if not QuestieDB.objectData[id] then
-                QuestieDB.objectData[id] = {}
-            end
-            if doValidation then
-                if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
-                    Questie:Warning("Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                end
-            end
-            QuestieDB.objectData[id][key] = value
-        end
-    end
-
-    for id, data in pairs(QuestieQuestFixes:Load()) do
-        for key, value in pairs(data) do
-            if QuestieDB.questData[id] then
-                if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
-                    QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
-                else
-                    if doValidation then
-                        if value and equals(QuestieDB.questData[id][key], value) and doValidation.questData[id] and equals(doValidation.questData[id][key], value) then
-                            Questie:Warning("Correction of quest " .. tostring(id) .. "." .. QuestieDB.questKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                        end
-                    end
-                    QuestieDB.questData[id][key] = value
-                end
-            end
-        end
-    end
+---@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
+function QuestieCorrections:Initialize(validationTables)
+    -- Classic Corrections
+    _LoadCorrections("questData", QuestieQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+    _LoadCorrections("npcData", QuestieNPCFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+    _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
+    _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
 
     if Questie.IsTBC then
-        for id, data in pairs(QuestieTBCQuestFixes:Load()) do
-            for key, value in pairs(data) do
-                if QuestieDB.questData[id] then
-                    if key == QuestieDB.questKeys.questFlags and QuestieDB.questData[id][key] and type(value) == "table" then -- modify existing flags
-                        QuestieDB.questData[id][key] = QuestieDB.questData[id][key] + value[1]
-                    else
-                        if doValidation then
-                            if value and equals(QuestieDB.questData[id][key], value) and doValidation.questData[id] and equals(doValidation.questData[id][key], value) then
-                                Questie:Warning("TBC-only Correction of quest " .. tostring(id) .. "." .. QuestieDB.questKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                            end
-                        end
-                        QuestieDB.questData[id][key] = value
-                    end
-                end
-            end
-        end
-
-        for id, data in pairs(QuestieTBCNpcFixes:Load()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.npcData[id] then
-                    QuestieDB.npcData[id] = {}
-                end
-                if key == QuestieDB.npcKeys.npcFlags and QuestieDB.npcData[id][key] and type(value) == "table" then -- modify existing flags
-                    QuestieDB.npcData[id][key] = QuestieDB.npcData[id][key] + value[1]
-                else
-                    if doValidation then
-                        if value and equals(QuestieDB.npcData[id][key], value) and doValidation.npcData[id] and equals(doValidation.npcData[id][key], value) then
-                            Questie:Warning("TBC-only Correction of npc " .. tostring(id) .. "." .. QuestieDB.npcKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                        end
-                    end
-                    QuestieDB.npcData[id][key] = value
-                end
-            end
-        end
-
-        for id, data in pairs(QuestieTBCObjectFixes:Load()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.objectData[id] then
-                    QuestieDB.objectData[id] = {}
-                end
-                if doValidation then
-                    if value and equals(QuestieDB.objectData[id][key], value) and doValidation.objectData[id] and equals(doValidation.objectData[id][key], value) then
-                        Questie:Warning("TBC-only Correction of object " .. tostring(id) .. "." .. QuestieDB.objectKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                    end
-                end
-                QuestieDB.objectData[id][key] = value
-            end
-        end
-
-        for id, data in pairs(QuestieTBCItemFixes:Load()) do
-            for key, value in pairs(data) do
-                if not QuestieDB.itemData[id] then
-                    QuestieDB.itemData[id] = {}
-                end
-                if doValidation then
-                    if value and equals(QuestieDB.itemData[id][key], value) and doValidation.itemData[id] and equals(doValidation.itemData[id][key], value) then
-                        Questie:Warning("TBC-only Correction of item " .. tostring(id) .. "." .. QuestieDB.itemKeysReversed[key] .. " matches base DB! Value:" .. tostring(value))
-                    end
-                end
-                QuestieDB.itemData[id][key] = value
-            end
-        end
+        _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     local patchCount = 0
