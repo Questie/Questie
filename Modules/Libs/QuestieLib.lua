@@ -518,12 +518,12 @@ function QuestieLib.equals(a, b)
         return math.abs(a-b) < 0.2
     elseif ta == "table" then
         for k,v in pairs(a) do
-            if (not equals(b[k], v)) then
+            if (not QuestieLib.equals(b[k], v)) then
                 return false
             end
         end
         for k,v in pairs(b) do
-            if (not equals(a[k], v)) then
+            if (not QuestieLib.equals(a[k], v)) then
                 return false
             end
         end
