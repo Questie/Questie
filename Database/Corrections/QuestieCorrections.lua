@@ -1,28 +1,28 @@
 ---@class QuestieCorrections
 local QuestieCorrections = QuestieLoader:CreateModule("QuestieCorrections")
--------------------------
---Import modules.
--------------------------
+
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type ZoneDB
+local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
----@type QuestieQuestFixes
-local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type QuestieNPCBlacklist
 local QuestieNPCBlacklist = QuestieLoader:ImportModule("QuestieNPCBlacklist")
----@type QuestieItemFixes
-local QuestieItemFixes = QuestieLoader:ImportModule("QuestieItemFixes")
 ---@type QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
+
+---@type QuestieQuestFixes
+local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
 ---@type QuestieNPCFixes
 local QuestieNPCFixes = QuestieLoader:ImportModule("QuestieNPCFixes")
+---@type QuestieItemFixes
+local QuestieItemFixes = QuestieLoader:ImportModule("QuestieItemFixes")
 ---@type QuestieObjectFixes
 local QuestieObjectFixes = QuestieLoader:ImportModule("QuestieObjectFixes")
----@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+
 ---@type QuestieTBCQuestFixes
 local QuestieTBCQuestFixes = QuestieLoader:ImportModule("QuestieTBCQuestFixes")
 ---@type QuestieTBCNpcFixes
