@@ -506,16 +506,29 @@ function QuestieLib.TrimObjectiveText(text, objectiveType)
     return text
 end
 
---[[  KEEP THIS FOR NOW
+---@return boolean
+function QuestieLib.equals(a, b)
+    if a == nil and b == nil then return true end
+    if a == nil or b == nil then return false end
+    local ta = type(a)
+    local tb = type(b)
+    if ta ~= tb then return false end
 
-            -- Look if it contains "slain"
-            if(smatch(text, slain)) then
-                --English first, chinese after
-                text = smatch(objective.text, "(.*)"..slain.."%W*%d+/%d+") or smatch(objective.text, "%d+/%d+%W*"..slain.."(.*)")
-                --Capital %W is required due to chinese not being alphanumerical
-                --text = smatch(objective.text, '^(.*)%s+%w+:%s') or smatch(objective.text, '%s：%W+%s(.+)$');
-            else
-                --English first, chinese after
-                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$");
+    if ta == "number" then
+        return math.abs(a-b) < 0.2
+    elseif ta == "table" then
+        for k,v in pairs(a) do
+            if (not equals(b[k], v)) then
+                return false
             end
-]]--
+        end
+        for k,v in pairs(b) do
+            if (not equals(a[k], v)) then
+                return false
+            end
+        end
+        return true
+    end
+
+    return a == b
+end

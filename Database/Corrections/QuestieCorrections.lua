@@ -5,6 +5,8 @@ local QuestieCorrections = QuestieLoader:CreateModule("QuestieCorrections")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieEvent
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 ---@type QuestieQuestBlacklist
@@ -129,33 +131,9 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
 end
 
-local function equals(a, b) -- todo move to a library file somewhere
-    if a == nil and b == nil then return true end
-    if a == nil or b == nil then return false end
-    local ta = type(a)
-    local tb = type(b)
-    if ta ~= tb then return false end
-
-    if ta == "number" then
-        return math.abs(a-b) < 0.2
-    elseif ta == "table" then
-        for k,v in pairs(a) do
-            if not equals(b[k], v) then
-                return false
-            end
-        end
-        for k,v in pairs(b) do
-            if not equals(a[k], v) then
-                return false
-            end
-        end
-        return true
-    else
-        return a == b
-    end
-end
-
 function QuestieCorrections:Initialize(doValidation) -- db needs to be compiled
+    local equals = QuestieLib.equals
+
     for id, data in pairs(QuestieItemFixes:Load()) do
         for key, value in pairs(data) do
             if not QuestieDB.itemData[id] then
