@@ -72,15 +72,15 @@ local function loadTOC(file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r
+            local pcallResult, errorMessage
             local chunck = loadfile(line)
             if chunck then
-                r = pcall(chunck, addonName, addonTable)
+                pcallResult, errorMessage = pcall(chunck, addonName, addonTable)
             end
-            if r then
+            if pcallResult then
                 --print("Loaded " .. line)
             else
-                print("Error loading " .. line)
+                print("Error loading " .. line .. ": " .. errorMessage)
             end
         end
     end
