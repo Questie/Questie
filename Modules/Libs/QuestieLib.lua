@@ -15,6 +15,7 @@ local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
 local stringSub = string.sub
+local stringGsub = string.gsub
 local strim = string.trim
 local smatch = string.match
 local tostring, tonumber = tostring, tonumber
@@ -383,15 +384,15 @@ function QuestieLib:SanitizePattern(pattern)
     if not sanitize_cache[pattern] then
         local ret = pattern
         -- escape magic characters
-        ret = gsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
+        ret = stringGsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
         -- remove capture indexes
-        ret = gsub(ret, "%d%$", "")
+        ret = stringGsub(ret, "%d%$", "")
         -- catch all characters
-        ret = gsub(ret, "(%%%a)", "%(%1+%)")
+        ret = stringGsub(ret, "(%%%a)", "%(%1+%)")
         -- convert all %s to .+
-        ret = gsub(ret, "%%s%+", ".+")
+        ret = stringGsub(ret, "%%s%+", ".+")
         -- set priority to numbers over strings
-        ret = gsub(ret, "%(.%+%)%(%%d%+%)", "%(.-%)%(%%d%+%)")
+        ret = stringGsub(ret, "%(.%+%)%(%%d%+%)", "%(.-%)%(%%d%+%)")
         -- cache it
         sanitize_cache[pattern] = ret
     end

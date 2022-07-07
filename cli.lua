@@ -14,7 +14,6 @@ mod = function(a, b)
     return a % b
 end
 bit = require("bit32")
-gsub = function(ret) return ret end
 
 GetBuildInfo = function()
     return "2.5.1", "38644", "May 11 2021", "20501"
