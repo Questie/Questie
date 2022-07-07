@@ -81,7 +81,11 @@ local function loadTOC(file)
             if pcallResult then
                 --print("Loaded " .. line)
             else
-                print("Error loading " .. line .. ": " .. errorMessage)
+                if errorMessage then
+                    print("Error loading " .. line .. ": " .. errorMessage)
+                else
+                    print("Error loading " .. line .. " - No errorMessage")
+                end
             end
         end
     end
