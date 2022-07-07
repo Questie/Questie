@@ -15,6 +15,7 @@ local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
 local stringSub = string.sub
+local stringGsub = string.gsub
 local strim = string.trim
 local smatch = string.match
 local tostring, tonumber = tostring, tonumber
@@ -383,15 +384,15 @@ function QuestieLib:SanitizePattern(pattern)
     if not sanitize_cache[pattern] then
         local ret = pattern
         -- escape magic characters
-        ret = gsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
+        ret = stringGsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
         -- remove capture indexes
-        ret = gsub(ret, "%d%$", "")
+        ret = stringGsub(ret, "%d%$", "")
         -- catch all characters
-        ret = gsub(ret, "(%%%a)", "%(%1+%)")
+        ret = stringGsub(ret, "(%%%a)", "%(%1+%)")
         -- convert all %s to .+
-        ret = gsub(ret, "%%s%+", ".+")
+        ret = stringGsub(ret, "%%s%+", ".+")
         -- set priority to numbers over strings
-        ret = gsub(ret, "%(.%+%)%(%%d%+%)", "%(.-%)%(%%d%+%)")
+        ret = stringGsub(ret, "%(.%+%)%(%%d%+%)", "%(.-%)%(%%d%+%)")
         -- cache it
         sanitize_cache[pattern] = ret
     end
@@ -506,16 +507,29 @@ function QuestieLib.TrimObjectiveText(text, objectiveType)
     return text
 end
 
---[[  KEEP THIS FOR NOW
+---@return boolean
+function QuestieLib.equals(a, b)
+    if a == nil and b == nil then return true end
+    if a == nil or b == nil then return false end
+    local ta = type(a)
+    local tb = type(b)
+    if ta ~= tb then return false end
 
-            -- Look if it contains "slain"
-            if(smatch(text, slain)) then
-                --English first, chinese after
-                text = smatch(objective.text, "(.*)"..slain.."%W*%d+/%d+") or smatch(objective.text, "%d+/%d+%W*"..slain.."(.*)")
-                --Capital %W is required due to chinese not being alphanumerical
-                --text = smatch(objective.text, '^(.*)%s+%w+:%s') or smatch(objective.text, '%s：%W+%s(.+)$');
-            else
-                --English first, chinese after
-                text = smatch(objective.text, "^(.*):%s") or smatch(objective.text, "%s：(.*)$");
+    if ta == "number" then
+        return math.abs(a-b) < 0.2
+    elseif ta == "table" then
+        for k,v in pairs(a) do
+            if (not QuestieLib.equals(b[k], v)) then
+                return false
             end
-]]--
+        end
+        for k,v in pairs(b) do
+            if (not QuestieLib.equals(a[k], v)) then
+                return false
+            end
+        end
+        return true
+    end
+
+    return a == b
+end
