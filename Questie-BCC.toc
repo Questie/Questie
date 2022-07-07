@@ -84,6 +84,7 @@ Localization\lookups\TBC\lookupQuests\lookupQuests.xml
 Modules\Libs\QuestieLib.lua
 Modules\Libs\QuestieSerializer.lua
 Modules\Libs\QuestieCombatQueue.lua
+Modules\Libs\RamerDouglasPeucker.lua
 
 # Modules
 Modules\QuestieValidateGameCache.lua
