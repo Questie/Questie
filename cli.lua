@@ -195,6 +195,7 @@ local function _CheckTBCDatabase()
         global = {}
     }
     QuestieConfig = {}
+    Questie.IsWotlk = false -- TODO: Remove me once IsWotlk is correctly set
 
     local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
     local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
