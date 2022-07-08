@@ -127,7 +127,7 @@ local sortIds = {
     [QuestieProfessions.professionKeys.ENCHANTING] = -668, -- Dummy Id
     [QuestieProfessions.professionKeys.FISHING] = -101,
     [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
-    --[QuestieProfessions.professionKeys.JEWELCRAFTING] = ,
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 
