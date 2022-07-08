@@ -93,7 +93,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
 
         QuestieInit:LoadBaseDB()
-        _QuestieInit:OverrideDBWithTBCData()
+        _QuestieInit:OverrideDBWithExpansionData()
 
         print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
@@ -113,7 +113,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         QuestieCorrections:PreCompile()
         QuestieDBCompiler:Compile()
     else
-        _QuestieInit:OverrideDBWithTBCData()
+        _QuestieInit:OverrideDBWithExpansionData()
 
         coroutine.yield()
         l10n:Initialize()
@@ -234,24 +234,32 @@ function QuestieInit:LoadBaseDB()
     -- load NPC data
     QuestieInit:LoadDatabase("npcData")
     QuestieInit:LoadDatabase("npcDataTBC")
+    QuestieInit:LoadDatabase("npcDataWotlk")
 
     -- load object data
     QuestieInit:LoadDatabase("objectData")
     QuestieInit:LoadDatabase("objectDataTBC")
+    QuestieInit:LoadDatabase("objectDataWotlk")
 
     -- load quest data
     QuestieInit:LoadDatabase("questData")
     QuestieInit:LoadDatabase("questDataTBC")
+    QuestieInit:LoadDatabase("questDataWotlk")
 
     -- load item data
     QuestieInit:LoadDatabase("itemData")
     QuestieInit:LoadDatabase("itemDataTBC")
+    QuestieInit:LoadDatabase("itemDataWotlk")
 
 end
 
-function _QuestieInit:OverrideDBWithTBCData()
-    if QuestieDB.questDataTBC then
-        -- we loaded the TBC db, alias the tables
+function _QuestieInit:OverrideDBWithExpansionData()
+    if QuestieDB.questDataWotlk then
+        QuestieDB.questData = QuestieDB.questDataWotlk
+        QuestieDB.objectData = QuestieDB.objectDataWotlk
+        QuestieDB.npcData = QuestieDB.npcDataWotlk
+        QuestieDB.itemData = QuestieDB.itemDataWotlk
+    elseif QuestieDB.questDataTBC then
         QuestieDB.questData = QuestieDB.questDataTBC
         QuestieDB.objectData = QuestieDB.objectDataTBC
         QuestieDB.npcData = QuestieDB.npcDataTBC
