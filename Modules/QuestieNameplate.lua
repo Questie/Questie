@@ -45,12 +45,12 @@ function QuestieNameplate:NameplateCreated(token)
         return
     end
 
-    local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 
     if icon then
         activeGUIDs[unitGUID] = token
 
-        local f = _QuestieNameplate:GetFrame(unitGUID)
+        local f = _QuestieNameplate.GetFrame(unitGUID)
         f.Icon:SetTexture(icon)
         f.lastIcon = icon -- this is used to prevent updating the texture when it's already what it needs to be
         f:Show()
@@ -69,7 +69,7 @@ function QuestieNameplate:NameplateDestroyed(token)
 
     if unitGUID and activeGUIDs[unitGUID] then
         activeGUIDs[unitGUID] = nil
-        _QuestieNameplate:RemoveFrame(unitGUID)
+        _QuestieNameplate.RemoveFrame(unitGUID)
     end
 end
 
@@ -85,10 +85,10 @@ function QuestieNameplate:UpdateNameplate()
             return
         end
 
-        local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+        local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 
         if icon then
-            local frame = _QuestieNameplate:GetFrame(guid)
+            local frame = _QuestieNameplate.GetFrame(guid)
             -- check if the texture needs to be changed
             if (not frame.lastIcon) or icon ~= frame.lastIcon then
                 frame.lastIcon = icon
@@ -98,7 +98,7 @@ function QuestieNameplate:UpdateNameplate()
         else
             -- tooltip removed but we still have the frame active, remove it
             activeGUIDs[guid] = nil
-            _QuestieNameplate:RemoveFrame(guid)
+            _QuestieNameplate.RemoveFrame(guid)
         end
     end
 end
@@ -116,7 +116,7 @@ end
 function QuestieNameplate:HideCurrentFrames()
     for guid, _ in pairs(activeGUIDs) do
         activeGUIDs[guid] = nil
-        _QuestieNameplate:RemoveFrame(guid)
+        _QuestieNameplate.RemoveFrame(guid)
     end
 end
 
@@ -147,13 +147,13 @@ function QuestieNameplate:DrawTargetFrame()
         return
     end
 
-    local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
+    local icon = _QuestieNameplate.GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
     if (not icon) then
         return
     end
 
     if activeTargetFrame == nil then
-        activeTargetFrame = _QuestieNameplate:GetTargetFrameIconFrame()
+        activeTargetFrame = _QuestieNameplate.GetTargetFrameIconFrame()
     end
 
     activeTargetFrame.Icon:SetTexture(icon)
@@ -183,7 +183,7 @@ end
 
 
 ---@param guid string
-function _QuestieNameplate:GetFrame(guid)
+function _QuestieNameplate.GetFrame(guid)
     if npFrames[guid] then
         return npFrames[guid]
     end
@@ -216,7 +216,7 @@ function _QuestieNameplate:GetFrame(guid)
     return frame
 end
 
-function _QuestieNameplate:GetTargetFrameIconFrame()
+function _QuestieNameplate.GetTargetFrameIconFrame()
     local frame = CreateFrame("Frame")
 
     local iconScale = Questie.db.global.nameplateTargetFrameScale
@@ -248,7 +248,7 @@ function _QuestieNameplate:GetTargetFrameIconFrame()
 end
 
 ---@param guid string
-function _QuestieNameplate:RemoveFrame(guid)
+function _QuestieNameplate.RemoveFrame(guid)
     if (not npFrames[guid]) then
         return
     end
@@ -260,7 +260,7 @@ function _QuestieNameplate:RemoveFrame(guid)
 end
 
 ---@param tooltips table<string, table>
-function _QuestieNameplate:GetValidIcon(tooltips) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
+function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the first valid (incomplete) icon from the specified tooltip, or nil if there is none
     if (not tooltips) then
         return
     end
