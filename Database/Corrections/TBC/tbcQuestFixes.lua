@@ -50,6 +50,9 @@ function QuestieTBCQuestFixes:Load()
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
         },
+        [349] = {
+            [questKeys.objectivesText] = {"Speak with Witch Doctor Unbagwa.",},
+        },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36}}}},
         },
