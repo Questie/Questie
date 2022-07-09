@@ -88,7 +88,7 @@ function QuestieNameplate:UpdateNameplate()
         local icon = _QuestieNameplate:GetValidIcon(QuestieTooltips.lookupByKey["m_" .. npcId])
 
         if icon then
-            local frame = QuestieNameplate:GetFrame(guid)
+            local frame = _QuestieNameplate:GetFrame(guid)
             -- check if the texture needs to be changed
             if (not frame.lastIcon) or icon ~= frame.lastIcon then
                 frame.lastIcon = icon
