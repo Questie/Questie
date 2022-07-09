@@ -3,14 +3,14 @@ local QuestieOptionsUtils = QuestieLoader:CreateModule("QuestieOptionsUtils");
 
 --- Creates a vertical spacer with the given height
 ---@param o number
----@param height number|nil
-function QuestieOptionsUtils:Spacer(o, height)
+---@param hidden boolean|nil
+function QuestieOptionsUtils:Spacer(o, hidden)
     return {
         type = "description",
         order = o,
+        hidden = hidden,
         name = " ",
-        fontSize = "large",
-        fontHeight = height
+        fontSize = "large"
     }
 end
 
@@ -37,6 +37,6 @@ function QuestieOptionsUtils:Delay(time, func, message)
     end
     _optionsTimer = Questie:ScheduleTimer(function()
         func()
-        Questie:Debug(DEBUG_DEVELOP, message)
+        Questie:Debug(Questie.DEBUG_DEVELOP, message)
     end, time)
 end

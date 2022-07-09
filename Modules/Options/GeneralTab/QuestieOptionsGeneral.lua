@@ -3,6 +3,8 @@
 -------------------------
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas");
 ---@type QuestieOptions
 local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
@@ -98,14 +100,28 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    hideMapIconsForUntrackedToggle = {
+                        type = "toggle",
+                        order = 4,
+                        name = function() return l10n('Hide icons of untracked quests'); end,
+                        desc = function() return l10n('Hide icons for quests that are not tracked.'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function() return Questie.db.char.hideUntrackedQuestsMapIcons; end,
+                        set = function(info, value)
+                            Questie.db.char.hideUntrackedQuestsMapIcons = value
+                            QuestieQuest:ToggleNotes(not value);
+                            QuestieQuest:SmoothReset()
+                        end,
+                    },
                     seperatingHeader1 = {
                         type = "header",
-                        order = 4,
+                        order = 5,
                         name = "",
                     },
                     enableObjectivesToggle = {
                         type = "toggle",
-                        order = 5,
+                        order = 6,
                         name = function() return l10n('Enable Objective Icons'); end,
                         desc = function() return l10n('When this is enabled, quest objective icons will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -119,7 +135,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     enableTurninsToggle = {
                         type = "toggle",
-                        order = 6,
+                        order = 7,
                         name = function() return l10n('Enable Completed Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the quest turn-in locations will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -133,7 +149,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     enableAvailableToggle = {
                         type = "toggle",
-                        order = 7,
+                        order = 8,
                         name = function() return l10n('Enable Available Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of available quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -147,7 +163,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showRepeatableQuests = {
                         type = "toggle",
-                        order = 8,
+                        order = 9,
                         name = function() return l10n('Enable Repeatable Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of repeatable quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -161,7 +177,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showEventQuests = {
                         type = "toggle",
-                        order = 9,
+                        order = 10,
                         name = function() return l10n('Enable Event Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of events quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -175,7 +191,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showDungeonQuests = {
                         type = "toggle",
-                        order = 10,
+                        order = 11,
                         name = function() return l10n('Enable Dungeon Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of dungeon quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -189,7 +205,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showRaidQuests = {
                         type = "toggle",
-                        order = 10,
+                        order = 12,
                         name = function() return l10n('Enable Raid Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of raid quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -203,7 +219,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showPvPQuests = {
                         type = "toggle",
-                        order = 11,
+                        order = 13,
                         name = function() return l10n('Enable PvP Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of PvP quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -217,7 +233,7 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                     showAQWarEffortQuests = {
                         type = "toggle",
-                        order = 12,
+                        order = 14,
                         name = function() return l10n('Enable AQ War Effort Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quest will be shown on the map/minimap.'); end,
                         width = 1.5,
@@ -231,7 +247,37 @@ function QuestieOptions.tabs.general:Initialize()
                     },
                 },
             },
-            Spacer_A = QuestieOptionsUtils:Spacer(1.22),
+            Spacer_A1 = QuestieOptionsUtils:Spacer(2.1, (not Questie.IsTBC)),
+            isleOfQuelDanasPhase = {
+                type = "select",
+                order = 2.5,
+                width = 1.5,
+                hidden = (not Questie.IsTBC),
+                values = IsleOfQuelDanas.localizedPhaseNames,
+                style = 'dropdown',
+                name = function() return l10n("Isle of Quel'Danas Phase") end,
+                desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
+                disabled = function() return (not Questie.IsTBC) end,
+                get = function() return Questie.db.global.isleOfQuelDanasPhase; end,
+                set = function(_, key)
+                    Questie.db.global.isleOfQuelDanasPhase = key
+                    QuestieQuest:SmoothReset()
+                end,
+            },
+            isleOfQuelDanasPhaseReminder = {
+                type = "toggle",
+                order = 2.6,
+                hidden = (not Questie.IsTBC),
+                name = function() return l10n('Disable Phase reminder'); end,
+                desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
+                disabled = function() return (not Questie.IsTBC) end,
+                width = 1,
+                get = function () return Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled; end,
+                set = function (_, value)
+                    Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled = value
+                end,
+            },
+            Spacer_A = QuestieOptionsUtils:Spacer(2.9, (not Questie.IsTBC)),
             minimapButtonEnabled = {
                 type = "toggle",
                 order = 3,
@@ -273,7 +319,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return Questie.db.char.autoaccept; end,
                 set = function (info, value)
                     Questie.db.char.autoaccept = value
-                    Questie:Debug(DEBUG_DEVELOP, "Auto Accept toggled to:", value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
             },
             autocomplete = {
@@ -285,7 +331,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
                     Questie.db.char.autocomplete = value
-                    Questie:Debug(DEBUG_DEVELOP, "Auto Complete toggled to:", value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
             },
             autoModifier = {
@@ -315,40 +361,14 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
             },
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
-            questannounce = {
-                type = "toggle",
-                order = 9,
-                name = function() return l10n('Quest Announce') end,
-                desc = function() return l10n('Announce objective completion to party members'); end,
-                get = function() return Questie.db.char.questAnnounce end,
-                set = function(_, value)
-                    Questie.db.char.questAnnounce = value
-                end,
-            },
-            Spacer_B = QuestieOptionsUtils:HorizontalSpacer(1.722, 0.5),
-            shareQuestsNearby = {
-                type = "toggle",
-                order = 10,
-                name = function() return l10n('Share quest progress with nearby players'); end,
-                desc = function() return l10n("Your quest progress will be periodically sent to nearby players. Disabling this doesn't affect sharing progress with party members."); end,
-                disabled = function() return false end,
-                width = 1.7,
-                get = function () return not Questie.db.global.disableYellComms end,
-                set = function (info, value)
-                    Questie.db.global.disableYellComms = not value
-                    if not value then
-                        QuestieLoader:ImportModule("QuestieComms"):RemoveAllRemotePlayers()
-                    end
-                end,
-            },
             quest_options = {
                 type = "header",
-                order = 11,
+                order = 12,
                 name = function() return l10n('Quest Level Options'); end,
             },
             gray = {
                 type = "toggle",
-                order = 12,
+                order = 13,
                 name = function() return l10n('Show All Quests below range (Low level quests)'); end,
                 desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
                 width = "full",
@@ -356,12 +376,12 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.lowlevel = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, "Gray Quests toggled to:", value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "Gray Quests toggled to:", value)
                 end,
             },
             manualMinLevelOffset = {
                 type = "toggle",
-                order = 13,
+                order = 14,
                 name = function() return l10n('Enable manual minimum level offset'); end,
                 desc = function() return l10n('Enable manual minimum level offset instead of the automatic GetQuestGreenLevel function.'); end,
                 width = 1.5,
@@ -370,12 +390,12 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.manualMinLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
                 end,
             },
             absoluteLevelOffset = {
                 type = "toggle",
-                order = 14,
+                order = 15,
                 name = function() return l10n('Enable absolute level range'); end,
                 desc = function() return l10n('Change the level offset to absolute level values.'); end,
                 width = 1.5,
@@ -384,12 +404,12 @@ function QuestieOptions.tabs.general:Initialize()
                 set = function (info, value)
                     Questie.db.char.absoluteLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
-                    Questie:Debug(DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
                 end,
             },
             minLevelFilter = {
                 type = "range",
-                order = 15,
+                order = 16,
                 name = function()
                     if Questie.db.char.absoluteLevelOffset then 
                         return l10n('Level from');
@@ -417,7 +437,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             maxLevelFilter = {
                 type = "range",
-                order = 16,
+                order = 17,
                 name = function()
                     return l10n('Level to');
                 end,
@@ -437,7 +457,7 @@ function QuestieOptions.tabs.general:Initialize()
             },
             clusterLevelHotzone = {
                 type = "range",
-                order = 17,
+                order = 18,
                 name = function() return l10n('Objective icon cluster amount'); end,
                 desc = function() return l10n('How much objective icons should cluster.'); end,
                 width = "double",

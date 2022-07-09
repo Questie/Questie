@@ -107,10 +107,11 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
             _DailyQuests:ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
         else
-            if (not QuestiePlayer.currentQuestlog[questId]) then
+            -- If the quest is not in the questlog remove all frames
+            if (GetQuestLogIndexByID(questId) == 0) then
                 _DailyQuests:HideDailyQuest(questId);
-                Questie.db.char.hiddenDailies[type][questId] = true;
             end
+            Questie.db.char.hiddenDailies[type][questId] = true;
         end
     end
 end
@@ -178,6 +179,7 @@ hcDailyIds = {
     [11384] = true,
     [11386] = true,
     [11388] = true,
+    [11499] = true,
 };
 
 cookingDailyIds = {
@@ -196,6 +198,7 @@ fishingDailyIds = {
 };
 
 pvpDailyIds = {
+    [11335] = true,
     [11336] = true,
     [11337] = true,
     [11338] = true,

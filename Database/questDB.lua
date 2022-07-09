@@ -59,20 +59,20 @@ QuestieDB.questCompilerTypes = {
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
     ['objectives'] = "objectives", -- table
     ['sourceItemId'] = "u16", -- int, item provided by quest starter
-    ['preQuestGroup'] = "u8u16array", -- table: {quest(int)}
-    ['preQuestSingle'] = "u8u16array", -- table: {quest(int)}
-    ['childQuests'] = "u8u16array", -- table: {quest(int)}
-    ['inGroupWith'] = "u8u16array", -- table: {quest(int)}
-    ['exclusiveTo'] = "u8u16array", -- table: {quest(int)}
+    ['preQuestGroup'] = "u8u24array", -- table: {quest(int)}
+    ['preQuestSingle'] = "u8u24array", -- table: {quest(int)}
+    ['childQuests'] = "u8u24array", -- table: {quest(int)}
+    ['inGroupWith'] = "u8u24array", -- table: {quest(int)}
+    ['exclusiveTo'] = "u8u24array", -- table: {quest(int)}
     ['zoneOrSort'] = "s16", -- int, >0: AreaTable.dbc ID; <0: QuestSort.dbc ID
     ['requiredSkill'] = "u12pair", -- table: {skill(int), value(int)}
     ['requiredMinRep'] = "s24pair", -- table: {faction(int), value(int)}
     ['requiredMaxRep'] = "s24pair", -- table: {faction(int), value(int)}
     ['requiredSourceItems'] = "u8u16array", -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
-    ['nextQuestInChain'] = "u16", -- int: if this quest is active/finished, the current quest is not available anymore
+    ['nextQuestInChain'] = "u24", -- int: if this quest is active/finished, the current quest is not available anymore
     ['questFlags'] = "u16", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
-    ['parentQuest'] = "u16", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
+    ['parentQuest'] = "u24", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = "u8s16pairs",
     ['extraObjectives'] = "extraobjectives",
 }

@@ -90,7 +90,7 @@ QuestieDB.itemCompilerTypes = {
     ["foodType"] = "u8",
     ["itemLevel"] = "u8",
     ["flags"] = "u16",
-    ["startQuest"] = "u16",
+    ["startQuest"] = "u24",
     ["requiredLevel"] = "u8",
     ["ammoType"] = "u8",
     ["class"] = "u8",
@@ -99,8 +99,8 @@ QuestieDB.itemCompilerTypes = {
     ["objectDrops"] = "u8u24array",
     ["itemDrops"] = "u8u16array",
     ["vendors"] = "u8u16array",
-    ["relatedQuests"] = "u8u16array",
-    ["questRewards"] = "u8u16array",
+    ["relatedQuests"] = "u8u24array",
+    ["questRewards"] = "u8u24array",
     ["name"] = "u8string",
 }
 

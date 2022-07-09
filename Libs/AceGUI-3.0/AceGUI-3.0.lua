@@ -24,14 +24,14 @@
 -- f:AddChild(btn)
 -- @class file
 -- @name AceGUI-3.0
--- @release $Id: AceGUI-3.0.lua 1231 2020-04-14 22:20:36Z nevcairiel $
+-- @release $Id: AceGUI-3.0.lua 1247 2021-01-23 23:16:39Z funkehdude $
 local ACEGUI_MAJOR, ACEGUI_MINOR = "AceGUI-3.0", 41
 local AceGUI, oldminor = LibStub:NewLibrary(ACEGUI_MAJOR, ACEGUI_MINOR)
 
 if not AceGUI then return end -- No upgrade needed
 
 -- Lua APIs
-local tinsert = table.insert
+local tinsert, wipe = table.insert, table.wipe
 local select, pairs, next, type = select, pairs, next, type
 local error, assert = error, assert
 local setmetatable, rawget = setmetatable, rawget

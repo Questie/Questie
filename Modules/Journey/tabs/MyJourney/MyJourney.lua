@@ -30,7 +30,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
             journeyTreeFrame:SelectByPath(latestYear, latestMonth)
         end
         journeyTreeFrame:SetCallback("OnGroupSelected", function(group)
-            Questie:Debug(DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[Journey] OnGroupSelected - Path:", group.localstatus.selected)
 
             local _, _, e = strsplit("\001", group.localstatus.selected);
 

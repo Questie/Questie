@@ -76,7 +76,7 @@ local genericsLocales = {
     },
     ["Reload UI"] = {
         ["ptBR"] = "Recarregar interface",
-        ["ruRU"] = "Перезагрузка интерфейса",
+        ["ruRU"] = "Перезагрузка",
         ["deDE"] = "Interface neu laden",
         ["koKR"] = "Reload UI",
         ["esMX"] = "Recargar IU",
@@ -112,7 +112,7 @@ local genericsLocales = {
     },
     ["Cancel"] = {
         ["ptBR"] = "Cancelar",
-        ["ruRU"] = "Закрыть это окно",
+        ["ruRU"] = "Отмена",
         ["deDE"] = "Abbrechen",
         ["koKR"] = "취소",
         ["esMX"] = "Cancelar",
@@ -361,6 +361,30 @@ local genericsLocales = {
         ["esES"] = "Reputación",
         ["zhTW"] = "聲望",
         ["zhCN"] = "声望",
+    },
+    ["Group"] = {
+        ["ptBR"] = "Grupo",
+        ["ruRU"] = "Группа",
+        ["deDE"] = "Gruppe",
+        ["koKR"] = nil,
+        ["esMX"] = "Grupo",
+        ["enUS"] = true,
+        ["zhCN"] = "队伍",
+        ["zhTW"] = nil,
+        ["esES"] = "Grupo",
+        ["frFR"] = "Groupe",
+    },
+    ["Raid"] = {
+        ["ptBR"] = "Raide",
+        ["ruRU"] = "Рейд",
+        ["deDE"] = "Schlachtzug",
+        ["koKR"] = nil,
+        ["esMX"] = "Banda",
+        ["enUS"] = true,
+        ["zhCN"] = "团队",
+        ["zhTW"] = nil,
+        ["esES"] = "Banda",
+        ["frFR"] = "Raid",
     },
 }
 

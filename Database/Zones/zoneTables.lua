@@ -98,6 +98,7 @@ local areaIdToUiMapId = {
     [3487] = 1954,
     [3703] = 1955,
     [3820] = 1956,
+    [4075] = 335,
     [4080] = 1957,
 }
 
@@ -137,9 +138,13 @@ local dungeons = {
     [3790] = {"Auchenai Crypts",nil,3519},
     [3791] = {"Sethekk Halls",nil,3519},
     [3792] = {"Mana-Tombs",nil,3519},
+    [3805] = {"Zul'Aman",nil,3433},
     [3847] = {"The Botanica",nil,3523},
     [3848] = {"The Arcatraz",nil,3523},
     [3849] = {"The Mechanar",nil,3523},
+    [3959] = {"Black Temple",nil,3520},
+    [4075] = {"Sunwell Plateau",nil,4080},
+    [4131] = {"Magisters' Terrace",nil,4080},
 }
 
 function ZoneDB:GetDungeons()
@@ -194,9 +199,13 @@ local dungeonLocations = {
     [3790] = {{3519, 36.1, 65.6}},
     [3791] = {{3519, 43.2, 65.6}},
     [3792] = {{3519, 39.7, 60.2}},
+    [3805] = {{3433, 82.6, 64.3}},
     [3847] = {{3523, 71.7, 55.0}},
     [3848] = {{3523, 74.4, 57.7}},
     [3849] = {{3523, 70.6, 69.7}},
+    [3959] = {{3520, 71.1, 46.3}},
+    [4075] = {{4080, 44.5, 45.3}},
+    [4131] = {{4080, 61.4, 31.0}},
     [7307] = {{51, 34.8, 84.8}, {46, 29.5, 38.2}},
 }
 
@@ -361,7 +370,10 @@ ZoneDB.zoneIDs = {
     AUCHENAI_CRYPTS = 3790,
     SETHEKK_HALLS = 3791,
     MANA_TOMBS = 3792,
+    ZUL_AMAN = 3805,
+    BLACK_TEMPLE = 3959,
     SUNWELL_PLATEAU = 4075,
     ISLE_OF_QUEL_DANAS = 4080,
+    MAGISTERS_TERRACE = 4131,
     UPPER_BLACKROCK_SPIRE = 7307,
 }

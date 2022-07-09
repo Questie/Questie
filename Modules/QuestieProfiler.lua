@@ -46,7 +46,7 @@ function QuestieProfiler:HookFunction(key, val, table, name)
             QuestieProfiler.highestCalls = htc
         end
         local start = debugprofilestop()
-        ret = {hook.original(...)}
+        local ret = {hook.original(...)}
         start = debugprofilestop() - start
         htc = QuestieProfiler.hookTimeCount[lookupKey] + start
         QuestieProfiler.hookTimeCount[lookupKey] = htc
@@ -114,7 +114,6 @@ function QuestieProfiler:HookModules()
     end
 end
 
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 function QuestieProfiler:HookFrames()
     -- bit of a hack but I want to keep questie's code 100% unaffected, this should be a stand-alone module. 
     -- that also makes sure the profiler doesnt mess with the performance of the addon when its not running (which is almost always)
@@ -222,7 +221,7 @@ function QuestieProfiler:CreateUI()
             callCount = {}
             highestMS = 0
             highestCalls = 0
-            for call, count in pairs(QuestieProfiler.hookTimeCount) do
+            for call, _ in pairs(QuestieProfiler.hookTimeCount) do
                 local callStack = {}
                 index = 0
                 for token in string.gmatch(call, "[^.]+") do
@@ -301,7 +300,7 @@ function QuestieProfiler:CreateUI()
             end
         end
         if base.lastIndex > index then
-            for i=index,base.lastIndex do
+            for _=index, base.lastIndex do
                 local line = base.scrollContainer.GetNextLine()
                 line[1]:SetText("")
                 line[2]:SetText("")
@@ -360,19 +359,10 @@ function QuestieProfiler:CreateUI()
     button:SetText("Close")
    
     button:SetNormalFontObject("GameFontNormal")
-    
-    local function buildTexture(str)
-        local tex = button:CreateTexture()
-        tex:SetTexture(str)
-        tex:SetTexCoord(0, 0.625, 0, 0.6875)
-        tex:SetAllPoints()
-        return tex
-    end
-    
     button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
     button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
     button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
-    button:SetScript("OnClick", function(self, ...)
+    button:SetScript("OnClick", function()
         QuestieProfiler:Unhook()
         base:Hide()
     end)
@@ -384,15 +374,6 @@ function QuestieProfiler:CreateUI()
     
     button:SetText("Mode: Full")
     button:SetNormalFontObject("GameFontNormal")
-    
-    local function buildTexture(str)
-        local tex = button:CreateTexture()
-        tex:SetTexture(str)
-        tex:SetTexCoord(0, 0.625, 0, 0.6875)
-        tex:SetAllPoints()
-        return tex
-    end
-    
     button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
     button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
     button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
@@ -427,9 +408,9 @@ function QuestieProfiler:CreateUI()
     search:SetFrameStrata("TOOLTIP")
     search:SetPoint("TOPLEFT", base, 220, 20)
     search:SetText("\124cFF888888Filter...")
-    search:SetBackdrop( { 
-        bgFile="Interface\\DialogFrame\\UI-DialogBox-Background",
-        edgeFile=None,
+    search:SetBackdrop({
+        bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+        edgeFile = nil,
         tile = true, tileSize = 0, edgeSize = 0, 
         insets = { left = 0, right = 0, top = 0, bottom = 0 }
     });
@@ -482,7 +463,7 @@ function QuestieProfiler:DoHooks(after)
     end
 
     timer = C_Timer.NewTicker(0.01, function()
-        for i=0,512 do
+        for _=0,512 do
             local toHook = tremove(QuestieProfiler.needsHook)
             if toHook then
                 QuestieProfiler:HookTable(toHook[1], toHook[2])

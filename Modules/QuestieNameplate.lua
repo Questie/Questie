@@ -21,8 +21,8 @@ end
 
 ---@param token string
 function QuestieNameplate:NameplateCreated(token)
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
-    -- if nameplates are disbaled, don't create new nameplates.
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateCreated]")
+    -- if nameplates are disabled, don't create new nameplates.
     if (not Questie.db.global.nameplateEnabled) then
         return
     end
@@ -59,7 +59,7 @@ end
 
 ---@param token string
 function QuestieNameplate:NameplateDestroyed(token)
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:NameplateDestroyed]")
 
     if (not Questie.db.global.nameplateEnabled) then
         return
@@ -74,7 +74,7 @@ function QuestieNameplate:NameplateDestroyed(token)
 end
 
 function QuestieNameplate:UpdateNameplate()
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:UpdateNameplate]")
 
     for guid, token in pairs(activeGUIDs) do
 
@@ -121,7 +121,7 @@ function QuestieNameplate:HideCurrentFrames()
 end
 
 function QuestieNameplate:DrawTargetFrame()
-    Questie:Debug(DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
     if (not Questie.db.global.nameplateEnabled) or (not Questie.db.global.nameplateTargetFrameEnabled) then
         return
@@ -243,7 +243,7 @@ function _QuestieNameplate:GetTargetFrameIconFrame()
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")
     frame.Icon:ClearAllPoints()
     frame.Icon:SetAllPoints(frame)
-    
+
     return frame
 end
 
@@ -269,7 +269,9 @@ function _QuestieNameplate:GetValidIcon(tooltips) -- helper function to get the 
         if tooltip.objective and tooltip.objective.Update then
             tooltip.objective:Update() -- get latest qlog data if its outdated
             if (not tooltip.objective.Completed) and tooltip.objective.Icon then
-                return tooltip.objective.Icon
+                -- If the tooltip icon is ICON_TYPE_OBJECT we use ICON_TYPE_LOOT because NPCs should never show
+                -- a cogwheel icon.
+                return tooltip.objective.Icon == ICON_TYPE_OBJECT and ICON_TYPE_LOOT or tooltip.objective.Icon
             end
         end
     end

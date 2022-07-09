@@ -75,7 +75,7 @@ local next = next
 local strlen = string.len
 local GetFramerate = GetFramerate
 local strlower = string.lower
-local unpack,type,pairs,wipe = unpack,type,pairs,wipe
+local unpack,type,pairs,wipe = unpack,type,pairs,table.wipe
 local UnitInRaid,UnitInParty = UnitInRaid,UnitInParty
 
 

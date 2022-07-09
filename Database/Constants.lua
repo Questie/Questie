@@ -4,6 +4,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 QuestieDB.sortKeys = {
     SEASONAL = -22,
     HERBALISM = -24,
+    BATTLEGROUND = -25,
     WARLOCK = -61,
     WARRIOR = -81,
     SHAMAN = -82,
@@ -24,6 +25,7 @@ QuestieDB.sortKeys = {
     FIRST_AID = -324,
     DARKMOON_FAIRE = -364,
     LUNAR_FESTIVAL = -366,
+    REPUTATION = -367,
     MIDSUMMER = -369,
     BREWFEST = -370,
 }

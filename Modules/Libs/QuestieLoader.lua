@@ -2,13 +2,8 @@
 ---@class QuestieLoader
 QuestieLoader = {}
 
-local alreadyExist = false;
-if(Questie) then
-  alreadyExist = true;
-end
-
 ---@class Module
-local module = {}
+local moduleClassDefinition = {}
 
 -- ["ModuleName"] = moduleReference
 ---@type table<string, Module>

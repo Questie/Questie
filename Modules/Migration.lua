@@ -103,7 +103,31 @@ local migrationFunctions = {
         else
             Questie.db.char.questAnnounce = true
         end
-    end
+    end,
+    [7] =  function()
+        Questie.db.global.hasSeenBetaMessage = nil
+    end,
+    [8] =  function()
+        if not Questie.db.char.questAnnounceChannel then
+            if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
+                Questie.db.char.questAnnounceChannel = "disabled"
+                Questie.db.char.questAnnounceObjectives = false
+            else
+                Questie.db.char.questAnnounceChannel = "group"
+                Questie.db.char.questAnnounceObjectives = true
+            end
+        end
+    end,
+    [9] = function()
+        if Questie.db.char.hiddenDailies and Questie.db.char.hiddenDailies.hc and next(Questie.db.char.hiddenDailies.hc) then
+            table.insert(Questie.db.char.hiddenDailies.hc, 11499, true) -- Add new HC daily to hiddenDailies
+        end
+    end,
+    [10] = function()
+        if Questie.db.char.questAnnounceObjectives == nil then
+            Questie.db.char.questAnnounceObjectives = true
+        end
+    end,
 }
 
 function Migration:Migrate()
@@ -120,7 +144,7 @@ function Migration:Migrate()
     local currentVersion = Questie.db.global.migrationVersion[player] or 0
     local targetVersion = table.getn(migrationFunctions)
 
-    Questie:Debug(DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Migration] Starting Questie migration for targetVersion", targetVersion)
 
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1

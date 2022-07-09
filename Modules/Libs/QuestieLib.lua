@@ -1,6 +1,3 @@
---- COMPATIBILITY ---
-local GetNumQuestLogEntries = GetNumQuestLogEntries or C_QuestLog.GetNumQuestLogEntries
-
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
 
@@ -17,6 +14,11 @@ local math_abs = math.abs
 local math_sqrt = math.sqrt
 local math_max = math.max
 local tinsert = table.insert
+local stringSub = string.sub
+local stringGsub = string.gsub
+local strim = string.trim
+local smatch = string.match
+local tostring, tonumber = tostring, tonumber
 
 --[[
     Red: 5+ level above player
@@ -37,7 +39,7 @@ function QuestieLib:PrintDifficultyColor(level, text)
         return "|cFFFF8040" .. text .. "|r" -- Orange
     elseif (levelDiff >= -2) then
         return "|cFFFFFF00" .. text .. "|r" -- Yellow
-    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
+    elseif (-levelDiff <= GetQuestGreenRange("player")) then
         return "|cFF40C040" .. text .. "|r" -- Green
     else
         return "|cFFC0C0C0" .. text .. "|r" -- Grey
@@ -58,7 +60,7 @@ function QuestieLib:GetDifficultyColorPercent(level)
     elseif (levelDiff >= -2) then
         -- return "|cFFFFFF00"..text.."|r"; -- Yellow
         return 1, 1, 0
-    elseif (-levelDiff <= (GetQuestGreenRange or UnitQuestTrivialLevelRange)("player")) then
+    elseif (-levelDiff <= GetQuestGreenRange("player")) then
         -- return "|cFF40C040"..text.."|r"; -- Green
         return 0.251, 0.753, 0.251
     else
@@ -104,70 +106,7 @@ function QuestieLib:GetRGBForObjective(objective)
     end
 end
 
----@param questId QuestId @The quest ID
-function QuestieLib:IsResponseCorrect(questId)
-    local count = 0
-    local objectiveList
-    local good = true
-    while (true and count < 50) do
-        good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if (not objectiveList) then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if objective.type and string.len(objective.type) > 0 then
-                    local distance = QuestieLib:Levenshtein(": 0/1", objective.text)
-                    if (objective.text == nil or objective.text == "" or distance < 5) then
-                        Questie:Debug(DEBUG_SPAM, count,
-                                " : Objective text is strange!", "'",
-                                objective.text, "'", " distance",
-                                distance)
-                        good = false
-                        break
-                    end
-                end
-            end
-        end
-        if (good) then
-            break
-        end
-        count = count + 1
-    end
-    return good
-end
-
----@param questId QuestId @The quest ID
----@return table
-function QuestieLib:GetQuestObjectives(questId)
-    local count = 0
-    local objectiveList
-    while (true and count < 50) do
-        local good = true
-        objectiveList = C_QuestLog.GetQuestObjectives(questId)
-        if not objectiveList then
-            good = false
-        else
-            for _, objective in pairs(objectiveList) do
-                if (objective.text == nil or objective.text == "" or
-                    QuestieLib:Levenshtein(": 0/1", objective.text) < 5) then
-                    Questie:Debug(DEBUG_SPAM, count,
-                                  " : Objective text is strange!", "'",
-                                  objective.text, "'", " distance",
-                                  QuestieLib:Levenshtein(": 0/1", objective.text))
-                    good = false
-                    break
-                end
-            end
-        end
-        count = count + 1
-        if good then break end
-    end
-    Questie:Debug(DEBUG_SPAM, "[QuestieLib:GetQuestObjectives]: Loaded objective(s) for quest:", questId)
-    return objectiveList
-end
-
----@param questId QuestId @The quest ID
+---@param questId number
 ---@param showLevel number @ Whether the quest level should be included
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
@@ -208,17 +147,17 @@ function QuestieLib:GetRandomColor(randomSeed)
     }
 end
 
----@param id QuestId @The quest ID
+---@param questId number
 ---@param name string @The (localized) name of the quest
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetQuestString(id, name, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(id)
+function QuestieLib:GetQuestString(questId, name, level, blizzLike)
+    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
 
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
-            char = string.sub(questTag, 1, 1)
+            char = stringSub(questTag, 1, 1)
         end
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
@@ -252,7 +191,7 @@ end
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId number
----@return table<number, number> questLevel and requiredLevel
+---@return number, number @questLevel & requiredLevel
 function QuestieLib:GetTbcLevel(questId)
     local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
     if (questLevel == -1) then
@@ -268,17 +207,16 @@ function QuestieLib:GetTbcLevel(questId)
     return questLevel, requiredLevel;
 end
 
----@param id QuestId @The quest ID
----@param name string @The (localized) name of the quest
+---@param questId number
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
-function QuestieLib:GetLevelString(id, _, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(id)
+function QuestieLib:GetLevelString(questId, _, level, blizzLike)
+    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
 
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
-            char = string.sub(questTag, 1, 1)
+            char = stringSub(questTag, 1, 1)
         end
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
@@ -351,43 +289,14 @@ function QuestieLib:GetRaceString(raceMask)
     end
 end
 
-function QuestieLib:ProfileFunction(functionReference, includeSubroutine)
-    -- Optional var
-    if (not includeSubroutine) then includeSubroutine = true end
-    local now, count = GetFunctionCPUUsage(functionReference, includeSubroutine)
-    -- Questie:Print("[QuestieLib]", "Profiling Avg:", round(time/count, 6));
-    return now, count
-end
-
--- To try and create a fix for errors regarding items that do not exist in our DB,
--- this function tries to prefetch all the items on startup and accept.
-function QuestieLib:CacheAllItemNames()
-    --[[
-        1 name
-        2 for quest
-        3 dropped by
-        [4103]={"Shackle Key",{630},{1559},{}},
-    ]]
-    local numEntries, _ = GetNumQuestLogEntries()
-    for index = 1, numEntries do
-        local _, _, _, isHeader, _, _, _, questId, _, _, _, _, _, _, _, _, _ = GetQuestLogTitle(index)
-        if (not isHeader) and (not QuestieDB.QuestPointers[questId]) then
-            if not Questie._sessionWarnings[questId] then
-                Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
-                Questie._sessionWarnings[questId] = true
-            end
-        elseif (not isHeader) then QuestieLib:CacheItemNames(questId) end
-    end
-end
-
 function QuestieLib:CacheItemNames(questId)
     local quest = QuestieDB:GetQuest(questId)
     if (quest and quest.ObjectiveData) then
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
-                    Questie:Debug(DEBUG_DEVELOP,
-                                  "Requesting item information for missing itemId:",
+                    Questie:Debug(Questie.DEBUG_DEVELOP,
+                                  "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:",
                                   objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
                     item:ContinueOnItemLoad(
@@ -398,8 +307,8 @@ function QuestieLib:CacheItemNames(questId)
                             else
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
-                            Questie:Debug(DEBUG_DEVELOP,
-                                          "Created item information for item:",
+                            Questie:Debug(Questie.DEBUG_DEVELOP,
+                                          "[QuestieLib:CacheItemNames] Created item information for item:",
                                           itemName, ":", objectiveDB.Id)
                         end)
                 end
@@ -409,8 +318,9 @@ function QuestieLib:CacheItemNames(questId)
 end
 
 function QuestieLib:Euclid(x, y, i, e)
-    local xd = math_abs(x - i)
-    local yd = math_abs(y - e)
+    -- No need for absolute values as these are used only as squared
+    local xd = x - i
+    local yd = y - e
     return math_sqrt(xd * xd + yd * yd)
 end
 
@@ -418,34 +328,19 @@ function QuestieLib:Maxdist(x, y, i, e)
     return math_max(math_abs(x - i), math_abs(y - e))
 end
 
-function QuestieLib:Remap(value, low1, high1, low2, high2)
-    return low2 + (value - low1) * (high2 - low2) / (high1 - low1)
-end
-
-function QuestieLib:GetTableSize(table)
-    local count = 0
-    if table then
-        for _,_ in pairs(table) do
-            count = count +1
-        end
-    end
-    return count
-end
-
 local cachedTitle
 local cachedVersion
 -- Move to Questie.lua after QuestieOptions move.
 function QuestieLib:GetAddonVersionInfo()
     if (not cachedTitle) or (not cachedVersion) then
-        local name, title, _, _, reason = GetAddOnInfo("QuestieDev-master")
-        if (reason == "MISSING") then name, title = GetAddOnInfo("Questie") end
+        local name, title = GetAddOnInfo("Questie")
         cachedTitle = title
         cachedVersion = GetAddOnMetadata(name, "Version")
     end
 
     -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
     local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
-    hash = "nil"
+    local hash = "nil"
 
     local buildType
 
@@ -476,20 +371,6 @@ function QuestieLib:GetAddonVersionString()
     return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. hash .. buildType
 end
 
--- Search for just Addon\\ at the front since the interface part often gets trimmed
--- Code Credit Author(s): Cryect (cryect@gmail.com), Xinhuan and their LibGraph-2.0
-do
-    local path = string.match(debugstack(1, 1, 0),
-                              "AddOns\\(.+)Modules\\Libs\\QuestieLib.lua")
-    if path then
-        QuestieLib.AddonPath = "Interface\\AddOns\\" .. path
-    else
-        local major, minor, patch, commit = QuestieLib:GetAddonVersionInfo()
-        error("v" .. major .. "." .. minor .. "." .. patch .. "_" .. commit ..
-                  " cannot determine the folder it is located in because the path is too long and got truncated in the debugstack(1, 1, 0) function call")
-    end
-end
-
 function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
     local count = 0
     for _, _ in pairs(table) do count = count + 1 end
@@ -503,35 +384,20 @@ function QuestieLib:SanitizePattern(pattern)
     if not sanitize_cache[pattern] then
         local ret = pattern
         -- escape magic characters
-        ret = gsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
+        ret = stringGsub(ret, "([%+%-%*%(%)%?%[%]%^])", "%%%1")
         -- remove capture indexes
-        ret = gsub(ret, "%d%$", "")
+        ret = stringGsub(ret, "%d%$", "")
         -- catch all characters
-        ret = gsub(ret, "(%%%a)", "%(%1+%)")
+        ret = stringGsub(ret, "(%%%a)", "%(%1+%)")
         -- convert all %s to .+
-        ret = gsub(ret, "%%s%+", ".+")
+        ret = stringGsub(ret, "%%s%+", ".+")
         -- set priority to numbers over strings
-        ret = gsub(ret, "%(.%+%)%(%%d%+%)", "%(.-%)%(%%d%+%)")
+        ret = stringGsub(ret, "%(.%+%)%(%%d%+%)", "%(.-%)%(%%d%+%)")
         -- cache it
         sanitize_cache[pattern] = ret
     end
 
     return sanitize_cache[pattern]
-end
-
-function QuestieLib:SortQuestsByLevel(quests)
-    local sortedQuestsByLevel = {}
-
-    local function compareTablesByIndex(a, b)
-        return a[1] < b[1]
-    end
-
-    for _, q in pairs(quests) do
-        tinsert(sortedQuestsByLevel, {q.questLevel, q})
-    end
-    table.sort(sortedQuestsByLevel, compareTablesByIndex)
-
-    return sortedQuestsByLevel
 end
 
 function QuestieLib:SortQuestIDsByLevel(quests)
@@ -548,46 +414,6 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 
     return sortedQuestsByLevel
-end
-
----------------------------------------------------------------------------------------------------
--- Returns the Levenshtein distance between the two given strings
--- credit to https://gist.github.com/Badgerati/3261142
-function QuestieLib:Levenshtein(str1, str2)
-    local len1 = string.len(str1)
-    local len2 = string.len(str2)
-    local matrix = {}
-    local cost = 0
-    -- quick cut-offs to save time
-    if (len1 == 0) then
-        return len2
-    elseif (len2 == 0) then
-        return len1
-    elseif (str1 == str2) then
-        return 0
-    end
-    -- initialise the base matrix values
-    for i = 0, len1, 1 do
-        matrix[i] = {}
-        matrix[i][0] = i
-    end
-    for j = 0, len2, 1 do
-        matrix[0][j] = j
-    end
-    -- actual Levenshtein algorithm
-    for i = 1, len1, 1 do
-        for j = 1, len2, 1 do
-            if (string.byte(str1, i) == string.byte(str2, j)) then
-                cost = 0
-            else
-                cost = 1
-            end
-            matrix[i][j] = math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1,
-                                    matrix[i - 1][j - 1] + cost)
-        end
-    end
-    -- return the last value - this is the Levenshtein distance
-    return matrix[len1][len2]
 end
 
 local randomSeed = 0
@@ -626,4 +452,84 @@ function QuestieLib:UnpackBinary(val)
         end
     end
     return ret
+end
+
+
+-- Link contains test bench for regex in lua.
+-- https://hastebin.com/anodilisuw.bash
+-- QUEST_MONSTERS_KILLED etc. patterns are from WoW API
+local L_QUEST_MONSTERS_KILLED = QuestieLib:SanitizePattern(QUEST_MONSTERS_KILLED)
+local L_QUEST_ITEMS_NEEDED = QuestieLib:SanitizePattern(QUEST_ITEMS_NEEDED)
+local L_QUEST_OBJECTS_FOUND = QuestieLib:SanitizePattern(QUEST_OBJECTS_FOUND)
+
+--- 'FooBar slain: 0/3' --> 'FooBar'
+--- 'EpicItem : 0/1' --> 'EpicItem'
+---@param text string @requires nil check and first character ~= " " check before call
+---@param objectiveType string
+function QuestieLib.TrimObjectiveText(text, objectiveType)
+    local originalText = text
+
+    if objectiveType == "monster" then
+        local n, _, monsterName = smatch(text, L_QUEST_MONSTERS_KILLED)
+        if tonumber(monsterName) then -- SOME objectives are reversed in TBC, why blizzard?
+            monsterName = n
+        end
+
+        if (not monsterName) or (strlen(monsterName) == strlen(originalText)) then
+            --The above doesn't seem to work with the chinese, the row below tries to remove the extra numbers.
+            text = smatch(monsterName or text, "(.*)：");
+        else
+            text = monsterName
+        end
+    elseif objectiveType == "item" then
+        local n, _, itemName = smatch(text, L_QUEST_ITEMS_NEEDED)
+        if tonumber(itemName) then -- SOME objectives are reversed in TBC, why blizzard?
+            itemName = n
+        end
+
+        text = itemName
+    elseif objectiveType == "object" then
+        local n, _, objectName = smatch(text, L_QUEST_OBJECTS_FOUND)
+        if tonumber(objectName) then -- SOME objectives are reversed in TBC, why blizzard?
+            objectName = n
+        end
+
+        text = objectName
+    end
+
+    -- If the functions above do not give a good answer fall back to older regex to get something.
+    if not text then
+        text = smatch(originalText, "^(.*):%s") or smatch(originalText, "%s：(.*)$") or smatch(originalText, "^(.*)：%s") or originalText
+    end
+
+    text = strim(text)
+    --Questie:Debug(Questie.DEBUG_DEVELOP, "[TrimObjectiveText] \""..originalText.."\" --> \""..text.."\"") -- Comment out this debug for speed when not used.
+    return text
+end
+
+---@return boolean
+function QuestieLib.equals(a, b)
+    if a == nil and b == nil then return true end
+    if a == nil or b == nil then return false end
+    local ta = type(a)
+    local tb = type(b)
+    if ta ~= tb then return false end
+
+    if ta == "number" then
+        return math.abs(a-b) < 0.2
+    elseif ta == "table" then
+        for k,v in pairs(a) do
+            if (not QuestieLib.equals(b[k], v)) then
+                return false
+            end
+        end
+        for k,v in pairs(b) do
+            if (not QuestieLib.equals(a[k], v)) then
+                return false
+            end
+        end
+        return true
+    end
+
+    return a == b
 end

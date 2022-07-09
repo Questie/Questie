@@ -42,7 +42,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         local treePath = {...}
 
         if not treePath[2] then
-            Questie:Debug(DEBUG_CRITICAL, "[zoneTreeFrame:OnClick]", "No tree path given in Journey.")
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[zoneTreeFrame:OnClick] No tree path given in Journey.")
             return
         end
         -- if they clicked on a header, don't do anything
@@ -64,7 +64,7 @@ function _QuestieJourney.questsByZone:ManageTree(container, zoneTree)
         scrollFrame:SetFullHeight(true)
         master:AddChild(scrollFrame)
 
-        ---@type QuestId
+        ---@type number
         questId = tonumber(questId)
         local quest = QuestieDB:GetQuest(questId)
 
@@ -133,7 +133,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
     local temp = {}
 
     for _, levelAndQuest in pairs(sortedQuestByLevel) do
-        ---@type QuestId
+        ---@type number
         local questId = levelAndQuest[2]
         -- Only show quests which are not hidden
         if QuestieCorrections.hiddenQuests and ((not QuestieCorrections.hiddenQuests[questId]) or QuestieEvent:IsEventQuest(questId)) and QuestieDB.QuestPointers[questId] then

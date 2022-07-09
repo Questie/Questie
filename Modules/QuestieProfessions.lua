@@ -31,7 +31,7 @@ function QuestieProfessions:Init()
 end
 
 function QuestieProfessions:Update()
-    Questie:Debug(DEBUG_DEVELOP, "QuestieProfession: Update")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
     ExpandSkillHeader(0)
     local isProfessionUpdate = false
 
