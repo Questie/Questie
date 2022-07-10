@@ -2202,7 +2202,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11065] = {
             [questKeys.requiredLevel] = 70,
-            [questKeys.preQuestSingle] = {11010},
+            [questKeys.preQuestSingle] = {11010, 11102},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
         },
         [11066] = {
