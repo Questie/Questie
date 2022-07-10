@@ -131,10 +131,6 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         end
     end
 
-    if (not Questie.db.global.collapseCompletedQuests and (Questie.db.char.collapsedQuests and Questie.db.char.collapsedQuests[questId] == nil)) then
-        return QuestieLib:PrintDifficultyColor(level, name)
-    end
-
     return QuestieLib:PrintDifficultyColor(level, name)
 end
 
