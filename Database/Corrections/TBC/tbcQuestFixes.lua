@@ -2072,6 +2072,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}}},
         },
         [11010] = {
+            [questKeys.requiredClasses] = classIDs.WARLOCK, -- Everything except Druid (since Warlock has the highest number except for Druid this works)
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
         [11013] = {
