@@ -27,7 +27,11 @@ local tostring, tonumber = tostring, tonumber
     Green: 3 - GetQuestGreenRange() level below player (GetQuestGreenRange() changes on specific player levels)
     Gray: More than GetQuestGreenRange() below player
 --]]
-function QuestieLib:PrintDifficultyColor(level, text)
+function QuestieLib:PrintDifficultyColor(level, text, isDailyQuest)
+    if isDailyQuest then
+        return "|cFF21CCE7" .. text .. "|r" -- Blue
+    end
+
     if level == -1 then
         level = QuestiePlayer:GetPlayerLevel()
     end
@@ -131,7 +135,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         end
     end
 
-    return QuestieLib:PrintDifficultyColor(level, name)
+    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB:IsRepeatable(questId))
 end
 
 function QuestieLib:GetRandomColor(randomSeed)
