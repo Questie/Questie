@@ -2112,6 +2112,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11026] = {
             [questKeys.preQuestSingle] = {11009},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204}}}}
         },
         [11030] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
