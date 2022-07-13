@@ -3,9 +3,9 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
+local isWotlkClient = string.byte(GetBuildInfo(), 1) == 51;
 
-if (not isTBCClient) then
+if (not isWotlkClient) then
     return
 end
 
