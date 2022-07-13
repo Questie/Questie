@@ -21,14 +21,16 @@ function QuestieQuestTimers:Initialize()
         hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
     end
 
-    QuestTimerFrame:HookScript("OnShow", function()
-        blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
-        if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
-            QuestieQuestTimers:HideBlizzardTimer()
-        else
-            QuestieQuestTimers:ShowBlizzardTimer()
-        end
-    end)
+    if QuestTimerFrame then
+        QuestTimerFrame:HookScript("OnShow", function()
+            blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
+            if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
+                QuestieQuestTimers:HideBlizzardTimer()
+            else
+                QuestieQuestTimers:ShowBlizzardTimer()
+            end
+        end)
+    end
 end
 
 function QuestieQuestTimers:HideBlizzardTimer()
