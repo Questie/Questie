@@ -98,10 +98,9 @@ function QuestieOptionsDefaults:Load()
             trackerQuestPadding = 4,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
-            trackerEnabled = true,
+            trackerEnabled = false,
             globalTrackerLocation = true,
             questieTLoc = "char",
-
         },
         char = {
             minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
