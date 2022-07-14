@@ -341,10 +341,17 @@ function QuestieLib:GetAddonVersionInfo()
         cachedVersion = GetAddOnMetadata(name, "Version")
     end
 
-    -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
-    local major, minor, patch, buildType, buildVersion = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)-(alpha|beta)%p(%d+)")
+    local major, minor, patch, alphaBuild, betaBuild, buildVersion
 
-    return tonumber(major), tonumber(minor), tonumber(patch), tostring(buildType), tonumber(buildVersion)
+    major, minor, patch, alphaBuild, buildVersion = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)-(alpha)%p(%d+)")
+    if (not major) then -- no alpha build
+        major, minor, patch, betaBuild, buildVersion = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)-(beta)%p(%d+)")
+    end
+    if (not major) then -- no beta build
+        major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
+    end
+
+    return tonumber(major), tonumber(minor), tonumber(patch), tostring(alphaBuild or betaBuild), tonumber(buildVersion)
 end
 
 function QuestieLib:GetAddonVersionString()
