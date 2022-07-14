@@ -2362,18 +2362,6 @@ l10n.zoneLookup = {
     [585]={
         [4131]="Magisters' Terrace",
     },
-    [574]={
-        [206]="Utgarde Keep",
-    },
-    [575]={
-        [1196]="Utgarde Pinnacle",
-    },
-    [576]={
-        [4265]="The Nexus",
-    },
-    [578]={
-        [4228]="The Oculus",
-    },
     [595]={
         [4100]="The Culling of Stratholme",
     },
