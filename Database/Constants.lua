@@ -28,6 +28,12 @@ QuestieDB.sortKeys = {
     REPUTATION = -367,
     MIDSUMMER = -369,
     BREWFEST = -370,
+    INSCRIPTION = -371,
+    DEATHKNIGHT = -372,
+    JEWELCRAFTING = -373,
+    NOBLEGARDEN = -374,
+    PILGRIMS_BOUNTY = -375,
+    LOVE_IS_IN_THE_AIR = -376,
 }
 
 local isTBC = string.byte(GetBuildInfo(), 1) == 50

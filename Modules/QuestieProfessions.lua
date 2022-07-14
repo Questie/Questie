@@ -94,6 +94,7 @@ QuestieProfessions.professionKeys = {
     FISHING = 356,
     SKINNING = 393,
     JEWELCRAFTING = 755,
+    INSCRIPTION = 773,
     RIDING = 762,
 }
 
@@ -127,6 +128,7 @@ local sortIds = {
     [QuestieProfessions.professionKeys.ENCHANTING] = -668, -- Dummy Id
     [QuestieProfessions.professionKeys.FISHING] = -101,
     [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
+    [QuestieProfessions.professionKeys.INSCRIPTION] = -373,
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
