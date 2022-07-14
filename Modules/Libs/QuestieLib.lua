@@ -18,7 +18,7 @@ local stringSub = string.sub
 local stringGsub = string.gsub
 local strim = string.trim
 local smatch = string.match
-local tostring, tonumber = tostring, tonumber
+local tonumber = tonumber
 
 --[[
     Red: 5+ level above player
@@ -328,47 +328,25 @@ function QuestieLib:Maxdist(x, y, i, e)
     return math_max(math_abs(x - i), math_abs(y - e))
 end
 
-local cachedTitle
 local cachedVersion
--- Move to Questie.lua after QuestieOptions move.
+
+---@return number, number, number
 function QuestieLib:GetAddonVersionInfo()
-    if (not cachedTitle) or (not cachedVersion) then
-        local name, title = GetAddOnInfo("Questie")
-        cachedTitle = title
-        cachedVersion = GetAddOnMetadata(name, "Version")
+    if (not cachedVersion) then
+        cachedVersion = GetAddOnMetadata("Questie", "Version")
     end
 
-    -- %d = digit, %p = punctuation character, %x = hexadecimal digits.
     local major, minor, patch = string.match(cachedVersion, "(%d+)%p(%d+)%p(%d+)")
-    local hash = "nil"
 
-    local buildType
-
-    if string.match(cachedTitle, "ALPHA") then
-        buildType = "ALPHA"
-    elseif string.match(cachedTitle, "BETA") then
-        buildType = "BETA"
-    end
-
-    return tonumber(major), tonumber(minor), tonumber(patch), tostring(hash), tostring(buildType)
+    return tonumber(major), tonumber(minor), tonumber(patch)
 end
 
 function QuestieLib:GetAddonVersionString()
-    local major, minor, patch, buildType, hash = QuestieLib:GetAddonVersionInfo()
-
-    if buildType and buildType ~= "nil" then
-        buildType = " - " .. buildType
-    else
-        buildType = ""
+    if (not cachedVersion) then
+        cachedVersion = GetAddOnMetadata("Questie", "Version") -- This brings up the ## Version from the TOC
     end
 
-    if hash and hash ~= "nil" then
-        hash = "-" .. hash
-    else
-        hash = ""
-    end
-
-    return "v" .. tostring(major) .. "." .. tostring(minor) .. "." .. tostring(patch) .. hash .. buildType
+    return "v" .. cachedVersion
 end
 
 function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
