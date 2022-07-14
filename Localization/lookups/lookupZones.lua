@@ -9,7 +9,7 @@ l10n.continentLookup = {
     [5] = "Class",
     [6] = "Professions",
     [7] = "Events",
-    [530] = "Outland"
+    [530] = "Outland",
     [571] = "Northrend"
 }
 
