@@ -215,7 +215,7 @@ function MapIconTooltip:Show()
                     if (quest and shift) then
                         local xpReward = GetQuestLogRewardXP(questData.questId)
                         if xpReward > 0 then
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ")
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB:IsRepeatable(quest.Id))
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
