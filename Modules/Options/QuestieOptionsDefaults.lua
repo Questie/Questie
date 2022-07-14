@@ -100,6 +100,7 @@ function QuestieOptionsDefaults:Load()
             --trackerReset = QuestieTracker:ResetLocation()
             trackerEnabled = false,
             globalTrackerLocation = true,
+            enableTooltipsQuestID = true,
             questieTLoc = "char",
         },
         char = {
