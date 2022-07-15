@@ -136,6 +136,9 @@ function QuestieSlash:HandleCommands(input)
         for _, _ in pairs(Questie.db.char.complete) do
             questCount = questCount + 1
         end
+        if GetDailyQuestsCompleted then
+            questCount = questCount - GetDailyQuestsCompleted() -- We don't care about daily quests
+        end
         SendChatMessage(l10n("has completed a total of %d quests", questCount), "EMOTE")
         return
     end

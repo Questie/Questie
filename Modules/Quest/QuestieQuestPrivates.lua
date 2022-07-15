@@ -42,14 +42,12 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         end
 
         local name = QuestieDB.QueryNPCSingle(npcId, "name")
-
         if (not name) then
             Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for NPC:", npcId)
             return nil
         end
 
         local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
-
         if (not spawns) then
             Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
             spawns = {}
@@ -85,14 +83,12 @@ _QuestieQuest.objectiveSpawnListCallTable = {
         end
 
         local name = QuestieDB.QueryObjectSingle(objectId, "name")
-
         if (not name) then
             Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for object:", objectId)
             return nil
         end
 
         local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
-
         if (not spawns) then
             Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
             spawns = {}
@@ -138,23 +134,26 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             return nil
         end
 
-        local ret = {};
-        local item = QuestieDB:GetItem(itemId);
-        if item ~= nil and item.Sources ~= nil and (not item.Hidden) then
+        local ret = {}
+        local item = QuestieDB:GetItem(itemId)
+        if item and item.Sources and (not item.Hidden) then
             for _, source in pairs(item.Sources) do
                 if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
-                    local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective);
+                    local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
                     if sourceList == nil then
                         Questie:Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
                     else
                         for id, sourceData in pairs(sourceList) do
-                            if not ret[id] then
-                                ret[id] = {}
-                                ret[id].Name = sourceData.Name
+                            if (not ret[id]) then
+                                ret[id] = {
+                                    Id = id,
+                                    Name = sourceData.Name,
+                                    Hostile = true,
+                                    ItemId = item.Id,
+                                    TooltipKey = sourceData.TooltipKey,
+                                }
                                 ret[id].Spawns = {}
                                 ret[id].Waypoints = {}
-                                ret[id].Hostile = true
-                                ret[id].ItemId = item.Id
                                 if source.Type == "object" then
                                     ret[id].Icon = ICON_TYPE_OBJECT
                                     ret[id].GetIconScale = _GetIconScaleForObject
@@ -164,26 +163,24 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                                     ret[id].GetIconScale = _GetIconScaleForLoot
                                     ret[id].IconScale = _GetIconScaleForLoot()
                                 end
-                                ret[id].TooltipKey = sourceData.TooltipKey
-                                ret[id].Id = id
                             end
-                            if sourceData.Spawns and not item.Hidden then
+                            if sourceData.Spawns then
                                 for zone, spawns in pairs(sourceData.Spawns) do
-                                    if not ret[id].Spawns[zone] then
-                                        ret[id].Spawns[zone] = {};
+                                    if (not ret[id].Spawns[zone]) then
+                                        ret[id].Spawns[zone] = {}
                                     end
                                     for _, spawn in pairs(spawns) do
-                                        tinsert(ret[id].Spawns[zone], spawn);
+                                        tinsert(ret[id].Spawns[zone], spawn)
                                     end
                                 end
                             end
-                            if sourceData.Waypoints and not Item.Hidden then
+                            if sourceData.Waypoints then
                                 for zone, spawns in pairs(sourceData.Waypoints) do
-                                    if not ret[id].Waypoints[zone] then
-                                        ret[id].Waypoints[zone] = {};
+                                    if (not ret[id].Waypoints[zone]) then
+                                        ret[id].Waypoints[zone] = {}
                                     end
                                     for _, spawn in pairs(spawns) do
-                                        tinsert(ret[id].Waypoints[zone], spawn);
+                                        tinsert(ret[id].Waypoints[zone], spawn)
                                     end
                                 end
                             end

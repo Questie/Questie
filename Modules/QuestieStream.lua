@@ -50,14 +50,10 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     end
     stream._pointer = 1
     stream._bin = {}
-    stream._raw_bin = {}
-    stream._rawptr = 1
     stream._level = 0
     stream.reset = function(self)
         self._pointer = 1
         self._bin = {}
-        self._raw_bin = {}
-        self._rawptr = 1
         self._level = 0
     end
     stream.finished = function(self) -- its best to call this (not required) when done using the stream
@@ -75,7 +71,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
             stream.ReadTinyString = QuestieStreamLib._ReadTinyString_raw
             stream.ReadShortString = QuestieStreamLib._ReadShortString_raw
             stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil_raw
-            stream._WriteByte = QuestieStreamLib._writeByte
+            stream.WriteByte = QuestieStreamLib._writeByte
         elseif mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
             stream.ReadShort = QuestieStreamLib._ReadShort
@@ -85,7 +81,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
             stream.ReadTinyString = QuestieStreamLib._ReadTinyString
             stream.ReadShortString = QuestieStreamLib._ReadShortString
             stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
-            stream._WriteByte = QuestieStreamLib._WriteByte_1short
+            stream.WriteByte = QuestieStreamLib._WriteByte_1short
         else
             stream.ReadByte = QuestieStreamLib._ReadByte_b89
             stream.ReadShort = QuestieStreamLib._ReadShort
@@ -95,7 +91,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
             stream.ReadTinyString = QuestieStreamLib._ReadTinyString
             stream.ReadShortString = QuestieStreamLib._ReadShortString
             stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
-            stream._WriteByte = QuestieStreamLib._WriteByte_b89
+            stream.WriteByte = QuestieStreamLib._WriteByte_b89
 
             function stream:ReadTinyString()
                 local length = self:ReadByte()
@@ -123,7 +119,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream.ReadTinyString = QuestieStreamLib._ReadTinyString
         stream.ReadShortString = QuestieStreamLib._ReadShortString
         stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
-        stream._WriteByte = QuestieStreamLib._WriteByte_b89
+        stream.WriteByte = QuestieStreamLib._WriteByte_b89
     end
     return stream
 end
@@ -140,12 +136,6 @@ end
 function QuestieStreamLib:_readByte()
     self._pointer = self._pointer + 1
     return self._bin[self._pointer-1]
-end
-
-function QuestieStreamLib:WriteByte(val)
-    self:_WriteByte(val)
-    self._raw_bin[self._rawptr] = val
-    self._rawptr = self._rawptr + 1
 end
 
 function QuestieStreamLib:SetPointer(pointer)
@@ -213,10 +203,6 @@ function QuestieStreamLib:_ReadByte_1short()
     end
 
     return v
-end
-
-function QuestieStreamLib:_WriteByte_raw(e)
-    self:_writeByte(e)
 end
 
 function QuestieStreamLib:_ReadByte_raw()
@@ -446,16 +432,6 @@ function QuestieStreamLib:Save()
     return table.concat(self._bin)
 end
 
-function QuestieStreamLib:SaveRaw()
-    if self._rawptr-1 > unpack_limit then
-        for i=1,self._rawptr-1 do
-            self._raw_bin[i] = stringchar(self._raw_bin[i])
-        end
-        return table.concat(self._raw_bin)
-    end
-    return stringchar(unpack(self._raw_bin))
-end
-
 function QuestieStreamLib:Load(bin)
     self._pointer = 1
     if self._mode == "raw" then
@@ -463,11 +439,5 @@ function QuestieStreamLib:Load(bin)
     else
         self._bin = {stringbyte(bin, 1, -1)}
     end
-    self._level = 0
-end
-
-function QuestieStreamLib:LoadRaw(bin)
-    self._pointer = 1
-    self._bin = bin
     self._level = 0
 end

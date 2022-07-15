@@ -3,6 +3,10 @@ WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
 WOW_PROJECT_MAINLINE = 1
 
+QUEST_MONSTERS_KILLED = "QUEST_MONSTERS_KILLED"
+QUEST_ITEMS_NEEDED = "QUEST_ITEMS_NEEDED"
+QUEST_OBJECTS_FOUND = "QUEST_OBJECTS_FOUND"
+
 tremove = table.remove
 tinsert = table.insert
 coroutine.yield = function() end -- no need to yield in the cli (TODO: maybe find a less hacky fix)
@@ -23,6 +27,7 @@ end
 GetTime = function()
     return os.time(os.date("!*t")) - 1616930000 -- convert unix time to wow time (actually accurate)
 end
+IsAddOnLoaded = function() return false, true end
 UnitFactionGroup = function()
     return arg[1] or "Horde"
 end
@@ -31,6 +36,12 @@ UnitClass = function()
 end
 GetLocale = function()
     return "enUS"
+end
+GetQuestGreenRange = function()
+    return 10
+end
+UnitName = function()
+    return "QuestieNPC"
 end
 LibStub = function()
     return {["NewAddon"] = function() return {} end}
@@ -72,15 +83,19 @@ local function loadTOC(file)
     for line in rfile:lines() do
         if string.len(line) > 1 and string.byte(line, 1) ~= 35 then
             line = line:gsub("\\", "/")
-            local r
+            local pcallResult, errorMessage
             local chunck = loadfile(line)
             if chunck then
-                r = pcall(chunck, addonName, addonTable)
+                pcallResult, errorMessage = pcall(chunck, addonName, addonTable)
             end
-            if r then
+            if pcallResult then
                 --print("Loaded " .. line)
             else
-                --print("Error loading " .. line .. ": " .. e)
+                if errorMessage then
+                    print("Error loading " .. line .. ": " .. errorMessage)
+                else
+                    print("Error loading " .. line .. " - No errorMessage")
+                end
             end
         end
     end

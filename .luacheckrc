@@ -1033,6 +1033,7 @@ globals = {
     "GetCursorInfo",
     "GetCursorMoney",
     "GetCursorPosition",
+    "GetDailyQuestsCompleted",
     "GetDeathRecapLink",
     "GetDefaultGraphicsQuality",
     "GetDefaultLanguage",

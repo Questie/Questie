@@ -48,6 +48,8 @@ _QuestieAuto.disallowedNPC = {
     [18471] = true, -- Gurgthock (The Ring of Blood)
     [19935] = true, -- Soridormi (The Scale of Sands)
     [19936] = true, -- Arazmodu (The Scale of Sands)
+    [25112] = true, -- Anchorite Ayuri (Shattered Sun Offensive Charity NPC)
+    [25163] = true, -- Anchorite Kairthos (Shattered Sun Offensive Title NPC)
 }
 
 _QuestieAuto.disallowedQuests = {
@@ -167,8 +169,4 @@ _QuestieAuto.disallowedQuests = {
     -- Aldor/scryer quests
     [10551] = true,
     [10552] = true,
-
-    [11545] = true, -- Shattered Sun charity quest
-    [11548] = true, -- Shattered Sun charity quest
-    [11549] = true, -- Shattered Sun title
 }
