@@ -688,6 +688,10 @@ function QuestieNPCFixes:Load()
         [5797] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{46,70}}},
         },
+        [5881] = {
+            [npcKeys.spawns] = {[zoneIDs.FERALAS]={{56.82,74.86}}},
+            [npcKeys.waypoints] = {[zoneIDs.FERALAS]={{{56.82,74.86},{55.89,74.64},{55.49,74.13},{54.89,73.44},{54.19,71.57},{54.14,67.96},{54.90,67.20},{55.87,67.93},{54.90,67.20},{54.14,67.96},{54.19,71.57},{54.89,73.44},{55.49,74.13},{55.89,74.64},{56.82,74.86}}}},
+        },
         [5895] = {
             [npcKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST] = {{38.65,44.58}}},
