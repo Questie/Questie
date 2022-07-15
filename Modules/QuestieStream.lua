@@ -119,7 +119,7 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream.ReadTinyString = QuestieStreamLib._ReadTinyString
         stream.ReadShortString = QuestieStreamLib._ReadShortString
         stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
-        stream._WriteByte = QuestieStreamLib._WriteByte_b89
+        stream.WriteByte = QuestieStreamLib._WriteByte_b89
     end
     return stream
 end
