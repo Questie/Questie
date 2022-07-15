@@ -24,9 +24,9 @@ function LibQuestXP:GetQuestInfo(questID)
     return 0, nil
 end
 
-function LibQuestXP:GetAdjustedXP(xp, qLevel)
+function LibQuestXP:GetAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player");
-    if (charLevel == 70) then
+    if (charLevel == 70 and (not ignorePlayerLevel)) then
         return 0;
     end
 
@@ -51,7 +51,7 @@ function LibQuestXP:GetAdjustedXP(xp, qLevel)
     return xp;
 end
 
-function GetQuestLogRewardXP(questID)
+function GetQuestLogRewardXP(questID, ignorePlayerLevel)
     local title, qLevel, xp, _
 
     -- Try getting the quest from the quest log if no questID was provided
@@ -70,5 +70,5 @@ function GetQuestLogRewardXP(questID)
 
     -- Return adjusted XP if all information are available
     -- print(questID, title, xp, LibQuestXP:GetAdjustedXP(xp, qLevel)); -- Debug
-    return LibQuestXP:GetAdjustedXP(xp, qLevel)
+    return LibQuestXP:GetAdjustedXP(xp, qLevel, ignorePlayerLevel)
 end
