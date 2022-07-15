@@ -13,5 +13,9 @@ function QuestieWotlkQuestFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
 
-    return {}
+    return {
+        [11590] = {
+            [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
+        },
+    }
 end
