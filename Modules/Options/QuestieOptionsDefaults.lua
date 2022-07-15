@@ -100,6 +100,7 @@ function QuestieOptionsDefaults:Load()
             --trackerReset = QuestieTracker:ResetLocation()
             trackerEnabled = true,
             globalTrackerLocation = true,
+            showQuestXpAtMaxLevel = true,
             questieTLoc = "char",
 
         },
