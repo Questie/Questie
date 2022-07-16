@@ -38,9 +38,25 @@ QSL_ttab[92] = 125;
 
 local StreamPool = {}
 
+local function _StreamReset(self)
+    self._pointer = 1
+    self._bin = {}
+    self._level = 0
+end
+
+local function _StreamFinished(self)
+    self:reset()
+    tinsert(StreamPool, self)
+end
+
 function QuestieStreamLib:GetStream(mode) -- returns a new stream
+    if not mode then
+        Questie:Error("QuestieStreamLib: Stream encoding mode is not defined.")
+        error("Stream encoding mode is not defined.")
+    end
+
     local stream = tremove(StreamPool)
-    if stream then
+    if stream and stream._mode == mode then
         return stream
     else
         stream = {}
@@ -48,70 +64,50 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     for k,v in pairs(QuestieStreamLib) do -- copy functions to new object
         stream[k] = v
     end
-    stream._pointer = 1
-    stream._bin = {}
-    stream._level = 0
-    stream.reset = function(self)
-        self._pointer = 1
-        self._bin = {}
-        self._level = 0
-    end
-    stream.finished = function(self) -- its best to call this (not required) when done using the stream
-        self:reset()
-        tinsert(StreamPool, self)
-    end
-    if mode then
-        stream._mode = mode
+    stream.reset = _StreamReset
+    stream.finished = _StreamFinished -- its best to call this (not required) when done using the stream
+
+    stream:reset()
+    stream._mode = mode
+
+    if mode == "raw" or mode == "raw_assert" then
+        stream.ReadByte = QuestieStreamLib._ReadByte_raw
+        stream.ReadShort = QuestieStreamLib._ReadShort_raw
+        stream.ReadInt24 = QuestieStreamLib._ReadInt24_raw
+        stream.ReadInt = QuestieStreamLib._ReadInt_raw
+        stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair_raw
+        stream.ReadTinyString = QuestieStreamLib._ReadTinyString_raw
+        stream.ReadShortString = QuestieStreamLib._ReadShortString_raw
+        stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil_raw
+
         if mode == "raw" then
-            stream.ReadByte = QuestieStreamLib._ReadByte_raw
-            stream.ReadShort = QuestieStreamLib._ReadShort_raw
-            stream.ReadInt24 = QuestieStreamLib._ReadInt24_raw
-            stream.ReadInt = QuestieStreamLib._ReadInt_raw
-            stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair_raw
-            stream.ReadTinyString = QuestieStreamLib._ReadTinyString_raw
-            stream.ReadShortString = QuestieStreamLib._ReadShortString_raw
-            stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil_raw
             stream.WriteByte = QuestieStreamLib._writeByte
-        elseif mode == "1short" then
+            stream.WriteShort = QuestieStreamLib._WriteShort
+            stream.WriteInt = QuestieStreamLib._WriteInt
+            stream.WriteInt24 = QuestieStreamLib._WriteInt24
+            stream.WriteInt12Pair = QuestieStreamLib._WriteInt12Pair
+            stream.WriteLong = QuestieStreamLib._WriteLong
+        else
+            stream.WriteByte = QuestieStreamLib._writeByte_assert
+            stream.WriteShort = QuestieStreamLib._WriteShort_assert
+            stream.WriteInt = QuestieStreamLib._WriteInt_assert
+            stream.WriteInt24 = QuestieStreamLib._WriteInt24_assert
+            stream.WriteInt12Pair = QuestieStreamLib._WriteInt12Pair_assert
+            stream.WriteLong = QuestieStreamLib._WriteLong_assert
+        end
+        stream.WriteTinyString = QuestieStreamLib._WriteTinyString
+    else
+        if mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
-            stream.ReadShort = QuestieStreamLib._ReadShort
-            stream.ReadInt24 = QuestieStreamLib._ReadInt24
-            stream.ReadInt = QuestieStreamLib._ReadInt
-            stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair
             stream.ReadTinyString = QuestieStreamLib._ReadTinyString
-            stream.ReadShortString = QuestieStreamLib._ReadShortString
-            stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
             stream.WriteByte = QuestieStreamLib._WriteByte_1short
+            stream.WriteTinyString = QuestieStreamLib._WriteTinyString
         else
             stream.ReadByte = QuestieStreamLib._ReadByte_b89
-            stream.ReadShort = QuestieStreamLib._ReadShort
-            stream.ReadInt24 = QuestieStreamLib._ReadInt24
-            stream.ReadInt = QuestieStreamLib._ReadInt
-            stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair
-            stream.ReadTinyString = QuestieStreamLib._ReadTinyString
-            stream.ReadShortString = QuestieStreamLib._ReadShortString
-            stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
+            stream.ReadTinyString = QuestieStreamLib._ReadTinyString_b89
             stream.WriteByte = QuestieStreamLib._WriteByte_b89
-
-            function stream:ReadTinyString()
-                local length = self:ReadByte()
-                local ret = {};
-                for i = 1, length do
-                    tinsert(ret, self:_readByte()) -- slightly better lua code is slightly better
-                end
-                return stringchar(unpack(ret))
-            end
-            
-            function stream:WriteTinyString(val)
-                self:WriteByte(string.len(val));
-                for i=1, string.len(val) do
-                    self:_writeByte(stringbyte(val, i));
-                end
-            end
-
+            stream.WriteTinyString = QuestieStreamLib._WriteTinyString_b89
         end
-    else
-        stream.ReadByte = QuestieStreamLib._ReadByte_b89
         stream.ReadShort = QuestieStreamLib._ReadShort
         stream.ReadInt24 = QuestieStreamLib._ReadInt24
         stream.ReadInt = QuestieStreamLib._ReadInt
@@ -119,8 +115,14 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
         stream.ReadTinyString = QuestieStreamLib._ReadTinyString
         stream.ReadShortString = QuestieStreamLib._ReadShortString
         stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
-        stream.WriteByte = QuestieStreamLib._WriteByte_b89
+
+        stream.WriteShort = QuestieStreamLib._WriteShort
+        stream.WriteInt = QuestieStreamLib._WriteInt
+        stream.WriteInt24 = QuestieStreamLib._WriteInt24
+        stream.WriteInt12Pair = QuestieStreamLib._WriteInt12Pair
+        stream.WriteLong = QuestieStreamLib._WriteLong
     end
+
     return stream
 end
 
@@ -131,6 +133,13 @@ function QuestieStreamLib:_writeByte(val)
     --    stringchar(val) -- error
     --end
     self._pointer = self._pointer + 1
+end
+
+function QuestieStreamLib:_writeByte_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 255, "Overflow")
+    self:_writeByte(val)
 end
 
 function QuestieStreamLib:_readByte()
@@ -300,6 +309,15 @@ function QuestieStreamLib:_ReadTinyString()
     return stringchar(unpack(ret))
 end
 
+function QuestieStreamLib:_ReadTinyString_b89()
+    local length = self:ReadByte()
+    local ret = {};
+    for i = 1, length do
+        tinsert(ret, self:_readByte()) -- slightly better lua code is slightly better
+    end
+    return stringchar(unpack(ret))
+end
+
 function QuestieStreamLib:_ReadTinyString_raw()
     local p = self._pointer
     local length = stringbyte(self._bin, p)
@@ -367,33 +385,66 @@ function QuestieStreamLib:WriteShorts(...)
     end
 end
 
-function QuestieStreamLib:WriteShort(val)
+function QuestieStreamLib:_WriteShort(val)
     --print("wshort: " .. val);
     self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
-function QuestieStreamLib:WriteInt(val)
+function QuestieStreamLib:_WriteShort_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 65535, "Overflow")
+    self:_WriteShort(val)
+end
+
+function QuestieStreamLib:_WriteInt(val)
     self:WriteByte(mod(rshift(val, 24), 256));
     self:WriteByte(mod(rshift(val, 16), 256));
     self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
-function QuestieStreamLib:WriteInt24(val)
+function QuestieStreamLib:_WriteInt_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 4294967295, "Overflow")
+    self:_WriteInt(val)
+end
+
+function QuestieStreamLib:_WriteInt24(val)
     --print("wi24: " .. val);
     self:WriteByte(mod(rshift(val, 16), 256));
     self:WriteByte(mod(rshift(val, 8), 256));
     self:WriteByte(mod(val, 256));
 end
 
-function QuestieStreamLib:WriteInt12Pair(val1, val2)
+function QuestieStreamLib:_WriteInt24_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 16777215, "Overflow")
+    self:_WriteInt24(val)
+end
+
+function QuestieStreamLib:_WriteInt12Pair(val1, val2)
     self:WriteByte(band(rshift(val1, 8), 15) + lshift(band(rshift(val2, 8), 15), 4))
     self:WriteByte(mod(val1, 256))
     self:WriteByte(mod(val2, 256))
 end
 
-function QuestieStreamLib:WriteLong(val)
+function QuestieStreamLib:_WriteInt12Pair_assert(val1, val2)
+    assert(type(val1) == "number", "Not a number")
+    assert(val1 >= 0, "Underflow")
+    assert(val1 <= 4095, "Overflow")
+
+    assert(type(val2) == "number", "Not a number")
+    assert(val2 >= 0, "Underflow")
+    assert(val2 <= 4095, "Overflow")
+
+    self:_WriteInt12Pair(val1, val2)
+end
+
+function QuestieStreamLib:_WriteLong(val)
     self:WriteByte(mod(rshift(val, 56), 256));
     self:WriteByte(mod(rshift(val, 48), 256));
     self:WriteByte(mod(rshift(val, 40), 256));
@@ -404,16 +455,34 @@ function QuestieStreamLib:WriteLong(val)
     self:WriteByte(mod(val, 256));
 end
 
-function QuestieStreamLib:WriteTinyString(val)
-    self:WriteByte(string.len(val));
-    for i=1, string.len(val) do
+function QuestieStreamLib:_WriteLong_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 18446744073709551615, "Overflow")
+
+    self:_WriteLong(val)
+end
+
+function QuestieStreamLib:_WriteTinyString(val)
+    local length = string.len(val)
+    self:WriteByte(length);
+    for i=1, length do
         self:WriteByte(stringbyte(val, i));
     end
 end
 
+function QuestieStreamLib:_WriteTinyString_b89(val)
+    local length = string.len(val)
+    self:WriteByte(length);
+    for i=1, length do
+        self:_writeByte(stringbyte(val, i));
+    end
+end
+
 function QuestieStreamLib:WriteShortString(val)
-    self:WriteShort(string.len(val));
-    for i=1, string.len(val) do
+    local length = string.len(val)
+    self:WriteShort(length);
+    for i=1, length do
         self:WriteByte(stringbyte(val, i));
     end
 end
@@ -434,7 +503,7 @@ end
 
 function QuestieStreamLib:Load(bin)
     self._pointer = 1
-    if self._mode == "raw" then
+    if self._mode == "raw" or self._mode == "raw_assert" then
         self._bin = bin
     else
         self._bin = {stringbyte(bin, 1, -1)}
