@@ -227,9 +227,9 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             end
         end
 
-        local continent = QuestieJourneyUtils:GetZoneName(startindex)
+        local zoneName = QuestieJourneyUtils:GetZoneName(startindex)
 
-        spawnZone:SetText(continent);
+        spawnZone:SetText(zoneName);
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
 
@@ -330,6 +330,79 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     f.content:SetHeight(10000);
 end
 
+local function _GetZoneNameFromSpawns(spawns)
+    local startindex = 0;
+    for i in pairs(spawns) do
+        if spawns[i][1] then
+            startindex = i;
+            break;
+        end
+    end
+
+    return QuestieJourneyUtils:GetZoneName(startindex)
+end
+
+function QuestieSearchResults:ItemDetailsFrame(f, itemId)
+    local header = AceGUI:Create("Heading")
+    header:SetFullWidth(true)
+
+    local query = QuestieDB.QueryItemSingle
+
+    header:SetText(query(itemId, "name"))
+    f:AddChild(header)
+
+    QuestieJourneyUtils:Spacer(f)
+
+    local spawnIdLabel = AceGUI:Create("Label")
+    spawnIdLabel:SetText("Item ID: " .. itemId)
+    spawnIdLabel:SetFullWidth(true)
+    f:AddChild(spawnIdLabel)
+
+    if QuestieCorrections.questItemBlacklist[itemId] then
+        local itemBlacklistedLabel = AceGUI:Create("Label")
+        itemBlacklistedLabel:SetText("This item is blacklisted because it has too many sources")
+        itemBlacklistedLabel:SetFullWidth(true)
+        f:AddChild(itemBlacklistedLabel)
+        return
+    end
+
+    QuestieJourneyUtils:Spacer(f)
+
+    local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, "npcDrops", "objectDrops", "vendors"))
+
+    local npcSpawnsHeading = AceGUI:Create("Heading")
+    npcSpawnsHeading:SetText("NPCs")
+    npcSpawnsHeading:SetFullWidth(true)
+    f:AddChild(npcSpawnsHeading)
+
+    if (not next(npcDrops)) then
+        local noNPCSourcesLabel = AceGUI:Create("Label")
+        noNPCSourcesLabel:SetText("No NPC drops this item")
+        noNPCSourcesLabel:SetFullWidth(true)
+        f:AddChild(noNPCSourcesLabel)
+    else
+        for _, npcId in pairs(npcDrops) do
+            local npcLabel = AceGUI:Create("Label")
+            local npcName, spawns = unpack(QuestieDB.QueryNPC(npcId, "name", "spawns"))
+            npcLabel:SetText(npcName)
+            f:AddChild(npcLabel)
+
+            if spawns then
+                f:AddChild(CreateShowHideButton(npcId))
+
+                local npcZoneLabel = AceGUI:Create("Label")
+                npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
+                f:AddChild(npcZoneLabel)
+
+                QuestieJourneyUtils:Spacer(f)
+            end
+        end
+    end
+
+    -- Fix for sometimes the scroll content will max out and not show everything until window is resized
+    f.content:SetHeight(10000);
+end
+
 -- draws a list of results of a certain type, e.g. "quest"
 function QuestieSearchResults:DrawResultTab(container, resultType)
     -- probably already done by `JourneySelectTabGroup`, doesn't hurt to be safe though
@@ -413,6 +486,8 @@ _HandleOnGroupSelected = function (resultType)
         QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'npc');
     elseif lastOpenSearch == "object" then
         QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'object')
+    elseif lastOpenSearch == "item" then
+        QuestieSearchResults:ItemDetailsFrame(details, selectedId, 'item')
     end
 end
 
@@ -583,7 +658,9 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
     elseif detailType == 'object' then
         QuestieSearchResults:SpawnDetailsFrame(frame, id, detailType)
         frame:SetTitle(l10n('Object Details'))
-    -- TODO elseif detailType == 'item' then
+    elseif detailType == 'item' then
+        QuestieSearchResults:ItemDetailsFrame(frame, id)
+        frame:SetTitle(l10n('Item Details'))
     else
         frame:ReleaseChildren()
         return

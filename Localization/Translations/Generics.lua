@@ -278,6 +278,18 @@ local genericsLocales = {
         ["esES"] = "Detalles del objeto",
         ["frFR"] = "Détails de l'objet",
     },
+    ["Item Details"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Item-Details",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["Required Level"] = {
         ["ptBR"] = "Nível necessário",
         ["ruRU"] = "Требуемый уровень",
