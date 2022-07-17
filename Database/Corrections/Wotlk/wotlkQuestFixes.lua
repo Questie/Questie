@@ -5,6 +5,8 @@ local QuestieWotlkQuestFixes = QuestieLoader:CreateModule("QuestieWotlkQuestFixe
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
@@ -14,6 +16,9 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [11466] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Talk to Olga")}},
+        },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
         },
