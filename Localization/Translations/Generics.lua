@@ -403,12 +403,12 @@ local genericsLocales = {
         ["ruRU"] = false,
         ["deDE"] = "Händler",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Vendedores",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["esES"] = "Vendedores",
+        ["frFR"] = "Vendeurs",
     }
 }
 
