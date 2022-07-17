@@ -360,7 +360,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
 
     if QuestieCorrections.questItemBlacklist[itemId] then
         local itemBlacklistedLabel = AceGUI:Create("Label")
-        itemBlacklistedLabel:SetText("This item is blacklisted because it has too many sources")
+        itemBlacklistedLabel:SetText(l10n("This item is blacklisted because it has too many sources"))
         itemBlacklistedLabel:SetFullWidth(true)
         f:AddChild(itemBlacklistedLabel)
         return
@@ -371,13 +371,13 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, "npcDrops", "objectDrops", "vendors"))
 
     local npcSpawnsHeading = AceGUI:Create("Heading")
-    npcSpawnsHeading:SetText("NPCs")
+    npcSpawnsHeading:SetText(l10n("NPCs"))
     npcSpawnsHeading:SetFullWidth(true)
     f:AddChild(npcSpawnsHeading)
 
     if (not npcDrops or not next(npcDrops)) then
         local noNPCSourcesLabel = AceGUI:Create("Label")
-        noNPCSourcesLabel:SetText("No NPC drops this item")
+        noNPCSourcesLabel:SetText(l10n("No NPC drops this item"))
         noNPCSourcesLabel:SetFullWidth(true)
         f:AddChild(noNPCSourcesLabel)
     else
@@ -400,13 +400,13 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     end
 
     local objectSpawnsHeading = AceGUI:Create("Heading")
-    objectSpawnsHeading:SetText("Objects")
+    objectSpawnsHeading:SetText(l10n("Objects"))
     objectSpawnsHeading:SetFullWidth(true)
     f:AddChild(objectSpawnsHeading)
 
     if (not objectDrops or not next(objectDrops)) then
         local noObjectSourcesLabel = AceGUI:Create("Label")
-        noObjectSourcesLabel:SetText("No Object drops this item")
+        noObjectSourcesLabel:SetText(l10n("No Object drops this item"))
         noObjectSourcesLabel:SetFullWidth(true)
         f:AddChild(noObjectSourcesLabel)
     else
@@ -429,13 +429,13 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     end
 
     local vendorSpawnsHeading = AceGUI:Create("Heading")
-    vendorSpawnsHeading:SetText("Vendors")
+    vendorSpawnsHeading:SetText(l10n("Vendors"))
     vendorSpawnsHeading:SetFullWidth(true)
     f:AddChild(vendorSpawnsHeading)
 
     if (not vendors or not next(vendors)) then
         local noVendorSourcesLabel = AceGUI:Create("Label")
-        noVendorSourcesLabel:SetText("No Vendor sells this item")
+        noVendorSourcesLabel:SetText(l10n("No Vendor sells this item"))
         noVendorSourcesLabel:SetFullWidth(true)
         f:AddChild(noVendorSourcesLabel)
     else
