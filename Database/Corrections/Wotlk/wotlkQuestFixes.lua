@@ -22,6 +22,9 @@ function QuestieWotlkQuestFixes:Load()
         [11466] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Talk to Olga")}, 0, {"monster", 24639}},
         },
+        [11471] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Fight Jonah"), 0, {"monster", 24742}}},
+        },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
         },
