@@ -375,7 +375,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     npcSpawnsHeading:SetFullWidth(true)
     f:AddChild(npcSpawnsHeading)
 
-    if (not next(npcDrops)) then
+    if (not npcDrops or not next(npcDrops)) then
         local noNPCSourcesLabel = AceGUI:Create("Label")
         noNPCSourcesLabel:SetText("No NPC drops this item")
         noNPCSourcesLabel:SetFullWidth(true)
@@ -386,6 +386,64 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             local npcName, spawns = unpack(QuestieDB.QueryNPC(npcId, "name", "spawns"))
             npcLabel:SetText(npcName)
             f:AddChild(npcLabel)
+
+            if spawns then
+                f:AddChild(CreateShowHideButton(npcId))
+
+                local npcZoneLabel = AceGUI:Create("Label")
+                npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
+                f:AddChild(npcZoneLabel)
+
+                QuestieJourneyUtils:Spacer(f)
+            end
+        end
+    end
+
+    local objectSpawnsHeading = AceGUI:Create("Heading")
+    objectSpawnsHeading:SetText("Objects")
+    objectSpawnsHeading:SetFullWidth(true)
+    f:AddChild(objectSpawnsHeading)
+
+    if (not objectDrops or not next(objectDrops)) then
+        local noObjectSourcesLabel = AceGUI:Create("Label")
+        noObjectSourcesLabel:SetText("No Object drops this item")
+        noObjectSourcesLabel:SetFullWidth(true)
+        f:AddChild(noObjectSourcesLabel)
+    else
+        for _, objectId in pairs(objectDrops) do
+            local objectLabel = AceGUI:Create("Label")
+            local objectName, spawns = unpack(QuestieDB.QueryNPC(objectId, "name", "spawns"))
+            objectLabel:SetText(objectName)
+            f:AddChild(objectLabel)
+
+            if spawns then
+                f:AddChild(CreateShowHideButton(objectId))
+
+                local npcZoneLabel = AceGUI:Create("Label")
+                npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
+                f:AddChild(npcZoneLabel)
+
+                QuestieJourneyUtils:Spacer(f)
+            end
+        end
+    end
+
+    local vendorSpawnsHeading = AceGUI:Create("Heading")
+    vendorSpawnsHeading:SetText("Vendors")
+    vendorSpawnsHeading:SetFullWidth(true)
+    f:AddChild(vendorSpawnsHeading)
+
+    if (not vendors or not next(vendors)) then
+        local noVendorSourcesLabel = AceGUI:Create("Label")
+        noVendorSourcesLabel:SetText("No Vendor sells this item")
+        noVendorSourcesLabel:SetFullWidth(true)
+        f:AddChild(noVendorSourcesLabel)
+    else
+        for _, npcId in pairs(vendors) do
+            local vendorLabel = AceGUI:Create("Label")
+            local npcName, spawns = unpack(QuestieDB.QueryNPC(npcId, "name", "spawns"))
+            vendorLabel:SetText(npcName)
+            f:AddChild(vendorLabel)
 
             if spawns then
                 f:AddChild(CreateShowHideButton(npcId))
