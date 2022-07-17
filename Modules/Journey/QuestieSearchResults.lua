@@ -64,7 +64,7 @@ local function CreateShowHideButton(id)
     -- Initialise button
     local button = AceGUI:Create('Button')
     button.id = id
-    if not QuestieMap.manualFrames[id] then
+    if (not QuestieMap.manualFrames["any"]) or (not QuestieMap.manualFrames["any"][id]) then
         button:SetText(l10n('Show on Map'))
         button:SetCallback('OnClick', function(self) self:ShowOnMap(self) end)
     else
