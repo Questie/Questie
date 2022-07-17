@@ -412,7 +412,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     else
         for _, objectId in pairs(objectDrops) do
             local objectLabel = AceGUI:Create("Label")
-            local objectName, spawns = unpack(QuestieDB.QueryNPC(objectId, "name", "spawns"))
+            local objectName, spawns = unpack(QuestieDB.QueryObject(objectId, "name", "spawns"))
             objectLabel:SetText(objectName)
             f:AddChild(objectLabel)
 
