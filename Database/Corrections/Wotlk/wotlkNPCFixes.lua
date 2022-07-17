@@ -18,5 +18,11 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [27959] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.HOWLING_FJORD] = {{61.1,2}},
+            },
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
     }
 end
