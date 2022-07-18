@@ -351,36 +351,34 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     header:SetText(query(itemId, "name"))
     f:AddChild(header)
 
-    QuestieJourneyUtils:Spacer(f)
-
-    local spawnIdLabel = AceGUI:Create("Label")
-    spawnIdLabel:SetText("Item ID: " .. itemId)
-    spawnIdLabel:SetFullWidth(true)
-    f:AddChild(spawnIdLabel)
-
     local itemLink = select(2, GetItemInfo(itemId))
-
-    local itemLabel = AceGUI:Create("InteractiveLabel")
-    itemLabel:SetText(itemLink)
-    itemLabel:SetCallback("OnEnter", function()
+    local itemIcon = AceGUI:Create("Icon")
+    itemIcon:SetWidth(25)
+    itemIcon:SetHeight(25)
+    itemIcon:SetImage(GetItemIcon(itemId))
+    itemIcon:SetImageSize(25, 25)
+    itemIcon:SetCallback("OnEnter", function()
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
         GameTooltip:SetHyperlink(itemLink)
         GameTooltip:Show()
     end)
-    itemLabel:SetCallback("OnLeave", function()
+    itemIcon:SetCallback("OnLeave", function()
         GameTooltip:Hide()
     end)
-    f:AddChild(itemLabel)
+    f:AddChild(itemIcon)
+
+    local spawnIdLabel = AceGUI:Create("Label")
+    spawnIdLabel:SetText("  Item ID: " .. itemId)
+    f:AddChild(spawnIdLabel)
 
     if QuestieCorrections.questItemBlacklist[itemId] then
+        QuestieJourneyUtils:Spacer(f)
         local itemBlacklistedLabel = AceGUI:Create("Label")
         itemBlacklistedLabel:SetText(l10n("This item is blacklisted because it has too many sources"))
         itemBlacklistedLabel:SetFullWidth(true)
         f:AddChild(itemBlacklistedLabel)
         return
     end
-
-    QuestieJourneyUtils:Spacer(f)
 
     local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, "npcDrops", "objectDrops", "vendors"))
 
