@@ -26,6 +26,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Present the Vrykul Scroll of Ascension"] = { -- 11249
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Präsentiere die Vrykulrolle des Aufstiegs",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do

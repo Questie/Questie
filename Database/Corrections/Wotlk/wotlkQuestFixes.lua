@@ -19,6 +19,9 @@ function QuestieWotlkQuestFixes:Load()
         [11246] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{23666,23662,23661,223664,23663,23665,23667,23670,23668,23669,},23666,"Winterskorn Vrykul Dismembered"},},
         },
+        [11249] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension")}, 0, {"object", 186586}},
+        },
         [11355] = {
             [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
