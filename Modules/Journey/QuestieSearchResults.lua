@@ -358,6 +358,20 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     spawnIdLabel:SetFullWidth(true)
     f:AddChild(spawnIdLabel)
 
+    local itemLink = select(2, GetItemInfo(itemId))
+
+    local itemLabel = AceGUI:Create("InteractiveLabel")
+    itemLabel:SetText(itemLink)
+    itemLabel:SetCallback("OnEnter", function()
+        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip:SetHyperlink(itemLink)
+        GameTooltip:Show()
+    end)
+    itemLabel:SetCallback("OnLeave", function()
+        GameTooltip:Hide()
+    end)
+    f:AddChild(itemLabel)
+
     if QuestieCorrections.questItemBlacklist[itemId] then
         local itemBlacklistedLabel = AceGUI:Create("Label")
         itemBlacklistedLabel:SetText(l10n("This item is blacklisted because it has too many sources"))
