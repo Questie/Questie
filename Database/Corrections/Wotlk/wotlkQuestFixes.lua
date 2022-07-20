@@ -43,6 +43,9 @@ function QuestieWotlkQuestFixes:Load()
         [11712] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{25765,25767,25783,25814,26601,26619},25814,"Fizzcrank Gnome cursed & ported"}},
         },
+        [12080] = {
+            [questKeys.preQuestSingle] = {12076},
+        },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
         },
