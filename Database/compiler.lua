@@ -806,10 +806,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                     Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, error = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                local result, errorMessage = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
                 if not result then
                     Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    Questie:Error(error)
+                    Questie:Error(errorMessage)
+                    error(errorMessage)
                 end
             end
             tbl[id] = nil -- quicker gabage collection later
