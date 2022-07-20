@@ -148,7 +148,6 @@ local function _CheckClassicDatabase()
     end
 
     print("\n\27[36mCompiling Classic database...\27[0m")
-
     loadTOC("Questie-Classic.toc")
 
     Questie.Debug = _Debug
@@ -211,10 +210,9 @@ local function _CheckTBCDatabase()
     GetBuildInfo = function()
         return "2.5.1", "38644", "May 11 2021", 20501
     end
-
-    print("\n\27[36mCompiling TBC database...\27[0m")
     WOW_PROJECT_ID = 5
 
+    print("\n\27[36mCompiling TBC database...\27[0m")
     loadTOC("Questie-BCC.toc")
 
     Questie.Debug = _Debug
@@ -282,10 +280,9 @@ local function _CheckWotlkDatabase()
     GetBuildInfo = function()
         return "3.4.0", "44644", "Jun 12 2022", 30400
     end
-
-    print("Compiling Wotlk database...")
     WOW_PROJECT_ID = 5
 
+    print("\n\27[36mCompiling Wotlk database...\27[0m")
     loadTOC("Questie-WOTLKC.toc")
 
     Questie.Debug = _Debug
@@ -334,15 +331,15 @@ local function _CheckWotlkDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     QuestieDBCompiler:Compile(function() end)
-    print("Validating objects...")
+    print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
-    print("Validating items...")
+    print("\n\27[36mValidating items...\27[0m")
     QuestieDBCompiler:ValidateItems()
-    print("Validating NPCs...")
+    print("\n\27[36mValidating NPCs...\27[0m")
     QuestieDBCompiler:ValidateNPCs()
-    print("Validating quests...")
+    print("\n\27[36mValidating quests...\27[0m")
     QuestieDBCompiler:ValidateQuests()
 
-    print("Wotlk database compiled successfully")
+    print("\n\27[32mWotlk database compiled successfully\27[0m\n")
 end
 _CheckWotlkDatabase()
