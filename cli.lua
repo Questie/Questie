@@ -129,11 +129,11 @@ local function loadTOC(file)
     end
 end
 
-local function _Debug(...)
+local function _Debug(_, ...)
     --print(...)
 end
 
-local function _ErrorOrWarning(text, ...)
+local function _ErrorOrWarning(_, text, ...)
     io.stderr:write(tostring(text) .. "\n")
 end
 
