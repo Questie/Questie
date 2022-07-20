@@ -1,6 +1,6 @@
 ---@class DBCompiler
 local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
-local _QuestieDBCompiler = {}
+
 ---@type QuestieStreamLib
 local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
 ---@type QuestieDB
@@ -744,7 +744,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
     local ret = {}
     local i = 0
     while i < count do
-        for e = 1, math.min(768, count-i) do -- steps per yield
+        for _ = 1, math.min(768, count-i) do -- steps per yield
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
@@ -806,10 +806,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                     Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, error = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                local result, errorMessage = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
                 if not result then
                     Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    Questie:Error(error)
+                    Questie:Error(errorMessage)
+                    error(errorMessage)
                 end
             end
             tbl[id] = nil -- quicker gabage collection later
@@ -852,14 +853,6 @@ function QuestieDBCompiler:Compile()
     end
     
     QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
-
-    local function DynamicHashTableSize(entries)
-        if (entries == 0) then
-          return 36;
-        else
-          return math.pow(2, math.ceil(math.log(entries) / math.log(2))) * 40 + 36;
-        end
-    end
 
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
