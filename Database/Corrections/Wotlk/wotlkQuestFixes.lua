@@ -64,6 +64,9 @@ function QuestieWotlkQuestFixes:Load()
         [12439] = {
             [questKeys.exclusiveTo] = {11995},
         },
+        [12532] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
+        },
         [12668] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{28747,28748,},28747,"Trolls killed near a Soul Font"},},
         },

@@ -62,6 +62,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Capture Chicken Escapee"] = { -- 12532
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Fange Entflohenes Huhn",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
