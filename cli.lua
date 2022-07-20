@@ -106,6 +106,10 @@ C_Map = {}
 local addonName = "Questie"
 local addonTable = {}
 
+local function print(text)
+    io.stderr:write(tostring(text) .. "\n")
+end
+
 local function loadTOC(file)
     local rfile = io.open(file, "r")
     for line in rfile:lines() do
@@ -143,7 +147,7 @@ local function _CheckClassicDatabase()
         return "1.14.3", "44403", "Jun 27 2022", 11403
     end
 
-    print("Compiling Classic database...")
+    print("\n\27[36mCompiling Classic database...\27[0m")
 
     loadTOC("Questie-Classic.toc")
 
@@ -188,16 +192,16 @@ local function _CheckClassicDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     QuestieDBCompiler:Compile(function() end)
-    print("Validating objects...")
+    print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
-    print("Validating items...")
+    print("\n\27[36mValidating items...\27[0m")
     QuestieDBCompiler:ValidateItems()
-    print("Validating NPCs...")
+    print("\n\27[36mValidating NPCs...\27[0m")
     QuestieDBCompiler:ValidateNPCs()
-    print("Validating quests...")
+    print("\n\27[36mValidating quests...\27[0m")
     QuestieDBCompiler:ValidateQuests()
 
-    print("Classic database compiled successfully\n")
+    print("\n\27[32mClassic database compiled successfully\27[0m")
 end
 _CheckClassicDatabase()
 
@@ -208,7 +212,7 @@ local function _CheckTBCDatabase()
         return "2.5.1", "38644", "May 11 2021", 20501
     end
 
-    print("Compiling TBC database...")
+    print("\n\27[36mCompiling TBC database...\27[0m")
     WOW_PROJECT_ID = 5
 
     loadTOC("Questie-BCC.toc")
@@ -259,16 +263,16 @@ local function _CheckTBCDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     QuestieDBCompiler:Compile(function() end)
-    print("Validating objects...")
+    print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
-    print("Validating items...")
+    print("\n\27[36mValidating items...\27[0m")
     QuestieDBCompiler:ValidateItems()
-    print("Validating NPCs...")
+    print("\n\27[36mValidating NPCs...\27[0m")
     QuestieDBCompiler:ValidateNPCs()
-    print("Validating quests...")
+    print("\n\27[36mValidating quests...\27[0m")
     QuestieDBCompiler:ValidateQuests()
 
-    print("TBC database compiled successfully")
+    print("\n\27[32mTBC database compiled successfully\27[0m\n")
 end
 _CheckTBCDatabase()
 
