@@ -46,6 +46,9 @@ function QuestieWotlkQuestFixes:Load()
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
         },
+        [12439] = {
+            [questKeys.exclusiveTo] = {11995},
+        },
         [12668] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{28747,28748,},28747,"Trolls killed near a Soul Font"},},
         },
