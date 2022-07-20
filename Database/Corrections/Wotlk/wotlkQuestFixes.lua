@@ -73,6 +73,9 @@ function QuestieWotlkQuestFixes:Load()
         [12685] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
         },
+        [13347] = {
+            [questKeys.preQuestSingle] = {12499},
+        },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },
