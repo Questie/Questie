@@ -53,7 +53,7 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
     'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
 }
 
-QuestieDB.npcFlags = Questie.IsTBC and {
+QuestieDB.npcFlags = (Questie.IsTBC or Questie.IsWotlk) and {
     NONE = 0,
     GOSSIP = 1,
     QUEST_GIVER = 2,
