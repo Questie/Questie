@@ -76,6 +76,9 @@ function QuestieWotlkQuestFixes:Load()
         [12685] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
         },
+        [13039] = {
+            [questKeys.preQuestSingle] = {13036},
+        },
         [13347] = {
             [questKeys.preQuestSingle] = {12499},
         },
