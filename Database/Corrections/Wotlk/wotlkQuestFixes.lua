@@ -16,6 +16,9 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [11157] = {
+            [questKeys.objectives] = {{{23777,"Proto-Drake Egg destroyed"},},nil,nil,nil,{{23688,23750,},23688},},
+        },
         [11246] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{23666,23662,23661,223664,23663,23665,23667,23670,23668,23669,},23666,"Winterskorn Vrykul Dismembered"},},
         },
