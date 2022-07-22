@@ -151,9 +151,6 @@ function QuestieWotlkQuestFixes:Load()
         [12082] = {
             [questKeys.triggerEnd] = {"Harrison has escorted you to safety.",{[zoneIDs.GRIZZLY_HILLS]={{73.51,24.02,},},},},
         },
-        [12150] = {
-            [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
-        },
         [12135] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
                 [zoneIDs.AZUREMYST_ISLE]={{49.3,51.5,},},
@@ -167,6 +164,9 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DUROTAR]={{52.8,42.6,},},
                 [zoneIDs.TIRISFAL_GLADES]={{61,53.5,},},
             },},
+        },
+        [12150] = {
+            [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
@@ -312,15 +312,6 @@ function QuestieWotlkQuestFixes:Load()
         [13377] = {
             [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
         },
-        [13407] = {
-            [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
-                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
-                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
-                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
-                [zoneIDs.UNDERCITY]={{60.67,87.66}},
-                [zoneIDs.DALARAN]={{58.3,20.5}},
-            }},
-        },
         [13405] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
@@ -331,24 +322,13 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{29.8,75.7}},
             }},
         },
-        [14163] = {
-            [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
-                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
-                [zoneIDs.IRONFORGE]={{70.12,89.41}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
-                [zoneIDs.DALARAN]={{29.8,75.7}},
-            }},
-        },
-        [14178] = {
-            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
-                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
-                [zoneIDs.IRONFORGE]={{70.12,89.41}},
-                [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
-                [zoneIDs.DALARAN]={{29.8,75.7}},
+        [13407] = {
+            [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
         [13427] = {
@@ -379,6 +359,16 @@ function QuestieWotlkQuestFixes:Load()
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
         },
+        [14163] = {
+            [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
         [14164] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
                 [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
@@ -386,6 +376,16 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
                 [zoneIDs.UNDERCITY]={{60.67,87.66}},
                 [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [14178] = {
+            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
             }},
         },
         [14179] = {
