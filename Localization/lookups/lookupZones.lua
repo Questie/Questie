@@ -2636,6 +2636,7 @@ l10n.zoneCategoryLookup = {
         [618] = "Winterspring",
     },
     [530] = l10n.zoneLookup[530],
+    [571] = l10n.zoneLookup[571],
     [3] = {
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
