@@ -1,5 +1,5 @@
 
-local eventLocations, _WorldMapSize, _QuestHelper_ZoneLookup, _QuestHelper_Zones, _DISTINCT_IDS, _SkippedIds
+local eventLocations, _WorldMapSize, _QuestHelper_ZoneLookup, _QuestHelper_Zones, _DISTINCT_IDS
 
 -- Returns the Levenshtein distance between the two given strings
 -- credit to https://gist.github.com/Badgerati/3261142
@@ -62,11 +62,6 @@ function __Extract()
         if (cancelExtract) then
             timer:Cancel()
             print("Canceling extraction")
-            return
-        end
-
-        if (_SkippedIds[questId]) then
-            entryId = entryId + 1
             return
         end
 
