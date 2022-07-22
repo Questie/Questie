@@ -312,6 +312,64 @@ function QuestieWotlkQuestFixes:Load()
         [13377] = {
             [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
         },
+        [13407] = {
+            [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [13405] = {
+            [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [14163] = {
+            [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [14178] = {
+            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [13427] = {
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [13428] = {
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
         [13429] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.",{[zoneIDs.SHADOWMOON_VALLEY]={{71.02,46.12,},},},},
         },
@@ -320,6 +378,158 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
+        },
+        [14164] = {
+            [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [14179] = {
+            [questKeys.triggerEnd] = {"Victory in the Eye of the Storm", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [14180] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [14181] = {
+            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [14182] = {
+            [questKeys.triggerEnd] = {"Victory in Eye of the Storm", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [14183] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [24216] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [24217] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [24218] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [24219] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [24220] = {
+            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [24221] = {
+            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [24223] = {
+            [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [24224] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [24426] = {
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
+            }},
+        },
+        [24427] = {
+            [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
+                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
+                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
+                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
+                [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
         },
     }
 end
