@@ -62,6 +62,7 @@ local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFi
 -- flags that can be used in corrections (currently only blacklists)
 QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
+QuestieCorrections.WOTLK_ONLY = 3
 
 QuestieCorrections.reversedKillCreditQuestIDs = {} -- Only used for TBC quests
 
@@ -72,15 +73,22 @@ local TICKS_PER_YIELD = 72
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
+    local isWotlk = Questie.IsWotlk
     for k, v in pairs(values) do
-        if v == QuestieCorrections.TBC_ONLY then
+        if v == QuestieCorrections.WOTLK_ONLY then
+            if isWotlk then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.TBC_ONLY then
             if isTBC then
                 values[k] = true
             else
                 values[k] = nil
             end
         elseif v == QuestieCorrections.CLASSIC_ONLY then
-            if isTBC then
+            if isTBC or isWotlk then
                 values[k] = nil
             else
                 values[k] = true
