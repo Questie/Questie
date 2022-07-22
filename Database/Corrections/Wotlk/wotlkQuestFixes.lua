@@ -154,6 +154,13 @@ function QuestieWotlkQuestFixes:Load()
         [12150] = {
             [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
         },
+        [12135] = {
+            [questKeys.triggerEnd] = {"Put Out the Fires",{
+                [zoneIDs.AZUREMYST_ISLE]={{49.3,51.5,},},
+                [zoneIDs.DUN_MOROGH]={{53.2,51.4,},},
+                [zoneIDs.ELWYNN_FOREST]={{43.2,67,},},
+            },},
+        },
         [12139] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
                 [zoneIDs.EVERSONG_WOODS]={{47.3,46.6,},},
