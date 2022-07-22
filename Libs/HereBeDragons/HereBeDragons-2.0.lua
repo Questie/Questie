@@ -209,6 +209,7 @@ if not oldversion or oldversion < 16 then
         elseif WoWBC then
             worldMapData[0] = { 44688.53, 29791.24, 32681.47, 11479.44 }
             worldMapData[1] = { 44878.66, 29916.10,  8723.96, 14824.53 }
+            worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
         else
             worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
             worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
