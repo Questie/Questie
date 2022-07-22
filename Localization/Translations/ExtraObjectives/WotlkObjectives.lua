@@ -74,6 +74,30 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use Gossamer Potion"] = { -- 12327
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze Samtiger Trank",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Get in Brann Bronzebeard Flying Machine"] = { -- 12973
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Spring in Brann Bronzebarts Flugmaschine",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
