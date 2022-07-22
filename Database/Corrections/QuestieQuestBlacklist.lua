@@ -29,6 +29,7 @@ function QuestieQuestBlacklist:Load()
         [64143] = true, -- Duplicate of 9735
         [13053] = true, -- Removed
         [11402] = true, -- GM Island quest
+        [11189] = true, -- Removed
         [936] = QuestieCorrections.CLASSIC_ONLY,
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
