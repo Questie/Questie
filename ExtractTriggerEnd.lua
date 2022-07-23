@@ -1,5 +1,5 @@
 
-local eventLocations, _WorldMapSize, _QuestHelper_ZoneLookup, _QuestHelper_Zones, _DISTINCT_IDS
+local eventLocations, _WorldMapSize, _QuestHelper_ZoneLookup, _QuestHelper_Zones, _DISTINCT_IDS, _IdsToSkip
 
 -- Returns the Levenshtein distance between the two given strings
 -- credit to https://gist.github.com/Badgerati/3261142
@@ -65,6 +65,11 @@ function __Extract()
             return
         end
 
+        if (_IdsToSkip[questId]) then
+            entryId = entryId + 1
+            return
+        end
+
         if (not questId) then
             timer:Cancel()
             print("\nExtraction done...")
@@ -114,6 +119,7 @@ function __Extract()
                             end
                             if (not _WorldMapSize[pair[1]]) then
                                 print("Objective has no matching zoneId", pair[1], pair[2])
+                                Questie.db.char.erronousEntries[questId] = {pair[1], pair[2], zoneName, triggerText}
                                 return
                             end
                             if (not zoneName or not pair[1] or not _WorldMapSize[pair[1]].zoneData[zoneName]) then
@@ -3686,4 +3692,109 @@ _QuestHelper_Zones = {
   [-114]={[0]="Ulduar2_Continent", [1]="Ulduar2"},
   [-115]={[0]="Ulduar3_Continent", [1]="Ulduar3"},
   [-116]={[0]="Ulduar4_Continent", [1]="Ulduar4"},
+}
+
+_IdsToSkip = {
+    [11189] = true,
+    [11241] = true,
+    [11343] = true,
+    [11344] = true,
+    [11402] = true,
+    [11429] = true,
+    [11436] = true,
+    [11460] = true,
+    [11472] = true,
+    [11485] = true,
+    [11491] = true,
+    [11495] = true,
+    [11570] = true,
+    [11592] = true,
+    [11652] = true,
+    [11664] = true,
+    [11673] = true,
+    [11705] = true,
+    [11708] = true,
+    [11711] = true,
+    [11719] = true,
+    [11878] = true,
+    [11890] = true,
+    [11930] = true,
+    [12027] = true,
+    [12028] = true,
+    [12032] = true,
+    [12033] = true,
+    [12036] = true,
+    [12053] = true,
+    [12082] = true,
+    [12135] = true,
+    [12139] = true,
+    [12150] = true,
+    [12263] = true,
+    [12301] = true,
+    [12321] = true,
+    [12327] = true,
+    [12330] = true,
+    [12427] = true,
+    [12428] = true,
+    [12429] = true,
+    [12430] = true,
+    [12470] = true,
+    [12473] = true,
+    [12506] = true,
+    [12536] = true,
+    [12537] = true,
+    [12570] = true,
+    [12573] = true,
+    [12578] = true,
+    [12665] = true,
+    [12671] = true,
+    [12687] = true,
+    [12688] = true,
+    [12720] = true,
+    [12721] = true,
+    [12816] = true,
+    [12817] = true,
+    [12821] = true,
+    [12832] = true,
+    [12842] = true,
+    [12864] = true,
+    [12932] = true,
+    [12933] = true,
+    [12934] = true,
+    [12935] = true,
+    [12936] = true,
+    [12948] = true,
+    [12954] = true,
+    [12973] = true,
+    [13047] = true,
+    [13053] = true,
+    [13141] = true,
+    [13343] = true,
+    [13377] = true,
+    [13405] = true,
+    [13407] = true,
+    [13417] = true,
+    [13427] = true,
+    [13428] = true,
+    [13429] = true,
+    [13830] = true,
+    [14163] = true,
+    [14164] = true,
+    [14178] = true,
+    [14179] = true,
+    [14180] = true,
+    [14181] = true,
+    [14182] = true,
+    [14183] = true,
+    [24216] = true,
+    [24217] = true,
+    [24218] = true,
+    [24219] = true,
+    [24220] = true,
+    [24221] = true,
+    [24223] = true,
+    [24224] = true,
+    [24225] = true,
+    [24426] = true,
+    [24427] = true,
 }
