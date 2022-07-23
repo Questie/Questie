@@ -291,29 +291,22 @@ local function _CheckWotlkDatabase()
     local l10n = QuestieLoader:ImportModule("l10n")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-    -- Classic fields need to be filled, because we only load the database and not all Questie files
-    QuestieDB.npcData = {}
-    QuestieDB.objectData = {}
-    QuestieDB.questData = {}
-    QuestieDB.itemData = {}
-    QuestieDB.npcDataWotlk = loadstring(QuestieDB.npcDataWotlk)
-    QuestieDB.npcDataWotlk = QuestieDB.npcDataWotlk()
-    QuestieDB.objectDataWotlk = loadstring(QuestieDB.objectDataWotlk)
-    QuestieDB.objectDataWotlk = QuestieDB.objectDataWotlk()
-    QuestieDB.questDataWotlk = loadstring(QuestieDB.questDataWotlk)
-    QuestieDB.questDataWotlk = QuestieDB.questDataWotlk()
-    QuestieDB.itemDataWotlk = loadstring(QuestieDB.itemDataWotlk)
-    QuestieDB.itemDataWotlk = QuestieDB.itemDataWotlk()
+
+    QuestieDB.npcData = loadstring(QuestieDB.npcData)()
+    QuestieDB.objectData = loadstring(QuestieDB.objectData)()
+    QuestieDB.questData = loadstring(QuestieDB.questData)()
+    QuestieDB.itemData = loadstring(QuestieDB.itemData)()
+
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
     QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
     QuestieCorrections:Initialize({
-        ["npcData"] = QuestieDB.npcDataWotlk,
-        ["objectData"] = QuestieDB.objectDataWotlk,
-        ["itemData"] = QuestieDB.itemDataWotlk,
-        ["questData"] = QuestieDB.questDataWotlk
+        ["npcData"] = QuestieDB.npcData,
+        ["objectData"] = QuestieDB.objectData,
+        ["itemData"] = QuestieDB.itemData,
+        ["questData"] = QuestieDB.questData
     })
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
