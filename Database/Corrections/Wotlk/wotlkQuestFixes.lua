@@ -40,6 +40,9 @@ function QuestieWotlkQuestFixes:Load()
         [11314] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Lurielle's Pendant on Chill Nymph"), 0, {{"monster", 23678}}}},
         },
+        [11332] = {
+            [questKeys.preQuestSingle] = {11331},
+        },
         [11343] = {
             [questKeys.triggerEnd] = {"Secrets of Wyrmskull Uncovered",{[zoneIDs.HOWLING_FJORD]={{60.13,50.8,},},},},
         },
