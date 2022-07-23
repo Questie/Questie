@@ -73,7 +73,7 @@ QuestieDB.questCompilerTypes = {
     ['questFlags'] = "u16", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = "u24", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
-    ['reputationReward'] = "u8s16pairs",
+    ['reputationReward'] = "u8s24pairs",
     ['extraObjectives'] = "extraobjectives",
 }
 
