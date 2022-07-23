@@ -16,7 +16,8 @@ HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
 local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local WoWBC = string.byte(GetBuildInfo(), 1) == 50
+local WoWWotlk = string.byte(GetBuildInfo(), 1) == 51
 
 -- Data Constants
 local COSMIC_MAP_ID = 946
@@ -210,6 +211,10 @@ if not oldversion or oldversion < 16 then
             worldMapData[0] = { 44688.53, 29791.24, 32681.47, 11479.44 }
             worldMapData[1] = { 44878.66, 29916.10,  8723.96, 14824.53 }
             worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
+        elseif WoWWotlk then
+            worldMapData[0] = { 48033, 32021, 36868, 14849 }
+            worldMapData[1] = { 47909, 31935, 8553, 18468 }
+            worldMapData[571] = { 47663, 31772, 25199, 11072 }
         else
             worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
             worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
