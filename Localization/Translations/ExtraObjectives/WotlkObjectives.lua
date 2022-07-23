@@ -158,6 +158,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Deliver Stolen Horse"] = { -- 12680
+        ["ptBR"] = "Entregar Cavalo Roubado",
+        ["ruRU"] = "Передача украденной лошади",
+        ["deDE"] = "Gestohlenes Pferd abgeben",
+        ["koKR"] = "도둑맞은 말 배달",
+        ["esMX"] = "Entregar caballo robado",
+        ["enUS"] = true,
+        ["frFR"] = "Livraison du cheval volé",
+        ["esES"] = "Entregar caballo robado",
+        ["zhTW"] = false,
+        ["zhCN"] = "上缴取来的马",
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do

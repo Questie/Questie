@@ -264,6 +264,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12680] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{28605,28606,28607,},28605,"Horse Successfully Stolen"},},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Deliver Stolen Horse"), 0, {{"monster", 28653}}}},
         },
         [12685] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
