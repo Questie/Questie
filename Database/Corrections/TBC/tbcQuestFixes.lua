@@ -2441,6 +2441,9 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
             }},
         },
+        [11346] = {
+            [questKeys.preQuestSingle] = {11269,11329},
+        },
         [11356] = {
             [questKeys.exclusiveTo] = {11360},
         },
