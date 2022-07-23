@@ -170,6 +170,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "上缴取来的马",
     },
+    ["Defeat Dark Rider of Acherus and take his horse"] = { -- 12687
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Besiege",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
