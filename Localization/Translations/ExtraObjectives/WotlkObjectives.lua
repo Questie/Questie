@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local wotlkObjectiveLocales = {
+    ["Use Feathered Charm on Steelfeather"] = { -- 11418
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze Gefiederter Glücksbringer auf Stahlfeder",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Talk to Olga"] = { -- 11466
         ["ptBR"] = false,
         ["ruRU"] = false,
