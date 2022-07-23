@@ -279,6 +279,9 @@ function QuestieWotlkQuestFixes:Load()
         [12697] = {
             [questKeys.preQuestGroup] = {12678,12679,12687,12733,},
         },
+        [12698] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{28819,28822,28891,},28819,"Scarlet Ghoul Returned"},},
+        },
         [12720] = {
             [questKeys.triggerEnd] = {"\"Crimson Dawn\" Revealed",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{55.09,66.12},{61.3,67.7},{55.31,70.37},{58.32,65.63},{55.76,62.17,},},},},
         },
