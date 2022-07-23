@@ -263,7 +263,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Hexxing Stick and slay him/her"), 0, {{"monster", 28752},{"monster", 28754},{"monster", 28756}}}},
         },
         [12680] = {
-            [questKeys.objectives] = {{{28607,"Horse Successfully Stolen"},},nil,nil,nil,},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{28605,28606,28607,},28605,"Horse Successfully Stolen"},},
         },
         [12685] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
