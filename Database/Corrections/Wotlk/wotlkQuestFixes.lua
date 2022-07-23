@@ -280,6 +280,9 @@ function QuestieWotlkQuestFixes:Load()
         [12721] = {
             [questKeys.triggerEnd] = {"Akali unfettered from his chains.",{[zoneIDs.ZUL_DRAK]={{78.64,25.11,},},},},
         },
+        [12733] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{28391,28394,28406},28391,"Death Knights defeated in a duel"},},
+        },
         [12816] = {
             [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS]={{56.5,52,},},},},
         },
