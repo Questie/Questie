@@ -37,6 +37,9 @@ function QuestieWotlkQuestFixes:Load()
         [11252] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11302] = {
+            [questKeys.preQuestSingle] = {11269,11329},
+        },
         [11314] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Lurielle's Pendant on Chill Nymph"), 0, {{"monster", 23678}}}},
         },
@@ -49,7 +52,11 @@ function QuestieWotlkQuestFixes:Load()
         [11344] = {
             [questKeys.triggerEnd] = {"Secrets of Nifflevar Uncovered",{[zoneIDs.HOWLING_FJORD]={{69.04,54.79,},},},},
         },
+        [11346] = {
+            [questKeys.preQuestSingle] = {11269,11329},
+        },
         [11355] = {
+            [questKeys.preQuestSingle] = {11269,11329},
             [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
         [11393] = {
@@ -57,6 +64,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11394] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [11418] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Feathered Charm on Steelfeather"), 0, {{"monster", 24514},}}},
         },
         [11420] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49,1}}}, ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
