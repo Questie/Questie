@@ -16,6 +16,9 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [11154] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"), 0, {{"monster", 23959}}}},
+        },
         [11157] = {
             [questKeys.objectives] = {{{23777,"Proto-Drake Egg destroyed"},},nil,nil,nil,{{23688,23750,},23688},},
         },

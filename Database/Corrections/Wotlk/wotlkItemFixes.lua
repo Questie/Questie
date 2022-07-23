@@ -11,6 +11,9 @@ function QuestieWotlkItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
 
     return {
+        [33084] = {
+            [itemKeys.npcDrops] = {},
+        },
         [33628] = {
             [itemKeys.objectDrops] = {186659,186660,186661},
         },

@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local wotlkObjectiveLocales = {
+    ["Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"] = { -- 11154
+        ["ptBR"] = "Lança as Bombinhas a uma distância de até 20 metros abaixo de um Morcego Garrumbra para assustá-lo",
+        ["ruRU"] = "Бросить хлопушки на расстояние до 20 м под темнолапую летучую мышь, чтобы напугать ее",
+        ["deDE"] = "Werft die Knallfrösche bis zu 20 Meter weit unter eine Dunkelklauenfledermaus, um sie zu erschrecken",
+        ["koKR"] = "최대 20미터 내에 불꽃탄을 던져 박쥐를 놀라게 합니다",
+        ["esMX"] = "Lanza los petardos a 20 m bajo un Garranegra para asustarlo",
+        ["enUS"] = true,
+        ["frFR"] = "Lance les pétards à une distance maximale de 20 mètres sous une chauve-souris sombregriffe pour l'effrayer",
+        ["esES"] = "Lanza los petardos a 20 m bajo un Garranegra para asustarlo",
+        ["zhTW"] = "將爆竹扔在最遠20碼以外的暗爪蝙蝠下方以驚嚇它。",
+        ["zhCN"] = "将爆竹扔在最远20码以外的暗爪蝙蝠下方以惊吓它。",
+    },
     ["Use Lurielle's Pendant on Chill Nymph"] = { -- 11314
         ["ptBR"] = false,
         ["ruRU"] = false,
