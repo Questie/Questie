@@ -34,6 +34,7 @@ QuestieDBCompiler.supportedTypes = {
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
         ["u8u24array"] = true,
+        ["u16u24array"] = true,
         ["extraobjectives"] = true,
         ["reflist"] = true
     },
@@ -138,8 +139,11 @@ QuestieDBCompiler.readers = {
         return list
     end,
     ["u16u16array"] = function(stream)
-        local list = {}
         local count = stream:ReadShort()
+
+        if count == 0 then return nil end
+
+        local list = {}
         for i = 1, count do
             list[i] = stream:ReadShort()
         end
@@ -147,6 +151,17 @@ QuestieDBCompiler.readers = {
     end,
     ["u8u24array"] = function(stream)
         local count = stream:ReadByte()
+
+        if count == 0 then return nil end
+
+        local list = {}
+        for i = 1, count do
+            list[i] = stream:ReadInt24()
+        end
+        return list
+    end,
+    ["u16u24array"] = function(stream)
+        local count = stream:ReadShort()
 
         if count == 0 then return nil end
 
@@ -414,6 +429,17 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["u16u24array"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteShort(count)
+            for _,v in pairs(value) do
+                stream:WriteInt24(v)
+            end
+        else
+            stream:WriteShort(0)
+        end
+    end,
     ["u8u16stringarray"] = function(stream, value)
         if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
@@ -581,6 +607,7 @@ QuestieDBCompiler.skippers = {
     ["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end,
     ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
     ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
+    ["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
     ["waypointlist"]  = function(stream)
         local count = stream:ReadByte()
         for _ = 1, count do
@@ -658,6 +685,7 @@ QuestieDBCompiler.dynamics = {
     ["u8s16pairs"] = true,
     ["u16u16array"] = true,
     ["u8u24array"] = true,
+    ["u16u24array"] = true,
     ["u8u16stringarray"] = true,
     ["spawnlist"] = true,
     ["trigger"] = true, 
