@@ -50,6 +50,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Entrance to Utgarde Catacombs"] = { -- 11420
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Eingang zu den Katakomben von Utgarde",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Talk to Olga"] = { -- 11466
         ["ptBR"] = false,
         ["ruRU"] = false,

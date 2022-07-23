@@ -58,6 +58,9 @@ function QuestieWotlkQuestFixes:Load()
         [11394] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11420] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49,1}}}, ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
+        },
         [11429] = {
             [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
         },
