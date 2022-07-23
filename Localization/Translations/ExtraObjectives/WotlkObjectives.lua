@@ -194,6 +194,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Return Scarlet Ghouls"] = { -- 12698
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Bring die Scharlachroter Ghule zurück",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
