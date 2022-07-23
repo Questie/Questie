@@ -12,6 +12,12 @@ function QuestieWotlkNpcFixes:Load()
     local npcFlags = QuestieDB.npcFlags
 
     return {
+        [23763] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.HOWLING_FJORD] = {{50.2,29.2},{50.4,26.4},{50.4,27},{50.6,26.6},{51,26.2},{51,27.6},{51.2,25.4},{51.2,28.8},{51.6,25.4},{51.8,27.6},{52,29.6},{52.2,26.4},{52.2,26.6},{52.4,28.6},{52.6,28.6},{52.8,26.4},{52.8,27},{52.8,27.8}},
+            },
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
         [24329] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{72,26.4},{70.3,27.3},{68.7,28.1},{66.5,24.9},{69.7,21.5},{72.6,19.9},{73.6,23.1}},
