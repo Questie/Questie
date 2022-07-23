@@ -2389,6 +2389,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{24519},nil},
         },
+        [11302] = {
+            [questKeys.preQuestSingle] = {11269,11329},
+        },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
