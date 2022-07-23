@@ -43,6 +43,12 @@ function QuestieWotlkQuestFixes:Load()
         [11355] = {
             [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
         },
+        [11393] = {
+            [questKeys.exclusiveTo] = {11394,},
+        },
+        [11394] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11429] = {
             [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
         },
