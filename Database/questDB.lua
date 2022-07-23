@@ -58,7 +58,7 @@ QuestieDB.questCompilerTypes = {
     ['objectivesText'] = "u8u16stringarray", -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
     ['objectives'] = "objectives", -- table
-    ['sourceItemId'] = "u16", -- int, item provided by quest starter
+    ['sourceItemId'] = "u24", -- int, item provided by quest starter
     ['preQuestGroup'] = "u8u24array", -- table: {quest(int)}
     ['preQuestSingle'] = "u8u24array", -- table: {quest(int)}
     ['childQuests'] = "u8u24array", -- table: {quest(int)}
@@ -68,7 +68,7 @@ QuestieDB.questCompilerTypes = {
     ['requiredSkill'] = "u12pair", -- table: {skill(int), value(int)}
     ['requiredMinRep'] = "s24pair", -- table: {faction(int), value(int)}
     ['requiredMaxRep'] = "s24pair", -- table: {faction(int), value(int)}
-    ['requiredSourceItems'] = "u8u16array", -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
+    ['requiredSourceItems'] = "u8u24array", -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
     ['nextQuestInChain'] = "u24", -- int: if this quest is active/finished, the current quest is not available anymore
     ['questFlags'] = "u16", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags

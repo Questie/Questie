@@ -1753,7 +1753,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{29.82,60.3}}},
         },
         [13756] = {
-            [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{49.3,88.5},{49.3,76.7},{51.6,57.1},{44.8,45.5},{51.8,36},{49.2,14.8},{42.4,15.6}}},
+            [npcKeys.spawns] = {[zoneIDs.ALTERAC_VALLEY]={{49.3,88.5},{49.3,76.7},{51.6,57.1},{51.8,36},{49.2,14.8},{42.4,15.6}}},
             [npcKeys.zoneID] = zoneIDs.ALTERAC_VALLEY,
         },
         [13796] = {
