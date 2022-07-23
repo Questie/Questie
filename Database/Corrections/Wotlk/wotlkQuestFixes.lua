@@ -244,8 +244,14 @@ function QuestieWotlkQuestFixes:Load()
         [12685] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
         },
+        [12687] = {
+            [questKeys.triggerEnd] = {"The Horseman's Challenge",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{52.41,34.59,},},},},
+        },
         [12688] = {
             [questKeys.triggerEnd] = {"Escort Engineer Helice out of Swindlegrin's Dig",{[zoneIDs.SHOLAZAR_BASIN]={{37.26,50.56,},},},},
+        },
+        [12720] = {
+            [questKeys.triggerEnd] = {"\"Crimson Dawn\" Revealed",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{55.09,66.12},{61.3,67.7},{55.31,70.37},{58.32,65.63},{55.76,62.17,},},},},
         },
         [12721] = {
             [questKeys.triggerEnd] = {"Akali unfettered from his chains.",{[zoneIDs.ZUL_DRAK]={{78.64,25.11,},},},},
@@ -262,6 +268,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12832] = {
             [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS]={{40.2,79,},},},},
+        },
+        [12842] = {
+            [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
         },
         [12864] = {
             [questKeys.triggerEnd] = {"Locate Missing Scout",{[zoneIDs.STORM_PEAKS]={{37.68,66.75},{38.49,77.19},{31.65,64.53},{34.56,64.64},{36.43,77.3},},},},
@@ -510,6 +519,15 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{26.58,50.04}},
                 [zoneIDs.DALARAN]={{29.8,75.7}},
+            }},
+        },
+        [24225] = {
+            [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
+                [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
+                [zoneIDs.ORGRIMMAR]={{79.09,31.1}},
+                [zoneIDs.THUNDER_BLUFF]={{56.05,76.69}},
+                [zoneIDs.UNDERCITY]={{60.67,87.66}},
+                [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
         [24426] = {
