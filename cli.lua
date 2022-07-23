@@ -136,14 +136,12 @@ local function _CheckClassicDatabase()
     local l10n = QuestieLoader:ImportModule("l10n")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-    QuestieDB.npcData = loadstring(QuestieDB.npcData)
-    QuestieDB.npcData = QuestieDB.npcData()
-    QuestieDB.objectData = loadstring(QuestieDB.objectData)
-    QuestieDB.objectData = QuestieDB.objectData()
-    QuestieDB.questData = loadstring(QuestieDB.questData)
-    QuestieDB.questData = QuestieDB.questData()
-    QuestieDB.itemData = loadstring(QuestieDB.itemData)
-    QuestieDB.itemData = QuestieDB.itemData()
+
+    QuestieDB.npcData = loadstring(QuestieDB.npcData)()
+    QuestieDB.objectData = loadstring(QuestieDB.objectData)()
+    QuestieDB.questData = loadstring(QuestieDB.questData)()
+    QuestieDB.itemData = loadstring(QuestieDB.itemData)()
+
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
     QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
@@ -206,29 +204,22 @@ local function _CheckTBCDatabase()
     local l10n = QuestieLoader:ImportModule("l10n")
 
     print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-    -- Classic fields need to be filled, because we only load the database and not all Questie files
-    QuestieDB.npcData = {}
-    QuestieDB.objectData = {}
-    QuestieDB.questData = {}
-    QuestieDB.itemData = {}
-    QuestieDB.npcDataTBC = loadstring(QuestieDB.npcDataTBC)
-    QuestieDB.npcDataTBC = QuestieDB.npcDataTBC()
-    QuestieDB.objectDataTBC = loadstring(QuestieDB.objectDataTBC)
-    QuestieDB.objectDataTBC = QuestieDB.objectDataTBC()
-    QuestieDB.questDataTBC = loadstring(QuestieDB.questDataTBC)
-    QuestieDB.questDataTBC = QuestieDB.questDataTBC()
-    QuestieDB.itemDataTBC = loadstring(QuestieDB.itemDataTBC)
-    QuestieDB.itemDataTBC = QuestieDB.itemDataTBC()
+
+    QuestieDB.npcData = loadstring(QuestieDB.npcData)()
+    QuestieDB.objectData = loadstring(QuestieDB.objectData)()
+    QuestieDB.questData = loadstring(QuestieDB.questData)()
+    QuestieDB.itemData = loadstring(QuestieDB.itemData)()
+
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
     QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
     QuestieCorrections:Initialize({
-        ["npcData"] = QuestieDB.npcDataTBC,
-        ["objectData"] = QuestieDB.objectDataTBC,
-        ["itemData"] = QuestieDB.itemDataTBC,
-        ["questData"] = QuestieDB.questDataTBC
+        ["npcData"] = QuestieDB.npcData,
+        ["objectData"] = QuestieDB.objectData,
+        ["itemData"] = QuestieDB.itemData,
+        ["questData"] = QuestieDB.questData
     })
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
