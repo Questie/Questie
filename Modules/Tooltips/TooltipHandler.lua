@@ -21,7 +21,7 @@ function _QuestieTooltips:AddUnitDataToTooltip()
 
     local type, _, _, _, _, npcId, _ = strsplit("-", guid or "");
 
-    if name and type == "Creature" and (
+    if name and (type == "Creature" or type == "Vehicle") and (
         name ~= QuestieTooltips.lastGametooltipUnit or
         (not QuestieTooltips.lastGametooltipCount) or
         _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount or
