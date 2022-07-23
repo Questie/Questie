@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local wotlkObjectiveLocales = {
+    ["Use Lurielle's Pendant on Chill Nymph"] = { -- 11314
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze Lurielles Anhänger an Eisnymphe",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Feathered Charm on Steelfeather"] = { -- 11418
         ["ptBR"] = false,
         ["ruRU"] = false,
