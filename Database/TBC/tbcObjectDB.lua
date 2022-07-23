@@ -3,12 +3,6 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
-if (not isTBCClient) then
-    return
-end
-
 QuestieDB.objectKeys = {
     ['name'] = 1, -- string
     ['questStarts'] = 2, -- table {questID(int),...}
@@ -18,7 +12,7 @@ QuestieDB.objectKeys = {
     ['factionID'] = 6, -- faction restriction mask (same as spawndb factionid)
 }
 
-QuestieDB.objectDataTBC = [[return {
+QuestieDB.objectData = [[return {
 [31] = {"Old Lion Statue",{248,249,},{94,},{[44]={{84.49,46.83},},},44,},
 [32] = {"Sunken Chest",nil,nil,{[44]={{41.52,54.66},},},44,},
 [33] = {"Locked Chest",nil,{140,},{[40]={{25.97,16.91},},},40,},

@@ -86,6 +86,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
     QuestieProfessions:Init()
+    coroutine.yield()
 
     -- check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
@@ -93,7 +94,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
 
         QuestieInit:LoadBaseDB()
-        _QuestieInit:OverrideDBWithExpansionData()
 
         print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
@@ -113,9 +113,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         QuestieCorrections:PreCompile()
         QuestieDBCompiler:Compile()
     else
-        _QuestieInit:OverrideDBWithExpansionData()
-
-        coroutine.yield()
         l10n:Initialize()
 
         coroutine.yield()
@@ -230,41 +227,10 @@ function QuestieInit:LoadDatabase(key)
 end
 
 function QuestieInit:LoadBaseDB()
-
-    -- load NPC data
     QuestieInit:LoadDatabase("npcData")
-    QuestieInit:LoadDatabase("npcDataTBC")
-    QuestieInit:LoadDatabase("npcDataWotlk")
-
-    -- load object data
     QuestieInit:LoadDatabase("objectData")
-    QuestieInit:LoadDatabase("objectDataTBC")
-    QuestieInit:LoadDatabase("objectDataWotlk")
-
-    -- load quest data
     QuestieInit:LoadDatabase("questData")
-    QuestieInit:LoadDatabase("questDataTBC")
-    QuestieInit:LoadDatabase("questDataWotlk")
-
-    -- load item data
     QuestieInit:LoadDatabase("itemData")
-    QuestieInit:LoadDatabase("itemDataTBC")
-    QuestieInit:LoadDatabase("itemDataWotlk")
-
-end
-
-function _QuestieInit:OverrideDBWithExpansionData()
-    if QuestieDB.questDataWotlk then
-        QuestieDB.questData = QuestieDB.questDataWotlk
-        QuestieDB.objectData = QuestieDB.objectDataWotlk
-        QuestieDB.npcData = QuestieDB.npcDataWotlk
-        QuestieDB.itemData = QuestieDB.itemDataWotlk
-    elseif QuestieDB.questDataTBC then
-        QuestieDB.questData = QuestieDB.questDataTBC
-        QuestieDB.objectData = QuestieDB.objectDataTBC
-        QuestieDB.npcData = QuestieDB.npcDataTBC
-        QuestieDB.itemData = QuestieDB.itemDataTBC
-    end
 end
 
 
