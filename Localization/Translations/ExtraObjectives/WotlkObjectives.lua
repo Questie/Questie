@@ -206,6 +206,30 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Climb inside the Inconspicuous Mine Car"] = { -- 12701
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Kletter in die Unverdächtige Lore",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Use the Scarlet Cannon"] = { -- 12701
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze die Scharlachrote Kanone",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
