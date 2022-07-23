@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local wotlkObjectiveLocales = {
+    ["Wait for Harrowmeiser's zeppelin to dock"] = { -- 11153
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Warte auf Eggenmeisters Zeppelin",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"] = { -- 11154
         ["ptBR"] = "Lança as Bombinhas a uma distância de até 20 metros abaixo de um Morcego Garrumbra para assustá-lo",
         ["ruRU"] = "Бросить хлопушки на расстояние до 20 м под темнолапую летучую мышь, чтобы напугать ее",
