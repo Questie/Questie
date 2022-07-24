@@ -254,6 +254,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use the Horn of the Frostbrood"] = { -- 12779
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze das Horn der Frostbrut",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
