@@ -42,5 +42,8 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [28912] = {
+            [npcKeys.waypoints] = {},
+        },
     }
 end
