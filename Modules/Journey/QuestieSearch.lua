@@ -100,7 +100,8 @@ function QuestieSearch:Search(query, searchType, queryType)
         local queryToFind = string.lower(query)
 
         for id, _ in pairs(databaseKeys) do
-            if string.find(string.lower(databaseQueryHandle(id, "name")), queryToFind) then
+            local name = databaseQueryHandle(id, "name") -- Some entries don't have a 'name' because of the way we load corrections
+            if name and string.find(string.lower(), queryToFind) then
                 -- We have a search result or a favourite to display
                 searchCount = searchCount + 1;
                 QuestieSearch.LastResult[searchType][id] = true;
