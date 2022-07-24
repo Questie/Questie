@@ -50,6 +50,9 @@ function QuestieTBCQuestFixes:Load()
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
         },
+        [349] = {
+            [questKeys.objectivesText] = {"Speak with Witch Doctor Unbagwa.",},
+        },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36}}}},
         },
@@ -165,6 +168,12 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
         },
+        [2279] = {
+            [questKeys.requiredLevel] = 40,
+        },
+        [2280] = {
+            [questKeys.requiredLevel] = 40,
+        },
         [2501] = {
             [questKeys.zoneOrSort] = -181,
         },
@@ -270,6 +279,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [7484] = {
             [questKeys.specialFlags] = 1,
+        },
+        [7583] = {
+            [questKeys.preQuestGroup] = {7581,7582},
+        },
+        [7623] = {
+            [questKeys.preQuestSingle] = {},
         },
         [7792] = {
             [questKeys.startedBy] = {{20604},nil,nil},
@@ -411,6 +426,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8423] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [8465] = {
+            [questKeys.preQuestSingle] = {8461},
         },
         [8473] = {
             [questKeys.preQuestSingle] = {},
@@ -2060,6 +2078,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}}},
         },
         [11010] = {
+            [questKeys.requiredClasses] = classIDs.WARLOCK, -- Everything except Druid (since Warlock has the highest number except for Druid this works)
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
         [11013] = {
@@ -2099,6 +2118,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11026] = {
             [questKeys.preQuestSingle] = {11009},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204}}}}
         },
         [11030] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
@@ -2189,7 +2209,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11065] = {
             [questKeys.requiredLevel] = 70,
-            [questKeys.preQuestSingle] = {11010},
+            [questKeys.preQuestSingle] = {11010, 11102},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
         },
         [11066] = {

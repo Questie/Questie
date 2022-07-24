@@ -86,6 +86,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
     QuestieProfessions:Init()
+    coroutine.yield()
 
     -- check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
@@ -93,7 +94,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
 
         QuestieInit:LoadBaseDB()
-        _QuestieInit:OverrideDBWithTBCData()
 
         print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
@@ -113,9 +113,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         QuestieCorrections:PreCompile()
         QuestieDBCompiler:Compile()
     else
-        _QuestieInit:OverrideDBWithTBCData()
-
-        coroutine.yield()
         l10n:Initialize()
 
         coroutine.yield()
@@ -230,33 +227,10 @@ function QuestieInit:LoadDatabase(key)
 end
 
 function QuestieInit:LoadBaseDB()
-
-    -- load NPC data
     QuestieInit:LoadDatabase("npcData")
-    QuestieInit:LoadDatabase("npcDataTBC")
-
-    -- load object data
     QuestieInit:LoadDatabase("objectData")
-    QuestieInit:LoadDatabase("objectDataTBC")
-
-    -- load quest data
     QuestieInit:LoadDatabase("questData")
-    QuestieInit:LoadDatabase("questDataTBC")
-
-    -- load item data
     QuestieInit:LoadDatabase("itemData")
-    QuestieInit:LoadDatabase("itemDataTBC")
-
-end
-
-function _QuestieInit:OverrideDBWithTBCData()
-    if QuestieDB.questDataTBC then
-        -- we loaded the TBC db, alias the tables
-        QuestieDB.questData = QuestieDB.questDataTBC
-        QuestieDB.objectData = QuestieDB.objectDataTBC
-        QuestieDB.npcData = QuestieDB.npcDataTBC
-        QuestieDB.itemData = QuestieDB.itemDataTBC
-    end
 end
 
 

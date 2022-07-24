@@ -3,12 +3,6 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
-if (not isTBCClient) then
-    return
-end
-
 QuestieDB.itemKeys = {
     ['name'] = 1, -- string
     ['npcDrops'] = 2, -- table or nil, NPC IDs
@@ -27,7 +21,7 @@ QuestieDB.itemKeys = {
     ['relatedQuests'] = 15, -- table or nil, IDs of quests that are related to this item
 }
 
-QuestieDB.itemDataTBC = [[return {
+QuestieDB.itemData = [[return {
 [25] = {'Worn Shortsword',{19994,21382,23324,},nil,nil,nil,nil,nil,nil,2,1,0,2,7,nil,},
 [35] = {'Bent Staff',nil,nil,nil,nil,nil,nil,nil,2,1,0,2,10,nil,},
 [36] = {'Worn Mace',nil,nil,nil,nil,nil,nil,nil,2,1,0,2,4,nil,},

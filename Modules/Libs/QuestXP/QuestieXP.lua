@@ -13,11 +13,12 @@ local floor = floor
 
 ---@param xp number
 ---@param qLevel Level
+---@param ignorePlayerLevel boolean
 ---@return number
-local function getAdjustedXP(xp, qLevel)
+local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player");
     local expansionLevel = GetExpansionLevel();
-    if (charLevel == 60 + 10 * expansionLevel) then -- 60 for classic, 70 for tbc and 80 for wotlk
+    if (charLevel == 60 + 10 * expansionLevel and not ignorePlayerLevel) then -- 60 for classic, 70 for tbc and 80 for wotlk
         return 0;
     end
 
@@ -46,8 +47,9 @@ end
 
 ---Get the adjusted XP for a quest.
 ---@param questID QuestId
+---@param ignorePlayerLevel boolean
 ---@return number experience
-function QuestXP:GetQuestLogRewardXP(questID)
+function QuestXP:GetQuestLogRewardXP(questID, ignorePlayerLevel)
     -- Return 0 if quest ID is not found for some reason
     if (questID == nil) then return 0 end
     ---@type number
@@ -56,7 +58,7 @@ function QuestXP:GetQuestLogRewardXP(questID)
         local level = QuestXP.db[questID][1]
         local xp = QuestXP.db[questID][2]
 
-        adjustedXP = getAdjustedXP(xp, level)
+        adjustedXP = getAdjustedXP(xp, level, ignorePlayerLevel)
     end
     
     return adjustedXP

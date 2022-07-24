@@ -1,6 +1,6 @@
 ---@class DBCompiler
 local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
-local _QuestieDBCompiler = {}
+
 ---@type QuestieStreamLib
 local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
 ---@type QuestieDB
@@ -26,6 +26,7 @@ QuestieDBCompiler.supportedTypes = {
         ["u8u16array"] = true,
         ["u16u16array"] = true,
         ["u8s16pairs"] = true,
+        ["u8s24pairs"] = true,
         ["spawnlist"] = true,
         ["trigger"] = true,
         ["questgivers"] = true,
@@ -34,6 +35,7 @@ QuestieDBCompiler.supportedTypes = {
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
         ["u8u24array"] = true,
+        ["u16u24array"] = true,
         ["extraobjectives"] = true,
         ["reflist"] = true
     },
@@ -138,15 +140,37 @@ QuestieDBCompiler.readers = {
         return list
     end,
     ["u16u16array"] = function(stream)
-        local list = {}
         local count = stream:ReadShort()
+
+        if count == 0 then return nil end
+
+        local list = {}
         for i = 1, count do
             list[i] = stream:ReadShort()
         end
         return list
     end,
+    ["u8s24pairs"] = function(stream)
+        local list = {}
+        local count = stream:ReadByte()
+        for i = 1, count do
+            list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+        end
+        return list
+    end,
     ["u8u24array"] = function(stream)
         local count = stream:ReadByte()
+
+        if count == 0 then return nil end
+
+        local list = {}
+        for i = 1, count do
+            list[i] = stream:ReadInt24()
+        end
+        return list
+    end,
+    ["u16u24array"] = function(stream)
+        local count = stream:ReadShort()
 
         if count == 0 then return nil end
 
@@ -403,6 +427,18 @@ QuestieDBCompiler.writers = {
             stream:WriteShort(0)
         end
     end,
+    ["u8s24pairs"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _,v in pairs(value) do
+                stream:WriteInt24((v[1] or 0) + 8388608)
+                stream:WriteInt24((v[2] or 0) + 8388608)
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["u8u24array"] = function(stream, value)
         if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
@@ -412,6 +448,17 @@ QuestieDBCompiler.writers = {
             end
         else
             stream:WriteByte(0)
+        end
+    end,
+    ["u16u24array"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteShort(count)
+            for _,v in pairs(value) do
+                stream:WriteInt24(v)
+            end
+        else
+            stream:WriteShort(0)
         end
     end,
     ["u8u16stringarray"] = function(stream, value)
@@ -580,7 +627,9 @@ QuestieDBCompiler.skippers = {
     ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
     ["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end,
     ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
+    ["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end,
     ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
+    ["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
     ["waypointlist"]  = function(stream)
         local count = stream:ReadByte()
         for _ = 1, count do
@@ -657,7 +706,9 @@ QuestieDBCompiler.dynamics = {
     ["u8u16array"] = true,
     ["u8s16pairs"] = true,
     ["u16u16array"] = true,
+    ["u8s24pairs"] = true,
     ["u8u24array"] = true,
+    ["u16u24array"] = true,
     ["u8u16stringarray"] = true,
     ["spawnlist"] = true,
     ["trigger"] = true, 
@@ -744,7 +795,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
     local ret = {}
     local i = 0
     while i < count do
-        for e = 1, math.min(768, count-i) do -- steps per yield
+        for _ = 1, math.min(768, count-i) do -- steps per yield
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
@@ -806,10 +857,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                     Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, error = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                local result, errorMessage = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
                 if not result then
                     Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    Questie:Error(error)
+                    Questie:Error(errorMessage)
+                    error(errorMessage)
                 end
             end
             tbl[id] = nil -- quicker gabage collection later
@@ -852,14 +904,6 @@ function QuestieDBCompiler:Compile()
     end
     
     QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
-
-    local function DynamicHashTableSize(entries)
-        if (entries == 0) then
-          return 36;
-        else
-          return math.pow(2, math.ceil(math.log(entries) / math.log(2))) * 40 + 36;
-        end
-    end
 
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0

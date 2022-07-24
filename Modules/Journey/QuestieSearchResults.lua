@@ -262,15 +262,18 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local startQuests = {};
         local counter = 1;
         for _, v in pairs(questStarts) do
-            startQuests[counter] = {};
-            startQuests[counter].frame = AceGUI:Create("InteractiveLabel");
-            startQuests[counter].quest = QuestieDB:GetQuest(v);
-            startQuests[counter].frame:SetText(QuestieLib:GetColoredQuestName(startQuests[counter].quest.Id,  true, true));
-            startQuests[counter].frame:SetUserData('id', v);
-            startQuests[counter].frame:SetUserData('name', startQuests[counter].quest.name);
-            startQuests[counter].frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end)
-            startQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
-            startQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
+            local frame = AceGUI:Create("InteractiveLabel");
+            frame:SetUserData('id', v);
+            frame:SetUserData('name', startQuests[counter].quest.name);
+            frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end)
+            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
+            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
+            frame:SetText(QuestieLib:GetColoredQuestName(startQuests[counter].quest.Id,  true, true));
+
+            startQuests[counter] = {
+                frame = frame,
+                quest = QuestieDB:GetQuest(v)
+            };
             startGroup:AddChild(startQuests[counter].frame);
             counter = counter + 1;
         end
@@ -297,15 +300,18 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local endQuests = {};
         local counter = 1;
         for _, v in ipairs(questEnds) do
-            endQuests[counter] = {};
-            endQuests[counter].frame = AceGUI:Create("InteractiveLabel");
-            endQuests[counter].quest = QuestieDB:GetQuest(v);
-            endQuests[counter].frame:SetText(QuestieLib:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
-            endQuests[counter].frame:SetUserData('id', v);
-            endQuests[counter].frame:SetUserData('name', endQuests[counter].quest.name);
-            endQuests[counter].frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end);
-            endQuests[counter].frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
-            endQuests[counter].frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
+            local frame = AceGUI:Create("InteractiveLabel");
+            frame:SetText(QuestieLib:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
+            frame:SetUserData('id', v);
+            frame:SetUserData('name', endQuests[counter].quest.name);
+            frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame('quest', v) end);
+            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
+            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
+
+            endQuests[counter] = {
+                frame = frame,
+                quest = QuestieDB:GetQuest(v)
+            };
             endGroup:AddChild(endQuests[counter].frame);
             counter = counter + 1;
         end
@@ -433,12 +439,13 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
             ["item"] = "Items",
         }
         local resultCountTotal = 0
-        local resultCounts = {}
-        resultCounts.total = 0
-        resultCounts.quest = 0
-        resultCounts.npc = 0
-        resultCounts.object = 0
-        resultCounts.item = 0
+        local resultCounts = {
+            total = 0,
+            quest = 0,
+            npc = 0,
+            object = 0,
+            item = 0
+        }
         for type,_ in pairs(resultTypes) do
             for _,_ in pairs(results[type]) do
                 resultCountTotal = resultCountTotal + 1
