@@ -22,15 +22,16 @@ local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
         return 0;
     end
 
-    local diffFactor = 2 * (qLevel - charLevel) + 20;
-    if (diffFactor < 1) then
-        diffFactor = 1;
-    elseif (diffFactor > 10) then
-        diffFactor = 10;
+    --? These calculations are fetched from cmangos
+    local xpMultiplier = 2 * (qLevel - charLevel) + 20;
+    if (xpMultiplier < 1) then
+        xpMultiplier = 1;
+    elseif (xpMultiplier > 10) then
+        xpMultiplier = 10;
     end
 
-    xp = xp * diffFactor / 10;
-    --? I am unsure if the first xp <= 100 is actually correct...
+    xp = xp * xpMultiplier / 10;
+    --? I am unsure if the first xp <= 100 is actually correct... because some 85 xp quests should actually give 90
     if (xp <= 100) then
         xp = 5 * floor((xp + 2) / 5);
     elseif (xp <= 500) then
