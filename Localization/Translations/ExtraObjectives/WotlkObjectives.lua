@@ -230,6 +230,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Equip Keleseth's Persuaders and persuade Scarlet Crusaders"] = { -- 12720
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Rüste Keleseths Überzeuger aus und überzeuge Scharlachrote Soldaten",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
