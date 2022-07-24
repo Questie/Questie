@@ -266,6 +266,30 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Talk to Highlord Darion Mograine"] = { -- 12801
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Sprich mit Hochlord Darion Mograine",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["The Light of Dawn Uncovered"] = { -- 12801
+        ["ptBR"] = "A Luz da Aurora descoberta",
+        ["ruRU"] = "Сияние рассвета найдено",
+        ["deDE"] = "Das Licht der Morgendämmerung gefunden",
+        ["koKR"] = "새벽의 빛 드러내기",
+        ["esMX"] = "La luz del alba descubierta",
+        ["enUS"] = true,
+        ["frFR"] = "Lumière de l'Aube découverte",
+        ["esES"] = "La luz del alba descubierta",
+        ["zhTW"] = false,
+        ["zhCN"] = "揭开黎明之光的秘密",
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do

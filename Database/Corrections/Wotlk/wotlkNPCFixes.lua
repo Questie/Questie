@@ -45,5 +45,8 @@ function QuestieWotlkNpcFixes:Load()
         [28912] = {
             [npcKeys.waypoints] = {},
         },
+        [29173] = {
+            [npcKeys.waypoints] = {},
+        },
     }
 end
