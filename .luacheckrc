@@ -2748,6 +2748,7 @@ globals = {
     "ICON_TYPE_AVAILABLE",
     "ICON_TYPE_AVAILABLE_GRAY",
     "ICON_TYPE_REPEATABLE",
+    "ICON_TYPE_TALK",
     "Questie_Toggle",
     "stderr",
 }

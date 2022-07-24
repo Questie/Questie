@@ -81,7 +81,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Fjord Rock Falcon Fed",{[zoneIDs.HOWLING_FJORD]={{75.26,64.91,},},},},
         },
         [11466] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Talk to Olga"), 0, {{"monster", 24639}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Olga"), 0, {{"monster", 24639}}}},
         },
         [11471] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Fight Jonah"), 0, {{"monster", 24742}}}},
@@ -323,7 +323,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12801] = {
             [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_EVENT, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}},
+                {nil, ICON_TYPE_TALK, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}},
                 {{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{38.8,38.4}}}, ICON_TYPE_EVENT, l10n("The Light of Dawn Uncovered"),},
             },
         },
