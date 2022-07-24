@@ -373,18 +373,6 @@ function QuestieStreamLib:_ReadShortString_raw()
     return stringsub(self._bin, p, p+length-1)
 end
 
-function QuestieStreamLib:WriteBytes(...)
-    for _,val in pairs({...}) do
-        self:WriteByte(val)
-    end
-end
-
-function QuestieStreamLib:WriteShorts(...)
-    for _,val in pairs({...}) do
-        self:WriteShort(val)
-    end
-end
-
 function QuestieStreamLib:_WriteShort(val)
     --print("wshort: " .. val);
     self:WriteByte(mod(rshift(val, 8), 256));
