@@ -309,6 +309,9 @@ function QuestieWotlkQuestFixes:Load()
         [12721] = {
             [questKeys.triggerEnd] = {"Akali unfettered from his chains.",{[zoneIDs.ZUL_DRAK]={{78.64,25.11,},},},},
         },
+        [12723] = {
+            [questKeys.preQuestGroup] = {12717,12720,12722},
+        },
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{28391,28394,28406},28391,"Death Knights defeated in a duel"},},
         },
