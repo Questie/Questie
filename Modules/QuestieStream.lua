@@ -138,7 +138,7 @@ end
 function QuestieStreamLib:_writeByte_assert(val)
     assert(type(val) == "number", "Not a number")
     assert(val >= 0, "Underflow")
-    assert(val <= 255, "Overflow")
+    assert(val <= 255, "Overflow") -- 8 bits
     self:_writeByte(val)
 end
 
@@ -394,7 +394,7 @@ end
 function QuestieStreamLib:_WriteShort_assert(val)
     assert(type(val) == "number", "Not a number")
     assert(val >= 0, "Underflow")
-    assert(val <= 65535, "Overflow")
+    assert(val <= 65535, "Overflow") -- 16 bits
     self:_WriteShort(val)
 end
 
@@ -408,7 +408,7 @@ end
 function QuestieStreamLib:_WriteInt_assert(val)
     assert(type(val) == "number", "Not a number")
     assert(val >= 0, "Underflow")
-    assert(val <= 4294967295, "Overflow")
+    assert(val <= 4294967295, "Overflow") -- 32 bits
     self:_WriteInt(val)
 end
 
@@ -422,7 +422,7 @@ end
 function QuestieStreamLib:_WriteInt24_assert(val)
     assert(type(val) == "number", "Not a number")
     assert(val >= 0, "Underflow")
-    assert(val <= 16777215, "Overflow")
+    assert(val <= 16777215, "Overflow") -- 24 bits
     self:_WriteInt24(val)
 end
 
@@ -435,11 +435,11 @@ end
 function QuestieStreamLib:_WriteInt12Pair_assert(val1, val2)
     assert(type(val1) == "number", "Not a number")
     assert(val1 >= 0, "Underflow")
-    assert(val1 <= 4095, "Overflow")
+    assert(val1 <= 4095, "Overflow") -- 12 bits
 
     assert(type(val2) == "number", "Not a number")
     assert(val2 >= 0, "Underflow")
-    assert(val2 <= 4095, "Overflow")
+    assert(val2 <= 4095, "Overflow") -- 12 bits
 
     self:_WriteInt12Pair(val1, val2)
 end
@@ -458,7 +458,7 @@ end
 function QuestieStreamLib:_WriteLong_assert(val)
     assert(type(val) == "number", "Not a number")
     assert(val >= 0, "Underflow")
-    assert(val <= 18446744073709551615, "Overflow")
+    assert(val <= 18446744073709551615, "Overflow") -- 64 bits
 
     self:_WriteLong(val)
 end
