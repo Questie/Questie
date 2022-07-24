@@ -20,10 +20,12 @@ Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
-LibsOnlyTBC\LibQuestXP\LibQuestXP.xml
-
 # Loader module
 Modules\Libs\QuestieLoader.lua
+
+#Quest XP
+Modules\Libs\QuestXP\QuestieXP.lua
+Modules\Libs\QuestXP\DB\QuestXPDB-tbc.lua
 
 # stream module (used by DB)
 Modules\QuestieStream.lua
