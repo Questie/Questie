@@ -14,7 +14,7 @@ local floor = floor
 ---@param xp number
 ---@param qLevel Level
 ---@param ignorePlayerLevel boolean
----@return number
+---@return number experiance
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player");
     local expansionLevel = GetExpansionLevel();
@@ -59,8 +59,11 @@ function QuestXP:GetQuestLogRewardXP(questID, ignorePlayerLevel)
         local level = QuestXP.db[questID][1]
         local xp = QuestXP.db[questID][2]
 
-        adjustedXP = getAdjustedXP(xp, level, ignorePlayerLevel)
+        --? We have -1 as a level for quests that are event quests and so on for TBC and WOTLK.
+        if level > 0 and xp > 0 then
+            adjustedXP = getAdjustedXP(xp, level, ignorePlayerLevel)
+        end
     end
-    
+
     return adjustedXP
 end
