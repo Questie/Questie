@@ -242,6 +242,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use the Makeshift Cover"] = { -- 12754
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze die Behelfsmäßige Deckung",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
