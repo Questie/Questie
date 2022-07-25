@@ -1203,6 +1203,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
+                    return nil
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1228,8 +1229,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 if override then
                     local ret = {}
                     for index=1,#keys do
-                        local key = keys[index]
-                        local rootIndex = keyToRootIndex[key]
+                        local rootIndex = keyToRootIndex[keys[index]]
                         if rootIndex and override[rootIndex] ~= nil then
                             ret[index] = override[rootIndex]
                         end
@@ -1253,13 +1253,13 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         local targetIndex = keyToIndex[key]
                         if targetIndex == nil then
                             Questie:Error("ERROR: Unhandled db key: " .. key)
+                            return nil
                         end
                         for i = lastIndex, targetIndex-1 do
                             QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                         end
                     end
-                    local res = QuestieDBCompiler.readers[typ](stream)
-                    ret[index] = res
+                    ret[index] = QuestieDBCompiler.readers[typ](stream)
                 end
             end
             return ret--unpack(ret)
@@ -1279,6 +1279,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
+                    return nil
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1305,13 +1306,13 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     local targetIndex = keyToIndex[key]
                     if targetIndex == nil then
                         Questie:Error("ERROR: Unhandled db key: " .. key)
+                        return nil
                     end
                     for i = lastIndex, targetIndex-1 do
                         QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                     end
                 end
-                local res = QuestieDBCompiler.readers[typ](stream)
-                ret[index] = res
+                ret[index] = QuestieDBCompiler.readers[typ](stream)
             end
             return ret--unpack(ret)
         end
