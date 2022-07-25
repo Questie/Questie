@@ -53,6 +53,9 @@ function QuestieTBCQuestFixes:Load()
         [349] = {
             [questKeys.objectivesText] = {"Speak with Witch Doctor Unbagwa.",},
         },
+        [364] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36}}}},
         },
