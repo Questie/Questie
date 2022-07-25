@@ -776,7 +776,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                 quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
                 quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
             else
-                Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
+                Questie:Error("Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
             end
         end
     end
