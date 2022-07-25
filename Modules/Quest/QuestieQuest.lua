@@ -186,7 +186,6 @@ function QuestieQuest:ClearAllNotes()
                 s.AlreadySpawned = {}
             end
         end
-        quest.SpecialObjectives = {}
     end
 
     for _, frameList in pairs(QuestieMap.questIdFrames) do
