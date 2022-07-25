@@ -24,8 +24,8 @@ Libs\HereBeDragons\HereBeDragons-Migrate.lua
 Modules\Libs\QuestieLoader.lua
 
 #Quest XP
-Database\QuestXP\QuestXP\QuestieXP.lua
-Database\QuestXP\QuestXP\DB\xpDB-wotlk.lua
+Database\QuestXP\QuestieXP.lua
+Database\QuestXP\DB\xpDB-wotlk.lua
 
 # stream module (used by DB)
 Modules\QuestieStream.lua
