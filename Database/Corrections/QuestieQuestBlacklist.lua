@@ -1056,9 +1056,26 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        -- Phase 4 Icecrown Citadel
+        --- Phase 3 Trial of the Crusader
+        [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
+
+        --- Phase 4 Icecrown Citadel
         [24506] = true, -- Inside the Frozen Citadel
         [26012] = true, -- Trouble at Wyrmrest
+
+        -- new raid weekly quests
+        [24579] = true,
+        [24580] = true,
+        [24581] = true,
+        [24582] = true,
+        [24583] = true,
+        [24584] = true,
+        [24585] = true,
+        [24586] = true,
+        [24587] = true,
+        [24588] = true,
+        [24589] = true,
+        [24590] = true,
     }
 
     if Questie.IsSoM then

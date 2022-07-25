@@ -383,6 +383,54 @@ function QuestieWotlkQuestFixes:Load()
         [13141] = {
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[3711]={{80.06,71.81,},},},},
         },
+        [13240] = {
+            [questKeys.startedBy] = {{31439},nil,nil},
+        },
+        [13241] = {
+            [questKeys.startedBy] = {{31439},nil,nil},
+        },
+        [13243] = {
+            [questKeys.startedBy] = {{31439},nil,nil},
+        },
+        [13244] = {
+            [questKeys.startedBy] = {{31439},nil,nil},
+        },
+        [13245] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13246] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13247] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13248] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13249] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13250] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13251] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13252] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13253] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13254] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13255] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
+        [13256] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+        },
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
         },
