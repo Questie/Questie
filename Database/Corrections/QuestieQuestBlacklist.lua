@@ -292,7 +292,7 @@ function QuestieQuestBlacklist:Load()
         [8983] = true,
         [8984] = true,
         -- TBC event quests
-        [9249] = QuestieCorrections.TBC_ONLY,
+        [9249] = true,
         [10938] = true,
         [10939] = true,
         [10940] = true,
@@ -592,9 +592,6 @@ function QuestieQuestBlacklist:Load()
         [12421] = true,
         ----------------
         --- Wotlk event quests
-        --- Darkmoon Faire
-        [9249] = true,
-
         --- Noblegarden
         [13479] = true,
         [13503] = true,
