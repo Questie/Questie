@@ -10,7 +10,6 @@ local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-800
 local band = bit.band
 local lshift = bit.lshift
 local rshift = bit.rshift
-local mod = mod
 local stringchar = string.char
 local stringbyte = string.byte
 local stringsub = string.sub
@@ -173,7 +172,7 @@ function QuestieStreamLib:_WriteByte_b89(e)
         self._level = level
         self:_writeByte(QSL_ltab[level])
     end
-    local chr = mod(e, 86) + 33
+    local chr = (e % 86) + 33
     if QSL_ttab[chr] then
         self:_writeByte(QSL_ttab[chr])
     else
@@ -219,20 +218,6 @@ function QuestieStreamLib:_ReadByte_raw()
     self._pointer = p + 1
     return stringbyte(self._bin, p)
 end
-
--- this is now set in GetStream based on type
---function QuestieStreamLib:ReadByte()
---    local r = self._buffer[self._pointer];
---    self._pointer = self._pointer + 1;
---    return r
---end
---function QuestieStreamLib:WriteByte(val)
---    --print("wbyte: " .. val);
---    self._buffer[self._pointer] = mod(val, 256);
---    --print("wbyte: " .. _buffer[_pointer]);
---    self._pointer = self._pointer + 1;
---end
-
 
 function QuestieStreamLib:ReadBytes(count)
     local ret = {};
@@ -373,22 +358,10 @@ function QuestieStreamLib:_ReadShortString_raw()
     return stringsub(self._bin, p, p+length-1)
 end
 
-function QuestieStreamLib:WriteBytes(...)
-    for _,val in pairs({...}) do
-        self:WriteByte(val)
-    end
-end
-
-function QuestieStreamLib:WriteShorts(...)
-    for _,val in pairs({...}) do
-        self:WriteShort(val)
-    end
-end
-
 function QuestieStreamLib:_WriteShort(val)
     --print("wshort: " .. val);
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
 end
 
 function QuestieStreamLib:_WriteShort_assert(val)
@@ -399,10 +372,10 @@ function QuestieStreamLib:_WriteShort_assert(val)
 end
 
 function QuestieStreamLib:_WriteInt(val)
-    self:WriteByte(mod(rshift(val, 24), 256));
-    self:WriteByte(mod(rshift(val, 16), 256));
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+    self:WriteByte(rshift(val, 24) % 256);
+    self:WriteByte(rshift(val, 16) % 256);
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
 end
 
 function QuestieStreamLib:_WriteInt_assert(val)
@@ -414,9 +387,9 @@ end
 
 function QuestieStreamLib:_WriteInt24(val)
     --print("wi24: " .. val);
-    self:WriteByte(mod(rshift(val, 16), 256));
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+    self:WriteByte(rshift(val, 16) % 256);
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
 end
 
 function QuestieStreamLib:_WriteInt24_assert(val)
@@ -428,8 +401,8 @@ end
 
 function QuestieStreamLib:_WriteInt12Pair(val1, val2)
     self:WriteByte(band(rshift(val1, 8), 15) + lshift(band(rshift(val2, 8), 15), 4))
-    self:WriteByte(mod(val1, 256))
-    self:WriteByte(mod(val2, 256))
+    self:WriteByte(val1 % 256)
+    self:WriteByte(val2 % 256)
 end
 
 function QuestieStreamLib:_WriteInt12Pair_assert(val1, val2)
@@ -445,14 +418,14 @@ function QuestieStreamLib:_WriteInt12Pair_assert(val1, val2)
 end
 
 function QuestieStreamLib:_WriteLong(val)
-    self:WriteByte(mod(rshift(val, 56), 256));
-    self:WriteByte(mod(rshift(val, 48), 256));
-    self:WriteByte(mod(rshift(val, 40), 256));
-    self:WriteByte(mod(rshift(val, 32), 256));
-    self:WriteByte(mod(rshift(val, 24), 256));
-    self:WriteByte(mod(rshift(val, 16), 256));
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+    self:WriteByte(rshift(val, 56) % 256);
+    self:WriteByte(rshift(val, 48) % 256);
+    self:WriteByte(rshift(val, 40) % 256);
+    self:WriteByte(rshift(val, 32) % 256);
+    self:WriteByte(rshift(val, 24) % 256);
+    self:WriteByte(rshift(val, 16) % 256);
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
 end
 
 function QuestieStreamLib:_WriteLong_assert(val)
