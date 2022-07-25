@@ -61,6 +61,7 @@ def main():
 
     interface_classic = get_interface_version()
     interface_bcc = get_interface_version('BCC')
+    interface_wotlk = get_interface_version('WOTLKC')
 
     with open(release_folder_path + '/release.json', 'w') as rf:
         rf.write('''{
@@ -76,11 +77,15 @@ def main():
                 {
                     "flavor": "bcc",
                     "interface": %s
+                },
+                {
+                    "flavor": "wotlk",
+                    "interface": %s
                 }
             ]
         }
     ]
-}''' % (zip_name, interface_classic, interface_bcc))
+}''' % (zip_name, interface_classic, interface_bcc, interface_wotlk))
 
     print('New release "%s" created successfully' % release_dir)
 
