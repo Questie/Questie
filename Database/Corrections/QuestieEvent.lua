@@ -810,6 +810,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A W
 --- Wotlk event quests
 
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13479}) -- The Great Egg Hunt
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13480}) -- The Great Egg Hunt
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13502}) -- A Tisket, a Tasket, a Noblegarden Basket
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13503}) -- A Tisket, a Tasket, a Noblegarden Basket
 
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 14488}) -- You've Been Served
@@ -824,6 +826,7 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24615}) -- A Gift for t
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24629}) -- A Perfect Puff of Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24635}) -- A Cloudlet of Classy Cologne
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24636}) -- Bonbon Blitz
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Scents
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
@@ -833,5 +836,11 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13472}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13473}) -- Candy Bucket
 
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12784}) -- Desperate Research
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12808}) -- A Desperate Alliance
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13483}) -- Spring Gatherers
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14036}) -- Pilgrim's Bounty
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14022}) -- Pilgrim's Bounty
+
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir.
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir.

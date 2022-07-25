@@ -594,6 +594,8 @@ function QuestieQuestBlacklist:Load()
         --- Wotlk event quests
         --- Noblegarden
         [13479] = true,
+        [13480] = true,
+        [13502] = true,
         [13503] = true,
 
         --- Love is in the Air
@@ -609,6 +611,7 @@ function QuestieQuestBlacklist:Load()
         [24629] = true,
         [24635] = true,
         [24636] = true,
+        [24804] = true,
 
         --- Children's Week
         [13926] = true,
@@ -621,9 +624,16 @@ function QuestieQuestBlacklist:Load()
 
         --- Pilgrim's Bounty
         [12784] = true,
+        [12808] = true,
         [13483] = true,
+        [13484] = true,
         [14036] = true,
-        ----------------
+        [14022] = true,
+
+        --- Brewfest
+        [13931] = true,
+        [13932] = true,
+        -------------------
 
         --mount replacement
         [7662] = true,
