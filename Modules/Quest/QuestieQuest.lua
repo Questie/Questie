@@ -1334,6 +1334,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                 end
             else
                 timer:Cancel()
+                -- UpdateAddOnCPUUsage(); print("Questie CPU usage:", GetAddOnCPUUsage("Questie")) -- Do not remove even commented out. Useful for performance testing.
                 if callback ~= nil then
                     callback()
                 end
