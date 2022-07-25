@@ -29,8 +29,8 @@ end
 
 QuestieDB.npcCompilerTypes = {
     ['name'] = "u8string",
-    ['minLevelHealth'] = "u24",
-    ['maxLevelHealth'] = "u24",
+    ['minLevelHealth'] = "u32",
+    ['maxLevelHealth'] = "u32",
     ['minLevel'] = "u8",
     ['maxLevel'] = "u8",
     ['rank'] = "u8",
