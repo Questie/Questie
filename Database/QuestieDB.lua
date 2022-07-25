@@ -582,15 +582,6 @@ function QuestieDB:IsDoable(questId)
         return false
     end
 
-    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-
-    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
-        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
-        return isPreQuestGroupFulfilled
-    end
-
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
@@ -598,6 +589,15 @@ function QuestieDB:IsDoable(questId)
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
         return isPreQuestSingleFulfilled
+    end
+
+    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+
+    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+    if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
+        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        return isPreQuestGroupFulfilled
     end
 
     return true
