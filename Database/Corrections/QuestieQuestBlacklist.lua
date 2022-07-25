@@ -1052,6 +1052,13 @@ function QuestieQuestBlacklist:Load()
         -- Phase 4 Zul'Aman
         [11195] = true, -- Not in the game
         [11196] = true, -- Not in the game
+
+        ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
+        ----- Wotlk ------------- starting here -------------- Wotlk -----
+
+        -- Phase 4 Icecrown Citadel
+        [24506] = true, -- Inside the Frozen Citadel
+        [26012] = true, -- Trouble at Wyrmrest
     }
 
     if Questie.IsSoM then
