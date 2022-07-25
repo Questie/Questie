@@ -25,7 +25,7 @@ Modules\Libs\QuestieLoader.lua
 
 #Quest XP
 Modules\Libs\QuestXP\QuestieXP.lua
-Modules\Libs\QuestXP\DB\QuestXPDB-classic.lua
+Modules\Libs\QuestXP\DB\xpDB-classic.lua
 
 # stream module (used by DB)
 Modules\QuestieStream.lua
