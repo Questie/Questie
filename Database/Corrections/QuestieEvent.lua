@@ -241,6 +241,10 @@ QuestieEvent.eventDates = {
         startDate = "17/9",
         endDate = "24/9"
     },
+    ["Pilgrim's Bounty"] = {
+        startDate = "17/9",
+        endDate = "24/9"
+    },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
     ["Winter Veil"] = {startDate = "15/12", endDate = "2/1"}
@@ -251,6 +255,7 @@ QuestieEvent.eventDates = {
 QuestieEvent.eventDateCorrections = {
     ["CLASSIC"] = {
         ["Brewfest"] = false,
+        ["Pilgrim's Bounty"] = false,
     },
     ["TBC"] = {
     },
@@ -801,3 +806,34 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11970}) -- The Master of Summer 
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A Winter Veil Gift
+
+--- Wotlk event quests
+
+tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 9249}) -- 40 Tickets - Schematic: Steam Tonk Controller
+
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13479}) -- The Great Egg Hunt
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13503}) -- A Tisket, a Tasket, a Noblegarden Basket
+
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 14488}) -- You've Been Served
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24597}) -- A Gift for the King of Stormwind
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24609}) -- A Gift for the Lord of Ironforge
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24610}) -- A Gift for the High Priestess of Elune
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24611}) -- A Gift for the Prophet
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24612}) -- A Gift for the Warchief
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24613}) -- A Gift for the Banshee Queen
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24614}) -- A Gift for the High Chieftain
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24615}) -- A Gift for the Regent Lord of Quel'Thalas
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24629}) -- A Perfect Puff of Perfume
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24635}) -- A Cloudlet of Classy Cologne
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24636}) -- Bonbon Blitz
+
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
+
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13463}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13472}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13473}) -- Candy Bucket
+
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12784}) -- Desperate Research
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13483}) -- Spring Gatherers
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14036}) -- Pilgrim's Bounty

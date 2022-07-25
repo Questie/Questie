@@ -48,5 +48,17 @@ function QuestieWotlkNpcFixes:Load()
         [29173] = {
             [npcKeys.waypoints] = {},
         },
+        [38042] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},
+        },
+        [38043] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{64.6,66.2}},},
+        },
+        [38044] = {
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{44,52.8}},},
+        },
+        [38045] = {
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.6,38.6}},},
+        },
     }
 end

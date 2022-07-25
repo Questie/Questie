@@ -620,5 +620,29 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{29.8,75.7}},
             }},
         },
+        [24597] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [24609] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [24610] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [24611] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [24612] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24613] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24614] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24615] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
     }
 end

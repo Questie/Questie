@@ -591,6 +591,42 @@ function QuestieQuestBlacklist:Load()
         [12420] = true,
         [12421] = true,
         ----------------
+        --- Wotlk event quests
+        --- Darkmoon Faire
+        [9249] = true,
+
+        --- Noblegarden
+        [13479] = true,
+        [13503] = true,
+
+        --- Love is in the Air
+        [14488] = true,
+        [24597] = true,
+        [24609] = true,
+        [24610] = true,
+        [24611] = true,
+        [24612] = true,
+        [24613] = true,
+        [24614] = true,
+        [24615] = true,
+        [24629] = true,
+        [24635] = true,
+        [24636] = true,
+
+        --- Children's Week
+        [13926] = true,
+        [13927] = true,
+
+        --- Hallow's End
+        [13463] = true,
+        [13472] = true,
+        [13473] = true,
+
+        --- Pilgrim's Bounty
+        [12784] = true,
+        [13483] = true,
+        [14036] = true,
+        ----------------
 
         --mount replacement
         [7662] = true,
