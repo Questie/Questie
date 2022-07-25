@@ -819,11 +819,23 @@ end
 function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, databaseKey, kind, entriesPerTick)
     local count = 0
     local indexLookup = {};
+
+    local max_id = 0
     for id in pairs(tbl) do
-        count = count + 1
-        indexLookup[count] = id
+        assert(type(id) == "number", "CompileTableCoroutine: tbl id is not a number")
+        if id > max_id then
+            max_id = id
+        end
+    end
+    -- iterate table tbl in numerical order to get ids in order to indexLoopup list. iterating over pairs(tbl) gives ids in non determined order
+    for id=0,max_id do
+        if tbl[id] then
+            count = count + 1
+            indexLookup[count] = id
+        end
     end
     count = count + 1
+
     QuestieDBCompiler.index = 0
 
     QuestieDBCompiler.pointerMap = {}
