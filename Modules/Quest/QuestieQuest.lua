@@ -55,6 +55,10 @@ local ipairs = ipairs;
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 local NOP_FUNCTION = function() end
+local ERR_FUNCTION = function(err)
+    print(err)
+    print(debugstack())
+end
 
 -- forward declaration
 local _UnloadAlreadySpawnedIcons
@@ -206,10 +210,7 @@ local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-                print(err)
-                print(debugstack())
-            end, QuestieQuest, quest, 0, objective, true);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
@@ -543,10 +544,7 @@ end
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
-        local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-            print(err)
-            print(debugstack())
-        end, QuestieQuest, quest, objectiveIndex, objective, false);
+        local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, objective, false)
         if (not result) then
             Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestieQuest] There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err)
         end
@@ -1014,10 +1012,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-                print(err)
-                print(debugstack())
-            end, QuestieQuest, quest, index, objective, true);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, index, objective, true)
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
