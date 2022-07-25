@@ -21,8 +21,6 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 
 
 function Questie:OnInitialize()
-    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
-
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
