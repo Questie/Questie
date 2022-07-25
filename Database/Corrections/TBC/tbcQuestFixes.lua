@@ -174,6 +174,9 @@ function QuestieTBCQuestFixes:Load()
         [2280] = {
             [questKeys.requiredLevel] = 40,
         },
+        [2381] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [2501] = {
             [questKeys.zoneOrSort] = -181,
         },
