@@ -1,6 +1,6 @@
 ---@class QuestieInit
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
-local _QuestieInit = {}
+local _QuestieInit = QuestieInit.private
 
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -52,6 +52,24 @@ local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
 local Hooks = QuestieLoader:ImportModule("Hooks")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieCoords
+local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieQuestTimers
+local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieSlash
+local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 
 
 
@@ -62,6 +80,10 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 QuestieInit.Stages = {}
 
 QuestieInit.Stages[1] = function() -- run as a coroutine
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
+
+    MinimapIcon:Init()
+
     HBDHooks:Init()
 
     QuestieFramePool:SetIcons()
@@ -74,8 +96,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     end
 
     QuestieShutUp:ToggleFilters(Questie.db.global.questieShutUp)
-
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
 
     coroutine.yield()
     ZoneDB:Initialize()
@@ -140,8 +160,60 @@ QuestieInit.Stages[2] = function() -- not a coroutine
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 3 start.")
+
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
+
+    -- ** OLD ** Questie:ContinueInit() ** START **
+    QuestieTooltips:Initialize()
+    QuestieCoords:Initialize()
+    QuestieQuestTimers:Initialize()
+    QuestieCombatQueue:Initialize()
+    QuestieComms:Initialize()
+
+    QuestieSlash.RegisterSlashCommands()
+
+    QuestieOptions:Initialize()
+
+    --Initialize the DB settings.
+    Questie:Debug(Questie.DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
+
+
+    -- Update the default text on the map show/hide button for localization
+    if Questie.db.char.enabled then
+        Questie_Toggle:SetText(l10n("Hide Questie"));
+    else
+        Questie_Toggle:SetText(l10n("Show Questie"));
+    end
+
+    -- Update status of Map button on hide between play sessions
+    if Questie.db.global.mapShowHideEnabled then
+        Questie_Toggle:Show();
+    else
+        Questie_Toggle:Hide();
+    end
+
+    -- Change position of Map button when continent dropdown is hidden
+    C_Timer.After(1, function()
+        if not WorldMapContinentDropDown:IsShown() then
+            Questie_Toggle:ClearAllPoints();
+            if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
+                AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
+                AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
+                Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
+            else
+                Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
+            end
+        end
+    end)
+
+    if Questie.db.global.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
+    -- ** OLD ** Questie:ContinueInit() ** END **
+
+
     QuestEventHandler:RegisterEvents()
     ChatFilter:RegisterEvents()
     coroutine.yield()
@@ -208,6 +280,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
             Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
         end
     end
+
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")
 end
 
 -- End of QuestieInit.Stages ******************************************************
