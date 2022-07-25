@@ -827,7 +827,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     QuestieDBCompiler.index = 0
 
     QuestieDBCompiler.pointerMap = {}
-    QuestieDBCompiler.stream = QuestieStream:GetStream("raw")
+    QuestieDBCompiler.stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
 
     while true do
         coroutine.yield()
@@ -836,10 +836,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
             if QuestieDBCompiler.index == count then
                 Questie.db.global[databaseKey.."Bin"] = QuestieDBCompiler.stream:Save()
                 Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
+                QuestieDBCompiler.stream:finished() -- relief memory pressure
                 return
             end
             local id = indexLookup[QuestieDBCompiler.index]
-            
+
             QuestieDBCompiler.currentEntry = id
             local entry = tbl[id]
 
@@ -902,7 +903,7 @@ function QuestieDBCompiler:Compile()
     if QuestieDBCompiler._isCompiling then
         return
     end
-    
+
     QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
 
     QuestieDBCompiler.startTime = GetTime()
@@ -972,7 +973,8 @@ function QuestieDBCompiler:ValidateNPCs()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished NPC validation without issues!")
+    validator.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateObjects()
@@ -1008,7 +1010,8 @@ function QuestieDBCompiler:ValidateObjects()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished validation without issues!")
+    validator.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
 end
 
 
@@ -1024,6 +1027,7 @@ function QuestieDBCompiler:ValidateItems()
             for _, oid in pairs(objDrops) do
                 if not obj.QuerySingle(oid, "name") then
                     Questie:Error("Missing object " .. tostring(oid) .. " that drops " .. (validator.QuerySingle(id, "name") or "Missing item name!") .. " " .. tostring(id))
+                    return
                 end
             end
         end
@@ -1033,6 +1037,7 @@ function QuestieDBCompiler:ValidateItems()
                 --print("Validating npcs")
                 if not npc.QuerySingle(nid, "name") then
                     Questie:Error("Missing npc " .. tostring(nid))
+                    return
                 end
             end
         end
@@ -1067,7 +1072,10 @@ function QuestieDBCompiler:ValidateItems()
         --end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished Item validation without issues!")
+    validator.stream:finished()
+    obj.stream:finished()
+    npc.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished items validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateQuests()
@@ -1103,7 +1111,8 @@ function QuestieDBCompiler:ValidateQuests()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished Quest validation without issues!")
+    validator.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished quests validation without issues!")
 end
 
 function QuestieDBCompiler:Initialize()
@@ -1172,6 +1181,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     --Questie.db.global.__pointers = pointers
     coroutine.yield()
     stream:Load(data)
+    handle.stream = stream
 
     if overrides then
         handle.QuerySingle = function(id, key)
@@ -1193,6 +1203,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
+                    return nil
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1213,11 +1224,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             --end
             local ptr = pointers[id]
             local override = overrides[id]
+            local keys = {...}
             if ptr == nil then
                 if override then
                     local ret = {}
-                    for index,key in pairs({...}) do
-                        local rootIndex = keyToRootIndex[key]
+                    for index=1,#keys do
+                        local rootIndex = keyToRootIndex[keys[index]]
                         if rootIndex and override[rootIndex] ~= nil then
                             ret[index] = override[rootIndex]
                         end
@@ -1227,7 +1239,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 return nil
             end
             local ret = {}
-            for index,key in pairs({...}) do
+            for index=1,#keys do
+                local key = keys[index]
                 local rootIndex = keyToRootIndex[key]
                 if override and rootIndex and override[rootIndex] ~= nil then
                     ret[index] = override[rootIndex]
@@ -1240,13 +1253,13 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         local targetIndex = keyToIndex[key]
                         if targetIndex == nil then
                             Questie:Error("ERROR: Unhandled db key: " .. key)
+                            return nil
                         end
                         for i = lastIndex, targetIndex-1 do
                             QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                         end
                     end
-                    local res = QuestieDBCompiler.readers[typ](stream)
-                    ret[index] = res
+                    ret[index] = QuestieDBCompiler.readers[typ](stream)
                 end
             end
             return ret--unpack(ret)
@@ -1266,6 +1279,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 local targetIndex = keyToIndex[key]
                 if targetIndex == nil then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
+                    return nil
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1280,8 +1294,10 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 --print("Entry not found! " .. id)
                 return nil
             end
+            local keys = {...}
             local ret = {}
-            for index,key in pairs({...}) do
+            for index=1,#keys do
+                local key = keys[index]
                 local typ = types[key]
                 if map[key] ~= nil then -- can skip directly
                     stream._pointer = map[key] + ptr
@@ -1290,13 +1306,13 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     local targetIndex = keyToIndex[key]
                     if targetIndex == nil then
                         Questie:Error("ERROR: Unhandled db key: " .. key)
+                        return nil
                     end
                     for i = lastIndex, targetIndex-1 do
                         QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                     end
                 end
-                local res = QuestieDBCompiler.readers[typ](stream)
-                ret[index] = res
+                ret[index] = QuestieDBCompiler.readers[typ](stream)
             end
             return ret--unpack(ret)
         end

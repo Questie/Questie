@@ -187,6 +187,7 @@ local function _CheckClassicDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
+    Questie.db.global.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
     print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
@@ -311,6 +312,7 @@ local function _CheckWotlkDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
+    Questie.db.global.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
     print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
