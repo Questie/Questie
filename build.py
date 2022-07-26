@@ -79,7 +79,7 @@ def main():
                     "interface": %s
                 },
                 {
-                    "flavor": "wotlk",
+                    "flavor": "wrath",
                     "interface": %s
                 }
             ]
