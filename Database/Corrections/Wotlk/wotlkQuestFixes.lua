@@ -176,6 +176,12 @@ function QuestieWotlkQuestFixes:Load()
         [12017] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
+        [12019] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.BOREAN_TUNDRA]={{86.6,28.6}}}, ICON_TYPE_EVENT, l10n("Teleport to the top of Naxxanar"),},
+                {{[zoneIDs.BOREAN_TUNDRA]={{86.6,31.4}}}, ICON_TYPE_TALK, l10n("Talk to Thassarian"),},
+            },
+        },
         [12027] = {
             [questKeys.triggerEnd] = {"Help Emily and Mr. Floppy return to the camp",{[zoneIDs.GRIZZLY_HILLS]={{53.81,33.33,},},},},
         },
