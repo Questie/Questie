@@ -220,8 +220,11 @@ function QuestieWotlkQuestFixes:Load()
         [12150] = {
             [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
         },
+        [12166] = {
+            [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
+        },
         [12237] = {
-            [questKeys.objectives] ={nil,nil,nil,nil,{{27315,27336,27345,27341,},27315,"Helpless Villager Rescued"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{27315,27336,27345,27341,},27315,"Helpless Villager Rescued"},},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
