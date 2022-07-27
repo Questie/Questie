@@ -326,6 +326,30 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use Ley Line Focus Control Talisman"] = { -- 12107
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze Steuerungstalisman des Leylinienfokus",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Azure Dragonshrine observed"] = { -- 12107
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
