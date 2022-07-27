@@ -2281,30 +2281,30 @@ function QuestieTBCQuestFixes:Load()
         [11094] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep]= {932,0},
         },
         [11095] = {
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep]= {932,0},
         },
         [11097] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep]= {934,0},
         },
         [11100] = {
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep]= {934,0},
         },
         [11101] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11102] = {
