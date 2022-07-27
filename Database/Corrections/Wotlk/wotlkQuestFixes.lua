@@ -164,6 +164,9 @@ function QuestieWotlkQuestFixes:Load()
         [11930] = {
             [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT]={{10.29,53.83,},},},},
         },
+        [11938] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{25378,25383,25386,25387,25393,25609,},25378,"En'kilah Casualty"},},
+        },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
