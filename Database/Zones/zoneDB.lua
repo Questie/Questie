@@ -193,7 +193,7 @@ function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectSpawns)
     end
 
     for objectId in pairs(objectSpawns) do
-        local spawns = QuestieDB.QueryNPCSingle(objectId, "spawns")
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
         if spawns then
             for zone in pairs(spawns) do
                 if not zones[zone] then zones[zone] = {} end
