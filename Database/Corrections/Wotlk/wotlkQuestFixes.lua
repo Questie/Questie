@@ -205,6 +205,9 @@ function QuestieWotlkQuestFixes:Load()
         [12263] = {
             [questKeys.triggerEnd] = {"Uncover the Magmawyrm Resurrection Chamber",{[zoneIDs.DRAGONBLIGHT]={{31.76,30.46,},},},},
         },
+        [12297] = {
+            [questKeys.preQuestSingle] = {11250},
+        },
         [12301] = {
             [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
         },
