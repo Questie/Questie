@@ -36,6 +36,9 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [26170] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{84.8,41.68},},},
+        },
         [26647] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DRAGONBLIGHT] = {{54.4,23.4}},
