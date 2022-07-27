@@ -313,6 +313,10 @@ function QuestieWotlkQuestFixes:Load()
         [12688] = {
             [questKeys.triggerEnd] = {"Escort Engineer Helice out of Swindlegrin's Dig",{[zoneIDs.SHOLAZAR_BASIN]={{37.26,50.56,},},},},
         },
+        [12690] = {
+            [questKeys.objectives] = {{{28844,"Drakkari Skullcrushers Slain"},{28873,"Drakkari Chieftain Lured"},},nil,nil,nil,},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Scepter of Command"), 0, {{"monster", 28843}}}},
+        },
         [12697] = {
             [questKeys.preQuestGroup] = {12678,12679,12687,12733,},
         },
