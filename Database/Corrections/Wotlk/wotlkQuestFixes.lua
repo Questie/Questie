@@ -194,6 +194,9 @@ function QuestieWotlkQuestFixes:Load()
         [12082] = {
             [questKeys.triggerEnd] = {"Harrison has escorted you to safety.",{[zoneIDs.GRIZZLY_HILLS]={{73.51,24.02,},},},},
         },
+        [12092] = {
+            [questKeys.preQuestSingle] = {12065},
+        },
         [12135] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
                 [zoneIDs.AZUREMYST_ISLE]={{49.3,51.5,},},
