@@ -89,6 +89,9 @@ function QuestieWotlkQuestFixes:Load()
         [11472] = {
             [questKeys.triggerEnd] = {"Reef Bull led to a Reef Cow",{[zoneIDs.HOWLING_FJORD]={{31.16,71.63,},},},},
         },
+        [11478] = {
+            [questKeys.exclusiveTo] = {11448},
+        },
         [11485] = {
             [questKeys.triggerEnd] = {"Rocket Jump Mastered",{[zoneIDs.HOWLING_FJORD]={{75.08,64.55,},},},},
         },
