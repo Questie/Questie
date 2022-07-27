@@ -36,6 +36,12 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [26647] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.DRAGONBLIGHT] = {{54.4,23.4}},
+            },
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
         [27959] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{61.1,2}},
