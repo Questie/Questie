@@ -65,6 +65,9 @@ function QuestieWotlkQuestFixes:Load()
         [11394] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11410] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
+        },
         [11418] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Feathered Charm on Steelfeather"), 0, {{"monster", 24514},}}},
         },
