@@ -176,6 +176,9 @@ function QuestieWotlkQuestFixes:Load()
         [12033] = {
             [questKeys.triggerEnd] = {"Letter from Saurfang read and destroyed",{[zoneIDs.DRAGONBLIGHT]={{37.31,46.66,},},},},
         },
+        [12035] = {
+            [questKeys.objectives] = {{{25623,"Harvest Collector Rewired"},},nil,nil,nil,},
+        },
         [12036] = {
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
         },
