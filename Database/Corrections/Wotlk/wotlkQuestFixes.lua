@@ -170,6 +170,9 @@ function QuestieWotlkQuestFixes:Load()
         [11938] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{25378,25383,25386,25387,25393,25609,},25378,"En'kilah Casualty"},},
         },
+        [11956] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
+        },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },

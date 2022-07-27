@@ -374,6 +374,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Ride Dusk"] = { -- 11956
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Reite auf Abenddämmerung",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
