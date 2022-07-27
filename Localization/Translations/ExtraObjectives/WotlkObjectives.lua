@@ -362,6 +362,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Throw Wolf Bait"] = { -- 11728
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Wirf Wolfsköder",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
