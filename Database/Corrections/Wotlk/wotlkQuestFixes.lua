@@ -155,6 +155,9 @@ function QuestieWotlkQuestFixes:Load()
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
         },
+        [11919] = {
+            [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
+        },
         [11930] = {
             [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT]={{10.29,53.83,},},},},
         },
