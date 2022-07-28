@@ -358,6 +358,9 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     itemIcon:SetImage(GetItemIcon(itemId))
     itemIcon:SetImageSize(25, 25)
     itemIcon:SetCallback("OnEnter", function()
+        if (not itemLink) then
+            itemLink = select(2, GetItemInfo(itemId))
+        end
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
         GameTooltip:SetHyperlink(itemLink)
         GameTooltip:Show()
