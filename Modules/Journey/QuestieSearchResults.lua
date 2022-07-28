@@ -434,9 +434,9 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             if spawns then
                 f:AddChild(CreateShowHideButton(-objectId))
 
-                local npcZoneLabel = AceGUI:Create("Label")
-                npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
-                f:AddChild(npcZoneLabel)
+                local objectZoneLabel = AceGUI:Create("Label")
+                objectZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
+                f:AddChild(objectZoneLabel)
 
                 QuestieJourneyUtils:Spacer(f)
             end
