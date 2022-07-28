@@ -432,7 +432,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
             f:AddChild(objectLabel)
 
             if spawns then
-                f:AddChild(CreateShowHideButton(objectId))
+                f:AddChild(CreateShowHideButton(-objectId))
 
                 local npcZoneLabel = AceGUI:Create("Label")
                 npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
