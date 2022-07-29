@@ -11,9 +11,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestIds(), this is either an object to the quest in question, or the ID if the object doesn't exist.
 _QuestiePlayer.playerLevel = -1
-_QuestiePlayer.raceIndex = -1
-_QuestiePlayer.classIndex = -1
-_QuestiePlayer.className = ""
+local _playerRaceId = -1
+local _playerRaceFlag = 9000 -- dummy default value to give always not maching race, corrected in init
+local _playerRaceFlagMask = 1 -- dummy default value to give always not maching race, corrected in init
+local _playerClassName = ""
+local _playerClassFlag = 9000 -- dummy default value to give always not maching class, corrected in init
+local _playerClassFlagMask = 1 -- dummy default value to give always not maching class, corrected in init
 
 -- Optimizations
 local math_max = math.max;
@@ -21,15 +24,13 @@ local math_max = math.max;
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
 
-    local _, _, raceId = UnitRace("player")
-    _QuestiePlayer.raceId = raceId
-    raceId = math.pow(2, raceId -1)
-    _QuestiePlayer.raceIndex = raceId
+    _playerRaceId = select(3, UnitRace("player"))
+    _playerRaceFlag = _playerRaceId - 1
+    _playerRaceFlagMask = 2 ^ _playerRaceFlag
 
-    local className, _, classIndex = UnitClass("player")
-    classIndex = math.pow(2, classIndex-1)
-    _QuestiePlayer.classIndex = classIndex
-    _QuestiePlayer.className = className
+    _playerClassName = select(1, UnitClass("player"))
+    _playerClassFlag = select(3, UnitClass("player")) - 1
+    _playerClassFlagMask = 2 ^ _playerClassFlag
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
@@ -49,12 +50,12 @@ end
 
 ---@return number
 function QuestiePlayer:GetRaceId()
-    return _QuestiePlayer.raceId
+    return _playerRaceId
 end
 
 ---@return string
 function QuestiePlayer:GetLocalizedClassName()
-    return _QuestiePlayer.className
+    return _playerClassName
 end
 
 function QuestiePlayer:GetGroupType()
@@ -69,20 +70,17 @@ end
 
 ---@return boolean
 function QuestiePlayer:HasRequiredRace(requiredRaces)
-    if (not requiredRaces) then
-        return true
-    end
-
-    return not (requiredRaces ~= 0 and (bit.band(requiredRaces, _QuestiePlayer.raceIndex) == 0))
+    -- test a bit flag: (value % (2*flag) >= flag)
+    -- would be slower to test special case of "requiredRaces == 0", because most of quests have some race requirement
+    return (not requiredRaces) or ((requiredRaces % _playerRaceFlagMask) >= _playerRaceFlag)
 end
 
 ---@return boolean
 function QuestiePlayer:HasRequiredClass(requiredClasses)
-    if (not requiredClasses) then
-        return true
-    end
-
-    return not (requiredClasses ~= 0 and (bit.band(requiredClasses, _QuestiePlayer.classIndex) == 0))
+    -- test a bit flag: (value % (2*flag) >= flag)
+    -- faster to test special case of "requiredClasses == 0", because most of quests have some race requirement
+    -- not using this optimization, prefer readability: (not (requiredClasses > 0))   is faster than   (requiredClasses == 0)
+    return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % _playerClassFlagMask) >= _playerClassFlag)
 end
 
 function QuestiePlayer:GetCurrentZoneId()
