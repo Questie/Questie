@@ -102,42 +102,41 @@ function ZoneDB:GetZonesWithQuests()
 
     for questId in pairs(QuestieDB.QuestPointers) do
 
-        if (not hiddenQuests[questId]) then
-            if QuestiePlayer:HasRequiredRace(QueryQuestSingle(questId, "requiredRaces"))
-            and QuestiePlayer:HasRequiredClass(QueryQuestSingle(questId, "requiredClasses")) then
+        if (not hiddenQuests[questId])
+        and QuestiePlayer:HasRequiredRace(QueryQuestSingle(questId, "requiredRaces"))
+        and QuestiePlayer:HasRequiredClass(QueryQuestSingle(questId, "requiredClasses")) then
 
-                local zoneOrSort, requiredSkill = QueryQuestSingle(questId, "zoneOrSort"), QueryQuestSingle(questId, "requiredSkill")
-                if requiredSkill and requiredSkill[1] ~= professionRIDING then
-                    zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
+            local zoneOrSort, requiredSkill = QueryQuestSingle(questId, "zoneOrSort"), QueryQuestSingle(questId, "requiredSkill")
+            if requiredSkill and requiredSkill[1] ~= professionRIDING then
+                zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                elseif zoneOrSort > 0 then -- quest has a defined zone
-                    local zoneId = ZoneDB:GetParentZoneId(zoneOrSort) or zoneOrSort
+                if (not zoneMap[zoneOrSort]) then
+                    zoneMap[zoneOrSort] = {}
+                end
+                zoneMap[zoneOrSort][questId] = true
+            elseif zoneOrSort > 0 then -- quest has a defined zone
+                local zoneId = ZoneDB:GetParentZoneId(zoneOrSort) or zoneOrSort
 
-                    if (not zoneMap[zoneId]) then
-                        zoneMap[zoneId] = {}
-                    end
-                    zoneMap[zoneId][questId] = true
-                elseif sortIdentifiersOfSpecialQuestCategories[zoneOrSort] then -- belongs to values of QuestieDB.sortKeys
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                else
-                    local startedBy, finishedBy = QueryQuestSingle(questId, "startedBy"), QueryQuestSingle(questId, "finishedBy")
+                if (not zoneMap[zoneId]) then
+                    zoneMap[zoneId] = {}
+                end
+                zoneMap[zoneId][questId] = true
+            elseif sortIdentifiersOfSpecialQuestCategories[zoneOrSort] then -- belongs to values of QuestieDB.sortKeys
+                if (not zoneMap[zoneOrSort]) then
+                    zoneMap[zoneOrSort] = {}
+                end
+                zoneMap[zoneOrSort][questId] = true
+            else
+                local startedBy, finishedBy = QueryQuestSingle(questId, "startedBy"), QueryQuestSingle(questId, "finishedBy")
 
-                    if startedBy then
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
-                    end
+                if startedBy then
+                    zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
+                    zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                end
 
-                    if finishedBy then
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
-                    end
+                if finishedBy then
+                    zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
+                    zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
                 end
             end
         end
