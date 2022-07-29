@@ -105,7 +105,7 @@ function ZoneDB:GetZonesWithQuests()
 
         if (not hiddenQuests[questId])
         and QuestiePlayer.HasRequiredRace(QueryQuestSingle(questId, "requiredRaces"))
-        and QuestiePlayer:HasRequiredClass(QueryQuestSingle(questId, "requiredClasses")) then
+        and QuestiePlayer.HasRequiredClass(QueryQuestSingle(questId, "requiredClasses")) then
 
             local zoneOrSort, requiredSkill = QueryQuestSingle(questId, "zoneOrSort"), QueryQuestSingle(questId, "requiredSkill")
             if requiredSkill and requiredSkill[1] ~= professionRIDING then

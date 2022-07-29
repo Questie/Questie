@@ -526,7 +526,7 @@ function QuestieDB:IsDoable(questId)
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
-    if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+    if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId:", questId)
         return false
     end
@@ -1056,7 +1056,7 @@ function _QuestieDB:HideClassAndRaceQuests()
         -- check requirements, set hidden flag if not met
         local requiredClasses = entry[questKeys.requiredClasses]
         if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
                 entry.hidden = true
             end
         end

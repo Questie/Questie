@@ -76,7 +76,7 @@ function QuestiePlayer.HasRequiredRace(requiredRaces)
 end
 
 ---@return boolean
-function QuestiePlayer:HasRequiredClass(requiredClasses)
+function QuestiePlayer.HasRequiredClass(requiredClasses)
     -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % playerClassFlagX2) >= playerClassFlag)
 end
