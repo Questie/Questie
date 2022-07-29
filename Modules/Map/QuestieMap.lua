@@ -550,7 +550,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         if mapInfo then
             parentMapId = mapInfo.parentMapID
         else
-            parentMapId = ZoneDB:GetParentZoneId(areaID)
+            parentMapId = ZoneDB.GetParentZoneId(areaID)
         end
 
         if (not parentMapId) then

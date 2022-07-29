@@ -84,7 +84,7 @@ function ZoneDB:GetAlternativeZoneId(areaId)
     return nil
 end
 
-function ZoneDB:GetParentZoneId(areaId)
+function ZoneDB.GetParentZoneId(areaId)
     return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
@@ -93,6 +93,7 @@ function ZoneDB:GetZonesWithQuests()
     local hiddenQuests = QuestieCorrections.hiddenQuests
     ---@type function
     local QueryQuestSingle = QuestieDB.QueryQuestSingle
+    local GetParentZoneId = ZoneDB.GetParentZoneId
 
     -- generate { value = true } table of QuestieDB.sortKeys
     local sortIdentifiersOfSpecialQuestCategories = {}
@@ -115,7 +116,7 @@ function ZoneDB:GetZonesWithQuests()
                 end
                 zoneMap[zoneOrSort][questId] = true
             elseif zoneOrSort > 0 then -- quest has a defined zone
-                local zoneId = ZoneDB:GetParentZoneId(zoneOrSort) or zoneOrSort
+                local zoneId = GetParentZoneId(zoneOrSort) or zoneOrSort
 
                 if (not zoneMap[zoneId]) then
                     zoneMap[zoneId] = {}
