@@ -78,7 +78,7 @@ end
 ---@return boolean
 function QuestiePlayer:HasRequiredClass(requiredClasses)
     -- test a bit flag: (value % (2*flag) >= flag)
-    -- faster to test special case of "requiredClasses == 0", because most of quests have some race requirement
+    -- faster to test special case of "requiredClasses == 0", because quests rarely have a class requirement
     -- not using this optimization, prefer readability: (not (requiredClasses > 0))   is faster than   (requiredClasses == 0)
     return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % _playerClassFlagMask) >= _playerClassFlag)
 end
