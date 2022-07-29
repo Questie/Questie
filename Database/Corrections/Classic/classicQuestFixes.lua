@@ -2842,6 +2842,9 @@ function QuestieQuestFixes:Load()
         [8620] = {
             [questKeys.requiredSourceItems] = {21103,21104,21105,21106,21107,21108,21109,21110},
         },
+        [8729] = {
+            [questKeys.extraObjectives] = {nil, ICON_TYPE_EVENT, l10n("Use Arcanite Buoy"),0,{"object", 180669}},
+        },
         [8733] = {
             [questKeys.preQuestSingle] = {8555}, -- #2365
         },
