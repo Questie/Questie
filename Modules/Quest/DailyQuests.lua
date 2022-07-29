@@ -143,13 +143,14 @@ function DailyQuests:IsActiveDailyQuest(questId)
 end
 
 ---@param questId number
----@return boolean|nil
+---@return boolean
 function DailyQuests:IsRandomDailyQuest(questId)
     return nhcDailyIds[questId] or
         hcDailyIds[questId] or
         cookingDailyIds[questId] or
         fishingDailyIds[questId] or
-        pvpDailyIds[questId]
+        pvpDailyIds[questId] or
+        false
 end
 
 nhcDailyIds = {
