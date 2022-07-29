@@ -37,18 +37,18 @@ local zoneMap = {} -- Generated
 function ZoneDB:Initialize()
     areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = ZoneDB:GetZoneTables()
 
-    _ZoneDB:GenerateUiMapIdToAreaIdTable()
-    _ZoneDB:GenerateParentZoneToStartingZoneTable()
+    _ZoneDB.GenerateUiMapIdToAreaIdTable()
+    _ZoneDB.GenerateParentZoneToStartingZoneTable()
 end
 
-function _ZoneDB:GenerateUiMapIdToAreaIdTable()
+function _ZoneDB.GenerateUiMapIdToAreaIdTable()
     for areaId, uiMapId in pairs(areaIdToUiMapId) do
         uiMapIdToAreaId[uiMapId] = areaId
     end
     uiMapIdToAreaId[1946] = 3521 -- fix zangarmarsh reverse lookup (todo: better solution)
 end
 
-function _ZoneDB:GenerateParentZoneToStartingZoneTable()
+function _ZoneDB.GenerateParentZoneToStartingZoneTable()
     for startingZone, parentZone in pairs(subZoneToParentZone) do
         parentZoneToSubZone[parentZone] = startingZone
     end
@@ -131,24 +131,24 @@ function ZoneDB:GetZonesWithQuests()
                 local startedBy, finishedBy = QueryQuestSingle(questId, "startedBy"), QueryQuestSingle(questId, "finishedBy")
 
                 if startedBy then
-                    zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                    zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                    zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
+                    zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
                 end
 
                 if finishedBy then
-                    zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                    zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                    zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
+                    zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
                 end
             end
         end
     end
 
-    zoneMap = _ZoneDB:SplitSeasonalQuests()
+    zoneMap = _ZoneDB.SplitSeasonalQuests()
 
     return zoneMap
 end
 
-function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
+function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
     if (not npcIds) then
         return zones
     end
@@ -166,7 +166,7 @@ function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
     return zones
 end
 
-function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
+function _ZoneDB.GetZonesWithQuestsFromObjects(zones, objectIds)
     if (not objectIds) then
         return zones
     end
@@ -185,7 +185,7 @@ function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
 end
 
 ---@return table
-function _ZoneDB:SplitSeasonalQuests()
+function _ZoneDB.SplitSeasonalQuests()
     if not zoneMap[QuestieDB.sortKeys.SPECIAL] then
         return zoneMap
     end
