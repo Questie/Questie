@@ -16,7 +16,7 @@ local _playerRaceFlag = 255 -- dummy default value to always return race not mat
 local _playerRaceFlagMask = 1 -- dummy default value to always return race not matching, corrected in init
 local _playerClassName = ""
 local _playerClassFlag = 255 -- dummy default value to always return class not matching, corrected in init
-local _playerClassFlagMask = 1 -- dummy default value to always return class now matching, corrected in init
+local _playerClassFlagMask = 1 -- dummy default value to always return class not matching, corrected in init
 
 -- Optimizations
 local math_max = math.max;
