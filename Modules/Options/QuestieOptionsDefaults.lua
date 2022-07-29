@@ -98,7 +98,6 @@ function QuestieOptionsDefaults:Load()
             trackerQuestPadding = 4,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
-            trackerEnabled = false,
             globalTrackerLocation = true,
             showQuestXpAtMaxLevel = true,
             enableTooltipsQuestID = true,

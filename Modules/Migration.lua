@@ -128,6 +128,9 @@ local migrationFunctions = {
             Questie.db.char.questAnnounceObjectives = true
         end
     end,
+    [11] = function()
+        Questie.db.global.trackerEnabled = true
+    end,
 }
 
 function Migration:Migrate()
