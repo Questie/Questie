@@ -7,6 +7,10 @@ local timer
 
 function QuestieQuestTimers:Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
+    if Questie.IsWotlk then
+        -- For now we assume there are no timed quests in Wotlk
+        return
+    end
 
     if QuestTimerFrame_Update == nil then
         Questie:Debug(Questie.DEBUG_CRITICAL, "QuestTimerFrame_Update is nil. Retrying to hooksecurefunc in 5 seconds.")
@@ -21,19 +25,21 @@ function QuestieQuestTimers:Initialize()
         hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
     end
 
-    if QuestTimerFrame then
-        QuestTimerFrame:HookScript("OnShow", function()
-            blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
-            if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
-                QuestieQuestTimers:HideBlizzardTimer()
-            else
-                QuestieQuestTimers:ShowBlizzardTimer()
-            end
-        end)
-    end
+    QuestTimerFrame:HookScript("OnShow", function()
+        blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
+        if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
+            QuestieQuestTimers:HideBlizzardTimer()
+        else
+            QuestieQuestTimers:ShowBlizzardTimer()
+        end
+    end)
 end
 
 function QuestieQuestTimers:HideBlizzardTimer()
+    if Questie.IsWotlk then
+        -- For now we assume there are no timed quests in Wotlk
+        return
+    end
     QuestTimerFrame:ClearAllPoints()
     QuestTimerFrame:SetPoint("TOP", -10000, -10000)
 end
@@ -46,6 +52,10 @@ function QuestieQuestTimers:ShowBlizzardTimer()
 end
 
 function QuestieQuestTimers:GetRemainingTime(questId, frame, clear)
+    if Questie.IsWotlk then
+        -- For now we assume there are no timed quests in Wotlk
+        return nil
+    end
     local remainingSeconds = _QuestieQuestTimers:GetRemainingTime(questId)
 
     if (not remainingSeconds) then
