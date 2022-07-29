@@ -212,11 +212,7 @@ end
 
 ---@return string
 function QuestieEvent:GetEventNameFor(questId)
-    local eventName = ""
-    if _QuestieEvent.eventNamesForQuests[questId] then
-        eventName = _QuestieEvent.eventNamesForQuests[questId]
-    end
-    return eventName
+    return _QuestieEvent.eventNamesForQuests[questId] or ""
 end
 
 function QuestieEvent:IsEventQuest(questId)
