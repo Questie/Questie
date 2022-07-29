@@ -2673,6 +2673,7 @@ globals = {
     "VoiceActivityManager",
     "VoiceChatChannelActivatedNotification",
     "VoiceChatPromptActivateChannel",
+    "WatchFrame",
     "WorldFrame",
     "WorldMapCompareTooltip1",
     "WorldMapCompareTooltip2",
