@@ -73,15 +73,31 @@ local function CreateShowHideButton(id)
     end
     -- Functions for showing/hiding and switching behaviour afterwards
     button.RemoveFromMap = function(self)
-        QuestieMap:UnloadManualFrames(self.id)
+        if self.idsToShow then
+            for _, spawnId in pairs(self.idsToShow) do
+                QuestieMap:UnloadManualFrames(spawnId)
+            end
+        else
+            QuestieMap:UnloadManualFrames(self.id)
+        end
         self:SetText(l10n('Show on Map'))
         self:SetCallback('OnClick', function() self:ShowOnMap(self) end)
     end
     button.ShowOnMap = function(self)
-        if self.id > 0 then
-            QuestieMap:ShowNPC(self.id)
-        elseif self.id < 0 then
-            QuestieMap:ShowObject(-self.id)
+        if self.idsToShow then
+            for _, spawnId in pairs(self.idsToShow) do
+                if spawnId > 0 then
+                    QuestieMap:ShowNPC(spawnId)
+                else
+                    QuestieMap:ShowObject(-spawnId)
+                end
+            end
+        else
+            if self.id > 0 then
+                QuestieMap:ShowNPC(self.id)
+            elseif self.id < 0 then
+                QuestieMap:ShowObject(-self.id)
+            end
         end
         self:SetText(l10n('Remove from Map'))
         self:SetCallback('OnClick', function() self:RemoveFromMap(self) end)
@@ -330,18 +346,6 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     f.content:SetHeight(10000);
 end
 
-local function _GetZoneNameFromSpawns(spawns)
-    local startindex = 0;
-    for i in pairs(spawns) do
-        if spawns[i][1] then
-            startindex = i;
-            break;
-        end
-    end
-
-    return QuestieJourneyUtils:GetZoneName(startindex)
-end
-
 function QuestieSearchResults:ItemDetailsFrame(f, itemId)
     local header = AceGUI:Create("Heading")
     header:SetFullWidth(true)
@@ -396,21 +400,22 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         noNPCSourcesLabel:SetFullWidth(true)
         f:AddChild(noNPCSourcesLabel)
     else
+        local npcLabel = AceGUI:Create("Label")
+
+        local npcIdsWithSpawns = {}
         for _, npcId in pairs(npcDrops) do
-            local npcLabel = AceGUI:Create("Label")
-            local npcName, spawns = unpack(QuestieDB.QueryNPC(npcId, "name", "spawns"))
-            npcLabel:SetText(npcName)
-            f:AddChild(npcLabel)
-
+            local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
             if spawns then
-                f:AddChild(CreateShowHideButton(npcId))
-
-                local npcZoneLabel = AceGUI:Create("Label")
-                npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
-                f:AddChild(npcZoneLabel)
-
-                QuestieJourneyUtils:Spacer(f)
+                npcIdsWithSpawns[#npcIdsWithSpawns + 1] = npcId
             end
+        end
+
+        npcLabel:SetText(l10n("%d NPCs drop this item", #npcIdsWithSpawns))
+        f:AddChild(npcLabel)
+        if (#npcIdsWithSpawns > 0) then
+            local showHideButton = CreateShowHideButton(itemId)
+            showHideButton.idsToShow = npcIdsWithSpawns
+            f:AddChild(showHideButton)
         end
     end
 
@@ -425,21 +430,22 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         noObjectSourcesLabel:SetFullWidth(true)
         f:AddChild(noObjectSourcesLabel)
     else
+        local objectLabel = AceGUI:Create("Label")
+        
+        local objectIdsWithSpawns = {}
         for _, objectId in pairs(objectDrops) do
-            local objectLabel = AceGUI:Create("Label")
-            local objectName, spawns = unpack(QuestieDB.QueryObject(objectId, "name", "spawns"))
-            objectLabel:SetText(objectName)
-            f:AddChild(objectLabel)
-
+            local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
             if spawns then
-                f:AddChild(CreateShowHideButton(-objectId))
-
-                local objectZoneLabel = AceGUI:Create("Label")
-                objectZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
-                f:AddChild(objectZoneLabel)
-
-                QuestieJourneyUtils:Spacer(f)
+                objectIdsWithSpawns[#objectIdsWithSpawns + 1] = -objectId
             end
+        end
+
+        objectLabel:SetText(l10n("%d Objects drop this item", #objectIdsWithSpawns))
+        f:AddChild(objectLabel)
+        if (#objectIdsWithSpawns > 0) then
+            local showHideButton = CreateShowHideButton(itemId)
+            showHideButton.idsToShow = objectIdsWithSpawns
+            f:AddChild(showHideButton)
         end
     end
 
@@ -454,21 +460,23 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         noVendorSourcesLabel:SetFullWidth(true)
         f:AddChild(noVendorSourcesLabel)
     else
+        local vendorLabel = AceGUI:Create("Label")
+
+        local vendorIdsWithSpawns = {}
         for _, npcId in pairs(vendors) do
-            local vendorLabel = AceGUI:Create("Label")
-            local npcName, spawns = unpack(QuestieDB.QueryNPC(npcId, "name", "spawns"))
-            vendorLabel:SetText(npcName)
-            f:AddChild(vendorLabel)
+            local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
 
             if spawns then
-                f:AddChild(CreateShowHideButton(npcId))
-
-                local npcZoneLabel = AceGUI:Create("Label")
-                npcZoneLabel:SetText(_GetZoneNameFromSpawns(spawns))
-                f:AddChild(npcZoneLabel)
-
-                QuestieJourneyUtils:Spacer(f)
+                vendorIdsWithSpawns[#vendorIdsWithSpawns + 1] = npcId
             end
+        end
+
+        vendorLabel:SetText(l10n("%d Vendors sell this item", #vendorIdsWithSpawns))
+        f:AddChild(vendorLabel)
+        if (#vendorIdsWithSpawns > 0) then
+            local showHideButton = CreateShowHideButton(itemId)
+            showHideButton.idsToShow = vendorIdsWithSpawns
+            f:AddChild(showHideButton)
         end
     end
 
