@@ -89,6 +89,12 @@ function ZoneDB:GetParentZoneId(areaId)
 end
 
 function ZoneDB:GetZonesWithQuests()
+    -- generate { value = true } table of QuestieDB.sortKeys
+    local sortIdentifiersOfSpecialQuestCategories = {}
+    for _, v in pairs(QuestieDB.sortKeys) do
+        sortIdentifiersOfSpecialQuestCategories[v] = true
+    end
+
     for questId in pairs(QuestieDB.QuestPointers) do
 
         if (not QuestieCorrections.hiddenQuests[questId]) then
@@ -103,14 +109,14 @@ function ZoneDB:GetZonesWithQuests()
                         zoneMap[zoneOrSort] = {}
                     end
                     zoneMap[zoneOrSort][questId] = true
-                elseif zoneOrSort > 0 then
+                elseif zoneOrSort > 0 then -- quest has a defined zone
                     local zoneId = ZoneDB:GetParentZoneId(zoneOrSort) or zoneOrSort
 
                     if (not zoneMap[zoneId]) then
                         zoneMap[zoneId] = {}
                     end
                     zoneMap[zoneId][questId] = true
-                elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
+                elseif sortIdentifiersOfSpecialQuestCategories[zoneOrSort] then -- belongs to values of QuestieDB.sortKeys
                     if (not zoneMap[zoneOrSort]) then
                         zoneMap[zoneOrSort] = {}
                     end
@@ -135,15 +141,6 @@ function ZoneDB:GetZonesWithQuests()
     zoneMap = _ZoneDB:SplitSeasonalQuests()
 
     return zoneMap
-end
-
-function _ZoneDB:IsSpecialQuest(zoneOrSort)
-    for _, v in pairs(QuestieDB.sortKeys) do
-        if zoneOrSort == v then
-            return true
-        end
-    end
-    return false
 end
 
 function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
