@@ -377,6 +377,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Cleanse the Wildmane Well", {[zoneIDs.MULGORE]={{42.75, 14.16}}}},
         },
         [769] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.requiredSkill] = {165,10},
         },
         [770] = {
