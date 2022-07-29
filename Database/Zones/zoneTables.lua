@@ -147,7 +147,7 @@ local dungeons = {
     [4131] = {"Magisters' Terrace",nil,4080},
 }
 
-function ZoneDB:GetDungeons()
+function ZoneDB.GetDungeons()
     return dungeons
 end
 
