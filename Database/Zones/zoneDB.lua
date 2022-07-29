@@ -85,17 +85,7 @@ function ZoneDB:GetAlternativeZoneId(areaId)
 end
 
 function ZoneDB:GetParentZoneId(areaId)
-    local entry = dungeonParentZones[areaId]
-    if entry then
-        return entry
-    end
-
-    entry = subZoneToParentZone[areaId]
-    if entry then
-        return entry
-    end
-
-    return nil
+    return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
 function ZoneDB:GetZonesWithQuests()
