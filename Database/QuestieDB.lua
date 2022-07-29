@@ -536,7 +536,7 @@ function QuestieDB:IsDoable(questId)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] part of a chain we dont have!")
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Follow up quests already completed or in the quest log!")
             return false
         end
     end
