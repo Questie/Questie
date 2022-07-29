@@ -248,13 +248,11 @@ local subZoneToParentZone = {
 }
 
 function ZoneDB:GetZoneTables()
-    return {
-        areaIdToUiMapId,
+    return areaIdToUiMapId,
         dungeons,
         dungeonLocations,
         dungeonParentZones,
         subZoneToParentZone
-    }
 end
 
 -- Different source of zoneIds
