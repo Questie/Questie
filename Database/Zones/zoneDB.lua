@@ -104,19 +104,12 @@ function ZoneDB:GetZonesWithQuests()
                     end
                     zoneMap[zoneOrSort][questId] = true
                 elseif zoneOrSort > 0 then
-                    local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
+                    local zoneId = ZoneDB:GetParentZoneId(zoneOrSort) or zoneOrSort
 
-                    if parentZoneId then
-                        if (not zoneMap[parentZoneId]) then
-                            zoneMap[parentZoneId] = {}
-                        end
-                        zoneMap[parentZoneId][questId] = true
-                    else
-                        if (not zoneMap[zoneOrSort]) then
-                            zoneMap[zoneOrSort] = {}
-                        end
-                        zoneMap[zoneOrSort][questId] = true
+                    if (not zoneMap[zoneId]) then
+                        zoneMap[zoneId] = {}
                     end
+                    zoneMap[zoneId][questId] = true
                 elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
                     if (not zoneMap[zoneOrSort]) then
                         zoneMap[zoneOrSort] = {}
