@@ -13,10 +13,10 @@ QuestiePlayer.currentQuestlog = {} --Gets populated by QuestieQuest:GetAllQuestI
 _QuestiePlayer.playerLevel = -1
 local _playerRaceId = -1
 local _playerRaceFlag = 255 -- dummy default value to always return race not matching, corrected in init
-local _playerRaceFlagMask = 1 -- dummy default value to always return race not matching, corrected in init
+local _playerRaceFlagX2 = 1 -- dummy default value to always return race not matching, corrected in init
 local _playerClassName = ""
 local _playerClassFlag = 255 -- dummy default value to always return class not matching, corrected in init
-local _playerClassFlagMask = 1 -- dummy default value to always return class not matching, corrected in init
+local _playerClassFlagX2 = 1 -- dummy default value to always return class not matching, corrected in init
 
 -- Optimizations
 local math_max = math.max;
@@ -25,12 +25,13 @@ function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
 
     _playerRaceId = select(3, UnitRace("player"))
-    _playerRaceFlag = _playerRaceId - 1
-    _playerRaceFlagMask = 2 ^ _playerRaceFlag
+    _playerRaceFlag = 2 ^ (_playerRaceId - 1)
+    _playerRaceFlagX2 = 2 * _playerRaceFlag
 
     _playerClassName = select(1, UnitClass("player"))
-    _playerClassFlag = select(3, UnitClass("player")) - 1
-    _playerClassFlagMask = 2 ^ _playerClassFlag
+    local classId = select(3, UnitClass("player"))
+    _playerClassFlag = 2 ^ (classId - 1)
+    _playerClassFlagX2 = 2 * _playerClassFlag
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
@@ -72,7 +73,7 @@ end
 function QuestiePlayer:HasRequiredRace(requiredRaces)
     -- test a bit flag: (value % (2*flag) >= flag)
     -- would be slower to test special case of "requiredRaces == 0", because most of quests have some race requirement
-    return (not requiredRaces) or ((requiredRaces % _playerRaceFlagMask) >= _playerRaceFlag)
+    return (not requiredRaces) or ((requiredRaces % _playerRaceFlagX2) >= _playerRaceFlag)
 end
 
 ---@return boolean
@@ -80,7 +81,7 @@ function QuestiePlayer:HasRequiredClass(requiredClasses)
     -- test a bit flag: (value % (2*flag) >= flag)
     -- faster to test special case of "requiredClasses == 0", because quests rarely have a class requirement
     -- not using this optimization, prefer readability: (not (requiredClasses > 0))   is faster than   (requiredClasses == 0)
-    return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % _playerClassFlagMask) >= _playerClassFlag)
+    return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % _playerClassFlagX2) >= _playerClassFlag)
 end
 
 function QuestiePlayer:GetCurrentZoneId()
