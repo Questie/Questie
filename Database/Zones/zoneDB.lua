@@ -55,17 +55,11 @@ function _ZoneDB:GenerateParentZoneToStartingZoneTable()
 end
 
 function ZoneDB:GetUiMapIdByAreaId(areaId)
-    if areaIdToUiMapId[areaId] ~= nil then
-        return areaIdToUiMapId[areaId]
-    end
-    return nil
+    return areaIdToUiMapId[areaId]
 end
 
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    if uiMapIdToAreaId[uiMapId] ~= nil then
-        return uiMapIdToAreaId[uiMapId]
-    end
-    return nil
+    return uiMapIdToAreaId[uiMapId]
 end
 
 function ZoneDB:GetDungeonLocation(areaId)
