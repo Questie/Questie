@@ -89,6 +89,11 @@ function ZoneDB:GetParentZoneId(areaId)
 end
 
 function ZoneDB:GetZonesWithQuests()
+    local professionRIDING = QuestieProfessions.professionKeys.RIDING
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+    ---@type function
+    local QueryQuestSingle = QuestieDB.QueryQuestSingle
+
     -- generate { value = true } table of QuestieDB.sortKeys
     local sortIdentifiersOfSpecialQuestCategories = {}
     for _, v in pairs(QuestieDB.sortKeys) do
@@ -97,12 +102,12 @@ function ZoneDB:GetZonesWithQuests()
 
     for questId in pairs(QuestieDB.QuestPointers) do
 
-        if (not QuestieCorrections.hiddenQuests[questId]) then
-            if QuestiePlayer:HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
-            and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
+        if (not hiddenQuests[questId]) then
+            if QuestiePlayer:HasRequiredRace(QueryQuestSingle(questId, "requiredRaces"))
+            and QuestiePlayer:HasRequiredClass(QueryQuestSingle(questId, "requiredClasses")) then
 
                 local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
-                if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
+                if requiredSkill and requiredSkill[1] ~= professionRIDING then
                     zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
                     if (not zoneMap[zoneOrSort]) then
