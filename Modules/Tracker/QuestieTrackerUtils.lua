@@ -1,3 +1,5 @@
+local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
+
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 QuestieTracker.utils = {}
@@ -22,8 +24,8 @@ function QuestieTracker.utils:ShowQuestLog(quest)
     SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
-    local scrollSteps = QuestLogListScrollFrame.ScrollBar:GetValueStep()
-    QuestLogListScrollFrame.ScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3);
+    local scrollSteps = _QuestLogScrollBar:GetValueStep()
+    _QuestLogScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3);
 
     if not questFrame:IsShown() then
         if not InCombatLockdown() then
