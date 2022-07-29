@@ -436,7 +436,7 @@ local searchLocales = {
     },
     ["This item is blacklisted because it has too many sources"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Этот предмет находится в черном списке, т.к. у него слишком много источников получения",
         ["deDE"] = "Dieser Gegenstand ist blockiert, da es zu viele Quellen für ihn gibt",
         ["koKR"] = false,
         ["esMX"] = "Este objeto está en la lista negra porque tiene demasiadas fuentes",
@@ -448,7 +448,7 @@ local searchLocales = {
     },
     ["No NPC drops this item"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Ни с одного NPC не добывается этот предмет",
         ["deDE"] = "Kein NPC lässt diesen Gegenstand fallen",
         ["koKR"] = false,
         ["esMX"] = "Ningún PNJ contiene este objeto",
@@ -460,7 +460,7 @@ local searchLocales = {
     },
     ["No Object drops this item"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Ни с одного объекта не добывается этот предмет",
         ["deDE"] = "Kein Objekt lässt diesen Gegenstand fallen",
         ["koKR"] = false,
         ["esMX"] = "Ningún objeto contiene este objeto",
@@ -472,7 +472,7 @@ local searchLocales = {
     },
     ["No Vendor sells this item"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Ни один продавец не продает этот предмет",
         ["deDE"] = "Kein Händler verkauft diesen Gegenstand",
         ["koKR"] = false,
         ["esMX"] = "Ningún vendedor vende este objeto",

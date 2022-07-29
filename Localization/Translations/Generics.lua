@@ -400,7 +400,7 @@ local genericsLocales = {
     },
     ["Vendors"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Продавцы",
         ["deDE"] = "Händler",
         ["koKR"] = false,
         ["esMX"] = "Vendedores",
