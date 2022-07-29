@@ -247,7 +247,7 @@ local subZoneToParentZone = {
     [3526] = 3524,
 }
 
-function ZoneDB:GetZoneTables()
+function ZoneDB.GetZoneTables()
     return areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone
 end
 

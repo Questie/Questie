@@ -35,7 +35,7 @@ local zoneMap = {} -- Generated
 
 
 function ZoneDB:Initialize()
-    areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = ZoneDB:GetZoneTables()
+    areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = ZoneDB.GetZoneTables()
 
     _ZoneDB.GenerateUiMapIdToAreaIdTable()
     _ZoneDB.GenerateParentZoneToStartingZoneTable()
