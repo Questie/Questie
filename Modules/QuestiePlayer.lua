@@ -73,7 +73,7 @@ end
 function QuestiePlayer:HasRequiredRace(requiredRaces)
     -- test a bit flag: (value % (2*flag) >= flag)
     -- would be slower to test special case of "requiredRaces == 0", because most of quests have some race requirement
-    return (not requiredRaces) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
+    return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
 end
 
 ---@return boolean
