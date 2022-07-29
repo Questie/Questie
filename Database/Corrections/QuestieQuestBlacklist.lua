@@ -350,6 +350,7 @@ function QuestieQuestBlacklist:Load()
         [11581] = true,
         [11583] = true,
         [11584] = true,
+        [11657] = true,
         [11691] = true,
         [11696] = true,
         [11731] = true,
@@ -640,6 +641,7 @@ function QuestieQuestBlacklist:Load()
         [7663] = true,
         [7660] = true,
         [7661] = true,
+
         -- PvP Quests which are not in the game anymore
         -----------------------------------------------
         -- Vanquish the Invaders

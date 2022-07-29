@@ -5,14 +5,10 @@ local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
 local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieSerializer
-local serial = QuestieLoader:ImportModule("QuestieSerializer")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
-
-serial.enableObjectLimit = false
 
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
