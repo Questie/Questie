@@ -360,7 +360,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                     end
                     return description
                 end,
-                disabled = function() return true; end,
                 func = function()
                     if Questie.db.global.trackerEnabled then
                         QuestieTracker:Disable()

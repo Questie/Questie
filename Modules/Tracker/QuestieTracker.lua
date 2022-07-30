@@ -1,3 +1,5 @@
+local WatchFrame = QuestWatchFrame or WatchFrame
+
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
@@ -325,8 +327,8 @@ function _QuestieTracker:CreateBaseFrame()
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
 
-            if QuestWatchFrame then
-                local result2, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+            if WatchFrame then
+                local result2, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
                 if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
@@ -338,8 +340,8 @@ function _QuestieTracker:CreateBaseFrame()
         end
 
     else
-        if QuestWatchFrame then
-            local result, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+        if WatchFrame then
+            local result, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
             Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
 
             if not result then
@@ -2037,7 +2039,7 @@ function QuestieTracker:Unhook()
         GetNumQuestWatches = QuestieTracker._GetNumQuestWatches
     end
     _QuestieTracker._alreadyHooked = nil
-    QuestWatchFrame:Show()
+    WatchFrame:Show()
 end
 
 function QuestieTracker:HookBaseTracker()
@@ -2057,7 +2059,7 @@ function QuestieTracker:HookBaseTracker()
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
         -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-        QuestWatchFrame:HookScript("OnShow", function(self)
+        WatchFrame:HookScript("OnShow", function(self)
             if QuestieTracker._disableHooks then
                 return
             end
@@ -2090,7 +2092,7 @@ function QuestieTracker:HookBaseTracker()
         return 0
     end
 
-    QuestWatchFrame:Hide()
+    WatchFrame:Hide()
     QuestieTracker._alreadyHooked = true
 end
 

@@ -251,7 +251,13 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
         end
 
         local wowheadLink
-        if Questie.IsTBC then
+
+        if Questie.IsWotlk then
+            if langShort then
+                langShort = langShort:gsub("\.", "/") -- The Wotlk wowhead URL differs to the other Classic URLs
+            end
+            wowheadLink = "https://" .. "wowhead.com/wotlk/" .. langShort .. "quest=" .. questID
+        elseif Questie.IsTBC then
             wowheadLink = "https://" .. langShort .. "tbc.wowhead.com/quest=" .. questID
         else
             wowheadLink = "https://" .. langShort .. "classic.wowhead.com/quest=" .. questID
