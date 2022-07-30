@@ -210,6 +210,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [3741] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
         },
