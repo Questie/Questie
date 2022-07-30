@@ -1826,6 +1826,7 @@ globals = {
     "PutItemInBag",
     "QueryAuctionItems",
     "QuestChooseRewardError",
+    "QuestLogListScrollFrameScrollBar",
     "QuestLogPushQuest",
     "Quit",
     "QuestTimerFrame_Update",
