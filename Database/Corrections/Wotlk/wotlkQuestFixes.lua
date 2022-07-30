@@ -173,6 +173,9 @@ function QuestieWotlkQuestFixes:Load()
         [11956] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
         },
+        [11982] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
