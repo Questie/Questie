@@ -1029,7 +1029,8 @@ function QuestieDBCompiler:ValidateItems()
     local npc = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
     
     for id, _ in pairs(validator.pointers) do
-        local objDrops, npcDrops = unpack(validator.Query(id, "objectDrops", "npcDrops"))
+        local ret = validator.Query(id, "objectDrops", "npcDrops") or {}
+        local objDrops, npcDrops = ret[1], ret[2]
         if objDrops then -- validate object drops
             --print("Validating objs")
             for _, oid in pairs(objDrops) do
@@ -1270,7 +1271,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     ret[index] = QuestieDBCompiler.readers[typ](stream)
                 end
             end
-            return ret--unpack(ret)
+            return ret -- do not unpack the returned table
         end
     else
         handle.QuerySingle = function(id, key)
@@ -1322,7 +1323,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 end
                 ret[index] = QuestieDBCompiler.readers[typ](stream)
             end
-            return ret--unpack(ret)
+            return ret -- do not unpack the returned table
         end
     end
 

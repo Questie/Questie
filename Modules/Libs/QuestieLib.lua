@@ -193,7 +193,7 @@ end
 ---@param questId number
 ---@return number, number @questLevel & requiredLevel
 function QuestieLib:GetTbcLevel(questId)
-    local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
         local playerLevel = QuestiePlayer:GetPlayerLevel();
         if (requiredLevel > playerLevel) then

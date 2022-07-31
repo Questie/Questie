@@ -111,7 +111,7 @@ function ZoneDB:GetZonesWithQuests()
             if QuestiePlayer:HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
             and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
 
-                local zoneOrSort, requiredSkill = unpack(QuestieDB.QueryQuest(questId, "zoneOrSort", "requiredSkill"))
+                local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
                 if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
                     zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
@@ -139,7 +139,7 @@ function ZoneDB:GetZonesWithQuests()
                     end
                     zoneMap[zoneOrSort][questId] = true
                 else
-                    local startedBy, finishedBy = unpack(QuestieDB.QueryQuest(questId, "startedBy", "finishedBy"))
+                    local startedBy, finishedBy = QuestieDB.QueryQuest(questId, "startedBy"), QuestieDB.QueryQuest(questId, "finishedBy")
 
                     if startedBy then
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
