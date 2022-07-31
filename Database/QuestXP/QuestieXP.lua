@@ -15,7 +15,7 @@ local UnitLevel, GetExpansionLevel = UnitLevel, GetExpansionLevel
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
     local expansionLevel = GetExpansionLevel()
-    if (charLevel == (60 + 10 * expansionLevel)) and (not ignorePlayerLevel) then -- 60 for classic, 70 for tbc and 80 for wotlk
+    if (charLevel == 60 + 10 * expansionLevel) and (not ignorePlayerLevel) then -- 60 for classic, 70 for tbc and 80 for wotlk
         return 0
     end
 
