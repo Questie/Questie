@@ -2224,6 +2224,7 @@ globals = {
     "UseHearthstone",
     "UseInventoryItem",
     "UseItemByName",
+    "WatchFrame_Update",
     "addframetext",
     "debuglocals",
     "debugprofilestart",
