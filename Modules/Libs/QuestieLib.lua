@@ -252,7 +252,7 @@ function QuestieLib:GetRaceString(raceMask)
         return ""
     end
 
-    if (raceMask == 0) or (raceMask == QuestieDB.raceKeys.ALL) then
+    if (raceMask == QuestieDB.raceKeys.NONE) then
         return l10n("None")
     elseif raceMask == QuestieDB.raceKeys.ALL_ALLIANCE then
         return l10n("Alliance")
