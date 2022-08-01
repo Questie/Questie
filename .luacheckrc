@@ -59,6 +59,7 @@ globals = {
     "AutoChooseCurrentGraphicsSetting",
     "AutoEquipCursorItem",
     "AutoLootMailItem",
+    "AutoQuestWatch_Insert",
     "BNAcceptFriendInvite",
     "BNCheckBattleTagInviteToGuildMember",
     "BNCheckBattleTagInviteToUnit",

@@ -2045,10 +2045,11 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
-        -- TODO Find the Wotlk solution for this
-        --hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
-        --    QuestieTracker:AQW_Insert(index, watchTimer)
-        --end)
+        if AutoQuestWatch_Insert then
+            hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
+                QuestieTracker:AQW_Insert(index, watchTimer)
+            end)
+        end
         hooksecurefunc("AddQuestWatch", function(index, watchTimer)
             QuestieTracker:AQW_Insert(index, watchTimer)
         end)
