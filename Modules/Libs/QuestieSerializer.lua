@@ -279,8 +279,6 @@ QuestieSerializer.WriterTable = {
     end
 }
 
-QuestieSerializer.enableObjectLimit = true
-
 function QuestieSerializer:WriteKeyValuePair(key, value, depth)
     if not value or not key then return; end
     if not depth then

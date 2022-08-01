@@ -19,10 +19,6 @@
 ---@field questData table
 ---@field objectData table
 ---@field itemData table
----@field questDataTBC nil | table
----@field objectDataTBC nil | table
----@field npcDataTBC nil | table
----@field itemDataTBC nil | table
 ---@field sortKeys table
 ---@field private private table
 ---@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
@@ -64,9 +60,8 @@ local tinsert = table.insert
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
 local QUEST_FLAGS_DAILY = 4096
--- This is the highest single possible quest flag according to the docs. We need it for the modulus to
--- find quests with QUEST_FLAGS_DAILY set
-local QUEST_FLAGS_UNK5 =  8192
+-- Pre calculated 2 * QUEST_FLAGS_DAILY, for testing a bit flag
+local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
@@ -329,7 +324,8 @@ end
 ---@return boolean
 function QuestieDB:IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
-    return flags and (flags % QUEST_FLAGS_UNK5) >= QUEST_FLAGS_DAILY
+    -- test a bit flag: (value % (2*flag) >= flag)
+    return flags and (flags % QUEST_FLAGS_DAILY_X2) >= QUEST_FLAGS_DAILY
 end
 
 ---@param questId number
@@ -503,11 +499,6 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
-function QuestieDB:IsProfessionQuest(questId)
-    local requiredSkill = QuestieDB.QueryQuest(questId, "requiredSkill")
-    return requiredSkill ~= nil and next(requiredSkill)
-end
-
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsDoable(questId)
@@ -545,7 +536,7 @@ function QuestieDB:IsDoable(questId)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] part of a chain we dont have!")
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Follow up quests already completed or in the quest log!")
             return false
         end
     end
@@ -586,15 +577,6 @@ function QuestieDB:IsDoable(questId)
         return false
     end
 
-    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-
-    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
-        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
-        return isPreQuestGroupFulfilled
-    end
-
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
@@ -602,6 +584,15 @@ function QuestieDB:IsDoable(questId)
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
         return isPreQuestSingleFulfilled
+    end
+
+    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+
+    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+    if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
+        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        return isPreQuestGroupFulfilled
     end
 
     return true

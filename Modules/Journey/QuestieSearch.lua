@@ -4,8 +4,6 @@ local QuestieSearch = QuestieLoader:CreateModule("QuestieSearch");
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local favorites;
-
 QuestieSearch.types = {"npc", "object", "item", "quest"}
 
 -- Save search results, so the next search has a smaller set to search
@@ -17,7 +15,7 @@ QuestieSearch.LastResult = {
     object = {},
     item = {},
 }
-function QuestieSearch:ResetResults()
+local function _ResetResults()
     QuestieSearch.LastResult = {
         query = '',
         queryType = '',
@@ -30,7 +28,7 @@ end
 
 -- Execute a search by name for all types
 function QuestieSearch:ByName(query)
-    QuestieSearch:ResetResults()
+    _ResetResults()
     for _, type in pairs(QuestieSearch.types) do
         QuestieSearch:Search(query, type)
     end
@@ -39,7 +37,7 @@ end
 
 -- Execute a search by ID for all types
 function QuestieSearch:ByID(query)
-    QuestieSearch:ResetResults()
+    _ResetResults()
     for _,type in pairs(QuestieSearch.types) do
         QuestieSearch:Search(query, type, "int")
     end
@@ -70,76 +68,61 @@ queryType   Which type of search to run, possible values:
             "int"
             Optional. Default: "chars"
 --]]
+
 function QuestieSearch:Search(query, searchType, queryType)
     queryType = queryType or "chars"
-    local minLengthInt = 1
-    local minLengthChars = 1
-    -- Search type specific preparations
-    local actualDatabase;
-    local databaseKeys;
+
+    local databaseQueryHandle
+    local databaseKeys
 
     if searchType == "npc" then
-        actualDatabase = QuestieDB.QueryNPCSingle
+        databaseQueryHandle = QuestieDB.QueryNPCSingle
         databaseKeys = QuestieDB.NPCPointers
     elseif searchType == "object" then
-        actualDatabase = QuestieDB.QueryObjectSingle
+        databaseQueryHandle = QuestieDB.QueryObjectSingle
         databaseKeys = QuestieDB.ObjectPointers
     elseif searchType == "item" then
-        actualDatabase = QuestieDB.QueryItemSingle
+        databaseQueryHandle = QuestieDB.QueryItemSingle
         databaseKeys = QuestieDB.ItemPointers
     elseif searchType == "quest" then
-        actualDatabase = QuestieDB.QueryQuestSingle
+        databaseQueryHandle = QuestieDB.QueryQuestSingle
         databaseKeys = QuestieDB.QuestPointers
     else
         return
     end
-    if not favorites then
-        favorites = {
-            quest = {},
-            npc = {},
-            object = {},
-            item = {},
-        }
-    end
-    local database = favorites[searchType];
-    local queryLength = string.len(query)
-
-    if (queryLength < minLengthChars) and (tonumber(query) == nil or queryLength < minLengthInt) then
-        databaseKeys = database;
-    end
 
     local searchCount = 0;
-    for id, _ in pairs(databaseKeys) do
-        -- This condition does the actual comparison for the search
-        if (
-                ( -- text search
-                    (queryType == "chars")
-                    and
-                    (
-                        (string.len(query) < minLengthChars) -- Too short, display favourites
-                        or
-                        (string.find(string.lower(actualDatabase(id, "name")), string.lower(query))) -- Perform search
-                    )
-                )
-                or
-                ( -- id search
-                    (queryType == "int" and tonumber(query) ~= nil)
-                    and
-                    (
-                        (string.len(query) < minLengthInt) -- Too short, display favourites
-                        or
-                        (string.find(tostring(id), query)) -- Perform search
-                    )
-                )
-            )
-        then -- We have a search result or a favourite to display
-            searchCount = searchCount + 1;
-            QuestieSearch.LastResult[searchType][id] = true;
-        else -- This entry doesn't meet the search criteria, removed from the last results
-            QuestieSearch.LastResult[searchType][id] = nil;
+    local isTextSearch = queryType == "chars"
+    local isIdSearch = queryType == "int" and tonumber(query) ~= nil
+
+    local lastResults = QuestieSearch.LastResult[searchType]
+    if isTextSearch then
+        local queryToFind = string.lower(query)
+
+        for id, _ in pairs(databaseKeys) do
+            local name = databaseQueryHandle(id, "name") -- Some entries don't have a 'name' because of the way we load corrections
+            if name and string.find(string.lower(name), queryToFind) then
+                -- We have a search result or a favourite to display
+                searchCount = searchCount + 1;
+                QuestieSearch.LastResult[searchType][id] = true;
+            else
+                -- This entry doesn't meet the search criteria, removed from the last results
+                QuestieSearch.LastResult[searchType][id] = nil;
+            end
+        end
+    elseif isIdSearch then
+        for id, _ in pairs(databaseKeys) do
+            if string.find(tostring(id), query) then
+                -- We have a search result or a favourite to display
+                searchCount = searchCount + 1;
+                lastResults[id] = true;
+            else
+                -- This entry doesn't meet the search criteria, removed from the last results
+                lastResults[id] = nil;
+            end
         end
     end
+
     QuestieSearch.LastResult.query = query
-    QuestieSearch.LastResult.queryType = queryType
     return QuestieSearch.LastResult[searchType]
 end

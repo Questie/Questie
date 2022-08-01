@@ -17,8 +17,9 @@ function QuestieLoader:CreateBlankModule()
     return ret
 end
 
+---@generic T : Module
 ---@param name string @Module name
----@return Module @Module reference
+---@return T @Module reference
 function QuestieLoader:CreateModule(name)
   if (not modules[name]) then
     modules[name] = QuestieLoader:CreateBlankModule()
@@ -28,8 +29,9 @@ function QuestieLoader:CreateModule(name)
   end
 end
 
+---@generic T : Module
 ---@param name string @Module name
----@return Module @Module reference
+---@return T @Module reference
 function QuestieLoader:ImportModule(name)
   if (not modules[name]) then
     modules[name] = QuestieLoader:CreateBlankModule()

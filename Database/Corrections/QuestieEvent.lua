@@ -212,11 +212,7 @@ end
 
 ---@return string
 function QuestieEvent:GetEventNameFor(questId)
-    local eventName = ""
-    if _QuestieEvent.eventNamesForQuests[questId] then
-        eventName = _QuestieEvent.eventNamesForQuests[questId]
-    end
-    return eventName
+    return _QuestieEvent.eventNamesForQuests[questId] or ""
 end
 
 function QuestieEvent:IsEventQuest(questId)
@@ -658,6 +654,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11580}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11581}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11583}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11584}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11657}) -- Torch Catching
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11691}) -- Summon Ahune
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11696}) -- Ahune is Here!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11731}) -- Torch Tossing
@@ -786,9 +783,9 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11886}) -- Unusual Activity
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11921}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11922}) -- Midsummer
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11923}) -- Midsummer
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11924}) -- Midsummer
-tinsert(QuestieEvent.eventQuests, {"Midsummer", 11925}) -- Midsummer
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11923}) -- Torch Catching
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11924}) -- More Torch Catching
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11925}) -- More Torch Catching
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11926}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11933}) -- Stealing the Exodar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame

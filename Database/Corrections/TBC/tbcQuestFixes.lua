@@ -53,6 +53,9 @@ function QuestieTBCQuestFixes:Load()
         [349] = {
             [questKeys.objectivesText] = {"Speak with Witch Doctor Unbagwa.",},
         },
+        [364] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [455] = {
             [questKeys.triggerEnd] = {"Traverse Dun Algaz", {[zoneIDs.WETLANDS]={{53.49,70.36}}}},
         },
@@ -168,6 +171,15 @@ function QuestieTBCQuestFixes:Load()
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
         },
+        [2279] = {
+            [questKeys.requiredLevel] = 40,
+        },
+        [2280] = {
+            [questKeys.requiredLevel] = 40,
+        },
+        [2381] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [2501] = {
             [questKeys.zoneOrSort] = -181,
         },
@@ -197,6 +209,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{3326}},
             [questKeys.finishedBy] = {{6251}},
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
+        },
+        [3741] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [4021] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_BARRENS]={{44.7,28.1}}}, ICON_TYPE_EVENT, l10n("Defeat Centaur to summon Warlord Krom'zar"), 0}},
@@ -2269,30 +2284,30 @@ function QuestieTBCQuestFixes:Load()
         [11094] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep]= {932,0},
         },
         [11095] = {
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep]= {932,0},
         },
         [11097] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
-            [questKeys.requiredMaxRep]= {934,0},
+            [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep]= {934,0},
         },
         [11100] = {
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep]= {934,0},
         },
         [11101] = {
             [questKeys.requiredRaces] = raceIDs.ALL,
             [questKeys.preQuestSingle] = {10211},
-            [questKeys.requiredMaxRep]= {932,0},
+            [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11102] = {
