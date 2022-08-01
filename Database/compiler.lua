@@ -1127,56 +1127,6 @@ function QuestieDBCompiler:Initialize()
     QuestieDBCompiler.npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
 end
 
-function QuestieDBCompiler:BuildCompileUI() -- probably wont be used, I was thinking of making something with a progress bar since it takes ~ 30 seconds to compile the db
-                                            -- but this would be too intrusive. Maybe a small progress bar that attaches to the tracker?
-    local base = CreateFrame("Frame", nil, UIParent)
-    base:SetBackdrop( { 
-        bgFile="Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
-        edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border", 
-        tile = true, tileSize = 32, edgeSize = 32, 
-        insets = { left = 11, right = 11, top = 11, bottom = 11 }
-    });
-    base:SetSize(420, 120)
-    base:SetPoint("Center",UIParent)
-
-    base.title = base:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    base.title:SetJustifyH("LEFT")
-    base.title:SetPoint("CENTER", base, 0, 120/2-22)
-    base.title:SetText("Questie DB has updated!")
-    base.title:SetFont(base.title:GetFont(), 18)
-    base.title:Show()
-
-    base.desc = base:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    base.desc:SetJustifyH("LEFT")
-    base.desc:SetPoint("CENTER", base, 0, 120/2-46)
-    base.desc:SetText("The new database needs to be compiled, press start to begin.")
-    --base.desc:SetFont(base.desc:GetFont(), 18)
-    base.desc:Show()
-
-    local button = CreateFrame("Button", nil, base)
-    button:SetPoint("CENTER", base, "CENTER", 0, 24-120/2)
-    button:SetWidth(80)
-    button:SetHeight(20)
-
-    button:SetText("Start")
-    button:SetNormalFontObject("GameFontNormal")
-
-    local function buildTexture(str)
-        local tex = button:CreateTexture()
-        tex:SetTexture(str)
-        tex:SetTexCoord(0, 0.625, 0, 0.6875)
-        tex:SetAllPoints()
-        return tex
-    end
-
-    button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
-    button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
-    button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
-    button:SetScript("OnClick", function(...) print("clicked") end)
-
-    base:Show()
-end
-
 function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, overrides)
     local handle = {}
     local map, lastIndex, lastPtr, types, _, indexToKey, keyToIndex = unpack(skipMap)
