@@ -173,6 +173,9 @@ function QuestieWotlkQuestFixes:Load()
         [11956] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
         },
+        [11969] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
+        },
         [11982] = {
             [questKeys.preQuestSingle] = {},
         },
