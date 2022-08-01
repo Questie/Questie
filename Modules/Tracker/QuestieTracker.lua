@@ -1205,10 +1205,6 @@ function QuestieTracker:Expand()
     end
 end
 
-function QuestieTracker:IsExpanded()
-    return Questie.db.char.isTrackerExpanded
-end
-
 function QuestieTracker:Update()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update")
     if (not QuestieTracker.started) then
