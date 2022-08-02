@@ -158,6 +158,9 @@ function QuestieWotlkQuestFixes:Load()
         [11728] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Throw Wolf Bait"),0,{{"monster", 25791}}}},
         },
+        [11730] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{25753,25758,25752,},25753,"Robots reprogrammed"}},
+        },
         [11788] = {
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.BOREAN_TUNDRA]={{60,20.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),0},
