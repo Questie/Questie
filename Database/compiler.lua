@@ -50,11 +50,12 @@ QuestieDBCompiler.supportedTypes = {
     }
 }
 
-QuestieDBCompiler.refTypes = {
+local refTypes = {
     "monster",
     "item",
     "object"
 }
+QuestieDBCompiler.refTypes = refTypes
 
 QuestieDBCompiler.refTypesReversed = {
     monster = 1,
@@ -62,145 +63,242 @@ QuestieDBCompiler.refTypesReversed = {
     object = 3
 }
 
-QuestieDBCompiler.readers = {
-    ["s8"] = function(stream)
-        return stream:ReadByte() - 127
-    end,
-    ["u8"] = QuestieStream.ReadByte,
-    ["u16"] = QuestieStream.ReadShort,
-    ["s16"] = function(stream)
-        return stream:ReadShort() - 32767
-    end,
-    ["u24"] = QuestieStream.ReadInt24,
-    ["u32"] = QuestieStream.ReadInt,
-    ["u12pair"] = function(stream)
-        local a,b = stream:ReadInt12Pair()
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
-        return {a, b}
-    end,
-    ["u24pair"] = function(stream)
-        local a,b = stream:ReadInt24(), stream:ReadInt24()
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
+---@type { [string]: function }
+local readers = {}
+readers["s8"] = function(stream)
+    return stream:ReadByte() - 127
+end
+readers["u8"] = QuestieStream.ReadByte
+readers["u16"] = QuestieStream.ReadShort
+readers["s16"] = function(stream)
+    return stream:ReadShort() - 32767
+end
+readers["u24"] = QuestieStream.ReadInt24
+readers["u32"] = QuestieStream.ReadInt
+readers["u12pair"] = function(stream)
+    local a,b = stream:ReadInt12Pair()
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
+    return {a, b}
+end
+readers["u24pair"] = function(stream)
+    local a,b = stream:ReadInt24(), stream:ReadInt24()
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
+    return {a, b}
+end
+readers["s24pair"] = function(stream)
+    local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
+    return {a, b}
+end
+readers["u8string"] = function(stream)
+    local ret = stream:ReadTinyString()
+    if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
+        return nil
+    else
+        return ret
+    end
+end
+readers["u16string"] = function(stream)
+    local ret = stream:ReadShortString()
+    if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
+        return nil
+    else
+        return ret
+    end
+end
+readers["u8u16array"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
-        return {a, b}
-    end,
-    ["s24pair"] = function(stream)
-        local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadShort()
+    end
+    return list
+end
+readers["u8s16pairs"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
-        return {a, b}
-    end,
-    ["u8string"] = function(stream)
-        local ret = stream:ReadTinyString()
-        if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
-            return nil
-        else
-            return ret
-        end
-    end,
-    ["u16string"] = function(stream)
-        local ret = stream:ReadShortString()
-        if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
-            return nil
-        else
-            return ret
-        end
-    end,
-    ["u8u16array"] = function(stream)
-        local count = stream:ReadByte()
+    local list = {}
+    for i = 1, count do
+        list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
+    end
+    return list
+end
+readers["u16u16array"] = function(stream)
+    local count = stream:ReadShort()
+    if count == 0 then return nil end
 
-        if count == 0 then return nil end
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadShort()
+    end
+    return list
+end
+readers["u8s24pairs"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
+    local list = {}
+    for i = 1, count do
+        list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+    end
+    return list
+end
+readers["u8u24array"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24()
+    end
+    return list
+end
+readers["u16u24array"] = function(stream)
+    local count = stream:ReadShort()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24()
+    end
+    return list
+end
+readers["u8u16stringarray"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadShortString()
+    end
+    return list
+end
+readers["faction"] = function(stream)
+    local val = stream:ReadByte()
+    if val == 3 then
+        return nil
+    elseif val == 2 then
+        return "AH"
+    elseif val == 1 then
+        return "H"
+    else
+        return "A"
+    end
+end
+readers["spawnlist"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local spawnlist = {}
+    for _ = 1, count do
+        local zone = stream:ReadShort()
+        local spawnCount = stream:ReadShort()
         local list = {}
+        for i = 1, spawnCount do
+            local x, y = stream:ReadInt12Pair()
+            if x == 0 and y == 0 then
+                list[i] = {-1, -1}
+            else
+                list[i] = {x / 40.90, y / 40.90}
+            end
+        end
+        spawnlist[zone] = list
+    end
+    return spawnlist
+end
+readers["trigger"] = function(stream)
+    if stream:ReadShort() == 0 then
+        return nil
+    else
+        stream._pointer = stream._pointer - 2
+    end
+    return {stream:ReadTinyStringNil(), readers["spawnlist"](stream)}
+end
+readers["questgivers"] = function(stream)
+    return {
+        readers["u8u24array"](stream),
+        readers["u8u24array"](stream),
+        readers["u8u24array"](stream)
+    }
+end
+readers["objective"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
-        for i = 1, count do
-            list[i] = stream:ReadShort()
-        end
-        return list
-    end,
-    ["u8s16pairs"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
-        end
-        return list
-    end,
-    ["u16u16array"] = function(stream)
-        local count = stream:ReadShort()
+    local ret = {}
+    for i = 1, count do
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
+    end
+    return ret
+end
+readers["objectives"] = function(stream)
+    local ret = {
+        readers["objective"](stream),
+        readers["objective"](stream),
+        readers["objective"](stream),
+        readers["u24pair"](stream),
+    }
 
-        if count == 0 then return nil end
+    local creditCount = stream:ReadByte()
+    if creditCount > 0 then
+        local creditList = {}
+        for i=1,creditCount do
+            creditList[i] = stream:ReadInt24()
+        end
+        ret[5] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+    end
 
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadShort()
+    return ret
+end
+readers["reflist"] = function(stream)
+    local count = stream:ReadByte()
+    if count > 0 then
+        local ret = {}
+        for i=1,count do
+            ret[i] = {refTypes[stream:ReadByte()], stream:ReadInt24()}
         end
-        return list
-    end,
-    ["u8s24pairs"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+        return ret
+    end
+end
+readers["extraobjectives"] = function(stream)
+    local count = stream:ReadByte()
+    if count > 0 then
+        local ret = {}
+        for i=1,count do
+            ret[i] = {
+                readers["spawnlist"](stream),
+                stream:ReadTinyString(),
+                stream:ReadShortString(),
+                stream:ReadInt24(),
+                readers["reflist"](stream)
+            }
         end
-        return list
-    end,
-    ["u8u24array"] = function(stream)
-        local count = stream:ReadByte()
+        return ret
+    end
+    return nil
+end
+readers["waypointlist"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
-        if count == 0 then return nil end
-
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadInt24()
-        end
-        return list
-    end,
-    ["u16u24array"] = function(stream)
-        local count = stream:ReadShort()
-
-        if count == 0 then return nil end
-
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadInt24()
-        end
-        return list
-    end,
-    ["u8u16stringarray"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = stream:ReadShortString()
-        end
-        return list
-    end,
-    ["faction"] = function(stream)
-        local val = stream:ReadByte()
-        if val == 3 then
-            return nil
-        elseif val == 2 then
-            return "AH"
-        elseif val == 1 then
-            return "H"
-        else
-            return "A"
-        end
-    end,
-    ["spawnlist"] = function(stream)
-        local count = stream:ReadByte()
-        local spawnlist = {}
-        for _ = 1, count do
-            local zone = stream:ReadShort()
+    local waypointlist = {}
+    for _ = 1, count do
+        local lists = {}
+        local zone = stream:ReadShort()
+        local listCount = stream:ReadByte()
+        for j = 1, listCount do
             local spawnCount = stream:ReadShort()
             local list = {}
             for i = 1, spawnCount do
@@ -211,121 +309,15 @@ QuestieDBCompiler.readers = {
                     list[i] = {x / 40.90, y / 40.90}
                 end
             end
-            spawnlist[zone] = list
+            lists[j] = list
         end
-        return spawnlist
-    end,
-    ["trigger"] = function(stream)
-        if stream:ReadShort() == 0 then
-            return nil
-        else
-            stream._pointer = stream._pointer - 2
-        end
-        return {stream:ReadTinyStringNil(), QuestieDBCompiler.readers["spawnlist"](stream)}
-    end,
-    ["questgivers"] = function(stream)
-        --local count = stream:ReadByte()
-        --if count == 0 then return nil end
-        local ret = {
-            QuestieDBCompiler.readers["u8u24array"](stream),
-            QuestieDBCompiler.readers["u8u24array"](stream),
-            QuestieDBCompiler.readers["u8u24array"](stream)
-        }
+        waypointlist[zone] = lists
+    end
+    return waypointlist
+end
 
-        --for i = 1, count do
-        --    tinsert(ret, QuestieDBCompiler.readers["u8u16array"](stream))
-        --end
+QuestieDBCompiler.readers = readers
 
-        return ret
-    end,
-    ["objective"] = function(stream)
-        local count = stream:ReadByte()
-        if count == 0 then
-            return nil
-        end
-
-        local ret = {}
-
-        for i = 1, count do
-            ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
-        end
-        return ret
-    end,
-    ["objectives"] = function(stream)
-        local ret = {
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["u24pair"](stream),
-        }
-
-        local creditCount = stream:ReadByte()
-        if creditCount > 0 then
-            local creditList = {}
-            for i=1,creditCount do
-                creditList[i] = stream:ReadInt24()
-            end
-            local rootNPCId = stream:ReadInt24()
-            local rootNPCName = stream:ReadTinyStringNil()
-            ret[5] = {creditList, rootNPCId, rootNPCName}
-        end
-
-        return ret
-    end,
-    ["reflist"] = function(stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            local ret = {}
-            for i=1,count do
-                local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
-                local id = stream:ReadInt24()
-                ret[i] = {type, id}
-            end
-            return ret
-        end
-    end,
-    ["extraobjectives"] = function(stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            local ret = {}
-            for i=1,count do
-                ret[i] = {
-                    QuestieDBCompiler.readers["spawnlist"](stream),
-                    stream:ReadTinyString(),
-                    stream:ReadShortString(),
-                    stream:ReadInt24(),
-                    QuestieDBCompiler.readers["reflist"](stream)
-                }
-            end
-            return ret
-        end
-        return nil
-    end,
-    ["waypointlist"] = function(stream)
-        local count = stream:ReadByte()
-        local waypointlist = {}
-        for _ = 1, count do
-            local lists = {}
-            local zone = stream:ReadShort()
-            local listCount = stream:ReadByte()
-            for j = 1, listCount do
-                local spawnCount = stream:ReadShort()
-                local list = {}
-                for i = 1, spawnCount do
-                    local x, y = stream:ReadInt12Pair()
-                    if x == 0 and y == 0 then
-                        list[i] = {-1, -1}
-                    else
-                        list[i] = {x / 40.90, y / 40.90}
-                    end
-                end
-                lists[j] = list
-            end
-            waypointlist[zone] = lists
-        end
-        return waypointlist
-    end,
-}
 
 QuestieDBCompiler.writers = {
     ["s8"] = function(stream, value)
@@ -636,7 +628,7 @@ QuestieDBCompiler.skippers = {
             end
         end
     end,
-    ["u8u16stringarray"] = function(stream) 
+    ["u8u16stringarray"] = function(stream)
         local count = stream:ReadByte()
         for _=1,count do
             stream._pointer = stream:ReadShort() + stream._pointer
@@ -1140,21 +1132,21 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     coroutine.yield()
     stream:Load(data)
     handle.stream = stream
+    handle.pointers = pointers
 
     if overrides then
         handle.QuerySingle = function(id, key)
             local override = overrides[id]
             if override then
                 local kti = keyToRootIndex[key]
-                if kti and override[kti] ~= nil then return override[kti] end
+                if override[kti] then return override[kti] end
             end
-            local typ = types[key]
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
-            if map[key] ~= nil then -- can skip directly
+            if map[key] then -- can skip directly
                 stream._pointer = map[key] + ptr
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
@@ -1164,22 +1156,48 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    readers[types[indexToKey[i]]](stream)
                 end
             end
-            return QuestieDBCompiler.readers[typ](stream)
+            return readers[types[key]](stream)
+        end
+        handle.QueryAll = function(id)
+            local ptr = pointers[id]
+            local override = overrides[id]
+
+            if not ptr then
+                if not override then return nil end
+                local ret = {}
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    ret[key] = override[keyToRootIndex[key]]
+                end
+                return ret
+            end
+
+            stream._pointer = ptr
+
+            local ret = {}
+            if override then
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    local rootIndex = keyToRootIndex[key]
+                    if override[rootIndex] then
+                        ret[key] = override[rootIndex]
+                        readers[types[key]](stream)
+                    else
+                        ret[key] = readers[types[key]](stream)
+                    end
+                end
+            else
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    ret[key] = readers[types[key]](stream)
+                end
+            end
+            return ret
         end
         handle.Query = function(id, ...)
-            --if overrides[id] then
-            --    local ret = {}
-            --    for index,key in pairs({...}) do
-            --        local kti = keyToIndex[key]
-            --        if kti then
-            --            ret[index] = overrides[id][kti]
-            --        end
-            --    end
-            --    return ret
-            --end
             local ptr = pointers[id]
             local override = overrides[id]
             local keys = {...}
@@ -1187,24 +1205,40 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 if override then
                     local ret = {}
                     for index=1,#keys do
-                        local rootIndex = keyToRootIndex[keys[index]]
-                        if rootIndex and override[rootIndex] ~= nil then
-                            ret[index] = override[rootIndex]
-                        end
+                        ret[index] = override[keyToRootIndex[keys[index]]]
                     end
                     return ret
                 end
                 return nil
             end
             local ret = {}
-            for index=1,#keys do
-                local key = keys[index]
-                local rootIndex = keyToRootIndex[key]
-                if override and rootIndex and override[rootIndex] ~= nil then
-                    ret[index] = override[rootIndex]
-                else
-                    local typ = types[key]
-                    if map[key] ~= nil then -- can skip directly
+            if override then
+                for index=1,#keys do
+                    local key = keys[index]
+                    local rootIndex = keyToRootIndex[key]
+                    if override[rootIndex] then
+                        ret[index] = override[rootIndex]
+                    else
+                        if map[key] then -- can skip directly
+                            stream._pointer = map[key] + ptr
+                        else -- need to skip over some variably sized data
+                            stream._pointer = lastPtr + ptr
+                            local targetIndex = keyToIndex[key]
+                            if not targetIndex then
+                                Questie:Error("ERROR: Unhandled db key: " .. key)
+                                return nil
+                            end
+                            for i = lastIndex, targetIndex-1 do
+                                readers[types[indexToKey[i]]](stream)
+                            end
+                        end
+                        ret[index] = readers[types[key]](stream)
+                    end
+                end
+            else
+                for index=1,#keys do
+                    local key = keys[index]
+                    if map[key] then -- can skip directly
                         stream._pointer = map[key] + ptr
                     else -- need to skip over some variably sized data
                         stream._pointer = lastPtr + ptr
@@ -1214,23 +1248,22 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
-                            QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                            readers[types[indexToKey[i]]](stream)
                         end
                     end
-                    ret[index] = QuestieDBCompiler.readers[typ](stream)
+                    ret[index] = readers[types[key]](stream)
                 end
             end
             return ret -- do not unpack the returned table
         end
     else
         handle.QuerySingle = function(id, key)
-            local typ = types[key]
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
-            if map[key] ~= nil then -- can skip directly
+            if map[key] then -- can skip directly
                 stream._pointer = map[key] + ptr
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
@@ -1240,10 +1273,27 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    readers[types[indexToKey[i]]](stream)
                 end
             end
-            return QuestieDBCompiler.readers[typ](stream)
+            return readers[types[key]](stream)
+        end
+
+        handle.QueryAll = function(id)
+            local ptr = pointers[id]
+
+            if not ptr then
+                return nil
+            end
+
+            stream._pointer = ptr
+
+            local ret = {}
+            for index=1,#indexToKey do
+                local key = indexToKey[index]
+                ret[key] = readers[types[key]](stream)
+            end
+            return ret
         end
 
         handle.Query = function(id, ...)
@@ -1275,8 +1325,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             return ret -- do not unpack the returned table
         end
     end
-
-    handle.pointers = pointers
 
     return handle
 end
