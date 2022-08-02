@@ -155,6 +155,14 @@ function QuestieWotlkQuestFixes:Load()
         [11728] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Throw Wolf Bait"),0,{{"monster", 25791}}}},
         },
+        [11788] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.BOREAN_TUNDRA]={{60,20.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),0},
+                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,17.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),1},
+                {{[zoneIDs.BOREAN_TUNDRA]={{63.5,22.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),2},
+                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
+            },
+        },
         [11878] = {
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },
