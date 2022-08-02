@@ -164,9 +164,7 @@ function QuestieStreamLib:_ReadByte_b89()
 end
 
 function QuestieStreamLib:_WriteByte_b89(e)
-    if e == nil then
-        return 
-    end
+    if not e then return end
     local level = math.floor(e / 86);
     if self._level ~= level then
         self._level = level

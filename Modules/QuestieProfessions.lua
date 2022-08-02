@@ -39,7 +39,7 @@ function QuestieProfessions:Update()
         if i > 14 then break; end -- We don't have to go through all the weapon skills
 
         local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
-        if isHeader == nil and professionTable[skillName] then
+        if (not isHeader) and professionTable[skillName] then
             isProfessionUpdate = true -- A profession leveled up, not something like "Defense"
             playerProfessions[professionTable[skillName]] = {skillName, skillRank}
         end
@@ -71,7 +71,7 @@ local function _HasSkillLevel(profession, skillLevel)
 end
 
 function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
-    if requiredSkill == nil then
+    if not requiredSkill then
         return true
     end
 
