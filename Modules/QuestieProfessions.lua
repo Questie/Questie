@@ -63,11 +63,11 @@ function QuestieProfessions:GetPlayerProfessionNames()
 end
 
 local function _HasProfession(profession)
-    return profession == nil or playerProfessions[profession] ~= nil
+    return (not profession) or playerProfessions[profession] ~= nil
 end
 
 local function _HasSkillLevel(profession, skillLevel)
-    return skillLevel == nil or playerProfessions[profession][2] >= skillLevel
+    return (not skillLevel) or playerProfessions[profession][2] >= skillLevel
 end
 
 function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
