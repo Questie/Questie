@@ -32,10 +32,10 @@ local _InitObjectiveTexts
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
 function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
-    if QuestieTooltips.lookupByKey[key] == nil then
+    if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
-    if QuestieTooltips.lookupKeysByQuestId[questId] == nil then
+    if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
     local tooltip = {};
@@ -49,10 +49,10 @@ end
 ---@param npc table
 function QuestieTooltips:RegisterQuestStartTooltip(questId, npc)
     local key = "m_" .. npc.id
-    if QuestieTooltips.lookupByKey[key] == nil then
+    if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end
-    if QuestieTooltips.lookupKeysByQuestId[questId] == nil then
+    if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
     local tooltip = {};
@@ -95,7 +95,7 @@ end
 ---@param key string
 function QuestieTooltips:GetTooltip(key)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips:GetTooltip]", key)
-    if key == nil then
+    if not key then
         return nil
     end
 

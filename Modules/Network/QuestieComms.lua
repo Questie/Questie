@@ -826,8 +826,8 @@ _QuestieComms.packets = {
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestPacket)
-            if(remoteQuestPacket == nil) then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_UPDATE remoteQuestPacket = nil");
+            if not remoteQuestPacket then
+                Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_UPDATE no remoteQuestPacket")
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestPacket.playerName;
@@ -844,8 +844,8 @@ _QuestieComms.packets = {
         _QuestieComms:Broadcast(self.data);
       end,
       read = function(remoteQuestPacket)
-        if(remoteQuestPacket == nil) then
-            Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_REMOVE remoteQuestPacket = nil");
+        if not remoteQuestPacket then
+            Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_REMOVE no remoteQuestPacket")
         end
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Received: QC_ID_BROADCAST_QUEST_REMOVE")
 
@@ -865,8 +865,8 @@ _QuestieComms.packets = {
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestList)
-            if(remoteQuestList == nil) then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_FULL_QUESTLIST remoteQuestList = nil");
+            if not remoteQuestList then
+                Questie:Error("[QuestieComms] QC_ID_BROADCAST_FULL_QUESTLIST no remoteQuestList")
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestList.playerName;

@@ -121,8 +121,6 @@ function QuestieTracker:Initialize()
 
     -- Santity checks and settings applied at login
     C_Timer.After(0.4, function()
-        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation == nil then return end
-
         -- Make sure the saved tracker location cords are on the players screen
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent" then
             local baseFrame = QuestieTracker:GetBaseFrame()
@@ -1472,7 +1470,7 @@ function QuestieTracker:Update()
             line:SetWidth(line.label:GetWidth())
 
             if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
-                if Questie.db.char.collapsedQuests[quest.Id] == nil then
+                if not Questie.db.char.collapsedQuests[quest.Id] then
                     Questie.db.char.collapsedQuests[quest.Id] = true
                     line.expandQuest:SetMode(1)
                 end
@@ -1515,7 +1513,7 @@ function QuestieTracker:Update()
                         self:SetParent(self.line)
                         self:Show()
 
-                        if Questie.db.char.collapsedQuests[quest.Id] == nil then
+                        if not Questie.db.char.collapsedQuests[quest.Id] then
                             self.line.expandQuest:Hide()
                         else
                             self:SetParent(UIParent)
@@ -1794,7 +1792,7 @@ function QuestieTracker:Update()
     end
 
 
-    if _QuestieTracker.IsFirstRun == nil then
+    if not _QuestieTracker.IsFirstRun then
         _QuestieTracker.baseFrame:Show()
     else
         _QuestieTracker.baseFrame:Hide()
@@ -2090,7 +2088,7 @@ _OnClick = function(self, button)
         return
     end
 
-    if self.Quest == nil then
+    if not self.Quest then
         return
     end
 
@@ -2373,7 +2371,7 @@ _GetDistanceToClosestObjective = function(questId)
     local closestDistance;
     for _, _ in pairs(coordinates) do
         local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y);
-        if closestDistance == nil or distance < closestDistance then
+        if (not closestDistance) or (distance < closestDistance) then
             closestDistance = distance;
         end
     end

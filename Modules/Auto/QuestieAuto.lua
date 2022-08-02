@@ -182,13 +182,13 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
         ---@type Quest
         local quest = QuestieDB:GetQuest(questId)
 
-        if quest == nil then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] quest == nil, retrying in 1 second")
+        if not quest then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] No quest object, retrying in 1 second")
             C_Timer.After(1, function ()
                 questId = GetQuestID()
                 ---@type Quest
                 quest = QuestieDB:GetQuest(questId)
-                if quest == nil then
+                if not quest then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
                 elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
                     Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")

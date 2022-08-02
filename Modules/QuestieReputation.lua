@@ -16,7 +16,7 @@ function QuestieReputation:Update(isInit)
 
     for i=1, GetNumFactions() do
         local name, _, standingId, _, _, barValue, _, _, isHeader, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
-        if isHeader == nil or isHeader == false then
+        if not isHeader then
             local previousValues = playerReputations[factionID]
             playerReputations[factionID] = {standingId, barValue}
 
@@ -34,7 +34,7 @@ end
 
 ---@return boolean
 _ReachedNewStanding = function(previousValues, standingId)
-    return previousValues == nil -- New faction
+    return (not previousValues) -- New faction
         or (previousValues[1] ~= standingId) -- Standing changed
 end
 

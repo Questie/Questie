@@ -152,7 +152,7 @@ function QuestieNameplate:DrawTargetFrame()
         return
     end
 
-    if activeTargetFrame == nil then
+    if not activeTargetFrame then
         activeTargetFrame = _QuestieNameplate.GetTargetFrameIconFrame()
     end
 

@@ -90,7 +90,7 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
 
     for j=1, pointsCount do
         local point = points[j]
-        if(point.touched == nil) then
+        if not point.touched then
             point.touched = true
             local notes = { point }
 
@@ -105,7 +105,7 @@ function QuestieMap.utils:CalcHotzones(points, rangeR, count)
             for i=j+1, pointsCount do
                 local point2 = points[i]
                 --We only want to cluster icons that are on the same map.
-                if (point2.touched == nil) and (point.UiMapID == point2.UiMapID) then
+                if (not point2.touched) and (point.UiMapID == point2.UiMapID) then
                     local distance = QuestieLib:Euclid(aX, aY, point2.worldX, point2.worldY)
                     if (distance < movingRange) then
                         point2.touched = true

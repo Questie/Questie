@@ -1150,7 +1150,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             local typ = types[key]
             local ptr = pointers[id]
-            if ptr == nil then
+            if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
@@ -1159,7 +1159,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
-                if targetIndex == nil then
+                if not targetIndex then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
                     return nil
                 end
@@ -1183,7 +1183,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             local ptr = pointers[id]
             local override = overrides[id]
             local keys = {...}
-            if ptr == nil then
+            if not ptr then
                 if override then
                     local ret = {}
                     for index=1,#keys do
@@ -1209,7 +1209,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     else -- need to skip over some variably sized data
                         stream._pointer = lastPtr + ptr
                         local targetIndex = keyToIndex[key]
-                        if targetIndex == nil then
+                        if not targetIndex then
                             Questie:Error("ERROR: Unhandled db key: " .. key)
                             return nil
                         end
@@ -1226,7 +1226,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
         handle.QuerySingle = function(id, key)
             local typ = types[key]
             local ptr = pointers[id]
-            if ptr == nil then
+            if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
@@ -1235,7 +1235,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
-                if targetIndex == nil then
+                if not targetIndex then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
                     return nil
                 end
@@ -1248,7 +1248,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
 
         handle.Query = function(id, ...)
             local ptr = pointers[id]
-            if ptr == nil then
+            if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
@@ -1262,7 +1262,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 else -- need to skip over some variably sized data
                     stream._pointer = lastPtr + ptr
                     local targetIndex = keyToIndex[key]
-                    if targetIndex == nil then
+                    if not targetIndex then
                         Questie:Error("ERROR: Unhandled db key: " .. key)
                         return nil
                     end
