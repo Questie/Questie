@@ -169,6 +169,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
             },
         },
+        [11798] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use The Gearmaster's Manual"),0,{{"object", 190334}}}},
+        },
         [11878] = {
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },

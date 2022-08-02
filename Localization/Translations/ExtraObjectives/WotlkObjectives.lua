@@ -470,6 +470,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use the Gearmaster's Manual"] = { -- 11798
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutze das Handbuch des Ritzelmeisters",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
