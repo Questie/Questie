@@ -107,6 +107,7 @@ local areaIdToUiMapId = {
     [3523] = 1953, -- Netherstorm
     [3524] = 1943, -- Azuremyst Isle
     [3525] = 1950, -- Bloodmyst Isle
+    [3535] = 1950, -- The Shattered Halls - Dungeon
     [3537] = 114, -- Borean Tundra
     [3557] = 1947, -- The Exodar
     [3562] = 347, -- Hellfire Ramparts - Dungeon
