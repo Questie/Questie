@@ -153,12 +153,12 @@ function _ZoneDB:IsSpecialQuest(zoneOrSort)
     return false
 end
 
-function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcs)
-    if (not npcs) then
+function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
+    if (not npcIds) then
         return zones
     end
 
-    for npcId in pairs(npcs) do
+    for npcId in pairs(npcIds) do
         local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
         if spawns then
             for zone in pairs(spawns) do
@@ -171,12 +171,12 @@ function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcs)
     return zones
 end
 
-function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objects)
-    if (not objects) then
+function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
+    if (not objectIds) then
         return zones
     end
 
-    for objectId in pairs(objects) do
+    for objectId in pairs(objectIds) do
         local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
         if spawns then
             for zone in pairs(spawns) do
