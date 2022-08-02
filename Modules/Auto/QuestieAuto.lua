@@ -183,7 +183,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
         local quest = QuestieDB:GetQuest(questId)
 
         if not quest then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] quest == nil, retrying in 1 second")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] No quest object, retrying in 1 second")
             C_Timer.After(1, function ()
                 questId = GetQuestID()
                 ---@type Quest
