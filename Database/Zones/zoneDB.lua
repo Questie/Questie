@@ -139,7 +139,7 @@ function ZoneDB:GetZonesWithQuests()
                     end
                     zoneMap[zoneOrSort][questId] = true
                 else
-                    local startedBy, finishedBy = QuestieDB.QueryQuest(questId, "startedBy"), QuestieDB.QueryQuest(questId, "finishedBy")
+                    local startedBy, finishedBy = QuestieDB.QueryQuestSingle(questId, "startedBy"), QuestieDB.QueryQuestSingle(questId, "finishedBy")
 
                     if startedBy then
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
