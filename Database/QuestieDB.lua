@@ -962,14 +962,6 @@ function QuestieDB:GetNPC(npcId)
         npc[stringKey] = rawdata[intKey]
     end
 
-    ---@class Point
-    ---@class Zone
-    if npc.waypoints == nil and rawdata[npcKeys.waypoints] then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
-        ---@type table<Zone, table<Point, Point>>
-        npc.waypoints = rawdata[npcKeys.waypoints]
-    end
-
     local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
     if friendlyToFaction then
         if friendlyToFaction == "AH" then
