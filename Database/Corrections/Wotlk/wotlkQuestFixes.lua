@@ -175,6 +175,14 @@ function QuestieWotlkQuestFixes:Load()
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
         },
+        [11907] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.BOREAN_TUNDRA]={{60,20.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),0},
+                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,17.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),1},
+                {{[zoneIDs.BOREAN_TUNDRA]={{63.5,22.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),2},
+                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
+            },
+        },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
