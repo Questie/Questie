@@ -1174,17 +1174,11 @@ function QuestieTracker:Disable()
     QuestieTracker:Update()
 end
 
-function QuestieTracker:Toggle(value)
-    if value == nil then
-        value = not Questie.db.global.trackerEnabled
-    end
-
-    Questie.db.global.trackerEnabled = value
-
-    if value then
-        QuestieTracker:Enable()
-    else
+function QuestieTracker:Toggle()
+    if Questie.db.global.trackerEnabled then
         QuestieTracker:Disable()
+    else
+        QuestieTracker:Enable()
     end
 end
 
