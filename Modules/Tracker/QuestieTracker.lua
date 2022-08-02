@@ -1804,7 +1804,7 @@ function QuestieTracker:Update()
     end
 
 
-    if _QuestieTracker.IsFirstRun == nil then
+    if not _QuestieTracker.IsFirstRun then
         _QuestieTracker.baseFrame:Show()
     else
         _QuestieTracker.baseFrame:Hide()
@@ -2100,7 +2100,7 @@ _OnClick = function(self, button)
         return
     end
 
-    if self.Quest == nil then
+    if not self.Quest then
         return
     end
 
