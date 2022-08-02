@@ -95,7 +95,9 @@ end
 ---@param key string
 function QuestieTooltips:GetTooltip(key)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTooltips:GetTooltip]", key)
-    if not key then return end
+    if not key then
+        return nil
+    end
 
     if GetNumGroupMembers() > 15 then
         return nil -- temporary disable tooltips in raids, we should make a proper fix
