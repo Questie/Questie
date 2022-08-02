@@ -1016,7 +1016,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
                     zoneQuests[qid] = quest;
                 end
-            elseif quest.Starts.NPC and zoneQuests[qid] == nil then
+            elseif quest.Starts.NPC and (not zoneQuests[qid]) then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
                 if npc and npc.friendly and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
@@ -1025,7 +1025,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                         end
                     end
                 end
-            elseif quest.Starts.GameObject and zoneQuests[qid] == nil then
+            elseif quest.Starts.GameObject and (not zoneQuests[qid]) then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
                 if obj and obj.spawns then
                     for zone, _ in pairs(obj.spawns) do
