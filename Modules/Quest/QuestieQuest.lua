@@ -67,7 +67,7 @@ local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
 
-local dungeons = ZoneDB.GetDungeons()
+local dungeons = ZoneDB:GetDungeons()
 
 function QuestieQuest:Initialize()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
