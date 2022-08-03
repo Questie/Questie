@@ -145,16 +145,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                 tinsert(zoneTree[3].children, temp)
                 completedCounter = completedCounter + 1
             else
-                local queryResult = QuestieDB.QueryQuest(
-                        questId,
-                        "exclusiveTo",
-                        "nextQuestInChain",
-                        "parentQuest",
-                        "preQuestSingle",
-                        "preQuestGroup",
-                        "requiredMinRep",
-                        "requiredMaxRep"
-                ) or {}
+                local queryResult = QuestieDB.QueryQuest(questId, {"exclusiveTo", "nextQuestInChain", "parentQuest", "preQuestSingle", "preQuestGroup", "requiredMinRep", "requiredMaxRep"}) or {}
                 local exclusiveTo = queryResult[1]
                 local nextQuestInChain = queryResult[2]
                 local parentQuest = queryResult[3]

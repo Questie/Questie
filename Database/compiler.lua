@@ -1197,10 +1197,9 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return ret
         end
-        handle.Query = function(id, ...)
+        handle.Query = function(id, keys)
             local ptr = pointers[id]
             local override = overrides[id]
-            local keys = {...}
             if not ptr then
                 if override then
                     local ret = {}
@@ -1296,13 +1295,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             return ret
         end
 
-        handle.Query = function(id, ...)
+        handle.Query = function(id, keys)
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
-            local keys = {...}
             local ret = {}
             for index=1,#keys do
                 local key = keys[index]

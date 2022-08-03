@@ -90,7 +90,7 @@ local function CreateShowHideButton(id)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy") or {}
+    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"}) or {}
     local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6]
 
     local questLevel, _ = QuestieLib:GetTbcLevel(id);
