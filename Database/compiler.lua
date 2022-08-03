@@ -944,7 +944,7 @@ function QuestieDBCompiler:ValidateNPCs()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
     for npcId, _ in pairs(QuestieDB.npcData) do
-        local toValidate = {validator.Query(npcId, unpack(QuestieDB.npcCompilerOrder))}
+        local toValidate = validator.Query(npcId, QuestieDB.npcCompilerOrder)
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
@@ -981,7 +981,7 @@ function QuestieDBCompiler:ValidateObjects()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
     for objectId, _ in pairs(QuestieDB.objectData) do
-        local toValidate = {validator.Query(objectId, unpack(QuestieDB.objectCompilerOrder))}
+        local toValidate = validator.Query(objectId, QuestieDB.objectCompilerOrder)
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
@@ -1082,7 +1082,7 @@ function QuestieDBCompiler:ValidateQuests()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
     for questId, _ in pairs(QuestieDB.questData) do
-        local toValidate = {validator.Query(questId, unpack(QuestieDB.questCompilerOrder))}
+        local toValidate = validator.Query(questId, QuestieDB.questCompilerOrder)
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
