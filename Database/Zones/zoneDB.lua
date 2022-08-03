@@ -111,6 +111,14 @@ local function _AddZonesWithQuestsFromSpawns(zoneMap, questId, querySingleFuncti
     end
 end
 
+local seasonalDummyEvents = {
+    ["Love is in the Air"] = -400,
+    ["Children's Week"] = -401,
+    ["Harvest Festival"] = -402,
+    ["Hallow's End"] = -403,
+    ["Winter Veil"] = -404,
+}
+
 --- Modifies zoneMap by adding quests from SPECIAL and SEASONAL sortIds to their seasonal event specific sortIds.
 --- Modifies zoneMap by removing SPECIAL and SEASONAL sortIds.
 ---@param zoneMap zoneMap
@@ -123,24 +131,15 @@ local function _SplitSeasonalQuests(zoneMap)
         questsToSplit[questId] = true
     end
 
-    zoneMap[-400] = {}
-    zoneMap[-401] = {}
-    zoneMap[-402] = {}
-    zoneMap[-403] = {}
-    zoneMap[-404] = {}
+    for _, eventSortId in pairs(seasonalDummyEvents) do
+        zoneMap[eventSortId] = {}
+    end
 
     for questId in pairs(questsToSplit) do
         local eventName = QuestieEvent:GetEventNameFor(questId)
-        if eventName == "Love is in the Air" then
-            zoneMap[-400][questId] = true
-        elseif eventName == "Children's Week" then
-            zoneMap[-401][questId] = true
-        elseif eventName == "Harvest Festival" then
-            zoneMap[-402][questId] = true
-        elseif eventName == "Hallow's End" then
-            zoneMap[-403][questId] = true
-        elseif eventName == "Winter Veil" then
-            zoneMap[-404][questId] = true
+        local eventSortId = seasonalDummyEvents[eventName]
+        if eventSortId then
+            zoneMap[eventSortId][questId] = true
         end
     end
 
