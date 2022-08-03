@@ -88,6 +88,46 @@ function ZoneDB.GetParentZoneId(areaId)
     return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
+local function _GetZonesWithQuestsFromNPCs(zones, npcIds)
+    if (not npcIds) then
+        return zones
+    end
+
+    for npcId in pairs(npcIds) do
+        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
+        if spawns then
+            for zone in pairs(spawns) do
+                if not zones[zone] then zones[zone] = {} end
+                zones[zone][npcId] = true
+            end
+        end
+    end
+
+    return zones
+end
+
+local function _GetZonesWithQuestsFromObjects(zones, objectIds)
+    if (not objectIds) then
+        return zones
+    end
+
+    for objectId in pairs(objectIds) do
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+        if spawns then
+            for zone in pairs(spawns) do
+                if not zones[zone] then zones[zone] = {} end
+                zones[zone][objectId] = true
+            end
+        end
+    end
+
+    return zones
+end
+
+--temp for profiling
+ZoneDB._GetZonesWithQuestsFromNPCs = _GetZonesWithQuestsFromNPCs
+ZoneDB._GetZonesWithQuestsFromObjects =  _GetZonesWithQuestsFromObjects
+
 function ZoneDB:GetZonesWithQuests()
     local professionRIDING = QuestieProfessions.professionKeys.RIDING
     local hiddenQuests = QuestieCorrections.hiddenQuests
@@ -133,13 +173,13 @@ function ZoneDB:GetZonesWithQuests()
                 local startedBy, finishedBy = QueryQuestSingle(questId, "startedBy"), QueryQuestSingle(questId, "finishedBy")
 
                 if startedBy then
-                    zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                    zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                    zoneMap = _GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
+                    zoneMap = _GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
                 end
 
                 if finishedBy then
-                    zoneMap = _ZoneDB.GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                    zoneMap = _ZoneDB.GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                    zoneMap = _GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
+                    zoneMap = _GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
                 end
             end
         end
@@ -148,42 +188,6 @@ function ZoneDB:GetZonesWithQuests()
     zoneMap = _ZoneDB.SplitSeasonalQuests()
 
     return zoneMap
-end
-
-function _ZoneDB.GetZonesWithQuestsFromNPCs(zones, npcIds)
-    if (not npcIds) then
-        return zones
-    end
-
-    for npcId in pairs(npcIds) do
-        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
-        if spawns then
-            for zone in pairs(spawns) do
-                if not zones[zone] then zones[zone] = {} end
-                zones[zone][npcId] = true
-            end
-        end
-    end
-
-    return zones
-end
-
-function _ZoneDB.GetZonesWithQuestsFromObjects(zones, objectIds)
-    if (not objectIds) then
-        return zones
-    end
-
-    for objectId in pairs(objectIds) do
-        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
-        if spawns then
-            for zone in pairs(spawns) do
-                if not zones[zone] then zones[zone] = {} end
-                zones[zone][objectId] = true
-            end
-        end
-    end
-
-    return zones
 end
 
 ---@return table
