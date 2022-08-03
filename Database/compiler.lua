@@ -944,14 +944,14 @@ function QuestieDBCompiler:ValidateNPCs()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
     for npcId, _ in pairs(QuestieDB.npcData) do
-        local toValidate = validator.Query(npcId, QuestieDB.npcCompilerOrder)
+        local toValidate = validator.QueryAll(npcId) or {}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
         --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetNPC(npcId)
         for id, key in pairs(QuestieDB.npcCompilerOrder) do
-            local a = toValidate[id]
+            local a = toValidate[key]
             local b = validData[key]
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
@@ -981,14 +981,14 @@ function QuestieDBCompiler:ValidateObjects()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
     for objectId, _ in pairs(QuestieDB.objectData) do
-        local toValidate = validator.Query(objectId, QuestieDB.objectCompilerOrder)
+        local toValidate = validator.QueryAll(objectId) or {}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
         --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetObject(objectId)
         for id, key in pairs(QuestieDB.objectCompilerOrder) do
-            local a = toValidate[id]
+            local a = toValidate[key]
             local b = validData[key]
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
@@ -1082,14 +1082,14 @@ function QuestieDBCompiler:ValidateQuests()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
     for questId, _ in pairs(QuestieDB.questData) do
-        local toValidate = validator.Query(questId, QuestieDB.questCompilerOrder)
+        local toValidate = validator.QueryAll(questId) or {}
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
         print("toValidate length: " .. cnt)
         --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetQuest(questId)
         for id,key in pairs(QuestieDB.questCompilerOrder) do
-            local a = toValidate[id]
+            local a = toValidate[key]
             local b = validData[key]
 
             if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
