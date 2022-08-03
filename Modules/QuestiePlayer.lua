@@ -69,12 +69,14 @@ function QuestiePlayer:GetGroupType()
     end
 end
 
+---@param requiredRaces integer
 ---@return boolean
 function QuestiePlayer.HasRequiredRace(requiredRaces)
     -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
 end
 
+---@param requiredClasses integer
 ---@return boolean
 function QuestiePlayer.HasRequiredClass(requiredClasses)
     -- test a bit flag: (value % (2*flag) >= flag)

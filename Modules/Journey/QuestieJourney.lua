@@ -49,8 +49,8 @@ function QuestieJourney:Initialize()
     continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
     self.continents = continents
-    self.zoneMap = ZoneDB:GetZonesWithQuests()
-    self.zones = ZoneDB:GetRelevantZones()
+    self.zoneMap = ZoneDB.GetZonesWithQuests()
+    self.zones = ZoneDB.GetRelevantZones(self.zoneMap)
 
     self:BuildMainFrame()
 end
