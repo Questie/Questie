@@ -931,7 +931,7 @@ function QuestieDB:GetNPC(npcId)
     npc.type = "monster"
 
     local friendlyToFaction = npc.friendlyToFaction
-    npc.friendly = (not friendlyToFaction) and true or factionReactions[friendlyToFaction]
+    npc.friendly = (not friendlyToFaction) or factionReactions[friendlyToFaction]
 --[[
     if friendlyToFaction then
         if friendlyToFaction == "AH" then
