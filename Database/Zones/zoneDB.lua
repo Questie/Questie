@@ -129,7 +129,7 @@ local function _SplitSeasonalQuests(zoneMap)
     zoneMap[-403] = {}
     zoneMap[-404] = {}
 
-    for questId, _ in pairs(questsToSplit) do
+    for questId in pairs(questsToSplit) do
         local eventName = QuestieEvent:GetEventNameFor(questId)
         if eventName == "Love is in the Air" then
             zoneMap[-400][questId] = true
