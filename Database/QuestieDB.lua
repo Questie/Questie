@@ -147,6 +147,11 @@ local function _shutdown_db() -- prevent catastrophic error
     QuestieDB.QueryNPCSingle = nil
     QuestieDB.QueryObjectSingle = nil
     QuestieDB.QueryItemSingle = nil
+
+    QuestieDB.QueryQuestAll = nil
+    QuestieDB.QueryNPCAll = nil
+    QuestieDB.QueryObjectAll = nil
+    QuestieDB.QueryItemAll = nil
 end
 
 local function trycatch(func)
