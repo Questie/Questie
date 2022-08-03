@@ -78,7 +78,7 @@ function MapIconTooltip:Show()
     -- happens when a note doesn't get removed after a quest has been finished, see #1170
     -- TODO: change how the logic works, so this [ObjectiveIndex?] can be nil
     -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an number here for duplicate checks
-    if self.data.ObjectiveIndex == nil then
+    if not self.data.ObjectiveIndex then
         self.data.ObjectiveIndex = 0
     end
 
@@ -96,7 +96,7 @@ function MapIconTooltip:Show()
     local function handleMapIcon(icon)
         local iconData = icon.data
 
-        if iconData == nil then
+        if not iconData then
             Questie:Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
             return
         end
@@ -116,7 +116,7 @@ function MapIconTooltip:Show()
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
                 if iconData.Type == "available" or iconData.Type == "complete" then
-                    if npcOrder[iconData.Name] == nil then
+                    if not npcOrder[iconData.Name] then
                         npcOrder[iconData.Name] = {};
                     end
 
@@ -536,7 +536,7 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
         local data = {}
         data[text] = nameTable;
         --Add the data for the first time
-        if usedText[text] == nil then
+        if not usedText[text] then
             tinsert(quest, data)
             usedText[text] = true;
         else

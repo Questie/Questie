@@ -98,7 +98,7 @@ function _l10n:translate(key, ...)
     end
 
     local translationEntry = l10n.translations[key]
-    if translationEntry == nil then
+    if not translationEntry then
         Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!")
         return string.format(key, unpack(args))
     end

@@ -133,8 +133,6 @@ function QuestieTracker:Initialize()
 
     -- Santity checks and settings applied at login
     C_Timer.After(0.4, function()
-        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation == nil then return end
-
         -- Make sure the saved tracker location cords are on the players screen
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent" then
             local baseFrame = QuestieTracker:GetBaseFrame()
@@ -1090,9 +1088,6 @@ function QuestieTracker:GetBaseFrame()
 end
 
 function QuestieTracker:ResetLocation()
-    if _QuestieTracker.trackerLineWidth == nil then
-        _QuestieTracker.trackerLineWidth = trackerLineWidth
-    end
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
@@ -1179,17 +1174,11 @@ function QuestieTracker:Disable()
     QuestieTracker:Update()
 end
 
-function QuestieTracker:Toggle(value)
-    if value == nil then
-        value = not Questie.db.global.trackerEnabled
-    end
-
-    Questie.db.global.trackerEnabled = value
-
-    if value then
-        QuestieTracker:Enable()
-    else
+function QuestieTracker:Toggle()
+    if Questie.db.global.trackerEnabled then
         QuestieTracker:Disable()
+    else
+        QuestieTracker:Enable()
     end
 end
 
@@ -1484,7 +1473,7 @@ function QuestieTracker:Update()
             line:SetWidth(line.label:GetWidth())
 
             if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
-                if Questie.db.char.collapsedQuests[quest.Id] == nil then
+                if not Questie.db.char.collapsedQuests[quest.Id] then
                     Questie.db.char.collapsedQuests[quest.Id] = true
                     line.expandQuest:SetMode(1)
                 end
@@ -1527,7 +1516,7 @@ function QuestieTracker:Update()
                         self:SetParent(self.line)
                         self:Show()
 
-                        if Questie.db.char.collapsedQuests[quest.Id] == nil then
+                        if not Questie.db.char.collapsedQuests[quest.Id] then
                             self.line.expandQuest:Hide()
                         else
                             self:SetParent(UIParent)
@@ -1764,7 +1753,6 @@ function QuestieTracker:Update()
 
         _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
         _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderTotal, _QuestieTracker.baseFrame:GetHeight())
-        _QuestieTracker.trackerLineWidth = trackerLineWidth
         _QuestieTracker.trackedQuestsFrame:Show()
     end
 
@@ -1807,7 +1795,7 @@ function QuestieTracker:Update()
     end
 
 
-    if isFirstRun == nil then
+    if not isFirstRun then
         _QuestieTracker.baseFrame:Show()
     else
         _QuestieTracker.baseFrame:Hide()
@@ -2100,7 +2088,7 @@ _OnClick = function(self, button)
         return
     end
 
-    if self.Quest == nil then
+    if not self.Quest then
         return
     end
 
@@ -2383,7 +2371,7 @@ _GetDistanceToClosestObjective = function(questId)
     local closestDistance;
     for _, _ in pairs(coordinates) do
         local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y);
-        if closestDistance == nil or distance < closestDistance then
+        if (not closestDistance) or (distance < closestDistance) then
             closestDistance = distance;
         end
     end

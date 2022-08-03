@@ -95,7 +95,6 @@ local VANILLA = string.byte(GetBuildInfo(), 1) == 49
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
     ALL_HORDE = VANILLA and 178 or 690,
-    ALL = VANILLA and 255 or 2047,
     NONE = 0,
 
     HUMAN = 1,
@@ -229,7 +228,7 @@ function QuestieDB:Initialize()
 end
 
 function QuestieDB:GetObject(objectId)
-    if objectId == nil then
+    if not objectId then
         return nil
     end
     if _QuestieDB.objectCache[objectId] ~= nil then
@@ -257,7 +256,7 @@ function QuestieDB:GetObject(objectId)
 end
 
 function QuestieDB:GetItem(itemId)
-    if itemId == nil or itemId == 0 then
+    if (not itemId) or (itemId == 0) then
         return nil
     end
     if _QuestieDB.itemCache[itemId] ~= nil then
@@ -435,7 +434,7 @@ end
 ---@param parentID number
 ---@return boolean
 function QuestieDB:IsParentQuestActive(parentID)
-    if parentID == nil or parentID == 0 then
+    if (not parentID) or (parentID == 0) then
         return false
     end
     if QuestiePlayer.currentQuestlog[parentID] then
@@ -454,7 +453,7 @@ function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
         -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
         if not Questie.db.char.complete[preQuestId] then
             local preQuest = QuestieDB:GetQuest(preQuestId);
-            if preQuest == nil or preQuest.exclusiveTo == nil then
+            if (not preQuest) or (not preQuest.exclusiveTo) then
                 return false
             end
 
@@ -641,8 +640,8 @@ end
 ---@param questId number
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
-    if questId == nil then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
+    if not questId then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] No questId.")
         return nil
     end
     if _QuestieDB.questCache[questId] ~= nil then
@@ -941,7 +940,7 @@ local playerFaction = UnitFactionGroup("player")
 ---@param npcId number
 ---@return table
 function QuestieDB:GetNPC(npcId)
-    if npcId == nil then
+    if not npcId then
         return nil
     end
     if(_QuestieDB.npcCache[npcId]) then
@@ -961,14 +960,6 @@ function QuestieDB:GetNPC(npcId)
     }
     for stringKey, intKey in pairs(npcKeys) do
         npc[stringKey] = rawdata[intKey]
-    end
-
-    ---@class Point
-    ---@class Zone
-    if npc.waypoints == nil and rawdata[npcKeys.waypoints] then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
-        ---@type table<Zone, table<Point, Point>>
-        npc.waypoints = rawdata[npcKeys.waypoints]
     end
 
     local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
@@ -1017,7 +1008,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
                     zoneQuests[qid] = quest;
                 end
-            elseif quest.Starts.NPC and zoneQuests[qid] == nil then
+            elseif quest.Starts.NPC and (not zoneQuests[qid]) then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
                 if npc and npc.friendly and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
@@ -1026,7 +1017,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                         end
                     end
                 end
-            elseif quest.Starts.GameObject and zoneQuests[qid] == nil then
+            elseif quest.Starts.GameObject and (not zoneQuests[qid]) then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
                 if obj and obj.spawns then
                     for zone, _ in pairs(obj.spawns) do

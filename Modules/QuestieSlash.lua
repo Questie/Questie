@@ -103,7 +103,7 @@ function QuestieSlash.HandleCommands(input)
     end
 
     if mainCommand == "tomap" then
-        if subCommand == nil then
+        if not subCommand then
             subCommand = UnitName("target")
         end
 

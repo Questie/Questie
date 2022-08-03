@@ -79,7 +79,7 @@ end
 
 function QuestieMap:UnloadQuestFrames(questId, iconType)
     if QuestieMap.questIdFrames[questId] then
-        if iconType == nil then
+        if not iconType then
             for _, frame in pairs(QuestieMap:GetFramesForQuest(questId)) do
                 frame:Unload();
             end
@@ -324,7 +324,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
     end
     -- get the NPC data
     local npc = QuestieDB:GetNPC(npcID)
-    if npc == nil or npc.spawns == nil then return end
+    if (not npc) or (not npc.spawns) then return end
 
     -- create the icon data
     local data = {}
@@ -380,7 +380,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     if type(objectID) ~= "number" then return end
     -- get the gameobject data
     local object = QuestieDB:GetObject(objectID)
-    if object == nil then return end
+    if not object then return end
 
     -- create the icon data
     local data = {}
@@ -465,10 +465,10 @@ function QuestieMap:DrawManualIcon(data, areaID, x, y, typ)
     -- Save new zone ID format, used in QuestieFramePool
     -- create a list for all frames belonging to a NPC (id > 0) or an object (id < 0)
     typ = typ or "any"
-    if(QuestieMap.manualFrames[typ] == nil) then
+    if not QuestieMap.manualFrames[typ] then
         QuestieMap.manualFrames[typ] = {}
     end
-    if(QuestieMap.manualFrames[typ][data.id] == nil) then
+    if not QuestieMap.manualFrames[typ][data.id] then
         QuestieMap.manualFrames[typ][data.id] = {}
     end
 
@@ -567,7 +567,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     end
 
     --print("UIMAPID: " .. tostring(uiMapId))
-    if uiMapId == nil then
+    if not uiMapId then
         --ZoneDB:GetUiMapIdByAreaId
         error("No UiMapID or fitting uiMapId for areaId : ".. areaID .. " - ".. tostring(data.Name))
         return nil, nil
@@ -663,7 +663,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     local r, g, b = iconMinimap.texture:GetVertexColor()
     QuestieDBMIntegration:RegisterHudQuestIcon(tostring(iconMap), data.Icon, uiMapId, x, y, r, g, b)
 
-    if(QuestieMap.questIdFrames[data.Id] == nil) then
+    if not QuestieMap.questIdFrames[data.Id] then
         QuestieMap.questIdFrames[data.Id] = {}
     end
 
@@ -812,7 +812,7 @@ function QuestieMap:FindClosestStarter()
 end
 
 function QuestieMap:GetNearestSpawn(objective)
-    if objective == nil then
+    if not objective then
         return nil
     end
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
@@ -847,7 +847,7 @@ end
 
 ---@param quest Quest
 function QuestieMap:GetNearestQuestSpawn(quest)
-    if quest == nil then
+    if not quest then
         return nil
     end
     if quest:IsComplete() == 1 then
@@ -856,10 +856,10 @@ function QuestieMap:GetNearestQuestSpawn(quest)
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
                 --finisher = QuestieDB:GetNPC(quest.Finisher.Id)
-                finisherSpawns, finisherName = unpack(QuestieDB.QueryNPC(quest.Finisher.Id, "spawns", "name"))
+                finisherSpawns, finisherName = QuestieDB.QueryNPCSingle(quest.Finisher.Id, "spawns"), QuestieDB.QueryNPCSingle(quest.Finisher.Id, "name")
             elseif quest.Finisher.Type == "object" then
                 --finisher = QuestieDB:GetObject(quest.Finisher.Id)
-                finisherSpawns, finisherName = unpack(QuestieDB.QueryObject(quest.Finisher.Id, "spawns", "name"))
+                finisherSpawns, finisherName = QuestieDB.QueryObjectSingle(quest.Finisher.Id, "spawns"), QuestieDB.QueryObjectSingle(quest.Finisher.Id, "name")
             end
         end
         if finisherSpawns then -- redundant code

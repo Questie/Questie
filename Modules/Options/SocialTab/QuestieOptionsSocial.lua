@@ -164,5 +164,5 @@ end
 
 ---@return boolean
 _IsAnnounceDisabled = function()
-    return Questie.db.char.questAnnounceChannel == nil or Questie.db.char.questAnnounceChannel == "disabled";
+    return (not Questie.db.char.questAnnounceChannel) or (Questie.db.char.questAnnounceChannel == "disabled")
 end

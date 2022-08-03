@@ -84,7 +84,7 @@ end
 local function FloatRGBToHex(r, g, b) return RGBToHex(r * 254, g * 254, b * 254) end
 
 function QuestieLib:GetRGBForObjective(objective)
-    if objective.fulfilled ~= nil and objective.Collected == nil then
+    if objective.fulfilled ~= nil and (not objective.Collected) then
         objective.Collected = objective.fulfilled
         objective.Needed = objective.required
     end
@@ -193,7 +193,7 @@ end
 ---@param questId number
 ---@return number, number @questLevel & requiredLevel
 function QuestieLib:GetTbcLevel(questId)
-    local questLevel, requiredLevel = unpack(QuestieDB.QueryQuest(questId, "questLevel", "requiredLevel"))
+    local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
         local playerLevel = QuestiePlayer:GetPlayerLevel();
         if (requiredLevel > playerLevel) then
@@ -252,7 +252,7 @@ function QuestieLib:GetRaceString(raceMask)
         return ""
     end
 
-    if (raceMask == 0) or (raceMask == QuestieDB.raceKeys.ALL) then
+    if (raceMask == QuestieDB.raceKeys.NONE) then
         return l10n("None")
     elseif raceMask == QuestieDB.raceKeys.ALL_ALLIANCE then
         return l10n("Alliance")
@@ -414,7 +414,7 @@ function QuestieLib:MathRandom(low_or_high_arg, high_arg)
 
     randomSeed = (randomSeed * 214013 + 2531011) % 2^32
     local rand = (math.floor(randomSeed / 2^16) % 2^15) / 0x7fff
-    if high == nil then
+    if not high then
         return rand
     end
     return low + math.floor(rand * high)

@@ -86,7 +86,7 @@ _AddTomTomOption = function (menu, quest, objective)
     tinsert(menu, {text = l10n('Set |cFF54e33bTomTom|r Target'), func = function()
         LibDropDown:CloseDropDownMenus()
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(quest)
-        if spawn == nil and objective ~= nil then
+        if (not spawn) and objective ~= nil then
             spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
         end
         if spawn then

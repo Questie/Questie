@@ -52,7 +52,7 @@ end
 ---@return number experience
 function QuestXP:GetQuestLogRewardXP(questID, ignorePlayerLevel)
     -- Return 0 if quest ID is not found for some reason
-    if (questID == nil) then return 0 end
+    if not questID then return 0 end
     ---@type number
     local adjustedXP = 0
     if QuestXP.db[questID] ~= nil then

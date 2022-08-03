@@ -56,7 +56,7 @@ function QuestieJourney:Initialize()
 end
 
 function QuestieJourney:BuildMainFrame()
-    if (QuestieJourneyFrame == nil) then
+    if not QuestieJourneyFrame then
         local journeyFrame = AceGUI:Create("Frame")
         journeyFrame:SetCallback("OnClose", function()
             isWindowShown = false

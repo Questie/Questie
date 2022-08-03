@@ -90,7 +90,8 @@ local function CreateShowHideButton(id)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = unpack(QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy"))
+    local ret = QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy") or {}
+    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6]
 
     local questLevel, _ = QuestieLib:GetTbcLevel(id);
 
@@ -172,16 +173,20 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         end
     end
 
-    -- quest starters
-    QuestieJourneyUtils:AddLine(details, "")
-    AddLinkedParagraph(details, 'npc', startedBy, 1, l10n("NPCs starting this quest:"), QuestieDB.QueryNPCSingle)
-    AddLinkedParagraph(details, 'object', startedBy, 2, l10n("Objects starting this quest:"), QuestieDB.QueryObjectSingle)
-    -- TODO change to linked paragraph once item details page exists
-    AddParagraph(details, startedBy, 3, l10n("Items starting this quest:"), QuestieDB.QueryItemSingle)
-    -- quest finishers
-    QuestieJourneyUtils:AddLine(details, "")
-    AddLinkedParagraph(details, 'npc', finishedBy, 1, l10n("NPCs finishing this quest:"), QuestieDB.QueryNPCSingle)
-    AddLinkedParagraph(details, 'object', finishedBy, 2, l10n("Objects finishing this quest:"), QuestieDB.QueryObjectSingle)
+    if startedBy then
+        -- quest starters
+        QuestieJourneyUtils:AddLine(details, "")
+        AddLinkedParagraph(details, 'npc', startedBy, 1, l10n("NPCs starting this quest:"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(details, 'object', startedBy, 2, l10n("Objects starting this quest:"), QuestieDB.QueryObjectSingle)
+        -- TODO change to linked paragraph once item details page exists
+        AddParagraph(details, startedBy, 3, l10n("Items starting this quest:"), QuestieDB.QueryItemSingle)
+    end
+    if finishedBy then
+        -- quest finishers
+        QuestieJourneyUtils:AddLine(details, "")
+        AddLinkedParagraph(details, 'npc', finishedBy, 1, l10n("NPCs finishing this quest:"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(details, 'object', finishedBy, 2, l10n("Objects finishing this quest:"), QuestieDB.QueryObjectSingle)
+    end
     QuestieJourneyUtils:AddLine(details, "")
 end
 

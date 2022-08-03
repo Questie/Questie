@@ -140,7 +140,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {
             for _, source in pairs(item.Sources) do
                 if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
                     local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
-                    if sourceList == nil then
+                    if not sourceList then
                         Questie:Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
                     else
                         for id, sourceData in pairs(sourceList) do
