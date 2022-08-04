@@ -25,7 +25,15 @@ function AchievementTracker.Initialize(trackerBaseFrame)
     local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     header:SetText("Tracked Achievements")
     baseFrame.header = header
+
+    local trackedAchievementIds = {GetTrackedAchievements()}
+
+    for i=1, #trackedAchievementIds do
+        _TrackAchievement(trackedAchievementIds[i])
+    end
 end
+
+local lastCreatedLine
 
 ---Creates the required frames to display an Achievement name and its criteria
 ---@param achievementId integer
@@ -33,7 +41,11 @@ _TrackAchievement = function(achievementId)
     local achievementName = select(2, GetAchievementInfo(achievementId))
 
     local line = CreateFrame("Button", nil, baseFrame)
-    line:SetPoint("CENTER")
+    if lastCreatedLine then
+        line:SetPoint("TOP", lastCreatedLine, "BOTTOM", -35, -5)
+    else
+        line:SetPoint("CENTER")
+    end
     line:SetSize(1, 1)
 
     local label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -54,10 +66,10 @@ _TrackAchievement = function(achievementId)
             criteriaLine:SetPoint("TOP", line, "BOTTOM", 0, 0)
         else
             -- First criteria
-            criteriaLine:SetPoint("TOP", 40, -13)
+            criteriaLine:SetPoint("TOP", 35, -15)
         end
+        lastCreatedLine = criteriaLine
     end
-
     trackedAchievements[achievementId] = line
 end
 
