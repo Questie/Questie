@@ -70,6 +70,8 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
+---@type AchievementTracker
+local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
 
 
 
@@ -244,6 +246,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- Initialize the tracker
     coroutine.yield()
     QuestieTracker:Initialize()
+    if Questie.IsWotlk then
+        AchievementTracker.Initialize(UIParent)
+    end
     Hooks:HookQuestLogTitle()
 
     local dateToday = date("%y-%m-%d")

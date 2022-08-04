@@ -36,6 +36,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type AchievementTracker
+local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
 
 local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
 local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
@@ -96,6 +98,10 @@ function QuestieEventHandler:RegisterLateEvents()
             end
         end
     end)
+
+    if Questie.IsWotlk then
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", AchievementTracker.TrackedArchievementListChanged)
+    end
 end
 
 function _EventHandler:PlayerLogin()
