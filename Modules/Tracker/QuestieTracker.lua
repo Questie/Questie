@@ -31,6 +31,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type AchievementTracker
+local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -104,7 +106,13 @@ function QuestieTracker:Initialize()
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
     _QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
-    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame()
+
+    local achievementFrame
+    if Questie.IsWotlk then
+        achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame, trackerFontSizeHeader)
+    end
+
+    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)
 
     -- Quest and Item button tables
     _QuestieTracker:CreateTrackedQuestItemButtons()
@@ -583,7 +591,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     return frm
 end
 
-function _QuestieTracker:CreateTrackedQuestsFrame()
+function _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)
     local frm = CreateFrame("Frame", "Questie_TrackedQuests", _QuestieTracker.baseFrame)
     frm:SetWidth(165)
     frm:SetHeight(32)
@@ -599,7 +607,7 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
             end
         else
             -- No Automove. Tracker header always up top
-            frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
+            frm:SetPoint("TOPLEFT", achievementFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
         end
     else
         -- No header. TrackedQuestsFrame always up top
@@ -619,7 +627,7 @@ function _QuestieTracker:CreateTrackedQuestsFrame()
                 end
             else
                 -- No Automove. Tracker header always up top
-                self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
+                self:SetPoint("TOPLEFT", achievementFrame, "TOPLEFT", trackerSpaceBuffer/2, -(trackerFontSizeHeader+14))
             end
         else
             -- No header. TrackedQuestsFrame always up top

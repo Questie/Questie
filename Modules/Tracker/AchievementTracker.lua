@@ -13,27 +13,30 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local trackedAchievements = {}
 
 local baseFrame
+local lastCreatedLine
 
 local _TrackAchievement
 
 ---@param trackerBaseFrame Frame
 function AchievementTracker.Initialize(trackerBaseFrame)
     baseFrame = CreateFrame("Frame", "Questie_TrackedAchievements", trackerBaseFrame)
-    baseFrame:SetPoint("CENTER")
-    baseFrame:SetSize(200, 40)
+    baseFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -15)
+    baseFrame:SetSize(1, 1)
 
     local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    header:SetText("Tracked Achievements")
+    header:SetText("Achievements")
+    header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", 20, -12)
     baseFrame.header = header
+    lastCreatedLine = header
 
     local trackedAchievementIds = {GetTrackedAchievements()}
 
     for i=1, #trackedAchievementIds do
         _TrackAchievement(trackedAchievementIds[i])
     end
-end
 
-local lastCreatedLine
+    return lastCreatedLine
+end
 
 ---Creates the required frames to display an Achievement name and its criteria
 ---@param achievementId integer
@@ -41,11 +44,7 @@ _TrackAchievement = function(achievementId)
     local achievementName = select(2, GetAchievementInfo(achievementId))
 
     local line = CreateFrame("Button", nil, baseFrame)
-    if lastCreatedLine then
-        line:SetPoint("TOP", lastCreatedLine, "BOTTOM", -35, -5)
-    else
-        line:SetPoint("CENTER")
-    end
+    line:SetPoint("TOP", lastCreatedLine, "BOTTOM", -35, -5)
     line:SetSize(1, 1)
 
     local label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
