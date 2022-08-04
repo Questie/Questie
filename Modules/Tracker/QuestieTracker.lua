@@ -103,13 +103,15 @@ function QuestieTracker:Initialize()
         Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
     end
 
+    _UpdateLayout()
+
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
     _QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
 
     local achievementFrame
     if Questie.IsWotlk then
-        achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame, trackerFontSizeHeader)
+        achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame)
     end
 
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)

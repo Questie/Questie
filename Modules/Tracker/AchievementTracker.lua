@@ -1,9 +1,10 @@
 ---@class AchievementTracker
 local AchievementTracker = QuestieLoader:CreateModule("AchievementTracker")
 
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
+local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 -- https://wowpedia.fandom.com/wiki/World_of_Warcraft_API
 -- GetAchievementCriteriaInfo(achievementID, criteriaNum)
@@ -26,6 +27,7 @@ function AchievementTracker.Initialize(trackerBaseFrame)
     local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     header:SetText("Achievements")
     header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", 20, -12)
+    header:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
     baseFrame.header = header
     lastCreatedLine = header
 
@@ -41,6 +43,7 @@ end
 ---Creates the required frames to display an Achievement name and its criteria
 ---@param achievementId integer
 _TrackAchievement = function(achievementId)
+    Questie:Debug(Questie.DEBUG_SPAM, "Creating frames for achievement:", achievementId)
     local achievementName = select(2, GetAchievementInfo(achievementId))
 
     local line = CreateFrame("Button", nil, baseFrame)
@@ -50,17 +53,24 @@ _TrackAchievement = function(achievementId)
     local label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     label:SetJustifyH("LEFT")
     label:SetPoint("TOPLEFT", line)
-    label:SetText(achievementName)
+    label:SetText("|cFFFFFF00" .. achievementName .. "|r")
+    label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeQuest)
+    label:SetHeight(Questie.db.global.trackerFontSizeQuest)
     line.label = label
 
     local numCriteria = GetAchievementNumCriteria(achievementId)
-
     for i=1, numCriteria do
-        local quantityString = select(9, GetAchievementCriteriaInfo(achievementId, i))
+        local criteriaInfo = {GetAchievementCriteriaInfo(achievementId, i)} or {}
+        local quantityProgress = criteriaInfo[4]
+        local quantityNeeded = criteriaInfo[5]
+        local quantityString = criteriaInfo[9]
 
         local criteriaLine = line:CreateFontString(nil, "ARTWORK", "GameTooltipText")
         criteriaLine:SetJustifyH("LEFT")
-        criteriaLine:SetText("- " .. quantityString)
+
+        criteriaLine:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. "- " .. quantityString .. "|r")
+        criteriaLine:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeObjective)
+        criteriaLine:SetHeight(Questie.db.global.trackerFontSizeObjective)
         if i > 1 then
             criteriaLine:SetPoint("TOP", line, "BOTTOM", 0, 0)
         else
