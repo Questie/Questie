@@ -60,10 +60,7 @@ _TrackAchievement = function(achievementId)
 
     local numCriteria = GetAchievementNumCriteria(achievementId)
     for i=1, numCriteria do
-        local criteriaInfo = {GetAchievementCriteriaInfo(achievementId, i)} or {}
-        local quantityProgress = criteriaInfo[4]
-        local quantityNeeded = criteriaInfo[5]
-        local quantityString = criteriaInfo[9]
+        local _, _, _, quantityProgress, quantityNeeded, _, _, _, quantityString = GetAchievementCriteriaInfo(achievementId, i)
 
         local criteriaLine = line:CreateFontString(nil, "ARTWORK", "GameTooltipText")
         criteriaLine:SetJustifyH("LEFT")
