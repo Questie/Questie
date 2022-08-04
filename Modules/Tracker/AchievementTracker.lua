@@ -24,14 +24,19 @@ function AchievementTracker.Initialize(trackerBaseFrame)
     baseFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -15)
     baseFrame:SetSize(1, 1)
 
+    local trackedAchievementIds = {GetTrackedAchievements()}
+
+    if (not next(trackedAchievementIds)) then
+        -- No achievements are currently tracked
+        return trackerBaseFrame
+    end
+
     local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     header:SetText("Achievements")
     header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", 20, -12)
     header:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
     baseFrame.header = header
     lastCreatedLine = header
-
-    local trackedAchievementIds = {GetTrackedAchievements()}
 
     for i=1, #trackedAchievementIds do
         _TrackAchievement(trackedAchievementIds[i])
