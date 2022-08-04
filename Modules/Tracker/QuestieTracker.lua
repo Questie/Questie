@@ -114,7 +114,7 @@ function QuestieTracker:Initialize()
         achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame)
     end
 
-    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)
+    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame or _QuestieTracker.baseFrame)
 
     -- Quest and Item button tables
     _QuestieTracker:CreateTrackedQuestItemButtons()
@@ -593,7 +593,7 @@ function _QuestieTracker:CreateActiveQuestsHeader()
     return frm
 end
 
-function _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)
+function _QuestieTracker:CreateTrackedQuestsFrame(previousFrame)
     local frm = CreateFrame("Frame", "Questie_TrackedQuests", _QuestieTracker.baseFrame)
     frm:SetWidth(165)
     frm:SetHeight(32)
@@ -602,18 +602,18 @@ function _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
-                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
+                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
             else
                 -- Auto move tracker header to the top
-                frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
+                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
             end
         else
             -- No Automove. Tracker header always up top
-            frm:SetPoint("TOPLEFT", achievementFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
+            frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
         end
     else
         -- No header. TrackedQuestsFrame always up top
-        frm:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
+        frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
     end
 
     frm.Update = function(self)
@@ -622,18 +622,18 @@ function _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame)
             if Questie.db.global.trackerHeaderAutoMove then
                 if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                     -- Auto move tracker header to the bottom
-                    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
+                    self:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
                 else
                     -- Auto move tracker header to the top
-                    self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
+                    self:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
                 end
             else
                 -- No Automove. Tracker header always up top
-                self:SetPoint("TOPLEFT", achievementFrame, "TOPLEFT", trackerSpaceBuffer/2, -(trackerFontSizeHeader+14))
+                self:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -(trackerFontSizeHeader+14))
             end
         else
             -- No header. TrackedQuestsFrame always up top
-            self:SetPoint("TOPLEFT", _QuestieTracker.baseFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
+            self:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", trackerSpaceBuffer*1.625, -10)
         end
     end
 
