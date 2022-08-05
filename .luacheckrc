@@ -2254,7 +2254,7 @@ globals = {
     "QuestWatch_Update",
     "FauxScrollFrame_GetOffset",
     "ReloadUI",
-    "----------------------------------------------------->LUA API",
+    ----------------------------------------------------->LUA API
     "bit",
     "abs",
     "acos",
@@ -2401,7 +2401,7 @@ globals = {
     "unpack",
     "wipe",
     "xpcall",
-    "------------------------------------------------------> FRAMES",
+    ------------------------------------------------------> FRAMES
     "ActionBarActionEventsFrame",
     "ActionBarButtonEventsFrame",
     "ActionBarController",
@@ -2700,7 +2700,7 @@ globals = {
     "WorldMapZoneMinimapDropDown",
     "WorldMapZoneDropDown",
     "WorldMapZoneMinimapDropDown_Update",
-    "-----------------------------------------------------> Blizzard Data",
+    -----------------------------------------------------> Blizzard Data
     "CALENDAR_FULLDATE_MONTH_NAMES",
     "CALENDAR_WEEKDAY_NAMES",
     "ERR_QUEST_ACCEPTED_S",
@@ -2716,7 +2716,7 @@ globals = {
     "WOW_PROJECT_CLASSIC",
     "WOW_PROJECT_BURNING_CRUSADE_CLASSIC",
     "WOW_PROJECT_MAINLINE",
-    "-----------------------------------------------------> External Addons",
+    -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
     "EasyMenu",
     "QuestLogEx",
@@ -2736,7 +2736,7 @@ globals = {
     "PitBull4_Frames_Target",
     "UIDROPDOWNMENU_MAXLEVELS",
     "L_UIDROPDOWNMENU_MAXLEVELS",
-    "-----------------------------------------------------> Project Specific",
+    -----------------------------------------------------> Project Specific
     "Questie",
     "QuestieLoader",
     "ICON_TYPE_COMPLETE",
@@ -2749,4 +2749,7 @@ globals = {
     "ICON_TYPE_AVAILABLE_GRAY",
     "ICON_TYPE_REPEATABLE",
     "Questie_Toggle",
+    "QuestieJourneyFrame",
+    "QuestieConfigFrame",
+    "QuestieConfig",
 }
