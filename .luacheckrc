@@ -2253,6 +2253,7 @@ globals = {
     "QuestLog_SetSelection",
     "QuestWatch_Update",
     "FauxScrollFrame_GetOffset",
+    "ReloadUI",
     "----------------------------------------------------->LUA API",
     "bit",
     "abs",
