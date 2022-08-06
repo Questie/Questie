@@ -188,6 +188,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
             [questKeys.preQuestSingle] = {11895},
         },
+        [11906] = {
+            [questKeys.preQuestSingle] = {11895},
+        },
         [11907] = {
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.BOREAN_TUNDRA]={{60,20.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),0},
