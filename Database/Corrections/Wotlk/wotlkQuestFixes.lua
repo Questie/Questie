@@ -359,6 +359,9 @@ function QuestieWotlkQuestFixes:Load()
         [12473] = {
             [questKeys.triggerEnd] = {"Thel'zan the Duskbringer Defeated",{[zoneIDs.DRAGONBLIGHT]={{81.11,50.64,},},},},
         },
+        [12503] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{28023,28026,28246,28669,28022,},28022,"Scourge at The Argent Stand destroyed"},},
+        },
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
         },
