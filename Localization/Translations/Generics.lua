@@ -278,6 +278,18 @@ local genericsLocales = {
         ["esES"] = "Detalles del objeto",
         ["frFR"] = "Détails de l'objet",
     },
+    ["Item Details"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Подробности о предмете",
+        ["deDE"] = "Item-Details",
+        ["koKR"] = false,
+        ["esMX"] = "Detalles de objeto",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = "Detalles de objeto",
+        ["frFR"] = "Détails de l’objet",
+    },
     ["Required Level"] = {
         ["ptBR"] = "Nível necessário",
         ["ruRU"] = "Требуемый уровень",
@@ -386,6 +398,18 @@ local genericsLocales = {
         ["esES"] = "Banda",
         ["frFR"] = "Raid",
     },
+    ["Vendors"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Продавцы",
+        ["deDE"] = "Händler",
+        ["koKR"] = false,
+        ["esMX"] = "Vendedores",
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = "Vendedores",
+        ["frFR"] = "Vendeurs",
+    }
 }
 
 for k, v in pairs(genericsLocales) do
