@@ -694,19 +694,27 @@ function QuestieSearchResults:DrawSearchTab(container)
         end
     end);
     searchBox:SetCallback("OnEnterPressed", function()
-        if searchBox:GetText() ~= '' then
-            local text = string.trim(searchBox:GetText(), " \n\r\t[]");
-            QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false);
+        if searchBox:GetText() ~= "" then
+            local searchText = searchBox:GetText()
+    
+            local itemName = GetItemInfo(searchText)
+            if itemName then -- An itemLink was added to the searchBox
+                searchBox:SetText(itemName)
+                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, itemName, false)
+            else
+                local text = string.trim(searchText, " \n\r\t[]");
+                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false)
+            end
             searchBox:ClearFocus()
         end
     end);
     -- Check for existence of previous search, if present use its text
-    if QuestieSearch.LastResult.query ~= '' then
+    if QuestieSearch.LastResult.query ~= "" then
         searchBox:SetText(QuestieSearch.LastResult.query)
     end
     container:AddChild(searchBox);
     -- search button
-    searchButton:SetText(l10n('Search'));
+    searchButton:SetText(l10n("Search"));
     searchButton:SetDisabled(true);
     searchButton:SetCallback("OnClick", function()
         local searchText = searchBox:GetText()
