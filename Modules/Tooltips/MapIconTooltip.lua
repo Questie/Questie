@@ -19,6 +19,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestXP
+local QuestXP = QuestieLoader:ImportModule("QuestXP")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -76,7 +78,7 @@ function MapIconTooltip:Show()
     -- happens when a note doesn't get removed after a quest has been finished, see #1170
     -- TODO: change how the logic works, so this [ObjectiveIndex?] can be nil
     -- it is nil on some notes like starters/finishers, because its for objectives. However, it needs to be an number here for duplicate checks
-    if self.data.ObjectiveIndex == nil then
+    if not self.data.ObjectiveIndex then
         self.data.ObjectiveIndex = 0
     end
 
@@ -94,7 +96,7 @@ function MapIconTooltip:Show()
     local function handleMapIcon(icon)
         local iconData = icon.data
 
-        if iconData == nil then
+        if not iconData then
             Questie:Error("[MapIconTooltip:Show] handleMapIcon - iconData is nil! self.data.Id =", self.data.Id, "- Aborting!")
             return
         end
@@ -114,7 +116,7 @@ function MapIconTooltip:Show()
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
                 if iconData.Type == "available" or iconData.Type == "complete" then
-                    if npcOrder[iconData.Name] == nil then
+                    if not npcOrder[iconData.Name] then
                         npcOrder[iconData.Name] = {};
                     end
 
@@ -213,7 +215,7 @@ function MapIconTooltip:Show()
                     local quest = QuestieDB:GetQuest(questData.questId)
                     local rewardString = ""
                     if (quest and shift) then
-                        local xpReward = GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
+                        local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
                             rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB:IsRepeatable(quest.Id))
                         end
@@ -303,7 +305,7 @@ function MapIconTooltip:Show()
                 self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
                 haveGiver = false -- looks better when only the first one shows (active)
             else
-                local xpReward = GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel)
+                local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel)
                 if (quest and shift and xpReward > 0) then
                     r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
                     self:AddDoubleLine(questTitle, "("..FormatLargeNumber(xpReward)..xpString..")", 0.2, 1, 0.2, r, g, b);
@@ -534,7 +536,7 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
         local data = {}
         data[text] = nameTable;
         --Add the data for the first time
-        if usedText[text] == nil then
+        if not usedText[text] then
             tinsert(quest, data)
             usedText[text] = true;
         else

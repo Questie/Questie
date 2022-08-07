@@ -42,28 +42,7 @@ local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)
 
 
 function QuestieEventHandler:RegisterEarlyEvents()
-    local savedVarsTimer
-    Questie:RegisterEvent("PLAYER_LOGIN", function()
-        MinimapIcon:Init() -- This needs to happen outside of a Timer
-
-        local maxTickerRuns = 50 -- 50 * 0.1 seconds = 5 seconds
-        local tickCounter = 0
-
-        savedVarsTimer = C_Timer.NewTicker(0.1, function()
-            tickCounter = tickCounter + 1
-            if (not QuestieConfig) then
-                -- The Saved Variables are not loaded yet
-                if tickCounter == (maxTickerRuns - 1) then
-                    -- The time is over, must be a fresh install
-                    _EventHandler:PlayerLogin()
-                end
-                return
-            end
-
-            savedVarsTimer:Cancel()
-            _EventHandler:PlayerLogin()
-        end, maxTickerRuns)
-    end)
+    Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 end
 
 function QuestieEventHandler:RegisterLateEvents()
@@ -117,11 +96,18 @@ function QuestieEventHandler:RegisterLateEvents()
             end
         end
     end)
-
-    Questie:ContinueInit() -- continue startup inside Questie.lua
 end
 
 function _EventHandler:PlayerLogin()
+    -- Check config exists
+    if not Questie.db or not QuestieConfig then
+        -- Did you move Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig",.......) out of Questie:OnInitialize() ?
+        Questie:Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
+        error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
+        return
+    end
+
+    -- Start real Questie init
     QuestieInit:Init()
 end
 

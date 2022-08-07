@@ -3,12 +3,6 @@
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
-local isTBCClient = string.byte(GetBuildInfo(), 1) == 50;
-
-if (not isTBCClient) then
-    return
-end
-
 QuestieDB.npcKeys = {
     ['name'] = 1, -- string
     ['minLevelHealth'] = 2, -- int
@@ -28,7 +22,7 @@ QuestieDB.npcKeys = {
                        -- For flag values see https://github.com/cmangos/mangos-classic/blob/172c005b0a69e342e908f4589b24a6f18246c95e/src/game/Entities/Unit.h#L536
 }
 
-QuestieDB.npcDataTBC = [[return {
+QuestieDB.npcData = [[return {
 [1] = {'Waypoint (Only GM can see it)',8,8,1,70,0,nil,nil,0,nil,nil,35,"AH","Visual",0,},
 [3] = {'Flesh Eater',664,713,24,25,0,{[10]={{25.37,39.03},{22.2,36.96},{21.7,38.3},{22.04,32.62},{22.81,39.09},{23.81,39.21},{25.69,34.45},{25.37,36.04},{25.06,38.2},},},nil,10,nil,nil,21,nil,"",0,},
 [6] = {'Kobold Vermin',42,55,1,2,0,{[12]={{48.89,36.44},{49.55,36.06},{49.15,36.93},{48.1,36.96},{48.37,36.74},{49.32,35.81},{48.87,35.14},{49.87,36.3},{48.52,36.13},{49.17,36.55},{46.93,35.67},{47.58,35.94},{47.65,36.91},{47.86,36.26},{47.57,36.37},{47.62,35.75},{47.91,35.49},{47.36,36.31},{47.22,36.0},{47.55,34.98},{49.79,35.17},{49.44,35.34},{49.73,35.8},{50.04,35.46},{51.3,36.5},{51.23,36.02},{51.61,35.68},{50.49,37.61},{50.98,37.58},{51.29,37.43},{50.76,37.47},{51.36,37.02},{51.68,37.01},},},nil,12,nil,nil,25,nil,"",0,},

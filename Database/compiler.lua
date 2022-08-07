@@ -1,18 +1,14 @@
 ---@class DBCompiler
 local QuestieDBCompiler = QuestieLoader:CreateModule("DBCompiler")
-local _QuestieDBCompiler = {}
+
 ---@type QuestieStreamLib
 local QuestieStream = QuestieLoader:ImportModule("QuestieStreamLib"):GetStream("raw")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieSerializer
-local serial = QuestieLoader:ImportModule("QuestieSerializer")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
-
-serial.enableObjectLimit = false
 
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
@@ -26,6 +22,7 @@ QuestieDBCompiler.supportedTypes = {
         ["u8u16array"] = true,
         ["u16u16array"] = true,
         ["u8s16pairs"] = true,
+        ["u8s24pairs"] = true,
         ["spawnlist"] = true,
         ["trigger"] = true,
         ["questgivers"] = true,
@@ -34,6 +31,7 @@ QuestieDBCompiler.supportedTypes = {
         ["waypointlist"] = true,
         ["u8u16stringarray"] = true,
         ["u8u24array"] = true,
+        ["u16u24array"] = true,
         ["extraobjectives"] = true,
         ["reflist"] = true
     },
@@ -138,15 +136,37 @@ QuestieDBCompiler.readers = {
         return list
     end,
     ["u16u16array"] = function(stream)
-        local list = {}
         local count = stream:ReadShort()
+
+        if count == 0 then return nil end
+
+        local list = {}
         for i = 1, count do
             list[i] = stream:ReadShort()
         end
         return list
     end,
+    ["u8s24pairs"] = function(stream)
+        local list = {}
+        local count = stream:ReadByte()
+        for i = 1, count do
+            list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+        end
+        return list
+    end,
     ["u8u24array"] = function(stream)
         local count = stream:ReadByte()
+
+        if count == 0 then return nil end
+
+        local list = {}
+        for i = 1, count do
+            list[i] = stream:ReadInt24()
+        end
+        return list
+    end,
+    ["u16u24array"] = function(stream)
+        local count = stream:ReadShort()
 
         if count == 0 then return nil end
 
@@ -403,6 +423,18 @@ QuestieDBCompiler.writers = {
             stream:WriteShort(0)
         end
     end,
+    ["u8s24pairs"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteByte(count)
+            for _,v in pairs(value) do
+                stream:WriteInt24((v[1] or 0) + 8388608)
+                stream:WriteInt24((v[2] or 0) + 8388608)
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["u8u24array"] = function(stream, value)
         if value then
             local count = 0 for _ in pairs(value) do count = count + 1 end
@@ -412,6 +444,17 @@ QuestieDBCompiler.writers = {
             end
         else
             stream:WriteByte(0)
+        end
+    end,
+    ["u16u24array"] = function(stream, value)
+        if value then
+            local count = 0 for _ in pairs(value) do count = count + 1 end
+            stream:WriteShort(count)
+            for _,v in pairs(value) do
+                stream:WriteInt24(v)
+            end
+        else
+            stream:WriteShort(0)
         end
     end,
     ["u8u16stringarray"] = function(stream, value)
@@ -580,7 +623,9 @@ QuestieDBCompiler.skippers = {
     ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
     ["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end,
     ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
+    ["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end,
     ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
+    ["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
     ["waypointlist"]  = function(stream)
         local count = stream:ReadByte()
         for _ = 1, count do
@@ -657,7 +702,9 @@ QuestieDBCompiler.dynamics = {
     ["u8u16array"] = true,
     ["u8s16pairs"] = true,
     ["u16u16array"] = true,
+    ["u8s24pairs"] = true,
     ["u8u24array"] = true,
+    ["u16u24array"] = true,
     ["u8u16stringarray"] = true,
     ["spawnlist"] = true,
     ["trigger"] = true, 
@@ -744,7 +791,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
     local ret = {}
     local i = 0
     while i < count do
-        for e = 1, math.min(768, count-i) do -- steps per yield
+        for _ = 1, math.min(768, count-i) do -- steps per yield
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
@@ -768,15 +815,27 @@ end
 function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, databaseKey, kind, entriesPerTick)
     local count = 0
     local indexLookup = {};
+
+    local max_id = 0
     for id in pairs(tbl) do
-        count = count + 1
-        indexLookup[count] = id
+        assert(type(id) == "number", "CompileTableCoroutine: tbl id is not a number")
+        if id > max_id then
+            max_id = id
+        end
+    end
+    -- iterate table tbl in numerical order to get ids in order to indexLoopup list. iterating over pairs(tbl) gives ids in non determined order
+    for id=0,max_id do
+        if tbl[id] then
+            count = count + 1
+            indexLookup[count] = id
+        end
     end
     count = count + 1
+
     QuestieDBCompiler.index = 0
 
     QuestieDBCompiler.pointerMap = {}
-    QuestieDBCompiler.stream = QuestieStream:GetStream("raw")
+    QuestieDBCompiler.stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
 
     while true do
         coroutine.yield()
@@ -785,10 +844,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
             if QuestieDBCompiler.index == count then
                 Questie.db.global[databaseKey.."Bin"] = QuestieDBCompiler.stream:Save()
                 Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
+                QuestieDBCompiler.stream:finished() -- relief memory pressure
                 return
             end
             local id = indexLookup[QuestieDBCompiler.index]
-            
+
             QuestieDBCompiler.currentEntry = id
             local entry = tbl[id]
 
@@ -806,10 +866,11 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
                     Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, error = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                local result, errorMessage = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
                 if not result then
                     Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
-                    Questie:Error(error)
+                    Questie:Error(errorMessage)
+                    error(errorMessage)
                 end
             end
             tbl[id] = nil -- quicker gabage collection later
@@ -850,16 +911,8 @@ function QuestieDBCompiler:Compile()
     if QuestieDBCompiler._isCompiling then
         return
     end
-    
-    QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
 
-    local function DynamicHashTableSize(entries)
-        if (entries == 0) then
-          return 36;
-        else
-          return math.pow(2, math.ceil(math.log(entries) / math.log(2))) * 40 + 36;
-        end
-    end
+    QuestieDBCompiler._isCompiling = true -- some unknown addon that is popular in china causes player_logged_in event to fire many times which triggers db compile multiple times
 
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
@@ -928,7 +981,8 @@ function QuestieDBCompiler:ValidateNPCs()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished NPC validation without issues!")
+    validator.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateObjects()
@@ -964,7 +1018,8 @@ function QuestieDBCompiler:ValidateObjects()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished validation without issues!")
+    validator.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
 end
 
 
@@ -972,14 +1027,15 @@ function QuestieDBCompiler:ValidateItems()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.itemBin, Questie.db.global.itemPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.itemCompilerTypes, QuestieDB.itemCompilerOrder))
     local obj = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
     local npc = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
-    
+
     for id, _ in pairs(validator.pointers) do
-        local objDrops, npcDrops = unpack(validator.Query(id, "objectDrops", "npcDrops"))
+        local objDrops, npcDrops = validator.QuerySingle(id, "objectDrops"), validator.QuerySingle(id, "npcDrops")
         if objDrops then -- validate object drops
             --print("Validating objs")
             for _, oid in pairs(objDrops) do
                 if not obj.QuerySingle(oid, "name") then
                     Questie:Error("Missing object " .. tostring(oid) .. " that drops " .. (validator.QuerySingle(id, "name") or "Missing item name!") .. " " .. tostring(id))
+                    return
                 end
             end
         end
@@ -989,6 +1045,7 @@ function QuestieDBCompiler:ValidateItems()
                 --print("Validating npcs")
                 if not npc.QuerySingle(nid, "name") then
                     Questie:Error("Missing npc " .. tostring(nid))
+                    return
                 end
             end
         end
@@ -1023,7 +1080,10 @@ function QuestieDBCompiler:ValidateItems()
         --end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished Item validation without issues!")
+    validator.stream:finished()
+    obj.stream:finished()
+    npc.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished items validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateQuests()
@@ -1059,61 +1119,12 @@ function QuestieDBCompiler:ValidateQuests()
         end
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Finished Quest validation without issues!")
+    validator.stream:finished()
+    Questie:Debug(Questie.DEBUG_INFO, "Finished quests validation without issues!")
 end
 
 function QuestieDBCompiler:Initialize()
     QuestieDBCompiler.npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
-end
-
-function QuestieDBCompiler:BuildCompileUI() -- probably wont be used, I was thinking of making something with a progress bar since it takes ~ 30 seconds to compile the db
-                                            -- but this would be too intrusive. Maybe a small progress bar that attaches to the tracker?
-    local base = CreateFrame("Frame", nil, UIParent)
-    base:SetBackdrop( { 
-        bgFile="Interface\\DialogFrame\\UI-DialogBox-Background-Dark",
-        edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border", 
-        tile = true, tileSize = 32, edgeSize = 32, 
-        insets = { left = 11, right = 11, top = 11, bottom = 11 }
-    });
-    base:SetSize(420, 120)
-    base:SetPoint("Center",UIParent)
-
-    base.title = base:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    base.title:SetJustifyH("LEFT")
-    base.title:SetPoint("CENTER", base, 0, 120/2-22)
-    base.title:SetText("Questie DB has updated!")
-    base.title:SetFont(base.title:GetFont(), 18)
-    base.title:Show()
-
-    base.desc = base:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    base.desc:SetJustifyH("LEFT")
-    base.desc:SetPoint("CENTER", base, 0, 120/2-46)
-    base.desc:SetText("The new database needs to be compiled, press start to begin.")
-    --base.desc:SetFont(base.desc:GetFont(), 18)
-    base.desc:Show()
-
-    local button = CreateFrame("Button", nil, base)
-    button:SetPoint("CENTER", base, "CENTER", 0, 24-120/2)
-    button:SetWidth(80)
-    button:SetHeight(20)
-
-    button:SetText("Start")
-    button:SetNormalFontObject("GameFontNormal")
-
-    local function buildTexture(str)
-        local tex = button:CreateTexture()
-        tex:SetTexture(str)
-        tex:SetTexCoord(0, 0.625, 0, 0.6875)
-        tex:SetAllPoints()
-        return tex
-    end
-
-    button:SetNormalTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Up"))
-    button:SetHighlightTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Highlight"))
-    button:SetPushedTexture(buildTexture("Interface/Buttons/UI-Panel-Button-Down"))
-    button:SetScript("OnClick", function(...) print("clicked") end)
-
-    base:Show()
 end
 
 function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, overrides)
@@ -1128,6 +1139,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     --Questie.db.global.__pointers = pointers
     coroutine.yield()
     stream:Load(data)
+    handle.stream = stream
 
     if overrides then
         handle.QuerySingle = function(id, key)
@@ -1138,7 +1150,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             local typ = types[key]
             local ptr = pointers[id]
-            if ptr == nil then
+            if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
@@ -1147,8 +1159,9 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
-                if targetIndex == nil then
+                if not targetIndex then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
+                    return nil
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1169,11 +1182,12 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             --end
             local ptr = pointers[id]
             local override = overrides[id]
-            if ptr == nil then
+            local keys = {...}
+            if not ptr then
                 if override then
                     local ret = {}
-                    for index,key in pairs({...}) do
-                        local rootIndex = keyToRootIndex[key]
+                    for index=1,#keys do
+                        local rootIndex = keyToRootIndex[keys[index]]
                         if rootIndex and override[rootIndex] ~= nil then
                             ret[index] = override[rootIndex]
                         end
@@ -1183,7 +1197,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 return nil
             end
             local ret = {}
-            for index,key in pairs({...}) do
+            for index=1,#keys do
+                local key = keys[index]
                 local rootIndex = keyToRootIndex[key]
                 if override and rootIndex and override[rootIndex] ~= nil then
                     ret[index] = override[rootIndex]
@@ -1194,24 +1209,24 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     else -- need to skip over some variably sized data
                         stream._pointer = lastPtr + ptr
                         local targetIndex = keyToIndex[key]
-                        if targetIndex == nil then
+                        if not targetIndex then
                             Questie:Error("ERROR: Unhandled db key: " .. key)
+                            return nil
                         end
                         for i = lastIndex, targetIndex-1 do
                             QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                         end
                     end
-                    local res = QuestieDBCompiler.readers[typ](stream)
-                    ret[index] = res
+                    ret[index] = QuestieDBCompiler.readers[typ](stream)
                 end
             end
-            return ret--unpack(ret)
+            return ret -- do not unpack the returned table
         end
     else
         handle.QuerySingle = function(id, key)
             local typ = types[key]
             local ptr = pointers[id]
-            if ptr == nil then
+            if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
@@ -1220,8 +1235,9 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             else -- need to skip over some variably sized data
                 stream._pointer = lastPtr + ptr
                 local targetIndex = keyToIndex[key]
-                if targetIndex == nil then
+                if not targetIndex then
                     Questie:Error("ERROR: Unhandled db key: " .. key)
+                    return nil
                 end
                 for i = lastIndex, targetIndex-1 do
                     QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
@@ -1232,29 +1248,31 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
 
         handle.Query = function(id, ...)
             local ptr = pointers[id]
-            if ptr == nil then
+            if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
+            local keys = {...}
             local ret = {}
-            for index,key in pairs({...}) do
+            for index=1,#keys do
+                local key = keys[index]
                 local typ = types[key]
                 if map[key] ~= nil then -- can skip directly
                     stream._pointer = map[key] + ptr
                 else -- need to skip over some variably sized data
                     stream._pointer = lastPtr + ptr
                     local targetIndex = keyToIndex[key]
-                    if targetIndex == nil then
+                    if not targetIndex then
                         Questie:Error("ERROR: Unhandled db key: " .. key)
+                        return nil
                     end
                     for i = lastIndex, targetIndex-1 do
                         QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
                     end
                 end
-                local res = QuestieDBCompiler.readers[typ](stream)
-                ret[index] = res
+                ret[index] = QuestieDBCompiler.readers[typ](stream)
             end
-            return ret--unpack(ret)
+            return ret -- do not unpack the returned table
         end
     end
 

@@ -19,10 +19,6 @@
 ---@field questData table
 ---@field objectData table
 ---@field itemData table
----@field questDataTBC nil | table
----@field objectDataTBC nil | table
----@field npcDataTBC nil | table
----@field itemDataTBC nil | table
 ---@field sortKeys table
 ---@field private private table
 ---@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
@@ -64,9 +60,8 @@ local tinsert = table.insert
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
 local QUEST_FLAGS_DAILY = 4096
--- This is the highest single possible quest flag according to the docs. We need it for the modulus to
--- find quests with QUEST_FLAGS_DAILY set
-local QUEST_FLAGS_UNK5 =  8192
+-- Pre calculated 2 * QUEST_FLAGS_DAILY, for testing a bit flag
+local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
@@ -100,7 +95,6 @@ local VANILLA = string.byte(GetBuildInfo(), 1) == 49
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
     ALL_HORDE = VANILLA and 178 or 690,
-    ALL = VANILLA and 255 or 2047,
     NONE = 0,
 
     HUMAN = 1,
@@ -234,7 +228,7 @@ function QuestieDB:Initialize()
 end
 
 function QuestieDB:GetObject(objectId)
-    if objectId == nil then
+    if not objectId then
         return nil
     end
     if _QuestieDB.objectCache[objectId] ~= nil then
@@ -262,7 +256,7 @@ function QuestieDB:GetObject(objectId)
 end
 
 function QuestieDB:GetItem(itemId)
-    if itemId == nil or itemId == 0 then
+    if (not itemId) or (itemId == 0) then
         return nil
     end
     if _QuestieDB.itemCache[itemId] ~= nil then
@@ -329,7 +323,8 @@ end
 ---@return boolean
 function QuestieDB:IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
-    return flags and (flags % QUEST_FLAGS_UNK5) >= QUEST_FLAGS_DAILY
+    -- test a bit flag: (value % (2*flag) >= flag)
+    return flags and (flags % QUEST_FLAGS_DAILY_X2) >= QUEST_FLAGS_DAILY
 end
 
 ---@param questId number
@@ -439,7 +434,7 @@ end
 ---@param parentID number
 ---@return boolean
 function QuestieDB:IsParentQuestActive(parentID)
-    if parentID == nil or parentID == 0 then
+    if (not parentID) or (parentID == 0) then
         return false
     end
     if QuestiePlayer.currentQuestlog[parentID] then
@@ -458,7 +453,7 @@ function QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
         -- If a quest is not complete and no exlusive quest is complete, the requirement is not fulfilled
         if not Questie.db.char.complete[preQuestId] then
             local preQuest = QuestieDB:GetQuest(preQuestId);
-            if preQuest == nil or preQuest.exclusiveTo == nil then
+            if (not preQuest) or (not preQuest.exclusiveTo) then
                 return false
             end
 
@@ -503,11 +498,6 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
-function QuestieDB:IsProfessionQuest(questId)
-    local requiredSkill = QuestieDB.QueryQuest(questId, "requiredSkill")
-    return requiredSkill ~= nil and next(requiredSkill)
-end
-
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsDoable(questId)
@@ -545,7 +535,7 @@ function QuestieDB:IsDoable(questId)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] part of a chain we dont have!")
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Follow up quests already completed or in the quest log!")
             return false
         end
     end
@@ -586,15 +576,6 @@ function QuestieDB:IsDoable(questId)
         return false
     end
 
-    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-
-    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
-    if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
-        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
-        return isPreQuestGroupFulfilled
-    end
-
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
@@ -602,6 +583,15 @@ function QuestieDB:IsDoable(questId)
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
         return isPreQuestSingleFulfilled
+    end
+
+    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+
+    -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
+    if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
+        local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        return isPreQuestGroupFulfilled
     end
 
     return true
@@ -650,8 +640,8 @@ end
 ---@param questId number
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
-    if questId == nil then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] Expected questID but received nil!")
+    if not questId then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] No questId.")
         return nil
     end
     if _QuestieDB.questCache[questId] ~= nil then
@@ -950,7 +940,7 @@ local playerFaction = UnitFactionGroup("player")
 ---@param npcId number
 ---@return table
 function QuestieDB:GetNPC(npcId)
-    if npcId == nil then
+    if not npcId then
         return nil
     end
     if(_QuestieDB.npcCache[npcId]) then
@@ -970,14 +960,6 @@ function QuestieDB:GetNPC(npcId)
     }
     for stringKey, intKey in pairs(npcKeys) do
         npc[stringKey] = rawdata[intKey]
-    end
-
-    ---@class Point
-    ---@class Zone
-    if npc.waypoints == nil and rawdata[npcKeys.waypoints] then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "Got waypoints! NPC", npc.name, npc.id)
-        ---@type table<Zone, table<Point, Point>>
-        npc.waypoints = rawdata[npcKeys.waypoints]
     end
 
     local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
@@ -1026,7 +1008,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                 if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then
                     zoneQuests[qid] = quest;
                 end
-            elseif quest.Starts.NPC and zoneQuests[qid] == nil then
+            elseif quest.Starts.NPC and (not zoneQuests[qid]) then
                 local npc = QuestieDB:GetNPC(quest.Starts.NPC[1]);
                 if npc and npc.friendly and npc.spawns then
                     for zone, _ in pairs(npc.spawns) do
@@ -1035,7 +1017,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
                         end
                     end
                 end
-            elseif quest.Starts.GameObject and zoneQuests[qid] == nil then
+            elseif quest.Starts.GameObject and (not zoneQuests[qid]) then
                 local obj = QuestieDB:GetObject(quest.Starts.GameObject[1]);
                 if obj and obj.spawns then
                     for zone, _ in pairs(obj.spawns) do

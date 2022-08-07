@@ -169,4 +169,10 @@ _QuestieAuto.disallowedQuests = {
     -- Aldor/scryer quests
     [10551] = true,
     [10552] = true,
+    -- PvP token quests
+    [8367] = true,
+    [8388] = true,
+    [8371] = true,
+    [8385] = true,
+    [64845] = true,
 }

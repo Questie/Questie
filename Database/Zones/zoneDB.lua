@@ -35,7 +35,7 @@ local zoneMap = {} -- Generated
 
 
 function ZoneDB:Initialize()
-    areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = unpack(ZoneDB:GetZoneTables())
+    areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = ZoneDB:GetZoneTables()
 
     _ZoneDB:GenerateUiMapIdToAreaIdTable()
     _ZoneDB:GenerateParentZoneToStartingZoneTable()
@@ -55,17 +55,11 @@ function _ZoneDB:GenerateParentZoneToStartingZoneTable()
 end
 
 function ZoneDB:GetUiMapIdByAreaId(areaId)
-    if areaIdToUiMapId[areaId] ~= nil then
-        return areaIdToUiMapId[areaId]
-    end
-    return nil
+    return areaIdToUiMapId[areaId]
 end
 
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    if uiMapIdToAreaId[uiMapId] ~= nil then
-        return uiMapIdToAreaId[uiMapId]
-    end
-    return nil
+    return uiMapIdToAreaId[uiMapId]
 end
 
 function ZoneDB:GetDungeonLocation(areaId)
@@ -91,17 +85,7 @@ function ZoneDB:GetAlternativeZoneId(areaId)
 end
 
 function ZoneDB:GetParentZoneId(areaId)
-    local entry = dungeonParentZones[areaId]
-    if entry then
-        return entry
-    end
-
-    entry = subZoneToParentZone[areaId]
-    if entry then
-        return entry
-    end
-
-    return nil
+    return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
 function ZoneDB:GetZonesWithQuests()
@@ -111,7 +95,7 @@ function ZoneDB:GetZonesWithQuests()
             if QuestiePlayer:HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
             and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
 
-                local zoneOrSort, requiredSkill = unpack(QuestieDB.QueryQuest(questId, "zoneOrSort", "requiredSkill"))
+                local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
                 if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
                     zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
@@ -139,7 +123,7 @@ function ZoneDB:GetZonesWithQuests()
                     end
                     zoneMap[zoneOrSort][questId] = true
                 else
-                    local startedBy, finishedBy = unpack(QuestieDB.QueryQuest(questId, "startedBy", "finishedBy"))
+                    local startedBy, finishedBy = QuestieDB.QueryQuestSingle(questId, "startedBy"), QuestieDB.QueryQuestSingle(questId, "finishedBy")
 
                     if startedBy then
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
@@ -169,12 +153,12 @@ function _ZoneDB:IsSpecialQuest(zoneOrSort)
     return false
 end
 
-function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcSpawns)
-    if (not npcSpawns) then
+function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
+    if (not npcIds) then
         return zones
     end
 
-    for npcId in pairs(npcSpawns) do
+    for npcId in pairs(npcIds) do
         local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
         if spawns then
             for zone in pairs(spawns) do
@@ -187,13 +171,13 @@ function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcSpawns)
     return zones
 end
 
-function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectSpawns)
-    if (not objectSpawns) then
+function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
+    if (not objectIds) then
         return zones
     end
 
-    for objectId in pairs(objectSpawns) do
-        local spawns = QuestieDB.QueryNPCSingle(objectId, "spawns")
+    for objectId in pairs(objectIds) do
+        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
         if spawns then
             for zone in pairs(spawns) do
                 if not zones[zone] then zones[zone] = {} end

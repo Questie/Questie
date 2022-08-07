@@ -776,7 +776,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                 quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
                 quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
             else
-                Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
+                Questie:Error("Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
             end
         end
     end
@@ -826,8 +826,8 @@ _QuestieComms.packets = {
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestPacket)
-            if(remoteQuestPacket == nil) then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_UPDATE remoteQuestPacket = nil");
+            if not remoteQuestPacket then
+                Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_UPDATE no remoteQuestPacket")
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestPacket.playerName;
@@ -844,8 +844,8 @@ _QuestieComms.packets = {
         _QuestieComms:Broadcast(self.data);
       end,
       read = function(remoteQuestPacket)
-        if(remoteQuestPacket == nil) then
-            Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_REMOVE remoteQuestPacket = nil");
+        if not remoteQuestPacket then
+            Questie:Error("[QuestieComms] QC_ID_BROADCAST_QUEST_REMOVE no remoteQuestPacket")
         end
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieComms] Received: QC_ID_BROADCAST_QUEST_REMOVE")
 
@@ -865,8 +865,8 @@ _QuestieComms.packets = {
             _QuestieComms:Broadcast(self.data);
         end,
         read = function(remoteQuestList)
-            if(remoteQuestList == nil) then
-                Questie:Error("[QuestieComms] QC_ID_BROADCAST_FULL_QUESTLIST remoteQuestList = nil");
+            if not remoteQuestList then
+                Questie:Error("[QuestieComms] QC_ID_BROADCAST_FULL_QUESTLIST no remoteQuestList")
             end
             --These are not strictly needed but helps readability.
             local playerName = remoteQuestList.playerName;

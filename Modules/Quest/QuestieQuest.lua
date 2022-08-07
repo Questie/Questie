@@ -55,6 +55,10 @@ local ipairs = ipairs;
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
 local NOP_FUNCTION = function() end
+local ERR_FUNCTION = function(err)
+    print(err)
+    print(debugstack())
+end
 
 -- forward declaration
 local _UnloadAlreadySpawnedIcons
@@ -94,15 +98,15 @@ function _QuestieQuest:ShowQuestIcons()
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
-        if (trackerHiddenQuests == nil) or (trackerHiddenQuests[questId] == nil) then -- Skip quests which are completly hidden from the Tracker menu
+        if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completly hidden from the Tracker menu
             for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 ---@type IconFrame
                 local icon = _G[frameName];
-                if icon.data == nil then
+                if not icon.data then
                     error("Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
                 else
                     local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
-                    if (Questie.db.char.TrackerHiddenObjectives == nil) or (Questie.db.char.TrackerHiddenObjectives[objectiveString] == nil) then
+                    if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
                         if icon ~= nil and icon.hidden and (not icon:ShouldBeHidden()) then
                             icon:FakeShow()
 
@@ -186,7 +190,6 @@ function QuestieQuest:ClearAllNotes()
                 s.AlreadySpawned = {}
             end
         end
-        quest.SpecialObjectives = {}
     end
 
     for _, frameList in pairs(QuestieMap.questIdFrames) do
@@ -206,10 +209,7 @@ local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
     if quest and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-                print(err)
-                print(debugstack())
-            end, QuestieQuest, quest, 0, objective, true);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
@@ -340,7 +340,7 @@ end
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
-    if(QuestiePlayer.currentQuestlog[questId] == nil) then
+    if not QuestiePlayer.currentQuestlog[questId] then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
         local quest = QuestieDB:GetQuest(questId)
@@ -368,11 +368,9 @@ end
 ---@param questId number
 function QuestieQuest:CompleteQuest(questId)
     QuestiePlayer.currentQuestlog[questId] = nil;
-    local specialFlags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
-    local isRepeatable = specialFlags and mod(specialFlags, 2) == 1
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = QuestieDB:IsDailyQuest(questId) or (not isRepeatable);
+    Questie.db.char.complete[questId] = QuestieDB:IsDailyQuest(questId) or (not QuestieDB:IsRepeatable(questId));
 
     QuestieMap:UnloadQuestFrames(questId)
     if (QuestieMap.questIdFrames[questId]) then
@@ -543,10 +541,7 @@ end
 function QuestieQuest:UpdateObjectiveNotes(quest)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
-        local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-            print(err)
-            print(debugstack())
-        end, QuestieQuest, quest, objectiveIndex, objective, false);
+        local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, objective, false)
         if (not result) then
             Questie:Debug(Questie.DEBUG_ELEVATED, "[QuestieQuest] There was an error populating objectives for", quest.name, quest.Id, objectiveIndex, err)
         end
@@ -1014,10 +1009,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Adding special objectives")
         local index = 0 -- SpecialObjectives is a string table, but we need a number
         for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-                print(err)
-                print(debugstack())
-            end, QuestieQuest, quest, index, objective, true);
+            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, index, objective, true)
             if not result then
                 Questie:Error("[QuestieQuest]: [SpecialObjectives] ".. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
             end
@@ -1045,9 +1037,9 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie:Error(Questie.TBC_BETA_BUILD_VERSION_SHORTHAND.."Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
+                Questie:Error("Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
             else
-                if quest.Objectives[objectiveIndex] == nil then
+                if not quest.Objectives[objectiveIndex] then
                     quest.Objectives[objectiveIndex] = {
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
@@ -1334,6 +1326,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                 end
             else
                 timer:Cancel()
+                -- UpdateAddOnCPUUsage(); print("Questie CPU usage:", GetAddOnCPUUsage("Questie")) -- Do not remove even commented out. Useful for performance testing.
                 if callback ~= nil then
                     callback()
                 end

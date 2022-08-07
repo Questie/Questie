@@ -8,11 +8,11 @@ local timer
 function QuestieQuestTimers:Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
 
-    if QuestTimerFrame_Update == nil then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "QuestTimerFrame_Update is nil. Retrying to hooksecurefunc in 5 seconds.")
+    if not QuestTimerFrame_Update then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "No QuestTimerFrame_Update. Retrying to hooksecurefunc in 5 seconds.")
         C_Timer.After(5, function()
-            if QuestTimerFrame_Update == nil then
-                Questie:Debug(Questie.DEBUG_CRITICAL, "QuestTimerFrame_Update is still nil. Something is strange.")
+            if not QuestTimerFrame_Update then
+                Questie:Debug(Questie.DEBUG_CRITICAL, "Still no QuestTimerFrame_Update. Something is strange.")
                 return
             end
             hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
