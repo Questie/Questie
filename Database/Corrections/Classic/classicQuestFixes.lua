@@ -947,6 +947,9 @@ function QuestieQuestFixes:Load()
         [1950] = {
             [questKeys.triggerEnd] = {"Secret phrase found", {[zoneIDs.THOUSAND_NEEDLES]={{79.56,75.65}}}},
         },
+        [1954] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [1955] = {
             [questKeys.triggerEnd] = {"Kill the Demon of the Orb", {[zoneIDs.DUSTWALLOW_MARSH]={{45.6,57,2}}}},
         },
