@@ -738,18 +738,18 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
     local frame = AceGUI:Create("Frame")
     frame:SetHeight(300)
     frame:SetWidth(300)
-    if detailType == 'quest' then
+    if detailType == "quest" then
         QuestieSearchResults:QuestDetailsFrame(frame, id)
-        frame:SetTitle(l10n('Quest Details'))
-    elseif detailType == 'npc' then
+        frame:SetTitle(l10n("Quest Details"))
+    elseif detailType == "npc" then
         QuestieSearchResults:SpawnDetailsFrame(frame, id, detailType)
-        frame:SetTitle(l10n('NPC Details'))
-    elseif detailType == 'object' then
+        frame:SetTitle(l10n("NPC Details"))
+    elseif detailType == "object" then
         QuestieSearchResults:SpawnDetailsFrame(frame, id, detailType)
-        frame:SetTitle(l10n('Object Details'))
-    elseif detailType == 'item' then
+        frame:SetTitle(l10n("Object Details"))
+    elseif detailType == "item" then
         QuestieSearchResults:ItemDetailsFrame(frame, id)
-        frame:SetTitle(l10n('Item Details'))
+        frame:SetTitle(l10n("Item Details"))
     else
         frame:ReleaseChildren()
         return
