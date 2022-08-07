@@ -136,7 +136,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
         },
         [1486] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [1508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -428,10 +428,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{3032,13417,20407,23127,},nil,nil,},
         },
         [8412] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8413] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8423] = {
             [questKeys.preQuestSingle] = {},
@@ -2091,29 +2091,29 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
         [11013] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11014] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11015] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11016] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11017] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11018] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11019] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {11013},
         },
         [11020] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_SLAY, l10n("Kill any wildlife in Shadowmoon Valley to collect Fel Gland"), 0, {{"monster", 21901},{"monster", 21462},{"monster", 21878},{"monster", 21879}}},
@@ -2133,7 +2133,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Beast for the cost of 10 Apexis Shards"), 0, {{"object", 185920}}}},
         },
         [11035] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11036] = {
             [questKeys.exclusiveTo] = {10183,11037,11038,11039,11040,11042},
@@ -2156,7 +2156,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10183,11036,11037,11038,11039,11042},
         },
         [11041] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11042] = {
             [questKeys.requiredLevel] = 67,
@@ -2185,10 +2185,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11046,11047},
         },
         [11049] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11050] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11052] = {
             [questKeys.exclusiveTo] = {10708},
@@ -2210,10 +2210,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Purchase 1 Unstable Flask of the Sorcerer for the cost of 10 Apexis Shards"), 0, {{"object", 185921}}}},
         },
         [11063] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11064] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Murg \"Oldie\" Muckjaw Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.76,85.05}}}},
         },
         [11065] = {
@@ -2225,11 +2225,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use Wrangling Rope on weakened Aether Rays"), 0, {{"monster", 22181}}}},
         },
         [11067] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Trope the Filth-Belcher Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.75,85}}}},
         },
         [11068] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75}}}},
         },
         [11069] = {
@@ -2237,15 +2237,15 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09}}}},
         },
         [11070] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Wing Commander Mulverick Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,84.36}}}},
         },
         [11071] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Captain Skyshatter Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.71,85.05}}}},
         },
         [11077] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11079] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Fel Crystal Prism"), 0, {{"object", 185927}}}},
@@ -2254,27 +2254,27 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Apexis Emanations attained", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.7,46.64},{27.3,68.39},{31.82,63.62},{33.42,51.9}}}},
         },
         [11081] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11082] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Murkblood Information Gathered", {[zoneIDs.SHADOWMOON_VALLEY]={{73.06,82.26},{68.63,79.81}}}},
         },
         [11083] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11085] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Rescue the Skyguard Prisoner.", {[zoneIDs.TEROKKAR_FOREST]={{69.77,75.98},{62.41,73.85},{73.94,88.3}}}},
         },
         [11086] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11089] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [11090] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79}}}},
         },
         [11093] = {
@@ -2282,7 +2282,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Nether Ray Cage and slay Blackwind Warp Chasers near the Hungry Nether Ray"), 0, {{"monster", 23219}}}},
         },
         [11094] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {932,0},
         },
@@ -2291,12 +2291,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {932,0},
         },
         [11097] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
         },
@@ -2305,7 +2305,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep]= {934,0},
         },
         [11101] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
@@ -2314,7 +2314,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
         [11108] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Meeting with Illidan Stormrage", {[zoneIDs.SHADOWMOON_VALLEY]={{65.93,86.15}}}},
         },
         [11119] = {
@@ -3168,7 +3168,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Summon and defeat each of the descendants by using 10 Time-Lost Scrolls at the Skull Piles"), 0, {{"object", 185913}}}},
         },
         [11886] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.objectives] = {nil,nil,{{35277,nil}},nil},
             [questKeys.finishedBy] = {{25324},nil},
         },
@@ -3408,7 +3408,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [12318] = {
             [questKeys.startedBy] = {{27584,28329},nil,nil,},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.preQuestSingle] = {},
         },
         [12331] = {
@@ -3993,7 +3993,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190102,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12397] = {
@@ -4002,7 +4002,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190103,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12398] = {
@@ -4011,7 +4011,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190104,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12399] = {
@@ -4020,7 +4020,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190105,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12400] = {
@@ -4029,7 +4029,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190106,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12401] = {
@@ -4038,7 +4038,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190107,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12402] = {
@@ -4047,7 +4047,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190108,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12403] = {
@@ -4056,7 +4056,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190109,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12404] = {
@@ -4065,7 +4065,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190110,190111}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12406] = {
@@ -4074,7 +4074,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190112,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12407] = {
@@ -4083,7 +4083,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190113,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12408] = {
@@ -4092,7 +4092,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190114,},},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12409] = {
@@ -4101,7 +4101,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{190115,190116}},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.zoneOrSort] = -22,
         },
         [12420] = {

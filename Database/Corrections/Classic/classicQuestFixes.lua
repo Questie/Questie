@@ -402,10 +402,10 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{3204},nil,{4903}},
         },
         [834] = {
-            [questKeys.requiredRaces] = raceIDs.ALL, -- #1665
+            [questKeys.requiredRaces] = raceIDs.NONE, -- #1665
         },
         [835] = {
-            [questKeys.requiredRaces] = raceIDs.ALL, -- #1665
+            [questKeys.requiredRaces] = raceIDs.NONE, -- #1665
         },
         [836] = {
             [questKeys.triggerEnd] = {"Escort OOX-09/HL to the shoreline beyond Overlook Cliff", {[zoneIDs.THE_HINTERLANDS]={{79.14,61.36}}}},
@@ -623,7 +623,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 1, -- #1348
         },
         [1198] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
@@ -1626,31 +1626,31 @@ function QuestieQuestFixes:Load()
         },
         [5402] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5403] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5404] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5405] = {
             [questKeys.startedBy] = {{11039},nil,nil},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5406] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5407] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5408] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [5421] = {
             [questKeys.questLevel] = 25,
@@ -1659,7 +1659,7 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
         [5503] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.startedBy] = {{10839},nil,nil},
         },
         [5508] = {
@@ -2899,12 +2899,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {8747,8748,8749,8750,8751,8752,8753,8754,8755,8756}, --invoker exalted
         },
         [8767] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.exclusiveTo] = {8788},
         },
         [8788] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.requiredClasses] = classIDs.NONE,
             [questKeys.exclusiveTo] = {8767},
         },
@@ -3410,7 +3410,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.TIRISFAL_GLADES] = {{60.4,61.7}}}},
         },
         [9319] = {
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [9322] = {
             [questKeys.requiredLevel] = 1,
@@ -3420,7 +3420,7 @@ function QuestieQuestFixes:Load()
         },
         [9386] = {
             [questKeys.preQuestSingle] = {9319},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.specialFlags] = 1,
         },
         [9415] = {
@@ -3570,7 +3570,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [7562] = {
             [questKeys.startedBy] = {{5753,5815},nil,nil},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8151] = {
             [questKeys.startedBy] = {{3039,3352},nil,nil},
@@ -3640,7 +3640,7 @@ function QuestieQuestFixes:LoadFactionFixes()
         },
         [7562] = {
             [questKeys.startedBy] = {{5520,6382},nil,nil},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [8151] = {
             [questKeys.startedBy] = {{4205,5116,5516},nil,nil},

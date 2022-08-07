@@ -2679,7 +2679,7 @@
         "GetQuestLogRewardXP",
         "DBM",
         "DBMHudMap",
-        "hudDuration",//This is some DBM stuff, dunno what
+        "hudDuration",
         "TomTom",
         "LQuestie_EasyMenu",
         "LibStub",
@@ -2700,18 +2700,13 @@
         "LQuestie_Create_UIDropDownMenu"
     ],
     "Lua.workspace.ignoreDir": [
-        "Database/graves.lua",
         "Database/itemDB.lua",
         "Database/objectDB.lua",
         "Database/questDB.lua",
-        "Database/spawnDB.lua",
-        "Database/specialspawns.lua",
-        "Database/TEMP_questie2events.lua",
-        "Database/TEMP_questie4items.lua",
-        "Database/TEMP_repprof.lua",
         "Database/zoneDB.lua",
         "Localization/lookups/**",
-        "Localization/Translations/**"
+        "Localization/Translations/**",
+        "cli.lua"
     ],
     "files.exclude": {
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
