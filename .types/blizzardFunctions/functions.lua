@@ -1,7 +1,7 @@
 
 ------------FRAME FUNCTIONS
---https://github.com/tomrus88/BlizzardInterfaceCode/blob/ace1af63e38c058fa76cd3abca0b57b384c527d4/Interface/SharedXML/Pools.lua#L143
---Hides frame and clears points
+---Hides frame and clears points
+--- See Blizzard code [Documentation](https://github.com/tomrus88/BlizzardInterfaceCode/blob/ace1af63e38c058fa76cd3abca0b57b384c527d4/Interface/SharedXML/Pools.lua#L143)
 function FramePool_HideAndClearAnchors() end
 
 

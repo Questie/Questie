@@ -18,12 +18,12 @@
 ---@return boolean isStory
 ---@return boolean isHidden         @true if the quest is not visible inside the player's quest log.
 ---@return boolean isScaling
---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestLogTitle)
+---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestLogTitle)
 function GetQuestLogTitle(questLogIndex) end
 
 ---@return number numEntries @Number of entries in the Quest Log, including collapsable zone headers.
 ---@return number numQuests  @Number of actual quests in the Quest Log, not counting zone headers.
---[Documentation](https://wowpedia.fandom.com/wiki/API_GetNumQuestLogEntries)
+---[Documentation](https://wowpedia.fandom.com/wiki/API_GetNumQuestLogEntries)
 function GetNumQuestLogEntries() end
 
 ---@param questID QuestId       @Unique identifier for each quest.

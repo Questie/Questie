@@ -4,6 +4,7 @@ exclude_files = {
     ".github/",
     ".history/",
     ".idea/",
+    ".types/",
     ".vscode/",
     "ExternalScripts(DONOTINCLUDEINRELEASE)/",
     "Database/Classic/",
