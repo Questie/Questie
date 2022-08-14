@@ -251,26 +251,29 @@ QuestieDBCompiler.readers = {
         end
         return ret
     end,
+    ["killobjectives"] = function(stream)
+        local count = stream:ReadByte()
+        if count == 0 then return nil end
+
+        local ret = {}
+        for i=1, count do
+            local creditCount = stream:ReadByte()
+            local creditList = {}
+            for j=1, creditCount do
+                creditList[j] = stream:ReadInt24()
+            end
+            ret[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+        end
+        return ret
+    end,
     ["objectives"] = function(stream)
-        local ret = {
+        return {
             QuestieDBCompiler.readers["objective"](stream),
             QuestieDBCompiler.readers["objective"](stream),
             QuestieDBCompiler.readers["objective"](stream),
             QuestieDBCompiler.readers["u24pair"](stream),
+            QuestieDBCompiler.readers["killobjectives"](stream),
         }
-
-        local creditCount = stream:ReadByte()
-        if creditCount > 0 then
-            local creditList = {}
-            for i=1,creditCount do
-                creditList[i] = stream:ReadInt24()
-            end
-            local rootNPCId = stream:ReadInt24()
-            local rootNPCName = stream:ReadTinyStringNil()
-            ret[5] = {creditList, rootNPCId, rootNPCName}
-        end
-
-        return ret
     end,
     ["reflist"] = function(stream)
         local count = stream:ReadByte()
@@ -534,22 +537,34 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
+    ["killobjectives"] = function(stream, value)
+        if type(value) == "table" and #value > 0 then
+            stream:WriteByte(#value)
+            for i=1, #value do -- iterate over all killobjectives
+                local killobjective = value[i]
+                local npcIds = killobjective[1]
+                assert(type(npcIds) == "table")
+                if #npcIds == 0 then
+                    Questie:Error("DB compiler: Warning, everything works okey, but fix this: KillObjective has 0 npcIDs.")
+                end
+                stream:WriteByte(#npcIds) -- write count of creatureIDs
+                for j=1, #npcIds do
+                    stream:WriteInt24(npcIds[j]) -- write creatureID
+                end
+                stream:WriteInt24(killobjective[2]) -- write baseCreatureID
+                stream:WriteTinyString(killobjective[3] or "") -- write baseCreatureText
+            end
+        else
+            stream:WriteByte(0)
+        end
+    end,
     ["objectives"] = function(stream, value)
         if value then
             QuestieDBCompiler.writers["objective"](stream, value[1])
             QuestieDBCompiler.writers["objective"](stream, value[2])
             QuestieDBCompiler.writers["objective"](stream, value[3])
             QuestieDBCompiler.writers["u24pair"](stream, value[4])
-            if value[5] and value[5][1] and value[5][1][1] then
-                stream:WriteByte(#value[5][1])
-                for _, v in pairs(value[5][1]) do
-                    stream:WriteInt24(v)
-                end
-                stream:WriteInt24(value[5][2])
-                stream:WriteTinyString(value[5][3] or "")
-            else
-                stream:WriteByte(0)
-            end
+            QuestieDBCompiler.writers["killobjectives"](stream, value[5])
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
@@ -670,16 +685,21 @@ QuestieDBCompiler.skippers = {
             stream._pointer = stream:ReadByte() + stream._pointer
         end
     end,
+    ["killobjectives"] = function(stream)
+        local count = stream:ReadByte()
+        if count == 0 then return nil end
+
+        for _=1, count do
+            stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
+            stream._pointer = stream:ReadByte() + stream._pointer
+        end
+    end,
     ["objectives"] = function(stream)
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["u24pair"](stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            stream._pointer = stream._pointer + count * 3 + 3
-            QuestieDBCompiler.skippers["u8string"](stream)
-        end
+        QuestieDBCompiler.skippers["killobjectives"](stream)
     end,
     ["reflist"] = function(stream)
         stream._pointer = stream:ReadByte() * 4 + stream._pointer
