@@ -691,13 +691,12 @@ QuestieDBCompiler.skippers = {
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["objective"](stream)
         QuestieDBCompiler.skippers["u24pair"](stream)
-
         local count = stream:ReadByte() -- killobjectives
-        if count == 0 then return nil end
-
-        for _=1, count do
-            stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
-            stream._pointer = stream:ReadByte() + stream._pointer
+        if count > 0 then
+            for _=1, count do
+                stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
+                stream._pointer = stream:ReadByte() + stream._pointer
+            end
         end
     end,
     ["reflist"] = function(stream)
