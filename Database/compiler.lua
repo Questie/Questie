@@ -552,10 +552,8 @@ QuestieDBCompiler.writers = {
                 for i=1, #killobjectives do -- iterate over all killobjectives
                     local killobjective = killobjectives[i]
                     local npcIds = killobjective[1]
-                    assert(type(npcIds) == "table", "killobjective's npcids is not a table")
-                    if #npcIds == 0 then
-                        Questie:Error("DB compiler: Warning, everything works okey, but fix this: KillObjective has 0 npcIDs.")
-                    end
+                    assert(type(npcIds) == "table", "killobjective's npcids is not a table.")
+                    assert(#npcIds > 0, "killOojective has 0 npcIDs.")
                     stream:WriteByte(#npcIds) -- write count of creatureIDs
                     for j=1, #npcIds do
                         stream:WriteInt24(npcIds[j]) -- write creatureID
