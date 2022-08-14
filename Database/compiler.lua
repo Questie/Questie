@@ -251,29 +251,31 @@ QuestieDBCompiler.readers = {
         end
         return ret
     end,
-    ["killobjectives"] = function(stream)
-        local count = stream:ReadByte()
-        if count == 0 then return nil end
+    ["objectives"] = function(stream)
+        local ret = {
+            QuestieDBCompiler.readers["objective"](stream),
+            QuestieDBCompiler.readers["objective"](stream),
+            QuestieDBCompiler.readers["objective"](stream),
+            QuestieDBCompiler.readers["u24pair"](stream),
+        }
 
-        local ret = {}
+        local count = stream:ReadByte()
+        if count == 0 then
+            return ret
+        end
+
+        local killobjectives = {}
         for i=1, count do
             local creditCount = stream:ReadByte()
             local creditList = {}
             for j=1, creditCount do
                 creditList[j] = stream:ReadInt24()
             end
-            ret[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
         end
+        ret[5] = killobjectives
+
         return ret
-    end,
-    ["objectives"] = function(stream)
-        return {
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["u24pair"](stream),
-            QuestieDBCompiler.readers["killobjectives"](stream),
-        }
     end,
     ["reflist"] = function(stream)
         local count = stream:ReadByte()
@@ -537,34 +539,33 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(0)
         end
     end,
-    ["killobjectives"] = function(stream, value)
-        if type(value) == "table" and #value > 0 then
-            stream:WriteByte(#value)
-            for i=1, #value do -- iterate over all killobjectives
-                local killobjective = value[i]
-                local npcIds = killobjective[1]
-                assert(type(npcIds) == "table")
-                if #npcIds == 0 then
-                    Questie:Error("DB compiler: Warning, everything works okey, but fix this: KillObjective has 0 npcIDs.")
-                end
-                stream:WriteByte(#npcIds) -- write count of creatureIDs
-                for j=1, #npcIds do
-                    stream:WriteInt24(npcIds[j]) -- write creatureID
-                end
-                stream:WriteInt24(killobjective[2]) -- write baseCreatureID
-                stream:WriteTinyString(killobjective[3] or "") -- write baseCreatureText
-            end
-        else
-            stream:WriteByte(0)
-        end
-    end,
     ["objectives"] = function(stream, value)
         if value then
             QuestieDBCompiler.writers["objective"](stream, value[1])
             QuestieDBCompiler.writers["objective"](stream, value[2])
             QuestieDBCompiler.writers["objective"](stream, value[3])
             QuestieDBCompiler.writers["u24pair"](stream, value[4])
-            QuestieDBCompiler.writers["killobjectives"](stream, value[5])
+
+            local killobjectives = value[5]
+            if type(killobjectives) == "table" and #killobjectives > 0 then
+                stream:WriteByte(#killobjectives)
+                for i=1, #killobjectives do -- iterate over all killobjectives
+                    local killobjective = killobjectives[i]
+                    local npcIds = killobjective[1]
+                    assert(type(npcIds) == "table", "killobjective's npcids is not a table")
+                    if #npcIds == 0 then
+                        Questie:Error("DB compiler: Warning, everything works okey, but fix this: KillObjective has 0 npcIDs.")
+                    end
+                    stream:WriteByte(#npcIds) -- write count of creatureIDs
+                    for j=1, #npcIds do
+                        stream:WriteInt24(npcIds[j]) -- write creatureID
+                    end
+                    stream:WriteInt24(killobjective[2]) -- write baseCreatureID
+                    stream:WriteTinyString(killobjective[3] or "") -- write baseCreatureText
+                end
+            else
+                stream:WriteByte(0)
+            end
         else
             --print("Missing objective table for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
@@ -685,21 +686,19 @@ QuestieDBCompiler.skippers = {
             stream._pointer = stream:ReadByte() + stream._pointer
         end
     end,
-    ["killobjectives"] = function(stream)
-        local count = stream:ReadByte()
+    ["objectives"] = function(stream)
+        QuestieDBCompiler.skippers["objective"](stream)
+        QuestieDBCompiler.skippers["objective"](stream)
+        QuestieDBCompiler.skippers["objective"](stream)
+        QuestieDBCompiler.skippers["u24pair"](stream)
+
+        local count = stream:ReadByte() -- killobjectives
         if count == 0 then return nil end
 
         for _=1, count do
             stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
             stream._pointer = stream:ReadByte() + stream._pointer
         end
-    end,
-    ["objectives"] = function(stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["u24pair"](stream)
-        QuestieDBCompiler.skippers["killobjectives"](stream)
     end,
     ["reflist"] = function(stream)
         stream._pointer = stream:ReadByte() * 4 + stream._pointer
