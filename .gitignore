@@ -22,3 +22,6 @@
 
 releases/
 *__pycache__/
+
+#VSCode
+.vscode
