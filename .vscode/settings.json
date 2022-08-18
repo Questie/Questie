@@ -2714,10 +2714,5 @@
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true
     },
-    "editor.tabSize": 4,
-    "python.testing.pytestArgs": [
-        "Modules"
-    ],
-    "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "editor.tabSize": 4
 }
