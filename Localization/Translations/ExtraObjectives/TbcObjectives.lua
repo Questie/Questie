@@ -161,7 +161,10 @@ local tbcObjectiveLocales = {
     ["Use 7 Warmaul Skulls to summon Gurok the Usurper"] = { -- 9853
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Benutzt 7 Totschlägerschädel um Gurok den Usurpator zu beschwören.",
+<<<<<<< HEAD
+=======
+        ["deDE"] = "Benutzt 7 Totschlägerschädel um Gurok den Usurpator zu beschwören. ",
+>>>>>>> 8f8cca3f418659e67a6e31154f63540c2e679cd7
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
@@ -281,7 +284,11 @@ local tbcObjectiveLocales = {
     ["Obtain the Coruu Access Crystal from Overseer Seylanna. Use it at the Manaforge Coruu Console to shut it down"] = { -- 10321 & 10330
         ["ptBR"] = false,
         ["ruRU"] = false,
+<<<<<<< HEAD
         ["deDE"] = "Erhaltet den Zugangskristall von Coruu von Vorarbeiter Theredis. Benutzt ihn an der Coruu-Konsole der Manaschmiede um sie herunterzufahren.",
+=======
+        ["deDE"] = "Erhaltet den Zugangskristall von Coruu von Vorarbeiter Theredis. Benutzt ihn an der Coruu-Konsole der Manaschmiede um sie herunterzufahren. ",
+>>>>>>> 8f8cca3f418659e67a6e31154f63540c2e679cd7
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
