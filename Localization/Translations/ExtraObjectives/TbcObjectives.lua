@@ -161,10 +161,7 @@ local tbcObjectiveLocales = {
     ["Use 7 Warmaul Skulls to summon Gurok the Usurper"] = { -- 9853
         ["ptBR"] = false,
         ["ruRU"] = false,
-<<<<<<< HEAD
-=======
-        ["deDE"] = "Benutzt 7 Totschlägerschädel um Gurok den Usurpator zu beschwören. ",
->>>>>>> 8f8cca3f418659e67a6e31154f63540c2e679cd7
+        ["deDE"] = "Benutzt 7 Totschlägerschädel um Gurok den Usurpator zu beschwören.",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
