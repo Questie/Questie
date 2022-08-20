@@ -137,6 +137,9 @@ function QuestieWotlkQuestFixes:Load()
         [11664] = {
             [questKeys.triggerEnd] = {"Mootoo Saved",{[zoneIDs.BOREAN_TUNDRA]={{31.19,54.44,},},},},
         },
+        [11670] = {
+            [questKeys.objectives] = {{{25430,"Warsong Banner Planted in Magmothregar"},},nil,{{34870,nil},},nil,},
+        },
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
         },
@@ -180,6 +183,13 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
+        },
+        [11899] = {
+            [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
+            [questKeys.preQuestSingle] = {11895},
+        },
+        [11906] = {
+            [questKeys.preQuestSingle] = {11895},
         },
         [11907] = {
             [questKeys.extraObjectives] = {
@@ -287,6 +297,9 @@ function QuestieWotlkQuestFixes:Load()
         [12150] = {
             [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
         },
+        [12157] = {
+            [questKeys.exclusiveTo] = {12171,12297},
+        },
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
@@ -301,6 +314,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
+            [questKeys.exclusiveTo] = {12157},
         },
         [12301] = {
             [questKeys.triggerEnd] = {"The Forgotten Redeemed",{[zoneIDs.DRAGONBLIGHT]={{86.86,66.18,},},},},
@@ -345,6 +359,9 @@ function QuestieWotlkQuestFixes:Load()
         [12473] = {
             [questKeys.triggerEnd] = {"Thel'zan the Duskbringer Defeated",{[zoneIDs.DRAGONBLIGHT]={{81.11,50.64,},},},},
         },
+        [12503] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{28023,28026,28246,28669,28022,},28022,"Scourge at The Argent Stand destroyed"},},
+        },
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
         },
@@ -366,6 +383,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12578] = {
             [questKeys.triggerEnd] = {"Travel to Mosswalker Village.",{[zoneIDs.SHOLAZAR_BASIN]={{75.07,51.88,},},},},
+        },
+        [12630] = {
+            [questKeys.objectives] = {{{28519,"Hair Samples Collected"},},nil,nil,nil,},
         },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},

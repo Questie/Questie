@@ -12,6 +12,15 @@ function QuestieWotlkNpcFixes:Load()
     local npcFlags = QuestieDB.npcFlags
 
     return {
+        [15351] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
+                [zoneIDs.DARNASSUS]={{58.02,34.52}},
+                [zoneIDs.THE_EXODAR]={{24.55,55.42}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+            },
+        },
         [23763] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{50.2,29.2},{50.4,26.4},{50.4,27},{50.6,26.6},{51,26.2},{51,27.6},{51.2,25.4},{51.2,28.8},{51.6,25.4},{51.8,27.6},{52,29.6},{52.2,26.4},{52.2,26.6},{52.4,28.6},{52.6,28.6},{52.8,26.4},{52.8,27},{52.8,27.8}},
@@ -64,6 +73,9 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.HOWLING_FJORD] = {{61.1,2}},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [28026] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
         },
         [28912] = {
             [npcKeys.waypoints] = {},
