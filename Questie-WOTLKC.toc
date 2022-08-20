@@ -170,6 +170,7 @@ Modules\Tracker\QuestieTrackerMenu.lua
 Modules\Tracker\QuestieTrackerPrivates.lua
 Modules\Tracker\QuestieQuestTimers.lua
 Modules\Tracker\AchievementTracker.lua
+Modules\Tracker\ActiveQuestsHeader.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
