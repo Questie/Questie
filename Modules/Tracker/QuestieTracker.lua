@@ -744,10 +744,6 @@ function QuestieTracker:Expand()
     end
 end
 
-function QuestieTracker:IsExpanded()
-    return Questie.db.char.isTrackerExpanded
-end
-
 local function _GetNextItemButton()
     buttonIndex = buttonIndex + 1
     return itemButtons[buttonIndex]
