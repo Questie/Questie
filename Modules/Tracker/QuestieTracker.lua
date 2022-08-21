@@ -47,7 +47,6 @@ local zoneHeaderMarginLeft = 10
 local questHeaderMarginLeft = zoneHeaderMarginLeft + 10
 local objectiveMarginLeft = zoneHeaderMarginLeft + questHeaderMarginLeft + 5
 
-local lineIndex = 0
 local buttonIndex = 0
 local lastAQW = GetTime()
 local durabilityInitialPosition
@@ -777,7 +776,6 @@ function QuestieTracker:Update()
     _QuestieTracker.trackedQuestsFrame:Update()
     _UpdateLayout()
 
-    lineIndex = 0
     buttonIndex = 0
 
     local order = {}
@@ -1043,7 +1041,6 @@ function QuestieTracker:Update()
                 line:Hide()
                 line.label:Hide()
                 line.expandQuest:Hide()
-                lineIndex = lineIndex - 1
             else
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
             end
@@ -1185,8 +1182,7 @@ function QuestieTracker:Update()
             else
                 line = LinePool.GetNextLine()
                 if not line then break end -- stop populating the tracker
-                
-                lineIndex = lineIndex - 1
+
                 line.mode = nil
                 line.Quest = nil
                 line.Objective = nil
@@ -1275,8 +1271,8 @@ function QuestieTracker:Update()
             trackerBottomPadding = 0
         end
 
-        if line:IsVisible() or lineIndex == 1 then
-            if lineIndex == 1 then
+        if line:IsVisible() or LinePool.IsFirstLine() then
+            if LinePool.IsFirstLine() then
                 _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) - (Questie.db.global.trackerQuestPadding+2) + trackerBottomPadding )
             else
                 _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 14) - (Questie.db.global.trackerQuestPadding+2) + trackerBottomPadding )

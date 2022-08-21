@@ -276,6 +276,10 @@ function LinePool.GetNextLine()
     return linePool[lineIndex]
 end
 
+function LinePool.IsFirstLine()
+    return lineIndex == 1
+end
+
 function LinePool.GetLine(index)
     return linePool[index]
 end
