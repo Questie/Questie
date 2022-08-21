@@ -9,6 +9,8 @@ local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieMap
+local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
