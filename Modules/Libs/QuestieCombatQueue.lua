@@ -1,11 +1,12 @@
 ---@class QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:CreateModule("QuestieCombatQueue")
 local _Queue = {}
+local started = false
 
 -- This will limit the amount of updates Questie does to the UI and will reduce the chance to lag the game
 local maxUpdatesPerCircle = 5
 
-function QuestieCombatQueue:Initialize()
+function QuestieCombatQueue.Initialize()
     C_Timer.NewTicker(0.1, function()
         if InCombatLockdown() then
             return
@@ -22,8 +23,11 @@ function QuestieCombatQueue:Initialize()
             count = count + 1
         end
     end)
+    started = true
 end
 
 function QuestieCombatQueue:Queue(func, obj)
-    tinsert(_Queue, {func=func, obj=obj})
+    if started then
+        tinsert(_Queue, {func=func, obj=obj})
+    end
 end

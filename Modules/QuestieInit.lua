@@ -169,7 +169,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieTooltips:Initialize()
     QuestieCoords:Initialize()
     QuestieQuestTimers:Initialize()
-    QuestieCombatQueue:Initialize()
     QuestieComms:Initialize()
 
     QuestieSlash.RegisterSlashCommands()
@@ -245,6 +244,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coroutine.yield()
     QuestieTracker:Initialize()
     Hooks:HookQuestLogTitle()
+    QuestieCombatQueue.Initialize()
 
     local dateToday = date("%y-%m-%d")
 
