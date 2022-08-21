@@ -260,22 +260,22 @@ function _QuestieTracker:CreateBaseFrame()
         -- Enables Click-Through when the tracker is locked
         if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
             self:SetMovable(true)
-            QuestieCombatQueue:Queue(function(self)
+            QuestieCombatQueue:Queue(function(tracker)
                 if IsMouseButtonDown() then
                     return
                 end
-                self:EnableMouse(true)
-                self:SetResizable(true)
+                tracker:EnableMouse(true)
+                tracker:SetResizable(true)
             end, self)
 
         else
             self:SetMovable(false)
-            QuestieCombatQueue:Queue(function(self)
+            QuestieCombatQueue:Queue(function(tracker)
                 if IsMouseButtonDown() then
                     return
                 end
-                self:EnableMouse(false)
-                self:SetResizable(false)
+                tracker:EnableMouse(false)
+                tracker:SetResizable(false)
             end, self)
         end
     end
