@@ -1,5 +1,7 @@
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:CreateModule("TrackerUtils")
 QuestieTracker.menu = {}
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
@@ -90,7 +92,7 @@ _AddTomTomOption = function (menu, quest, objective)
             spawn, zone, name = QuestieMap:GetNearestSpawn(objective)
         end
         if spawn then
-            QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+            TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
     end})
 end
@@ -149,7 +151,7 @@ _AddShowObjectivesOnMapOption = function (menu, quest, objective)
         if needHiddenUpdate then
             QuestieQuest:ToggleNotes(true)
         end
-        QuestieTracker.utils:ShowObjectiveOnMap(objective)
+        TrackerUtils:ShowObjectiveOnMap(objective)
     end})
 end
 
@@ -157,7 +159,7 @@ _AddShowFinisherOnMapOption = function (menu, quest)
     if quest:IsComplete() == 1 then
         tinsert(menu, {text = l10n('Show on Map'), func = function()
             LibDropDown:CloseDropDownMenus()
-            QuestieTracker.utils:ShowFinisherOnMap(quest)
+            TrackerUtils:ShowFinisherOnMap(quest)
         end})
     end
 end
@@ -192,7 +194,7 @@ end
 _AddShowInQuestLogOption = function (menu, quest)
     tinsert(menu, {text= l10n('Show in Quest Log'), func = function()
         LibDropDown:CloseDropDownMenus()
-        QuestieTracker.utils:ShowQuestLog(quest)
+        TrackerUtils:ShowQuestLog(quest)
     end})
 end
 

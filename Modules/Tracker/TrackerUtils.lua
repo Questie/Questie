@@ -1,7 +1,5 @@
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
-QuestieTracker.utils = {}
-QuestieTracker.utils._zoneCache = {}
+---@class TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
@@ -10,11 +8,12 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local objectiveFlashTicker = {}
 local tinsert = table.insert
 
+local objectiveFlashTicker = {}
+local zoneCache = {}
 
-function QuestieTracker.utils:ShowQuestLog(quest)
+function TrackerUtils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame;
     --HideUIPanel(questFrame); -- don't use as I don't see why to use and protected function taints in combat
@@ -42,7 +41,7 @@ function QuestieTracker.utils:ShowQuestLog(quest)
     QuestLog_Update()
 end
 
-function QuestieTracker.utils:SetTomTomTarget(title, zone, x, y)
+function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     if TomTom and TomTom.AddWaypoint then
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
             TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
@@ -52,27 +51,27 @@ function QuestieTracker.utils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
-function QuestieTracker.utils:ShowObjectiveOnMap(objective)
+function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = QuestieMap:GetNearestSpawn(objective)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         WorldMapFrame:SetMapID(uiMapId)
-        QuestieTracker.utils:FlashObjective(objective)
+        TrackerUtils:FlashObjective(objective)
     end
 end
 
-function QuestieTracker.utils:ShowFinisherOnMap(quest)
+function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zone = QuestieMap:GetNearestQuestSpawn(quest)
     if spawn then
         WorldMapFrame:Show()
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
         WorldMapFrame:SetMapID(uiMapId)
-        QuestieTracker.utils:FlashFinisher(quest)
+        TrackerUtils:FlashFinisher(quest)
     end
 end
 
-function QuestieTracker.utils:FlashObjective(objective) -- really terrible animation code, sorry guys
+function TrackerUtils:FlashObjective(objective) -- really terrible animation code, sorry guys
     if next(objective.AlreadySpawned) then
         local toFlash = {}
         -- ugly code
@@ -157,7 +156,7 @@ function QuestieTracker.utils:FlashObjective(objective) -- really terrible anima
     end
 end
 
-function QuestieTracker.utils:FlashFinisher(quest) -- really terrible animation copypasta, sorry guys
+function TrackerUtils:FlashFinisher(quest) -- really terrible animation copypasta, sorry guys
     local toFlash = {}
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
@@ -235,7 +234,7 @@ function QuestieTracker.utils:FlashFinisher(quest) -- really terrible animation 
     end)
 end
 
--- function QuestieTracker.utils:FlashObjectiveByTexture(objective) -- really terrible animation code, sorry guys
+-- function TrackerUtils:FlashObjectiveByTexture(objective) -- really terrible animation code, sorry guys
 --     if objective.AlreadySpawned then
 --         local toFlash = {}
 --         -- ugly code
@@ -347,26 +346,26 @@ local bindTruthTable = {
     ['disabled'] = function() return false; end,
 }
 
-function QuestieTracker.utils:IsBindTrue(bind, button)
+function TrackerUtils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
 
-function QuestieTracker.utils:GetZoneNameByID(zoneId)
-    if QuestieTracker.utils._zoneCache[zoneId] then
-        return QuestieTracker.utils._zoneCache[zoneId]
+function TrackerUtils:GetZoneNameByID(zoneId)
+    if zoneCache[zoneId] then
+        return zoneCache[zoneId]
     end
     for _, zones in pairs(l10n.zoneLookup) do
         for zoneIDnum, zoneName in pairs(zones) do
             if zoneIDnum == zoneId then
                 local translatedZoneName = l10n(zoneName)
-                QuestieTracker.utils._zoneCache[zoneId] = translatedZoneName
+                zoneCache[zoneId] = translatedZoneName
                 return translatedZoneName
             end
         end
     end
 end
 
-function QuestieTracker.utils:GetCategoryNameByID(cataId)
+function TrackerUtils:GetCategoryNameByID(cataId)
     for cat, name in pairs(l10n.questCategoryLookup) do
         if cataId == cat then
             return l10n(name)

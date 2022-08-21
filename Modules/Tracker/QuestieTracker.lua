@@ -5,6 +5,8 @@ local _Tracker = {}
 -------------------------
 --Import modules.
 -------------------------
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
@@ -1047,18 +1049,18 @@ function QuestieTracker:Update()
             local qB = QuestieDB:GetQuest(b)
             local qAZone, qBZone
             if qA.zoneOrSort > 0 then
-                qAZone = QuestieTracker.utils:GetZoneNameByID(qA.zoneOrSort)
+                qAZone = TrackerUtils:GetZoneNameByID(qA.zoneOrSort)
             elseif qA.zoneOrSort < 0 then
-                qAZone = QuestieTracker.utils:GetCategoryNameByID(qA.zoneOrSort)
+                qAZone = TrackerUtils:GetCategoryNameByID(qA.zoneOrSort)
             else
                 qAZone = tostring(qA.zoneOrSort)
                 _Tracker:ReportErrorMessage(qAZone)
             end
 
             if qB.zoneOrSort > 0 then
-                qBZone = QuestieTracker.utils:GetZoneNameByID(qB.zoneOrSort)
+                qBZone = TrackerUtils:GetZoneNameByID(qB.zoneOrSort)
             elseif qB.zoneOrSort < 0 then
-                qBZone = QuestieTracker.utils:GetCategoryNameByID(qB.zoneOrSort)
+                qBZone = TrackerUtils:GetCategoryNameByID(qB.zoneOrSort)
             else
                 qBZone = tostring(qB.zoneOrSort)
                 _Tracker:ReportErrorMessage(qBZone)
@@ -1132,11 +1134,11 @@ function QuestieTracker:Update()
 
         -- Valid ZoneID
         if (quest.zoneOrSort) > 0 then
-            zoneName = QuestieTracker.utils:GetZoneNameByID(quest.zoneOrSort)
+            zoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
 
         -- Valid CategoryID
         elseif (quest.zoneOrSort) < 0 then
-            zoneName = QuestieTracker.utils:GetCategoryNameByID(quest.zoneOrSort)
+            zoneName = TrackerUtils:GetCategoryNameByID(quest.zoneOrSort)
 
         -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
         else
@@ -1855,13 +1857,13 @@ _OnClick = function(self, button)
         return
     end
 
-    if QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
+    if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
         local spawn, zone, name = QuestieMap:GetNearestQuestSpawn(self.Quest)
         if spawn then
-            QuestieTracker.utils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
+            TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
 
-    elseif QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
+    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
 
             if Questie.db.global.trackerShowQuestLevel then
@@ -1874,8 +1876,8 @@ _OnClick = function(self, button)
             QuestieTracker:Untrack(self.Quest)
         end
 
-    elseif QuestieTracker.utils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
-        QuestieTracker.utils:ShowQuestLog(self.Quest)
+    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+        TrackerUtils:ShowQuestLog(self.Quest)
 
     elseif button == "RightButton" then
         local menu = QuestieTracker.menu:GetMenuForQuest(self.Quest)
