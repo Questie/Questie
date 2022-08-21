@@ -215,9 +215,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 QuestieTracker.FadeMMBTickerValue = QuestieTracker.FadeMMBTickerValue - 0.02
 
                                 if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                                    for i=1, _QuestieTracker.highestIndex do
-                                        LinePool.GetLine(i).expandQuest:SetAlpha(QuestieTracker.FadeMMBTickerValue*3.3)
-                                    end
+                                    LinePool.SetAllExpandQuestAlpha(QuestieTracker.FadeMMBTickerValue * 3.3)
                                 end
 
                             else
@@ -226,9 +224,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end)
                     else
-                        for i=1, _QuestieTracker.highestIndex do
-                            LinePool.GetLine(i).expandQuest:SetAlpha(1)
-                        end
+                        LinePool.SetAllExpandQuestAlpha(1)
                     end
                     QuestieTracker:Update()
                 end
@@ -251,12 +247,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 QuestieTracker.FadeQIBTickerValue = QuestieTracker.FadeQIBTickerValue - 0.02
 
                                 if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                                    for i=1, _QuestieTracker.highestIndex do
-                                        local line = LinePool.GetLine(i)
-                                        if line.button then
-                                            line.button:SetAlpha(QuestieTracker.FadeQIBTickerValue*3.3)
-                                        end
-                                    end
+                                    LinePool.SetAllItemButtonAlpha(QuestieTracker.FadeQIBTickerValue*3.3)
                                 end
 
                             else
@@ -265,12 +256,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end)
                     else
-                        for i=1, _QuestieTracker.highestIndex do
-                            local line = LinePool.GetLine(i)
-                            if line.button then
-                                line.button:SetAlpha(1)
-                            end
-                        end
+                        LinePool.SetAllItemButtonAlpha(1)
                     end
                     QuestieTracker:Update()
                 end
@@ -452,9 +438,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db.global.trackerSortObjectives = key
                     LinePool.ResetLinesForChange()
                     QuestieTracker:Update()
-                    for i = 1, _QuestieTracker.highestIndex do
-                        LinePool.GetLine(i).expandQuest:SetFrameStrata("MEDIUM")
-                    end
+                    --for i = 1, _QuestieTracker.highestIndex do
+                    --    LinePool.GetLine(i).expandQuest:SetFrameStrata("MEDIUM")
+                    --end
                 end
             },
             setTomTom = {

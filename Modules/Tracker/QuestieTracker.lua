@@ -33,7 +33,6 @@ local LinePool = QuestieLoader:ImportModule("LinePool")
 local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 
 -- Local Vars
-local trackerLineCount = 80
 local trackerLineWidth = 1
 local trackerLineIndent = 1
 local trackerSpaceBuffer = 10
@@ -54,12 +53,10 @@ local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 -- Private Global Vars
 local itemButtons = {}
-local fadeTickerValue = 0
-local fadeTickerDirection = false
 local isFirstRun = true
 
 -- Forward declaration
-local _OnHighlightEnter, _OnHighlightLeave, _OnTrackedQuestClick
+local _OnTrackedQuestClick
 local _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
@@ -109,10 +106,12 @@ function QuestieTracker:Initialize()
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
+    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame)
 
     -- Quest and Item button tables
     _QuestieTracker:CreateTrackedQuestItemButtons()
-    _QuestieTracker:CreateTrackedQuestButtons()
+    QuestieTracker.started = true
+    FadeTicker.Initialize(_QuestieTracker.baseFrame)
 
     if Questie.db.global.hookTracking then
         QuestieTracker:HookBaseTracker()
@@ -1211,7 +1210,6 @@ function QuestieTracker:Update()
     end
 
     -- Begin post clean up of unused frameIndexes
-    _QuestieTracker.highestIndex = lineIndex > trackerLineCount and trackerLineCount or lineIndex
     local startUnusedButtons = 1
 
     if Questie.db.char.isTrackerExpanded then
@@ -1420,24 +1418,6 @@ function QuestieTracker:HookBaseTracker()
 
     QuestWatchFrame:Hide()
     QuestieTracker._alreadyHooked = true
-end
-
-_OnHighlightEnter = function(self)
-    if self.mode == "quest" or self.mode =="objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
-        for i = 1, _QuestieTracker.highestIndex do
-            local line = LinePool.GetLine(i)
-            line:SetAlpha(0.5)
-            if (line.Quest == self.Quest) or line.mode == "zone" then
-                line:SetAlpha(1)
-            end
-        end
-    end
-end
-
-_OnHighlightLeave = function()
-    for i = 1, _QuestieTracker.highestIndex do
-        LinePool.GetLine(i):SetAlpha(1)
-    end
 end
 
 _OnTrackedQuestClick = function(self)

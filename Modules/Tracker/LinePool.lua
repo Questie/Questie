@@ -18,7 +18,7 @@ local linePool = {}
 
 local baseFrame
 
-local _OnClick
+local _OnClick, _OnHighlightEnter, _OnHighlightLeave
 
 ---@param trackedQuestsFrame Frame
 function LinePool.Initialize(trackedQuestsFrame)
@@ -217,8 +217,8 @@ function LinePool.Initialize(trackedQuestsFrame)
             QuestieTracker:Update()
         end)
 
-        expandQuest:SetScript("OnEnter", FadeTicker.OnEnter())
-        expandQuest:SetScript("OnLeave", FadeTicker.OnLeave())
+        expandQuest:SetScript("OnEnter", FadeTicker.OnEnter)
+        expandQuest:SetScript("OnLeave", FadeTicker.OnLeave)
         expandQuest:Hide()
 
         if Questie.db.global.trackerFadeMinMaxButtons then
@@ -290,6 +290,29 @@ function LinePool.HideUnusedLines()
     end
 end
 
+local function _GetHighestIndex()
+    return lineIndex > poolSize and poolSize or lineIndex
+end
+
+function LinePool.SetAllExpandQuestAlpha(alpha)
+    local highestIndex = _GetHighestIndex()
+
+    for i=1, highestIndex do
+        linePool[i].expandQuest:SetAlpha(alpha)
+    end
+end
+
+function LinePool.SetAllItemButtonAlpha(alpha)
+    local highestIndex = _GetHighestIndex()
+
+    for i=1, highestIndex do
+        local line = linePool[i]
+        if line.button then
+            line.button:SetAlpha(alpha)
+        end
+    end
+end
+
 _OnClick = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
     if _QuestieTracker.isMoving == true then
@@ -326,5 +349,25 @@ _OnClick = function(self, button)
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0 , 0, "MENU")
+    end
+end
+
+_OnHighlightEnter = function(self)
+    if self.mode == "quest" or self.mode =="objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
+        local highestIndex = _GetHighestIndex()
+        for i = 1, highestIndex do
+            local line = LinePool.GetLine(i)
+            line:SetAlpha(0.5)
+            if (line.Quest == self.Quest) or line.mode == "zone" then
+                line:SetAlpha(1)
+            end
+        end
+    end
+end
+
+_OnHighlightLeave = function()
+    local highestIndex = _GetHighestIndex()
+    for i = 1, highestIndex do
+        LinePool.GetLine(i):SetAlpha(1)
     end
 end

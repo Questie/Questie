@@ -8,9 +8,16 @@ local ticker
 local fadeTickerDirection = false
 local fadeTickerValue = 0
 
----@param trackerBaseFrame Frame
-local function _Start(trackerBaseFrame, highestIndex)
-    if (not ticker) and QuestieTracker.started then
+local started = false
+local baseFrame
+
+function FadeTicker.Initialize(trackerBaseFrame)
+    baseFrame = trackerBaseFrame
+    started = true
+end
+
+local function _Start()
+    if (not ticker) and started then
         ticker = C_Timer.NewTicker(0.02, function()
             if fadeTickerDirection then
                 if fadeTickerValue < 0.3 then
@@ -18,32 +25,25 @@ local function _Start(trackerBaseFrame, highestIndex)
 
                     -- Un-fade the background and border(if enabled)
                     if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
-                        trackerBaseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
+                        baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
                         if Questie.db.global.trackerBorderEnabled then
-                            trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
+                            baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
                         end
                     end
 
                     -- Un-fade the resizer
                     if Questie.db.char.isTrackerExpanded then
-                        trackerBaseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
+                        baseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
                     end
 
                     -- Un-fade the minimize buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                        for i=1, highestIndex do
-                            LinePool.GetLine(i).expandQuest:SetAlpha(fadeTickerValue*3.3)
-                        end
+                        LinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Un-fade the quest item buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                        for i=1, highestIndex do
-                            local line = LinePool.GetLine(i)
-                            if line.button then
-                                line.button:SetAlpha(fadeTickerValue*3.3)
-                            end
-                        end
+                        LinePool.SetAllItemButtonAlpha(fadeTickerValue * 3.3)
                     end
 
                 else
@@ -56,32 +56,25 @@ local function _Start(trackerBaseFrame, highestIndex)
 
                     -- Fade the background and border(if enabled)
                     if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
-                        trackerBaseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
+                        baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
                         if Questie.db.global.trackerBorderEnabled then
-                            trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
+                            baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
                         end
                     end
 
                     -- Fade the resizer
                     if Questie.db.char.isTrackerExpanded then
-                        trackerBaseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
+                        baseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
                     end
 
                     -- Fade the minimuze buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                        for i=1, highestIndex do
-                            LinePool.GetLine(i).expandQuest:SetAlpha(fadeTickerValue*3.3)
-                        end
+                        LinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Fade the quest item buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                        for i=1, highestIndex do
-                            local line = LinePool.GetLine(i)
-                            if line.button then
-                                line.button:SetAlpha(fadeTickerValue*3.3)
-                            end
-                        end
+                        LinePool.SetAllItemButtonAlpha(fadeTickerValue * 3.3)
                     end
 
                 else
