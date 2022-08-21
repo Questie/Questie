@@ -11,6 +11,7 @@ local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
+local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local poolSize = 80
 local lineIndex = 0
