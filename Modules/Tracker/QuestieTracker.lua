@@ -1348,7 +1348,7 @@ function _Tracker:ReportErrorMessage(zoneOrtSort)
     Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
-function QuestieTracker:Untrack(quest)
+function QuestieTracker.Untrack(quest)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Untrack")
     QuestieTracker:UntrackQuestId(quest.Id)
 end
