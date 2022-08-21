@@ -7,6 +7,8 @@ local _Tracker = {}
 -------------------------
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type TrackerMenu
+local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
@@ -70,7 +72,7 @@ local function _UpdateLayout()
     trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
 end
 
-function QuestieTracker:Initialize()
+function QuestieTracker.Initialize()
     if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then
         return
     end
@@ -103,6 +105,8 @@ function QuestieTracker:Initialize()
 
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
+    TrackerMenu.Initialize(_QuestieTracker.baseFrame.Update, QuestieTracker.Untrack)
+
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
@@ -707,7 +711,7 @@ function QuestieTracker:Enable()
     end
 
     QuestieQuestTimers:HideBlizzardTimer()
-    QuestieTracker:Initialize()
+    QuestieTracker.Initialize()
     QuestieTracker:MoveDurabilityFrame()
     QuestieTracker:Update()
 end

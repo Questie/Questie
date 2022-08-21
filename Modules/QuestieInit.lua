@@ -242,7 +242,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     -- Initialize the tracker
     coroutine.yield()
-    QuestieTracker:Initialize()
+    QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
     QuestieCombatQueue.Initialize()
 

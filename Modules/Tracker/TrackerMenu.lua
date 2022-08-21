@@ -25,6 +25,12 @@ local tinsert = table.insert
 -- forward declaration
 local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption
 
+local _UpdateTrackerBaseFrame, _UntrackQuest
+
+function TrackerMenu.Initialize(UpdateTrackerBaseFrame, UntrackQuest)
+    _UpdateTrackerBaseFrame = UpdateTrackerBaseFrame
+    _UntrackQuest = UntrackQuest
+end
 
 function TrackerMenu:GetMenuForQuest(quest)
     local menu = {}
@@ -202,7 +208,7 @@ end
 _AddUntrackOption = function (menu, quest)
     tinsert(menu, {text= l10n('Untrack Quest'), func = function()
         LibDropDown:CloseDropDownMenus();
-        QuestieTracker:Untrack(quest)
+        _UntrackQuest(quest)
     end})
 end
 
@@ -216,9 +222,9 @@ end
 
 _AddLockUnlockOption = function (menu)
     if Questie.db.global.trackerLocked then
-        tinsert(menu, {text= l10n('Unlock Tracker'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = false; QuestieTracker.private.baseFrame:Update() end})
+        tinsert(menu, {text= l10n('Unlock Tracker'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = false; _UpdateTrackerBaseFrame() end})
     else
-        tinsert(menu, {text= l10n('Lock Tracker'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = true; QuestieTracker.private.baseFrame:Update() end})
+        tinsert(menu, {text= l10n('Lock Tracker'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = true; _UpdateTrackerBaseFrame() end})
     end
 end
 
