@@ -11,6 +11,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker");
+---@type LinePool
+local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -87,7 +89,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function() return Questie.db.global.enableTooltipsQuestID; end,
                 set = function (_, value)
                     Questie.db.global.enableTooltipsQuestID = value
-                    QuestieTracker:ResetLinesForChange()
+                    LinePool.ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },

@@ -158,6 +158,7 @@ Modules\Tracker\TrackerMenu.lua
 Modules\Tracker\QuestieTrackerPrivates.lua
 Modules\Tracker\QuestieQuestTimers.lua
 Modules\Tracker\ActiveQuestsHeader.lua
+Modules\Tracker\LinePool.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua

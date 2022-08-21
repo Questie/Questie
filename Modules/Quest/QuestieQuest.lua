@@ -15,6 +15,8 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type LinePool
+local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieMap
@@ -353,7 +355,7 @@ function QuestieQuest:AcceptQuest(questId)
             function() if Questie.db.char.collapsedQuests then Questie.db.char.collapsedQuests[questId] = nil end end,  -- re-accepted quest can be collapsed. expand it. specially dailies.
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function() QuestieTracker:ResetLinesForChange() end,
+            function() LinePool.ResetLinesForChange() end,
             function() QuestieTracker:Update() end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
@@ -380,7 +382,7 @@ function QuestieQuest:CompleteQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
-        QuestieTracker:ResetLinesForChange()
+        LinePool.ResetLinesForChange()
         QuestieTracker:Update()
     end)
 
@@ -425,7 +427,7 @@ function QuestieQuest:AbandonedQuest(questId)
         QuestieTracker:RemoveQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:ResetLinesForChange()
+            LinePool.ResetLinesForChange()
             QuestieTracker:Update()
         end)
 
@@ -460,7 +462,7 @@ function QuestieQuest:UpdateQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
         end
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:ResetLinesForChange()
+            LinePool.ResetLinesForChange()
             QuestieTracker:Update()
         end)
 
@@ -508,7 +510,7 @@ function QuestieQuest:GetAllQuestIds()
         end
     end
     QuestieCombatQueue:Queue(function()
-        QuestieTracker:ResetLinesForChange()
+        LinePool.ResetLinesForChange()
         QuestieTracker:Update()
     end)
 end
