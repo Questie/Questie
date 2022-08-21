@@ -29,7 +29,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local ActiveQuestsHeader = QuestieLoader:ImportModule("ActiveQuestsHeader")
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
-
+---@type FadeTicker
+local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 
 -- Local Vars
 local trackerLineCount = 80
@@ -58,7 +59,7 @@ local fadeTickerDirection = false
 local isFirstRun = true
 
 -- Forward declaration
-local _OnClick, _OnEnter, _OnLeave, _OnHighlightEnter, _OnHighlightLeave, _OnTrackedQuestClick
+local _OnHighlightEnter, _OnHighlightLeave, _OnTrackedQuestClick
 local _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
@@ -106,7 +107,7 @@ function QuestieTracker:Initialize()
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
-    _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _OnEnter, _OnLeave, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
+    _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
 
     -- Quest and Item button tables
@@ -223,8 +224,8 @@ function _QuestieTracker:CreateBaseFrame()
 
     frm:SetScript("OnMouseDown", _QuestieTracker.OnDragStart)
     frm:SetScript("OnMouseUp", _QuestieTracker.OnDragStop)
-    frm:SetScript("OnEnter", _OnEnter)
-    frm:SetScript("OnLeave", _OnLeave)
+    frm:SetScript("OnEnter", FadeTicker.OnEnter)
+    frm:SetScript("OnLeave", FadeTicker.OnLeave)
 
     frm:SetBackdrop( {
         bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
@@ -288,8 +289,8 @@ function _QuestieTracker:CreateBaseFrame()
     sizer:EnableMouse()
     sizer:SetScript("OnMouseDown", _QuestieTracker.OnResizeStart)
     sizer:SetScript("OnMouseUp", _QuestieTracker.OnResizeStop)
-    sizer:SetScript("OnEnter", _OnEnter)
-    sizer:SetScript("OnLeave", _OnLeave)
+    sizer:SetScript("OnEnter", FadeTicker.OnEnter)
+    sizer:SetScript("OnLeave", FadeTicker.OnLeave)
 
     frm.sizer = sizer
 
@@ -394,8 +395,8 @@ function _QuestieTracker:CreateTrackedQuestsFrame(previousFrame)
 
     frm:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
     frm:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
-    frm:SetScript("OnEnter", _OnEnter)
-    frm:SetScript("OnLeave", _OnLeave)
+    frm:SetScript("OnEnter", FadeTicker.OnEnter)
+    frm:SetScript("OnLeave", FadeTicker.OnLeave)
 
     frm:Hide()
 
@@ -605,13 +606,13 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
             GameTooltip:Show()
 
-            _OnEnter(self)
+            FadeTicker.OnEnter(self)
         end
 
         btn.OnLeave = function(self)
             GameTooltip:Hide()
 
-            _OnLeave(self)
+            FadeTicker.OnLeave(self)
         end
 
         btn.FakeHide = function(self)
@@ -1349,90 +1350,6 @@ function _Tracker:ReportErrorMessage(zoneOrtSort)
     Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
-function _QuestieTracker:StartFadeTicker()
-    if (not _QuestieTracker.FadeTicker) and QuestieTracker.started then
-        _QuestieTracker.FadeTicker = C_Timer.NewTicker(0.02, function()
-            if fadeTickerDirection then
-                if fadeTickerValue < 0.3 then
-                    fadeTickerValue = fadeTickerValue + 0.02
-
-                    -- Un-fade the background and border(if enabled)
-                    if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
-                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
-                        if Questie.db.global.trackerBorderEnabled then
-                            _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
-                        end
-                    end
-
-                    -- Un-fade the resizer
-                    if Questie.db.char.isTrackerExpanded then
-                        _QuestieTracker.baseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
-                    end
-
-                    -- Un-fade the minimize buttons
-                    if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                        for i=1, _QuestieTracker.highestIndex do
-                            LinePool.GetLine(i).expandQuest:SetAlpha(fadeTickerValue*3.3)
-                        end
-                    end
-
-                    -- Un-fade the quest item buttons
-                    if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                        for i=1, _QuestieTracker.highestIndex do
-                            local line = LinePool.GetLine(i)
-                            if line.button then
-                                line.button:SetAlpha(fadeTickerValue*3.3)
-                            end
-                        end
-                    end
-
-                else
-                    _QuestieTracker.FadeTicker:Cancel()
-                    _QuestieTracker.FadeTicker = nil
-                end
-            else
-                if fadeTickerValue > 0 then
-                    fadeTickerValue = fadeTickerValue - 0.02
-
-                    -- Fade the background and border(if enabled)
-                    if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
-                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
-                        if Questie.db.global.trackerBorderEnabled then
-                            _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue*3.3))
-                        end
-                    end
-
-                    -- Fade the resizer
-                    if Questie.db.char.isTrackerExpanded then
-                        _QuestieTracker.baseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
-                    end
-
-                    -- Fade the minimuze buttons
-                    if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                        for i=1, _QuestieTracker.highestIndex do
-                            LinePool.GetLine(i).expandQuest:SetAlpha(fadeTickerValue*3.3)
-                        end
-                    end
-
-                    -- Fade the quest item buttons
-                    if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                        for i=1, _QuestieTracker.highestIndex do
-                            local line = LinePool.GetLine(i)
-                            if line.button then
-                                line.button:SetAlpha(fadeTickerValue*3.3)
-                            end
-                        end
-                    end
-
-                else
-                    _QuestieTracker.FadeTicker:Cancel()
-                    _QuestieTracker.FadeTicker = nil
-                end
-            end
-        end)
-    end
-end
-
 function QuestieTracker:Untrack(quest)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Untrack")
     QuestieTracker:UntrackQuestId(quest.Id)
@@ -1503,16 +1420,6 @@ function QuestieTracker:HookBaseTracker()
 
     QuestWatchFrame:Hide()
     QuestieTracker._alreadyHooked = true
-end
-
-_OnEnter = function()
-    fadeTickerDirection = true
-    _QuestieTracker:StartFadeTicker()
-end
-
-_OnLeave = function()
-    fadeTickerDirection = false
-    _QuestieTracker:StartFadeTicker()
 end
 
 _OnHighlightEnter = function(self)

@@ -1,6 +1,8 @@
 ---@class ActiveQuestsHeader
 local ActiveQuestsHeader = QuestieLoader:CreateModule("ActiveQuestsHeader")
 
+---@type FadeTicker
+local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieOptions
@@ -15,7 +17,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 ---@param trackerBaseFrame Frame
-function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnEnter, OnLeave, OnDragStart, OnDragStop)
+function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, OnDragStop)
     
     local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
     local trackerSpaceBuffer = 10
@@ -156,7 +158,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnEnter, OnLea
         GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "gray") .. ": " .. l10n("Drag while Locked"))
         GameTooltip:Show()
 
-        OnEnter(self)
+        FadeTicker.OnEnter(self)
     end)
 
     questieIcon:SetScript("OnLeave", function (self)
@@ -164,7 +166,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnEnter, OnLea
             GameTooltip:Hide()
         end
 
-        OnLeave(self)
+        FadeTicker.OnLeave(self)
     end)
 
     questieIcon:Hide()
@@ -198,8 +200,8 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnEnter, OnLea
 
     trackedQuests:SetScript("OnDragStart", OnDragStart)
     trackedQuests:SetScript("OnDragStop", OnDragStop)
-    trackedQuests:SetScript("OnEnter", OnEnter)
-    trackedQuests:SetScript("OnLeave", OnLeave)
+    trackedQuests:SetScript("OnEnter", FadeTicker.OnEnter)
+    trackedQuests:SetScript("OnLeave", FadeTicker.OnLeave)
     trackedQuests:Hide()
     frm.trackedQuests = trackedQuests
 

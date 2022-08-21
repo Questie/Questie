@@ -5,6 +5,8 @@ local LinePool = QuestieLoader:CreateModule("LinePool")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type TrackerMenu
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
+---@type FadeTicker
+local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 
@@ -103,12 +105,12 @@ function LinePool.Initialize(trackedQuestsFrame)
 
         btn:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
-            _OnEnter()
+            FadeTicker.OnEnter()
         end)
 
         btn:SetScript("OnLeave", function(self)
             _OnHighlightLeave(self)
-            _OnLeave()
+            FadeTicker.OnLeave()
         end)
 
         if lastFrame then
@@ -154,12 +156,12 @@ function LinePool.Initialize(trackedQuestsFrame)
 
         expandZone:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
-            _OnEnter()
+            FadeTicker.OnEnter()
         end)
 
         expandZone:SetScript("OnLeave", function(self)
             _OnHighlightLeave(self)
-            _OnLeave()
+            FadeTicker.OnLeave()
         end)
 
         --expandZone:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
@@ -215,8 +217,8 @@ function LinePool.Initialize(trackedQuestsFrame)
             QuestieTracker:Update()
         end)
 
-        expandQuest:SetScript("OnEnter", _OnEnter)
-        expandQuest:SetScript("OnLeave", _OnLeave)
+        expandQuest:SetScript("OnEnter", FadeTicker.OnEnter())
+        expandQuest:SetScript("OnLeave", FadeTicker.OnLeave())
         expandQuest:Hide()
 
         if Questie.db.global.trackerFadeMinMaxButtons then

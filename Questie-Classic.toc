@@ -155,6 +155,7 @@ Modules\Journey\QuestieSearchResults.lua
 Modules\Tracker\QuestieTracker.lua
 Modules\Tracker\TrackerUtils.lua
 Modules\Tracker\TrackerMenu.lua
+Modules\Tracker\FadeTicker.lua
 Modules\Tracker\QuestieTrackerPrivates.lua
 Modules\Tracker\QuestieQuestTimers.lua
 Modules\Tracker\ActiveQuestsHeader.lua
