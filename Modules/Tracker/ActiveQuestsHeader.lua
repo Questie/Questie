@@ -15,7 +15,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 ---@param trackerBaseFrame Frame
-function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDragStart, OnDragStop)
+function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnEnter, OnLeave, OnDragStart, OnDragStop)
     
     local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
     local trackerSpaceBuffer = 10
@@ -194,29 +194,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDra
     trackedQuests:RegisterForDrag("LeftButton")
     trackedQuests:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-    trackedQuests:SetScript("OnClick", function(self)
-        if InCombatLockdown() then
-            return
-        end
-        if self.mode == 1 then
-            self:SetMode(0)
-            Questie.db.char.isTrackerExpanded = false
-        else
-            self:SetMode(1)
-            Questie.db.char.isTrackerExpanded = true
-            trackerBaseFrame.sizer:SetAlpha(1)
-            trackerBaseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-            if Questie.db.global.trackerBorderEnabled then
-                trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
-            end
-        end
-        if Questie.db.global.stickyDurabilityFrame then
-            QuestieTracker:CheckDurabilityAlertStatus()
-            QuestieTracker:MoveDurabilityFrame()
-            QuestieTracker:ResetLinesForChange()
-        end
-        QuestieTracker:Update()
-    end)
+    trackedQuests:SetScript("OnClick", OnClick)
 
     trackedQuests:SetScript("OnDragStart", OnDragStart)
     trackedQuests:SetScript("OnDragStop", OnDragStop)

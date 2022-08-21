@@ -58,7 +58,7 @@ local fadeTickerDirection = false
 local isFirstRun = true
 
 -- Forward declaration
-local _OnClick, _OnEnter, _OnLeave, _OnHighlightEnter, _OnHighlightLeave
+local _OnClick, _OnEnter, _OnLeave, _OnHighlightEnter, _OnHighlightLeave, _OnTrackedQuestClick
 local _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
@@ -106,7 +106,7 @@ function QuestieTracker:Initialize()
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
-    _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnEnter, _OnLeave, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
+    _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _OnEnter, _OnLeave, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
 
     -- Quest and Item button tables
@@ -1908,6 +1908,30 @@ _OnHighlightLeave = function()
     for i = 1, _QuestieTracker.highestIndex do
         _QuestieTracker.LineFrames[i]:SetAlpha(1)
     end
+end
+
+_OnTrackedQuestClick = function(self)
+    if InCombatLockdown() then
+        return
+    end
+    if self.mode == 1 then
+        self:SetMode(0)
+        Questie.db.char.isTrackerExpanded = false
+    else
+        self:SetMode(1)
+        Questie.db.char.isTrackerExpanded = true
+        _QuestieTracker.baseFrame.sizer:SetAlpha(1)
+        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+        if Questie.db.global.trackerBorderEnabled then
+            _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+        end
+    end
+    if Questie.db.global.stickyDurabilityFrame then
+        QuestieTracker:CheckDurabilityAlertStatus()
+        QuestieTracker:MoveDurabilityFrame()
+        QuestieTracker:ResetLinesForChange()
+    end
+    QuestieTracker:Update()
 end
 
 function QuestieTracker:ResetLinesForChange()
