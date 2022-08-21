@@ -21,9 +21,14 @@ local baseFrame
 
 local _OnClick, _OnHighlightEnter, _OnHighlightLeave
 
+local _UntrackQuest, _TrackerUpdate
+
 ---@param trackedQuestsFrame Frame
-function LinePool.Initialize(trackedQuestsFrame)
+function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
     baseFrame = trackedQuestsFrame
+    _UntrackQuest = UntrackQuest
+    _TrackerUpdate = TrackerUpdate
+
     local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
     local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
@@ -152,7 +157,7 @@ function LinePool.Initialize(trackedQuestsFrame)
                 Questie.db.char.collapsedZones[self.zoneId] = true
             end
             LinePool.ResetLinesForChange()
-            QuestieTracker:Update()
+            _TrackerUpdate()
         end)
 
         expandZone:SetScript("OnEnter", function(self)
@@ -215,7 +220,7 @@ function LinePool.Initialize(trackedQuestsFrame)
                 Questie.db.char.collapsedQuests[self.questId] = true
             end
             LinePool.ResetLinesForChange()
-            QuestieTracker:Update()
+            _TrackerUpdate()
         end)
 
         expandQuest:SetScript("OnEnter", FadeTicker.OnEnter)
@@ -316,7 +321,7 @@ function LinePool.SetAllItemButtonAlpha(alpha)
 end
 
 _OnClick = function(self, button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick]")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClick]")
     -- TODO: Find a good way to check if the tracker is moving
     --if _QuestieTracker.isMoving == true then
     --    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick] Tracker is being dragged. Don't show the menu")
@@ -343,7 +348,7 @@ _OnClick = function(self, button)
             end
 
         else
-            QuestieTracker:Untrack(self.Quest)
+            _UntrackQuest(self.Quest)
         end
 
     elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
