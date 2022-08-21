@@ -23,14 +23,11 @@ local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type QuestieLink
-local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ActiveQuestsHeader
 local ActiveQuestsHeader = QuestieLoader:ImportModule("ActiveQuestsHeader")
 
-local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 -- Local Vars
 local trackerLineCount = 80
@@ -115,9 +112,6 @@ function QuestieTracker:Initialize()
     _QuestieTracker:CreateTrackedQuestItemButtons()
     _QuestieTracker:CreateTrackedQuestButtons()
 
-    -- Tracker right click menu
-    _QuestieTracker.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFrame", UIParent)
-
     if Questie.db.global.hookTracking then
         QuestieTracker:HookBaseTracker()
     end
@@ -195,11 +189,11 @@ function QuestieTracker:Initialize()
         if Questie.db.char.TrackerFocus then
             local focusType = type(Questie.db.char.TrackerFocus)
             if focusType == "number" then
-                QuestieTracker:FocusQuest(Questie.db.char.TrackerFocus)
+                TrackerUtils:FocusQuest(Questie.db.char.TrackerFocus)
                 QuestieQuest:ToggleNotes(false)
             elseif focusType == "string" then
                 local questId, objectiveIndex = string.match(Questie.db.char.TrackerFocus, "(%d+) (%d+)")
-                QuestieTracker:FocusObjective(questId, objectiveIndex)
+                TrackerUtils:FocusObjective(questId, objectiveIndex)
                 QuestieQuest:ToggleNotes(false)
             end
         end
@@ -1532,14 +1526,14 @@ function QuestieTracker:Update()
                     quest.HideIcons = true
                 end
                 if Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == quest.Id then -- quest focus
-                    QuestieTracker:FocusQuest(quest.Id)
+                    TrackerUtils:FocusQuest(quest.Id)
                 end
                 for _, objective in pairs(quest.Objectives) do
                     if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
                         objective.HideIcons = true
                     end
                     if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-                        QuestieTracker:FocusObjective(quest.Id, objective.Index)
+                        TrackerUtils:FocusObjective(quest.Id, objective.Index)
                     end
                 end
 
@@ -1548,7 +1542,7 @@ function QuestieTracker:Update()
                         objective.HideIcons = true
                     end
                     if  Questie.db.char.TrackerFocus and type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus == tostring(quest.Id) .. " " .. tostring(objective.Index) then
-                        QuestieTracker:FocusObjective(quest.Id, objective.Index)
+                        TrackerUtils:FocusObjective(quest.Id, objective.Index)
                     end
                 end
             end
@@ -1672,108 +1666,6 @@ function _QuestieTracker:StartFadeTicker()
     end
 end
 
-function QuestieTracker:UnFocus()
-    -- reset HideIcons to match savedvariable state
-    if (not Questie.db.char.TrackerFocus) then
-        return
-    end
-    for questId in pairs (QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questId)
-
-        if quest then
-            quest.FadeIcons = nil
-            if next(quest.Objectives) then
-
-                if Questie.db.char.TrackerHiddenQuests[quest.Id] then
-                    quest.HideIcons = true
-                    quest.FadeIcons = nil
-                else
-                    quest.HideIcons = nil
-                    quest.FadeIcons = nil
-                end
-
-                for _, objective in pairs(quest.Objectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
-                        objective.HideIcons = true
-                        objective.FadeIcons = nil
-                    else
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    end
-                end
-
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    if Questie.db.char.TrackerHiddenObjectives[tostring(questId) .. " " .. tostring(objective.Index)] then
-                        objective.HideIcons = true
-                        objective.FadeIcons = nil
-                    else
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    end
-                end
-            end
-        end
-    end
-
-    Questie.db.char.TrackerFocus = nil
-end
-
-function QuestieTracker:FocusObjective(questId, objectiveIndex)
-    if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "string" or Questie.db.char.TrackerFocus ~= tostring(questId) .. " " .. tostring(objectiveIndex)) then
-        QuestieTracker:UnFocus()
-    end
-
-    Questie.db.char.TrackerFocus = tostring(questId) .. " " .. tostring(objectiveIndex)
-    for questLogQuestId in pairs (QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questLogQuestId)
-        if quest and next(quest.Objectives) then
-            if questLogQuestId == questId then
-                quest.HideIcons = nil
-                quest.FadeIcons = nil
-
-                for _, objective in pairs(quest.Objectives) do
-                    if objective.Index == objectiveIndex then
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    else
-                        objective.FadeIcons = true
-                    end
-                end
-
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    if objective.Index == objectiveIndex then
-                        objective.HideIcons = nil
-                        objective.FadeIcons = nil
-                    else
-                        objective.FadeIcons = true
-                    end
-                end
-
-            else
-                quest.FadeIcons = true
-            end
-        end
-    end
-end
-
-function QuestieTracker:FocusQuest(questId)
-    if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "number" or Questie.db.char.TrackerFocus ~= questId) then
-        QuestieTracker:UnFocus()
-    end
-    Questie.db.char.TrackerFocus = questId
-    for questLogQuestId in pairs (QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questLogQuestId)
-        if quest then
-            if questLogQuestId == questId then
-                quest.HideIcons = nil
-                quest.FadeIcons = nil
-            else
-                quest.FadeIcons = true
-            end
-        end
-    end
-end
-
 function QuestieTracker:Untrack(quest)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Untrack")
     QuestieTracker:UntrackQuestId(quest.Id)
@@ -1880,8 +1772,8 @@ _OnClick = function(self, button)
         TrackerUtils:ShowQuestLog(self.Quest)
 
     elseif button == "RightButton" then
-        local menu = QuestieTracker.menu:GetMenuForQuest(self.Quest)
-        LibDropDown:EasyMenu(menu, _QuestieTracker.menuFrame, "cursor", 0 , 0, "MENU")
+        local menu = TrackerMenu:GetMenuForQuest(self.Quest)
+        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0 , 0, "MENU")
     end
 end
 
@@ -1961,7 +1853,7 @@ function QuestieTracker:RemoveQuest(questId)
     if Questie.db.char.TrackerFocus then
         if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == questId)
         or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(questId)) == tostring(questId)) then
-            QuestieTracker:UnFocus()
+            TrackerUtils:UnFocus()
             QuestieQuest:ToggleNotes(true)
         end
     end
