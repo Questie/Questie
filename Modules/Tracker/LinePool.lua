@@ -20,6 +20,7 @@ local lineIndex = 0
 local linePool = {}
 
 local baseFrame
+local lineMarginLeft = 10
 
 local _OnClick, _OnHighlightEnter, _OnHighlightLeave
 local _UntrackQuest, _TrackerUpdate
@@ -57,7 +58,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         if lastFrame then
             line:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
         else
-            line:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", 0, 0)
+            line:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", lineMarginLeft, 0)
         end
 
         function line:SetMode(mode)
@@ -185,7 +186,6 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 
         expandQuest:SetWidth(trackerFontSizeQuest)
         expandQuest:SetHeight(trackerFontSizeQuest)
-        expandQuest:SetFrameLevel(2)
         expandQuest:SetPoint("RIGHT", line, "LEFT", 0, 0)
 
         expandQuest.SetMode = function(self, mode)

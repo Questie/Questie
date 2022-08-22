@@ -16,6 +16,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
+local marginLeft = 10
+
 ---@param trackerBaseFrame Frame
 function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, OnDragStop)
     
@@ -26,12 +28,12 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
 
     if Questie.db.global.trackerHeaderAutoMove then
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-            frm:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 10)
+            frm:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", marginLeft, 10)
         else
-            frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
+            frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", marginLeft, -10)
         end
     else
-        frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
+        frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", marginLeft, -10)
     end
 
     frm.Update = function(self)
@@ -44,7 +46,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
 
             self.questieIcon:SetWidth(trackerFontSizeHeader)
             self.questieIcon:SetHeight(trackerFontSizeHeader)
-            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", marginLeft, 0)
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
@@ -53,11 +55,11 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
 
             local _, activeQuests = GetNumQuestLogEntries()
             self.trackedQuests.label:SetText(l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
-            self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
+            self.trackedQuests.label:SetPoint("TOPLEFT", self.questieIcon, "TOPLEFT", marginLeft + 5, 0)
 
             self.trackedQuests:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth())
             self.trackedQuests:SetHeight(trackerFontSizeHeader)
-            self.trackedQuests:SetPoint("TOPLEFT", self, "TOPLEFT", trackerFontSizeHeader, 0)
+            self.trackedQuests:SetPoint("TOPLEFT", self, "TOPLEFT", 5, 0)
             self.trackedQuests:Show()
 
             self:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader)
@@ -174,7 +176,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
 
     -- Questie Tracked Quests Settings
     local trackedQuests = CreateFrame("Button", nil, trackerBaseFrame)
-    trackedQuests:SetPoint("TOPLEFT", questieIcon, "TOPLEFT", trackerFontSizeHeader, 0)
+    trackedQuests:SetPoint("TOPLEFT", questieIcon, "TOPLEFT", marginLeft, 0)
 
     -- Questie Tracked Quests Label
     trackedQuests.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")

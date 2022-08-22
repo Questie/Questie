@@ -43,9 +43,9 @@ local trackerFontSizeZone = 1
 local trackerFontSizeQuest = 1
 local trackerFontSizeObjective = 1
 
-local zoneHeaderMarginLeft = 10
-local questHeaderMarginLeft = zoneHeaderMarginLeft + 10
-local objectiveMarginLeft = zoneHeaderMarginLeft + questHeaderMarginLeft + 5
+local activeQuestHeaderMarginLeft = 10
+local questHeaderMarginLeft = activeQuestHeaderMarginLeft + 15
+local objectiveMarginLeft = activeQuestHeaderMarginLeft + questHeaderMarginLeft + 5
 
 local buttonIndex = 0
 local lastAQW = GetTime()
@@ -968,7 +968,7 @@ function QuestieTracker:Update()
                     line.expandZone:Show()
 
                     line.label:ClearAllPoints()
-                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", zoneHeaderMarginLeft, 0)
+                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
                     if Questie.db.char.collapsedZones[quest.zoneOrSort] then
                         line.expandZone:SetMode(0)
@@ -1010,7 +1010,7 @@ function QuestieTracker:Update()
 
             line.label:ClearAllPoints()
             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
-            line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 15, 0) -- TODO: Reduce -15 by correctly position line and not just line.label
+            line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0) -- TODO: Reduce -15 by correctly position line and not just line.label
 
             local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
             line.label:SetText(coloredQuestName)
