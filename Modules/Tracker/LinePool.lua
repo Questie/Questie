@@ -128,7 +128,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         end
 
         -- create expanding zone headers for quests sorted by zones
-        local expandZone = CreateFrame("Button", "Questie_ZoneHeader", btn)
+        local expandZone = CreateFrame("Button", nil, btn)
         expandZone:SetWidth(1)
         expandZone:SetHeight(1)
         expandZone:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
@@ -179,7 +179,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         btn.expandZone = expandZone
 
         -- create expanding buttons for quests with objectives
-        local expandQuest = CreateFrame("Button", "Questie_MinQuestButton", btn)
+        local expandQuest = CreateFrame("Button", nil, btn)
         expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
         expandQuest.texture:SetWidth(trackerFontSizeQuest)
         expandQuest.texture:SetHeight(trackerFontSizeQuest)
