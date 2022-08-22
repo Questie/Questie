@@ -338,7 +338,7 @@ _OnHighlightEnter = function(self)
     if self.mode == "quest" or self.mode =="objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
         local highestIndex = _GetHighestIndex()
         for i = 1, highestIndex do
-            local line = LinePool.GetLine(i)
+            local line = linePool[i]
             line:SetAlpha(0.5)
             if (line.Quest == self.Quest) or line.mode == "zone" then
                 line:SetAlpha(1)
@@ -350,7 +350,7 @@ end
 _OnHighlightLeave = function()
     local highestIndex = _GetHighestIndex()
     for i = 1, highestIndex do
-        LinePool.GetLine(i):SetAlpha(1)
+        linePool[i]:SetAlpha(1)
     end
 end
 
