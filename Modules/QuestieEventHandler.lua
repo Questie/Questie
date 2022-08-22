@@ -16,8 +16,6 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type LinePool
-local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -199,7 +197,6 @@ function _EventHandler:ChatMsgCompatFactionChange()
     local factionChanged = QuestieReputation:Update(false)
     if factionChanged then
         QuestieCombatQueue:Queue(function()
-            LinePool.ResetLinesForChange()
             QuestieTracker:Update()
         end)
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()

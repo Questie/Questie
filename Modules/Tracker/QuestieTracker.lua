@@ -126,12 +126,7 @@ function QuestieTracker.Initialize()
     end
 
     C_Timer.After(0.2, function()
-
-        -- Hide the durability frame
         DurabilityFrame:Hide()
-
-        -- Load Objective Sorting and Tracker Layout Vars
-        _UpdateLayout()
     end)
 
     -- Santity checks and settings applied at login
@@ -207,7 +202,6 @@ function QuestieTracker.Initialize()
         end
 
         -- Font's and cooldowns can occationally not apply upon login
-        LinePool.ResetLinesForChange()
         QuestieTracker:Update()
     end)
 end
@@ -525,7 +519,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 if self.questID then
                     if Questie.db.char.collapsedQuests[self.questID] ~= true then
                         Questie.db.char.collapsedQuests[self.questID] = true
-                        LinePool.ResetLinesForChange()
                         QuestieTracker:Update()
                     end
                 else
@@ -649,7 +642,6 @@ function QuestieTracker:ResetLocation()
     Questie.db.char.collapsedZones = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
-    LinePool.ResetLinesForChange()
     QuestieTracker:Update()
 
     if _QuestieTracker.baseFrame then
@@ -769,6 +761,8 @@ function QuestieTracker:Update()
         end
         return
     end
+
+    LinePool.ResetLinesForChange()
 
     -- Update primary frames and layout
     _QuestieTracker.baseFrame:Update()
@@ -1426,7 +1420,6 @@ _OnTrackedQuestClick = function(self)
     if Questie.db.global.stickyDurabilityFrame then
         QuestieTracker:CheckDurabilityAlertStatus()
         QuestieTracker:MoveDurabilityFrame()
-        LinePool.ResetLinesForChange()
     end
     QuestieTracker:Update()
 end
@@ -1499,7 +1492,6 @@ function QuestieTracker:UntrackQuestId(questId)
     end
 
     QuestieCombatQueue:Queue(function()
-        LinePool.ResetLinesForChange()
         QuestieTracker:Update()
     end)
 end
@@ -1564,7 +1556,6 @@ function QuestieTracker:AQW_Insert(index, expire)
             Questie:Error("Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
         end
         QuestieCombatQueue:Queue(function()
-            LinePool.ResetLinesForChange()
             QuestieTracker:Update()
             if Questie.db.char.hideUntrackedQuestsMapIcons then
                 -- Quest had its Icons removed, paint them again

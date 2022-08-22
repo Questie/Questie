@@ -2,8 +2,6 @@
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
 
----@type LinePool
-local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
@@ -87,7 +85,6 @@ function _QuestieTracker:OnDragStop()
         startDragPos = nil
         preSetPoint = nil
 
-        LinePool.ResetLinesForChange()
         QuestieTracker:Update()
     end, baseFrame)
 end
@@ -107,14 +104,12 @@ function _QuestieTracker:OnResizeStart(button)
                 baseFrame:StartSizing("RIGHT")
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
-                    LinePool.ResetLinesForChange()
                     QuestieTracker:Update()
                 end)
             end
         end
     elseif button =="RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
-        LinePool.ResetLinesForChange()
         QuestieTracker:Update()
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
     end

@@ -158,7 +158,6 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             else
                 Questie.db.char.collapsedZones[self.zoneId] = true
             end
-            LinePool.ResetLinesForChange()
             _TrackerUpdate()
         end)
 
@@ -221,7 +220,6 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             else
                 Questie.db.char.collapsedQuests[self.questId] = true
             end
-            LinePool.ResetLinesForChange()
             _TrackerUpdate()
         end)
 
