@@ -22,7 +22,6 @@ local linePool = {}
 local baseFrame
 
 local _OnClick, _OnHighlightEnter, _OnHighlightLeave
-
 local _UntrackQuest, _TrackerUpdate
 
 ---@param trackedQuestsFrame Frame
@@ -37,31 +36,31 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 
     local lastFrame
     for i = 1, poolSize do
-        local btn = CreateFrame("Button", nil, trackedQuestsFrame)
-        btn.label = btn:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-        btn.label:SetJustifyH("LEFT")
-        btn.label:SetPoint("TOPLEFT", btn)
-        btn.label:Hide()
+        local line = CreateFrame("Button", nil, trackedQuestsFrame)
+        line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        line.label:SetJustifyH("LEFT")
+        line.label:SetPoint("TOPLEFT", line)
+        line.label:Hide()
 
         -- autoadjust parent size for clicks
-        btn.label._SetText = btn.label.SetText
-        btn.label.frame = btn
-        btn.label.SetText = function(self, text)
+        line.label._SetText = line.label.SetText
+        line.label.frame = line
+        line.label.SetText = function(self, text)
             self:_SetText(text)
             self.frame:SetWidth(self:GetWidth())
             self.frame:SetHeight(self:GetHeight())
         end
 
-        btn:SetWidth(1)
-        btn:SetHeight(1)
+        line:SetWidth(1)
+        line:SetHeight(1)
 
         if lastFrame then
-            btn:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
+            line:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
         else
-            btn:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", 0, 0)
+            line:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", 0, 0)
         end
 
-        function btn:SetMode(mode)
+        function line:SetMode(mode)
             if mode ~= self.mode then
                 self.mode = mode
                 if mode == "zone" then
@@ -78,21 +77,21 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             end
         end
 
-        function btn:SetZone(ZoneId)
+        function line:SetZone(ZoneId)
             self.ZoneId = TrackerUtils:GetZoneNameByID(ZoneId)
             self.expandZone.zoneId = ZoneId
         end
 
-        function btn:SetQuest(Quest)
+        function line:SetQuest(Quest)
             self.Quest = Quest
             self.expandQuest.questId = Quest.Id
         end
 
-        function btn:SetObjective(Objective)
+        function line:SetObjective(Objective)
             self.Objective = Objective
         end
 
-        function btn:SetVerticalPadding(amount)
+        function line:SetVerticalPadding(amount)
             if self.mode == "zone" then
                 self:SetHeight(trackerFontSizeZone + amount)
             elseif self.mode == "quest" then
@@ -102,36 +101,36 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             end
         end
 
-        btn:SetMode("quest")
-        btn:EnableMouse(true)
-        btn:RegisterForDrag("LeftButton")
-        btn:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+        line:SetMode("quest")
+        line:EnableMouse(true)
+        line:RegisterForDrag("LeftButton")
+        line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-        btn:SetScript("OnClick", _OnClick)
+        line:SetScript("OnClick", _OnClick)
         --btn:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
         --btn:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
 
-        btn:SetScript("OnEnter", function(self)
+        line:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
             FadeTicker.OnEnter()
         end)
 
-        btn:SetScript("OnLeave", function(self)
+        line:SetScript("OnLeave", function(self)
             _OnHighlightLeave(self)
             FadeTicker.OnLeave()
         end)
 
         if lastFrame then
-            btn:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
+            line:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
         else
-            btn:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", 0, 0)
+            line:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", 0, 0)
         end
 
         -- create expanding zone headers for quests sorted by zones
-        local expandZone = CreateFrame("Button", nil, btn)
+        local expandZone = CreateFrame("Button", nil, line)
         expandZone:SetWidth(1)
         expandZone:SetHeight(1)
-        expandZone:SetPoint("TOPLEFT", btn, "TOPLEFT", 0, 0)
+        expandZone:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
         expandZone.SetMode = function(self, mode)
             if mode ~= self.mode then
@@ -175,10 +174,10 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         --expandZone:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
         expandZone:Hide()
 
-        btn.expandZone = expandZone
+        line.expandZone = expandZone
 
         -- create expanding buttons for quests with objectives
-        local expandQuest = CreateFrame("Button", nil, btn)
+        local expandQuest = CreateFrame("Button", nil, line)
         expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
         expandQuest.texture:SetWidth(trackerFontSizeQuest)
         expandQuest.texture:SetHeight(trackerFontSizeQuest)
@@ -187,7 +186,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         expandQuest:SetWidth(trackerFontSizeQuest)
         expandQuest:SetHeight(trackerFontSizeQuest)
         expandQuest:SetFrameLevel(2)
-        expandQuest:SetPoint("RIGHT", btn, "LEFT", 0, 0)
+        expandQuest:SetPoint("RIGHT", line, "LEFT", 0, 0)
 
         expandQuest.SetMode = function(self, mode)
             if mode ~= self.mode then
@@ -231,10 +230,10 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             expandQuest:SetAlpha(0)
         end
 
-        btn.expandQuest = expandQuest
+        line.expandQuest = expandQuest
 
-        linePool[i] = btn
-        lastFrame = btn
+        linePool[i] = line
+        lastFrame = line
     end
 end
 
