@@ -1043,6 +1043,11 @@ function QuestieTracker:Update()
                 line.expandQuest:Hide()
             else
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+
+                line:Show()
+                line.label:Show()
+                line.expandQuest:Show()
+                line:SetVerticalPadding(2)
             end
 
             -- Add quest items
@@ -1091,10 +1096,6 @@ function QuestieTracker:Update()
             if Questie.db.global.collapseCompletedQuests and complete == 1 then
                 line.expandQuest:Hide()
             end
-
-            line:Show()
-            line.label:Show()
-            line:SetVerticalPadding(2)
 
             -- Add quest objectives (if applicable)
             if not (Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id]) then
@@ -1180,15 +1181,6 @@ function QuestieTracker:Update()
                     line.label:Show()
                 end
             else
-                line = LinePool.GetNextLine()
-                if not line then break end -- stop populating the tracker
-
-                line.mode = nil
-                line.Quest = nil
-                line.Objective = nil
-                line.label.frame.expandQuest.questId = nil
-                line.label:ClearAllPoints()
-                line:Hide()
                 QuestieQuestTimers:GetRemainingTime(questId, nil, true)
             end
 
@@ -1197,7 +1189,6 @@ function QuestieTracker:Update()
             end
             
             line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
-            
         end
     end
 
