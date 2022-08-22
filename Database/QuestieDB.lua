@@ -790,14 +790,16 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             }
             tinsert(QO.ObjectiveData, reputationObjective);
         end
-        if objectives[5] then
-            local killCreditObjective = {
-                Type = "killcredit",
-                IdList = objectives[5][1],
-                RootId = objectives[5][2],
-                Text = objectives[5][3]
-            }
-            tinsert(QO.ObjectiveData, killCreditObjective);
+        if type(objectives[5]) == "table" and #objectives[5] > 0 then
+            for _, creditObjective in pairs(objectives[5]) do
+                local killCreditObjective = {
+                    Type = "killcredit",
+                    IdList = creditObjective[1],
+                    RootId = creditObjective[2],
+                    Text = creditObjective[3]
+                }
+                tinsert(QO.ObjectiveData, killCreditObjective);
+            end
         end
 
         -- There are quest(s) which have the killCredit at first so we need to switch them
