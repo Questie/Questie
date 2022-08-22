@@ -121,12 +121,6 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             FadeTicker.OnLeave()
         end)
 
-        if lastFrame then
-            line:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
-        else
-            line:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", 0, 0)
-        end
-
         -- create expanding zone headers for quests sorted by zones
         local expandZone = CreateFrame("Button", nil, line)
         expandZone:SetWidth(1)
