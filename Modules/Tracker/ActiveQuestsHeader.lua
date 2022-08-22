@@ -20,8 +20,7 @@ local marginLeft = 10
 
 ---@param trackerBaseFrame Frame
 function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, OnDragStop)
-    
-    local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
+
     local trackerSpaceBuffer = 10
 
     local frm = CreateFrame("Button", nil, trackerBaseFrame)
@@ -37,9 +36,10 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
     end
 
     frm.Update = function(self)
+        local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
+
         if Questie.db.global.trackerHeaderEnabled then
             self:ClearAllPoints()
-
             self.questieIcon.texture:SetWidth(trackerFontSizeHeader)
             self.questieIcon.texture:SetHeight(trackerFontSizeHeader)
             self.questieIcon.texture:SetPoint("CENTER", 0, 0)
@@ -208,7 +208,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
     frm.trackedQuests = trackedQuests
 
     frm:SetWidth(frm.trackedQuests.label:GetUnboundedStringWidth())
-    frm:SetHeight(trackerFontSizeHeader)
+    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
     frm:SetFrameLevel(0)
 
     frm:Hide()

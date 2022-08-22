@@ -22,7 +22,7 @@ local linePool = {}
 local baseFrame
 local lineMarginLeft = 10
 
-local _OnClick, _OnHighlightEnter, _OnHighlightLeave
+local _OnClick, _OnHighlightEnter, _OnHighlightLeave, _SetMode
 local _UntrackQuest, _TrackerUpdate
 
 ---@param trackedQuestsFrame Frame
@@ -31,9 +31,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
     _UntrackQuest = UntrackQuest
     _TrackerUpdate = TrackerUpdate
 
-    local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-    local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
 
     local lastFrame
     for i = 1, poolSize do
@@ -61,22 +59,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             line:SetPoint("TOPLEFT", trackedQuestsFrame, "TOPLEFT", lineMarginLeft, 0)
         end
 
-        function line:SetMode(mode)
-            if mode ~= self.mode then
-                self.mode = mode
-                if mode == "zone" then
-                    self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT, trackerFontSizeZone)
-                    self.label:SetHeight(trackerFontSizeZone)
-                elseif mode == "quest" then
-                    self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, trackerFontSizeQuest)
-                    self.label:SetHeight(trackerFontSizeQuest)
-                    self.button = nil
-                elseif mode == "objective" then
-                    self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective)
-                    self.label:SetHeight(trackerFontSizeObjective)
-                end
-            end
-        end
+        line.SetMode = _SetMode
 
         function line:SetZone(ZoneId)
             self.ZoneId = TrackerUtils:GetZoneNameByID(ZoneId)
@@ -94,11 +77,11 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 
         function line:SetVerticalPadding(amount)
             if self.mode == "zone" then
-                self:SetHeight(trackerFontSizeZone + amount)
+                self:SetHeight(Questie.db.global.trackerFontSizeZone + amount)
             elseif self.mode == "quest" then
-                self:SetHeight(trackerFontSizeQuest + amount)
+                self:SetHeight(Questie.db.global.trackerFontSizeQuest + amount)
             else
-                self:SetHeight(trackerFontSizeObjective + amount)
+                self:SetHeight(Questie.db.global.trackerFontSizeObjective + amount)
             end
         end
 
@@ -190,8 +173,8 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                 else
                     self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
                 end
-                self:SetWidth(trackerFontSizeQuest+3)
-                self:SetHeight(trackerFontSizeQuest+3)
+                self:SetWidth(Questie.db.global.trackerFontSizeQuest+3)
+                self:SetHeight(Questie.db.global.trackerFontSizeQuest+3)
             end
         end
 
@@ -374,5 +357,25 @@ _OnHighlightLeave = function()
     local highestIndex = _GetHighestIndex()
     for i = 1, highestIndex do
         LinePool.GetLine(i):SetAlpha(1)
+    end
+end
+
+_SetMode = function(self, mode)
+    if mode ~= self.mode then
+        self.mode = mode
+        if mode == "zone" then
+            local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT, trackerFontSizeZone)
+            self.label:SetHeight(trackerFontSizeZone)
+        elseif mode == "quest" then
+            local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, trackerFontSizeQuest)
+            self.label:SetHeight(trackerFontSizeQuest)
+            self.button = nil
+        elseif mode == "objective" then
+            local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective)
+            self.label:SetHeight(trackerFontSizeObjective)
+        end
     end
 end
