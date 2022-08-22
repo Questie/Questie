@@ -57,13 +57,13 @@ function _QuestieTracker:OnDragStop()
         return
     end
 
-    local baseFrame = QuestieTracker:GetBaseFrame()
+    local trackerBaseFrame = QuestieTracker:GetBaseFrame()
     _QuestieTracker.isMoving = false
     dragButton = nil
-    endDragPos = {baseFrame:GetPoint()}
-    baseFrame:StopMovingOrSizing()
+    endDragPos = { trackerBaseFrame:GetPoint()}
+    trackerBaseFrame:StopMovingOrSizing()
 
-    endDragPos[4], endDragPos[5] = _QuestieTracker:TrimSetPoints(baseFrame, endDragPos[4], endDragPos[5])
+    endDragPos[4], endDragPos[5] = _QuestieTracker:TrimSetPoints(trackerBaseFrame, endDragPos[4], endDragPos[5])
 
     local xMoved = endDragPos[4] - startDragPos[4]
     local yMoved = endDragPos[5] - startDragPos[5]
@@ -86,7 +86,7 @@ function _QuestieTracker:OnDragStop()
         preSetPoint = nil
 
         QuestieTracker:Update()
-    end, baseFrame)
+    end, trackerBaseFrame)
 end
 
 function _QuestieTracker:OnResizeStart(button)
