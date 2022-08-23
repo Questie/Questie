@@ -34,6 +34,9 @@ local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated
 
 
+---@alias AreaId number
+
+
 function ZoneDB:Initialize()
     areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = ZoneDB:GetZoneTables()
 
