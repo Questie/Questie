@@ -302,13 +302,7 @@ end
 
 _OnClick = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClick]")
-    -- TODO: Find a good way to check if the tracker is moving
-    --if _QuestieTracker.isMoving == true then
-    --    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:_OnClick] Tracker is being dragged. Don't show the menu")
-    --    return
-    --end
-
-    if not self.Quest then
+    if (not self.Quest) then
         return
     end
 
