@@ -96,6 +96,9 @@ function QuestieTracker.Initialize()
     if (not Questie.db.char.collapsedQuests) then
         Questie.db.char.collapsedQuests = {}
     end
+    if (not Questie.db.char.collapsedAchievements) then
+        Questie.db.char.collapsedAchievements = {}
+    end
     if (not Questie.db[Questie.db.global.questieTLoc].TrackerWidth) then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
     end
@@ -109,15 +112,17 @@ function QuestieTracker.Initialize()
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
     TrackerMenu.Initialize(_QuestieTracker.baseFrame.Update, QuestieTracker.Untrack)
 
-    --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
-    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
-    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
 
     local achievementFrame
     if Questie.IsWotlk then
         achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame)
+        LinePool.InitializeAchievementLines(achievementFrame, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
+        AchievementTracker.LoadAchievements()
     end
+
+    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame or _QuestieTracker.activeQuestsHeader)
+    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
 
     -- Quest and Item button tables
     _QuestieTracker:CreateTrackedQuestItemButtons()
@@ -367,18 +372,18 @@ local function _PositionTrackedQuestsFrame(frm, previousFrame)
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
-                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -10)
+                frm:SetPoint("BOTTOMLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
             else
                 -- Auto move tracker header to the top
-                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -(trackerFontSizeHeader+3))
+                frm:SetPoint("BOTTOMLEFT", previousFrame, "BOTTOMLEFT", 0, -(trackerFontSizeHeader+10))
             end
         else
             -- No Automove. Tracker header always up top
-            frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -(trackerFontSizeHeader+5))
+            frm:SetPoint("BOTTOMLEFT", previousFrame, "BOTTOMLEFT", 0, -(trackerFontSizeHeader+10))
         end
     else
         -- No header. TrackedQuestsFrame always up top
-        frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -10)
+        frm:SetPoint("BOTTOMLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
     end
 end
 

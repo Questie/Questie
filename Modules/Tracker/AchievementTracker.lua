@@ -3,6 +3,8 @@ local AchievementTracker = QuestieLoader:CreateModule("AchievementTracker")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type LinePool
+local LinePool = QuestieLoader:ImportModule("LinePool")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
@@ -14,35 +16,50 @@ local LSM30 = LibStub("LibSharedMedia-3.0", true)
 local trackedAchievements = {}
 
 local baseFrame
+local trackerLineWidth = 0
 local lastCreatedLine
+local trackedAchievementIds
 
 local _TrackAchievement
+
+local headerMarginLeft = 10
+local achievementHeaderMarginLeft = headerMarginLeft + 15
+local objectiveMarginLeft = headerMarginLeft + achievementHeaderMarginLeft + 5
 
 ---@param trackerBaseFrame Frame
 function AchievementTracker.Initialize(trackerBaseFrame)
     baseFrame = CreateFrame("Frame", "Questie_TrackedAchievements", trackerBaseFrame)
     baseFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -15)
-    baseFrame:SetSize(1, 1)
+    baseFrame:SetSize(trackerBaseFrame:GetWidth(), trackerBaseFrame:GetHeight())
 
-    local trackedAchievementIds = {GetTrackedAchievements()}
+    trackedAchievementIds = {GetTrackedAchievements()}
 
     if (not next(trackedAchievementIds)) then
         -- No achievements are currently tracked
-        return trackerBaseFrame
+        return baseFrame
     end
 
     local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     header:SetText("Achievements")
-    header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", 20, -12)
+    header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", headerMarginLeft, -12)
     header:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
     baseFrame.header = header
     lastCreatedLine = header
 
+    return baseFrame
+end
+
+function AchievementTracker.LoadAchievements()
+    if (not next(trackedAchievementIds)) then
+        -- No achievements are currently tracked
+        return
+    end
+
     for i=1, #trackedAchievementIds do
         _TrackAchievement(trackedAchievementIds[i])
     end
-
-    return lastCreatedLine
+    baseFrame:SetWidth(trackerLineWidth)
+    baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom() + 10)
 end
 
 ---Creates the required frames to display an Achievement name and its criteria
@@ -51,35 +68,50 @@ _TrackAchievement = function(achievementId)
     Questie:Debug(Questie.DEBUG_SPAM, "Creating frames for achievement:", achievementId)
     local achievementName = select(2, GetAchievementInfo(achievementId))
 
-    local line = CreateFrame("Button", nil, baseFrame)
-    line:SetPoint("TOP", lastCreatedLine, "BOTTOM", -35, -5)
-    line:SetSize(1, 1)
+    local line = LinePool.GetNextAchievementLine()
+    if not line then return end -- stop populating the tracker
+    lastCreatedLine = line
 
-    local label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    label:SetJustifyH("LEFT")
-    label:SetPoint("TOPLEFT", line)
-    label:SetText("|cFFFFFF00" .. achievementName .. "|r")
-    label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeQuest)
-    label:SetHeight(Questie.db.global.trackerFontSizeQuest)
-    line.label = label
+    line:SetMode("achievement")
+    line:SetAchievement(achievementId)
+
+    line.label:SetText("|cFFFFFF00" .. achievementName .. "|r")
+
+    line.label:ClearAllPoints()
+    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", achievementHeaderMarginLeft, 0)
+    line.expand:SetPoint("RIGHT", line, "LEFT", achievementHeaderMarginLeft - 8, 0)
+    line.label:SetWidth(baseFrame:GetWidth() - achievementHeaderMarginLeft + 40)
+    line.label:SetHeight(Questie.db.global.trackerFontSizeQuest)
+    line:SetWidth(line.label:GetWidth())
+
+    line:SetVerticalPadding(2)
+    line:Show()
+    line.label:Show()
+    line.expand:Show()
+
+    trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
 
     local numCriteria = GetAchievementNumCriteria(achievementId)
     for i=1, numCriteria do
+        -- Add objectives
+        line = LinePool.GetNextAchievementLine()
+        if not line then break end -- stop populating the tracker
+        lastCreatedLine = line
+
         local _, _, _, quantityProgress, quantityNeeded, _, _, _, quantityString = GetAchievementCriteriaInfo(achievementId, i)
 
-        local criteriaLine = line:CreateFontString(nil, "ARTWORK", "GameTooltipText")
-        criteriaLine:SetJustifyH("LEFT")
+        line:SetMode("objective")
+        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. "- " .. quantityString .. "|r")
 
-        criteriaLine:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. "- " .. quantityString .. "|r")
-        criteriaLine:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeObjective)
-        criteriaLine:SetHeight(Questie.db.global.trackerFontSizeObjective)
-        if i > 1 then
-            criteriaLine:SetPoint("TOP", line, "BOTTOM", 0, 0)
-        else
-            -- First criteria
-            criteriaLine:SetPoint("TOP", 35, -15)
-        end
-        lastCreatedLine = criteriaLine
+        line.label:ClearAllPoints()
+        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+        local lineWidth = baseFrame:GetWidth() - objectiveMarginLeft
+        line.label:SetWidth(lineWidth)
+        line:SetWidth(lineWidth)
+        line:SetVerticalPadding(1)
+
+        line:Show()
+        line.label:Show()
     end
     trackedAchievements[achievementId] = line
 end
