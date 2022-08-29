@@ -1,7 +1,6 @@
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
-local _Tracker = {}
 -------------------------
 --Import modules.
 -------------------------
@@ -773,37 +772,16 @@ local function _UpdateQuestItem(self, quest)
     end
 end
 
-function QuestieTracker:Update()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update")
-    if (not QuestieTracker.started) then
-        return
-    end
 
-    trackerLineWidth = 0
+local function _ReportErrorMessage(zoneOrtSort)
+    Questie:Error("SortID: |cffffbf00"..zoneOrtSort.."|r was not found in the Database. Please file a bugreport at:")
+    Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
+end
 
-    -- Tracker has started but not enabled
-    if (not Questie.db.global.trackerEnabled) then
-        if _QuestieTracker.baseFrame and _QuestieTracker.baseFrame:IsShown() then
-            QuestieCombatQueue:Queue(function()
-                _QuestieTracker.baseFrame:Hide()
-            end)
-        end
-        return
-    end
+local questCompletePercent = {}
 
-    LinePool.ResetLinesForChange()
-
-    -- Update primary frames and layout
-    _QuestieTracker.baseFrame:Update()
-    _QuestieTracker.activeQuestsHeader:Update()
-    _QuestieTracker.trackedQuestsFrame:Update()
-    _UpdateLayout()
-
-    buttonIndex = 0
-
-    local order = {}
-    QuestieTracker._order = order
-    local questCompletePercent = {}
+local function _GetSortedQuestIds()
+    local sortedQuestIds = {}
 
     -- Update quest objectives
     for questId in pairs (QuestiePlayer.currentQuestlog) do
@@ -821,13 +799,13 @@ function QuestieTracker:Update()
                 percent = percent / count
                 questCompletePercent[quest.Id] = percent
             end
-            table.insert(order, questId)
+            table.insert(sortedQuestIds, questId)
         end
     end
 
     -- Quests and objectives sort
     if Questie.db.global.trackerSortObjectives == "byComplete" then
-        table.sort(order, function(a, b)
+        table.sort(sortedQuestIds, function(a, b)
             local vA, vB = questCompletePercent[a], questCompletePercent[b]
             if vA == vB then
                 local qA = QuestieDB:GetQuest(a)
@@ -838,21 +816,21 @@ function QuestieTracker:Update()
         end)
 
     elseif Questie.db.global.trackerSortObjectives == "byLevel" then
-        table.sort(order, function(a, b)
+        table.sort(sortedQuestIds, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
             return qA and qB and qA.level < qB.level
         end)
 
     elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
-        table.sort(order, function(a, b)
+        table.sort(sortedQuestIds, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
             return qA and qB and qA.level > qB.level
         end)
 
     elseif Questie.db.global.trackerSortObjectives == "byZone" then
-        table.sort(order, function(a, b)
+        table.sort(sortedQuestIds, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
             local qAZone, qBZone
@@ -862,7 +840,7 @@ function QuestieTracker:Update()
                 qAZone = TrackerUtils:GetCategoryNameByID(qA.zoneOrSort)
             else
                 qAZone = tostring(qA.zoneOrSort)
-                _Tracker:ReportErrorMessage(qAZone)
+                _ReportErrorMessage(qAZone)
             end
 
             if qB.zoneOrSort > 0 then
@@ -871,7 +849,7 @@ function QuestieTracker:Update()
                 qBZone = TrackerUtils:GetCategoryNameByID(qB.zoneOrSort)
             else
                 qBZone = tostring(qB.zoneOrSort)
-                _Tracker:ReportErrorMessage(qBZone)
+                _ReportErrorMessage(qBZone)
             end
 
             -- Sort by Zone then by Level to mimic QuestLog sorting
@@ -889,7 +867,7 @@ function QuestieTracker:Update()
     elseif Questie.db.global.trackerSortObjectives == "byProximity" then
         local toSort = {}
         local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
-        for _, questId in pairs(order) do
+        for _, questId in pairs(sortedQuestIds) do
             local sortData = {}
             sortData.questId = questId
             sortData.distance = _GetDistanceToClosestObjective(questId)
@@ -918,12 +896,46 @@ function QuestieTracker:Update()
                 return false
             end
         end
-        table.sort(order, QuestieTracker._sorter)
+        table.sort(sortedQuestIds, QuestieTracker._sorter)
 
         if not _QuestProximityTimer then
             QuestieTracker:UpdateQuestProximityTimer()
         end
     end
+
+    return sortedQuestIds
+end
+
+function QuestieTracker:Update()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update")
+    if (not QuestieTracker.started) then
+        return
+    end
+
+    trackerLineWidth = 0
+
+    -- Tracker has started but not enabled
+    if (not Questie.db.global.trackerEnabled) then
+        if _QuestieTracker.baseFrame and _QuestieTracker.baseFrame:IsShown() then
+            QuestieCombatQueue:Queue(function()
+                _QuestieTracker.baseFrame:Hide()
+            end)
+        end
+        return
+    end
+
+    LinePool.ResetLinesForChange()
+
+    -- Update primary frames and layout
+    _QuestieTracker.baseFrame:Update()
+    _QuestieTracker.activeQuestsHeader:Update()
+    _QuestieTracker.trackedQuestsFrame:Update()
+    _UpdateLayout()
+
+    buttonIndex = 0
+
+    local order = _GetSortedQuestIds()
+    QuestieTracker._order = order
 
     if (Questie.db.global.trackerSortObjectives ~= "byProximity") and _QuestProximityTimer and (_QuestProximityTimer:IsCancelled() ~= "true") then
         _QuestProximityTimer:Cancel()
@@ -951,7 +963,7 @@ function QuestieTracker:Update()
         -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
         else
             zoneName = tostring(quest.zoneOrSort)
-            _Tracker:ReportErrorMessage(zoneName)
+            _ReportErrorMessage(zoneName)
         end
 
         -- Look for any updated objectives since last update
@@ -1317,11 +1329,6 @@ function QuestieTracker:Update()
     else
         _QuestieTracker.baseFrame:Hide()
     end
-end
-
-function _Tracker:ReportErrorMessage(zoneOrtSort)
-    Questie:Error("SortID: |cffffbf00"..zoneOrtSort.."|r was not found in the Database. Please file a bugreport at:")
-    Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
 function QuestieTracker.Untrack(quest)
