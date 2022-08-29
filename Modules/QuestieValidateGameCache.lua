@@ -11,24 +11,15 @@ Flow:
 ---@class QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGameCache")
 
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
+
 local stringByte, tremove = string.byte, table.remove
 local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
-local tpack = function(...) return { n = select("#", ...), ... } end
-local function tunpack(tbl) -- wow's own unpack stops at first nil. this version is not speed optimized. supports just above tpack func as requires n field.
-    if tbl.n == 0 then
-        return nil
-    end
-
-    local function recursion(i)
-        if i == tbl.n then
-            return tbl[i]
-        end
-        return tbl[i], recursion(i+1)
-    end
-
-    return recursion(1)
-end
+local tpack =  QuestieLib.tpack
+local tunpack = QuestieLib.tunpack
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance

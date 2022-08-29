@@ -353,7 +353,6 @@ function QuestieQuest:AcceptQuest(questId)
             function() if Questie.db.char.collapsedQuests then Questie.db.char.collapsedQuests[questId] = nil end end,  -- re-accepted quest can be collapsed. expand it. specially dailies.
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function() QuestieTracker:ResetLinesForChange() end,
             function() QuestieTracker:Update() end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
@@ -380,7 +379,6 @@ function QuestieQuest:CompleteQuest(questId)
     QuestieTooltips:RemoveQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
-        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
     end)
 
@@ -425,7 +423,6 @@ function QuestieQuest:AbandonedQuest(questId)
         QuestieTracker:RemoveQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
         end)
 
@@ -460,7 +457,6 @@ function QuestieQuest:UpdateQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
         end
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
         end)
 
@@ -508,7 +504,6 @@ function QuestieQuest:GetAllQuestIds()
         end
     end
     QuestieCombatQueue:Queue(function()
-        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
     end)
 end
