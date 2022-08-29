@@ -767,6 +767,7 @@ local function _UpdateQuestItem(self, quest)
         end
 
     else
+        self.line.expandQuest:Show()
         self:SetParent(UIParent)
         self:Hide()
     end
