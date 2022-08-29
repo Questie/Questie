@@ -52,14 +52,23 @@ end
 function AchievementTracker.LoadAchievements()
     if (not next(trackedAchievementIds)) then
         -- No achievements are currently tracked
+        LinePool.HideUnusedAchievementLines()
         return
     end
 
     for i=1, #trackedAchievementIds do
         _TrackAchievement(trackedAchievementIds[i])
     end
+    LinePool.HideUnusedAchievementLines()
+
     baseFrame:SetWidth(trackerLineWidth)
     baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom() + 10)
+end
+
+function AchievementTracker.Update()
+    trackedAchievementIds = {GetTrackedAchievements()}
+    LinePool.ResetAchievementLinesForChange()
+    AchievementTracker.LoadAchievements()
 end
 
 ---Creates the required frames to display an Achievement name and its criteria
@@ -116,7 +125,7 @@ _TrackAchievement = function(achievementId)
     trackedAchievements[achievementId] = line
 end
 
----The corresponding TRACKED_ACHIEVEMENT_LIST_CHANGED event is fired whenever a user tracks or untracks an achievemnt
+---The corresponding TRACKED_ACHIEVEMENT_LIST_CHANGED event is fired whenever a user tracks or untracks an achievement
 ---@param achievementId integer
 ---@param shouldTrack boolean
 function AchievementTracker:TrackedAchievementListChanged(achievementId, shouldTrack)
@@ -125,14 +134,16 @@ function AchievementTracker:TrackedAchievementListChanged(achievementId, shouldT
     print("achievementId", achievementId)
     print("shouldTrack", shouldTrack)
 
-    if shouldTrack then
-        -- Create Tracker line and add Achievement information
-        _TrackAchievement(achievementId)
-    else
-        -- remove from tracker
-        if trackedAchievements[achievementId] then
-            trackedAchievements[achievementId]:Hide()
-            trackedAchievements[achievementId] = nil
-        end
-    end
+    AchievementTracker.Update()
+
+    --if shouldTrack then
+    --    -- Create Tracker line and add Achievement information
+    --    _TrackAchievement(achievementId)
+    --else
+    --    -- remove from tracker
+    --    if trackedAchievements[achievementId] then
+    --        trackedAchievements[achievementId]:Hide()
+    --        trackedAchievements[achievementId] = nil
+    --    end
+    --end
 end

@@ -359,6 +359,22 @@ function LinePool.ResetLinesForChange()
     lineIndex = 0
 end
 
+function LinePool.ResetAchievementLinesForChange()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "LinePool: ResetAchievementLinesForChange")
+    if InCombatLockdown() or not Questie.db.global.trackerEnabled then
+        return
+    end
+
+    for _, line in pairs(achievementLinePool) do
+        line.mode = nil
+        if line.expand then
+            line.expand.mode = nil
+        end
+    end
+
+    achievementLineIndex = 0
+end
+
 function LinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -401,6 +417,15 @@ function LinePool.HideUnusedLines()
         linePool[i].Objective = nil
         linePool[i].expandQuest.mode = nil
         linePool[i].expandZone.mode = nil
+    end
+end
+
+function LinePool.HideUnusedAchievementLines()
+    for i = achievementLineIndex + 1, achievementPoolSize do
+        achievementLinePool[i]:Hide()
+        achievementLinePool[i].mode = nil
+        achievementLinePool[i].achievement = nil
+        achievementLinePool[i].expand.mode = nil
     end
 end
 
