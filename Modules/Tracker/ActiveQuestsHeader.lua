@@ -1,6 +1,8 @@
 ---@class ActiveQuestsHeader
 local ActiveQuestsHeader = QuestieLoader:CreateModule("ActiveQuestsHeader")
 
+---@type FadeTicker
+local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieOptions
@@ -14,35 +16,37 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
+local marginLeft = 10
+
 ---@param trackerBaseFrame Frame
-function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDragStart, OnDragStop)
-    
-    local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
+function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, OnDragStop)
+
     local trackerSpaceBuffer = 10
 
     local frm = CreateFrame("Button", nil, trackerBaseFrame)
 
     if Questie.db.global.trackerHeaderAutoMove then
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-            frm:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 10)
+            frm:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", marginLeft, 10)
         else
-            frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
+            frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", marginLeft, -10)
         end
     else
-        frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
+        frm:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", marginLeft, -10)
     end
 
     frm.Update = function(self)
+        local trackerFontSizeHeader = Questie.db.global.trackerFontSizeHeader
+
         if Questie.db.global.trackerHeaderEnabled then
             self:ClearAllPoints()
-
             self.questieIcon.texture:SetWidth(trackerFontSizeHeader)
             self.questieIcon.texture:SetHeight(trackerFontSizeHeader)
             self.questieIcon.texture:SetPoint("CENTER", 0, 0)
 
             self.questieIcon:SetWidth(trackerFontSizeHeader)
             self.questieIcon:SetHeight(trackerFontSizeHeader)
-            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+            self.questieIcon:SetPoint("TOPLEFT", self, "TOPLEFT", marginLeft, 0)
             self.questieIcon:Show()
 
             self.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
@@ -51,11 +55,11 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDra
 
             local _, activeQuests = GetNumQuestLogEntries()
             self.trackedQuests.label:SetText(l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
-            self.trackedQuests.label:SetPoint("TOPLEFT", self.trackedQuests, "TOPLEFT", 0, 0)
+            self.trackedQuests.label:SetPoint("TOPLEFT", self.questieIcon, "TOPLEFT", marginLeft + 5, 0)
 
             self.trackedQuests:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth())
             self.trackedQuests:SetHeight(trackerFontSizeHeader)
-            self.trackedQuests:SetPoint("TOPLEFT", self, "TOPLEFT", trackerFontSizeHeader, 0)
+            self.trackedQuests:SetPoint("TOPLEFT", self, "TOPLEFT", 5, 0)
             self.trackedQuests:Show()
 
             self:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader)
@@ -156,7 +160,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDra
         GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "gray") .. ": " .. l10n("Drag while Locked"))
         GameTooltip:Show()
 
-        OnEnter(self)
+        FadeTicker.OnEnter(self)
     end)
 
     questieIcon:SetScript("OnLeave", function (self)
@@ -164,7 +168,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDra
             GameTooltip:Hide()
         end
 
-        OnLeave(self)
+        FadeTicker.OnLeave(self)
     end)
 
     questieIcon:Hide()
@@ -172,7 +176,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDra
 
     -- Questie Tracked Quests Settings
     local trackedQuests = CreateFrame("Button", nil, trackerBaseFrame)
-    trackedQuests:SetPoint("TOPLEFT", questieIcon, "TOPLEFT", trackerFontSizeHeader, 0)
+    trackedQuests:SetPoint("TOPLEFT", questieIcon, "TOPLEFT", marginLeft, 0)
 
     -- Questie Tracked Quests Label
     trackedQuests.label = frm:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -194,39 +198,17 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnEnter, OnLeave, OnDra
     trackedQuests:RegisterForDrag("LeftButton")
     trackedQuests:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-    trackedQuests:SetScript("OnClick", function(self)
-        if InCombatLockdown() then
-            return
-        end
-        if self.mode == 1 then
-            self:SetMode(0)
-            Questie.db.char.isTrackerExpanded = false
-        else
-            self:SetMode(1)
-            Questie.db.char.isTrackerExpanded = true
-            trackerBaseFrame.sizer:SetAlpha(1)
-            trackerBaseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-            if Questie.db.global.trackerBorderEnabled then
-                trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
-            end
-        end
-        if Questie.db.global.stickyDurabilityFrame then
-            QuestieTracker:CheckDurabilityAlertStatus()
-            QuestieTracker:MoveDurabilityFrame()
-            QuestieTracker:ResetLinesForChange()
-        end
-        QuestieTracker:Update()
-    end)
+    trackedQuests:SetScript("OnClick", OnClick)
 
     trackedQuests:SetScript("OnDragStart", OnDragStart)
     trackedQuests:SetScript("OnDragStop", OnDragStop)
-    trackedQuests:SetScript("OnEnter", OnEnter)
-    trackedQuests:SetScript("OnLeave", OnLeave)
+    trackedQuests:SetScript("OnEnter", FadeTicker.OnEnter)
+    trackedQuests:SetScript("OnLeave", FadeTicker.OnLeave)
     trackedQuests:Hide()
     frm.trackedQuests = trackedQuests
 
     frm:SetWidth(frm.trackedQuests.label:GetUnboundedStringWidth())
-    frm:SetHeight(trackerFontSizeHeader)
+    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
     frm:SetFrameLevel(0)
 
     frm:Hide()

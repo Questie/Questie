@@ -8,6 +8,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
+---@type LinePool
+local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -47,7 +49,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         SetCVar("autoQuestWatch", "0")
                         Questie.db.char.AutoUntrackedQuests = {}
                     end
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -61,7 +62,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerShowCompleteQuests; end,
                 set = function(_, value)
                     Questie.db.global.trackerShowCompleteQuests = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -75,7 +75,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.collapseCompletedQuests; end,
                 set = function(_, value)
                     Questie.db.global.collapseCompletedQuests = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -89,7 +88,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerShowQuestLevel; end,
                 set = function(_, value)
                     Questie.db.global.trackerShowQuestLevel = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -103,7 +101,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return (Questie.db.global.showBlizzardQuestTimer or (not Questie.db.global.trackerEnabled)); end,
                 set = function(_, value)
                     Questie.db.global.showBlizzardQuestTimer = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -136,7 +133,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerHeaderEnabled; end,
                 set = function(_, value)
                     Questie.db.global.trackerHeaderEnabled = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -150,7 +146,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerHeaderAutoMove; end,
                 set = function(_, value)
                     Questie.db.global.trackerHeaderAutoMove = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -213,9 +208,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 QuestieTracker.FadeMMBTickerValue = QuestieTracker.FadeMMBTickerValue - 0.02
 
                                 if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                                    for i=1, _QuestieTracker.highestIndex do
-                                        _QuestieTracker.LineFrames[i].expandQuest:SetAlpha(QuestieTracker.FadeMMBTickerValue*3.3)
-                                    end
+                                    LinePool.SetAllExpandQuestAlpha(QuestieTracker.FadeMMBTickerValue * 3.3)
                                 end
 
                             else
@@ -224,9 +217,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end)
                     else
-                        for i=1, _QuestieTracker.highestIndex do
-                            _QuestieTracker.LineFrames[i].expandQuest:SetAlpha(1)
-                        end
+                        LinePool.SetAllExpandQuestAlpha(1)
                     end
                     QuestieTracker:Update()
                 end
@@ -249,11 +240,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                                 QuestieTracker.FadeQIBTickerValue = QuestieTracker.FadeQIBTickerValue - 0.02
 
                                 if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                                    for i=1, _QuestieTracker.highestIndex do
-                                        if _QuestieTracker.LineFrames[i].button then
-                                            _QuestieTracker.LineFrames[i].button:SetAlpha(QuestieTracker.FadeQIBTickerValue*3.3)
-                                        end
-                                    end
+                                    LinePool.SetAllItemButtonAlpha(QuestieTracker.FadeQIBTickerValue*3.3)
                                 end
 
                             else
@@ -262,11 +249,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end)
                     else
-                        for i=1, _QuestieTracker.highestIndex do
-                            if _QuestieTracker.LineFrames[i].button then
-                                _QuestieTracker.LineFrames[i].button:SetAlpha(1)
-                            end
-                        end
+                        LinePool.SetAllItemButtonAlpha(1)
                     end
                     QuestieTracker:Update()
                 end
@@ -445,13 +428,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerSortObjectives; end,
                 set = function(_, key)
                     Questie.db.global.trackerSortObjectives = key
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
-                    for i = 1, _QuestieTracker.highestIndex do
-                        if _QuestieTracker.LineFrames[i] then
-                            _QuestieTracker.LineFrames[i].expandQuest:SetFrameStrata("MEDIUM")
-                        end
-                    end
                 end
             },
             setTomTom = {
@@ -530,7 +507,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeHeader; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeHeader = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -546,7 +522,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontHeader or "Friz Quadrata TT"; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontHeader = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -566,7 +541,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeZone; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeZone = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -584,7 +558,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontZone or "Friz Quadrata TT"; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontZone = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -602,7 +575,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeQuest; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeQuest = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -618,7 +590,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontQuest or "Friz Quadrata TT"; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontQuest = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -636,7 +607,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeObjective; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeObjective = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -652,7 +622,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontObjective or "Friz Quadrata TT"; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontObjective = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
@@ -670,7 +639,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function(_, value)
                     Questie.db.global.trackerQuestPadding = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },

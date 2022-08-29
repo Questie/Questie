@@ -458,6 +458,12 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{38.8,38.4}}}, ICON_TYPE_EVENT, l10n("The Light of Dawn Uncovered"),},
             },
         },
+        [12813] = {
+            [questKeys.preQuestSingle] = {12807},
+        },
+        [12815] = {
+            [questKeys.preQuestSingle] = {12807},
+        },
         [12816] = {
             [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS]={{56.5,52,},},},},
         },
@@ -470,6 +476,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12832] = {
             [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS]={{40.2,79,},},},},
+        },
+        [12838] = {
+            [questKeys.preQuestSingle] = {12807},
         },
         [12842] = {
             [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
@@ -513,6 +522,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13141] = {
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[3711]={{80.06,71.81,},},},},
+        },
+        [13230] = {
+            [questKeys.preQuestSingle] = {13228},
+        },
+        [13232] = {
+            [questKeys.preQuestSingle] = {13231},
         },
         [13240] = {
             [questKeys.startedBy] = {{31439},nil,nil},

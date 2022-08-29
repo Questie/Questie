@@ -88,7 +88,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                 disabled = function() return true end, -- TODO: Remove me
                 set = function (_, value)
                     Questie.db.global.enableTooltipsQuestID = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },
