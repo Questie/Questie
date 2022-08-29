@@ -87,7 +87,7 @@ end
 ---The corresponding TRACKED_ACHIEVEMENT_LIST_CHANGED event is fired whenever a user tracks or untracks an achievemnt
 ---@param achievementId integer
 ---@param shouldTrack boolean
-function AchievementTracker:TrackedArchievementListChanged(achievementId, shouldTrack)
+function AchievementTracker:TrackedAchievementListChanged(achievementId, shouldTrack)
     Questie:Debug(Questie.DEBUG_DEVELOP, "TRACKED_ACHIEVEMENT_LIST_CHANGED", achievementId, shouldTrack)
 
     print("achievementId", achievementId)

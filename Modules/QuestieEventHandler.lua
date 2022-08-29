@@ -100,7 +100,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
 
     if Questie.IsWotlk then
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", AchievementTracker.TrackedArchievementListChanged)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", AchievementTracker.TrackedAchievementListChanged)
     end
 end
 
