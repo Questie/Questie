@@ -12,7 +12,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "等待哈隆梅瑟尔的地精飞艇停靠",
     },
     ["Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"] = { -- 11154
         ["ptBR"] = "Lança as Bombinhas a uma distância de até 20 metros abaixo de um Morcego Garrumbra para assustá-lo",
@@ -36,7 +36,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对冰冷树妖使用鲁莉尔蕾的坠饰",
     },
     ["Use Feathered Charm on Steelfeather"] = { -- 11418
         ["ptBR"] = false,
@@ -48,7 +48,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对钢羽使用饰羽符咒",
     },
     ["Entrance to Utgarde Catacombs"] = { -- 11420
         ["ptBR"] = false,
@@ -60,7 +60,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入乌特加德墓穴",
     },
     ["Talk to Olga"] = { -- 11466
         ["ptBR"] = false,
@@ -72,7 +72,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和奥尔佳交谈",
     },
     ["Fight Jonah"] = { -- 11471
         ["ptBR"] = false,
@@ -84,7 +84,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和约纳战斗",
     },
     ["Present the Vrykul Scroll of Ascension"] = { -- 11249
         ["ptBR"] = false,
@@ -96,7 +96,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "展开维库升华卷轴",
     },
     ["Use Quetz'lun's Hexxing Stick and slay him/her"] = { -- 12674
         ["ptBR"] = false,
@@ -108,7 +108,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用奎丝鲁恩的妖术棒杀死他/她",
     },
     ["Use Quetz'lun's Ritual"] = { -- 12674
         ["ptBR"] = false,
@@ -120,7 +120,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+       ["zhCN"] = "使用奎丝鲁恩的妖术棒",
     },
     ["Capture Chicken Escapee"] = { -- 12532
         ["ptBR"] = false,
@@ -132,7 +132,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "捕捉逃走的小鸡",
     },
     ["Use Gossamer Potion"] = { -- 12327
         ["ptBR"] = false,
@@ -144,7 +144,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用幻境药水",
     },
     ["Get in Brann Bronzebeard Flying Machine"] = { -- 12973
         ["ptBR"] = false,
@@ -156,7 +156,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "进入布莱恩·铜须的飞行器",
     },
     ["Use Eye of Acherus Control Mechanism"] = { -- 12641
         ["ptBR"] = false,
@@ -168,7 +168,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用阿彻鲁斯之眼的控制台",
     },
     ["Deliver Stolen Horse"] = { -- 12680
         ["ptBR"] = "Entregar Cavalo Roubado",
@@ -192,7 +192,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "击败阿彻鲁斯黑暗骑士，并夺走他的战马",
     },
     ["Return Scarlet Ghouls"] = { -- 12698
         ["ptBR"] = false,
@@ -204,7 +204,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "对血色矿工使用收割者的礼物",
     },
     ["Climb inside the Inconspicuous Mine Car"] = { -- 12701
         ["ptBR"] = false,
@@ -216,7 +216,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "找到在厕所附近的矿车。爬进矿车中",
     },
     ["Use the Scarlet Cannon"] = { -- 12701
         ["ptBR"] = false,
@@ -228,7 +228,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "用火炮攻击他们",
     },
     ["Equip Keleseth's Persuaders and persuade Scarlet Crusaders"] = { -- 12720
         ["ptBR"] = false,
@@ -240,7 +240,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "装备凯雷塞斯的说服者，使用它们来“说服”血色十字军",
     },
     ["Use the Makeshift Cover"] = { -- 12754
         ["ptBR"] = false,
@@ -252,7 +252,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用伪装工具把自己藏起来",
     },
     ["Use the Horn of the Frostbrood"] = { -- 12779
         ["ptBR"] = false,
@@ -264,7 +264,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用冰霜巨龙号角",
     },
     ["Talk to Highlord Darion Mograine"] = { -- 12801
         ["ptBR"] = false,
@@ -276,7 +276,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与大领主达里安·莫格莱尼交谈",
     },
     ["The Light of Dawn Uncovered"] = { -- 12801
         ["ptBR"] = "A Luz da Aurora descoberta",
@@ -300,7 +300,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用新鲜的鲶鱼饵",
     },
     ["Use Rune Sample"] = { -- 11358 & 11366
         ["ptBR"] = false,
@@ -312,7 +312,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用符文样本",
     },
     ["Use Scepter of Command"] = { -- 12690
         ["ptBR"] = false,
@@ -324,7 +324,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用命令节杖",
     },
     ["Use Ley Line Focus Control Talisman"] = { -- 12107
         ["ptBR"] = false,
@@ -336,7 +336,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用魔网能量焦点控制饰品",
     },
     ["Azure Dragonshrine observed"] = { -- 12107
         ["ptBR"] = false,
@@ -348,7 +348,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "调查碧蓝巨龙圣地",
     },
     ["Use Tu'u'gwar's Bait"] = { -- 12017
         ["ptBR"] = false,
@@ -360,7 +360,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用图格瓦尔的诱饵",
     },
     ["Throw Wolf Bait"] = { -- 11728
         ["ptBR"] = false,
@@ -372,7 +372,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "扔狼饵",
     },
     ["Ride Dusk"] = { -- 11956
         ["ptBR"] = false,
@@ -384,7 +384,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑上战马黄昏",
     },
     ["Teleport to the top of Naxxanar"] = { -- 12019
         ["ptBR"] = false,
@@ -396,7 +396,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用传送宝珠进入浮空城的顶部",
     },
     ["Talk to Thassarian"] = { -- 12019
         ["ptBR"] = false,
@@ -408,7 +408,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "和萨萨里安交谈",
     },
     ["Talk to Captive Crocolisk"] = { -- 12536
         ["ptBR"] = false,
@@ -420,7 +420,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "骑上被俘虏的鳄鱼",
     },
     ["Use Raelorasz' Spark"] = { -- 11969
         ["ptBR"] = false,
@@ -432,7 +432,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用莱洛拉斯的火花",
     },
     ["Talk to Keristrasza"] = { -- 11957
         ["ptBR"] = false,
@@ -444,7 +444,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "与克莉斯塔萨交谈",
     },
     ["Use Arcane Power Focus"] = { -- 11957
         ["ptBR"] = false,
@@ -456,7 +456,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用奥术能量源",
     },
     ["Use Valve"] = { -- 11788
         ["ptBR"] = false,
@@ -468,7 +468,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用哨站的阀门",
     },
     ["Use the Gearmaster's Manual"] = { -- 11798
         ["ptBR"] = false,
@@ -480,7 +480,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "使用机甲专家的手册",
     },
 }
 
