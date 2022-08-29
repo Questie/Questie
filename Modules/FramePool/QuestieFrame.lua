@@ -174,10 +174,17 @@ function _Qframe:OnClick(button)
     end
     if self and self.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
         -- tomtom integration (needs more work, will come with tracker
+        local m = self.UiMapID
+        local x = self.x/100
+        local y = self.y/100
+        local title = self.data.Name
+        local add = true
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
-            TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+            local waypoint = Questie.db.char._tom_waypoint
+            TomTom:RemoveWaypoint(waypoint)
+            add = (waypoint[1] ~= m or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
         end
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.UiMapID, self.x/100, self.y/100, {title = self.data.Name, crazy = true})
+        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(m, x, y, {title = title, crazy = true, from = "Questie"})
     elseif self.miniMapIcon then
         local _, _, _, x, y = self:GetPoint()
         Minimap:PingLocation(x, y)

@@ -511,3 +511,27 @@ function QuestieLib.equals(a, b)
 
     return a == b
 end
+
+---@return table A table of the handed parameters plus the 'n' field with the size of the table
+function QuestieLib.tpack(...)
+    return { n = select("#", ...), ... }
+end
+
+--- Wow's own unpack stops at first nil. this version is not speed optimized.
+--- Supports just above QuestieLib.tpack func as it requires the 'n' field.
+---@param tbl table A table packed with QuestieLib.tpack
+---@return table 'n' values of the tbl
+function QuestieLib.tunpack(tbl)
+    if tbl.n == 0 then
+        return nil
+    end
+
+    local function recursion(i)
+        if i == tbl.n then
+            return tbl[i]
+        end
+        return tbl[i], recursion(i+1)
+    end
+
+    return recursion(1)
+end

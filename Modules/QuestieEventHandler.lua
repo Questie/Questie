@@ -197,7 +197,6 @@ function _EventHandler:ChatMsgCompatFactionChange()
     local factionChanged = QuestieReputation:Update(false)
     if factionChanged then
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
         end)
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()

@@ -57,13 +57,13 @@ function _QuestieTracker:OnDragStop()
         return
     end
 
-    local baseFrame = QuestieTracker:GetBaseFrame()
+    local trackerBaseFrame = QuestieTracker:GetBaseFrame()
     _QuestieTracker.isMoving = false
     dragButton = nil
-    endDragPos = {baseFrame:GetPoint()}
-    baseFrame:StopMovingOrSizing()
+    endDragPos = { trackerBaseFrame:GetPoint()}
+    trackerBaseFrame:StopMovingOrSizing()
 
-    endDragPos[4], endDragPos[5] = _QuestieTracker:TrimSetPoints(baseFrame, endDragPos[4], endDragPos[5])
+    endDragPos[4], endDragPos[5] = _QuestieTracker:TrimSetPoints(trackerBaseFrame, endDragPos[4], endDragPos[5])
 
     local xMoved = endDragPos[4] - startDragPos[4]
     local yMoved = endDragPos[5] - startDragPos[5]
@@ -85,9 +85,8 @@ function _QuestieTracker:OnDragStop()
         startDragPos = nil
         preSetPoint = nil
 
-        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
-    end, baseFrame)
+    end, trackerBaseFrame)
 end
 
 function _QuestieTracker:OnResizeStart(button)
@@ -105,14 +104,12 @@ function _QuestieTracker:OnResizeStart(button)
                 baseFrame:StartSizing("RIGHT")
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end)
             end
         end
     elseif button =="RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
-        QuestieTracker:ResetLinesForChange()
         QuestieTracker:Update()
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
     end
