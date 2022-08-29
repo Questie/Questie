@@ -756,18 +756,13 @@ local function _UpdateQuestItem(self, quest)
             frame = parent
         end
 
+        self.line.expandQuest:Hide()
+
         self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
         self:SetParent(self.line)
         self:Show()
 
-        if not Questie.db.char.collapsedQuests[quest.Id] then
-            self.line.expandQuest:Hide()
-        else
-            self:SetParent(UIParent)
-            self:Hide()
-        end
-
-        if Questie.db.char.collapsedZones[quest.zoneOrSort] then
+        if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
             self:SetParent(UIParent)
             self:Hide()
         end
@@ -1069,9 +1064,6 @@ function QuestieTracker:Update()
 
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
-                line:Show()
-                line.label:Show()
-                line.expandQuest:Show()
                 line:SetVerticalPadding(2)
 
                 -- Add quest items
@@ -1084,6 +1076,10 @@ function QuestieTracker:Update()
                     QuestieCombatQueue:Queue(_UpdateQuestItem, button, quest)
                     line.button = button
                 end
+
+                line:Show()
+                line.label:Show()
+                line.expandQuest:Show()
 
                 if Questie.db.global.collapseCompletedQuests and complete == 1 then
                     line.expandQuest:Hide()
