@@ -1062,7 +1062,7 @@ function QuestieTracker:Update()
                             frame = parent
                         end
 
-                        self:SetPoint("TOPRIGHT", self.line, "TOPLEFT", -trackerSpaceBuffer/4.4, -1)
+                        self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
                         self:SetParent(self.line)
                         self:Show()
 
