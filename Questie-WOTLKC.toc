@@ -165,10 +165,13 @@ Modules\Journey\QuestieSearchResults.lua
 
 # Tracker
 Modules\Tracker\QuestieTracker.lua
-Modules\Tracker\QuestieTrackerUtils.lua
-Modules\Tracker\QuestieTrackerMenu.lua
+Modules\Tracker\TrackerUtils.lua
+Modules\Tracker\TrackerMenu.lua
+Modules\Tracker\FadeTicker.lua
 Modules\Tracker\QuestieTrackerPrivates.lua
 Modules\Tracker\QuestieQuestTimers.lua
+Modules\Tracker\ActiveQuestsHeader.lua
+Modules\Tracker\LinePool.lua
 
 Modules\QuestieDBMIntegration.lua
 Modules\QuestieSlash.lua
