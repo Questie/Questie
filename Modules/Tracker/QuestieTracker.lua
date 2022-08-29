@@ -209,7 +209,7 @@ function _QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     frm:SetFrameStrata("BACKGROUND")
     frm:SetFrameLevel(0)
-    frm:SetWidth(165)
+    frm:SetWidth(280)
     frm:SetHeight(32)
 
     frm:EnableMouse(true)
