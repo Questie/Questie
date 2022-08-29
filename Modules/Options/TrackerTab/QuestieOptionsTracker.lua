@@ -430,9 +430,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, key)
                     Questie.db.global.trackerSortObjectives = key
                     QuestieTracker:Update()
-                    --for i = 1, _QuestieTracker.highestIndex do
-                    --    LinePool.GetLine(i).expandQuest:SetFrameStrata("MEDIUM")
-                    --end
                 end
             },
             setTomTom = {
