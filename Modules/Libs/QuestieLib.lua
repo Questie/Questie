@@ -520,7 +520,7 @@ end
 --- Wow's own unpack stops at first nil. this version is not speed optimized.
 --- Supports just above QuestieLib.tpack func as it requires the 'n' field.
 ---@param tbl table A table packed with QuestieLib.tpack
----@return table The unpacked tbl
+---@return table 'n' values of the tbl
 function QuestieLib.tunpack(tbl)
     if tbl.n == 0 then
         return nil
