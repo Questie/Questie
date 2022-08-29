@@ -744,6 +744,40 @@ local function _GetNextItemButton()
     return itemButtons[buttonIndex]
 end
 
+---@param quest Quest
+local function _UpdateQuestItem(self, quest)
+    if self:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
+        local height = 0
+        local frame = self.line
+
+        while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
+            local _, parent, _, _, yOff = frame:GetPoint()
+            height = height - (frame:GetHeight() - yOff)
+            frame = parent
+        end
+
+        self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
+        self:SetParent(self.line)
+        self:Show()
+
+        if not Questie.db.char.collapsedQuests[quest.Id] then
+            self.line.expandQuest:Hide()
+        else
+            self:SetParent(UIParent)
+            self:Hide()
+        end
+
+        if Questie.db.char.collapsedZones[quest.zoneOrSort] then
+            self:SetParent(UIParent)
+            self:Hide()
+        end
+
+    else
+        self:SetParent(UIParent)
+        self:Hide()
+    end
+end
+
 function QuestieTracker:Update()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update")
     if (not QuestieTracker.started) then
@@ -1051,39 +1085,7 @@ function QuestieTracker:Update()
                 button.itemID = quest.sourceItemId
                 button.fontSize = fontSizeCompare
                 button.line = line
-                QuestieCombatQueue:Queue(function(self)
-                    if self:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
-                        local height = 0
-                        local frame = self.line
-
-                        while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
-                            local _, parent, _, _, yOff = frame:GetPoint()
-                            height = height - (frame:GetHeight() - yOff)
-                            frame = parent
-                        end
-
-                        self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
-                        self:SetParent(self.line)
-                        self:Show()
-
-                        if not Questie.db.char.collapsedQuests[quest.Id] then
-                            self.line.expandQuest:Hide()
-                        else
-                            self:SetParent(UIParent)
-                            self:Hide()
-                        end
-
-                        if Questie.db.char.collapsedZones[quest.zoneOrSort] then
-                            self:SetParent(UIParent)
-                            self:Hide()
-                        end
-
-                    else
-                        self:SetParent(UIParent)
-                        self:Hide()
-                    end
-
-                end, button)
+                QuestieCombatQueue:Queue(_UpdateQuestItem, button, quest)
                 line.button = button
             end
 
