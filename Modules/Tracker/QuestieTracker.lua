@@ -1037,7 +1037,7 @@ function QuestieTracker:Update()
                 line:SetQuest(quest)
                 line:SetObjective(nil)
                 line.expandZone:Hide()
-                line.expandQuest:Show()
+                line.expandQuest:Hide()
 
                 line.label:ClearAllPoints()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
@@ -1075,15 +1075,14 @@ function QuestieTracker:Update()
                     button.line = line
                     QuestieCombatQueue:Queue(_UpdateQuestItem, button, quest)
                     line.button = button
+                elseif Questie.db.global.collapseCompletedQuests and complete == 1 then
+                    line.expandQuest:Hide()
+                else
+                    line.expandQuest:Show()
                 end
 
                 line:Show()
                 line.label:Show()
-                line.expandQuest:Show()
-
-                if Questie.db.global.collapseCompletedQuests and complete == 1 then
-                    line.expandQuest:Hide()
-                end
 
                 -- Add quest objectives (if applicable)
                 if (not Questie.db.char.collapsedQuests[quest.Id]) then
