@@ -240,13 +240,6 @@ function LinePool.GetNextLine()
         return nil -- past the line limit
     end
 
-    if linePool[lineIndex].expandQuest then
-        linePool[lineIndex].expandQuest:Hide()
-
-    elseif linePool[lineIndex].expandZone then
-        linePool[lineIndex].expandZone:Hide()
-    end
-
     return linePool[lineIndex]
 end
 
