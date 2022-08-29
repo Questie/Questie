@@ -1032,112 +1032,137 @@ function QuestieTracker:Update()
                 end
             end
 
-            -- Add quests
-            line = LinePool.GetNextLine()
-            if not line then break end -- stop populating the tracker
-            
-            line:SetMode("quest")
-            line:SetQuest(quest)
-            line:SetObjective(nil)
-            line.expandZone:Hide()
-            line.expandQuest:Show()
+            if (not Questie.db.char.collapsedZones[quest.zoneOrSort]) then
 
-            line.label:ClearAllPoints()
-            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
-            line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
+                -- Add quests
+                line = LinePool.GetNextLine()
+                if not line then break end -- stop populating the tracker
 
-            local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
-            line.label:SetText(coloredQuestName)
+                line:SetMode("quest")
+                line:SetQuest(quest)
+                line:SetObjective(nil)
+                line.expandZone:Hide()
+                line.expandQuest:Show()
 
-            line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
-            line:SetWidth(line.label:GetWidth())
+                line.label:ClearAllPoints()
+                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
+                line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
 
-            if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
-                if not Questie.db.char.collapsedQuests[quest.Id] then
-                    Questie.db.char.collapsedQuests[quest.Id] = true
-                    line.expandQuest:SetMode(1)
-                end
-            else
-                if Questie.db.char.collapsedQuests[quest.Id] then
-                    line.expandQuest:SetMode(0)
+                local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
+                line.label:SetText(coloredQuestName)
+
+                line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer), line.label:GetUnboundedStringWidth()))
+                line:SetWidth(line.label:GetWidth())
+
+                if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
+                    if not Questie.db.char.collapsedQuests[quest.Id] then
+                        Questie.db.char.collapsedQuests[quest.Id] = true
+                        line.expandQuest:SetMode(1)
+                    end
                 else
-                    line.expandQuest:SetMode(1)
+                    if Questie.db.char.collapsedQuests[quest.Id] then
+                        line.expandQuest:SetMode(0)
+                    else
+                        line.expandQuest:SetMode(1)
+                    end
                 end
-            end
 
-            if Questie.db.char.collapsedZones[quest.zoneOrSort] then
-                line:Hide()
-                line.label:Hide()
-                line.expandQuest:Hide()
-            else
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
                 line:Show()
                 line.label:Show()
                 line.expandQuest:Show()
                 line:SetVerticalPadding(2)
-            end
 
-            -- Add quest items
-            if quest.sourceItemId and questCompletePercent[quest.Id] ~= 1 then
-                local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
-                local button = _GetNextItemButton()
-                button.itemID = quest.sourceItemId
-                button.fontSize = fontSizeCompare
-                button.line = line
-                QuestieCombatQueue:Queue(_UpdateQuestItem, button, quest)
-                line.button = button
-            end
-
-            if Questie.db.global.collapseCompletedQuests and complete == 1 then
-                line.expandQuest:Hide()
-            end
-
-            -- Add quest objectives (if applicable)
-            if not (Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id]) then
-
-                -- Add quest timers (if applicable)
-                if quest.trackTimedQuest then
-                    line = LinePool.GetNextLine()
-                    if not line then break end -- stop populating the tracker
-
-                    line:SetMode("objective")
-                    line:SetQuest(quest)
-                    line.expandZone:Hide()
-
-                    line.label:ClearAllPoints()
-                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
-
-                    line.label:SetText(QuestieQuestTimers:GetRemainingTime(questId, line, false))
-
-                    line.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), Questie.db.global.trackerFontSizeObjective * 1.3)
-                    line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 1.3)
-
-                    local lineWidth = 10 + math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth())
-                    line.label:SetWidth(lineWidth)
-                    line:SetWidth(lineWidth)
-
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
-                    line:Show()
-                    line.label:Show()
+                -- Add quest items
+                if quest.sourceItemId and questCompletePercent[quest.Id] ~= 1 then
+                    local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
+                    local button = _GetNextItemButton()
+                    button.itemID = quest.sourceItemId
+                    button.fontSize = fontSizeCompare
+                    button.line = line
+                    QuestieCombatQueue:Queue(_UpdateQuestItem, button, quest)
+                    line.button = button
                 end
 
-                if complete == 0 then
-                    for _, objective in pairs(quest.Objectives) do
+                if Questie.db.global.collapseCompletedQuests and complete == 1 then
+                    line.expandQuest:Hide()
+                end
+
+                -- Add quest objectives (if applicable)
+                if (not Questie.db.char.collapsedQuests[quest.Id]) then
+
+                    -- Add quest timers (if applicable)
+                    if quest.trackTimedQuest then
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
+
                         line:SetMode("objective")
                         line:SetQuest(quest)
-                        line:SetObjective(objective)
+                        line.expandZone:Hide()
+
+                        line.label:ClearAllPoints()
+                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
+
+                        line.label:SetText(QuestieQuestTimers:GetRemainingTime(questId, line, false))
+
+                        line.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), Questie.db.global.trackerFontSizeObjective * 1.3)
+                        line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 1.3)
+
+                        local lineWidth = 10 + math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth())
+                        line.label:SetWidth(lineWidth)
+                        line:SetWidth(lineWidth)
+
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
+                        line:Show()
+                        line.label:Show()
+                    end
+
+                    if complete == 0 then
+                        for _, objective in pairs(quest.Objectives) do
+                            line = LinePool.GetNextLine()
+                            if not line then break end -- stop populating the tracker
+                            line:SetMode("objective")
+                            line:SetQuest(quest)
+                            line:SetObjective(objective)
+                            line.expandZone:Hide()
+
+                            line.label:ClearAllPoints()
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+
+                            local lineEnding = ""
+                            local objDesc = objective.Description:gsub("%.", "")
+                            if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
+                            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+
+                            line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
+                            line:SetWidth(line.label:GetWidth())
+
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
+                            line:SetVerticalPadding(1)
+                            line:Show()
+                            line.label:Show()
+                        end
+
+                    -- Tags quest as either complete or failed so as to always have at least one objective.
+                    -- (TODO: change tags to reflect NPC to turn a quest into or in the case of a failure
+                    -- which NPC to obtain the quest from again...)
+                    elseif (complete == 1 or complete == -1) then
+                        line = LinePool.GetNextLine()
+                        if not line then break end -- stop populating the tracker
+
+                        line:SetMode("objective")
+                        line:SetQuest(quest)
                         line.expandZone:Hide()
 
                         line.label:ClearAllPoints()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
-                        local lineEnding = ""
-                        local objDesc = objective.Description:gsub("%.", "")
-                        if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
-                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+                        if (complete == 1) then
+                            line.label:SetText(Questie:Colorize(l10n("Quest completed!"), "green"))
+                        elseif (complete == -1) then
+                            line.label:SetText(Questie:Colorize(l10n("Quest completion failed!"), "red"))
+                        end
 
                         line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
                         line:SetWidth(line.label:GetWidth())
@@ -1147,44 +1172,16 @@ function QuestieTracker:Update()
                         line:Show()
                         line.label:Show()
                     end
-
-                -- Tags quest as either complete or failed so as to always have at least one objective.
-                -- (TODO: change tags to reflect NPC to turn a quest into or in the case of a failure
-                -- which NPC to obtain the quest from again...)
-                elseif (complete == 1 or complete == -1) then
-                    line = LinePool.GetNextLine()
-                    if not line then break end -- stop populating the tracker
-                    
-                    line:SetMode("objective")
-                    line:SetQuest(quest)
-                    line.expandZone:Hide()
-
-                    line.label:ClearAllPoints()
-                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
-
-                    if (complete == 1) then
-                        line.label:SetText(Questie:Colorize(l10n("Quest completed!"), "green"))
-                    elseif (complete == -1) then
-                        line.label:SetText(Questie:Colorize(l10n("Quest completion failed!"), "red"))
-                    end
-
-                    line.label:SetWidth(math.min(math.max(Questie.db[Questie.db.global.questieTLoc].TrackerWidth, _QuestieTracker.baseFrame:GetWidth()) - (trackerLineIndent + trackerSpaceBuffer*1.50), trackerSpaceBuffer + line.label:GetUnboundedStringWidth()))
-                    line:SetWidth(line.label:GetWidth())
-
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerSpaceBuffer)
-                    line:SetVerticalPadding(1)
-                    line:Show()
-                    line.label:Show()
+                else
+                    QuestieQuestTimers:GetRemainingTime(questId, nil, true)
                 end
-            else
-                QuestieQuestTimers:GetRemainingTime(questId, nil, true)
-            end
 
-            if not line then
-                line = LinePool.GetLastLine()
+                if not line then
+                    line = LinePool.GetLastLine()
+                end
+
+                line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
             end
-            
-            line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
         end
     end
 
