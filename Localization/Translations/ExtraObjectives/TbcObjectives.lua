@@ -1141,7 +1141,7 @@ local tbcObjectiveLocales = {
         ["esES"] = false,
         ["zhTW"] = false,
         ["zhCN"] = "将火把放置在码头的尽头",
-    },   
+    },
     ["Smear the Fish Paste on yourself and swim to the ship wreck"] = { -- 11209
         ["ptBR"] = false,
         ["ruRU"] = false,
