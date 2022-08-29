@@ -26,7 +26,7 @@ local _OnClick, _OnHighlightEnter, _OnHighlightLeave, _SetMode
 local _UntrackQuest, _TrackerUpdate
 
 ---@param trackedQuestsFrame Frame
-function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
+function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, OnDragStart, OnDragStop)
     baseFrame = trackedQuestsFrame
     _UntrackQuest = UntrackQuest
     _TrackerUpdate = TrackerUpdate
@@ -91,8 +91,8 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
         line:SetScript("OnClick", _OnClick)
-        --btn:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-        --btn:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
+        line:SetScript("OnDragStart", OnDragStart)
+        line:SetScript("OnDragStop", OnDragStop)
 
         line:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
@@ -148,8 +148,6 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             FadeTicker.OnLeave()
         end)
 
-        --expandZone:SetScript("OnDragStart", _QuestieTracker.OnDragStart)
-        --expandZone:SetScript("OnDragStop", _QuestieTracker.OnDragStop)
         expandZone:Hide()
 
         line.expandZone = expandZone

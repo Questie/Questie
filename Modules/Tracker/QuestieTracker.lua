@@ -108,7 +108,7 @@ function QuestieTracker.Initialize()
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
-    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update)
+    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
 
     -- Quest and Item button tables
     _QuestieTracker:CreateTrackedQuestItemButtons()
