@@ -1,26 +1,17 @@
 ---@class QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:CreateModule("QuestieCombatQueue")
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
+
+local tpack =  QuestieLib.tpack
+local tunpack = QuestieLib.tunpack
+
 local _Queue = {}
 local started = false
 
 -- This will limit the amount of updates Questie does to the UI and will reduce the chance to lag the game
 local maxUpdatesPerCircle = 5
-
-local tpack = function(...) return { n = select("#", ...), ... } end
-local function tunpack(tbl) -- wow's own unpack stops at first nil. this version is not speed optimized. supports just above tpack func as requires n field.
-    if tbl.n == 0 then
-        return nil
-    end
-
-    local function recursion(i)
-        if i == tbl.n then
-            return tbl[i]
-        end
-        return tbl[i], recursion(i+1)
-    end
-
-    return recursion(1)
-end
 
 function QuestieCombatQueue.Initialize()
     C_Timer.NewTicker(0.1, function()
