@@ -142,7 +142,7 @@ local function OnQuestLogUpdate()
     -- Call all callbacks
     while (#callbacks > 0) do
         local callback = tremove(callbacks, 1)
-        local func, args = tunpack(callback)
+        local func, args = callback[1], callback[2]
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback.")
         func(tunpack(args))
     end
