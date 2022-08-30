@@ -198,5 +198,3 @@ Modules\QuestieProfiler.lua
 
 # Main
 Questie.lua
-
-ExtractTriggerEnd.lua
