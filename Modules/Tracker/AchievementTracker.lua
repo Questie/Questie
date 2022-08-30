@@ -13,8 +13,6 @@ local LSM30 = LibStub("LibSharedMedia-3.0", true)
 -- GetAchievementInfo(achievementID or categoryID, index)
 -- AddTrackedAchievement(achievementId)
 
-local trackedAchievements = {}
-
 local baseFrame
 local trackerLineWidth = 0
 local lastCreatedLine
@@ -122,7 +120,6 @@ _TrackAchievement = function(achievementId)
         line:Show()
         line.label:Show()
     end
-    trackedAchievements[achievementId] = line
 end
 
 ---The corresponding TRACKED_ACHIEVEMENT_LIST_CHANGED event is fired whenever a user tracks or untracks an achievement
@@ -131,19 +128,5 @@ end
 function AchievementTracker:TrackedAchievementListChanged(achievementId, shouldTrack)
     Questie:Debug(Questie.DEBUG_DEVELOP, "TRACKED_ACHIEVEMENT_LIST_CHANGED", achievementId, shouldTrack)
 
-    print("achievementId", achievementId)
-    print("shouldTrack", shouldTrack)
-
     AchievementTracker.Update()
-
-    --if shouldTrack then
-    --    -- Create Tracker line and add Achievement information
-    --    _TrackAchievement(achievementId)
-    --else
-    --    -- remove from tracker
-    --    if trackedAchievements[achievementId] then
-    --        trackedAchievements[achievementId]:Hide()
-    --        trackedAchievements[achievementId] = nil
-    --    end
-    --end
 end
