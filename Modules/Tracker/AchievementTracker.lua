@@ -139,14 +139,8 @@ _TrackAchievement = function(achievementId)
 
         line:SetMode("objective")
 
-        local criteriaString, _, _, quantityProgress, quantityNeeded, _, _, _, quantityString = GetAchievementCriteriaInfo(achievementId, i)
-
-        quantityString = quantityString:gsub("%s+", "") -- Remove white spaces
-        if quantityString == "0" then
-            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityString .. "/1" .. "|r")
-        else
-            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityString .. "|r")
-        end
+        local criteriaString, _, _, quantityProgress, quantityNeeded = GetAchievementCriteriaInfo(achievementId, i)
+        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityProgress .. "/" .. quantityNeeded .. "|r")
 
         line.label:ClearAllPoints()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
