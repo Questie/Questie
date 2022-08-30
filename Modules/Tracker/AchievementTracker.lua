@@ -51,22 +51,30 @@ function AchievementTracker.LoadAchievements()
     if (not next(trackedAchievementIds)) then
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
+        lastCreatedLine = baseFrame.header
+        baseFrame:SetWidth(trackerLineWidth)
+        baseFrame:SetHeight(18)
+        baseFrame:Hide()
         return
     end
 
     for i=1, #trackedAchievementIds do
         _TrackAchievement(trackedAchievementIds[i])
     end
+
     LinePool.HideUnusedAchievementLines()
 
     baseFrame:SetWidth(trackerLineWidth)
     baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom() + 10)
+    baseFrame:Show()
 end
 
 function AchievementTracker.Update()
     trackedAchievementIds = {GetTrackedAchievements()}
     LinePool.ResetAchievementLinesForChange()
     AchievementTracker.LoadAchievements()
+
+    baseFrame:GetParent().AutoResize() -- Update trackerBaseFrame window size
 end
 
 ---Creates the required frames to display an Achievement name and its criteria

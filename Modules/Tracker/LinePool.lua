@@ -401,6 +401,10 @@ function LinePool.GetLine(index)
     return linePool[index]
 end
 
+function LinePool.GetCurrentLine()
+    return linePool[lineIndex]
+end
+
 function LinePool.GetPreviousLine()
     return linePool[lineIndex - 1]
 end

@@ -60,7 +60,7 @@ local itemButtons = {}
 local isFirstRun = true
 
 -- Forward declaration
-local _OnTrackedQuestClick
+local _OnTrackedQuestClick, _AutoResize
 local _RemoveQuestWatch
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
@@ -260,7 +260,6 @@ function _QuestieTracker:CreateBaseFrame()
                 _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
                 _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
-
         else
             _QuestieTracker.baseFrame.sizer:SetAlpha(0)
             _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
@@ -289,6 +288,8 @@ function _QuestieTracker:CreateBaseFrame()
             end, self)
         end
     end
+
+    frm.AutoResize = _AutoResize
 
     local sizer = CreateFrame("Frame", "Questie_Sizer", frm)
     sizer:SetPoint("BOTTOMRIGHT", 0, 0)
@@ -365,6 +366,72 @@ function _QuestieTracker:CreateBaseFrame()
     frm:Hide()
 
     return frm
+end
+
+_AutoResize = function()
+    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader
+    local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
+    local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
+
+    local line = LinePool.GetCurrentLine()
+
+    if not Questie.db.char.isTrackerExpanded then
+        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
+
+        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
+            _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
+        else
+            _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
+        end
+
+        _QuestieTracker.trackedQuestsFrame:Hide()
+
+    elseif line then
+        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
+            if (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
+                _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
+                Questie.db[Questie.db.global.questieTLoc].TrackerWidth = activeQuestsHeaderTotal
+            elseif (Questie.db[Questie.db.global.questieTLoc].TrackerWidth ~= trackerBaseFrame and _QuestieTracker.isSizing ~= true) then
+                _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
+            end
+        else
+
+            if (trackerVARScombined < activeQuestsHeaderTotal) then
+                _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
+            elseif (trackerVARScombined ~= trackerBaseFrame) then
+                _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
+            end
+        end
+
+        -- Trims the bottom of the tracker (overall height) based on min/max'd zones and/or quests
+        local trackerBottomPadding
+        if Questie.db.global.trackerHeaderEnabled and Questie.db.global.trackerHeaderAutoMove and Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
+            trackerBottomPadding = trackerFontSizeHeader+4
+        else
+            trackerBottomPadding = 0
+        end
+
+        if line:IsVisible() or LinePool.IsFirstLine() then
+            if LinePool.IsFirstLine() then
+                _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) - (Questie.db.global.trackerQuestPadding+2) + trackerBottomPadding )
+            else
+                _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 14) - (Questie.db.global.trackerQuestPadding+2) + trackerBottomPadding )
+            end
+        else
+            line = LinePool.GetPreviousLine()
+
+            if not line then
+                line = LinePool.GetLastLine()
+            end
+
+            _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 25) + trackerBottomPadding )
+
+        end
+
+        _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
+        _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderTotal, _QuestieTracker.baseFrame:GetHeight())
+        _QuestieTracker.trackedQuestsFrame:Show()
+    end
 end
 
 local function _PositionTrackedQuestsFrame(frm, previousFrame)
@@ -1238,68 +1305,7 @@ function QuestieTracker:Update()
         end
     end)
 
-    -- Auto adjust tracker size and visibility
-    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader
-    local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
-    local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
-
-    if not Questie.db.char.isTrackerExpanded then
-        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
-
-        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
-            _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
-        else
-            _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
-        end
-
-        _QuestieTracker.trackedQuestsFrame:Hide()
-
-    elseif line then
-        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
-            if (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
-                _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
-                Questie.db[Questie.db.global.questieTLoc].TrackerWidth = activeQuestsHeaderTotal
-            elseif (Questie.db[Questie.db.global.questieTLoc].TrackerWidth ~= trackerBaseFrame and _QuestieTracker.isSizing ~= true) then
-                _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
-            end
-        else
-
-            if (trackerVARScombined < activeQuestsHeaderTotal) then
-                _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
-            elseif (trackerVARScombined ~= trackerBaseFrame) then
-                _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
-            end
-        end
-
-        -- Trims the bottom of the tracker (overall height) based on min/max'd zones and/or quests
-        local trackerBottomPadding
-        if Questie.db.global.trackerHeaderEnabled and Questie.db.global.trackerHeaderAutoMove and Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
-            trackerBottomPadding = trackerFontSizeHeader+4
-        else
-            trackerBottomPadding = 0
-        end
-
-        if line:IsVisible() or LinePool.IsFirstLine() then
-            if LinePool.IsFirstLine() then
-                _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom()) - (Questie.db.global.trackerQuestPadding+2) + trackerBottomPadding )
-            else
-                _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 14) - (Questie.db.global.trackerQuestPadding+2) + trackerBottomPadding )
-            end
-        else
-            line = LinePool.GetPreviousLine()
-            
-            if not line then
-                line = LinePool.GetLastLine()
-            end
-            
-            _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 25) + trackerBottomPadding )
-            
-        end
-
-        _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
-        _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderTotal, _QuestieTracker.baseFrame:GetHeight())
-        _QuestieTracker.trackedQuestsFrame:Show()
-    end
+    _QuestieTracker.baseFrame.AutoResize()
 
     -- First run clean up
     if isFirstRun then
