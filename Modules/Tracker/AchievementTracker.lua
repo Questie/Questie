@@ -173,14 +173,14 @@ function AchievementTracker.OnClick(self, button)
             _Untrack(self.achievementId)
         end
 
-    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+    --elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         -- TODO: Open Achievement in UI
         --TrackerUtils:ShowQuestLog(self.Quest)
 
-        -- TODO: Add right click menu
-        --elseif button == "RightButton" then
-        --    local menu = TrackerMenu:GetMenuForQuest(self.Quest)
-        --    LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0 , 0, "MENU")
+    -- TODO: Add right click menu
+    --elseif button == "RightButton" then
+    --    local menu = TrackerMenu:GetMenuForQuest(self.Quest)
+    --    LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0 , 0, "MENU")
     end
 end
 

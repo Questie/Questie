@@ -896,6 +896,7 @@ globals = {
     "GetAccountExpansionLevel",
     "GetAchievementCriteriaInfo",
     "GetAchievementInfo",
+    "GetAchievementLink",
     "GetAchievementNumCriteria",
     "GetActionAutocast",
     "GetActionBarPage",
