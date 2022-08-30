@@ -431,8 +431,15 @@ _AutoResize = function()
         _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderTotal, _QuestieTracker.baseFrame:GetHeight())
         _QuestieTracker.trackedQuestsFrame:Show()
     else
-        _QuestieTracker.baseFrame:SetHeight(_QuestieTracker.baseFrame:GetTop() - _QuestieTracker.achievementFrame:GetBottom())
-        _QuestieTracker.trackedQuestsFrame:Hide()
+        if Questie.IsWotlk then
+            if _QuestieTracker.achievementFrame:IsVisible() then
+                _QuestieTracker.baseFrame:SetHeight(_QuestieTracker.baseFrame:GetTop() - _QuestieTracker.achievementFrame:GetBottom())
+                _QuestieTracker.trackedQuestsFrame:Hide()
+            end
+        else
+            _QuestieTracker.baseFrame:SetHeight(1)
+            _QuestieTracker.trackedQuestsFrame:Hide()
+        end
     end
 end
 
