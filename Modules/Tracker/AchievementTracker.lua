@@ -58,6 +58,7 @@ function AchievementTracker.LoadAchievements()
         return
     end
 
+    -- TODO: Add sorting for the trackedAchievementIds
     for i=1, #trackedAchievementIds do
         _TrackAchievement(trackedAchievementIds[i])
     end
