@@ -107,16 +107,45 @@ _TrackAchievement = function(achievementId)
     trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
 
     local numCriteria = GetAchievementNumCriteria(achievementId)
+
+    if numCriteria == 0 then
+        line = LinePool.GetNextAchievementLine()
+        if not line then return end -- stop populating the tracker
+        lastCreatedLine = line
+
+        line:SetMode("objective")
+
+        local description = select(8, GetAchievementInfo(achievementId)):gsub("%.", "") -- Remove description ending dot
+        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=0, Needed=1}) .. description .. ": 0/1|r")
+
+        line.label:ClearAllPoints()
+        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+        local lineWidth = baseFrame:GetWidth() - objectiveMarginLeft
+        line.label:SetWidth(lineWidth)
+        line:SetWidth(lineWidth)
+        line:SetVerticalPadding(1)
+
+        line:Show()
+        line.label:Show()
+        return
+    end
+
     for i=1, numCriteria do
         -- Add objectives
         line = LinePool.GetNextAchievementLine()
         if not line then break end -- stop populating the tracker
         lastCreatedLine = line
 
-        local _, _, _, quantityProgress, quantityNeeded, _, _, _, quantityString = GetAchievementCriteriaInfo(achievementId, i)
-
         line:SetMode("objective")
-        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. "- " .. quantityString .. "|r")
+
+        local criteriaString, _, _, quantityProgress, quantityNeeded, _, _, _, quantityString = GetAchievementCriteriaInfo(achievementId, i)
+
+        quantityString = quantityString:gsub("%s+", "") -- Remove white spaces
+        if quantityString == "0" then
+            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityString .. "/1" .. "|r")
+        else
+            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityString .. "|r")
+        end
 
         line.label:ClearAllPoints()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
