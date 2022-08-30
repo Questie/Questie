@@ -10,11 +10,6 @@ local LinePool = QuestieLoader:ImportModule("LinePool")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
--- https://wowpedia.fandom.com/wiki/World_of_Warcraft_API
--- GetAchievementCriteriaInfo(achievementID, criteriaNum)
--- GetAchievementInfo(achievementID or categoryID, index)
--- AddTrackedAchievement(achievementId)
-
 local baseFrame
 local trackerLineWidth = 0
 local lastCreatedLine
