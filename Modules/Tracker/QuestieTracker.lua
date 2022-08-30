@@ -114,14 +114,13 @@ function QuestieTracker.Initialize()
 
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
 
-    local achievementFrame
     if Questie.IsWotlk then
-        achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame)
-        LinePool.InitializeAchievementLines(achievementFrame, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
+        _QuestieTracker.achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame)
+        LinePool.InitializeAchievementLines(_QuestieTracker.achievementFrame, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
         AchievementTracker.LoadAchievements()
     end
 
-    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(achievementFrame or _QuestieTracker.activeQuestsHeader)
+    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.achievementFrame or _QuestieTracker.activeQuestsHeader)
     LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
 
     -- Quest and Item button tables
@@ -431,6 +430,9 @@ _AutoResize = function()
         _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
         _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderTotal, _QuestieTracker.baseFrame:GetHeight())
         _QuestieTracker.trackedQuestsFrame:Show()
+    else
+        _QuestieTracker.baseFrame:SetHeight(_QuestieTracker.baseFrame:GetTop() - _QuestieTracker.achievementFrame:GetBottom())
+        _QuestieTracker.trackedQuestsFrame:Hide()
     end
 end
 
