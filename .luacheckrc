@@ -1844,6 +1844,7 @@ globals = {
     "RegisterStaticConstants",
     "RemoveChatWindowChannel",
     "RemoveChatWindowMessages",
+    "RemoveTrackedAchievement",
     "RemoveQuestWatch",
     "RenamePetition",
     "ReopenInteraction",

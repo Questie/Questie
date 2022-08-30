@@ -3,6 +3,8 @@ local AchievementTracker = QuestieLoader:CreateModule("AchievementTracker")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
 
@@ -18,7 +20,7 @@ local trackerLineWidth = 0
 local lastCreatedLine
 local trackedAchievementIds
 
-local _TrackAchievement
+local _TrackAchievement, _Untrack
 
 local headerMarginLeft = 10
 local achievementHeaderMarginLeft = headerMarginLeft + 15
@@ -160,5 +162,36 @@ end
 function AchievementTracker:TrackedAchievementListChanged(achievementId, shouldTrack)
     Questie:Debug(Questie.DEBUG_DEVELOP, "TRACKED_ACHIEVEMENT_LIST_CHANGED", achievementId, shouldTrack)
 
+    AchievementTracker.Update()
+end
+
+function AchievementTracker.OnClick(self, button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnAchievementClick]")
+    if (not self.achievementId) then
+        return
+    end
+
+    if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
+        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+            ChatEdit_InsertLink(GetAchievementLink(self.achievementId))
+        else
+            _Untrack(self.achievementId)
+        end
+
+    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+        -- TODO: Open Achievement in UI
+        --TrackerUtils:ShowQuestLog(self.Quest)
+
+        -- TODO: Add right click menu
+        --elseif button == "RightButton" then
+        --    local menu = TrackerMenu:GetMenuForQuest(self.Quest)
+        --    LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0 , 0, "MENU")
+    end
+end
+
+---Removes an achievement from the tracked list
+---@param achievementId number
+_Untrack = function(achievementId)
+    RemoveTrackedAchievement(achievementId)
     AchievementTracker.Update()
 end

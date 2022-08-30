@@ -217,7 +217,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, On
 end
 
 ---@param trackedAchievementsFrame Frame
-function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnDragStart, OnDragStop)
+function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, OnDragStart, OnDragStop)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
 
     local lastFrame
@@ -265,7 +265,7 @@ function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnDragSta
         line:RegisterForDrag("LeftButton")
         line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-        --line:SetScript("OnClick", _OnClick)
+        line:SetScript("OnClick", OnAchievementClick)
         line:SetScript("OnDragStart", OnDragStart)
         line:SetScript("OnDragStop", OnDragStop)
 
