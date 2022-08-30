@@ -1278,10 +1278,6 @@ function QuestieTracker:Update()
         end
     end
 
-    if not line then
-        line = LinePool.GetLastLine()
-    end
-
     -- Begin post clean up of unused frameIndexes
     local startUnusedButtons = 1
 
