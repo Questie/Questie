@@ -12,7 +12,6 @@ local preSetPoint
 
 local mouselookTicker = {}
 local updateTimer
-local tempTrackerLocation
 
 local dragButton
 
@@ -100,7 +99,6 @@ function _QuestieTracker:OnResizeStart(button)
         if IsMouseButtonDown(button) then
             if IsControlKeyDown() or not Questie.db.global.trackerLocked then
                 _QuestieTracker.isSizing = true
-                tempTrackerLocation = {baseFrame:GetPoint()}
                 baseFrame:StartSizing("RIGHT")
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
@@ -124,8 +122,6 @@ function _QuestieTracker:OnResizeStop(button)
     _QuestieTracker.isSizing = false
     baseFrame:StopMovingOrSizing()
     updateTimer:Cancel()
-    baseFrame:ClearAllPoints()
-    baseFrame:SetPoint(unpack(tempTrackerLocation))
 end
 
 function _QuestieTracker:AutoConvertSetPoint(frame)
