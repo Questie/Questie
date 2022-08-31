@@ -211,8 +211,7 @@ function _QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     frm:SetFrameStrata("BACKGROUND")
     frm:SetFrameLevel(0)
-    frm:SetWidth(280)
-    frm:SetHeight(32)
+    frm:SetSize(280, 32)
 
     frm:EnableMouse(true)
     frm:SetMovable(true)
@@ -317,11 +316,12 @@ function _QuestieTracker:CreateBaseFrame()
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, _ = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
+        local result, reason = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
         if (not result) then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
             if WatchFrame then
                 local result2, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
@@ -334,7 +334,6 @@ function _QuestieTracker:CreateBaseFrame()
                 _QuestieTracker:SetSafePoint(frm)
             end
         end
-
     else
         if WatchFrame then
             local result, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
@@ -638,17 +637,15 @@ function QuestieTracker:ResetLocation()
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
-    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {}
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
-    QuestieTracker:Update()
+    _QuestieTracker.baseFrame:SetSize(280, 32)
+    _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
 
-    if _QuestieTracker.baseFrame then
-        _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
-        _QuestieTracker.baseFrame:Show()
-    end
+    QuestieTracker:Update()
 end
 
 function QuestieTracker:ResetDurabilityFrame()
@@ -913,8 +910,6 @@ function QuestieTracker:Update()
     if (not QuestieTracker.started) then
         return
     end
-
-    trackerLineWidth = 0
 
     -- Tracker has started but not enabled
     if (not Questie.db.global.trackerEnabled) then
