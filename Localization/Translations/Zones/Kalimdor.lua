@@ -36,7 +36,7 @@ local kalimdorLocales = {
         ["frFR"] = "Les Grumegueules",
         ["esES"] = "Bastión de los Fauces de Madera",
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "木喉要塞",
     },
     ["Winterspring"] = {
         ["ptBR"] = "Hibérnia",
