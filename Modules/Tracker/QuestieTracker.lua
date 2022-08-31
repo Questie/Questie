@@ -914,8 +914,6 @@ function QuestieTracker:Update()
         return
     end
 
-    trackerLineWidth = 0
-
     -- Tracker has started but not enabled
     if (not Questie.db.global.trackerEnabled) then
         if _QuestieTracker.baseFrame and _QuestieTracker.baseFrame:IsShown() then
