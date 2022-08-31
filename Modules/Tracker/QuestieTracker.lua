@@ -316,11 +316,12 @@ function _QuestieTracker:CreateBaseFrame()
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, _ = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
+        local result, reason = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
         if (not result) then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
             if WatchFrame then
                 local result2, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
@@ -636,7 +637,7 @@ function QuestieTracker:ResetLocation()
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
-    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {}
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
