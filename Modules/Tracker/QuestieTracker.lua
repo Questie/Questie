@@ -211,8 +211,7 @@ function _QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     frm:SetFrameStrata("BACKGROUND")
     frm:SetFrameLevel(0)
-    frm:SetWidth(280)
-    frm:SetHeight(32)
+    frm:SetSize(280, 32)
 
     frm:EnableMouse(true)
     frm:SetMovable(true)
@@ -334,7 +333,6 @@ function _QuestieTracker:CreateBaseFrame()
                 _QuestieTracker:SetSafePoint(frm)
             end
         end
-
     else
         if WatchFrame then
             local result, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
@@ -643,12 +641,10 @@ function QuestieTracker:ResetLocation()
     Questie.db.char.collapsedZones = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
-    QuestieTracker:Update()
+    _QuestieTracker.baseFrame:SetSize(280, 32)
+    _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
 
-    if _QuestieTracker.baseFrame then
-        _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
-        _QuestieTracker.baseFrame:Show()
-    end
+    QuestieTracker:Update()
 end
 
 function QuestieTracker:ResetDurabilityFrame()
