@@ -54,11 +54,18 @@ function MapIconTooltip:Show()
 
     local maxDistCluster = 1
     local mapId = WorldMapFrame:GetMapID();
-    if mapId == 947 then -- world
-        maxDistCluster = 6
-    elseif mapId == 1415 or mapId == 1414 then -- kalimdor/ek
-        maxDistCluster = 4
+
+    if C_Map and C_Map.GetMapInfo then
+        local mapInfo = C_Map.GetMapInfo(mapId)
+        if mapInfo then
+            if(mapInfo.mapType == 0 or mapInfo.mapType == 1) then -- Cosmic or World
+                maxDistCluster = 6
+            elseif mapInfo.mapType == 2 then -- Continent
+                maxDistCluster = 4
+            end
+        end
     end
+
     if self.miniMapIcon then
         if _MapIconTooltip:IsMinimapInside() then
             maxDistCluster = 0.3 / (1+Minimap:GetZoom())
