@@ -535,3 +535,114 @@ function QuestieLib.tunpack(tbl)
 
     return recursion(1)
 end
+
+
+local frameObject = nil
+if _G["QuestLogObjectivesText"] then -- classic
+    frameObject = _G["QuestLogObjectivesText"] 
+elseif _G["QuestInfoObjectivesText"] then -- Wotlk Classic
+    frameObject = _G["QuestInfoObjectivesText"]
+end
+--Part of the GameTooltipWrapDescription function
+local objectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
+objectiveFontString:SetWidth(frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+objectiveFontString:SetHeight(0);
+objectiveFontString:SetPoint("LEFT");
+objectiveFontString:SetJustifyH("LEFT");
+---@diagnostic disable-next-line: redundant-parameter
+objectiveFontString:SetWordWrap(true)
+objectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
+local font, size = frameObject:GetFont()
+--Chinese? "Fonts\\ARKai_T.ttf"
+objectiveFontString:SetFont(font, size);
+objectiveFontString:Hide()
+
+---Emulates the wrapping of a quest description
+---@param line string @The line to wrap
+---@param prefix string @The prefix to add to the line
+---@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
+---@param splitOnDot boolean @Should we add a linebreak if a dot appears thats not at the end of a line TRUE=NEW ROW, FALSE=NO NEW ROW, default: true
+---@param desiredWidth number @Set the desired width to wrap, default: 275
+---@return table[] @A table of wrapped lines
+function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
+    if(objectiveFontString:IsVisible()) then print("TextWrap already running... strange, look into pooling the FontString ugh") end
+
+    --Set Defaults
+    combineTrailing = combineTrailing or true
+    splitOnDot = splitOnDot or true
+    --We show the fontstring and set the text to start the process
+    --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
+    objectiveFontString:SetWidth(desiredWidth or frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+    objectiveFontString:Show()
+
+    --Make a linebreak on each "dot" character if there is a space after (don't want it on end of line)
+    local useLine = string.gsub(line, "%. ", "%.%\n")
+
+    objectiveFontString:SetText(useLine)
+    --Is the line wrapped?
+    if(objectiveFontString:GetUnboundedStringWidth() > objectiveFontString:GetWrappedWidth()) then
+        local lines = {}
+        local startIndex = 1
+        local endIndex = 2 --We should be able to start at a later index...
+        --This function returns a list of size information per row, so we use this to calculate number of rows
+        local numberOfRows = #objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
+        --print("lineLen", strlen(line))
+        for row = 1, numberOfRows do
+            local lastSpaceIndex
+            local dotIndex
+            local indexes
+            --We use the previous way to get number of rows to loop through characterindex until we get 2 rows
+            repeat
+                indexes = objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
+                --Last space of the line to be used to break a new row
+                if(string.sub(useLine, endIndex, endIndex) == " ") then
+                    lastSpaceIndex = endIndex
+                --Track the dot at the end of a line
+                elseif(string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
+                    dotIndex = endIndex
+                end
+                endIndex = endIndex + 1
+                --If we are at the end of characters break and set endIndex to strlen
+                if(endIndex > strlen(useLine)) then
+                    endIndex = strlen(useLine)
+                    lastSpaceIndex = endIndex
+                    break
+                end
+            until (#indexes > 1) --Until more than one row
+
+            --Get the line we calculated
+            --First to Dot, then space and lastly endIndex(chinese)
+            local newLine = string.sub(useLine, startIndex, dotIndex or lastSpaceIndex or endIndex)
+
+            --This combines a trailing word to the previous line if it is the only word of the line
+            --We check lastSpaceIndex here because the logic will be faulty (chinese client)
+            if(row == numberOfRows-1 and combineTrailing and lastSpaceIndex) then
+                --Get the last line, in it's full
+                local lastLine = string.sub(useLine, endIndex - 2, strlen(useLine))
+
+                --Does the line not contain any space we combine it into the previous line
+                if(not string.find(lastLine, " ")) then
+                    newLine = string.sub(useLine, startIndex, strlen(useLine))
+                    --print("NL1", newLine)
+                    table.insert(lines, prefix..newLine)
+                    --Break the for loop on last line, no more running required
+                    break
+                end
+            end
+            --Change the startIndex to be the new line, and add the line to the lines list
+            startIndex = endIndex - 2
+            endIndex = endIndex
+
+            table.insert(lines, prefix..newLine)
+        end
+        --Hide the fontstring
+        objectiveFontString:Hide()
+        return lines
+    else
+        --Line was not wrapped, return the string as is.
+        --Hide the fontstring
+        objectiveFontString:Hide()
+        useLine = prefix..string.gsub(line, "%. ", "%.%\n"..prefix)
+        return {useLine}
+    end
+end

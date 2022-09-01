@@ -250,10 +250,16 @@ function MapIconTooltip:Show()
                     local dataType = type(questData.subData)
                     if dataType == "table" then
                         for _, line in pairs(questData.subData) do
-                            self:AddLine(line, 0.86, 0.86, 0.86, WRAP_TEXT);
+                            local lines = QuestieLib:TextWrap(line, "  ", true, true, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
+                            for _, line in pairs(lines) do
+                                self:AddLine(line, 0.86, 0.86, 0.86);
+                            end
                         end
                     elseif dataType == "string" then
-                        self:AddLine(questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
+                        local lines = QuestieLib:TextWrap(questData.subData, "  ", true, true, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
+                        for _, line in pairs(lines) do
+                            self:AddLine(line, 0.86, 0.86, 0.86);
+                        end
                     end
 
                     if reputationReward and next(reputationReward) then
