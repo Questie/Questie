@@ -161,8 +161,10 @@ end
 
 --- Rescale a single icon
 ---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
-function QuestieMap.utils:RescaleIcon(frameRef)
+---@param mapScale number @Scale value for the final size of the Icon
+function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
     local frame = frameRef;
+    local iconScale = mapScale or 1
     if type(frameRef) == "string" then
         frame = _G[frameRef];
     end
@@ -173,7 +175,8 @@ function QuestieMap.utils:RescaleIcon(frameRef)
             if frame.miniMapIcon then
                 scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
             else
-                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7);
+                --? If you ever chanage this logic, make sure you change the logic in QuestieMap:ProcessQueue() too!
+                scale = (16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7)) * iconScale;
             end
 
             if scale > 1 then
