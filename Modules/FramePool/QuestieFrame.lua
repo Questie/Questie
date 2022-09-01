@@ -19,7 +19,7 @@ local _Qframe = {}
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
-    ---@class IconFrame
+    ---@class IconFrame : Button
     local newFrame = CreateFrame("Button", "QuestieFrame"..frameId)
     newFrame.frameId = frameId;
 
@@ -59,7 +59,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     glowt:SetHeight(18)
     glowt:SetAllPoints(newFrame.glow)
 
-    ---@class IconTexture
+    ---@class IconTexture : Texture
     newFrame.texture = newTexture;
     newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
     function newFrame.texture:SetVertexColor(r, g, b, a)
