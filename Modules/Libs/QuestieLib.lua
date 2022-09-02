@@ -586,7 +586,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
         local endIndex = 2 --We should be able to start at a later index...
         --This function returns a list of size information per row, so we use this to calculate number of rows
         local numberOfRows = #objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
-        --print("lineLen", strlen(line))
         for row = 1, numberOfRows do
             local lastSpaceIndex
             local dotIndex
