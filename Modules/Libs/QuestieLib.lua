@@ -635,7 +635,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
 
             table.insert(lines, prefix..newLine)
         end
-        --Hide the fontstring
         objectiveFontString:Hide()
         return lines
     else
