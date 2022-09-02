@@ -5,11 +5,6 @@ local _QuestieTracker = QuestieTracker.private
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-local startDragAnchor = {}
-local startDragPos = {}
-local endDragPos = {}
-local preSetPoint
-
 local mouselookTicker = {}
 local updateTimer
 
@@ -25,11 +20,8 @@ function _QuestieTracker:OnDragStart(button)
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
             _QuestieTracker.isMoving = true
             dragButton = button
-            startDragAnchor = {baseFrame:GetPoint()}
-            preSetPoint = ({baseFrame:GetPoint()})[1]
             baseFrame:SetClampedToScreen(true)
             baseFrame:StartMoving()
-            startDragPos = {baseFrame:GetPoint()}
             if Questie.db.char.isTrackerExpanded then
                 _QuestieTracker.baseFrame.sizer:SetAlpha(1)
             end
@@ -52,37 +44,23 @@ end
 function _QuestieTracker:OnDragStop()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]")
 
-    if not dragButton or IsMouseButtonDown(dragButton) or not startDragPos or not startDragPos[4] or not startDragPos[5] or not endDragPos or not startDragAnchor then
+    if not dragButton or IsMouseButtonDown(dragButton) then
         return
     end
 
     local trackerBaseFrame = QuestieTracker:GetBaseFrame()
     _QuestieTracker.isMoving = false
     dragButton = nil
-    endDragPos = { trackerBaseFrame:GetPoint()}
     trackerBaseFrame:StopMovingOrSizing()
 
-    endDragPos[4], endDragPos[5] = _QuestieTracker:TrimSetPoints(trackerBaseFrame, endDragPos[4], endDragPos[5])
-
-    local xMoved = endDragPos[4] - startDragPos[4]
-    local yMoved = endDragPos[5] - startDragPos[5]
-
-    startDragAnchor[4] = startDragAnchor[4] + xMoved
-    startDragAnchor[5] = startDragAnchor[5] + yMoved
-
     QuestieCombatQueue:Queue(function(baseFrame)
-        baseFrame:ClearAllPoints()
-        baseFrame:SetPoint(unpack(startDragAnchor))
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {baseFrame:GetPoint()}
 
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and type(Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]) == "table" and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2].GetName then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]:GetName()
         end
 
-        _QuestieTracker:AutoConvertSetPoint(baseFrame)
         QuestieTracker:MoveDurabilityFrame()
-        startDragPos = nil
-        preSetPoint = nil
 
         QuestieTracker:Update()
     end, trackerBaseFrame)
