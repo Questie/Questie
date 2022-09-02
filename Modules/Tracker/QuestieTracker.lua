@@ -924,9 +924,12 @@ function QuestieTracker:Update()
     LinePool.ResetLinesForChange()
 
     -- Update primary frames and layout
-    _QuestieTracker.baseFrame:Update()
-    _QuestieTracker.activeQuestsHeader:Update()
-    _QuestieTracker.trackedQuestsFrame:Update()
+    QuestieCombatQueue:Queue(function()
+        _QuestieTracker.baseFrame:Update()
+        _QuestieTracker.activeQuestsHeader:Update()
+        _QuestieTracker.trackedQuestsFrame:Update()
+    end)
+
     _UpdateLayout()
 
     buttonIndex = 0
