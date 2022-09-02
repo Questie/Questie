@@ -639,7 +639,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
         return lines
     else
         --Line was not wrapped, return the string as is.
-        --Hide the fontstring
         objectiveFontString:Hide()
         useLine = prefix..string.gsub(line, "%. ", "%.%\n"..prefix)
         return {useLine}
