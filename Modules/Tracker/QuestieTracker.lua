@@ -105,7 +105,7 @@ function QuestieTracker.Initialize()
 
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
-    TrackerMenu.Initialize(_QuestieTracker.baseFrame.Update, QuestieTracker.Untrack)
+    TrackerMenu.Initialize(function() _QuestieTracker.baseFrame:Update() end, QuestieTracker.Untrack)
 
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
