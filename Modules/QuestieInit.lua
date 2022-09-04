@@ -271,7 +271,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.started = true
 
-    if Questie.IsTBC and QuestiePlayer.GetPlayerLevel() == 70 then
+    if Questie.IsWotlk and QuestiePlayer.GetPlayerLevel() == 70 then
         local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
         local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
 
