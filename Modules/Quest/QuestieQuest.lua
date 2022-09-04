@@ -1246,13 +1246,13 @@ function _QuestieQuest:GetQuestIcon(quest)
 end
 
 function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer:GetPlayerLevel())
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer.GetPlayerLevel())
 
     local data = QuestieDB.QuestPointers or QuestieDB.questData
     local index = next(data)
     local timer -- if you do local timer = C_Timer then "timer" cant be accessed inside
 
-    local playerLevel = QuestiePlayer:GetPlayerLevel()
+    local playerLevel = QuestiePlayer.GetPlayerLevel()
     local minLevel = playerLevel - GetQuestGreenRange("player")
     local maxLevel = playerLevel
 

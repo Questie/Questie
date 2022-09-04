@@ -33,9 +33,9 @@ function QuestieLib:PrintDifficultyColor(level, text, isDailyQuest)
     end
 
     if level == -1 then
-        level = QuestiePlayer:GetPlayerLevel()
+        level = QuestiePlayer.GetPlayerLevel()
     end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel()
+    local levelDiff = level - QuestiePlayer.GetPlayerLevel()
 
     if (levelDiff >= 5) then
         return "|cFFFF1A1A" .. text .. "|r" -- Red
@@ -52,8 +52,8 @@ end
 
 function QuestieLib:GetDifficultyColorPercent(level)
 
-    if level == -1 then level = QuestiePlayer:GetPlayerLevel() end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel()
+    if level == -1 then level = QuestiePlayer.GetPlayerLevel() end
+    local levelDiff = level - QuestiePlayer.GetPlayerLevel()
 
     if (levelDiff >= 5) then
         -- return "|cFFFF1A1A"..text.."|r"; -- Red
@@ -195,7 +195,7 @@ end
 function QuestieLib:GetTbcLevel(questId)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
-        local playerLevel = QuestiePlayer:GetPlayerLevel();
+        local playerLevel = QuestiePlayer.GetPlayerLevel();
         if (requiredLevel > playerLevel) then
             questLevel = requiredLevel;
         else

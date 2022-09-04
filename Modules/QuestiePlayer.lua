@@ -44,7 +44,7 @@ end
 -- Gets the highest playerlevel available, most of the time playerLevel should be the most correct one
 -- doing UnitLevel for completeness.
 ---@return number
-function QuestiePlayer:GetPlayerLevel()
+function QuestiePlayer.GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);
 end
