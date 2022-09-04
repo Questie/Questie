@@ -25,6 +25,9 @@ function QuestieWotlkQuestFixes:Load()
         [10703] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{21864,21878,21879,23020,21978},21978,},},},
         },
+        [11531] = {
+            [questKeys.specialFlags] = 1,
+        },
         [11153] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42,2}}}, ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
         },
