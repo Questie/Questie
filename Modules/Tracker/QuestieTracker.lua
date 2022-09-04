@@ -456,7 +456,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
                 self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
-                self:HookScript("OnClick", self.OnClick)
                 self:SetScript("OnEvent", self.OnEvent)
                 self:SetScript("OnShow", self.OnShow)
                 self:SetScript("OnHide", self.OnHide)
@@ -502,29 +501,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 cooldown:SetCooldown(start, duration)
             else
                 cooldown:Hide()
-            end
-        end
-
-        btn.OnClick = function(self, button)
-            if InCombatLockdown() then
-                return
-            end
-
-            if button == "LeftButton" then
-                return
-            end
-
-            if button == "RightButton" then
-                ClearCursor()
-                if self.questID then
-                    if Questie.db.char.collapsedQuests[self.questID] ~= true then
-                        Questie.db.char.collapsedQuests[self.questID] = true
-                        QuestieTracker:Update()
-                    end
-                else
-
-                    return
-                end
             end
         end
 

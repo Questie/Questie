@@ -131,6 +131,9 @@ local migrationFunctions = {
     [11] = function()
         Questie.db.global.trackerEnabled = true
     end,
+    [12] = function()
+        Questie.db.char.collapsedQuests = {}
+    end
 }
 
 function Migration:Migrate()
