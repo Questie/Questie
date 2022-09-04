@@ -249,8 +249,8 @@ function MapIconTooltip:Show()
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
                     if dataType == "table" then
-                        for _, line in pairs(questData.subData) do
-                            local lines = QuestieLib:TextWrap(line, "  ", true, true, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
+                        for _, rawLine in pairs(questData.subData) do
+                            local lines = QuestieLib:TextWrap(rawLine, "  ", true, true, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
                             for _, line in pairs(lines) do
                                 self:AddLine(line, 0.86, 0.86, 0.86);
                             end
