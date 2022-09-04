@@ -565,7 +565,7 @@ objectiveFontString:Hide()
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
 ---@return table[] @A table of wrapped lines
 function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
-    if(objectiveFontString:IsVisible()) then print("TextWrap already running... strange, look into pooling the FontString ugh") end
+    if(objectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
     --Set Defaults
     combineTrailing = combineTrailing or true
