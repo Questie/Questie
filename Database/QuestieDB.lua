@@ -329,7 +329,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsDungeonQuest(questId)
+function QuestieDB.IsDungeonQuest(questId)
     local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 81
 end
