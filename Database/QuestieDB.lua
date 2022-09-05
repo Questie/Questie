@@ -599,7 +599,7 @@ end
 
 ---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
-function QuestieDB:IsComplete(questId)
+function QuestieDB.IsComplete(questId)
     local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
     --[[ pseudo:
     if no questLogEntry then return 0
@@ -613,7 +613,7 @@ end
 ---@param self Quest
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function _QuestieDB._QO_IsComplete(self)
-    return QuestieDB:IsComplete(self.Id)
+    return QuestieDB.IsComplete(self.Id)
 end
 
 ---@return boolean @Returns true if the quest should be grey, false otherwise

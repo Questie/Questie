@@ -126,7 +126,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     end
 
     if showState then
-        local isComplete = QuestieDB:IsComplete(questId)
+        local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
             name = name .. " (" .. l10n("Failed") .. ")"

@@ -140,7 +140,7 @@ _AddQuestStatus = function (quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = l10n("You are on this quest")
         local stateText
-        local questIsComplete = QuestieDB:IsComplete(quest.Id)
+        local questIsComplete = QuestieDB.IsComplete(quest.Id)
         if questIsComplete == 1 then
             stateText = Questie:Colorize(l10n("Complete"), "green")
         elseif questIsComplete == -1 then
@@ -293,7 +293,7 @@ end
 _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finisherName, finisherZoneName)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         -- On Quest: display quest progress
-        if (QuestieDB:IsComplete(quest.Id) == 0) then
+        if (QuestieDB.IsComplete(quest.Id) == 0) then
             _AddTooltipLine(" ")
             _AddTooltipLine(l10n("Your progress")..":")
             for _, objective in pairs(quest.Objectives) do
