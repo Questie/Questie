@@ -1321,6 +1321,9 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                 end
             else
                 timer:Cancel()
+                QuestieProfessions.hasSkillLevelUp = false -- Reset this so we only check profession requirements after a skill level up
+                QuestieReputation.hasFactionChange = false -- Reset this so we only check faction requirements after a change
+
                 -- UpdateAddOnCPUUsage(); print("Questie CPU usage:", GetAddOnCPUUsage("Questie")) -- Do not remove even commented out. Useful for performance testing.
                 if callback ~= nil then
                     callback()
