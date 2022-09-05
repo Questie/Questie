@@ -536,6 +536,28 @@ function QuestieLib.tunpack(tbl)
     return recursion(1)
 end
 
+---@alias TableWeakMode
+---| '"v"'        # Weak Value
+---| '"k"'        # Weak Key
+---| '"kv"'       # Weak Value and Weak Key
+---| '""'         # Regular table
+
+---* Memoize a function with a cache
+--! This does not support nil, never input nil into the table
+---@param func function
+---@param __mode TableWeakMode|nil
+---@return table
+function QuestieLib:TableMemoizeFunction(func, __mode)
+    return setmetatable({}, {
+        __index = function(self, k)
+            local v = func(self, k);
+            self[k] = v
+            return v;
+        end,
+        __mode = __mode or ""
+    });
+end
+
 
 local frameObject = nil
 if _G["QuestLogObjectivesText"] then -- classic
