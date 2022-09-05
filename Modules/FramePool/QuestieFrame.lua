@@ -426,7 +426,7 @@ function _Qframe:ShouldBeHidden()
         or (iconType == "available"
             and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
                 or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId))
-                or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId))
+                or ((not questieCharDB.showEventQuests) and QuestieDB.IsActiveEventQuest(questId))
                 or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId))
                 or ((not questieCharDB.showRaidQuests) and QuestieDB:IsRaidQuest(questId))
                 or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId))

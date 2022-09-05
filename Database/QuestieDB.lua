@@ -379,7 +379,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsActiveEventQuest(questId)
+function QuestieDB.IsActiveEventQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end
 
@@ -410,7 +410,7 @@ function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
         return true
     end
 
-    if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
+    if QuestieDB.IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
 
