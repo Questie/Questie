@@ -1624,16 +1624,16 @@ _GetContinent = function(uiMapId)
         return
     end
 
-    if (uiMapId == 947) or (uiMapId == 1459) or (uiMapId == 1460) or (uiMapId == 1461) then
-        return "Azeroth"
-    elseif ((uiMapId >= 1415) and (uiMapId <= 1437)) or (uiMapId == 1453) or (uiMapId == 1455) or (uiMapId == 1458) or (uiMapId == 1463) then
-        return "Eastern Kingdoms"
-    elseif ((uiMapId >= 1411) and (uiMapId <= 1414)) or ((uiMapId >= 1438) and (uiMapId <= 1452)) or (uiMapId == 1454) or (uiMapId == 1456) or (uiMapId == 1457) then
-        return "Kalimdor"
-    elseif uiMapId > 1900 and uiMapId < 2000 then
-        return "Outland"
-    else -- todo: check C_Map.GetMapInfo parent (we need to test that more, this is safe for now)
-        return "Outland" --Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
+    local useUiMapId = uiMapId
+    local mapInfo = C_Map.GetMapInfo(useUiMapId)
+    while mapInfo.mapType ~= 2 and mapInfo.parentMapID ~= useUiMapId do
+        useUiMapId = mapInfo.parentMapID
+        mapInfo = C_Map.GetMapInfo(useUiMapId)
+    end
+    if mapInfo ~= nil then
+        return mapInfo.name
+    else
+        return "UNKNOWN"
     end
 end
 
