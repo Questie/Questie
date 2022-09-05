@@ -71,13 +71,14 @@ end
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
-    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+    local questLevel, _ = QuestieLib:GetTbcLevel(questId)
+    local isRepeatable = QuestieDB:IsRepeatable(questId)
 
     if (not senderGUID) then
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]").."|h"
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable)..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable).."|h"
 end
 
 function QuestieLink:CreateQuestTooltip(link)
