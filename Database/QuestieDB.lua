@@ -343,7 +343,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsPvPQuest(questId)
+function QuestieDB.IsPvPQuest(questId)
     local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 41
 end
