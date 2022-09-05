@@ -1286,7 +1286,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                     ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
                 ) then
 
-                    if QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then
+                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then
                         QuestieQuest.availableQuests[questId] = true
                         --If the quest is not drawn draw the quest, otherwise skip.
                         if (not QuestieMap.questIdFrames[questId]) then

@@ -402,7 +402,7 @@ end
 ---@param minLevel number
 ---@param maxLevel number
 ---@return boolean
-function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
+function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = QuestieLib:GetTbcLevel(questId)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
