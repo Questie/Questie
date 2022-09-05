@@ -1294,7 +1294,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                             local quest = QuestieDB:GetQuest(questId)
                             if (not quest.tagInfoWasCached) then
                                 Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
-                                QuestieDB:GetQuestTagInfo(questId) -- cache to load in the tooltip
+                                QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
                                 quest.tagInfoWasCached = true
                             end
                             --Draw a specific quest through the function

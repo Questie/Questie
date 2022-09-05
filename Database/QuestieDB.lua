@@ -330,21 +330,21 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsDungeonQuest(questId)
-    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 81
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsRaidQuest(questId)
-    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 62
 end
 
 ---@param questId number
 ---@return boolean
 function QuestieDB:IsPvPQuest(questId)
-    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 41
 end
 
@@ -366,7 +366,7 @@ end
 --- quests that are falsely marked by Blizzard
 ---@param questId number
 ---@return table<number, string>
-function QuestieDB:GetQuestTagInfo(questId)
+function QuestieDB.GetQuestTagInfo(questId)
     local questType, questTag = GetQuestTagInfo(questId)
 
     if questTagCorrections[questId] then

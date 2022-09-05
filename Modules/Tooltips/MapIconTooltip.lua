@@ -441,7 +441,7 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
         tip.type = "(" .. l10n("Complete") .. ")";
     else
 
-        local questType, questTag = QuestieDB:GetQuestTagInfo(icon.data.Id)
+        local questType, questTag = QuestieDB.GetQuestTagInfo(icon.data.Id)
 
         if (QuestieDB.IsRepeatable(icon.data.Id)) then
             tip.type = "(" .. l10n("Repeatable") .. ")";
