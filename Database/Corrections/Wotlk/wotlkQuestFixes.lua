@@ -19,6 +19,9 @@ function QuestieWotlkQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [7800] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
