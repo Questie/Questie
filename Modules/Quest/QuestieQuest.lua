@@ -415,7 +415,7 @@ function QuestieQuest:AbandonedQuest(questId)
         for k, _ in pairs(QuestieQuest.availableQuests) do
             ---@type Quest
             local availableQuest = QuestieDB:GetQuest(k)
-            if (not availableQuest) or (not QuestieDB:IsDoable(k)) then
+            if (not availableQuest) or (not QuestieDB.IsDoable(k)) then
                 QuestieMap:UnloadQuestFrames(k);
             end
         end
@@ -1286,7 +1286,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                     ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
                 ) then
 
-                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB:IsDoable(questId) then
+                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB.IsDoable(questId) then
                         QuestieQuest.availableQuests[questId] = true
                         --If the quest is not drawn draw the quest, otherwise skip.
                         if (not QuestieMap.questIdFrames[questId]) then
@@ -1334,7 +1334,7 @@ end
 
 function QuestieQuest:DrawDailyQuest(questId)
     local quest = QuestieDB:GetQuest(questId)
-    if QuestieDB:IsDoable(questId) then
+    if QuestieDB.IsDoable(questId) then
         _QuestieQuest:DrawAvailableQuest(quest)
     end
 end

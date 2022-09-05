@@ -154,7 +154,7 @@ _AddQuestStatus = function (quest)
         end
     elseif Questie.db.char.complete[quest.Id] then
         _AddColoredTooltipLine(l10n("You have completed this quest"), "green")
-    elseif (UnitLevel("player") < quest.requiredLevel or (not QuestieDB:IsDoable(quest.Id))) and (not Questie.db.char.hidden[quest.Id]) then
+    elseif (UnitLevel("player") < quest.requiredLevel or (not QuestieDB.IsDoable(quest.Id))) and (not Questie.db.char.hidden[quest.Id]) then
         _AddColoredTooltipLine(l10n("You are ineligible for this quest"), "red")
     elseif quest.specialFlags == 1 then
         _AddColoredTooltipLine(l10n("This quest is repeatable"), "yellow")
