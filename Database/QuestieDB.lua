@@ -406,7 +406,7 @@ function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
     local level, requiredLevel = QuestieLib:GetTbcLevel(questId)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if QuestieDB:IsParentQuestActive(parentQuestId) then
+    if QuestieDB.IsParentQuestActive(parentQuestId) then
         return true
     end
 
@@ -433,7 +433,7 @@ end
 
 ---@param parentID number
 ---@return boolean
-function QuestieDB:IsParentQuestActive(parentID)
+function QuestieDB.IsParentQuestActive(parentID)
     if (not parentID) or (parentID == 0) then
         return false
     end
@@ -554,7 +554,7 @@ function QuestieDB:IsDoable(questId)
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
 
     if parentQuest and parentQuest ~= 0 then
-        local isParentQuestActive = QuestieDB:IsParentQuestActive(parentQuest)
+        local isParentQuestActive = QuestieDB.IsParentQuestActive(parentQuest)
         -- If the quest has a parent quest then only show it if the
         -- parent quest is in the quest log
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isParentQuestActive:", isParentQuestActive)
