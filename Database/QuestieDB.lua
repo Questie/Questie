@@ -532,27 +532,21 @@ function QuestieDB.IsDoable(questId)
         return false
     end
 
-    local Quest = QuestieDB:GetQuest(questId)
-    if (not Quest) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is not in the database!")
-        return false
-    end
-
-    local requiredRaces = Quest.requiredRaces --QuestieDB.QueryQuestSingle(questId, "requiredRaces")
+    local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (not checkRace[requiredRaces]) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId)
         return false
     end
 
-    local requiredClasses = Quest.requiredClasses
+    local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
     if (not checkClass[requiredClasses]) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId)
         return false
     end
 
-    local nextQuestInChain = Quest.nextQuestInChain --QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
+    local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
@@ -563,7 +557,7 @@ function QuestieDB.IsDoable(questId)
 
     -- Check if a quest which is exclusive to the current has already been completed or accepted
     -- If yes the current quest can't be accepted
-    local ExclusiveQuestGroup = Quest.exclusiveTo --QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
+    local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
@@ -573,7 +567,7 @@ function QuestieDB.IsDoable(questId)
         end
     end
 
-    local parentQuest = Quest.parentQuest --QuestieDB.QueryQuestSingle(questId, "parentQuest")
+    local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
 
     if parentQuest and parentQuest ~= 0 then
         local isParentQuestActive = QuestieDB.IsParentQuestActive(parentQuest)
@@ -583,22 +577,22 @@ function QuestieDB.IsDoable(questId)
         return isParentQuestActive
     end
 
-    local requiredSkill = Quest.requiredSkill --QuestieDB.QueryQuestSingle(questId, "requiredSkill")
+    local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
     if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId)
         return false
     end
 
-    local requiredMinRep = Quest.requiredMinRep --QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
-    local requiredMaxRep = Quest.requiredMaxRep --QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
+    local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
+    local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
 
     if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId)
         return false
     end
 
-    local preQuestGroup = Quest.preQuestGroup --QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
+    local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
 
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
     if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
@@ -607,7 +601,7 @@ function QuestieDB.IsDoable(questId)
         return isPreQuestGroupFulfilled
     end
 
-    local preQuestSingle = Quest.preQuestSingle --QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
