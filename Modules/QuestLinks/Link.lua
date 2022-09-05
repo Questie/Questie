@@ -72,7 +72,7 @@ end
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
     local questLevel, _ = QuestieLib:GetTbcLevel(questId)
-    local isRepeatable = QuestieDB:IsRepeatable(questId)
+    local isRepeatable = QuestieDB.IsRepeatable(questId)
 
     if (not senderGUID) then
         senderGUID = UnitGUID("player")

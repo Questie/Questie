@@ -206,7 +206,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         prequestMissingCounter = prequestMissingCounter + 1
                     end
                 -- Repeatable quests
-                elseif QuestieDB:IsRepeatable(questId) then
+                elseif QuestieDB.IsRepeatable(questId) then
                     tinsert(zoneTree[4].children, temp)
                     repeatableCounter = repeatableCounter + 1
                 -- Available quests

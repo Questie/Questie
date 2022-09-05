@@ -314,7 +314,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsRepeatable(questId)
+function QuestieDB.IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
     return flags and mod(flags, 2) == 1
 end
