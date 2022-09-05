@@ -321,7 +321,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsDailyQuest(questId)
+function QuestieDB.IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
     -- test a bit flag: (value % (2*flag) >= flag)
     return flags and (flags % QUEST_FLAGS_DAILY_X2) >= QUEST_FLAGS_DAILY
