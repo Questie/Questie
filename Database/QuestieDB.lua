@@ -403,7 +403,7 @@ end
 ---@param maxLevel number
 ---@return boolean
 function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local level, requiredLevel = QuestieLib:GetTbcLevel(questId)
+    local level, requiredLevel = QuestieLib.GetTbcLevel(questId)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if QuestieDB.IsParentQuestActive(parentQuestId) then
@@ -696,7 +696,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         QO[stringKey] = rawdata[intKey]
     end
 
-    local questLevel, requiredLevel = QuestieLib:GetTbcLevel(questId)
+    local questLevel, requiredLevel = QuestieLib.GetTbcLevel(questId)
     QO.level = questLevel
     QO.requiredLevel = requiredLevel
 

@@ -116,7 +116,7 @@ end
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
     local name = QuestieDB.QueryQuestSingle(questId, "name");
-    local level, _ = QuestieLib:GetTbcLevel(questId);
+    local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
@@ -192,7 +192,7 @@ end
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId number
 ---@return number, number @questLevel & requiredLevel
-function QuestieLib:GetTbcLevel(questId)
+function QuestieLib.GetTbcLevel(questId)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
         local playerLevel = QuestiePlayer.GetPlayerLevel();
@@ -386,7 +386,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        local questLevel, _ = QuestieLib:GetTbcLevel(q);
+        local questLevel, _ = QuestieLib.GetTbcLevel(q);
         tinsert(sortedQuestsByLevel, {questLevel or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)

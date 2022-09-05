@@ -109,7 +109,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     local ret = QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy") or {}
     local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6]
 
-    local questLevel, _ = QuestieLib:GetTbcLevel(id);
+    local questLevel, _ = QuestieLib.GetTbcLevel(id);
 
     -- header
     local title = AceGUI:Create("Heading")
@@ -546,7 +546,7 @@ _HandleOnGroupSelected = function (resultType)
     local selectedId = tonumber(resultType.localstatus.selected)
     if IsShiftKeyDown() and lastOpenSearch == "quest" then
         local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
-        local questLevel, _ = QuestieLib:GetTbcLevel(selectedId);
+        local questLevel, _ = QuestieLib.GetTbcLevel(selectedId);
 
         if Questie.db.global.trackerShowQuestLevel then
             ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))

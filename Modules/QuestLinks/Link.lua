@@ -59,7 +59,7 @@ end
 ---@return string
 function QuestieLink:GetQuestLinkStringById(questId)
     local questName = QuestieDB.QueryQuestSingle(questId, "name");
-    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+    local questLevel, _ = QuestieLib.GetTbcLevel(questId);
     return QuestieLink:GetQuestLinkString(questLevel, questName, questId)
 end
 
@@ -71,7 +71,7 @@ end
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
-    local questLevel, _ = QuestieLib:GetTbcLevel(questId)
+    local questLevel, _ = QuestieLib.GetTbcLevel(questId)
     local isRepeatable = QuestieDB.IsRepeatable(questId)
 
     if (not senderGUID) then
