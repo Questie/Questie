@@ -336,7 +336,7 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsRaidQuest(questId)
+function QuestieDB.IsRaidQuest(questId)
     local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 62
 end
