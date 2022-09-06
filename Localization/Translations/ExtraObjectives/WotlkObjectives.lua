@@ -492,7 +492,7 @@ local wotlkObjectiveLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = false,
+        ["zhCN"] = "攻击毒皮魔暴龙",
     },
 }
 

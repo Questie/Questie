@@ -651,6 +651,12 @@ function QuestieWotlkQuestFixes:Load()
         [13429] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.",{[zoneIDs.SHADOWMOON_VALLEY]={{71.02,46.12,},},},},
         },
+        [13430] = {
+            [questKeys.exclusiveTo] = {10888},
+        },
+        [13431] = {
+            [questKeys.exclusiveTo] = {10901},
+        },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },

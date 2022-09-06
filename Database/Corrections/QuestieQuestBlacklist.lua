@@ -1059,9 +1059,12 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
+        [10888] = true, -- Got replaced by 13430
+        [10901] = true, -- Got replaced by 13431
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
+        [25229] = true, -- Not in the game
 
         --- Phase 2 Ulduar / Argent Tournament
         [13633] = true,

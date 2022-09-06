@@ -196,13 +196,13 @@ end
 function QuestieLib.GetTbcLevel(questId, playerLevel)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
-        local playerLevel = playerLevel or QuestiePlayer.GetPlayerLevel();
-        if (requiredLevel > playerLevel) then
+        local level = playerLevel or QuestiePlayer.GetPlayerLevel();
+        if (requiredLevel > level) then
             questLevel = requiredLevel;
         else
-            questLevel = playerLevel;
+            questLevel = level;
             -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
-            requiredLevel = playerLevel;
+            requiredLevel = level;
         end
     end
     return questLevel, requiredLevel;
