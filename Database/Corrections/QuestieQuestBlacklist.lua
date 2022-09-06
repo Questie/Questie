@@ -1059,6 +1059,7 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
+        [10888] = true, -- Got replaced by 13430
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
