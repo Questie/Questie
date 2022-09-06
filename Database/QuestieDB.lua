@@ -406,10 +406,10 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     return false
 end
 
----@param questId number
----@param minLevel number
----@param maxLevel number
----@param playerLevel number? @Pass player level to avoid calling UnitLevel or to use custom level
+---@param questId QuestId
+---@param minLevel Level
+---@param maxLevel Level
+---@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
 function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
     local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
