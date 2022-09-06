@@ -654,6 +654,9 @@ function QuestieWotlkQuestFixes:Load()
         [13430] = {
             [questKeys.exclusiveTo] = {10888},
         },
+        [13430] = {
+            [questKeys.exclusiveTo] = {10901},
+        },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },
