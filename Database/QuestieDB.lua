@@ -637,7 +637,7 @@ local _GetIconScale = function()
     return Questie.db.global.objectScale or 1
 end
 
----@param questId number
+---@param questId QuestId
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     if not questId then
@@ -658,33 +658,33 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@class ObjectiveIndex
 
     ---@class Quest
-    ---@field public Id number
-    ---@field public name string
-    ---@field public startedBy table
-    ---@field public finishedBy table
-    ---@field public requiredLevel number
-    ---@field public questLevel number
+    ---@field public Id QuestId
+    ---@field public name Name
+    ---@field public startedBy StartedBy
+    ---@field public finishedBy FinishedBy
+    ---@field public requiredLevel Level
+    ---@field public questLevel Level
     ---@field public requiredRaces number @bitmask
     ---@field public requiredClasses number @bitmask
-    ---@field public objectivesText table
-    ---@field public triggerEnd table
-    ---@field public objectives table
-    ---@field public sourceItemId number
-    ---@field public preQuestGroup table
-    ---@field public preQuestSingle table
-    ---@field public childQuests table
-    ---@field public inGroupWith table
-    ---@field public exclusiveTo table
-    ---@field public zoneOrSort number
-    ---@field public requiredSkill table
-    ---@field public requiredMinRep table
-    ---@field public requiredMaxRep table
-    ---@field public requiredSourceItems table
+    ---@field public objectivesText string[]
+    ---@field public triggerEnd { [1]: string, [2]: table<AreaId, CoordPair[]>}
+    ---@field public objectives RawObjectives
+    ---@field public sourceItemId ItemId
+    ---@field public preQuestGroup QuestId[]
+    ---@field public preQuestSingle QuestId[]
+    ---@field public childQuests QuestId[]
+    ---@field public inGroupWith QuestId[]
+    ---@field public exclusiveTo QuestId[]
+    ---@field public zoneOrSort ZoneOrSort
+    ---@field public requiredSkill SkillPair
+    ---@field public requiredMinRep ReputationPair
+    ---@field public requiredMaxRep ReputationPair
+    ---@field public requiredSourceItems ItemId[]
     ---@field public nextQuestInChain number
     ---@field public questFlags number @bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
-    ---@field public parentQuest number
-    ---@field public reputationReward table
+    ---@field public parentQuest QuestId
+    ---@field public reputationReward ReputationPair[]
     ---@field public extraObjectives table
     local QO = {
         Id = questId
@@ -700,6 +700,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     QO.level = questLevel
     QO.requiredLevel = requiredLevel
 
+    ---@type StartedBy
     local startedBy = rawdata[questKeys.startedBy]
     QO.Starts = {
         NPC = startedBy[1],
@@ -714,6 +715,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     QO.IsComplete = _QuestieDB._QO_IsComplete
 
+    ---@type FinishedBy
     local finishedBy = rawdata[questKeys.finishedBy]
     if finishedBy[1] ~= nil then
         for _, id in pairs(finishedBy[1]) do
@@ -721,6 +723,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 QO.Finisher = {
                     Type = "monster",
                     Id = id,
+                    ---@type Name @We have to hard-type it here because of the function
                     Name = QuestieDB.QueryNPCSingle(id, "name")
                 }
             end
@@ -732,6 +735,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 QO.Finisher = {
                     Type = "object",
                     Id = id,
+                    ---@type Name @We have to hard-type it here because of the function
                     Name = QuestieDB.QueryObjectSingle(id, "name")
                 }
             end
@@ -741,14 +745,16 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     --- to differentiate from the current quest log info.
     --- Quest objectives generated from DB+Corrections.
     --- Data itself is for example for monster type { Type = "monster", Id = 16518, Text = "Nestlewood Owlkin inoculated" }
-    ---@type table<number, table>
+    ---@type Objective[]
     QO.ObjectiveData = {}
 
+    ---@type RawObjectives
     local objectives = rawdata[questKeys.objectives]
     if objectives ~= nil then
         if objectives[1] ~= nil then
             for _, creatureObjective in pairs(objectives[1]) do
                 if creatureObjective ~= nil then
+                    ---@type NpcObjective
                     local obj = {
                         Type = "monster",
                         Id = creatureObjective[1],
@@ -761,6 +767,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         if objectives[2] ~= nil then
             for _, objectObjective in pairs(objectives[2]) do
                 if objectObjective ~= nil then
+                    ---@type ObjectObjective
                     local obj = {
                         Type = "object",
                         Id = objectObjective[1],
@@ -773,6 +780,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         if objectives[3] ~= nil then
             for _, itemObjective in pairs(objectives[3]) do
                 if itemObjective ~= nil then
+                    ---@type ItemObjective
                     local obj = {
                         Type = "item",
                         Id = itemObjective[1],
@@ -783,6 +791,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             end
         end
         if objectives[4] ~= nil then
+            ---@type ReputationObjective
             local reputationObjective = {
                 Type = "reputation",
                 Id = objectives[4][1],
@@ -790,8 +799,9 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             }
             tinsert(QO.ObjectiveData, reputationObjective);
         end
-        if type(objectives[5]) == "table" and #objectives[5] > 0 then
+        if objectives[5] ~= nil and type(objectives[5]) == "table" and #objectives[5] > 0 then
             for _, creditObjective in pairs(objectives[5]) do
+                ---@type KillObjective
                 local killCreditObjective = {
                     Type = "killcredit",
                     IdList = creditObjective[1],
@@ -813,6 +823,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     -- Events need to be added at the end of ObjectiveData
     local triggerEnd = rawdata[questKeys.triggerEnd]
     if triggerEnd then
+        ---@type TriggerEndObjective
         local obj = {
             Type = "event",
             Text = triggerEnd[1],
@@ -834,6 +845,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     QO.SpecialObjectives = {}
 
+    ---@type ItemId[]
     local requiredSourceItems = rawdata[questKeys.requiredSourceItems]
     if requiredSourceItems ~= nil then --required source items
         for _, itemId in pairs(requiredSourceItems) do
@@ -841,6 +853,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 QO.SpecialObjectives[itemId] = {
                     Type = "item",
                     Id = itemId,
+                    ---@type string @We have to hard-type it here because of the function
                     Description = QuestieDB.QueryItemSingle(itemId, "name")
                 }
             end
@@ -918,6 +931,7 @@ function QuestieDB:GetCreatureLevels(quest)
         if quest.objectives[1] then -- Killing creatures
             for _, creatureObjective in pairs(quest.objectives[1]) do
                 local npcId = creatureObjective[1]
+                local npcIdff = creatureObjective[2]
                 _CollectCreatureLevels({npcId})
             end
         end

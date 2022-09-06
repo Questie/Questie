@@ -2,10 +2,6 @@
 ---@class QuestXP : Module
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
----@class QuestId
----@class Level
----@class XP
-
 ---@type table<QuestId,table<Level,XP>>
 QuestXP.db = {}
 

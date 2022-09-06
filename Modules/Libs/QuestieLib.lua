@@ -190,8 +190,8 @@ end
 
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
----@param questId number
----@return number, number @questLevel & requiredLevel
+---@param questId QuestId
+---@return Level questLevel, Level requiredLevel @questLevel & requiredLevel
 function QuestieLib.GetTbcLevel(questId)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
@@ -207,12 +207,14 @@ function QuestieLib.GetTbcLevel(questId)
     return questLevel, requiredLevel;
 end
 
----@param questId number
----@param level number @The quest level
+---@param questId QuestId
+---@param level Level @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, _, level, blizzLike)
     local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
+    local level = tostring(level)
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
