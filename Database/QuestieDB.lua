@@ -379,13 +379,8 @@ function QuestieDB.GetQuestTagInfo(questId)
     end
     local questType, questTag = GetQuestTagInfo(questId)
 
-    if questTagCorrections[questId] then
-        questType = questTagCorrections[questId][1]
-        questTag = questTagCorrections[questId][2]
-    end
-
     questTagCache[questId] = {questType, questTag}
-    return questTagCache[questId][1], questTagCache[questId][2]
+    return questType, questTag
 end
 
 ---@param questId number
