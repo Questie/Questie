@@ -359,18 +359,18 @@ _SetMode = function(self, mode)
         if mode == "zone" then
             local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT,
-                trackerFontSizeZone, _GetOutline() or nil)
+                trackerFontSizeZone, _GetOutline())
             self.label:SetHeight(trackerFontSizeZone)
         elseif mode == "quest" then
             local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT,
-                trackerFontSizeQuest, _GetOutline() or nil)
+                trackerFontSizeQuest, _GetOutline())
             self.label:SetHeight(trackerFontSizeQuest)
             self.button = nil
         elseif mode == "objective" then
             local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT,
-                trackerFontSizeObjective, _GetOutline() or nil)
+                trackerFontSizeObjective, _GetOutline())
             self.label:SetHeight(trackerFontSizeObjective)
         end
     end

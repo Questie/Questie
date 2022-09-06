@@ -866,6 +866,12 @@ local trackerOptionsLocales = {
         ["esES"] = "El tamaño de fuente utilizado para los objetivos.",
         ["frFR"] = "La taille de police utilisée pour les objectifs.",
     },
+    ["Outline for Zones, Titles, and Objectives"] = {
+        ["enUS"] = true,
+    },
+    ["The outline used for Quest Zones, Titles, and Objectives in Tracker."] = {
+        ["enUS"] = true,
+    },
     ["Tracker SetPoint"] = {
         ["ptBR"] = "Rastreador SetPoint",
         ["ruRU"] = "Положение трекера",

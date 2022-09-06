@@ -689,7 +689,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return l10n('Outline for Zones, Titles, and Objectives'); end,
                 desc = function() return l10n('The outline used for Quest Zones, Titles, and Objectives in Tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return Questie.db.global.trackerFontOutline or nil; end,
+                get = function() return Questie.db.global.trackerFontOutline; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontOutline = value
                     QuestieTracker:Update()
