@@ -654,7 +654,7 @@ function QuestieWotlkQuestFixes:Load()
         [13430] = {
             [questKeys.exclusiveTo] = {10888},
         },
-        [13430] = {
+        [13431] = {
             [questKeys.exclusiveTo] = {10901},
         },
         [13549] = {
