@@ -371,6 +371,9 @@ end
 ---@param questId number
 ---@return number|nil questType, string|nil questTag
 function QuestieDB.GetQuestTagInfo(questId)
+    if questTagCorrections[questId] then
+        return questTagCorrections[questId][1], questTagCorrections[questId][2]
+    end
     if questTagCache[questId] then
         return questTagCache[questId][1], questTagCache[questId][2]
     end
