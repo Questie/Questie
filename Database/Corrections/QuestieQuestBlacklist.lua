@@ -1062,6 +1062,7 @@ function QuestieQuestBlacklist:Load()
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
+        [25229] = true, -- Not in the game
 
         --- Phase 2 Ulduar / Argent Tournament
         [13633] = true,
