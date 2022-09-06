@@ -65,7 +65,7 @@ local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
----@type table<number, table<number, string>>
+---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
     [373] = {81, "Dungeon"},
     [4146] = {81, "Dungeon"},
@@ -88,6 +88,10 @@ local questTagCorrections = {
     [8407] = {41, "PvP"},
     [8408] = {41, "PvP"},
 }
+
+---Gets populated and used in the QuestieDB.GetQuestTagInfo function
+---@type table<number, {[1]: number|nil, [2]: string|nil}>
+local questTagCache = {}
 
 -- race bitmask data, for easy access
 local VANILLA = string.byte(GetBuildInfo(), 1) == 49
@@ -365,8 +369,11 @@ end
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
 ---@param questId number
----@return table<number, string>
+---@return number|nil questType, string|nil questTag
 function QuestieDB.GetQuestTagInfo(questId)
+    if questTagCache[questId] then
+        return questTagCache[questId][1], questTagCache[questId][2]
+    end
     local questType, questTag = GetQuestTagInfo(questId)
 
     if questTagCorrections[questId] then
@@ -374,7 +381,8 @@ function QuestieDB.GetQuestTagInfo(questId)
         questTag = questTagCorrections[questId][2]
     end
 
-    return questType, questTag
+    questTagCache[questId] = {questType, questTag}
+    return questTagCache[questId][1], questTagCache[questId][2]
 end
 
 ---@param questId number
@@ -401,9 +409,10 @@ end
 ---@param questId number
 ---@param minLevel number
 ---@param maxLevel number
+---@param playerLevel number? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
-function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local level, requiredLevel = QuestieLib.GetTbcLevel(questId)
+function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
+    local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if QuestieDB.IsParentQuestActive(parentQuestId) then

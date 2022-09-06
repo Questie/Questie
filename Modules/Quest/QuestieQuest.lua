@@ -1286,19 +1286,20 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                     ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
                 ) then
 
-                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB.IsDoable(questId) then
+                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId) then
                         QuestieQuest.availableQuests[questId] = true
                         --If the quest is not drawn draw the quest, otherwise skip.
                         if (not QuestieMap.questIdFrames[questId]) then
-                            ---@type Quest
                             local quest = QuestieDB:GetQuest(questId)
-                            if (not quest.tagInfoWasCached) then
-                                Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
-                                QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
-                                quest.tagInfoWasCached = true
+                            if (quest) then
+                                if (not quest.tagInfoWasCached) then
+                                    Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
+                                    QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
+                                    quest.tagInfoWasCached = true
+                                end
+                                --Draw a specific quest through the function
+                                _QuestieQuest:DrawAvailableQuest(quest)
                             end
-                            --Draw a specific quest through the function
-                            _QuestieQuest:DrawAvailableQuest(quest)
                         else
                             --We might have to update the icon in this situation (config changed/level up)
                             for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
