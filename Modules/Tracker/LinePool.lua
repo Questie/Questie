@@ -345,7 +345,7 @@ _OnHighlightLeave = function()
     end
 end
 
-_GetOutline = function()
+local _GetOutline = function()
     local outlineValue = Questie.db.global.trackerFontOutline
     if outlineValue == "NONE" then
         return nil
