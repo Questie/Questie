@@ -13,7 +13,7 @@ function Hooks:HookQuestLogTitle()
 
     -- We can not use hooksecurefunc because this needs to be a pre-hook to work properly unfortunately
     QuestLogTitleButton_OnClick = function(self, button)
-        if (not self) or self.isHeader or (not IsShiftKeyDown()) then
+        if (not self) or self.isHeader or (not IsShiftKeyDown()) or (not Questie.db.global.trackerEnabled) then
             baseQLTB_OnClick(self, button)
             return
         end
