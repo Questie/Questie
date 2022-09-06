@@ -191,11 +191,12 @@ end
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId number
----@return number, number @questLevel & requiredLevel
-function QuestieLib.GetTbcLevel(questId)
+---@param playerLevel number? ---@ PlayerLevel, if nil we fetch current level
+---@return number questLevel, number requiredLevel @questLevel & requiredLevel
+function QuestieLib.GetTbcLevel(questId, playerLevel)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
-        local playerLevel = QuestiePlayer.GetPlayerLevel();
+        local playerLevel = playerLevel or QuestiePlayer.GetPlayerLevel();
         if (requiredLevel > playerLevel) then
             questLevel = requiredLevel;
         else
