@@ -1,5 +1,5 @@
 ---@class QuestieReputation
-------@field hasFactionChange boolean @true if some faction leveled up since the last QuestieQuest:CalculateAndDrawAvailableQuestsIterative
+---@field hasFactionChange boolean @true if some faction leveled up since the last QuestieQuest:CalculateAndDrawAvailableQuestsIterative
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 
 local playerReputations = {}
