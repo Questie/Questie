@@ -36,7 +36,7 @@ QuestieDB.sortKeys = {
     LOVE_IS_IN_THE_AIR = -376,
 }
 
-local isWotlk = string.byte(GetBuildInfo(), 1) == 51
+local isWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
 QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [1] = 12,
