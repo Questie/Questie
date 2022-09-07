@@ -513,9 +513,6 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
     return false
 end
 
-local _ProfessionRequirementsCache = {}
-local _FactionRequirementsCache = {}
-
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsDoable(questId)
@@ -580,32 +577,18 @@ function QuestieDB.IsDoable(questId)
         return isParentQuestActive
     end
 
-    if QuestieProfessions.hasSkillLevelUp or _ProfessionRequirementsCache[questId] == nil then
-        local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
+    local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
-        local hasProfessionAndSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
-        _ProfessionRequirementsCache[questId] = hasProfessionAndSkillLevel
-
-        if (not hasProfessionAndSkillLevel) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId)
-            return false
-        end
-    elseif (_ProfessionRequirementsCache[questId] == false) then
+    if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId)
         return false
     end
 
-    if QuestieReputation.hasFactionChange or _FactionRequirementsCache[questId] == nil then
-        local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
-        local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
+    local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
+    local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
 
-        local hasReputation = QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
-        _FactionRequirementsCache[questId] = hasReputation
-
-        if (not hasReputation) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId)
-            return false
-        end
-    elseif (_FactionRequirementsCache[questId] == false) then
+    if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
+        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId)
         return false
     end
 

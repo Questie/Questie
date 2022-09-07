@@ -1,12 +1,9 @@
 ---@class QuestieReputation
----@field hasFactionChange boolean @true if some faction leveled up since the last QuestieQuest:CalculateAndDrawAvailableQuestsIterative
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
 
 local playerReputations = {}
 
 local _ReachedNewStanding, _WinterSaberChanged
-
-QuestieReputation.hasFactionChange = true -- This is initially true and will be set to false after each QuestieQuest:CalculateAndDrawAvailableQuestsIterative
 
 --- Updates all factions a player already discovered and checks if any of these
 --- reached a new reputation level
@@ -32,7 +29,6 @@ function QuestieReputation:Update(isInit)
         end
     end
 
-    QuestieReputation.hasFactionChange = QuestieReputation.hasFactionChange or factionChanged
     return factionChanged
 end
 

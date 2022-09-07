@@ -1,5 +1,4 @@
 ---@class QuestieProfessions
----@field hasSkillLevelUp boolean @true if some profession leveled up since the last QuestieQuest:CalculateAndDrawAvailableQuestsIterative
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
 
 ---@type l10n
@@ -9,8 +8,6 @@ local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
 local alternativeProfessionNames = {}
-
-QuestieProfessions.hasSkillLevelUp = true -- This is initially true and will be set to false after each QuestieQuest:CalculateAndDrawAvailableQuestsIterative
 
 function QuestieProfessions:Init()
 
@@ -47,8 +44,6 @@ function QuestieProfessions:Update()
             playerProfessions[professionTable[skillName]] = {skillName, skillRank}
         end
     end
-
-    QuestieProfessions.hasSkillLevelUp = QuestieProfessions.hasSkillLevelUp or isProfessionUpdate
     return isProfessionUpdate
 end
 
