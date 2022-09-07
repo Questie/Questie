@@ -907,8 +907,22 @@ function QuestieTracker:Update()
     end)
 
     _UpdateLayout()
-
     buttonIndex = 0
+
+    if not Questie.db.char.isTrackerExpanded then
+        -- The Tracker is not expanded. No use to calculate anything - just hide everything
+        local xOff, yOff = _QuestieTracker.baseFrame:GetLeft(), _QuestieTracker.baseFrame:GetTop()
+
+        _QuestieTracker.baseFrame:ClearAllPoints()
+        -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
+        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+
+        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
+        _QuestieTracker.trackedQuestsFrame:Hide()
+
+        LinePool.HideUnusedLines()
+        return
+    end
 
     local order = _GetSortedQuestIds()
     QuestieTracker._order = order
@@ -1205,18 +1219,7 @@ function QuestieTracker:Update()
     local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
     local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
 
-    if not Questie.db.char.isTrackerExpanded then
-        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
-
-        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
-            _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
-        else
-            _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
-        end
-
-        _QuestieTracker.trackedQuestsFrame:Hide()
-
-    elseif line then
+    if line then
         if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
             if (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
                 _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
