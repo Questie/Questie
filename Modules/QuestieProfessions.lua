@@ -79,7 +79,7 @@ function QuestieProfessions:Update()
             --? Reset all autoBlacklisted quests if a new skill is learned
             QuestieQuest.ResetAutoblacklistCategory("skill")
         elseif temporaryPlayerProfessions[professionId][2] > playerProfessions[professionId][2] then
-            print(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. playerProfessions[professionId][2] .. " -> " .. temporaryPlayerProfessions[professionId][2])
+            Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. playerProfessions[professionId][2] .. " -> " .. temporaryPlayerProfessions[professionId][2])
             hasProfessionUpdate = true -- A profession leveled up, not something like "Defense"
         end
     end
