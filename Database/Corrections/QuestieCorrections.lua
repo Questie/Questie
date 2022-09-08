@@ -139,10 +139,10 @@ function QuestieCorrections:MinimalInit() -- db already compiled
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
     QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load()) 
 
-    if(Questie.IsWotlk) then
+    if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists
         for id, hide in pairs(QuestieQuestBlacklist:LoadAutoBlacklistWotlk()) do
-            if not QuestieCorrections.hiddenQuests[id] then
+            if (not QuestieCorrections.hiddenQuests[id]) then
                 QuestieCorrections.hiddenQuests[id] = hide
             end
         end
