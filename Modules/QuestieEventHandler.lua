@@ -184,9 +184,9 @@ end
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
     Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_SKILL")
-    local isProfUpdate = QuestieProfessions:Update()
+    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
-    if isProfUpdate then
+    if isProfUpdate or isNewProfession then
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end

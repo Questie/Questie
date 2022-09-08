@@ -583,10 +583,17 @@ function QuestieDB.IsDoable(questId)
 
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
-    if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId)
-        return false
-    end
+    if (requiredSkill) then
+        local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+        if (not (hasProfession and hasSkillLevel)) then
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId)
+            --? We haven't got the profession so we blacklist it.
+            if(not hasProfession) then
+                QuestieQuest.autoBlacklist[questId] = "skill"
+            end
+            return false
+        end
+    end 
 
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
