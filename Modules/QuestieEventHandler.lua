@@ -61,14 +61,14 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
-    Questie:RegisterBucketEvent("QUEST_FINISHED", 0.2, QuestieAuto.QUEST_FINISHED)
-    Questie:RegisterBucketEvent("QUEST_DETAIL", 0.2, QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
-    Questie:RegisterBucketEvent("QUEST_PROGRESS", 0.2, QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterBucketEvent("GOSSIP_SHOW", 0.2, QuestieAuto.GOSSIP_SHOW)
-    Questie:RegisterBucketEvent("QUEST_GREETING", 0.1, QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
-    Questie:RegisterBucketEvent("QUEST_ACCEPT_CONFIRM", 0.2, QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
+    Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
+    Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
+    Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
+    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterBucketEvent("QUEST_COMPLETE", 0.2, QuestieAuto.QUEST_COMPLETE) -- When complete window shows
+    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
 
     -- Questie Comms Events
 
@@ -221,7 +221,7 @@ function _EventHandler:GroupJoined()
     Questie:Debug(Questie.DEBUG_DEVELOP, "GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
-    checkTimer = C_Timer.NewTicker(0.2, function()
+    checkTimer = C_Timer.NewTicker(0.1, function()
         local partyPending = UnitInParty("player")
         local isInParty = UnitInParty("party1")
         local isInRaid = UnitInRaid("raid1")
