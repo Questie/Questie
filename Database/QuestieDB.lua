@@ -54,7 +54,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
-local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+local _QuestieQuest = QuestieQuest.private
 
 local tinsert = table.insert
 
