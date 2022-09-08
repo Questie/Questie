@@ -1,6 +1,6 @@
 ---@class QuestieReputation
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
----@class QuestieQuest
+---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local playerReputations = {}
@@ -24,7 +24,7 @@ function QuestieReputation:Update(isInit)
         local name, _, standingId, _, _, barValue, _, _, isHeader, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
         if not isHeader then
             local previousValues = playerReputations[factionID]
-            if previousValues == nil then
+            if (not previousValues) then
                 --? Reset all autoBlacklisted quests if a faction gets discovered
                 QuestieQuest.ResetAutoblacklistCategory("rep")
                 newFaction = true
@@ -107,40 +107,7 @@ end
 --- Checkout https://github.com/Questie/Questie/wiki/Corrections#reputation-levels for more information
 ---@return boolean HasReputation Is the player within the required reputation ranges specified by the parameters
 function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
-    --? Used for validation, remove
-    -- local hasMinRep = true -- the player has reached the min required reputation value
-    -- local hasMaxRep = true -- the player has not reached the max allowed reputation value
-
-    -- if requiredMinRep ~= nil then
-    --     local minFactionID = requiredMinRep[1]
-    --     local reqMinValue = requiredMinRep[2]
-
-    --     if playerReputations[minFactionID] ~= nil then
-    --         hasMinRep = playerReputations[minFactionID][2] >= reqMinValue
-    --     else
-    --         hasMinRep = false
-    --     end
-    -- end
-    -- if requiredMaxRep ~= nil then
-    --     local maxFactionID = requiredMaxRep[1]
-    --     local reqMaxValue = requiredMaxRep[2]
-
-    --     if playerReputations[maxFactionID] ~= nil then
-    --         hasMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
-    --     else
-    --         hasMaxRep = false
-    --     end
-    -- end
-    -- -- return hasMinRep and hasMaxRep
-    -- if(requiredMinRep == nil and requiredMaxRep == nil) then
-    --     return true
-    -- end
-
     local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
-
-    -- if hasMinRep and hasMaxRep ~= ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction)) then
-    --     Questie:Error("This should not happen something is very wrong")
-    -- end
 
     return ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))
 end

@@ -1304,7 +1304,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
             local questId = index
             if questId then
                 --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
-                if (autoBlacklist[questId] == nil) then
+                if (not autoBlacklist[questId]) then
                     --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
                     if(
                         (not Questie.db.char.complete[questId]) and -- Don't show completed quests
