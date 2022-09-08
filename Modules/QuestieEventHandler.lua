@@ -49,7 +49,8 @@ do
 
     local locale = GetLocale()
     ---@diagnostic disable-next-line: undefined-global
-    local FACTION_STANDING_CHANGED_LOCAL, replaceCount = FACTION_STANDING_CHANGED or "You are now %s with %s.", nil
+    local FACTION_STANDING_CHANGED_LOCAL = FACTION_STANDING_CHANGED or "You are now %s with %s."
+    local replaceCount
 
     if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
         FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%%d$s", ".+")
