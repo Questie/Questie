@@ -96,7 +96,7 @@ local questTagCorrections = {
 local questTagCache = {}
 
 -- race bitmask data, for easy access
-local VANILLA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
+local VANILLA = string.byte(GetBuildInfo(), 1) == 49
 
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
