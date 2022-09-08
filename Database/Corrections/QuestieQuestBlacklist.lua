@@ -1237,8 +1237,7 @@ QuestieQuestBlacklist.AQWarEffortQuests = {
     [10501] = true,
 }
 
-
-function QuestieQuestBlacklist:LoadAutoBlacklistWotlk()
+function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
     return {
         [781] = true, --* Attack on Camp Narache (https://wotlk.wowhead.com/wotlk/quest=781)
         [1048] = true, --* Into The Scarlet Monastery (https://wotlk.wowhead.com/wotlk/quest=1048)

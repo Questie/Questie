@@ -141,7 +141,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists
-        for id, hide in pairs(QuestieQuestBlacklist:LoadAutoBlacklistWotlk()) do
+        for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
             if (not QuestieCorrections.hiddenQuests[id]) then
                 QuestieCorrections.hiddenQuests[id] = hide
             end
