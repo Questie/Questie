@@ -482,6 +482,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "使用机甲专家的手册",
     },
+    ["Melee attack Venomhide Ravasaur"] = { -- 13850
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Greife Gifthautravasaurus im Nahkampf an",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = "攻击毒皮魔暴龙",
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do

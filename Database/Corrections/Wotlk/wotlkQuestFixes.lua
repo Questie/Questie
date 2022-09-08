@@ -19,6 +19,9 @@ function QuestieWotlkQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [7800] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
@@ -26,6 +29,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {},
         },
         [10667] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10670] = {
             [questKeys.preQuestSingle] = {},
         },
         [10702] = {
@@ -645,11 +651,20 @@ function QuestieWotlkQuestFixes:Load()
         [13429] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.",{[zoneIDs.SHADOWMOON_VALLEY]={{71.02,46.12,},},},},
         },
+        [13430] = {
+            [questKeys.exclusiveTo] = {10888},
+        },
+        [13431] = {
+            [questKeys.exclusiveTo] = {10901},
+        },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
+        },
+        [13850] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {

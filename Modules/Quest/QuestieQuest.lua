@@ -1268,6 +1268,9 @@ local timer
 function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer.GetPlayerLevel())
 
+    -- Localize the variable for speeeeed
+    local debugEnabled = Questie.db.global.debugEnabled
+
     local data = QuestieDB.QuestPointers or QuestieDB.questData
     local index = next(data)
 
@@ -1315,7 +1318,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                         ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
                     ) then
 
-                        if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel) and QuestieDB.IsDoable(questId) then
+                        if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
                             QuestieQuest.availableQuests[questId] = true
                             --If the quest is not drawn draw the quest, otherwise skip.
                             if (not QuestieMap.questIdFrames[questId]) then

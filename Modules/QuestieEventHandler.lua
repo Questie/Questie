@@ -255,7 +255,7 @@ function _EventHandler:GroupJoined()
     Questie:Debug(Questie.DEBUG_DEVELOP, "GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
-    checkTimer = C_Timer.NewTicker(0.1, function()
+    checkTimer = C_Timer.NewTicker(0.2, function()
         local partyPending = UnitInParty("player")
         local isInParty = UnitInParty("party1")
         local isInRaid = UnitInRaid("raid1")

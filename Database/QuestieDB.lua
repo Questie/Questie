@@ -67,7 +67,7 @@ local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
----@type table<number, table<number, string>>
+---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
     [373] = {81, "Dungeon"},
     [4146] = {81, "Dungeon"},
@@ -91,8 +91,12 @@ local questTagCorrections = {
     [8408] = {41, "PvP"},
 }
 
+---Gets populated and used in the QuestieDB.GetQuestTagInfo function
+---@type table<number, {[1]: number|nil, [2]: string|nil}>
+local questTagCache = {}
+
 -- race bitmask data, for easy access
-local VANILLA = string.byte(GetBuildInfo(), 1) == 49
+local VANILLA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
@@ -382,15 +386,17 @@ end
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
 ---@param questId number
----@return table<number, string>
+---@return number|nil questType, string|nil questTag
 function QuestieDB.GetQuestTagInfo(questId)
+    if questTagCorrections[questId] then
+        return questTagCorrections[questId][1], questTagCorrections[questId][2]
+    end
+    if questTagCache[questId] then
+        return questTagCache[questId][1], questTagCache[questId][2]
+    end
     local questType, questTag = GetQuestTagInfo(questId)
 
-    if questTagCorrections[questId] then
-        questType = questTagCorrections[questId][1]
-        questTag = questTagCorrections[questId][2]
-    end
-
+    questTagCache[questId] = {questType, questTag}
     return questType, questTag
 end
 
@@ -418,9 +424,10 @@ end
 ---@param questId number
 ---@param minLevel number
 ---@param maxLevel number
+---@param playerLevel number? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
-function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local level, requiredLevel = QuestieLib.GetTbcLevel(questId)
+function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
+    local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if QuestieDB.IsParentQuestActive(parentQuestId) then
@@ -516,28 +523,29 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
 end
 
 ---@param questId number
+---@param debugPrint boolean?
 ---@return boolean
-function QuestieDB.IsDoable(questId)
+function QuestieDB.IsDoable(questId, debugPrint)
 
     if QuestieCorrections.hiddenQuests[questId] then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden!")
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden!") end
         return false
     end
 
     if Questie.db.char.hidden[questId] then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden manually!")
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden manually!") end
         return false
     end
 
     if (not DailyQuests:IsActiveDailyQuest(questId)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is a daily quest not active today!")
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is a daily quest not active today!") end
         return false
     end
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
     if (requiredRaces and not checkRace[requiredRaces]) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId) end
         QuestieQuest.autoBlacklist[questId] = "race"
         return false
     end
@@ -545,7 +553,7 @@ function QuestieDB.IsDoable(questId)
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
     if (requiredClasses and not checkClass[requiredClasses]) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId) end
         QuestieQuest.autoBlacklist[questId] = "class"
         return false
     end
@@ -554,7 +562,7 @@ function QuestieDB.IsDoable(questId)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log!")
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log!") end
             return false
         end
     end
@@ -565,7 +573,7 @@ function QuestieDB.IsDoable(questId)
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] we have completed a quest that locks out this quest!")
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] we have completed a quest that locks out this quest!") end
                 return false
             end
         end
@@ -577,7 +585,7 @@ function QuestieDB.IsDoable(questId)
         local isParentQuestActive = QuestieDB.IsParentQuestActive(parentQuest)
         -- If the quest has a parent quest then only show it if the
         -- parent quest is in the quest log
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isParentQuestActive:", isParentQuestActive)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isParentQuestActive:", isParentQuestActive) end
         return isParentQuestActive
     end
 
@@ -586,7 +594,7 @@ function QuestieDB.IsDoable(questId)
     if (requiredSkill) then
         local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
         if (not (hasProfession and hasSkillLevel)) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId)
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId) end
             --? We haven't got the profession so we blacklist it.
             if(not hasProfession) then
                 QuestieQuest.autoBlacklist[questId] = "skill"
@@ -604,7 +612,7 @@ function QuestieDB.IsDoable(questId)
 
             --- If we haven't got the faction for min or max we blacklist it
             if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
-                print(questId, "banned", hasMaxFaction, hasMaxFaction)
+                -- print(questId, "banned", hasMaxFaction, hasMaxFaction)
                 QuestieQuest.autoBlacklist[questId] = "rep"
             end
             return false
@@ -616,7 +624,7 @@ function QuestieDB.IsDoable(questId)
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
     if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
         local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled) end
         return isPreQuestGroupFulfilled
     end
 
@@ -625,7 +633,7 @@ function QuestieDB.IsDoable(questId)
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled) end
         return isPreQuestSingleFulfilled
     end
 
