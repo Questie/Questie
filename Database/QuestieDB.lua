@@ -536,15 +536,17 @@ function QuestieDB.IsDoable(questId)
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
-    if (not checkRace[requiredRaces]) then
+    if (requiredRaces and not checkRace[requiredRaces]) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId)
+        QuestieQuest.autoBlacklist[questId] = "race"
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
-    if (not checkClass[requiredClasses]) then
+    if (requiredClasses and not checkClass[requiredClasses]) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId)
+        QuestieQuest.autoBlacklist[questId] = "class"
         return false
     end
 
