@@ -2722,6 +2722,7 @@ globals = {
     "WOW_PROJECT_BURNING_CRUSADE_CLASSIC",
     "WOW_PROJECT_WRATH_CLASSIC",
     "WOW_PROJECT_MAINLINE",
+    "FACTION_STANDING_CHANGED",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
     "EasyMenu",
