@@ -597,10 +597,18 @@ function QuestieDB.IsDoable(questId)
 
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
+    if (requiredMinRep or requiredMaxRep) then
+        local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+        if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
+            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId)
 
-    if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId)
-        return false
+            --- If we haven't got the faction for min or max we blacklist it
+            if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
+                print(questId, "banned", hasMaxFaction, hasMaxFaction)
+                QuestieQuest.autoBlacklist[questId] = "rep"
+            end
+            return false
+        end
     end
 
     local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")

@@ -84,6 +84,7 @@ end
 
 ---@param category AutoBlacklistString
 function QuestieQuest.ResetAutoblacklistCategory(category)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Resetting autoblacklist category", category)
     for questId, questCategory in pairs(QuestieQuest.autoBlacklist) do
         if questCategory == category then
             QuestieQuest.autoBlacklist[questId] = nil
