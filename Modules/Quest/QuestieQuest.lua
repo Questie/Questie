@@ -1138,15 +1138,18 @@ end
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 ---@param quest Quest
 function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
+    --? Some quests can be started by both an NPC and a GameObject
 
-    --TODO More logic here, currently only shows NPC quest givers.
     if quest.Starts["GameObject"] ~= nil then
-        for _, objectId in ipairs(quest.Starts["GameObject"]) do
-            local obj = QuestieDB:GetObject(objectId)
+        local gameObjects = quest.Starts["GameObject"]
+        for i=1, #gameObjects do
+            local obj = QuestieDB:GetObject(gameObjects[i])
             if(obj ~= nil and obj.spawns ~= nil) then
                 for zone, spawns in pairs(obj.spawns) do
                     if(zone ~= nil and spawns ~= nil) then
-                        for _, coords in ipairs(spawns) do
+                        local coords
+                        for spawnIndex=1, #spawns do
+                            coords = spawns[spawnIndex]
                             local data = {
                                 Id = quest.Id,
                                 Icon = _QuestieQuest:GetQuestIcon(quest),
@@ -1173,9 +1176,11 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                 end
             end
         end
-    elseif(quest.Starts["NPC"] ~= nil)then
-        for _, npcId in ipairs(quest.Starts["NPC"]) do
-            local npc = QuestieDB:GetNPC(npcId)
+    end
+    if(quest.Starts["NPC"] ~= nil)then
+        local npcs = quest.Starts["NPC"]
+        for i=1, #npcs do
+            local npc = QuestieDB:GetNPC(npcs[i])
 
             if (npc ~= nil and npc.spawns ~= nil) then
                 QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
@@ -1185,8 +1190,9 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                 local starterLocs = {}
                 for npcZone, spawns in pairs(npc.spawns) do
                     if(npcZone ~= nil and spawns ~= nil) then
-
-                        for _, coords in ipairs(spawns) do
+                        local coords
+                        for spawnIndex=1, #spawns do
+                            coords = spawns[spawnIndex]
                             local data = {
                                 Id = quest.Id,
                                 Icon = _QuestieQuest:GetQuestIcon(quest),
