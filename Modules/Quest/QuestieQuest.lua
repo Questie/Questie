@@ -1295,7 +1295,10 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     local showPvPQuests = Questie.db.char.showPvPQuests
     local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
 
+    --- Fast Localizations
     local autoBlacklist = QuestieQuest.autoBlacklist
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+    local hidden  = Questie.db.char.hidden
 
     --? Cancel the previously running timer to not have multiple running at the same time
     if timer then
@@ -1313,7 +1316,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                     if(
                         (not Questie.db.char.complete[questId]) and -- Don't show completed quests
                         ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-                        (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
+                        (not hiddenQuests[questId] and not hidden[questId]) and -- Don't show blacklisted or player hidden quests
                         (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
                         (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
                         (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
@@ -1336,6 +1339,7 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                                 --Draw a specific quest through the function
                                 _QuestieQuest:DrawAvailableQuest(quest)
                             else
+                                --* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
                                 --We might have to update the icon in this situation (config changed/level up)
                                 for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
                                     if frame and frame.data and frame.data.QuestData then
