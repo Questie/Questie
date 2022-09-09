@@ -1297,11 +1297,11 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         return nil
                     end
                     for i = lastIndex, targetIndex-1 do
-                        QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                        readers[types[indexToKey[i]]](stream)
                     end
                 end
-                ret[index] = QuestieDBCompiler.readers[typ](stream)
-            end
+                ret[index] = readers[typ](stream)
+                                                                                                                                              end
             return ret -- do not unpack the returned table
         end
     end
