@@ -1178,7 +1178,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 local kti = keyToRootIndex[key]
                 if kti and override[kti] ~= nil then return override[kti] end
             end
-            local typ = types[key]
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
@@ -1233,7 +1232,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 if override and rootIndex and override[rootIndex] ~= nil then
                     ret[index] = override[rootIndex]
                 else
-                    local typ = types[key]
                     if map[key] ~= nil then -- can skip directly
                         stream._pointer = map[key] + ptr
                     else -- need to skip over some variably sized data
@@ -1247,14 +1245,13 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             readers[types[indexToKey[i]]](stream)
                         end
                     end
-                    ret[index] = readers[typ](stream)
+                    ret[index] = readers[types[key]](stream)
                 end
             end
             return ret -- do not unpack the returned table
         end
     else
         handle.QuerySingle = function(id, key)
-            local typ = types[key]
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
@@ -1273,7 +1270,7 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     readers[types[indexToKey[i]]](stream)
                 end
             end
-            return readers[typ](stream)
+            return readers[types[key]](stream)
         end
 
         handle.Query = function(id, ...)
@@ -1286,7 +1283,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             local ret = {}
             for index=1,#keys do
                 local key = keys[index]
-                local typ = types[key]
                 if map[key] ~= nil then -- can skip directly
                     stream._pointer = map[key] + ptr
                 else -- need to skip over some variably sized data
@@ -1300,8 +1296,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         readers[types[indexToKey[i]]](stream)
                     end
                 end
-                ret[index] = readers[typ](stream)
-                                                                                                                                              end
+                ret[index] = readers[types[key]](stream)
+            end
             return ret -- do not unpack the returned table
         end
     end
