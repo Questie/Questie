@@ -622,9 +622,6 @@ function QuestieQuestFixes:Load()
         [1193] = {
             [questKeys.specialFlags] = 1, -- #1348
         },
-        [1198] = {
-            [questKeys.requiredRaces] = raceIDs.NONE,
-        },
         [1204] = {
             [questKeys.preQuestSingle] = {}, -- #938
         },
