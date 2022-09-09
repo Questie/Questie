@@ -96,6 +96,7 @@ function QuestieOptionsDefaults:Load()
             trackerFontSizeObjective = 10,
             trackerFontObjective = 'Friz Quadrata TT',
             trackerQuestPadding = 4,
+            trackerFontOutline = nil,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
             globalTrackerLocation = true,
@@ -144,6 +145,6 @@ function QuestieOptionsDefaults:Load()
             showQuestsInNpcTooltip = true,
             ldbDisplayText = "Questie"
         },
-        profile = {minimap = {hide = false}}
+        profile = { minimap = { hide = false } }
     }
 end

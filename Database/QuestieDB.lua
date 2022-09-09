@@ -54,7 +54,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
-local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+local _QuestieQuest = QuestieQuest.private
 
 local tinsert = table.insert
 
@@ -135,6 +137,17 @@ _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};
 _QuestieDB.objectCache = {};
 _QuestieDB.zoneCache = {};
+
+---A Memoized table for function Quest:CheckRace
+---
+---Usage: checkRace[requiredRaces]
+---@type table<number, boolean>
+local checkRace
+---A Memoized table for function Quest:CheckClass
+---
+---Usage: checkRace[requiredClasses]
+---@type table<number, boolean>
+local checkClass
 
 QuestieDB.itemDataOverrides = {}
 QuestieDB.npcDataOverrides = {}
@@ -229,6 +242,10 @@ function QuestieDB:Initialize()
     _QuestieDB.npcCache = {};
     _QuestieDB.objectCache = {};
     _QuestieDB.zoneCache = {};
+
+    --? This improves performance a lot, the regular functions still work but this is much faster because i caches
+    checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
+    checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
 end
 
 function QuestieDB:GetObject(objectId)
@@ -527,15 +544,17 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
-    if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
+    if (requiredRaces and not checkRace[requiredRaces]) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId) end
+        QuestieQuest.autoBlacklist[questId] = "race"
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
-    if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+    if (requiredClasses and not checkClass[requiredClasses]) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId) end
+        QuestieQuest.autoBlacklist[questId] = "class"
         return false
     end
 
@@ -547,6 +566,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
             return false
         end
     end
+
     -- Check if a quest which is exclusive to the current has already been completed or accepted
     -- If yes the current quest can't be accepted
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
@@ -571,26 +591,31 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
-    if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId) end
-        return false
-    end
+    if (requiredSkill) then
+        local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+        if (not (hasProfession and hasSkillLevel)) then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId) end
+            --? We haven't got the profession so we blacklist it.
+            if(not hasProfession) then
+                QuestieQuest.autoBlacklist[questId] = "skill"
+            end
+            return false
+        end
+    end 
 
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
+    if (requiredMinRep or requiredMaxRep) then
+        local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+        if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId) end
 
-    if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId) end
-        return false
-    end
-
-    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-
-    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
-        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled) end
-        return isPreQuestSingleFulfilled
+            --- If we haven't got the faction for min or max we blacklist it
+            if (not hasMinFaction) or (not hasMaxFaction) then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
+                QuestieQuest.autoBlacklist[questId] = "rep"
+            end
+            return false
+        end
     end
 
     local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
@@ -600,6 +625,15 @@ function QuestieDB.IsDoable(questId, debugPrint)
         local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled) end
         return isPreQuestGroupFulfilled
+    end
+
+    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+
+    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+    if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
+        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled) end
+        return isPreQuestSingleFulfilled
     end
 
     return true

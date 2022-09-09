@@ -388,6 +388,10 @@ function QuestieTBCNpcFixes:Load()
         [19546] = {
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{58.06,88.65},{58.09,88.7},{58.45,88.32},{59.07,88.35},{59.01,88.19},{59.07,88.3},{58.86,88.37},{58.4,88.35},{58.12,88.68},{57.74,88.08},{58.06,88.64}},{{55.43,86.62},{55.42,86.57},{55.46,86.51}}}},
         },
+        [19622] = {
+            [npcKeys.spawns] = {[zoneIDs.TEMPEST_KEEP] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.TEMPEST_KEEP,
+        };
         [19644] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{31.36,66.15}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,

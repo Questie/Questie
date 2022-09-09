@@ -36,9 +36,9 @@ QuestieDB.sortKeys = {
     LOVE_IS_IN_THE_AIR = -376,
 }
 
-local isTBC = string.byte(GetBuildInfo(), 1) == 50
+local isWotlk = string.byte(GetBuildInfo(), 1) == 51
 
-QuestieDB.factionTemplate = isTBC and { -- [id] = EnemyGroup
+QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [1] = 12,
     [2] = 10,
     [3] = 12,
