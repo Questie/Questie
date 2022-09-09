@@ -10,6 +10,11 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+
+local abs, min, floor = math.abs, math.min, math.floor
+local lshift = bit.lshift
+
+
 -- how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
 local TICKS_PER_YIELD = 48
@@ -62,145 +67,260 @@ QuestieDBCompiler.refTypesReversed = {
     object = 3
 }
 
-QuestieDBCompiler.readers = {
-    ["s8"] = function(stream)
-        return stream:ReadByte() - 127
-    end,
-    ["u8"] = QuestieStream.ReadByte,
-    ["u16"] = QuestieStream.ReadShort,
-    ["s16"] = function(stream)
-        return stream:ReadShort() - 32767
-    end,
-    ["u24"] = QuestieStream.ReadInt24,
-    ["u32"] = QuestieStream.ReadInt,
-    ["u12pair"] = function(stream)
-        local a,b = stream:ReadInt12Pair()
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
-        return {a, b}
-    end,
-    ["u24pair"] = function(stream)
-        local a,b = stream:ReadInt24(), stream:ReadInt24()
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
+local readers = {}
+readers["s8"] = function(stream)
+    return stream:ReadByte() - 127
+end
+readers["u8"] = QuestieStream.ReadByte
+readers["u16"] = QuestieStream.ReadShort
+readers["s16"] = function(stream)
+    return stream:ReadShort() - 32767
+end
+readers["u24"] = QuestieStream.ReadInt24
+readers["u32"] = QuestieStream.ReadInt
+readers["u12pair"] = function(stream)
+    local a,b = stream:ReadInt12Pair()
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
+    return {a, b}
+end
+readers["u24pair"] = function(stream)
+    local a,b = stream:ReadInt24(), stream:ReadInt24()
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
 
-        return {a, b}
-    end,
-    ["s24pair"] = function(stream)
-        local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
+    return {a, b}
+end
+readers["s24pair"] = function(stream)
+    local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
 
-        return {a, b}
-    end,
-    ["u8string"] = function(stream)
-        local ret = stream:ReadTinyString()
-        if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
-            return nil
-        else
-            return ret
-        end
-    end,
-    ["u16string"] = function(stream)
-        local ret = stream:ReadShortString()
-        if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
-            return nil
-        else
-            return ret
-        end
-    end,
-    ["u8u16array"] = function(stream)
-        local count = stream:ReadByte()
+    return {a, b}
+end
+readers["u8string"] = function(stream)
+    local ret = stream:ReadTinyString()
+    if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
+        return nil
+    else
+        return ret
+    end
+end
+readers["u16string"] = function(stream)
+    local ret = stream:ReadShortString()
+    if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
+        return nil
+    else
+        return ret
+    end
+end
+readers["u8u16array"] = function(stream)
+    local count = stream:ReadByte()
 
-        if count == 0 then return nil end
+    if count == 0 then return nil end
 
+    local list = {}
+
+    for i = 1, count do
+        list[i] = stream:ReadShort()
+    end
+    return list
+end
+readers["u8s16pairs"] = function(stream)
+    local list = {}
+    local count = stream:ReadByte()
+    for i = 1, count do
+        list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
+    end
+    return list
+end
+readers["u16u16array"] = function(stream)
+    local count = stream:ReadShort()
+
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadShort()
+    end
+    return list
+end
+readers["u8s24pairs"] = function(stream)
+    local list = {}
+    local count = stream:ReadByte()
+    for i = 1, count do
+        list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+    end
+    return list
+end
+readers["u8u24array"] = function(stream)
+    local count = stream:ReadByte()
+
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24()
+    end
+    return list
+end
+readers["u16u24array"] = function(stream)
+    local count = stream:ReadShort()
+
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24()
+    end
+    return list
+end
+readers["u8u16stringarray"] = function(stream)
+    local list = {}
+    local count = stream:ReadByte()
+    for i = 1, count do
+        list[i] = stream:ReadShortString()
+    end
+    return list
+end
+readers["faction"] = function(stream)
+    local val = stream:ReadByte()
+    if val == 3 then
+        return nil
+    elseif val == 2 then
+        return "AH"
+    elseif val == 1 then
+        return "H"
+    else
+        return "A"
+    end
+end
+readers["spawnlist"] = function(stream)
+    local count = stream:ReadByte()
+    local spawnlist = {}
+    for _ = 1, count do
+        local zone = stream:ReadShort()
+        local spawnCount = stream:ReadShort()
         local list = {}
+        for i = 1, spawnCount do
+            local x, y = stream:ReadInt12Pair()
+            if x == 0 and y == 0 then
+                list[i] = {-1, -1}
+            else
+                list[i] = {x / 40.90, y / 40.90}
+            end
+        end
+        spawnlist[zone] = list
+    end
+    return spawnlist
+end
+readers["trigger"] = function(stream)
+    if stream:ReadShort() == 0 then
+        return nil
+    else
+        stream._pointer = stream._pointer - 2
+    end
+    return {stream:ReadTinyStringNil(), readers["spawnlist"](stream)}
+end
+local u8u24arrayReader = readers["u8u24array"]
+readers["questgivers"] = function(stream)
+    --local count = stream:ReadByte()
+    --if count == 0 then return nil end
+    local ret = {
+        u8u24arrayReader(stream),
+        u8u24arrayReader(stream),
+        u8u24arrayReader(stream)
+    }
 
-        for i = 1, count do
-            list[i] = stream:ReadShort()
-        end
-        return list
-    end,
-    ["u8s16pairs"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
-        end
-        return list
-    end,
-    ["u16u16array"] = function(stream)
-        local count = stream:ReadShort()
+    --for i = 1, count do
+    --    tinsert(ret, readers["u8u16array"](stream))
+    --end
 
-        if count == 0 then return nil end
+    return ret
+end
+readers["objective"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then
+        return nil
+    end
 
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadShort()
-        end
-        return list
-    end,
-    ["u8s24pairs"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
-        end
-        return list
-    end,
-    ["u8u24array"] = function(stream)
-        local count = stream:ReadByte()
+    local ret = {}
 
-        if count == 0 then return nil end
+    for i = 1, count do
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
+    end
+    return ret
+end
 
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadInt24()
-        end
-        return list
-    end,
-    ["u16u24array"] = function(stream)
-        local count = stream:ReadShort()
+readers["objectives"] = function(stream)
+    local ret = {
+        readers["objective"](stream),
+        readers["objective"](stream),
+        readers["objective"](stream),
+        readers["u24pair"](stream),
+    }
 
-        if count == 0 then return nil end
+    local count = stream:ReadByte()
+    if count == 0 then
+        return ret
+    end
 
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadInt24()
+    local killobjectives = {}
+    for i=1, count do
+        local creditCount = stream:ReadByte()
+        local creditList = {}
+        for j=1, creditCount do
+            creditList[j] = stream:ReadInt24()
         end
-        return list
-    end,
-    ["u8u16stringarray"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = stream:ReadShortString()
+        killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+    end
+    ret[5] = killobjectives
+
+    return ret
+end
+readers["reflist"] = function(stream)
+    local count = stream:ReadByte()
+    if count > 0 then
+        local ret = {}
+        for i=1,count do
+            local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
+            local id = stream:ReadInt24()
+            ret[i] = {type, id}
         end
-        return list
-    end,
-    ["faction"] = function(stream)
-        local val = stream:ReadByte()
-        if val == 3 then
-            return nil
-        elseif val == 2 then
-            return "AH"
-        elseif val == 1 then
-            return "H"
-        else
-            return "A"
+        return ret
+    end
+end
+readers["extraobjectives"] = function(stream)
+    local count = stream:ReadByte()
+    if count > 0 then
+        local ret = {}
+        for i=1,count do
+            ret[i] = {
+                readers["spawnlist"](stream),
+                stream:ReadTinyString(),
+                stream:ReadShortString(),
+                stream:ReadInt24(),
+                readers["reflist"](stream)
+            }
         end
-    end,
-    ["spawnlist"] = function(stream)
-        local count = stream:ReadByte()
-        local spawnlist = {}
-        for _ = 1, count do
-            local zone = stream:ReadShort()
+        return ret
+    end
+    return nil
+end
+readers["waypointlist"] = function(stream)
+    local count = stream:ReadByte()
+    local waypointlist = {}
+    for _ = 1, count do
+        local lists = {}
+        local zone = stream:ReadShort()
+        local listCount = stream:ReadByte()
+        for j = 1, listCount do
             local spawnCount = stream:ReadShort()
             local list = {}
             for i = 1, spawnCount do
@@ -211,126 +331,14 @@ QuestieDBCompiler.readers = {
                     list[i] = {x / 40.90, y / 40.90}
                 end
             end
-            spawnlist[zone] = list
+            lists[j] = list
         end
-        return spawnlist
-    end,
-    ["trigger"] = function(stream)
-        if stream:ReadShort() == 0 then
-            return nil
-        else
-            stream._pointer = stream._pointer - 2
-        end
-        return {stream:ReadTinyStringNil(), QuestieDBCompiler.readers["spawnlist"](stream)}
-    end,
-    ["questgivers"] = function(stream)
-        --local count = stream:ReadByte()
-        --if count == 0 then return nil end
-        local ret = {
-            QuestieDBCompiler.readers["u8u24array"](stream),
-            QuestieDBCompiler.readers["u8u24array"](stream),
-            QuestieDBCompiler.readers["u8u24array"](stream)
-        }
+        waypointlist[zone] = lists
+    end
+    return waypointlist
+end
 
-        --for i = 1, count do
-        --    tinsert(ret, QuestieDBCompiler.readers["u8u16array"](stream))
-        --end
-
-        return ret
-    end,
-    ["objective"] = function(stream)
-        local count = stream:ReadByte()
-        if count == 0 then
-            return nil
-        end
-
-        local ret = {}
-
-        for i = 1, count do
-            ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
-        end
-        return ret
-    end,
-    ["objectives"] = function(stream)
-        local ret = {
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["u24pair"](stream),
-        }
-
-        local count = stream:ReadByte()
-        if count == 0 then
-            return ret
-        end
-
-        local killobjectives = {}
-        for i=1, count do
-            local creditCount = stream:ReadByte()
-            local creditList = {}
-            for j=1, creditCount do
-                creditList[j] = stream:ReadInt24()
-            end
-            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
-        end
-        ret[5] = killobjectives
-
-        return ret
-    end,
-    ["reflist"] = function(stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            local ret = {}
-            for i=1,count do
-                local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
-                local id = stream:ReadInt24()
-                ret[i] = {type, id}
-            end
-            return ret
-        end
-    end,
-    ["extraobjectives"] = function(stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            local ret = {}
-            for i=1,count do
-                ret[i] = {
-                    QuestieDBCompiler.readers["spawnlist"](stream),
-                    stream:ReadTinyString(),
-                    stream:ReadShortString(),
-                    stream:ReadInt24(),
-                    QuestieDBCompiler.readers["reflist"](stream)
-                }
-            end
-            return ret
-        end
-        return nil
-    end,
-    ["waypointlist"] = function(stream)
-        local count = stream:ReadByte()
-        local waypointlist = {}
-        for _ = 1, count do
-            local lists = {}
-            local zone = stream:ReadShort()
-            local listCount = stream:ReadByte()
-            for j = 1, listCount do
-                local spawnCount = stream:ReadShort()
-                local list = {}
-                for i = 1, spawnCount do
-                    local x, y = stream:ReadInt12Pair()
-                    if x == 0 and y == 0 then
-                        list[i] = {-1, -1}
-                    else
-                        list[i] = {x / 40.90, y / 40.90}
-                    end
-                end
-                lists[j] = list
-            end
-            waypointlist[zone] = lists
-        end
-        return waypointlist
-    end,
-}
+QuestieDBCompiler.readers = readers
 
 QuestieDBCompiler.writers = {
     ["s8"] = function(stream, value)
@@ -497,7 +505,7 @@ QuestieDBCompiler.writers = {
                     if spawn[1] == -1 and spawn[2] == -1 then -- instance spawn
                         stream:WriteInt24(0) -- 0 instead
                     else
-                        stream:WriteInt12Pair(math.floor(spawn[1] * 40.90), math.floor(spawn[2] * 40.90))
+                        stream:WriteInt12Pair(floor(spawn[1] * 40.90), floor(spawn[2] * 40.90))
                     end
                 end
             end
@@ -610,7 +618,7 @@ QuestieDBCompiler.writers = {
                         if spawn[1] == -1 and spawn[2] == -1 then -- instance spawn
                             stream:WriteInt24(0) -- 0 instead
                         else
-                            stream:WriteInt12Pair(math.floor(spawn[1] * 40.90), math.floor(spawn[2] * 40.90))
+                            stream:WriteInt12Pair(floor(spawn[1] * 40.90), floor(spawn[2] * 40.90))
                         end
                     end
                 end
@@ -622,95 +630,101 @@ QuestieDBCompiler.writers = {
     end
 }
 
-QuestieDBCompiler.skippers = {
-    ["s8"] = function(stream) stream._pointer = stream._pointer + 1 end,
-    ["u8"] = function(stream) stream._pointer = stream._pointer + 1 end,
-    ["u16"] = function(stream) stream._pointer = stream._pointer + 2 end,
-    ["s16"] = function(stream) stream._pointer = stream._pointer + 2 end,
-    ["u24"] = function(stream) stream._pointer = stream._pointer + 3 end,
-    ["u32"] = function(stream) stream._pointer = stream._pointer + 4 end,
-    ["u12pair"] = function(stream) stream._pointer = stream._pointer + 3 end,
-    ["u24pair"] = function(stream) stream._pointer = stream._pointer + 6 end,
-    ["s24pair"] = function(stream) stream._pointer = stream._pointer + 6 end,
-    ["u8string"] = function(stream) stream._pointer = stream:ReadByte() + stream._pointer end,
-    ["u16string"] = function(stream) stream._pointer = stream:ReadShort() + stream._pointer end,
-    ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
-    ["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end,
-    ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
-    ["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end,
-    ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
-    ["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
-    ["waypointlist"]  = function(stream)
-        local count = stream:ReadByte()
-        for _ = 1, count do
-            stream._pointer = stream._pointer + 2
-            local listCount = stream:ReadByte()
-            for _ = 1, listCount do
-                stream._pointer = stream:ReadShort() * 3 + stream._pointer
-            end
-        end
-    end,
-    ["u8u16stringarray"] = function(stream) 
-        local count = stream:ReadByte()
-        for _=1,count do
-            stream._pointer = stream:ReadShort() + stream._pointer
-        end
-    end,
-    ["faction"] = function(stream) stream._pointer = stream._pointer + 1 end,
-    ["spawnlist"] = function(stream)
-        local count = stream:ReadByte()
-        for _ = 1, count do
-            stream._pointer = stream._pointer + 2
+local skippers = {}
+skippers["s8"] = function(stream) stream._pointer = stream._pointer + 1 end
+skippers["u8"] = function(stream) stream._pointer = stream._pointer + 1 end
+skippers["u16"] = function(stream) stream._pointer = stream._pointer + 2 end
+skippers["s16"] = function(stream) stream._pointer = stream._pointer + 2 end
+skippers["u24"] = function(stream) stream._pointer = stream._pointer + 3 end
+skippers["u32"] = function(stream) stream._pointer = stream._pointer + 4 end
+skippers["u12pair"] = function(stream) stream._pointer = stream._pointer + 3 end
+skippers["u24pair"] = function(stream) stream._pointer = stream._pointer + 6 end
+skippers["s24pair"] = function(stream) stream._pointer = stream._pointer + 6 end
+skippers["u8string"] = function(stream) stream._pointer = stream:ReadByte() + stream._pointer end
+skippers["u16string"] = function(stream) stream._pointer = stream:ReadShort() + stream._pointer end
+skippers["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end
+skippers["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end
+skippers["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end
+skippers["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end
+skippers["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end
+skippers["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end
+skippers["waypointlist"]  = function(stream)
+    local count = stream:ReadByte()
+    for _ = 1, count do
+        stream._pointer = stream._pointer + 2
+        local listCount = stream:ReadByte()
+        for _ = 1, listCount do
             stream._pointer = stream:ReadShort() * 3 + stream._pointer
         end
-    end,
-    ["trigger"] = function(stream) 
+    end
+end
+skippers["u8u16stringarray"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        stream._pointer = stream:ReadShort() + stream._pointer
+    end
+end
+skippers["faction"] = function(stream) stream._pointer = stream._pointer + 1 end
+skippers["spawnlist"] = function(stream)
+    local count = stream:ReadByte()
+    for _ = 1, count do
+        stream._pointer = stream._pointer + 2
+        stream._pointer = stream:ReadShort() * 3 + stream._pointer
+    end
+end
+local spawnlistSkipper = skippers["spawnlist"]
+skippers["trigger"] = function(stream) 
+    stream._pointer = stream:ReadByte() + stream._pointer
+    spawnlistSkipper(stream)
+end
+local u8u24arraySkipper = skippers["u8u24array"]
+skippers["questgivers"] = function(stream)
+    --local count = stream:ReadByte()
+    --for _ = 1, count do
+    --    skippers["u8u16array"](stream)
+    --end
+    u8u24arraySkipper(stream)
+    u8u24arraySkipper(stream)
+    u8u24arraySkipper(stream)
+end
+skippers["objective"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        stream._pointer = stream._pointer + 3
         stream._pointer = stream:ReadByte() + stream._pointer
-        QuestieDBCompiler.skippers["spawnlist"](stream)
-    end,
-    ["questgivers"] = function(stream)
-        --local count = stream:ReadByte()
-        --for _ = 1, count do
-        --    QuestieDBCompiler.skippers["u8u16array"](stream)
-        --end
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-    end,
-    ["objective"] = function(stream)
-        local count = stream:ReadByte()
-        for _=1,count do
-            stream._pointer = stream._pointer + 3
+    end
+end
+local objectiveSkipper = skippers["objective"]
+local u24pairSkipper = skippers["u24pair"]
+skippers["objectives"] = function(stream)
+    objectiveSkipper(stream)
+    objectiveSkipper(stream)
+    objectiveSkipper(stream)
+    u24pairSkipper(stream)
+    local count = stream:ReadByte() -- killobjectives
+    if count > 0 then
+        for _=1, count do
+            stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
             stream._pointer = stream:ReadByte() + stream._pointer
-        end
-    end,
-    ["objectives"] = function(stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["u24pair"](stream)
-        local count = stream:ReadByte() -- killobjectives
-        if count > 0 then
-            for _=1, count do
-                stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
-                stream._pointer = stream:ReadByte() + stream._pointer
-            end
-        end
-    end,
-    ["reflist"] = function(stream)
-        stream._pointer = stream:ReadByte() * 4 + stream._pointer
-    end,
-    ["extraobjectives"] = function(stream)
-        local count = stream:ReadByte()
-        for _=1,count do
-            QuestieDBCompiler.skippers["spawnlist"](stream)
-            stream._pointer = stream:ReadByte() + stream._pointer
-            stream._pointer = stream:ReadShort() + stream._pointer
-            stream._pointer = stream._pointer + 3
-            QuestieDBCompiler.skippers["reflist"](stream)
         end
     end
-}
+end
+skippers["reflist"] = function(stream)
+    stream._pointer = stream:ReadByte() * 4 + stream._pointer
+end
+local reflistSkipper = skippers["reflist"]
+skippers["extraobjectives"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        spawnlistSkipper(stream)
+        stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream:ReadShort() + stream._pointer
+        stream._pointer = stream._pointer + 3
+        reflistSkipper(stream)
+    end
+end
+
+QuestieDBCompiler.skippers = skippers
 
 QuestieDBCompiler.dynamics = {
     ["u8string"] = true,
@@ -769,7 +783,7 @@ local function equals(a, b)
     if ta ~= tb then return false end
 
     if ta == "number" then
-        return math.abs(a-b) < 0.2
+        return abs(a-b) < 0.2
     elseif ta == "table" then
         for k,v in pairs(a) do
             if not equals(b[k], v) then
@@ -807,7 +821,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
     local ret = {}
     local i = 0
     while i < count do
-        for _ = 1, math.min(768, count-i) do -- steps per yield
+        for _ = 1, min(768, count-i) do -- steps per yield
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
@@ -978,7 +992,7 @@ function QuestieDBCompiler:ValidateNPCs()
             local a = toValidate[id]
             local b = validData[key]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
@@ -1015,7 +1029,7 @@ function QuestieDBCompiler:ValidateObjects()
             local a = toValidate[id]
             local b = validData[key]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
@@ -1076,7 +1090,7 @@ function QuestieDBCompiler:ValidateItems()
         --        local a = toValidate[id]
         --        local b = validData[key]
         --
-        --        if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
+        --        if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
         --            print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
         --            return
         --        elseif type(a) == "string" and a ~= (b or "") then
@@ -1116,7 +1130,7 @@ function QuestieDBCompiler:ValidateQuests()
             local a = toValidate[id]
             local b = validData[key]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
@@ -1180,10 +1194,10 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    readers[types[indexToKey[i]]](stream)
                 end
             end
-            return QuestieDBCompiler.readers[typ](stream)
+            return readers[types[key]](stream)
         end
         handle.Query = function(id, ...)
             --if overrides[id] then
@@ -1230,10 +1244,10 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
-                            QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                            readers[types[indexToKey[i]]](stream)
                         end
                     end
-                    ret[index] = QuestieDBCompiler.readers[typ](stream)
+                    ret[index] = readers[typ](stream)
                 end
             end
             return ret -- do not unpack the returned table
@@ -1256,10 +1270,10 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    readers[types[indexToKey[i]]](stream)
                 end
             end
-            return QuestieDBCompiler.readers[typ](stream)
+            return readers[typ](stream)
         end
 
         handle.Query = function(id, ...)
