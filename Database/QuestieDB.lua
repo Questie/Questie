@@ -1100,13 +1100,13 @@ function _QuestieDB:HideClassAndRaceQuests()
         -- check requirements, set hidden flag if not met
         local requiredClasses = entry[questKeys.requiredClasses]
         if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
                 entry.hidden = true
             end
         end
         local requiredRaces = entry[questKeys.requiredRaces]
         if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-            if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
+            if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
                 entry.hidden = true
             end
         end
