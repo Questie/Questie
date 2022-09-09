@@ -551,14 +551,13 @@ end
 function QuestieLib:TableMemoizeFunction(func, __mode)
     return setmetatable({}, {
         __index = function(self, k)
-            local v = func(self, k);
+            local v = func(k);
             self[k] = v
             return v;
         end,
         __mode = __mode or ""
     });
 end
-
 
 local frameObject = nil
 if _G["QuestLogObjectivesText"] then -- classic
