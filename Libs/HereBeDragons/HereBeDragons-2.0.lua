@@ -1,6 +1,6 @@
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
-local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 16
+local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 20
 assert(LibStub, MAJOR .. " requires LibStub")
 
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
@@ -15,9 +15,10 @@ HereBeDragons.worldMapData     = HereBeDragons.worldMapData or {}
 HereBeDragons.transforms       = HereBeDragons.transforms or {}
 HereBeDragons.callbacks        = HereBeDragons.callbacks or CBH:New(HereBeDragons, nil, nil, false)
 
+local WOW_INTERFACE_VER = select(4, GetBuildInfo())
 local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWBC = string.byte(GetBuildInfo(), 1) == 50
-local WoWWotlk = string.byte(GetBuildInfo(), 1) == 51
+local WoWBC = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) and WOW_INTERFACE_VER >= 20500 and WOW_INTERFACE_VER < 30000
+local WoWWrath = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) and WOW_INTERFACE_VER >= 30400 and WOW_INTERFACE_VER < 40000
 
 -- Data Constants
 local COSMIC_MAP_ID = 946
@@ -83,7 +84,7 @@ local function overrideInstance(instance) return instanceIDOverrides[instance] o
 HereBeDragons.___DIIDO = dynamicInstanceIDOverrides
 
 -- gather map info, but only if this isn't an upgrade (or the upgrade version forces a re-map)
-if not oldversion or oldversion < 16 then
+if not oldversion or oldversion < 17 then
     -- wipe old data, if required, otherwise the upgrade path isn't triggered
     if oldversion then
         wipe(mapData)
@@ -94,10 +95,18 @@ if not oldversion or oldversion < 16 then
     -- map transform data extracted from UIMapAssignment.db2 (see HereBeDragons-Scripts on GitHub)
     -- format: instanceID, newInstanceID, minY, maxY, minX, maxX, offsetY, offsetX
     local transformData
-    if WoWBC then
+    if WoWClassic then
+        transformData = {}
+    elseif WoWBC then
         transformData = {
             { 530, 0, 4800, 16000, -10133.3, -2666.67, -2400, 2662.8 },
             { 530, 1, -6933.33, 533.33, -16000, -8000, 10339.7, 17600 },
+        }
+    elseif WoWWrath then
+        transformData = {
+            { 530, 0, 4800, 16000, -10133.3, -2666.67, -2400, 2662.8 },
+            { 530, 1, -6933.33, 533.33, -16000, -8000, 10339.7, 17600 },
+            { 609, 0, -10000, 10000, -10000, 10000, 0, 0 },
         }
     else
         transformData = {
@@ -210,11 +219,10 @@ if not oldversion or oldversion < 16 then
         elseif WoWBC then
             worldMapData[0] = { 44688.53, 29791.24, 32681.47, 11479.44 }
             worldMapData[1] = { 44878.66, 29916.10,  8723.96, 14824.53 }
-            worldMapData[571] = { 71773.64, 50054.05, 36205.94, 12366.81 }
-        elseif WoWWotlk then
-            worldMapData[0] = { 48033, 32021, 36868, 14849 }
-            worldMapData[1] = { 47909, 31935, 8553, 18468 }
-            worldMapData[571] = { 47663, 31772, 25199, 11072 }
+        elseif WoWWrath then
+            worldMapData[0] = { 48033.24, 32020.8, 36867.97, 14848.84 }
+            worldMapData[1] = { 47908.72, 31935.28, 8552.61, 18467.83 }
+            worldMapData[571] = { 47662.7, 31772.19, 25198.53, 11072.07 }
         else
             worldMapData[0] = { 76153.14, 50748.62, 65008.24, 23827.51 }
             worldMapData[1] = { 77803.77, 51854.98, 13157.6, 28030.61 }
@@ -240,7 +248,7 @@ if not oldversion or oldversion < 16 then
         fixupZones()
 
         -- try to fill in holes in the map list
-        for i = 1, 2000 do
+        for i = 1, 2500 do
             if not mapData[i] then
                 local mapInfo = C_Map.GetMapInfo(i)
                 if mapInfo and mapInfo.name then
@@ -326,11 +334,6 @@ HereBeDragons.eventFrame:RegisterEvent("ZONE_CHANGED")
 HereBeDragons.eventFrame:RegisterEvent("ZONE_CHANGED_INDOORS")
 HereBeDragons.eventFrame:RegisterEvent("NEW_WMO_CHUNK")
 HereBeDragons.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-
--- if we're loading after entering the world (ie. on demand), update position now
-if IsLoggedIn() then
-    UpdateCurrentPosition(true)
-end
 
 --- Return the localized zone name for a given uiMapID
 -- @param uiMapID uiMapID of the zone
@@ -572,4 +575,10 @@ function HereBeDragons:GetPlayerZonePosition(allowOutOfBounds)
         return x, y, currentPlayerUIMapID, currentPlayerUIMapType
     end
     return nil, nil, nil, nil
+end
+
+-- if we're loading after entering the world (ie. on demand), update position now
+-- This needs to remain at the bottom of the library to ensure all functions are loaded before they are needed
+if IsLoggedIn() then
+    UpdateCurrentPosition(true)
 end
