@@ -633,12 +633,6 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
-        [13410] = {
-            [questKeys.preQuestSingle] = {10143,10483},
-        },
-        [13411] = {
-            [questKeys.preQuestSingle] = {10124},
-        },
         [13427] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
