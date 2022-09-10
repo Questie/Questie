@@ -26,6 +26,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {}, -- Overriding Classic correction
             [questKeys.triggerEnd] = {"Place a tribute at Grom's Monument",{[zoneIDs.ASHENVALE]={{83,78,},},},},
         },
+        [9154] = {
+            [questKeys.startedBy] = {{16241,16255}},
+            [questKeys.finishedBy] = {{16281}},
+            [questKeys.questLevel] = -1,
+        },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },

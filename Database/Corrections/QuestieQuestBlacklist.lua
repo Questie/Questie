@@ -770,16 +770,16 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
-        [9260] = true,
-        [9261] = true,
-        [9262] = true,
-        [9263] = true,
-        [9264] = true,
-        [9265] = true,
+        [9260] = QuestieCorrections.CLASSIC_ONLY,
+        [9261] = QuestieCorrections.CLASSIC_ONLY,
+        [9262] = QuestieCorrections.CLASSIC_ONLY,
+        [9263] = QuestieCorrections.CLASSIC_ONLY,
+        [9264] = QuestieCorrections.CLASSIC_ONLY,
+        [9265] = QuestieCorrections.CLASSIC_ONLY,
         --
-        [9085] = true,
-        [9153] = true,
-        [9154] = true,
+        [9085] = QuestieCorrections.CLASSIC_ONLY,
+        [9153] = QuestieCorrections.CLASSIC_ONLY,
+        [9154] = QuestieCorrections.CLASSIC_ONLY,
         --
 
         ----- TBC -------------- TBC quests --------------- TBC -----
