@@ -1066,6 +1066,13 @@ function QuestieQuestBlacklist:Load()
         [11553] = true, -- Not in the game
         [25229] = true, -- Not in the game
 
+        [9320] = QuestieCorrections.WOTLK_ONLY,
+        [9333] = QuestieCorrections.WOTLK_ONLY,
+        [9334] = QuestieCorrections.WOTLK_ONLY,
+        [9335] = QuestieCorrections.WOTLK_ONLY,
+        [9336] = QuestieCorrections.WOTLK_ONLY,
+        [9343] = QuestieCorrections.WOTLK_ONLY,
+
         --- Phase 2 Ulduar / Argent Tournament
         [13633] = true,
         [13634] = true,
