@@ -1,5 +1,7 @@
 ---@class QuestieProfessions
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
+---@class QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -8,6 +10,21 @@ local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
 local alternativeProfessionNames = {}
+
+-- Fast local references
+local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo
+
+hooksecurefunc("AbandonSkill", function(skillIndex)
+    local skillName = GetSkillLineInfo(skillIndex)
+    if skillName and professionTable[skillName] then
+        if playerProfessions[professionTable[skillName]] then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "Unlearned profession: " .. skillName .. "(" .. professionTable[skillName] .. ")")
+            playerProfessions[professionTable[skillName]] = nil
+            --? Reset all autoBlacklisted quests if a skill is abandoned
+            QuestieQuest.ResetAutoblacklistCategory("skill")
+        end
+    end
+end)
 
 function QuestieProfessions:Init()
 
@@ -30,21 +47,44 @@ function QuestieProfessions:Init()
     QuestieProfessions.professionTable = professionTable
 end
 
+--- Returns if a skill increased and learning a new profession, does not however return if a skill is unlearned
+---@return boolean HasProfessionUpdate @Returns true if the players profession skill has increased
+---@return boolean HasNewProfession @Returns true if the player has learned a new profession
 function QuestieProfessions:Update()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieProfession: Update")
     ExpandSkillHeader(0)
-    local isProfessionUpdate = false
+    local hasProfessionUpdate = false
+    local hasNewProfession = false
+
+    --- Used to compare to be able to detect if a profession has been learned
+    local temporaryPlayerProfessions = {}
 
     for i=1, GetNumSkillLines() do
         if i > 14 then break; end -- We don't have to go through all the weapon skills
 
         local skillName, isHeader, _, skillRank, _, _, _, _, _, _, _, _, _ = GetSkillLineInfo(i)
         if (not isHeader) and professionTable[skillName] then
-            isProfessionUpdate = true -- A profession leveled up, not something like "Defense"
-            playerProfessions[professionTable[skillName]] = {skillName, skillRank}
+            temporaryPlayerProfessions[professionTable[skillName]] = {skillName, skillRank}
         end
     end
-    return isProfessionUpdate
+
+    for professionId, _ in pairs(temporaryPlayerProfessions) do
+        if not playerProfessions[professionId] then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "New profession: " .. temporaryPlayerProfessions[professionId][1])
+            -- This is kept here for legacy support, even though it's not really true...
+            hasProfessionUpdate = true
+            -- A new profession was learned
+            hasNewProfession = true
+
+            --? Reset all autoBlacklisted quests if a new skill is learned
+            QuestieQuest.ResetAutoblacklistCategory("skill")
+        elseif temporaryPlayerProfessions[professionId][2] > playerProfessions[professionId][2] then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "Profession update: " .. temporaryPlayerProfessions[professionId][1] .. " " .. playerProfessions[professionId][2] .. " -> " .. temporaryPlayerProfessions[professionId][2])
+            hasProfessionUpdate = true -- A profession leveled up, not something like "Defense"
+        end
+    end
+    playerProfessions = temporaryPlayerProfessions
+    return hasProfessionUpdate, hasNewProfession
 end
 
 -- This function is just for debugging purpose
@@ -67,17 +107,21 @@ local function _HasProfession(profession)
 end
 
 local function _HasSkillLevel(profession, skillLevel)
-    return (not skillLevel) or playerProfessions[profession][2] >= skillLevel
+    return (not skillLevel) or (playerProfessions[profession] and playerProfessions[profession][2] >= skillLevel)
 end
 
+---@param requiredSkill { [1]: number, [2]: number } [1] = professionId, [2] = skillLevel
+---@return boolean HasProfession
+---@return boolean HasSkillLevel
 function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     if not requiredSkill then
-        return true
+        --? We return true here because otherwise we would have to check for nil everywhere
+        return true, true
     end
 
     local profession = requiredSkill[1]
     local skillLevel = requiredSkill[2]
-    return _HasProfession(profession) and _HasSkillLevel(profession, skillLevel)
+    return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
 QuestieProfessions.professionKeys = {
@@ -94,6 +138,7 @@ QuestieProfessions.professionKeys = {
     FISHING = 356,
     SKINNING = 393,
     JEWELCRAFTING = 755,
+    INSCRIPTION = 773,
     RIDING = 762,
 }
 
@@ -127,7 +172,8 @@ local sortIds = {
     [QuestieProfessions.professionKeys.ENCHANTING] = -668, -- Dummy Id
     [QuestieProfessions.professionKeys.FISHING] = -101,
     [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
-    --[QuestieProfessions.professionKeys.JEWELCRAFTING] = ,
+    [QuestieProfessions.professionKeys.INSCRIPTION] = -373,
+    [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 

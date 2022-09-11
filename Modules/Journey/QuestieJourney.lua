@@ -148,7 +148,7 @@ function QuestieJourney:AcceptQuest(questId)
         Event = "Quest",
         SubType = "Accept",
         Quest = questId,
-        Level = QuestiePlayer:GetPlayerLevel(),
+        Level = QuestiePlayer.GetPlayerLevel(),
         Timestamp = time()
     }
 
@@ -177,7 +177,7 @@ function QuestieJourney:AbandonQuest(questId)
             Event = "Quest",
             SubType = "Abandon",
             Quest = questId,
-            Level = QuestiePlayer:GetPlayerLevel(),
+            Level = QuestiePlayer.GetPlayerLevel(),
             Timestamp = time()
         }
 
@@ -192,7 +192,7 @@ function QuestieJourney:CompleteQuest(questId)
         Event = "Quest",
         SubType = "Complete",
         Quest = questId,
-        Level = QuestiePlayer:GetPlayerLevel(),
+        Level = QuestiePlayer.GetPlayerLevel(),
         Timestamp = time()
     }
 

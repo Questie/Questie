@@ -96,13 +96,12 @@ function QuestieOptionsDefaults:Load()
             trackerFontSizeObjective = 10,
             trackerFontObjective = 'Friz Quadrata TT',
             trackerQuestPadding = 4,
+            trackerFontOutline = nil,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
-            trackerEnabled = true,
             globalTrackerLocation = true,
             showQuestXpAtMaxLevel = true,
             questieTLoc = "char",
-
         },
         char = {
             minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
@@ -146,6 +145,6 @@ function QuestieOptionsDefaults:Load()
             showQuestsInNpcTooltip = true,
             ldbDisplayText = "Questie"
         },
-        profile = {minimap = {hide = false}}
+        profile = { minimap = { hide = false } }
     }
 end

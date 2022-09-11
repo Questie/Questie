@@ -2217,6 +2217,7 @@
         "QuestLog_Update",
         "QuestLog_SetSelection",
         "QuestWatch_Update",
+        "WatchFrame",
         "FauxScrollFrame_GetOffset",
         "----------------------------------------------------->LUA API",
         "bit",
@@ -2668,6 +2669,7 @@
         "CLOSE",
         "WOW_PROJECT_ID",
         "WOW_PROJECT_MAINLINE",
+        "INVENTORY_ALERT_STATUS_SLOTS",
         "-----------------------------------------------------> External Addons",
         "AtlasToggleFromWorldMap",
         "QuestLogEx",
@@ -2679,13 +2681,14 @@
         "GetQuestLogRewardXP",
         "DBM",
         "DBMHudMap",
-        "hudDuration",//This is some DBM stuff, dunno what
+        "hudDuration",
         "TomTom",
         "LQuestie_EasyMenu",
         "LibStub",
         "SUFUnittarget",
         "ElvUF_Target",
         "PitBull4_Frames_Target",
+        "DugisGuideViewer",
         "-----------------------------------------------------> Project Specific",
         "QuestieConfig",
         "QuestieConfigCharacter",
@@ -2700,18 +2703,13 @@
         "LQuestie_Create_UIDropDownMenu"
     ],
     "Lua.workspace.ignoreDir": [
-        "Database/graves.lua",
         "Database/itemDB.lua",
         "Database/objectDB.lua",
         "Database/questDB.lua",
-        "Database/spawnDB.lua",
-        "Database/specialspawns.lua",
-        "Database/TEMP_questie2events.lua",
-        "Database/TEMP_questie4items.lua",
-        "Database/TEMP_repprof.lua",
         "Database/zoneDB.lua",
         "Localization/lookups/**",
-        "Localization/Translations/**"
+        "Localization/Translations/**",
+        "cli.lua"
     ],
     "files.exclude": {
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,

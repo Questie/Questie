@@ -36,6 +36,15 @@ local QuestieTBCItemFixes = QuestieLoader:ImportModule("QuestieTBCItemFixes")
 ---@type QuestieTBCObjectFixes
 local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes")
 
+---@type QuestieWotlkQuestFixes
+local QuestieWotlkQuestFixes = QuestieLoader:ImportModule("QuestieWotlkQuestFixes")
+---@type QuestieWotlkNpcFixes
+local QuestieWotlkNpcFixes = QuestieLoader:ImportModule("QuestieWotlkNpcFixes")
+---@type QuestieWotlkItemFixes
+local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes")
+---@type QuestieWotlkObjectFixes
+local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
+
 --[[
     This file load the corrections of the database files.
 
@@ -53,6 +62,7 @@ local QuestieTBCObjectFixes = QuestieLoader:ImportModule("QuestieTBCObjectFixes"
 -- flags that can be used in corrections (currently only blacklists)
 QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
+QuestieCorrections.WOTLK_ONLY = 3
 
 QuestieCorrections.reversedKillCreditQuestIDs = {} -- Only used for TBC quests
 
@@ -63,15 +73,22 @@ local TICKS_PER_YIELD = 72
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
+    local isWotlk = Questie.IsWotlk
     for k, v in pairs(values) do
-        if v == QuestieCorrections.TBC_ONLY then
+        if v == QuestieCorrections.WOTLK_ONLY then
+            if isWotlk then
+                values[k] = true
+            else
+                values[k] = nil
+            end
+        elseif v == QuestieCorrections.TBC_ONLY then
             if isTBC then
                 values[k] = true
             else
                 values[k] = nil
             end
         elseif v == QuestieCorrections.CLASSIC_ONLY then
-            if isTBC then
+            if isTBC or isWotlk then
                 values[k] = nil
             else
                 values[k] = true
@@ -120,7 +137,16 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
-    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
+    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load()) 
+
+    if (Questie.IsWotlk) then
+        -- We only add blacklist if no blacklist entry for the quest already exists
+        for id, hide in pairs(QuestieQuestBlacklist.LoadAutoBlacklistWotlk()) do
+            if (not QuestieCorrections.hiddenQuests[id]) then
+                QuestieCorrections.hiddenQuests[id] = hide
+            end
+        end
+    end
 
     if Questie.db.char.showEventQuests then
         C_Timer.After(1, function()
@@ -160,11 +186,18 @@ function QuestieCorrections:Initialize(validationTables)
     _LoadCorrections("itemData", QuestieItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
     _LoadCorrections("objectData", QuestieObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
 
-    if Questie.IsTBC then
+    if Questie.IsTBC or Questie.IsWotlk then
         _LoadCorrections("questData", QuestieTBCQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieTBCNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("itemData", QuestieTBCItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieTBCObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
+    end
+
+    if Questie.IsWotlk then
+        _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
+        _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
+        _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
 
     local patchCount = 0

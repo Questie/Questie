@@ -33,9 +33,9 @@ function QuestieLib:PrintDifficultyColor(level, text, isDailyQuest)
     end
 
     if level == -1 then
-        level = QuestiePlayer:GetPlayerLevel()
+        level = QuestiePlayer.GetPlayerLevel()
     end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel()
+    local levelDiff = level - QuestiePlayer.GetPlayerLevel()
 
     if (levelDiff >= 5) then
         return "|cFFFF1A1A" .. text .. "|r" -- Red
@@ -52,8 +52,8 @@ end
 
 function QuestieLib:GetDifficultyColorPercent(level)
 
-    if level == -1 then level = QuestiePlayer:GetPlayerLevel() end
-    local levelDiff = level - QuestiePlayer:GetPlayerLevel()
+    if level == -1 then level = QuestiePlayer.GetPlayerLevel() end
+    local levelDiff = level - QuestiePlayer.GetPlayerLevel()
 
     if (levelDiff >= 5) then
         -- return "|cFFFF1A1A"..text.."|r"; -- Red
@@ -116,7 +116,7 @@ end
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
     local name = QuestieDB.QueryQuestSingle(questId, "name");
-    local level, _ = QuestieLib:GetTbcLevel(questId);
+    local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
@@ -126,7 +126,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     end
 
     if showState then
-        local isComplete = QuestieDB:IsComplete(questId)
+        local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
             name = name .. " (" .. l10n("Failed") .. ")"
@@ -135,7 +135,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         end
     end
 
-    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB:IsRepeatable(questId))
+    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId))
 end
 
 function QuestieLib:GetRandomColor(randomSeed)
@@ -152,7 +152,7 @@ end
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetQuestString(questId, name, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
+    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
     if questType and questTag then
         local char = "+"
@@ -190,29 +190,32 @@ end
 
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
----@param questId number
----@return number, number @questLevel & requiredLevel
-function QuestieLib:GetTbcLevel(questId)
+---@param questId QuestId
+---@param playerLevel Level? ---@ PlayerLevel, if nil we fetch current level
+---@return Level questLevel, Level requiredLevel @questLevel & requiredLevel
+function QuestieLib.GetTbcLevel(questId, playerLevel)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
-        local playerLevel = QuestiePlayer:GetPlayerLevel();
-        if (requiredLevel > playerLevel) then
+        local level = playerLevel or QuestiePlayer.GetPlayerLevel();
+        if (requiredLevel > level) then
             questLevel = requiredLevel;
         else
-            questLevel = playerLevel;
+            questLevel = level;
             -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
-            requiredLevel = playerLevel;
+            requiredLevel = level;
         end
     end
     return questLevel, requiredLevel;
 end
 
----@param questId number
----@param level number @The quest level
+---@param questId QuestId
+---@param level Level @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, _, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
+    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
+    local retLevel = tostring(level)
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
@@ -221,30 +224,30 @@ function QuestieLib:GetLevelString(questId, _, level, blizzLike)
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
-            level = "[" .. level .. "+" .. "] " -- Elite quest
+            retLevel = "[" .. retLevel .. "+" .. "] " -- Elite quest
         elseif questType == 81 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "D"
             end
-            level = "[" .. level .. char .. "] " -- Dungeon quest
+            retLevel = "[" .. retLevel .. char .. "] " -- Dungeon quest
         elseif questType == 62 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
-            level = "[" .. level .. char .. "] " -- Raid quest
+            retLevel = "[" .. retLevel .. char .. "] " -- Raid quest
         elseif questType == 41 then
-            level = "[" .. level .. "] " -- Which one? This is just default.
+            retLevel = "[" .. retLevel .. "] " -- Which one? This is just default.
             -- name = "[" .. level .. questTag .. "] " .. name -- PvP quest
         elseif questType == 83 then
-            level = "[" .. level .. "++" .. "] " -- Legendary quest
+            retLevel = "[" .. retLevel .. "++" .. "] " -- Legendary quest
         else
-            level = "[" .. level .. "] " -- Some other irrelevant type
+            retLevel = "[" .. retLevel .. "] " -- Some other irrelevant type
         end
     else
-        level = "[" .. level .. "] "
+        retLevel = "[" .. retLevel .. "] "
     end
 
-    return level
+    return retLevel
 end
 
 function QuestieLib:GetRaceString(raceMask)
@@ -386,7 +389,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        local questLevel, _ = QuestieLib:GetTbcLevel(q);
+        local questLevel, _ = QuestieLib.GetTbcLevel(q);
         tinsert(sortedQuestsByLevel, {questLevel or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
@@ -510,4 +513,158 @@ function QuestieLib.equals(a, b)
     end
 
     return a == b
+end
+
+---@return table A table of the handed parameters plus the 'n' field with the size of the table
+function QuestieLib.tpack(...)
+    return { n = select("#", ...), ... }
+end
+
+--- Wow's own unpack stops at first nil. this version is not speed optimized.
+--- Supports just above QuestieLib.tpack func as it requires the 'n' field.
+---@param tbl table A table packed with QuestieLib.tpack
+---@return table 'n' values of the tbl
+function QuestieLib.tunpack(tbl)
+    if tbl.n == 0 then
+        return nil
+    end
+
+    local function recursion(i)
+        if i == tbl.n then
+            return tbl[i]
+        end
+        return tbl[i], recursion(i+1)
+    end
+
+    return recursion(1)
+end
+
+---@alias TableWeakMode
+---| '"v"'        # Weak Value
+---| '"k"'        # Weak Key
+---| '"kv"'       # Weak Value and Weak Key
+---| '""'         # Regular table
+
+---* Memoize a function with a cache
+--! This does not support nil, never input nil into the table
+---@param func function
+---@param __mode TableWeakMode|nil
+---@return table
+function QuestieLib:TableMemoizeFunction(func, __mode)
+    return setmetatable({}, {
+        __index = function(self, k)
+            local v = func(self, k);
+            self[k] = v
+            return v;
+        end,
+        __mode = __mode or ""
+    });
+end
+
+
+local frameObject = nil
+if _G["QuestLogObjectivesText"] then -- classic
+    frameObject = _G["QuestLogObjectivesText"] 
+elseif _G["QuestInfoObjectivesText"] then -- Wotlk Classic
+    frameObject = _G["QuestInfoObjectivesText"]
+end
+--Part of the GameTooltipWrapDescription function
+local objectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
+objectiveFontString:SetWidth(frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+objectiveFontString:SetHeight(0);
+objectiveFontString:SetPoint("LEFT");
+objectiveFontString:SetJustifyH("LEFT");
+---@diagnostic disable-next-line: redundant-parameter
+objectiveFontString:SetWordWrap(true)
+objectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
+local font, size = frameObject:GetFont()
+--Chinese? "Fonts\\ARKai_T.ttf"
+objectiveFontString:SetFont(font, size);
+objectiveFontString:Hide()
+
+---Emulates the wrapping of a quest description
+---@param line string @The line to wrap
+---@param prefix string @The prefix to add to the line
+---@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
+---@param splitOnDot boolean @Should we add a linebreak if a dot appears thats not at the end of a line TRUE=NEW ROW, FALSE=NO NEW ROW, default: true
+---@param desiredWidth number @Set the desired width to wrap, default: 275
+---@return table[] @A table of wrapped lines
+function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
+    if(objectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
+
+    --Set Defaults
+    combineTrailing = combineTrailing or true
+    splitOnDot = splitOnDot or true
+    --We show the fontstring and set the text to start the process
+    --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
+    objectiveFontString:SetWidth(desiredWidth or frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+    objectiveFontString:Show()
+
+    --Make a linebreak on each "dot" character if there is a space after (don't want it on end of line)
+    local useLine = string.gsub(line, "%. ", "%.%\n")
+
+    objectiveFontString:SetText(useLine)
+    --Is the line wrapped?
+    if(objectiveFontString:GetUnboundedStringWidth() > objectiveFontString:GetWrappedWidth()) then
+        local lines = {}
+        local startIndex = 1
+        local endIndex = 2 --We should be able to start at a later index...
+        --This function returns a list of size information per row, so we use this to calculate number of rows
+        local numberOfRows = #objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
+        for row = 1, numberOfRows do
+            local lastSpaceIndex
+            local dotIndex
+            local indexes
+            --We use the previous way to get number of rows to loop through characterindex until we get 2 rows
+            repeat
+                indexes = objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
+                --Last space of the line to be used to break a new row
+                if(string.sub(useLine, endIndex, endIndex) == " ") then
+                    lastSpaceIndex = endIndex
+                --Track the dot at the end of a line
+                elseif(string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
+                    dotIndex = endIndex
+                end
+                endIndex = endIndex + 1
+                --If we are at the end of characters break and set endIndex to strlen
+                if(endIndex > strlen(useLine)) then
+                    endIndex = strlen(useLine)
+                    lastSpaceIndex = endIndex
+                    break
+                end
+            until (#indexes > 1) --Until more than one row
+
+            --Get the line we calculated
+            --First to Dot, then space and lastly endIndex(chinese)
+            local newLine = string.sub(useLine, startIndex, dotIndex or lastSpaceIndex or endIndex)
+
+            --This combines a trailing word to the previous line if it is the only word of the line
+            --We check lastSpaceIndex here because the logic will be faulty (chinese client)
+            if(row == numberOfRows-1 and combineTrailing and lastSpaceIndex) then
+                --Get the last line, in it's full
+                local lastLine = string.sub(useLine, endIndex - 2, strlen(useLine))
+
+                --Does the line not contain any space we combine it into the previous line
+                if(not string.find(lastLine, " ")) then
+                    newLine = string.sub(useLine, startIndex, strlen(useLine))
+                    --print("NL1", newLine)
+                    table.insert(lines, prefix..newLine)
+                    --Break the for loop on last line, no more running required
+                    break
+                end
+            end
+            --Change the startIndex to be the new line, and add the line to the lines list
+            startIndex = endIndex - 2
+            endIndex = endIndex
+
+            table.insert(lines, prefix..newLine)
+        end
+        objectiveFontString:Hide()
+        return lines
+    else
+        --Line was not wrapped, return the string as is.
+        objectiveFontString:Hide()
+        useLine = prefix..string.gsub(line, "%. ", "%.%\n"..prefix)
+        return {useLine}
+    end
 end

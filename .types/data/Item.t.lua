@@ -1,0 +1,2 @@
+
+---@alias ItemId number
