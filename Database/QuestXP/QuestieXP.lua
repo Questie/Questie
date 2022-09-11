@@ -2,16 +2,16 @@
 ---@class QuestXP : Module
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
----@type table<number,table<number,number>> -- { questId={level, xp}, ..... }
+---@type table<QuestId,table<Level,XP>> -- { questId={level, xp}, ..... }
 QuestXP.db = {}
 
 local floor = floor
 local UnitLevel, GetExpansionLevel = UnitLevel, GetExpansionLevel
 
----@param xp number
----@param qLevel number
+---@param xp XP
+---@param qLevel Level
 ---@param ignorePlayerLevel boolean
----@return number experiance
+---@return XP experiance
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
     local expansionLevel = GetExpansionLevel()
@@ -44,9 +44,9 @@ end
 
 
 ---Get the adjusted XP for a quest.
----@param questId number
+---@param questId QuestId
 ---@param ignorePlayerLevel boolean
----@return number experience
+---@return XP experience
 function QuestXP:GetQuestLogRewardXP(questId, ignorePlayerLevel)
     if QuestXP.db[questId] then
         local level = QuestXP.db[questId][1]
