@@ -31,8 +31,8 @@ Database\QuestXP\DB\xpDB-wotlk.lua
 Modules\QuestieStream.lua
 
 # Zones
-Database\Zones\zoneDB.lua
 Database\Zones\zoneTables.lua
+Database\Zones\zoneDB.lua
 
 # Databases
 Database\Wotlk\wotlkItemDB.lua

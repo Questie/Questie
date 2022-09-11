@@ -14,6 +14,34 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local TICKS_PER_YIELD_DEBUG = 4000
 local TICKS_PER_YIELD = 48
 
+---@alias CompilerTypes
+---| "u8"
+---| "u16"
+---| "s16"
+---| "u24"
+---| "u32"
+---| "u12pair"
+---| "u24pair"
+---| "s24pair"
+---| "u8string"
+---| "u16string"
+---| "u8u16array"
+---| "u8s16pairs"
+---| "u16u16array"
+---| "u8s24pairs"
+---| "u8u24array"
+---| "u16u24array"
+---| "u8u16stringarray"
+---| "faction"
+---| "spawnlist"
+---| "trigger"
+---| "questgivers"
+---| "objective"
+---| "objectives"
+---| "reflist"
+---| "extraobjective
+
+
 QuestieDBCompiler.supportedTypes = {
     ["table"] = {
         ["u12pair"] = true,

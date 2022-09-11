@@ -272,7 +272,9 @@ function TrackerUtils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
 
-function TrackerUtils:GetZoneNameByID(zoneId)
+---@param zoneId AreaId
+---@return Name Name of zone (localized)
+local function GetZoneNameByIDFallback(zoneId)
     if zoneCache[zoneId] then
         return zoneCache[zoneId]
     end
@@ -284,6 +286,18 @@ function TrackerUtils:GetZoneNameByID(zoneId)
                 return translatedZoneName
             end
         end
+    end
+    return "Unknown Zone"
+end
+
+---@param zoneId AreaId
+---@return Name Name of zone (localized)
+function TrackerUtils:GetZoneNameByID(zoneId)
+    if C_Map and C_Map.GetAreaInfo then
+        local name = C_Map.GetAreaInfo(zoneId)
+        return name or GetZoneNameByIDFallback(zoneId)
+    else 
+        return GetZoneNameByIDFallback(zoneId)
     end
 end
 

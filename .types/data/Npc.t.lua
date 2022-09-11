@@ -1,0 +1,2 @@
+
+---@alias NpcId number
