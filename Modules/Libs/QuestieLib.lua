@@ -215,7 +215,7 @@ end
 function QuestieLib:GetLevelString(questId, _, level, blizzLike)
     local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
-    local level = tostring(level)
+    local retLevel = tostring(level)
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
@@ -224,30 +224,30 @@ function QuestieLib:GetLevelString(questId, _, level, blizzLike)
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
-            level = "[" .. level .. "+" .. "] " -- Elite quest
+            retLevel = "[" .. retLevel .. "+" .. "] " -- Elite quest
         elseif questType == 81 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "D"
             end
-            level = "[" .. level .. char .. "] " -- Dungeon quest
+            retLevel = "[" .. retLevel .. char .. "] " -- Dungeon quest
         elseif questType == 62 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
-            level = "[" .. level .. char .. "] " -- Raid quest
+            retLevel = "[" .. retLevel .. char .. "] " -- Raid quest
         elseif questType == 41 then
-            level = "[" .. level .. "] " -- Which one? This is just default.
+            retLevel = "[" .. retLevel .. "] " -- Which one? This is just default.
             -- name = "[" .. level .. questTag .. "] " .. name -- PvP quest
         elseif questType == 83 then
-            level = "[" .. level .. "++" .. "] " -- Legendary quest
+            retLevel = "[" .. retLevel .. "++" .. "] " -- Legendary quest
         else
-            level = "[" .. level .. "] " -- Some other irrelevant type
+            retLevel = "[" .. retLevel .. "] " -- Some other irrelevant type
         end
     else
-        level = "[" .. level .. "] "
+        retLevel = "[" .. retLevel .. "] "
     end
 
-    return level
+    return retLevel
 end
 
 function QuestieLib:GetRaceString(raceMask)
