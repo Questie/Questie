@@ -21,6 +21,12 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
             },
         },
+        [16281] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.39}}},
+        },
+        [16361] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.45}}},
+        },
         [17977] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
         },

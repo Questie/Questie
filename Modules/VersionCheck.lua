@@ -37,9 +37,8 @@ if Questie then
 end
 
 --Initialized below
----@class Questie
+---@class Questie : AceAddon, AceConsole-3.0, AceEvent-3.0, AceTimer-3.0, AceComm-3.0, AceBucket-3.0
 Questie = LibStub("AceAddon-3.0"):NewAddon("Questie", "AceConsole-3.0", "AceEvent-3.0", "AceTimer-3.0", "AceComm-3.0", "AceBucket-3.0")
-local Questie = Questie
 
 -- preinit placeholder to stop tukui crashing from literally force-removing one of our features no matter what users select in the config ui
 Questie.db = {profile={minimap={hide=false}}}
@@ -47,17 +46,18 @@ Questie.db = {profile={minimap={hide=false}}}
 -- prevent multiple warnings for the same ID, not sure the best place to put this
 Questie._sessionWarnings = {}
 
+local clientVersion = GetBuildInfo()
 --- Addon is running on Classic Wotlk client
 ---@type boolean
-Questie.IsWotlk = string.byte(GetBuildInfo(), 1) == 51
+Questie.IsWotlk = string.byte(clientVersion, 1) == 51
 
 --- Addon is running on Classic TBC client
 ---@type boolean
-Questie.IsTBC = string.byte(GetBuildInfo(), 1) == 50
+Questie.IsTBC = string.byte(clientVersion, 1) == 50
 
 --- Addon is running on Classic "Vanilla" client: Means Classic Era and its seasons like SoM
 ---@type boolean
-Questie.IsClassic = string.byte(GetBuildInfo(), 1) == 49
+Questie.IsClassic = string.byte(clientVersion, 1) == 49
 
 --- Addon is running on Classic "Vanilla" client and on Era realm
 ---@type boolean
