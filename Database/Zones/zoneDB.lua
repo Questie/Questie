@@ -31,24 +31,22 @@ local dungeonParentZones = {}
 local subZoneToParentZone = {}
 local parentZoneToSubZone = {} -- Generated
 
-local zoneMap = {} -- Generated
-
 
 function ZoneDB:Initialize()
     areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone = ZoneDB:GetZoneTables()
 
-    _ZoneDB:GenerateUiMapIdToAreaIdTable()
-    _ZoneDB:GenerateParentZoneToStartingZoneTable()
+    _ZoneDB.GenerateUiMapIdToAreaIdTable()
+    _ZoneDB.GenerateParentZoneToStartingZoneTable()
 end
 
-function _ZoneDB:GenerateUiMapIdToAreaIdTable()
+function _ZoneDB.GenerateUiMapIdToAreaIdTable()
     for areaId, uiMapId in pairs(areaIdToUiMapId) do
         uiMapIdToAreaId[uiMapId] = areaId
     end
     uiMapIdToAreaId[1946] = 3521 -- fix zangarmarsh reverse lookup (todo: better solution)
 end
 
-function _ZoneDB:GenerateParentZoneToStartingZoneTable()
+function _ZoneDB.GenerateParentZoneToStartingZoneTable()
     for startingZone, parentZone in pairs(subZoneToParentZone) do
         parentZoneToSubZone[parentZone] = startingZone
     end
@@ -84,157 +82,151 @@ function ZoneDB:GetAlternativeZoneId(areaId)
     return nil
 end
 
-function ZoneDB:GetParentZoneId(areaId)
+function ZoneDB.GetParentZoneId(areaId)
     return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
-function ZoneDB:GetZonesWithQuests()
+--- zoneMap[zoneOrSort][questId] = true
+---@alias zoneMap table<integer, table<integer, true>>
+
+--- Modifies zoneMap by adding questID into zones where relevant npcs/objects spawn.
+---@param zoneMap zoneMap
+---@param questId integer
+---@param querySingleFunction fun(id:integer, field:string):any # QuerySingle function to relevant DB, where to get spawns of idList
+---@param idList integer[]|nil # list of npc/object ids, whose spawns' zones will be added into zoneMap
+local function _AddZonesWithQuestsFromSpawns(zoneMap, questId, querySingleFunction, idList)
+    if (not idList) then return end
+
+    for id in pairs(idList) do
+        ---@type table<integer, table> | nil
+        local spawns = querySingleFunction(id, "spawns")
+        if spawns then
+            for zone in pairs(spawns) do
+                if not zoneMap[zone] then
+                    zoneMap[zone] = {}
+                end
+                zoneMap[zone][questId] = true
+            end
+        end
+    end
+end
+
+local seasonalDummyEvents = {
+    ["Love is in the Air"] = -400,
+    ["Children's Week"] = -401,
+    ["Harvest Festival"] = -402,
+    ["Hallow's End"] = -403,
+    ["Winter Veil"] = -404,
+}
+
+--- Modifies zoneMap by adding quests from SPECIAL and SEASONAL sortIds to their seasonal event specific sortIds.
+--- Modifies zoneMap by removing SPECIAL and SEASONAL sortIds.
+---@param zoneMap zoneMap
+local function _SplitSeasonalQuests(zoneMap)
+    if not zoneMap[QuestieDB.sortKeys.SPECIAL] then return end
+
+    local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]
+    -- Merging SEASONAL and SPECIAL quests to be split into real groups
+    for questId in pairs(zoneMap[QuestieDB.sortKeys.SPECIAL]) do
+        questsToSplit[questId] = true
+    end
+
+    for _, eventSortId in pairs(seasonalDummyEvents) do
+        zoneMap[eventSortId] = {}
+    end
+
+    for questId in pairs(questsToSplit) do
+        local eventName = QuestieEvent:GetEventNameFor(questId)
+        local eventSortId = seasonalDummyEvents[eventName]
+        if eventSortId then
+            zoneMap[eventSortId][questId] = true
+        end
+    end
+
+    zoneMap[QuestieDB.sortKeys.SEASONAL] = nil
+    zoneMap[QuestieDB.sortKeys.SPECIAL] = nil
+end
+
+--- Generate "zoneMap" for current player. i.e. which all zones have quests for player.
+---@return zoneMap
+function ZoneDB.GetZonesWithQuests()
+    local professionRIDING = QuestieProfessions.professionKeys.RIDING
+    local hiddenQuests = QuestieCorrections.hiddenQuests
+    local QueryQuestSingle = QuestieDB.QueryQuestSingle
+    local GetParentZoneId = ZoneDB.GetParentZoneId
+    local HasRequiredRace = QuestiePlayer.HasRequiredRace
+    local HasRequiredClass = QuestiePlayer.HasRequiredClass
+
+    -- generate a lookup table of values existing in QuestieDB.sortKeys
+    ---@type table<integer, true>
+    local sortIdentifiersOfSpecialQuestCategories = {}
+    for _, v in pairs(QuestieDB.sortKeys) do
+        sortIdentifiersOfSpecialQuestCategories[v] = true
+    end
+
+    ---@type zoneMap
+    local zoneMap = {}
+
     for questId in pairs(QuestieDB.QuestPointers) do
+        if (not hiddenQuests[questId])
+        and HasRequiredRace(QueryQuestSingle(questId, "requiredRaces"))
+        and HasRequiredClass(QueryQuestSingle(questId, "requiredClasses")) then
 
-        if (not QuestieCorrections.hiddenQuests[questId]) then
-            if QuestiePlayer:HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
-            and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
+            ---@type integer|nil, integer[]|nil
+            local zoneOrSort, requiredSkill = QueryQuestSingle(questId, "zoneOrSort"), QueryQuestSingle(questId, "requiredSkill")
+            if requiredSkill and (requiredSkill[1] ~= professionRIDING) then
+                zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
-                local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
-                if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
-                    zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
+                if (not zoneMap[zoneOrSort]) then
+                    zoneMap[zoneOrSort] = {}
+                end
+                zoneMap[zoneOrSort][questId] = true
+            elseif zoneOrSort and (zoneOrSort > 0) then -- quest has a zone
+                local zoneId = GetParentZoneId(zoneOrSort) or zoneOrSort
 
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                elseif zoneOrSort > 0 then
-                    local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
+                if (not zoneMap[zoneId]) then
+                    zoneMap[zoneId] = {}
+                end
+                zoneMap[zoneId][questId] = true
+            elseif sortIdentifiersOfSpecialQuestCategories[zoneOrSort] then -- belongs to values of QuestieDB.sortKeys
+                ---@cast zoneOrSort -nil
+                if (not zoneMap[zoneOrSort]) then
+                    zoneMap[zoneOrSort] = {}
+                end
+                zoneMap[zoneOrSort][questId] = true
+            else
+                ---@type integer[][]|nil, integer[][]|nil
+                local startedBy, finishedBy = QueryQuestSingle(questId, "startedBy"), QueryQuestSingle(questId, "finishedBy")
 
-                    if parentZoneId then
-                        if (not zoneMap[parentZoneId]) then
-                            zoneMap[parentZoneId] = {}
-                        end
-                        zoneMap[parentZoneId][questId] = true
-                    else
-                        if (not zoneMap[zoneOrSort]) then
-                            zoneMap[zoneOrSort] = {}
-                        end
-                        zoneMap[zoneOrSort][questId] = true
-                    end
-                elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                else
-                    local startedBy, finishedBy = QuestieDB.QueryQuestSingle(questId, "startedBy"), QuestieDB.QueryQuestSingle(questId, "finishedBy")
+                if startedBy then
+                    _AddZonesWithQuestsFromSpawns(zoneMap, questId, QuestieDB.QueryNPCSingle, startedBy[1])
+                    _AddZonesWithQuestsFromSpawns(zoneMap, questId, QuestieDB.QueryObjectSingle, startedBy[2])
+                end
 
-                    if startedBy then
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
-                    end
-
-                    if finishedBy then
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
-                    end
+                if finishedBy then
+                    _AddZonesWithQuestsFromSpawns(zoneMap, questId, QuestieDB.QueryNPCSingle, finishedBy[1])
+                    _AddZonesWithQuestsFromSpawns(zoneMap, questId, QuestieDB.QueryObjectSingle, finishedBy[2])
                 end
             end
         end
     end
 
-    zoneMap = _ZoneDB:SplitSeasonalQuests()
+    _SplitSeasonalQuests(zoneMap)
 
     return zoneMap
 end
 
-function _ZoneDB:IsSpecialQuest(zoneOrSort)
-    for _, v in pairs(QuestieDB.sortKeys) do
-        if zoneOrSort == v then
-            return true
-        end
-    end
-    return false
-end
-
-function _ZoneDB:GetZonesWithQuestsFromNPCs(zones, npcIds)
-    if (not npcIds) then
-        return zones
-    end
-
-    for npcId in pairs(npcIds) do
-        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
-        if spawns then
-            for zone in pairs(spawns) do
-                if not zones[zone] then zones[zone] = {} end
-                zones[zone][npcId] = true
-            end
-        end
-    end
-
-    return zones
-end
-
-function _ZoneDB:GetZonesWithQuestsFromObjects(zones, objectIds)
-    if (not objectIds) then
-        return zones
-    end
-
-    for objectId in pairs(objectIds) do
-        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
-        if spawns then
-            for zone in pairs(spawns) do
-                if not zones[zone] then zones[zone] = {} end
-                zones[zone][objectId] = true
-            end
-        end
-    end
-
-    return zones
-end
-
----@return table
-function _ZoneDB:SplitSeasonalQuests()
-    if not zoneMap[QuestieDB.sortKeys.SPECIAL] then
-        return zoneMap
-    end
-    local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]
-    -- Merging SEASONAL and SPECIAL quests to be split into real groups
-    for k, v in pairs(zoneMap[QuestieDB.sortKeys.SPECIAL]) do questsToSplit[k] = v end
-
-    local updatedZoneMap = zoneMap
-    updatedZoneMap[-400] = {}
-    updatedZoneMap[-401] = {}
-    updatedZoneMap[-402] = {}
-    updatedZoneMap[-403] = {}
-    updatedZoneMap[-404] = {}
-
-    for questId, _ in pairs(questsToSplit) do
-        local eventName = QuestieEvent:GetEventNameFor(questId)
-        if eventName == "Love is in the Air" then
-            updatedZoneMap[-400][questId] = true
-        elseif eventName == "Children's Week" then
-            updatedZoneMap[-401][questId] = true
-        elseif eventName == "Harvest Festival" then
-            updatedZoneMap[-402][questId] = true
-        elseif eventName == "Hallow's End" then
-            updatedZoneMap[-403][questId] = true
-        elseif eventName == "Winter Veil" then
-            updatedZoneMap[-404][questId] = true
-        end
-    end
-
-    updatedZoneMap[QuestieDB.sortKeys.SEASONAL] = nil
-    updatedZoneMap[QuestieDB.sortKeys.SPECIAL] = nil
-    return updatedZoneMap
-end
-
-function ZoneDB:GetRelevantZones()
+---@param zoneMap zoneMap
+---@return table # zones[category][zoneOrSortId] = l10n(zoneName)
+function ZoneDB.GetRelevantZones(zoneMap)
     local zones = {}
     for category, data in pairs(l10n.zoneCategoryLookup) do
         zones[category] = {}
-        for id, zoneName in pairs(data) do
-            local zoneQuests = zoneMap[id]
-            if (not zoneQuests) then
-                zones[category][id] = nil
+        for zoneOrSortId, zoneName in pairs(data) do
+            if zoneMap[zoneOrSortId] then
+                zones[category][zoneOrSortId] = l10n(zoneName)
             else
-                zones[category][id] = l10n(zoneName)
+                zones[category][zoneOrSortId] = nil
             end
         end
     end

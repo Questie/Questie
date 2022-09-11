@@ -519,14 +519,14 @@ function QuestieDB:IsDoable(questId)
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
-    if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
+    if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] race requirement not fulfilled for questId:", questId)
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
-    if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+    if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
         Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId:", questId)
         return false
     end
@@ -1056,13 +1056,13 @@ function _QuestieDB:HideClassAndRaceQuests()
         -- check requirements, set hidden flag if not met
         local requiredClasses = entry[questKeys.requiredClasses]
         if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
+            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
                 entry.hidden = true
             end
         end
         local requiredRaces = entry[questKeys.requiredRaces]
         if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-            if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
+            if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
                 entry.hidden = true
             end
         end
