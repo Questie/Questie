@@ -660,10 +660,11 @@ function _QuestieTracker:SetSafePoint(frm)
     local xOff, yOff = frm:GetWidth()/2, frm:GetHeight()/2
     local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
 
-    if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then
+    local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
+    if trackerSetPoint == "AUTO" then
         frm:SetPoint("TOPLEFT", UIParent, "CENTER", resetCords["TOPLEFT"].x, resetCords["TOPLEFT"].y)
     else
-        frm:SetPoint(Questie.db[Questie.db.global.questieTLoc].trackerSetpoint, UIParent, "CENTER", resetCords[Questie.db[Questie.db.global.questieTLoc].trackerSetpoint].x, resetCords[Questie.db[Questie.db.global.questieTLoc].trackerSetpoint].y)
+        frm:SetPoint(trackerSetPoint, UIParent, "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y)
     end
 end
 
