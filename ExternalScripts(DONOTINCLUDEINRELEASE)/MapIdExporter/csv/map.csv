@@ -1,0 +1,187 @@
+ID,Directory,MapName_lang,MapDescription0_lang,MapDescription1_lang,PvpShortDescription_lang,PvpLongDescription_lang,MapType,InstanceType,ExpansionID,AreaTableID,LoadingScreenID,TimeOfDayOverride,ParentMapID,CosmeticParentMapID,TimeOffset,MinimapIconScale,CorpseMapID,MaxPlayers,WindSettingsID,ZmpFileDataID,Flags[0],Flags[1],Flags[2]
+0,Azeroth,Eastern Kingdoms,,,,,1,0,0,0,4,-1,-1,-1,0,1,-1,0,0,804940,16858641,135528448,2
+1,Kalimdor,Kalimdor,,,,,1,0,0,0,3,-1,-1,-1,0,1,-1,0,0,804935,16858641,135528448,2
+13,test,Test Dungeon,,,,,2,1,0,3817,61,-1,-1,-1,0,1,-1,0,0,0,411057731,134610944,2
+25,ScottTest,Scott Test,,,,,2,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,67075,134217728,2
+30,PVPZone01,Alterac Valley,"Hidden within the Alterac Mountains, Alterac Valley is the home of Thrall's own clan of orcs, the Frostwolves.
+
+The Stormpike dwarves have established a foothold in the valley and seek to plumb its depths for riches and links to their ancestral past.
+
+The territorial Frostwolves, unwilling to suffer the dwarven incursion, have rallied an army... an army eager for righteous slaughter.","Hidden within the Alterac Mountains, Alterac Valley is the home of Thrall's own clan of orcs, the Frostwolves.
+
+The Stormpike dwarves have established a foothold in the valley and seek to plumb its depths for riches and links to their ancestral past.
+
+The territorial Frostwolves, unwilling to suffer the dwarven incursion, have rallied an army... an army eager for righteous slaughter.",,,1,3,0,0,104,-1,-1,-1,0,1,-1,0,0,0,16858641,134479880,2
+33,Shadowfang,Shadowfang Keep,,,,,1,1,0,0,204,-1,-1,-1,0,1,0,10,0,0,16858641,134479872,2
+34,StormwindJail,Stormwind Stockade,,,,,2,1,0,717,194,-1,-1,-1,0,1,0,10,0,0,67073,134217728,2
+35,StormwindPrison,<unused>StormwindPrison,,,,,2,0,0,717,23,-1,-1,-1,0,1,0,0,0,0,67073,134217736,2
+36,DeadminesInstance,Deadmines,,,,,1,1,0,0,142,-1,-1,-1,0,1,0,10,0,0,16858641,134479872,2
+37,PVPZone02,Azshara Crater,Crush the Alliance!,Defend yourself from the onslaught of the Horde!,,,1,0,0,0,25,-1,-1,-1,0,1,-1,0,0,0,16858641,134479880,2
+42,Collin,Collin's Test,,,,,2,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,67075,134217728,2
+43,WailingCaverns,Wailing Caverns,,,,,2,1,0,718,143,-1,-1,-1,0,1,1,10,0,0,67073,134217728,2
+44,Monastery,<unused> Monastery,,,,,2,1,0,0,42,-1,-1,-1,0,1,0,10,0,0,67073,134217736,2
+47,RazorfenKraulInstance,Razorfen Kraul,,,,,1,1,0,0,188,-1,-1,-1,0,1,1,10,0,0,16858641,134479872,2
+48,Blackfathom,Blackfathom Deeps,,,,,2,1,0,719,196,-1,-1,-1,0,1,1,10,0,0,67073,134217728,2
+70,Uldaman,Uldaman,,,,,2,1,0,1337,144,-1,-1,-1,0,1,0,10,0,0,67073,134217728,2
+90,GnomeragonInstance,Gnomeregan,,,,,2,1,0,721,193,-1,-1,-1,0,1,0,10,0,0,67073,134217728,2
+109,SunkenTemple,Sunken Temple,,,,,2,1,0,1477,191,-1,-1,-1,0,1,0,10,0,0,67073,134217728,2
+129,RazorfenDowns,Razorfen Downs,,,,,1,1,0,0,145,-1,-1,-1,0,1,1,10,0,0,16858641,134479872,2
+169,EmeraldDream,Emerald Dream,,,,,1,2,0,0,0,-1,-1,-1,0,1,-1,40,0,0,16858641,134479872,2
+189,MonasteryInstances,Scarlet Monastery,,,,,1,1,0,0,190,-1,-1,-1,0,1,0,10,0,0,16858641,134479872,2
+209,TanarisInstance,Zul'Farrak,,,,,1,1,0,0,146,-1,-1,-1,0,1,1,10,0,0,16858641,134479872,2
+229,BlackRockSpire,Blackrock Spire,,,,,2,1,0,1583,189,-1,-1,-1,0,1,0,10,0,0,67073,134217728,2
+230,BlackrockDepths,Blackrock Depths,,,,,2,1,0,1584,103,-1,-1,-1,0,1,0,5,0,0,67073,134217728,2
+249,OnyxiaLairInstance,Onyxia's Lair,,,,,2,2,0,2159,61,-1,-1,-1,0,1,1,40,0,0,67073,134217856,2
+269,CavernsOfTime,Opening of the Dark Portal,,,,,1,1,1,0,212,-1,-1,-1,0,1,1,5,0,0,16858641,134479872,2
+289,SchoolofNecromancy,Scholomance,,,,,1,1,0,0,102,-1,-1,-1,0,1,0,5,0,0,16858641,134479872,2
+309,Zul'gurub,Zul'Gurub,,,,,1,2,0,1977,161,-1,-1,-1,0,1,0,20,0,0,16858641,134479872,2
+329,Stratholme,Stratholme,,,,,1,1,0,0,101,-1,-1,-1,0,1,0,5,0,0,16858641,134479872,2
+349,Mauradon,Maraudon,,,,,2,1,0,2100,81,-1,-1,-1,0,1,1,10,0,0,67073,134217728,2
+369,DeeprunTram,Deeprun Tram,,,,,2,0,0,2257,205,-1,-1,-1,0,1,0,0,0,0,67073,135266312,2
+389,OrgrimmarInstance,Ragefire Chasm,,,,,2,1,0,2437,195,-1,-1,-1,0,1,1,10,0,0,67073,134217728,2
+409,MoltenCore,Molten Core,,,,,2,2,0,2717,192,-1,-1,-1,0,1,0,40,0,0,67073,134217856,2
+429,DireMaul,Dire Maul,,,,,2,1,0,2557,82,-1,-1,-1,0,1,1,5,0,0,67073,134217728,2
+449,AlliancePVPBarracks,Alliance PVP Barracks,,,,,2,0,0,2918,181,-1,-1,-1,0,1,-1,0,0,0,67073,135266304,2
+450,HordePVPBarracks,Horde PVP Barracks,,,,,2,0,0,2917,182,-1,-1,-1,0,1,-1,0,0,0,67073,135266304,2
+451,development,Development Land,,,,,1,0,2,0,21,-1,-1,-1,0,1,-1,0,0,0,16858655,134479872,2
+469,BlackwingLair,Blackwing Lair,,,,,1,2,0,2677,141,-1,-1,-1,0,1,0,40,0,0,16858641,134480000,2
+489,PVPZone03,Warsong Gulch,"A valley bordering Ashenvale Forest and the Barrens, Warsong Gulch hosts a constant battle between the Horde and the Alliance.
+
+Orcs use their Warsong Mill to cut lumber reaped from Ashenvale, provoking the night elves of Silverwing Hold.
+
+Eager to aid their allies, members of every race in Azeroth rush to the Gulch to lend sword, or spell, to the conflict.","A valley bordering Ashenvale Forest and the Barrens, Warsong Gulch hosts a constant battle between the Horde and the Alliance.
+
+Orcs use their Warsong Mill to cut lumber reaped from Ashenvale, provoking the night elves of Silverwing Hold.
+
+Eager to aid their allies, members of every race in Azeroth rush to the Gulch to lend sword, or spell, to the conflict.",,,1,3,0,3277,122,-1,-1,-1,0,1,-1,0,0,0,16858641,134479872,2
+509,AhnQiraj,Ruins of Ahn'Qiraj,,,,,1,2,0,3429,184,-1,-1,-1,0,1,1,20,0,0,16858641,134479872,2
+529,PVPZone04,Arathi Basin,"The Arathi Basin is one of the main staging points of war between the humans and the Forsaken in Azeroth.
+
+The Defiler's elite troopers seek to sever the vital connection between the humans and their dwarven allies to the south.
+
+Meanwhile, the League of Arathor seek to reclaim lost lands for their benefactors in Stormwind.","The Arathi Basin is one of the main staging points of war between the humans and the Forsaken in Azeroth.
+
+The League of Arathor seek to reclaim lost lands for their benefactors in Stormwind.
+
+Meanwhile, the Defiler's elite troopers seek to sever the vital connection between the humans and their dwarven allies to the south.",,,1,3,0,3358,183,-1,-1,-1,0,1.25,-1,0,0,0,16858641,134479872,2
+530,Expansion01,Outland,,,,,1,0,0,0,198,-1,-1,-1,0,1,-1,0,0,804943,16784913,135528456,2
+531,AhnQirajTemple,Ahn'Qiraj Temple,,,,,1,2,0,3428,185,-1,-1,-1,0,1,1,40,0,0,16793105,134480000,2
+532,Karazahn,Karazhan,,,,,1,2,1,3457,200,-1,-1,-1,0,1,0,10,0,0,16793105,134480000,2
+533,Stratholme Raid,Naxxramas,,,,,1,2,2,3456,197,-1,-1,-1,0,1,-1,25,0,0,16793105,134480000,2
+534,HyjalPast,The Battle for Mount Hyjal,,,,,1,2,1,616,212,-1,-1,-1,0,1,1,25,0,0,16793105,134480000,2
+540,HellfireMilitary,Hellfire Citadel: The Shattered Halls,,,,,2,1,1,3714,199,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+542,HellfireDemon,Hellfire Citadel: The Blood Furnace,,,,,2,1,1,3713,199,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+543,HellfireRampart,Hellfire Citadel: Ramparts,,,,,1,1,1,3562,199,-1,-1,-1,0,1,530,5,0,0,16858641,134479872,2
+544,HellfireRaid,Magtheridon's Lair,,,,,2,2,1,3836,208,-1,-1,-1,0,1,530,25,0,0,1537,134217856,2
+545,CoilfangPumping,Coilfang: The Steamvault,,,,,2,1,1,3715,207,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+546,CoilfangMarsh,Coilfang: The Underbog,,,,,2,1,1,3716,207,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+547,CoilfangDraenei,Coilfang: The Slave Pens,,,,,2,1,1,3717,207,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+548,CoilfangRaid,Coilfang: Serpentshrine Cavern,,,,,2,2,1,3607,207,-1,-1,-1,0,1,530,25,0,0,1537,134217856,2
+550,TempestKeepRaid,Tempest Keep,,,,,2,2,1,3845,206,-1,-1,-1,0,1,-1,25,0,0,1537,134217856,2
+552,TempestKeepArcane,Tempest Keep: The Arcatraz,,,,,2,1,1,3848,206,-1,-1,-1,0,1,-1,5,0,0,1537,134217728,2
+553,TempestKeepAtrium,Tempest Keep: The Botanica,,,,,2,1,1,3847,206,-1,-1,-1,0,1,-1,5,0,0,1537,134217728,2
+554,TempestKeepFactory,Tempest Keep: The Mechanar,,,,,2,1,1,3849,206,-1,-1,-1,0,1,-1,5,0,0,1537,134217728,2
+555,AuchindounShadow,Auchindoun: Shadow Labyrinth,,,,,2,1,1,3789,201,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+556,AuchindounDemon,Auchindoun: Sethekk Halls,,,,,2,1,1,3791,201,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+557,AuchindounEthereal,Auchindoun: Mana-Tombs,,,,,2,1,1,3792,201,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+558,AuchindounDraenei,Auchindoun: Auchenai Crypts,,,,,2,1,1,3790,201,-1,-1,-1,0,1,530,5,0,0,1537,134217728,2
+559,PVPZone05,Nagrand Arena,,,,,1,4,0,0,219,-1,-1,-1,0,1,-1,0,0,0,16793105,134479872,2
+560,HillsbradPast,The Escape From Durnholde,,,,,1,1,1,267,212,-1,-1,-1,0,1,1,5,0,0,16793105,134479872,2
+562,bladesedgearena,Blade's Edge Arena,,,,,1,4,0,3702,218,-1,-1,-1,0,1,-1,0,0,0,16793105,134479880,2
+564,BlackTemple,Black Temple,,,,,1,2,1,0,215,-1,-1,-1,0,1,530,25,0,0,16793105,134480000,2
+565,GruulsLair,Gruul's Lair,,,,,2,2,1,3923,213,-1,-1,-1,0,1,530,25,0,0,1537,134217856,2
+566,NetherstormBG,Eye of the Storm,"Hovering high above the ravaged landscape of Netherstorm is the island known as the Eye of the Storm.
+
+This battlefield is coveted by the blood elves for its rich energy deposits.
+
+The draenei seek to claim it due to its proximity to the naaru's mysterious vessel, Tempest Keep.","Hovering high above the ravaged landscape of Netherstorm is the island known as the Eye of the Storm.
+
+The draenei seek to claim it due to its proximity to the naaru's mysterious vessel, Tempest Keep.
+
+This battlefield is coveted by the blood elves for its rich energy deposits.",Capture the objectives,"- Capture and hold objectives
+- Capture the center flag
+- Earn 1500 resources",1,3,1,0,210,-1,-1,-1,0,1,-1,0,0,0,16793105,134479872,2
+568,ZulAman,Zul'Aman,,,,,1,2,1,0,214,-1,-1,-1,0,1,530,10,0,0,16793105,134480000,2
+571,Northrend,Northrend,,,,,1,0,0,0,216,-1,-1,-1,0,1,-1,0,0,804939,16793117,135528448,0
+572,PVPLordaeron,Ruins of Lordaeron,,,,,1,4,0,0,217,-1,-1,-1,0,1,-1,0,0,0,16793105,134479872,2
+573,ExteriorTest,ExteriorTest,,,,,1,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,15,134217728,0
+574,Valgarde70,Utgarde Keep,,,,,1,1,2,0,220,-1,-1,-1,0,1,571,5,0,0,15901,134479872,0
+575,UtgardePinnacle,Utgarde Pinnacle,,,,,1,1,2,0,221,-1,-1,-1,0,1,571,5,0,0,73245,134479872,0
+576,Nexus70,The Nexus,,,,,2,1,2,4265,226,-1,-1,-1,0,1,571,5,0,0,1537,134217728,0
+578,Nexus80,The Oculus,,,,,1,1,2,0,227,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+580,SunwellPlateau,The Sunwell,,,,,1,2,1,0,225,-1,-1,-1,0,1,530,25,0,0,16793105,134480000,2
+582,Transport176244,Transport: Rut'theran to Auberdine,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+584,Transport176231,Transport: Menethil to Theramore,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+585,Sunwell5ManFix,Magister's Terrace,,,,,1,1,1,0,224,-1,-1,-1,0,1,530,5,0,0,16784917,134479872,2
+586,Transport181645,Transport: Exodar to Auberdine,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+587,Transport177233,Transport: Feathermoon Ferry,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+588,Transport176310,Transport: Menethil to Auberdine,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+589,Transport175080,Transport: Orgrimmar to Grom'Gol,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+590,Transport176495,Transport: Grom'Gol to Undercity,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+591,Transport164871,Transport: Undercity to Orgrimmar,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+592,Transport186238,Transport: Borean Tundra Test,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+593,Transport20808,Transport: Booty Bay to Ratchet,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1537,134217728,2
+594,Transport187038,Transport: Howling Fjord Sister Mercy (Quest),,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+595,StratholmeCOT,The Culling of Stratholme,,,,,1,1,2,0,222,-1,-1,-1,0,1,1,5,0,0,7697,134479872,0
+596,Transport187263,Transport: Naglfar,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+597,CraigTest,Craig Test,,,,,1,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,15,134217728,0
+598,Sunwell5Man,Sunwell Fix (Unused),,,,,2,1,1,0,4,-1,-1,-1,0,1,-1,5,0,0,1537,134217728,2
+599,Ulduar70,Halls of Stone,,,,,1,1,2,0,230,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+600,DrakTheronKeep,Drak'Tharon Keep,,,,,1,1,2,0,228,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+601,Azjol_Uppercity,Azjol-Nerub,,,,,1,1,2,0,229,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+602,Ulduar80,Halls of Lightning,,,,,1,1,2,0,231,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+603,UlduarRaid,Ulduar,,,,,1,2,2,0,244,0,-1,-1,0,1,571,5,0,0,16784925,134480000,0
+604,GunDrak,Gundrak,,,,,1,1,2,0,237,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+605,development_nonweighted,Development Land (non-weighted textures),,,,,1,0,0,0,21,-1,-1,-1,0,1,-1,0,0,0,17,134217728,0
+606,QA_DVD,QA and DVD,,,,,1,0,2,0,21,-1,-1,-1,0,1,-1,0,0,0,31,134217728,0
+607,NorthrendBG,Strand of the Ancients,"To the south of Dragonblight lies the resting place of a legendary Titan artifact, known by the Alliance and Horde to possess critical information regarding the Titans and their methods.
+
+Prepare yourself for battle, for fate cannot determine success upon this Strand of the Ancients.","To the south of Dragonblight lies the resting place of a legendary Titan artifact, known by the Alliance and Horde to possess critical information regarding the Titans and their methods.
+
+Prepare yourself for battle, for fate cannot determine success upon this Strand of the Ancients.",,,1,3,2,0,238,-1,-1,-1,0,1,-1,0,0,0,7709,134479872,0
+608,DalaranPrison,Violet Hold,,,,,1,1,2,0,235,-1,-1,-1,0,1,571,5,0,0,7709,134479872,0
+609,DeathKnightStart,Ebon Hold,,,,,1,0,2,0,233,-1,-1,-1,0,1,-1,0,0,0,16793117,135528448,0
+610,Transport_Tirisfal _Vengeance_Landing,Transport: Tirisfal to Vengeance Landing,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+612,Transport_Menethil_Valgarde,Transport: Menethil to Valgarde,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+613,Transport_Orgrimmar_Warsong_Hold,Transport: Orgrimmar to Warsong Hold,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+614,Transport_Stormwind_Valiance_Keep,Transport: Stormwind to Valiance Keep,,,,,3,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+615,ChamberOfAspectsBlack,The Obsidian Sanctum,,,,,1,2,2,0,239,-1,-1,-1,0,1,571,0,0,0,16784925,134480000,0
+616,NexusRaid,The Eye of Eternity,,,,,1,2,2,0,236,-1,-1,-1,0,1,571,5,0,0,16784925,134480000,0
+617,DalaranArena,Dalaran Sewers,,,,,1,4,0,0,242,0,-1,-1,0,1,-1,0,0,0,7709,134479872,0
+618,OrgrimmarArena,The Ring of Valor,,,,,1,4,0,0,240,720,-1,-1,0,1,-1,0,0,0,7709,134479872,0
+619,Azjol_LowerCity,Ahn'kahet: The Old Kingdom,,,,,1,1,2,0,234,-1,-1,-1,0,1,571,0,0,0,7709,134479872,0
+620,Transport_Moa'ki_Unu'pe,Transport: Moa'ki to Unu'pe,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+621,Transport_Moa'ki_Kamagua,Transport: Moa'ki to Kamagua,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+622,Transport192241,Transport: Orgrim's Hammer,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+623,Transport192242,Transport: The Skybreaker,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+624,WintergraspRaid,Vault of Archavon,,,,,1,2,2,0,243,-1,-1,-1,0,1,571,0,0,0,16784957,134480000,0
+628,IsleofConquest,Isle of Conquest,"The Isle of Conquest is a point of strategic importance for the Alliance and Horde campaigns in Northrend.
+
+Serving as an ideal staging ground for operations in Icecrown, each side is determined to secure control of the island.
+
+With the 7th Legion and the Kor'kron Guard locked in deadly combat, both factions have issued a call to arms in hopes of tipping the scales in their favor and defeating the opposing general.","The Isle of Conquest is a point of strategic importance for the Alliance and Horde campaigns in Northrend.
+
+Serving as an ideal staging ground for operations in Icecrown, each side is determined to secure control of the island.
+
+With the 7th Legion and the Kor'kron Guard locked in deadly combat, both factions have issued a call to arms in hopes of tipping the scales in their favor and defeating the opposing general.",,,1,3,2,0,245,-1,-1,-1,0,1,-1,0,0,0,7709,134479872,0
+631,IcecrownCitadel,Icecrown Citadel,,,,,1,2,2,0,250,-1,-1,-1,0,1,571,0,0,0,16785181,134480000,0
+632,IcecrownCitadel5Man,The Forge of Souls,,,,,1,1,2,0,249,-1,-1,-1,0,1,571,0,0,0,7709,134479872,0
+641,Transport_AllianceAirshipBG,Transport: Alliance Airship BG,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+642,Transport_HordeAirshipBG,Transport: HordeAirshipBG,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+647,Transport_Orgrimmar_to_Thunderbluff,Transport: Orgrimmar to Thunder Bluff,,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+649,ArgentTournamentRaid,Trial of the Crusader,,,,,1,2,2,0,246,-1,-1,-1,0,1,571,0,0,0,16784925,134480000,0
+650,ArgentTournamentDungeon,Trial of the Champion,,,,,1,1,2,0,247,-1,-1,-1,0,1,571,0,0,0,7709,134479872,0
+658,QuarryofTears,Pit of Saron,,,,,1,1,2,0,252,-1,-1,-1,0,1,571,0,0,0,7709,134479872,0
+668,HallsOfReflection,Halls of Reflection,,,,,1,1,2,0,253,-1,-1,-1,0,1,571,0,0,0,7709,134479872,0
+672,Transport197347,Transport: The Skybreaker (Icecrown Citadel Raid),,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+673,Transport197348,Transport: Orgrim's Hammer (Icecrown Citadel Raid),,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+712,Transport197349,Transport: The Skybreaker (IC Dungeon),,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+713,Transport197350,Transport: Orgrim's Hammer (IC Dungeon),,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+718,Transport201834,Trasnport: The Mighty Wind (Icecrown Citadel Raid),,,,,3,0,2,0,0,-1,-1,-1,0,1,-1,0,0,0,1,134217728,0
+723,Stormwind,Stormwind,,,,,1,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,16784925,134479872,0
+724,ChamberofAspectsRed,The Ruby Sanctum,,,,,1,2,2,0,254,-1,-1,-1,0,1,0,0,0,0,16785181,134480000,0
+2118,WintergraspEpic,Wintergrasp,"An ancient Titan stronghold built to protect the Vault of Archavon.  Horde and Alliance forces battle furiously for control of the place, eager to seize the artifacts and relics held within the vault for their battle against the Lich King.
+An ancient Titan stronghold built to protect the Vault of Archavon.  Horde and Alliance forces battle furiously for control of the place, eager to seize the artifacts and relics held within the vault for their battle against the Lich King.","An ancient Titan stronghold built to protect the Vault of Archavon.  Horde and Alliance forces battle furiously for control of the place, eager to seize the artifacts and relics held within the vault for their battle against the Lich King.",Defend or Assault Wintergrasp,"- Defend the Fortress as Defense
+- Destroy the final wall in the Fortress as Offense",1,3,2,0,216,-1,-1,571,0,1,-1,0,0,0,8396381,1024,0
+2565,2565,Northrend (3.0 phase),,,,,1,0,0,0,216,-1,571,571,0,1,-1,0,0,804939,16793117,1310720,0
+2567,2567,Northrend (3.1 phase),,,,,1,0,0,0,216,-1,571,571,0,1,-1,0,0,804939,16793117,1310720,0

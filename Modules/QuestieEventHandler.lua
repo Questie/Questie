@@ -41,6 +41,36 @@ local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)"
 local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
 
 
+
+---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
+local FACTION_STANDING_CHANGED_PATTERN
+do
+    -- All this information was researched here: https://www.townlong-yak.com/framexml/live/GlobalStrings.lua
+
+    local locale = GetLocale()
+    ---@diagnostic disable-next-line: undefined-global
+    local FACTION_STANDING_CHANGED_LOCAL = FACTION_STANDING_CHANGED or "You are now %s with %s."
+    local replaceCount
+
+    if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%%d$s", ".+")
+    elseif locale == "deDE" then --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "'%%%d$s'", ".+") -- Germans are always special
+    elseif locale == "zhTW" then --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
+        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%s%(%%s%)", ".+")
+    elseif locale == "ruRU" then --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
+        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%(%%%d$s%)", ".+")
+    else
+        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%s", ".+")
+    end
+
+    if replaceCount and replaceCount == 0 then --- Error: Default to match EVERYTHING, because it's better that it works
+        FACTION_STANDING_CHANGED_PATTERN = ".+"
+        Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN, please report this on GitHub!")
+    end
+end
+
+
 function QuestieEventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 end
@@ -55,8 +85,8 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _EventHandler.ModifierStateChanged)
     -- Events to update a players professions and reputations
-    Questie:RegisterEvent("CHAT_MSG_SKILL", _EventHandler.ChatMsgSkill)
-    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
+    Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
+    Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, _EventHandler.ChatMsgCompatFactionChange)
     Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- UI Quest Events
@@ -117,6 +147,8 @@ function _EventHandler:ChatMsgSystem(message)
     -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
     if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
         MinimapIcon:UpdateText(message)
+    elseif string.find(message, FACTION_STANDING_CHANGED_PATTERN) then -- When you discover a new faction or increase standing eg. Neutral -> Friendly
+        QuestieReputation:Update()
     end
 end
 
@@ -184,9 +216,9 @@ end
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
     Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_SKILL")
-    local isProfUpdate = QuestieProfessions:Update()
+    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
-    if isProfUpdate then
+    if isProfUpdate or isNewProfession then
         QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
     end
 end
@@ -194,8 +226,8 @@ end
 --- Fires when some chat messages about reputations are displayed
 function _EventHandler:ChatMsgCompatFactionChange()
     Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
-    local factionChanged = QuestieReputation:Update(false)
-    if factionChanged then
+    local factionChanged, newFaction = QuestieReputation:Update(false)
+    if factionChanged or newFaction then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -221,7 +253,7 @@ function _EventHandler:GroupJoined()
     Questie:Debug(Questie.DEBUG_DEVELOP, "GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
-    checkTimer = C_Timer.NewTicker(0.1, function()
+    checkTimer = C_Timer.NewTicker(0.2, function()
         local partyPending = UnitInParty("player")
         local isInParty = UnitInParty("party1")
         local isInRaid = UnitInRaid("raid1")

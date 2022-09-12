@@ -17,12 +17,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 local marginLeft = 10
+local trackerSpaceBuffer = 10
 
 ---@param trackerBaseFrame Frame
 function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, OnDragStop)
-
-    local trackerSpaceBuffer = 10
-
     local frm = CreateFrame("Button", nil, trackerBaseFrame)
 
     if Questie.db.global.trackerHeaderAutoMove then
@@ -207,8 +205,11 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
     trackedQuests:Hide()
     frm.trackedQuests = trackedQuests
 
-    frm:SetWidth(frm.trackedQuests.label:GetUnboundedStringWidth())
-    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
+    if Questie.db.global.trackerHeaderEnabled then
+        frm:SetSize(1, Questie.db.global.trackerFontSizeHeader) -- Width is updated later on
+    else
+        frm:SetSize(1, 1)
+    end
     frm:SetFrameLevel(0)
 
     frm:Hide()

@@ -99,11 +99,9 @@ function QuestieOptionsDefaults:Load()
             trackerFontOutline = nil,
             trackerBackdropAlpha = 1,
             --trackerReset = QuestieTracker:ResetLocation()
-            trackerEnabled = true,
             globalTrackerLocation = true,
             showQuestXpAtMaxLevel = true,
             questieTLoc = "char",
-
         },
         char = {
             minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown

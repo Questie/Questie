@@ -1,3 +1,5 @@
+local WatchFrame = QuestWatchFrame or WatchFrame
+
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
@@ -103,7 +105,7 @@ function QuestieTracker.Initialize()
 
     -- Create tracker frames and assign them to a var
     _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
-    TrackerMenu.Initialize(_QuestieTracker.baseFrame.Update, QuestieTracker.Untrack)
+    TrackerMenu.Initialize(function() _QuestieTracker.baseFrame:Update() end, QuestieTracker.Untrack)
 
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
@@ -209,8 +211,7 @@ function _QuestieTracker:CreateBaseFrame()
     local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
     frm:SetFrameStrata("BACKGROUND")
     frm:SetFrameLevel(0)
-    frm:SetWidth(280)
-    frm:SetHeight(32)
+    frm:SetSize(280, 32)
 
     frm:EnableMouse(true)
     frm:SetMovable(true)
@@ -315,14 +316,15 @@ function _QuestieTracker:CreateBaseFrame()
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, _ = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
+        local result, reason = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
 
         if (not result) then
             Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
+            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
-            if QuestWatchFrame then
-                local result2, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+            if WatchFrame then
+                local result2, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
                 if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
@@ -332,10 +334,9 @@ function _QuestieTracker:CreateBaseFrame()
                 _QuestieTracker:SetSafePoint(frm)
             end
         end
-
     else
-        if QuestWatchFrame then
-            local result, _ = pcall(frm.SetPoint, frm, unpack({QuestWatchFrame:GetPoint()}))
+        if WatchFrame then
+            local result, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
             Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
 
             if not result then
@@ -455,7 +456,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
                 self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
-                self:HookScript("OnClick", self.OnClick)
                 self:SetScript("OnEvent", self.OnEvent)
                 self:SetScript("OnShow", self.OnShow)
                 self:SetScript("OnHide", self.OnHide)
@@ -501,29 +501,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 cooldown:SetCooldown(start, duration)
             else
                 cooldown:Hide()
-            end
-        end
-
-        btn.OnClick = function(self, button)
-            if InCombatLockdown() then
-                return
-            end
-
-            if button == "LeftButton" then
-                return
-            end
-
-            if button == "RightButton" then
-                ClearCursor()
-                if self.questID then
-                    if Questie.db.char.collapsedQuests[self.questID] ~= true then
-                        Questie.db.char.collapsedQuests[self.questID] = true
-                        QuestieTracker:Update()
-                    end
-                else
-
-                    return
-                end
             end
         end
 
@@ -636,17 +613,15 @@ function QuestieTracker:ResetLocation()
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
-    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {}
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
-    QuestieTracker:Update()
+    _QuestieTracker.baseFrame:SetSize(280, 32)
+    _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
 
-    if _QuestieTracker.baseFrame then
-        _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
-        _QuestieTracker.baseFrame:Show()
-    end
+    QuestieTracker:Update()
 end
 
 function QuestieTracker:ResetDurabilityFrame()
@@ -912,8 +887,6 @@ function QuestieTracker:Update()
         return
     end
 
-    trackerLineWidth = 0
-
     -- Tracker has started but not enabled
     if (not Questie.db.global.trackerEnabled) then
         if _QuestieTracker.baseFrame and _QuestieTracker.baseFrame:IsShown() then
@@ -927,12 +900,29 @@ function QuestieTracker:Update()
     LinePool.ResetLinesForChange()
 
     -- Update primary frames and layout
-    _QuestieTracker.baseFrame:Update()
-    _QuestieTracker.activeQuestsHeader:Update()
-    _QuestieTracker.trackedQuestsFrame:Update()
-    _UpdateLayout()
+    QuestieCombatQueue:Queue(function()
+        _QuestieTracker.baseFrame:Update()
+        _QuestieTracker.activeQuestsHeader:Update()
+        _QuestieTracker.trackedQuestsFrame:Update()
+    end)
 
+    _UpdateLayout()
     buttonIndex = 0
+
+    if not Questie.db.char.isTrackerExpanded then
+        -- The Tracker is not expanded. No use to calculate anything - just hide everything
+        local xOff, yOff = _QuestieTracker.baseFrame:GetLeft(), _QuestieTracker.baseFrame:GetTop()
+
+        _QuestieTracker.baseFrame:ClearAllPoints()
+        -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
+        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+
+        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
+        _QuestieTracker.trackedQuestsFrame:Hide()
+
+        LinePool.HideUnusedLines()
+        return
+    end
 
     local order = _GetSortedQuestIds()
     QuestieTracker._order = order
@@ -1229,18 +1219,7 @@ function QuestieTracker:Update()
     local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
     local trackerBaseFrame = _QuestieTracker.baseFrame:GetWidth()
 
-    if not Questie.db.char.isTrackerExpanded then
-        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
-
-        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
-            _QuestieTracker.baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
-        else
-            _QuestieTracker.baseFrame:SetWidth(trackerVARScombined)
-        end
-
-        _QuestieTracker.trackedQuestsFrame:Hide()
-
-    elseif line then
+    if line then
         if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
             if (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderTotal and _QuestieTracker.isSizing ~= true) then
                 _QuestieTracker.baseFrame:SetWidth(activeQuestsHeaderTotal)
@@ -1349,7 +1328,7 @@ function QuestieTracker:Unhook()
         GetNumQuestWatches = QuestieTracker._GetNumQuestWatches
     end
     _QuestieTracker._alreadyHooked = nil
-    QuestWatchFrame:Show()
+    WatchFrame:Show()
 end
 
 function QuestieTracker:HookBaseTracker()
@@ -1359,16 +1338,18 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
-        hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
-            QuestieTracker:AQW_Insert(index, watchTimer)
-        end)
+        if AutoQuestWatch_Insert then
+            hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
+                QuestieTracker:AQW_Insert(index, watchTimer)
+            end)
+        end
         hooksecurefunc("AddQuestWatch", function(index, watchTimer)
             QuestieTracker:AQW_Insert(index, watchTimer)
         end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
         -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
-        QuestWatchFrame:HookScript("OnShow", function(self)
+        WatchFrame:HookScript("OnShow", function(self)
             if QuestieTracker._disableHooks then
                 return
             end
@@ -1401,7 +1382,7 @@ function QuestieTracker:HookBaseTracker()
         return 0
     end
 
-    QuestWatchFrame:Hide()
+    WatchFrame:Hide()
     QuestieTracker._alreadyHooked = true
 end
 
