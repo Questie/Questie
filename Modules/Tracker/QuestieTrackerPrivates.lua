@@ -43,17 +43,14 @@ end
 
 local function _UpdateTrackerPosition()
     local baseFrame = _QuestieTracker.baseFrame
-    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {baseFrame:GetPoint()}
-
-    if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and type(Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]) == "table" and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2].GetName then
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]:GetName()
-    end
 
     local xOff, yOff = baseFrame:GetLeft(), baseFrame:GetTop()
 
     baseFrame:ClearAllPoints()
     -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
     baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff)}
 
     QuestieTracker:MoveDurabilityFrame()
 
