@@ -16,6 +16,9 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [1198] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
