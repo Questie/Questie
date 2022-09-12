@@ -41,6 +41,19 @@ function _QuestieTracker:OnDragStart(button)
     end
 end
 
+local function _UpdateTrackerPosition()
+    local baseFrame = _QuestieTracker.baseFrame
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {baseFrame:GetPoint()}
+
+    if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and type(Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]) == "table" and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2].GetName then
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]:GetName()
+    end
+
+    QuestieTracker:MoveDurabilityFrame()
+
+    QuestieTracker:Update()
+end
+
 function _QuestieTracker:OnDragStop()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[_QuestieTracker:OnDragStop]")
 
@@ -48,22 +61,12 @@ function _QuestieTracker:OnDragStop()
         return
     end
 
-    local trackerBaseFrame = QuestieTracker:GetBaseFrame()
     _QuestieTracker.isMoving = false
     dragButton = nil
-    trackerBaseFrame:StopMovingOrSizing()
 
-    QuestieCombatQueue:Queue(function(baseFrame)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {baseFrame:GetPoint()}
+    _QuestieTracker.baseFrame:StopMovingOrSizing()
 
-        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and type(Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]) == "table" and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2].GetName then
-            Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] = Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2]:GetName()
-        end
-
-        QuestieTracker:MoveDurabilityFrame()
-
-        QuestieTracker:Update()
-    end, trackerBaseFrame)
+    QuestieCombatQueue:Queue(_UpdateTrackerPosition)
 end
 
 function _QuestieTracker:OnResizeStart(button)
