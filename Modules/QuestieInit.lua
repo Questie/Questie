@@ -183,14 +183,13 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     end
 
     QuestieCleanup:Run()
-
-    -- continue to next Init Stage
-    return QuestieInit.Stages[2]
 end
 
 QuestieInit.Stages[2] = function() -- not a coroutine
     -- Continue to the next Init Stage once Game Cache's Questlog is good
-    QuestieValidateGameCache.AddCallback(_QuestieInit.StartStageCoroutine, _QuestieInit, 3)
+    while not QuestieValidateGameCache:IsCacheGood() do
+        coroutine.yield()
+    end
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
@@ -345,30 +344,31 @@ end
 -- this function creates coroutine to run a function from QuestieInit.Stages[]
 ---@param stage number @the stage to start
 function _QuestieInit:StartStageCoroutine(stage)
-    local initFrame = CreateFrame("Frame")
-    local routine = coroutine.create(QuestieInit.Stages[stage])
+    local coStatus, coResume = coroutine.status, coroutine.resume
 
-    local function InitOnUpdate()
-        local success, ret = coroutine.resume(routine)
-        if success then
-            if coroutine.status(routine) == "dead" then
-                initFrame:SetScript("OnUpdate", nil)
-                initFrame:SetParent(nil)
-                initFrame = nil
-                if type(ret) == "function" then -- continue to next stage, if it was returned by coroutine
-                    ret()
-                end
-            end
-        else
-            Questie:Error(l10n("Error during initialization!"), ret)
-            initFrame:SetScript("OnUpdate", nil)
-            initFrame:SetParent(nil)
-            initFrame = nil
+    -- Create a coroutine which loops through the stages
+    local routine = coroutine.create(function()
+        for i = stage, #QuestieInit.Stages do
+            QuestieInit.Stages[i]()
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
         end
-    end
+    end)
 
-    initFrame:SetScript("OnUpdate", InitOnUpdate)
-    InitOnUpdate() -- starts the coroutine imediately instead at next OnUpdate
+    local timer
+    timer = C_Timer.NewTicker(0, function()
+        if(coStatus(routine) == "suspended") then
+            local success, ret = coResume(routine)
+
+            -- Something in the coroutine went wrong, print the error and stop the timer
+            if not success then
+                Questie:Error(l10n("Error during initialization!"), ret)
+                timer:Cancel();
+            end
+        elseif (coStatus(routine) == "dead") then
+            -- The courtine is done, stop the timer
+            timer:Cancel();
+        end
+    end)
 end
 
 -- called by the PLAYER_LOGIN event handler
