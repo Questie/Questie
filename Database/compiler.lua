@@ -890,50 +890,60 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     end
     count = count + 1
 
-    QuestieDBCompiler.index = 0
+    local index = 0
 
-    QuestieDBCompiler.pointerMap = {}
-    QuestieDBCompiler.stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
+    local pointerMap = {}
+    local stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
+
+    -- Localize functions
+    local pcall, type = pcall, type
+    local writers = QuestieDBCompiler.writers
+    local supportedTypes = QuestieDBCompiler.supportedTypes
 
     while true do
         coroutine.yield()
         for _=0,Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
-            QuestieDBCompiler.index = QuestieDBCompiler.index + 1
-            if QuestieDBCompiler.index == count then
-                Questie.db.global[databaseKey.."Bin"] = QuestieDBCompiler.stream:Save()
-                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
-                QuestieDBCompiler.stream:finished() -- relief memory pressure
+            index = index + 1
+            if index == count then
+                Questie.db.global[databaseKey.."Bin"] = stream:Save()
+                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                stream:finished() -- relief memory pressure
                 return
             end
-            local id = indexLookup[QuestieDBCompiler.index]
+            local id = indexLookup[index]
 
             QuestieDBCompiler.currentEntry = id
             local entry = tbl[id]
 
-            QuestieDBCompiler.pointerMap[id] = QuestieDBCompiler.stream._pointer--pointerStart
+            pointerMap[id] = stream._pointer--pointerStart
             for i=1, #order do
                 local key = order[i]
                 local v = entry[lookup[key]]
                 local t = types[key]
 
-                if v and not QuestieDBCompiler.supportedTypes[type(v)][t] then
+                if v and not supportedTypes[type(v)][t] then
                     Questie:Error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
                     return
                 end
-                if not QuestieDBCompiler.writers[t] then
+                if not writers[t] then
                     Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, errorMessage = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                local result, errorMessage = pcall(writers[t], stream, v)
                 if not result then
                     Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
                     Questie:Error(errorMessage)
                     error(errorMessage)
                 end
             end
-            tbl[id] = nil -- quicker gabage collection later
+            -- tbl[id] = nil -- quicker gabage collection later
         end
     end
+    --I do not know if these assignments are actually needed but I am too scared to remove them
+    QuestieDBCompiler.pointerMap = pointerMap
+    QuestieDBCompiler.stream = stream
+    QuestieDBCompiler.index = index
+
 end
 
 function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for random access, to read specific fields in an entry without reading the whole entry
