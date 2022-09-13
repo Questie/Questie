@@ -996,15 +996,13 @@ end
 function QuestieDBCompiler:ValidateNPCs()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
-    for npcId, _ in pairs(QuestieDB.npcData) do
-        local toValidate = validator.QueryValidator(npcId, QuestieDB.npcCompilerOrder)
+    local count = 0
+    for npcId, nonCompiledData in pairs(QuestieDB.npcData) do
+        local compiledData = validator.QueryValidator(npcId, QuestieDB.npcCompilerOrder)
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        --Questie.db.global.__toValidate = toValidate
-        local validData = QuestieDB:GetNPC(npcId)
         for id, key in pairs(QuestieDB.npcCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.npcKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
@@ -1015,10 +1013,20 @@ function QuestieDBCompiler:ValidateNPCs()
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
                     Questie:Error("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. npcId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
                     return
                 end
             end
         end
+        
+        -- Times 3 to speed it up
+        if count % (TICKS_PER_YIELD*3) == 0 then
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
@@ -1028,15 +1036,13 @@ end
 function QuestieDBCompiler:ValidateObjects()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
-    for objectId, _ in pairs(QuestieDB.objectData) do
-        local toValidate = validator.QueryValidator(objectId, QuestieDB.objectCompilerOrder)
+    local count = 0
+    for objectId, nonCompiledData in pairs(QuestieDB.objectData) do
+        local compiledData = validator.QueryValidator(objectId, QuestieDB.objectCompilerOrder)
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        --Questie.db.global.__toValidate = toValidate
-        local validData = QuestieDB:GetObject(objectId)
         for id, key in pairs(QuestieDB.objectCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.objectKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
@@ -1047,10 +1053,20 @@ function QuestieDBCompiler:ValidateObjects()
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
                     Questie:Error("Nonmatching at " .. key .. "  " .. id  .. " for ID: ".. objectId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
                     return
                 end
             end
         end
+        
+        -- Times 3 to speed it up
+        if count % (TICKS_PER_YIELD*3) == 0 then
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
@@ -1187,10 +1203,10 @@ function QuestieDBCompiler:ValidateQuests()
 
                 if not equals(a, (b or {})) then 
                     print("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. questId)
-                    print("Compiled Table:")
-                    DevTools_Dump(a)
-                    print("Non-Compiled Table:")
-                    DevTools_Dump(b)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
                     return
                 end
             end
