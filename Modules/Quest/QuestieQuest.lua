@@ -432,9 +432,9 @@ function QuestieQuest:AbandonedQuest(questId)
             end
         end
 
-        for questId, _ in pairs(QuestieQuest.availableQuests) do
-            if (not QuestieDB.IsDoable(questId)) then
-                QuestieMap:UnloadQuestFrames(questId);
+        for questIdAvailable, _ in pairs(QuestieQuest.availableQuests) do
+            if (not QuestieDB.IsDoable(questIdAvailable)) then
+                QuestieMap:UnloadQuestFrames(questIdAvailable);
             end
         end
 
