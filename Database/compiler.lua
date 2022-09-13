@@ -1174,7 +1174,17 @@ function QuestieDBCompiler:ValidateQuests()
             elseif type(a) == "string" and a ~= (b or "") then 
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
-            elseif type(a) == "table" then 
+            elseif type(a) == "table" then
+                --? This is kind of stupid, but because the compiler always has to write a int24 it will always write 0 for empty tables
+                --? So we have to emulate the same behavior here
+                if key == "extraObjectives" then
+                    for i = 1, #b do
+                        if not b[i][4] and a[i][4] == 0 then
+                            b[i][4] = 0
+                        end
+                    end
+                end
+
                 if not equals(a, (b or {})) then 
                     print("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. questId)
                     print("Compiled Table:")
