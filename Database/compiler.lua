@@ -932,9 +932,9 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
         end
     end
     --I do not know if these assignments are actually needed but I am too scared to remove them
-    QuestieDBCompiler.pointerMap = pointerMap
-    QuestieDBCompiler.stream = stream
-    QuestieDBCompiler.index = index
+    -- QuestieDBCompiler.pointerMap = pointerMap
+    -- QuestieDBCompiler.stream = stream
+    -- QuestieDBCompiler.index = index
 
 end
 
