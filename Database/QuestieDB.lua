@@ -1,30 +1,4 @@
 ---@class QuestieDB
----@field npcCompilerTypes table
----@field npcCompilerOrder table
----@field npcKeys table
----@field npcKeysReversed table
----@field questCompilerTypes table
----@field questCompilerOrder table
----@field questKeys table
----@field questKeysReversed table
----@field objectCompilerTypes table
----@field objectCompilerOrder table
----@field objectKeys table
----@field objectKeysReversed table
----@field itemCompilerTypes table
----@field itemCompilerOrder table
----@field itemKeys table
----@field itemKeysReversed table
----@field npcData table
----@field questData table
----@field objectData table
----@field itemData table
----@field sortKeys table
----@field private private table
----@field private _itemAdapterQueryOrder table @temporary, until we remove the old db funcitons
----@field private _objectAdapterQueryOrder table @temporary, until we remove the old db funcitons
----@field private _questAdapterQueryOrder table @temporary, until we remove the old db funcitons
----@field private _npcAdapterQueryOrder table @temporary, until we remove the old db funcitons
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 local _QuestieDB = QuestieDB.private
 
@@ -56,6 +30,7 @@ local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 
 local tinsert = table.insert
@@ -226,15 +201,15 @@ function QuestieDB:Initialize()
 
     -- wrap in pcall and hope it doesnt cause too much overhead
     -- lua needs try-catch
-    QuestieDB.QueryNPC = trycatch(QuestieDB._QueryNPC)
-    QuestieDB.QueryQuest = trycatch(QuestieDB._QueryQuest)
-    QuestieDB.QueryObject = trycatch(QuestieDB._QueryObject)
-    QuestieDB.QueryItem = trycatch(QuestieDB._QueryItem)
+    QuestieDB.QueryNPC = QuestieDB._QueryNPC
+    QuestieDB.QueryQuest = QuestieDB._QueryQuest
+    QuestieDB.QueryObject = QuestieDB._QueryObject
+    QuestieDB.QueryItem = QuestieDB._QueryItem
 
-    QuestieDB.QueryQuestSingle = trycatch(QuestieDB._QueryQuestSingle)
-    QuestieDB.QueryNPCSingle = trycatch(QuestieDB._QueryNPCSingle)
-    QuestieDB.QueryObjectSingle = trycatch(QuestieDB._QueryObjectSingle)
-    QuestieDB.QueryItemSingle = trycatch(QuestieDB._QueryItemSingle)
+    QuestieDB.QueryQuestSingle = QuestieDB._QueryQuestSingle
+    QuestieDB.QueryNPCSingle = QuestieDB._QueryNPCSingle
+    QuestieDB.QueryObjectSingle = QuestieDB._QueryObjectSingle
+    QuestieDB.QueryItemSingle = QuestieDB._QueryItemSingle
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     _QuestieDB.questCache = {};
@@ -257,7 +232,7 @@ function QuestieDB:GetObject(objectId)
     end
 
     --local rawdata = QuestieDB.objectData[objectId];
-    local rawdata = QuestieDB.QueryObject(objectId, unpack(QuestieDB._objectAdapterQueryOrder))
+    local rawdata = QuestieDB.QueryObject(objectId, QuestieDB._objectAdapterQueryOrder)
 
     if not rawdata then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetObject] rawdata is nil for objectID:", objectId)
@@ -284,7 +259,7 @@ function QuestieDB:GetItem(itemId)
         return _QuestieDB.itemCache[itemId];
     end
 
-    local rawdata = QuestieDB.QueryItem(itemId, unpack(QuestieDB._itemAdapterQueryOrder))
+    local rawdata = QuestieDB.QueryItem(itemId, QuestieDB._itemAdapterQueryOrder)
 
     if not rawdata then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetItem] rawdata is nil for itemID:", itemId)
@@ -403,6 +378,7 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieDB.IsActiveEventQuest(questId)
+    --! If you edit the logic here, also edit in QuestieDB:IsLevelRequirementsFulfilled
     return QuestieEvent.activeQuests[questId] == true
 end
 
@@ -429,12 +405,16 @@ end
 function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
     local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
+    --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if QuestieDB.IsParentQuestActive(parentQuestId) then
+    if parentQuestId and QuestiePlayer.currentQuestlog[parentQuestId] then
         return true
     end
 
-    if QuestieDB.IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
+    --* QuestieEvent.activeQuests[questId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
+    if (not Questie.db.char.absoluteLevelOffset) and
+        minLevel > requiredLevel and
+        QuestieEvent.activeQuests[questId]  then
         return true
     end
 
@@ -458,6 +438,7 @@ end
 ---@param parentID number
 ---@return boolean
 function QuestieDB.IsParentQuestActive(parentID)
+    --! If you edit the logic here, also edit in QuestieDB:IsLevelRequirementsFulfilled
     if (not parentID) or (parentID == 0) then
         return false
     end
@@ -697,7 +678,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return _QuestieDB.questCache[questId];
     end
 
-    local rawdata = QuestieDB.QueryQuest(questId, unpack(QuestieDB._questAdapterQueryOrder))
+    local rawdata = QuestieDB.QueryQuest(questId, QuestieDB._questAdapterQueryOrder)
 
     if (not rawdata) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questId)
@@ -1012,7 +993,7 @@ function QuestieDB:GetNPC(npcId)
         return _QuestieDB.npcCache[npcId]
     end
 
-    local rawdata = QuestieDB.QueryNPC(npcId, unpack(QuestieDB._npcAdapterQueryOrder))
+    local rawdata = QuestieDB.QueryNPC(npcId, QuestieDB._npcAdapterQueryOrder)
     if (not rawdata) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcId)
         return nil
