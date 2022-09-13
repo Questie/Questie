@@ -83,11 +83,12 @@ QuestieDBCompiler.supportedTypes = {
     }
 }
 
-QuestieDBCompiler.refTypes = {
+local refTypes = {
     "monster",
     "item",
     "object"
 }
+QuestieDBCompiler.refTypes = refTypes
 
 QuestieDBCompiler.refTypesReversed = {
     monster = 1,
@@ -163,8 +164,10 @@ readers["u8u16array"] = function(stream)
     return list
 end
 readers["u8s16pairs"] = function(stream)
-    local list = {}
     local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
     for i = 1, count do
         list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
     end
@@ -172,7 +175,6 @@ readers["u8s16pairs"] = function(stream)
 end
 readers["u16u16array"] = function(stream)
     local count = stream:ReadShort()
-
     if count == 0 then return nil end
 
     local list = {}
@@ -182,8 +184,10 @@ readers["u16u16array"] = function(stream)
     return list
 end
 readers["u8s24pairs"] = function(stream)
-    local list = {}
     local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
     for i = 1, count do
         list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
     end
@@ -191,7 +195,6 @@ readers["u8s24pairs"] = function(stream)
 end
 readers["u8u24array"] = function(stream)
     local count = stream:ReadByte()
-
     if count == 0 then return nil end
 
     local list = {}
@@ -202,7 +205,6 @@ readers["u8u24array"] = function(stream)
 end
 readers["u16u24array"] = function(stream)
     local count = stream:ReadShort()
-
     if count == 0 then return nil end
 
     local list = {}
@@ -212,8 +214,10 @@ readers["u16u24array"] = function(stream)
     return list
 end
 readers["u8u16stringarray"] = function(stream)
-    local list = {}
     local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
     for i = 1, count do
         list[i] = stream:ReadShortString()
     end
@@ -262,28 +266,17 @@ readers["trigger"] = function(stream)
 end
 local u8u24arrayReader = readers["u8u24array"]
 readers["questgivers"] = function(stream)
-    --local count = stream:ReadByte()
-    --if count == 0 then return nil end
-    local ret = {
+    return {
         u8u24arrayReader(stream),
         u8u24arrayReader(stream),
         u8u24arrayReader(stream)
     }
-
-    --for i = 1, count do
-    --    tinsert(ret, readers["u8u16array"](stream))
-    --end
-
-    return ret
 end
 readers["objective"] = function(stream)
     local count = stream:ReadByte()
-    if count == 0 then
-        return nil
-    end
+    if count == 0 then return nil end
 
     local ret = {}
-
     for i = 1, count do
         ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
     end
@@ -321,9 +314,7 @@ readers["reflist"] = function(stream)
     if count > 0 then
         local ret = {}
         for i=1,count do
-            local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
-            local id = stream:ReadInt24()
-            ret[i] = {type, id}
+            ret[i] = {refTypes[stream:ReadByte()], stream:ReadInt24()}
         end
         return ret
     end
@@ -347,6 +338,8 @@ readers["extraobjectives"] = function(stream)
 end
 readers["waypointlist"] = function(stream)
     local count = stream:ReadByte()
+    if count == 0 then return nil end
+
     local waypointlist = {}
     for _ = 1, count do
         local lists = {}
@@ -710,10 +703,6 @@ skippers["trigger"] = function(stream)
 end
 local u8u24arraySkipper = skippers["u8u24array"]
 skippers["questgivers"] = function(stream)
-    --local count = stream:ReadByte()
-    --for _ = 1, count do
-    --    skippers["u8u16array"](stream)
-    --end
     u8u24arraySkipper(stream)
     u8u24arraySkipper(stream)
     u8u24arraySkipper(stream)
