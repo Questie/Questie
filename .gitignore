@@ -1,5 +1,6 @@
 #We don't want the zip file in the repo
 *.zip
+*.7z
 #Don't push temp files...
 *.zip.tmp*
 #Don't push the bash script lock file.
@@ -22,3 +23,6 @@
 
 releases/
 *__pycache__/
+
+#Log files
+*.log

@@ -561,25 +561,9 @@ function QuestieLib:TableMemoizeFunction(func, __mode)
     });
 end
 
-local frameObject = nil
-if _G["QuestLogObjectivesText"] then -- classic
-    frameObject = _G["QuestLogObjectivesText"] 
-elseif _G["QuestInfoObjectivesText"] then -- Wotlk Classic
-    frameObject = _G["QuestInfoObjectivesText"]
-end
+local frameObject
 --Part of the GameTooltipWrapDescription function
-local objectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
-objectiveFontString:SetWidth(frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-objectiveFontString:SetHeight(0);
-objectiveFontString:SetPoint("LEFT");
-objectiveFontString:SetJustifyH("LEFT");
----@diagnostic disable-next-line: redundant-parameter
-objectiveFontString:SetWordWrap(true)
-objectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
-local font, size = frameObject:GetFont()
---Chinese? "Fonts\\ARKai_T.ttf"
-objectiveFontString:SetFont(font, size);
-objectiveFontString:Hide()
+local objectiveFontString 
 
 ---Emulates the wrapping of a quest description
 ---@param line string @The line to wrap
@@ -589,6 +573,26 @@ objectiveFontString:Hide()
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
 ---@return table[] @A table of wrapped lines
 function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
+    if not objectiveFontString then        
+        if _G["QuestLogObjectivesText"] then -- classic
+            frameObject = _G["QuestLogObjectivesText"] 
+        elseif _G["QuestInfoObjectivesText"] then -- Wotlk Classic
+            frameObject = _G["QuestInfoObjectivesText"]
+        end
+        objectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
+        objectiveFontString:SetWidth(frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+        objectiveFontString:SetHeight(0);
+        objectiveFontString:SetPoint("LEFT");
+        objectiveFontString:SetJustifyH("LEFT");
+        ---@diagnostic disable-next-line: redundant-parameter
+        objectiveFontString:SetWordWrap(true)
+        objectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
+        local font, size = frameObject:GetFont()
+        --Chinese? "Fonts\\ARKai_T.ttf"
+        objectiveFontString:SetFont(font, size);
+        objectiveFontString:Hide()
+    end
+
     if(objectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
     --Set Defaults
