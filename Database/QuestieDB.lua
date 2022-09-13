@@ -1,5 +1,6 @@
 ---@class QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
+QuestieDB.private = QuestieDB.private or {}
 local _QuestieDB = QuestieDB.private
 
 -------------------------

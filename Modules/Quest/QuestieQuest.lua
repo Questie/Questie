@@ -3,6 +3,8 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
+---@type QuestieQuestPrivate
+QuestieQuest.private = QuestieQuest.private or {}
 local _QuestieQuest = QuestieQuest.private
 -------------------------
 --Import modules.
