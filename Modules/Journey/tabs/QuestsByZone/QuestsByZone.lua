@@ -147,6 +147,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
             else
                 local queryResult = QuestieDB.QueryQuest(
                         questId,
+                        {
                         "exclusiveTo",
                         "nextQuestInChain",
                         "parentQuest",
@@ -154,6 +155,7 @@ function _QuestieJourney.questsByZone:CollectZoneQuests(zoneId)
                         "preQuestGroup",
                         "requiredMinRep",
                         "requiredMaxRep"
+                        }
                 ) or {}
                 local exclusiveTo = queryResult[1]
                 local nextQuestInChain = queryResult[2]

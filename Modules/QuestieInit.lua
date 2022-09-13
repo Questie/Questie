@@ -71,7 +71,51 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 
+local function loadFullDatabase()
+    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
 
+    QuestieInit:LoadBaseDB()
+
+    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+
+    coroutine.yield()
+    QuestieCorrections:Initialize()
+    coroutine.yield()
+    QuestieMenu:PopulateTownsfolk()
+
+    print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
+    coroutine.yield()
+    l10n:Initialize()
+
+    coroutine.yield()
+    QuestieDB.private:DeleteGatheringNodes()
+
+    coroutine.yield()
+    QuestieCorrections:PreCompile()
+end
+
+---Run the validator
+local function runValidator()
+    if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
+        Questie:Error("Cannot run the validator on string data, load database first")
+        return
+    end
+    -- Run validator
+    if Questie.db.global.debugEnabled then
+        coroutine.yield()
+        print(Questie.DEBUG_INFO, "Validating NPCs...")
+        -- QuestieDBCompiler:ValidateNPCs()
+        coroutine.yield()
+        print(Questie.DEBUG_INFO, "Validating objects...")
+        -- QuestieDBCompiler:ValidateObjects()
+        coroutine.yield()
+        print(Questie.DEBUG_INFO, "Validating items...")
+        -- QuestieDBCompiler:ValidateItems()
+        coroutine.yield()
+        print(Questie.DEBUG_INFO, "Validating quests...")
+        QuestieDBCompiler:ValidateQuests()
+    end
+end
 
 -- ********************************************************************************
 -- Start of QuestieInit.Stages ******************************************************
@@ -108,35 +152,20 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     QuestieProfessions:Init()
     coroutine.yield()
 
-    -- check if the DB needs to be recompiled
+    -- Check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
         print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
-        print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-
-        QuestieInit:LoadBaseDB()
-
-        print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-
-        coroutine.yield()
-        QuestieCorrections:Initialize()
-        coroutine.yield()
-        QuestieMenu:PopulateTownsfolk()
-
-        print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
-        coroutine.yield()
-        l10n:Initialize()
-
-        coroutine.yield()
-        QuestieDB.private:DeleteGatheringNodes()
-
-        coroutine.yield()
-        QuestieCorrections:PreCompile()
+        loadFullDatabase()
         QuestieDBCompiler:Compile()
     else
-        l10n:Initialize()
-
-        coroutine.yield()
-        QuestieCorrections:MinimalInit()
+        -- If we have debug enabled we want to run the validator, so we need to load the full database
+        if Questie.db.global.debugEnabled then
+            loadFullDatabase()
+        else
+            l10n:Initialize()
+            coroutine.yield()
+            QuestieCorrections:MinimalInit()
+        end
     end
 
     if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
@@ -147,6 +176,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     coroutine.yield()
     QuestieDB:Initialize()
+
+    if Questie.db.global.debugEnabled then
+        runValidator()
+        print("\124cFF4DDBFF debug validaton and load complete...")
+    end
 
     QuestieCleanup:Run()
 

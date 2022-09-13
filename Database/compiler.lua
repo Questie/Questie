@@ -96,6 +96,8 @@ QuestieDBCompiler.refTypesReversed = {
 }
 
 local readers = {}
+local skippers = {}
+
 readers["s8"] = function(stream)
     return stream:ReadByte() - 127
 end
@@ -231,6 +233,8 @@ readers["faction"] = function(stream)
 end
 readers["spawnlist"] = function(stream)
     local count = stream:ReadByte()
+    if count == 0 then return nil end
+
     local spawnlist = {}
     for _ = 1, count do
         local zone = stream:ReadShort()
@@ -658,7 +662,6 @@ QuestieDBCompiler.writers = {
     end
 }
 
-local skippers = {}
 skippers["s8"] = function(stream) stream._pointer = stream._pointer + 1 end
 skippers["u8"] = function(stream) stream._pointer = stream._pointer + 1 end
 skippers["u16"] = function(stream) stream._pointer = stream._pointer + 2 end
@@ -701,7 +704,7 @@ skippers["spawnlist"] = function(stream)
     end
 end
 local spawnlistSkipper = skippers["spawnlist"]
-skippers["trigger"] = function(stream) 
+skippers["trigger"] = function(stream)
     stream._pointer = stream:ReadByte() + stream._pointer
     spawnlistSkipper(stream)
 end
@@ -999,31 +1002,15 @@ function QuestieDBCompiler:Compile()
     Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
     Questie.db.global.dbIsCompiled = true
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
-
-    if Questie.db.global.debugEnabled then
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating NPCs...")
-        QuestieDBCompiler:ValidateNPCs()
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating objects...")
-        QuestieDBCompiler:ValidateObjects()
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating items...")
-        QuestieDBCompiler:ValidateItems()
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating quests...")
-        QuestieDBCompiler:ValidateQuests()
-    end
 end
 
 function QuestieDBCompiler:ValidateNPCs()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
     for npcId, _ in pairs(QuestieDB.npcData) do
-        local toValidate = {validator.Query(npcId, unpack(QuestieDB.npcCompilerOrder))}
+        local toValidate = validator.QueryValidator(npcId, QuestieDB.npcCompilerOrder)
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
         --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetNPC(npcId)
         for id, key in pairs(QuestieDB.npcCompilerOrder) do
@@ -1031,36 +1018,31 @@ function QuestieDBCompiler:ValidateNPCs()
             local b = validData[key]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    Questie:Error("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
+                    Questie:Error("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. npcId)
                     return
                 end
-            else
-                print("MATCHING: " .. key)
             end
         end
     end
 
     validator.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
+    print(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateObjects()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
     for objectId, _ in pairs(QuestieDB.objectData) do
-        local toValidate = {validator.Query(objectId, unpack(QuestieDB.objectCompilerOrder))}
+        local toValidate = validator.QueryValidator(objectId, QuestieDB.objectCompilerOrder)
 
         local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
         --Questie.db.global.__toValidate = toValidate
         local validData = QuestieDB:GetObject(objectId)
         for id, key in pairs(QuestieDB.objectCompilerOrder) do
@@ -1068,26 +1050,22 @@ function QuestieDBCompiler:ValidateObjects()
             local b = validData[key]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    Questie:Error("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
+                    Questie:Error("Nonmatching at " .. key .. "  " .. id  .. " for ID: ".. objectId)
                     return
                 end
-            else
-                print("MATCHING: " .. key)
             end
         end
     end
 
     validator.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
+    print(Questie.DEBUG_INFO, "Finished objects validation without issues!")
 end
 
 
@@ -1151,48 +1129,82 @@ function QuestieDBCompiler:ValidateItems()
     validator.stream:finished()
     obj.stream:finished()
     npc.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished items validation without issues!")
+    print(Questie.DEBUG_INFO, "Finished items validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateQuests()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
-    for questId, _ in pairs(QuestieDB.questData) do
-        local toValidate = {validator.Query(questId, unpack(QuestieDB.questCompilerOrder))}
+    local playerLevel = UnitLevel("player")
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
-        --Questie.db.global.__toValidate = toValidate
-        local validData = QuestieDB:GetQuest(questId)
+    local function getTbcLevel(questLevel, requiredLevel, playerLevel)
+        if (questLevel == -1) then
+            local level = playerLevel
+            if (requiredLevel > level) then
+                questLevel = requiredLevel;
+            else
+                questLevel = level;
+                -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
+                requiredLevel = level;
+            end
+        end
+        return questLevel, requiredLevel
+    end
+
+    -- We now only compare the nonCompiled data and the compiled data without overrides, it'll have to do.
+    local count = 0
+    for questId, nonCompiledData in pairs(QuestieDB.questData) do
+        local compiledData = validator.QueryValidator(questId, QuestieDB.questCompilerOrder)
+
         for id,key in pairs(QuestieDB.questCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.questKeys[key]]
 
+            --Special case for questLevel
+            if (Questie.IsTBC or Questie.IsWotlk) and (key == "questLevel" or key == "requiredLevel") then
+                local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
+                if (key == "questLevel") then
+                    a = questLevel
+                elseif (key == "requiredLevel") then
+                    a = requiredLevel
+                end
+                questLevel, requiredLevel = getTbcLevel(nonCompiledData[QuestieDB.questKeys["questLevel"]], nonCompiledData[QuestieDB.questKeys["requiredLevel"]], playerLevel)
+                if (key == "questLevel") then
+                    b = questLevel
+                elseif (key == "requiredLevel") then
+                    b = requiredLevel
+                end
+            end
+
+            -- if key == "extraObjectives" then
+            --     -- Do nothing
+            -- else
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    print("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
+                    print("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. questId)
+                    print("Compiled Table:")
+                    DevTools_Dump(a)
+                    print("Non-Compiled Table:")
+                    DevTools_Dump(b)
                     return
                 end
-            else
-                print("MATCHING: " .. key)
             end
         end
+        -- Times 3 to speed it up
+        if count % (TICKS_PER_YIELD*3) == 0 then
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished quests validation without issues!")
-end
-
-function QuestieDBCompiler:Initialize()
-    QuestieDBCompiler.npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
+    print(Questie.DEBUG_INFO, "Finished quests validation without issues!")
 end
 
 function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, overrides)
@@ -1210,6 +1222,9 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     handle.stream = stream
 
     if overrides then
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param key string
+        ---@return any
         handle.QuerySingle = function(id, key)
             local override = overrides[id]
             if override then
@@ -1231,12 +1246,16 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    readers[types[indexToKey[i]]](stream)
+                    skippers[types[indexToKey[i]]](stream)
+                    -- readers[types[indexToKey[i]]](stream)
                 end
             end
             return readers[types[key]](stream)
         end
-        handle.Query = function(id, ...)
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.Query = function(id, keys)
             --if overrides[id] then
             --    local ret = {}
             --    for index,key in pairs({...}) do
@@ -1249,7 +1268,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             --end
             local ptr = pointers[id]
             local override = overrides[id]
-            local keys = {...}
             if not ptr then
                 if override then
                     local ret = {}
@@ -1280,7 +1298,60 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
+                            skippers[types[indexToKey[i]]](stream)
+                        end
+                    end
+                    ret[index] = readers[types[key]](stream)
+                end
+            end
+            return ret -- do not unpack the returned table
+        end
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.QueryValidator = function(id, keys)
+            local ptr = pointers[id]
+            local override = overrides[id]
+            if not ptr then
+                if override then
+                    local ret = {}
+                    for index=1,#keys do
+                        local rootIndex = keyToRootIndex[keys[index]]
+                        if rootIndex and override[rootIndex] ~= nil then
+                            ret[index] = override[rootIndex]
+                        end
+                    end
+                    return ret
+                end
+                return nil
+            end
+            local ret = {}
+            for index=1,#keys do
+                local key = keys[index]
+                local rootIndex = keyToRootIndex[key]
+                if override and rootIndex and override[rootIndex] ~= nil then
+                    ret[index] = override[rootIndex]
+                else
+                    if map[key] ~= nil then -- can skip directly
+                        stream._pointer = map[key] + ptr
+                    else -- need to skip over some variably sized data
+                        stream._pointer = lastPtr + ptr
+                        local targetIndex = keyToIndex[key]
+                        if not targetIndex then
+                            Questie:Error("ERROR: Unhandled db key: " .. key)
+                            return nil
+                        end
+                        for i = lastIndex, targetIndex-1 do
+                            local beforeSkipper = stream._pointer
+                            skippers[types[indexToKey[i]]](stream)
+                            local afterSkipper = stream._pointer
+                            stream._pointer = beforeSkipper
                             readers[types[indexToKey[i]]](stream)
+                            local afterReader = stream._pointer
+                            if(afterSkipper ~= afterReader) then
+                                Questie:Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader-afterSkipper)
+                                return nil
+                            end
                         end
                     end
                     ret[index] = readers[types[key]](stream)
@@ -1305,19 +1376,21 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    readers[types[indexToKey[i]]](stream)
+                    skippers[types[indexToKey[i]]](stream)
+                    -- readers[types[indexToKey[i]]](stream)
                 end
             end
             return readers[types[key]](stream)
         end
-
-        handle.Query = function(id, ...)
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.Query = function(id, keys)
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
-            local keys = {...}
             local ret = {}
             for index=1,#keys do
                 local key = keys[index]
@@ -1331,7 +1404,45 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         return nil
                     end
                     for i = lastIndex, targetIndex-1 do
+                        skippers[types[indexToKey[i]]](stream)
+                    end
+                end
+                ret[index] = readers[types[key]](stream)
+            end
+            return ret -- do not unpack the returned table
+        end
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.QueryValidator = function(id, keys)
+            local ptr = pointers[id]
+            if not ptr then
+                --print("Entry not found! " .. id)
+                return nil
+            end
+            local ret = {}
+            for index=1,#keys do
+                local key = keys[index]
+                if map[key] ~= nil then -- can skip directly
+                    stream._pointer = map[key] + ptr
+                else -- need to skip over some variably sized data
+                    stream._pointer = lastPtr + ptr
+                    local targetIndex = keyToIndex[key]
+                    if not targetIndex then
+                        Questie:Error("ERROR: Unhandled db key: " .. key)
+                        return nil
+                    end
+                    for i = lastIndex, targetIndex-1 do
+                        local beforeSkipper = stream._pointer
+                        skippers[types[indexToKey[i]]](stream)
+                        local afterSkipper = stream._pointer
+                        stream._pointer = beforeSkipper
                         readers[types[indexToKey[i]]](stream)
+                        local afterReader = stream._pointer
+                        if(afterSkipper ~= afterReader) then
+                            Questie:Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader-afterSkipper)
+                            return nil
+                        end
                     end
                 end
                 ret[index] = readers[types[key]](stream)

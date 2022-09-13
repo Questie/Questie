@@ -37,6 +37,9 @@ end
 UnitClass = function()
     return "Druid", "DRUID", 11
 end
+UnitClass = function()
+    return 60
+end
 GetLocale = function()
     return "enUS"
 end
