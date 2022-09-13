@@ -803,7 +803,7 @@ local function equals(a, b)
     if ta ~= tb then return false end
 
     if ta == "number" then
-        return abs(a-b) < 0.2
+        return abs(a-b) < (100/4000) -- 100/4096 is the precision of the data (From Aero)
     elseif ta == "table" then
         for k,v in pairs(a) do
             if not equals(b[k], v) then
