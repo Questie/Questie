@@ -7,7 +7,7 @@
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0)
 local AceConsole = {}
 
----@param chatframe Frame? Custom ChatFrame to print to (or any frame with an .AddMessage function)
+---@param chatframe string|Frame? Custom ChatFrame to print to (or any frame with an .AddMessage function)
 ---@param ... any List of any values to be printed
 ---[Documentation](https://www.wowace.com/projects/ace3/pages/api/ace-console-3-0#title-3)
 function AceConsole:Print(chatframe, ...) end
