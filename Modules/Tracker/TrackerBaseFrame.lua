@@ -15,6 +15,9 @@ local _UpdateTracker, _MoveDurabilityFrame
 
 TrackerBaseFrame.IsInitialized = false
 
+---@param UpdateTracker function @The QuestieTracker:Update function
+---@param MoveDurabilityFrame function @The QuestieTracker:MoveDurabilityFrame function
+---@return Frame
 function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     _UpdateTracker = UpdateTracker
     _MoveDurabilityFrame = MoveDurabilityFrame
@@ -229,6 +232,7 @@ end
 local mouselookTicker = {}
 local dragButton
 
+---@param button string @The mouse button that is pressed when dragging starts
 function TrackerBaseFrame.OnDragStart(button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart]", button)
     if InCombatLockdown() then
@@ -287,6 +291,7 @@ end
 local trackerIsSizing = false
 local updateTimer
 
+---@param button string @The mouse button that is pressed when resize starts
 function TrackerBaseFrame.OnResizeStart(button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart]", button)
     if InCombatLockdown() then
@@ -300,17 +305,18 @@ function TrackerBaseFrame.OnResizeStart(button)
                 baseFrame:StartSizing("RIGHT")
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
-                    _UpdateTracker()
+                    _UpdateTracker() -- TODO: This really needs to work flawlessly and fast when its called every 0.1 second
                 end)
             end
         end
-    elseif button =="RightButton" then
+    elseif button == "RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
         _UpdateTracker()
         baseFrame.sizer:SetAlpha(1)
     end
 end
 
+---@param button string @The mouse button that is pressed when resize stops
 function TrackerBaseFrame.OnResizeStop(button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
     if button == "RightButton" or trackerIsSizing ~= true then
