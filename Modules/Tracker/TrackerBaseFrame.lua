@@ -179,6 +179,43 @@ function TrackerBaseFrame.SetSafePoint()
     end
 end
 
+--- Make sure the saved tracker location cords are on the players screen
+function TrackerBaseFrame.ValidateAndSetUserDefinedPosition()
+    -- TODO: Validate that these checks can ever be true, since the check seems quite useful
+    if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent") then
+        local verifyBaseFrame = {unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation)}
+
+        -- Max X values
+        local maxLeft = -GetScreenWidth()/2
+        if verifyBaseFrame[4] < 0 and verifyBaseFrame[4] < maxLeft then
+            verifyBaseFrame[4] = maxLeft
+        end
+
+        local maxRight = GetScreenWidth()/2
+        if verifyBaseFrame[4] > 0 and verifyBaseFrame[4] > maxRight then
+            verifyBaseFrame[4] = maxRight
+        end
+
+        -- Max Y values
+        local maxBottom = -GetScreenHeight()/2
+        if verifyBaseFrame[5] < 0 and verifyBaseFrame[5] < maxBottom then
+            verifyBaseFrame[5] = maxBottom
+        end
+
+        local maxTop = GetScreenHeight()/2
+        if verifyBaseFrame[5] > 0 and verifyBaseFrame[5] > maxTop then
+            verifyBaseFrame[5] = maxTop
+        end
+
+        -- Just in case we're in combat upon login - yeah, like that doesn't happen.
+        QuestieCombatQueue:Queue(function()
+            baseFrame:ClearAllPoints()
+            baseFrame:SetPoint(unpack(verifyBaseFrame))
+            verifyBaseFrame = nil
+        end)
+    end
+end
+
 function TrackerBaseFrame.ShrinkToMinSize(minSize)
     local xOff, yOff = baseFrame:GetLeft(), baseFrame:GetTop()
 

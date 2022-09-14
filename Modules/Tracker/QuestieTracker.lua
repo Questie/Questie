@@ -128,45 +128,11 @@ function QuestieTracker.Initialize()
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
 
-    C_Timer.After(0.2, function()
-        DurabilityFrame:Hide()
-    end)
+    -- TODO: Do we really need to wait here? Especially 4 (!) seconds on the second timer seems quite late
 
-    -- Santity checks and settings applied at login
     C_Timer.After(0.4, function()
-        -- Make sure the saved tracker location cords are on the players screen
-        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent") then
-            local verifyBaseFrame = {unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation)}
-
-            -- Max X values
-            local maxLeft = -GetScreenWidth()/2
-            if verifyBaseFrame[4] < 0 and verifyBaseFrame[4] < maxLeft then
-               verifyBaseFrame[4] = maxLeft
-            end
-
-            local maxRight = GetScreenWidth()/2
-            if verifyBaseFrame[4] > 0 and verifyBaseFrame[4] > maxRight then
-                verifyBaseFrame[4] = maxRight
-            end
-
-            -- Max Y values
-            local maxBottom = -GetScreenHeight()/2
-            if verifyBaseFrame[5] < 0 and verifyBaseFrame[5] < maxBottom then
-                verifyBaseFrame[5] = maxBottom
-            end
-
-            local maxTop = GetScreenHeight()/2
-            if verifyBaseFrame[5] > 0 and verifyBaseFrame[5] > maxTop then
-                verifyBaseFrame[5] = maxTop
-            end
-
-            -- Just in case we're in combat upon login - yeah, like that doesn't happen.
-            QuestieCombatQueue:Queue(function()
-                _QuestieTracker.baseFrame:ClearAllPoints()
-                _QuestieTracker.baseFrame:SetPoint(unpack(verifyBaseFrame))
-                verifyBaseFrame = nil
-            end)
-        end
+        DurabilityFrame:Hide()
+        TrackerBaseFrame.ValidateAndSetUserDefinedPosition()
     end)
 
     C_Timer.After(4.0, function()
