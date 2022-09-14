@@ -136,7 +136,6 @@ function QuestieTracker.Initialize()
     C_Timer.After(0.4, function()
         -- Make sure the saved tracker location cords are on the players screen
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent") then
-            local baseFrame = QuestieTracker:GetBaseFrame()
             local verifyBaseFrame = {unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation)}
 
             -- Max X values
@@ -163,8 +162,8 @@ function QuestieTracker.Initialize()
 
             -- Just in case we're in combat upon login - yeah, like that doesn't happen.
             QuestieCombatQueue:Queue(function()
-                baseFrame:ClearAllPoints()
-                baseFrame:SetPoint(unpack(verifyBaseFrame))
+                _QuestieTracker.baseFrame:ClearAllPoints()
+                _QuestieTracker.baseFrame:SetPoint(unpack(verifyBaseFrame))
                 verifyBaseFrame = nil
             end)
         end
@@ -458,10 +457,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         itemButtons[i] = btn
         itemButtons[i]:Hide()
     end
-end
-
-function QuestieTracker:GetBaseFrame()
-    return _QuestieTracker.baseFrame
 end
 
 function QuestieTracker:ResetLocation()
