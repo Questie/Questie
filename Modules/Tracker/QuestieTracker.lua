@@ -853,7 +853,7 @@ local function _GetSortedQuestIds()
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
-        QuestieTracker._sorter = function(a, b)
+        local sorter = function(a, b)
             a = toSort[a]
             b = toSort[b]
             if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
@@ -872,10 +872,10 @@ local function _GetSortedQuestIds()
                 return false
             end
         end
-        table.sort(sortedQuestIds, QuestieTracker._sorter)
+        table.sort(sortedQuestIds, sorter)
 
         if not _QuestProximityTimer then
-            QuestieTracker:UpdateQuestProximityTimer()
+            QuestieTracker.UpdateQuestProximityTimer(sortedQuestIds, sorter)
         end
     end
 
@@ -926,7 +926,6 @@ function QuestieTracker:Update()
     end
 
     local order = _GetSortedQuestIds()
-    QuestieTracker._order = order
 
     if (Questie.db.global.trackerSortObjectives ~= "byProximity") and _QuestProximityTimer and (_QuestProximityTimer:IsCancelled() ~= "true") then
         _QuestProximityTimer:Cancel()
@@ -1641,7 +1640,7 @@ _GetContinent = function(uiMapId)
     end
 end
 
-function QuestieTracker:UpdateQuestProximityTimer()
+function QuestieTracker.UpdateQuestProximityTimer(sortedQuestIds, sorter)
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
         _QuestProximityTimer = C_Timer.NewTicker(5.0, function()
@@ -1652,11 +1651,11 @@ function QuestieTracker:UpdateQuestProximityTimer()
                     _PlayerPosition = position;
                     --QuestieTracker:Update()
                     local orderCopy = {}
-                    for index, val in pairs(QuestieTracker._order) do
+                    for index, val in pairs(sortedQuestIds) do
                         orderCopy[index] = val
                     end
-                    table.sort(orderCopy, QuestieTracker._sorter)
-                    for index, val in pairs(QuestieTracker._order) do
+                    table.sort(orderCopy, sorter)
+                    for index, val in pairs(sortedQuestIds) do
                         if orderCopy[index] ~= val then
                             -- the order has changed
                             QuestieTracker:Update()
