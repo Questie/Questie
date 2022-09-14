@@ -179,6 +179,16 @@ function TrackerBaseFrame.SetSafePoint()
     end
 end
 
+function TrackerBaseFrame.ShrinkToMinSize(minSize)
+    local xOff, yOff = baseFrame:GetLeft(), baseFrame:GetTop()
+
+    baseFrame:ClearAllPoints()
+    -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
+    baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+
+    baseFrame:SetHeight(minSize)
+end
+
 local mouselookTicker = {}
 local dragButton
 

@@ -749,13 +749,7 @@ function QuestieTracker:Update()
 
     if not Questie.db.char.isTrackerExpanded then
         -- The Tracker is not expanded. No use to calculate anything - just hide everything
-        local xOff, yOff = _QuestieTracker.baseFrame:GetLeft(), _QuestieTracker.baseFrame:GetTop()
-
-        _QuestieTracker.baseFrame:ClearAllPoints()
-        -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
-        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
-
-        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
+        TrackerBaseFrame.ShrinkToMinSize(trackerSpaceBuffer)
         _QuestieTracker.trackedQuestsFrame:Hide()
 
         LinePool.HideUnusedLines()
