@@ -13,6 +13,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local baseFrame
 local _UpdateTracker, _MoveDurabilityFrame
 
+TrackerBaseFrame.IsInitialized = false
+
 function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     _UpdateTracker = UpdateTracker
     _MoveDurabilityFrame = MoveDurabilityFrame
@@ -41,50 +43,6 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
 
     baseFrame:SetBackdropColor(0, 0, 0, 0)
     baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-
-    baseFrame.Update = function(self)
-        if Questie.db.char.isTrackerExpanded and GetNumQuestLogEntries() > 0 then
-            if Questie.db.global.trackerBackdropEnabled then
-                if not Questie.db.global.trackerBackdropFader then
-                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                    if Questie.db.global.trackerBorderEnabled then
-                        baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
-                    end
-                end
-
-            else
-                baseFrame:SetBackdropColor(0, 0, 0, 0)
-                baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-            end
-
-        else
-            baseFrame.sizer:SetAlpha(0)
-            baseFrame:SetBackdropColor(0, 0, 0, 0)
-            baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-        end
-
-        -- Enables Click-Through when the tracker is locked
-        if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
-            self:SetMovable(true)
-            QuestieCombatQueue:Queue(function(tracker)
-                if IsMouseButtonDown() then
-                    return
-                end
-                tracker:EnableMouse(true)
-                tracker:SetResizable(true)
-            end, self)
-
-        else
-            self:SetMovable(false)
-            QuestieCombatQueue:Queue(function(tracker)
-                if IsMouseButtonDown() then
-                    return
-                end
-                tracker:EnableMouse(false)
-                tracker:SetResizable(false)
-            end, self)
-        end
-    end
 
     local sizer = CreateFrame("Frame", "Questie_Sizer", baseFrame)
     sizer:SetPoint("BOTTOMRIGHT", 0, 0)
@@ -159,8 +117,52 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     end
 
     baseFrame:Hide()
-
+    TrackerBaseFrame.IsInitialized = true
     return baseFrame
+end
+
+function TrackerBaseFrame.Update()
+    if Questie.db.char.isTrackerExpanded and GetNumQuestLogEntries() > 0 then
+        if Questie.db.global.trackerBackdropEnabled then
+            if not Questie.db.global.trackerBackdropFader then
+                baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                if Questie.db.global.trackerBorderEnabled then
+                    baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                end
+            end
+
+        else
+            baseFrame:SetBackdropColor(0, 0, 0, 0)
+            baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+        end
+
+    else
+        baseFrame.sizer:SetAlpha(0)
+        baseFrame:SetBackdropColor(0, 0, 0, 0)
+        baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+    end
+
+    -- Enables Click-Through when the tracker is locked
+    if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
+        baseFrame:SetMovable(true)
+        QuestieCombatQueue:Queue(function()
+            if IsMouseButtonDown() then
+                return
+            end
+            baseFrame:EnableMouse(true)
+            baseFrame:SetResizable(true)
+        end)
+
+    else
+        baseFrame:SetMovable(false)
+        QuestieCombatQueue:Queue(function()
+            if IsMouseButtonDown() then
+                return
+            end
+            baseFrame:EnableMouse(false)
+            baseFrame:SetResizable(false)
+        end)
+    end
 end
 
 function TrackerBaseFrame.SetSafePoint()

@@ -16,6 +16,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -205,9 +207,9 @@ function _EventHandler:ModifierStateChanged()
         GameTooltip:Show()
     end
     if Questie.db.global.trackerLocked then
-        if QuestieTracker.private.baseFrame ~= nil then
+        if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
-                QuestieTracker.private.baseFrame:Update()
+                TrackerBaseFrame.Update()
             end)
         end
     end
