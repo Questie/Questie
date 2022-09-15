@@ -163,6 +163,7 @@ end
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
 ---@param validationTables table? Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
 local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables)
+    local count = 0
     for id, data in pairs(corrections) do
         for key, value in pairs(data) do
             if not QuestieDB[databaseTableName][id] then
@@ -175,6 +176,11 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
             end
             QuestieDB[databaseTableName][id][key] = value
         end
+        if count == TICKS_PER_YIELD then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 end
 
@@ -254,10 +260,12 @@ local ZONE_SCALES = {
     [ZoneDB.zoneIDs.UNDERCITY] = 0.5,
 }
 
+
+local abs, sqrt = math.abs, math.sqrt
 local function euclid(x, y, i, e)
-    local xd = math.abs(x - i)
-    local yd = math.abs(y - e)
-    return math.sqrt(xd * xd + yd * yd)
+    local xd = abs(x - i)
+    local yd = abs(y - e)
+    return sqrt(xd * xd + yd * yd)
 end
 
 function QuestieCorrections:OptimizeWaypoints(waypointData)
@@ -286,56 +294,38 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
                         for i=1,divs do
                             local mul0 = i/divs
                             local mul1 = 1-mul0
-                            tinsert(newWaypoints, {way[1] * mul0 + lastWay[1] * mul1, way[2] * mul0 + lastWay[2] * mul1})
+                            newWaypoints[#newWaypoints+1] = {way[1] * mul0 + lastWay[1] * mul1, way[2] * mul0 + lastWay[2] * mul1}
                         end
                     else
-                        tinsert(newWaypoints, way)
+                        newWaypoints[#newWaypoints+1] = way
                     end
                 else
-                    tinsert(newWaypoints, way)
+                    newWaypoints[#newWaypoints+1] = way
                 end
-                
                 lastWay = way
             end
-            tinsert(newWaypointList, newWaypoints)
+            newWaypointList[#newWaypointList+1] = newWaypoints
         end
         newWaypointZones[zone] = newWaypointList
-    
     end
     return newWaypointZones
 end
 
 function QuestieCorrections:PreCompile() -- this happens only if we are about to compile the database. Run intensive preprocessing tasks here (like ramer-douglas-peucker)
-    local ops = {}
+    local waypointKey = QuestieDB.npcKeys["waypoints"]
+    local npcData = QuestieDB.npcData
 
-    for id, data in pairs(QuestieDB.npcData) do
-        local way = data[QuestieDB.npcKeys["waypoints"]]
+    local count = 0
+    for id, data in pairs(npcData) do
+        local way = data[waypointKey]
         if way then
-            tinsert(ops, {way, id})
+            npcData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
         end
-    end
 
-    while true do
-        coroutine.yield()
-        for _ = 0, Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or TICKS_PER_YIELD do
-            local op = tremove(ops, 1)
-            if op then
-                QuestieDB.npcData[op[2]][QuestieDB.npcKeys["waypoints"]] = QuestieCorrections:OptimizeWaypoints(op[1])
-            else
-                --local totalPoints2 = 0
-                --for id, data in pairs(QuestieDB.npcData) do
-                --    local way = data[QuestieDB.npcKeys["waypoints"]]
-                --    if way then
-                --        for _,waypoints in pairs(way) do
-                --            totalPoints2 = totalPoints2 + #waypoints
-                --        end
-                --    end
-                --end
-                --print("Before RDP: " .. tostring(totalPoints))
-                --print("After RDP:" .. tostring(totalPoints2))
-
-                return
-            end
+        if count == 500 then -- 500 seems like a good number
+            count = 0
+            coroutine.yield()
         end
+        count = count + 1
     end
 end
