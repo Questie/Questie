@@ -7,6 +7,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 ---@type FadeTicker
 local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieMap
@@ -26,7 +28,7 @@ local _OnClick, _OnHighlightEnter, _OnHighlightLeave, _SetMode
 local _UntrackQuest, _TrackerUpdate
 
 ---@param trackedQuestsFrame Frame
-function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, OnDragStart, OnDragStop)
+function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
     baseFrame = trackedQuestsFrame
     _UntrackQuest = UntrackQuest
     _TrackerUpdate = TrackerUpdate
@@ -91,8 +93,8 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, On
         line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
         line:SetScript("OnClick", _OnClick)
-        line:SetScript("OnDragStart", OnDragStart)
-        line:SetScript("OnDragStop", OnDragStop)
+        line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
+        line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
 
         line:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
