@@ -47,6 +47,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
