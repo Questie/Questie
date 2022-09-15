@@ -189,7 +189,7 @@ function _EventHandler:PlayerLevelUp(level)
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end)
     QuestieJourney:PlayerLevelUp(level)
 end
@@ -219,7 +219,7 @@ function _EventHandler:ChatMsgSkill()
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
     if isProfUpdate or isNewProfession then
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
@@ -231,7 +231,7 @@ function _EventHandler:ChatMsgCompatFactionChange()
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
