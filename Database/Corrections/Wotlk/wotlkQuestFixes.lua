@@ -313,24 +313,6 @@ function QuestieWotlkQuestFixes:Load()
         [12053] = {
             [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
         },
-        [12208] = {
-            [questKeys.preQuestSingle] = {12412},
-        },
-        [12261] = {
-            [questKeys.preQuestSingle] = {12447},
-        },
-        [12262] = {
-            [questKeys.preQuestSingle] = {12447},
-        },
-        [12264] = {
-            [questKeys.preQuestSingle] = {12263},
-        },
-        [12265] = {
-            [questKeys.preQuestSingle] = {12263},
-        },
-        [12269] = {
-            [questKeys.preQuestSingle] = {12275},
-        },
         [12078] = {
             [questKeys.preQuestSingle] = {12077},
         },
@@ -375,14 +357,32 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12208] = {
+            [questKeys.preQuestSingle] = {12412},
+        },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
         },
+        [12261] = {
+            [questKeys.preQuestSingle] = {12447},
+        },
+        [12262] = {
+            [questKeys.preQuestSingle] = {12447},
+        },
         [12263] = {
             [questKeys.triggerEnd] = {"Uncover the Magmawyrm Resurrection Chamber",{[zoneIDs.DRAGONBLIGHT]={{31.76,30.46,},},},},
+        },
+        [12264] = {
+            [questKeys.preQuestSingle] = {12263},
+        },
+        [12265] = {
+            [questKeys.preQuestSingle] = {12263},
+        },
+        [12269] = {
+            [questKeys.preQuestSingle] = {12275},
         },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
