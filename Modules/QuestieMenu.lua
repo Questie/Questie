@@ -703,7 +703,7 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         2928,4361,10647,10648,4291,4357,8924,8343,4363,2678,5173,4400,2930,4342,2325,4340,
         6261,8923,2324,2604,6260,4378,10290,17194,4341
     }))
-    Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieMenu:PopulateVendors({4496, 4497, 4498, 4499}))
+    Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieMenu:PopulateVendors({4496, 4497, 4498, 4499, (Questie.IsTBC or Questie.IsWotlk) and 30744 or nil}))
     QuestieMenu:UpdatePlayerVendors()
 end
 
