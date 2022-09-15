@@ -446,6 +446,18 @@ local trackerOptionsLocales = {
         ["esES"] = "Bloquear rastreador",
         ["frFR"] = "Verrouiller la fenêtre du suivi",
     },
+    ["When this is the checked, the Tracker is locked and you need to hold CTRL when you want to move it."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Wenn dies aktiviert ist, dann muss STRG gedrückt gehalten werden, wenn der Tracker bewegt werden soll.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["Enable Tracker Hooks"] = {
         ["ptBR"] = "Ativar ganchos do rastreador",
         ["ruRU"] = "Трекер Blizzard",
