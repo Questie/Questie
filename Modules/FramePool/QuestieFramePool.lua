@@ -34,6 +34,7 @@ function QuestieFramePool:SetIcons()
     ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
     ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
     ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
+    ICON_TYPE_TALK = QuestieLib.AddonPath.."Icons\\chatbubblegossipicon.blp"
 
     -- TODO Add all types (we gotta stop using globals, needs refactoring)
     ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"

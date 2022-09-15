@@ -1,3 +1,5 @@
+local WatchFrame_Update = QuestWatch_Update or WatchFrame_Update
+
 ---@class Hooks
 local Hooks = QuestieLoader:CreateModule("Hooks")
 
@@ -16,19 +18,22 @@ function Hooks:HookQuestLogTitle()
             return
         end
 
-        local questLogLineIndex = self:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame)
-        local questId = GetQuestIDFromLogIndex(questLogLineIndex)
+        local questLogLineIndex
+        if Questie.IsWotlk then
+            -- With Wotlk the offset is no longer required cause the API already hands the correct index
+            questLogLineIndex = self:GetID()
+        else
+            questLogLineIndex = self:GetID() + FauxScrollFrame_GetOffset(QuestLogListScrollFrame)
+        end
 
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            if (self.isHeader) then
-                return
-            end
+            local questId = GetQuestIDFromLogIndex(questLogLineIndex)
             ChatEdit_InsertLink("["..string.gsub(self:GetText(), " *(.*)", "%1").." ("..questId..")]")
         else
             -- only call if we actually want to fix this quest (normal quests already call AQW_insert)
-            if GetNumQuestLeaderBoards(questLogLineIndex) == 0 and (not IsQuestWatched(questLogLineIndex)) then
+            if Questie.db.global.trackerEnabled and GetNumQuestLeaderBoards(questLogLineIndex) == 0 and (not IsQuestWatched(questLogLineIndex)) then
                 QuestieTracker:AQW_Insert(questLogLineIndex, QUEST_WATCH_NO_EXPIRE)
-                QuestWatch_Update()
+                WatchFrame_Update()
                 QuestLog_SetSelection(questLogLineIndex)
                 QuestLog_Update()
             else

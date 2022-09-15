@@ -88,7 +88,7 @@ end
 
 QuestieDB.itemCompilerTypes = {
     ["foodType"] = "u8",
-    ["itemLevel"] = "u8",
+    ["itemLevel"] = "u16",
     ["flags"] = "u32",
     ["startQuest"] = "u24",
     ["requiredLevel"] = "u8",

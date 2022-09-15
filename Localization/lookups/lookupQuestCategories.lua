@@ -37,4 +37,5 @@ l10n.questCategoryLookup = {
     [-368] = "Invasion",
     [-369] = "Midsummer",
     [-370] = "Brewfest",
+    [-371] = "Inscription",
 };

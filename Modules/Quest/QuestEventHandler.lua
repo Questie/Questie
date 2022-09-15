@@ -113,7 +113,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     QuestieAnnounce:AcceptedQuest(questId)
 
     local isLastIslePhase = Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES
-    if Questie.IsTBC and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
+    if Questie.IsWotlk and (not isLastIslePhase) and IsleOfQuelDanas.CheckForActivePhase(questId) then
         QuestieQuest:SmoothReset()
     else
         QuestieQuest:AcceptQuest(questId)

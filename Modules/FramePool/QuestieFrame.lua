@@ -19,7 +19,7 @@ local _Qframe = {}
 
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
-    ---@class IconFrame
+    ---@class IconFrame : Button
     local newFrame = CreateFrame("Button", "QuestieFrame"..frameId)
     newFrame.frameId = frameId;
 
@@ -59,7 +59,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     glowt:SetHeight(18)
     glowt:SetAllPoints(newFrame.glow)
 
-    ---@class IconTexture
+    ---@class IconTexture : Texture
     newFrame.texture = newTexture;
     newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
     function newFrame.texture:SetVertexColor(r, g, b, a)
@@ -174,10 +174,17 @@ function _Qframe:OnClick(button)
     end
     if self and self.UiMapID and IsControlKeyDown() and TomTom and TomTom.AddWaypoint then
         -- tomtom integration (needs more work, will come with tracker
+        local m = self.UiMapID
+        local x = self.x/100
+        local y = self.y/100
+        local title = self.data.Name
+        local add = true
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
-            TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
+            local waypoint = Questie.db.char._tom_waypoint
+            TomTom:RemoveWaypoint(waypoint)
+            add = (waypoint[1] ~= m or waypoint[2] ~= x or waypoint[3] ~= y or waypoint.title ~= title or waypoint.from ~= "Questie")
         end
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(self.UiMapID, self.x/100, self.y/100, {title = self.data.Name, crazy = true})
+        Questie.db.char._tom_waypoint = add and TomTom:AddWaypoint(m, x, y, {title = title, crazy = true, from = "Questie"})
     elseif self.miniMapIcon then
         local _, _, _, x, y = self:GetPoint()
         Minimap:PingLocation(x, y)
@@ -418,11 +425,11 @@ function _Qframe:ShouldBeHidden()
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
-                or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId))
-                or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId))
-                or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId))
-                or ((not questieCharDB.showRaidQuests) and QuestieDB:IsRaidQuest(questId))
-                or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId))
+                or ((not questieCharDB.showRepeatableQuests) and QuestieDB.IsRepeatable(questId))
+                or ((not questieCharDB.showEventQuests) and QuestieDB.IsActiveEventQuest(questId))
+                or ((not questieCharDB.showDungeonQuests) and QuestieDB.IsDungeonQuest(questId))
+                or ((not questieCharDB.showRaidQuests) and QuestieDB.IsRaidQuest(questId))
+                or ((not questieCharDB.showPvPQuests) and QuestieDB.IsPvPQuest(questId))
                 -- this quest group isn't loaded at all while disabled:
                 -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
                 )
