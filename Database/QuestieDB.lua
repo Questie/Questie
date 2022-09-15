@@ -129,6 +129,11 @@ local checkRace
 ---@type table<number, boolean>
 local checkClass
 
+---QuestieCorrections.hiddenQuests
+local QuestieCorrectionshiddenQuests
+---Questie.db.char.hidden
+local Questiedbcharhidden
+
 QuestieDB.itemDataOverrides = {}
 QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
@@ -226,6 +231,9 @@ function QuestieDB:Initialize()
     --? This improves performance a lot, the regular functions still work but this is much faster because i caches
     checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
     checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
+    --? Set the localized versions of these.
+    QuestieCorrectionshiddenQuests = QuestieCorrections.hiddenQuests
+    Questiedbcharhidden = Questie.db.char.hidden
 end
 
 function QuestieDB:GetObject(objectId)
@@ -514,15 +522,16 @@ end
 ---@return boolean
 function QuestieDB.IsDoable(questId, debugPrint)
 
-    -- if QuestieCorrections.hiddenQuests[questId] then
-    --     if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden!") end
-    --     return false
-    -- end
+    -- These are localized in the init function
+    if QuestieCorrectionshiddenQuests[questId] then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden!") end
+        return false
+    end
 
-    -- if Questie.db.char.hidden[questId] then
-    --     if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden manually!") end
-    --     return false
-    -- end
+    if Questiedbcharhidden[questId] then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden manually!") end
+        return false
+    end
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
