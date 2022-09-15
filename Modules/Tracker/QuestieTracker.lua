@@ -130,11 +130,6 @@ function QuestieTracker.Initialize()
 
     -- TODO: Do we really need to wait here? Especially 4 (!) seconds on the second timer seems quite late
 
-    C_Timer.After(0.4, function()
-        DurabilityFrame:Hide()
-        TrackerBaseFrame.ValidateAndSetUserDefinedPosition()
-    end)
-
     C_Timer.After(4.0, function()
         if Questie.db.global.stickyDurabilityFrame then
             -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
