@@ -313,6 +313,9 @@ function QuestieWotlkQuestFixes:Load()
         [12053] = {
             [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
         },
+        [12208] = {
+            [questKeys.preQuestSingle] = {12412},
+        },
         [12261] = {
             [questKeys.preQuestSingle] = {12447},
         },
