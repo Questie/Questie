@@ -115,7 +115,7 @@ function _EventHandler:PlayerLogin()
 
         local locale = GetLocale()
         local FACTION_STANDING_CHANGED_LOCAL = FACTION_STANDING_CHANGED or "You are now %s with %s."
-        local replaceCount = -1 -- Just init it with an impossible value
+        local replaceCount -- Just init it with an impossible value
         local replaceString = ".+"
 
         --! Has to got from least likely to work to most, otherwise you will get false positives
@@ -140,7 +140,7 @@ function _EventHandler:PlayerLogin()
         end
 
         --? A fallback to try everything if the replaceCount is still -1 or 0
-        if replaceCount < 1 then
+        if replaceCount and replaceCount < 1 then
             for _, replaceType in pairs(replaceTypes) do
                 FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceType, replaceString)
                 if replaceCount > 0 then
@@ -150,7 +150,7 @@ function _EventHandler:PlayerLogin()
         end
 
         --? Nothing worked :(
-        if replaceCount < 1 then --- Error: Default to match EVERYTHING, because it's better that it works
+        if replaceCount and replaceCount < 1 then --- Error: Default to match EVERYTHING, because it's better that it works
             FACTION_STANDING_CHANGED_PATTERN = ".+"
             Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
             Questie:Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
