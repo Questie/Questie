@@ -40,6 +40,7 @@ function l10n:Initialize()
     end
 
     -- data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
+    -- Load quest locales
     for id, data in pairs(l10n.questLookup[locale] or {}) do
         if QuestieDB.questData[id] then
             if data[1] then
@@ -56,6 +57,7 @@ function l10n:Initialize()
             end
         end
     end
+
     -- Load NPC locales
     for id, data in pairs(l10n.npcNameLookup[locale] or {}) do
         if QuestieDB.npcData[id] and data then
@@ -67,6 +69,7 @@ function l10n:Initialize()
             end
         end
     end
+
     -- Load object locales
     for id, name in pairs(l10n.objectLookup[locale] or {}) do
         if QuestieDB.objectData[id] and name then
@@ -75,17 +78,30 @@ function l10n:Initialize()
     end
 end
 
-function l10n:PostBoot()
+---@param yield boolean?
+function l10n:PostBoot(yield)
+    local QueryObjectSingle = QuestieDB.QueryObjectSingle
+    local objectNameLookup = l10n.objectNameLookup
+
+    local count = 0
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
     for id in pairs(QuestieDB.ObjectPointers) do
-        local name = QuestieDB.QueryObjectSingle(id, "name")
+        local name = QueryObjectSingle(id, "name")
         if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
-            local entry = l10n.objectNameLookup[name]
+            local entry = objectNameLookup[name]
             if not entry then
-                l10n.objectNameLookup[name] = { id }
+                objectNameLookup[name] = { id }
             else
                 entry[#entry+1] = id
             end
+        end
+
+        if yield then
+            if count == 300 then
+                count = 0
+                coroutine.yield()
+            end
+            count = count + 1
         end
     end
 end
