@@ -152,6 +152,15 @@ function QuestieWotlkQuestFixes:Load()
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
         },
+        [11574] = {
+            [questKeys.exclusiveTo] = {11587},
+        },
+        [11575] = {
+            [questKeys.exclusiveTo] = {11587},
+        },
+        [11587] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
         },
