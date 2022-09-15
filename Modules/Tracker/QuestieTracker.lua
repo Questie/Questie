@@ -719,6 +719,7 @@ function QuestieTracker:Update()
         _QuestieTracker.trackedQuestsFrame:Hide()
 
         LinePool.HideUnusedLines()
+        _QuestieTracker.baseFrame:Show()
         return
     end
 
