@@ -90,6 +90,7 @@ function l10n:PostBoot()
     end
 end
 
+local format, unpack, tostring = string.format, unpack, tostring
 function _l10n:translate(key, ...)
     local args = {...}
 
@@ -99,22 +100,22 @@ function _l10n:translate(key, ...)
 
     local translationEntry = l10n.translations[key]
     if not translationEntry then
-        Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!")
-        return string.format(key, unpack(args))
+        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!") end
+        return format(key, unpack(args))
     end
 
     local translationValue = translationEntry[locale]
     if (not translationValue) then
-        Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language" , locale, "!")
-        return string.format(key, unpack(args))
+        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language" , locale, "!") end
+        return format(key, unpack(args))
     end
 
     if translationValue == true then
         -- Fallback to enUS which is the key
-        return string.format(key, unpack(args))
+        return format(key, unpack(args))
     end
 
-    return string.format(translationValue, unpack(args))
+    return format(translationValue, unpack(args))
 end
 
 setmetatable(l10n, { __call = function(_, ...) return _l10n:translate(...) end})
