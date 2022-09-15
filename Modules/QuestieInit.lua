@@ -2,6 +2,9 @@
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
 local _QuestieInit = QuestieInit.private
 
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type l10n
@@ -71,26 +74,31 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 
+local coYield = coroutine.yield
+
 local function loadFullDatabase()
-    print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
+    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. "...")
 
     QuestieInit:LoadBaseDB()
 
-    print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
+    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. "...")
 
-    coroutine.yield()
+    coYield()
     QuestieCorrections:Initialize()
-    coroutine.yield()
-    QuestieMenu:PopulateTownsfolk()
 
-    print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
-    coroutine.yield()
+    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. "...")
+    coYield()
+    QuestieMenu:PopulateTownsfolk(true)
+
+    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. "...")
+    coYield()
     l10n:Initialize()
 
-    coroutine.yield()
+    coYield()
     QuestieDB.private:DeleteGatheringNodes()
 
-    coroutine.yield()
+    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. "...")
+    coYield()
     QuestieCorrections:PreCompile()
 end
 
@@ -102,17 +110,17 @@ local function runValidator()
     end
     -- Run validator
     if Questie.db.global.debugEnabled then
-        coroutine.yield()
-        print(Questie.DEBUG_INFO, "Validating NPCs...")
-        -- QuestieDBCompiler:ValidateNPCs()
-        coroutine.yield()
-        print(Questie.DEBUG_INFO, "Validating objects...")
-        -- QuestieDBCompiler:ValidateObjects()
-        coroutine.yield()
-        print(Questie.DEBUG_INFO, "Validating items...")
-        -- QuestieDBCompiler:ValidateItems()
-        coroutine.yield()
-        print(Questie.DEBUG_INFO, "Validating quests...")
+        coYield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating NPCs...")
+         QuestieDBCompiler:ValidateNPCs()
+        coYield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating objects...")
+         QuestieDBCompiler:ValidateObjects()
+        coYield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating items...")
+         QuestieDBCompiler:ValidateItems()
+        coYield()
+        Questie:Debug(Questie.DEBUG_INFO, "Validating quests...")
         QuestieDBCompiler:ValidateQuests()
     end
 end
@@ -141,45 +149,48 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     QuestieShutUp:ToggleFilters(Questie.db.global.questieShutUp)
 
-    coroutine.yield()
+    coYield()
     ZoneDB:Initialize()
 
-    coroutine.yield()
+    coYield()
     Migration:Migrate()
 
     IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
     QuestieProfessions:Init()
-    coroutine.yield()
+    coYield()
+
+    local dbCompiled = false
 
     -- Check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
         print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
+        dbCompiled = true
     else
         -- If we have debug enabled we want to run the validator, so we need to load the full database
         if Questie.db.global.debugEnabled then
             loadFullDatabase()
         else
             l10n:Initialize()
-            coroutine.yield()
+            coYield()
             QuestieCorrections:MinimalInit()
         end
     end
 
     if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
         Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
-        coroutine.yield()
+        coYield()
         QuestieMenu:BuildCharacterTownsfolk()
     end
 
-    coroutine.yield()
+    coYield()
     QuestieDB:Initialize()
 
-    if Questie.db.global.debugEnabled then
+    if Questie.db.global.debugEnabled and dbCompiled then
         runValidator()
-        print("\124cFF4DDBFF debug validaton and load complete...")
+        print("\124cFF4DDBFF Load and Validation complete...")
     end
 
     QuestieCleanup:Run()
