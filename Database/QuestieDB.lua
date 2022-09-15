@@ -1102,8 +1102,9 @@ function _QuestieDB:DeleteGatheringNodes()
         1731,1732,1733,1734,1735,123848,150082,175404,176643,177388,324,150079,176645,2040,123310 -- mining
     }
     local objectSpawnsKey = QuestieDB.objectKeys.spawns
-    for _,v in pairs(prune) do
-        QuestieDB.objectData[v][objectSpawnsKey] = nil
+    for i=1, #prune do
+        local id = prune[i]
+        QuestieDB.objectData[id][objectSpawnsKey] = nil
     end
 end
 
