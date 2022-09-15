@@ -232,7 +232,7 @@ local function _UpdateTrackerPosition()
     -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
     baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
 
-    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", xOff, -(GetScreenHeight() - yOff)}
+    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xOff, -(GetScreenHeight() - yOff)}
 
     _MoveDurabilityFrame()
     _UpdateTracker()
