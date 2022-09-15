@@ -134,6 +134,10 @@ QuestieInit.Stages = {}
 QuestieInit.Stages[1] = function() -- run as a coroutine
     Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
 
+    --? This was moved here because the lag that it creates is much less noticable here, while still initalizing correctly.
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting QuestieOptions.Initialize Thread.")
+    ThreadLib.ThreadSimple(QuestieOptions.Initialize, 0)
+
     MinimapIcon:Init()
 
     HBDHooks:Init()
@@ -196,10 +200,16 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     QuestieCleanup:Run()
 end
 
-QuestieInit.Stages[2] = function() -- not a coroutine
+QuestieInit.Stages[2] = function()
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 2 start.")
+    -- We do this while we wait for the Quest Cache anyway.
+    l10n:PostBoot(true)
+    coYield()
+    QuestieJourney:Initialize(true)
+
     -- Continue to the next Init Stage once Game Cache's Questlog is good
     while not QuestieValidateGameCache:IsCacheGood() do
-        coroutine.yield()
+        coYield()
     end
 end
 
@@ -217,11 +227,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     QuestieSlash.RegisterSlashCommands()
 
-    QuestieOptions:Initialize()
-
-    --Initialize the DB settings.
-    Questie:Debug(Questie.DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
-
+    coYield()
 
     -- Update the default text on the map show/hide button for localization
     if Questie.db.char.enabled then
@@ -257,35 +263,24 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- ** OLD ** Questie:ContinueInit() ** END **
 
 
+    coYield()
     QuestEventHandler:RegisterEvents()
+    coYield()
     ChatFilter:RegisterEvents()
-    coroutine.yield()
-
     QuestieMap:InitializeQueue()
-
-    coroutine.yield()
     QuestiePlayer:Initialize()
-    l10n:PostBoot()
 
-    coroutine.yield()
-    QuestieJourney:Initialize()
-    coroutine.yield()
+    coYield()
     QuestieQuest:Initialize()
-    coroutine.yield()
+    coYield()
     QuestieQuest:GetAllQuestIdsNoObjectives()
-    coroutine.yield()
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
-    coroutine.yield()
-    QuestieNameplate:Initialize()
-    coroutine.yield()
+    coYield()
     QuestieMenu:PopulateTownsfolkPostBoot()
-    Questie:Debug(Questie.DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-
-    coroutine.yield()
+    coYield()
     QuestieQuest:GetAllQuestIds()
 
     -- Initialize the tracker
-    coroutine.yield()
+    coYield()
     QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
     QuestieCombatQueue.Initialize()
@@ -307,8 +302,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
+    coYield()
     QuestieMenu:OnLogin()
 
+    coYield()
     if Questie.db.global.debugEnabled then
         QuestieLoader:PopulateGlobals()
     end
@@ -324,6 +321,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
             Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
         end
     end
+    
+    -- We do this last because it will run for a while and we don't want to block the rest of the init
+    coYield()
+    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")
 end
@@ -335,9 +336,9 @@ end
 
 function QuestieInit:LoadDatabase(key)
     if QuestieDB[key] then
-        coroutine.yield()
+        coYield()
         QuestieDB[key] = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
-        coroutine.yield()
+        coYield()
         QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
@@ -352,37 +353,14 @@ function QuestieInit:LoadBaseDB()
 end
 
 
--- this function creates coroutine to run a function from QuestieInit.Stages[]
----@param stage number @the stage to start
-function _QuestieInit:StartStageCoroutine(stage)
-    local coStatus, coResume = coroutine.status, coroutine.resume
-
-    -- Create a coroutine which loops through the stages
-    local routine = coroutine.create(function()
-        for i = stage, #QuestieInit.Stages do
-            QuestieInit.Stages[i]()
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
-        end
-    end)
-
-    local timer
-    timer = C_Timer.NewTicker(0, function()
-        if(coStatus(routine) == "suspended") then
-            local success, ret = coResume(routine)
-
-            -- Something in the coroutine went wrong, print the error and stop the timer
-            if not success then
-                Questie:Error(l10n("Error during initialization!"), ret)
-                timer:Cancel();
-            end
-        elseif (coStatus(routine) == "dead") then
-            -- The courtine is done, stop the timer
-            timer:Cancel();
-        end
-    end)
+function _QuestieInit.StartStageCoroutine()
+    for i = 1, #QuestieInit.Stages do
+        QuestieInit.Stages[i]()
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
+    end
 end
 
 -- called by the PLAYER_LOGIN event handler
 function QuestieInit:Init()
-    _QuestieInit:StartStageCoroutine(1)
+    ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 end
