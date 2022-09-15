@@ -1,5 +1,5 @@
 ---@class ThreadLib
-ThreadLib = QuestieLoader:CreateModule("ThreadLib")
+local ThreadLib = QuestieLoader:CreateModule("ThreadLib")
 
 --Coroutine functions
 local coStatus, coResume, coCreate = coroutine.status, coroutine.resume, coroutine.create
