@@ -11,6 +11,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
+local type = type
 local abs, min, floor = math.abs, math.min, math.floor
 local lshift = bit.lshift
 
@@ -554,7 +555,7 @@ QuestieDBCompiler.writers = {
             QuestieDBCompiler.writers["u8u24array"](stream, value[2])
             QuestieDBCompiler.writers["u8u24array"](stream, value[3])
         else
-            print("Missing questgivers for " .. QuestieDBCompiler.currentEntry)
+            -- print("Missing questgivers for " .. QuestieDBCompiler.currentEntry)
             stream:WriteByte(0)
             stream:WriteByte(0)
             stream:WriteByte(0)
@@ -803,7 +804,7 @@ local function equals(a, b)
     if ta ~= tb then return false end
 
     if ta == "number" then
-        return abs(a-b) < (100/4000) -- 100/4096 is the precision of the data (From Aero)
+        return abs(a-b) < 0.2 -- 100/4096 is the precision of the data (From Aero)
     elseif ta == "table" then
         for k,v in pairs(a) do
             if not equals(b[k], v) then
@@ -904,7 +905,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
             end
             local id = indexLookup[index]
 
-            QuestieDBCompiler.currentEntry = id
+            -- QuestieDBCompiler.currentEntry = id -- This was only ever used for debugging.
             local entry = tbl[id]
 
             pointerMap[id] = stream._pointer--pointerStart
@@ -977,13 +978,13 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
 
-    print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
+    print("\124cFF4DDBFF [6/9] " .. l10n("Updating NPCs") .. "...")
     QuestieDBCompiler:CompileNPCs()
-    print("\124cFF4DDBFF [5/7] " .. l10n("Updating objects") .. "...")
+    print("\124cFF4DDBFF [7/9] " .. l10n("Updating objects") .. "...")
     QuestieDBCompiler:CompileObjects()
-    print("\124cFF4DDBFF [6/7] " .. l10n("Updating quests") .. "...")
+    print("\124cFF4DDBFF [8/9] " .. l10n("Updating quests") .. "...")
     QuestieDBCompiler:CompileQuests()
-    print("\124cFF4DDBFF [7/7] " .. l10n("Updating items") .. "...")
+    print("\124cFF4DDBFF [9/9] " .. l10n("Updating items") .. "...")
     QuestieDBCompiler:CompileItems()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
@@ -1005,14 +1006,14 @@ function QuestieDBCompiler:ValidateNPCs()
             local b = nonCompiledData[QuestieDB.npcKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
+                Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
+                Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    Questie:Error("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. npcId)
+                    Questie:Error("Nonmatching table at " .. key .. "  " .. id .. " for ID: ".. npcId)
                     DevTools_Dump({
                         ["Compiled Table:"] = a,
                         ["Base Table:"] = b
@@ -1021,9 +1022,9 @@ function QuestieDBCompiler:ValidateNPCs()
                 end
             end
         end
-        
-        -- Times 3 to speed it up
-        if count % (TICKS_PER_YIELD*3) == 0 then
+
+        if count == TICKS_PER_YIELD then
+            count = 0
             coroutine.yield()
         end
         count = count + 1
@@ -1045,14 +1046,14 @@ function QuestieDBCompiler:ValidateObjects()
             local b = nonCompiledData[QuestieDB.objectKeys[key]]
 
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
+                Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
+                Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
             elseif type(a) == "table" then 
                 if not equals(a, (b or {})) then 
-                    Questie:Error("Nonmatching at " .. key .. "  " .. id  .. " for ID: ".. objectId)
+                    Questie:Error("Nonmatching table at " .. key .. "  " .. id  .. " for ID: ".. objectId)
                     DevTools_Dump({
                         ["Compiled Table:"] = a,
                         ["Base Table:"] = b
@@ -1061,9 +1062,9 @@ function QuestieDBCompiler:ValidateObjects()
                 end
             end
         end
-        
-        -- Times 3 to speed it up
-        if count % (TICKS_PER_YIELD*3) == 0 then
+
+        if count == TICKS_PER_YIELD then
+            count = 0
             coroutine.yield()
         end
         count = count + 1
@@ -1079,6 +1080,7 @@ function QuestieDBCompiler:ValidateItems()
     local obj = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
     local npc = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
+    local count = 0
     for id, _ in pairs(validator.pointers) do
         local objDrops, npcDrops = validator.QuerySingle(id, "objectDrops"), validator.QuerySingle(id, "npcDrops")
         if objDrops then -- validate object drops
@@ -1129,6 +1131,43 @@ function QuestieDBCompiler:ValidateItems()
         --        end
         --    end
         --end
+        if count == TICKS_PER_YIELD then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
+    end
+    count = 0
+    for itemId, nonCompiledData in pairs(QuestieDB.itemData) do
+        local compiledData = validator.QueryValidator(itemId, QuestieDB.itemCompilerOrder)
+
+        for id, key in pairs(QuestieDB.itemCompilerOrder) do
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.itemKeys[key]]
+
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
+                Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. itemId)
+                return
+            elseif type(a) == "string" and a ~= (b or "") then 
+                Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. itemId)
+                return
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
+                    Questie:Error("Nonmatching table at " .. key .. "  " .. id  .. " for ID: ".. itemId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
+                    return
+                end
+            end
+        end
+
+        if count == TICKS_PER_YIELD then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
@@ -1185,10 +1224,10 @@ function QuestieDBCompiler:ValidateQuests()
             --     -- Do nothing
             -- else
             if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
+                Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then 
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
+                Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
             elseif type(a) == "table" then
                 --? This is kind of stupid, but because the compiler always has to write a int24 it will always write 0 for empty tables
@@ -1202,7 +1241,7 @@ function QuestieDBCompiler:ValidateQuests()
                 end
 
                 if not equals(a, (b or {})) then 
-                    print("Nonmatching at " .. key .. "  " .. id .. " for ID: ".. questId)
+                    print("Nonmatching table at " .. key .. "  " .. id .. " for ID: ".. questId)
                     DevTools_Dump({
                         ["Compiled Table:"] = a,
                         ["Base Table:"] = b
@@ -1211,8 +1250,9 @@ function QuestieDBCompiler:ValidateQuests()
                 end
             end
         end
-        -- Times 3 to speed it up
-        if count % (TICKS_PER_YIELD*3) == 0 then
+
+        if count == TICKS_PER_YIELD then
+            count = 0
             coroutine.yield()
         end
         count = count + 1
