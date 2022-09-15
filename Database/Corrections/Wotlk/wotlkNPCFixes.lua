@@ -101,6 +101,12 @@ function QuestieWotlkNpcFixes:Load()
         [29173] = {
             [npcKeys.waypoints] = {},
         },
+        [30082] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
+        },
+        [30382] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
+        },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},
         },
