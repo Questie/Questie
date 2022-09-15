@@ -23,6 +23,7 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     _MoveDurabilityFrame = MoveDurabilityFrame
 
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
+    baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
     baseFrame:SetFrameStrata("BACKGROUND")
     baseFrame:SetFrameLevel(0)
     baseFrame:SetSize(280, 32)
@@ -242,7 +243,6 @@ function TrackerBaseFrame.OnDragStart(button)
     if IsMouseButtonDown(button) then
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
             dragButton = button
-            baseFrame:SetClampedToScreen(true)
             baseFrame:StartMoving()
             if Questie.db.char.isTrackerExpanded then
                 baseFrame.sizer:SetAlpha(1)
