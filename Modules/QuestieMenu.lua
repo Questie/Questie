@@ -749,6 +749,10 @@ end
 function QuestieMenu:PopulateVendors(itemList, existingTable, restrictLevel)
     local factionKey = playerFaction == "Alliance" and "A" or "H"
     local tbl = existingTable or {}
+    -- Create a cache to minimize db calls
+    local factionCache = {}
+    local flagCache = {}
+
     local playerLevel = restrictLevel and UnitLevel("Player") or 0
     for _, id in pairs(itemList) do
         --print(id)
@@ -760,12 +764,19 @@ function QuestieMenu:PopulateVendors(itemList, existingTable, restrictLevel)
         if valid then
             local vendors = QuestieDB.QueryItemSingle(id, "vendors")
             if vendors then
-                for _, vendorId in pairs(vendors) do
+                for i=1, #vendors do
+                    local vendorId = vendors[i]
                     --print(vendorId)
-                    local friendlyToFaction = QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
+                    local friendlyToFaction = factionCache[vendorId] or QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
+                    if not factionCache[vendorId] then
+                        factionCache[vendorId] = friendlyToFaction
+                    end
                     if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
-                        local flags = QuestieDB.QueryNPCSingle(vendorId, "npcFlags")
-                        if bit.band(flags, QuestieDB.npcFlags.VENDOR) == QuestieDB.npcFlags.VENDOR then
+                        local flags = flagCache[vendorId] or QuestieDB.QueryNPCSingle(vendorId, "npcFlags")
+                        if not flagCache[vendorId] then
+                            flagCache[vendorId] = flags
+                        end
+                        if bitband(flags, QuestieDB.npcFlags.VENDOR) == QuestieDB.npcFlags.VENDOR then
                             tbl[vendorId] = true
                         end
                     end
