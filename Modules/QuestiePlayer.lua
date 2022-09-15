@@ -35,7 +35,7 @@ function QuestiePlayer:Initialize()
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
----@return number
+---@param level Level
 function QuestiePlayer:SetPlayerLevel(level)
     local localLevel = UnitLevel("player");
     _QuestiePlayer.playerLevel = math_max(localLevel, level);
@@ -43,7 +43,7 @@ end
 
 -- Gets the highest playerlevel available, most of the time playerLevel should be the most correct one
 -- doing UnitLevel for completeness.
----@return number
+---@return Level
 function QuestiePlayer.GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);

@@ -3,7 +3,6 @@
 QuestieLoader = {}
 
 ---@class Module
-local moduleClassDefinition = {}
 
 -- ["ModuleName"] = moduleReference
 ---@type table<string, Module>
