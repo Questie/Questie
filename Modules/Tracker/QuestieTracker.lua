@@ -32,6 +32,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local ActiveQuestsHeader = QuestieLoader:ImportModule("ActiveQuestsHeader")
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type FadeTicker
 local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 
@@ -104,13 +106,13 @@ function QuestieTracker.Initialize()
     _UpdateLayout()
 
     -- Create tracker frames and assign them to a var
-    _QuestieTracker.baseFrame = _QuestieTracker:CreateBaseFrame()
-    TrackerMenu.Initialize(function() _QuestieTracker.baseFrame:Update() end, QuestieTracker.Untrack)
+    _QuestieTracker.baseFrame = TrackerBaseFrame.Initialize(QuestieTracker.Update, QuestieTracker.MoveDurabilityFrame)
+    TrackerMenu.Initialize(TrackerBaseFrame.Update, QuestieTracker.Untrack)
 
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
-    _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
+    _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick)
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
-    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update, _QuestieTracker.OnDragStart, _QuestieTracker.OnDragStop)
+    LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update)
 
     -- Quest and Item button tables
     _QuestieTracker:CreateTrackedQuestItemButtons()
@@ -126,47 +128,7 @@ function QuestieTracker.Initialize()
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
 
-    C_Timer.After(0.2, function()
-        DurabilityFrame:Hide()
-    end)
-
-    -- Santity checks and settings applied at login
-    C_Timer.After(0.4, function()
-        -- Make sure the saved tracker location cords are on the players screen
-        if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "MinimapCluster" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[2] == "UIParent") then
-            local baseFrame = QuestieTracker:GetBaseFrame()
-            local verifyBaseFrame = {unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation)}
-
-            -- Max X values
-            local maxLeft = -GetScreenWidth()/2
-            if verifyBaseFrame[4] < 0 and verifyBaseFrame[4] < maxLeft then
-               verifyBaseFrame[4] = maxLeft
-            end
-
-            local maxRight = GetScreenWidth()/2
-            if verifyBaseFrame[4] > 0 and verifyBaseFrame[4] > maxRight then
-                verifyBaseFrame[4] = maxRight
-            end
-
-            -- Max Y values
-            local maxBottom = -GetScreenHeight()/2
-            if verifyBaseFrame[5] < 0 and verifyBaseFrame[5] < maxBottom then
-                verifyBaseFrame[5] = maxBottom
-            end
-
-            local maxTop = GetScreenHeight()/2
-            if verifyBaseFrame[5] > 0 and verifyBaseFrame[5] > maxTop then
-                verifyBaseFrame[5] = maxTop
-            end
-
-            -- Just in case we're in combat upon login - yeah, like that doesn't happen.
-            QuestieCombatQueue:Queue(function()
-                baseFrame:ClearAllPoints()
-                baseFrame:SetPoint(unpack(verifyBaseFrame))
-                verifyBaseFrame = nil
-            end)
-        end
-    end)
+    -- TODO: Do we really need to wait here? Especially 4 (!) seconds on the second timer seems quite late
 
     C_Timer.After(4.0, function()
         if Questie.db.global.stickyDurabilityFrame then
@@ -205,153 +167,6 @@ function QuestieTracker.Initialize()
         -- Font's and cooldowns can occationally not apply upon login
         QuestieTracker:Update()
     end)
-end
-
-function _QuestieTracker:CreateBaseFrame()
-    local frm = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
-    frm:SetFrameStrata("BACKGROUND")
-    frm:SetFrameLevel(0)
-    frm:SetSize(280, 32)
-
-    frm:EnableMouse(true)
-    frm:SetMovable(true)
-    frm:SetResizable(true)
-    frm:SetMinResize(1, 1)
-
-    frm:SetScript("OnMouseDown", _QuestieTracker.OnDragStart)
-    frm:SetScript("OnMouseUp", _QuestieTracker.OnDragStop)
-    frm:SetScript("OnEnter", FadeTicker.OnEnter)
-    frm:SetScript("OnLeave", FadeTicker.OnLeave)
-
-    frm:SetBackdrop( {
-        bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
-        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        tile=true, edgeSize = 16,
-        insets = { left = 4, right = 4, top = 4, bottom = 4 },
-    })
-
-    frm:SetBackdropColor(0, 0, 0, 0)
-    frm:SetBackdropBorderColor(1, 1, 1, 0)
-
-    frm.Update = function(self)
-        if Questie.db.char.isTrackerExpanded and GetNumQuestLogEntries() > 0 then
-            if Questie.db.global.trackerBackdropEnabled then
-                if not Questie.db.global.trackerBackdropFader then
-                    _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                    if Questie.db.global.trackerBorderEnabled then
-                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
-                    end
-                end
-
-            else
-                _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
-                _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-            end
-
-        else
-            _QuestieTracker.baseFrame.sizer:SetAlpha(0)
-            _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
-            _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-        end
-
-        -- Enables Click-Through when the tracker is locked
-        if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
-            self:SetMovable(true)
-            QuestieCombatQueue:Queue(function(tracker)
-                if IsMouseButtonDown() then
-                    return
-                end
-                tracker:EnableMouse(true)
-                tracker:SetResizable(true)
-            end, self)
-
-        else
-            self:SetMovable(false)
-            QuestieCombatQueue:Queue(function(tracker)
-                if IsMouseButtonDown() then
-                    return
-                end
-                tracker:EnableMouse(false)
-                tracker:SetResizable(false)
-            end, self)
-        end
-    end
-
-    local sizer = CreateFrame("Frame", "Questie_Sizer", frm)
-    sizer:SetPoint("BOTTOMRIGHT", 0, 0)
-    sizer:SetWidth(25)
-    sizer:SetHeight(25)
-    sizer:SetAlpha(0)
-    sizer:EnableMouse()
-    sizer:SetScript("OnMouseDown", _QuestieTracker.OnResizeStart)
-    sizer:SetScript("OnMouseUp", _QuestieTracker.OnResizeStop)
-    sizer:SetScript("OnEnter", FadeTicker.OnEnter)
-    sizer:SetScript("OnLeave", FadeTicker.OnLeave)
-
-    frm.sizer = sizer
-
-    local line1 = sizer:CreateTexture(nil, "BACKGROUND")
-    line1:SetWidth(14)
-    line1:SetHeight(14)
-    line1:SetPoint("BOTTOMRIGHT", -4, 4)
-    line1:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    local x = 0.1 * 14/17
-    line1:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
-
-    local line2 = sizer:CreateTexture(nil, "BACKGROUND")
-    line2:SetWidth(11)
-    line2:SetHeight(11)
-    line2:SetPoint("BOTTOMRIGHT", -4, 4)
-    line2:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    x = 0.1 * 11/17
-    line2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
-
-    local line3 = sizer:CreateTexture(nil, "BACKGROUND")
-    line3:SetWidth(8)
-    line3:SetHeight(8)
-    line3:SetPoint("BOTTOMRIGHT", -4, 4)
-    line3:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    x = 0.1 * 8/17
-    line3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
-
-    if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
-        -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, reason = pcall(frm.SetPoint, frm, unpack(Questie.db[Questie.db.global.questieTLoc].TrackerLocation))
-
-        if (not result) then
-            Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-            print(l10n("Error: Questie tracker in invalid location, resetting..."))
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
-
-            if WatchFrame then
-                local result2, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
-                Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
-                if (not result2) then
-                    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-                    _QuestieTracker:SetSafePoint(frm)
-                end
-            else
-                _QuestieTracker:SetSafePoint(frm)
-            end
-        end
-    else
-        if WatchFrame then
-            local result, _ = pcall(frm.SetPoint, frm, unpack({WatchFrame:GetPoint()}))
-            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
-
-            if not result then
-                Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-                print(l10n("Error: Questie tracker in invalid location, resetting..."))
-                _QuestieTracker:SetSafePoint(frm)
-            end
-        else
-            _QuestieTracker:SetSafePoint(frm)
-        end
-    end
-
-    frm:Hide()
-
-    return frm
 end
 
 local function _PositionTrackedQuestsFrame(frm, activeQuestHeader)
@@ -605,10 +420,6 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
     end
 end
 
-function QuestieTracker:GetBaseFrame()
-    return _QuestieTracker.baseFrame
-end
-
 function QuestieTracker:ResetLocation()
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
@@ -619,7 +430,7 @@ function QuestieTracker:ResetLocation()
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
 
     _QuestieTracker.baseFrame:SetSize(280, 32)
-    _QuestieTracker:SetSafePoint(_QuestieTracker.baseFrame)
+    TrackerBaseFrame.SetSafePoint()
 
     QuestieTracker:Update()
 end
@@ -652,18 +463,6 @@ function QuestieTracker:CheckDurabilityAlertStatus()
     end
     if numAlerts > 0 then
         DurabilityFrame:Show()
-    end
-end
-
-function _QuestieTracker:SetSafePoint(frm)
-    frm:ClearAllPoints()
-    local xOff, yOff = frm:GetWidth()/2, frm:GetHeight()/2
-    local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
-
-    if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then
-        frm:SetPoint("TOPLEFT", UIParent, "CENTER", resetCords["TOPLEFT"].x, resetCords["TOPLEFT"].y)
-    else
-        frm:SetPoint(Questie.db[Questie.db.global.questieTLoc].trackerSetpoint, UIParent, "CENTER", resetCords[Questie.db[Questie.db.global.questieTLoc].trackerSetpoint].x, resetCords[Questie.db[Questie.db.global.questieTLoc].trackerSetpoint].y)
     end
 end
 
@@ -852,7 +651,7 @@ local function _GetSortedQuestIds()
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
         end
-        QuestieTracker._sorter = function(a, b)
+        local sorter = function(a, b)
             a = toSort[a]
             b = toSort[b]
             if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
@@ -871,10 +670,10 @@ local function _GetSortedQuestIds()
                 return false
             end
         end
-        table.sort(sortedQuestIds, QuestieTracker._sorter)
+        table.sort(sortedQuestIds, sorter)
 
         if not _QuestProximityTimer then
-            QuestieTracker:UpdateQuestProximityTimer()
+            QuestieTracker.UpdateQuestProximityTimer(sortedQuestIds, sorter)
         end
     end
 
@@ -901,7 +700,7 @@ function QuestieTracker:Update()
 
     -- Update primary frames and layout
     QuestieCombatQueue:Queue(function()
-        _QuestieTracker.baseFrame:Update()
+        TrackerBaseFrame.Update()
         _QuestieTracker.activeQuestsHeader:Update()
         _QuestieTracker.trackedQuestsFrame:Update()
     end)
@@ -911,21 +710,15 @@ function QuestieTracker:Update()
 
     if not Questie.db.char.isTrackerExpanded then
         -- The Tracker is not expanded. No use to calculate anything - just hide everything
-        local xOff, yOff = _QuestieTracker.baseFrame:GetLeft(), _QuestieTracker.baseFrame:GetTop()
-
-        _QuestieTracker.baseFrame:ClearAllPoints()
-        -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
-        _QuestieTracker.baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
-
-        _QuestieTracker.baseFrame:SetHeight(trackerSpaceBuffer)
+        TrackerBaseFrame.ShrinkToMinSize(trackerSpaceBuffer)
         _QuestieTracker.trackedQuestsFrame:Hide()
 
         LinePool.HideUnusedLines()
+        _QuestieTracker.baseFrame:Show()
         return
     end
 
     local order = _GetSortedQuestIds()
-    QuestieTracker._order = order
 
     if (Questie.db.global.trackerSortObjectives ~= "byProximity") and _QuestProximityTimer and (_QuestProximityTimer:IsCancelled() ~= "true") then
         _QuestProximityTimer:Cancel()
@@ -1640,7 +1433,7 @@ _GetContinent = function(uiMapId)
     end
 end
 
-function QuestieTracker:UpdateQuestProximityTimer()
+function QuestieTracker.UpdateQuestProximityTimer(sortedQuestIds, sorter)
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
         _QuestProximityTimer = C_Timer.NewTicker(5.0, function()
@@ -1651,11 +1444,11 @@ function QuestieTracker:UpdateQuestProximityTimer()
                     _PlayerPosition = position;
                     --QuestieTracker:Update()
                     local orderCopy = {}
-                    for index, val in pairs(QuestieTracker._order) do
+                    for index, val in pairs(sortedQuestIds) do
                         orderCopy[index] = val
                     end
-                    table.sort(orderCopy, QuestieTracker._sorter)
-                    for index, val in pairs(QuestieTracker._order) do
+                    table.sort(orderCopy, sorter)
+                    for index, val in pairs(sortedQuestIds) do
                         if orderCopy[index] ~= val then
                             -- the order has changed
                             QuestieTracker:Update()

@@ -10,6 +10,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local _QuestieTracker = QuestieTracker.private
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -334,6 +336,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                         end)
                     end
                     QuestieTracker:Update()
+                end
+            },
+            lockTracker = {
+                type = "toggle",
+                order = 2.505,
+                width = 1.0,
+                name = function() return l10n("Lock Tracker"); end,
+                desc = function() return l10n("When this is the checked, the Tracker is locked and you need to hold CTRL when you want to move it."); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.trackerLocked; end,
+                set = function(_, value)
+                    Questie.db.global.trackerLocked = value
+                    TrackerBaseFrame.Update()
                 end
             },
 

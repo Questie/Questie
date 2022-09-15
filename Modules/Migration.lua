@@ -133,6 +133,9 @@ local migrationFunctions = {
     end,
     [12] = function()
         Questie.db.char.collapsedQuests = {}
+    end,
+    [13] = function()
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end
 }
 
