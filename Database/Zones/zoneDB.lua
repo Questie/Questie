@@ -98,9 +98,15 @@ function ZoneDB:GetParentZoneId(areaId)
     return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
-function ZoneDB:GetZonesWithQuests()
-    for questId in pairs(QuestieDB.QuestPointers) do
+---@param yield boolean?
+---@return table
+function ZoneDB:GetZonesWithQuests(yield)
+    -- This is for yielding
+    local yieldAmount = 200
+    local extraYield = yieldAmount / 4
+    local count = 0
 
+    for questId in pairs(QuestieDB.QuestPointers) do
         if (not QuestieCorrections.hiddenQuests[questId]) then
             if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
             and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
@@ -133,22 +139,40 @@ function ZoneDB:GetZonesWithQuests()
                     end
                     zoneMap[zoneOrSort][questId] = true
                 else
-                    local startedBy, finishedBy = QuestieDB.QueryQuestSingle(questId, "startedBy"), QuestieDB.QueryQuestSingle(questId, "finishedBy")
+                    -- This branch is kind of expensive so yield more often if it happens a lot
+                    local startedBy = QuestieDB.QueryQuestSingle(questId, "startedBy")
 
                     if startedBy then
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
                     end
+                    if yield then
+                        count = count + extraYield
+                        if count >= yieldAmount then
+                            count = 0
+                            coroutine.yield()
+                        end
+                    end
 
+                    local finishedBy = QuestieDB.QueryQuestSingle(questId, "finishedBy")
                     if finishedBy then
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
                         zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
                     end
+                    if yield then count = count + extraYield end
                 end
             end
         end
-    end
 
+        if yield then
+            if count >= yieldAmount then
+                count = 0
+                coroutine.yield()
+            end
+            count = count + 1
+        end
+    end
+    if yield then coroutine.yield() end
     zoneMap = _ZoneDB:SplitSeasonalQuests()
 
     return zoneMap
