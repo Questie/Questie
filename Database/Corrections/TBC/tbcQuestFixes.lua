@@ -4135,12 +4135,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 37737,
             [questKeys.zoneOrSort] = -370,
         },
-        [12513] = {
+        [12513] = { --* tbc? Weird one... https://www.wowhead.com/wotlk/quest=12513/nice-hat
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil},
         },
-        [12515] = {
+        [12515] = {  --* wotlk? looks more correct https://www.wowhead.com/wotlk/quest=12515/nice-hat
             [questKeys.exclusiveTo] = {12513},
+            [questKeys.finishedBy] = {{28126},nil},
         },
 
         -- Below are quests that were not originally in TBC or in a different form
