@@ -1007,12 +1007,10 @@ function QuestieTracker:Update()
         end
     end)
 
-    -- Auto adjust tracker size and visibility
-    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader:GetWidth() + trackerFontSizeHeader
-    local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
-
     if line then
-        TrackerBaseFrame.UpdateWidth(activeQuestsHeaderTotal, trackerVARScombined)
+        local activeQuestsHeaderWidth = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader:GetWidth() + trackerFontSizeHeader
+        local trackerVarsCombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
+        TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombined)
 
         -- Trims the bottom of the tracker (overall height) based on min/max'd zones and/or quests
         local trackerBottomPadding
@@ -1040,7 +1038,7 @@ function QuestieTracker:Update()
         end
 
         _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
-        _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderTotal, _QuestieTracker.baseFrame:GetHeight())
+        _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderWidth, _QuestieTracker.baseFrame:GetHeight())
         _QuestieTracker.trackedQuestsFrame:Show()
     end
 
