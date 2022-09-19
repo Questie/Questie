@@ -238,8 +238,8 @@ QuestieEvent.eventDates = {
         endDate = "24/9"
     },
     ["Pilgrim's Bounty"] = {
-        startDate = "17/9",
-        endDate = "24/9"
+        startDate = "5/9",
+        endDate = "11/9"
     },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
@@ -254,6 +254,7 @@ QuestieEvent.eventDateCorrections = {
         ["Pilgrim's Bounty"] = false,
     },
     ["TBC"] = {
+        ["Harvest Festival"] = false,
     },
 }
 
