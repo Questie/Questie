@@ -16,6 +16,9 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [1198] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -25,6 +28,11 @@ function QuestieWotlkQuestFixes:Load()
         [8150] = {
             [questKeys.requiredSourceItems] = {}, -- Overriding Classic correction
             [questKeys.triggerEnd] = {"Place a tribute at Grom's Monument",{[zoneIDs.ASHENVALE]={{83,78,},},},},
+        },
+        [9154] = {
+            [questKeys.startedBy] = {{16241,16255}},
+            [questKeys.finishedBy] = {{16281}},
+            [questKeys.questLevel] = -1,
         },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
@@ -144,6 +152,15 @@ function QuestieWotlkQuestFixes:Load()
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
         },
+        [11574] = {
+            [questKeys.exclusiveTo] = {11587},
+        },
+        [11575] = {
+            [questKeys.exclusiveTo] = {11587},
+        },
+        [11587] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
         },
@@ -227,6 +244,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
             },
         },
+        [11908] = {
+            [questKeys.preQuestSingle] = {11902},
+        },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
@@ -287,8 +307,14 @@ function QuestieWotlkQuestFixes:Load()
         [12050] = {
             [questKeys.preQuestGroup] = {12046,12047},
         },
+        [12052] = {
+            [questKeys.preQuestGroup] = {12046,12047},
+        },
         [12053] = {
             [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
+        },
+        [12078] = {
+            [questKeys.preQuestSingle] = {12077},
         },
         [12079] = {
             [questKeys.preQuestSingle] = {12075},
@@ -331,14 +357,32 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12208] = {
+            [questKeys.preQuestSingle] = {12412},
+        },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
         },
+        [12261] = {
+            [questKeys.preQuestSingle] = {12447},
+        },
+        [12262] = {
+            [questKeys.preQuestSingle] = {12447},
+        },
         [12263] = {
             [questKeys.triggerEnd] = {"Uncover the Magmawyrm Resurrection Chamber",{[zoneIDs.DRAGONBLIGHT]={{31.76,30.46,},},},},
+        },
+        [12264] = {
+            [questKeys.preQuestSingle] = {12263},
+        },
+        [12265] = {
+            [questKeys.preQuestSingle] = {12263},
+        },
+        [12269] = {
+            [questKeys.preQuestSingle] = {12275},
         },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
@@ -356,6 +400,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12330] = {
             [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7,},},},},
+        },
+        [12412] = {
+            [questKeys.preQuestSingle] = {12259},
         },
         [12427] = {
             [questKeys.triggerEnd] = {"Ironhide defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.2,64.68,},},},},
@@ -563,6 +610,9 @@ function QuestieWotlkQuestFixes:Load()
         [13241] = {
             [questKeys.startedBy] = {{31439},nil,nil},
         },
+        [13242] = {
+            [questKeys.preQuestSingle] = {12500},
+        },
         [13243] = {
             [questKeys.startedBy] = {{31439},nil,nil},
         },
@@ -633,6 +683,12 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
+        [13410] = {
+            [questKeys.preQuestSingle] = {10143,10483},
+        },
+        [13411] = {
+            [questKeys.preQuestSingle] = {10124},
+        },
         [13427] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
@@ -657,6 +713,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13430] = {
             [questKeys.exclusiveTo] = {10888},
+            [questKeys.preQuestSingle] = {10588},
         },
         [13431] = {
             [questKeys.exclusiveTo] = {10901},

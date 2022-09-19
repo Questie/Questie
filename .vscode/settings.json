@@ -2670,6 +2670,7 @@
         "WOW_PROJECT_ID",
         "WOW_PROJECT_MAINLINE",
         "INVENTORY_ALERT_STATUS_SLOTS",
+        "FACTION_STANDING_CHANGED",
         "-----------------------------------------------------> External Addons",
         "AtlasToggleFromWorldMap",
         "QuestLogEx",

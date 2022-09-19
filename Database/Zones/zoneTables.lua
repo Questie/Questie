@@ -1,13 +1,15 @@
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
-
+---@class ZoneDBPrivate
+ZoneDB.private = {}
 
 --- This table maps the areaId (used in the DB for example) to
 --- the UiMapId of each zone.
 --- The UiMapId identifies a map which can be displayed ingame on the worldmap.
 --- Dungeons don't have a UiMapId!
 --- https://wow.gamepedia.com/UiMapID/Classic
-local areaIdToUiMapId = {
+---@type table<AreaId, UiMapId>
+ZoneDB.private.areaIdToUiMapId = {
     [1] = 1426, -- Dun Morogh
     [3] = 1418, -- Badlands
     [4] = 1419, -- Blasted Lands
@@ -170,7 +172,8 @@ local areaIdToUiMapId = {
 }
 
 -- [areaId] = {"name", alternative areaId (a sub zone), parentId}
-local dungeons = {
+---@type table<AreaId, AreaCoordinate[]>
+ZoneDB.private.dungeons = {
     [206] = {"Utgarde Keep",nil,495},
     [209] = {"Shadowfang Keep", 236, 130},
     [491] = {"Razorfen Kraul", 1717, 17},
@@ -209,6 +212,7 @@ local dungeons = {
     [3791] = {"Sethekk Halls",nil,3519},
     [3792] = {"Mana-Tombs",nil,3519},
     [3805] = {"Zul'Aman",nil,3433},
+    [3836] = {"Magtheridon's Lair",nil,3483},
     [3847] = {"The Botanica",nil,3523},
     [3848] = {"The Arcatraz",nil,3523},
     [3849] = {"The Mechanar",nil,3523},
@@ -237,12 +241,11 @@ local dungeons = {
     [4987] = {"The Ruby Sanctum",nil,65},
 }
 
-function ZoneDB:GetDungeons()
-    return dungeons
-end
 
--- [areaId] = {{areaId, locationX, locationY}, ...}
-local dungeonLocations = {
+
+--- {"name", alternative areaId (a sub zone), parentId}
+---@type table<AreaId, { [1]: Name, [2]: AreaId, [3]: AreaId }>
+ZoneDB.private.dungeonLocations = {
     [206] = {{495, 57.3, 46.8}},
     [209] = {{130, 45, 68.7}},
     [491] = {{17, 42.3, 89.9}},
@@ -292,6 +295,7 @@ local dungeonLocations = {
     [3791] = {{3519, 43.2, 65.6}},
     [3792] = {{3519, 39.7, 60.2}},
     [3805] = {{3433, 82.6, 64.3}},
+    [3836] = {{3483, 47.7, 53.6}},
     [3847] = {{3523, 71.7, 55.0}},
     [3848] = {{3523, 74.4, 57.7}},
     [3849] = {{3523, 70.6, 69.7}},
@@ -322,7 +326,8 @@ local dungeonLocations = {
 }
 
 -- [dungeonZone] = parentZone
-local dungeonParentZones = {
+---@type table<AreaId, AreaId>
+ZoneDB.private.dungeonParentZones = {
     [236] = 209,
     [1717] = 491,
     [2797] = 719,
@@ -338,7 +343,7 @@ local dungeonParentZones = {
 --! Generated table, add something manually here and i'll kill you //Logon
 
 ---@type table<AreaId, AreaId> table<SubAreaId, ParentAreaId>
-local subZoneToParentZone = {
+ZoneDB.private.subZoneToParentZone = {
   [2] = 40, -- Longshore -> Westfall
   [7] = 33, -- Blackwater Cove -> Stranglethorn Vale
   [9] = 12, -- Northshire Valley -> Elwynn Forest
@@ -2484,14 +2489,11 @@ local subZoneToParentZone = {
   [14341] = 14287, -- Angrathar the Wrathgate -> Dragonblight
 }
 
-function ZoneDB:GetZoneTables()
-    return areaIdToUiMapId, dungeons, dungeonLocations, dungeonParentZones, subZoneToParentZone
-end
-
 -- Different source of zoneIds
 -- These are not in use anymore but are quite helpful when fixing the database
 -- https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-emulator-servers/60411-zone-ids.html
-ZoneDB.zoneIDs = {
+---@enum ZoneIDs
+ZoneDB.private.zoneIDs = {
     DUN_MOROGH = 1,
     BADLANDS = 3,
     BLASTED_LANDS = 4,
@@ -2601,6 +2603,7 @@ ZoneDB.zoneIDs = {
     AUCHENAI_CRYPTS = 3790,
     SETHEKK_HALLS = 3791,
     MANA_TOMBS = 3792,
+    TEMPEST_KEEP = 3845,
     ZUL_AMAN = 3805,
     BLACK_TEMPLE = 3959,
     SUNWELL_PLATEAU = 4075,

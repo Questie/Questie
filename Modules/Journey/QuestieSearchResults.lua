@@ -283,20 +283,21 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local startQuests = {};
         local counter = 1;
         for _, v in pairs(questStarts) do
-            local frame = AceGUI:Create("InteractiveLabel");
-            frame:SetUserData("id", v);
-            frame:SetUserData("name", startQuests[counter].quest.name);
+            local quest = QuestieDB:GetQuest(v)
+            local frame = AceGUI:Create("InteractiveLabel")
+            frame:SetUserData("id", v)
+            frame:SetUserData("name", quest.name)
             frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame("quest", v) end)
-            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
-            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
-            frame:SetText(QuestieLib:GetColoredQuestName(startQuests[counter].quest.Id,  true, true));
+            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
+            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
 
             startQuests[counter] = {
                 frame = frame,
-                quest = QuestieDB:GetQuest(v)
-            };
-            startGroup:AddChild(startQuests[counter].frame);
-            counter = counter + 1;
+                quest = quest
+            }
+            startGroup:AddChild(frame)
+            counter = counter + 1
         end
 
         if #startQuests == 0 then
@@ -321,20 +322,21 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
         local endQuests = {};
         local counter = 1;
         for _, v in ipairs(questEnds) do
-            local frame = AceGUI:Create("InteractiveLabel");
-            frame:SetText(QuestieLib:GetColoredQuestName(endQuests[counter].quest.Id, true, true));
-            frame:SetUserData("id", v);
-            frame:SetUserData("name", endQuests[counter].quest.name);
-            frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame("quest", v) end);
-            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip);
-            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip);
+            local quest = QuestieDB:GetQuest(v)
+            local frame = AceGUI:Create("InteractiveLabel")
+            frame:SetText(QuestieLib:GetColoredQuestName(quest.Id, true, true))
+            frame:SetUserData("id", v)
+            frame:SetUserData("name", quest.name)
+            frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame("quest", v) end)
+            frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
+            frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
 
             endQuests[counter] = {
                 frame = frame,
-                quest = QuestieDB:GetQuest(v)
-            };
-            endGroup:AddChild(endQuests[counter].frame);
-            counter = counter + 1;
+                quest = quest
+            }
+            endGroup:AddChild(frame)
+            counter = counter + 1
         end
 
         if #endQuests == 0 then

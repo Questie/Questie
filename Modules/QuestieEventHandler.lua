@@ -16,6 +16,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -40,36 +42,9 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
 local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
 
-
-
+--* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
 local FACTION_STANDING_CHANGED_PATTERN
-do
-    -- All this information was researched here: https://www.townlong-yak.com/framexml/live/GlobalStrings.lua
-
-    local locale = GetLocale()
-    ---@diagnostic disable-next-line: undefined-global
-    local FACTION_STANDING_CHANGED_LOCAL = FACTION_STANDING_CHANGED or "You are now %s with %s."
-    local replaceCount
-
-    if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
-        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%%d$s", ".+")
-    elseif locale == "deDE" then --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
-        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "'%%%d$s'", ".+") -- Germans are always special
-    elseif locale == "zhTW" then --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
-        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%s%(%%s%)", ".+")
-    elseif locale == "ruRU" then --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
-        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%(%%%d$s%)", ".+")
-    else
-        FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, "%%s", ".+")
-    end
-
-    if replaceCount and replaceCount == 0 then --- Error: Default to match EVERYTHING, because it's better that it works
-        FACTION_STANDING_CHANGED_PATTERN = ".+"
-        Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN, please report this on GitHub!")
-    end
-end
-
 
 function QuestieEventHandler:RegisterEarlyEvents()
     Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
@@ -135,6 +110,53 @@ function _EventHandler:PlayerLogin()
         Questie:Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
         return
+    end
+
+    do
+        -- All this information was researched here: https://www.townlong-yak.com/framexml/live/GlobalStrings.lua
+
+        local locale = GetLocale()
+        local FACTION_STANDING_CHANGED_LOCAL = FACTION_STANDING_CHANGED or "You are now %s with %s."
+        local replaceCount -- Just init it with an impossible value
+        local replaceString = ".+"
+
+        --! Has to got from least likely to work to most, otherwise you will get false positives
+        local replaceTypes = {
+            ruRU = "%(%%%d$s%)", --ruRU "|3-6(%2$s) |3-6(%1$s)." ("Ваша репутация с %2$s теперь %1$s.
+            zhTW = "%%s%(%%s%)", --zhTW "你在%2$s中的聲望達到了%1$s。"")
+            deDE = "'%%%d$s'", --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            zhCNkoKR = "%%%d$s", --zhCN(zhTW?)/koKR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+            enPlus = "%%s", -- European languages except (deDE)
+        }
+
+        if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhCNkoKR, replaceString)
+        elseif locale == "deDE" then --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.deDE, replaceString) -- Germans are always special
+        elseif locale == "zhTW" then --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhTW, replaceString)
+        elseif locale == "ruRU" then --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.ruRU, replaceString)
+        else
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.enPlus, replaceString)
+        end
+
+        --? A fallback to try everything if the replaceCount is still -1 or 0
+        if replaceCount and replaceCount < 1 then
+            for _, replaceType in pairs(replaceTypes) do
+                FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceType, replaceString)
+                if replaceCount > 0 then
+                    break
+                end
+            end
+        end
+
+        --? Nothing worked :(
+        if replaceCount and replaceCount < 1 then --- Error: Default to match EVERYTHING, because it's better that it works
+            FACTION_STANDING_CHANGED_PATTERN = ".+"
+            Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
+            Questie:Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
+        end
     end
 
     -- Start real Questie init
@@ -205,9 +227,9 @@ function _EventHandler:ModifierStateChanged()
         GameTooltip:Show()
     end
     if Questie.db.global.trackerLocked then
-        if QuestieTracker.private.baseFrame ~= nil then
+        if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
-                QuestieTracker.private.baseFrame:Update()
+                TrackerBaseFrame.Update()
             end)
         end
     end

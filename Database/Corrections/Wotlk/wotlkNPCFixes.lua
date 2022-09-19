@@ -21,6 +21,12 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
             },
         },
+        [16281] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.39}}},
+        },
+        [16361] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.45}}},
+        },
         [17977] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
         },
@@ -83,11 +89,23 @@ function QuestieWotlkNpcFixes:Load()
         [28026] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
         },
+        [28083] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
+        },
+        [28358] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
+        },
         [28912] = {
             [npcKeys.waypoints] = {},
         },
         [29173] = {
             [npcKeys.waypoints] = {},
+        },
+        [30082] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
+        },
+        [30382] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
         },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},
