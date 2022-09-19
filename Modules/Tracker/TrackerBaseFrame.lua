@@ -255,9 +255,9 @@ local trackerIsSizing = false
 local updateTimer
 
 ---@param button string @The mouse button that is pressed when resize starts
-function TrackerBaseFrame.OnResizeStart(button)
+function TrackerBaseFrame.OnResizeStart(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart]", button)
-    if InCombatLockdown() then
+    if InCombatLockdown() or (not baseFrame:IsResizable()) then
         return
     end
 
@@ -280,7 +280,7 @@ function TrackerBaseFrame.OnResizeStart(button)
 end
 
 ---@param button string @The mouse button that is pressed when resize stops
-function TrackerBaseFrame.OnResizeStop(button)
+function TrackerBaseFrame.OnResizeStop(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
     if button == "RightButton" or trackerIsSizing ~= true then
         return
