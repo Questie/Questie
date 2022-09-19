@@ -37,6 +37,9 @@ function QuestieWotlkQuestFixes:Load()
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
+        [10110] = {
+            [questKeys.preQuestSingle] = {13409},
+        },
         [10173] = {
             [questKeys.requiredSourceItems] = {},
         },
