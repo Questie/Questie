@@ -1008,7 +1008,7 @@ function QuestieTracker:Update()
     end)
 
     -- Auto adjust tracker size and visibility
-    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader
+    local activeQuestsHeaderTotal = trackerSpaceBuffer + _QuestieTracker.activeQuestsHeader:GetWidth() + trackerFontSizeHeader
     local trackerVARScombined = trackerLineWidth + trackerSpaceBuffer + trackerLineIndent
 
     if line then
