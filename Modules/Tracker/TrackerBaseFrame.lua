@@ -298,6 +298,7 @@ function TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombin
     local baseFrameWidth = baseFrame:GetWidth()
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
+        -- Manual user width
         if (not isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderWidth) then
             baseFrame:SetWidth(activeQuestsHeaderWidth)
             Questie.db[Questie.db.global.questieTLoc].TrackerWidth = activeQuestsHeaderWidth
@@ -305,7 +306,7 @@ function TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombin
             baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
         end
     else
-
+        -- auto width
         if (trackerVarsCombined < activeQuestsHeaderWidth) then
             baseFrame:SetWidth(activeQuestsHeaderWidth)
         elseif (trackerVarsCombined ~= baseFrameWidth) then

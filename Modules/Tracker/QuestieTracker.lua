@@ -856,7 +856,7 @@ function QuestieTracker:Update()
                     end
                 end
 
-                trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
+                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
                 line:SetVerticalPadding(2)
 
@@ -903,7 +903,7 @@ function QuestieTracker:Update()
                         line.label:SetWidth(lineWidth)
                         line:SetWidth(lineWidth)
 
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
                         line:Show()
                         line.label:Show()
                     end
@@ -930,7 +930,7 @@ function QuestieTracker:Update()
                             line.label:SetWidth(lineWidth)
                             line:SetWidth(lineWidth)
 
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
                             line:SetVerticalPadding(1)
                             line:Show()
                             line.label:Show()
@@ -960,7 +960,7 @@ function QuestieTracker:Update()
                         line.label:SetWidth(_QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft - 10 - trackerSpaceBuffer)
                         line:SetWidth(line.label:GetWidth())
 
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
                         line:SetVerticalPadding(1)
                         line:Show()
                         line.label:Show()
