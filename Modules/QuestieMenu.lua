@@ -464,7 +464,9 @@ function QuestieMenu:PopulateTownsfolk()
     tinsert(professionTrainers[QuestieProfessions.professionKeys.FISHING], 10216)
 
     -- Fix NPC Aresella (18991) can train first aid profession
-    tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
+    if Questie.IsTBC then
+        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
+    end
 
     Questie.db.global.professionTrainers = professionTrainers
 
