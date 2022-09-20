@@ -729,6 +729,8 @@ function QuestieTracker:Update()
     local zoneCheck
 
     local line
+    trackerLineWidth = 0 -- This is needed so the Tracker can also decrease its width
+
     -- Begin populating the tracker with quests
     for _, questId in pairs(order) do
         local quest = QuestieDB:GetQuest(questId)
