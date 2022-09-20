@@ -58,6 +58,9 @@ function QuestieWotlkQuestFixes:Load()
         [11120] = {
             [questKeys.startedBy] = {{24657}},
         },
+        [11431] = {
+            [questKeys.startedBy] = {{24657}},
+        },
         [11531] = {
             [questKeys.specialFlags] = 1,
         },
