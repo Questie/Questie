@@ -3,6 +3,7 @@ require("cli.dump")
 WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
+WOW_PROJECT_WRATH_CLASSIC = 11
 WOW_PROJECT_MAINLINE = 1
 
 QUEST_MONSTERS_KILLED = "QUEST_MONSTERS_KILLED"
@@ -281,7 +282,7 @@ local function _CheckWotlkDatabase()
     GetBuildInfo = function()
         return "3.4.0", "44644", "Jun 12 2022", 30400
     end
-    WOW_PROJECT_ID = 5
+    WOW_PROJECT_ID = 11
 
     print("\n\27[36mCompiling Wotlk database...\27[0m")
     loadTOC("Questie-WOTLKC.toc")

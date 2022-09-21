@@ -2089,6 +2089,12 @@ function QuestieTBCQuestFixes:Load()
         [11000] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}}},
         },
+        [11002] = {
+            [questKeys.startedBy] = {{17257},nil,{33102,},},
+        },
+        [11003] = {
+            [questKeys.startedBy] = {{17257},nil,{33102,},},
+        },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK, -- Everything except Druid (since Warlock has the highest number except for Druid this works)
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
@@ -4129,12 +4135,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 37737,
             [questKeys.zoneOrSort] = -370,
         },
-        [12513] = {
+        [12513] = { --* tbc? Weird one... https://www.wowhead.com/wotlk/quest=12513/nice-hat
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil},
         },
-        [12515] = {
+        [12515] = {  --* wotlk? looks more correct https://www.wowhead.com/wotlk/quest=12515/nice-hat
             [questKeys.exclusiveTo] = {12513},
+            [questKeys.finishedBy] = {{28126},nil},
         },
 
         -- Below are quests that were not originally in TBC or in a different form

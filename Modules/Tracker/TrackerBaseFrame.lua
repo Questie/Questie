@@ -14,6 +14,7 @@ local baseFrame
 local _UpdateTracker, _MoveDurabilityFrame
 
 TrackerBaseFrame.IsInitialized = false
+local isSizing = false
 
 ---@param UpdateTracker function @The QuestieTracker:Update function
 ---@param MoveDurabilityFrame function @The QuestieTracker:MoveDurabilityFrame function
@@ -251,20 +252,19 @@ function TrackerBaseFrame.OnDragStop()
     QuestieCombatQueue:Queue(_UpdateTrackerPosition)
 end
 
-local trackerIsSizing = false
 local updateTimer
 
 ---@param button string @The mouse button that is pressed when resize starts
-function TrackerBaseFrame.OnResizeStart(button)
+function TrackerBaseFrame.OnResizeStart(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart]", button)
-    if InCombatLockdown() then
+    if InCombatLockdown() or (not baseFrame:IsResizable()) then
         return
     end
 
     if button == "LeftButton" then
         if IsMouseButtonDown(button) then
-            if IsControlKeyDown() or not Questie.db.global.trackerLocked then
-                trackerIsSizing = true
+            if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
+                isSizing = true
                 baseFrame:StartSizing("RIGHT")
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
@@ -280,13 +280,37 @@ function TrackerBaseFrame.OnResizeStart(button)
 end
 
 ---@param button string @The mouse button that is pressed when resize stops
-function TrackerBaseFrame.OnResizeStop(button)
+function TrackerBaseFrame.OnResizeStop(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
-    if button == "RightButton" or trackerIsSizing ~= true then
+    if button == "RightButton" or isSizing ~= true then
         return
     end
 
-    trackerIsSizing = false
+    isSizing = false
     baseFrame:StopMovingOrSizing()
     updateTimer:Cancel()
+end
+
+---Updates the TrackerBaseFrame width to be at a minimum width of the activeQuestsHeader
+---@param activeQuestsHeaderWidth number @The width of the ActiveQuestsHeader
+---@param trackerVarsCombined number @Combined tracker width parameters
+function TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombined)
+    local baseFrameWidth = baseFrame:GetWidth()
+
+    if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
+        -- Manual user width
+        if (not isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderWidth) then
+            baseFrame:SetWidth(activeQuestsHeaderWidth)
+            Questie.db[Questie.db.global.questieTLoc].TrackerWidth = activeQuestsHeaderWidth
+        elseif (not isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth ~= baseFrameWidth) then
+            baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
+        end
+    else
+        -- auto width
+        if (trackerVarsCombined < activeQuestsHeaderWidth) then
+            baseFrame:SetWidth(activeQuestsHeaderWidth)
+        elseif (trackerVarsCombined ~= baseFrameWidth) then
+            baseFrame:SetWidth(trackerVarsCombined)
+        end
+    end
 end

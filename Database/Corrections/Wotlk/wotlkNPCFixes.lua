@@ -51,6 +51,10 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [24657] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.01,17.41}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [24910] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{38.1, 74.8}},
@@ -74,6 +78,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
+        [27216] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.25,17.33}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [27315] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DRAGONBLIGHT] = {{77.2,49.8},{78.2,50.6},{78.8,50.8},{79.8,49.6},{80,49.4},{80,51},{81.8,50.6},{82.2,50.4},{83,49.2},{83,50.2},{83.4,51},{84.2,50.4},{84.6,51.6},{84.8,50.4},}
@@ -89,11 +97,23 @@ function QuestieWotlkNpcFixes:Load()
         [28026] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
         },
+        [28083] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
+        },
+        [28358] = {
+            [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
+        },
         [28912] = {
             [npcKeys.waypoints] = {},
         },
         [29173] = {
             [npcKeys.waypoints] = {},
+        },
+        [30082] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
+        },
+        [30382] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
         },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},
