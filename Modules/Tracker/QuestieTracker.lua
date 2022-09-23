@@ -181,23 +181,23 @@ function QuestieTracker.Initialize()
     end)
 end
 
-local function _PositionTrackedQuestsFrame(frm, activeQuestHeader)
+local function _PositionTrackedQuestsFrame(frm, previousFrame)
     if Questie.db.global.trackerHeaderEnabled then
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
-                frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -10)
+                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -10)
             else
                 -- Auto move tracker header to the top
-                frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -(trackerFontSizeHeader+3))
+                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -(trackerFontSizeHeader+3))
             end
         else
             -- No Automove. Tracker header always up top
-            frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -(trackerFontSizeHeader+5))
+            frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -(trackerFontSizeHeader+5))
         end
     else
         -- No header. TrackedQuestsFrame always up top
-        frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -10)
+        frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -10)
     end
 end
 
