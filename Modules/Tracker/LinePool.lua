@@ -457,6 +457,14 @@ function LinePool.SetAllItemButtonAlpha(alpha)
     end
 end
 
+function LinePool.SetAllExpandAchievementsAlpha(alpha)
+    local highestIndex = achievementLineIndex > achievementPoolSize and achievementPoolSize or achievementLineIndex
+
+    for i = 1, highestIndex do
+        achievementLinePool[i].expand:SetAlpha(alpha)
+    end
+end
+
 _OnClick = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClick]")
     if (not self.Quest) then
