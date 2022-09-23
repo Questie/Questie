@@ -3,8 +3,6 @@ local AchievementTracker = QuestieLoader:CreateModule("AchievementTracker")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
----@type TrackerBaseFrame
-local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type LinePool
@@ -17,14 +15,16 @@ local trackerLineWidth = 0
 local lastCreatedLine
 local trackedAchievementIds
 
-local _TrackAchievement, _Untrack
+local _TrackAchievement, _Untrack, _UpdateTracker
 
 local headerMarginLeft = 10
 local achievementHeaderMarginLeft = headerMarginLeft + 15
 local objectiveMarginLeft = headerMarginLeft + achievementHeaderMarginLeft + 5
 
 ---@param trackerBaseFrame Frame
-function AchievementTracker.Initialize(trackerBaseFrame)
+function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
+    _UpdateTracker = UpdateTracker
+
     baseFrame = CreateFrame("Frame", "Questie_TrackedAchievements", trackerBaseFrame)
     baseFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -15)
     baseFrame:SetSize(trackerBaseFrame:GetWidth(), trackerBaseFrame:GetHeight())
@@ -47,7 +47,7 @@ function AchievementTracker.LoadAchievements()
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
         lastCreatedLine = baseFrame.header
-        baseFrame:SetHeight(18)
+        baseFrame:SetHeight(1)
         baseFrame:Hide()
         return
     end
@@ -60,7 +60,7 @@ function AchievementTracker.LoadAchievements()
     LinePool.HideUnusedAchievementLines()
 
     baseFrame:SetWidth(trackerLineWidth)
-    baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom() + 10)
+    baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom())
     baseFrame:Show()
 end
 
@@ -69,7 +69,7 @@ function AchievementTracker.Update()
     LinePool.ResetAchievementLinesForChange()
     AchievementTracker.LoadAchievements()
 
-    TrackerBaseFrame.Update()
+    _UpdateTracker()
 end
 
 ---Creates the required frames to display an Achievement name and its criteria

@@ -118,7 +118,7 @@ function QuestieTracker.Initialize()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick)
 
     if Questie.IsWotlk then
-        _QuestieTracker.achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame)
+        _QuestieTracker.achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame, QuestieTracker.Update)
         LinePool.InitializeAchievementLines(_QuestieTracker.achievementFrame, AchievementTracker.OnClick, QuestieTracker.Update)
         AchievementTracker.LoadAchievements()
     end
@@ -186,18 +186,18 @@ local function _PositionTrackedQuestsFrame(frm, previousFrame)
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
-                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -10)
+                frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
             else
                 -- Auto move tracker header to the top
-                frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -(trackerFontSizeHeader+3))
+                frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -(trackerFontSizeHeader+3))
             end
         else
             -- No Automove. Tracker header always up top
-            frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -(trackerFontSizeHeader+5))
+            frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
         end
     else
         -- No header. TrackedQuestsFrame always up top
-        frm:SetPoint("TOPLEFT", previousFrame, "TOPLEFT", 0, -10)
+        frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
     end
 end
 
