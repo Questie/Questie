@@ -280,7 +280,7 @@ function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchieve
             FadeTicker.OnLeave()
         end)
 
-        -- create expanding buttons for quests with objectives
+        -- create expanding buttons
         local expand = CreateFrame("Button", nil, line)
         expand.texture = expand:CreateTexture(nil, "OVERLAY", nil, 0)
         expand.texture:SetWidth(trackerFontSizeQuest)
@@ -429,7 +429,7 @@ function LinePool.HideUnusedAchievementLines()
     for i = achievementLineIndex + 1, achievementPoolSize do
         achievementLinePool[i]:Hide()
         achievementLinePool[i].mode = nil
-        achievementLinePool[i].achievement = nil
+        achievementLinePool[i].expand.achievementId = nil
         achievementLinePool[i].expand.mode = nil
     end
 end
