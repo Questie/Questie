@@ -219,7 +219,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 end
 
 ---@param trackedAchievementsFrame Frame
-function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, OnDragStart, OnDragStop)
+function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, TrackerUpdate)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
 
     local lastFrame
@@ -267,8 +267,8 @@ function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchieve
         line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
         line:SetScript("OnClick", OnAchievementClick)
-        line:SetScript("OnDragStart", OnDragStart)
-        line:SetScript("OnDragStop", OnDragStop)
+        line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
+        line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
 
         line:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
@@ -323,7 +323,7 @@ function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchieve
         --    else
         --        Questie.db.char.collapsedAchievements[self.achievementId] = true
         --    end
-        --    _TrackerUpdate()
+        --    TrackerUpdate()
         --end)
 
         expand:SetScript("OnEnter", FadeTicker.OnEnter)

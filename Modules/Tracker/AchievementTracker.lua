@@ -3,6 +3,8 @@ local AchievementTracker = QuestieLoader:CreateModule("AchievementTracker")
 
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type LinePool
@@ -29,11 +31,6 @@ function AchievementTracker.Initialize(trackerBaseFrame)
 
     trackedAchievementIds = {GetTrackedAchievements()}
 
-    if (not next(trackedAchievementIds)) then
-        -- No achievements are currently tracked
-        return baseFrame
-    end
-
     local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     header:SetText("Achievements")
     header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", headerMarginLeft, -12)
@@ -41,6 +38,7 @@ function AchievementTracker.Initialize(trackerBaseFrame)
     baseFrame.header = header
     lastCreatedLine = header
 
+    baseFrame:Hide()
     return baseFrame
 end
 
@@ -49,7 +47,6 @@ function AchievementTracker.LoadAchievements()
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
         lastCreatedLine = baseFrame.header
-        baseFrame:SetWidth(trackerLineWidth)
         baseFrame:SetHeight(18)
         baseFrame:Hide()
         return
@@ -72,7 +69,7 @@ function AchievementTracker.Update()
     LinePool.ResetAchievementLinesForChange()
     AchievementTracker.LoadAchievements()
 
-    baseFrame:GetParent().AutoResize() -- Update trackerBaseFrame window size
+    TrackerBaseFrame.Update()
 end
 
 ---Creates the required frames to display an Achievement name and its criteria
