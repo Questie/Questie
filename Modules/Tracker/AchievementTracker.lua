@@ -126,25 +126,28 @@ _TrackAchievement = function(achievementId)
     end
 
     for i=1, numCriteria do
-        -- Add objectives
-        line = LinePool.GetNextAchievementLine()
-        if not line then break end -- stop populating the tracker
-        lastCreatedLine = line
+        local criteriaString, _, completed, quantityProgress, quantityNeeded = GetAchievementCriteriaInfo(achievementId, i)
 
-        line:SetMode("objective")
+        -- TODO: Add an option to also show completed criteria
+        if (not completed) then
+            -- Add objectives
+            line = LinePool.GetNextAchievementLine()
+            if not line then break end -- stop populating the tracker
+            lastCreatedLine = line
 
-        local criteriaString, _, _, quantityProgress, quantityNeeded = GetAchievementCriteriaInfo(achievementId, i)
-        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityProgress .. "/" .. quantityNeeded .. "|r")
+            line:SetMode("objective")
+            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. criteriaString .. ": " .. quantityProgress .. "/" .. quantityNeeded .. "|r")
 
-        line.label:ClearAllPoints()
-        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
-        local lineWidth = baseFrame:GetWidth() - objectiveMarginLeft
-        line.label:SetWidth(lineWidth)
-        line:SetWidth(lineWidth)
-        line:SetVerticalPadding(1)
+            line.label:ClearAllPoints()
+            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+            local lineWidth = baseFrame:GetWidth() - objectiveMarginLeft
+            line.label:SetWidth(lineWidth)
+            line:SetWidth(lineWidth)
+            line:SetVerticalPadding(1)
 
-        line:Show()
-        line.label:Show()
+            line:Show()
+            line.label:Show()
+        end
     end
 end
 
