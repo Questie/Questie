@@ -101,6 +101,11 @@ _TrackAchievement = function(achievementId)
 
     trackerLineWidth = math.max(trackerLineWidth, line.label:GetWidth())
 
+    if Questie.db.char.collapsedAchievements[achievementId] then
+        -- The Achievement is collapsed
+        return
+    end
+
     local numCriteria = GetAchievementNumCriteria(achievementId)
 
     if numCriteria == 0 then

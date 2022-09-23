@@ -219,7 +219,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 end
 
 ---@param trackedAchievementsFrame Frame
-function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, TrackerUpdate)
+function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, AchievementUpdate)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
 
     local lastFrame
@@ -250,7 +250,7 @@ function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchieve
         line.SetMode = _SetMode
 
         function line:SetAchievement(achievementId)
-            self.achievementId = achievementId
+            self.expand.achievementId = achievementId
         end
 
         function line:SetVerticalPadding(amount)
@@ -308,23 +308,22 @@ function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchieve
         expand:EnableMouse(true)
         expand:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
-        -- TODO Fix expanding/collapsing
-        --expand:SetScript("OnClick", function(self)
-        --    if InCombatLockdown() then
-        --        return
-        --    end
-        --    if self.mode == 1 then
-        --        self:SetMode(0)
-        --    else
-        --        self:SetMode(1)
-        --    end
-        --    if Questie.db.char.collapsedAchievements[self.achievementId] then
-        --        Questie.db.char.collapsedAchievements[self.achievementId] = nil
-        --    else
-        --        Questie.db.char.collapsedAchievements[self.achievementId] = true
-        --    end
-        --    TrackerUpdate()
-        --end)
+        expand:SetScript("OnClick", function(self)
+            if InCombatLockdown() then
+                return
+            end
+            if self.mode == 1 then
+                self:SetMode(0)
+            else
+                self:SetMode(1)
+            end
+            if Questie.db.char.collapsedAchievements[self.achievementId] then
+                Questie.db.char.collapsedAchievements[self.achievementId] = nil
+            else
+                Questie.db.char.collapsedAchievements[self.achievementId] = true
+            end
+            AchievementUpdate()
+        end)
 
         expand:SetScript("OnEnter", FadeTicker.OnEnter)
         expand:SetScript("OnLeave", FadeTicker.OnLeave)

@@ -119,7 +119,7 @@ function QuestieTracker.Initialize()
 
     if Questie.IsWotlk then
         _QuestieTracker.achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame, QuestieTracker.Update)
-        LinePool.InitializeAchievementLines(_QuestieTracker.achievementFrame, AchievementTracker.OnClick, QuestieTracker.Update)
+        LinePool.InitializeAchievementLines(_QuestieTracker.achievementFrame, AchievementTracker.OnClick, AchievementTracker.Update)
         AchievementTracker.LoadAchievements()
     end
 
