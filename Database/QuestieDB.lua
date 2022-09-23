@@ -54,7 +54,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 
-local _QuestieQuest = QuestieLoader:ImportModule("QuestieQuest").private
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+local _QuestieQuest = QuestieQuest.private
 
 local tinsert = table.insert
 
@@ -65,7 +67,7 @@ local QUEST_FLAGS_DAILY_X2 = 2 * QUEST_FLAGS_DAILY
 
 --- Tag corrections for quests for which the API returns the wrong values.
 --- Strucute: [questId] = {tagId, "questType"}
----@type table<number, table<number, string>>
+---@type table<number, {[1]: number, [2]: string}>
 local questTagCorrections = {
     [373] = {81, "Dungeon"},
     [4146] = {81, "Dungeon"},
@@ -90,7 +92,7 @@ local questTagCorrections = {
 }
 
 -- race bitmask data, for easy access
-local VANILLA = string.byte(GetBuildInfo(), 1) == 49
+local VANILLA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
@@ -131,6 +133,17 @@ _QuestieDB.itemCache = {};
 _QuestieDB.npcCache = {};
 _QuestieDB.objectCache = {};
 _QuestieDB.zoneCache = {};
+
+---A Memoized table for function Quest:CheckRace
+---
+---Usage: checkRace[requiredRaces]
+---@type table<number, boolean>
+local checkRace
+---A Memoized table for function Quest:CheckClass
+---
+---Usage: checkRace[requiredClasses]
+---@type table<number, boolean>
+local checkClass
 
 QuestieDB.itemDataOverrides = {}
 QuestieDB.npcDataOverrides = {}
@@ -225,6 +238,10 @@ function QuestieDB:Initialize()
     _QuestieDB.npcCache = {};
     _QuestieDB.objectCache = {};
     _QuestieDB.zoneCache = {};
+
+    --? This improves performance a lot, the regular functions still work but this is much faster because i caches
+    checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
+    checkClass = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredClass)
 end
 
 function QuestieDB:GetObject(objectId)
@@ -314,14 +331,14 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsRepeatable(questId)
+function QuestieDB.IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
     return flags and mod(flags, 2) == 1
 end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsDailyQuest(questId)
+function QuestieDB.IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
     -- test a bit flag: (value % (2*flag) >= flag)
     return flags and (flags % QUEST_FLAGS_DAILY_X2) >= QUEST_FLAGS_DAILY
@@ -329,22 +346,22 @@ end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsDungeonQuest(questId)
-    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+function QuestieDB.IsDungeonQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 81
 end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsRaidQuest(questId)
-    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+function QuestieDB.IsRaidQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 62
 end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsPvPQuest(questId)
-    local questType, _ = QuestieDB:GetQuestTagInfo(questId)
+function QuestieDB.IsPvPQuest(questId)
+    local questType, _ = QuestieDB.GetQuestTagInfo(questId)
     return questType == 41
 end
 
@@ -365,21 +382,19 @@ end
 --- Wrapper function for the GetQuestTagInfo API to correct
 --- quests that are falsely marked by Blizzard
 ---@param questId number
----@return table<number, string>
-function QuestieDB:GetQuestTagInfo(questId)
-    local questType, questTag = GetQuestTagInfo(questId)
-
+---@return number|nil questType, string|nil questTag
+function QuestieDB.GetQuestTagInfo(questId)
     if questTagCorrections[questId] then
-        questType = questTagCorrections[questId][1]
-        questTag = questTagCorrections[questId][2]
+        return questTagCorrections[questId][1], questTagCorrections[questId][2]
     end
+    local questType, questTag = GetQuestTagInfo(questId)
 
     return questType, questTag
 end
 
 ---@param questId number
 ---@return boolean
-function QuestieDB:IsActiveEventQuest(questId)
+function QuestieDB.IsActiveEventQuest(questId)
     return QuestieEvent.activeQuests[questId] == true
 end
 
@@ -398,19 +413,20 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
     return false
 end
 
----@param questId number
----@param minLevel number
----@param maxLevel number
+---@param questId QuestId
+---@param minLevel Level
+---@param maxLevel Level
+---@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
-function QuestieDB:IsLevelRequirementsFulfilled(questId, minLevel, maxLevel)
-    local level, requiredLevel = QuestieLib:GetTbcLevel(questId)
+function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
+    local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if QuestieDB:IsParentQuestActive(parentQuestId) then
+    if QuestieDB.IsParentQuestActive(parentQuestId) then
         return true
     end
 
-    if QuestieDB:IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
+    if QuestieDB.IsActiveEventQuest(questId) and minLevel > requiredLevel and (not Questie.db.char.absoluteLevelOffset) then
         return true
     end
 
@@ -433,7 +449,7 @@ end
 
 ---@param parentID number
 ---@return boolean
-function QuestieDB:IsParentQuestActive(parentID)
+function QuestieDB.IsParentQuestActive(parentID)
     if (not parentID) or (parentID == 0) then
         return false
     end
@@ -499,35 +515,38 @@ function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
 end
 
 ---@param questId number
+---@param debugPrint boolean?
 ---@return boolean
-function QuestieDB:IsDoable(questId)
+function QuestieDB.IsDoable(questId, debugPrint)
 
     if QuestieCorrections.hiddenQuests[questId] then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden!")
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden!") end
         return false
     end
 
     if Questie.db.char.hidden[questId] then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is hidden manually!")
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is hidden manually!") end
         return false
     end
 
     if (not DailyQuests:IsActiveDailyQuest(questId)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] quest is a daily quest not active today!")
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is a daily quest not active today!") end
         return false
     end
 
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
 
-    if (not QuestiePlayer:HasRequiredRace(requiredRaces)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] race requirement not fulfilled for questId:", questId)
+    if (requiredRaces and not checkRace[requiredRaces]) then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId) end
+        QuestieQuest.autoBlacklist[questId] = "race"
         return false
     end
 
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
 
-    if (not QuestiePlayer:HasRequiredClass(requiredClasses)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] class requirement not fulfilled for questId:", questId)
+    if (requiredClasses and not checkClass[requiredClasses]) then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId) end
+        QuestieQuest.autoBlacklist[questId] = "class"
         return false
     end
 
@@ -535,17 +554,18 @@ function QuestieDB:IsDoable(questId)
 
     if nextQuestInChain and nextQuestInChain ~= 0 then
         if Questie.db.char.complete[nextQuestInChain] or QuestiePlayer.currentQuestlog[nextQuestInChain] then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Follow up quests already completed or in the quest log!")
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Follow up quests already completed or in the quest log!") end
             return false
         end
     end
+
     -- Check if a quest which is exclusive to the current has already been completed or accepted
     -- If yes the current quest can't be accepted
     local ExclusiveQuestGroup = QuestieDB.QueryQuestSingle(questId, "exclusiveTo")
     if ExclusiveQuestGroup then -- fix (DO NOT REVERT, tested thoroughly)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] we have completed a quest that locks out this quest!")
+                if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] we have completed a quest that locks out this quest!") end
                 return false
             end
         end
@@ -554,35 +574,40 @@ function QuestieDB:IsDoable(questId)
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
 
     if parentQuest and parentQuest ~= 0 then
-        local isParentQuestActive = QuestieDB:IsParentQuestActive(parentQuest)
+        local isParentQuestActive = QuestieDB.IsParentQuestActive(parentQuest)
         -- If the quest has a parent quest then only show it if the
         -- parent quest is in the quest log
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isParentQuestActive:", isParentQuestActive)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isParentQuestActive:", isParentQuestActive) end
         return isParentQuestActive
     end
 
     local requiredSkill = QuestieDB.QueryQuestSingle(questId, "requiredSkill")
 
-    if (not QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Player does not meet profession requirements for", questId)
-        return false
-    end
+    if (requiredSkill) then
+        local hasProfession, hasSkillLevel = QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
+        if (not (hasProfession and hasSkillLevel)) then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId) end
+            --? We haven't got the profession so we blacklist it.
+            if(not hasProfession) then
+                QuestieQuest.autoBlacklist[questId] = "skill"
+            end
+            return false
+        end
+    end 
 
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
+    if (requiredMinRep or requiredMaxRep) then
+        local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+        if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId) end
 
-    if (not QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)) then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] Player does not meet reputation requirements for", questId)
-        return false
-    end
-
-    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-
-    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
-    if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
-        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled)
-        return isPreQuestSingleFulfilled
+            --- If we haven't got the faction for min or max we blacklist it
+            if (not hasMinFaction) or (not hasMaxFaction) then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
+                QuestieQuest.autoBlacklist[questId] = "rep"
+            end
+            return false
+        end
     end
 
     local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
@@ -590,8 +615,17 @@ function QuestieDB:IsDoable(questId)
     -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
     if preQuestGroup ~= nil and next(preQuestGroup) ~= nil then
         local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB:IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestGroupFulfilled", isPreQuestGroupFulfilled) end
         return isPreQuestGroupFulfilled
+    end
+
+    local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
+
+    -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
+    if preQuestSingle ~= nil and next(preQuestSingle) ~= nil then
+        local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isPreQuestSingleFulfilled", isPreQuestSingleFulfilled) end
+        return isPreQuestSingleFulfilled
     end
 
     return true
@@ -599,7 +633,7 @@ end
 
 ---@param questId number
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
-function QuestieDB:IsComplete(questId)
+function QuestieDB.IsComplete(questId)
     local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
     --[[ pseudo:
     if no questLogEntry then return 0
@@ -613,12 +647,12 @@ end
 ---@param self Quest
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function _QuestieDB._QO_IsComplete(self)
-    return QuestieDB:IsComplete(self.Id)
+    return QuestieDB.IsComplete(self.Id)
 end
 
 ---@return boolean @Returns true if the quest should be grey, false otherwise
 local function _IsTrivial(self)
-    local levelDiff = self.level - QuestiePlayer:GetPlayerLevel();
+    local levelDiff = self.level - QuestiePlayer.GetPlayerLevel();
     if (levelDiff >= 5) then
         return false -- Red
     elseif (levelDiff >= 3) then
@@ -637,7 +671,7 @@ local _GetIconScale = function()
     return Questie.db.global.objectScale or 1
 end
 
----@param questId number
+---@param questId QuestId
 ---@return Quest|nil @The quest object or nil if the quest is missing
 function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     if not questId then
@@ -658,33 +692,33 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@class ObjectiveIndex
 
     ---@class Quest
-    ---@field public Id number
-    ---@field public name string
-    ---@field public startedBy table
-    ---@field public finishedBy table
-    ---@field public requiredLevel number
-    ---@field public questLevel number
+    ---@field public Id QuestId
+    ---@field public name Name
+    ---@field public startedBy StartedBy
+    ---@field public finishedBy FinishedBy
+    ---@field public requiredLevel Level
+    ---@field public questLevel Level
     ---@field public requiredRaces number @bitmask
     ---@field public requiredClasses number @bitmask
-    ---@field public objectivesText table
-    ---@field public triggerEnd table
-    ---@field public objectives table
-    ---@field public sourceItemId number
-    ---@field public preQuestGroup table
-    ---@field public preQuestSingle table
-    ---@field public childQuests table
-    ---@field public inGroupWith table
-    ---@field public exclusiveTo table
-    ---@field public zoneOrSort number
-    ---@field public requiredSkill table
-    ---@field public requiredMinRep table
-    ---@field public requiredMaxRep table
-    ---@field public requiredSourceItems table
+    ---@field public objectivesText string[]
+    ---@field public triggerEnd { [1]: string, [2]: table<AreaId, CoordPair[]>}
+    ---@field public objectives RawObjectives
+    ---@field public sourceItemId ItemId
+    ---@field public preQuestGroup QuestId[]
+    ---@field public preQuestSingle QuestId[]
+    ---@field public childQuests QuestId[]
+    ---@field public inGroupWith QuestId[]
+    ---@field public exclusiveTo QuestId[]
+    ---@field public zoneOrSort ZoneOrSort
+    ---@field public requiredSkill SkillPair
+    ---@field public requiredMinRep ReputationPair
+    ---@field public requiredMaxRep ReputationPair
+    ---@field public requiredSourceItems ItemId[]
     ---@field public nextQuestInChain number
     ---@field public questFlags number @bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
-    ---@field public parentQuest number
-    ---@field public reputationReward table
+    ---@field public parentQuest QuestId
+    ---@field public reputationReward ReputationPair[]
     ---@field public extraObjectives table
     local QO = {
         Id = questId
@@ -696,10 +730,11 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         QO[stringKey] = rawdata[intKey]
     end
 
-    local questLevel, requiredLevel = QuestieLib:GetTbcLevel(questId)
+    local questLevel, requiredLevel = QuestieLib.GetTbcLevel(questId)
     QO.level = questLevel
     QO.requiredLevel = requiredLevel
 
+    ---@type StartedBy
     local startedBy = rawdata[questKeys.startedBy]
     QO.Starts = {
         NPC = startedBy[1],
@@ -714,6 +749,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     QO.IsComplete = _QuestieDB._QO_IsComplete
 
+    ---@type FinishedBy
     local finishedBy = rawdata[questKeys.finishedBy]
     if finishedBy[1] ~= nil then
         for _, id in pairs(finishedBy[1]) do
@@ -721,6 +757,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 QO.Finisher = {
                     Type = "monster",
                     Id = id,
+                    ---@type Name @We have to hard-type it here because of the function
                     Name = QuestieDB.QueryNPCSingle(id, "name")
                 }
             end
@@ -732,6 +769,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 QO.Finisher = {
                     Type = "object",
                     Id = id,
+                    ---@type Name @We have to hard-type it here because of the function
                     Name = QuestieDB.QueryObjectSingle(id, "name")
                 }
             end
@@ -741,14 +779,16 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     --- to differentiate from the current quest log info.
     --- Quest objectives generated from DB+Corrections.
     --- Data itself is for example for monster type { Type = "monster", Id = 16518, Text = "Nestlewood Owlkin inoculated" }
-    ---@type table<number, table>
+    ---@type Objective[]
     QO.ObjectiveData = {}
 
+    ---@type RawObjectives
     local objectives = rawdata[questKeys.objectives]
     if objectives ~= nil then
         if objectives[1] ~= nil then
             for _, creatureObjective in pairs(objectives[1]) do
                 if creatureObjective ~= nil then
+                    ---@type NpcObjective
                     local obj = {
                         Type = "monster",
                         Id = creatureObjective[1],
@@ -761,6 +801,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         if objectives[2] ~= nil then
             for _, objectObjective in pairs(objectives[2]) do
                 if objectObjective ~= nil then
+                    ---@type ObjectObjective
                     local obj = {
                         Type = "object",
                         Id = objectObjective[1],
@@ -773,6 +814,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         if objectives[3] ~= nil then
             for _, itemObjective in pairs(objectives[3]) do
                 if itemObjective ~= nil then
+                    ---@type ItemObjective
                     local obj = {
                         Type = "item",
                         Id = itemObjective[1],
@@ -783,6 +825,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             end
         end
         if objectives[4] ~= nil then
+            ---@type ReputationObjective
             local reputationObjective = {
                 Type = "reputation",
                 Id = objectives[4][1],
@@ -790,14 +833,17 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             }
             tinsert(QO.ObjectiveData, reputationObjective);
         end
-        if objectives[5] then
-            local killCreditObjective = {
-                Type = "killcredit",
-                IdList = objectives[5][1],
-                RootId = objectives[5][2],
-                Text = objectives[5][3]
-            }
-            tinsert(QO.ObjectiveData, killCreditObjective);
+        if objectives[5] ~= nil and type(objectives[5]) == "table" and #objectives[5] > 0 then
+            for _, creditObjective in pairs(objectives[5]) do
+                ---@type KillObjective
+                local killCreditObjective = {
+                    Type = "killcredit",
+                    IdList = creditObjective[1],
+                    RootId = creditObjective[2],
+                    Text = creditObjective[3]
+                }
+                tinsert(QO.ObjectiveData, killCreditObjective);
+            end
         end
 
         -- There are quest(s) which have the killCredit at first so we need to switch them
@@ -811,6 +857,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     -- Events need to be added at the end of ObjectiveData
     local triggerEnd = rawdata[questKeys.triggerEnd]
     if triggerEnd then
+        ---@type TriggerEndObjective
         local obj = {
             Type = "event",
             Text = triggerEnd[1],
@@ -832,6 +879,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     QO.SpecialObjectives = {}
 
+    ---@type ItemId[]
     local requiredSourceItems = rawdata[questKeys.requiredSourceItems]
     if requiredSourceItems ~= nil then --required source items
         for _, itemId in pairs(requiredSourceItems) do
@@ -839,6 +887,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                 QO.SpecialObjectives[itemId] = {
                     Type = "item",
                     Id = itemId,
+                    ---@type string @We have to hard-type it here because of the function
                     Description = QuestieDB.QueryItemSingle(itemId, "name")
                 }
             end
@@ -916,6 +965,7 @@ function QuestieDB:GetCreatureLevels(quest)
         if quest.objectives[1] then -- Killing creatures
             for _, creatureObjective in pairs(quest.objectives[1]) do
                 local npcId = creatureObjective[1]
+                local npcIdff = creatureObjective[2]
                 _CollectCreatureLevels({npcId})
             end
         end

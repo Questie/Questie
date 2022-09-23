@@ -463,12 +463,18 @@ function QuestieMenu:PopulateTownsfolk()
     -- Fix NPC Gubber Blump (10216) can train fishing profession
     tinsert(professionTrainers[QuestieProfessions.professionKeys.FISHING], 10216)
 
+    -- Fix NPC Aresella (18991) can train first aid profession
+    if Questie.IsTBC then
+        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
+    end
+
     Questie.db.global.professionTrainers = professionTrainers
 
-    if Questie.IsTBC then
+    if Questie.IsWotlk then
         local meetingStones = {
             178824,178825,178826,178827,178828,178829,178831,178832,178833,178834,178844,178845,178884,179554,179555,179585,179595,
-            179596,182558,182559,182560,184455,184456,184458,184462,184463,185321,185322,185433,185550,186251,188171,188172,
+            179596,182558,182559,182560,184455,184456,184458,184462,184463,185321,185322,185433,185550,186251,188171,188172,188488,
+            191227,191529,192017,192399,192557,192622,193166,193602,195013,195498,195695,202184
         }
 
         Questie.db.global.townsfolk["Meeting Stones"] = {}
@@ -510,7 +516,7 @@ function QuestieMenu:PopulateTownsfolk()
     Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
     Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
-    for _, id in pairs(Questie.IsTBC and { -- mailbox list
+    for _, id in pairs(Questie.IsWotlk and { -- mailbox list
         32349,140908,142075,142089,142093,142094,142095,142102,142109,142110,142111,142117,143981,143982,143983,143984,
         143985,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,144131,144179,144570,
         153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176324,176404,177044,178864,

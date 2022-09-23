@@ -16,8 +16,58 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [1198] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [4740] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [7800] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [8150] = {
+            [questKeys.requiredSourceItems] = {}, -- Overriding Classic correction
+            [questKeys.triggerEnd] = {"Place a tribute at Grom's Monument",{[zoneIDs.ASHENVALE]={{83,78,},},},},
+        },
+        [9154] = {
+            [questKeys.startedBy] = {{16241,16255}},
+            [questKeys.finishedBy] = {{16281}},
+            [questKeys.questLevel] = -1,
+        },
+        [9247] = {
+            [questKeys.finishedBy] = {{16281}},
+        },
+        [9648] = {
+            [questKeys.name] = "Maatparm Mushroom Menagerie",
+        },
+        [10110] = {
+            [questKeys.preQuestSingle] = {13409},
+        },
+        [10173] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [10667] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [10670] = {
+            [questKeys.preQuestSingle] = {},
+        },
+        [10702] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{21864,21878,21879,23020,21978},21978,},},},
+        },
+        [10703] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{21864,21878,21879,23020,21978},21978,},},},
+        },
+        [11120] = {
+            [questKeys.startedBy] = {{24657}},
+            [questKeys.finishedBy] = {{24657}},
+        },
+        [11431] = {
+            [questKeys.startedBy] = {{24657}},
+            [questKeys.finishedBy] = {{24657}},
+        },
+        [11531] = {
+            [questKeys.specialFlags] = 1,
         },
         [11153] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42,2}}}, ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
@@ -26,13 +76,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"), 0, {{"monster", 23959}}}},
         },
         [11157] = {
-            [questKeys.objectives] = {{{23777,"Proto-Drake Egg destroyed"},},nil,nil,nil,{{23688,23750,},23688},},
+            [questKeys.objectives] = {{{23777,"Proto-Drake Egg destroyed"}},nil,nil,nil,{{{23688,23750},23688}}},
         },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
         [11246] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{23666,23662,23661,223664,23663,23665,23667,23670,23668,23669,},23666,"Winterskorn Vrykul Dismembered"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23666,23662,23661,223664,23663,23665,23667,23670,23668,23669},23666,"Winterskorn Vrykul Dismembered"}}},
         },
         [11249] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension"), 0, {{"object", 186586}}}},
@@ -116,6 +166,15 @@ function QuestieWotlkQuestFixes:Load()
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
         },
+        [11574] = {
+            [questKeys.exclusiveTo] = {11587},
+        },
+        [11575] = {
+            [questKeys.exclusiveTo] = {11587},
+        },
+        [11587] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
         },
@@ -156,7 +215,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Alliance Deserter Delivered",{[zoneIDs.BOREAN_TUNDRA]={{55.28,50.86,},},},},
         },
         [11712] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{25765,25767,25783,25814,26601,26619},25814,"Fizzcrank Gnome cursed & ported"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25765,25767,25783,25814,26601,26619},25814,"Fizzcrank Gnome cursed & ported"}}},
         },
         [11719] = {
             [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA]={{52.07,52.46,},},},},
@@ -165,7 +224,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Throw Wolf Bait"),0,{{"monster", 25791}}}},
         },
         [11730] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{25753,25758,25752,},25753,"Robots reprogrammed"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25753,25758,25752},25753,"Robots reprogrammed"}}},
         },
         [11788] = {
             [questKeys.extraObjectives] = {
@@ -199,6 +258,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
             },
         },
+        [11908] = {
+            [questKeys.preQuestSingle] = {11902},
+        },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
@@ -206,7 +268,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Secure Passage to Dragonblight",{[zoneIDs.DRAGONBLIGHT]={{10.29,53.83,},},},},
         },
         [11938] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{25378,25383,25386,25387,25393,25609,},25378,"En'kilah Casualty"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25378,25383,25386,25387,25393,25609},25378,"En'kilah Casualty"}}},
         },
         [11956] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
@@ -259,8 +321,14 @@ function QuestieWotlkQuestFixes:Load()
         [12050] = {
             [questKeys.preQuestGroup] = {12046,12047},
         },
+        [12052] = {
+            [questKeys.preQuestGroup] = {12046,12047},
+        },
         [12053] = {
             [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
+        },
+        [12078] = {
+            [questKeys.preQuestSingle] = {12077},
         },
         [12079] = {
             [questKeys.preQuestSingle] = {12075},
@@ -303,14 +371,32 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12208] = {
+            [questKeys.preQuestSingle] = {12412},
+        },
         [12237] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{27315,27336,27345,27341,},27315,"Helpless Villager Rescued"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
         },
+        [12261] = {
+            [questKeys.preQuestSingle] = {12447},
+        },
+        [12262] = {
+            [questKeys.preQuestSingle] = {12447},
+        },
         [12263] = {
             [questKeys.triggerEnd] = {"Uncover the Magmawyrm Resurrection Chamber",{[zoneIDs.DRAGONBLIGHT]={{31.76,30.46,},},},},
+        },
+        [12264] = {
+            [questKeys.preQuestSingle] = {12263},
+        },
+        [12265] = {
+            [questKeys.preQuestSingle] = {12263},
+        },
+        [12269] = {
+            [questKeys.preQuestSingle] = {12275},
         },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
@@ -328,6 +414,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12330] = {
             [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7,},},},},
+        },
+        [12412] = {
+            [questKeys.preQuestSingle] = {12259},
         },
         [12427] = {
             [questKeys.triggerEnd] = {"Ironhide defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.2,64.68,},},},},
@@ -360,7 +449,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Thel'zan the Duskbringer Defeated",{[zoneIDs.DRAGONBLIGHT]={{81.11,50.64,},},},},
         },
         [12503] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{28023,28026,28246,28669,28022,},28022,"Scourge at The Argent Stand destroyed"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
@@ -394,7 +483,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Quetz'lun's fate revealed.",{[zoneIDs.ZUL_DRAK]={{75.75,58.39,},},},},
         },
         [12668] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{28747,28748,},28747,"Trolls killed near a Soul Font"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28747,28748},28747,"Trolls killed near a Soul Font"}}},
         },
         [12671] = {
             [questKeys.triggerEnd] = {"Reconnaissance Flight",{[zoneIDs.SHOLAZAR_BASIN]={{50.04,61.43,},},},},
@@ -403,7 +492,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Hexxing Stick and slay him/her"), 0, {{"monster", 28752},{"monster", 28754},{"monster", 28756}}}},
         },
         [12680] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{28605,28606,28607,},28605,"Horse Successfully Stolen"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28605,28606,28607},28605,"Horse Successfully Stolen"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Deliver Stolen Horse"), 0, {{"monster", 28653}}}},
         },
         [12685] = {
@@ -424,7 +513,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12678,12679,12687,12733,},
         },
         [12698] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{28819,28822,28891,},28819,"Scarlet Ghoul Returned"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28819,28822,28891},28819,"Scarlet Ghoul Returned"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Return Scarlet Ghouls"), 0, {{"monster", 28658}}}},
         },
         [12701] = {
@@ -444,7 +533,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12717,12720,12722},
         },
         [12733] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{28391,28394,28406},28391,"Death Knights defeated in a duel"},},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
         },
         [12754] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75,5}}}, ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
@@ -535,6 +624,9 @@ function QuestieWotlkQuestFixes:Load()
         [13241] = {
             [questKeys.startedBy] = {{31439},nil,nil},
         },
+        [13242] = {
+            [questKeys.preQuestSingle] = {12500},
+        },
         [13243] = {
             [questKeys.startedBy] = {{31439},nil,nil},
         },
@@ -605,6 +697,12 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
+        [13410] = {
+            [questKeys.preQuestSingle] = {10143,10483},
+        },
+        [13411] = {
+            [questKeys.preQuestSingle] = {10124},
+        },
         [13427] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
@@ -627,11 +725,21 @@ function QuestieWotlkQuestFixes:Load()
         [13429] = {
             [questKeys.triggerEnd] = {"Help Akama and Maiev enter the Black Temple.",{[zoneIDs.SHADOWMOON_VALLEY]={{71.02,46.12,},},},},
         },
+        [13430] = {
+            [questKeys.exclusiveTo] = {10888},
+            [questKeys.preQuestSingle] = {10588},
+        },
+        [13431] = {
+            [questKeys.exclusiveTo] = {10901},
+        },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
+        },
+        [13850] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {

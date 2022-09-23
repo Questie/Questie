@@ -387,7 +387,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
         [8346] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{15294,15274},15274,"Mana Tap creature"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{15294,15274},15274,"Mana Tap creature"}}},
         },
         [8347] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -746,6 +746,9 @@ function QuestieTBCQuestFixes:Load()
         [9355] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
+        [9358] = {
+            [questKeys.exclusiveTo] = {9252},
+        },
         [9360] = {
             [questKeys.startedBy] = {{15407},nil,{23249}},
         },
@@ -915,7 +918,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 16,
         },
         [9670] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{17681,17680},17681,"Expedition Researcher Freed"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17681,17680},17681,"Expedition Researcher Freed"}}},
         },
         [9671] = {
             [questKeys.requiredLevel] = 15,
@@ -1097,13 +1100,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {25509},
         },
         [9927] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,"Warmaul Ogre Banner Planted"}}},
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9928] = {
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9931] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{17138,18064},17138,"Expedition Researcher Freed"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17138,18064},17138,"Expedition Researcher Freed"}}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9932] = {
@@ -1564,7 +1568,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20774,"Test Energy Modulator"}},nil,nil,nil},
         },
         [10427] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{20610,20777},20777,"Talbuk Tagged"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20610,20777},20777,"Talbuk Tagged"}}},
         },
         [10438] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Protecotrate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},
@@ -1598,7 +1602,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat"), 0, {{"object", 184606}}}},
         },
         [10512] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}}},
         },
         [10514] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber"), 0, {{"object", 184701}}}},
@@ -1623,7 +1627,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.SHADOWMOON_VALLEY]={{30,57}}}, ICON_TYPE_EVENT, l10n("Walk with your Spirit Hunter")}},
         },
         [10545] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}}},
         },
         [10556] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use the Fistful of Feathers on the Lashh'an Spell Circle and get back to Daranelle"), 0, {{"object", 184826}, {"monster", 21469}}}},
@@ -1835,7 +1839,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10552},
         },
         [10813] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{19440,22177},22177,"Eye of Grillok Returned"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{19440,22177},22177,"Eye of Grillok Returned"}}},
         },
         [10814] = {
             [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21}}}},
@@ -1902,7 +1906,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{22112},nil},
         },
         [10873] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{22459,22355},22459,"Sha'tar Warrior Freed"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{22459,22355},22459,"Sha'tar Warrior Freed"}}},
         },
         [10876] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Kill Force Commander Gorax and place the Challenge From the Horde upon his corpse"), 0, {{"monster", 19264}}}},
@@ -2085,6 +2089,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [11000] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}}},
+        },
+        [11002] = {
+            [questKeys.startedBy] = {{17257},nil,{33102,},},
+        },
+        [11003] = {
+            [questKeys.startedBy] = {{17257},nil,{33102,},},
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK, -- Everything except Druid (since Warlock has the highest number except for Druid this works)
@@ -2346,14 +2356,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11132},
         },
         [11169] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{4344,4345},4344,"Totem Tests Performed"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4344,4345},4344,"Totem Tests Performed"}}},
         },
         [11172] = {
             [questKeys.nextQuestInChain] = 11174,
         },
         [11174] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{4392,4393,4394},4392,"Oozes Dissolved"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4392,4393,4394},4392,"Oozes Dissolved"}}},
         },
         [11177] = {
             [questKeys.nextQuestInChain] = 1218,
@@ -2546,10 +2556,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11513,11514},
         },
         [11537] = {
-            [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"},},nil,nil,nil,{{24999,25001,25002,25008,25068,},25068},},
+            [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"}},nil,nil,nil,{{{24999,25001,25002,25008,25068},25068}}},
         },
         [11538] = {
-            [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"},},nil,nil,nil,{{24999,25001,25002,25008,25068,},25068},},
+            [questKeys.objectives] = {{{25003,"Emissary of Hate Impaled"}},nil,nil,nil,{{{24999,25001,25002,25008,25068},25068}}},
         },
         [11541] = {
             [questKeys.objectives] = {{{25084,"Greengill Slave freed"}}},
@@ -4126,12 +4136,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 37737,
             [questKeys.zoneOrSort] = -370,
         },
-        [12513] = {
+        [12513] = { --* tbc? Weird one... https://www.wowhead.com/wotlk/quest=12513/nice-hat
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil},
         },
-        [12515] = {
+        [12515] = {  --* wotlk? looks more correct https://www.wowhead.com/wotlk/quest=12515/nice-hat
             [questKeys.exclusiveTo] = {12513},
+            [questKeys.finishedBy] = {{28126},nil},
         },
 
         -- Below are quests that were not originally in TBC or in a different form
@@ -4271,7 +4282,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
             [questKeys.requiredClasses] = classIDs.PALADIN,
             [questKeys.objectivesText] = {"Use the Extinguishing Mixture near the eternal flame in the Alonsus Chapel to remove the Light's protection. Be prepared to fight anyone who may attempt to defend the chapel."},
-            [questKeys.objectives] = {nil,nil,nil,nil,{{17910,17911,17912,17913,17914},17910,"Remove Alonsus Chapel Protection"}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17910,17911,17912,17913,17914},17910,"Remove Alonsus Chapel Protection"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use the Extinguishing Mixture near the eternal flame in the Alonsus Chapel to remove the Light's protection."), 0, {{"object", 182068}}}},
             [questKeys.sourceItemId] = 24287,
             [questKeys.preQuestSingle] = {64144},

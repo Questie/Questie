@@ -59,7 +59,7 @@ end
 ---@return string
 function QuestieLink:GetQuestLinkStringById(questId)
     local questName = QuestieDB.QueryQuestSingle(questId, "name");
-    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+    local questLevel, _ = QuestieLib.GetTbcLevel(questId);
     return QuestieLink:GetQuestLinkString(questLevel, questName, questId)
 end
 
@@ -71,13 +71,14 @@ end
 ---@return string
 function QuestieLink:GetQuestHyperLink(questId, senderGUID)
     local coloredQuestName = QuestieLib:GetColoredQuestName(questId, Questie.db.global.trackerShowQuestLevel, true, false)
-    local questLevel, _ = QuestieLib:GetTbcLevel(questId);
+    local questLevel, _ = QuestieLib.GetTbcLevel(questId)
+    local isRepeatable = QuestieDB.IsRepeatable(questId)
 
     if (not senderGUID) then
         senderGUID = UnitGUID("player")
     end
 
-    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[")..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]").."|h"
+    return "|Hquestie:"..questId..":"..senderGUID.."|h"..QuestieLib:PrintDifficultyColor(questLevel, "[", isRepeatable)..coloredQuestName..QuestieLib:PrintDifficultyColor(questLevel, "]", isRepeatable).."|h"
 end
 
 function QuestieLink:CreateQuestTooltip(link)
@@ -139,7 +140,7 @@ _AddQuestStatus = function (quest)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         local onQuestText = l10n("You are on this quest")
         local stateText
-        local questIsComplete = QuestieDB:IsComplete(quest.Id)
+        local questIsComplete = QuestieDB.IsComplete(quest.Id)
         if questIsComplete == 1 then
             stateText = Questie:Colorize(l10n("Complete"), "green")
         elseif questIsComplete == -1 then
@@ -153,7 +154,7 @@ _AddQuestStatus = function (quest)
         end
     elseif Questie.db.char.complete[quest.Id] then
         _AddColoredTooltipLine(l10n("You have completed this quest"), "green")
-    elseif (UnitLevel("player") < quest.requiredLevel or (not QuestieDB:IsDoable(quest.Id))) and (not Questie.db.char.hidden[quest.Id]) then
+    elseif (UnitLevel("player") < quest.requiredLevel or (not QuestieDB.IsDoable(quest.Id))) and (not Questie.db.char.hidden[quest.Id]) then
         _AddColoredTooltipLine(l10n("You are ineligible for this quest"), "red")
     elseif quest.specialFlags == 1 then
         _AddColoredTooltipLine(l10n("This quest is repeatable"), "yellow")
@@ -292,7 +293,7 @@ end
 _AddPlayerQuestProgress = function (quest, starterName, starterZoneName, finisherName, finisherZoneName)
     if QuestiePlayer.currentQuestlog[quest.Id] then
         -- On Quest: display quest progress
-        if (QuestieDB:IsComplete(quest.Id) == 0) then
+        if (QuestieDB.IsComplete(quest.Id) == 0) then
             _AddTooltipLine(" ")
             _AddTooltipLine(l10n("Your progress")..":")
             for _, objective in pairs(quest.Objectives) do

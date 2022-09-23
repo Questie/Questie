@@ -7,6 +7,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local TrackerMenu = QuestieLoader:ImportModule("TrackerMenu")
 ---@type FadeTicker
 local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type QuestieMap
@@ -30,7 +32,7 @@ local _OnClick, _OnHighlightEnter, _OnHighlightLeave, _SetMode
 local _UntrackQuest, _TrackerUpdate
 
 ---@param trackedQuestsFrame Frame
-function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, OnDragStart, OnDragStop)
+function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
     baseFrame = trackedQuestsFrame
     _UntrackQuest = UntrackQuest
     _TrackerUpdate = TrackerUpdate
@@ -95,8 +97,8 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, On
         line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
         line:SetScript("OnClick", _OnClick)
-        line:SetScript("OnDragStart", OnDragStart)
-        line:SetScript("OnDragStop", OnDragStop)
+        line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
+        line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
 
         line:SetScript("OnEnter", function(self)
             _OnHighlightEnter(self)
@@ -175,8 +177,8 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate, On
                 else
                     self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
                 end
-                self:SetWidth(Questie.db.global.trackerFontSizeQuest+3)
-                self:SetHeight(Questie.db.global.trackerFontSizeQuest+3)
+                self:SetWidth(Questie.db.global.trackerFontSizeQuest + 3)
+                self:SetHeight(Questie.db.global.trackerFontSizeQuest + 3)
             end
         end
 
@@ -440,7 +442,7 @@ end
 function LinePool.SetAllExpandQuestAlpha(alpha)
     local highestIndex = _GetHighestIndex()
 
-    for i=1, highestIndex do
+    for i = 1, highestIndex do
         linePool[i].expandQuest:SetAlpha(alpha)
     end
 end
@@ -448,7 +450,7 @@ end
 function LinePool.SetAllItemButtonAlpha(alpha)
     local highestIndex = _GetHighestIndex()
 
-    for i=1, highestIndex do
+    for i = 1, highestIndex do
         local line = linePool[i]
         if line.button then
             line.button:SetAlpha(alpha)
@@ -474,7 +476,7 @@ _OnClick = function(self, button)
             if Questie.db.global.trackerShowQuestLevel then
                 ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.Quest.level, self.Quest.name, self.Quest.Id))
             else
-                ChatEdit_InsertLink("["..self.Quest.name.." ("..self.Quest.Id..")]")
+                ChatEdit_InsertLink("[" .. self.Quest.name .. " (" .. self.Quest.Id .. ")]")
             end
 
         else
@@ -486,12 +488,12 @@ _OnClick = function(self, button)
 
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
-        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0 , 0, "MENU")
+        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
     end
 end
 
 _OnHighlightEnter = function(self)
-    if self.mode == "quest" or self.mode =="objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
+    if self.mode == "quest" or self.mode == "objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
         local highestIndex = _GetHighestIndex()
         for i = 1, highestIndex do
             local line = linePool[i]
@@ -510,21 +512,32 @@ _OnHighlightLeave = function()
     end
 end
 
+local _GetOutline = function()
+    local outlineValue = Questie.db.global.trackerFontOutline
+    if outlineValue == "NONE" then
+        return nil
+    end
+    return outlineValue
+end
+
 _SetMode = function(self, mode)
     if mode ~= self.mode then
         self.mode = mode
         if mode == "zone" then
             local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT, trackerFontSizeZone)
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT,
+                trackerFontSizeZone, _GetOutline())
             self.label:SetHeight(trackerFontSizeZone)
         elseif mode == "quest" or mode == "achievement" then
             local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, trackerFontSizeQuest)
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT,
+                trackerFontSizeQuest, _GetOutline())
             self.label:SetHeight(trackerFontSizeQuest)
             self.button = nil
         elseif mode == "objective" then
             local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective)
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT,
+                trackerFontSizeObjective, _GetOutline())
             self.label:SetHeight(trackerFontSizeObjective)
         end
     end

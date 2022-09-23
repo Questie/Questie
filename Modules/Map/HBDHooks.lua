@@ -21,8 +21,8 @@ function _HBDHooks:OnMapChanged()
     --Call original one : https://www.townlong-yak.com/framexml/27101/Blizzard_MapCanvas/MapCanvas_DataProviderBase.lua#74
     _HBDHooks.ORG_OnMapChanged(HBDPins.worldmapProvider)
 
+    local mapScale = QuestieMap:GetScaleValue()
     for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
-        local frame = pin.icon
-        QuestieMap.utils:RescaleIcon(frame)
+        QuestieMap.utils:RescaleIcon(pin.icon, mapScale)
     end
 end

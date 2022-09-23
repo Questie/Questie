@@ -54,11 +54,18 @@ function MapIconTooltip:Show()
 
     local maxDistCluster = 1
     local mapId = WorldMapFrame:GetMapID();
-    if mapId == 947 then -- world
-        maxDistCluster = 6
-    elseif mapId == 1415 or mapId == 1414 then -- kalimdor/ek
-        maxDistCluster = 4
+
+    if C_Map and C_Map.GetMapInfo then
+        local mapInfo = C_Map.GetMapInfo(mapId)
+        if mapInfo then
+            if(mapInfo.mapType == 0 or mapInfo.mapType == 1) then -- Cosmic or World
+                maxDistCluster = 6
+            elseif mapInfo.mapType == 2 then -- Continent
+                maxDistCluster = 4
+            end
+        end
     end
+
     if self.miniMapIcon then
         if _MapIconTooltip:IsMinimapInside() then
             maxDistCluster = 0.3 / (1+Minimap:GetZoom())
@@ -217,7 +224,7 @@ function MapIconTooltip:Show()
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB:IsRepeatable(quest.Id))
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(quest.Id))
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
@@ -242,11 +249,17 @@ function MapIconTooltip:Show()
                 if questData.subData and shift then
                     local dataType = type(questData.subData)
                     if dataType == "table" then
-                        for _, line in pairs(questData.subData) do
-                            self:AddLine(line, 0.86, 0.86, 0.86, WRAP_TEXT);
+                        for _, rawLine in pairs(questData.subData) do
+                            local lines = QuestieLib:TextWrap(rawLine, "  ", true, true, math.max(375, Tooltip:GetWidth()), questData.questId) --275 is the default questlog width
+                            for _, line in pairs(lines) do
+                                self:AddLine(line, 0.86, 0.86, 0.86);
+                            end
                         end
                     elseif dataType == "string" then
-                        self:AddLine(questData.subData, 0.86, 0.86, 0.86, WRAP_TEXT);
+                        local lines = QuestieLib:TextWrap(questData.subData, "  ", true, true, math.max(375, Tooltip:GetWidth())) --275 is the default questlog width
+                        for _, line in pairs(lines) do
+                            self:AddLine(line, 0.86, 0.86, 0.86);
+                        end
                     end
 
                     if reputationReward and next(reputationReward) then
@@ -428,9 +441,9 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
         tip.type = "(" .. l10n("Complete") .. ")";
     else
 
-        local questType, questTag = QuestieDB:GetQuestTagInfo(icon.data.Id)
+        local questType, questTag = QuestieDB.GetQuestTagInfo(icon.data.Id)
 
-        if (QuestieDB:IsRepeatable(icon.data.Id)) then
+        if (QuestieDB.IsRepeatable(icon.data.Id)) then
             tip.type = "(" .. l10n("Repeatable") .. ")";
         elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)

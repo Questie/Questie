@@ -3,6 +3,8 @@ local ActiveQuestsHeader = QuestieLoader:CreateModule("ActiveQuestsHeader")
 
 ---@type FadeTicker
 local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestieOptions
@@ -17,12 +19,10 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 local marginLeft = 10
+local trackerSpaceBuffer = 10
 
 ---@param trackerBaseFrame Frame
-function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, OnDragStop)
-
-    local trackerSpaceBuffer = 10
-
+function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
     local frm = CreateFrame("Button", nil, trackerBaseFrame)
 
     if Questie.db.global.trackerHeaderAutoMove then
@@ -200,15 +200,18 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick, OnDragStart, O
 
     trackedQuests:SetScript("OnClick", OnClick)
 
-    trackedQuests:SetScript("OnDragStart", OnDragStart)
-    trackedQuests:SetScript("OnDragStop", OnDragStop)
+    trackedQuests:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
+    trackedQuests:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
     trackedQuests:SetScript("OnEnter", FadeTicker.OnEnter)
     trackedQuests:SetScript("OnLeave", FadeTicker.OnLeave)
     trackedQuests:Hide()
     frm.trackedQuests = trackedQuests
 
-    frm:SetWidth(frm.trackedQuests.label:GetUnboundedStringWidth())
-    frm:SetHeight(Questie.db.global.trackerFontSizeHeader)
+    if Questie.db.global.trackerHeaderEnabled then
+        frm:SetSize(1, Questie.db.global.trackerFontSizeHeader) -- Width is updated later on
+    else
+        frm:SetSize(1, 1)
+    end
     frm:SetFrameLevel(0)
 
     frm:Hide()
