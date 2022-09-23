@@ -1854,8 +1854,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         -- World Events -> Brewfest (9 -> -370)
         [11486] = true, --* The Best of Brews (https://www.wowhead.com/wotlk/quest=11486) (Retail Data)
         [11487] = true, --* The Best of Brews (https://www.wowhead.com/wotlk/quest=11487) (Retail Data)
-        [13931] = true, --* Another Year, Another Souvenir. (https://www.wowhead.com/wotlk/quest=13931) (Retail Data) -- Doesn't seem to be in the game
-        [13932] = true, --* Another Year, Another Souvenir. (https://www.wowhead.com/wotlk/quest=13932) (Retail Data) -- Doesn't seem to be in the game
+        [13931] = true, --* Another Year, Another Souvenir. (https://www.wowhead.com/wotlk/quest=13931) (Retail Data)
+        [13932] = true, --* Another Year, Another Souvenir. (https://www.wowhead.com/wotlk/quest=13932) (Retail Data)
 
         -- Classes -> Mage (4 -> -161)
         [12228] = true, --* Reacquiring the Magic [PH] (https://www.wowhead.com/wotlk/quest=12228) (Retail Data)
