@@ -135,7 +135,7 @@ function QuestieTracker.Initialize()
         QuestieTracker:HookBaseTracker()
     end
 
-    -- Atach durability frame to the tracker if shown and Sticky Durability Frame is enabled
+    -- Attach durability frame to the tracker if shown and Sticky Durability Frame is enabled
     if not durabilityInitialPosition then
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
