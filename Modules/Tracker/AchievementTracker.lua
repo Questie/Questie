@@ -15,6 +15,8 @@ local trackerLineWidth = 0
 local lastCreatedLine
 local trackedAchievementIds
 
+local EMPTY_CRITERIA = {Collected=0, Needed=1}
+
 local _TrackAchievement, _Untrack, _UpdateTracker
 
 local headerMarginLeft = 10
@@ -116,7 +118,7 @@ _TrackAchievement = function(achievementId)
         line:SetMode("objective")
 
         local description = select(8, GetAchievementInfo(achievementId)):gsub("%.", "") -- Remove description ending dot
-        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=0, Needed=1}) .. description .. ": 0/1|r")
+        line.label:SetText(QuestieLib:GetRGBForObjective(EMPTY_CRITERIA) .. description .. ": 0/1|r")
 
         line.label:ClearAllPoints()
         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
