@@ -128,6 +128,7 @@ _TrackAchievement = function(achievementId)
         line:SetVerticalPadding(1)
 
         line:Show()
+        line.expand:Hide()
         line.label:Show()
         return
     end
@@ -153,6 +154,7 @@ _TrackAchievement = function(achievementId)
             line:SetVerticalPadding(1)
 
             line:Show()
+            line.expand:Hide()
             line.label:Show()
         end
     end
