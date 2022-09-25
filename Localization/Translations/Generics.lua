@@ -409,7 +409,19 @@ local genericsLocales = {
         ["zhTW"] = false,
         ["esES"] = "Vendedores",
         ["frFR"] = "Vendeurs",
-    }
+    },
+    ["Achievements"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Достижения",
+        ["deDE"] = "Erfolge",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(genericsLocales) do
