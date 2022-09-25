@@ -33,7 +33,7 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
 
     trackedAchievementIds = {GetTrackedAchievements()}
 
-    local header = CreateFrame("Button", "__TEST", trackerBaseFrame);
+    local header = CreateFrame("Button", nil, trackerBaseFrame);
     header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", headerMarginLeft, -12)
     header:SetScript("OnClick", function()
         Questie.db.char.isAchievementsExpanded = (not Questie.db.char.isAchievementsExpanded)
@@ -82,6 +82,16 @@ function AchievementTracker.Update()
     AchievementTracker.LoadAchievements()
 
     _UpdateTracker()
+end
+
+function AchievementTracker.Hide()
+    baseFrame.header:Hide()
+    baseFrame:Hide()
+end
+
+function AchievementTracker.Show()
+    baseFrame.header:Show()
+    baseFrame:Show()
 end
 
 ---Creates the required frames to display an Achievement name and its criteria
