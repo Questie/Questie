@@ -72,7 +72,6 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 
 
-
 -- ********************************************************************************
 -- Start of QuestieInit.Stages ******************************************************
 

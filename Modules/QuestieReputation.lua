@@ -1,23 +1,35 @@
 ---@class QuestieReputation
 local QuestieReputation = QuestieLoader:CreateModule("QuestieReputation")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local playerReputations = {}
 
 local _ReachedNewStanding, _WinterSaberChanged
 
+-- Fast local references
+local ExpandFactionHeader, GetNumFactions, GetFactionInfo = ExpandFactionHeader, GetNumFactions, GetFactionInfo
+
 --- Updates all factions a player already discovered and checks if any of these
 --- reached a new reputation level
----@param isInit boolean @
+---@param isInit boolean? @
 function QuestieReputation:Update(isInit)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieReputation: Update")
     ExpandFactionHeader(0) -- Expand all header
 
     local factionChanged = false
+    local newFaction = false
 
     for i=1, GetNumFactions() do
         local name, _, standingId, _, _, barValue, _, _, isHeader, _, _, _, _, factionID, _, _ = GetFactionInfo(i)
         if not isHeader then
             local previousValues = playerReputations[factionID]
+            if (not previousValues) then
+                --? Reset all autoBlacklisted quests if a faction gets discovered
+                QuestieQuest.ResetAutoblacklistCategory("rep")
+                newFaction = true
+            end
+
             playerReputations[factionID] = {standingId, barValue}
 
             if (not isInit) and (
@@ -29,7 +41,7 @@ function QuestieReputation:Update(isInit)
         end
     end
 
-    return factionChanged
+    return factionChanged, newFaction
 end
 
 ---@return boolean
@@ -51,30 +63,51 @@ function QuestieReputation:GetPlayerReputations()
     return playerReputations
 end
 
---- Checkout https://github.com/Questie/Questie/wiki/Corrections#reputation-levels for more information
-function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
-    local hasMinRep = true -- the player has reached the min required reputation value
-    local hasMaxRep = true -- the player has not reached the max allowed reputation value
+---@param requiredMinRep { [1]: number, [2]: number }? [1] = factionId, [2] = repValue
+---@param requiredMaxRep { [1]: number, [2]: number }? [1] = factionId, [2] = repValue
+---@return boolean AboveMinRep
+---@return boolean HasMinFaction
+---@return boolean BelowMaxRep
+---@return boolean HasMaxFaction
+function QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+    local aboveMinRep = false -- the player has reached the min required reputation value
+    local belowMaxRep = false -- the player has not reached the max allowed reputation value
+    local hasMinFaction = false
+    local hasMaxFaction = false
 
-    if requiredMinRep ~= nil then
+    if requiredMinRep then
         local minFactionID = requiredMinRep[1]
         local reqMinValue = requiredMinRep[2]
 
-        if playerReputations[minFactionID] ~= nil then
-            hasMinRep = playerReputations[minFactionID][2] >= reqMinValue
-        else
-            hasMinRep = false
+        if playerReputations[minFactionID] then
+            hasMinFaction = true
+            aboveMinRep = playerReputations[minFactionID][2] >= reqMinValue
         end
+    else
+        -- If requiredMinRep is nil, we don't care about the reputation aka it fullfils it
+        aboveMinRep = true
+        hasMinFaction = true
     end
-    if requiredMaxRep ~= nil then
+    if requiredMaxRep then
         local maxFactionID = requiredMaxRep[1]
         local reqMaxValue = requiredMaxRep[2]
 
-        if playerReputations[maxFactionID] ~= nil then
-            hasMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
-        else
-            hasMaxRep = false
+        if playerReputations[maxFactionID] then
+            hasMaxFaction = true
+            belowMaxRep = playerReputations[maxFactionID][2] < reqMaxValue
         end
+    else
+        -- If requiredMaxRep is nil, we don't care about the reputation aka it fullfils it
+        belowMaxRep = true
+        hasMaxFaction = true
     end
-    return hasMinRep and hasMaxRep
+    return aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction
+end
+
+--- Checkout https://github.com/Questie/Questie/wiki/Corrections#reputation-levels for more information
+---@return boolean HasReputation Is the player within the required reputation ranges specified by the parameters
+function QuestieReputation:HasReputation(requiredMinRep, requiredMaxRep)
+    local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
+
+    return ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))
 end

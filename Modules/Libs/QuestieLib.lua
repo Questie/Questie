@@ -116,7 +116,7 @@ end
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
     local name = QuestieDB.QueryQuestSingle(questId, "name");
-    local level, _ = QuestieLib:GetTbcLevel(questId);
+    local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
@@ -126,7 +126,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     end
 
     if showState then
-        local isComplete = QuestieDB:IsComplete(questId)
+        local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
             name = name .. " (" .. l10n("Failed") .. ")"
@@ -135,7 +135,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         end
     end
 
-    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB:IsRepeatable(questId))
+    return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId))
 end
 
 function QuestieLib:GetRandomColor(randomSeed)
@@ -152,7 +152,7 @@ end
 ---@param level number @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetQuestString(questId, name, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
+    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
     if questType and questTag then
         local char = "+"
@@ -190,29 +190,32 @@ end
 
 --- There are quests in TBC which have a quest level of -1. This indicates that the quest level is the
 --- same as the player level. This function should be used whenever accessing the quest or required level.
----@param questId number
----@return number, number @questLevel & requiredLevel
-function QuestieLib:GetTbcLevel(questId)
+---@param questId QuestId
+---@param playerLevel Level? ---@ PlayerLevel, if nil we fetch current level
+---@return Level questLevel, Level requiredLevel @questLevel & requiredLevel
+function QuestieLib.GetTbcLevel(questId, playerLevel)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
-        local playerLevel = QuestiePlayer.GetPlayerLevel();
-        if (requiredLevel > playerLevel) then
+        local level = playerLevel or QuestiePlayer.GetPlayerLevel();
+        if (requiredLevel > level) then
             questLevel = requiredLevel;
         else
-            questLevel = playerLevel;
+            questLevel = level;
             -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
-            requiredLevel = playerLevel;
+            requiredLevel = level;
         end
     end
     return questLevel, requiredLevel;
 end
 
----@param questId number
----@param level number @The quest level
+---@param questId QuestId
+---@param level Level @The quest level
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
+---@return string levelString @String of format "[40+]"
 function QuestieLib:GetLevelString(questId, _, level, blizzLike)
-    local questType, questTag = QuestieDB:GetQuestTagInfo(questId)
+    local questType, questTag = QuestieDB.GetQuestTagInfo(questId)
 
+    local retLevel = tostring(level)
     if questType and questTag then
         local char = "+"
         if (not blizzLike) then
@@ -221,30 +224,30 @@ function QuestieLib:GetLevelString(questId, _, level, blizzLike)
 
         local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
         if questType == 1 then
-            level = "[" .. level .. "+" .. "] " -- Elite quest
+            retLevel = "[" .. retLevel .. "+" .. "] " -- Elite quest
         elseif questType == 81 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "D"
             end
-            level = "[" .. level .. char .. "] " -- Dungeon quest
+            retLevel = "[" .. retLevel .. char .. "] " -- Dungeon quest
         elseif questType == 62 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
-            level = "[" .. level .. char .. "] " -- Raid quest
+            retLevel = "[" .. retLevel .. char .. "] " -- Raid quest
         elseif questType == 41 then
-            level = "[" .. level .. "] " -- Which one? This is just default.
+            retLevel = "[" .. retLevel .. "] " -- Which one? This is just default.
             -- name = "[" .. level .. questTag .. "] " .. name -- PvP quest
         elseif questType == 83 then
-            level = "[" .. level .. "++" .. "] " -- Legendary quest
+            retLevel = "[" .. retLevel .. "++" .. "] " -- Legendary quest
         else
-            level = "[" .. level .. "] " -- Some other irrelevant type
+            retLevel = "[" .. retLevel .. "] " -- Some other irrelevant type
         end
     else
-        level = "[" .. level .. "] "
+        retLevel = "[" .. retLevel .. "] "
     end
 
-    return level
+    return retLevel
 end
 
 function QuestieLib:GetRaceString(raceMask)
@@ -386,7 +389,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
     end
 
     for q in pairs(quests) do
-        local questLevel, _ = QuestieLib:GetTbcLevel(q);
+        local questLevel, _ = QuestieLib.GetTbcLevel(q);
         tinsert(sortedQuestsByLevel, {questLevel or 0, q})
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
@@ -534,6 +537,28 @@ function QuestieLib.tunpack(tbl)
     end
 
     return recursion(1)
+end
+
+---@alias TableWeakMode
+---| '"v"'        # Weak Value
+---| '"k"'        # Weak Key
+---| '"kv"'       # Weak Value and Weak Key
+---| '""'         # Regular table
+
+---* Memoize a function with a cache
+--! This does not support nil, never input nil into the table
+---@param func function
+---@param __mode TableWeakMode|nil
+---@return table
+function QuestieLib:TableMemoizeFunction(func, __mode)
+    return setmetatable({}, {
+        __index = function(self, k)
+            local v = func(self, k);
+            self[k] = v
+            return v;
+        end,
+        __mode = __mode or ""
+    });
 end
 
 

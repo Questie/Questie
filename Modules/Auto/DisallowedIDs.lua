@@ -111,6 +111,7 @@ _QuestieAuto.disallowedQuests = {
     [6544] = true, -- Torek (Torek's Assault)
     [6641] = true, -- Muglash (Vorsha the Lasher)
     [7046] = true, -- Celebras the Redeemed (The Scepter of Celebras)
+    [7637] = true, -- Emphasis on Sacrifice (Paladin quest)
     [3375] = true,
     [2948] = true,
     [2199] = true,

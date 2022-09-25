@@ -224,7 +224,7 @@ function MapIconTooltip:Show()
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB:IsRepeatable(quest.Id))
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(quest.Id))
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
@@ -441,9 +441,9 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
         tip.type = "(" .. l10n("Complete") .. ")";
     else
 
-        local questType, questTag = QuestieDB:GetQuestTagInfo(icon.data.Id)
+        local questType, questTag = QuestieDB.GetQuestTagInfo(icon.data.Id)
 
-        if (QuestieDB:IsRepeatable(icon.data.Id)) then
+        if (QuestieDB.IsRepeatable(icon.data.Id)) then
             tip.type = "(" .. l10n("Repeatable") .. ")";
         elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)

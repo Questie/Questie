@@ -425,11 +425,11 @@ function _Qframe:ShouldBeHidden()
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
-                or ((not questieCharDB.showRepeatableQuests) and QuestieDB:IsRepeatable(questId))
-                or ((not questieCharDB.showEventQuests) and QuestieDB:IsActiveEventQuest(questId))
-                or ((not questieCharDB.showDungeonQuests) and QuestieDB:IsDungeonQuest(questId))
-                or ((not questieCharDB.showRaidQuests) and QuestieDB:IsRaidQuest(questId))
-                or ((not questieCharDB.showPvPQuests) and QuestieDB:IsPvPQuest(questId))
+                or ((not questieCharDB.showRepeatableQuests) and QuestieDB.IsRepeatable(questId))
+                or ((not questieCharDB.showEventQuests) and QuestieDB.IsActiveEventQuest(questId))
+                or ((not questieCharDB.showDungeonQuests) and QuestieDB.IsDungeonQuest(questId))
+                or ((not questieCharDB.showRaidQuests) and QuestieDB.IsRaidQuest(questId))
+                or ((not questieCharDB.showPvPQuests) and QuestieDB.IsPvPQuest(questId))
                 -- this quest group isn't loaded at all while disabled:
                 -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
                 )

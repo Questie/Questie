@@ -463,6 +463,11 @@ function QuestieMenu:PopulateTownsfolk()
     -- Fix NPC Gubber Blump (10216) can train fishing profession
     tinsert(professionTrainers[QuestieProfessions.professionKeys.FISHING], 10216)
 
+    -- Fix NPC Aresella (18991) can train first aid profession
+    if Questie.IsTBC then
+        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
+    end
+
     Questie.db.global.professionTrainers = professionTrainers
 
     if Questie.IsWotlk then
