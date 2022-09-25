@@ -191,15 +191,17 @@ end
 
 function AchievementTracker.OnClick(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnAchievementClick]")
-    if (not self.achievementId) then
+
+    local achievementId = self.expand.achievementId
+    if (not achievementId) then
         return
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-            ChatEdit_InsertLink(GetAchievementLink(self.achievementId))
+            ChatEdit_InsertLink(GetAchievementLink(achievementId))
         else
-            _Untrack(self.achievementId)
+            _Untrack(achievementId)
         end
 
     --elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
