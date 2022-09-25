@@ -45,6 +45,7 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
     headerLabel:SetPoint("TOPLEFT", header, "TOPLEFT", 0, 0)
     headerLabel:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
 
+    header:SetSize(headerLabel:GetUnboundedStringWidth(), Questie.db.global.trackerFontSizeHeader)
     header.label = headerLabel
     baseFrame.header = header
     lastCreatedLine = header
