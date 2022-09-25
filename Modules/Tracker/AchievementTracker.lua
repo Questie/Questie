@@ -7,6 +7,8 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
@@ -41,7 +43,7 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
     end)
 
     local headerLabel = header:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    headerLabel:SetText("Achievements")
+    headerLabel:SetText(l10n("Achievements"))
     headerLabel:SetPoint("TOPLEFT", header, "TOPLEFT", 0, 0)
     headerLabel:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
 
