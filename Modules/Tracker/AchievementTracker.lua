@@ -37,7 +37,7 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
     header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", headerMarginLeft, -12)
     header:SetScript("OnClick", function()
         Questie.db.char.isAchievementsExpanded = (not Questie.db.char.isAchievementsExpanded)
-        _UpdateTracker()
+        AchievementTracker.Update()
     end)
 
     local headerLabel = header:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -59,7 +59,7 @@ function AchievementTracker.LoadAchievements()
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
         lastCreatedLine = baseFrame.header
-        baseFrame:SetHeight(1)
+        baseFrame:SetHeight(baseFrame.header:GetHeight() + 3)
         baseFrame:Hide()
         return
     end
