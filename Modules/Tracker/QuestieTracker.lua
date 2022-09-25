@@ -1626,7 +1626,7 @@ _GetContinent = function(uiMapId)
 
     local useUiMapId = uiMapId
     local mapInfo = C_Map.GetMapInfo(useUiMapId)
-    while mapInfo.mapType ~= 2 and mapInfo.parentMapID ~= useUiMapId do
+    while mapInfo and mapInfo.mapType ~= 2 and mapInfo.parentMapID ~= useUiMapId do
         useUiMapId = mapInfo.parentMapID
         mapInfo = C_Map.GetMapInfo(useUiMapId)
     end
