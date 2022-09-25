@@ -33,10 +33,19 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
 
     trackedAchievementIds = {GetTrackedAchievements()}
 
-    local header = baseFrame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    header:SetText("Achievements")
+    local header = CreateFrame("Button", "__TEST", trackerBaseFrame);
     header:SetPoint("TOPLEFT", baseFrame, "TOPLEFT", headerMarginLeft, -12)
-    header:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
+    header:SetScript("OnClick", function()
+        Questie.db.char.isAchievementsExpanded = (not Questie.db.char.isAchievementsExpanded)
+        _UpdateTracker()
+    end)
+
+    local headerLabel = header:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    headerLabel:SetText("Achievements")
+    headerLabel:SetPoint("TOPLEFT", header, "TOPLEFT", 0, 0)
+    headerLabel:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeHeader)
+
+    header.label = headerLabel
     baseFrame.header = header
     lastCreatedLine = header
 
