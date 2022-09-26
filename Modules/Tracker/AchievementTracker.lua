@@ -57,11 +57,14 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
 end
 
 function AchievementTracker.LoadAchievements()
-    if (not next(trackedAchievementIds)) or (not Questie.db.char.isAchievementsExpanded) then
+    if (not next(trackedAchievementIds)) or (not Questie.db.char.isAchievementsExpanded) or (not Questie.db.char.isTrackerExpanded) then
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
         lastCreatedLine = baseFrame.header
         baseFrame:SetHeight(baseFrame.header:GetHeight() + 3)
+        if (not Questie.db.char.isTrackerExpanded) then
+            baseFrame.header:Hide()
+        end
         baseFrame:Hide()
         return
     end
