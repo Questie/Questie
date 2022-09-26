@@ -34,6 +34,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{16281}},
             [questKeys.questLevel] = -1,
         },
+        [9247] = {
+            [questKeys.finishedBy] = {{16281}},
+        },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
@@ -57,9 +60,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11120] = {
             [questKeys.startedBy] = {{24657}},
+            [questKeys.finishedBy] = {{24657}},
         },
         [11431] = {
             [questKeys.startedBy] = {{24657}},
+            [questKeys.finishedBy] = {{24657}},
         },
         [11531] = {
             [questKeys.specialFlags] = 1,
@@ -73,6 +78,10 @@ function QuestieWotlkQuestFixes:Load()
         [11157] = {
             [questKeys.objectives] = {{{23777,"Proto-Drake Egg destroyed"}},nil,nil,nil,{{{23688,23750},23688}}},
         },
+        [11170] = {
+            [questKeys.objectives] = {{{24120,"North Fleet Reservist Infected"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Bat Handler Camille"), 0, {{"monster", 23816}}}},
+        },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
@@ -84,6 +93,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11252] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [11282] = {
+            [questKeys.objectives] = {{{24161,"Oric the Baleful's Corpse Impaled"},{24016,"Ulf the Bloodletter's Corpse Impaled"},{24162,"Gunnar Thorvardsson's Corpse Impaled"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Vrykul across the Forsaken blockade until they appear"), 0, {{"monster", 24015}}}},
         },
         [11302] = {
             [questKeys.preQuestSingle] = {11269,11329},

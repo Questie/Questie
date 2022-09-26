@@ -30,6 +30,8 @@ local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ActiveQuestsHeader
 local ActiveQuestsHeader = QuestieLoader:ImportModule("ActiveQuestsHeader")
+---@type AchievementTracker
+local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type TrackerBaseFrame
@@ -96,6 +98,9 @@ function QuestieTracker.Initialize()
     if (not Questie.db.char.collapsedQuests) then
         Questie.db.char.collapsedQuests = {}
     end
+    if (not Questie.db.char.collapsedAchievements) then
+        Questie.db.char.collapsedAchievements = {}
+    end
     if (not Questie.db[Questie.db.global.questieTLoc].TrackerWidth) then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
     end
@@ -111,7 +116,14 @@ function QuestieTracker.Initialize()
 
     --_QuestieTracker.activeQuestsHeader = _QuestieTracker:CreateActiveQuestsHeader()
     _QuestieTracker.activeQuestsHeader = ActiveQuestsHeader.Initialize(_QuestieTracker.baseFrame, _OnTrackedQuestClick)
-    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
+
+    if Questie.IsWotlk then
+        _QuestieTracker.achievementFrame = AchievementTracker.Initialize(_QuestieTracker.baseFrame, QuestieTracker.Update)
+        LinePool.InitializeAchievementLines(_QuestieTracker.achievementFrame, AchievementTracker.OnClick, AchievementTracker.Update)
+        AchievementTracker.LoadAchievements()
+    end
+
+    _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.achievementFrame or _QuestieTracker.activeQuestsHeader)
     LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update)
 
     -- Quest and Item button tables
@@ -123,7 +135,7 @@ function QuestieTracker.Initialize()
         QuestieTracker:HookBaseTracker()
     end
 
-    -- Atach durability frame to the tracker if shown and Sticky Durability Frame is enabled
+    -- Attach durability frame to the tracker if shown and Sticky Durability Frame is enabled
     if not durabilityInitialPosition then
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
@@ -169,23 +181,23 @@ function QuestieTracker.Initialize()
     end)
 end
 
-local function _PositionTrackedQuestsFrame(frm, activeQuestHeader)
+local function _PositionTrackedQuestsFrame(frm, previousFrame)
     if Questie.db.global.trackerHeaderEnabled then
         if Questie.db.global.trackerHeaderAutoMove then
             if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
-                frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -10)
+                frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
             else
                 -- Auto move tracker header to the top
-                frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -(trackerFontSizeHeader+3))
+                frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -(trackerFontSizeHeader+3))
             end
         else
             -- No Automove. Tracker header always up top
-            frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -(trackerFontSizeHeader+5))
+            frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
         end
     else
         -- No header. TrackedQuestsFrame always up top
-        frm:SetPoint("TOPLEFT", activeQuestHeader, "TOPLEFT", 0, -10)
+        frm:SetPoint("TOPLEFT", previousFrame, "BOTTOMLEFT", 0, -10)
     end
 end
 
@@ -980,7 +992,7 @@ function QuestieTracker:Update()
         end
     end
 
-    if not line then
+    if not line then -- TODO: Is this needed?
         line = LinePool.GetLastLine()
     end
 
@@ -1030,13 +1042,13 @@ function QuestieTracker:Update()
             end
         else
             line = LinePool.GetPreviousLine()
-            
+
             if not line then
                 line = LinePool.GetLastLine()
             end
-            
+
             _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + 25) + trackerBottomPadding )
-            
+
         end
 
         _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
@@ -1170,10 +1182,12 @@ _OnTrackedQuestClick = function(self)
     end
     if self.mode == 1 then
         self:SetMode(0)
+        AchievementTracker.Hide()
         Questie.db.char.isTrackerExpanded = false
     else
         self:SetMode(1)
         Questie.db.char.isTrackerExpanded = true
+        AchievementTracker.Show()
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
         _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
         if Questie.db.global.trackerBorderEnabled then
@@ -1405,16 +1419,16 @@ _GetContinent = function(uiMapId)
         return
     end
 
-    if (uiMapId == 947) or (uiMapId == 1459) or (uiMapId == 1460) or (uiMapId == 1461) then
-        return "Azeroth"
-    elseif ((uiMapId >= 1415) and (uiMapId <= 1437)) or (uiMapId == 1453) or (uiMapId == 1455) or (uiMapId == 1458) or (uiMapId == 1463) then
-        return "Eastern Kingdoms"
-    elseif ((uiMapId >= 1411) and (uiMapId <= 1414)) or ((uiMapId >= 1438) and (uiMapId <= 1452)) or (uiMapId == 1454) or (uiMapId == 1456) or (uiMapId == 1457) then
-        return "Kalimdor"
-    elseif uiMapId > 1900 and uiMapId < 2000 then
-        return "Outland"
-    else -- todo: check C_Map.GetMapInfo parent (we need to test that more, this is safe for now)
-        return "Outland" --Questie:Error("[QuestieTracker] " .. uiMapId .. " is an unknown uiMapId")
+    local useUiMapId = uiMapId
+    local mapInfo = C_Map.GetMapInfo(useUiMapId)
+    while mapInfo and mapInfo.mapType ~= 2 and mapInfo.parentMapID ~= useUiMapId do
+        useUiMapId = mapInfo.parentMapID
+        mapInfo = C_Map.GetMapInfo(useUiMapId)
+    end
+    if mapInfo ~= nil then
+        return mapInfo.name
+    else
+        return "UNKNOWN"
     end
 end
 
