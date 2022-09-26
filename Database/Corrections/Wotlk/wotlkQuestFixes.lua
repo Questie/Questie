@@ -350,6 +350,9 @@ function QuestieWotlkQuestFixes:Load()
         [12092] = {
             [questKeys.preQuestSingle] = {12065},
         },
+        [12099] = {
+            [questKeys.objectives] = {{{26417,"Runed Giants Freed"}}},
+        },
         [12107] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_EVENT, l10n("Use Ley Line Focus Control Talisman"),0,{{"object", 188491}}},
