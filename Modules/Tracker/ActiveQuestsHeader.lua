@@ -63,7 +63,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
             self.trackedQuests:Show()
 
             self:SetWidth(self.trackedQuests.label:GetUnboundedStringWidth() + trackerFontSizeHeader)
-            self:SetHeight(trackerFontSizeHeader)
+            self:SetHeight(trackerFontSizeHeader + 5)
             self:Show()
 
             if Questie.db.global.trackerHeaderAutoMove then

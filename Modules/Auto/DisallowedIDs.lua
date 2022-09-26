@@ -190,4 +190,6 @@ _QuestieAuto.disallowedQuests = {
     [8371] = true,
     [8385] = true,
     [64845] = true,
+    --
+    [12174] = true, -- Flies you across Dragonblight
 }

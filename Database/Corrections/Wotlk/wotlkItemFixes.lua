@@ -53,10 +53,22 @@ function QuestieWotlkItemFixes:Load()
         [32379] = {
             [itemKeys.npcDrops] = {20216},
         },
+        [32906] = {
+            [itemKeys.npcDrops] = {23487},
+        },
         [33084] = {
             [itemKeys.npcDrops] = {},
         },
+        [33187] = {
+            [itemKeys.npcDrops] = {},
+        },
+        [33188] = {
+            [itemKeys.npcDrops] = {},
+        },
         [33123] = {
+            [itemKeys.npcDrops] = {},
+        },
+        [33348] = {
             [itemKeys.npcDrops] = {},
         },
         [33355] = {
@@ -64,6 +76,9 @@ function QuestieWotlkItemFixes:Load()
         },
         [33628] = {
             [itemKeys.objectDrops] = {186659,186660,186661},
+        },
+        [34070] = {
+            [itemKeys.npcDrops] = {},
         },
         [34116] = {
             [itemKeys.npcDrops] = {24788},
@@ -112,6 +127,9 @@ function QuestieWotlkItemFixes:Load()
         },
         [36733] = {
             [itemKeys.objectDrops] = {188539},
+        },
+        [36765] = {
+            [itemKeys.npcDrops] = {26809},
         },
         [36852] = {
             [itemKeys.npcDrops] = {},

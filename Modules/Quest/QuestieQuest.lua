@@ -1275,7 +1275,6 @@ end
 do
     local function CalculateAvailableQuests()
         local start = time()
-        print("Start", start)
 
         local questsPerYield = 24
 

@@ -2397,8 +2397,6 @@ l10n.zoneLookup = {
         [4298]="Plaguelands: The Scarlet Enclave",
         [4342]="Acherus: The Ebon Hold",
         [4343]="New Avalon",
-    },
-    [609]={
         [4344]="New Avalon Fields",
         [4345]="New Avalon Orchard",
         [4346]="New Avalon Town Hall",

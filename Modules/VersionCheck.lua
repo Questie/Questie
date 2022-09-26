@@ -49,15 +49,15 @@ Questie._sessionWarnings = {}
 local clientVersion = GetBuildInfo()
 --- Addon is running on Classic Wotlk client
 ---@type boolean
-Questie.IsWotlk = string.byte(clientVersion, 1) == 51
+Questie.IsWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
 --- Addon is running on Classic TBC client
 ---@type boolean
-Questie.IsTBC = string.byte(clientVersion, 1) == 50
+Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 
 --- Addon is running on Classic "Vanilla" client: Means Classic Era and its seasons like SoM
 ---@type boolean
-Questie.IsClassic = string.byte(clientVersion, 1) == 49
+Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 --- Addon is running on Classic "Vanilla" client and on Era realm
 ---@type boolean
