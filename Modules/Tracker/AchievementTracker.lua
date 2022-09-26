@@ -61,9 +61,11 @@ function AchievementTracker.LoadAchievements()
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
         lastCreatedLine = baseFrame.header
-        baseFrame:SetHeight(baseFrame.header:GetHeight() + 3)
-        if (not Questie.db.char.isTrackerExpanded) then
+        if (not next(trackedAchievementIds)) then
+            baseFrame:SetHeight(1)
             baseFrame.header:Hide()
+        else
+            baseFrame:SetHeight(baseFrame.header:GetHeight() + 3)
         end
         baseFrame:Hide()
         return
@@ -78,6 +80,7 @@ function AchievementTracker.LoadAchievements()
 
     baseFrame:SetWidth(trackerLineWidth)
     baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom())
+    baseFrame.header:Show()
     baseFrame:Show()
 end
 
