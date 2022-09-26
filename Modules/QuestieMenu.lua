@@ -493,8 +493,8 @@ function QuestieMenu:PopulateTownsfolk()
 
     Questie.db.global.classSpecificTownsfolk = {}
     Questie.db.global.factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}}
-    
-    
+
+
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
