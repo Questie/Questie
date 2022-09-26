@@ -453,6 +453,9 @@ function QuestieWotlkQuestFixes:Load()
         [12464] = {
             [questKeys.preQuestSingle] = {},
         },
+        [12467] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Wyrmbait and slay Icestorm"),0,{{"monster", 27843}}},},
+        },
         [12470] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected",{[zoneIDs.DRAGONBLIGHT]={{71.57,38.91,},},},},
         },
