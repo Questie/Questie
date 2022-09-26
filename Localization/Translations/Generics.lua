@@ -415,12 +415,12 @@ local genericsLocales = {
         ["ruRU"] = "Достижения",
         ["deDE"] = "Erfolge",
         ["koKR"] = false,
-        ["esMX"] = false,
+        ["esMX"] = "Logros",
         ["enUS"] = true,
         ["zhCN"] = false,
         ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
+        ["esES"] = "Logros",
+        ["frFR"] = "Hauts faits",
     },
 }
 
