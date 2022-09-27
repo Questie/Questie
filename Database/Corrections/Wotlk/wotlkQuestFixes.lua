@@ -330,6 +330,9 @@ function QuestieWotlkQuestFixes:Load()
         [12033] = {
             [questKeys.triggerEnd] = {"Letter from Saurfang read and destroyed",{[zoneIDs.DRAGONBLIGHT]={{37.31,46.66,},},},},
         },
+        [12034] = {
+            [questKeys.preQuestSingle] = {12008},
+        },
         [12035] = {
             [questKeys.objectives] = {{{25623,"Harvest Collector Rewired"},},nil,nil,nil,},
         },
