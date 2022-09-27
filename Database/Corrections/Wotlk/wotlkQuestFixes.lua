@@ -104,6 +104,9 @@ function QuestieWotlkQuestFixes:Load()
         [11314] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Lurielle's Pendant on Chill Nymph"), 0, {{"monster", 23678}}}},
         },
+        [11319] = {
+            [questKeys.objectives] = {{{23876,"Spores frozen"}}},
+        },
         [11332] = {
             [questKeys.preQuestSingle] = {11331},
         },
