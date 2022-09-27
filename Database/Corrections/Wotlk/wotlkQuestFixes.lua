@@ -116,6 +116,12 @@ function QuestieWotlkQuestFixes:Load()
         [11346] = {
             [questKeys.preQuestSingle] = {11269,11329},
         },
+        [11348] = {
+            [questKeys.objectives] = {{{23725,"Test Rune of Command"},{24334}}},
+        },
+        [11352] = {
+            [questKeys.objectives] = {{{23725,"Test Rune of Command"},{24334}}},
+        },
         [11355] = {
             [questKeys.preQuestSingle] = {11269,11329},
             [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
