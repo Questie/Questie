@@ -156,6 +156,12 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
         [495]={{74.9,32.0},{75.5,34.1},},
       },
     },
+    --* Westguard Sergeant https://www.wowhead.com/wotlk/npc=24060
+    [24060] = {
+      [npcKeys.spawns] = {
+        [495]={{45.2,27.3}},
+      },
+    },
     --* Winterhoof Brave https://www.wowhead.com/wotlk/npc=24130
     [24130] = {
       [npcKeys.spawns] = {
