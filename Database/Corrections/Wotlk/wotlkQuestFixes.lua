@@ -79,13 +79,16 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
         [11246] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{23666,23662,23661,223664,23663,23665,23667,23670,23668,23669},23666,"Winterskorn Vrykul Dismembered"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
         },
         [11249] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension"), 0, {{"object", 186586}}}},
         },
         [11252] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [11257] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
         },
         [11280] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Place Tillinghast's Plagued Meat on the ground"), 0, {{"monster", 24170}}}},
