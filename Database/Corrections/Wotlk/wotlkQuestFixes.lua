@@ -184,6 +184,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
         },
         [11574] = {
+            [questKeys.preQuestSingle] = {11595,11596,11597},
             [questKeys.exclusiveTo] = {11587},
         },
         [11575] = {
