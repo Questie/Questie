@@ -156,6 +156,12 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
         [495]={{74.9,32.0},{75.5,34.1},},
       },
     },
+    --* North Fleet Reservist https://www.wowhead.com/wotlk/npc=24120
+    [24120] = {
+      [npcKeys.spawns] = {
+        [495]={{86.7,59.2}},
+      },
+    },
     --* Plaguehound Tracker https://www.wowhead.com/wotlk/npc=24156
     [24156] = {
       [npcKeys.spawns] = {
