@@ -261,6 +261,9 @@ function QuestieWotlkQuestFixes:Load()
         [11878] = {
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },
+        [11888] = {
+            [questKeys.preQuestSingle] = {11595,11596,11597},
+        },
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
         },
