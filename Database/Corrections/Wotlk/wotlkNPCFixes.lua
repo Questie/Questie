@@ -168,6 +168,12 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
         [495]={{37.9,52.5},{40.0,50.3},{42.4,53.1},},
       },
     },
+    --* Draconis Gastritis Bunny https://www.wowhead.com/wotlk/npc=24170
+    [24170] = {
+      [npcKeys.spawns] = {
+        [495]={{39.2,50.2},},
+      },
+    },
     --* Frostgore https://www.wowhead.com/wotlk/npc=24173
     [24173] = {
       [npcKeys.spawns] = {
