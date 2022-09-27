@@ -204,6 +204,9 @@ function QuestieWotlkQuestFixes:Load()
         [11594] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11596] = {
+            [questKeys.preQuestSingle] = {11586},
+        },
         [11652] = {
             [questKeys.triggerEnd] = {"Scourge Leader identified",{[zoneIDs.BOREAN_TUNDRA]={{36.41,63.52,},},},},
         },
