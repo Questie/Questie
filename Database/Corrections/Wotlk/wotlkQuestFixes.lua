@@ -481,6 +481,9 @@ function QuestieWotlkQuestFixes:Load()
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
         },
+        [12486] = {
+            [questKeys.preQuestSingle] = {11595,11596,11597},
+        },
         [12503] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
