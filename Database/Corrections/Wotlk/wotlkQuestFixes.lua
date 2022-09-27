@@ -106,6 +106,12 @@ function QuestieWotlkQuestFixes:Load()
         [11302] = {
             [questKeys.preQuestSingle] = {11269,11329},
         },
+        [11306] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.HOWLING_FJORD]={{53.65,66.50},},}, ICON_TYPE_OBJECT, l10n("Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"),0},
+                {{[zoneIDs.HOWLING_FJORD]={{53.49,66.23},},}, ICON_TYPE_OBJECT, l10n("Mix the Flask of Vrykul Blood with Harris's Plague Samples"),1},
+            },
+        },
         [11314] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Lurielle's Pendant on Chill Nymph"), 0, {{"monster", 23678}}}},
         },
