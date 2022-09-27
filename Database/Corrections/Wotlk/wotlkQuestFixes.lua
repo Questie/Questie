@@ -170,6 +170,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11472] = {
             [questKeys.triggerEnd] = {"Reef Bull led to a Reef Cow",{[zoneIDs.HOWLING_FJORD]={{31.16,71.63,},},},},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
         },
         [11478] = {
             [questKeys.exclusiveTo] = {11448},
