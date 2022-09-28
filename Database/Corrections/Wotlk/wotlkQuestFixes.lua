@@ -813,6 +813,16 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13422] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
+            [questKeys.exclusiveTo] = {13423,13424,13425},
+        },
+        [13423] = {
+            [questKeys.exclusiveTo] = {13422,13424,13425},
+        },
+        [13424] = {
+            [questKeys.exclusiveTo] = {13422,13423,13425},
+        },
+        [13425] = {
+            [questKeys.exclusiveTo] = {13422,13423,13424},
         },
         [13427] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
