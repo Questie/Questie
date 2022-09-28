@@ -525,6 +525,9 @@ function QuestieWotlkQuestFixes:Load()
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
         },
+        [12516] = {
+            [questKeys.objectives] = {{{28068}}},
+        },
         [12532] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
         },
