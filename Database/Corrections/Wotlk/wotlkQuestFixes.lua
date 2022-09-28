@@ -466,6 +466,9 @@ function QuestieWotlkQuestFixes:Load()
         [12269] = {
             [questKeys.preQuestSingle] = {12275},
         },
+        [12273] = {
+            [questKeys.objectives] = {{{28556,"Commander Jordan's denouncement & death"},{27235,"Lead Cannoneer Zierhut's denouncement & death"},{27234,"Blacksmith Goodman's denouncement & death"},{27236,"Stable Master Mercer's denouncement & death"}}},
+        },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
             [questKeys.exclusiveTo] = {12157},
