@@ -115,6 +115,9 @@ function QuestieWotlkQuestFixes:Load()
         [11307] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23564,24198,24199},23564,"Plagued Vrykul Sprayed"}}},
         },
+        [11310] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23564,24198,24199},23564,"Plagued Vrykul exterminated"}}},
+        },
         [11314] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Lurielle's Pendant on Chill Nymph"), 0, {{"monster", 23678}}}},
         },
