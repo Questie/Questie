@@ -811,6 +811,9 @@ function QuestieWotlkQuestFixes:Load()
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
         },
+        [13422] = {
+            [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
+        },
         [13427] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
