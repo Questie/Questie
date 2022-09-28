@@ -39,6 +39,10 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [23954] = {
+          [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
+          [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+        },
         [24060] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
         },
