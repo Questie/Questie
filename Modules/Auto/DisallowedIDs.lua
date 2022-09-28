@@ -192,4 +192,7 @@ _QuestieAuto.disallowedQuests = {
     [64845] = true,
     --
     [12174] = true, -- Flies you across Dragonblight
+    [12567] = true, -- Blessing of Zim'Abwa repeatable
+    [12618] = true, -- Blessing of Zim'Torga repeatable
+    [12656] = true, -- Blessing of Zim'Rhuk repeatable
 }
