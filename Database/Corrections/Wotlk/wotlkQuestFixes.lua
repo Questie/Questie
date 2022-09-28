@@ -205,6 +205,9 @@ function QuestieWotlkQuestFixes:Load()
         [11495] = {
             [questKeys.triggerEnd] = {"Thundering Cave investigated",{[zoneIDs.HOWLING_FJORD]={{71.5,69.75,},},},},
         },
+        [11529] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{37.2,74.8}}}, ICON_TYPE_OBJECT, l10n("Use The Big Gun at the front of the ship to slay Sorlof"),0,{{"monster", 24992}}}},
+        },
         [11531] = {
             [questKeys.specialFlags] = 1,
         },
