@@ -528,6 +528,10 @@ function QuestieWotlkQuestFixes:Load()
         [12516] = {
             [questKeys.objectives] = {{{28068}}},
         },
+        [12527] = {
+            [questKeys.requiredSourceItems] = {38380},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Feed with Zul'Drak Rat"), 0, {{"monster", 28145}}}},
+        },
         [12532] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
         },

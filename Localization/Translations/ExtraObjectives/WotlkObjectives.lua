@@ -626,6 +626,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Feed it with Zul'Drak Rat"] = { -- 12527
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Füttere es mit Zul'Drak Ratten",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(wotlkObjectiveLocales) do
