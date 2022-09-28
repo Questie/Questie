@@ -809,6 +809,9 @@ function QuestieWotlkQuestFixes:Load()
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
         },
+        [13836] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
+        },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
         },
