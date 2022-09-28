@@ -75,6 +75,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{24120,"North Fleet Reservist Infected"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Bat Handler Camille"), 0, {{"monster", 23816}}}},
         },
+        [11175] = {
+            [questKeys.preQuestSingle] = {11176},
+        },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
