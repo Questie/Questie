@@ -62,13 +62,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},
         },
-        [11431] = {
-            [questKeys.startedBy] = {{24657}},
-            [questKeys.finishedBy] = {{24657}},
-        },
-        [11531] = {
-            [questKeys.specialFlags] = 1,
-        },
         [11153] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42,2}}}, ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
         },
@@ -86,7 +79,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
         [11246] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{23666,23662,23661,223664,23663,23665,23667,23670,23668,23669},23666,"Winterskorn Vrykul Dismembered"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
         },
         [11249] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension"), 0, {{"object", 186586}}}},
@@ -94,12 +87,33 @@ function QuestieWotlkQuestFixes:Load()
         [11252] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11257] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
+        },
+        [11280] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Place Tillinghast's Plagued Meat on the ground"), 0, {{"monster", 24170}}}},
+        },
         [11282] = {
             [questKeys.objectives] = {{{24161,"Oric the Baleful's Corpse Impaled"},{24016,"Ulf the Bloodletter's Corpse Impaled"},{24162,"Gunnar Thorvardsson's Corpse Impaled"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Vrykul across the Forsaken blockade until they appear"), 0, {{"monster", 24015}}}},
         },
+        [11296] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Break Riven Widow Cocoons to free captives"), 0, {{"monster", 24210}}}},
+        },
+        [11301] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
+        },
         [11302] = {
             [questKeys.preQuestSingle] = {11269,11329},
+        },
+        [11306] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.HOWLING_FJORD]={{53.65,66.50},},}, ICON_TYPE_OBJECT, l10n("Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"),0},
+                {{[zoneIDs.HOWLING_FJORD]={{53.49,66.23},},}, ICON_TYPE_OBJECT, l10n("Mix the Flask of Vrykul Blood with Harris's Plague Samples"),1},
+            },
+        },
+        [11307] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{23564,24198,24199},23564,"Plagued Vrykul Sprayed"}}},
         },
         [11314] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Lurielle's Pendant on Chill Nymph"), 0, {{"monster", 23678}}}},
@@ -132,6 +146,9 @@ function QuestieWotlkQuestFixes:Load()
         [11358] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
         },
+        [11365] = {
+            [questKeys.objectives] = {{{24329,"Runed Stone Giant Corpse Analyzed"},},nil,nil,nil,},
+        },
         [11366] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
         },
@@ -153,6 +170,10 @@ function QuestieWotlkQuestFixes:Load()
         [11429] = {
             [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
         },
+        [11431] = {
+            [questKeys.startedBy] = {{24657}},
+            [questKeys.finishedBy] = {{24657}},
+        },
         [11436] = {
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
         },
@@ -167,6 +188,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11472] = {
             [questKeys.triggerEnd] = {"Reef Bull led to a Reef Cow",{[zoneIDs.HOWLING_FJORD]={{31.16,71.63,},},},},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
         },
         [11478] = {
             [questKeys.exclusiveTo] = {11448},
@@ -179,6 +201,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11495] = {
             [questKeys.triggerEnd] = {"Thundering Cave investigated",{[zoneIDs.HOWLING_FJORD]={{71.5,69.75,},},},},
+        },
+        [11531] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [11567] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ask Alanya for transportation"),0,{{"monster", 27933}}}},
         },
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
@@ -424,6 +452,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12264] = {
             [questKeys.preQuestSingle] = {12263},
+            [questKeys.objectives] = {{{27358},{27362},{27363}}},
         },
         [12265] = {
             [questKeys.preQuestSingle] = {12263},

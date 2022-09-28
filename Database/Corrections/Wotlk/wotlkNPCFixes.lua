@@ -156,6 +156,24 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
         [495]={{74.9,32.0},{75.5,34.1},},
       },
     },
+    --* Westguard Sergeant https://www.wowhead.com/wotlk/npc=24060
+    [24060] = {
+      [npcKeys.spawns] = {
+        [495]={{45.2,27.3}},
+      },
+    },
+    --* Winterhoof Brave https://www.wowhead.com/wotlk/npc=24130
+    [24130] = {
+      [npcKeys.spawns] = {
+        [495]={{45.2,27.3}},
+      },
+    },
+    --* North Fleet Reservist https://www.wowhead.com/wotlk/npc=24120
+    [24120] = {
+      [npcKeys.spawns] = {
+        [495]={{86.7,59.2}},
+      },
+    },
     --* Plaguehound Tracker https://www.wowhead.com/wotlk/npc=24156
     [24156] = {
       [npcKeys.spawns] = {
@@ -166,6 +184,12 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
     [24160] = {
       [npcKeys.spawns] = {
         [495]={{37.9,52.5},{40.0,50.3},{42.4,53.1},},
+      },
+    },
+    --* Draconis Gastritis Bunny https://www.wowhead.com/wotlk/npc=24170
+    [24170] = {
+      [npcKeys.spawns] = {
+        [495]={{39.2,50.2},},
       },
     },
     --* Frostgore https://www.wowhead.com/wotlk/npc=24173
