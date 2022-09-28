@@ -1069,6 +1069,7 @@ function QuestieQuestBlacklist:Load()
         [11585] = true, -- Duplicate of 11586
         [11595] = true, -- Duplicate of 11596 and 11597 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [11597] = true, -- Duplicate of 11595 and 11596 (not entirely a duplicate but this is the easiest way to hide multiple quests)
+        [12932] = true, -- Duplicate of 12954 (not entirely a duplicate but this is the easiest way to hide multiple quests)
 
         [9320] = QuestieCorrections.WOTLK_ONLY,
         [9333] = QuestieCorrections.WOTLK_ONLY,
