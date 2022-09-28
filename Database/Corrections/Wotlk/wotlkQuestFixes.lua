@@ -711,6 +711,9 @@ function QuestieWotlkQuestFixes:Load()
         [12981] = {
             [questKeys.preQuestSingle] = {12967},
         },
+        [12985] = {
+            [questKeys.preQuestSingle] = {12976},
+        },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
         },
