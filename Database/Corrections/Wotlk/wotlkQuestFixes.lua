@@ -76,7 +76,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Bat Handler Camille"), 0, {{"monster", 23816}}}},
         },
         [11175] = {
-            [questKeys.preQuestSingle] = {11176},
+            [questKeys.exclusiveTo] = {11176},
         },
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
@@ -238,6 +238,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11596] = {
             [questKeys.preQuestSingle] = {11586},
+        },
+        [11606] = {
+            [questKeys.preQuestSingle] = {11595,11596,11597},
         },
         [11652] = {
             [questKeys.triggerEnd] = {"Scourge Leader identified",{[zoneIDs.BOREAN_TUNDRA]={{36.41,63.52,},},},},
