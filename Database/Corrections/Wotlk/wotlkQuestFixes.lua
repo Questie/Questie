@@ -732,6 +732,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13036},
         },
         [13047] = {
+            [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
         [13141] = {
