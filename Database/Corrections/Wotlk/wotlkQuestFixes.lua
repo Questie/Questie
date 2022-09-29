@@ -149,10 +149,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11269,11329},
         },
         [11348] = {
-            [questKeys.objectives] = {{{23725,"Test Rune of Command"},{24334}}},
+            [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
         },
         [11352] = {
-            [questKeys.objectives] = {{{23725,"Test Rune of Command"},{24334}}},
+            [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
         },
         [11355] = {
             [questKeys.preQuestSingle] = {11269,11329},
