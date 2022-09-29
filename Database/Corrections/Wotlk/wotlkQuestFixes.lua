@@ -289,6 +289,24 @@ function QuestieWotlkQuestFixes:Load()
         [11798] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use The Gearmaster's Manual"),0,{{"object", 190334}}}},
         },
+        [11865] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187995}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187996}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187997}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187998}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187999}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188000}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188001}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188002}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188003}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188004}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188005}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188006}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188007}}},
+                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188008}}},
+            },
+        },
         [11878] = {
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },
