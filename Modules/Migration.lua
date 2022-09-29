@@ -138,7 +138,9 @@ local migrationFunctions = {
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end,
     [14] = function()
-        Questie.db.char.isAchievementsExpanded = true
+        if Questie.db.char.isAchievementsExpanded == nil then
+            Questie.db.char.isAchievementsExpanded = true
+        end
     end
 }
 

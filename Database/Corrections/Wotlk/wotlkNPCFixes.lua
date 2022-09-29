@@ -39,6 +39,26 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [23954] = {
+          [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
+          [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+        },
+        [24060] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
+        },
+        [24120] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{86.7,59.2}}},
+        },
+        [24130] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
+        },
+        [24137] = {
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
+            [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+        },
+        [24170] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{39.2,50.2},}},
+        },
         [24329] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{72,26.4},{70.3,27.3},{68.7,28.1},{66.5,24.9},{69.7,21.5},{72.6,19.9},{73.6,23.1}},
@@ -114,6 +134,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30382] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
+        },
+        [31134] = {
+            [npcKeys.spawns] = {[zoneIDs.VIOLET_HOLD] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.VIOLET_HOLD,
         },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},

@@ -57,11 +57,16 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
 end
 
 function AchievementTracker.LoadAchievements()
-    if (not next(trackedAchievementIds)) or (not Questie.db.char.isAchievementsExpanded) then
+    if (not next(trackedAchievementIds)) or (not Questie.db.char.isAchievementsExpanded) or (not Questie.db.char.isTrackerExpanded) then
         -- No achievements are currently tracked
         LinePool.HideUnusedAchievementLines()
         lastCreatedLine = baseFrame.header
-        baseFrame:SetHeight(baseFrame.header:GetHeight() + 3)
+        if (not next(trackedAchievementIds)) then
+            baseFrame:SetHeight(1)
+            baseFrame.header:Hide()
+        else
+            baseFrame:SetHeight(baseFrame.header:GetHeight() + 3)
+        end
         baseFrame:Hide()
         return
     end
@@ -75,6 +80,7 @@ function AchievementTracker.LoadAchievements()
 
     baseFrame:SetWidth(trackerLineWidth)
     baseFrame:SetHeight(baseFrame:GetTop() - lastCreatedLine:GetBottom())
+    baseFrame.header:Show()
     baseFrame:Show()
 end
 
@@ -92,8 +98,11 @@ function AchievementTracker.Hide()
 end
 
 function AchievementTracker.Show()
-    baseFrame.header:Show()
-    baseFrame:Show()
+    trackedAchievementIds = {GetTrackedAchievements()}
+    if next(trackedAchievementIds) then
+        baseFrame.header:Show()
+        baseFrame:Show()
+    end
 end
 
 ---Creates the required frames to display an Achievement name and its criteria
