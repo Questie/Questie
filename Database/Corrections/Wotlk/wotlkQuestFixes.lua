@@ -565,6 +565,9 @@ function QuestieWotlkQuestFixes:Load()
         [12537] = {
             [questKeys.triggerEnd] = {"Sabotage the Mistwhisper Weather Shrine",{[zoneIDs.SHOLAZAR_BASIN]={{45.23,37.1,},},},},
         },
+        [12561] = {
+            [questKeys.objectives] = {{{28101,28641},{28108}}},
+        },
         [12570] = {
             [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{53.59,56.76,},},},},
         },
