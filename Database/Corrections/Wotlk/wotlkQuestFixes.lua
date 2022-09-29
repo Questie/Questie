@@ -251,6 +251,12 @@ function QuestieWotlkQuestFixes:Load()
         [11670] = {
             [questKeys.objectives] = {{{25430,"Warsong Banner Planted in Magmothregar"},},nil,{{34870,nil},},nil,},
         },
+        [11671] = {
+            [questKeys.extraObjectives] = {
+				{nil, ICON_TYPE_SLAY, l10n("Kill Inquisitor Salrand"), 0, {{"monster", 25584}}},
+                {{[zoneIDs.BOREAN_TUNDRA]={{41.8,39.1}}}, ICON_TYPE_EVENT, l10n("Use Beryl Shield Detonator"),},
+            },
+        },
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
         },
