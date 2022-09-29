@@ -269,7 +269,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11671] = {
             [questKeys.extraObjectives] = {
-				{nil, ICON_TYPE_SLAY, l10n("Kill Inquisitor Salrand"), 0, {{"monster", 25584}}},
+                {nil, ICON_TYPE_SLAY, l10n("Kill Inquisitor Salrand"), 0, {{"monster", 25584}}},
                 {{[zoneIDs.BOREAN_TUNDRA]={{41.8,39.1}}}, ICON_TYPE_EVENT, l10n("Use Beryl Shield Detonator"),},
             },
         },
