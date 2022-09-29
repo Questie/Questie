@@ -39,6 +39,10 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [23954] = {
+          [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
+          [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+        },
         [24060] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
         },
@@ -47,6 +51,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [24130] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
+        },
+        [24137] = {
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
+            [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
         },
         [24170] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{39.2,50.2},}},
@@ -109,6 +117,10 @@ function QuestieWotlkNpcFixes:Load()
         [28026] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
         },
+        [28070] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE]={{-1,-1},{67.43,49.53}},},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_STONE,
+        },
         [28083] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
         },
@@ -124,8 +136,16 @@ function QuestieWotlkNpcFixes:Load()
         [30082] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
         },
+        [30295] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{56.3,51.4},},},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
         [30382] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
+        },
+        [31134] = {
+            [npcKeys.spawns] = {[zoneIDs.VIOLET_HOLD] = {{-1,-1},},},
+            [npcKeys.zoneID] = zoneIDs.VIOLET_HOLD,
         },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},
