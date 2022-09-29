@@ -98,6 +98,7 @@ function AchievementTracker.Hide()
 end
 
 function AchievementTracker.Show()
+    trackedAchievementIds = {GetTrackedAchievements()}
     if next(trackedAchievementIds) then
         baseFrame.header:Show()
         baseFrame:Show()
