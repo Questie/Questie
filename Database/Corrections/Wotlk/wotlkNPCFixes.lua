@@ -59,6 +59,9 @@ function QuestieWotlkNpcFixes:Load()
         [24170] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{39.2,50.2},}},
         },
+        [24173] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{52.4,3.9},}},
+        },
         [24329] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{72,26.4},{70.3,27.3},{68.7,28.1},{66.5,24.9},{69.7,21.5},{72.6,19.9},{73.6,23.1}},
@@ -80,6 +83,10 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.HOWLING_FJORD] = {{38.1, 74.8}},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [25455] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{50.25,9.66},},},
+            [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
         [25794] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
