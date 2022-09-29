@@ -316,6 +316,9 @@ function QuestieWotlkQuestFixes:Load()
         [11878] = {
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },
+        [11887] = {
+            [questKeys.objectives] = {nil,nil,{{35276}}},
+        },
         [11888] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
