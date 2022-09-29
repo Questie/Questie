@@ -713,6 +713,9 @@ function QuestieWotlkQuestFixes:Load()
         [13047] = {
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
+        [13110] = {
+            [questKeys.objectives] = {{{30202,"Restless Soul Freed"}}},
+        },
         [13141] = {
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[3711]={{80.06,71.81,},},},},
         },
