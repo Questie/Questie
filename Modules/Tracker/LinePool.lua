@@ -416,21 +416,25 @@ end
 
 function LinePool.HideUnusedLines()
     for i = lineIndex + 1, poolSize do
-        linePool[i]:Hide()
-        linePool[i].mode = nil
-        linePool[i].Quest = nil
-        linePool[i].Objective = nil
-        linePool[i].expandQuest.mode = nil
-        linePool[i].expandZone.mode = nil
+        if linePool[i] then -- Safe Guard to really concurrent triggeres
+            linePool[i]:Hide()
+            linePool[i].mode = nil
+            linePool[i].Quest = nil
+            linePool[i].Objective = nil
+            linePool[i].expandQuest.mode = nil
+            linePool[i].expandZone.mode = nil
+        end
     end
 end
 
 function LinePool.HideUnusedAchievementLines()
     for i = achievementLineIndex + 1, achievementPoolSize do
-        achievementLinePool[i]:Hide()
-        achievementLinePool[i].mode = nil
-        achievementLinePool[i].expand.achievementId = nil
-        achievementLinePool[i].expand.mode = nil
+        if achievementLinePool[i] then -- Safe Guard to really concurrent triggeres
+            achievementLinePool[i]:Hide()
+            achievementLinePool[i].mode = nil
+            achievementLinePool[i].expand.achievementId = nil
+            achievementLinePool[i].expand.mode = nil
+        end
     end
 end
 
