@@ -747,10 +747,12 @@ function QuestieWotlkQuestFixes:Load()
         [13240] = {
             [questKeys.startedBy] = {{31439},nil,nil},
             [questKeys.finishedBy] = {{31439},nil,nil},
+            [questKeys.exclusiveTo] = {13241,13243,13244},
         },
         [13241] = {
             [questKeys.startedBy] = {{31439},nil,nil},
             [questKeys.finishedBy] = {{31439},nil,nil},
+            [questKeys.exclusiveTo] = {13240,13243,13244},
         },
         [13242] = {
             [questKeys.preQuestSingle] = {12500},
@@ -758,10 +760,12 @@ function QuestieWotlkQuestFixes:Load()
         [13243] = {
             [questKeys.startedBy] = {{31439},nil,nil},
             [questKeys.finishedBy] = {{31439},nil,nil},
+            [questKeys.exclusiveTo] = {13240,13241,13244},
         },
         [13244] = {
             [questKeys.startedBy] = {{31439},nil,nil},
             [questKeys.finishedBy] = {{31439},nil,nil},
+            [questKeys.exclusiveTo] = {13240,13241,13243},
         },
         [13245] = {
             [questKeys.startedBy] = {{20735},nil,nil},
