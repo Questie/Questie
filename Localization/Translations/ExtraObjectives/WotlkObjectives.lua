@@ -530,6 +530,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Fish for Corroded Jewelry"] = { -- 13832
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Angel nach Korrodierter Schmuck",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"] = { -- 11306
         ["ptBR"] = false,
         ["ruRU"] = false,
