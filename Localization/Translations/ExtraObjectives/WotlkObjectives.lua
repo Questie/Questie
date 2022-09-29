@@ -26,18 +26,6 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = "將爆竹扔在最遠20碼以外的暗爪蝙蝠下方以驚嚇它。",
         ["zhCN"] = "将爆竹扔在最远20码以外的暗爪蝙蝠下方以惊吓它。",
     },
-    ["Use Lurielle's Pendant on Chill Nymph"] = { -- 11314
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = "Benutze Lurielles Anhänger an Eisnymphe",
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = "对冰冷树妖使用鲁莉尔蕾的坠饰",
-    },
     ["Use Feathered Charm on Steelfeather"] = { -- 11418
         ["ptBR"] = false,
         ["ruRU"] = false,
