@@ -10,10 +10,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
---- There are quests 
-local function _LoadReversedKillCredits()
-    QuestieCorrections.reversedKillCreditQuestIDs[12561] = true
-end
+
+QuestieCorrections.reversedKillCreditQuestIDs[12561] = true
 
 function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
@@ -21,8 +19,6 @@ function QuestieWotlkQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
-
-    _LoadReversedKillCredits()
 
     return {
         [1198] = {
