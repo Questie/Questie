@@ -305,21 +305,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use The Gearmaster's Manual"),0,{{"object", 190334}}}},
         },
         [11865] = {
-            [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187995}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187996}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187997}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187998}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187999}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188000}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188001}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188002}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188003}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188004}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188005}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188006}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188007}}},
-                {nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 188008}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187995},{"object", 187996},{"object", 187997},{"object", 187998},{"object", 187999},{"object", 188000},{"object", 188001},{"object", 188002},{"object", 188003},{"object", 188004},{"object", 188005},{"object", 188006},{"object", 188007},{"object", 188008}}},
             },
         },
         [11878] = {
