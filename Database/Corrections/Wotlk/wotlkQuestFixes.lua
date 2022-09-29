@@ -674,6 +674,12 @@ function QuestieWotlkQuestFixes:Load()
         [12864] = {
             [questKeys.triggerEnd] = {"Locate Missing Scout",{[zoneIDs.STORM_PEAKS]={{37.68,66.75},{38.49,77.19},{31.65,64.53},{34.56,64.64},{36.43,77.3},},},},
         },
+        [12887] = {
+            [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
+        },
+        [12892] = {
+            [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
+        },
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
         },
