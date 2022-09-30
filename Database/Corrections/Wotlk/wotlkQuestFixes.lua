@@ -344,7 +344,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
         },
         [11896] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Robots weakened and destroyed"),0,{{"monster", 25752},{"monster", 25753},{"monster", 25758}}},},
+			[questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
         },
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
