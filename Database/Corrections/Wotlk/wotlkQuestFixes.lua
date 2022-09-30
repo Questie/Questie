@@ -772,9 +772,25 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12987] = {
             [questKeys.name] = "Placing Hodir's Helm",
+            [questKeys.requiredMinRep] = {1119,3000},
+        },
+        [12994] = {
+            [questKeys.name] = "Forging Hodir's Spear",
+            [questKeys.requiredMinRep] = {1119,9000},
         },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
+        },
+        [13001] = {
+            [questKeys.preQuestSingle] = {12994},
+        },
+        [13003] = {
+            [questKeys.name] = "How To Slay Your Dragon",
+            [questKeys.preQuestSingle] = {13001},
+        },
+        [13006] = {
+            [questKeys.name] = "A Viscous Cleaning",
+            [questKeys.requiredMinRep] = {1119,3000},
         },
         [13011] = {
             [questKeys.name] = "Culling Jorcuttar",
@@ -787,12 +803,18 @@ function QuestieWotlkQuestFixes:Load()
         [13040] = {
             [questKeys.preQuestSingle] = {13036},
         },
+        [13046] = {
+            [questKeys.requiredMinRep] = {1119,21000},
+        },
         [13047] = {
             [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
         [13106] = {
             [questKeys.preQuestSingle] = {12899},
+        },
+        [13109] = {
+            [questKeys.preQuestSingle] = {13047},
         },
         [13110] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30543,30541,30202},30543,},},},
@@ -992,6 +1014,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
+        },
+        [13559] = {
+            [questKeys.requiredMinRep] = {1119,3000},
         },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
