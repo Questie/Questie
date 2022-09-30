@@ -86,6 +86,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "展开维库升华卷轴",
     },
+    ["Use Destructive Ward"] = { -- 12261
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Use Destructive Ward",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Quetz'lun's Hexxing Stick and slay him/her"] = { -- 12674
         ["ptBR"] = false,
         ["ruRU"] = false,
