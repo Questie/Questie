@@ -543,6 +543,9 @@ function QuestieWotlkQuestFixes:Load()
         [12412] = {
             [questKeys.preQuestSingle] = {12259},
         },
+        [12415] = {
+            [questKeys.objectives] = {{{26472,}}},
+        },
         [12427] = {
             [questKeys.triggerEnd] = {"Ironhide defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.2,64.68,},},},},
         },
