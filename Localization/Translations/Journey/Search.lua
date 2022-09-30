@@ -520,7 +520,7 @@ local searchLocales = {
     },
     ["Requires all of these quests to be finished:"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Требуется выполнение всех этих заданий:",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -532,7 +532,7 @@ local searchLocales = {
     },
     ["Requires one of these quests to be finished:"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Требуется выполнение одного из этих заданий:",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
