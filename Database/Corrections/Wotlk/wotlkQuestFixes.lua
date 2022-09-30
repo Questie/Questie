@@ -770,6 +770,9 @@ function QuestieWotlkQuestFixes:Load()
         [12985] = {
             [questKeys.preQuestSingle] = {12976},
         },
+        [12987] = {
+            [questKeys.name] = "Placing Hodir's Helm",
+        },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
         },
