@@ -252,7 +252,7 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "select",
                 order = 2.5,
                 width = 1.5,
-                hidden = (not Questie.IsWotlk),
+                hidden = (not Questie.IsTBC),
                 values = IsleOfQuelDanas.localizedPhaseNames,
                 style = 'dropdown',
                 name = function() return l10n("Isle of Quel'Danas Phase") end,
@@ -267,7 +267,7 @@ function QuestieOptions.tabs.general:Initialize()
             isleOfQuelDanasPhaseReminder = {
                 type = "toggle",
                 order = 2.6,
-                hidden = (not Questie.IsWotlk),
+                hidden = (not Questie.IsTBC),
                 name = function() return l10n('Disable Phase reminder'); end,
                 desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
                 disabled = function() return (not Questie.IsWotlk) end,

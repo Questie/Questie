@@ -59,6 +59,9 @@ function QuestieWotlkNpcFixes:Load()
         [24170] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{39.2,50.2},}},
         },
+        [24173] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{52.4,3.9},}},
+        },
         [24329] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{72,26.4},{70.3,27.3},{68.7,28.1},{66.5,24.9},{69.7,21.5},{72.6,19.9},{73.6,23.1}},
@@ -80,6 +83,10 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.HOWLING_FJORD] = {{38.1, 74.8}},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [25455] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{50.25,9.66},},},
+            [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
         [25794] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
@@ -117,6 +124,10 @@ function QuestieWotlkNpcFixes:Load()
         [28026] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
         },
+        [28070] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_STONE]={{-1,-1},{67.43,49.53}},},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_STONE,
+        },
         [28083] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
         },
@@ -131,6 +142,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30082] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
+        },
+        [30295] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{56.3,51.4},},},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [30382] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{39.4,56.4},},},
