@@ -132,7 +132,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "显示高等级的任务经验值",
         ["zhTW"] = false,
         ["esES"] = "Mostrar EXP de misión en el nivel máximo",
-        ["frFR"] = false,
+        ["frFR"] = "Voir l'expérience des quêtes au niveau maximum",
     },
     ["Shows the quest XP values on quests even at max level."] = {
         ["ptBR"] = false,
@@ -144,7 +144,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "即使在最高等级,任务也会显示任务经验值。",
         ["zhTW"] = false,
         ["esES"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
-        ["frFR"] = false,
+        ["frFR"] = "Montrer le montant d'expérience des quêtes, même au niveau maxmimum.",
     },
 }
 
