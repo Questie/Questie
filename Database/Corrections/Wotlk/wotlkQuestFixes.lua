@@ -703,6 +703,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Cell Block Tango",
             [questKeys.triggerEnd] = {"Garm Teleporter Activated",{[zoneIDs.STORM_PEAKS]={{50.7,81.9,},},},},
         },
+        [12831] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12832] = {
             [questKeys.triggerEnd] = {"Escort the Injured Goblin Miner to K3.",{[zoneIDs.STORM_PEAKS]={{40.2,79,},},},},
         },
