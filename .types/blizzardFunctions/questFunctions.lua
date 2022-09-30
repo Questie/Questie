@@ -52,9 +52,10 @@ function GetQuestTagInfo(questID) end
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestsCompleted)
 function GetQuestsCompleted(table) end
 
+---@param unit string|"player"
 ---@return number range @an integer value, currently up to 12 (at level 60)
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestGreenRange)
-function GetQuestGreenRange() end
+function GetQuestGreenRange(unit) end
 
 ---@param questLogIndex? number      @OPTIONAL: Index of quest in quest log
 ---@return string questDescription   @The quest description
@@ -63,5 +64,5 @@ function GetQuestGreenRange() end
 function GetQuestLogQuestText(questLogIndex) end
 
 ---@param questID integer            @The index of the header you wish to expand. - 0 to expand all quest headers
----[Documentation}(https://wowpedia.fandom.com/wiki/API_ExpandQuestHeader)
+---[Documentation](https://wowpedia.fandom.com/wiki/API_ExpandQuestHeader)
 function ExpandQuestHeader(questID) end

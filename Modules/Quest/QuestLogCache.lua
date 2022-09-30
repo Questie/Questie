@@ -63,7 +63,7 @@ local cache = {
 
 ---@class QuestLogCacheData
 ---@field title string
----@field questTag string
+---@field questTag QuestTag
 ---@field isComplete -1|0|1 @ -1 = failed, 0 = not complete, 1 = complete
 ---@field objectives QuestLogCacheObjectiveData[]
 
@@ -77,7 +77,7 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 
 
 
----@return table|nil newObjectives, table changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
+---@return table|nil newObjectives, ObjectiveIndex[] changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
 local function GetNewObjectives(questId, oldObjectives)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
     local changedObjIds -- not assigning {} for easier nil when nothing changed

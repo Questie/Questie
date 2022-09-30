@@ -4,12 +4,12 @@
 local lib = {}
 
 --- Return the localized zone name for a given uiMapID
--- @param uiMapID uiMapID of the zone
+---@param uiMapID UiMapId @UiMapId of the zone
 function lib:GetLocalizedMap(uiMapID) end
 
 --- Get the size of the zone
--- @param uiMapID uiMapID of the zone
--- @return width, height of the zone, in yards
+---@param uiMapID UiMapId @uiMapID of the zone
+---@return number width, number @height of the zone, in yards
 function lib:GetZoneSize(uiMapID) end
 
 --- Get a list of all map IDs
@@ -17,9 +17,10 @@ function lib:GetZoneSize(uiMapID) end
 function lib:GetAllMapIDs() end
 
 --- Convert local/point coordinates to world coordinates in yards
--- @param x X position in 0-1 point coordinates
--- @param y Y position in 0-1 point coordinates
--- @param zone uiMapID of the zone
+---@param x X @X position in 0-1 point coordinates
+---@param y Y @Y position in 0-1 point coordinates
+---@param zone UiMapId @UiMapID of the zone
+---@return number x, number y, MapId mapId
 function lib:GetWorldCoordinatesFromZone(x, y, zone) end
 
 --- Convert local/point coordinates to world coordinates in yards. The coordinates have to come from the Azeroth World Map
