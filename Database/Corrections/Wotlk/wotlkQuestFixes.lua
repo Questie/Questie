@@ -945,6 +945,9 @@ function QuestieWotlkQuestFixes:Load()
         [13302] = {
             [questKeys.objectives] = {{{31397,"Saronite Mine Slave rescued"}}},
         },
+        [13308] = {
+            [questKeys.preQuestSingle] = {13224},
+        },
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
         },
