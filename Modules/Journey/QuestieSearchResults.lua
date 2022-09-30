@@ -46,10 +46,16 @@ local function AddParagraph(frame, lookupObject, secondKey, header, query)
     end
 end
 
-local function AddLinkedParagraph(frame, linkType, lookupObject, secondKey, header, query)
-    if lookupObject[secondKey] then
+---Takes a frame and adds a paragraph with a header text and a list of links to other search results
+---@param frame AceGUIWidget The frame to work on
+---@param linkType string The type of result to link to (npc|object|quest|item)
+---@param lookupObject table Table of IDs (npc|object|quest|item)
+---@param header string The text header to show above the links
+---@param query function The function used to get link name from
+local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
+    if lookupObject and #lookupObject > 0 then
         QuestieJourneyUtils:AddLine(frame,  Questie:Colorize(header, "yellow"))
-        for _,id in pairs(lookupObject[secondKey]) do
+        for _,id in pairs(lookupObject) do
             -- QuestieJourneyUtils:AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
             local link = AceGUI:Create("InteractiveLabel")
             link:SetText(query(id, "name").." ("..id..")");
@@ -106,8 +112,8 @@ local function CreateShowHideButton(id)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy") or {}
-    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6]
+    local ret = QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle") or {}
+    local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8]
 
     local questLevel, _ = QuestieLib.GetTbcLevel(id);
 
@@ -192,16 +198,26 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     if startedBy then
         -- quest starters
         QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "npc", startedBy, 1, l10n("NPCs starting this quest:"), QuestieDB.QueryNPCSingle)
-        AddLinkedParagraph(details, "object", startedBy, 2, l10n("Objects starting this quest:"), QuestieDB.QueryObjectSingle)
+        AddLinkedParagraph(details, "npc", startedBy[1], l10n("NPCs starting this quest:"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(details, "object", startedBy[2], l10n("Objects starting this quest:"), QuestieDB.QueryObjectSingle)
         -- TODO change to linked paragraph once item details page exists
         AddParagraph(details, startedBy, 3, l10n("Items starting this quest:"), QuestieDB.QueryItemSingle)
     end
     if finishedBy then
         -- quest finishers
         QuestieJourneyUtils:AddLine(details, "")
-        AddLinkedParagraph(details, "npc", finishedBy, 1, l10n("NPCs finishing this quest:"), QuestieDB.QueryNPCSingle)
-        AddLinkedParagraph(details, "object", finishedBy, 2, l10n("Objects finishing this quest:"), QuestieDB.QueryObjectSingle)
+        AddLinkedParagraph(details, "npc", finishedBy[1], l10n("NPCs finishing this quest:"), QuestieDB.QueryNPCSingle)
+        AddLinkedParagraph(details, "object", finishedBy[2], l10n("Objects finishing this quest:"), QuestieDB.QueryObjectSingle)
+    end
+
+    -- pre quests
+    if preQuestGroup then
+        QuestieJourneyUtils:AddLine(details, "")
+        AddLinkedParagraph(details, "quest", preQuestGroup, l10n("Requires all of these quests to be finished:"), QuestieDB.QueryQuestSingle)
+    end
+    if preQuestSingle then
+        QuestieJourneyUtils:AddLine(details, "")
+        AddLinkedParagraph(details, "quest", preQuestSingle, l10n("Requires one of these quests to be finished:"), QuestieDB.QueryQuestSingle)
     end
     QuestieJourneyUtils:AddLine(details, "")
 end
