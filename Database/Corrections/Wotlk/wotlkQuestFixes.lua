@@ -287,6 +287,10 @@ function QuestieWotlkQuestFixes:Load()
         [11705] = {
             [questKeys.triggerEnd] = {"Varidus the Flenser Defeated",{[zoneIDs.BOREAN_TUNDRA]={{35.13,46.32,},},},},
         },
+        [11706] = {
+            [questKeys.objectives] = {{{25768},{25768,"Nerubian tunnels collapsed"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use The Horn of Elemental Fury near the southern sinkhole"),0,{{"monster", 25664}}}},
+        },
         [11708] = {
             [questKeys.triggerEnd] = {"Fizzcrank's tale listened to.",{[zoneIDs.BOREAN_TUNDRA]={{57.01,18.69,},},},},
         },
