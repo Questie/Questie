@@ -335,6 +335,10 @@ function QuestieWotlkQuestFixes:Load()
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
         },
+        [11893] = {
+            [questKeys.objectives] = {{{24601}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
+        },
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
             [questKeys.preQuestSingle] = {11895},
