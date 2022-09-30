@@ -549,7 +549,7 @@ QuestieDBCompiler.writers = {
             QuestieDBCompiler.writers["u8u24array"](stream, value[2])
             QuestieDBCompiler.writers["u8u24array"](stream, value[3])
         else
-            print("Missing questgivers for " .. QuestieDBCompiler.currentEntry)
+            --print("Missing questgivers for " .. QuestieDBCompiler.currentEntry) TODO: Reintroduce this check in any form
             stream:WriteByte(0)
             stream:WriteByte(0)
             stream:WriteByte(0)

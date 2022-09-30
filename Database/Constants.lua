@@ -36,7 +36,7 @@ QuestieDB.sortKeys = {
     LOVE_IS_IN_THE_AIR = -376,
 }
 
-local isWotlk = string.byte(GetBuildInfo(), 1) == 51
+local isWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
 QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [1] = 12,
@@ -215,7 +215,7 @@ QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [494] = 1,
     [495] = 8,
     [514] = 1,
-    [534] = 0,
+    [534] = 4, --* Changed from 0 -> 4 to be hostile towards horde
     [554] = 7,
     [574] = 1,
     [575] = 1,
@@ -230,7 +230,7 @@ QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [674] = 0,
     [694] = 4,
     [695] = 0,
-    [714] = 0,
+    [714] = 2, --* Changed from 0 -> 2 to be hostile towards alliance
     [734] = 0,
     [735] = 0,
     [736] = 1,
@@ -825,7 +825,7 @@ QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [494] = 1,
     [495] = 8,
     [514] = 1,
-    [534] = 0,
+    [534] = 4, --* Changed from 0 -> 4 to be hostile towards horde
     [554] = 7,
     [574] = 1,
     [575] = 1,
@@ -840,7 +840,7 @@ QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [674] = 0,
     [694] = 4,
     [695] = 0,
-    [714] = 0,
+    [714] = 2, --* Changed from 0 -> 2 to be hostile towards alliance
     [734] = 0,
     [735] = 0,
     [736] = 1,

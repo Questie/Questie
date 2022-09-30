@@ -91,12 +91,8 @@ local questTagCorrections = {
     [8408] = {41, "PvP"},
 }
 
----Gets populated and used in the QuestieDB.GetQuestTagInfo function
----@type table<number, {[1]: number|nil, [2]: string|nil}>
-local questTagCache = {}
-
 -- race bitmask data, for easy access
-local VANILLA = string.byte(GetBuildInfo(), 1) == 49
+local VANILLA = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
 QuestieDB.raceKeys = {
     ALL_ALLIANCE = VANILLA and 77 or 1101,
@@ -391,12 +387,8 @@ function QuestieDB.GetQuestTagInfo(questId)
     if questTagCorrections[questId] then
         return questTagCorrections[questId][1], questTagCorrections[questId][2]
     end
-    if questTagCache[questId] then
-        return questTagCache[questId][1], questTagCache[questId][2]
-    end
     local questType, questTag = GetQuestTagInfo(questId)
 
-    questTagCache[questId] = {questType, questTag}
     return questType, questTag
 end
 

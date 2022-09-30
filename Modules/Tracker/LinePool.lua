@@ -21,6 +21,10 @@ local poolSize = 80
 local lineIndex = 0
 local linePool = {}
 
+local achievementPoolSize = 40
+local achievementLineIndex = 0
+local achievementLinePool = {}
+
 local baseFrame
 local lineMarginLeft = 10
 
@@ -214,6 +218,128 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
     end
 end
 
+---@param trackedAchievementsFrame Frame
+function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, AchievementUpdate)
+    local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
+
+    local lastFrame
+    for i = 1, achievementPoolSize do
+        local line = CreateFrame("Button", nil, trackedAchievementsFrame)
+        line:SetSize(1, 1)
+
+        line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+        line.label:SetJustifyH("LEFT")
+        line.label:SetPoint("TOPLEFT", line)
+        line.label:Hide()
+
+        -- autoadjust parent size for clicks
+        line.label._SetText = line.label.SetText
+        line.label.frame = line
+        line.label.SetText = function(self, text)
+            self:_SetText(text)
+            self.frame:SetWidth(self:GetWidth())
+            self.frame:SetHeight(self:GetHeight())
+        end
+
+        if lastFrame then
+            line:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
+        else
+            line:SetPoint("TOPLEFT", trackedAchievementsFrame, "TOPLEFT", lineMarginLeft, -30)
+        end
+
+        line.SetMode = _SetMode
+
+        function line:SetAchievement(achievementId)
+            self.expand.achievementId = achievementId
+        end
+
+        function line:SetVerticalPadding(amount)
+            if self.mode == "achievement" then
+                self:SetHeight(Questie.db.global.trackerFontSizeQuest + amount)
+            else
+                self:SetHeight(Questie.db.global.trackerFontSizeObjective + amount)
+            end
+        end
+
+        line:SetMode("achievement")
+        line:EnableMouse(true)
+        line:RegisterForDrag("LeftButton")
+        line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
+
+        line:SetScript("OnClick", OnAchievementClick)
+        line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
+        line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
+
+        line:SetScript("OnEnter", function(self)
+            _OnHighlightEnter(self)
+            FadeTicker.OnEnter()
+        end)
+
+        line:SetScript("OnLeave", function(self)
+            _OnHighlightLeave(self)
+            FadeTicker.OnLeave()
+        end)
+
+        -- create expanding buttons
+        local expand = CreateFrame("Button", nil, line)
+        expand.texture = expand:CreateTexture(nil, "OVERLAY", nil, 0)
+        expand.texture:SetWidth(trackerFontSizeQuest)
+        expand.texture:SetHeight(trackerFontSizeQuest)
+        expand.texture:SetAllPoints(expand)
+
+        expand:SetWidth(trackerFontSizeQuest)
+        expand:SetHeight(trackerFontSizeQuest)
+        expand:SetPoint("RIGHT", line, "LEFT", 0, 0)
+
+        expand.SetMode = function(self, mode)
+            if mode ~= self.mode then
+                self.mode = mode
+                if mode == 1 then
+                    self.texture:SetTexture("Interface\\Buttons\\UI-MinusButton-Up")
+                else
+                    self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
+                end
+                self:SetWidth(Questie.db.global.trackerFontSizeQuest+3)
+                self:SetHeight(Questie.db.global.trackerFontSizeQuest+3)
+            end
+        end
+
+        expand:SetMode(1) -- maximized
+        expand:EnableMouse(true)
+        expand:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+
+        expand:SetScript("OnClick", function(self)
+            if InCombatLockdown() then
+                return
+            end
+            if self.mode == 1 then
+                self:SetMode(0)
+            else
+                self:SetMode(1)
+            end
+            if Questie.db.char.collapsedAchievements[self.achievementId] then
+                Questie.db.char.collapsedAchievements[self.achievementId] = nil
+            else
+                Questie.db.char.collapsedAchievements[self.achievementId] = true
+            end
+            AchievementUpdate()
+        end)
+
+        expand:SetScript("OnEnter", FadeTicker.OnEnter)
+        expand:SetScript("OnLeave", FadeTicker.OnLeave)
+        expand:Hide()
+
+        if Questie.db.global.trackerFadeMinMaxButtons then
+            expand:SetAlpha(0)
+        end
+
+        line.expand = expand
+
+        achievementLinePool[i] = line
+        lastFrame = line
+    end
+end
+
 function LinePool.ResetLinesForChange()
     Questie:Debug(Questie.DEBUG_DEVELOP, "LinePool: ResetLinesForChange")
     if InCombatLockdown() or not Questie.db.global.trackerEnabled then
@@ -234,6 +360,22 @@ function LinePool.ResetLinesForChange()
     lineIndex = 0
 end
 
+function LinePool.ResetAchievementLinesForChange()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "LinePool: ResetAchievementLinesForChange")
+    if InCombatLockdown() or not Questie.db.global.trackerEnabled then
+        return
+    end
+
+    for _, line in pairs(achievementLinePool) do
+        line.mode = nil
+        if line.expand then
+            line.expand.mode = nil
+        end
+    end
+
+    achievementLineIndex = 0
+end
+
 function LinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -243,12 +385,25 @@ function LinePool.GetNextLine()
     return linePool[lineIndex]
 end
 
+function LinePool.GetNextAchievementLine()
+    achievementLineIndex = achievementLineIndex + 1
+    if not achievementLinePool[achievementLineIndex] then
+        return nil -- past the line limit
+    end
+
+    return achievementLinePool[achievementLineIndex]
+end
+
 function LinePool.IsFirstLine()
     return lineIndex == 1
 end
 
 function LinePool.GetLine(index)
     return linePool[index]
+end
+
+function LinePool.GetCurrentLine()
+    return linePool[lineIndex]
 end
 
 function LinePool.GetPreviousLine()
@@ -261,12 +416,25 @@ end
 
 function LinePool.HideUnusedLines()
     for i = lineIndex + 1, poolSize do
-        linePool[i]:Hide()
-        linePool[i].mode = nil
-        linePool[i].Quest = nil
-        linePool[i].Objective = nil
-        linePool[i].expandQuest.mode = nil
-        linePool[i].expandZone.mode = nil
+        if linePool[i] then -- Safe Guard to really concurrent triggeres
+            linePool[i]:Hide()
+            linePool[i].mode = nil
+            linePool[i].Quest = nil
+            linePool[i].Objective = nil
+            linePool[i].expandQuest.mode = nil
+            linePool[i].expandZone.mode = nil
+        end
+    end
+end
+
+function LinePool.HideUnusedAchievementLines()
+    for i = achievementLineIndex + 1, achievementPoolSize do
+        if achievementLinePool[i] then -- Safe Guard to really concurrent triggeres
+            achievementLinePool[i]:Hide()
+            achievementLinePool[i].mode = nil
+            achievementLinePool[i].expand.achievementId = nil
+            achievementLinePool[i].expand.mode = nil
+        end
     end
 end
 
@@ -290,6 +458,14 @@ function LinePool.SetAllItemButtonAlpha(alpha)
         if line.button then
             line.button:SetAlpha(alpha)
         end
+    end
+end
+
+function LinePool.SetAllExpandAchievementsAlpha(alpha)
+    local highestIndex = achievementLineIndex > achievementPoolSize and achievementPoolSize or achievementLineIndex
+
+    for i = 1, highestIndex do
+        achievementLinePool[i].expand:SetAlpha(alpha)
     end
 end
 
@@ -363,7 +539,7 @@ _SetMode = function(self, mode)
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT,
                 trackerFontSizeZone, _GetOutline())
             self.label:SetHeight(trackerFontSizeZone)
-        elseif mode == "quest" then
+        elseif mode == "quest" or mode == "achievement" then
             local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT,
                 trackerFontSizeQuest, _GetOutline())

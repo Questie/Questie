@@ -154,6 +154,7 @@ ZoneDB.private.areaIdToUiMapId = {
     [4493] = 155, -- The Obsidian Sanctum - Raid
     [4494] = 132, -- Ahn'kahet: The Old Kingdom - Dungeon
     [4500] = 141, -- The Eye of Eternity - Raid
+    [4560] = 126, -- The Underbelly - Sub zone of Dalaran
     [4603] = 156, -- Vault of Archavon - Raid
     [4710] = 169, -- Isle of Conquest - Battleground
     [4722] = 172, -- Trial of the Crusader - Raid
@@ -2622,5 +2623,9 @@ ZoneDB.private.zoneIDs = {
     WINTERGRASP = 4197,
     THE_NEXUS = 4265,
     DALARAN = 4395,
+    THE_UNDERBELLY = 4560,
+    VIOLET_HOLD = 4415,
+    UTGARDE_KEEP = 206,
+    HALLS_OF_STONE = 4264,
     PLAGUELANDS_THE_SCARLET_ENCLAVE = 4298,
 }

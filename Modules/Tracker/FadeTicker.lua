@@ -39,13 +39,13 @@ local function _Start()
                     -- Un-fade the minimize buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
                         LinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
+                        LinePool.SetAllExpandAchievementsAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Un-fade the quest item buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
                         LinePool.SetAllItemButtonAlpha(fadeTickerValue * 3.3)
                     end
-
                 else
                     ticker:Cancel()
                     ticker = nil
@@ -70,13 +70,13 @@ local function _Start()
                     -- Fade the minimuze buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
                         LinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
+                        LinePool.SetAllExpandAchievementsAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Fade the quest item buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
                         LinePool.SetAllItemButtonAlpha(fadeTickerValue * 3.3)
                     end
-
                 else
                     ticker:Cancel()
                     ticker = nil

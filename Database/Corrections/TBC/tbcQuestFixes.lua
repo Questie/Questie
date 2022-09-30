@@ -1100,6 +1100,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {25509},
         },
         [9927] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17146,17147,17148},17147,"Warmaul Ogre Banner Planted"}}},
             [questKeys.preQuestSingle] = {10107,10108},
         },
         [9928] = {
@@ -4135,12 +4136,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 37737,
             [questKeys.zoneOrSort] = -370,
         },
-        [12513] = {
+        [12513] = { --* tbc? Weird one... https://www.wowhead.com/wotlk/quest=12513/nice-hat
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil},
         },
-        [12515] = {
+        [12515] = {  --* wotlk? looks more correct https://www.wowhead.com/wotlk/quest=12515/nice-hat
             [questKeys.exclusiveTo] = {12513},
+            [questKeys.finishedBy] = {{28126},nil},
         },
 
         -- Below are quests that were not originally in TBC or in a different form
