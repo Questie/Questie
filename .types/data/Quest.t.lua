@@ -2,6 +2,7 @@
 ---@alias QuestId number
 ---@alias ZoneOrSort number -- >0: AreaTable.dbc ID; <0: QuestSort.dbc ID
 ---@alias Category string --- Used a lot in the tracker and questlog
+---@alias ObjectiveIndex number --- The index of the objective in the quest
 
 --------------------------------------------------------------------------------
 -- Starters
@@ -35,7 +36,7 @@
 
 --------------------------------------------------------------------------------
 -- Objectives
----@alias Objective NpcObjective|ObjectObjective|ItemObjective|ReputationObjective|KillObjective
+---@alias Objective NpcObjective|ObjectObjective|ItemObjective|ReputationObjective|KillObjective|TriggerEndObjective
 
 ---@class NpcObjective
 ---@field Type "monster"
@@ -66,6 +67,24 @@
 ---@field Type "event"
 ---@field Text string
 ---@field Coordinates table<AreaId, CoordPair[]>
+
+
+---@class QuestObjective
+---@field Id FactionId|ItemId|NpcId|ObjectId The relevant ID for the objective
+---@field Index ObjectiveIndex The index of the objective in the quest
+---@field questId QuestId The QuestId for the quest
+---@field QuestData Quest Basically contains the data from QuestieDB:GetQuest
+---@field _lastUpdate number UNKNOWN
+---@field Description string Objective description
+---@field spawnList table<NpcId, SpawnListNPC>[]|table<ObjectId, SpawnListObject>|table<NpcId, SpawnListNPC>|{ [1]: SpawnListBase }|table<ItemId, SpawnListItem> UNKOWN
+---@field AlreadySpawned table UNKNOWN
+---@field Update fun(self: table) Quick call for _QuestieQuest.ObjectiveUpdate
+---@field Coordinates table<AreaId, CoordPair[]> @ Only used for type "event"
+---@field RequiredRepValue number @ Only used for type "reputation"
+---@field Type "event"|"item"|"killcredit"|"monster"|"object"|"reputation" Added in _QuestieQuest.ObjectiveUpdate
+---@field isUpdated boolean Used and added in _QuestieQuest.ObjectiveUpdate
+---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
+---@field Color Color Added in QuestieQuest:PopulateObjective
 
 
 -- ---@alias test { [1]: TriggerEndObjective }

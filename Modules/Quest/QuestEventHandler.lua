@@ -60,7 +60,7 @@ function _QuestEventHandler:InitQuestLog()
     if cacheMiss then
         -- TODO actually can happen in rare edge case if player accepts new quest during questie init. *cough*
         -- or if someone managed to overflow game cache already at this point.
-        Questie:Error("Please report on Github or Discord. Game's quest log cache is not ok. This shouldn't happen. Questie may malfunction.")
+        Questie:Error("Did you accept a quest during InitQuestLog? Please report on Github or Discord. Game's quest log cache is not ok. This shouldn't happen. Questie may malfunction.")
     end
 
     for questId, _ in pairs(changes) do

@@ -689,8 +689,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return nil
     end
 
-    ---@class ObjectiveIndex
-
     ---@class Quest
     ---@field public Id QuestId
     ---@field public name Name
@@ -874,7 +872,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
     --- Includes also icons drawn to maps, and other stuff.
-    ---@type table<number, table>
+    ---@type table<ObjectiveIndex, QuestObjective>
     QO.Objectives = {}
 
     QO.SpecialObjectives = {}

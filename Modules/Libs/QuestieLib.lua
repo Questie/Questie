@@ -138,6 +138,8 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId))
 end
 
+---@param randomSeed number
+---@return Color
 function QuestieLib:GetRandomColor(randomSeed)
     QuestieLib:MathRandomSeed(randomSeed)
     return {

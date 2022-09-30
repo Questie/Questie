@@ -1,6 +1,6 @@
 ---@class QuestieProfessions
 local QuestieProfessions = QuestieLoader:CreateModule("QuestieProfessions");
----@class QuestieQuest
+---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest");
 
 ---@type l10n

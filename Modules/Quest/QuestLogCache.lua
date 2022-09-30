@@ -49,10 +49,30 @@ local cache = {
     [questId2] = ....,
 }
 ]]--
+
+
+---@class QuestLogCacheObjectiveData
+---@field text string "Objective Text"
+---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"
+---@field finished boolean
+---@field numFulfilled number
+---@field numRequired number
+---@field raw_Text string E.g "Objective Text slain: 2/3",
+---@field raw_finished boolean
+---@field raw_numFulfilled number
+
+---@class QuestLogCacheData
+---@field title string
+---@field questTag string
+---@field isComplete -1|0|1 @ -1 = failed, 0 = not complete, 1 = complete
+---@field objectives QuestLogCacheObjectiveData[]
+
+
+---@type table<QuestId, QuestLogCacheData>
 local cache = {}
 
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
----@type table
+---@type table<QuestId, QuestLogCacheData>
 QuestLogCache.questLog_DO_NOT_MODIFY = cache
 
 
@@ -285,7 +305,8 @@ end
 
 
 --- A wrapper function to add error check instead using exposed table directly.
----@return table @NEVER EVER MODIFY THE RETURNED TABLE
+---@param questId QuestId
+---@return QuestLogCacheData|nil @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuest(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
@@ -297,7 +318,8 @@ function QuestLogCache.GetQuest(questId)
 end
 
 --- A wrapper function to add error check instead using exposed table directly.
----@return table @NEVER EVER MODIFY THE RETURNED TABLE
+---@param questId QuestId
+---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>|nil @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuestObjectives(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
@@ -331,8 +353,9 @@ end
 --- Debug function, prints whole cache
 function QuestLogCache.DebugPrintCache()
     print("DebugPrintCache", GetTime())
-
+    local count = 0
     for questId, q in pairs(cache) do
+        count = count + 1
         print("Quest: ("..questId..") \""..q.title.."\" questTag="..tostring(q.questTag) ,"isComplete="..tostring(q.isComplete))
         if not next(q.objectives) then
             print("  no objectives")
@@ -342,6 +365,7 @@ function QuestLogCache.DebugPrintCache()
             end
         end
     end
+    print("Total Quests ", count)
 end
 
 --- Debug function, prints changes
