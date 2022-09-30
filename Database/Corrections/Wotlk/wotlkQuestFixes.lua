@@ -616,6 +616,9 @@ function QuestieWotlkQuestFixes:Load()
         [12641] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
         },
+        [12664] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
+        },
         [12665] = {
             [questKeys.triggerEnd] = {"Quetz'lun's fate revealed.",{[zoneIDs.ZUL_DRAK]={{75.75,58.39,},},},},
         },
