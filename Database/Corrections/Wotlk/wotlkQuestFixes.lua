@@ -492,6 +492,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12261] = {
             [questKeys.preQuestSingle] = {12447},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{41.5,31.0}}}, ICON_TYPE_EVENT, l10n("Use Destructive Ward"), 0}}
         },
         [12262] = {
             [questKeys.preQuestSingle] = {12447},
