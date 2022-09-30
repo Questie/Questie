@@ -607,6 +607,9 @@ function QuestieWotlkQuestFixes:Load()
         [12578] = {
             [questKeys.triggerEnd] = {"Travel to Mosswalker Village.",{[zoneIDs.SHOLAZAR_BASIN]={{75.07,51.88,},},},},
         },
+        [12580] = {
+            [questKeys.objectives] = {{{28113,"Mosswalker Victims Rescued"}}},
+        },
         [12584] = {
             [questKeys.preQuestGroup] = {12552},
         },
