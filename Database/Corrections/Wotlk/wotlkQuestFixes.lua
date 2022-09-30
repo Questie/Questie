@@ -1002,6 +1002,12 @@ function QuestieWotlkQuestFixes:Load()
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
         },
+        [13181] = {
+            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
+        },
+        [13183] = {
+            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{58.2,25.6}}}},
+        },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
