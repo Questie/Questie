@@ -554,6 +554,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Slay any beast, jump in any water location and fish in the Pool of Blood"] = { -- 13833
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Töte irgendeine Bestie, spring ins Wasser und angel im Blut im Wasser",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"] = { -- 11306
         ["ptBR"] = false,
         ["ruRU"] = false,

@@ -984,6 +984,9 @@ function QuestieWotlkQuestFixes:Load()
         [13832] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.THE_UNDERBELLY]={{46,68}}}, ICON_TYPE_EVENT, l10n("Fish for Corroded Jewelry")}},
         },
+        [13833] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{57.5,33.2},{62.2,64.2},{45,45}}}, ICON_TYPE_SLAY, l10n("Slay any beast, jump in any water location and fish in the Pool of Blood"), 0}},
+        },
         [13836] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
         },
