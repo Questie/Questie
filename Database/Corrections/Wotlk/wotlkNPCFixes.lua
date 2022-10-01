@@ -178,6 +178,10 @@ function QuestieWotlkNpcFixes:Load()
           [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
           [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31440] = {
+          [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.5,84.2}}},
+          [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32301] = {
           [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
           [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
