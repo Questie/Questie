@@ -121,6 +121,10 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
+        [27328] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{52.62,24.06}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27627] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{62.18,42.41}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
