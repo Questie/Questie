@@ -1113,7 +1113,8 @@ function QuestieQuestBlacklist:Load()
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
 
         --- Phase 4 Icecrown Citadel
-        [24506] = true, -- Inside the Frozen Citadel
+        [24506] = true, -- Inside the Frozen Citadel (H)
+        [24510] = true, -- Inside the Frozen Citadel (A)
         [26012] = true, -- Trouble at Wyrmrest
         [26013] = true, -- Assault on the Sanctum
 
