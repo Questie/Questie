@@ -788,14 +788,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,3000},
         },
         [12994] = {
-            [questKeys.name] = "Forging Hodir's Spear",
             [questKeys.requiredMinRep] = {1119,9000},
         },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
         },
         [13001] = {
-            [questKeys.preQuestSingle] = {12994},
+            [questKeys.name] = "Forging Hodir's Spear",
+            [questKeys.requiredMinRep] = {1119,9000},
         },
         [13003] = {
             [questKeys.name] = "How To Slay Your Dragon",
