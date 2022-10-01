@@ -789,6 +789,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12994] = {
             [questKeys.requiredMinRep] = {1119,9000},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Ethereal Worg's Fang"), 0, {{"monster", 32569}}}},
         },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
