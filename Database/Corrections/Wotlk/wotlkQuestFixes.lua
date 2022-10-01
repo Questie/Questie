@@ -1007,6 +1007,9 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{29.8,75.7}},
             }},
         },
+        [13406] = {
+            [questKeys.preQuestSingle] = {13373},
+        },
         [13407] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
                 [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},
