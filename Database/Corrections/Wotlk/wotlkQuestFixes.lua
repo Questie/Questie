@@ -506,8 +506,14 @@ function QuestieWotlkQuestFixes:Load()
         [12224] = {
             [questKeys.preQuestSingle] = {12221},
         },
+        [12236] = {
+            [questKeys.objectives] = {{{26633,}}},
+        },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
+        },
+        [12249] = {
+            [questKeys.objectives] = {{{26633,}}},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},

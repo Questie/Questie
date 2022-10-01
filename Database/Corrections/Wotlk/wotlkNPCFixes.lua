@@ -95,6 +95,12 @@ function QuestieWotlkNpcFixes:Load()
         [26170] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{84.8,41.68},},},
         },
+        [26633] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.GRIZZLY_HILLS] = {{51.8,18.2}},
+            },
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [26647] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DRAGONBLIGHT] = {{54.4,23.4}},
