@@ -530,7 +530,7 @@ function QuestieWotlkQuestFixes:Load()
         [12236] = {
             [questKeys.preQuestSingle] = {12241,12242},
             [questKeys.objectives] = {{{26633,}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
         },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
