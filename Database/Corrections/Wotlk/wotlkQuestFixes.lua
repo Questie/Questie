@@ -800,6 +800,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13003] = {
             [questKeys.name] = "How To Slay Your Dragon",
+            [questKeys.objectives] = {{{30275,"Wild Wyrm Slain"}}},
             [questKeys.preQuestSingle] = {13001},
         },
         [13006] = {
