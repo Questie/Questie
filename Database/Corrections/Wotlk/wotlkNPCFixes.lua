@@ -203,6 +203,10 @@ function QuestieWotlkNpcFixes:Load()
         [38045] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.6,38.6}},},
         },
+        [38294] = {
+            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{52.5,66.5}},},
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
+        },
     }
 end
 
