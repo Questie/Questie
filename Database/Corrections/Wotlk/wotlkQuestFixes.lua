@@ -1030,6 +1030,9 @@ function QuestieWotlkQuestFixes:Load()
         [13366] = {
             [questKeys.preQuestSingle] = {13352},
         },
+        [13368] = {
+            [questKeys.preQuestSingle] = {13366},
+        },
         [13377] = {
             [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
         },
