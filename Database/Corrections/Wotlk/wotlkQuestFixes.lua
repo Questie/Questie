@@ -593,6 +593,9 @@ function QuestieWotlkQuestFixes:Load()
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
         },
+        [12484] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.GRIZZLY_HILLS]={{16.84,48.34}}}, ICON_TYPE_EVENT, l10n("Place Scourged Troll Mummy in the fire"),0}},
+        },
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
