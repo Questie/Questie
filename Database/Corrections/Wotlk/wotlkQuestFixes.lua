@@ -497,6 +497,12 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12184] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
+        },
+        [12202] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
+        },
         [12206] = {
             [questKeys.objectives] = {{{27349,"Flask of Blight tested"}}},
         },
