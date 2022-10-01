@@ -543,7 +543,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12249] = {
             [questKeys.objectives] = {{{26633,}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
         },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
