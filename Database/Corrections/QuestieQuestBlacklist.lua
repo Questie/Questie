@@ -1071,6 +1071,12 @@ function QuestieQuestBlacklist:Load()
         [11461] = true, -- Not in the game
         [13317] = true, -- Not in the game
         [11585] = true, -- Duplicate of 11586
+        [13197] = true, -- Duplicate of 236 (Fueling the Demolishers (A))
+        [13200] = true, -- Duplicate of 13191 (Fueling the Demolishers (H))
+        [13195] = true, -- Duplicate of 13156 (A Rare Herb (A))
+        [13196] = true, -- Duplicate of 13154 (Bones and Arrows (A))
+        [13199] = true, -- Duplicate of 13193 (Bones and Arrows (H))
+        [13201] = true, -- Duplicate of 13194 (Healing with Roses (H))
         [11595] = true, -- Duplicate of 11596 and 11597 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [11597] = true, -- Duplicate of 11595 and 11596 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12932] = true, -- Duplicate of 12954 (not entirely a duplicate but this is the easiest way to hide multiple quests)

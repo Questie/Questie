@@ -21,6 +21,9 @@ function QuestieWotlkQuestFixes:Load()
     local sortKeys = QuestieDB.sortKeys
 
     return {
+        [236] = {
+            [questKeys.exclusiveTo] = {13154,13156,},
+        },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -856,6 +859,40 @@ function QuestieWotlkQuestFixes:Load()
         [13122] = {
             [questKeys.preQuestSingle] = {13104},
         },
+        [13154] = {
+            [questKeys.exclusiveTo] = {236,13156,},
+        },
+        [13156] = {
+            [questKeys.exclusiveTo] = {236,13154,},
+        },
+        [13181] = {
+            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
+        },
+        [13183] = {
+            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{58.2,25.6}}}},
+        },
+        [13185] = {
+            [questKeys.exclusiveTo] = {13223},
+        },
+        [13186] = {
+            [questKeys.exclusiveTo] = {13222},
+        },
+        [13191] = {
+            [questKeys.exclusiveTo] = {13193,13194,},
+        },
+        [13193] = {
+            [questKeys.exclusiveTo] = {13191,13194,},
+        },
+        [13194] = {
+            [questKeys.exclusiveTo] = {13191,13193,},
+        },
+
+        [13222] = {
+            [questKeys.exclusiveTo] = {13186},
+        },
+        [13223] = {
+            [questKeys.exclusiveTo] = {13185},
+        },
         [13228] = {
             [questKeys.preQuestSingle] = {13224},
         },
@@ -1168,12 +1205,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
-        },
-        [13181] = {
-            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
-        },
-        [13183] = {
-            [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{58.2,25.6}}}},
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
