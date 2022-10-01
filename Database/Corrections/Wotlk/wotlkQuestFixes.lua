@@ -155,10 +155,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11269,11329},
         },
         [11348] = {
-            [questKeys.objectives] = {{{23725,"Test Rune of Command"},{24334}}},
+            [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
         },
         [11352] = {
-            [questKeys.objectives] = {{{23725,"Test Rune of Command"},{24334}}},
+            [questKeys.objectives] = {{{23725,"Test Rune of Command on normal Stone Giants"},{24334}}},
         },
         [11355] = {
             [questKeys.preQuestSingle] = {11269,11329},
@@ -293,6 +293,10 @@ function QuestieWotlkQuestFixes:Load()
         [11705] = {
             [questKeys.triggerEnd] = {"Varidus the Flenser Defeated",{[zoneIDs.BOREAN_TUNDRA]={{35.13,46.32,},},},},
         },
+        [11706] = {
+            [questKeys.objectives] = {{{25768},{25768,"Nerubian tunnels collapsed"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use The Horn of Elemental Fury near the southern sinkhole"),0,{{"monster", 25664}}}},
+        },
         [11708] = {
             [questKeys.triggerEnd] = {"Fizzcrank's tale listened to.",{[zoneIDs.BOREAN_TUNDRA]={{57.01,18.69,},},},},
         },
@@ -341,6 +345,13 @@ function QuestieWotlkQuestFixes:Load()
         [11890] = {
             [questKeys.triggerEnd] = {"Fizzcrank Pumping Station environs inspected.",{[zoneIDs.BOREAN_TUNDRA]={{65.17,25.2,},},},},
         },
+        [11893] = {
+            [questKeys.objectives] = {{{24601}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
+        },
+        [11896] = {
+	    [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
+        },
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
             [questKeys.preQuestSingle] = {11895},
@@ -383,6 +394,14 @@ function QuestieWotlkQuestFixes:Load()
         [11982] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11984] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Enlist Budd's help"), 0, {{"monster", 26422}}},
+                {nil, ICON_TYPE_EVENT, l10n("Escort Budd to the Drak' Zin Ruins"), 0, {{"monster", 32663}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Budd's Tag Troll spell to stun Drakkari trolls"), 0, {{"monster", 26425}, {"monster", 26447}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Capture stunned Drakkari trolls with Bounty Hunter's Cage"), 0, {{"monster", 26425}, {"monster", 26447}}},
+            },
+        },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
@@ -398,6 +417,9 @@ function QuestieWotlkQuestFixes:Load()
         [12028] = {
             [questKeys.triggerEnd] = {"Spiritual insight concerning Indu'le Village attained.",{[zoneIDs.DRAGONBLIGHT]={{48.95,75.84,},},},},
         },
+        [12029] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+        },
         [12032] = {
             [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
         },
@@ -412,6 +434,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12036] = {
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
+        },
+        [12038] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
         },
         [12044] = {
             [questKeys.nextQuestInChain] = 12045,
@@ -478,8 +503,17 @@ function QuestieWotlkQuestFixes:Load()
         [12174] = {
             [questKeys.exclusiveTo] = {12235},
         },
+        [12184] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
+        },
+        [12202] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
+        },
         [12206] = {
             [questKeys.objectives] = {{{27349,"Flask of Blight tested"}}},
+        },
+        [12207] = {
+            [questKeys.preQuestSingle] = {12413},
         },
         [12208] = {
             [questKeys.preQuestSingle] = {12412},
@@ -487,14 +521,41 @@ function QuestieWotlkQuestFixes:Load()
         [12211] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206},27203,"Scarlet Onslaught corpses picked clean"}}},
         },
+        [12213] = {
+            [questKeys.preQuestSingle] = {12413},
+        },
         [12224] = {
             [questKeys.preQuestSingle] = {12221},
+        },
+        [12229] = {
+            [questKeys.preQuestSingle] = {12207,12213},
+        },
+        [12231] = {
+            [questKeys.preQuestSingle] = {12207,12213},
+        },
+        [12236] = {
+            [questKeys.preQuestSingle] = {12241,12242},
+            [questKeys.objectives] = {{{26633,}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
         },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
         },
+        [12241] = {
+            [questKeys.preQuestSingle] = {12229,12231},
+        },
+        [12242] = {
+            [questKeys.preQuestSingle] = {12229,12231},
+        },
+        [12249] = {
+            [questKeys.objectives] = {{{26633,}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
+        },
         [12258] = {
             [questKeys.preQuestSingle] = {12251},
+        },
+        [12259] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
         },
         [12261] = {
             [questKeys.preQuestSingle] = {12447},
@@ -534,25 +595,41 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Gossamer Potion"),0,{{"object", 189972}}}},
         },
         [12330] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tranquilizer Dart on Tatjana"),0,{{"monster", 27627}}}},
             [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7,},},},},
         },
         [12412] = {
             [questKeys.preQuestSingle] = {12259},
         },
+        [12415] = {
+            [questKeys.objectives] = {{{26472,}}},
+        },
         [12427] = {
+            [questKeys.preQuestSingle] = {12413},
             [questKeys.triggerEnd] = {"Ironhide defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.2,64.68,},},},},
+            [questKeys.objectives] = {{{27715,}}},
         },
         [12428] = {
             [questKeys.triggerEnd] = {"Torgg Thundertotem defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.05,64.55,},},},},
+            [questKeys.objectives] = {{{27716,}}},
         },
         [12429] = {
             [questKeys.triggerEnd] = {"Rustblood defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.12,64.62,},},},},
+            [questKeys.objectives] = {{{27717,}}},
         },
         [12430] = {
             [questKeys.triggerEnd] = {"Horgrenn Hellcleave defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.11,64.6,},},},},
+            [questKeys.objectives] = {{{27718,}}},
+        },
+        [12431] = {
+            [questKeys.objectives] = {{{27727,}}},
         },
         [12439] = {
             [questKeys.exclusiveTo] = {11995},
+        },
+        [12453] = {
+            [questKeys.preQuestSingle] = {12412},
+            [questKeys.objectives] = {{{26369,}}},
         },
         [12456] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
@@ -577,6 +654,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
+        },
+        [12484] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.GRIZZLY_HILLS]={{16.84,48.34}}}, ICON_TYPE_EVENT, l10n("Place Scourged Troll Mummy in the fire"),0}},
         },
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},

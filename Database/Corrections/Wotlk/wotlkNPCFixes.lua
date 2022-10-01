@@ -95,6 +95,12 @@ function QuestieWotlkNpcFixes:Load()
         [26170] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{84.8,41.68},},},
         },
+        [26633] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.GRIZZLY_HILLS] = {{51.8,18.2}},
+            },
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [26647] = {
             [npcKeys.spawns] = {
                 [zoneIDs.DRAGONBLIGHT] = {{54.4,23.4}},
@@ -114,6 +120,34 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.DRAGONBLIGHT] = {{77.2,49.8},{78.2,50.6},{78.8,50.8},{79.8,49.6},{80,49.4},{80,51},{81.8,50.6},{82.2,50.4},{83,49.2},{83,50.2},{83.4,51},{84.2,50.4},{84.6,51.6},{84.8,50.4},}
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [27328] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{52.62,24.06}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27627] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{62.18,42.41}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27715] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27716] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27717] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27718] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27727] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [27959] = {
             [npcKeys.spawns] = {
