@@ -991,6 +991,9 @@ function QuestieWotlkQuestFixes:Load()
         [13377] = {
             [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
         },
+        [13379] = {
+            [questKeys.preQuestSingle] = {13239},
+        },
         [13405] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
