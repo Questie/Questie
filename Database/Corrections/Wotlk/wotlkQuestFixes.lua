@@ -568,16 +568,19 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26472,}}},
         },
         [12427] = {
-            [questKeys.triggerEnd] = {"Ironhide defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.2,64.68,},},},},
+            [questKeys.objectives] = {{{27715,}}},
         },
         [12428] = {
-            [questKeys.triggerEnd] = {"Torgg Thundertotem defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.05,64.55,},},},},
+            [questKeys.objectives] = {{{27716,}}},
         },
         [12429] = {
-            [questKeys.triggerEnd] = {"Rustblood defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.12,64.62,},},},},
+            [questKeys.objectives] = {{{27717,}}},
         },
         [12430] = {
-            [questKeys.triggerEnd] = {"Horgrenn Hellcleave defeated",{[zoneIDs.GRIZZLY_HILLS]={{23.11,64.6,},},},},
+            [questKeys.objectives] = {{{27718,}}},
+        },
+        [12431] = {
+            [questKeys.objectives] = {{{27727,}}},
         },
         [12439] = {
             [questKeys.exclusiveTo] = {11995},

@@ -125,6 +125,26 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{62.18,42.41}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
+        [27715] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27716] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27717] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27718] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [27727] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{23.32,64.84}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27959] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{61.1,2}},
