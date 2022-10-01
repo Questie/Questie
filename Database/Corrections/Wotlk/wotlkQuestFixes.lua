@@ -1100,6 +1100,9 @@ function QuestieWotlkQuestFixes:Load()
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
         },
+        [13420] = {
+            [questKeys.startedBy] = {nil,{193997},{44725}},
+        },
         [13422] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
             [questKeys.exclusiveTo] = {13423,13424,13425},
