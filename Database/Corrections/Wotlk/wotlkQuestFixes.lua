@@ -548,6 +548,9 @@ function QuestieWotlkQuestFixes:Load()
         [12439] = {
             [questKeys.exclusiveTo] = {11995},
         },
+        [12456] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
+        }, 
         [12459] = {
             [questKeys.objectives] = {{{26841,nil},{27808,nil},{27122,nil},},nil,nil,nil,},
         },
