@@ -179,6 +179,9 @@ function QuestieWotlkNpcFixes:Load()
           [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
           [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [30222] = {
+            [npcKeys.spawns] = {},
+        },
         [30082] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
         },
@@ -236,6 +239,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [38045] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.6,38.6}},},
+        },
+        [38294] = {
+            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{52.5,66.5}},},
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
     }
 end
