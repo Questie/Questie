@@ -859,6 +859,9 @@ function QuestieWotlkQuestFixes:Load()
         [13238] = {
             [questKeys.preQuestSingle] = {13228},
         },
+        [13239] = {
+            [questKeys.preQuestSingle] = {13238},
+        },
         [13240] = {
             [questKeys.startedBy] = {{31439},nil,nil},
             [questKeys.finishedBy] = {{31439},nil,nil},
@@ -947,6 +950,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13260] = {
             [questKeys.preQuestSingle] = {13228},
+        },
+        [13261] = {
+            [questKeys.preQuestSingle] = {13239},
         },
         [13283] = {
             [questKeys.preQuestSingle] = {13293},
