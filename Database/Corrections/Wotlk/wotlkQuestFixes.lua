@@ -411,6 +411,9 @@ function QuestieWotlkQuestFixes:Load()
         [12028] = {
             [questKeys.triggerEnd] = {"Spiritual insight concerning Indu'le Village attained.",{[zoneIDs.DRAGONBLIGHT]={{48.95,75.84,},},},},
         },
+        [12029] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+        },
         [12032] = {
             [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
         },
@@ -425,6 +428,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12036] = {
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
+        },
+        [12038] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
         },
         [12044] = {
             [questKeys.nextQuestInChain] = 12045,
