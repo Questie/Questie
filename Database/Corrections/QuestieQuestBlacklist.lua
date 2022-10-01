@@ -1109,6 +1109,7 @@ function QuestieQuestBlacklist:Load()
         --- Phase 4 Icecrown Citadel
         [24506] = true, -- Inside the Frozen Citadel
         [26012] = true, -- Trouble at Wyrmrest
+        [26013] = true, -- Assault on the Sanctum
 
         -- new raid weekly quests
         [24579] = true,
