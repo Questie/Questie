@@ -506,21 +506,40 @@ function QuestieWotlkQuestFixes:Load()
         [12206] = {
             [questKeys.objectives] = {{{27349,"Flask of Blight tested"}}},
         },
+        [12207] = {
+            [questKeys.preQuestSingle] = {12413},
+        },
         [12208] = {
             [questKeys.preQuestSingle] = {12412},
         },
         [12211] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27202,27203,27206},27203,"Scarlet Onslaught corpses picked clean"}}},
         },
+        [12213] = {
+            [questKeys.preQuestSingle] = {12413},
+        },
         [12224] = {
             [questKeys.preQuestSingle] = {12221},
         },
+        [12229] = {
+            [questKeys.preQuestSingle] = {12207,12213},
+        },
+        [12231] = {
+            [questKeys.preQuestSingle] = {12207,12213},
+        },
         [12236] = {
+            [questKeys.preQuestSingle] = {12241,12242},
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
         },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
+        },
+        [12241] = {
+            [questKeys.preQuestSingle] = {12229,12231},
+        },
+        [12242] = {
+            [questKeys.preQuestSingle] = {12229,12231},
         },
         [12249] = {
             [questKeys.objectives] = {{{26633,}}},
@@ -598,6 +617,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {11995},
         },
         [12453] = {
+            [questKeys.preQuestSingle] = {12412},
             [questKeys.objectives] = {{{26369,}}},
         },
         [12459] = {
