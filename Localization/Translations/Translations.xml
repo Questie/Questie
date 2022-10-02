@@ -24,6 +24,7 @@
     <Script file="Zones\EasternKingdoms.lua"/>
     <Script file="Zones\Kalimdor.lua"/>
     <Script file="Zones\Outland.lua"/>
+    <Script file="Zones\Northrend.lua"/>
     <Script file="Zones\Raids.lua"/>
     <Script file="Zones\ZoneSections.lua"/>
 
