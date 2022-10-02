@@ -650,6 +650,7 @@ QuestieDBCompiler.writers = {
     end
 }
 
+-- NOTE: stream:Read*() increment _pointer, so sum Read + _pointer, not _pointer + Read
 QuestieDBCompiler.skippers = {
     ["s8"] = function(stream) stream._pointer = stream._pointer + 1 end,
     ["u8"] = function(stream) stream._pointer = stream._pointer + 1 end,
@@ -692,9 +693,13 @@ QuestieDBCompiler.skippers = {
             stream._pointer = stream:ReadShort() * 3 + stream._pointer
         end
     end,
-    ["trigger"] = function(stream) 
-        stream._pointer = stream:ReadByte() + stream._pointer
-        QuestieDBCompiler.skippers["spawnlist"](stream)
+    ["trigger"] = function(stream)
+        local len = stream:ReadShort()
+        if len > 0 then
+            stream._pointer = stream._pointer - 2
+            stream._pointer = stream:ReadByte() + stream._pointer
+            QuestieDBCompiler.skippers["spawnlist"](stream)
+        end
     end,
     ["questgivers"] = function(stream)
         --local count = stream:ReadByte()
@@ -1208,7 +1213,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    --QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    QuestieDBCompiler.skippers[types[indexToKey[i]]](stream)
                 end
             end
             return QuestieDBCompiler.readers[typ](stream)
@@ -1258,7 +1264,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
-                            QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                            --QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                            QuestieDBCompiler.skippers[types[indexToKey[i]]](stream)
                         end
                     end
                     ret[index] = QuestieDBCompiler.readers[typ](stream)
@@ -1284,7 +1291,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    --QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    QuestieDBCompiler.skippers[types[indexToKey[i]]](stream)
                 end
             end
             return QuestieDBCompiler.readers[typ](stream)
@@ -1311,7 +1319,8 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         return nil
                     end
                     for i = lastIndex, targetIndex-1 do
-                        QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                        --QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                        QuestieDBCompiler.skippers[types[indexToKey[i]]](stream)
                     end
                 end
                 ret[index] = QuestieDBCompiler.readers[typ](stream)
