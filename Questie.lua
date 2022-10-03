@@ -35,11 +35,10 @@ function Questie:OnDisable()
     -- Called when the addon is disabled
 end
 
-
 --- Colorize a string with a color code
 ---@param str string @The string colorize
 --Name or string in the format "RRGGBB" i.e "FF0000" for red
----@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string 
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
 ---@return string
 function Questie:Colorize(str, color)
     local c = "|cFF"..color;
