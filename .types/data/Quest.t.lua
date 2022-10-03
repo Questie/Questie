@@ -86,11 +86,44 @@
 ---@field Completed boolean Added in _QuestieQuest.ObjectiveUpdate
 ---@field Color Color Added in QuestieQuest:PopulateObjective
 
+--------------------------------------------------------------------------------
+-- DB Quest Type
+---@class RawQuest
+---@field public name Name
+---@field public startedBy StartedBy
+---@field public finishedBy FinishedBy
+---@field public requiredLevel Level
+---@field public questLevel Level
+---@field public requiredRaces number @bitmask
+---@field public requiredClasses number @bitmask
+---@field public objectivesText string[]
+---@field public triggerEnd { [1]: string, [2]: table<AreaId, CoordPair[]>}
+---@field public objectives RawObjectives
+---@field public sourceItemId ItemId
+---@field public preQuestGroup QuestId[]
+---@field public preQuestSingle QuestId[]
+---@field public childQuests QuestId[]
+---@field public inGroupWith QuestId[]
+---@field public exclusiveTo QuestId[]
+---@field public zoneOrSort ZoneOrSort
+---@field public requiredSkill SkillPair
+---@field public requiredMinRep ReputationPair
+---@field public requiredMaxRep ReputationPair
+---@field public requiredSourceItems ItemId[]
+---@field public nextQuestInChain QuestId
+---@field public questFlags number @bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
+---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
+---@field public parentQuest QuestId
+---@field public reputationReward ReputationPair[]
+---@field public extraObjectives ExtraObjective[]
 
--- ---@alias test { [1]: TriggerEndObjective }
--- ---@type test
--- local gg = {}
--- gg][]
+-- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+---@class ExtraObjective
+---@field [1] table<AreaId, CoordPair[]>? spawnList
+---@field [2] string iconFile path
+---@field [3] string Objective Text
+---@field [4] ObjectiveIndex? Optional ObjectiveIndex
+---@field [5] table<"monster"|"object", function>? dbReference which uses _QuestieQuest.objectiveSpawnListCallTable to fetch spawns
 
 -- ['objectives'] = 10, -- table
 --   ['creatureObjective'] = 1, -- table {{creature(int), text(string)},...}, If text is nil the default "<Name> slain x/y" is used

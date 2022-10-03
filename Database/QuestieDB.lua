@@ -717,7 +717,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ---@field public parentQuest QuestId
     ---@field public reputationReward ReputationPair[]
-    ---@field public extraObjectives table
+    ---@field public extraObjectives ExtraObjective[]
     local QO = {
         Id = questId
     }
@@ -903,6 +903,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     QO.IsTrivial = _IsTrivial
 
+    ---@type ExtraObjective[]
     local extraObjectives = rawdata[questKeys.extraObjectives]
     if extraObjectives then
         for index, o in pairs(extraObjectives) do
