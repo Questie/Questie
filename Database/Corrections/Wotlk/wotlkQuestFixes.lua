@@ -485,6 +485,7 @@ function QuestieWotlkQuestFixes:Load()
             },},
         },
         [12138] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26407,27017},26407,}}},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
             },
@@ -512,6 +513,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
         },
         [12198] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26407,27017},26407,}}},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
             },
