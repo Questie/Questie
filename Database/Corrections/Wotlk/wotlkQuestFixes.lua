@@ -699,6 +699,9 @@ function QuestieWotlkQuestFixes:Load()
         [12537] = {
             [questKeys.triggerEnd] = {"Sabotage the Mistwhisper Weather Shrine",{[zoneIDs.SHOLAZAR_BASIN]={{45.23,37.1,},},},},
         },
+        [12544] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26, 72}}}, ICON_TYPE_EVENT, l10n("Use Soo-rahm's Incense")}},
+        },
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
         },
