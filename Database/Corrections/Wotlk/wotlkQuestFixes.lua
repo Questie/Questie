@@ -513,6 +513,11 @@ function QuestieWotlkQuestFixes:Load()
         [12150] = {
             [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
         },
+        [12152] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Place the Infused Drakkari Offering at the gongs outside Drakil'jin"),0,{{"object", 188510}}},
+            },
+        },
         [12157] = {
             [questKeys.exclusiveTo] = {12171,12174,12235,12297},
         },
