@@ -25,24 +25,30 @@ end
 
 
 ---@class SpawnListBase
----@field Id NpcId|ObjectId|number The ID of the NPC or Object (also eventId ?)
 ---@field Name string
 ---@field Spawns table<AreaId, CoordPair[]>>
 ---@field Icon string @Icon path
 ---@field GetIconScale function Function to get the iconScale
 ---@field IconScale number Initial value returned by the GetIconScale function
 
+
 ---@class SpawnListTooltip
 ---@field TooltipKey string
 
 ---@class SpawnListObject : SpawnListBase, SpawnListTooltip
+---@field Id ObjectId The ID of the Object
 
 ---@class SpawnListNPC : SpawnListBase, SpawnListTooltip
+---@field Id NpcId The ID of the NPC
 ---@field Waypoints table<AreaId, CoordPair[]>
 ---@field Hostile true|boolean
 
 ---@class SpawnListItem : SpawnListBase, SpawnListTooltip, SpawnListNPC, SpawnListObject
+---@field Id ObjectId|NpcId The ID of the Object or Npc
 ---@field ItemId ItemId The ID of the item that the spawn drops
+
+---@class SpawnListEvent : SpawnListBase
+---@field Id number The ID of the Event (Is this even used?)
 
 local killcredit, monster, object, event, item
 
@@ -93,18 +99,21 @@ monster = function(npcId, objective)
     local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
     local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
 
+    ---@type SpawnListNPC
+    local monster = {
+        Id = npcId,
+        Name = name,
+        Spawns = enableSpawns and spawns or {},
+        Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
+        Hostile = true,
+        Icon = ICON_TYPE_SLAY,
+        GetIconScale = _GetIconScaleForMonster,
+        IconScale = _GetIconScaleForMonster(),
+        TooltipKey = "m_" .. npcId, -- todo: use ID based keys
+    }
+
     return {
-        [npcId] = {
-            Id = npcId,
-            Name = name,
-            Spawns = enableSpawns and spawns or {},
-            Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
-            Hostile = true,
-            Icon = ICON_TYPE_SLAY,
-            GetIconScale = _GetIconScaleForMonster,
-            IconScale = _GetIconScaleForMonster(),
-            TooltipKey = "m_" .. npcId, -- todo: use ID based keys
-        }
+        [npcId] = monster
     }
 end
 
@@ -134,23 +143,27 @@ object = function(objectId, objective)
         spawns = {}
     end
 
+
+    ---@type SpawnListObject
+    local retObject = {
+        Id = objectId,
+        Name = name,
+        Spawns = spawns,
+        Icon = ICON_TYPE_OBJECT,
+        GetIconScale = _GetIconScaleForObject,
+        IconScale = _GetIconScaleForObject(),
+        TooltipKey = "o_" .. objectId,
+    }
+
     return {
-        [objectId] = {
-            Id = objectId,
-            Name = name,
-            Spawns = spawns,
-            Icon = ICON_TYPE_OBJECT,
-            GetIconScale = _GetIconScaleForObject,
-            IconScale = _GetIconScaleForObject(),
-            TooltipKey = "o_" .. objectId,
-        }
+        [objectId] = retObject
     }
 end
 
 ---comment
 ---@param eventId any
 ---@param objective any
----@return { [1]: SpawnListBase }|nil
+---@return { [1]: SpawnListEvent }|nil
 event = function(eventId, objective)
     local spawns = objective.Coordinates
     if (not spawns) then
@@ -158,15 +171,18 @@ event = function(eventId, objective)
         spawns = {}
     end
 
+    ---@type SpawnListEvent
+    local retEvent = {
+        Id = eventId or 0,
+        Name = objective.Description or "Event Trigger",
+        Spawns = spawns,
+        Icon = ICON_TYPE_EVENT,
+        GetIconScale = _GetIconScaleForEvent,
+        IconScale = _GetIconScaleForEvent(),
+    }
+
     return {
-        [1] = {
-            Id = eventId or 0,
-            Name = objective.Description or "Event Trigger",
-            Spawns = spawns,
-            Icon = ICON_TYPE_EVENT,
-            GetIconScale = _GetIconScaleForEvent,
-            IconScale = _GetIconScaleForEvent(),
-        }
+        [1] = retEvent
     }
 end
 
