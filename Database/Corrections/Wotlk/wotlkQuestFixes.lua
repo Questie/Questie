@@ -673,6 +673,9 @@ function QuestieWotlkQuestFixes:Load()
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [12500] = {
+            [questKeys.preQuestSingle] = {12498},
+        },
         [12503] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
@@ -695,9 +698,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12537] = {
             [questKeys.triggerEnd] = {"Sabotage the Mistwhisper Weather Shrine",{[zoneIDs.SHOLAZAR_BASIN]={{45.23,37.1,},},},},
-        },
-        [12500] = {
-            [questKeys.preQuestSingle] = {12498},
         },
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
