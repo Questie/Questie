@@ -484,6 +484,11 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.ELWYNN_FOREST]={{43.2,67,},},
             },},
         },
+        [12138] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
+            },
+        },
         [12139] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
                 [zoneIDs.EVERSONG_WOODS]={{47.3,46.6,},},
@@ -505,6 +510,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12184] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
+        },
+        [12198] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
+            },
         },
         [12202] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
