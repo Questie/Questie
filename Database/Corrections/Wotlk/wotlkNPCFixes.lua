@@ -111,6 +111,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
         },
+        [27199] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{71.41,23.78}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
         [27216] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.25,17.33}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
