@@ -62,6 +62,7 @@
 ---@field Type "killcredit"
 ---@field IdList NpcId[]
 ---@field RootId NpcId
+----@field Text string
 
 ---@class TriggerEndObjective
 ---@field Type "event"
