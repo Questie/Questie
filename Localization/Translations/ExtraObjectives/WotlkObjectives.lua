@@ -566,6 +566,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Fish for Terror Fish"] = { -- 13834
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Angel nach Schreckensfisch",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Slay any beast, jump in any water location and fish in the Pool of Blood"] = { -- 13833
         ["ptBR"] = false,
         ["ruRU"] = false,

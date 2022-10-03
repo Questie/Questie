@@ -979,7 +979,6 @@ function QuestieWotlkQuestFixes:Load()
         [13194] = {
             [questKeys.exclusiveTo] = {13191,13193,},
         },
-
         [13222] = {
             [questKeys.exclusiveTo] = {13186},
         },
@@ -1292,6 +1291,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13833] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{57.5,33.2},{62.2,64.2},{45,45}}}, ICON_TYPE_SLAY, l10n("Slay any beast, jump in any water location and fish in the Pool of Blood"), 0}},
+        },
+        [13834] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP]={{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, ICON_TYPE_EVENT, l10n("Fish for Terror Fish"), 0}},
         },
         [13836] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
