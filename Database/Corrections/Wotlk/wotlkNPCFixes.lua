@@ -107,6 +107,9 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
+        [26935] = {
+            [npcKeys.waypoints] = {},
+        },
         [26723] = {
             [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
