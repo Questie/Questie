@@ -448,7 +448,7 @@ local trackerOptionsLocales = {
     },
     ["When this is the checked, the Tracker is locked and you need to hold CTRL when you want to move it."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Когда это включено, то Трекер заблокирован, и для его перемещения вам нужно зажать Ctrl",
+        ["ruRU"] = "Когда это включено, то трекер заблокирован, и для его перемещения вам нужно зажать Ctrl",
         ["deDE"] = "Wenn dies aktiviert ist, dann muss STRG gedrückt gehalten werden, wenn der Tracker bewegt werden soll.",
         ["koKR"] = false,
         ["esMX"] = false,
