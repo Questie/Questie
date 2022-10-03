@@ -317,10 +317,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11788] = {
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.BOREAN_TUNDRA]={{60,20.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),0},
-                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,17.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),1},
-                {{[zoneIDs.BOREAN_TUNDRA]={{63.5,22.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),2},
-                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),0,{{"object", 187984}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),1,{{"object", 187985}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),2,{{"object", 187986}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),3,{{"object", 187987}}},
             },
         },
         [11798] = {
@@ -361,10 +361,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11907] = {
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.BOREAN_TUNDRA]={{60,20.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),0},
-                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,17.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),1},
-                {{[zoneIDs.BOREAN_TUNDRA]={{63.5,22.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),2},
-                {{[zoneIDs.BOREAN_TUNDRA]={{65.5,28.5},},}, ICON_TYPE_OBJECT, l10n("Use Valve"),3},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),0,{{"object", 187984}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),1,{{"object", 187985}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),2,{{"object", 187986}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use Valve"),3,{{"object", 187987}}},
             },
         },
         [11908] = {
