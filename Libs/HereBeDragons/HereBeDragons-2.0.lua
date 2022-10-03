@@ -1,8 +1,10 @@
+---@diagnostic disable: assign-type-mismatch
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 20
 assert(LibStub, MAJOR .. " requires LibStub")
 
+---@class HereBeDragonsQuestie-2.0
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not HereBeDragons then return end
 

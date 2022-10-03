@@ -1,8 +1,10 @@
+---@diagnostic disable: assign-type-mismatch
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 8
 assert(LibStub, MAJOR .. " requires LibStub")
 
+---@class HereBeDragonsQuestie-Pins-2.0
 local pins, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not pins then return end
 
