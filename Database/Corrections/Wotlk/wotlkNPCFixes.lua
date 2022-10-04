@@ -103,13 +103,20 @@ function QuestieWotlkNpcFixes:Load()
         },
         [26647] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DRAGONBLIGHT] = {{54.4,23.4}},
+                [zoneIDs.DRAGONBLIGHT] = {{54.81,23.92}},
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [26935] = {
+            [npcKeys.waypoints] = {},
         },
         [26723] = {
             [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
+        },
+        [27199] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{71.41,23.78}}},
+            [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
         [27216] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.25,17.33}}},
@@ -154,6 +161,10 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.HOWLING_FJORD] = {{61.1,2}},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [28013] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{71.81,82.70}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [28026] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{35.21,64.79},{37.15,64.77},{36.51,64.55},{37.99,65.5},},},
