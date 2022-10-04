@@ -140,6 +140,11 @@ function QuestieTracker.Initialize()
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
 
+    if Questie.db.global.autoTrackQuests and GetCVar("autoQuestWatch") == "0" then
+        SetCVar("autoQuestWatch", "1")
+        print(l10n("|cff30fc96Questie|r: Forced WoW client setting '%s' to enabled to match Questie settings. Please disable it in the Questie's tracker settings if you want it turned off.", getglobal("AUTO_QUEST_WATCH_TEXT")))
+    end
+
     -- TODO: Do we really need to wait here? Especially 4 (!) seconds on the second timer seems quite late
 
     C_Timer.After(4.0, function()

@@ -41,7 +41,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "toggle",
                 order = 1.1,
                 width = 1.0,
-                name = function() return l10n('Auto Track Quests'); end,
+                name = function() return getglobal("AUTO_QUEST_WATCH_TEXT"); end,
                 desc = function() return l10n("This is the same as 'Enable automatic quest tracking' in interface options. When enabled, the Questie Tracker will automatically track all quests in your log. This prevents shift-click manual tracking."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.autoTrackQuests; end,
