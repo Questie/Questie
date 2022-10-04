@@ -817,6 +817,9 @@ function QuestieWotlkQuestFixes:Load()
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
         },
+        [12561] = {
+            [questKeys.preQuestSingle] = {12803},
+        },
         [12570] = {
             [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{53.59,56.76,},},},},
         },
