@@ -340,7 +340,7 @@ function QuestieQuest:ShouldShowQuestNotes(questId)
         return true
     end
 
-    local autoWatch = (GetCVar("autoQuestWatch") == "1")
+    local autoWatch = Questie.db.global.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
     return trackedAuto or trackedManual
