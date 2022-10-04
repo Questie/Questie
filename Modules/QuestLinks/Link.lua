@@ -84,8 +84,9 @@ end
 function QuestieLink:CreateQuestTooltip(link)
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
-        local questId = select(2, strsplit(":", link))
-        questId = tonumber(questId)
+        ---@type string
+        local questIdStr = select(2, strsplit(":", link))
+        local questId = tonumber(questIdStr)
         local quest = QuestieDB:GetQuest(questId)
 
         if quest then
