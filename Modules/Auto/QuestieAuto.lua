@@ -186,20 +186,27 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] INSIDE", event, ...)
 
         local questId = GetQuestID()
-        local quest = QuestieDB:GetQuest(questId)
+        local quest
+
+        if questId and questId ~= 0 then
+            quest = QuestieDB:GetQuest(questId)
+        end
 
         if not quest then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] No quest object, retrying in 1 second")
-            C_Timer.After(1, function ()
+            C_Timer.After(1, function()
                 questId = GetQuestID()
-                quest = QuestieDB:GetQuest(questId)
-                if not quest then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
-                elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
-                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
-                    AcceptQuest()
+                if questId and questId ~= 0 then
+                    quest = QuestieDB:GetQuest(questId)
+                    if not quest then
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
+                    elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
+                        AcceptQuest()
+                    end
                 end
             end)
+
             return
         end
 
