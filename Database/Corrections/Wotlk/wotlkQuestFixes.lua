@@ -865,6 +865,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12634] = {
             [questKeys.preQuestGroup] = {12520,12549},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Pull Sturdy Vines to reveal fruit"), 0, {{"object", 190622}}}},
         },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
