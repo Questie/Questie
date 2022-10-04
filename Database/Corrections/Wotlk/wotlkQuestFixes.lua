@@ -424,6 +424,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
         },
         [12033] = {
+            [questKeys.preQuestSingle] = {11916},
             [questKeys.triggerEnd] = {"Letter from Saurfang read and destroyed",{[zoneIDs.DRAGONBLIGHT]={{37.31,46.66,},},},},
         },
         [12034] = {
@@ -437,6 +438,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12038] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+        },
+        [12039] = {
+            [questKeys.preQuestSingle] = {12034},
         },
         [12044] = {
             [questKeys.nextQuestInChain] = 12045,
@@ -453,6 +457,12 @@ function QuestieWotlkQuestFixes:Load()
         [12053] = {
             [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
         },
+        [12056] = {
+            [questKeys.preQuestSingle] = {12034},
+        },
+        [12063] = {
+            [questKeys.preQuestSingle] = {12036},
+        },
         [12078] = {
             [questKeys.preQuestSingle] = {12077},
         },
@@ -468,8 +478,14 @@ function QuestieWotlkQuestFixes:Load()
         [12092] = {
             [questKeys.preQuestSingle] = {12065},
         },
+        [12095] = {
+            [questKeys.preQuestGroup] = {12089,12090,12091},
+        },
         [12099] = {
             [questKeys.objectives] = {{{26417,"Runed Giants Freed"}}},
+        },
+        [12100] = {
+            [questKeys.preQuestSingle] = {12034},
         },
         [12107] = {
             [questKeys.extraObjectives] = {
@@ -563,13 +579,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12221},
         },
         [12229] = {
-            [questKeys.preQuestSingle] = {12207,12213},
+            [questKeys.preQuestGroup] = {12207,12213},
         },
         [12231] = {
-            [questKeys.preQuestSingle] = {12207,12213},
+            [questKeys.preQuestGroup] = {12207,12213},
         },
         [12236] = {
-            [questKeys.preQuestSingle] = {12241,12242},
+            [questKeys.preQuestGroup] = {12241,12242},
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
         },
@@ -577,10 +593,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
         },
         [12241] = {
-            [questKeys.preQuestSingle] = {12229,12231},
+            [questKeys.preQuestGroup] = {12229,12231},
         },
         [12242] = {
-            [questKeys.preQuestSingle] = {12229,12231},
+            [questKeys.preQuestGroup] = {12229,12231},
         },
         [12249] = {
             [questKeys.objectives] = {{{26633,}}},
