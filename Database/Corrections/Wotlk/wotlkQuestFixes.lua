@@ -475,6 +475,9 @@ function QuestieWotlkQuestFixes:Load()
         [12063] = {
             [questKeys.preQuestSingle] = {12036},
         },
+        [12069] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Free Roanauk Icemist"),0,{{"object", 188463}}}},
+        },
         [12078] = {
             [questKeys.preQuestSingle] = {12077},
         },
