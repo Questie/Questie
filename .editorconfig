@@ -31,7 +31,7 @@ insert_final_newline = true
 
 # function call expression's args will align to first arg
 # optional true/false/only_after_more_indention_statement/only_not_exist_cross_row_expression
-align_call_args = false
+align_call_args = true
 
 # if true, all function define params will align to first param
 align_function_define_params = true
@@ -68,7 +68,7 @@ max_continuous_line_distance = 1
 # see document for detail
 continuous_assign_statement_align_to_equal_sign = true
 
-# if statement will align like switch case 
+# if statement will align like switch case
 if_condition_align_with_each_other = false
 
 # if true, continuation_indent_size for local or assign statement is invalid
@@ -112,8 +112,8 @@ keep_one_space_between_namedef_and_attribute = true
 
 # [row_layout]
 # The following configuration supports four expressions
-# minLine:${n}   
-# keepLine   
+# minLine:${n}
+# keepLine
 # keepLine:${n}
 # maxLine:${n}
 
@@ -140,9 +140,9 @@ enable_check_codestyle = true
 
 # [diagnostic.name_style]
 enable_name_style_check = false
-# the following is name style check rule 
+# the following is name style check rule
 # base option off/camel_case/snake_case/upper_snake_case/pascal_case/same(filename/first_param/'<const string>', snake_case/pascal_case/camel_case)
-# all option can use '|' represent or 
+# all option can use '|' represent or
 # for example:
 # snake_case | upper_snake_case
 # same(first_param, snake_case)
