@@ -659,6 +659,13 @@ end
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
 
+    if (not objective.Update) then
+        -- TODO: This is a dirty band aid, to hide Lua errors to the users.
+        -- Some reports suggest there might be a race condition for SpecialObjectives so they don't get the fields used in here
+        -- before PopulateObjective is called.
+        return
+    end
+
     objective:Update()
     local completed = objective.Completed
 
