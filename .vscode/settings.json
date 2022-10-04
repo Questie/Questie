@@ -1,4 +1,5 @@
 {
+    "Lua.format.enable": true,
     "Lua.diagnostics.globals": [
         "----> GlobalAPI",
         "AbandonQuest",
