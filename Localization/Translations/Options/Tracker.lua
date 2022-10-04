@@ -456,7 +456,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "启用此选项，追踪器被锁定，您需要按住 CTRL 键才能移动它。",
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Lorsque ceci est coché, le traqueur est vérouillé, maintenez CTRL lorsque vous souhaitez le déplacer.",
     },
     ["Enable Tracker Hooks"] = {
         ["ptBR"] = "Ativar ganchos do rastreador",
@@ -888,7 +888,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "区域,目标及任务标题字体样式",
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Contours des Zones, des Titres et des Objectifs",
     },
     ["The outline used for Quest Zones, Titles, and Objectives in Tracker."] = {
         ["ptBR"] = false,
@@ -900,7 +900,7 @@ local trackerOptionsLocales = {
         ["zhCN"] = "追踪器内的区域,目标及任务标题字体样式",
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Contour utilisé pour les zones de quêtes, les titres et les objectifs dans le traqueur",
     },
     ["Tracker SetPoint"] = {
         ["ptBR"] = "Rastreador SetPoint",

@@ -182,11 +182,20 @@ function QuestieWotlkQuestFixes:Load()
         [11410] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
         },
+        [11416] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Touch Talonshrike's Egg"), 0, {{"object", 186814},{"object", 190283},{"object", 190284}}}},
+        },
+        [11417] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Touch Talonshrike's Egg"), 0, {{"object", 186814},{"object", 190283},{"object", 190284}}}},
+        },
         [11418] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Feathered Charm on Steelfeather"), 0, {{"monster", 24514},}}},
         },
         [11420] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49,1}}}, ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
+        },
+        [11421] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Commandeer Crykul Harpoon Gun"),0,{{"object",190512}}}},
         },
         [11429] = {
             [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
@@ -262,6 +271,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
+        },
+        [11611] = {
+            [questKeys.objectives] = {{{25284,"Warsong Peon Freed"}}},
         },
         [11631] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Imperean's Primal on Snarlfang's Totem"),0,{{"monster", 25455}}}},
@@ -661,6 +673,9 @@ function QuestieWotlkQuestFixes:Load()
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [12500] = {
+            [questKeys.preQuestSingle] = {12498},
+        },
         [12503] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
@@ -684,8 +699,8 @@ function QuestieWotlkQuestFixes:Load()
         [12537] = {
             [questKeys.triggerEnd] = {"Sabotage the Mistwhisper Weather Shrine",{[zoneIDs.SHOLAZAR_BASIN]={{45.23,37.1,},},},},
         },
-        [12500] = {
-            [questKeys.preQuestSingle] = {12498},
+        [12544] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26, 72}}}, ICON_TYPE_EVENT, l10n("Use Soo-rahm's Incense")}},
         },
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
@@ -918,7 +933,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13047},
         },
         [13110] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{30543,30541,30202},30543,},},},
+            [questKeys.objectives] = {{{30202}}},
             [questKeys.preQuestSingle] = {13104},
         },
         [13125] = {
@@ -942,11 +957,18 @@ function QuestieWotlkQuestFixes:Load()
         [13122] = {
             [questKeys.preQuestSingle] = {13104},
         },
+        [13136] = {
+            [questKeys.objectives] = {nil,nil,{{43259}}},
+        },
         [13154] = {
             [questKeys.exclusiveTo] = {236,13156,},
         },
         [13156] = {
             [questKeys.exclusiveTo] = {236,13154,},
+        },
+        [13168] = {
+            [questKeys.triggerEnd] = {"Seize Control of an Eidolon Watcher", {[zoneIDs.ICECROWN]={{44.19,24.69}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Dominion"), 0, {{"object", 193058}}}},
         },
         [13181] = {
             [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
@@ -969,7 +991,9 @@ function QuestieWotlkQuestFixes:Load()
         [13194] = {
             [questKeys.exclusiveTo] = {13191,13193,},
         },
-
+        [13221] = {
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+        },
         [13222] = {
             [questKeys.exclusiveTo] = {13186},
         },
@@ -978,6 +1002,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13228] = {
             [questKeys.preQuestSingle] = {13224},
+        },
+        [13229] = {
+            [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
         },
         [13230] = {
             [questKeys.preQuestSingle] = {13228},
@@ -1282,6 +1309,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13833] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.BOREAN_TUNDRA]={{57.5,33.2},{62.2,64.2},{45,45}}}, ICON_TYPE_SLAY, l10n("Slay any beast, jump in any water location and fish in the Pool of Blood"), 0}},
+        },
+        [13834] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP]={{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, ICON_TYPE_EVENT, l10n("Fish for Terror Fish"), 0}},
         },
         [13836] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
