@@ -475,6 +475,16 @@ function QuestieWotlkQuestFixes:Load()
         [12063] = {
             [questKeys.preQuestSingle] = {12036},
         },
+        [12065] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188445}}},
+            },
+        },
+        [12066] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188445}}},
+            },
+        },
         [12069] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Free Roanauk Icemist"),0,{{"object", 188463}}}},
         },
