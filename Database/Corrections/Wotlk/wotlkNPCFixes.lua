@@ -103,7 +103,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [26647] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DRAGONBLIGHT] = {{54.4,23.4}},
+                [zoneIDs.DRAGONBLIGHT] = {{54.81,23.92}},
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
