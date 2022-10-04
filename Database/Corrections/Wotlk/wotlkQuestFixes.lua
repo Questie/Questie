@@ -1002,19 +1002,23 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13228] = {
             [questKeys.objectives] = {{{31273,"Dying Berserker Questioned"}}},
+            [questKeys.childQuests] = {13230},
             [questKeys.preQuestSingle] = {13224},
         },
         [13229] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
         },
         [13230] = {
+            [questKeys.parentQuest] = 13228,
             [questKeys.preQuestSingle] = {13228},
         },
         [13231] = {
             [questKeys.objectives] = {{{31304,"Dying Soldier Questioned"}}},
+            [questKeys.childQuests] = {13232},
             [questKeys.preQuestSingle] = {13225},
         },
         [13232] = {
+            [questKeys.parentQuest] = 13231,
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = {
