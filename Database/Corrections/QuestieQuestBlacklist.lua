@@ -3,6 +3,7 @@ local QuestieQuestBlacklist = QuestieLoader:CreateModule("QuestieQuestBlacklist"
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
+---@return table<QuestId, boolean>
 function QuestieQuestBlacklist:Load()
     local questsToBlacklist = {
         [7462] = true, -- Duplicate of 7877. See #1583

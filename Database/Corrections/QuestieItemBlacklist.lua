@@ -1,6 +1,7 @@
 ---@class QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:CreateModule("QuestieItemBlacklist")
 
+---@return table<ItemId, boolean>
 function QuestieItemBlacklist:Load()
     return {
         [765] = true, -- silverleaf
