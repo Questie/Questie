@@ -1303,6 +1303,9 @@ function QuestieWotlkQuestFixes:Load()
         [13382] = {
             [questKeys.preQuestSingle] = {13380},
         },
+        [13404] = {
+            [questKeys.preQuestSingle] = {13380},
+        },
         [13405] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
