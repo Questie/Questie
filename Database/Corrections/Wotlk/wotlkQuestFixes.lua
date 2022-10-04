@@ -1149,6 +1149,9 @@ function QuestieWotlkQuestFixes:Load()
         [13293] = {
             [questKeys.preQuestSingle] = {13224},
         },
+        [13297] = {
+            [questKeys.preQuestSingle] = {13295},
+        },
         [13300] = {
             [questKeys.objectives] = {{{31397,"Saronite Mine Slave rescued"}}},
         },
