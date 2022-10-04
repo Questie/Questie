@@ -2732,11 +2732,23 @@
 	"Lua.workspace.preloadFileSize": 3000,
 	"Lua.workspace.maxPreload": 2000,
 
-
+	"search.exclude": {
+		".luacheckrc": true,
+		"cli.lua": true,
+		"README.md": true,
+		".github/**": true,
+		".vscode/**": true,
+		// ".types/.SubModules/vscode-wow-api/**": true,
+	},
     "files.exclude": {
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
 		".types/.SubModules/BlizzardInterfaceCode": true,
 		".types/.SubModules/vscode-wow-api": true,
+		// ".types/.SubModules/vscode-wow-api/*.*": true,
+		// ".types/.SubModules/vscode-wow-api/bin": true,
+		// ".types/.SubModules/vscode-wow-api/img": true,
+		// ".types/.SubModules/vscode-wow-api/Lua": true,
+		// ".types/.SubModules/vscode-wow-api/src": true,
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true
