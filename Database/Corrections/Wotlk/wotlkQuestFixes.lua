@@ -511,6 +511,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_EVENT, l10n("Azure Dragonshrine observed"),0,{{"object", 188474}}},
             },
         },
+        [12111] = {
+            [questKeys.objectives] = {{{26615,},{26482,}}},
+        },
         [12121] = {
             [questKeys.objectives] = {{{27199,}}},
             [questKeys.extraObjectives] = {
