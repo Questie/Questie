@@ -10,8 +10,8 @@ function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
 
     if _QuestieAuto:IsAllowedQuest() and ((not isTrivial) or Questie.db.char.acceptTrivial) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking available quest: \"" .. title .. "\"",
-                        "isTrivial", isTrivial, "isRepeatable", isRepeatable, "index",
-                        index)
+                      "isTrivial", isTrivial, "isRepeatable", isRepeatable, "index",
+                      index)
         SelectGossipAvailableQuest(math.floor(index / modulo) + 1)
     end
 end
@@ -68,7 +68,6 @@ function _QuestieAuto:IsAllowedQuest()
     return allowed
 end
 
-
 local bindTruthTable = {
     ['shift'] = function()
         return IsShiftKeyDown()
@@ -77,7 +76,7 @@ local bindTruthTable = {
         return IsControlKeyDown()
     end,
     ['alt'] = function()
-        return  IsAltKeyDown()
+        return IsAltKeyDown()
     end,
     ['disabled'] = function() return false; end,
 }
