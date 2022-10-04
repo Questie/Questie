@@ -524,6 +524,15 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_TALK, l10n("Speak with Gan'jo in the afterlife"),0,{{"monster", 26924}}},
             },
         },
+        [12125] = {
+            [questKeys.objectives] = {{{26411}},nil,{{36828}}},
+        },
+        [12126] = {
+            [questKeys.objectives] = {{{26926}},nil,{{36836}}},
+        },
+        [12127] = {
+            [questKeys.objectives] = {{{26283}},nil,{{36846}}},
+        },
         [12135] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
                 [zoneIDs.AZUREMYST_ISLE]={{49.3,51.5,},},
