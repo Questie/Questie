@@ -528,7 +528,7 @@ local searchLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Requiert que toutes ces quêtes soient terminées",
     },
     ["Requires one of these quests to be finished:"] = {
         ["ptBR"] = false,
@@ -540,7 +540,7 @@ local searchLocales = {
         ["zhCN"] = false,
         ["zhTW"] = false,
         ["esES"] = false,
-        ["frFR"] = false,
+        ["frFR"] = "Requiert qu'une de ces quêtes soient terminées",
     },
 }
 

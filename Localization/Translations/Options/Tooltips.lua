@@ -144,7 +144,7 @@ local tooltipOptionsLocales = {
         ["zhCN"] = "即使在最高等级,任务也会显示任务经验值。",
         ["zhTW"] = false,
         ["esES"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
-        ["frFR"] = "Montrer le montant d'expérience des quêtes, même au niveau maxmimum.",
+        ["frFR"] = "Montrer le montant d'expérience des quêtes, même au niveau maximum.",
     },
 }
 
