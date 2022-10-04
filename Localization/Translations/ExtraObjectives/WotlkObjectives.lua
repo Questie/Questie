@@ -1010,7 +1010,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Intercept the message from Loken"] = { -- 12203
+    ["Intercept the message from Loken"] = { -- 12185, 12203
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
