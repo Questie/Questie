@@ -137,7 +137,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
-    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load()) 
+    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
 
     if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists
@@ -295,13 +295,13 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
                 else
                     tinsert(newWaypoints, way)
                 end
-                
+
                 lastWay = way
             end
             tinsert(newWaypointList, newWaypoints)
         end
         newWaypointZones[zone] = newWaypointList
-    
+
     end
     return newWaypointZones
 end
