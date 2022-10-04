@@ -1,7 +1,19 @@
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@class QuestieAutoPrivate
 local _QuestieAuto = QuestieAuto.private
 
+function _QuestieAuto:AllQuestWindowsClosed()
+    if GossipFrame and (not GossipFrame:IsVisible())
+            and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
+            and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
+            and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
+            and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
+            and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
+        return true
+    end
+    return false
+end
 
 function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
     local title = availableQuests[index]
@@ -42,13 +54,13 @@ function _QuestieAuto:IsAllowedNPC()
     local allowed = true
     if npcGuid then
         ---@type string, string, string, string, string, string
-        local _, _, _, _, _, npcID = strsplit("-", npcGuid)
-        if npcID then
-            npcGuid = tonumber(npcID)
-            if (_QuestieAuto.disallowedNPC[npcGuid] ~= nil) then
+        local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
+        if npcIDStr then
+            local npcId = tonumber(npcIDStr)
+            if (_QuestieAuto.disallowedNPC[npcId] ~= nil) then
                 allowed = false
             end
-            Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Is NPC-ID", npcGuid, "allowed:", allowed)
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Is NPC-ID", npcId, "allowed:", allowed)
         end
     end
 
