@@ -1,0 +1,4 @@
+[submodule ".types/BlizzardInterfaceCode"]
+	path = .types/BlizzardInterfaceCode
+	url = https://github.com/tomrus88/BlizzardInterfaceCode.git
+	branch = wrath
