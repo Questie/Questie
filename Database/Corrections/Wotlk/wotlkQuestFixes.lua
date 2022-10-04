@@ -1213,6 +1213,9 @@ function QuestieWotlkQuestFixes:Load()
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
         },
+        [13345] = {
+            [questKeys.preQuestSingle] = {13318},
+        },
         [13346] = {
             [questKeys.preQuestSingle] = {13345},
         },
