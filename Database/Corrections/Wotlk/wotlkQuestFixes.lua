@@ -797,6 +797,10 @@ function QuestieWotlkQuestFixes:Load()
         [12516] = {
             [questKeys.objectives] = {{{28068}}},
         },
+        [12520] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12523,12525},
+        },
         [12527] = {
             [questKeys.requiredSourceItems] = {38380},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Feed with Zul'Drak Rat"), 0, {{"monster", 28145}}}},
@@ -813,6 +817,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12544] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26, 72}}}, ICON_TYPE_EVENT, l10n("Use Soo-rahm's Incense")}},
+        },
+        [12549] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12523,12525},
         },
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
@@ -835,8 +843,15 @@ function QuestieWotlkQuestFixes:Load()
         [12584] = {
             [questKeys.preQuestGroup] = {12552},
         },
+        [12589] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12523,12525},
+        },
         [12630] = {
             [questKeys.objectives] = {{{28519,"Hair Samples Collected"},},nil,nil,nil,},
+        },
+        [12634] = {
+            [questKeys.preQuestGroup] = {12520,12549},
         },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
@@ -884,6 +899,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28819,28822,28891},28819,"Scarlet Ghoul Returned"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Return Scarlet Ghouls"), 0, {{"monster", 28658}}}},
         },
+        [12699] = {
+            [questKeys.preQuestSingle] = {12523},
+        },
         [12701] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Climb inside the Inconspicuous Mine Car"), 0, {{"object", 190767}}},
@@ -914,6 +932,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_TALK, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}},
                 {{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{38.8,38.4}}}, ICON_TYPE_EVENT, l10n("The Light of Dawn Uncovered"),},
             },
+        },
+        [12804] = {
+            [questKeys.preQuestSingle] = {12520},
         },
         [12813] = {
             [questKeys.preQuestSingle] = {12807},
