@@ -41,12 +41,15 @@ function _QuestieAuto:IsAllowedNPC()
     local npcGuid = UnitGUID("target") or nil
     local allowed = true
     if npcGuid then
+        ---@type string, string, string, string, string, string
         local _, _, _, _, _, npcID = strsplit("-", npcGuid)
-        npcGuid = tonumber(npcID)
-        if (_QuestieAuto.disallowedNPC[npcGuid] ~= nil) then
-            allowed = false
+        if npcID then
+            npcGuid = tonumber(npcID)
+            if (_QuestieAuto.disallowedNPC[npcGuid] ~= nil) then
+                allowed = false
+            end
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Is NPC-ID", npcGuid, "allowed:", allowed)
         end
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Is NPC-ID", npcGuid, "allowed:", allowed)
     end
 
     return allowed
