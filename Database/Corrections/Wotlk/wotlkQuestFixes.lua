@@ -475,11 +475,17 @@ function QuestieWotlkQuestFixes:Load()
         [12082] = {
             [questKeys.triggerEnd] = {"Harrison has escorted you to safety.",{[zoneIDs.GRIZZLY_HILLS]={{73.51,24.02,},},},},
         },
+        [12084] = {
+            [questKeys.childQuests] = {12096},
+        },
         [12092] = {
             [questKeys.preQuestSingle] = {12065},
         },
         [12095] = {
             [questKeys.preQuestGroup] = {12089,12090,12091},
+        },
+        [12096] = {
+            [questKeys.parentQuest] = 12084,
         },
         [12099] = {
             [questKeys.objectives] = {{{26417,"Runed Giants Freed"}}},
