@@ -514,7 +514,7 @@ end
 -- @return angle, distance where angle is in radians and distance in yards
 function HereBeDragons:GetWorldVector(instanceID, oX, oY, dX, dY)
     local distance, deltaX, deltaY = self:GetWorldDistance(instanceID, oX, oY, dX, dY)
-    if not distance then return nil, nil end
+    if not distance or not deltaX or not deltaY then return nil, nil end
 
     -- calculate the angle from deltaY and deltaX
     local angle = atan2(-deltaX, deltaY)

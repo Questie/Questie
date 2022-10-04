@@ -1,5 +1,7 @@
 --[[ $Id: CallbackHandler-1.0.lua 22 2018-07-21 14:17:22Z nevcairiel $ ]]
 local MAJOR, MINOR = "CallbackHandler-1.0", 7
+---@class CallbackHandler-1.0
+---@diagnostic disable-next-line: assign-type-mismatch
 local CallbackHandler = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not CallbackHandler then return end -- No upgrade needed
@@ -53,6 +55,9 @@ function CallbackHandler:New(target, RegisterName, UnregisterName, UnregisterAll
 
 	-- Create the registry object
 	local events = setmetatable({}, meta)
+    ---@class CallbackHandlerRegistry
+    ---@field OnUsed function?
+    ---@field OnUnused function?
 	local registry = { recurse=0, events=events }
 
 	-- registry:Fire() - fires the given event/message into the registry
@@ -74,7 +79,7 @@ function CallbackHandler:New(target, RegisterName, UnregisterName, UnregisterAll
 					-- fire OnUsed callback?
 					if first and registry.OnUsed then
 						registry.OnUsed(registry, target, eventname)
-						first = nil
+						first = false
 					end
 				end
 			end

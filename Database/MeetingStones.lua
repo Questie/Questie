@@ -7,7 +7,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 ---@param objectId number
----@return table<string, string>
+---@return string|nil, string|nil
 function MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(objectId)
     local tableEntry = _MeetingStones.levelRanges[objectId]
 
