@@ -645,6 +645,9 @@ function QuestieWotlkQuestFixes:Load()
         [12231] = {
             [questKeys.preQuestGroup] = {12207,12213},
         },
+        [12232] = {
+            [questKeys.objectives] = {nil,{{188673,}}},
+        },
         [12236] = {
             [questKeys.preQuestGroup] = {12241,12242},
             [questKeys.objectives] = {{{26633,}}},
