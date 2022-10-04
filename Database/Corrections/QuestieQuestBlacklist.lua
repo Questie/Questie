@@ -1070,6 +1070,7 @@ function QuestieQuestBlacklist:Load()
         [12590] = true, -- Not in the game
         [11461] = true, -- Not in the game
         [13317] = true, -- Not in the game
+        [13374] = true, -- Not in the game
         [11585] = true, -- Duplicate of 11586
         [13197] = true, -- Duplicate of 236 (Fueling the Demolishers (A))
         [13200] = true, -- Duplicate of 13191 (Fueling the Demolishers (H))
