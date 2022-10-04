@@ -631,6 +631,11 @@ function QuestieWotlkQuestFixes:Load()
         [12214] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27296,27028},27296,}}},
         },
+        [12218] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Commandeer a Forsaken Blight Spreader"),1,{{"monster", 26523}}},
+            },
+        },
         [12224] = {
             [questKeys.preQuestSingle] = {12221},
         },
