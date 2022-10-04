@@ -105,14 +105,14 @@ function QuestieLink:CreateQuestTooltip(link)
 end
 
 ---@param text string
----@param wrapText boolean
+---@param wrapText boolean?
 _AddTooltipLine = function (text, wrapText)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
 ---@param text string
 ---@param color string
----@param wrapText boolean
+---@param wrapText boolean?
 _AddColoredTooltipLine = function (text, color, wrapText)
     text = Questie:Colorize(text, color)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
