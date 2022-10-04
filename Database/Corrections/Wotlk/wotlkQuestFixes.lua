@@ -425,7 +425,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12033] = {
             [questKeys.preQuestSingle] = {11916},
-            [questKeys.triggerEnd] = {"Letter from Saurfang read and destroyed",{[zoneIDs.DRAGONBLIGHT]={{37.31,46.66,},},},},
+            [questKeys.objectives] = {nil,{{188423,}},nil,nil,},
         },
         [12034] = {
             [questKeys.preQuestSingle] = {12008},
