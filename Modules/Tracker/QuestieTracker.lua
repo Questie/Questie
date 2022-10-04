@@ -1181,12 +1181,16 @@ _OnTrackedQuestClick = function(self)
     end
     if self.mode == 1 then
         self:SetMode(0)
-        AchievementTracker.Hide()
+        if Questie.IsWotlk then
+            AchievementTracker.Hide()
+        end
         Questie.db.char.isTrackerExpanded = false
     else
         self:SetMode(1)
         Questie.db.char.isTrackerExpanded = true
-        AchievementTracker.Show()
+        if Questie.IsWotlk then
+            AchievementTracker.Show()
+        end
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
         _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
         if Questie.db.global.trackerBorderEnabled then
