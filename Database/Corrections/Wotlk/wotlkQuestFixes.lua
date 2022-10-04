@@ -1001,6 +1001,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13185},
         },
         [13228] = {
+            [questKeys.objectives] = {{{31273,"Dying Berserker Questioned"}}},
             [questKeys.preQuestSingle] = {13224},
         },
         [13229] = {
@@ -1008,6 +1009,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13230] = {
             [questKeys.preQuestSingle] = {13228},
+        },
+        [13231] = {
+            [questKeys.objectives] = {{{31304,"Dying Soldier Questioned"}}},
+            [questKeys.preQuestSingle] = {13225},
         },
         [13232] = {
             [questKeys.preQuestSingle] = {13231},
