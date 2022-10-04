@@ -502,8 +502,16 @@ function QuestieWotlkQuestFixes:Load()
         [12082] = {
             [questKeys.triggerEnd] = {"Harrison has escorted you to safety.",{[zoneIDs.GRIZZLY_HILLS]={{73.51,24.02,},},},},
         },
+        [12083] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188474}}},
+            },
+        },
         [12084] = {
             [questKeys.childQuests] = {12096},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188474}}},
+            },
         },
         [12092] = {
             [questKeys.preQuestSingle] = {12065},
