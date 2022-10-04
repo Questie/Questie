@@ -518,6 +518,30 @@ local searchLocales = {
         ["esES"] = "%d vendedores venden este objeto",
         ["frFR"] = "%d Vendeurs vendent cet item ",
     },
+    ["Requires all of these quests to be finished:"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Требуется выполнение всех этих заданий:",
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = "Requiert que toutes ces quêtes soient terminées",
+    },
+    ["Requires one of these quests to be finished:"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Требуется выполнение одного из этих заданий:",
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = "Requiert qu'une de ces quêtes soient terminées",
+    },
 }
 
 for k, v in pairs(searchLocales) do

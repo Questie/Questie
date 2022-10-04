@@ -12,6 +12,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
+local isStarted = false
 local baseFrame
 local trackerLineWidth = 0
 local lastCreatedLine
@@ -53,6 +54,7 @@ function AchievementTracker.Initialize(trackerBaseFrame, UpdateTracker)
     lastCreatedLine = header
 
     baseFrame:Hide()
+    isStarted = true
     return baseFrame
 end
 
@@ -85,6 +87,10 @@ function AchievementTracker.LoadAchievements()
 end
 
 function AchievementTracker.Update()
+    if not isStarted then
+        return
+    end
+
     trackedAchievementIds = {GetTrackedAchievements()}
     LinePool.ResetAchievementLinesForChange()
     AchievementTracker.LoadAchievements()
@@ -195,6 +201,10 @@ end
 ---@param achievementId integer
 ---@param shouldTrack boolean
 function AchievementTracker:TrackedAchievementListChanged(achievementId, shouldTrack)
+    if not isStarted then
+        return
+    end
+
     Questie:Debug(Questie.DEBUG_DEVELOP, "TRACKED_ACHIEVEMENT_LIST_CHANGED", achievementId, shouldTrack)
 
     AchievementTracker.Update()
