@@ -698,6 +698,12 @@ function QuestieWotlkQuestFixes:Load()
         [12273] = {
             [questKeys.objectives] = {{{27237,},{27235,},{27234,},{27236,}}},
         },
+        [12274] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Use Abbey Bell Rope"),0,{{"object", 188713}}},
+                {nil, ICON_TYPE_TALK, l10n("High Abbot spoken with"),1,{{"monster", 27245}}},
+            },
+        },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
             [questKeys.exclusiveTo] = {12157},
