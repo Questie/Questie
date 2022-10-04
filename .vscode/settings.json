@@ -2714,19 +2714,41 @@
         "LQuestie_Create_UIDropDownMenu"
     ],
     "Lua.workspace.ignoreDir": [
-        "Database/itemDB.lua",
-        "Database/objectDB.lua",
-        "Database/questDB.lua",
-        "Database/zoneDB.lua",
+        "Database/TBC/**",		//Because they do not actually differ from classic in structure, load the smallest
+		"Database/Wotlk/**",	//Because they do not actually differ from classic in structure, load the smallest
         "Localization/lookups/**",
         "Localization/Translations/**",
         "cli.lua"
     ],
+
+	"Lua.workspace.preloadFileSize": 3000,
+	"Lua.workspace.maxPreload": 2000,
+
+
     "files.exclude": {
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
+		".types/.SubModules/BlizzardInterfaceCode": true,
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true
     },
-    "editor.tabSize": 4
+
+    // Removes trailing whitespaces
+    "files.trimTrailingWhitespace": true,
+
+    // The number of spaces a tab is equal to. This setting is overridden
+    // based on the file contents when `editor.detectIndentation` is true.
+    "editor.tabSize": 4,
+
+    // Insert spaces when pressing Tab. This setting is overriden
+    // based on the file contents when `editor.detectIndentation` is true.
+    "editor.insertSpaces": false,
+
+    // When opening a file, `editor.tabSize` and `editor.insertSpaces`
+    // will be detected based on the file contents. Set to false to keep
+    // the values you've explicitly set, above.
+    "editor.detectIndentation": false,
+
+	// Default end of line
+    "files.eol": "\n",
 }
