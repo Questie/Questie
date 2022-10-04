@@ -12,6 +12,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 QuestieCorrections.reversedKillCreditQuestIDs[12561] = true
+QuestieCorrections.reversedKillCreditQuestIDs[13373] = true
+QuestieCorrections.reversedKillCreditQuestIDs[13380] = true
 
 function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
@@ -1319,11 +1321,19 @@ function QuestieWotlkQuestFixes:Load()
         [13368] = {
             [questKeys.preQuestSingle] = {13366},
         },
+        [13373] = {
+            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 0, {{"monster", 31839}}}},
+        },
         [13377] = {
             [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
         },
         [13379] = {
             [questKeys.preQuestSingle] = {13239},
+        },
+        [13380] = {
+            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Karen No"), 0, {{"monster", 31648}}}},
         },
         [13382] = {
             [questKeys.preQuestSingle] = {13380},
