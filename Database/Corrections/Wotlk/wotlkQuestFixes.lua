@@ -672,6 +672,9 @@ function QuestieWotlkQuestFixes:Load()
         [12259] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
         },
+        [12260] = {
+            [questKeys.objectives] = {{{27202,}}},
+        },
         [12261] = {
             [questKeys.preQuestSingle] = {12447},
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{41.5,31.0}}}, ICON_TYPE_EVENT, l10n("Use Destructive Ward"), 0}}
