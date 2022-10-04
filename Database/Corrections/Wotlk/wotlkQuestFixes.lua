@@ -12,6 +12,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 QuestieCorrections.reversedKillCreditQuestIDs[12561] = true
+QuestieCorrections.reversedKillCreditQuestIDs[13373] = true
+QuestieCorrections.reversedKillCreditQuestIDs[13380] = true
 
 function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
@@ -1001,15 +1003,24 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13185},
         },
         [13228] = {
+            [questKeys.objectives] = {{{31273,"Dying Berserker Questioned"}}},
+            [questKeys.childQuests] = {13230},
             [questKeys.preQuestSingle] = {13224},
         },
         [13229] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
         },
         [13230] = {
+            [questKeys.parentQuest] = 13228,
             [questKeys.preQuestSingle] = {13228},
         },
+        [13231] = {
+            [questKeys.objectives] = {{{31304,"Dying Soldier Questioned"}}},
+            [questKeys.childQuests] = {13232},
+            [questKeys.preQuestSingle] = {13225},
+        },
         [13232] = {
+            [questKeys.parentQuest] = 13231,
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = {
@@ -1131,11 +1142,42 @@ function QuestieWotlkQuestFixes:Load()
         [13283] = {
             [questKeys.preQuestSingle] = {13293},
         },
+        [13284] = {
+            [questKeys.preQuestSingle] = {13341},
+        },
+        [13286] = {
+            [questKeys.preQuestSingle] = {13231},
+        },
+        [13288] = {
+            [questKeys.preQuestSingle] = {13287},
+        },
+        [13289] = {
+            [questKeys.preQuestSingle] = {13288},
+        },
+        [13290] = {
+            [questKeys.preQuestSingle] = {13231},
+        },
+        [13292] = {
+            [questKeys.preQuestSingle] = {13291},
+        },
         [13293] = {
             [questKeys.preQuestSingle] = {13224},
         },
+        [13294] = {
+            [questKeys.preQuestSingle] = {13287},
+        },
+        [13296] = {
+            [questKeys.preQuestSingle] = {13225},
+        },
+        [13297] = {
+            [questKeys.preQuestSingle] = {13295},
+        },
+        [13298] = {
+            [questKeys.preQuestSingle] = {13294},
+        },
         [13300] = {
             [questKeys.objectives] = {{{31397,"Saronite Mine Slave rescued"}}},
+            [questKeys.preQuestSingle] = {13225},
         },
         [13301] = {
             [questKeys.preQuestSingle] = {13340},
@@ -1151,7 +1193,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13306},
         },
         [13308] = {
-            [questKeys.preQuestSingle] = {13224},
+            [questKeys.preQuestSingle] = {13224,13225},
+        },
+        [13309] = {
+            [questKeys.preQuestSingle] = {13341},
         },
         [13310] = {
             [questKeys.preQuestSingle] = {13340},
@@ -1162,8 +1207,29 @@ function QuestieWotlkQuestFixes:Load()
         [13313] = {
             [questKeys.preQuestSingle] = {13306},
         },
+        [13314] = {
+            [questKeys.preQuestSingle] = {13332},
+        },
+        [13315] = {
+            [questKeys.preQuestSingle] = {13288},
+        },
         [13316] = {
             [questKeys.preQuestSingle] = {13329},
+        },
+        [13318] = {
+            [questKeys.preQuestSingle] = {13315},
+        },
+        [13319] = {
+            [questKeys.preQuestSingle] = {13315},
+        },
+        [13320] = {
+            [questKeys.preQuestSingle] = {13315},
+        },
+        [13322] = {
+            [questKeys.preQuestSingle] = {13321},
+        },
+        [13323] = {
+            [questKeys.preQuestSingle] = {13318},
         },
         [13328] = {
             [questKeys.preQuestSingle] = {13329},
@@ -1177,14 +1243,53 @@ function QuestieWotlkQuestFixes:Load()
         [13331] = {
             [questKeys.preQuestSingle] = {13313},
         },
+        [13333] = {
+            [questKeys.preQuestSingle] = {13314},
+        },
+        [13334] = {
+            [questKeys.preQuestSingle] = {13332},
+        },
+        [13335] = {
+            [questKeys.preQuestGroup] = {13334,13337},
+        },
+        [13336] = {
+            [questKeys.preQuestSingle] = {13225},
+        },
+        [13337] = {
+            [questKeys.preQuestGroup] = {13332,13346},
+        },
+        [13338] = {
+            [questKeys.preQuestSingle] = {13335},
+        },
+        [13339] = {
+            [questKeys.preQuestSingle] = {13335},
+        },
         [13340] = {
             [questKeys.preQuestSingle] = {13224},
+        },
+        [13341] = {
+            [questKeys.preQuestSingle] = {13225},
+        },
+        [13342] = {
+            [questKeys.preQuestSingle] = {13318},
         },
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
         },
+        [13344] = {
+            [questKeys.preQuestSingle] = {13342},
+        },
+        [13345] = {
+            [questKeys.preQuestSingle] = {13318},
+        },
+        [13346] = {
+            [questKeys.preQuestSingle] = {13345},
+        },
         [13347] = {
             [questKeys.preQuestSingle] = {12499},
+        },
+        [13350] = {
+            [questKeys.preQuestSingle] = {13346},
         },
         [13351] = {
             [questKeys.preQuestSingle] = {13264},
@@ -1216,11 +1321,31 @@ function QuestieWotlkQuestFixes:Load()
         [13368] = {
             [questKeys.preQuestSingle] = {13366},
         },
+        [13373] = {
+            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 0, {{"monster", 31839}}}},
+        },
+        [13376] = {
+            [questKeys.preQuestSingle] = {13373},
+        },
         [13377] = {
             [questKeys.triggerEnd] = {"Assist King Varian Wrynn",{[zoneIDs.UNDERCITY]={{53.75,89.96,},},},},
         },
         [13379] = {
             [questKeys.preQuestSingle] = {13239},
+        },
+        [13380] = {
+            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Karen No"), 0, {{"monster", 31648}}}},
+        },
+        [13382] = {
+            [questKeys.preQuestSingle] = {13380},
+        },
+        [13383] = {
+            [questKeys.preQuestSingle] = {13291},
+        },
+        [13404] = {
+            [questKeys.preQuestSingle] = {13380},
         },
         [13405] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {
