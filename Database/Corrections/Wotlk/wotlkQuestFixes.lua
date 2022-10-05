@@ -855,6 +855,9 @@ function QuestieWotlkQuestFixes:Load()
         [12544] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
         },
+        [12548] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.35,83.08,}}}, ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
+        },
         [12549] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12523,12525},
