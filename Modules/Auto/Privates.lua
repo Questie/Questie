@@ -1,6 +1,8 @@
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
 ---@class QuestieAutoPrivate
+---@field disallowedNPC table<NpcId, boolean>
+---@field disallowedQuests table<QuestId, boolean>
 local _QuestieAuto = QuestieAuto.private
 
 function _QuestieAuto:AllQuestWindowsClosed()
