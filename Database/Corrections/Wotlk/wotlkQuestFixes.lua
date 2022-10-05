@@ -992,6 +992,10 @@ function QuestieWotlkQuestFixes:Load()
         [12723] = {
             [questKeys.preQuestGroup] = {12717,12720,12722},
         },
+        [12726] = {
+            [questKeys.objectives] = {{{28862,},{28858,}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
+        },
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
         },
