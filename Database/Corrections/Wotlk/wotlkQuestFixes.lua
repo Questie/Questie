@@ -874,6 +874,10 @@ function QuestieWotlkQuestFixes:Load()
         [12573] = {
             [questKeys.triggerEnd] = {"Extend Peace Offering to Shaman Vekjik",{[zoneIDs.SHOLAZAR_BASIN]={{51.34,64.67,},},},},
         },
+        [12577] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12575,12576},
+        },
         [12578] = {
             [questKeys.triggerEnd] = {"Travel to Mosswalker Village.",{[zoneIDs.SHOLAZAR_BASIN]={{75.07,51.88,},},},},
         },
