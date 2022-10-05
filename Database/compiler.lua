@@ -412,7 +412,7 @@ QuestieDBCompiler.writers = {
         --    stream:WriteTinyString(value)
         --else
         --    stream:WriteByte(0)
-        --end 
+        --end
     end,
     ["u16string"] = function(stream, value)
         --if value then
@@ -678,7 +678,7 @@ QuestieDBCompiler.skippers = {
             end
         end
     end,
-    ["u8u16stringarray"] = function(stream) 
+    ["u8u16stringarray"] = function(stream)
         local count = stream:ReadByte()
         for _=1,count do
             stream._pointer = stream:ReadShort() + stream._pointer
@@ -692,7 +692,7 @@ QuestieDBCompiler.skippers = {
             stream._pointer = stream:ReadShort() * 3 + stream._pointer
         end
     end,
-    ["trigger"] = function(stream) 
+    ["trigger"] = function(stream)
         stream._pointer = stream:ReadByte() + stream._pointer
         QuestieDBCompiler.skippers["spawnlist"](stream)
     end,
@@ -751,7 +751,7 @@ QuestieDBCompiler.dynamics = {
     ["u16u24array"] = true,
     ["u8u16stringarray"] = true,
     ["spawnlist"] = true,
-    ["trigger"] = true, 
+    ["trigger"] = true,
     ["objective"] = true,
     ["objectives"] = true,
     ["questgivers"] = true,
@@ -1006,14 +1006,14 @@ function QuestieDBCompiler:ValidateNPCs()
             local a = toValidate[id]
             local b = validData[key]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
-            elseif type(a) == "table" then 
-                if not equals(a, (b or {})) then 
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
                     Questie:Error("Nonmatching at " .. key .. "  " .. id)
                     --__nma = a
                     --__nmb = b or {}
@@ -1043,14 +1043,14 @@ function QuestieDBCompiler:ValidateObjects()
             local a = toValidate[id]
             local b = validData[key]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
-            elseif type(a) == "table" then 
-                if not equals(a, (b or {})) then 
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
                     Questie:Error("Nonmatching at " .. key .. "  " .. id)
                     --__nma = a
                     --__nmb = b or {}
@@ -1144,14 +1144,14 @@ function QuestieDBCompiler:ValidateQuests()
             local a = toValidate[id]
             local b = validData[key]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
                 return
-            elseif type(a) == "table" then 
-                if not equals(a, (b or {})) then 
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
                     print("Nonmatching at " .. key .. "  " .. id)
                     --__nma = a
                     --__nmb = b or {}

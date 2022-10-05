@@ -1,7 +1,21 @@
 ---@type QuestieAuto
 local QuestieAuto = QuestieLoader:ImportModule("QuestieAuto")
+---@class QuestieAutoPrivate
+---@field disallowedNPC table<NpcId, boolean>
+---@field disallowedQuests table<QuestId, boolean>
 local _QuestieAuto = QuestieAuto.private
 
+function _QuestieAuto:AllQuestWindowsClosed()
+    if GossipFrame and (not GossipFrame:IsVisible())
+            and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
+            and QuestFrameGreetingPanel and (not QuestFrameGreetingPanel:IsVisible())
+            and QuestFrameDetailPanel and (not QuestFrameDetailPanel:IsVisible())
+            and QuestFrameProgressPanel and (not QuestFrameProgressPanel:IsVisible())
+            and QuestFrameRewardPanel and (not QuestFrameRewardPanel:IsVisible()) then
+        return true
+    end
+    return false
+end
 
 function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
     local title = availableQuests[index]
@@ -10,8 +24,8 @@ function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
 
     if _QuestieAuto:IsAllowedQuest() and ((not isTrivial) or Questie.db.char.acceptTrivial) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking available quest: \"" .. title .. "\"",
-                        "isTrivial", isTrivial, "isRepeatable", isRepeatable, "index",
-                        index)
+                      "isTrivial", isTrivial, "isRepeatable", isRepeatable, "index",
+                      index)
         SelectGossipAvailableQuest(math.floor(index / modulo) + 1)
     end
 end
@@ -41,12 +55,15 @@ function _QuestieAuto:IsAllowedNPC()
     local npcGuid = UnitGUID("target") or nil
     local allowed = true
     if npcGuid then
-        local _, _, _, _, _, npcID = strsplit("-", npcGuid)
-        npcGuid = tonumber(npcID)
-        if (_QuestieAuto.disallowedNPC[npcGuid] ~= nil) then
-            allowed = false
+        ---@type string, string, string, string, string, string
+        local _, _, _, _, _, npcIDStr = strsplit("-", npcGuid)
+        if npcIDStr then
+            local npcId = tonumber(npcIDStr)
+            if (_QuestieAuto.disallowedNPC[npcId] ~= nil) then
+                allowed = false
+            end
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Is NPC-ID", npcId, "allowed:", allowed)
         end
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Is NPC-ID", npcGuid, "allowed:", allowed)
     end
 
     return allowed
@@ -65,7 +82,6 @@ function _QuestieAuto:IsAllowedQuest()
     return allowed
 end
 
-
 local bindTruthTable = {
     ['shift'] = function()
         return IsShiftKeyDown()
@@ -74,7 +90,7 @@ local bindTruthTable = {
         return IsControlKeyDown()
     end,
     ['alt'] = function()
-        return  IsAltKeyDown()
+        return IsAltKeyDown()
     end,
     ['disabled'] = function() return false; end,
 }

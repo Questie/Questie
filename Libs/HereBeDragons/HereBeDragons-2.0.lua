@@ -1,8 +1,10 @@
+---@diagnostic disable: assign-type-mismatch
 -- HereBeDragons is a data API for the World of Warcraft mapping system
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-2.0", 20
 assert(LibStub, MAJOR .. " requires LibStub")
 
+---@class HereBeDragonsQuestie-2.0
 local HereBeDragons, oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not HereBeDragons then return end
 
@@ -512,7 +514,7 @@ end
 -- @return angle, distance where angle is in radians and distance in yards
 function HereBeDragons:GetWorldVector(instanceID, oX, oY, dX, dY)
     local distance, deltaX, deltaY = self:GetWorldDistance(instanceID, oX, oY, dX, dY)
-    if not distance then return nil, nil end
+    if not distance or not deltaX or not deltaY then return nil, nil end
 
     -- calculate the angle from deltaY and deltaX
     local angle = atan2(-deltaX, deltaY)

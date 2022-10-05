@@ -138,6 +138,8 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId))
 end
 
+---@param randomSeed number
+---@return Color
 function QuestieLib:GetRandomColor(randomSeed)
     QuestieLib:MathRandomSeed(randomSeed)
     return {
@@ -548,7 +550,7 @@ end
 ---* Memoize a function with a cache
 --! This does not support nil, never input nil into the table
 ---@param func function
----@param __mode TableWeakMode|nil
+---@param __mode TableWeakMode?
 ---@return table
 function QuestieLib:TableMemoizeFunction(func, __mode)
     return setmetatable({}, {
@@ -564,7 +566,7 @@ end
 
 local frameObject = nil
 if _G["QuestLogObjectivesText"] then -- classic
-    frameObject = _G["QuestLogObjectivesText"] 
+    frameObject = _G["QuestLogObjectivesText"]
 elseif _G["QuestInfoObjectivesText"] then -- Wotlk Classic
     frameObject = _G["QuestInfoObjectivesText"]
 end

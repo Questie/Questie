@@ -4,6 +4,7 @@ local _QuestieAuto = QuestieAuto.private
 
 
 -- NPC Id based.
+---@see QuestieAutoPrivate
 _QuestieAuto.disallowedNPC = {
     -- AQ
     -- Ally
@@ -52,6 +53,7 @@ _QuestieAuto.disallowedNPC = {
     [25163] = true, -- Anchorite Kairthos (Shattered Sun Offensive Title NPC)
 }
 
+---@see QuestieAutoPrivate
 _QuestieAuto.disallowedQuests = {
     -- Escort Quests
     [155] = true, -- The Defias Traitor (The Defias Brotherhood)

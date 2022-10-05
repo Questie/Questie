@@ -37,8 +37,8 @@ function GetQuestLogIndexByID(questID) end
 function IsQuestComplete(questID) end
 
 ---@param questID QuestId               @The ID of the quest to retrieve the tag info for.
----@return number|nil tagID             @the tagID, nil if quest is not tagged
----@return string|nil tagName           @human readable representation of the tagID, nil if quest is not tagged
+---@return number? tagID             @the tagID, nil if quest is not tagged
+---@return string? tagName           @human readable representation of the tagID, nil if quest is not tagged
 ---@return number worldQuestType        @type of world quest, or nil if not world quest
 ---@return number rarity                @the rarity of the quest (used for world quests)
 ---@return boolean isElite              @is this an elite quest? (used for world quests)
@@ -52,9 +52,10 @@ function GetQuestTagInfo(questID) end
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestsCompleted)
 function GetQuestsCompleted(table) end
 
+---@param unit string|"player"
 ---@return number range @an integer value, currently up to 12 (at level 60)
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestGreenRange)
-function GetQuestGreenRange() end
+function GetQuestGreenRange(unit) end
 
 ---@param questLogIndex? number      @OPTIONAL: Index of quest in quest log
 ---@return string questDescription   @The quest description
@@ -63,5 +64,5 @@ function GetQuestGreenRange() end
 function GetQuestLogQuestText(questLogIndex) end
 
 ---@param questID integer            @The index of the header you wish to expand. - 0 to expand all quest headers
----[Documentation}(https://wowpedia.fandom.com/wiki/API_ExpandQuestHeader)
+---[Documentation](https://wowpedia.fandom.com/wiki/API_ExpandQuestHeader)
 function ExpandQuestHeader(questID) end

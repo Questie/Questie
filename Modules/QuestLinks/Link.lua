@@ -84,8 +84,9 @@ end
 function QuestieLink:CreateQuestTooltip(link)
     local isQuestieLink, _, _ = string.match(link, "questie:(%d+):.*")
     if isQuestieLink then
-        local questId = select(2, strsplit(":", link))
-        questId = tonumber(questId)
+        ---@type string
+        local questIdStr = select(2, strsplit(":", link))
+        local questId = tonumber(questIdStr)
         local quest = QuestieDB:GetQuest(questId)
 
         if quest then
@@ -104,14 +105,14 @@ function QuestieLink:CreateQuestTooltip(link)
 end
 
 ---@param text string
----@param wrapText boolean
+---@param wrapText boolean?
 _AddTooltipLine = function (text, wrapText)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
 end
 
 ---@param text string
 ---@param color string
----@param wrapText boolean
+---@param wrapText boolean?
 _AddColoredTooltipLine = function (text, color, wrapText)
     text = Questie:Colorize(text, color)
     ItemRefTooltip:AddLine(text, 1, 1, 1, wrapText)
