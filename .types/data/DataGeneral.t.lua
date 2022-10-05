@@ -4,6 +4,9 @@
 ---@alias Level number
 ---@alias XP number
 
+--- Category id like in the ZoneOrSort
+---@alias CategoryId number
+
 ---@alias FactionId number
 ---@alias SkillId number
 
