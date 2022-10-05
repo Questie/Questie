@@ -338,7 +338,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "使用命令节杖",
     },
-    ["Use Ley Line Focus Control Talisman"] = { -- 12107
+    ["Use Ley Line Focus Control Talisman"] = { -- 12107, 12110
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Benutze Steuerungstalisman des Leylinienfokus",
@@ -350,7 +350,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "使用魔网能量焦点控制饰品",
     },
-    ["Azure Dragonshrine observed"] = { -- 12107
+    ["Azure Dragonshrine observed"] = { -- 12107, 12110
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
