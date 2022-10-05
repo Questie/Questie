@@ -705,6 +705,8 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     return iconMap, iconMinimap;
 end
 
+--- The return type also contains, distance, zone and type but we never really use it.
+---@type table<QuestId, {x:X, y:Y}>
 local closestStarter = {}
 function QuestieMap:FindClosestStarter()
     local playerX, playerY, _ = HBD:GetPlayerWorldPosition();
@@ -713,12 +715,13 @@ function QuestieMap:FindClosestStarter()
         if(not closestStarter[questId]) then
             local quest = QuestieDB:GetQuest(questId);
             if quest then
-                closestStarter[questId] = {}
-                closestStarter[questId].distance = 999999;
-                closestStarter[questId].x = -1;
-                closestStarter[questId].y = -1;
-                closestStarter[questId].zone = -1;
-                closestStarter[questId].type = "";
+                closestStarter[questId] = {
+                    distance = 999999;
+                    x = -1;
+                    y = -1;
+                    zone = -1;
+                    type = "";
+                }
                 for starterType, starters in pairs(quest.Starts) do
                         if(starterType == "GameObject") then
                             for _, ObjectID in ipairs(starters or {}) do

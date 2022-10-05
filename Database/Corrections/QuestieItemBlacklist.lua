@@ -1,6 +1,7 @@
 ---@class QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:CreateModule("QuestieItemBlacklist")
 
+---@return table<ItemId, boolean>
 function QuestieItemBlacklist:Load()
     return {
         [765] = true, -- silverleaf
@@ -176,7 +177,7 @@ function QuestieItemBlacklist:Load()
         [7849] = true, -- Belt of Valor, , Warrior Tier 0.5
         [8371] = true, -- Gauntlets of Valor, Warrior Tier 0.5
         [68435] = true, -- Bracers of Valor, Warrior Tier 0.5
-        
+
         -- Phase 6
         [12811] = true, -- righteous orb
         [22525] = true, -- crypt fiend parts
@@ -184,7 +185,7 @@ function QuestieItemBlacklist:Load()
         [22527] = true, -- core of elements
         [22528] = true, -- dark iron scraps
         [22529] = true, -- savage frond
-        
+
         -- TBC Phase 1
         [21887] = true, -- Knothide Leather
         [22445] = true, -- Arcane Dust

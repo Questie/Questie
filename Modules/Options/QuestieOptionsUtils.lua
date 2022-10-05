@@ -3,7 +3,7 @@ local QuestieOptionsUtils = QuestieLoader:CreateModule("QuestieOptionsUtils");
 
 --- Creates a vertical spacer with the given height
 ---@param o number
----@param hidden boolean|nil
+---@param hidden boolean?
 function QuestieOptionsUtils:Spacer(o, hidden)
     return {
         type = "description",

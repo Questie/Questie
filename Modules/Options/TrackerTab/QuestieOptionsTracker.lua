@@ -48,11 +48,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.autoTrackQuests = value
                     if value then
-                        SetCVar("autoQuestWatch", "1")
                         Questie.db.char.TrackedQuests = {}
-
                     else
-                        SetCVar("autoQuestWatch", "0")
                         Questie.db.char.AutoUntrackedQuests = {}
                     end
                     QuestieTracker:Update()

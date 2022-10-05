@@ -691,8 +691,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         return nil
     end
 
-    ---@class ObjectiveIndex
-
     ---@class Quest
     ---@field public Id QuestId
     ---@field public name Name
@@ -721,7 +719,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public specialFlags number @bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ---@field public parentQuest QuestId
     ---@field public reputationReward ReputationPair[]
-    ---@field public extraObjectives table
+    ---@field public extraObjectives ExtraObjective[]
     local QO = {
         Id = questId
     }
@@ -850,9 +848,17 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
         -- There are quest(s) which have the killCredit at first so we need to switch them
         if QuestieCorrections.reversedKillCreditQuestIDs[questId] then
-            local tmp = QO.ObjectiveData[1]
-            QO.ObjectiveData[1] = QO.ObjectiveData[2]
-            QO.ObjectiveData[2] = tmp
+            -- Quests like 13373 have three objectives, two regular slay objectives and one killCreditObjective.
+            -- This swappes the first and last objective.
+            if QO.ObjectiveData[3] then
+                local tmp = QO.ObjectiveData[1]
+                QO.ObjectiveData[1] = QO.ObjectiveData[3]
+                QO.ObjectiveData[3] = tmp
+            else
+                local tmp = QO.ObjectiveData[1]
+                QO.ObjectiveData[1] = QO.ObjectiveData[2]
+                QO.ObjectiveData[2] = tmp
+            end
         end
     end
 
@@ -876,7 +882,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
     --- Includes also icons drawn to maps, and other stuff.
-    ---@type table<number, table>
+    ---@type table<ObjectiveIndex, QuestObjective>
     QO.Objectives = {}
 
     QO.SpecialObjectives = {}
@@ -907,6 +913,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     QO.IsTrivial = _IsTrivial
 
+    ---@type ExtraObjective[]
     local extraObjectives = rawdata[questKeys.extraObjectives]
     if extraObjectives then
         for index, o in pairs(extraObjectives) do

@@ -71,6 +71,9 @@ local TICKS_PER_YIELD_DEBUG = 4000
 local TICKS_PER_YIELD = 72
 
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
+---@generic T
+---@param values T
+---@return T
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
@@ -137,7 +140,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
-    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load()) 
+    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
 
     if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists

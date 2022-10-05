@@ -1,9 +1,11 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
-* text=auto
+* text=lf
 
-*.lua text
-*.toc text
-*.xml text
+*.lua  text
+*.toc  text
+*.xml  text
+*.py   text
+*.json text
 
 # Denote all files that are truly binary and should not be modified.
 *.png binary

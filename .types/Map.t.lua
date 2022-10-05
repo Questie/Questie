@@ -21,3 +21,6 @@
 ---@field x X[]
 ---@field y Y[]
 ---@field zone AreaId
+
+--- R, G, B
+---@class Color : {[1]: number, [2]: number, [3]: number}

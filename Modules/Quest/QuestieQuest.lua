@@ -263,7 +263,7 @@ function QuestieQuest:SmoothReset()
             QuestieMenu:OnLogin(true) -- remove icons
             return true
         end,
-        function() 
+        function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
@@ -344,7 +344,7 @@ function QuestieQuest:ShouldShowQuestNotes(questId)
         return true
     end
 
-    local autoWatch = (GetCVar("autoQuestWatch") == "1")
+    local autoWatch = Questie.db.global.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
     return trackedAuto or trackedManual
@@ -658,8 +658,18 @@ end
 
 
 ---@param quest Quest
+---@param objectiveIndex ObjectiveIndex
+---@param objective QuestObjective
+---@param blockItemTooltips any
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
+
+    if (not objective.Update) then
+        -- TODO: This is a dirty band aid, to hide Lua errors to the users.
+        -- Some reports suggest there might be a race condition for SpecialObjectives so they don't get the fields used in here
+        -- before PopulateObjective is called.
+        return
+    end
 
     objective:Update()
     local completed = objective.Completed
@@ -769,8 +779,9 @@ _UnloadAlreadySpawnedIcons = function(objective)
 end
 
 ---@param quest Quest
----@param objectiveIndex number
----@param objectiveCenter Point
+---@param objective QuestObjective
+---@param objectiveIndex ObjectiveIndex
+---@param objectiveCenter {x:X, y:Y}
 _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter)
     local iconsToDraw = {}
     local spawnItemId
@@ -959,16 +970,15 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     end
 end
 
+
+---@param quest Quest
 local function _CallPopulateObjective(quest)
-    for k, v in pairs(quest.Objectives) do
-        local result, err = xpcall(QuestieQuest.PopulateObjective, function(err)
-            print(err)
-            print(debugstack())
-        end, QuestieQuest, quest, k, v, false);
+    for objectiveIndex, questObjective in pairs(quest.Objectives) do
+        local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, questObjective, false);
         if not result then
             local major, minor, patch = QuestieLib:GetAddonVersionInfo();
             local version = "v"..(major or "").."."..(minor or "").."."..(patch or "");--Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", k or "No objective", err or "No error"));
+            Questie:Error("[QuestieQuest]: " .. version .. " - " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", objectiveIndex or "No objective", err or "No error"));
         end
     end
 end
@@ -995,6 +1005,7 @@ local function _AddSourceItemObjective(quest)
     end
 end
 
+---@param quest Quest
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Populating objectives for:", quest.Id)
     if (not quest) then
@@ -1034,7 +1045,11 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 end
 
 ---@param quest Quest
+---@return true?
 function QuestieQuest:PopulateQuestLogInfo(quest)
+    if (not quest) then
+        return nil
+    end
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
 
     local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
@@ -1093,9 +1108,10 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             specialObjective.AlreadySpawned = {}
         end
     end
+    return true
 end
 
----@param self table @quest.Objectives[] entry
+---@param self QuestObjective @quest.Objectives[] entry
 function _QuestieQuest.ObjectiveUpdate(self)
     if self.isUpdated then
         return
@@ -1123,7 +1139,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
 end
 
 ---@param questId number
----@return table @DO NOT EDIT RETURNED TABLE
+---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>|nil @DO NOT EDIT RETURNED TABLE
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
 
@@ -1372,7 +1388,7 @@ do
         end
     end
 
-    
+
     ---@type Ticker|nil
     local timer
 

@@ -418,7 +418,7 @@ QuestieDBCompiler.writers = {
         --    stream:WriteTinyString(value)
         --else
         --    stream:WriteByte(0)
-        --end 
+        --end
     end,
     ["u16string"] = function(stream, value)
         --if value then
@@ -758,7 +758,7 @@ QuestieDBCompiler.dynamics = {
     ["u16u24array"] = true,
     ["u8u16stringarray"] = true,
     ["spawnlist"] = true,
-    ["trigger"] = true, 
+    ["trigger"] = true,
     ["objective"] = true,
     ["objectives"] = true,
     ["questgivers"] = true,
@@ -1005,14 +1005,14 @@ function QuestieDBCompiler:ValidateNPCs()
             local a = compiledData[id]
             local b = nonCompiledData[QuestieDB.npcKeys[key]]
 
-            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
-            elseif type(a) == "table" then 
-                if not equals(a, (b or {})) then 
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
                     Questie:Error("Nonmatching table at " .. key .. "  " .. id .. " for ID: ".. npcId)
                     DevTools_Dump({
                         ["Compiled Table:"] = a,
@@ -1045,14 +1045,14 @@ function QuestieDBCompiler:ValidateObjects()
             local a = compiledData[id]
             local b = nonCompiledData[QuestieDB.objectKeys[key]]
 
-            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
-            elseif type(a) == "table" then 
-                if not equals(a, (b or {})) then 
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
                     Questie:Error("Nonmatching table at " .. key .. "  " .. id  .. " for ID: ".. objectId)
                     DevTools_Dump({
                         ["Compiled Table:"] = a,
@@ -1145,10 +1145,10 @@ function QuestieDBCompiler:ValidateItems()
             local a = compiledData[id]
             local b = nonCompiledData[QuestieDB.itemKeys[key]]
 
-            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. itemId)
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. itemId)
                 return
             elseif type(a) == "table" then
@@ -1223,10 +1223,10 @@ function QuestieDBCompiler:ValidateQuests()
             -- if key == "extraObjectives" then
             --     -- Do nothing
             -- else
-            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then 
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
                 Questie:Error("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
-            elseif type(a) == "string" and a ~= (b or "") then 
+            elseif type(a) == "string" and a ~= (b or "") then
                 Questie:Error("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
                 return
             elseif type(a) == "table" then
@@ -1240,7 +1240,7 @@ function QuestieDBCompiler:ValidateQuests()
                     end
                 end
 
-                if not equals(a, (b or {})) then 
+                if not equals(a, (b or {})) then
                     print("Nonmatching table at " .. key .. "  " .. id .. " for ID: ".. questId)
                     DevTools_Dump({
                         ["Compiled Table:"] = a,

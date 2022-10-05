@@ -1,4 +1,5 @@
 ---@class QuestieAuto
+---@field private private QuestieAutoPrivate
 local QuestieAuto = QuestieLoader:CreateModule("QuestieAuto");
 local _QuestieAuto = QuestieAuto.private
 ---@type QuestieDB
@@ -20,6 +21,12 @@ local MOP_INDEX_COMPLETE = 6 -- was '4' in Cataclysm
 
  -- forward declarations
 local _SelectAvailableQuest
+
+
+local function ResetModifier()
+    shouldRunAuto = true
+    lastEvent = nil
+end
 
 function QuestieAuto:GOSSIP_SHOW(event, ...)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto][EVENT] GOSSIP_SHOW", event, ...)
@@ -179,22 +186,27 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] INSIDE", event, ...)
 
         local questId = GetQuestID()
-        ---@type Quest
-        local quest = QuestieDB:GetQuest(questId)
+        local quest
+
+        if questId and questId ~= 0 then
+            quest = QuestieDB:GetQuest(questId)
+        end
 
         if not quest then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] No quest object, retrying in 1 second")
-            C_Timer.After(1, function ()
+            C_Timer.After(1, function()
                 questId = GetQuestID()
-                ---@type Quest
-                quest = QuestieDB:GetQuest(questId)
-                if not quest then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
-                elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
-                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
-                    AcceptQuest()
+                if questId and questId ~= 0 then
+                    quest = QuestieDB:GetQuest(questId)
+                    if not quest then
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
+                    elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
+                        AcceptQuest()
+                    end
                 end
             end)
+
             return
         end
 
@@ -241,7 +253,7 @@ end
 local _QuestFinishedCallback = function()
     if _QuestieAuto:AllQuestWindowsClosed() then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] All quest windows closed! Resetting shouldRunAuto")
-        _QuestieAuto:ResetModifier()
+        ResetModifier()
     end
 end
 
@@ -261,11 +273,6 @@ function _QuestieAuto:AllQuestWindowsClosed()
         return true
     end
     return false
-end
-
-function _QuestieAuto:ResetModifier()
-    shouldRunAuto = true
-    lastEvent = nil
 end
 
 --- The closingCounter needs to reach 1 for QuestieAuto to reset

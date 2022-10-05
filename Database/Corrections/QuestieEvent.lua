@@ -48,10 +48,8 @@ Harvest Festival history:         lunar calendar 15/8 in gregorian calendar:
 ]] --
 
 ---@class QuestieEvent
+---@field public private QuestieEventPrivate
 local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
----@type QuestieEventPrivate
-QuestieEvent.private = QuestieEvent.private or {}
-
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
 
@@ -192,10 +190,10 @@ _LoadDarkmoonFaire = function()
 end
 
 --- Checks wheather the current date is within the given date range
----@param startDay number
----@param startMonth number
----@param endDay number
----@param endMonth number
+---@param startDay number?
+---@param startMonth number?
+---@param endDay number?
+---@param endMonth number?
 ---@return boolean @True if the current date is between the given, false otherwise
 _WithinDates = function(startDay, startMonth, endDay, endMonth)
     if (not startDay) and (not startMonth) and (not endDay) and (not endMonth) then

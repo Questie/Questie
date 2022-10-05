@@ -49,15 +49,35 @@ local cache = {
     [questId2] = ....,
 }
 ]]--
+
+
+---@class QuestLogCacheObjectiveData
+---@field text string "Objective Text"
+---@field type "monster"|"object"|"item"|"reputation"|"killcredit"|"event"
+---@field finished boolean
+---@field numFulfilled number
+---@field numRequired number
+---@field raw_Text string E.g "Objective Text slain: 2/3",
+---@field raw_finished boolean
+---@field raw_numFulfilled number
+
+---@class QuestLogCacheData
+---@field title string
+---@field questTag QuestTag
+---@field isComplete -1|0|1 @ -1 = failed, 0 = not complete, 1 = complete
+---@field objectives QuestLogCacheObjectiveData[]
+
+
+---@type table<QuestId, QuestLogCacheData>
 local cache = {}
 
 --- NEVER EVER EDIT this table outside of the QuestLogCache module!  !!!
----@type table
+---@type table<QuestId, QuestLogCacheData>
 QuestLogCache.questLog_DO_NOT_MODIFY = cache
 
 
 
----@return table|nil newObjectives, table changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
+---@return table? newObjectives, ObjectiveIndex[] changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
 local function GetNewObjectives(questId, oldObjectives)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
     local changedObjIds -- not assigning {} for easier nil when nothing changed
@@ -127,7 +147,7 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 --- Updates questlogcache.
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 --- Called only from QuestEventHandler.
----@param questIdsToCheck table|nil @keys are the questIds
+---@param questIdsToCheck table? @keys are the questIds
 ---@return boolean cacheMiss, table changes @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
 function QuestLogCache.CheckForChanges(questIdsToCheck)
     local cacheMiss = false
@@ -285,7 +305,8 @@ end
 
 
 --- A wrapper function to add error check instead using exposed table directly.
----@return table @NEVER EVER MODIFY THE RETURNED TABLE
+---@param questId QuestId
+---@return QuestLogCacheData? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuest(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
@@ -297,7 +318,8 @@ function QuestLogCache.GetQuest(questId)
 end
 
 --- A wrapper function to add error check instead using exposed table directly.
----@return table @NEVER EVER MODIFY THE RETURNED TABLE
+---@param questId QuestId
+---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuestObjectives(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
@@ -331,8 +353,9 @@ end
 --- Debug function, prints whole cache
 function QuestLogCache.DebugPrintCache()
     print("DebugPrintCache", GetTime())
-
+    local count = 0
     for questId, q in pairs(cache) do
+        count = count + 1
         print("Quest: ("..questId..") \""..q.title.."\" questTag="..tostring(q.questTag) ,"isComplete="..tostring(q.isComplete))
         if not next(q.objectives) then
             print("  no objectives")
@@ -342,6 +365,7 @@ function QuestLogCache.DebugPrintCache()
             end
         end
     end
+    print("Total Quests ", count)
 end
 
 --- Debug function, prints changes

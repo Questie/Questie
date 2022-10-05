@@ -152,10 +152,9 @@ function QuestieTracker.Initialize()
             QuestieTracker:MoveDurabilityFrame()
         end
 
-        -- Prevents addons like Dugi Guides from turning off Automatic Quest Tracking and automatically un-tracking quests from the tracker
+        -- Prevent Dugi Guides from automatically un-tracking quests from the tracker
         if Questie.db.global.autoTrackQuests then
             if IsAddOnLoaded("DugisGuideViewerZ") then
-                SetCVar("autoQuestWatch", "1")
                 DugisGuideViewer:SetDB(false, 39)
             end
         end
@@ -788,7 +787,7 @@ function QuestieTracker:Update()
             end
         end
 
-        if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and ((GetCVar("autoQuestWatch") == "1" and not Questie.db.char.AutoUntrackedQuests[questId]) or (GetCVar("autoQuestWatch") == "0" and Questie.db.char.TrackedQuests[questId])) then
+        if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and (Questie.db.global.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId]) or ((not Questie.db.global.autoTrackQuests) and Questie.db.char.TrackedQuests[questId]) then
 
             -- Add zones
             if Questie.db.global.trackerSortObjectives == "byZone" then
@@ -799,7 +798,7 @@ function QuestieTracker:Update()
                 if firstQuestInZone then
                     line = LinePool.GetNextLine()
                     if not line then break end -- stop populating the tracker
-                    
+
                     line:SetMode("zone")
                     line:SetZone(quest.zoneOrSort)
                     line.expandQuest:Hide()
@@ -1161,7 +1160,7 @@ function QuestieTracker:HookBaseTracker()
             -- (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
             questId = index;
         end
-        if "0" == GetCVar("autoQuestWatch") then
+        if not Questie.db.global.autoTrackQuests then
             return Questie.db.char.TrackedQuests[questId or -1]
         else
             return questId and QuestiePlayer.currentQuestlog[questId] and (not Questie.db.char.AutoUntrackedQuests[questId])
@@ -1182,12 +1181,16 @@ _OnTrackedQuestClick = function(self)
     end
     if self.mode == 1 then
         self:SetMode(0)
-        AchievementTracker.Hide()
+        if Questie.IsWotlk then
+            AchievementTracker.Hide()
+        end
         Questie.db.char.isTrackerExpanded = false
     else
         self:SetMode(1)
         Questie.db.char.isTrackerExpanded = true
-        AchievementTracker.Show()
+        if Questie.IsWotlk then
+            AchievementTracker.Show()
+        end
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
         _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
         if Questie.db.global.trackerBorderEnabled then
@@ -1247,7 +1250,7 @@ _RemoveQuestWatch = function(index, isQuestie)
 end
 
 function QuestieTracker:UntrackQuestId(questId)
-    if "0" == GetCVar("autoQuestWatch") then
+    if not Questie.db.global.autoTrackQuests then
         Questie.db.char.TrackedQuests[questId] = nil
     else
         Questie.db.char.AutoUntrackedQuests[questId] = true
@@ -1303,7 +1306,7 @@ function QuestieTracker:AQW_Insert(index, expire)
     end
 
     if questId > 0 then
-        if "0" == GetCVar("autoQuestWatch") then
+        if not Questie.db.global.autoTrackQuests then
             if Questie.db.char.TrackedQuests[questId] then
                 Questie.db.char.TrackedQuests[questId] = nil
             else

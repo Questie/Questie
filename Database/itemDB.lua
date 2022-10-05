@@ -27,7 +27,7 @@ end
 
 -- item class/subClass combinations
 
---class subClass 
+--class subClass
 -- 0 		0 	Consumable
 -- 1 		0 	Container, Bag
 -- 1 		1 	Container, Soul bag
