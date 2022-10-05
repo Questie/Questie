@@ -1224,6 +1224,12 @@ function QuestieWotlkQuestFixes:Load()
         [13223] = {
             [questKeys.exclusiveTo] = {13185},
         },
+        [13226] = {
+            [questKeys.nextQuestInChain] = 13036,
+        },
+        [13227] = {
+            [questKeys.nextQuestInChain] = 13036,
+        },
         [13228] = {
             [questKeys.objectives] = {{{31273,"Dying Berserker Questioned"}}},
             [questKeys.childQuests] = {13230},
