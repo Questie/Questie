@@ -77,7 +77,7 @@ QuestLogCache.questLog_DO_NOT_MODIFY = cache
 
 
 
----@return table|nil newObjectives, ObjectiveIndex[] changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
+---@return table? newObjectives, ObjectiveIndex[] changedObjIds @nil == cache miss in both addon and game caches. table {} == no objectives.
 local function GetNewObjectives(questId, oldObjectives)
     local newObjectives = {} -- creating a fresh one to be able revert to old easily in case of missing data
     local changedObjIds -- not assigning {} for easier nil when nothing changed
@@ -147,7 +147,7 @@ QuestLogCache._GetNewObjectives = GetNewObjectives
 --- Updates questlogcache.
 --- Remember to handle returned changes table even when cacheMiss == true. Returned changes are still valid. There may just be more changes that we couldn't get yet.
 --- Called only from QuestEventHandler.
----@param questIdsToCheck table|nil @keys are the questIds
+---@param questIdsToCheck table? @keys are the questIds
 ---@return boolean cacheMiss, table changes @cacheMiss = couldn't get all required data  ; changes[questId] = list of changed objectiveIndexes (may be an empty list if quest has no objectives)
 function QuestLogCache.CheckForChanges(questIdsToCheck)
     local cacheMiss = false
@@ -306,7 +306,7 @@ end
 
 --- A wrapper function to add error check instead using exposed table directly.
 ---@param questId QuestId
----@return QuestLogCacheData|nil @NEVER EVER MODIFY THE RETURNED TABLE
+---@return QuestLogCacheData? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuest(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then
@@ -319,7 +319,7 @@ end
 
 --- A wrapper function to add error check instead using exposed table directly.
 ---@param questId QuestId
----@return table<ObjectiveIndex, QuestLogCacheObjectiveData>|nil @NEVER EVER MODIFY THE RETURNED TABLE
+---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>? @NEVER EVER MODIFY THE RETURNED TABLE
 function QuestLogCache.GetQuestObjectives(questId)
     -- Fix the issue at function caller side if this error pops up.
     if (not cache[questId]) then

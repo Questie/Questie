@@ -62,7 +62,7 @@ _QuestieQuest.objectiveSpawnListCallTable = {}
 killcredit = function(npcId, objective, objectiveData)
     ---@type SpawnListNPC[]
     local ret = {}
-    for npcIdIndex = 1, #objectiveData.IdList do 
+    for npcIdIndex = 1, #objectiveData.IdList do
         local killCreditNpcId = objectiveData.IdList[npcIdIndex]
         ret[killCreditNpcId] = monster(killCreditNpcId, objective)[killCreditNpcId]
     end
@@ -71,7 +71,7 @@ end
 
 ---@param npcId any
 ---@param objective any
----@return table<NpcId, SpawnListNPC>|nil
+---@return table<NpcId, SpawnListNPC>?
 monster = function(npcId, objective)
     if (not npcId) then
         Questie:Error(
@@ -120,7 +120,7 @@ end
 ---comment
 ---@param objectId any
 ---@param objective any
----@return table<ObjectId, SpawnListObject>|nil
+---@return table<ObjectId, SpawnListObject>?
 object = function(objectId, objective)
     if (not objectId) then
         Questie:Error(
@@ -163,7 +163,7 @@ end
 ---comment
 ---@param eventId any
 ---@param objective any
----@return { [1]: SpawnListEvent }|nil
+---@return { [1]: SpawnListEvent }?
 event = function(eventId, objective)
     local spawns = objective.Coordinates
     if (not spawns) then
@@ -189,7 +189,7 @@ end
 ---comment
 ---@param itemId any
 ---@param objective any
----@return table<ItemId, SpawnListItem>|nil
+---@return table<ItemId, SpawnListItem>?
 item = function(itemId, objective)
     if (not itemId) then
         Questie:Error(

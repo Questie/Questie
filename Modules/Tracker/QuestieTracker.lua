@@ -798,7 +798,7 @@ function QuestieTracker:Update()
                 if firstQuestInZone then
                     line = LinePool.GetNextLine()
                     if not line then break end -- stop populating the tracker
-                    
+
                     line:SetMode("zone")
                     line:SetZone(quest.zoneOrSort)
                     line.expandQuest:Hide()

@@ -31,9 +31,9 @@ function MessageHandlerFactory.New()
 
     --- The local function for both Async and Sync callbacks
     ---@param eventName Event
-    ---@param asyncCount number|nil @How many events to fire per yield
+    ---@param asyncCount number? @How many events to fire per yield
     ---@param ... any @Input arguments for the callback
-    ---@return table|nil @Returns a table of all the return values from the callbacks
+    ---@return table? @Returns a table of all the return values from the callbacks
     local function fire(eventName, asyncCount, ...)
         if handler.executing[eventName] then
             error("Event '" .. eventName .. "' is already being executed!", 2)
@@ -79,16 +79,16 @@ function MessageHandlerFactory.New()
     --- Fire a callback event
     ---@param eventName Event
     ---@param ... any @Input arguments for the callback
-    ---@return table|nil @A table containing all the return values
+    ---@return table? @A table containing all the return values
     function handler:Fire(eventName, ...)
         return fire(eventName, nil, ...)
     end
 
     --- Fire a async callback event which invokes coroutine yield
     ---@param eventName Event
-    ---@param asyncCount number|nil @How many events to fire per yield
+    ---@param asyncCount number? @How many events to fire per yield
     ---@param ... any @Input arguments for the callback
-    ---@return table|nil @A table containing all the return values
+    ---@return table? @A table containing all the return values
     function handler:FireAsync(eventName, asyncCount, ...)
         local returnValues = fire(eventName, asyncCount, ...)
         --? We call yield here returning the value to the calling resume, makes it take one more resume to finish

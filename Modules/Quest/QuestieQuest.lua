@@ -1272,7 +1272,7 @@ function _QuestieQuest:GetQuestIcon(quest)
     return icon
 end
 
----@type Ticker|nil
+---@type Ticker?
 local timer
 function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer.GetPlayerLevel())

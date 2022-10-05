@@ -37,8 +37,8 @@ function GetQuestLogIndexByID(questID) end
 function IsQuestComplete(questID) end
 
 ---@param questID QuestId               @The ID of the quest to retrieve the tag info for.
----@return number|nil tagID             @the tagID, nil if quest is not tagged
----@return string|nil tagName           @human readable representation of the tagID, nil if quest is not tagged
+---@return number? tagID             @the tagID, nil if quest is not tagged
+---@return string? tagName           @human readable representation of the tagID, nil if quest is not tagged
 ---@return number worldQuestType        @type of world quest, or nil if not world quest
 ---@return number rarity                @the rarity of the quest (used for world quests)
 ---@return boolean isElite              @is this an elite quest? (used for world quests)
