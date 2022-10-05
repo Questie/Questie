@@ -1114,6 +1114,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
         },
+        [13008] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
+        },
         [13011] = {
             [questKeys.name] = "Culling Jorcuttar",
             [questKeys.requiredSourceItems] = {42733},
