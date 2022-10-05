@@ -1132,6 +1132,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13008,13039,13040},
         },
+        [13045] = {
+            [questKeys.extraObjectives] = {
+				{nil, ICON_TYPE_OBJECT, l10n("Mount Argent Skytalon"), 0, {{"monster", 30500}}},
+				{{[zoneIDs.ICECROWN]={{86.85,76.61}}}, ICON_TYPE_EVENT, l10n("Drop Off Captured Crusader"), 0},
+            },
+        },
         [13046] = {
             [questKeys.requiredMinRep] = {1119,21000},
         },
