@@ -1128,6 +1128,10 @@ function QuestieWotlkQuestFixes:Load()
         [13040] = {
             [questKeys.preQuestSingle] = {13036},
         },
+        [13044] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {13008,13039,13040},
+        },
         [13046] = {
             [questKeys.requiredMinRep] = {1119,21000},
         },
