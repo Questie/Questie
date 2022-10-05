@@ -2714,41 +2714,41 @@
         "LQuestie_Create_UIDropDownMenu"
     ],
     "Lua.workspace.ignoreDir": [
-        "Database/TBC/**",		//Because they do not actually differ from classic in structure, load the smallest
-		"Database/Wotlk/**",	//Because they do not actually differ from classic in structure, load the smallest
+        "Database/TBC/**", //Because they do not actually differ from classic in structure, load the smallest
+        "Database/Wotlk/**", //Because they do not actually differ from classic in structure, load the smallest
         "Localization/lookups/**",
         "Localization/Translations/**",
         "cli.lua",
-		".types/.SubModules/BlizzardInterfaceCode/**",
-		".types/.SubModules/EmmyLua/**"
+        ".types/.SubModules/BlizzardInterfaceCode/**",
+        ".types/.SubModules/EmmyLua/**"
     ],
 
-	"Lua.workspace.library": [
-		".\\.types\\.SubModules\\BlizzardInterfaceCode",
-		".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\API",
-		".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\Optional",
-	],
+    "Lua.workspace.library": [
+        ".\\.types\\.SubModules\\BlizzardInterfaceCode",
+        ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\API",
+        ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\Optional",
+    ],
 
-	"Lua.workspace.preloadFileSize": 3000,
-	"Lua.workspace.maxPreload": 2000,
+    "Lua.workspace.preloadFileSize": 3000,
+    "Lua.workspace.maxPreload": 2000,
 
-	"search.exclude": {
-		".luacheckrc": true,
-		"cli.lua": true,
-		"README.md": true,
-		".github/**": true,
-		".vscode/**": true,
-		// ".types/.SubModules/vscode-wow-api/**": true,
-	},
+    "search.exclude": {
+        ".luacheckrc": true,
+        "cli.lua": true,
+        "README.md": true,
+        ".github/**": true,
+        ".vscode/**": true,
+        // ".types/.SubModules/vscode-wow-api/**": true,
+    },
     "files.exclude": {
         "ExternalScripts(DONOTINCLUDEINRELEASE)": true,
-		".types/.SubModules/BlizzardInterfaceCode": true,
-		".types/.SubModules/vscode-wow-api": true,
-		// ".types/.SubModules/vscode-wow-api/*.*": true,
-		// ".types/.SubModules/vscode-wow-api/bin": true,
-		// ".types/.SubModules/vscode-wow-api/img": true,
-		// ".types/.SubModules/vscode-wow-api/Lua": true,
-		// ".types/.SubModules/vscode-wow-api/src": true,
+        ".types/.SubModules/BlizzardInterfaceCode": true,
+        ".types/.SubModules/vscode-wow-api": true,
+        // ".types/.SubModules/vscode-wow-api/*.*": true,
+        // ".types/.SubModules/vscode-wow-api/bin": true,
+        // ".types/.SubModules/vscode-wow-api/img": true,
+        // ".types/.SubModules/vscode-wow-api/Lua": true,
+        // ".types/.SubModules/vscode-wow-api/src": true,
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
         "Libs/Lib*": true
@@ -2763,13 +2763,13 @@
 
     // Insert spaces when pressing Tab. This setting is overriden
     // based on the file contents when `editor.detectIndentation` is true.
-    "editor.insertSpaces": false,
+    "editor.insertSpaces": true,
 
     // When opening a file, `editor.tabSize` and `editor.insertSpaces`
     // will be detected based on the file contents. Set to false to keep
     // the values you've explicitly set, above.
     "editor.detectIndentation": false,
 
-	// Default end of line
+    // Default end of line
     "files.eol": "\n",
 }

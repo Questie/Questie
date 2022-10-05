@@ -131,7 +131,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     for id, data in pairs(QuestieQuestFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
-			if not QuestieDB.questDataOverrides[id] then
+            if not QuestieDB.questDataOverrides[id] then
                 QuestieDB.questDataOverrides[id] = {}
             end
             QuestieDB.questDataOverrides[id][key] = value
