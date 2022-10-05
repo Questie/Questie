@@ -594,7 +594,7 @@ function QuestieWotlkQuestFixes:Load()
             },},
         },
         [12150] = {
-            [questKeys.triggerEnd] = {"Name of the Magnataur Warlord",{[zoneIDs.DRAGONBLIGHT]={{72.56,49.62,},},},},
+            [questKeys.objectives] = {{{27003,}}},
         },
         [12152] = {
             [questKeys.extraObjectives] = {
