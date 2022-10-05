@@ -960,6 +960,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28844,"Drakkari Skullcrushers Slain"},{28873,"Drakkari Chieftain Lured"},},nil,nil,nil,},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Scepter of Command"), 0, {{"monster", 28843}}}},
         },
+        [12692] = {
+            [questKeys.requiredMinRep] = {1104,9000},
+        },
+        [12695] = {
+            [questKeys.requiredMinRep] = {1105,9000},
+        },
         [12697] = {
             [questKeys.preQuestGroup] = {12678,12679,12687,12733,},
         },
