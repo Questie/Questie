@@ -598,6 +598,9 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12171] = {
+            [questKeys.exclusiveTo] = {12174,12235,12297},
+        },
         [12174] = {
             [questKeys.exclusiveTo] = {12235},
         },
