@@ -1036,7 +1036,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 end
 
 ---@param quest Quest
----@return true|nil
+---@return true?
 function QuestieQuest:PopulateQuestLogInfo(quest)
     if (not quest) then
         return nil
