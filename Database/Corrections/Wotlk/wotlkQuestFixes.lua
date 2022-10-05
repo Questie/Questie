@@ -836,6 +836,15 @@ function QuestieWotlkQuestFixes:Load()
         [12532] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
         },
+        [12534] = {
+            [questKeys.preQuestGroup] = {12533,12534},
+        },
+        [12533] = {
+            [questKeys.preQuestGroup] = {12529,12530},
+        },
+        [12534] = {
+            [questKeys.preQuestGroup] = {12529,12530},
+        },
         [12536] = {
             [questKeys.triggerEnd] = {"Travel to Mistwhisper Refuge.",{[zoneIDs.SHOLAZAR_BASIN]={{46.31,39.88,},},},},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Captive Crocolisk"), 0, {{"monster", 28298}}}},
