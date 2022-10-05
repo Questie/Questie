@@ -853,6 +853,9 @@ function QuestieWotlkQuestFixes:Load()
         [12561] = {
             [questKeys.preQuestSingle] = {12803},
         },
+        [12569] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
+        },
         [12570] = {
             [questKeys.triggerEnd] = {"Escort the Injured Rainspeaker Oracle to Rainspaker Canopy",{[zoneIDs.SHOLAZAR_BASIN]={{53.59,56.76,},},},},
         },
