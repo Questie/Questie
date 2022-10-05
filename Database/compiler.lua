@@ -1213,6 +1213,46 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return QuestieDBCompiler.readers[typ](stream)
         end
+
+        --- Credit for the QueryAll structure goes to @Laume/Laumesis
+
+        handle.QueryAll = function(id)
+            local ptr = pointers[id]
+            local override = overrides[id]
+
+            if not ptr then
+                if not override then return nil end
+                local ret = {}
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    ret[key] = override[keyToRootIndex[key]]
+                end
+                return ret
+            end
+
+            stream._pointer = ptr
+
+            local ret = {}
+            if override then
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    local rootIndex = keyToRootIndex[key]
+                    if override[rootIndex] then
+                        ret[key] = override[rootIndex]
+                        QuestieDBCompiler.skippers[types[key]](stream)
+                    else
+                        ret[key] = QuestieDBCompiler.readers[types[key]](stream)
+                    end
+                end
+            else
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    ret[key] = QuestieDBCompiler.readers[types[key]](stream)
+                end
+            end
+
+            return ret
+        end
         handle.Query = function(id, ...)
             --if overrides[id] then
             --    local ret = {}
@@ -1288,6 +1328,25 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 end
             end
             return QuestieDBCompiler.readers[typ](stream)
+        end
+
+        --- Credit for the QueryAll structure goes to @Laume/Laumesis
+
+        handle.QueryAll = function(id)
+            local ptr = pointers[id]
+
+            if not ptr then
+                return nil
+            end
+
+            stream._pointer = ptr
+
+            local ret = {}
+            for index=1,#indexToKey do
+                local key = indexToKey[index]
+                ret[key] = QuestieDBCompiler.readers[types[key]](stream)
+            end
+            return ret
         end
 
         handle.Query = function(id, ...)
