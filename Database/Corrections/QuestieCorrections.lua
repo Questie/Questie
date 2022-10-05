@@ -64,7 +64,7 @@ QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 QuestieCorrections.WOTLK_ONLY = 3
 
-QuestieCorrections.reversedKillCreditQuestIDs = {} -- Only used for TBC quests
+QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
 -- used during Precompile, how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
@@ -131,7 +131,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     for id, data in pairs(QuestieQuestFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
-			if not QuestieDB.questDataOverrides[id] then
+            if not QuestieDB.questDataOverrides[id] then
                 QuestieDB.questDataOverrides[id] = {}
             end
             QuestieDB.questDataOverrides[id][key] = value
