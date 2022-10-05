@@ -801,6 +801,9 @@ function QuestieWotlkQuestFixes:Load()
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [12498] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Antiok's mount to make him vulnerable"),0,{{"monster", 28018}}},},
+        },
         [12500] = {
             [questKeys.preQuestSingle] = {12498},
         },
