@@ -1286,6 +1286,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"] = { -- 12762
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Soo-rahm's Incense"] = { -- 12544
         ["ptBR"] = false,
         ["ruRU"] = false,
