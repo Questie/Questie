@@ -891,6 +891,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12556,12558,12569},
         },
+        [12607] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28379,28374},28379,}}},
+        },
         [12620] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{49.64,37.41,}}}, ICON_TYPE_EVENT, l10n("Use Freya's Horn atop of the Glimmering Pillar"),}},
         },
