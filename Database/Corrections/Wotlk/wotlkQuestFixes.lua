@@ -11,9 +11,9 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-QuestieCorrections.reversedKillCreditQuestIDs[12561] = true
-QuestieCorrections.reversedKillCreditQuestIDs[13373] = true
-QuestieCorrections.reversedKillCreditQuestIDs[13380] = true
+QuestieCorrections.killCreditObjectiveFirst[12561] = true
+QuestieCorrections.killCreditObjectiveFirst[13373] = true
+QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
 function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
