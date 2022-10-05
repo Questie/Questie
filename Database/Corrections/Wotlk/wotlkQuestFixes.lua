@@ -1145,6 +1145,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
+        [13086] = {
+            [questKeys.extraObjectives] = {
+				{nil, ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
+            },
+        },
         [13106] = {
             [questKeys.preQuestSingle] = {12899},
         },
