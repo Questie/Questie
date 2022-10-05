@@ -160,6 +160,11 @@ local function _shutdown_db() -- prevent catastrophic error
     QuestieDB.QueryNPCSingle = nil
     QuestieDB.QueryObjectSingle = nil
     QuestieDB.QueryItemSingle = nil
+
+    QuestieDB.QueryNPCAll = nil
+    QuestieDB.QueryQuestAll = nil
+    QuestieDB.QueryObjectAll = nil
+    QuestieDB.QueryItemAll = nil
 end
 
 local function trycatch(func)
@@ -220,6 +225,11 @@ function QuestieDB:Initialize()
     QuestieDB._QueryObject = QuestieDB.QueryObject.Query
     QuestieDB._QueryItem = QuestieDB.QueryItem.Query
 
+    QuestieDB._QueryNPCAll = QuestieDB.QueryNPC.QueryAll
+    QuestieDB._QueryQuestAll = QuestieDB.QueryQuest.QueryAll
+    QuestieDB._QueryObjectAll = QuestieDB.QueryObject.QueryAll
+    QuestieDB._QueryItemAll = QuestieDB.QueryItem.QueryAll
+
     -- wrap in pcall and hope it doesnt cause too much overhead
     -- lua needs try-catch
     QuestieDB.QueryNPC = trycatch(QuestieDB._QueryNPC)
@@ -231,6 +241,13 @@ function QuestieDB:Initialize()
     QuestieDB.QueryNPCSingle = trycatch(QuestieDB._QueryNPCSingle)
     QuestieDB.QueryObjectSingle = trycatch(QuestieDB._QueryObjectSingle)
     QuestieDB.QueryItemSingle = trycatch(QuestieDB._QueryItemSingle)
+
+    --- Credit for the QueryAll structure goes to @Laume/Laumesis
+    --- No trycatch 🙏 y o l o d a w g 🙏 ---
+    QuestieDB.QueryNPCAll = QuestieDB._QueryNPCAll
+    QuestieDB.QueryQuestAll = QuestieDB._QueryQuestAll
+    QuestieDB.QueryObjectAll = QuestieDB._QueryObjectAll
+    QuestieDB.QueryItemAll = QuestieDB._QueryItemAll
 
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
     _QuestieDB.questCache = {};
