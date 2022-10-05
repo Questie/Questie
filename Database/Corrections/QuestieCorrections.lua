@@ -64,13 +64,16 @@ QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 QuestieCorrections.WOTLK_ONLY = 3
 
-QuestieCorrections.reversedKillCreditQuestIDs = {} -- Only used for TBC quests
+QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
 -- used during Precompile, how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
 local TICKS_PER_YIELD = 72
 
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
+---@generic T
+---@param values T
+---@return T
 local function filterExpansion(values)
     local isTBC = Questie.IsTBC
     local isWotlk = Questie.IsWotlk
@@ -128,7 +131,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     for id, data in pairs(QuestieQuestFixes:LoadFactionFixes()) do
         for key, value in pairs(data) do
-			if not QuestieDB.questDataOverrides[id] then
+            if not QuestieDB.questDataOverrides[id] then
                 QuestieDB.questDataOverrides[id] = {}
             end
             QuestieDB.questDataOverrides[id][key] = value
@@ -137,7 +140,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
 
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
-    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load()) 
+    QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
 
     if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists
@@ -295,13 +298,13 @@ function QuestieCorrections:OptimizeWaypoints(waypointData)
                 else
                     tinsert(newWaypoints, way)
                 end
-                
+
                 lastWay = way
             end
             tinsert(newWaypointList, newWaypoints)
         end
         newWaypointZones[zone] = newWaypointList
-    
+
     end
     return newWaypointZones
 end

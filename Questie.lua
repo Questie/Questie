@@ -35,29 +35,34 @@ function Questie:OnDisable()
     -- Called when the addon is disabled
 end
 
+--- Colorize a string with a color code
+---@param str string @The string colorize
+--Name or string in the format "RRGGBB" i.e "FF0000" for red
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
+---@return string
 function Questie:Colorize(str, color)
-    local c = '';
+    local c = "|cFF"..color;
 
-    if color == 'red' then
-        c = '|cFFff0000';
-    elseif color == 'gray' then
-        c = '|cFFa6a6a6';
-    elseif color == 'purple' then
-        c = '|cFFB900FF';
-    elseif color == 'blue' then
-        c = '|cB900FFFF';
-    elseif color == 'lightBlue' then
-        c = '|cB900FFFF';
-    elseif color == 'reputationBlue' then
-        c = '|cFF8080ff';
-    elseif color == 'yellow' then
-        c = '|cFFffff00';
-    elseif color == 'orange' then
-        c = '|cFFFF6F22';
-    elseif color == 'green' then
-        c = '|cFF00ff00';
+    if color == "red" then
+        c = "|cFFff0000";
+    elseif color == "gray" then
+        c = "|cFFa6a6a6";
+    elseif color == "purple" then
+        c = "|cFFB900FF";
+    elseif color == "blue" then
+        c = "|cB900FFFF";
+    elseif color == "lightBlue" then
+        c = "|cB900FFFF";
+    elseif color == "reputationBlue" then
+        c = "|cFF8080ff";
+    elseif color == "yellow" then
+        c = "|cFFffff00";
+    elseif color == "orange" then
+        c = "|cFFFF6F22";
+    elseif color == "green" then
+        c = "|cFF00ff00";
     elseif color == "white" then
-        c = '|cFFffffff';
+        c = "|cFFffffff";
     elseif color == "gold" then
         c = "|cFFffd100" -- this is the default game font
     end

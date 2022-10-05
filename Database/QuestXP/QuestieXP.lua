@@ -1,5 +1,5 @@
 --Contains functions to fetch the Quest Experiance for quests.
----@class QuestXP : Module
+---@class QuestXP
 local QuestXP = QuestieLoader:CreateModule("QuestXP")
 
 ---@type table<QuestId,table<Level,XP>> -- { questId={level, xp}, ..... }

@@ -3,6 +3,7 @@ local QuestieNPCBlacklist = QuestieLoader:CreateModule("QuestieNPCBlacklist")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
+---@return table<NpcId, boolean>
 function QuestieNPCBlacklist:Load()
     return {
         [8001] = true,
