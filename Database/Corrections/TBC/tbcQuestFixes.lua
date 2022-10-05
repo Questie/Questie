@@ -12,7 +12,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-QuestieCorrections.reversedKillCreditQuestIDs = {
+QuestieCorrections.killCreditObjectiveFirst = {
     [10503] = true, -- The Bladespire Threat
 }
 

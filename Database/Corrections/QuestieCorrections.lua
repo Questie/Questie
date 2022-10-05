@@ -64,7 +64,7 @@ QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 QuestieCorrections.WOTLK_ONLY = 3
 
-QuestieCorrections.reversedKillCreditQuestIDs = {} -- Only used for TBC quests
+QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
 -- used during Precompile, how fast to run operations (lower = slower but less lag)
 local TICKS_PER_YIELD_DEBUG = 4000
