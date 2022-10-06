@@ -1310,7 +1310,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Complete Overlord Drakuru's tasks"] = { -- 12661
+    ["Complete Overlord Drakuru's task"] = { -- 12661, 12669
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,

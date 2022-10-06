@@ -986,7 +986,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 12669,
             [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_TALK, l10n("Complete Overlord Drakuru's tasks"), 0, {{"monster", 28503}}},
+                {nil, ICON_TYPE_TALK, l10n("Complete Overlord Drakuru's task"), 0, {{"monster", 28503}}},
                 {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker"),},
             },
         },
@@ -1007,6 +1007,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12668] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28747,28748},28747,"Trolls killed near a Soul Font"}}},
+        },
+        [12669] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Complete Overlord Drakuru's task"), 0, {{"monster", 28503}}},
+            },
         },
         [12671] = {
             [questKeys.triggerEnd] = {"Reconnaissance Flight",{[zoneIDs.SHOLAZAR_BASIN]={{50.04,61.43,},},},},
