@@ -984,6 +984,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {},
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 12669,
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Complete Overlord Drakuru's tasks"), 0, {{"monster", 28503}}},
+                {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker"),},
+            },
         },
         [12663] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
