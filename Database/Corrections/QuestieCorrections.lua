@@ -165,7 +165,8 @@ end
 ---@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
 ---@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
-local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables)
+---@param noOverwrites true?
+local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites)
     for id, data in pairs(corrections) do
         for key, value in pairs(data) do
             if not QuestieDB[databaseTableName][id] then
@@ -176,7 +177,11 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
                     Questie:Warning("Correction of " .. databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end
-            QuestieDB[databaseTableName][id][key] = value
+            if noOverwrites and QuestieDB[databaseTableName][id][key] == nil then
+                QuestieDB[databaseTableName][id][key] = value
+            elseif not noOverwrites then
+                QuestieDB[databaseTableName][id][key] = value
+            end
         end
     end
 end
@@ -200,6 +205,7 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("questData", QuestieWotlkQuestFixes:Load(), QuestieDB.questKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:LoadAutomatics(), QuestieDB.npcKeysReversed, validationTables)
         _LoadCorrections("npcData", QuestieWotlkNpcFixes:Load(), QuestieDB.npcKeysReversed, validationTables)
+        _LoadCorrections("itemData", QuestieWotlkItemFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true)
         _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
