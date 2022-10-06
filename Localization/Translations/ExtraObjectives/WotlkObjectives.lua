@@ -1358,6 +1358,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Take the teleporter to Drakuru's upper chamber"] = { -- 12710
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Soo-rahm's Incense"] = { -- 12544
         ["ptBR"] = false,
         ["ruRU"] = false,

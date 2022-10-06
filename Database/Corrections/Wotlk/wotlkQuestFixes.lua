@@ -1084,6 +1084,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Use the Scarlet Cannon"), 0, {{"monster", 28833}}},
             },
         },
+        [12710] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, ICON_TYPE_EVENT, l10n("Take the teleporter to Drakuru's upper chamber"),},
+            },
+        },
         [12720] = {
             [questKeys.triggerEnd] = {"\"Crimson Dawn\" Revealed",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{55.09,66.12},},},},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Equip Keleseth's Persuaders and persuade Scarlet Crusaders"), 0, {{"monster", 28610},{"monster", 28936},{"monster", 28939},{"monster", 28940},}}},
