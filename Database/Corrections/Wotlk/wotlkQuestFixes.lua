@@ -852,10 +852,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Softknuckle Poker on Softknuckles"), 0, {{"monster", 28127}}}},
         },
         [12532] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12533,12534},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
         },
         [12533] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12529,12530},
         },
         [12534] = {
