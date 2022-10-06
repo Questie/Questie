@@ -1345,6 +1345,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
             },
         },
+        [13092] = {
+            [questKeys.preQuestSingle] = {12999},
+        },
+        [13093] = {
+            [questKeys.preQuestSingle] = {13092},
+        },
         [13106] = {
             [questKeys.preQuestSingle] = {12899},
         },
