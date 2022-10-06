@@ -61,6 +61,9 @@ Database\Corrections\QuestieQuestBlacklist.lua
 Database\Corrections\SoMPhases.lua
 Database\Corrections\QuestieEvent.lua
 
+# Automatic General Corrections
+Database\Corrections\Automatic\itemStartFixes.lua
+
 # Classic Corrections
 Database\Corrections\Classic\classicQuestFixes.lua
 Database\Corrections\Classic\classicNPCFixes.lua
