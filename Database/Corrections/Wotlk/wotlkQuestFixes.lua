@@ -982,6 +982,7 @@ function QuestieWotlkQuestFixes:Load()
         [12661] = {
             [questKeys.preQuestSingle] = {12648,12649},
             [questKeys.preQuestGroup] = {},
+            [questKeys.childQuests] = {12663,12664},
             [questKeys.exclusiveTo] = {},
             [questKeys.nextQuestInChain] = 12669,
             [questKeys.extraObjectives] = {
@@ -990,10 +991,16 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12663] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
+            [questKeys.preQuestSingle] = {12649},
+            [questKeys.exclusiveTo] = {12664,12648},
+            [questKeys.parentQuest] = 12661,
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
         },
         [12664] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
+            [questKeys.preQuestSingle] = {12648},
+            [questKeys.exclusiveTo] = {12663,12649},
+            [questKeys.parentQuest] = 12661,
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
         },
         [12665] = {
             [questKeys.triggerEnd] = {"Quetz'lun's fate revealed.",{[zoneIDs.ZUL_DRAK]={{75.75,58.39,},},},},
