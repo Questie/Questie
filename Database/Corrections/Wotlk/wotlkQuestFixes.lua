@@ -817,6 +817,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12498},
         },
         [12503] = {
+            [questKeys.preQuestSingle] = {12795},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
         [12506] = {
