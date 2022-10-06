@@ -1240,8 +1240,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
         },
         [12979] = {
-			[questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
-		},
+            [questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
+        },
         [12981] = {
             [questKeys.preQuestSingle] = {12967},
         },
@@ -1292,8 +1292,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13045] = {
             [questKeys.extraObjectives] = {
-				{nil, ICON_TYPE_OBJECT, l10n("Mount Argent Skytalon"), 0, {{"monster", 30500}}},
-				{{[zoneIDs.ICECROWN]={{86.85,76.61}}}, ICON_TYPE_EVENT, l10n("Drop Off Captured Crusader"), 0},
+                {nil, ICON_TYPE_OBJECT, l10n("Mount Argent Skytalon"), 0, {{"monster", 30500}}},
+                {{[zoneIDs.ICECROWN]={{86.85,76.61}}}, ICON_TYPE_EVENT, l10n("Drop Off Captured Crusader"), 0},
             },
         },
         [13046] = {
@@ -1308,7 +1308,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13086] = {
             [questKeys.extraObjectives] = {
-				{nil, ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
             },
         },
         [13106] = {
