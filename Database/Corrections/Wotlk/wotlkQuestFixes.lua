@@ -11,9 +11,9 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
-QuestieCorrections.reversedKillCreditQuestIDs[12561] = true
-QuestieCorrections.reversedKillCreditQuestIDs[13373] = true
-QuestieCorrections.reversedKillCreditQuestIDs[13380] = true
+QuestieCorrections.killCreditObjectiveFirst[12561] = true
+QuestieCorrections.killCreditObjectiveFirst[13373] = true
+QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
 function QuestieWotlkQuestFixes:Load()
     local questKeys = QuestieDB.questKeys
@@ -364,7 +364,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
         },
         [11896] = {
-	    [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
+        [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
         },
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
@@ -598,6 +598,9 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12171] = {
+            [questKeys.exclusiveTo] = {12174,12235,12297},
+        },
         [12174] = {
             [questKeys.exclusiveTo] = {12235},
         },
@@ -770,7 +773,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12456] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DRAGONBLIGHT]={{64.6,77}}}, ICON_TYPE_EVENT, l10n("Use Skytalon Molts"),0}},
-        }, 
+        },
         [12459] = {
             [questKeys.objectives] = {{{26841,nil},{27808,nil},{27122,nil},},nil,nil,nil,},
         },
@@ -868,6 +871,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
+        },
+        [12651] = {
+            [questKeys.exclusiveTo] = {12654},
         },
         [12663] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
@@ -1030,6 +1036,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Hodir's Call",
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
         },
+        [12979] = {
+			[questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
+		},
         [12981] = {
             [questKeys.preQuestSingle] = {12967},
         },

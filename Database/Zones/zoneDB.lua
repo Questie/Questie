@@ -3,7 +3,7 @@ local ZoneDB = QuestieLoader:CreateModule("ZoneDB")
 ---@type ZoneDBPrivate
 ZoneDB.private = ZoneDB.private or {}
 
-local _ZoneDB = {}
+local _ZoneDB = ZoneDB.private
 
 -------------------------
 --Import modules.
@@ -30,22 +30,22 @@ local subZoneToParentZone = ZoneDB.private.subZoneToParentZone or {}
 ---Zone ids enum
 ZoneDB.zoneIDs = ZoneDB.private.zoneIDs or {}
 
-local uiMapIdToAreaId = {} -- Generated
+
+-- Overrides for UiMapId to AreaId
+local UiMapIdOverrides = {
+    [246] = 3713
+}
 local parentZoneToSubZone = {} -- Generated
 local zoneMap = {} -- Generated
 
 
 function ZoneDB:Initialize()
-
-    _ZoneDB:GenerateUiMapIdToAreaIdTable()
     _ZoneDB:GenerateParentZoneToStartingZoneTable()
-end
 
-function _ZoneDB:GenerateUiMapIdToAreaIdTable()
-    for areaId, uiMapId in pairs(areaIdToUiMapId) do
-        uiMapIdToAreaId[uiMapId] = areaId
+    -- Run tests if debug enabled
+    if Questie.db.global.debugEnabled then
+        _ZoneDB:RunTests()
     end
-    uiMapIdToAreaId[1946] = 3521 -- fix zangarmarsh reverse lookup (todo: better solution)
 end
 
 function _ZoneDB:GenerateParentZoneToStartingZoneTable()
@@ -59,14 +59,52 @@ function ZoneDB:GetDungeons()
 end
 
 ---@param areaId AreaId
+---@return UiMapId
 function ZoneDB:GetUiMapIdByAreaId(areaId)
     return areaIdToUiMapId[areaId]
 end
 
+--- Use with care, kind of slow.
 ---@param uiMapId UiMapId
+---@return AreaId
 function ZoneDB:GetAreaIdByUiMapId(uiMapId)
-    return uiMapIdToAreaId[uiMapId]
+    --? Some areas have multiple areaIds, so we return the correct AreaId
+    if UiMapIdOverrides[uiMapId] then
+        return UiMapIdOverrides[uiMapId]
+    end
+
+    local foundId
+    -- First we look for a direct match
+    for lAreaId, AreaUiMapId in pairs(areaIdToUiMapId) do
+        local areaId = lAreaId
+        if (AreaUiMapId == uiMapId and not foundId) then
+            foundId = areaId
+        elseif AreaUiMapId == uiMapId and foundId ~= AreaUiMapId then
+            -- If we find a second match that does not match the first
+            -- Print an error, but we still return the first one we found.
+
+            -- Only print if debug is enabled.
+            if Questie.db.global.debugEnabled then
+                Questie:Error("UiMapId", uiMapId, "has multiple AreaIds:", foundId, areaId)
+            end
+        end
+    end
+    if foundId then
+        return foundId
+    else
+        -- As a last resort we try to match AreaId and UiMapId by name
+        for areaId in pairs(areaIdToUiMapId) do
+            local mapInfo = C_Map.GetMapInfo(uiMapId)
+            local areaName = C_Map.GetAreaInfo(areaId)
+            if mapInfo.name == areaName then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
+                return areaId
+            end
+        end
+        error("No AreaId found for UiMapId: " .. uiMapId .. ":" .. C_Map.GetMapInfo(uiMapId).name)
+    end
 end
+
 
 ---@param areaId AreaId
 function ZoneDB:GetDungeonLocation(areaId)
@@ -280,4 +318,31 @@ function ZoneDB:GetRelevantZones()
     end
 
     return zones
+end
+
+
+
+----- Tests -----
+
+function _ZoneDB:RunTests()
+    -- Fetch all UiMapIds (WOTLK/TBC, ERA)
+    local maps = C_Map.GetMapChildrenInfo(946, nil, true) or C_Map.GetMapChildrenInfo(947, nil, true)
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB")
+    local buggedMaps = {
+        [306] = true, -- ScholomanceOLD
+        [307] = true, -- ScholomanceOLD
+        [308] = true, -- ScholomanceOLD
+        [309] = true, -- ScholomanceOLD
+    }
+    for _, map in pairs(maps) do
+        --- We don't care about World, Continent or Cosmic
+        if map.mapType ~= Enum.UIMapType.World and map.mapType ~= Enum.UIMapType.Continent and map.mapType ~= Enum.UIMapType.Cosmic then
+            local success, result = pcall(ZoneDB.GetAreaIdByUiMapId, ZoneDB, map.mapID)
+            if not success and not buggedMaps[map.mapID] then
+                Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId should fail for " .. map.name .. " (" .. map.mapID .. ")")
+            end
+
+        end
+    end
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB done")
 end

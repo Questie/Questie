@@ -842,22 +842,14 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
                     RootId = creditObjective[2],
                     Text = creditObjective[3]
                 }
-                tinsert(QO.ObjectiveData, killCreditObjective);
-            end
-        end
 
-        -- There are quest(s) which have the killCredit at first so we need to switch them
-        if QuestieCorrections.reversedKillCreditQuestIDs[questId] then
-            -- Quests like 13373 have three objectives, two regular slay objectives and one killCreditObjective.
-            -- This swappes the first and last objective.
-            if QO.ObjectiveData[3] then
-                local tmp = QO.ObjectiveData[1]
-                QO.ObjectiveData[1] = QO.ObjectiveData[3]
-                QO.ObjectiveData[3] = tmp
-            else
-                local tmp = QO.ObjectiveData[1]
-                QO.ObjectiveData[1] = QO.ObjectiveData[2]
-                QO.ObjectiveData[2] = tmp
+                --? There are quest(s) which have the killCredit at first so we need to switch them
+                -- Place the kill credit objective first
+                if QuestieCorrections.killCreditObjectiveFirst[questId] then
+                    tinsert(QO.ObjectiveData, 1, killCreditObjective);
+                else
+                    tinsert(QO.ObjectiveData, killCreditObjective);
+                end
             end
         end
     end

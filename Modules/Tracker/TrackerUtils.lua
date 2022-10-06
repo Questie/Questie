@@ -291,22 +291,26 @@ local function GetZoneNameByIDFallback(zoneId)
 end
 
 ---@param zoneId AreaId
----@return Name Name of zone (localized)
+---@return Name ZoneName of zone (localized)
 function TrackerUtils:GetZoneNameByID(zoneId)
     if C_Map and C_Map.GetAreaInfo then
         local name = C_Map.GetAreaInfo(zoneId)
         return name or GetZoneNameByIDFallback(zoneId)
-    else 
+    else
         return GetZoneNameByIDFallback(zoneId)
     end
 end
 
-function TrackerUtils:GetCategoryNameByID(cataId)
+
+---@param catId CategoryId
+---@return Name CategoryName
+function TrackerUtils:GetCategoryNameByID(catId)
     for cat, name in pairs(l10n.questCategoryLookup) do
-        if cataId == cat then
+        if catId == cat then
             return l10n(name)
         end
     end
+    return "Unknown Category"
 end
 
 function TrackerUtils:UnFocus()
