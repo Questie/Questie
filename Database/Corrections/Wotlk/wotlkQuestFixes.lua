@@ -823,6 +823,9 @@ function QuestieWotlkQuestFixes:Load()
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
         },
+        [12512] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12516] = {
             [questKeys.objectives] = {{{28068}}},
         },
