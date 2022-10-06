@@ -875,6 +875,9 @@ function QuestieWotlkQuestFixes:Load()
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
         },
+        [12557] = {
+            [questKeys.objectives] = {nil,nil,{{38386},{38339},{38340},{38346}}},
+        },
         [12561] = {
             [questKeys.preQuestSingle] = {12803},
         },
