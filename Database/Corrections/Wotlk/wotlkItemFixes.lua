@@ -207,6 +207,9 @@ function QuestieWotlkItemFixes:Load()
         [38631] = {
             [itemKeys.objectDrops] = {190557,191746,191747,191748,},
         },
+        [38687] = {
+            [itemKeys.npcDrops] = {29856},
+        },
         [39160] = {
             [itemKeys.npcDrops] = {},
         },

@@ -972,6 +972,12 @@ function QuestieWotlkQuestFixes:Load()
         [12651] = {
             [questKeys.nextQuestInChain] = 12654,
         },
+        [12652] = {
+            [questKeys.requiredRaces] = 2047,
+            [questKeys.preQuestSingle] = {12629,12643},
+            [questKeys.exclusiveTo] = {12713},
+            [questKeys.objectives] = {{{28565,}}},
+        },
         [12661] = {
             [questKeys.preQuestSingle] = {12648,12649},
             [questKeys.preQuestGroup] = {},
