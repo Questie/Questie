@@ -909,18 +909,74 @@ function QuestieWotlkQuestFixes:Load()
         [12621] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Listen to what the Avatar of Freya has to say"), 0, {{"monster", 27801}}}},
         },
+        [12629] = {
+            [questKeys.preQuestSingle] = {12637},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.exclusiveTo] = {12643},
+            [questKeys.nextQuestInChain] = 12648,
+        },
         [12630] = {
             [questKeys.objectives] = {{{28519,"Hair Samples Collected"},},nil,nil,nil,},
+        },
+        [12631] = {
+            [questKeys.startedBy] = {nil,nil,{38660}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.exclusiveTo] = {12633},
+            [questKeys.nextQuestInChain] = 12637,
+        },
+        [12633] = {
+            [questKeys.startedBy] = {nil,nil,{38673}},
+            [questKeys.preQuestSingle] = {12238},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.exclusiveTo] = {12631},
+            [questKeys.nextQuestInChain] = 12638,
         },
         [12634] = {
             [questKeys.preQuestGroup] = {12520,12549},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Pull Sturdy Vines to reveal fruit"), 0, {{"object", 190622}}}},
         },
+        [12637] = {
+            [questKeys.preQuestSingle] = {12631},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.exclusiveTo] = {12638},
+            [questKeys.nextQuestInChain] = 12629,
+        },
+        [12638] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12633,12238},
+            [questKeys.exclusiveTo] = {12637},
+            [questKeys.nextQuestInChain] = 12643,
+        },
         [12641] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Acherus Control Mechanism"), 0, {{"object", 191609}}}},
         },
+        [12643] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12638,12238},
+            [questKeys.exclusiveTo] = {12629},
+            [questKeys.nextQuestInChain] = 12649,
+        },
+        [12648] = {
+            [questKeys.preQuestSingle] = {12629},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.exclusiveTo] = {12649},
+            [questKeys.nextQuestInChain] = 12661,
+        },
+        [12649] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12643,12238},
+            [questKeys.exclusiveTo] = {12648},
+            [questKeys.nextQuestInChain] = 12661,
+        },
         [12651] = {
             [questKeys.nextQuestInChain] = 12654,
+        },
+        [12661] = {
+            [questKeys.preQuestSingle] = {12648,12649},
+            [questKeys.preQuestGroup] = {},
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 12669,
         },
         [12663] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Speak to Gorebag and take the tour of Zul'Drak"), 0, {{"monster", 28666}}}},
