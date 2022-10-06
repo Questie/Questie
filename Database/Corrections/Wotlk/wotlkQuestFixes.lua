@@ -1138,6 +1138,13 @@ function QuestieWotlkQuestFixes:Load()
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
         },
+        [12735] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.SHOLAZAR_BASIN]={{43,42}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Atha"),0},
+                {{[zoneIDs.SHOLAZAR_BASIN]={{49,63}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Ha-Khalan"),1},
+                {{[zoneIDs.SHOLAZAR_BASIN]={{46,74}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Koosu"),2},
+            },
+        },
         [12740] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
         },
