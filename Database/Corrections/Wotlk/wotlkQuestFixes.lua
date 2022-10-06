@@ -625,6 +625,10 @@ function QuestieWotlkQuestFixes:Load()
         [12174] = {
             [questKeys.exclusiveTo] = {12235},
         },
+        [12182] = {
+            [questKeys.exclusiveTo] = {},
+            [questKeys.nextQuestInChain] = 12188,
+        },
         [12184] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26408,26409,26410,26414,27177},26408,}}},
         },
