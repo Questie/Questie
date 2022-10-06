@@ -1113,6 +1113,9 @@ function QuestieWotlkQuestFixes:Load()
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
         },
+        [12740] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
+        },
         [12754] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75,5}}}, ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
         },
