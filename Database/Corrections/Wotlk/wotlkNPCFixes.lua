@@ -103,7 +103,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [26647] = {
             [npcKeys.spawns] = {
-                [zoneIDs.DRAGONBLIGHT] = {{54.81,23.92}},
+                [zoneIDs.DRAGONBLIGHT] = {{54.50,23.62}},
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
@@ -176,6 +176,15 @@ function QuestieWotlkNpcFixes:Load()
         [28083] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{49.8,85},{51.6,86.2},{58,83.8},{58.8,85.6},},},
         },
+        [28136] = {
+            [npcKeys.spawns] = {},
+        },
+        [28142] = {
+            [npcKeys.spawns] = {},
+        },
+        [28148] = {
+            [npcKeys.spawns] = {},
+        },
         [28358] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
         },
@@ -194,6 +203,17 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.4,55.6}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{64.4,55.6},{61.2,46.8},{58.8,41},{57.6,37.4},{55.8,37.8},{56.6,43.4},{58.6,47.2},{61.2,53.6},{62.8,57.4},{64.4,55.6}}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [29821] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{32.50,63.37},},},
+        },
+        [29872] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{28.38,44.85},},},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_DRAK]={{{28.38,46.85},{29.79,46.26},{30.38,44.85},{29.79,43.44},{28.38,42.85},{26.97,43.44},{26.38,44.85},{26.97,46.26},{28.38,46.85}}}},
+        },
+        [29895] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{16.43,66.79}}},
+            [npcKeys.waypoints] = {[zoneIDs.ZUL_DRAK]={{{16.69,66.78},{18.68,66.8},{20.72,66.61},{21.98,66.82},{23.67,66.65},{25.18,66.75},{26.62,66.96},{28.6,66.48},{31.82,66.66},{30.45,66.6},{28.49,66.53},{25.93,66.93},{24.48,66.73},{22.76,66.75},{21.01,66.6},{18.55,66.86},{16.7,66.75},{16.31,66.75},{13.9,67.32},{13.45,67.33},{12.76,66.96},{13.45,66.28},{13.87,66.26},{16.07,66.7}}}},
         },
         [30222] = {
             [npcKeys.spawns] = {},
