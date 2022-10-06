@@ -637,6 +637,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_EVENT, l10n("Intercept the message from Loken"),1,{{"object", 188596}}},
             },
         },
+        [12188] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12198] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26407,27017},26407,}}},
             [questKeys.extraObjectives] = {
