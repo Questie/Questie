@@ -188,6 +188,10 @@ function QuestieWotlkNpcFixes:Load()
         [28358] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
         },
+        [28401] = {
+            [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{63.72,70.42}}},
+            [npcKeys.zoneID] = zoneIDs.ZUL_DRAK,
+        },
         [28912] = {
             [npcKeys.waypoints] = {},
         },
