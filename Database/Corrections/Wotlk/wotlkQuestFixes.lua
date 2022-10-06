@@ -554,6 +554,12 @@ function QuestieWotlkQuestFixes:Load()
         [12112] = {
             [questKeys.preQuestGroup] = {12050,12052},
         },
+        [12117] = {
+            [questKeys.nextQuestInChain] = 11958,
+        },
+        [12118] = {
+            [questKeys.nextQuestInChain] = 11958,
+        },
         [12121] = {
             [questKeys.objectives] = {{{27199,}}},
             [questKeys.extraObjectives] = {
