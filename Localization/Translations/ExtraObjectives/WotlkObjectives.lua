@@ -1322,7 +1322,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Infiltrate Voltarus using Ensorcelled Choker"] = { -- 12661
+    ["Infiltrate Voltarus using Ensorcelled Choker"] = { -- 12661, 12713
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
