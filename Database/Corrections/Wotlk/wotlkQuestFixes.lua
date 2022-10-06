@@ -1025,6 +1025,12 @@ function QuestieWotlkQuestFixes:Load()
         [12674] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Hexxing Stick and slay him/her"), 0, {{"monster", 28752},{"monster", 28754},{"monster", 28756}}}},
         },
+        [12676] = {
+            [questKeys.objectives] = {nil,{{190731},{192767},{190948}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Complete Overlord Drakuru's task"), 0, {{"monster", 28503}}},
+            },
+        },
         [12677] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_TALK, l10n("Complete Overlord Drakuru's task"), 0, {{"monster", 28503}}},
