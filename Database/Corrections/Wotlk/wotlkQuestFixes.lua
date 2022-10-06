@@ -1040,6 +1040,11 @@ function QuestieWotlkQuestFixes:Load()
         [12685] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
         },
+        [12686] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use Scepter of Empowerment to mind control Servant of Drakuru"), 0, {{"monster", 28802}}},
+            },
+        },
         [12687] = {
             [questKeys.triggerEnd] = {"The Horseman's Challenge",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{52.41,34.59,},},},},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Defeat Dark Rider of Acherus and take his horse"), 0, {{"monster", 28768},{"monster", 28782}}}},
