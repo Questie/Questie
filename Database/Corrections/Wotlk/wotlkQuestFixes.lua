@@ -751,6 +751,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_TALK, l10n("High Abbot spoken with"),1,{{"monster", 27245}}},
             },
         },
+        [12288] = {
+            [questKeys.objectives] = {{{27463,"Wounded Skirmishers Healed"}}},
+        },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
             [questKeys.exclusiveTo] = {12157},
