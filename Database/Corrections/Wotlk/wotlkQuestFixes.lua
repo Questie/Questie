@@ -283,6 +283,9 @@ function QuestieWotlkQuestFixes:Load()
         [11631] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Imperean's Primal on Snarlfang's Totem"),0,{{"monster", 25455}}}},
         },
+        [11632] = {
+            [questKeys.startedBy] = {nil,{187674},{34777}},
+        },
         [11652] = {
             [questKeys.triggerEnd] = {"Scourge Leader identified",{[zoneIDs.BOREAN_TUNDRA]={{36.41,63.52,},},},},
         },
