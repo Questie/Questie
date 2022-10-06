@@ -1036,6 +1036,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Hodir's Call",
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
         },
+        [12979] = {
+			[questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
+		},
         [12981] = {
             [questKeys.preQuestSingle] = {12967},
         },
