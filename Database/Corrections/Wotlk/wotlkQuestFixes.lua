@@ -610,6 +610,9 @@ function QuestieWotlkQuestFixes:Load()
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
+        [12171] = {
+            [questKeys.exclusiveTo] = {12174,12235,12297},
+        },
         [12174] = {
             [questKeys.exclusiveTo] = {12235},
         },
@@ -984,6 +987,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 12661,
         },
         [12651] = {
+            [questKeys.exclusiveTo] = {12654},
             [questKeys.nextQuestInChain] = 12654,
         },
         [12652] = {
@@ -1234,6 +1238,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Hodir's Call",
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
         },
+        [12979] = {
+			[questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
+		},
         [12981] = {
             [questKeys.preQuestSingle] = {12967},
         },
