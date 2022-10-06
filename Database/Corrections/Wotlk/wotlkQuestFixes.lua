@@ -14,6 +14,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieCorrections.killCreditObjectiveFirst[12546] = true
 QuestieCorrections.killCreditObjectiveFirst[12561] = true
 QuestieCorrections.killCreditObjectiveFirst[12762] = true
+QuestieCorrections.killCreditObjectiveFirst[12919] = true
 QuestieCorrections.killCreditObjectiveFirst[13373] = true
 QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
@@ -1126,6 +1127,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
+        },
+        [12919] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Slay Scourge while riding Gymer"), 0, {{"monster", 29647}}},
+                {{[zoneIDs.ZUL_DRAK]={{26.71,57.29}}}, ICON_TYPE_EVENT, l10n("Slay Scourge while riding Gymer"),},
+            },
         },
         [12932] = {
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
