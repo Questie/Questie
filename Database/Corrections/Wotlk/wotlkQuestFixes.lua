@@ -754,6 +754,9 @@ function QuestieWotlkQuestFixes:Load()
         [12288] = {
             [questKeys.objectives] = {{{27463,"Wounded Skirmishers Healed"}}},
         },
+        [12296] = {
+            [questKeys.objectives] = {{{27482,"Westfall Infantry Healed"}}},
+        },
         [12297] = {
             [questKeys.preQuestSingle] = {11250},
             [questKeys.exclusiveTo] = {12157},
