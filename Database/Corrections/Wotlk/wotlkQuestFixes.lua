@@ -123,6 +123,12 @@ function QuestieWotlkQuestFixes:Load()
         [11296] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Break Riven Widow Cocoons to free captives"), 0, {{"monster", 24210}}}},
         },
+        [11297] = {
+            [questKeys.nextQuestInChain] = 11298,
+        },
+        [11298] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11301] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
         },
