@@ -381,6 +381,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{24601}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
         },
+        [11894] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Uncured Caribou Hide"),0,{{"object", 188086}}}},
+        },
         [11896] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
         },
