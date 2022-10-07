@@ -1060,7 +1060,6 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        [6804] = true, -- Can no longer be accepted in Wotlk
         [10888] = true, -- Got replaced by 13430
         [10901] = true, -- Got replaced by 13431
         [11179] = true, -- Not in the game
@@ -1085,6 +1084,7 @@ function QuestieQuestBlacklist:Load()
         [11597] = true, -- Duplicate of 11595 and 11596 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12932] = true, -- Duplicate of 12954 (not entirely a duplicate but this is the easiest way to hide multiple quests)
 
+        [6804] = QuestieCorrections.WOTLK_ONLY,
         [9320] = QuestieCorrections.WOTLK_ONLY,
         [9333] = QuestieCorrections.WOTLK_ONLY,
         [9334] = QuestieCorrections.WOTLK_ONLY,
