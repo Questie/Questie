@@ -79,7 +79,7 @@ function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
         return IsInRaid() or IsInGroup()
     elseif Questie.db.char.questAnnounceChannel == "raid" then
         return IsInRaid()
-    elseif Questie.db.char.questAnnounceChannel == "group" then
+    elseif Questie.db.char.questAnnounceChannel == "party" then
         return IsInGroup() and not IsInRaid()
     else
         return false

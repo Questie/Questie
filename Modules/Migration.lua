@@ -113,7 +113,7 @@ local migrationFunctions = {
                 Questie.db.char.questAnnounceChannel = "disabled"
                 Questie.db.char.questAnnounceObjectives = false
             else
-                Questie.db.char.questAnnounceChannel = "group"
+                Questie.db.char.questAnnounceChannel = "party"
                 Questie.db.char.questAnnounceObjectives = true
             end
         end
@@ -140,6 +140,11 @@ local migrationFunctions = {
     [14] = function()
         if Questie.db.char.isAchievementsExpanded == nil then
             Questie.db.char.isAchievementsExpanded = true
+        end
+    end,
+    [15] = function()
+        if Questie.db.char.questAnnounceChannel == "group" then
+            Questie.db.char.questAnnounceChannel = "party"
         end
     end
 }

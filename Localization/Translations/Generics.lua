@@ -386,6 +386,18 @@ local genericsLocales = {
         ["esES"] = "Grupo",
         ["frFR"] = "Groupe",
     },
+    ["Party"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = nil,
+        ["deDE"] = nil,
+        ["koKR"] = nil,
+        ["esMX"] = nil,
+        ["enUS"] = true,
+        ["zhCN"] = nil,
+        ["zhTW"] = nil,
+        ["esES"] = nil,
+        ["frFR"] = nil,
+    },
     ["Raid"] = {
         ["ptBR"] = "Raide",
         ["ruRU"] = "Рейд",
