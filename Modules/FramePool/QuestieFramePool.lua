@@ -42,8 +42,8 @@ function QuestieFramePool:SetIcons()
     ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
     ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
     ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
-    ICON_TYPE_LOGO32 = QuestieLib.AddonPath.."Icons\\logo32.tga"
-    ICON_TYPE_LOGO64 = QuestieLib.AddonPath.."Icons\\logo64.tga"
+    ICON_TYPE_LOGO_SMALL = QuestieLib.AddonPath.."Icons\\logo32.tga"
+    ICON_TYPE_LOGO_MED = QuestieLib.AddonPath.."Icons\\logo64.tga"
 end
 
 
