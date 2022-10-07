@@ -259,7 +259,7 @@ function QuestieQuest:SmoothReset()
             QuestieMenu:OnLogin(true) -- remove icons
             return true
         end,
-        function() 
+        function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
