@@ -396,7 +396,7 @@ local genericsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = "Grupo",
-        ["frFR"] = nil,
+        ["frFR"] = "Groupe",
     },
     ["Raid"] = {
         ["ptBR"] = "Raide",
