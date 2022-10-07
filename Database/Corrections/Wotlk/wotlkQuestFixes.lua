@@ -1179,6 +1179,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_TALK, l10n("Ride a Wyrmrest Defender to defend the Temple"), 0, {{"monster", 27629}}},
             },
         },
+        [12704] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Talk to High-Oracle Soo-say to retrieve a Gorloc companion"), 0, {{"monster", 28027}}},
+            },
+        },
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
         },
