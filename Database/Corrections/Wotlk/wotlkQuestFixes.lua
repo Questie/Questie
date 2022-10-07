@@ -1880,6 +1880,9 @@ function QuestieWotlkQuestFixes:Load()
         [13887] = {
             [questKeys.preQuestSingle] = {13850},
         },
+        [13906] = {
+            [questKeys.preQuestSingle] = {13887},
+        },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
