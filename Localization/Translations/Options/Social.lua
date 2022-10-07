@@ -40,7 +40,7 @@ local socialOptionsLocales = {
     },
     ["Announce quest updates to other players in your group"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Включает оповещения об обновлениях заданий в чате группы",
         ["frFR"] = "Annoncer les mises à jour des quêtes aux autres joueurs du groupe",
         ["koKR"] = nil,
         ["enUS"] = true,

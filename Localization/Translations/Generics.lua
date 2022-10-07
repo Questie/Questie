@@ -388,14 +388,14 @@ local genericsLocales = {
     },
     ["Party"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Группа",
         ["deDE"] = nil,
         ["koKR"] = nil,
-        ["esMX"] = nil,
+        ["esMX"] = "Grupo",
         ["enUS"] = true,
         ["zhCN"] = nil,
         ["zhTW"] = nil,
-        ["esES"] = nil,
+        ["esES"] = "Grupo",
         ["frFR"] = nil,
     },
     ["Raid"] = {
