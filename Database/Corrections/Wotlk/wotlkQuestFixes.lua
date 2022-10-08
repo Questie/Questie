@@ -1379,6 +1379,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13092] = {
             [questKeys.preQuestSingle] = {12999},
+            [questKeys.specialFlags] = 0,
         },
         [13093] = {
             [questKeys.preQuestSingle] = {13092},
