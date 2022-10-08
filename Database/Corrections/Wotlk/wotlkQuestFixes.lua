@@ -1828,6 +1828,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13420] = {
             [questKeys.startedBy] = {nil,{193997},{44725}},
+            [questKeys.requiredMinRep] = {1119,3000},
         },
         [13422] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
