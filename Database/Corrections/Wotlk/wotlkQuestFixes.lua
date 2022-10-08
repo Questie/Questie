@@ -1279,6 +1279,12 @@ function QuestieWotlkQuestFixes:Load()
         [12936] = {
             [questKeys.triggerEnd] = {"Korrak the Bloodrager Defeated",{[zoneIDs.ZUL_DRAK]={{48.04,56.75,},},},},
         },
+        [12939] = {
+            [questKeys.objectives] = {{{30037,}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Use the Challenge Flag on sparring Mjordin Combatants"), 0, {{"monster", 30037}}},
+            },
+        },
         [12948] = {
             [questKeys.triggerEnd] = {"Vladof the Butcher Defeated",{[zoneIDs.ZUL_DRAK]={{47.98,56.74,},},},},
         },
