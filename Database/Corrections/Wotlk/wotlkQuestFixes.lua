@@ -1285,6 +1285,7 @@ function QuestieWotlkQuestFixes:Load()
         [12973] = {
             [questKeys.triggerEnd] = {"Accompany Brann Bronzebeard to Frosthold.",{[zoneIDs.STORM_PEAKS]={{30.2,74.6,},},},},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{39.6,56.4}}}, ICON_TYPE_EVENT, l10n("Get in Brann Bronzebeard Flying Machine"),}},
+            [questKeys.preQuestSingle] = {12880},
         },
         [12974] = {
             [questKeys.exclusiveTo] = {12932,12954},
