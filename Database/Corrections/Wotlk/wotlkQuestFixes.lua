@@ -27,6 +27,8 @@ function QuestieWotlkQuestFixes:Load()
 
     return {
         [236] = {
+            [questKeys.startedBy] = {{31108}},
+            [questKeys.finishedBy] = {{31108}},
             [questKeys.exclusiveTo] = {13154,13156,},
         },
         [1198] = {
@@ -1429,6 +1431,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13222},
         },
         [13191] = {
+            [questKeys.finishedBy] = {{31106}},
             [questKeys.exclusiveTo] = {13193,13194,},
         },
         [13193] = {
