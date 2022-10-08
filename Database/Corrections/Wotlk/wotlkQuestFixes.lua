@@ -1250,6 +1250,11 @@ function QuestieWotlkQuestFixes:Load()
         [12893] = {
             [questKeys.objectives] = {{{29769},{29770},{29840}}},
         },
+        [12897] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Tamper with General's Weapon Rack to summon General Lightsbane"), 0, {{"object", 191778},{"object", 191779}}},
+            },
+        },
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
         },
