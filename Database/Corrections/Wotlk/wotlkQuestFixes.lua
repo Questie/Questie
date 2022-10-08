@@ -1247,6 +1247,9 @@ function QuestieWotlkQuestFixes:Load()
         [12892] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
+        [12893] = {
+            [questKeys.objectives] = {{{29769},{29770},{29840}}},
+        },
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
         },
