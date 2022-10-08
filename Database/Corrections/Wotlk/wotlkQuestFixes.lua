@@ -1355,6 +1355,11 @@ function QuestieWotlkQuestFixes:Load()
         [13042] = {
             [questKeys.preQuestSingle] = {12999},
         },
+        [13043] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Mount Nergeld"), 0, {{"monster", 30403}}},
+            },
+        },
         [13044] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13008,13039,13040},
