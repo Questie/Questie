@@ -1217,7 +1217,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12807},
         },
         [12815] = {
-            [questKeys.preQuestSingle] = {12807},
+            [questKeys.preQuestSingle] = {12814},
         },
         [12816] = {
             [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS]={{56.5,52,},},},},
