@@ -1388,6 +1388,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
             },
         },
+        [13091] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30725,29880,30632,30243,30250},30644,}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Possess a Water Terror"), 0, {{"object", 192774}}},
+            },
+        },
         [13092] = {
             [questKeys.preQuestSingle] = {12999},
             [questKeys.specialFlags] = 0,
