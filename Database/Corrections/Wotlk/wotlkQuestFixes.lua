@@ -630,10 +630,10 @@ function QuestieWotlkQuestFixes:Load()
             },},
         },
         [12146] = {
-            [questKeys.startedBy] = {{27005},nil,{36855}},
+            [questKeys.startedBy] = {{27004,27005},nil,{36855}},
         },
         [12147] = {
-            [questKeys.startedBy] = {{27004},nil,{36856}},
+            [questKeys.startedBy] = {{27004,27005},nil,{36856}},
         },
         [12150] = {
             [questKeys.objectives] = {{{27003,}}},
@@ -648,7 +648,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
-        },        
+        },
         [12171] = {
             [questKeys.exclusiveTo] = {12174,12235,12297},
         },
@@ -818,7 +818,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{27680},nil,{37833}},
         },
         [12423] = {
-            [questKeys.startedBy] = {{27547},nil,{37830}},
+            [questKeys.startedBy] = {{27546,27547},nil,{37830}},
         },
         [12427] = {
             [questKeys.preQuestSingle] = {12413},
@@ -1267,7 +1267,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12887] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
-        },     
+        },
         [12892] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
