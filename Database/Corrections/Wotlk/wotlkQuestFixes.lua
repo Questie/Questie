@@ -1372,6 +1372,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
+        [13059] = {
+            [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
+        },
         [13073] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Arch Druid Lilliandra for transportation to Moonglade"), 0, {{"monster", 30630}}}},
         },
