@@ -405,6 +405,9 @@ function QuestieWotlkQuestFixes:Load()
         [11908] = {
             [questKeys.preQuestSingle] = {11902},
         },
+        [11909] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Research the Gearmaster's Manual"),0,{{"object", 190334},{"object", 190335}}}},
+        },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
