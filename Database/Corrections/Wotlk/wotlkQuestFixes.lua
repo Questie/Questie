@@ -1470,6 +1470,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 13231,
             [questKeys.preQuestSingle] = {13231},
         },
+        [13233] = {
+            [questKeys.objectives] = {{{30344,}}},
+        },
         [13234] = {
             [questKeys.preQuestSingle] = {13228},
             [questKeys.objectives] = {{{30824,}}},
