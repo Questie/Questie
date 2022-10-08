@@ -1326,6 +1326,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30275,"Wild Wyrm Slain"}}},
             [questKeys.preQuestSingle] = {13001},
         },
+        [13005] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984}}}},
+        },	
         [13006] = {
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
