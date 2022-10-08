@@ -1075,6 +1075,7 @@ function QuestieQuestBlacklist:Load()
         [13381] = true, -- Not in the game
         [11585] = true, -- Duplicate of 11586
         [13197] = true, -- Duplicate of 236 (Fueling the Demolishers (A))
+        [13179] = true, -- Duplicate of 13177 (No Mercy for the Merciless (A))
         [13180] = true, -- Duplicate of 13178 (Slay them all! (H))
         [13200] = true, -- Duplicate of 13191 (Fueling the Demolishers (H))
         [13195] = true, -- Duplicate of 13156 (A Rare Herb (A))
