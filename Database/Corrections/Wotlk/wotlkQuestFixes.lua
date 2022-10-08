@@ -212,6 +212,12 @@ function QuestieWotlkQuestFixes:Load()
         [11436] = {
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
         },
+        [11452] = {
+            [questKeys.startedBy] = {{24018},nil,{34090}},
+        },
+        [11453] = {
+            [questKeys.startedBy] = {{24018},nil,{34091}},
+        },
         [11460] = {
             [questKeys.triggerEnd] = {"Fjord Rock Falcon Fed",{[zoneIDs.HOWLING_FJORD]={{75.26,64.91,},},},},
         },
@@ -291,6 +297,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11653] = {
             [questKeys.objectives] = {{{25432,"Crafty's Blaster Tested"},{25434,"Crafty's Blaster Tested"},},nil,nil,nil,},
+        },
+        [11654] = {
+            [questKeys.startedBy] = {{26115},nil,{34815}},
         },
         [11664] = {
             [questKeys.triggerEnd] = {"Mootoo Saved",{[zoneIDs.BOREAN_TUNDRA]={{31.19,54.44,},},},},
@@ -479,8 +488,14 @@ function QuestieWotlkQuestFixes:Load()
         [12053] = {
             [questKeys.triggerEnd] = {"Warsong Battle Standard Defended",{[zoneIDs.DRAGONBLIGHT]={{25.09,41.97,},},},},
         },
+        [12055] = {
+            [questKeys.startedBy] = {{26349},nil,{36742}},
+        },
         [12056] = {
             [questKeys.preQuestSingle] = {12034},
+        },
+        [12059] = {
+            [questKeys.startedBy] = {{26349},nil,{36746}},
         },
         [12063] = {
             [questKeys.preQuestSingle] = {12036},
@@ -494,6 +509,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188445}}},
             },
+        },
+        [12067] = {
+            [questKeys.startedBy] = {{26762},nil,{36756}},
         },
         [12069] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Free Roanauk Icemist"),0,{{"object", 188463}}}},
@@ -524,6 +542,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188474}}},
             },
         },
+        [12085] = {
+            [questKeys.startedBy] = {{26815},nil,{36780}},
+        },
         [12092] = {
             [questKeys.preQuestSingle] = {12065},
         },
@@ -538,6 +559,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12100] = {
             [questKeys.preQuestSingle] = {12034},
+        },
+        [12105] = {
+            [questKeys.startedBy] = {{27547},nil,{36940}},
         },
         [12107] = {
             [questKeys.extraObjectives] = {
@@ -605,6 +629,12 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.TIRISFAL_GLADES]={{61,53.5,},},
             },},
         },
+        [12146] = {
+            [questKeys.startedBy] = {{27005},nil,{36855}},
+        },
+        [12147] = {
+            [questKeys.startedBy] = {{27004},nil,{36856}},
+        },
         [12150] = {
             [questKeys.objectives] = {{{27003,}}},
         },
@@ -618,7 +648,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
-        },
+        },        
         [12171] = {
             [questKeys.exclusiveTo] = {12174,12235,12297},
         },
@@ -742,6 +772,9 @@ function QuestieWotlkQuestFixes:Load()
         [12269] = {
             [questKeys.preQuestSingle] = {12275},
         },
+        [12271] = {
+            [questKeys.startedBy] = {{27209},nil,{37432}},
+        },
         [12273] = {
             [questKeys.objectives] = {{{27237,},{27235,},{27234,},{27236,}}},
         },
@@ -780,6 +813,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12415] = {
             [questKeys.objectives] = {{{26472,}}},
+        },
+        [12419] = {
+            [questKeys.startedBy] = {{27680},nil,{37833}},
+        },
+        [12423] = {
+            [questKeys.startedBy] = {{27547},nil,{37830}},
         },
         [12427] = {
             [questKeys.preQuestSingle] = {12413},
@@ -1228,7 +1267,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12887] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
-        },
+        },     
         [12892] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
@@ -1323,6 +1362,9 @@ function QuestieWotlkQuestFixes:Load()
         [13040] = {
             [questKeys.preQuestSingle] = {13036},
         },
+        [13043] = {
+            [questKeys.startedBy] = {{30409},nil,{42772}},
+        },
         [13044] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13008,13039,13040},
@@ -1373,6 +1415,9 @@ function QuestieWotlkQuestFixes:Load()
         [13135] = {
             [questKeys.preQuestSingle] = {13104},
         },
+        [13136] = {
+            [questKeys.startedBy] = {{30597},nil,{43242}},
+        },
         [13139] = {
             [questKeys.preQuestGroup] = {13125,13130,13135},
         },
@@ -1384,9 +1429,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13122] = {
             [questKeys.preQuestSingle] = {13104},
-        },
-        [13136] = {
-            [questKeys.objectives] = {nil,nil,{{43259}}},
         },
         [13154] = {
             [questKeys.exclusiveTo] = {236,13156,},
@@ -1418,6 +1460,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13194] = {
             [questKeys.exclusiveTo] = {13191,13193,},
+        },
+        [13204] = {
+            [questKeys.startedBy] = {{30329},nil,{43512}},
         },
         [13221] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
@@ -1757,9 +1802,15 @@ function QuestieWotlkQuestFixes:Load()
         [13368] = {
             [questKeys.preQuestSingle] = {13366},
         },
+        [13372] = {
+            [questKeys.startedBy] = {{15989},nil,{44569}},
+        },        
         [13373] = {
             [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 0, {{"monster", 31839}}}},
+        },
+        [13375] = {
+            [questKeys.startedBy] = {{15989},nil,{44577}},
         },
         [13376] = {
             [questKeys.preQuestSingle] = {13373},
@@ -1811,9 +1862,6 @@ function QuestieWotlkQuestFixes:Load()
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
         },
-        [13420] = {
-            [questKeys.startedBy] = {nil,{193997},{44725}},
-        },
         [13422] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
             [questKeys.exclusiveTo] = {13423,13424,13425},
@@ -1861,6 +1909,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13559] = {
             [questKeys.requiredMinRep] = {1119,3000},
+        },
+        [13631] = {
+            [questKeys.startedBy] = {{32871},nil,{46052}},
+        },
+        [13819] = {
+            [questKeys.startedBy] = {{32871},nil,{46053}},
         },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
