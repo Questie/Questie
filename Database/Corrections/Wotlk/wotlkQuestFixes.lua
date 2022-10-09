@@ -27,6 +27,8 @@ function QuestieWotlkQuestFixes:Load()
 
     return {
         [236] = {
+            [questKeys.startedBy] = {{31108}},
+            [questKeys.finishedBy] = {{31108}},
             [questKeys.exclusiveTo] = {13154,13156,},
         },
         [1198] = {
@@ -120,8 +122,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{24161,"Oric the Baleful's Corpse Impaled"},{24016,"Ulf the Bloodletter's Corpse Impaled"},{24162,"Gunnar Thorvardsson's Corpse Impaled"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Slay Vrykul across the Forsaken blockade until they appear"), 0, {{"monster", 24015}}}},
         },
+        [11286] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11296] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Break Riven Widow Cocoons to free captives"), 0, {{"monster", 24210}}}},
+        },
+        [11297] = {
+            [questKeys.nextQuestInChain] = 11298,
+        },
+        [11298] = {
+            [questKeys.preQuestSingle] = {},
         },
         [11301] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_LOOT, l10n("Use Grick's Bonesaw on corpses of Deranged Explorers"), 0, {{"monster", 23967}}}},
@@ -363,7 +374,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },
         [11881] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Jenny's Whistle near a crashed flying machine"),0,{{"monster", 25845},{"monster", 25846},{"monster", 25847}}},},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use Jenny's Whistle near a crashed flying machine"),0,{{"monster", 25845},{"monster", 25846},{"monster", 25847}}},
+                {nil, ICON_TYPE_EVENT, l10n("Return Jenny to safety without losing cargo"),0,{{"monster", 25849},}},
+            },
         },
         [11887] = {
             [questKeys.objectives] = {nil,nil,{{35276}}},
@@ -378,8 +392,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{24601}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Windsoul Totem to collect energy from killing Steam Ragers"),0,{{"monster", 24601}}}},
         },
+        [11894] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Uncured Caribou Hide"),0,{{"object", 188086}}}},
+        },
         [11896] = {
-        [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
         },
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
@@ -398,6 +415,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11908] = {
             [questKeys.preQuestSingle] = {11902},
+        },
+        [11909] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Research the Gearmaster's Manual"),0,{{"object", 190334},{"object", 190335}}}},
         },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
@@ -1304,6 +1324,7 @@ function QuestieWotlkQuestFixes:Load()
         [12973] = {
             [questKeys.triggerEnd] = {"Accompany Brann Bronzebeard to Frosthold.",{[zoneIDs.STORM_PEAKS]={{30.2,74.6,},},},},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{39.6,56.4}}}, ICON_TYPE_EVENT, l10n("Get in Brann Bronzebeard Flying Machine"),}},
+            [questKeys.preQuestSingle] = {12880},
         },
         [12974] = {
             [questKeys.exclusiveTo] = {12932,12954},
@@ -1344,6 +1365,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30275,"Wild Wyrm Slain"}}},
             [questKeys.preQuestSingle] = {13001},
         },
+        [13005] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984}}}},
+        },	
         [13006] = {
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
@@ -1453,6 +1477,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13222},
         },
         [13191] = {
+            [questKeys.finishedBy] = {{31106}},
             [questKeys.exclusiveTo] = {13193,13194,},
         },
         [13193] = {
@@ -1498,6 +1523,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13232] = {
             [questKeys.parentQuest] = 13231,
+            [questKeys.preQuestSingle] = {13231},
+        },
+        [13233] = {
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = {
@@ -1724,6 +1752,9 @@ function QuestieWotlkQuestFixes:Load()
         [13331] = {
             [questKeys.preQuestSingle] = {13313},
         },
+        [13332] = {
+            [questKeys.preQuestSingle] = {13345},
+        },
         [13333] = {
             [questKeys.preQuestSingle] = {13314},
         },
@@ -1861,6 +1892,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13411] = {
             [questKeys.preQuestSingle] = {10124},
+        },
+        [13420] = {
+            [questKeys.startedBy] = {nil,{193997},{44725}},
+            [questKeys.requiredMinRep] = {1119,3000},
         },
         [13422] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
