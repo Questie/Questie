@@ -1367,7 +1367,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13005] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984}}}},
-        },	
+        },
         [13006] = {
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
@@ -1726,6 +1726,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13329},
         },
         [13318] = {
+            [questKeys.objectives] = {{{32236,"Dark Subjugator dragged and dropped"}}},
             [questKeys.preQuestSingle] = {13315},
         },
         [13319] = {
@@ -1807,9 +1808,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13264},
         },
         [13352] = {
+            [questKeys.objectives] = {{{32236,"Dark Subjugator dragged and dropped"}}},
             [questKeys.preQuestSingle] = {13351},
         },
         [13353] = {
+            [questKeys.objectives] = {{{32236,"Dark Subjugator dragged and dropped"}}},
             [questKeys.preQuestSingle] = {13352},
         },
         [13354] = {
@@ -1835,7 +1838,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13372] = {
             [questKeys.startedBy] = {{15989},nil,{44569}},
-        },        
+        },
         [13373] = {
             [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 0, {{"monster", 31839}}}},
