@@ -1784,12 +1784,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13225},
         },
         [13342] = {
+            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13318},
         },
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
         },
         [13344] = {
+            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13342},
         },
         [13345] = {
@@ -1825,9 +1827,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13356},
         },
         [13358] = {
+            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13352},
         },
         [13365] = {
+            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13352},
         },
         [13366] = {
