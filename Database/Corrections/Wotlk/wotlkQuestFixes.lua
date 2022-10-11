@@ -860,8 +860,14 @@ function QuestieWotlkQuestFixes:Load()
         [12431] = {
             [questKeys.objectives] = {{{27727,}}},
         },
+        [12434] = {
+            [questKeys.specialFlags] = 1,
+        },
         [12439] = {
             [questKeys.exclusiveTo] = {11995},
+        },
+        [12446] = {
+            [questKeys.specialFlags] = 1,
         },
         [12453] = {
             [questKeys.preQuestSingle] = {12412},
@@ -1236,6 +1242,24 @@ function QuestieWotlkQuestFixes:Load()
             ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
         },
+        [12372] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Ride a Wyrmrest Defender to defend the Temple"), 0, {{"monster", 27629}}},
+            },
+        },
+        [12704] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Talk to High-Oracle Soo-say to retrieve a Gorloc companion"), 0, {{"monster", 28027}}},
+            },
+        },
+        [12705] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use the Tainted Crystal at the Great Lightning Stone"), 0, {{"object", 190781}}},
+            },
+        },
+        [12737] = {
+            [questKeys.objectives] = {nil,{{191136,}}},
+        },
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
         },
@@ -1251,11 +1275,21 @@ function QuestieWotlkQuestFixes:Load()
         [12805] = {
             [questKeys.objectives] = {{{29124,}}},
         },
+        [12807] = {
+            [questKeys.objectives] = {{{29344,}}},
+        },
+        [12810] = {
+            [questKeys.objectives] = {{{29392,}}},
+        },
         [12813] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{29329,29330,29333,29338},29398}}},
             [questKeys.preQuestSingle] = {12807},
         },
+        [12814] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{29406,29405},29406}}},
+        },
         [12815] = {
-            [questKeys.preQuestSingle] = {12807},
+            [questKeys.preQuestSingle] = {12814},
         },
         [12816] = {
             [questKeys.triggerEnd] = {"Investigate a circle",{[zoneIDs.EVERSONG_WOODS]={{56.5,52,},},},},
@@ -1279,6 +1313,9 @@ function QuestieWotlkQuestFixes:Load()
         [12842] = {
             [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
         },
+        [12852] = {
+            [questKeys.objectives] = {{{29621,}}},
+        },
         [12856] = {
             [questKeys.objectives] = {{{29639,"Rescued Brunnhildar Prisoners"},{29708,"Freed Proto-Drakes"}}},
         },
@@ -1290,6 +1327,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12892] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
+        },
+        [12893] = {
+            [questKeys.objectives] = {{{29769},{29770},{29840}}},
+        },
+        [12897] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Tamper with General's Weapon Rack to summon General Lightsbane"), 0, {{"object", 191778},{"object", 191779}}},
+            },
         },
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
@@ -1314,6 +1359,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12936] = {
             [questKeys.triggerEnd] = {"Korrak the Bloodrager Defeated",{[zoneIDs.ZUL_DRAK]={{48.04,56.75,},},},},
+        },
+        [12939] = {
+            [questKeys.objectives] = {{{30037,}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Use the Challenge Flag on sparring Mjordin Combatants"), 0, {{"monster", 30037}}},
+            },
         },
         [12948] = {
             [questKeys.triggerEnd] = {"Vladof the Butcher Defeated",{[zoneIDs.ZUL_DRAK]={{47.98,56.74,},},},},
@@ -1386,8 +1437,14 @@ function QuestieWotlkQuestFixes:Load()
         [13040] = {
             [questKeys.preQuestSingle] = {13036},
         },
+        [13042] = {
+            [questKeys.preQuestSingle] = {12999},
+        },
         [13043] = {
             [questKeys.startedBy] = {{30409},nil,{42772}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Mount Nergeld"), 0, {{"monster", 30403}}},
+            },
         },
         [13044] = {
             [questKeys.preQuestSingle] = {},
@@ -1406,6 +1463,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
+        [13059] = {
+            [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
+        },
         [13073] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Arch Druid Lilliandra for transportation to Moonglade"), 0, {{"monster", 30630}}}},
         },
@@ -1414,8 +1474,15 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Mount Argent Cannon"), 0, {{"monster", 30236}}},
             },
         },
+        [13091] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30725,29880,30632,30243,30250},30644,}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Possess a Water Terror"), 0, {{"object", 192774}}},
+            },
+        },
         [13092] = {
             [questKeys.preQuestSingle] = {12999},
+            [questKeys.specialFlags] = 0,
         },
         [13093] = {
             [questKeys.preQuestSingle] = {13092},
@@ -1526,10 +1593,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13231},
         },
         [13233] = {
+            [questKeys.objectives] = {{{30344,}}},
             [questKeys.preQuestSingle] = {13231},
         },
         [13234] = {
             [questKeys.preQuestSingle] = {13228},
+            [questKeys.objectives] = {{{30824,}}},
         },
         [13238] = {
             [questKeys.preQuestSingle] = {13228},
