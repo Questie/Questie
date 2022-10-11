@@ -1328,6 +1328,9 @@ function QuestieWotlkQuestFixes:Load()
         [12865] = {
             [questKeys.preQuestSingle] = {12863},
         },
+        [12876] = {
+            [questKeys.preQuestSingle] = {12874},
+        },
         [12887] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
