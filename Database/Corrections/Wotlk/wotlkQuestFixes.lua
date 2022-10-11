@@ -1328,6 +1328,9 @@ function QuestieWotlkQuestFixes:Load()
         [12865] = {
             [questKeys.preQuestSingle] = {12863},
         },
+        [12869] = {
+            [questKeys.preQuestSingle] = {12867},
+        },
         [12876] = {
             [questKeys.preQuestSingle] = {12874},
         },
