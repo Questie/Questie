@@ -771,16 +771,16 @@ function QuestieQuestBlacklist:Load()
 
         -- Classic Phase 6 Invasion quests
         -- Investigate the Scourge of X
-        [9260] = QuestieCorrections.CLASSIC_ONLY,
-        [9261] = QuestieCorrections.CLASSIC_ONLY,
-        [9262] = QuestieCorrections.CLASSIC_ONLY,
-        [9263] = QuestieCorrections.CLASSIC_ONLY,
-        [9264] = QuestieCorrections.CLASSIC_ONLY,
-        [9265] = QuestieCorrections.CLASSIC_ONLY,
+        [9260] = true,
+        [9261] = true,
+        [9262] = true,
+        [9263] = true,
+        [9264] = true,
+        [9265] = true,
         --
-        [9085] = QuestieCorrections.CLASSIC_ONLY,
-        [9153] = QuestieCorrections.CLASSIC_ONLY,
-        [9154] = QuestieCorrections.CLASSIC_ONLY,
+        [9085] = true,
+        [9153] = true,
+        [9154] = true,
         --
 
         ----- TBC -------------- TBC quests --------------- TBC -----
@@ -1060,13 +1060,16 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        [6804] = true, -- Can no longer be accepted in Wotlk
         [10888] = true, -- Got replaced by 13430
         [10901] = true, -- Got replaced by 13431
         [11179] = true, -- Not in the game
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
+        [11939] = true, -- Not in the game
+        [12087] = true, -- Not in the game
+        [12156] = true, -- Not in the game
+        [12108] = true, -- Not in the game
         [25229] = true, -- Not in the game
         [12780] = true, -- Not in the game
         [12590] = true, -- Not in the game
@@ -1076,6 +1079,8 @@ function QuestieQuestBlacklist:Load()
         [13381] = true, -- Not in the game
         [11585] = true, -- Duplicate of 11586
         [13197] = true, -- Duplicate of 236 (Fueling the Demolishers (A))
+        [13179] = true, -- Duplicate of 13177 (No Mercy for the Merciless (A))
+        [13180] = true, -- Duplicate of 13178 (Slay them all! (H))
         [13200] = true, -- Duplicate of 13191 (Fueling the Demolishers (H))
         [13195] = true, -- Duplicate of 13156 (A Rare Herb (A))
         [13196] = true, -- Duplicate of 13154 (Bones and Arrows (A))
@@ -1085,12 +1090,16 @@ function QuestieQuestBlacklist:Load()
         [11597] = true, -- Duplicate of 11595 and 11596 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12932] = true, -- Duplicate of 12954 (not entirely a duplicate but this is the easiest way to hide multiple quests)
 
+        [6804] = QuestieCorrections.WOTLK_ONLY,
         [9320] = QuestieCorrections.WOTLK_ONLY,
         [9333] = QuestieCorrections.WOTLK_ONLY,
         [9334] = QuestieCorrections.WOTLK_ONLY,
         [9335] = QuestieCorrections.WOTLK_ONLY,
         [9336] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
+
+        -- Scourge invasion
+        [12811] = true,
 
         --- Phase 2 Ulduar / Argent Tournament
         [13633] = true,
