@@ -1316,6 +1316,9 @@ function QuestieWotlkQuestFixes:Load()
         [12852] = {
             [questKeys.objectives] = {{{29621,}}},
         },
+        [12855] = {
+            [questKeys.preQuestSingle] = {12854},
+        },
         [12856] = {
             [questKeys.objectives] = {{{29639,"Rescued Brunnhildar Prisoners"},{29708,"Freed Proto-Drakes"}}},
         },
