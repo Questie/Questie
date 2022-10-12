@@ -180,7 +180,7 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
             if validationTables and QuestieDB[databaseTableName][id] then
                 if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and
                     QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
-                    Questie:Warning("Correction of " ..
+                    Questie:WarningDebug("Correction of " ..
                                     databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end

@@ -100,7 +100,13 @@ function Questie:Error(...)
     Questie:Print("|cffff0000[ERROR]|r", ...)
 end
 
-function Questie:Warning(...)
+function Questie:ErrorDebug(...)
+    if (Questie.db.global.debugEnabled) then  -- prints regardless of "debugPrint" toggle
+        Questie:Print("|cffff0000[ERROR]|r", ...)
+    end
+end
+
+function Questie:WarningDebug(...)
     if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end

@@ -153,7 +153,7 @@ local function _CheckClassicDatabase()
 
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
-    Questie.Warning = _ErrorOrWarning
+    Questie.WarningDebug = _ErrorOrWarning
 
     Questie.db = {
         char = {
@@ -216,7 +216,7 @@ local function _CheckTBCDatabase()
 
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
-    Questie.Warning = _ErrorOrWarning
+    Questie.WarningDebug = _ErrorOrWarning
 
     Questie.db = {
         char = {
@@ -278,7 +278,7 @@ local function _CheckWotlkDatabase()
 
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
-    Questie.Warning = _ErrorOrWarning
+    Questie.WarningDebug = _ErrorOrWarning
 
     Questie.db = {
         char = {

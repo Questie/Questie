@@ -857,7 +857,8 @@ function QuestieDB:GetQuest(questId, skipCache) -- /dump QuestieDB:GetQuest(867)
     end
 
     if(Quest.preQuestGroup ~= nil and next(Quest.preQuestGroup) ~= nil and Quest.preQuestSingle ~= nil and next(Quest.preQuestSingle) ~= nil) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
+        Questie:WarningDebug("Not mutually exclusive for questID:", Quest.Id, Quest.name)
+        DevTools_Dump({ "PreQuestGroup", Quest.preQuestGroup, "PreQuestSingle", Quest.preQuestSingle })
     end
 
     --- Quest objectives generated from quest log in QuestieQuest.lua -> QuestieQuest:PopulateQuestLogInfo(quest)
