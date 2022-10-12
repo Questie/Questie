@@ -192,11 +192,6 @@ local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, 
                 end
             end
         end
-        if count == TICKS_PER_YIELD then
-            count = 0
-            coroutine.yield()
-        end
-        count = count + 1
     end
 end
 
