@@ -1,6 +1,6 @@
 -- AUTO GENERATED FILE! DO NOT EDIT!
 
----@class QuestieDB -- Yeah i modified it, change it in the extractor my dude :D
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 QuestieDB.questKeys = {

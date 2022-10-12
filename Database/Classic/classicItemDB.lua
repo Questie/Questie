@@ -1,6 +1,6 @@
 -- AUTO GENERATED FILE! DO NOT EDIT!
 
----@class QuestieDB
+---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 QuestieDB.itemKeys = {
