@@ -167,16 +167,10 @@ end
 ---@param databaseTableName string The name of the QuestieDB field that should be manipulated (e.g. "itemData", "questData")
 ---@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
-<<<<<<< HEAD
----@param validationTables table? Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
-local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables)
-    local count = 0
-=======
 ---@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
 ---@param noOverwrites true? Do not overwrite existing values
 ---@param noNewEntries true? Do not create new entries in the database
 local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites, noNewEntries)
->>>>>>> master
     for id, data in pairs(corrections) do
         for key, value in pairs(data) do
             -- Create the id if missing unless noNewEntries is set
