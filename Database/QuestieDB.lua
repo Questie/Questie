@@ -1,4 +1,4 @@
----@class QuestieDB
+---@type QuestieDB
 local QuestieDB = QuestieLoader:CreateModule("QuestieDB")
 
 ---@type QuestieDBPrivate
@@ -578,7 +578,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
             return false
         end
     end
- 
+
     --? PreQuestGroup and PreQuestSingle are mutualy exclusive to eachother and preQuestSingle is more prevalent
     --? Only try group if single does not exist.
     if not preQuestSingle then
@@ -588,7 +588,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
             local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
             if not isPreQuestGroupFulfilled then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] preQuestGroup requirement not fulfilled for questId:", questId) end
-    
+
                 return false
             end
         end
@@ -619,7 +619,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
         for _, v in pairs(ExclusiveQuestGroup) do
             if Questie.db.char.complete[v] or QuestiePlayer.currentQuestlog[v] then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] we have completed a quest that locks out this quest!") end
-    
+
                 return false
             end
         end
