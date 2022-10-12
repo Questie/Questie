@@ -1149,6 +1149,7 @@ function QuestieQuestBlacklist:Load()
         [13134] = false, -- Spill Their Blood
         [13136] = false, -- Jagged Shards
         [13138] = false, -- I'm Smelting... Smelting!
+        [13140] = false, -- The Runesmiths of Malykriss
         [13221] = false, -- I'm Not Dead Yet!
         [13229] = false, -- I'm Not Dead Yet!
     }
