@@ -1538,6 +1538,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Listen to Lok'lira's proposal"] = { -- 12970
+        ["ptBR"] = "Ouvir a proposta de Lok'lira",
+        ["ruRU"] = "Выслушать предложение Лок'лиры",
+        ["deDE"] = "Hört Euch Lok'liras Vorschlag an",
+        ["koKR"] = "로크리라의 제안 듣기",
+        ["esMX"] = "Escucha la propuesta de Lok'lira",
+        ["enUS"] = true,
+        ["frFR"] = "Écouter la proposition de Lok'lira",
+        ["esES"] = "Escucha la propuesta de Lok'lira",
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Mount Nergeld"] = { -- 13043
         ["ptBR"] = false,
         ["ruRU"] = false,
