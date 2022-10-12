@@ -1612,6 +1612,9 @@ function QuestieWotlkQuestFixes:Load()
         [13204] = {
             [questKeys.startedBy] = {{30329},nil,{43512}},
         },
+        [13211] = {
+            [questKeys.preQuestGroup] = {13134,13138,13140},
+        },
         [13221] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
             [questKeys.preQuestSingle] = {},
