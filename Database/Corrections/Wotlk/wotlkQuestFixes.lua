@@ -1313,6 +1313,9 @@ function QuestieWotlkQuestFixes:Load()
         [12842] = {
             [questKeys.triggerEnd] = {"Weapon emblazoned",{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{47.28,31.36},{47.82,27.42},{50.43,28.17},},},},
         },
+        [12851] = {
+            [questKeys.name] = "Bearly Hanging On",
+        },
         [12852] = {
             [questKeys.objectives] = {{{29621,}}},
         },
