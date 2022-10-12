@@ -1604,6 +1604,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13221] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {13119,13120},
         },
         [13222] = {
             [questKeys.exclusiveTo] = {13186},
@@ -1624,6 +1626,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13229] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {13119,13120},
         },
         [13230] = {
             [questKeys.parentQuest] = 13228,
