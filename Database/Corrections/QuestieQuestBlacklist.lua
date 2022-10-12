@@ -1147,6 +1147,7 @@ function QuestieQuestBlacklist:Load()
         
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
+        [13136] = false, -- Jagged Shards
     }
 
     if Questie.IsSoM then
