@@ -45,6 +45,9 @@ local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes"
 ---@type QuestieWotlkObjectFixes
 local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
 
+--- Automatic corrections
+local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes")
+
 --[[
     This file load the corrections of the database files.
 
@@ -165,21 +168,33 @@ end
 ---@param corrections table All corrections for the given databaseTableName (e.g. all quest corrections)
 ---@param reversedKeys table The reverted QuestieDB keys for the given databaseTableName (e.g. QuestieDB.questKeys)
 ---@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
-local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables)
+---@param noOverwrites true? Do not overwrite existing values
+---@param noNewEntries true? Do not create new entries in the database
+local _LoadCorrections = function(databaseTableName, corrections, reversedKeys, validationTables, noOverwrites, noNewEntries)
     for id, data in pairs(corrections) do
         for key, value in pairs(data) do
-            if not QuestieDB[databaseTableName][id] then
+            -- Create the id if missing unless noNewEntries is set
+            if not QuestieDB[databaseTableName][id] and not noNewEntries then
                 QuestieDB[databaseTableName][id] = {}
             end
-            if validationTables then
-                if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
-                    Questie:Warning("Correction of " .. databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
+            if validationTables and QuestieDB[databaseTableName][id] then
+                if value and QuestieLib.equals(QuestieDB[databaseTableName][id][key], value) and validationTables[databaseTableName][id] and
+                    QuestieLib.equals(validationTables[databaseTableName][id][key], value) then
+                    Questie:Warning("Correction of " ..
+                                    databaseTableName .. " " .. tostring(id) .. "." .. reversedKeys[key] .. " matches base DB! Value:" .. tostring(value))
                 end
             end
-            QuestieDB[databaseTableName][id][key] = value
+            if QuestieDB[databaseTableName][id] then
+                if noOverwrites and QuestieDB[databaseTableName][id][key] == nil then
+                    QuestieDB[databaseTableName][id][key] = value
+                elseif not noOverwrites then
+                    QuestieDB[databaseTableName][id][key] = value
+                end
+            end
         end
     end
 end
+
 
 ---@param validationTables table Only used by the cli.lua script to validate the corrections against the original database values and find irrelevant corrections
 function QuestieCorrections:Initialize(validationTables)
@@ -203,6 +218,10 @@ function QuestieCorrections:Initialize(validationTables)
         _LoadCorrections("itemData", QuestieWotlkItemFixes:Load(), QuestieDB.itemKeysReversed, validationTables)
         _LoadCorrections("objectData", QuestieWotlkObjectFixes:Load(), QuestieDB.objectKeysReversed, validationTables)
     end
+
+
+    --- Corrections that apply to all versions
+    _LoadCorrections("itemData", QuestieItemStartFixes:LoadAutomaticQuestStarts(), QuestieDB.itemKeysReversed, validationTables, true, true)
 
     local patchCount = 0
     for _, quest in pairs(QuestieDB.questData) do

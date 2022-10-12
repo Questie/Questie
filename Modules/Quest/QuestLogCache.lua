@@ -83,17 +83,6 @@ local function GetNewObjectives(questId, oldObjectives)
     local changedObjIds -- not assigning {} for easier nil when nothing changed
     local objectives = C_QuestLog_GetQuestObjectives(questId)
 
-    if type(objectives) ~= "table" then
-        -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
-        -- I guess older code queried data before HaveQuestData() was true.
-        -- This check is to catch if that is possible.
-        -- TODO: Remove this if block once confirmed error never happens.
-        -- I = Laume / Laumesis@Github
-        Questie:Error("Please report on Github or Discord! Quest objectives aren't a table at CheckForChanges. questId =", questId)
-        error("Please report on Github or Discord! Quest objectives aren't a table at CheckForChanges. questId = "..questId)
-        -- execution ends here because of error ^
-    end
-
     for objIndex=1, #objectives do -- iterate manually to be sure getting those in order
         local oldObj = oldObjectives[objIndex]
         local newObj = objectives[objIndex]

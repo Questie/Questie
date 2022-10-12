@@ -301,8 +301,8 @@ end
 ----- Tests -----
 
 function _ZoneDB:RunTests()
-    -- Fetch all UiMapIds
-    local maps = C_Map.GetMapChildrenInfo(946, nil, true)
+    -- Fetch all UiMapIds (WOTLK/TBC, ERA)
+    local maps = C_Map.GetMapChildrenInfo(946, nil, true) or C_Map.GetMapChildrenInfo(947, nil, true)
     Questie:Debug(Questie.DEBUG_CRITICAL, "[" .. Questie:Colorize("ZoneDBTests", "yellow") .. "] Testing ZoneDB")
     local buggedMaps = {
         [306] = true, -- ScholomanceOLD
