@@ -1315,6 +1315,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12851] = {
             [questKeys.name] = "Bearly Hanging On",
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount Icefang"), 0, {{"monster", 29598}}},
+            },
         },
         [12852] = {
             [questKeys.objectives] = {{{29621,}}},
