@@ -1357,6 +1357,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.ZUL_DRAK]={{26.71,57.29}}}, ICON_TYPE_EVENT, l10n("Slay Scourge while riding Gymer"),},
             },
         },
+        [12925] = {
+            [questKeys.preQuestSingle] = {12905},
+        },
         [12932] = {
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
         },
