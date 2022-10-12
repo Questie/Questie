@@ -536,6 +536,9 @@ function QuestieWotlkQuestFixes:Load()
         [12069] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Free Roanauk Icemist"),0,{{"object", 188463}}}},
         },
+        [12075] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [12076] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Zort's Scraper when covered in Corrosive Spit"),0,{{"monster", 26358},{"monster", 26359}}}},
         },
