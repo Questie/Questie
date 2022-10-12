@@ -1144,6 +1144,9 @@ function QuestieQuestBlacklist:Load()
         [24588] = true,
         [24589] = true,
         [24590] = true,
+        
+        --- Automatic Overrides (for when Wowhead data is wrong)
+        [13134] = false, -- Spill Their Blood
     }
 
     if Questie.IsSoM then
