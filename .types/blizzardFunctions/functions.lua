@@ -11,8 +11,8 @@ function FramePool_HideAndClearAnchors() end
 ---@return number               @UI size
 ---See blizzard Util.lua [Documentation](https://github.com/tomrus88/BlizzardInterfaceCode/blob/ace1af63e38c058fa76cd3abca0b57b384c527d4/Interface/SharedXML/Util.lua#L128)
 function ConvertPixelsToUI(pixels, frameScale)
-	local physicalScreenHeight = select(2, GetPhysicalScreenSize());
-	return (pixels * 768.0)/(physicalScreenHeight * frameScale);
+    local physicalScreenHeight = select(2, GetPhysicalScreenSize());
+    return (pixels * 768.0)/(physicalScreenHeight * frameScale);
 end
 
 ---[FrameXML](https://www.townlong-yak.com/framexml/go/DevTools_Dump)
