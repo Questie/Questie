@@ -1533,6 +1533,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30202}}},
             [questKeys.preQuestSingle] = {13104},
         },
+        [13118] = {
+            [questKeys.preQuestSingle] = {13104},
+        },
+        [13121] = {
+            [questKeys.objectives] = {nil,{{192861}}},
+        },
+        [13122] = {
+            [questKeys.preQuestSingle] = {13104},
+        },
         [13125] = {
             [questKeys.preQuestGroup] = {13122,13118},
         },
@@ -1550,12 +1559,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13141] = {
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[zoneIDs.ICECROWN]={{80.06,71.81,},},},},
-        },
-        [13118] = {
-            [questKeys.preQuestSingle] = {13104},
-        },
-        [13122] = {
-            [questKeys.preQuestSingle] = {13104},
         },
         [13154] = {
             [questKeys.exclusiveTo] = {236,13156,},
