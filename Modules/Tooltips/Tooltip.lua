@@ -227,7 +227,7 @@ function QuestieTooltips:GetTooltip(key)
 
     local anotherPlayer = false
     if IsInGroup() then
-        anotherPlayer = _FetchTooltipsForGroupMembers()
+        anotherPlayer = _FetchTooltipsForGroupMembers(key, tooltipData)
     end
 
     local playerName = UnitName("player")
