@@ -1574,6 +1574,9 @@ function QuestieWotlkQuestFixes:Load()
         [13141] = {
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[zoneIDs.ICECROWN]={{80.06,71.81,},},},},
         },
+        [13152] = {
+            [questKeys.preQuestGroup] = {13134,13138,13140},
+        },
         [13154] = {
             [questKeys.exclusiveTo] = {236,13156,},
         },

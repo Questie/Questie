@@ -1152,6 +1152,7 @@ function QuestieQuestBlacklist:Load()
         [13140] = false, -- The Runesmiths of Malykriss
         [13221] = false, -- I'm Not Dead Yet!
         [13229] = false, -- I'm Not Dead Yet!
+        [13152] = false, -- A Visit to the Doctor
     }
 
     if Questie.IsSoM then
