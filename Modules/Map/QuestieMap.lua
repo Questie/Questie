@@ -161,7 +161,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
 
     if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
         isDrawQueueDisabled = false
-        if not QuestieMap.drawTimer then 
+        if not QuestieMap.drawTimer then
             QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
             -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
             QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
@@ -689,7 +689,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
 
     --Hide unexplored logic
-    if (not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and Questie.db.char.hideUnexploredMapIcons) then
+    if (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y)) then
         iconMap:FakeHide()
         iconMinimap:FakeHide()
     end
