@@ -111,16 +111,16 @@ local function runValidator()
     -- Run validator
     if Questie.db.global.debugEnabled then
         coYield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating NPCs...")
+        print("Validating NPCs...")
          QuestieDBCompiler:ValidateNPCs()
         coYield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating objects...")
+        print("Validating objects...")
          QuestieDBCompiler:ValidateObjects()
         coYield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating items...")
+        print("Validating items...")
          QuestieDBCompiler:ValidateItems()
         coYield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating quests...")
+        print("Validating quests...")
         QuestieDBCompiler:ValidateQuests()
     end
 end
@@ -173,14 +173,9 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         QuestieDBCompiler:Compile()
         dbCompiled = true
     else
-        -- If we have debug enabled we want to run the validator, so we need to load the full database
-        if Questie.db.global.debugEnabled then
-            loadFullDatabase()
-        else
-            l10n:Initialize()
-            coYield()
-            QuestieCorrections:MinimalInit()
-        end
+        l10n:Initialize()
+        coYield()
+        QuestieCorrections:MinimalInit()
     end
 
     if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
@@ -192,6 +187,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     coYield()
     QuestieDB:Initialize()
 
+    --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
     if Questie.db.global.debugEnabled and dbCompiled then
         runValidator()
         print("\124cFF4DDBFF Load and Validation complete...")
@@ -321,7 +317,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
             Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
         end
     end
-    
+
     -- We do this last because it will run for a while and we don't want to block the rest of the init
     coYield()
     QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
