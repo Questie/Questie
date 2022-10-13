@@ -256,13 +256,13 @@ function QuestieDB:Initialize()
     QuestieDB.QueryObjectAll = QuestieDB._QueryObjectAll
     QuestieDB.QueryItemAll = QuestieDB._QueryItemAll
 
+    --? We check wipe for it to work in the cli, move along ;D
     -- data has been corrected, ensure cache is empty (something might have accessed the api before questie initialized)
-    wipe(_QuestieDB.questCache)
-    wipe(_QuestieDB.itemCache)
-    wipe(_QuestieDB.npcCache)
-    wipe(_QuestieDB.objectCache)
-
-    wipe(_QuestieDB.zoneCache)
+    _QuestieDB.questCache = wipe and wipe(_QuestieDB.questCache) or {}
+    _QuestieDB.itemCache = wipe and wipe(_QuestieDB.itemCache) or {}
+    _QuestieDB.npcCache = wipe and wipe(_QuestieDB.npcCache) or {}
+    _QuestieDB.objectCache = wipe and wipe(_QuestieDB.objectCache) or {}
+    _QuestieDB.zoneCache = wipe and wipe(_QuestieDB.zoneCache) or {}
 
     --? This improves performance a lot, the regular functions still work but this is much faster because i caches
     checkRace  = QuestieLib:TableMemoizeFunction(QuestiePlayer.HasRequiredRace)
