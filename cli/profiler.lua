@@ -209,7 +209,6 @@ end
 --[[Start the profiling
 ]]
 function module.start()
-  print("starts")
   if not outputHeader then
     rebuildColumnPatterns()
   end
@@ -224,7 +223,6 @@ end
 --[[Stop profiling
 ]]
 function module.stop()
-  print("STOPS")
   stopTime = getTime()
   debug.sethook()
 end
