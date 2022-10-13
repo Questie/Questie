@@ -1778,6 +1778,9 @@ function QuestieWotlkQuestFixes:Load()
         [13278] = {
             [questKeys.preQuestSingle] = {13277},
         },
+        [13279] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"object", 193580}}}},
+        },
         [13281] = {
             [questKeys.preQuestSingle] = {13279},
         },
