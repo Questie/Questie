@@ -857,7 +857,7 @@ function QuestieDB:GetQuest(questId, skipCache) -- /dump QuestieDB:GetQuest(867)
     end
 
     if(Quest.preQuestGroup ~= nil and next(Quest.preQuestGroup) ~= nil and Quest.preQuestSingle ~= nil and next(Quest.preQuestSingle) ~= nil) then
-        Questie:WarningDebug("Not mutually exclusive for questID:", Quest.Id, Quest.name)
+        Questie:Warning("Not mutually exclusive for questID:", Quest.Id, Quest.name)
         DevTools_Dump({ "PreQuestGroup", Quest.preQuestGroup, "PreQuestSingle", Quest.preQuestSingle })
     end
 

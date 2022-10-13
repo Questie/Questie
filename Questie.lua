@@ -106,7 +106,7 @@ function Questie:ErrorDebug(...)
     end
 end
 
-function Questie:WarningDebug(...)
+function Questie:Warning(...)
     if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end
