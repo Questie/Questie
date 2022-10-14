@@ -1144,7 +1144,7 @@ function QuestieQuestBlacklist:Load()
         [24588] = true,
         [24589] = true,
         [24590] = true,
-        
+
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
         [13136] = false, -- Jagged Shards
@@ -1158,6 +1158,7 @@ function QuestieQuestBlacklist:Load()
         [13212] = false, -- He's Gone to Pieces
         [13220] = false, -- Putting Olakin Back Together Again
         [13235] = false, -- The Flesh Giant Champion
+        [13331] = false, -- Keeping the Alliance Blind
     }
 
     if Questie.IsSoM then
