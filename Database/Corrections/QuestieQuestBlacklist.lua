@@ -1154,6 +1154,7 @@ function QuestieQuestBlacklist:Load()
         [13229] = false, -- I'm Not Dead Yet!
         [13152] = false, -- A Visit to the Doctor
         [13211] = false, -- By Fire Be Purged
+        [13144] = false, -- Killing Two Scourge With One Skeleton
     }
 
     if Questie.IsSoM then
