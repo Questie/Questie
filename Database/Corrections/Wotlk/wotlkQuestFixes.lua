@@ -1624,6 +1624,9 @@ function QuestieWotlkQuestFixes:Load()
         [13211] = {
             [questKeys.preQuestGroup] = {13134,13138,13140},
         },
+        [13220] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Crusader Olakin's Remains at the Sanctum of Reanimation Slab"), 0, {{"object", 193090}}}},
+        },
         [13221] = {
             [questKeys.triggerEnd] = {"Escort Father Kamaros to safety", {[zoneIDs.ICECROWN]={{32,57.1}}}},
             [questKeys.preQuestSingle] = {},
