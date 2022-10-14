@@ -273,6 +273,9 @@ function QuestieWotlkQuestFixes:Load()
         [11575] = {
             [questKeys.exclusiveTo] = {11587},
         },
+        [11586] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11587] = {
             [questKeys.preQuestSingle] = {},
         },
