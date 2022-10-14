@@ -1578,8 +1578,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[zoneIDs.ICECROWN]={{80.06,71.81,},},},},
         },
         [13144] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{30689,31048},30689,}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13152,13211},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Free Burning Skeletons to destroy Chained Abominations"), 0, {{"object", 193060}}}},
         },
         [13152] = {
             [questKeys.preQuestGroup] = {13134,13138,13140},
