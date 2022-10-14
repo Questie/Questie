@@ -1675,6 +1675,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13228},
             [questKeys.objectives] = {{{30824,}}},
         },
+        [13235] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Margrave Dhakar to fight Morbidus"), 0, {{"monster", 31306}}}},
+        },
         [13238] = {
             [questKeys.preQuestSingle] = {13228},
         },
