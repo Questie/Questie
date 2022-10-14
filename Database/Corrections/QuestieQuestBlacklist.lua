@@ -1156,6 +1156,7 @@ function QuestieQuestBlacklist:Load()
         [13211] = false, -- By Fire Be Purged
         [13144] = false, -- Killing Two Scourge With One Skeleton
         [13212] = false, -- He's Gone to Pieces
+        [13220] = false, -- Putting Olakin Back Together Again
     }
 
     if Questie.IsSoM then
