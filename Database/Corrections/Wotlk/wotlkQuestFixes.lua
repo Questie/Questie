@@ -1197,6 +1197,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Use the Scarlet Cannon"), 0, {{"monster", 28833}}},
             },
         },
+        [12707] = {
+            [questKeys.objectives] = {{{28861,"Mam'toth Disciples trampled to death"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use Medallion of Mam'toth to calm and ride an Enraged Mammoth"),0,{{"monster", 28851}}},
+            },
+        },
         [12710] = {
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, ICON_TYPE_EVENT, l10n("Take the teleporter to Drakuru's upper chamber"),},
