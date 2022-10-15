@@ -1492,6 +1492,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13043] = {
             [questKeys.startedBy] = {{30409},nil,{42772}},
+            [questKeys.requiredSourceItems] = {},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Mount Nergeld"), 0, {{"monster", 30403}}},
             },
