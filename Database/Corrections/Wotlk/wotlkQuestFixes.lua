@@ -467,9 +467,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Help Emily and Mr. Floppy return to the camp",{[zoneIDs.GRIZZLY_HILLS]={{53.81,33.33,},},},},
         },
         [12028] = {
-            [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_OBJECT, l10n("Spiritual insight concerning Indu'le Village attained."), 0, {{"object", 188416}}},
-            },
+            [questKeys.objectives] = {nil,{{188416}}},
         },
         [12029] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
