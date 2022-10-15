@@ -2018,6 +2018,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13352},
         },
+        [13363] = {
+            [questKeys.preQuestSingle] = {13362},
+        },
         [13365] = {
             [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13352},
