@@ -43,21 +43,58 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
             [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
         },
-        [24032] = {
+        [24028] = { --"Talu Frosthoof", "Bowyer"
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24031] = { --"Camp Winterhoof Brave"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24032] = { --"Celea Frozenmane", "Wind Rider Master"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24033] = { --"Bori Wintertotem", "Innkeeper"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [24060] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
         },
+        [24067] = { --"Mahana Frosthoof", "Stable Master"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [24120] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{86.7,59.2}}},
+        },
+        [24123] = { --"Nokoma Snowseer"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24127] = { --"Ahota Whitefrost"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24129] = { --"Chieftain Ashtotem"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [24130] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
         },
+        [24135] = { --"Greatmother Ankha"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [24137] = {
             [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
             [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+        },
+        [24142] = { --"Camp Winterhoof Wind Rider"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [24170] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{39.2,50.2},}},
@@ -65,11 +102,47 @@ function QuestieWotlkNpcFixes:Load()
         [24173] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{52.4,3.9},}},
         },
+        [24186] = { --"Sage Mistwalker"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24195] = { --"Winterhoof Longrunner"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24209] = { --"Longrunner Skycloud"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24211] = { --"Freed Winterhoof Longrunner"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24234] = { --"Junat the Wanderer"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24236] = { --"Wind Tamer"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24256] = { --"Wind Tamer Kagan"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [24329] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{72,26.4},{70.3,27.3},{68.7,28.1},{66.5,24.9},{69.7,21.5},{72.6,19.9},{73.6,23.1}},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [24362] = { --"Longrunner Pembe"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24390] = { --"Sage Edan"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [24440] = {
             [npcKeys.spawns] = {
@@ -81,22 +154,114 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.01,17.41}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
+        [24702] = { --"Greatfather Mahan"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24703] = { --"Chieftain Wintergale"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24706] = { --"Durm Icehide"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24709] = { --"Sage Aeire"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24730] = { --"Wind Tamer Barah"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [24733] = { --"Snow Tracker Junek"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [24910] = {
             [npcKeys.spawns] = {
                 [zoneIDs.HOWLING_FJORD] = {{38.1, 74.8}},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
+        [25335] = { --"Longrunner Proudhoof"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [25455] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{50.25,9.66},},},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [25516] = { --"Snow Tracker Grumm"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [25602] = { --"Greatmother Taiga"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [25604] = { --"Sage Highmesa"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [25658] = { --"Longrunner Bristlehorn"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [25794] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [25978] = { --"Ambassador Talonga"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [25982] = { --"Sage Earth and Sky"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [25983] = { --"Dorain Frosthoof", "Apprentice Wind Tamer"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26104] = { --"Iron Eyes"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26156] = { --"Wartook Iceborn"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26157] = { --"Taunka'le Brave"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26158] = { --"Mother Tauranook"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26159] = { --"Taunka'le Evacuee"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [26170] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{84.8,41.68},},},
+        },
+        [26179] = { --"Taunka'le Refugee"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26184] = { --"Taunka'le Refugee"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26488] = { --"Taunka Pack Kodo"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26584] = { --"Sage Paluna"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [26633] = {
             [npcKeys.spawns] = {
@@ -110,18 +275,92 @@ function QuestieWotlkNpcFixes:Load()
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
-        [26847] = {
+        [26680] = { --"Aiyan Coldwind", "Innkeeper"
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
-        [26853] = {
+        [26697] = { --"Tewah Chillmane", "Leather Armor Merchant"
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
-        [26935] = {
-            [npcKeys.waypoints] = {},
+        [26707] = { --"Litoko Icetotem", "Armor Merchant"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26709] = { --"Pahu Frosthoof", "Innkeeper"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26718] = { --"Trader Alorn", "General Goods"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26720] = { --"Danook Stormwhisper", "Trade Goods"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26721] = { --"Halona Stormwhisper", "Stable Master"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [26723] = {
             [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
+        },
+        [26725] = { --"Wind Tamer Oril"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26766] = { --"Brave Storming Sky"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26790] = { --"Taunka'le Longrunner"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26810] = { --"Roanauk Icemist", "High Chieftain of the Taunka"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26847] = { --"Omu Spiritbreeze", "Wind Rider Master"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26853] = { --"Makki Wintergale", "Wind Rider Master"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26935] = {
+            [npcKeys.waypoints] = {},
+        },
+        [26936] = { --"Chaska Frosthoof", "General Goods"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26939] = { --"Koro the Wanderer", "Trade Goods"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26944] = { --"Soulok Stormfury", "Stable Master"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26950] = { --"Sanut Swiftspear", "Reagents and Poisons"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26986] = { --"Tiponi Stormwhisper", "Grand Master Skinning Trainer"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [26996] = { --"Awan Iceborn", "Grand Master Leatherworker"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [27126] = { --"Camp Oneqwah Brave"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [27199] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{71.41,23.78}}},
@@ -130,6 +369,10 @@ function QuestieWotlkNpcFixes:Load()
         [27216] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.25,17.33}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [27221] = { --"Tormak the Scarred", "Camp Oneqwah Chieftain"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [27315] = {
             [npcKeys.spawns] = {
@@ -194,6 +437,10 @@ function QuestieWotlkNpcFixes:Load()
         [28148] = {
             [npcKeys.spawns] = {},
         },
+        [28314] = { --"Longrunner Nanik"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
         [28358] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
         },
@@ -202,6 +449,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29173] = {
             [npcKeys.waypoints] = {},
+        },
+        [29301] = { --"Camp Winterhoof Wayfarer"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [29456] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{19.74,47.93},},},
@@ -213,8 +464,9 @@ function QuestieWotlkNpcFixes:Load()
         [29597] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{60.55,60.22},{57.78,62.32},{60.8,58.67},{60.74,61.13},{59.01,61.85},{59.66,60.87},{58.57,62.99},{59.88,59.07},{58.15,63.85},{58.58,59.45},{56.69,64.95},{56.85,63.18},},},
         },
-        [29762] = {
+        [29762] = { --"Hyeyoung Parka", "Wind Rider Master"
             [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [29795] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
@@ -240,6 +492,26 @@ function QuestieWotlkNpcFixes:Load()
         [29895] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{16.43,66.79}}},
             [npcKeys.waypoints] = {[zoneIDs.ZUL_DRAK]={{{16.69,66.78},{18.68,66.8},{20.72,66.61},{21.98,66.82},{23.67,66.65},{25.18,66.75},{26.62,66.96},{28.6,66.48},{31.82,66.66},{30.45,66.6},{28.49,66.53},{25.93,66.93},{24.48,66.73},{22.76,66.75},{21.01,66.6},{18.55,66.86},{16.7,66.75},{16.31,66.75},{13.9,67.32},{13.45,67.33},{12.76,66.96},{13.45,66.28},{13.87,66.26},{16.07,66.7}}}},
+        },
+        [29968] = { --"Hapanu Coldwind", "Poisons & Reagents"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [29969] = { --"Ontak", "Blacksmithing Supplies"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [29970] = { --"Danho Farcloud", "General Goods"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [29971] = { --"Wabada Whiteflower", "Innkeeper"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
+        },
+        [29973] = { --"Tunka'lo Brave"
+            [npcKeys.friendlyToFaction] = "H",
+            [npcKeys.factionID] = 1064,
         },
         [30222] = {
             [npcKeys.spawns] = {},
