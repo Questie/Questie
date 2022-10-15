@@ -1165,6 +1165,7 @@ function QuestieQuestBlacklist:Load()
         [13220] = false, -- Putting Olakin Back Together Again
         [13235] = false, -- The Flesh Giant Champion
         [13331] = false, -- Keeping the Alliance Blind
+        [13359] = false, -- Where Dragons Fell
     }
 
     if Questie.IsSoM then
