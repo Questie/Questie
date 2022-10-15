@@ -1062,14 +1062,20 @@ function QuestieQuestBlacklist:Load()
 
         [10888] = true, -- Got replaced by 13430
         [10901] = true, -- Got replaced by 13431
+        [11621] = true, -- Not in the game
         [11179] = true, -- Not in the game
+        [11622] = true, -- Not in the game
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
         [11939] = true, -- Not in the game
+        [11997] = true, -- Not in the game
         [12087] = true, -- Not in the game
         [12156] = true, -- Not in the game
         [12108] = true, -- Not in the game
+        [12233] = true, -- Not in the game
+        [12426] = true, -- Not in the game
+        [12490] = true, -- Not in the game
         [25229] = true, -- Not in the game
         [12780] = true, -- Not in the game
         [12590] = true, -- Not in the game
@@ -1144,6 +1150,25 @@ function QuestieQuestBlacklist:Load()
         [24588] = true,
         [24589] = true,
         [24590] = true,
+
+        --- Automatic Overrides (for when Wowhead data is wrong)
+        [13134] = false, -- Spill Their Blood
+        [13136] = false, -- Jagged Shards
+        [13138] = false, -- I'm Smelting... Smelting!
+        [13140] = false, -- The Runesmiths of Malykriss
+        [13221] = false, -- I'm Not Dead Yet!
+        [13229] = false, -- I'm Not Dead Yet!
+        [13152] = false, -- A Visit to the Doctor
+        [13211] = false, -- By Fire Be Purged
+        [13144] = false, -- Killing Two Scourge With One Skeleton
+        [13161] = false, -- The Rider of the Unholy
+        [13162] = false, -- The Rider of the Frost
+        [13163] = false, -- The Rider of the Blood
+        [13212] = false, -- He's Gone to Pieces
+        [13220] = false, -- Putting Olakin Back Together Again
+        [13235] = false, -- The Flesh Giant Champion
+        [13331] = false, -- Keeping the Alliance Blind
+        [13359] = false, -- Where Dragons Fell
     }
 
     if Questie.IsSoM then
