@@ -1643,6 +1643,24 @@ function QuestieWotlkQuestFixes:Load()
         [13211] = {
             [questKeys.preQuestGroup] = {13134,13138,13140},
         },
+        [13214] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31191,31192,31193,31194,31195,31196,},31191}}},
+        },
+        [13215] = {
+            [questKeys.objectives] = {{{31222}}},
+        },
+        [13216] = {
+            [questKeys.objectives] = {{{31242}}},
+        },
+        [13217] = {
+            [questKeys.objectives] = {{{31271}}},
+        },
+        [13218] = {
+            [questKeys.objectives] = {{{31277}}},
+        },
+        [13219] = {
+            [questKeys.objectives] = {{{14688}}},
+        },
         [13220] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Crusader Olakin's Remains at the Sanctum of Reanimation Slab"), 0, {{"object", 193090}}}},
         },
