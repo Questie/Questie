@@ -40,8 +40,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
         },
         [23954] = {
-          [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
-          [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+            [npcKeys.spawns] = {[zoneIDs.UTGARDE_KEEP]={{-1,-1},}},
+            [npcKeys.zoneID] = zoneIDs.UTGARDE_KEEP,
+        },
+        [24032] = {
+            [npcKeys.friendlyToFaction] = "H",
         },
         [24060] = {
             [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{45.2,27.3}}},
@@ -106,6 +109,12 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.DRAGONBLIGHT] = {{54.50,23.62}},
             },
             [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
+        },
+        [26847] = {
+            [npcKeys.friendlyToFaction] = "H",
+        },
+        [26853] = {
+            [npcKeys.friendlyToFaction] = "H",
         },
         [26935] = {
             [npcKeys.waypoints] = {},
@@ -203,6 +212,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29597] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{60.55,60.22},{57.78,62.32},{60.8,58.67},{60.74,61.13},{59.01,61.85},{59.66,60.87},{58.57,62.99},{59.88,59.07},{58.15,63.85},{58.58,59.45},{56.69,64.95},{56.85,63.18},},},
+        },
+        [29762] = {
+            [npcKeys.friendlyToFaction] = "H",
         },
         [29795] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
