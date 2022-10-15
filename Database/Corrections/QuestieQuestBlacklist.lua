@@ -1161,6 +1161,9 @@ function QuestieQuestBlacklist:Load()
         [13152] = false, -- A Visit to the Doctor
         [13211] = false, -- By Fire Be Purged
         [13144] = false, -- Killing Two Scourge With One Skeleton
+        [13161] = false, -- The Rider of the Unholy
+        [13162] = false, -- The Rider of the Frost
+        [13163] = false, -- The Rider of the Blood
         [13212] = false, -- He's Gone to Pieces
         [13220] = false, -- Putting Olakin Back Together Again
         [13235] = false, -- The Flesh Giant Champion
