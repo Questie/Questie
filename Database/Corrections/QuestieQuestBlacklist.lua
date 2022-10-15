@@ -1062,6 +1062,7 @@ function QuestieQuestBlacklist:Load()
 
         [10888] = true, -- Got replaced by 13430
         [10901] = true, -- Got replaced by 13431
+        [11621] = true, -- Not in the game
         [11179] = true, -- Not in the game
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
