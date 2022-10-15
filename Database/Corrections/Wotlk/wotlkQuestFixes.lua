@@ -1563,6 +1563,12 @@ function QuestieWotlkQuestFixes:Load()
         [13130] = {
             [questKeys.preQuestSingle] = {13104},
         },
+        [13133] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Wake Slumbering Mjordin until you find Iskalder"), 0, {{"monster", 30718}}},
+                {nil, ICON_TYPE_EVENT, l10n("Iskalder delivered to The Bone Witch"), 0, {{"monster", 30232}}},
+            },
+        },
         [13134] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13119,13120},
