@@ -143,6 +143,7 @@ Modules\Map\HBDHooks.lua
 # Quest
 Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
+Modules\Quest\GossipFrameDailyMarker.lua
 Modules\Quest\IsleOfQuelDanas.lua
 Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestieQuest.lua
