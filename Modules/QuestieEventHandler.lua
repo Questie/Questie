@@ -73,8 +73,10 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
-    Questie:RegisterEvent("GOSSIP_SHOW", GossipFrameDailyMarker.Mark)
+    Questie:RegisterEvent("GOSSIP_SHOW", function (...)
+        QuestieAuto.GOSSIP_SHOW(...)
+        GossipFrameDailyMarker.Mark(...)
+    end)
     Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
