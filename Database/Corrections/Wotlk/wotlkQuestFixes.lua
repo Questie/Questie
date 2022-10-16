@@ -1506,6 +1506,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [13046] = {
+            [questKeys.objectives] = {{{30422}}},
             [questKeys.requiredMinRep] = {1119,21000},
         },
         [13047] = {
@@ -1930,6 +1931,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13329},
         },
         [13329] = {
+            [questKeys.objectives] = {{{32467,"Skeletal Reaver bones dissolved"}}},
             [questKeys.preQuestGroup] = {13307,13312},
         },
         [13330] = {
@@ -1948,6 +1950,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13332},
         },
         [13335] = {
+            [questKeys.objectives] = {{{32467,"Skeletal Reaver bones dissolved"}}},
             [questKeys.preQuestGroup] = {13334,13337},
         },
         [13336] = {
@@ -2017,6 +2020,9 @@ function QuestieWotlkQuestFixes:Load()
         [13358] = {
             [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
             [questKeys.preQuestSingle] = {13352},
+        },
+        [13363] = {
+            [questKeys.preQuestSingle] = {13362},
         },
         [13365] = {
             [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
