@@ -1506,6 +1506,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [13046] = {
+            [questKeys.objectives] = {{{30422}}},
             [questKeys.requiredMinRep] = {1119,21000},
         },
         [13047] = {
