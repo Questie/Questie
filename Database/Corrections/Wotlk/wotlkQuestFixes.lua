@@ -1990,15 +1990,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13225},
         },
         [13342] = {
-            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
+            [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13318},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
         },
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
         },
         [13344] = {
-            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
+            [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13342},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
         },
         [13345] = {
             [questKeys.preQuestSingle] = {13318},
@@ -2036,15 +2038,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13356},
         },
         [13358] = {
-            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
+            [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13352},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
         },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
         },
         [13365] = {
-            [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
+            [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13358},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
         },
         [13366] = {
             [questKeys.preQuestSingle] = {13352},
