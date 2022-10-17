@@ -1725,6 +1725,9 @@ function QuestieWotlkQuestFixes:Load()
         [13235] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Margrave Dhakar to fight Morbidus"), 0, {{"monster", 31306}}}},
         },
+        [13236] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31254,32414,31276},31329}}},
+        },
         [13238] = {
             [questKeys.preQuestSingle] = {13228},
         },
@@ -2081,6 +2084,9 @@ function QuestieWotlkQuestFixes:Load()
         [13394] = {
             [questKeys.preQuestSingle] = {13393},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Board Refurbished Demolisher"), 0, {{"monster", 32370}}}},
+        },
+        [13395] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{31254,32414,31276},31329}}},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
