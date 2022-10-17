@@ -213,6 +213,9 @@ function QuestieWotlkQuestFixes:Load()
         [11421] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Commandeer Crykul Harpoon Gun"),0,{{"object",190512}}}},
         },
+        [11428] = {
+            [questKeys.preQuestSingle] = {11316},
+        },
         [11429] = {
             [questKeys.triggerEnd] = {"Alliance Banner Defended",{[zoneIDs.HOWLING_FJORD]={{64.89,40.03,},},},},
         },
