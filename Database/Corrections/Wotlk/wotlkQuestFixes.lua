@@ -1992,7 +1992,7 @@ function QuestieWotlkQuestFixes:Load()
         [13342] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13318},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13343] = {
             [questKeys.triggerEnd] = {"Hourglass of Eternity protected from the Infinite Dragonflight.",{[zoneIDs.DRAGONBLIGHT]={{71.74,39.17,},},},},
@@ -2000,7 +2000,7 @@ function QuestieWotlkQuestFixes:Load()
         [13344] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13342},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13345] = {
             [questKeys.preQuestSingle] = {13318},
@@ -2040,7 +2040,7 @@ function QuestieWotlkQuestFixes:Load()
         [13358] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13352},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
@@ -2048,7 +2048,7 @@ function QuestieWotlkQuestFixes:Load()
         [13365] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13358},
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{53.77,33.60}}}, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter")}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
         [13366] = {
             [questKeys.preQuestSingle] = {13352},
