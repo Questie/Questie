@@ -1600,6 +1600,11 @@ function QuestieWotlkQuestFixes:Load()
         [13141] = {
             [questKeys.triggerEnd] = {"Battle for Crusaders' Pinnacle",{[zoneIDs.ICECROWN]={{80.06,71.81,},},},},
         },
+        [13142] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Blow the War Horn of Jotunheim to challenge Overthane Balargarde"), 0, {{"object", 193028}}},
+            },
+        },
         [13144] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30689,31048},30689,}}},
             [questKeys.preQuestSingle] = {},
