@@ -2037,7 +2037,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13365] = {
             [questKeys.objectives] = {{{32318,"Dark Messenger summoned"}}},
-            [questKeys.preQuestSingle] = {13352},
+            [questKeys.preQuestSingle] = {13358},
         },
         [13366] = {
             [questKeys.preQuestSingle] = {13352},
