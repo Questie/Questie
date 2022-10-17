@@ -1939,8 +1939,12 @@ function QuestieWotlkQuestFixes:Load()
         [13320] = {
             [questKeys.preQuestSingle] = {13315},
         },
+        [13321] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
+        },
         [13322] = {
             [questKeys.preQuestSingle] = {13321},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
         },
         [13323] = {
             [questKeys.preQuestSingle] = {13318},
@@ -2032,10 +2036,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13351},
         },
         [13356] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a ")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
         },
         [13357] = {
             [questKeys.preQuestSingle] = {13356},
+            [questKeys.extraObjectives] = {{{[zoneIDs.ICECROWN]={{49.7,34.4},{49.1,34.2},{48.9,33.2}}}, ICON_TYPE_EVENT, l10n("Throw a Writhing Mass into a cauldron at Aldur'thar")}},
         },
         [13358] = {
             [questKeys.objectives] = {{{32316}}},
