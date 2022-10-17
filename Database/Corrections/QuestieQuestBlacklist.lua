@@ -1108,6 +1108,7 @@ function QuestieQuestBlacklist:Load()
 
         -- Scourge invasion
         [12811] = true,
+        [12752] = true,
 
         --- Phase 2 Ulduar / Argent Tournament
         [13633] = true,
