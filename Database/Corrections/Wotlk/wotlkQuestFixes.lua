@@ -1894,6 +1894,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13305] = {
             [questKeys.preQuestSingle] = {13304},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Board Refurbished Demolisher"), 0, {{"monster", 32370}}}},
         },
         [13306] = {
             [questKeys.preQuestSingle] = {13366},
@@ -2079,6 +2080,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13394] = {
             [questKeys.preQuestSingle] = {13393},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Board Refurbished Demolisher"), 0, {{"monster", 32370}}}},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
