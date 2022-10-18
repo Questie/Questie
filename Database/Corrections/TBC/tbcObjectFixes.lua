@@ -495,10 +495,6 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51.83,39.18}}},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
         },
-        [190108] = {
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{81.70,58.10}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
-        },
         [190109] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{78.45,62.89}}},
             [objectKeys.zoneID] = zoneIDs.ZANGARMARSH,
