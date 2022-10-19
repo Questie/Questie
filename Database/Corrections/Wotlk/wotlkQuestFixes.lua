@@ -1187,6 +1187,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28003,},{28003}}},
         },
         [12685] = {
+            [questKeys.objectives] = {{{28671}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Quetz'lun's Ritual"), 0, {{"monster", 28672}}}},
         },
         [12686] = {
