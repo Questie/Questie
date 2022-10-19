@@ -1630,7 +1630,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
         },
         [13146] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}},
+                {nil, ICON_TYPE_EVENT, l10n("Drag Scourge Bombs to Lumbering Atrocities"), 0, {{"monster", 30920}}},
+            },
         },
         [13147] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
