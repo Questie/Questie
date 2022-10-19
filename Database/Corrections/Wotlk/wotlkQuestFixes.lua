@@ -1276,6 +1276,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28862,},{28858,}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
         },
+        [12730] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.ZUL_DRAK]={{77.61,36.64}}}, ICON_TYPE_EVENT, l10n("Use the Prophet of Akali Convocation"),}},
+        },
         [12732] = {
             [questKeys.requiredMinRep] = {1104,9000},
         },
