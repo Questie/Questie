@@ -1610,6 +1610,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {42733},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{53.1,61.2}}}, ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
         },
+        [13034] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [13035] = {
             [questKeys.preQuestSingle] = {13057},
         },
