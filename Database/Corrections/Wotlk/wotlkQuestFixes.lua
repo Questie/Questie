@@ -1392,6 +1392,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12820,12828,12832},
         },
+        [12823] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Place Hardpacked Explosive Bundle at Frostgut's Altar"), 0, {{"object", 191842}}}},
+        },
         [12828] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Retrieve U.D.E.D."), 0, {{"object", 191553}}},

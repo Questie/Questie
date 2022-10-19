@@ -528,6 +528,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [29999] = {
+            [npcKeys.spawns] = {},
+        },
         [30222] = {
             [npcKeys.spawns] = {},
         },
