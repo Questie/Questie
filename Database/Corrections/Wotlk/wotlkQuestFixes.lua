@@ -1266,6 +1266,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12721] = {
             [questKeys.triggerEnd] = {"Akali unfettered from his chains.",{[zoneIDs.ZUL_DRAK]={{78.64,25.11,},},},},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Release Akali from his chains"), 0, {{"object", 191018}}}},
         },
         [12723] = {
             [questKeys.preQuestGroup] = {12717,12720,12722},
