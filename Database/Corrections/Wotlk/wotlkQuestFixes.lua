@@ -1395,7 +1395,7 @@ function QuestieWotlkQuestFixes:Load()
         [12828] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Retrieve U.D.E.D."), 0, {{"object", 191553}}},
-                {nil, ICON_TYPE_OBJECT, l10n("Use U.D.E.D on Ironwool Mammoth"), 0, {{"monster", 29402}}},
+                {nil, ICON_TYPE_EVENT, l10n("Use U.D.E.D on Ironwool Mammoth"), 0, {{"monster", 29402}}},
             },
         },
         [12831] = {
