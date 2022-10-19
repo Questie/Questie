@@ -1648,6 +1648,7 @@ function QuestieWotlkQuestFixes:Load()
         [13172] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13169,13170,13171},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Keritose Bloodblade to secure a Skeletal Gryphon"), 0, {{"monster", 30946}}}},
         },
         [13174] = {
             [questKeys.preQuestSingle] = {},
