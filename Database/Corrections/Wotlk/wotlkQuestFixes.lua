@@ -2459,9 +2459,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{400035}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [13472] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-        },
         [13473] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
