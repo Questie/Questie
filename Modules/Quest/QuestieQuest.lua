@@ -1289,8 +1289,12 @@ end
 
 --? Creates a localized space where the local variables and functions are stored
 do
+    --- Used to keep track of the active timer for CalculateAvailableQuests
+    --- Is used by the QuestieQuest.CalculateAndDrawAvailableQuestsIterative func
+    ---@type Ticker|nil
+    local timer
+
     local function CalculateAvailableQuests()
-        local start = time()
 
         local questsPerYield = 24
 
@@ -1387,10 +1391,6 @@ do
             end
         end
     end
-
-
-    ---@type Ticker|nil
-    local timer
 
     -- Starts a thread to calculate available quests to avoid lag spikes
     ---@param callback fun()?
