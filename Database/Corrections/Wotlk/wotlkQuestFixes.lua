@@ -2274,6 +2274,14 @@ function QuestieWotlkQuestFixes:Load()
         [13431] = {
             [questKeys.exclusiveTo] = {10901},
         },
+        [13473] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13474] = {
+            [questKeys.startedBy] = {nil,{194081}},
+            [questKeys.finishedBy] = {nil,{194081}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [13549] = {
             [questKeys.objectives] = {{{29327,"Female Frost Leopards recovered"},{29319,"Female Icepaw Bears recovered"},},nil,nil,nil,},
         },
