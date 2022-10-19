@@ -1389,6 +1389,11 @@ function QuestieWotlkQuestFixes:Load()
         [12821] = {
             [questKeys.name] = "Cell Block Tango",
             [questKeys.triggerEnd] = {"Garm Teleporter Activated",{[zoneIDs.STORM_PEAKS]={{50.7,81.9,},},},},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12820,12828,12832},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Retrieve U.D.E.D."), 0, {{"object", 191553}}},
+            },
         },
         [12831] = {
             [questKeys.preQuestSingle] = {},
