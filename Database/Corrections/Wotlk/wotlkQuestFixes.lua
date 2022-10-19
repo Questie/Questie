@@ -1656,6 +1656,10 @@ function QuestieWotlkQuestFixes:Load()
         [13160] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
         },
+        [13164] = {
+            [questKeys.preQuestSingle]= {},
+            [questKeys.preQuestGroup] = {13161,13162,13163},
+        },
         [13168] = {
             [questKeys.triggerEnd] = {"Seize Control of an Eidolon Watcher", {[zoneIDs.ICECROWN]={{44.19,24.69}}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Dominion"), 0, {{"object", 193058}}}},
