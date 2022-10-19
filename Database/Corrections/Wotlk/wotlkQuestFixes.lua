@@ -1626,6 +1626,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13152,13211},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Free Burning Skeletons to destroy Chained Abominations"), 0, {{"object", 193060}}}},
         },
+        [13145] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
+        },
         [13152] = {
             [questKeys.preQuestSingle]= {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
