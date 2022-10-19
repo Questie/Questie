@@ -943,6 +943,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12516] = {
             [questKeys.objectives] = {{{28068}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Muddled Mojo on Prophet of Sseratus before killing it"), 0, {{"monster", 28068}}}},
         },
         [12520] = {
             [questKeys.preQuestSingle] = {},
