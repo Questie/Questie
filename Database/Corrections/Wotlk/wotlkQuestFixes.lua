@@ -193,8 +193,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Rune Sample"), 0, {{"object", 186718},}}},
         },
         [11392] = {
-            [questKeys.startedBy] = {{186267}},
-            [questKeys.finishedBy] = {{186314}},
+            [questKeys.startedBy] = {nil,{186267}},
+            [questKeys.finishedBy] = {nil,{186314}},
         },
         [11393] = {
             [questKeys.exclusiveTo] = {11394,},
@@ -203,8 +203,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11401] = {
-            [questKeys.startedBy] = {{186267}},
-            [questKeys.finishedBy] = {{186314}},
+            [questKeys.startedBy] = {nil,{186267}},
+            [questKeys.finishedBy] = {nil,{186314}},
         },
         [11410] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
