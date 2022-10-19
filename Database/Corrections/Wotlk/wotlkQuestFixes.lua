@@ -1211,6 +1211,12 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Use the Scarlet Cannon"), 0, {{"monster", 28833}}},
             },
         },
+        [12702] = {
+            [questKeys.requiredMinRep] = {1104,9000},
+        },
+        [12703] = {
+            [questKeys.requiredMinRep] = {1104,9000},
+        },
         [12707] = {
             [questKeys.objectives] = {{{28861,"Mam'toth Disciples trampled to death"}}},
             [questKeys.extraObjectives] = {
@@ -1242,8 +1248,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{28862,},{28858,}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
         },
+        [12732] = {
+            [questKeys.requiredMinRep] = {1104,9000},
+        },
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
+        },
+        [12734] = {
+            [questKeys.requiredMinRep] = {1104,9000},
         },
         [12735] = {
             [questKeys.extraObjectives] = {
@@ -1255,11 +1267,21 @@ function QuestieWotlkQuestFixes:Load()
         [12740] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
         },
+        [12741] = {
+            [questKeys.requiredMinRep] = {1104,9000},
+        },
         [12754] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75,5}}}, ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
         },
         [12758] = {
+            [questKeys.requiredMinRep] = {1104,9000},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Venture Co. Explosive on dead Stonewatcher"),0,{{"monster", 28877}}}},
+        },
+        [12759] = {
+            [questKeys.requiredMinRep] = {1104,9000},
+        },
+        [12760] = {
+            [questKeys.requiredMinRep] = {1104,9000},
         },
         [12762] = {
             ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
