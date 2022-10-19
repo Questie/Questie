@@ -1107,8 +1107,16 @@ function QuestieQuestBlacklist:Load()
         [9343] = QuestieCorrections.WOTLK_ONLY,
 
         -- Scourge invasion
-        [12811] = true,
         [12752] = true,
+        [12753] = true,
+        [12772] = true,
+        [12775] = true,
+        [12777] = true,
+        [12782] = true,
+        [12783] = true,
+        [12784] = true,
+        [12808] = true,
+        [12811] = true,
 
         --- Phase 2 Ulduar / Argent Tournament
         [13633] = true,
