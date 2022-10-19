@@ -2331,6 +2331,10 @@ function QuestieWotlkQuestFixes:Load()
         [13425] = {
             [questKeys.exclusiveTo] = {13422,13423,13424},
         },
+        [13426] = {
+            [questKeys.preQuestSingle] = {13285},
+            [questKeys.nextQuestInChain] = 13034,
+        },
         [13427] = {
             [questKeys.triggerEnd] = {"Victory in Alterac Valley", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
