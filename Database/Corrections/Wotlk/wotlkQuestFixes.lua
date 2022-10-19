@@ -1127,6 +1127,9 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.ZUL_DRAK]={{28.38,44.85}}}, ICON_TYPE_EVENT, l10n("Infiltrate Voltarus using Ensorcelled Choker"),},
             },
         },
+        [12662] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Heb'Jin's Drum to summon Heb'Jin"), 0, {{"object", 190695}}}},
+        },
         [12663] = {
             [questKeys.preQuestSingle] = {12649},
             [questKeys.exclusiveTo] = {12664,12648},
