@@ -576,7 +576,7 @@ local textWrapObjectiveFontString
 ---@param splitOnDot boolean @Should we add a linebreak if a dot appears thats not at the end of a line TRUE=NEW ROW, FALSE=NO NEW ROW, default: true
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
 ---@return table[] @A table of wrapped lines
-function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
+function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth)
     if not textWrapObjectiveFontString then
         textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
         textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
