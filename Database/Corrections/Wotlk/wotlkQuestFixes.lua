@@ -1217,6 +1217,12 @@ function QuestieWotlkQuestFixes:Load()
         [12703] = {
             [questKeys.requiredMinRep] = {1104,9000},
         },
+        [12704] = {
+            [questKeys.requiredMinRep] = {1105,9000},
+        },
+        [12705] = {
+            [questKeys.requiredMinRep] = {1105,9000},
+        },
         [12707] = {
             [questKeys.objectives] = {{{28861,"Mam'toth Disciples trampled to death"}}},
             [questKeys.extraObjectives] = {
@@ -1245,6 +1251,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12717,12720,12722},
         },
         [12726] = {
+            [questKeys.requiredMinRep] = {1105,9000},
             [questKeys.objectives] = {{{28862,},{28858,}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{26.51,35.63}}}, ICON_TYPE_EVENT, l10n("Use Drums of the Tempest at Stormwright's Shelf"),}},
         },
@@ -1263,6 +1270,15 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.SHOLAZAR_BASIN]={{49,63}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Ha-Khalan"),1},
                 {{[zoneIDs.SHOLAZAR_BASIN]={{46,74}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Koosu"),2},
             },
+        },
+        [12735] = {
+            [questKeys.requiredMinRep] = {1105,9000},
+        },
+        [12736] = {
+            [questKeys.requiredMinRep] = {1105,9000},
+        },
+        [12737] = {
+            [questKeys.requiredMinRep] = {1105,9000},
         },
         [12740] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28028,28029},28028,}}},
@@ -1283,7 +1299,11 @@ function QuestieWotlkQuestFixes:Load()
         [12760] = {
             [questKeys.requiredMinRep] = {1104,9000},
         },
+        [12761] = {
+            [questKeys.requiredMinRep] = {1105,9000},
+        },
         [12762] = {
+            [questKeys.requiredMinRep] = {1105,9000},
             ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
         },
