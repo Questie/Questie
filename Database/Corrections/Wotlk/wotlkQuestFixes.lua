@@ -1636,6 +1636,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [13147] = {
+            [questKeys.objectives] = {{{30922}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
         },
         [13152] = {
