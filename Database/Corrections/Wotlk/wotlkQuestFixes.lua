@@ -1616,6 +1616,10 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Blow the War Horn of Jotunheim to challenge Overthane Balargarde"), 0, {{"object", 193028}}},
             },
         },
+        [13143] = {
+            [questKeys.objectives] = {{{30894}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Lead a subdued Lithe Stalker to the cliff above Vereth the Cunning"), 0, {{"monster", 31049}}}},
+        },
         [13144] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30689,31048},30689,}}},
             [questKeys.preQuestSingle] = {},
