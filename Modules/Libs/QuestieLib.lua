@@ -20,6 +20,10 @@ local strim = string.trim
 local smatch = string.match
 local tonumber = tonumber
 
+-- The original frame which we use to fetch the data required
+--                           Classic                          Wotlk Classic
+local textWrapFrameObject =  _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
+
 --[[
     Red: 5+ level above player
     Orange: 3 - 4 level above player
@@ -563,10 +567,8 @@ function QuestieLib:TableMemoizeFunction(func, __mode)
     });
 end
 
-local textWrapFrameObject
 --Part of the GameTooltipWrapDescription function
 local textWrapObjectiveFontString
-
 ---Emulates the wrapping of a quest description
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
@@ -576,9 +578,6 @@ local textWrapObjectiveFontString
 ---@return table[] @A table of wrapped lines
 function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
     if not textWrapObjectiveFontString then
-        --                    Classic                          Wotlk Classic
-        textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
-
         textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
         textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
         textWrapObjectiveFontString:SetHeight(0);
