@@ -42,20 +42,19 @@ QuestieJourney.questCategoryKeys = {
 }
 
 
----@param yield boolean?
-function QuestieJourney:Initialize(yield)
+function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
         continents[id] = l10n(name)
     end
-    if yield then coroutine.yield() end
+    coroutine.yield()
     continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
 
-    if yield then coroutine.yield() end
+    coroutine.yield()
     self.continents = continents
-    self.zoneMap = ZoneDB:GetZonesWithQuests(yield)
+    self.zoneMap = ZoneDB:GetZonesWithQuests(true)
     self.zones = ZoneDB:GetRelevantZones()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     self:BuildMainFrame()
 end
 
@@ -117,6 +116,7 @@ function QuestieJourney:IsShown()
 end
 
 function QuestieJourney:ToggleJourneyWindow()
+    -- There are ways to toggle this function before the frame has been created
     if QuestieJourneyFrame then
         if (not isWindowShown) then
             PlaySound(882)

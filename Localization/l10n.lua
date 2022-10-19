@@ -78,8 +78,8 @@ function l10n:Initialize()
     end
 end
 
----@param yield boolean?
-function l10n:PostBoot(yield)
+--Must be run in a coroutine as it yields
+function l10n:PostBoot()
 
     local count = 0
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
@@ -94,13 +94,11 @@ function l10n:PostBoot(yield)
             end
         end
 
-        if yield then
-            if count == 300 then
-                count = 0
-                coroutine.yield()
-            end
-            count = count + 1
+        if count > 300 then
+            count = 0
+            coroutine.yield()
         end
+        count = count + 1
     end
 end
 

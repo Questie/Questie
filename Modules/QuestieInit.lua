@@ -88,7 +88,7 @@ local function loadFullDatabase()
 
     print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. "...")
     coYield()
-    QuestieMenu:PopulateTownsfolk(true)
+    QuestieMenu:PopulateTownsfolk()
 
     print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. "...")
     coYield()
@@ -199,9 +199,9 @@ end
 QuestieInit.Stages[2] = function()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 2 start.")
     -- We do this while we wait for the Quest Cache anyway.
-    l10n:PostBoot(true)
+    l10n:PostBoot()
     coYield()
-    QuestieJourney:Initialize(true)
+    QuestieJourney:Initialize()
 
     -- Continue to the next Init Stage once Game Cache's Questlog is good
     while not QuestieValidateGameCache:IsCacheGood() do

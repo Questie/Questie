@@ -22,24 +22,23 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local _CreateOptionsTable
 
 ---Initializes the frames for the options menu
----@param doNotYield boolean?
-function QuestieOptions:Initialize(doNotYield)
+function QuestieOptions:Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieOptions]: Initializing...")
 
-    local optionsTable = _CreateOptionsTable(not doNotYield)
+    local optionsTable = _CreateOptionsTable()
 
-    if not doNotYield then coroutine.yield() end
+    coroutine.yield()
 
     LibStub("AceConfig-3.0"):RegisterOptionsTable("Questie", optionsTable)
     AceConfigDialog:AddToBlizOptions("Questie", "Questie");
 
-    if not doNotYield then coroutine.yield() end
+    coroutine.yield()
 
     ---@type AceGUIFrame, AceGUIFrame
     local configFrame = AceGUI:Create("Frame")
 
     configFrame:Hide()
-    if not doNotYield then coroutine.yield() end
+    coroutine.yield()
 
     AceConfigDialog:SetDefaultSize("Questie", 625, 780)
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
@@ -47,7 +46,7 @@ function QuestieOptions:Initialize(doNotYield)
     configFrame.frame:SetMinResize(550, 400)
 
     configFrame:Hide()
-    if not doNotYield then coroutine.yield() end
+    coroutine.yield()
 
     local journeyButton = AceGUI:Create("Button")
     journeyButton:SetWidth(140)
@@ -59,7 +58,7 @@ function QuestieOptions:Initialize(doNotYield)
     end)
 
     configFrame:Hide()
-    if not doNotYield then coroutine.yield() end
+    coroutine.yield()
 
     configFrame:AddChild(journeyButton)
     QuestieConfigFrame = configFrame
@@ -111,27 +110,26 @@ end
 
 
 
----@param yield boolean?
 ---@return table
-_CreateOptionsTable = function(yield)
+_CreateOptionsTable = function()
     local general_tab = QuestieOptions.tabs.general:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local social_tab = QuestieOptions.tabs.social:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local minimap_tab = QuestieOptions.tabs.minimap:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local map_tab = QuestieOptions.tabs.map:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local tracker_tab = QuestieOptions.tabs.tracker:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local nameplate_tab = QuestieOptions.tabs.nameplate:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local tooltip_tab = QuestieOptions.tabs.tooltip:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     local advanced_tab = QuestieOptions.tabs.advanced:Initialize()
-    if yield then coroutine.yield() end
+    coroutine.yield()
     return {
         name = "Questie",
         handler = Questie,

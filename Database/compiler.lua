@@ -1181,6 +1181,7 @@ function QuestieDBCompiler:ValidateQuests()
 
     local playerLevel = UnitLevel("player")
 
+    --! IF YOU SEE THIS FUNCTION REMOVE IT AND CHANGE IT TO QUESTIELIB FUNCTION INSTEAD
     local function getTbcLevel(questLevel, requiredLevel, playerLevel)
         if (questLevel == -1) then
             local level = playerLevel

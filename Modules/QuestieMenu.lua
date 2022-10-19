@@ -102,7 +102,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             local timer
             local e = 1
             local max = (#ids)+1
-            timer = C_Timer.NewTicker(0.01, function() 
+            timer = C_Timer.NewTicker(0.01, function()
                 local start = e
                 while e < max and e-start < 32 do
                     local id = ids[e]
@@ -133,11 +133,11 @@ local function build(key)
 
     return {
         text = l10n(tostring(key)),
-        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end, 
-        icon=icon, 
+        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end,
+        icon=icon,
         notCheckable=false,
-        checked=Questie.db.char.townsfolkConfig[key], 
-        isNotRadio=true, 
+        checked=Questie.db.char.townsfolkConfig[key],
+        isNotRadio=true,
         keepShownOnClick=true
     }
 end
@@ -332,8 +332,7 @@ end
 
 ---Uses a table to fetch multiple townfolk types at the same time.
 ---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
----@param yield boolean? @Should the function yield at appropriate times?
-function QuestieMenu:PopulateTownsfolkTypes(folkTypes, yield) -- populate the table with all npc ids based on the given bitmask
+function QuestieMenu:PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
     local count = 0
     for id, npcData in pairs(QuestieDB.npcData) do
         local flags = npcData[QuestieDB.npcKeys.npcFlags]
@@ -348,7 +347,7 @@ function QuestieMenu:PopulateTownsfolkTypes(folkTypes, yield) -- populate the ta
                 end
             end
         end
-        if count == 700 and yield then -- 700 seems like a good number
+        if count > 700 then -- 700 seems like a good number
             count = 0
             coroutine.yield()
         end
@@ -359,8 +358,7 @@ end
 
 
 ---Initialization for townfolk
----@param yield boolean? @Should the function yield at appropriate times?
-function QuestieMenu:PopulateTownsfolk(yield)
+function QuestieMenu:PopulateTownsfolk()
 
     --? This datastructure is used in PopulateTownsfolkTypes to fetch multiple townfolk data in the same npc loop cycle
     ---@type table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
@@ -406,7 +404,7 @@ function QuestieMenu:PopulateTownsfolk(yield)
             data = {}
         }
     }
-    QuestieMenu:PopulateTownsfolkTypes(townsfolkData, yield)
+    QuestieMenu:PopulateTownsfolkTypes(townsfolkData)
 
     local townfolk = {
         ["Repair"] = townsfolkData["Repair"].data,
@@ -493,8 +491,8 @@ function QuestieMenu:PopulateTownsfolk(yield)
             18749,18751,18752,18753,18754,18755,18771,18772,18773,18774,18775,18776,18777,18779,18802,18804,18987,18988,18990,18991,18993,
             19052,19063,19180,19184,19185,19186,19187,19251,19252,19341,19369,19478,19539,19540,19576,19774,19775,19777,19778,20124,20125,
             21087,22477,24868,25099
-        } 
-    else 
+        }
+    else
         validProfessionTrainers = {
             223,514,812,908,957,1103,1215,1218,1241,1246,1292,1300,1317,1346,1355,1382,1383,1385,1386,1430,1458,1466,1470,1473,1632,1651,
             1676,1680,1681,1683,1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2737,2798,2818,2834,2836,
@@ -536,7 +534,7 @@ function QuestieMenu:PopulateTownsfolk(yield)
         if QuestieDB.npcData[id] then
             local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
             if subName then
-                if townfolk[subName] then -- weapon master, 
+                if townfolk[subName] then -- weapon master,
                     tinsert(townfolk[subName], id)
                 else
                     for k, professionId in pairs(QuestieProfessions.professionTable) do
@@ -548,7 +546,7 @@ function QuestieMenu:PopulateTownsfolk(yield)
             end
         end
 
-        if count == 10 and yield then -- Yield every 10 iterations, 10 is just a madeup number, is pretty fast.
+        if count > 10 then -- Yield every 10 iterations, 10 is just a madeup number, is pretty fast.
             count = 0
             coroutine.yield()
         end
@@ -675,14 +673,14 @@ function QuestieMenu:PopulateTownsfolk(yield)
         if foodType then
             tinsert(petFoodVendorTypes[petFoodIndexes[foodType]], id)
         end
-        if count == 300 and yield then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
+        if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
             count = 0
             coroutine.yield()
         end
         count = count + 1
     end
 
-    if yield then coroutine.yield() end
+    coroutine.yield()
 
     --- Set the globals
     Questie.db.global.townsfolk = townfolk

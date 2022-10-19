@@ -143,6 +143,8 @@ do
     local yieldAmount = 200
     local extraYield = yieldAmount / 4
 
+    --Keep yield here as there is potentially a case where this wants to be run outside of a coroutine
+
     ---@param yield boolean?
     ---@return table
     function ZoneDB:GetZonesWithQuests(yield)

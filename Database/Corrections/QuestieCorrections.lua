@@ -339,7 +339,7 @@ function QuestieCorrections:PreCompile() -- this happens only if we are about to
             npcData[id][waypointKey] = QuestieCorrections:OptimizeWaypoints(way)
         end
 
-        if count == 500 then -- 500 seems like a good number
+        if count > 500 then -- 500 seems like a good number
             count = 0
             coroutine.yield()
         end
