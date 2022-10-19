@@ -1391,8 +1391,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Garm Teleporter Activated",{[zoneIDs.STORM_PEAKS]={{50.7,81.9,},},},},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12820,12828,12832},
+        },
+        [12828] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Retrieve U.D.E.D."), 0, {{"object", 191553}}},
+                {nil, ICON_TYPE_OBJECT, l10n("Use U.D.E.D on Ironwool Mammoth"), 0, {{"monster", 29402}}},
             },
         },
         [12831] = {
