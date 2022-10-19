@@ -121,6 +121,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [24213] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [24214] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [24215] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
         [24234] = { --"Junat the Wanderer"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
