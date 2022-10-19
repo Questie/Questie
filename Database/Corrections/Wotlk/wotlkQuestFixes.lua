@@ -1647,6 +1647,11 @@ function QuestieWotlkQuestFixes:Load()
         [13059] = {
             [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
         },
+        [13060] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Talk to Ricket for transportation"), 0, {{"monster", 29428}}},
+            },
+        },
         [13073] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Arch Druid Lilliandra for transportation to Moonglade"), 0, {{"monster", 30630}}}},
         },
