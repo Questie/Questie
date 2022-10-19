@@ -80,17 +80,15 @@ end
 
 ---@param yield boolean?
 function l10n:PostBoot(yield)
-    local QueryObjectSingle = QuestieDB.QueryObjectSingle
-    local objectNameLookup = l10n.objectNameLookup
 
     local count = 0
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
     for id in pairs(QuestieDB.ObjectPointers) do
-        local name = QueryObjectSingle(id, "name")
+        local name = QuestieDB.QueryObjectSingle(id, "name")
         if name then -- We (meaning me, BreakBB) introduced Fake IDs for objects to show additional locations, so we need to check this
-            local entry = objectNameLookup[name]
+            local entry = l10n.objectNameLookup[name]
             if not entry then
-                objectNameLookup[name] = { id }
+                l10n.objectNameLookup[name] = { id }
             else
                 entry[#entry+1] = id
             end
