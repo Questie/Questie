@@ -136,85 +136,91 @@ function ZoneDB:GetParentZoneId(areaId)
     return dungeonParentZones[areaId] or subZoneToParentZone[areaId]
 end
 
----@param yield boolean?
----@return table
-function ZoneDB:GetZonesWithQuests(yield)
+
+-- We keep localized variables outside of the function only used by GetZonesWithQuests
+do
     -- This is for yielding
     local yieldAmount = 200
     local extraYield = yieldAmount / 4
-    local count = 0
 
-    for questId in pairs(QuestieDB.QuestPointers) do
-        if (not QuestieCorrections.hiddenQuests[questId]) then
-            if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
-            and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
+    ---@param yield boolean?
+    ---@return table
+    function ZoneDB:GetZonesWithQuests(yield)
+        local count = 0
 
-                local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
-                if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
-                    zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
+        for questId in pairs(QuestieDB.QuestPointers) do
+            if (not QuestieCorrections.hiddenQuests[questId]) then
+                if QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
+                    and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses")) then
 
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                elseif zoneOrSort > 0 then
-                    local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
+                    local zoneOrSort, requiredSkill = QuestieDB.QueryQuestSingle(questId, "zoneOrSort"), QuestieDB.QueryQuestSingle(questId, "requiredSkill")
+                    if requiredSkill and requiredSkill[1] ~= QuestieProfessions.professionKeys.RIDING then
+                        zoneOrSort = QuestieProfessions:GetSortIdByProfessionId(requiredSkill[1])
 
-                    if parentZoneId then
-                        if (not zoneMap[parentZoneId]) then
-                            zoneMap[parentZoneId] = {}
-                        end
-                        zoneMap[parentZoneId][questId] = true
-                    else
                         if (not zoneMap[zoneOrSort]) then
                             zoneMap[zoneOrSort] = {}
                         end
                         zoneMap[zoneOrSort][questId] = true
-                    end
-                elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
-                    if (not zoneMap[zoneOrSort]) then
-                        zoneMap[zoneOrSort] = {}
-                    end
-                    zoneMap[zoneOrSort][questId] = true
-                else
-                    -- This branch is kind of expensive so yield more often if it happens a lot
-                    local startedBy = QuestieDB.QueryQuestSingle(questId, "startedBy")
+                    elseif zoneOrSort > 0 then
+                        local parentZoneId = ZoneDB:GetParentZoneId(zoneOrSort)
 
-                    if startedBy then
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
-                    end
-                    if yield then
-                        count = count + extraYield
-                        if count >= yieldAmount then
-                            count = 0
-                            coroutine.yield()
+                        if parentZoneId then
+                            if (not zoneMap[parentZoneId]) then
+                                zoneMap[parentZoneId] = {}
+                            end
+                            zoneMap[parentZoneId][questId] = true
+                        else
+                            if (not zoneMap[zoneOrSort]) then
+                                zoneMap[zoneOrSort] = {}
+                            end
+                            zoneMap[zoneOrSort][questId] = true
                         end
-                    end
+                    elseif _ZoneDB:IsSpecialQuest(zoneOrSort) then
+                        if (not zoneMap[zoneOrSort]) then
+                            zoneMap[zoneOrSort] = {}
+                        end
+                        zoneMap[zoneOrSort][questId] = true
+                    else
+                        -- This branch is kind of expensive so yield more often if it happens a lot
+                        local startedBy = QuestieDB.QueryQuestSingle(questId, "startedBy")
 
-                    local finishedBy = QuestieDB.QueryQuestSingle(questId, "finishedBy")
-                    if finishedBy then
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
-                        zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                        if startedBy then
+                            zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, startedBy[1])
+                            zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, startedBy[2])
+                        end
+                        if yield then
+                            count = count + extraYield
+                            if count >= yieldAmount then
+                                count = 0
+                                coroutine.yield()
+                            end
+                        end
+
+                        local finishedBy = QuestieDB.QueryQuestSingle(questId, "finishedBy")
+                        if finishedBy then
+                            zoneMap = _ZoneDB:GetZonesWithQuestsFromNPCs(zoneMap, finishedBy[1])
+                            zoneMap = _ZoneDB:GetZonesWithQuestsFromObjects(zoneMap, finishedBy[2])
+                        end
+                        if yield then count = count + extraYield end
                     end
-                    if yield then count = count + extraYield end
                 end
             end
-        end
 
-        if yield then
-            if count >= yieldAmount then
-                count = 0
-                coroutine.yield()
+            if yield then
+                if count >= yieldAmount then
+                    count = 0
+                    coroutine.yield()
+                end
+                count = count + 1
             end
-            count = count + 1
         end
-    end
-    if yield then coroutine.yield() end
-    zoneMap = _ZoneDB:SplitSeasonalQuests()
+        if yield then coroutine.yield() end
+        zoneMap = _ZoneDB:SplitSeasonalQuests()
 
-    return zoneMap
+        return zoneMap
+    end
 end
+
 
 ---@param zoneOrSort ZoneOrSort
 function _ZoneDB:IsSpecialQuest(zoneOrSort)
