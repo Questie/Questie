@@ -1973,6 +1973,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13312] = {
             [questKeys.preQuestGroup] = {13306,13367},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Rune of Distortion near Grimkor's Orb to summon Grimkor the Wicked"), 0, {{"object", 193622}}}},
         },
         [13313] = {
             [questKeys.preQuestSingle] = {13306},
