@@ -1645,6 +1645,10 @@ function QuestieWotlkQuestFixes:Load()
         [13171] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of an Eidolon Watcher"), 0, {{"object", 193058}}}},
         },
+        [13172] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {13169,13170,13171},
+        },
         [13181] = {
             [questKeys.triggerEnd] = {"Victory in Lake Wintergrasp", {[zoneIDs.DALARAN]={{33,67.2}}}},
         },
