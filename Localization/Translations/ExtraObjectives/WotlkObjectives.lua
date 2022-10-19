@@ -1778,7 +1778,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Seize Control of a Lithe Stalker"] = { -- 13145
+    ["Seize Control of a Lithe Stalker"] = { -- 13145, 13146, 13147, 13160
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
