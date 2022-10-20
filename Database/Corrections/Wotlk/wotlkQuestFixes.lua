@@ -1429,7 +1429,7 @@ function QuestieWotlkQuestFixes:Load()
         [12856] = {
             [questKeys.objectives] = {{{29639,"Rescued Brunnhildar Prisoners"},{29708,"Freed Proto-Drakes"}}},
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.STORM_PEAKS]={{62.00,60.50}}}, ICON_TYPE_EVENT, l10n("Fly freed Proto-Drakes to safety while carrying rescued Brunnhildar Prisoners"),},
+                {{[zoneIDs.STORM_PEAKS]={{62.00,59.50}}}, ICON_TYPE_EVENT, l10n("Fly freed Proto-Drakes to safety while carrying rescued Brunnhildar Prisoners"),},
             },
         },
         [12864] = {
