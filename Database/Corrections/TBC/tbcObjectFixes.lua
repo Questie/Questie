@@ -239,10 +239,6 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{18.33,50.94}}},
             [objectKeys.zoneID] = zoneIDs.IRONFORGE,
         },
-        [190040] = {
-            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{52.77,65.79}}},
-            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
-        },
         [190041] = {
             [objectKeys.spawns] = {[zoneIDs.THE_EXODAR]={{59.25,18.46}}},
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
