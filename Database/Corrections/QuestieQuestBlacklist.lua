@@ -621,6 +621,8 @@ function QuestieQuestBlacklist:Load()
         [13927] = true,
 
         --- Hallow's End
+        [11404] = true, -- 11404 and 11405 are first-time quests for ally/horde respectively; repeat turn-ins do 11401
+        [11405] = true, -- however, 11401+11404+11405 are all flagged as complete alongside each other each time
         [13463] = true,
         [13472] = true,
         [13473] = true,
