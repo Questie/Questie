@@ -58,8 +58,8 @@ local tremove = table.remove;
 local tunpack = unpack;
 
 
-QuestieMap.drawTimer = nil;
-QuestieMap.fadeLogicTimerShown = nil;
+local drawTimer
+local fadeLogicTimerShown
 local fadeLogicCoroutine
 
 local isDrawQueueDisabled = false
@@ -161,10 +161,10 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
 
     if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
         isDrawQueueDisabled = false
-        if not QuestieMap.drawTimer then
-            QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
+        if not drawTimer then
+            drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
             -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
-            QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
+            fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
                 if fadeLogicCoroutine and coroutine.status(fadeLogicCoroutine) == "suspended" then
                     local success, errorMsg = coroutine.resume(fadeLogicCoroutine)
                     if (not success) then
@@ -178,11 +178,11 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
             fadeLogicCoroutine = coroutine.create(QuestieMap.ProcessShownMinimapIcons)
         end
     else
-        if QuestieMap.drawTimer then -- cancel existing timer while in dungeon/raid
-            QuestieMap.drawTimer:Cancel()
-            QuestieMap.drawTimer = nil
-            QuestieMap.fadeLogicTimerShown:Cancel()
-            QuestieMap.fadeLogicTimerShown = nil
+        if drawTimer then -- cancel existing timer while in dungeon/raid
+            drawTimer:Cancel()
+            drawTimer = nil
+            fadeLogicTimerShown:Cancel()
+            fadeLogicTimerShown = nil
         end
         isDrawQueueDisabled = true
     end
@@ -293,7 +293,7 @@ function QuestieMap:QueueDraw(drawType, ...)
 end
 
 
-function QuestieMap:ProcessQueue()
+function QuestieMap.ProcessQueue()
     if (not next(mapDrawQueue) and (not next(minimapDrawQueue))) then
         -- Nothing to process
         return
