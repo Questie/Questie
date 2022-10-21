@@ -266,7 +266,7 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
             offset = offset + 4
             count = count + 1
         end
-        
+
         quest[countOffset] = count
     end
 
@@ -299,7 +299,7 @@ function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
             offset = offset + 4
             count = count + 1
         end
-        
+
         quest[countOffset] = count
     end
 
@@ -328,13 +328,13 @@ function QuestieComms:InsertQuestDataPacketV2_noclass_RenameMe(questPacket, play
                 objectiveIndex = objectiveIndex + 1
                 objectives[objectiveIndex] = {};
                 objectives[objectiveIndex].index = objectiveIndex;
-                
+
                 objectives[objectiveIndex].id = questPacket[offset]
                 objectives[objectiveIndex].type = string.char(questPacket[offset+1])--[_QuestieComms.idLookup["type"]];
                 objectives[objectiveIndex].fulfilled = questPacket[offset+2]--[_QuestieComms.idLookup["fulfilled"]];
                 objectives[objectiveIndex].required = questPacket[offset+3]--[_QuestieComms.idLookup["required"]];
                 objectives[objectiveIndex].finished = objectives[objectiveIndex].fulfilled == objectives[objectiveIndex].required--[_QuestieComms.idLookup["finished"]];
-                
+
                 allDone = allDone and objectives[objectiveIndex].finished
 
                 offset = offset + 4
@@ -376,13 +376,13 @@ function QuestieComms:InsertQuestDataPacketV2(questPacket, playerName, offset, d
                 objectiveIndex = objectiveIndex + 1
                 objectives[objectiveIndex] = {};
                 objectives[objectiveIndex].index = objectiveIndex;
-                
+
                 objectives[objectiveIndex].id = questPacket[offset]
                 objectives[objectiveIndex].type = string.char(questPacket[offset+1])--[_QuestieComms.idLookup["type"]];
                 objectives[objectiveIndex].fulfilled = questPacket[offset+2]--[_QuestieComms.idLookup["fulfilled"]];
                 objectives[objectiveIndex].required = questPacket[offset+3]--[_QuestieComms.idLookup["required"]];
                 objectives[objectiveIndex].finished = objectives[objectiveIndex].fulfilled == objectives[objectiveIndex].required--[_QuestieComms.idLookup["finished"]];
-                
+
                 allDone = allDone and objectives[objectiveIndex].finished
 
                 offset = offset + 4
@@ -463,7 +463,7 @@ local _loadupTime_removeme = GetTime() -- this will be removed in 6.0.1 or 6.1, 
 -- yelling quests on login. Not enough time to make and test a proper fix
 
 function QuestieComms:YellProgress(questId)
-    if Questie.db.global.disableYellComms or badYellLocations[C_Map.GetBestMapForUnit("player")] or GetNumGroupMembers() > 4 or GetTime() - _loadupTime_removeme < 8 then
+    if Questie.db.global.disableYellComms or badYellLocations[C_Map.GetBestMapForUnit("player")] or QuestiePlayer.numberOfGroupMembers > 4 or GetTime() - _loadupTime_removeme < 8 then
         return
     end
     if not QuestieComms._yellWaitingQuests[questId] then
@@ -528,7 +528,7 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                 entry.questType = questType
                 entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
                 entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
-                
+
 
                 if entry.zoneOrSort > 0 then
                     entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
@@ -641,7 +641,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
                 entry.questType = questType
                 entry.zoneOrSort = QuestieDB.QueryQuestSingle(questId, "zoneOrSort")
                 entry.isSoloQuest = not (questType == "Dungeon" or questType == "Raid" or questType == "Group" or questType == "Elite" or questType == "PVP")
-                
+
 
                 if entry.zoneOrSort > 0 then
                     entry.UiMapId = ZoneDB:GetUiMapIdByAreaId(entry.zoneOrSort)
@@ -676,7 +676,7 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
         local entryCount = 0
         local blockCount = 2 -- the extra tick allows checking tremove() == nil to set _isBroadcasting=false
         local offset = 2
-        
+
 
         for _, entry in pairs(sorted) do
             --print("[CommsSendOrder][Block " .. (blockCount - 1) .. "] " .. QuestieDB.QueryQuestSingle(entry.questId, "name"))
@@ -950,7 +950,7 @@ _QuestieComms.packets = {
 -- Renamed Write function
 function _QuestieComms:Broadcast(packet)
     -- If the priority is not set, it must not be very important
-    if packet.writeMode ~= _QuestieComms.QC_WRITE_WHISPER and (GetNumGroupMembers() > 15 or UnitInBattleground("Player")) then
+    if packet.writeMode ~= _QuestieComms.QC_WRITE_WHISPER and (QuestiePlayer.numberOfGroupMembers > 15 or UnitInBattleground("Player")) then
         -- dont broadcast to large raids
         return
     end
