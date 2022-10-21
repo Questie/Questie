@@ -121,6 +121,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [24213] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [24214] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [24215] = {
+            [npcKeys.spawns] = {[zoneIDs.HOWLING_FJORD]={{55.00,57.43}}},
+            [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
         [24234] = { --"Junat the Wanderer"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
@@ -472,7 +484,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.factionID] = 1064,
         },
         [29795] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
@@ -491,6 +503,10 @@ function QuestieWotlkNpcFixes:Load()
         [29872] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{28.38,44.85},},},
             [npcKeys.waypoints] = {[zoneIDs.ZUL_DRAK]={{{28.38,46.85},{29.79,46.26},{30.38,44.85},{29.79,43.44},{28.38,42.85},{26.97,43.44},{26.38,44.85},{26.97,46.26},{28.38,46.85}}}},
+        },
+        [29875] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{43.4,74.2},{44.4,73.8},{45.2,74},{45.4,74.8},{45.8,73},{45.8,75.4},{46.4,74},{46.4,76.2},{46.4,78.4},{46.4,78.8},{46.6,74},{46.6,78.8},{46.8,74.6},{46.8,77.4},{46.8,77.6},{47,72.4},{47,72.6},{47.4,76.2},{47.6,78.8},{48.2,74},{48.2,76.6},{48.4,75},{48.4,75.6},{48.6,77.2},{48.8,79.4},{48.8,79.8},{49,76.4},}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [29895] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_DRAK]={{16.43,66.79}}},
@@ -515,6 +531,9 @@ function QuestieWotlkNpcFixes:Load()
         [29973] = { --"Tunka'lo Brave"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
+        },
+        [29999] = {
+            [npcKeys.spawns] = {},
         },
         [30222] = {
             [npcKeys.spawns] = {},
@@ -578,13 +597,17 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30824] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30825] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [30944] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54.15,71.18}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31134] = {
@@ -596,7 +619,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31261] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
@@ -653,8 +676,16 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32301] = {
-            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.5,52.9}}},
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32370] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.05,51.83}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32408] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.02,51.59}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32430] = {
