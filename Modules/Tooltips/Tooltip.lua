@@ -306,13 +306,13 @@ function QuestieTooltips:Initialize()
     end)
 
     -- For the hover frame.
-    GameTooltip:HookScript("OnTooltipSetUnit", function()
+    GameTooltip:HookScript("OnTooltipSetUnit", function(self)
         if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
             -- When in a raid, we want as little code running as possible
             return
         end
 
-        _QuestieTooltips:AddUnitDataToTooltip()
+        _QuestieTooltips.AddUnitDataToTooltip(self)
     end)
     GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     GameTooltip:HookScript("OnShow", function(self)
