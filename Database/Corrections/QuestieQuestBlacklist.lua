@@ -626,8 +626,6 @@ function QuestieQuestBlacklist:Load()
         [13473] = true,
 
         --- Pilgrim's Bounty
-        [12784] = true,
-        [12808] = true,
         [13483] = true,
         [13484] = true,
         [14036] = true,

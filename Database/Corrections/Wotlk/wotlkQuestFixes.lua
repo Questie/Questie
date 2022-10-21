@@ -848,6 +848,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tranquilizer Dart on Tatjana"),0,{{"monster", 27627}}}},
             [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7,},},},},
         },
+        [12372] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Ride a Wyrmrest Defender to defend the Temple"), 0, {{"monster", 27629}}},
+            },
+        },
         [12412] = {
             [questKeys.preQuestSingle] = {12259},
         },
@@ -1238,9 +1243,15 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12704] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Talk to High-Oracle Soo-say to retrieve a Gorloc companion"), 0, {{"monster", 28027}}},
+            },
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12705] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use the Tainted Crystal at the Great Lightning Stone"), 0, {{"object", 190781}}},
+            },
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12707] = {
@@ -1294,14 +1305,13 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.SHOLAZAR_BASIN]={{49,63}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Ha-Khalan"),1},
                 {{[zoneIDs.SHOLAZAR_BASIN]={{46,74}}}, ICON_TYPE_EVENT, l10n("Use Chime of Cleansing to summon Spirit of Koosu"),2},
             },
-        },
-        [12735] = {
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12736] = {
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12737] = {
+            [questKeys.objectives] = {nil,{{191136,}}},
             [questKeys.requiredMinRep] = {1105,9000},
         },
         [12740] = {
@@ -1330,24 +1340,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1105,9000},
             ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
-        },
-        [12372] = {
-            [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_TALK, l10n("Ride a Wyrmrest Defender to defend the Temple"), 0, {{"monster", 27629}}},
-            },
-        },
-        [12704] = {
-            [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_TALK, l10n("Talk to High-Oracle Soo-say to retrieve a Gorloc companion"), 0, {{"monster", 28027}}},
-            },
-        },
-        [12705] = {
-            [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_EVENT, l10n("Use the Tainted Crystal at the Great Lightning Stone"), 0, {{"object", 190781}}},
-            },
-        },
-        [12737] = {
-            [questKeys.objectives] = {nil,{{191136,}}},
         },
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
