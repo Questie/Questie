@@ -22,6 +22,8 @@ local playerClassFlagX2 = 1 -- dummy default value to always return class not ma
 -- Optimizations
 local math_max = math.max;
 
+QuestiePlayer.numberOfGroupMembers = 0
+
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")
 
@@ -33,8 +35,6 @@ function QuestiePlayer:Initialize()
     local classId = select(3, UnitClass("player"))
     playerClassFlag = 2 ^ (classId - 1)
     playerClassFlagX2 = 2 * playerClassFlag
-
-    QuestiePlayer.numberOfGroupMembers = 0
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
