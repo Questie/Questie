@@ -133,7 +133,7 @@ end
 
 -- Rescale all the icons
 function QuestieMap:RescaleIcons()
-    local mapScale = QuestieMap:GetScaleValue()
+    local mapScale = QuestieMap.GetScaleValue()
     for _, framelist in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(framelist) do
             QuestieMap.utils:RescaleIcon(frameName, mapScale)
@@ -161,7 +161,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
 
     if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
         isDrawQueueDisabled = false
-        if not QuestieMap.drawTimer then 
+        if not QuestieMap.drawTimer then
             QuestieMap.drawTimer = C_Timer.NewTicker(0.2, QuestieMap.ProcessQueue)
             -- ! Remember to update the distance variable in ProcessShownMinimapIcons if you change the timer
             QuestieMap.fadeLogicTimerShown = C_Timer.NewTicker(0.1, function ()
@@ -189,7 +189,7 @@ function QuestieMap:InitializeQueue() -- now called on every loading screen
 end
 
 ---@return number @A scale value that is based of the map currently open, smaller icons for World and Continent
-function QuestieMap:GetScaleValue()
+function QuestieMap.GetScaleValue()
     local mapId = HBDPins.worldmapProvider:GetMap():GetMapID();
     local scaling = 1;
     if C_Map and C_Map.GetAreaInfo then
@@ -294,36 +294,41 @@ end
 
 
 function QuestieMap:ProcessQueue()
-    local ScaleValue = QuestieMap:GetScaleValue()
-    if next(mapDrawQueue) ~= nil or next(minimapDrawQueue) ~= nil then
-        for _ = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
-            local mapDrawCall = tremove(mapDrawQueue, 1);
-            if(mapDrawCall) then
-                local frame = mapDrawCall[2];
-                --print(tostring(mapDrawCall[2].data.Name).." "..tostring(mapDrawCall[2]).." "..tostring(mapDrawCall[3]).." "..tostring(mapDrawCall[4]).." "..tostring(mapDrawCall[5]).." "..tostring(mapDrawCall[6]))
-                HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
+    if (not next(mapDrawQueue) and (not next(minimapDrawQueue))) then
+        -- Nothing to process
+        return
+    end
 
-                --? If you ever chanage this logic, make sure you change the logic in QuestieMap.utils:RescaleIcon function too!
-                local size =  (16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7)) * ScaleValue;
-                frame:SetSize(size, size)
+    local scaleValue = QuestieMap.GetScaleValue()
+    for _ = 1, math.min(24, math.max(#mapDrawQueue, #minimapDrawQueue)) do
+        local mapDrawCall = tremove(mapDrawQueue, 1);
+        if mapDrawCall then
+            local frame = mapDrawCall[2];
+            HBDPins:AddWorldMapIconMap(tunpack(mapDrawCall));
 
-                QuestieMap.utils:SetDrawOrder(frame);
-            end
-            local minimapDrawCall = tremove(minimapDrawQueue, 1);
-            if(minimapDrawCall) then
-                local frame = minimapDrawCall[2];
-                HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+            --? If you ever chanage this logic, make sure you change the logic in QuestieMap.utils:RescaleIcon function too!
+            local size =  (16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7)) * scaleValue;
+            frame:SetSize(size, size)
 
-                QuestieMap.utils:SetDrawOrder(frame);
-            end
-            mapDrawCall[2]._loaded = true
-            minimapDrawCall[2]._loaded = true
-            if mapDrawCall[2]._needsUnload then
-                mapDrawCall[2]:Unload()
-            end
-            if minimapDrawCall[2]._needsUnload then
-                minimapDrawCall[2]:Unload()
-            end
+            QuestieMap.utils:SetDrawOrder(frame);
+        end
+
+        local minimapDrawCall = tremove(minimapDrawQueue, 1);
+        if minimapDrawCall then
+            local frame = minimapDrawCall[2];
+            HBDPins:AddMinimapIconMap(tunpack(minimapDrawCall));
+
+            QuestieMap.utils:SetDrawOrder(frame);
+        end
+
+        mapDrawCall[2]._loaded = true
+        if mapDrawCall[2]._needsUnload then
+            mapDrawCall[2]:Unload()
+        end
+
+        minimapDrawCall[2]._loaded = true
+        if minimapDrawCall[2]._needsUnload then
+            minimapDrawCall[2]:Unload()
         end
     end
 end
