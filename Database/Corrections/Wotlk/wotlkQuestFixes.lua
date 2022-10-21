@@ -2511,6 +2511,12 @@ function QuestieWotlkQuestFixes:Load()
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
         },
+        [13825] = {
+            [questKeys.startedBy] = {{8125}},
+            [questKeys.finishedBy] = {{8125}},
+            -- [questKeys.exclusiveTo] = {6610}, -- This is not ideal. You can only do 13825 if you completed 6610 prior to Wotlk. But now with Wotlk you do 6610 and then can not do 13825
+            [questKeys.requiredSkill] = {185,225},
+        },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
         },
