@@ -814,6 +814,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12271] = {
             [questKeys.startedBy] = {{27209},nil,{37432}},
+            [questKeys.preQuestSingle] = {12252},
         },
         [12273] = {
             [questKeys.objectives] = {{{27237,},{27235,},{27234,},{27236,}}},
