@@ -152,6 +152,9 @@ local migrationFunctions = {
         if Questie.db.global.globalScale == 0.7 then -- old default value
             Questie.db.global.globalScale = 0.6
         end
+        if Questie.db.global.nameplateTargetFrameEnabled == false then -- old default value
+            Questie.db.global.nameplateTargetFrameEnabled = true
+        end
     end,
 }
 

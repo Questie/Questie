@@ -40,7 +40,7 @@ function QuestieOptionsDefaults:Load()
             dbmHUDShowLoot = false,
             dbmHUDShowInteract = true,
             mapShowHideEnabled = true,
-            nameplateTargetFrameEnabled = false,
+            nameplateTargetFrameEnabled = true,
             nameplateTargetFrameX = -30,
             nameplateTargetFrameY = 25,
             nameplateTargetFrameScale = 1.7,
