@@ -350,18 +350,6 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "使用魔网能量焦点控制饰品",
     },
-    ["Azure Dragonshrine observed"] = { -- 12107, 12110
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = "调查碧蓝巨龙圣地",
-    },
     ["Use Tu'u'gwar's Bait"] = { -- 12017
         ["ptBR"] = false,
         ["ruRU"] = false,

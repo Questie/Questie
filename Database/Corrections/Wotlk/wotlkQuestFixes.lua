@@ -608,13 +608,11 @@ function QuestieWotlkQuestFixes:Load()
         [12107] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_EVENT, l10n("Use Ley Line Focus Control Talisman"),0,{{"object", 188491}}},
-                {nil, ICON_TYPE_EVENT, l10n("Azure Dragonshrine observed"),0,{{"object", 188474}}},
             },
         },
         [12110] = {
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_EVENT, l10n("Use Ley Line Focus Control Talisman"),0,{{"object", 188491}}},
-                {nil, ICON_TYPE_EVENT, l10n("Azure Dragonshrine observed"),0,{{"object", 188474}}},
             },
         },
         [12111] = {
