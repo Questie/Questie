@@ -508,12 +508,6 @@ function QuestieWotlkQuestFixes:Load()
         [12039] = {
             [questKeys.preQuestSingle] = {12034},
         },
-        [12044] = {
-            [questKeys.nextQuestInChain] = 12045,
-        },
-        [12045] = {
-            [questKeys.preQuestSingle] = {12044},
-        },
         [12050] = {
             [questKeys.preQuestGroup] = {12046,12047},
         },
