@@ -594,6 +594,9 @@ function QuestieWotlkQuestFixes:Load()
         [12096] = {
             [questKeys.parentQuest] = 12084,
         },
+        [12097] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Rokhan to call down Sarathstra"), 0, {{"monster", 26859}}},},
+        },
         [12099] = {
             [questKeys.objectives] = {{{26417,"Runed Giants Freed"}}},
         },
