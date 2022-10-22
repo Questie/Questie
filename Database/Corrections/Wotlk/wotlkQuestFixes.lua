@@ -577,7 +577,6 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12084] = {
-            [questKeys.childQuests] = {12096},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Ley line focus information retrieved"), 0, {{"object", 188474}}},
             },
@@ -592,7 +591,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12089,12090,12091},
         },
         [12096] = {
-            [questKeys.parentQuest] = 12084,
+            [questKeys.preQuestSingle] = {12066},
         },
         [12097] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Rokhan to call down Sarathstra"), 0, {{"monster", 26859}}},},
