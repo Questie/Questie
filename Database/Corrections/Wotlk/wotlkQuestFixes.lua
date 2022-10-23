@@ -781,7 +781,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12251},
         },
         [12259] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
+            [questKeys.preQuestGroup] = {12256,12257},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
         },
         [12260] = {
             [questKeys.objectives] = {{{27202,}}},
