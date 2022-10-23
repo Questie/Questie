@@ -2506,6 +2506,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{8125}},
             [questKeys.finishedBy] = {{8125}},
             -- [questKeys.exclusiveTo] = {6610}, -- This is not ideal. You can only do 13825 if you completed 6610 prior to Wotlk. But now with Wotlk you do 6610 and then can not do 13825
+            [questKeys.requiredSkill] = {356,225},
+        },
+        [13826] = {
+            [questKeys.startedBy] = {{12919}},
+            [questKeys.finishedBy] = {{12919}},
+            -- [questKeys.exclusiveTo] = {6607}, -- This is not ideal. You can only do 13826 if you completed 6607 prior to Wotlk. But now with Wotlk you do 6607 and then can not do 13826
             [questKeys.requiredSkill] = {185,225},
         },
         [13830] = {
