@@ -813,6 +813,10 @@ function QuestieWotlkQuestFixes:Load()
         [12269] = {
             [questKeys.preQuestSingle] = {12275},
         },
+        [12270] = {
+            [questKeys.objectives] = {{{27354}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Deliver Shredder"),0,{{"monster", 27423}}}},
+        },
         [12271] = {
             [questKeys.startedBy] = {{27209},nil,{37432}},
             [questKeys.preQuestSingle] = {12252},
