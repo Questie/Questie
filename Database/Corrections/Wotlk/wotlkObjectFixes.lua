@@ -263,5 +263,10 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{58.52,67.87}}}, -- Valiance Keep
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [400047] = {
+            [objectKeys.name] = "Drakuru's Brazier",
+            [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{17.42,36.36}}}, -- Zeb'Halak
+            [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
     }
 end

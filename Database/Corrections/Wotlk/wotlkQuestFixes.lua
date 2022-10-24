@@ -468,6 +468,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Capture stunned Drakkari trolls with Bounty Hunter's Cage"), 0, {{"monster", 26425}, {"monster", 26447}}},
             },
         },
+        [12007] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir when you gathered Zim'bo's Mojo"),0,{{"object", 400047}}}},
+        },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
