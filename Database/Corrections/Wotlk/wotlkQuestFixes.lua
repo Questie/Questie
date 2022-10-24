@@ -724,6 +724,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_EVENT, l10n("Intercept the message from Loken"),1,{{"object", 188596}}},
             },
         },
+        [12204] = {
+            [questKeys.preQuestGroup] = {},
+        },
         [12206] = {
             [questKeys.objectives] = {{{27349,"Flask of Blight tested"}}},
         },
