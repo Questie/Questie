@@ -458,6 +458,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
         },
         [11982] = {
+            [questKeys.objectives] = {{{26270,"Iron Dwarf Operations Disrupted"}}},
             [questKeys.preQuestSingle] = {},
         },
         [11984] = {
