@@ -626,8 +626,6 @@ function QuestieQuestBlacklist:Load()
         [13473] = true,
 
         --- Pilgrim's Bounty
-        [12784] = true,
-        [12808] = true,
         [13483] = true,
         [13484] = true,
         [14036] = true,
@@ -1097,6 +1095,8 @@ function QuestieQuestBlacklist:Load()
         [12932] = true, -- Duplicate of 12954 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12021] = true, -- Duplicate of 12067 and 12085 (not entirely a duplicate but this is the easiest way to hide multiple quests)
         [12015] = true, -- Not in the game
+        [12162] = true, -- Not in the game
+        [12163] = true, -- Not in the game
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [9320] = QuestieCorrections.WOTLK_ONLY,
@@ -1107,6 +1107,15 @@ function QuestieQuestBlacklist:Load()
         [9343] = QuestieCorrections.WOTLK_ONLY,
 
         -- Scourge invasion
+        [12752] = true,
+        [12753] = true,
+        [12772] = true,
+        [12775] = true,
+        [12777] = true,
+        [12782] = true,
+        [12783] = true,
+        [12784] = true,
+        [12808] = true,
         [12811] = true,
 
         --- Phase 2 Ulduar / Argent Tournament

@@ -269,17 +269,16 @@ function _EventHandler:ChatMsgCompatFactionChange()
     end
 end
 
-local numberOfGroupMembers = -1
-function _EventHandler:GroupRosterUpdate()
+function _EventHandler.GroupRosterUpdate()
     local currentMembers = GetNumGroupMembers()
     -- Only want to do logic when number increases, not decreases.
-    if numberOfGroupMembers < currentMembers then
+    if QuestiePlayer.numberOfGroupMembers < currentMembers then
         -- Tell comms to send information to members.
         --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST")
-        numberOfGroupMembers = currentMembers
+        QuestiePlayer.numberOfGroupMembers = currentMembers
     else
         -- We do however always want the local to be the current number to allow up and down.
-        numberOfGroupMembers = currentMembers
+        QuestiePlayer.numberOfGroupMembers = currentMembers
     end
 end
 

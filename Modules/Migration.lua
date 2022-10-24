@@ -6,28 +6,28 @@ local Migration = QuestieLoader:CreateModule("Migration")
 local migrationFunctions = {
     [1] = function(hasRunAccountWide)
         Questie:Print("[Migration] Migrating Questie for v6.0.0")
-    
+
         -- This is not needed anymore since we calculate the quests with zones at each login.
         -- If not we would have to store the zoneMap for each character because we only show
         -- quests in the Journey a character (race + class) can accept.
         if not hasRunAccountWide then
             Questie.db.global.zoneMapCache = nil
         end
-    
+
         if Questie.db.char.manualMinLevelOffset and Questie.db.char.absoluteLevelOffset then
             Questie.db.char.manualMinLevelOffset = false
             Questie.db.char.absoluteLevelOffset = false
         end
-    
+
         local removedPartyEntries = 0
-    
+
         for _, entry in pairs(Questie.db.char.journey) do
             if entry.Party then
                 entry.Party = nil
                 removedPartyEntries = removedPartyEntries + 1
             end
         end
-    
+
         Questie:Print("[Migration] Migrated Questie to v6.0.0 and removed", removedPartyEntries, "party entries from the Journey")
     end,
     [2] = function(hasRunAccountWide)
@@ -76,7 +76,7 @@ local migrationFunctions = {
             Questie.db.char.journey = journey
         end
 
-        if not hasRunAccountWide then 
+        if not hasRunAccountWide then
             if migrationTable then
                 Questie.db.global.migrationVersion = migrationTable
             end
@@ -141,7 +141,21 @@ local migrationFunctions = {
         if Questie.db.char.isAchievementsExpanded == nil then
             Questie.db.char.isAchievementsExpanded = true
         end
-    end
+    end,
+    [15] = function()
+        if Questie.db.global.clusterLevelHotzone == 70 then -- old default value
+            Questie.db.global.clusterLevelHotzone = 50
+        end
+        if Questie.db.global.availableScale == 1.3 then -- old default value
+            Questie.db.global.availableScale = 1.2
+        end
+        if Questie.db.global.globalScale == 0.7 then -- old default value
+            Questie.db.global.globalScale = 0.6
+        end
+        if Questie.db.global.nameplateTargetFrameEnabled == false then -- old default value
+            Questie.db.global.nameplateTargetFrameEnabled = true
+        end
+    end,
 }
 
 function Migration:Migrate()

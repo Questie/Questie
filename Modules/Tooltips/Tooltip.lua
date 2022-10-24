@@ -26,6 +26,8 @@ QuestieTooltips.lookupKeysByQuestId = {
     --["questId"] = {"u_Grell", ... }
 }
 
+local MAX_GROUP_MEMBER_COUNT = 6
+
 local _InitObjectiveTexts
 
 ---@param questId number
@@ -163,7 +165,7 @@ function QuestieTooltips:GetTooltip(key)
         return nil
     end
 
-    if GetNumGroupMembers() > 15 then
+    if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
         return nil -- temporary disable tooltips in raids, we should make a proper fix
     end
 
@@ -304,9 +306,21 @@ function QuestieTooltips:Initialize()
     end)
 
     -- For the hover frame.
-    GameTooltip:HookScript("OnTooltipSetUnit", _QuestieTooltips.AddUnitDataToTooltip)
+    GameTooltip:HookScript("OnTooltipSetUnit", function(self)
+        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            -- When in a raid, we want as little code running as possible
+            return
+        end
+
+        _QuestieTooltips.AddUnitDataToTooltip(self)
+    end)
     GameTooltip:HookScript("OnTooltipSetItem", _QuestieTooltips.AddItemDataToTooltip)
     GameTooltip:HookScript("OnShow", function(self)
+        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            -- When in a raid, we want as little code running as possible
+            return
+        end
+
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltipItem = nil
             QuestieTooltips.lastGametooltipUnit = nil
@@ -315,6 +329,11 @@ function QuestieTooltips:Initialize()
         end
     end)
     GameTooltip:HookScript("OnHide", function(self)
+        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            -- When in a raid, we want as little code running as possible
+            return
+        end
+
         if (not self.IsForbidden) or (not self:IsForbidden()) then -- do we need this here also
             QuestieTooltips.lastGametooltip = ""
             QuestieTooltips.lastItemRefTooltip = ""
@@ -324,7 +343,13 @@ function QuestieTooltips:Initialize()
         end
     end)
 
+    -- Fired whenever the cursor hovers something with a tooltip. And then on every frame
     GameTooltip:HookScript("OnUpdate", function(self)
+        if QuestiePlayer.numberOfGroupMembers > MAX_GROUP_MEMBER_COUNT then
+            -- When in a raid, we want as little code running as possible
+            return
+        end
+
         if (not self.IsForbidden) or (not self:IsForbidden()) then
             --Because this is an OnUpdate we need to check that it is actually not a Unit or Item to think its a
             local uName, unit = self:GetUnit()
