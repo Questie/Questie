@@ -593,7 +593,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
             end
             return false
         end
-    end 
+    end
 
     local requiredMinRep = QuestieDB.QueryQuestSingle(questId, "requiredMinRep")
     local requiredMaxRep = QuestieDB.QueryQuestSingle(questId, "requiredMaxRep")
@@ -984,8 +984,6 @@ function QuestieDB:GetCreatureLevels(quest)
     return creatureLevels
 end
 
-local playerFaction = UnitFactionGroup("player")
-
 ---@param npcId number
 ---@return table
 function QuestieDB:GetNPC(npcId)
@@ -1011,22 +1009,27 @@ function QuestieDB:GetNPC(npcId)
         npc[stringKey] = rawdata[intKey]
     end
 
-    local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
-    if friendlyToFaction then
-        if friendlyToFaction == "AH" then
-            npc.friendly = true
-        else
-            if playerFaction == "Horde" and friendlyToFaction == "H" then
-                npc.friendly = true
-            elseif playerFaction == "Alliance" and friendlyToFaction == "A" then
-                npc.friendly = true
-            end
-        end
-    else
-        npc.friendly = true
-    end
+    npc.friendly = QuestieDB.IsFriendlyToPlayer(rawdata[npcKeys.friendlyToFaction])
 
     return npc
+end
+
+---@param friendlyToFaction string --The NPC database field friendlyToFaction - so either nil, "A", "H" or "AH"
+---@return boolean
+function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
+    if (not friendlyToFaction) or friendlyToFaction == "AH" then
+        return true
+    end
+
+    if QuestiePlayer.faction == "Horde" and friendlyToFaction == "H" then
+        return true
+    end
+
+    if QuestiePlayer.faction == "Alliance" and friendlyToFaction == "A" then
+        return true
+    end
+
+    return false
 end
 
 --[[
