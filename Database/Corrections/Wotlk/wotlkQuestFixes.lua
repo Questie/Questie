@@ -832,6 +832,9 @@ function QuestieWotlkQuestFixes:Load()
         [12288] = {
             [questKeys.objectives] = {{{27463,"Wounded Skirmishers Healed"}}},
         },
+        [12289] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{27456,27463},27456,"Horde units eliminated"}}},
+        },
         [12296] = {
             [questKeys.objectives] = {{{27482,"Westfall Infantry Healed"}}},
         },
