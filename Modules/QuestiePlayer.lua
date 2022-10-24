@@ -1,4 +1,5 @@
 ---@class QuestiePlayer
+---@field numberOfGroupMembers number ---The number of players currently in the group
 local QuestiePlayer = QuestieLoader:CreateModule("QuestiePlayer");
 local _QuestiePlayer = QuestiePlayer.private
 -------------------------
@@ -20,6 +21,8 @@ local playerClassFlagX2 = 1 -- dummy default value to always return class not ma
 
 -- Optimizations
 local math_max = math.max;
+
+QuestiePlayer.numberOfGroupMembers = 0
 
 function QuestiePlayer:Initialize()
     _QuestiePlayer.playerLevel = UnitLevel("player")

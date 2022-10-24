@@ -2751,7 +2751,8 @@
         // ".types/.SubModules/vscode-wow-api/src": true,
         "Libs/Ace*": true,
         "Libs/CallbackHandler-1.0": true,
-        "Libs/Lib*": true
+        "Libs/Lib*": true,
+        "releases": true,
     },
 
     // Removes trailing whitespaces

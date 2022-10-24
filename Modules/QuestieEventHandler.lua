@@ -40,6 +40,8 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type AchievementTracker
 local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
+---@type GossipFrameDailyMarker
+local GossipFrameDailyMarker = QuestieLoader:ImportModule("GossipFrameDailyMarker")
 
 local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
 local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
@@ -71,7 +73,10 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+    Questie:RegisterEvent("GOSSIP_SHOW", function (...)
+        QuestieAuto.GOSSIP_SHOW(...)
+        GossipFrameDailyMarker.Mark(...)
+    end)
     Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
@@ -264,17 +269,16 @@ function _EventHandler:ChatMsgCompatFactionChange()
     end
 end
 
-local numberOfGroupMembers = -1
-function _EventHandler:GroupRosterUpdate()
+function _EventHandler.GroupRosterUpdate()
     local currentMembers = GetNumGroupMembers()
     -- Only want to do logic when number increases, not decreases.
-    if numberOfGroupMembers < currentMembers then
+    if QuestiePlayer.numberOfGroupMembers < currentMembers then
         -- Tell comms to send information to members.
         --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST")
-        numberOfGroupMembers = currentMembers
+        QuestiePlayer.numberOfGroupMembers = currentMembers
     else
         -- We do however always want the local to be the current number to allow up and down.
-        numberOfGroupMembers = currentMembers
+        QuestiePlayer.numberOfGroupMembers = currentMembers
     end
 end
 
