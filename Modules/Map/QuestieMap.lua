@@ -841,30 +841,32 @@ function QuestieMap:GetNearestSpawn(objective)
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-    if next(objective.spawnList) then
-        for id, spawnData in pairs(objective.spawnList) do
-            for zone, spawns in pairs(spawnData.Spawns) do
-                for _,spawn in pairs(spawns) do
-                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, uiMapId)
-                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-                    if dist then
-                        if dInstance ~= playerI then
-                            dist = 500000 + dist * 100 -- hack
-                        end
-                        if dist < bestDistance then
-                            bestDistance = dist
-                            bestSpawn = spawn
-                            bestSpawnZone = zone
-                            bestSpawnId = id
-                            bestSpawnType = spawnData.Type
-                            bestSpawnName = spawnData.Name
-                        end
-                    end
-                end
-            end
-        end
-    end
+	C_Timer.After(2, function() -- Fixes LUA error bad argument #1 to 'next' (table expected, got nil)
+		if next(objective.spawnList) then
+			for id, spawnData in pairs(objective.spawnList) do
+				for zone, spawns in pairs(spawnData.Spawns) do
+					for _,spawn in pairs(spawns) do
+						local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+						local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, uiMapId)
+						local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+						if dist then
+							if dInstance ~= playerI then
+								dist = 500000 + dist * 100 -- hack
+							end
+							if dist < bestDistance then
+								bestDistance = dist
+								bestSpawn = spawn
+								bestSpawnZone = zone
+								bestSpawnId = id
+								bestSpawnType = spawnData.Type
+								bestSpawnName = spawnData.Name
+							end
+						end
+					end
+				end
+			end
+		end
+	end)
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
