@@ -629,7 +629,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27199,}}},
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_OBJECT, l10n("Ring the gong outside Drakil'jin to summon Warlord Jin'arrak"),0,{{"object", 188510}}},
-                {nil, ICON_TYPE_TALK, l10n("Speak with Gan'jo in the afterlife"),0,{{"monster", 26924}}},
             },
         },
         [12125] = {

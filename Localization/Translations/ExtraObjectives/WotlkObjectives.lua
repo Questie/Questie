@@ -1058,18 +1058,6 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Speak with Gan'jo in the afterlife"] = { -- 12121
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = false,
-    },
     ["Speak with Gan'jo to return to life"] = { -- 12137
         ["ptBR"] = false,
         ["ruRU"] = false,
