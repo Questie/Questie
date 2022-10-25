@@ -52,6 +52,7 @@ Harvest Festival history:         lunar calendar 15/8 in gregorian calendar:
 local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
+
 QuestieEvent.activeQuests = {}
 _QuestieEvent.eventNamesForQuests = {}
 

@@ -162,7 +162,7 @@ end
 
 --- Rescale a single icon
 ---@param frameRef string|IconFrame @The global name/iconRef of the icon frame, e.g. "QuestieFrame1"
----@param mapScale number @Scale value for the final size of the Icon
+---@param mapScale number? @Scale value for the final size of the Icon
 function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
     local frame = frameRef;
     local iconScale = mapScale or 1
