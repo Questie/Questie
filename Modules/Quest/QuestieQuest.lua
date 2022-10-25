@@ -3,6 +3,8 @@ local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFla
 
 ---@class QuestieQuest
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
+---@type QuestieQuestPrivate
+QuestieQuest.private = QuestieQuest.private or {}
 local _QuestieQuest = QuestieQuest.private
 -------------------------
 --Import modules.
@@ -45,6 +47,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -259,7 +263,7 @@ function QuestieQuest:SmoothReset()
             QuestieMenu:OnLogin(true) -- remove icons
             return true
         end,
-        function() 
+        function()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
@@ -287,7 +291,7 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             QuestieQuest._resetNeedsAvailables = true
-            QuestieQuest:CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end)
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end)
             return true
         end,
         function()
@@ -353,7 +357,7 @@ end
 
 function QuestieQuest:UnhideQuest(id)
     Questie.db.char.hidden[id] = nil
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 end
 
 ---@param questId number
@@ -401,7 +405,7 @@ function QuestieQuest:CompleteQuest(questId)
     end)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Completed Quest:", questId)
 end
@@ -430,11 +434,9 @@ function QuestieQuest:AbandonedQuest(questId)
             end
         end
 
-        for k, _ in pairs(QuestieQuest.availableQuests) do
-            ---@type Quest
-            local availableQuest = QuestieDB:GetQuest(k)
-            if (not availableQuest) or (not QuestieDB.IsDoable(k)) then
-                QuestieMap:UnloadQuestFrames(k);
+        for questIdAvailable, _ in pairs(QuestieQuest.availableQuests) do
+            if (not QuestieDB.IsDoable(questIdAvailable)) then
+                QuestieMap:UnloadQuestFrames(questIdAvailable);
             end
         end
 
@@ -444,7 +446,7 @@ function QuestieQuest:AbandonedQuest(questId)
             QuestieTracker:Update()
         end)
 
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Abandoned Quest:", questId)
     end
@@ -1156,15 +1158,18 @@ end
 --Draw a single available quest, it is used by the DrawAllAvailableQuests function.
 ---@param quest Quest
 function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
+    --? Some quests can be started by both an NPC and a GameObject
 
-    --TODO More logic here, currently only shows NPC quest givers.
     if quest.Starts["GameObject"] ~= nil then
-        for _, objectId in ipairs(quest.Starts["GameObject"]) do
-            local obj = QuestieDB:GetObject(objectId)
+        local gameObjects = quest.Starts["GameObject"]
+        for i=1, #gameObjects do
+            local obj = QuestieDB:GetObject(gameObjects[i])
             if(obj ~= nil and obj.spawns ~= nil) then
                 for zone, spawns in pairs(obj.spawns) do
                     if(zone ~= nil and spawns ~= nil) then
-                        for _, coords in ipairs(spawns) do
+                        local coords
+                        for spawnIndex=1, #spawns do
+                            coords = spawns[spawnIndex]
                             local data = {
                                 Id = quest.Id,
                                 Icon = _QuestieQuest:GetQuestIcon(quest),
@@ -1191,9 +1196,11 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                 end
             end
         end
-    elseif(quest.Starts["NPC"] ~= nil)then
-        for _, npcId in ipairs(quest.Starts["NPC"]) do
-            local npc = QuestieDB:GetNPC(npcId)
+    end
+    if(quest.Starts["NPC"] ~= nil)then
+        local npcs = quest.Starts["NPC"]
+        for i=1, #npcs do
+            local npc = QuestieDB:GetNPC(npcs[i])
 
             if (npc ~= nil and npc.spawns ~= nil) then
                 QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
@@ -1203,8 +1210,9 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                 local starterLocs = {}
                 for npcZone, spawns in pairs(npc.spawns) do
                     if(npcZone ~= nil and spawns ~= nil) then
-
-                        for _, coords in ipairs(spawns) do
+                        local coords
+                        for spawnIndex=1, #spawns do
+                            coords = spawns[spawnIndex]
                             local data = {
                                 Id = quest.Id,
                                 Icon = _QuestieQuest:GetQuestIcon(quest),
@@ -1279,65 +1287,69 @@ function _QuestieQuest:GetQuestIcon(quest)
     return icon
 end
 
----@type Ticker?
-local timer
-function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer.GetPlayerLevel())
+--? Creates a localized space where the local variables and functions are stored
+do
+    --- Used to keep track of the active timer for CalculateAvailableQuests
+    --- Is used by the QuestieQuest.CalculateAndDrawAvailableQuestsIterative func
+    ---@type Ticker|nil
+    local timer
 
-    -- Localize the variable for speeeeed
-    local debugEnabled = Questie.db.global.debugEnabled
+    local function CalculateAvailableQuests()
 
-    local data = QuestieDB.QuestPointers or QuestieDB.questData
-    local index = next(data)
+        local questsPerYield = 24
 
-    local playerLevel = QuestiePlayer.GetPlayerLevel()
-    local minLevel = playerLevel - GetQuestGreenRange("player")
-    local maxLevel = playerLevel
+        -- Localize the variable for speeeeed
+        local debugEnabled = Questie.db.global.debugEnabled
 
-    if Questie.db.char.absoluteLevelOffset then
-        minLevel = Questie.db.char.minLevelFilter
-        maxLevel = Questie.db.char.maxLevelFilter
-    elseif Questie.db.char.manualMinLevelOffset then
-        minLevel = playerLevel - Questie.db.char.minLevelFilter
-    end
+        local data = QuestieDB.QuestPointers or QuestieDB.questData
 
-    local showRepeatableQuests = Questie.db.char.showRepeatableQuests
-    local showDungeonQuests = Questie.db.char.showDungeonQuests
-    local showRaidQuests = Questie.db.char.showRaidQuests
-    local showPvPQuests = Questie.db.char.showPvPQuests
-    local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
+        local playerLevel = QuestiePlayer.GetPlayerLevel()
+        local minLevel = playerLevel - GetQuestGreenRange("player")
+        local maxLevel = playerLevel
 
-    local autoBlacklist = QuestieQuest.autoBlacklist
+        if Questie.db.char.absoluteLevelOffset then
+            minLevel = Questie.db.char.minLevelFilter
+            maxLevel = Questie.db.char.maxLevelFilter
+        elseif Questie.db.char.manualMinLevelOffset then
+            minLevel = playerLevel - Questie.db.char.minLevelFilter
+        end
 
-    --? Cancel the previously running timer to not have multiple running at the same time
-    if timer then
-        timer:Cancel()
-    end
+        local showRepeatableQuests = Questie.db.char.showRepeatableQuests
+        local showDungeonQuests = Questie.db.char.showDungeonQuests
+        local showRaidQuests = Questie.db.char.showRaidQuests
+        local showPvPQuests = Questie.db.char.showPvPQuests
+        local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
 
+        --- Fast Localizations
+        local autoBlacklist = QuestieQuest.autoBlacklist
+        local hiddenQuests = QuestieCorrections.hiddenQuests
+        local hidden  = Questie.db.char.hidden
+        local yield = coroutine.yield
+        local NewThread = ThreadLib.ThreadSimple
 
-    timer = C_Timer.NewTicker(0.01, function()
-        for _=0,64 do -- number of available quests to process per tick
-            local questId = index
-            if questId then
-                --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
-                if (not autoBlacklist[questId]) then
-                    --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-                    if(
-                        (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-                        ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-                        (not QuestieCorrections.hiddenQuests[questId]) and -- Don't show blacklisted quests
-                        (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
-                        (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
-                        (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
-                        (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and -- Show PvP quests only with the option enabled
-                        (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and -- Don't show AQ War Effort quests with the option enabled
-                        ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
-                    ) then
+        local questCount = 0
+        for questId in pairs(data) do
+            --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
+            if (not autoBlacklist[questId]) then
+                --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
+                if(
+                    (not Questie.db.char.complete[questId]) and -- Don't show completed quests
+                    ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
+                    (not hiddenQuests[questId] and not hidden[questId]) and -- Don't show blacklisted or player hidden quests
+                    (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
+                    (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
+                    (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
+                    (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and -- Show PvP quests only with the option enabled
+                    (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and -- Don't show AQ War Effort quests with the option enabled
+                    ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
+                ) then
 
-                        if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
-                            QuestieQuest.availableQuests[questId] = true
-                            --If the quest is not drawn draw the quest, otherwise skip.
-                            if (not QuestieMap.questIdFrames[questId]) then
+                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
+                        QuestieQuest.availableQuests[questId] = true
+                        --If the quest is not drawn draw the quest, otherwise skip.
+                        if (not QuestieMap.questIdFrames[questId]) then
+                            --? This looks expensive, and it kind of is but it offloads the work to a thread, which happens "next frame"
+                            NewThread(function()
                                 ---@type Quest
                                 local quest = QuestieDB:GetQuest(questId)
                                 if (not quest.tagInfoWasCached) then
@@ -1347,43 +1359,50 @@ function QuestieQuest:CalculateAndDrawAvailableQuestsIterative(callback)
                                 end
                                 --Draw a specific quest through the function
                                 _QuestieQuest:DrawAvailableQuest(quest)
-                            else
-                                --We might have to update the icon in this situation (config changed/level up)
-                                for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                                    if frame and frame.data and frame.data.QuestData then
-                                        local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
-                                        if newIcon ~= frame.data.Icon then
-                                            frame:UpdateTexture(newIcon)
-                                        end
+                            end, 0)
+                        else
+                            --* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
+                            --We might have to update the icon in this situation (config changed/level up)
+                            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                                if frame and frame.data and frame.data.QuestData then
+                                    local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
+                                    if newIcon ~= frame.data.Icon then
+                                        frame:UpdateTexture(newIcon)
                                     end
                                 end
                             end
-                        else
-                            --If the quests are not within level range we want to unload them
-                            --(This is for when people level up or change settings etc)
-                            QuestieMap:UnloadQuestFrames(questId)
-                            if QuestieQuest.availableQuests[questId] then
-                                QuestieTooltips:RemoveQuest(questId)
-                            end
+                        end
+                    else
+                        --If the quests are not within level range we want to unload them
+                        --(This is for when people level up or change settings etc)
+                        QuestieMap:UnloadQuestFrames(questId)
+                        if QuestieQuest.availableQuests[questId] then
+                            QuestieTooltips:RemoveQuest(questId)
                         end
                     end
                 end
-            else
-                --? We've reached the end of the quest list
-                --? Stop and reset timer
-                if timer then
-                    timer:Cancel()
-                    timer = nil
-                end
-                -- UpdateAddOnCPUUsage(); print("Questie CPU usage:", GetAddOnCPUUsage("Questie")) -- Do not remove even commented out. Useful for performance testing.
-                if callback ~= nil then
-                    callback()
-                end
-                return
             end
-            index = next(data, index)
+
+            -- Reset the questCount
+            questCount = questCount + 1
+            if questCount > questsPerYield then
+                questCount = 0
+                yield()
+            end
         end
-    end)
+    end
+
+    -- Starts a thread to calculate available quests to avoid lag spikes
+    ---@param callback fun()?
+    function QuestieQuest.CalculateAndDrawAvailableQuestsIterative(callback)
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest.CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer.GetPlayerLevel())
+
+        --? Cancel the previously running timer to not have multiple running at the same time
+        if timer then
+            timer:Cancel()
+        end
+        timer = ThreadLib.Thread(CalculateAvailableQuests, 0, "Error in CalculateAvailableQuests", callback)
+    end
 end
 
 function QuestieQuest:DrawDailyQuest(questId)

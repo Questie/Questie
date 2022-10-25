@@ -11,3 +11,5 @@
 *.png binary
 *.jpg binary
 *.exe binary
+*.tga binary
+*.blp binary

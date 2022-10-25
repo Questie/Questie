@@ -15,6 +15,7 @@ local npFramesCount = 0
 local activeTargetFrame
 
 
+-- Not used
 function QuestieNameplate:Initialize()
     -- Nothing to initialize
 end

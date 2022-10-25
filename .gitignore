@@ -23,3 +23,6 @@
 
 releases/
 *__pycache__/
+
+#Log files
+*.log
