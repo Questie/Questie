@@ -158,7 +158,7 @@ local function _CheckClassicDatabase()
 
     Questie.Debug = _Debug
     Questie.Error = _ErrorOrWarning
-    Questie.WarningDebug = _ErrorOrWarning
+    Questie.Warning = _ErrorOrWarning
 
     Questie.db = {
         char = {
