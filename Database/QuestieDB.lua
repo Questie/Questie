@@ -714,14 +714,9 @@ function QuestieDB:GetQuest(questId, skipCache) -- /dump QuestieDB:GetQuest(867)
         return _QuestieDB.questCache[questId];
     end
 
-<<<<<<< HEAD
     --- Credit for the QueryAll structure goes to @Laume/Laumesis
-
     ---@class Quest : RawQuest
     local Quest = QuestieDB.QueryQuestAll(questId)  --[[@as Quest]] -- We cast it here because we handle it correctly.
-=======
-    local rawdata = QuestieDB.QueryQuest(questId, QuestieDB._questAdapterQueryOrder)
->>>>>>> origin/master
 
     if (not Quest) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] quest is nil for questID:", questId)
@@ -981,16 +976,7 @@ function QuestieDB:GetNPC(npcId, skipCache)
         return _QuestieDB.npcCache[npcId]
     end
 
-<<<<<<< HEAD
     --- Credit for the QueryAll structure goes to @Laume/Laumesis
-=======
-    local rawdata = QuestieDB.QueryNPC(npcId, QuestieDB._npcAdapterQueryOrder)
-    if (not rawdata) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetNPC] rawdata is nil for npcID:", npcId)
-        return nil
-    end
->>>>>>> origin/master
-
     ---@class NPC : RawNPC
     ---@field type "monster" -- This is a monster? duh, why is this here.
     local npc = QuestieDB.QueryNPCAll(npcId)   --[[@as NPC]] -- We cast it here because we handle it correctly.
@@ -1087,29 +1073,3 @@ function _QuestieDB:DeleteGatheringNodes()
         QuestieDB.objectData[id][objectSpawnsKey] = nil
     end
 end
-<<<<<<< HEAD
-=======
-
----------------------------------------------------------------------------------------------------
--- Modifications to questDB
-
-function _QuestieDB:HideClassAndRaceQuests()
-    local questKeys = QuestieDB.questKeys
-    for _, entry in pairs(QuestieDB.questData) do
-        -- check requirements, set hidden flag if not met
-        local requiredClasses = entry[questKeys.requiredClasses]
-        if (requiredClasses) and (requiredClasses ~= 0) then
-            if (not QuestiePlayer.HasRequiredClass(requiredClasses)) then
-                entry.hidden = true
-            end
-        end
-        local requiredRaces = entry[questKeys.requiredRaces]
-        if (requiredRaces) and (requiredRaces ~= 0) and (requiredRaces ~= 255) then
-            if (not QuestiePlayer.HasRequiredRace(requiredRaces)) then
-                entry.hidden = true
-            end
-        end
-    end
-    Questie:Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
-end
->>>>>>> origin/master
