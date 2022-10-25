@@ -1180,22 +1180,6 @@ function QuestieDBCompiler:ValidateQuests()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
     local playerLevel = UnitLevel("player")
-
-    --! IF YOU SEE THIS FUNCTION REMOVE IT AND CHANGE IT TO QUESTIELIB FUNCTION INSTEAD
-    local function getTbcLevel(questLevel, requiredLevel, playerLevel)
-        if (questLevel == -1) then
-            local level = playerLevel
-            if (requiredLevel > level) then
-                questLevel = requiredLevel;
-            else
-                questLevel = level;
-                -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
-                requiredLevel = level;
-            end
-        end
-        return questLevel, requiredLevel
-    end
-
     -- We now only compare the nonCompiled data and the compiled data without overrides, it'll have to do.
     local count = 0
     for questId, nonCompiledData in pairs(QuestieDB.questData) do
@@ -1207,13 +1191,13 @@ function QuestieDBCompiler:ValidateQuests()
 
             --Special case for questLevel
             if (Questie.IsTBC or Questie.IsWotlk) and (key == "questLevel" or key == "requiredLevel") then
-                local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
+                local questLevel, requiredLevel = QuestieLib.GetTbcLevel(0, playerLevel, compiledData[2], compiledData[1])
                 if (key == "questLevel") then
                     a = questLevel
                 elseif (key == "requiredLevel") then
                     a = requiredLevel
                 end
-                questLevel, requiredLevel = getTbcLevel(nonCompiledData[QuestieDB.questKeys["questLevel"]], nonCompiledData[QuestieDB.questKeys["requiredLevel"]], playerLevel)
+                questLevel, requiredLevel = QuestieLib.GetTbcLevel(0, playerLevel, nonCompiledData[QuestieDB.questKeys["questLevel"]], nonCompiledData[QuestieDB.questKeys["requiredLevel"]])
                 if (key == "questLevel") then
                     b = questLevel
                 elseif (key == "requiredLevel") then
