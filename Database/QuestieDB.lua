@@ -274,8 +274,14 @@ function QuestieDB:GetObject(objectId, skipCache)
     local object = QuestieDB.QueryObjectAll(objectId) --[[@as Object]] -- We cast it here because we handle it correctly.
 
     if not object then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetObject] object is nil for objectID:", objectId)
-        Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        -- We want to forceprint this if debug is enabled
+        if (Questie.db.global.debugLevel == 0) then
+            Questie:Warning("[QuestieDB:GetObject] object is nil for objectID:", objectId)
+            Questie:Warning(debugstack(2, 0, 5))
+        else
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetObject] object is nil for objectID:", objectId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        end
         return nil
     end
 
@@ -302,8 +308,15 @@ function QuestieDB:GetItem(itemId, skipCache)
     local item = QuestieDB.QueryItemAll(itemId) --[[@as Item]] -- We cast it here because we handle it correctly.
 
     if not item then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetItem] item is nil for itemID:", itemId)
-        Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        -- We want to forceprint this if debug is enabled
+        if (Questie.db.global.debugLevel == 0) then
+            Questie:Warning("[QuestieDB:GetItem] item is nil for itemID:", itemId)
+            Questie:Warning(debugstack(2, 0, 5))
+        else
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetItem] item is nil for itemID:", itemId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        end
+
         return nil
     end
 
@@ -719,8 +732,14 @@ function QuestieDB:GetQuest(questId, skipCache) -- /dump QuestieDB:GetQuest(867)
     local Quest = QuestieDB.QueryQuestAll(questId)  --[[@as Quest]] -- We cast it here because we handle it correctly.
 
     if (not Quest) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] quest is nil for questID:", questId)
-        Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        -- We want to forceprint this if debug is enabled
+        if (Questie.db.global.debugLevel == 0) then
+            Questie:Warning("[QuestieDB:GetQuest] quest is nil for questID:", questId)
+            Questie:Warning(debugstack(2, 0, 5))
+        else
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] quest is nil for questID:", questId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        end
         return nil
     end
 
@@ -982,8 +1001,14 @@ function QuestieDB:GetNPC(npcId, skipCache)
     local npc = QuestieDB.QueryNPCAll(npcId)   --[[@as NPC]] -- We cast it here because we handle it correctly.
 
     if (not npc) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetNPC] data is nil for npcID:", npcId)
-        Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        -- We want to forceprint this if debug is enabled, because it's a serious issue.
+        if (Questie.db.global.debugLevel == 0) then
+            Questie:Warning("[QuestieDB:GetNPC] data is nil for npcID:", npcId)
+            Questie:Warning(debugstack(2, 0, 5))
+        else
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetNPC] data is nil for npcID:", npcId)
+            Questie:Debug(Questie.DEBUG_CRITICAL, debugstack(2, 0, 5))
+        end
         return nil
     end
     npc.id = npcId

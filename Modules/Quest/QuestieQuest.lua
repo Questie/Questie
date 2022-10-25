@@ -2,9 +2,9 @@
 local IsQuestFlaggedCompleted = IsQuestFlaggedCompleted or C_QuestLog.IsQuestFlaggedCompleted
 
 ---@class QuestieQuest
+---@field public private QuestieQuestPrivate
 local QuestieQuest = QuestieLoader:CreateModule("QuestieQuest")
----@type QuestieQuestPrivate
-QuestieQuest.private = QuestieQuest.private or {}
+---@class QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 -------------------------
 --Import modules.
@@ -1139,7 +1139,7 @@ function _QuestieQuest.ObjectiveUpdate(self)
 end
 
 ---@param questId number
----@return table<ObjectiveIndex, QuestLogCacheObjectiveData>|nil @DO NOT EDIT RETURNED TABLE
+---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>? @DO NOT EDIT RETURNED TABLE
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
 
