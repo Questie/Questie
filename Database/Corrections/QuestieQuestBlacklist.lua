@@ -1098,6 +1098,7 @@ function QuestieQuestBlacklist:Load()
         [12015] = true, -- Not in the game
         [12162] = true, -- Not in the game
         [12163] = true, -- Not in the game
+        [12051] = true, -- Not in the game
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [9094] = QuestieCorrections.WOTLK_ONLY,
