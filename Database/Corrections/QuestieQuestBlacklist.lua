@@ -1100,11 +1100,17 @@ function QuestieQuestBlacklist:Load()
         [12163] = true, -- Not in the game
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
+        [9094] = QuestieCorrections.WOTLK_ONLY,
+        [9317] = QuestieCorrections.WOTLK_ONLY,
+        [9318] = QuestieCorrections.WOTLK_ONLY,
         [9320] = QuestieCorrections.WOTLK_ONLY,
+        [9321] = QuestieCorrections.WOTLK_ONLY,
         [9333] = QuestieCorrections.WOTLK_ONLY,
         [9334] = QuestieCorrections.WOTLK_ONLY,
         [9335] = QuestieCorrections.WOTLK_ONLY,
         [9336] = QuestieCorrections.WOTLK_ONLY,
+        [9337] = QuestieCorrections.WOTLK_ONLY,
+        [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
 
         -- Scourge invasion
