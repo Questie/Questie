@@ -1562,6 +1562,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{400032}},
             [questKeys.requiredRaces] = raceIDs.ALL,
         },
+        [12953] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Use Harpoon Guns to burn Dry Haystacks"), 0, {{"monster", 30066}}},
+            },
+        },
         [12954] = {
             [questKeys.objectives] = {{{30014}}},
             [questKeys.preQuestSingle] = {},
