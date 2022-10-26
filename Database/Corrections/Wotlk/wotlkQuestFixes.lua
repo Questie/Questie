@@ -1650,6 +1650,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13011] = {
             [questKeys.name] = "Culling Jorcuttar",
+            [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.requiredSourceItems] = {42733},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{53.1,61.2}}}, ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
         },
