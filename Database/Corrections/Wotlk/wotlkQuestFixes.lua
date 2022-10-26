@@ -1467,6 +1467,13 @@ function QuestieWotlkQuestFixes:Load()
         [12876] = {
             [questKeys.preQuestSingle] = {12874},
         },
+        [12886] = {
+            [questKeys.objectives] = {{{29694}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use Hyldnir Harpoon to land on nearby Proto-Drakes"), 0, {{"monster", 29625}}},
+                {nil, ICON_TYPE_EVENT, l10n("Use Hyldnir Harpoon on Column Ornaments to dismount"), 0, {{"monster", 29754}}},
+            },
+        },
         [12887] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
