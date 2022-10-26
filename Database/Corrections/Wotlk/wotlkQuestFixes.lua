@@ -1585,6 +1585,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12915,12956},
             [questKeys.requiredMinRep] = {1119,0},
         },
+        [12967] = {
+            [questKeys.objectives] = {{{30120}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ride Snorri"), 0, {{"monster", 30123}}}},
+        },
         [12968] = {
             [questKeys.preQuestSingle] = {12905},
         },
