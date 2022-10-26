@@ -30,6 +30,9 @@ function QuestieWotlkNpcFixes:Load()
         [17977] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
         },
+        [11886] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{24.8,79.8}}},
+        },
         [19220] = {
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
         },
