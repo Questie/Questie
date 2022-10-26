@@ -2354,16 +2354,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,3000},
         },
         [13422] = {
+            [questKeys.preQuestSingle] = {12906},
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
             [questKeys.exclusiveTo] = {13423,13424,13425},
         },
         [13423] = {
+            [questKeys.preQuestSingle] = {12971},
             [questKeys.exclusiveTo] = {13422,13424,13425},
         },
         [13424] = {
+            [questKeys.preQuestSingle] = {12997},
             [questKeys.exclusiveTo] = {13422,13423,13425},
         },
         [13425] = {
+            [questKeys.preQuestSingle] = {12925},
             [questKeys.exclusiveTo] = {13422,13423,13424},
         },
         [13426] = {
