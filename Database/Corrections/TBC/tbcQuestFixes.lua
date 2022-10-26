@@ -1924,7 +1924,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.TEROKKAR_FOREST]={{33.2,51.8}}}, ICON_TYPE_EVENT, l10n("Help Akuno find his way to the Refugee Caravan in Terokkar Forest.")}},
         },
         [10896] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited"), 0, {{"monster", 22307}, {"monster", 22095}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"), 0, {{"monster", 22307}, {"monster", 22095}}}},
         },
         [10897] = {
             [questKeys.preQuestSingle] = {},

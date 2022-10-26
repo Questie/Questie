@@ -830,7 +830,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "帮助阿库诺回到泰罗卡森林的难民车队。",
     },
-    ["Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited"] = { -- 10896
+    ["Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"] = { -- 10896
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Tötet faulende Waldwüter und befallener Wurzelwandler um Baummilben anzulocken.",
