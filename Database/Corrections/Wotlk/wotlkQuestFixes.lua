@@ -1500,6 +1500,11 @@ function QuestieWotlkQuestFixes:Load()
         [12920] = {
             [questKeys.preQuestSingle] = {12917},
         },
+        [12924] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Speak to King Jokkum about Thorim's armor"), 0, {{"monster", 30105}}},
+            },
+        },
         [12925] = {
             [questKeys.preQuestSingle] = {12905},
         },
