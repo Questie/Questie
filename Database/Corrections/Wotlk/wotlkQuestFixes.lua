@@ -1619,7 +1619,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12967},
         },
         [12985] = {
-            [questKeys.preQuestSingle] = {12976},
+            [questKeys.requiredMinRep] = {1119,3000},
         },
         [12987] = {
             [questKeys.name] = "Placing Hodir's Helm",
