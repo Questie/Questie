@@ -1620,6 +1620,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12985] = {
             [questKeys.requiredMinRep] = {1119,3000},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Diamond Tipped Pick on the corpses of Dead Iron Giants"), 0, {{"monster", 29914},{"monster", 30163}}}},
         },
         [12987] = {
             [questKeys.name] = "Placing Hodir's Helm",
