@@ -1653,6 +1653,9 @@ function QuestieWotlkQuestFixes:Load()
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
         },
+        [13010] = {
+            [questKeys.objectives] = {{{30105}},nil,nil,{1119,3000}},
+        },
         [13011] = {
             [questKeys.name] = "Culling Jorcuttar",
             [questKeys.requiredMinRep] = {1119,3000},
