@@ -14,3 +14,14 @@ ignore:
   - .luacheckrc
   - cli.lua
   - "*.py"
+
+embedded-libraries:
+  - Ace-3.0
+  - CallbackHandler-1.0
+  - HereBeDragons
+  - LibCompress
+  - LibDataBroker-1.1
+  - LibDBIcon-1.0
+  - LibSharedMedaia-3.0
+  - LibStub
+  - LibUIDropDownMenu
