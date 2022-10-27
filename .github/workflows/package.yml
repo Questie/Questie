@@ -20,4 +20,4 @@ jobs:
       - name: Package and release Wrath
         uses: BigWigsMods/packager@master
         with:
-          args: -d -e -l -m .pkgmeta
+          args: -d -e -l -m .pkgmeta.yaml
