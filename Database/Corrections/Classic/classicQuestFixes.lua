@@ -750,8 +750,14 @@ function QuestieQuestFixes:Load()
         [1471] = {
             [questKeys.exclusiveTo] = {1504}, -- #1542
         },
+        [1472] = {
+            [questKeys.exclusiveTo] = {},
+        },
         [1473] = {
             [questKeys.exclusiveTo] = {1501},
+        },
+        [1474] = {
+            [questKeys.exclusiveTo] = {1513},
         },
         [1477] = {
             [questKeys.exclusiveTo] = {1395}, -- #1727
@@ -777,6 +783,12 @@ function QuestieQuestFixes:Load()
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
+        },
+        [1507] = {
+            [questKeys.exclusiveTo] = {},
+        },
+        [1513] = {
+            [questKeys.exclusiveTo] = {1474},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519},
@@ -3449,6 +3461,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
             [questKeys.objectives] = {nil,nil,{{190179},{190180}},nil,nil},
+            [questKeys.preQuestSingle] = {1472},
             [questKeys.exclusiveTo] = {65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
