@@ -199,7 +199,52 @@ function QuestieTBCQuestFixes:Load()
         [3001] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [3088] = {
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
+        [3090] = {
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
+        [3091] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [3092] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [3093] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [3094] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [3095] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [3096] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [3097] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [3098] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [3099] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [3116] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
         [3117] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [3118] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [3119] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [3120] = {
             [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [3505] = {
