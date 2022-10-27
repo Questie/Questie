@@ -1477,6 +1477,9 @@ function QuestieWotlkQuestFixes:Load()
         [12887] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
+        [12889] = {
+            [questKeys.requiredSkill] = {202,400},
+        },
         [12892] = {
             [questKeys.objectives] = {{{29747,"The Ocular has been destroyed"}}},
         },
