@@ -1346,6 +1346,30 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "利用放逐水晶打开放逐之门。在传送门附近杀死恶魔",
     },
+    ["Survey Alcaz Island"] = { -- 11142
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Speak to Cassa Crimsonwing to fly on a gryphon"] = { -- 11142
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(tbcObjectiveLocales) do

@@ -2386,7 +2386,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
         },
         [11142] = {
-            [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55},{67.36,50.87}}}},
+            [questKeys.objectives] = {nil,{{500007},{500007}}},
+            [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}, ICON_TYPE_EVENT, l10n("Survey Alcaz Island"),},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Cassa Crimsonwing to fly on a gryphon"), 0, {{"monster", 23704}}},
+            },
         },
         [11146] = {
             [questKeys.objectives] = {{{4351,"Raptors Captured"}},nil,nil,nil},
