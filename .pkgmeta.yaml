@@ -1,0 +1,16 @@
+# This file provides meta-data for https://github.com/BigWigsMods/packager
+
+package-as: Questie
+
+ignore:
+  - .git
+  - .github
+  - .types
+  - .vscode
+  - ExternalScripts(DONOTINCLUDEINRELEASE)
+  - releases
+  - .gitattributes
+  - .gitignore
+  - .luacheckrc
+  - cli.lua
+  - "*.py"
