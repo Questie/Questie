@@ -2,16 +2,16 @@ name: Package Addon
 
 on:
   push:
-    branches: [ master ]
+    branches: [ bigwigs ]
     tags: [ "*" ]
 
 jobs:
   release:
     runs-on: ubuntu-latest
 
-    env:
-      CF_API_KEY: ${{ secrets.CF_API_KEY }}
-      GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+    #env:
+      #CF_API_KEY: ${{ secrets.CF_API_KEY }}
+      #GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - name: Clone project
@@ -20,4 +20,4 @@ jobs:
       - name: Package and release Wrath
         uses: BigWigsMods/packager@master
         with:
-          args: -g wrath
+          args: -d -e -l -m .pkgmeta
