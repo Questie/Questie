@@ -52,6 +52,9 @@ function QuestieWotlkQuestFixes:Load()
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
         },
+        [9629] = {
+            [questKeys.objectives] = {{{17326}}},
+        },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
