@@ -1101,6 +1101,7 @@ function QuestieQuestBlacklist:Load()
         [12051] = true, -- Not in the game
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
+        [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
         [9094] = QuestieCorrections.WOTLK_ONLY,
         [9317] = QuestieCorrections.WOTLK_ONLY,
         [9318] = QuestieCorrections.WOTLK_ONLY,
@@ -1113,6 +1114,7 @@ function QuestieQuestBlacklist:Load()
         [9337] = QuestieCorrections.WOTLK_ONLY,
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
+        [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
         
         -- Classic+TBC Naxxramas attune (no longer exists in wotlk)
         

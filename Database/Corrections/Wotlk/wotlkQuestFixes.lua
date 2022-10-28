@@ -59,11 +59,20 @@ function QuestieWotlkQuestFixes:Load()
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
+        [9876] = {
+            [questKeys.nextQuestInChain] = 9738,
+        },
         [10110] = {
             [questKeys.preQuestSingle] = {13409},
         },
         [10173] = {
             [questKeys.requiredSourceItems] = {},
+        },
+        [10180] = {
+            [questKeys.nextQuestInChain] = 10097,
+        },
+        [10445] = {
+            [questKeys.exclusiveTo] = {13432},
         },
         [10667] = {
             [questKeys.preQuestSingle] = {},
@@ -2450,6 +2459,9 @@ function QuestieWotlkQuestFixes:Load()
         [13431] = {
             [questKeys.exclusiveTo] = {10901},
         },
+        [13432] = {
+            [questKeys.exclusiveTo] = {10445},
+        },
         [13433] = {
             [questKeys.startedBy] = {nil,{400041}},
             [questKeys.finishedBy] = {nil,{400041}},
@@ -2586,6 +2598,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13631] = {
             [questKeys.startedBy] = {{32871},nil,{46052}},
+        },
+        [13662] = {
+            [questKeys.preQuestSingle] = {7722},
+            [questKeys.requiredMinRep] = {59,3000},
+            [questKeys.requiredMaxRep] = {59,9000},
         },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
