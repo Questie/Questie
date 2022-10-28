@@ -920,7 +920,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.specialFlags] = 1,
         },
         [12439] = {
-            [questKeys.exclusiveTo] = {11995},
+            [questKeys.exclusiveTo] = {12000},
         },
         [12446] = {
             [questKeys.specialFlags] = 1,
