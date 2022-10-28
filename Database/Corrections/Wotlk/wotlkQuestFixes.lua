@@ -11,6 +11,7 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 
+QuestieCorrections.killCreditObjectiveFirst[12100] = true
 QuestieCorrections.killCreditObjectiveFirst[12546] = true
 QuestieCorrections.killCreditObjectiveFirst[12561] = true
 QuestieCorrections.killCreditObjectiveFirst[12762] = true
