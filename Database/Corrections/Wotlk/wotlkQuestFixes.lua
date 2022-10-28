@@ -77,6 +77,12 @@ function QuestieWotlkQuestFixes:Load()
         [10703] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{21864,21878,21879,23020,21978},21978,},},},
         },
+        [10769] = {
+            [questKeys.objectives] = {{{19823}},nil,{{31108}}},
+        },
+        [10776] = {
+            [questKeys.objectives] = {{{19823}},nil,{{31310}}},
+        },
         [11120] = {
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},
