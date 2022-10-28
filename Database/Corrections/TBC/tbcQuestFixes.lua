@@ -496,6 +496,9 @@ function QuestieTBCQuestFixes:Load()
         [8482] = {
             [questKeys.startedBy] = {{15968},nil,{20765}},
         },
+        [8484] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [8487] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -520,12 +523,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [8574] = {
             [questKeys.specialFlags] = 1,
-        },
-        [8894] = {
-            [questKeys.preQuestSingle] = {},
-        },
-        [8484] = {
-            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [8619] = {
             [questKeys.questLevel] = -1,
@@ -709,6 +706,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [8883] = {
             [questKeys.questLevel] = 70,
+        },
+        [8894] = {
+            [questKeys.preQuestSingle] = {},
         },
         [9130] = {
             [questKeys.requiredMinRep] = {},
