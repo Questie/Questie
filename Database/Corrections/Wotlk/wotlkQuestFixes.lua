@@ -1544,12 +1544,12 @@ function QuestieWotlkQuestFixes:Load()
         [12940] = {
             [questKeys.startedBy] = {nil,{400017}},
             [questKeys.finishedBy] = {nil,{400017}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12941] = {
             [questKeys.startedBy] = {nil,{400016}},
             [questKeys.finishedBy] = {nil,{400016}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12942] = {
             [questKeys.preQuestSingle] = {12905},
@@ -1580,7 +1580,7 @@ function QuestieWotlkQuestFixes:Load()
         [12950] = {
             [questKeys.startedBy] = {nil,{400032}},
             [questKeys.finishedBy] = {nil,{400032}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [12953] = {
             [questKeys.extraObjectives] = {
@@ -2484,32 +2484,32 @@ function QuestieWotlkQuestFixes:Load()
         [13452] = {
             [questKeys.startedBy] = {nil,{400023}},
             [questKeys.finishedBy] = {nil,{400023}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13456] = {
             [questKeys.startedBy] = {nil,{400025}},
             [questKeys.finishedBy] = {nil,{400025}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13459] = {
             [questKeys.startedBy] = {nil,{400026}},
             [questKeys.finishedBy] = {nil,{400026}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13460] = {
             [questKeys.startedBy] = {nil,{400028}},
             [questKeys.finishedBy] = {nil,{400028}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13461] = {
             [questKeys.startedBy] = {nil,{400033}},
             [questKeys.finishedBy] = {nil,{400033}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13462] = {
             [questKeys.startedBy] = {nil,{400034}},
             [questKeys.finishedBy] = {nil,{400034}},
-            [questKeys.requiredRaces] = raceIDs.ALL,
+            [questKeys.requiredRaces] = raceIDs.NONE,
         },
         [13464] = {
             [questKeys.startedBy] = {nil,{400020}},
