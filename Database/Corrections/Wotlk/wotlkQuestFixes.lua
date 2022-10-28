@@ -48,6 +48,9 @@ function QuestieWotlkQuestFixes:Load()
         [8551] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [8552] = {
+            [questKeys.specialFlags] = 0,
+        },
         [9154] = {
             [questKeys.startedBy] = {{16241,16255}},
             [questKeys.finishedBy] = {{16281}},
