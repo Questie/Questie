@@ -525,6 +525,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
+        [22890] = {
+            [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.SHADOW_LABYRINTH,
+        },
         [22891] = {
             [npcKeys.spawns] = {[zoneIDs.THE_STEAMVAULT] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_STEAMVAULT,
