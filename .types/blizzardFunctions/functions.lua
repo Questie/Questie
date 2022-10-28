@@ -1,4 +1,4 @@
-
+---@meta
 ------------FRAME FUNCTIONS
 ---Hides frame and clears points
 --- See Blizzard code [Documentation](https://github.com/tomrus88/BlizzardInterfaceCode/blob/ace1af63e38c058fa76cd3abca0b57b384c527d4/Interface/SharedXML/Pools.lua#L143)
@@ -14,3 +14,8 @@ function ConvertPixelsToUI(pixels, frameScale)
     local physicalScreenHeight = select(2, GetPhysicalScreenSize());
     return (pixels * 768.0)/(physicalScreenHeight * frameScale);
 end
+
+---[FrameXML](https://www.townlong-yak.com/framexml/go/DevTools_Dump)
+---@param value any
+---@param startKey? string
+function DevTools_Dump(value, startKey) end

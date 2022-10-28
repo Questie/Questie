@@ -3,6 +3,8 @@
 ---@alias ZoneName string
 ---@alias ContinentName string
 
+
+---@alias ZoneEnum table<string, AreaId>
 ---@alias UiMapId number
 ---@alias MapId number --ContinentId
 ---@alias AreaId number --ZoneId

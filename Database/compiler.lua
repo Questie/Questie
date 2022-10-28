@@ -10,9 +10,15 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+
+local type = type
+local abs, min, floor = math.abs, math.min, math.floor
+local lshift = bit.lshift
+
+
 -- how fast to run operations (lower = slower but less lag)
-local TICKS_PER_YIELD_DEBUG = 4000
 local TICKS_PER_YIELD = 48
+local TICKS_PER_YIELD_DEBUG = TICKS_PER_YIELD * 3
 
 ---@alias CompilerTypes
 ---| "u8"
@@ -78,11 +84,12 @@ QuestieDBCompiler.supportedTypes = {
     }
 }
 
-QuestieDBCompiler.refTypes = {
+local refTypes = {
     "monster",
     "item",
     "object"
 }
+QuestieDBCompiler.refTypes = refTypes
 
 QuestieDBCompiler.refTypesReversed = {
     monster = 1,
@@ -90,145 +97,256 @@ QuestieDBCompiler.refTypesReversed = {
     object = 3
 }
 
-QuestieDBCompiler.readers = {
-    ["s8"] = function(stream)
-        return stream:ReadByte() - 127
-    end,
-    ["u8"] = QuestieStream.ReadByte,
-    ["u16"] = QuestieStream.ReadShort,
-    ["s16"] = function(stream)
-        return stream:ReadShort() - 32767
-    end,
-    ["u24"] = QuestieStream.ReadInt24,
-    ["u32"] = QuestieStream.ReadInt,
-    ["u12pair"] = function(stream)
-        local a,b = stream:ReadInt12Pair()
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
-        return {a, b}
-    end,
-    ["u24pair"] = function(stream)
-        local a,b = stream:ReadInt24(), stream:ReadInt24()
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
+local readers = {}
+local skippers = {}
 
-        return {a, b}
-    end,
-    ["s24pair"] = function(stream)
-        local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
-        -- bit of a hack
-        if a == 0 and b == 0 then
-            return nil
-        end
+readers["s8"] = function(stream)
+    return stream:ReadByte() - 127
+end
+readers["u8"] = QuestieStream.ReadByte
+readers["u16"] = QuestieStream.ReadShort
+readers["s16"] = function(stream)
+    return stream:ReadShort() - 32767
+end
+readers["u24"] = QuestieStream.ReadInt24
+readers["u32"] = QuestieStream.ReadInt
+readers["u12pair"] = function(stream)
+    local a,b = stream:ReadInt12Pair()
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
+    return {a, b}
+end
+readers["u24pair"] = function(stream)
+    local a,b = stream:ReadInt24(), stream:ReadInt24()
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
 
-        return {a, b}
-    end,
-    ["u8string"] = function(stream)
-        local ret = stream:ReadTinyString()
-        if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
-            return nil
-        else
-            return ret
-        end
-    end,
-    ["u16string"] = function(stream)
-        local ret = stream:ReadShortString()
-        if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
-            return nil
-        else
-            return ret
-        end
-    end,
-    ["u8u16array"] = function(stream)
-        local count = stream:ReadByte()
+    return {a, b}
+end
+readers["s24pair"] = function(stream)
+    local a,b = stream:ReadInt24()-8388608, stream:ReadInt24()-8388608
+    -- bit of a hack
+    if a == 0 and b == 0 then
+        return nil
+    end
 
-        if count == 0 then return nil end
+    return {a, b}
+end
+readers["u8string"] = function(stream)
+    local ret = stream:ReadTinyString()
+    if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
+        return nil
+    else
+        return ret
+    end
+end
+readers["u16string"] = function(stream)
+    local ret = stream:ReadShortString()
+    if ret == "nil" then-- I hate this but we need to support both nil strings and empty strings
+        return nil
+    else
+        return ret
+    end
+end
+readers["u8u16array"] = function(stream)
+    local count = stream:ReadByte()
 
+    if count == 0 then return nil end
+
+    local list = {}
+
+    for i = 1, count do
+        list[i] = stream:ReadShort()
+    end
+    return list
+end
+readers["u8s16pairs"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
+    end
+    return list
+end
+readers["u16u16array"] = function(stream)
+    local count = stream:ReadShort()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadShort()
+    end
+    return list
+end
+readers["u8s24pairs"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
+    end
+    return list
+end
+readers["u8u24array"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24()
+    end
+    return list
+end
+readers["u16u24array"] = function(stream)
+    local count = stream:ReadShort()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadInt24()
+    end
+    return list
+end
+readers["u8u16stringarray"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local list = {}
+    for i = 1, count do
+        list[i] = stream:ReadShortString()
+    end
+    return list
+end
+readers["faction"] = function(stream)
+    local val = stream:ReadByte()
+    if val == 3 then
+        return nil
+    elseif val == 2 then
+        return "AH"
+    elseif val == 1 then
+        return "H"
+    else
+        return "A"
+    end
+end
+readers["spawnlist"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
+
+    local spawnlist = {}
+    for _ = 1, count do
+        local zone = stream:ReadShort()
+        local spawnCount = stream:ReadShort()
         local list = {}
+        for i = 1, spawnCount do
+            local x, y = stream:ReadInt12Pair()
+            if x == 0 and y == 0 then
+                list[i] = {-1, -1}
+            else
+                list[i] = {x / 40.90, y / 40.90}
+            end
+        end
+        spawnlist[zone] = list
+    end
+    return spawnlist
+end
+readers["trigger"] = function(stream)
+    if stream:ReadShort() == 0 then
+        return nil
+    else
+        stream._pointer = stream._pointer - 2
+    end
+    return {stream:ReadTinyStringNil(), readers["spawnlist"](stream)}
+end
+local u8u24arrayReader = readers["u8u24array"]
+readers["questgivers"] = function(stream)
+    return {
+        u8u24arrayReader(stream),
+        u8u24arrayReader(stream),
+        u8u24arrayReader(stream)
+    }
+end
+readers["objective"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
-        for i = 1, count do
-            list[i] = stream:ReadShort()
-        end
-        return list
-    end,
-    ["u8s16pairs"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = {stream:ReadShort() - 32767, stream:ReadShort() - 32767}
-        end
-        return list
-    end,
-    ["u16u16array"] = function(stream)
-        local count = stream:ReadShort()
+    local ret = {}
+    for i = 1, count do
+        ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
+    end
+    return ret
+end
 
-        if count == 0 then return nil end
+readers["objectives"] = function(stream)
+    local ret = {
+        readers["objective"](stream),
+        readers["objective"](stream),
+        readers["objective"](stream),
+        readers["u24pair"](stream),
+    }
 
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadShort()
-        end
-        return list
-    end,
-    ["u8s24pairs"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = {stream:ReadInt24()-8388608, stream:ReadInt24()-8388608}
-        end
-        return list
-    end,
-    ["u8u24array"] = function(stream)
-        local count = stream:ReadByte()
+    local count = stream:ReadByte()
+    if count == 0 then
+        return ret
+    end
 
-        if count == 0 then return nil end
+    local killobjectives = {}
+    for i=1, count do
+        local creditCount = stream:ReadByte()
+        local creditList = {}
+        for j=1, creditCount do
+            creditList[j] = stream:ReadInt24()
+        end
+        killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
+    end
+    ret[5] = killobjectives
 
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadInt24()
+    return ret
+end
+readers["reflist"] = function(stream)
+    local count = stream:ReadByte()
+    if count > 0 then
+        local ret = {}
+        for i=1,count do
+            ret[i] = {refTypes[stream:ReadByte()], stream:ReadInt24()}
         end
-        return list
-    end,
-    ["u16u24array"] = function(stream)
-        local count = stream:ReadShort()
+        return ret
+    end
+end
+readers["extraobjectives"] = function(stream)
+    local count = stream:ReadByte()
+    if count > 0 then
+        local ret = {}
+        for i=1,count do
+            ret[i] = {
+                readers["spawnlist"](stream),
+                stream:ReadTinyString(),
+                stream:ReadShortString(),
+                stream:ReadInt24(),
+                readers["reflist"](stream)
+            }
+        end
+        return ret
+    end
+    return nil
+end
+readers["waypointlist"] = function(stream)
+    local count = stream:ReadByte()
+    if count == 0 then return nil end
 
-        if count == 0 then return nil end
-
-        local list = {}
-        for i = 1, count do
-            list[i] = stream:ReadInt24()
-        end
-        return list
-    end,
-    ["u8u16stringarray"] = function(stream)
-        local list = {}
-        local count = stream:ReadByte()
-        for i = 1, count do
-            list[i] = stream:ReadShortString()
-        end
-        return list
-    end,
-    ["faction"] = function(stream)
-        local val = stream:ReadByte()
-        if val == 3 then
-            return nil
-        elseif val == 2 then
-            return "AH"
-        elseif val == 1 then
-            return "H"
-        else
-            return "A"
-        end
-    end,
-    ["spawnlist"] = function(stream)
-        local count = stream:ReadByte()
-        local spawnlist = {}
-        for _ = 1, count do
-            local zone = stream:ReadShort()
+    local waypointlist = {}
+    for _ = 1, count do
+        local lists = {}
+        local zone = stream:ReadShort()
+        local listCount = stream:ReadByte()
+        for j = 1, listCount do
             local spawnCount = stream:ReadShort()
             local list = {}
             for i = 1, spawnCount do
@@ -239,126 +357,14 @@ QuestieDBCompiler.readers = {
                     list[i] = {x / 40.90, y / 40.90}
                 end
             end
-            spawnlist[zone] = list
+            lists[j] = list
         end
-        return spawnlist
-    end,
-    ["trigger"] = function(stream)
-        if stream:ReadShort() == 0 then
-            return nil
-        else
-            stream._pointer = stream._pointer - 2
-        end
-        return {stream:ReadTinyStringNil(), QuestieDBCompiler.readers["spawnlist"](stream)}
-    end,
-    ["questgivers"] = function(stream)
-        --local count = stream:ReadByte()
-        --if count == 0 then return nil end
-        local ret = {
-            QuestieDBCompiler.readers["u8u24array"](stream),
-            QuestieDBCompiler.readers["u8u24array"](stream),
-            QuestieDBCompiler.readers["u8u24array"](stream)
-        }
+        waypointlist[zone] = lists
+    end
+    return waypointlist
+end
 
-        --for i = 1, count do
-        --    tinsert(ret, QuestieDBCompiler.readers["u8u16array"](stream))
-        --end
-
-        return ret
-    end,
-    ["objective"] = function(stream)
-        local count = stream:ReadByte()
-        if count == 0 then
-            return nil
-        end
-
-        local ret = {}
-
-        for i = 1, count do
-            ret[i] = {stream:ReadInt24(), stream:ReadTinyStringNil()}
-        end
-        return ret
-    end,
-    ["objectives"] = function(stream)
-        local ret = {
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["objective"](stream),
-            QuestieDBCompiler.readers["u24pair"](stream),
-        }
-
-        local count = stream:ReadByte()
-        if count == 0 then
-            return ret
-        end
-
-        local killobjectives = {}
-        for i=1, count do
-            local creditCount = stream:ReadByte()
-            local creditList = {}
-            for j=1, creditCount do
-                creditList[j] = stream:ReadInt24()
-            end
-            killobjectives[i] = {creditList, stream:ReadInt24(), stream:ReadTinyStringNil()}
-        end
-        ret[5] = killobjectives
-
-        return ret
-    end,
-    ["reflist"] = function(stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            local ret = {}
-            for i=1,count do
-                local type = QuestieDBCompiler.refTypes[stream:ReadByte()]
-                local id = stream:ReadInt24()
-                ret[i] = {type, id}
-            end
-            return ret
-        end
-    end,
-    ["extraobjectives"] = function(stream)
-        local count = stream:ReadByte()
-        if count > 0 then
-            local ret = {}
-            for i=1,count do
-                ret[i] = {
-                    QuestieDBCompiler.readers["spawnlist"](stream),
-                    stream:ReadTinyString(),
-                    stream:ReadShortString(),
-                    stream:ReadInt24(),
-                    QuestieDBCompiler.readers["reflist"](stream)
-                }
-            end
-            return ret
-        end
-        return nil
-    end,
-    ["waypointlist"] = function(stream)
-        local count = stream:ReadByte()
-        local waypointlist = {}
-        for _ = 1, count do
-            local lists = {}
-            local zone = stream:ReadShort()
-            local listCount = stream:ReadByte()
-            for j = 1, listCount do
-                local spawnCount = stream:ReadShort()
-                local list = {}
-                for i = 1, spawnCount do
-                    local x, y = stream:ReadInt12Pair()
-                    if x == 0 and y == 0 then
-                        list[i] = {-1, -1}
-                    else
-                        list[i] = {x / 40.90, y / 40.90}
-                    end
-                end
-                lists[j] = list
-            end
-            waypointlist[zone] = lists
-        end
-        return waypointlist
-    end,
-}
+QuestieDBCompiler.readers = readers
 
 QuestieDBCompiler.writers = {
     ["s8"] = function(stream, value)
@@ -525,7 +531,7 @@ QuestieDBCompiler.writers = {
                     if spawn[1] == -1 and spawn[2] == -1 then -- instance spawn
                         stream:WriteInt24(0) -- 0 instead
                     else
-                        stream:WriteInt12Pair(math.floor(spawn[1] * 40.90), math.floor(spawn[2] * 40.90))
+                        stream:WriteInt12Pair(floor(spawn[1] * 40.90), floor(spawn[2] * 40.90))
                     end
                 end
             end
@@ -638,7 +644,7 @@ QuestieDBCompiler.writers = {
                         if spawn[1] == -1 and spawn[2] == -1 then -- instance spawn
                             stream:WriteInt24(0) -- 0 instead
                         else
-                            stream:WriteInt12Pair(math.floor(spawn[1] * 40.90), math.floor(spawn[2] * 40.90))
+                            stream:WriteInt12Pair(floor(spawn[1] * 40.90), floor(spawn[2] * 40.90))
                         end
                     end
                 end
@@ -650,95 +656,96 @@ QuestieDBCompiler.writers = {
     end
 }
 
-QuestieDBCompiler.skippers = {
-    ["s8"] = function(stream) stream._pointer = stream._pointer + 1 end,
-    ["u8"] = function(stream) stream._pointer = stream._pointer + 1 end,
-    ["u16"] = function(stream) stream._pointer = stream._pointer + 2 end,
-    ["s16"] = function(stream) stream._pointer = stream._pointer + 2 end,
-    ["u24"] = function(stream) stream._pointer = stream._pointer + 3 end,
-    ["u32"] = function(stream) stream._pointer = stream._pointer + 4 end,
-    ["u12pair"] = function(stream) stream._pointer = stream._pointer + 3 end,
-    ["u24pair"] = function(stream) stream._pointer = stream._pointer + 6 end,
-    ["s24pair"] = function(stream) stream._pointer = stream._pointer + 6 end,
-    ["u8string"] = function(stream) stream._pointer = stream:ReadByte() + stream._pointer end,
-    ["u16string"] = function(stream) stream._pointer = stream:ReadShort() + stream._pointer end,
-    ["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end,
-    ["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end,
-    ["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end,
-    ["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end,
-    ["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end,
-    ["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end,
-    ["waypointlist"]  = function(stream)
-        local count = stream:ReadByte()
-        for _ = 1, count do
-            stream._pointer = stream._pointer + 2
-            local listCount = stream:ReadByte()
-            for _ = 1, listCount do
-                stream._pointer = stream:ReadShort() * 3 + stream._pointer
-            end
-        end
-    end,
-    ["u8u16stringarray"] = function(stream)
-        local count = stream:ReadByte()
-        for _=1,count do
-            stream._pointer = stream:ReadShort() + stream._pointer
-        end
-    end,
-    ["faction"] = function(stream) stream._pointer = stream._pointer + 1 end,
-    ["spawnlist"] = function(stream)
-        local count = stream:ReadByte()
-        for _ = 1, count do
-            stream._pointer = stream._pointer + 2
+skippers["s8"] = function(stream) stream._pointer = stream._pointer + 1 end
+skippers["u8"] = function(stream) stream._pointer = stream._pointer + 1 end
+skippers["u16"] = function(stream) stream._pointer = stream._pointer + 2 end
+skippers["s16"] = function(stream) stream._pointer = stream._pointer + 2 end
+skippers["u24"] = function(stream) stream._pointer = stream._pointer + 3 end
+skippers["u32"] = function(stream) stream._pointer = stream._pointer + 4 end
+skippers["u12pair"] = function(stream) stream._pointer = stream._pointer + 3 end
+skippers["u24pair"] = function(stream) stream._pointer = stream._pointer + 6 end
+skippers["s24pair"] = function(stream) stream._pointer = stream._pointer + 6 end
+skippers["u8string"] = function(stream) stream._pointer = stream:ReadByte() + stream._pointer end
+skippers["u16string"] = function(stream) stream._pointer = stream:ReadShort() + stream._pointer end
+skippers["u8u16array"] = function(stream) stream._pointer = stream:ReadByte() * 2 + stream._pointer end
+skippers["u8s16pairs"] = function(stream) stream._pointer = stream:ReadByte() * 4 + stream._pointer end
+skippers["u16u16array"] = function(stream) stream._pointer = stream:ReadShort() * 2 + stream._pointer end
+skippers["u8s24pairs"] = function(stream) stream._pointer = stream:ReadByte() * 6 + stream._pointer end
+skippers["u8u24array"] = function(stream) stream._pointer = stream:ReadByte() * 3 + stream._pointer end
+skippers["u16u24array"] = function(stream) stream._pointer = stream:ReadShort() * 3 + stream._pointer end
+skippers["waypointlist"]  = function(stream)
+    local count = stream:ReadByte()
+    for _ = 1, count do
+        stream._pointer = stream._pointer + 2
+        local listCount = stream:ReadByte()
+        for _ = 1, listCount do
             stream._pointer = stream:ReadShort() * 3 + stream._pointer
         end
-    end,
-    ["trigger"] = function(stream)
+    end
+end
+skippers["u8u16stringarray"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        stream._pointer = stream:ReadShort() + stream._pointer
+    end
+end
+skippers["faction"] = function(stream) stream._pointer = stream._pointer + 1 end
+skippers["spawnlist"] = function(stream)
+    local count = stream:ReadByte()
+    for _ = 1, count do
+        stream._pointer = stream._pointer + 2
+        stream._pointer = stream:ReadShort() * 3 + stream._pointer
+    end
+end
+local spawnlistSkipper = skippers["spawnlist"]
+skippers["trigger"] = function(stream)
+    stream._pointer = stream:ReadByte() + stream._pointer
+    spawnlistSkipper(stream)
+end
+local u8u24arraySkipper = skippers["u8u24array"]
+skippers["questgivers"] = function(stream)
+    u8u24arraySkipper(stream)
+    u8u24arraySkipper(stream)
+    u8u24arraySkipper(stream)
+end
+skippers["objective"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        stream._pointer = stream._pointer + 3
         stream._pointer = stream:ReadByte() + stream._pointer
-        QuestieDBCompiler.skippers["spawnlist"](stream)
-    end,
-    ["questgivers"] = function(stream)
-        --local count = stream:ReadByte()
-        --for _ = 1, count do
-        --    QuestieDBCompiler.skippers["u8u16array"](stream)
-        --end
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-        QuestieDBCompiler.skippers["u8u24array"](stream)
-    end,
-    ["objective"] = function(stream)
-        local count = stream:ReadByte()
-        for _=1,count do
-            stream._pointer = stream._pointer + 3
+    end
+end
+local objectiveSkipper = skippers["objective"]
+local u24pairSkipper = skippers["u24pair"]
+skippers["objectives"] = function(stream)
+    objectiveSkipper(stream)
+    objectiveSkipper(stream)
+    objectiveSkipper(stream)
+    u24pairSkipper(stream)
+    local count = stream:ReadByte() -- killobjectives
+    if count > 0 then
+        for _=1, count do
+            stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
             stream._pointer = stream:ReadByte() + stream._pointer
-        end
-    end,
-    ["objectives"] = function(stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["objective"](stream)
-        QuestieDBCompiler.skippers["u24pair"](stream)
-        local count = stream:ReadByte() -- killobjectives
-        if count > 0 then
-            for _=1, count do
-                stream._pointer = stream:ReadByte() * 3 + 3 + stream._pointer
-                stream._pointer = stream:ReadByte() + stream._pointer
-            end
-        end
-    end,
-    ["reflist"] = function(stream)
-        stream._pointer = stream:ReadByte() * 4 + stream._pointer
-    end,
-    ["extraobjectives"] = function(stream)
-        local count = stream:ReadByte()
-        for _=1,count do
-            QuestieDBCompiler.skippers["spawnlist"](stream)
-            stream._pointer = stream:ReadByte() + stream._pointer
-            stream._pointer = stream:ReadShort() + stream._pointer
-            stream._pointer = stream._pointer + 3
-            QuestieDBCompiler.skippers["reflist"](stream)
         end
     end
-}
+end
+skippers["reflist"] = function(stream)
+    stream._pointer = stream:ReadByte() * 4 + stream._pointer
+end
+local reflistSkipper = skippers["reflist"]
+skippers["extraobjectives"] = function(stream)
+    local count = stream:ReadByte()
+    for _=1,count do
+        spawnlistSkipper(stream)
+        stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream:ReadShort() + stream._pointer
+        stream._pointer = stream._pointer + 3
+        reflistSkipper(stream)
+    end
+end
+
+QuestieDBCompiler.skippers = skippers
 
 QuestieDBCompiler.dynamics = {
     ["u8string"] = true,
@@ -797,7 +804,7 @@ local function equals(a, b)
     if ta ~= tb then return false end
 
     if ta == "number" then
-        return math.abs(a-b) < 0.2
+        return abs(a-b) < 0.2 -- 100/4096 is the precision of the data (From Aero)
     elseif ta == "table" then
         for k,v in pairs(a) do
             if not equals(b[k], v) then
@@ -835,7 +842,7 @@ function QuestieDBCompiler:DecodePointerMap(stream)
     local ret = {}
     local i = 0
     while i < count do
-        for _ = 1, math.min(768, count-i) do -- steps per yield
+        for _ = 1, min(768, count-i) do -- steps per yield
             ret[stream:ReadInt24()] = stream:ReadInt24()
         end
         i = i + 768
@@ -876,50 +883,60 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     end
     count = count + 1
 
-    QuestieDBCompiler.index = 0
+    local index = 0
 
-    QuestieDBCompiler.pointerMap = {}
-    QuestieDBCompiler.stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
+    local pointerMap = {}
+    local stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
+
+    -- Localize functions
+    local pcall, type = pcall, type
+    local writers = QuestieDBCompiler.writers
+    local supportedTypes = QuestieDBCompiler.supportedTypes
 
     while true do
         coroutine.yield()
         for _=0,Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
-            QuestieDBCompiler.index = QuestieDBCompiler.index + 1
-            if QuestieDBCompiler.index == count then
-                Questie.db.global[databaseKey.."Bin"] = QuestieDBCompiler.stream:Save()
-                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(QuestieDBCompiler.stream, QuestieDBCompiler.pointerMap)
-                QuestieDBCompiler.stream:finished() -- relief memory pressure
+            index = index + 1
+            if index == count then
+                Questie.db.global[databaseKey.."Bin"] = stream:Save()
+                Questie.db.global[databaseKey.."Ptrs"] = QuestieDBCompiler:EncodePointerMap(stream, pointerMap)
+                stream:finished() -- relief memory pressure
                 return
             end
-            local id = indexLookup[QuestieDBCompiler.index]
+            local id = indexLookup[index]
 
-            QuestieDBCompiler.currentEntry = id
+            -- QuestieDBCompiler.currentEntry = id -- This was only ever used for debugging.
             local entry = tbl[id]
 
-            QuestieDBCompiler.pointerMap[id] = QuestieDBCompiler.stream._pointer--pointerStart
+            pointerMap[id] = stream._pointer--pointerStart
             for i=1, #order do
                 local key = order[i]
                 local v = entry[lookup[key]]
                 local t = types[key]
 
-                if v and not QuestieDBCompiler.supportedTypes[type(v)][t] then
+                if v and not supportedTypes[type(v)][t] then
                     Questie:Error("|cFFFF0000Invalid datatype!|r   " .. kind .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\" is not compatible with type \"" .. t .."\"")
                     return
                 end
-                if not QuestieDBCompiler.writers[t] then
+                if not writers[t] then
                     Questie:Error("Invalid datatype: " .. key .. " " .. tostring(t))
                 end
                 --print(key .. "s[" .. tostring(id) .. "]."..key..": \"" .. type(v) .. "\"")
-                local result, errorMessage = pcall(QuestieDBCompiler.writers[t], QuestieDBCompiler.stream, v)
+                local result, errorMessage = pcall(writers[t], stream, v)
                 if not result then
                     Questie:Error("There was an error when compiling data for "..kind.." " .. tostring(id) .. " \""..tostring(key).."\":")
                     Questie:Error(errorMessage)
                     error(errorMessage)
                 end
             end
-            tbl[id] = nil -- quicker gabage collection later
+            -- tbl[id] = nil -- quicker gabage collection later
         end
     end
+    --I do not know if these assignments are actually needed but I am too scared to remove them
+    -- QuestieDBCompiler.pointerMap = pointerMap
+    -- QuestieDBCompiler.stream = stream
+    -- QuestieDBCompiler.index = index
+
 end
 
 function QuestieDBCompiler:BuildSkipMap(types, order) -- skip map is used for random access, to read specific fields in an entry without reading the whole entry
@@ -961,13 +978,13 @@ function QuestieDBCompiler:Compile()
     QuestieDBCompiler.startTime = GetTime()
     QuestieDBCompiler.totalSize = 0
 
-    print("\124cFF4DDBFF [4/7] " .. l10n("Updating NPCs") .. "...")
+    print("\124cFF4DDBFF [6/9] " .. l10n("Updating NPCs") .. "...")
     QuestieDBCompiler:CompileNPCs()
-    print("\124cFF4DDBFF [5/7] " .. l10n("Updating objects") .. "...")
+    print("\124cFF4DDBFF [7/9] " .. l10n("Updating objects") .. "...")
     QuestieDBCompiler:CompileObjects()
-    print("\124cFF4DDBFF [6/7] " .. l10n("Updating quests") .. "...")
+    print("\124cFF4DDBFF [8/9] " .. l10n("Updating quests") .. "...")
     QuestieDBCompiler:CompileQuests()
-    print("\124cFF4DDBFF [7/7] " .. l10n("Updating items") .. "...")
+    print("\124cFF4DDBFF [9/9] " .. l10n("Updating items") .. "...")
     QuestieDBCompiler:CompileItems()
     print("\124cFFAAEEFF"..l10n("Questie DB update complete!"))
 
@@ -975,95 +992,86 @@ function QuestieDBCompiler:Compile()
     Questie.db.global.dbCompiledLang = (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale())
     Questie.db.global.dbIsCompiled = true
     Questie.db.global.dbCompiledCount = (Questie.db.global.dbCompiledCount or 0) + 1
-
-    if Questie.db.global.debugEnabled then
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating NPCs...")
-        QuestieDBCompiler:ValidateNPCs()
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating objects...")
-        QuestieDBCompiler:ValidateObjects()
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating items...")
-        QuestieDBCompiler:ValidateItems()
-        coroutine.yield()
-        Questie:Debug(Questie.DEBUG_INFO, "Validating quests...")
-        QuestieDBCompiler:ValidateQuests()
-    end
 end
 
 function QuestieDBCompiler:ValidateNPCs()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
-    for npcId, _ in pairs(QuestieDB.npcData) do
-        local toValidate = {validator.Query(npcId, unpack(QuestieDB.npcCompilerOrder))}
+    local count = 0
+    for npcId, nonCompiledData in pairs(QuestieDB.npcData) do
+        local compiledData = validator.QueryValidator(npcId, QuestieDB.npcCompilerOrder)
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
-        --Questie.db.global.__toValidate = toValidate
-        local validData = QuestieDB:GetNPC(npcId)
         for id, key in pairs(QuestieDB.npcCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.npcKeys[key]]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
+                Questie:Warning("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Warning("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. npcId)
                 return
             elseif type(a) == "table" then
                 if not equals(a, (b or {})) then
-                    Questie:Error("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
+                    Questie:Warning("Nonmatching table at " .. key .. "  " .. id .. " for ID: ".. npcId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
                     return
                 end
-            else
-                print("MATCHING: " .. key)
             end
         end
+
+        if count == TICKS_PER_YIELD_DEBUG then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
+    print(Questie.DEBUG_INFO, "Finished NPCs validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateObjects()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
 
-    for objectId, _ in pairs(QuestieDB.objectData) do
-        local toValidate = {validator.Query(objectId, unpack(QuestieDB.objectCompilerOrder))}
+    local count = 0
+    for objectId, nonCompiledData in pairs(QuestieDB.objectData) do
+        local compiledData = validator.QueryValidator(objectId, QuestieDB.objectCompilerOrder)
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
-        --Questie.db.global.__toValidate = toValidate
-        local validData = QuestieDB:GetObject(objectId)
         for id, key in pairs(QuestieDB.objectCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.objectKeys[key]]
 
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
+                Questie:Warning("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
             elseif type(a) == "string" and a ~= (b or "") then
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
+                Questie:Warning("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. objectId)
                 return
             elseif type(a) == "table" then
                 if not equals(a, (b or {})) then
-                    Questie:Error("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
+                    Questie:Warning("Nonmatching table at " .. key .. "  " .. id  .. " for ID: ".. objectId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
                     return
                 end
-            else
-                print("MATCHING: " .. key)
             end
         end
+
+        if count == TICKS_PER_YIELD_DEBUG then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished objects validation without issues!")
+    print(Questie.DEBUG_INFO, "Finished objects validation without issues!")
 end
 
 
@@ -1072,6 +1080,7 @@ function QuestieDBCompiler:ValidateItems()
     local obj = QuestieDBCompiler:GetDBHandle(Questie.db.global.objBin, Questie.db.global.objPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.objectCompilerTypes, QuestieDB.objectCompilerOrder))
     local npc = QuestieDBCompiler:GetDBHandle(Questie.db.global.npcBin, Questie.db.global.npcPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder))
 
+    local count = 0
     for id, _ in pairs(validator.pointers) do
         local objDrops, npcDrops = validator.QuerySingle(id, "objectDrops"), validator.QuerySingle(id, "npcDrops")
         if objDrops then -- validate object drops
@@ -1104,7 +1113,7 @@ function QuestieDBCompiler:ValidateItems()
         --        local a = toValidate[id]
         --        local b = validData[key]
         --
-        --        if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
+        --        if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
         --            print("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
         --            return
         --        elseif type(a) == "string" and a ~= (b or "") then
@@ -1122,53 +1131,136 @@ function QuestieDBCompiler:ValidateItems()
         --        end
         --    end
         --end
+        if count == TICKS_PER_YIELD_DEBUG then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
+    end
+    count = 0
+    for itemId, nonCompiledData in pairs(QuestieDB.itemData) do
+        local compiledData = validator.QueryValidator(itemId, QuestieDB.itemCompilerOrder)
+
+        for id, key in pairs(QuestieDB.itemCompilerOrder) do
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.itemKeys[key]]
+
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
+                Questie:Warning("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. itemId)
+                return
+            elseif type(a) == "string" and a ~= (b or "") then
+                Questie:Warning("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. itemId)
+                return
+            elseif type(a) == "table" then
+                if not equals(a, (b or {})) then
+                    Questie:Warning("Nonmatching table at " .. key .. "  " .. id  .. " for ID: ".. itemId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
+                    return
+                end
+            end
+        end
+
+        if count == TICKS_PER_YIELD_DEBUG then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
     obj.stream:finished()
     npc.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished items validation without issues!")
+    print(Questie.DEBUG_INFO, "Finished items validation without issues!")
 end
 
 function QuestieDBCompiler:ValidateQuests()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
-    for questId, _ in pairs(QuestieDB.questData) do
-        local toValidate = {validator.Query(questId, unpack(QuestieDB.questCompilerOrder))}
+    local playerLevel = UnitLevel("player")
 
-        local cnt = 0 for _ in pairs(toValidate) do cnt = cnt + 1 end
-        print("toValidate length: " .. cnt)
-        --Questie.db.global.__toValidate = toValidate
-        local validData = QuestieDB:GetQuest(questId)
-        for id,key in pairs(QuestieDB.questCompilerOrder) do
-            local a = toValidate[id]
-            local b = validData[key]
-
-            if type(a) == "number"  and math.abs(a-(b or 0)) > 0.2 then
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
-                return
-            elseif type(a) == "string" and a ~= (b or "") then
-                Questie:Error("Nonmatching at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b))
-                return
-            elseif type(a) == "table" then
-                if not equals(a, (b or {})) then
-                    print("Nonmatching at " .. key .. "  " .. id)
-                    --__nma = a
-                    --__nmb = b or {}
-                    return
-                end
+    --! IF YOU SEE THIS FUNCTION REMOVE IT AND CHANGE IT TO QUESTIELIB FUNCTION INSTEAD
+    local function getTbcLevel(questLevel, requiredLevel, playerLevel)
+        if (questLevel == -1) then
+            local level = playerLevel
+            if (requiredLevel > level) then
+                questLevel = requiredLevel;
             else
-                print("MATCHING: " .. key)
+                questLevel = level;
+                -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
+                requiredLevel = level;
             end
         end
+        return questLevel, requiredLevel
+    end
+
+    -- We now only compare the nonCompiled data and the compiled data without overrides, it'll have to do.
+    local count = 0
+    for questId, nonCompiledData in pairs(QuestieDB.questData) do
+        local compiledData = validator.QueryValidator(questId, QuestieDB.questCompilerOrder)
+
+        for id,key in pairs(QuestieDB.questCompilerOrder) do
+            local a = compiledData[id]
+            local b = nonCompiledData[QuestieDB.questKeys[key]]
+
+            --Special case for questLevel
+            if (Questie.IsTBC or Questie.IsWotlk) and (key == "questLevel" or key == "requiredLevel") then
+                local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
+                if (key == "questLevel") then
+                    a = questLevel
+                elseif (key == "requiredLevel") then
+                    a = requiredLevel
+                end
+                questLevel, requiredLevel = getTbcLevel(nonCompiledData[QuestieDB.questKeys["questLevel"]], nonCompiledData[QuestieDB.questKeys["requiredLevel"]], playerLevel)
+                if (key == "questLevel") then
+                    b = questLevel
+                elseif (key == "requiredLevel") then
+                    b = requiredLevel
+                end
+            end
+
+            -- if key == "extraObjectives" then
+            --     -- Do nothing
+            -- else
+            if type(a) == "number"  and abs(a-(b or 0)) > 0.2 then
+                Questie:Warning("Nonmatching number at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
+                return
+            elseif type(a) == "string" and a ~= (b or "") then
+                Questie:Warning("Nonmatching string at " .. key .. "  " .. tostring(a) .. " ~= " .. tostring(b) .. " for ID: ".. questId)
+                return
+            elseif type(a) == "table" then
+                --? This is kind of stupid, but because the compiler always has to write a int24 it will always write 0 for empty tables
+                --? So we have to emulate the same behavior here
+                if key == "extraObjectives" then
+                    for i = 1, #b do
+                        if not b[i][4] and a[i][4] == 0 then
+                            b[i][4] = 0
+                        end
+                    end
+                end
+
+                if not equals(a, (b or {})) then
+                    Questie:Warning("Nonmatching table at " .. key .. "  " .. id .. " for ID: ".. questId)
+                    DevTools_Dump({
+                        ["Compiled Table:"] = a,
+                        ["Base Table:"] = b
+                    })
+                    return
+                end
+            end
+        end
+
+        if count == TICKS_PER_YIELD_DEBUG then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
     validator.stream:finished()
-    Questie:Debug(Questie.DEBUG_INFO, "Finished quests validation without issues!")
-end
-
-function QuestieDBCompiler:Initialize()
-    QuestieDBCompiler.npcSkipMap = QuestieDBCompiler:BuildSkipMap(QuestieDB.npcCompilerTypes, QuestieDB.npcCompilerOrder)
+    print(Questie.DEBUG_INFO, "Finished quests validation without issues!")
 end
 
 function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, overrides)
@@ -1186,13 +1278,15 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
     handle.stream = stream
 
     if overrides then
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param key string
+        ---@return any
         handle.QuerySingle = function(id, key)
             local override = overrides[id]
             if override then
                 local kti = keyToRootIndex[key]
                 if kti and override[kti] ~= nil then return override[kti] end
             end
-            local typ = types[key]
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
@@ -1208,12 +1302,16 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    skippers[types[indexToKey[i]]](stream)
+                    -- readers[types[indexToKey[i]]](stream)
                 end
             end
-            return QuestieDBCompiler.readers[typ](stream)
+            return readers[types[key]](stream)
         end
-        handle.Query = function(id, ...)
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.Query = function(id, keys)
             --if overrides[id] then
             --    local ret = {}
             --    for index,key in pairs({...}) do
@@ -1226,7 +1324,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             --end
             local ptr = pointers[id]
             local override = overrides[id]
-            local keys = {...}
             if not ptr then
                 if override then
                     local ret = {}
@@ -1247,7 +1344,6 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 if override and rootIndex and override[rootIndex] ~= nil then
                     ret[index] = override[rootIndex]
                 else
-                    local typ = types[key]
                     if map[key] ~= nil then -- can skip directly
                         stream._pointer = map[key] + ptr
                     else -- need to skip over some variably sized data
@@ -1258,17 +1354,69 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                             return nil
                         end
                         for i = lastIndex, targetIndex-1 do
-                            QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                            skippers[types[indexToKey[i]]](stream)
                         end
                     end
-                    ret[index] = QuestieDBCompiler.readers[typ](stream)
+                    ret[index] = readers[types[key]](stream)
+                end
+            end
+            return ret -- do not unpack the returned table
+        end
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.QueryValidator = function(id, keys)
+            local ptr = pointers[id]
+            local override = overrides[id]
+            if not ptr then
+                if override then
+                    local ret = {}
+                    for index=1,#keys do
+                        local rootIndex = keyToRootIndex[keys[index]]
+                        if rootIndex and override[rootIndex] ~= nil then
+                            ret[index] = override[rootIndex]
+                        end
+                    end
+                    return ret
+                end
+                return nil
+            end
+            local ret = {}
+            for index=1,#keys do
+                local key = keys[index]
+                local rootIndex = keyToRootIndex[key]
+                if override and rootIndex and override[rootIndex] ~= nil then
+                    ret[index] = override[rootIndex]
+                else
+                    if map[key] ~= nil then -- can skip directly
+                        stream._pointer = map[key] + ptr
+                    else -- need to skip over some variably sized data
+                        stream._pointer = lastPtr + ptr
+                        local targetIndex = keyToIndex[key]
+                        if not targetIndex then
+                            Questie:Error("ERROR: Unhandled db key: " .. key)
+                            return nil
+                        end
+                        for i = lastIndex, targetIndex-1 do
+                            local beforeSkipper = stream._pointer
+                            skippers[types[indexToKey[i]]](stream)
+                            local afterSkipper = stream._pointer
+                            stream._pointer = beforeSkipper
+                            readers[types[indexToKey[i]]](stream)
+                            local afterReader = stream._pointer
+                            if(afterSkipper ~= afterReader) then
+                                Questie:Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader-afterSkipper)
+                                return nil
+                            end
+                        end
+                    end
+                    ret[index] = readers[types[key]](stream)
                 end
             end
             return ret -- do not unpack the returned table
         end
     else
         handle.QuerySingle = function(id, key)
-            local typ = types[key]
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
@@ -1284,23 +1432,24 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                     return nil
                 end
                 for i = lastIndex, targetIndex-1 do
-                    QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                    skippers[types[indexToKey[i]]](stream)
+                    -- readers[types[indexToKey[i]]](stream)
                 end
             end
-            return QuestieDBCompiler.readers[typ](stream)
+            return readers[types[key]](stream)
         end
-
-        handle.Query = function(id, ...)
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.Query = function(id, keys)
             local ptr = pointers[id]
             if not ptr then
                 --print("Entry not found! " .. id)
                 return nil
             end
-            local keys = {...}
             local ret = {}
             for index=1,#keys do
                 local key = keys[index]
-                local typ = types[key]
                 if map[key] ~= nil then -- can skip directly
                     stream._pointer = map[key] + ptr
                 else -- need to skip over some variably sized data
@@ -1311,10 +1460,48 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                         return nil
                     end
                     for i = lastIndex, targetIndex-1 do
-                        QuestieDBCompiler.readers[types[indexToKey[i]]](stream)
+                        skippers[types[indexToKey[i]]](stream)
                     end
                 end
-                ret[index] = QuestieDBCompiler.readers[typ](stream)
+                ret[index] = readers[types[key]](stream)
+            end
+            return ret -- do not unpack the returned table
+        end
+        ---@param id QuestId|ObjectId|ItemId|NpcId
+        ---@param keys string[]
+        ---@return table|nil
+        handle.QueryValidator = function(id, keys)
+            local ptr = pointers[id]
+            if not ptr then
+                --print("Entry not found! " .. id)
+                return nil
+            end
+            local ret = {}
+            for index=1,#keys do
+                local key = keys[index]
+                if map[key] ~= nil then -- can skip directly
+                    stream._pointer = map[key] + ptr
+                else -- need to skip over some variably sized data
+                    stream._pointer = lastPtr + ptr
+                    local targetIndex = keyToIndex[key]
+                    if not targetIndex then
+                        Questie:Error("ERROR: Unhandled db key: " .. key)
+                        return nil
+                    end
+                    for i = lastIndex, targetIndex-1 do
+                        local beforeSkipper = stream._pointer
+                        skippers[types[indexToKey[i]]](stream)
+                        local afterSkipper = stream._pointer
+                        stream._pointer = beforeSkipper
+                        readers[types[indexToKey[i]]](stream)
+                        local afterReader = stream._pointer
+                        if(afterSkipper ~= afterReader) then
+                            Questie:Error("ERROR: Skipper and reader did not match for key: " .. key, afterSkipper, afterReader, afterReader-afterSkipper)
+                            return nil
+                        end
+                    end
+                end
+                ret[index] = readers[types[key]](stream)
             end
             return ret -- do not unpack the returned table
         end

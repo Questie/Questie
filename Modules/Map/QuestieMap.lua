@@ -400,7 +400,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     if type(objectID) ~= "number" then return end
     -- get the gameobject data
     local object = QuestieDB:GetObject(objectID)
-    if not object then return end
+    if not object or not object.spawns then return end
 
     -- create the icon data
     local data = {}
@@ -694,7 +694,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
 
     --Hide unexplored logic
-    if (not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and Questie.db.char.hideUnexploredMapIcons) then
+    if (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y)) then
         iconMap:FakeHide()
         iconMinimap:FakeHide()
     end

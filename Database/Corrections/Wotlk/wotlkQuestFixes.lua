@@ -78,7 +78,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{24657}},
         },
         [11153] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42,2}}}, ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42.2}}}, ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
         },
         [11154] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Throw the firecrackers up to 20 yards away underneath a darkclaw bat to scare it"), 0, {{"monster", 23959}}}},
@@ -219,7 +219,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Feathered Charm on Steelfeather"), 0, {{"monster", 24514},}}},
         },
         [11420] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49,1}}}, ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{56.6,49.1}}}, ICON_TYPE_EVENT, l10n("Entrance to Utgarde Catacombs"),}},
         },
         [11421] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Commandeer Crykul Harpoon Gun"),0,{{"object",190512}}}},
@@ -1353,7 +1353,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12754] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75,5}}}, ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75.5}}}, ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
         },
         [12758] = {
             [questKeys.requiredMinRep] = {1104,9000},

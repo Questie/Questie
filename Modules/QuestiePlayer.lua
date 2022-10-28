@@ -38,7 +38,7 @@ function QuestiePlayer:Initialize()
 end
 
 --Always compare to the UnitLevel parameter, returning the highest.
----@return number
+---@param level Level
 function QuestiePlayer:SetPlayerLevel(level)
     local localLevel = UnitLevel("player");
     _QuestiePlayer.playerLevel = math_max(localLevel, level);
@@ -46,7 +46,7 @@ end
 
 -- Gets the highest playerlevel available, most of the time playerLevel should be the most correct one
 -- doing UnitLevel for completeness.
----@return number
+---@return Level
 function QuestiePlayer.GetPlayerLevel()
     local level = UnitLevel("player");
     return math_max(_QuestiePlayer.playerLevel, level);
@@ -73,13 +73,13 @@ function QuestiePlayer:GetGroupType()
 end
 
 ---@return boolean
-function QuestiePlayer:HasRequiredRace(requiredRaces)
+function QuestiePlayer.HasRequiredRace(requiredRaces)
     -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredRaces) or (requiredRaces == 0) or ((requiredRaces % playerRaceFlagX2) >= playerRaceFlag)
 end
 
 ---@return boolean
-function QuestiePlayer:HasRequiredClass(requiredClasses)
+function QuestiePlayer.HasRequiredClass(requiredClasses)
     -- test a bit flag: (value % (2*flag) >= flag)
     return (not requiredClasses) or (requiredClasses == 0) or ((requiredClasses % playerClassFlagX2) >= playerClassFlag)
 end
