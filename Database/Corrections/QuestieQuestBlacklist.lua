@@ -1100,6 +1100,18 @@ function QuestieQuestBlacklist:Load()
         [12163] = true, -- Not in the game
         [12051] = true, -- Not in the game
         [25444] = true, -- Not in the game, part of Cata pre-prepatch events
+        [12682] = true, -- Not in the game
+        [12586] = true, -- Not in the game
+        [12835] = true, -- Not in the game
+        [12837] = true, -- Not in the game
+        [12834] = true, -- Not in the game
+        [12825] = true, -- Not in the game
+        [12890] = true, -- Not in the game
+        [13184] = true, -- Not in the game
+        [13176] = true, -- Not in the game
+        [13173] = true, -- Not in the game
+        [13175] = true, -- Not in the game
+        [] = true, -- Not in the game
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
@@ -1164,6 +1176,35 @@ function QuestieQuestBlacklist:Load()
         [24510] = true, -- Inside the Frozen Citadel (A)
         [26012] = true, -- Trouble at Wyrmrest
         [26013] = true, -- Assault on the Sanctum
+        [24554] = true, -- The Battered Hilt (H)
+        [14443] = true, -- The Battered Hilt (A)
+        [24555] = true, -- What The Dragons Know (H)
+        [14444] = true, -- What The Dragons Know (A)
+        [24557] = true, -- The Silver Covenant's Scheme (H)
+        [14457] = true, -- The Sunreaver Plan (A)
+        [24556] = true, -- A Suitable Disguise (H)
+        [20438] = true, -- A Suitable Disguise (A)
+        [24451] = true, -- An Audience With The Arcanist (H)
+        [20439] = true, -- A Meeting With The Magister (A)
+        [24558] = true, -- Return To Myralion Sunblaze (H)
+        [24454] = true, -- Return To Caladis Brightspear (A)
+        [24559] = true, -- Reforging The Sword (H)
+        [24461] = true, -- Reforging The Sword (A)
+        [24560] = true, -- Tempering The Blade (H)
+        [24476] = true, -- Tempering The Blade (A)
+        [24561] = true, -- The Halls Of Reflection (H)
+        [24480] = true, -- The Halls Of Reflection (A)
+        [24562] = true, -- Journey To The Sunwell (H)
+        [24522] = true, -- Journey To The Sunwell (A)
+        [24563] = true, -- Thalorien Dawnseeker (H)
+        [24535] = true, -- Thalorien Dawnseeker (A)
+        [24564] = true, -- The Purification of Quel'Delar (H)
+        [24553] = true, -- The Purification of Quel'Delar (A)
+        [24594] = true, -- The Purification of Quel'Delar (H Belf)
+        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        [24598] = true, -- The Purification of Quel'Delar (H ?)
+        [24801] = true, -- A Victory For The Sunreavers (H)
+        [24796] = true, -- A Victory For The Silver Covenant (A)
 
         -- new raid weekly quests
         [24579] = true,
