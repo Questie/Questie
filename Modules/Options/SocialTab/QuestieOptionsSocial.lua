@@ -52,7 +52,7 @@ function QuestieOptions.tabs.social:Initialize()
                         style = 'dropdown',
                         disabled = function() return Questie.db.global.questieShutUp end,
                         name = function() return l10n('Channels to announce in') end,
-                        desc = function() return l10n('Announce quest updates to other players in your group or raid'); end,
+                        desc = function() return l10n('Announce quest updates to other players in your group'); end,
                         get = function() return Questie.db.char.questAnnounceChannel; end,
                         set = function(_, key)
                             Questie.db.char.questAnnounceChannel = key
@@ -156,7 +156,7 @@ end
 _GetAnnounceChannels = function()
     return {
         ['disabled'] = l10n('Disabled'),
-        ['group'] = l10n('Group'),
+        ['party'] = l10n('Party'),
         ['raid'] = l10n('Raid'),
         ['both'] = l10n('Both'),
     }
