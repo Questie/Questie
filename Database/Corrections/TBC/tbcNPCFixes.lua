@@ -768,7 +768,6 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.maxLevel] = 12,
             [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{68,81},{64.9,81.6},{64.2,76.4}}},
-            [npcKeys.friendlyToFaction] = "",
         },
     }
 end
