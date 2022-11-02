@@ -12,6 +12,9 @@ function QuestieWotlkNpcFixes:Load()
     local npcFlags = QuestieDB.npcFlags
 
     return {
+        [3996] = {
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
+        },
         [15351] = {
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE]={{70.41,91.10}},

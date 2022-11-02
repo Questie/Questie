@@ -35,6 +35,9 @@ function QuestieWotlkQuestFixes:Load()
         [768] = {
             [questKeys.requiredSkill] = {393,1},
         },
+        [1056] = {
+            [questKeys.nextQuestInChain] = 1057,
+        },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
