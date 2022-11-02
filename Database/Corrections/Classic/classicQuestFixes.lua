@@ -750,8 +750,14 @@ function QuestieQuestFixes:Load()
         [1471] = {
             [questKeys.exclusiveTo] = {1504}, -- #1542
         },
+        [1472] = {
+            [questKeys.exclusiveTo] = {},
+        },
         [1473] = {
             [questKeys.exclusiveTo] = {1501},
+        },
+        [1474] = {
+            [questKeys.exclusiveTo] = {1513},
         },
         [1477] = {
             [questKeys.exclusiveTo] = {1395}, -- #1727
@@ -777,6 +783,12 @@ function QuestieQuestFixes:Load()
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
+        },
+        [1507] = {
+            [questKeys.exclusiveTo] = {},
+        },
+        [1513] = {
+            [questKeys.exclusiveTo] = {1474},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519},
@@ -1333,6 +1345,9 @@ function QuestieQuestFixes:Load()
         [4134] = {
             [questKeys.preQuestSingle] = {}, -- #1859
         },
+        [4136] = {
+            [questKeys.preQuestSingle] = {}, -- #4459
+        },
         [4143] = {
             [questKeys.zoneOrSort] = 1477,
         },
@@ -1849,6 +1864,12 @@ function QuestieQuestFixes:Load()
         },
         [5930] = {
             [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
+        },
+        [5931] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Silva Fil'naveth to fly back to Darnassus"), 0, {{"monster", 11800}}}},
+        },
+        [5932] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Bunthen Plainswind to fly back to Thunder Bluff"), 0, {{"monster", 11798}}}},
         },
         [5943] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Mannoroc Coven", {[zoneIDs.DESOLACE]={{55.69,67.79}}}},
@@ -3449,6 +3470,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
             [questKeys.objectives] = {nil,nil,{{190179},{190180}},nil,nil},
+            [questKeys.preQuestSingle] = {1472},
             [questKeys.exclusiveTo] = {65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },

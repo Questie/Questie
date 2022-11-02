@@ -830,7 +830,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "帮助阿库诺回到泰罗卡森林的难民车队。",
     },
-    ["Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mited"] = { -- 10896
+    ["Kill Rotting Forest-Ragers and Infested Root-Walkers to spawn Wood Mites"] = { -- 10896
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Tötet faulende Waldwüter und befallener Wurzelwandler um Baummilben anzulocken.",
@@ -1345,6 +1345,30 @@ local tbcObjectiveLocales = {
         ["esES"] = false,
         ["zhTW"] = false,
         ["zhCN"] = "利用放逐水晶打开放逐之门。在传送门附近杀死恶魔",
+    },
+    ["Survey Alcaz Island"] = { -- 11142
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Speak to Cassa Crimsonwing to fly on a gryphon"] = { -- 11142
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
     },
 }
 
