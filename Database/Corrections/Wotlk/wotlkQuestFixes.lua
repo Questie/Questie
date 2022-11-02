@@ -2655,6 +2655,36 @@ function QuestieWotlkQuestFixes:Load()
         [13906] = {
             [questKeys.preQuestSingle] = {13887},
         },
+        [14079] = {
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [14081] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [14082] = {
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [14083] = {
+            [questKeys.requiredRaces] = raceIDs.DWARF,
+        },
+        [14084] = {
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+        },
+        [14085] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [14086] = {
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
+        [14087] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [14088] = {
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [14089] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
