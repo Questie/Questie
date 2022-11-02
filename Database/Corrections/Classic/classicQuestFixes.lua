@@ -1345,6 +1345,9 @@ function QuestieQuestFixes:Load()
         [4134] = {
             [questKeys.preQuestSingle] = {}, -- #1859
         },
+        [4136] = {
+            [questKeys.preQuestSingle] = {}, -- #4459
+        },
         [4143] = {
             [questKeys.zoneOrSort] = 1477,
         },
