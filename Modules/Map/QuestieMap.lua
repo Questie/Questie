@@ -841,7 +841,8 @@ function QuestieMap:GetNearestSpawn(objective)
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-	C_Timer.After(2, function() -- Fixes LUA error bad argument #1 to 'next' (table expected, got nil)
+    -- TODO: This is just a temporary workaround - We have to find out why "objective.spawnList" can be nil
+	C_Timer.After(2, function()
 		if next(objective.spawnList) then
 			for id, spawnData in pairs(objective.spawnList) do
 				for zone, spawns in pairs(spawnData.Spawns) do
