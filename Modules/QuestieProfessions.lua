@@ -157,6 +157,7 @@ professionNames = {
     [QuestieProfessions.professionKeys.FISHING] = "Fishing",
     [QuestieProfessions.professionKeys.SKINNING] = "Skinning",
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Jewelcrafting",
+    [QuestieProfessions.professionKeys.INSCRIPTION] = "Inscription",
     [QuestieProfessions.professionKeys.RIDING] = "Riding",
 }
 
@@ -173,7 +174,7 @@ local sortIds = {
     [QuestieProfessions.professionKeys.ENCHANTING] = -668, -- Dummy Id
     [QuestieProfessions.professionKeys.FISHING] = -101,
     [QuestieProfessions.professionKeys.SKINNING] = -666, -- Dummy Id
-    [QuestieProfessions.professionKeys.INSCRIPTION] = -373,
+    [QuestieProfessions.professionKeys.INSCRIPTION] = -371,
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = -373,
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }

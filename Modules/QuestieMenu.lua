@@ -63,6 +63,7 @@ local _townsfolk_texturemap = {
     [QuestieProfessions.professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
     [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
+    [QuestieProfessions.professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
@@ -526,6 +527,10 @@ function QuestieMenu:PopulateTownsfolk()
 
     if Questie.IsTBC or Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
+    end
+    
+    if Questie.IsWotlk then
+        professionTrainers[QuestieProfessions.professionKeys.INSCRIPTION] = {}
     end
 
     local count = 0

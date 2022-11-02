@@ -170,6 +170,18 @@ local professionLocals = {
         ["esES"] = "Equitación",
         ["frFR"] = "Monte",
     },
+    ["Inscription"] = {
+        ["ptBR"] = "Escrivania",
+        ["ruRU"] = "Надпись",
+        ["deDE"] = "Inschrift",
+        ["koKR"] = "주문각인",
+        ["esMX"] = "Inscripción",
+        ["enUS"] = true,
+        ["zhCN"] = "铭文",
+        ["zhTW"] = "铭文",
+        ["esES"] = "Inscripción",
+        ["frFR"] = "Calligraphie",
+    },
 }
 
 for k, v in pairs(professionLocals) do
