@@ -1,3 +1,5 @@
+require("cli.dump")
+
 WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
 WOW_PROJECT_BURNING_CRUSADE_CLASSIC = 5
@@ -37,6 +39,9 @@ UnitFactionGroup = function()
 end
 UnitClass = function()
     return "Druid", "DRUID", 11
+end
+UnitLevel = function()
+    return 60
 end
 GetLocale = function()
     return "enUS"
@@ -190,6 +195,9 @@ local function _CheckClassicDatabase()
 
     Questie.db.global.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
+
+    QuestieDB:Initialize()
+
     print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
     print("\n\27[36mValidating items...\27[0m")
@@ -252,6 +260,9 @@ local function _CheckTBCDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     QuestieDBCompiler:Compile(function() end)
+
+    QuestieDB:Initialize()
+
     print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
     print("\n\27[36mValidating items...\27[0m")
@@ -315,6 +326,9 @@ local function _CheckWotlkDatabase()
 
     Questie.db.global.debugEnabled = true
     QuestieDBCompiler:Compile(function() end)
+
+    QuestieDB:Initialize()
+
     print("\n\27[36mValidating objects...\27[0m")
     QuestieDBCompiler:ValidateObjects()
     print("\n\27[36mValidating items...\27[0m")
@@ -326,4 +340,9 @@ local function _CheckWotlkDatabase()
 
     print("\n\27[32mWotlk database compiled successfully\27[0m\n")
 end
+--? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
+-- local profiler = require("cli/profiler")
+-- profiler.start()
 _CheckWotlkDatabase()
+-- profiler.stop()
+-- profiler.report("/code/profiler.log")

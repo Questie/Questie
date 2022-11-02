@@ -1,8 +1,8 @@
 ## Interface: 30400
-## Title: Questie|cFF00FF00 v7.3.2|r
+## Title: Questie|cFF00FF00 v7.4.2|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 7.3.2
+## Version: 7.4.2
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -143,6 +143,7 @@ Modules\Map\HBDHooks.lua
 # Quest
 Modules\Quest\QuestLogCache.lua
 Modules\Quest\DailyQuests.lua
+Modules\Quest\GossipFrameDailyMarker.lua
 Modules\Quest\IsleOfQuelDanas.lua
 Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestieQuest.lua

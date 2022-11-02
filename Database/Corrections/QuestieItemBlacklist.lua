@@ -214,5 +214,11 @@ function QuestieItemBlacklist:Load()
         [30809] = true, -- Mark of Sargeras
         [30810] = true, -- Sunfury Signet
         [32569] = true, -- Apexis Shard
+        
+        -- Wrath of the Lich King : Phase 1
+        [33470] = true, -- Frostweave Cloth
+        [42780] = true, -- Relic of Ulduar
+        [43013] = true, -- Chilled Meat
+
     }
 end

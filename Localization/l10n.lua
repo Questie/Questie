@@ -40,6 +40,7 @@ function l10n:Initialize()
     end
 
     -- data is {<questName>, {<questDescription>,...}, {<questObjective>,...}}
+    -- Load quest locales
     for id, data in pairs(l10n.questLookup[locale] or {}) do
         if QuestieDB.questData[id] then
             if data[1] then
@@ -56,6 +57,7 @@ function l10n:Initialize()
             end
         end
     end
+
     -- Load NPC locales
     for id, data in pairs(l10n.npcNameLookup[locale] or {}) do
         if QuestieDB.npcData[id] and data then
@@ -67,6 +69,7 @@ function l10n:Initialize()
             end
         end
     end
+
     -- Load object locales
     for id, name in pairs(l10n.objectLookup[locale] or {}) do
         if QuestieDB.objectData[id] and name then
@@ -75,7 +78,10 @@ function l10n:Initialize()
     end
 end
 
+--Must be run in a coroutine as it yields
 function l10n:PostBoot()
+
+    local count = 0
     -- Create {['name'] = {ID, },} table for lookup of possible object IDs by name
     for id in pairs(QuestieDB.ObjectPointers) do
         local name = QuestieDB.QueryObjectSingle(id, "name")
@@ -87,9 +93,16 @@ function l10n:PostBoot()
                 entry[#entry+1] = id
             end
         end
+
+        if count > 300 then
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 end
 
+local format, unpack, tostring = string.format, unpack, tostring
 function _l10n:translate(key, ...)
     local args = {...}
 
@@ -99,22 +112,22 @@ function _l10n:translate(key, ...)
 
     local translationEntry = l10n.translations[key]
     if not translationEntry then
-        Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!")
-        return string.format(key, unpack(args))
+        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!") end
+        return format(key, unpack(args))
     end
 
     local translationValue = translationEntry[locale]
     if (not translationValue) then
-        Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language" , locale, "!")
-        return string.format(key, unpack(args))
+        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language" , locale, "!") end
+        return format(key, unpack(args))
     end
 
     if translationValue == true then
         -- Fallback to enUS which is the key
-        return string.format(key, unpack(args))
+        return format(key, unpack(args))
     end
 
-    return string.format(translationValue, unpack(args))
+    return format(translationValue, unpack(args))
 end
 
 setmetatable(l10n, { __call = function(_, ...) return _l10n:translate(...) end})

@@ -239,10 +239,6 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.IRONFORGE]={{18.33,50.94}}},
             [objectKeys.zoneID] = zoneIDs.IRONFORGE,
         },
-        [190040] = {
-            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{52.77,65.79}}},
-            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
-        },
         [190041] = {
             [objectKeys.spawns] = {[zoneIDs.THE_EXODAR]={{59.25,18.46}}},
             [objectKeys.zoneID] = zoneIDs.THE_EXODAR,
@@ -494,10 +490,6 @@ function QuestieTBCObjectFixes:Load()
         [190107] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51.83,39.18}}},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
-        },
-        [190108] = {
-            [objectKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{81.70,58.10}}},
-            [objectKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [190109] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{78.45,62.89}}},

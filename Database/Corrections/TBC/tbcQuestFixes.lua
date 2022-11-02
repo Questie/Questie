@@ -775,6 +775,9 @@ function QuestieTBCQuestFixes:Load()
         [9421] = {
             [questKeys.preQuestSingle] = {9280,9369},
         },
+        [9425] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [9428] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
@@ -3383,7 +3386,7 @@ function QuestieTBCQuestFixes:Load()
         [12155] = {
             [questKeys.name] = "Smash the Pumpkin",
             [questKeys.startedBy] = {nil,{186887},nil,},
-            [questKeys.finishedBy] = {{24519,},nil,},
+            [questKeys.finishedBy] = {{23973,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

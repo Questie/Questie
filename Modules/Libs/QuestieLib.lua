@@ -20,6 +20,10 @@ local strim = string.trim
 local smatch = string.match
 local tonumber = tonumber
 
+-- The original frame which we use to fetch the data required
+--                           Classic                          Wotlk Classic
+local textWrapFrameObject =  _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
+
 --[[
     Red: 5+ level above player
     Orange: 3 - 4 level above player
@@ -555,7 +559,7 @@ end
 function QuestieLib:TableMemoizeFunction(func, __mode)
     return setmetatable({}, {
         __index = function(self, k)
-            local v = func(self, k);
+            local v = func(k);
             self[k] = v
             return v;
         end,
@@ -563,27 +567,8 @@ function QuestieLib:TableMemoizeFunction(func, __mode)
     });
 end
 
-
-local frameObject = nil
-if _G["QuestLogObjectivesText"] then -- classic
-    frameObject = _G["QuestLogObjectivesText"]
-elseif _G["QuestInfoObjectivesText"] then -- Wotlk Classic
-    frameObject = _G["QuestInfoObjectivesText"]
-end
 --Part of the GameTooltipWrapDescription function
-local objectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
-objectiveFontString:SetWidth(frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-objectiveFontString:SetHeight(0);
-objectiveFontString:SetPoint("LEFT");
-objectiveFontString:SetJustifyH("LEFT");
----@diagnostic disable-next-line: redundant-parameter
-objectiveFontString:SetWordWrap(true)
-objectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
-local font, size = frameObject:GetFont()
---Chinese? "Fonts\\ARKai_T.ttf"
-objectiveFontString:SetFont(font, size);
-objectiveFontString:Hide()
-
+local textWrapObjectiveFontString
 ---Emulates the wrapping of a quest description
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
@@ -591,35 +576,50 @@ objectiveFontString:Hide()
 ---@param splitOnDot boolean @Should we add a linebreak if a dot appears thats not at the end of a line TRUE=NEW ROW, FALSE=NO NEW ROW, default: true
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
 ---@return table[] @A table of wrapped lines
-function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth, questid)
-    if(objectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
+function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth)
+    if not textWrapObjectiveFontString then
+        textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
+        textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+        textWrapObjectiveFontString:SetHeight(0);
+        textWrapObjectiveFontString:SetPoint("LEFT");
+        textWrapObjectiveFontString:SetJustifyH("LEFT");
+        ---@diagnostic disable-next-line: redundant-parameter
+        textWrapObjectiveFontString:SetWordWrap(true)
+        textWrapObjectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
+        local font, size = textWrapFrameObject:GetFont()
+        --Chinese? "Fonts\\ARKai_T.ttf"
+        textWrapObjectiveFontString:SetFont(font, size);
+        textWrapObjectiveFontString:Hide()
+    end
+
+    if(textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
     --Set Defaults
     combineTrailing = combineTrailing or true
     splitOnDot = splitOnDot or true
     --We show the fontstring and set the text to start the process
     --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
-    objectiveFontString:SetWidth(desiredWidth or frameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
-    objectiveFontString:Show()
+    textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
+    textWrapObjectiveFontString:Show()
 
     --Make a linebreak on each "dot" character if there is a space after (don't want it on end of line)
     local useLine = string.gsub(line, "%. ", "%.%\n")
 
-    objectiveFontString:SetText(useLine)
+    textWrapObjectiveFontString:SetText(useLine)
     --Is the line wrapped?
-    if(objectiveFontString:GetUnboundedStringWidth() > objectiveFontString:GetWrappedWidth()) then
+    if(textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
         local lines = {}
         local startIndex = 1
         local endIndex = 2 --We should be able to start at a later index...
         --This function returns a list of size information per row, so we use this to calculate number of rows
-        local numberOfRows = #objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
+        local numberOfRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
         for row = 1, numberOfRows do
             local lastSpaceIndex
             local dotIndex
             local indexes
             --We use the previous way to get number of rows to loop through characterindex until we get 2 rows
             repeat
-                indexes = objectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
+                indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
                 --Last space of the line to be used to break a new row
                 if(string.sub(useLine, endIndex, endIndex) == " ") then
                     lastSpaceIndex = endIndex
@@ -661,11 +661,11 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
 
             table.insert(lines, prefix..newLine)
         end
-        objectiveFontString:Hide()
+        textWrapObjectiveFontString:Hide()
         return lines
     else
         --Line was not wrapped, return the string as is.
-        objectiveFontString:Hide()
+        textWrapObjectiveFontString:Hide()
         useLine = prefix..string.gsub(line, "%. ", "%.%\n"..prefix)
         return {useLine}
     end

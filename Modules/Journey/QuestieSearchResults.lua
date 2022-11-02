@@ -112,7 +112,7 @@ local function CreateShowHideButton(id)
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
-    local ret = QuestieDB.QueryQuest(id, "name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle") or {}
+    local ret = QuestieDB.QueryQuest(id, {"name", "requiredLevel", "requiredRaces", "objectivesText", "startedBy", "finishedBy", "preQuestGroup", "preQuestSingle"}) or {}
     local name, requiredLevel, requiredRaces, objectivesText, startedBy, finishedBy, preQuestGroup, preQuestSingle = ret[1], ret[2], ret[3], ret[4], ret[5], ret[6], ret[7], ret[8]
 
     local questLevel, _ = QuestieLib.GetTbcLevel(id);
@@ -410,7 +410,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         return
     end
 
-    local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, "npcDrops", "objectDrops", "vendors"))
+    local npcDrops, objectDrops, vendors = unpack(QuestieDB.QueryItem(itemId, {"npcDrops", "objectDrops", "vendors"}))
 
     local npcSpawnsHeading = AceGUI:Create("Heading")
     npcSpawnsHeading:SetText(l10n("NPCs"))

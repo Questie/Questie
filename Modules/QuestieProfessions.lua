@@ -124,6 +124,7 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
+---@enum ProfessionEnum
 QuestieProfessions.professionKeys = {
     FIRST_AID = 129,
     BLACKSMITHING = 164,

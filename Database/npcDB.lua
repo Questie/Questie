@@ -1,4 +1,4 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
@@ -53,6 +53,7 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
     'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
 }
 
+---@enum NpcFlags
 QuestieDB.npcFlags = (Questie.IsTBC or Questie.IsWotlk) and {
     NONE = 0,
     GOSSIP = 1,
