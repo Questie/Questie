@@ -32,6 +32,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{31108}},
             [questKeys.exclusiveTo] = {13154,13156,},
         },
+        [768] = {
+            [questKeys.requiredSkill] = {393,1},
+        },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },

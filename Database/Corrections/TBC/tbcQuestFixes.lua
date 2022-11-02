@@ -80,6 +80,12 @@ function QuestieTBCQuestFixes:Load()
         [748] = {
             [questKeys.requiredRaces] = raceIDs.TAUREN,
         },
+        [756] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [759] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
         [870] = {
             [questKeys.triggerEnd] = {"Explore the waters of the Forgotten Pools", {[zoneIDs.THE_BARRENS]={{45.06,22.56}}}},
         },
