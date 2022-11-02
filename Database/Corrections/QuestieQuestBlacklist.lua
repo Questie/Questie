@@ -1099,6 +1099,7 @@ function QuestieQuestBlacklist:Load()
         [12162] = true, -- Not in the game
         [12163] = true, -- Not in the game
         [12051] = true, -- Not in the game
+        [25444] = true, -- Not in the game, part of Cata pre-prepatch events
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
