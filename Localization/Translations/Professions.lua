@@ -172,7 +172,7 @@ local professionLocals = {
     },
     ["Inscription"] = {
         ["ptBR"] = "Escrivania",
-        ["ruRU"] = "Надпись",
+        ["ruRU"] = "Начертание",
         ["deDE"] = "Inschrift",
         ["koKR"] = "주문각인",
         ["esMX"] = "Inscripción",
