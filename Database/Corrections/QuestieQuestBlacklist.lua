@@ -1111,7 +1111,6 @@ function QuestieQuestBlacklist:Load()
         [13176] = true, -- Not in the game
         [13173] = true, -- Not in the game
         [13175] = true, -- Not in the game
-        [] = true, -- Not in the game
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
