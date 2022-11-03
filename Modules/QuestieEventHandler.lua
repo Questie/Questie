@@ -3,6 +3,13 @@
 local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler")
 local _EventHandler = {}
 
+
+-------------------------
+--Import System Modules.
+-------------------------
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
+
 -------------------------
 --Import modules.
 -------------------------
@@ -229,7 +236,7 @@ function _EventHandler:PlayerLevelUp(level)
 end
 
 --- Fires when a modifier key changed
-function _EventHandler:ModifierStateChanged()
+function _EventHandler:ModifierStateChanged(key, down)
     if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
         GameTooltip:Hide()
         GameTooltip:ClearLines()
@@ -245,7 +252,14 @@ function _EventHandler:ModifierStateChanged()
             end)
         end
     end
+     --Shift is clicked
+    if down == 1 then
+        SystemEventBus:Fire("KEY_PRESS-KEY_PRESS_MODIFIER_PRESSED_"..key:sub(2), key)
+    else
+        SystemEventBus:Fire("KEY_PRESS-KEY_PRESS_MODIFIER_RELEASED_"..key:sub(2), key)
+    end
 end
+
 
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
