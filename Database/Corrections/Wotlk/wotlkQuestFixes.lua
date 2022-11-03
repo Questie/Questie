@@ -504,6 +504,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_OBJECT, l10n("Capture stunned Drakkari trolls with Bounty Hunter's Cage"), 0, {{"monster", 26425}, {"monster", 26447}}},
             },
         },
+        [11989] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}},
+            },
+        },
         [12007] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir when you gathered Zim'bo's Mojo"),0,{{"object", 400047}}}},
         },
