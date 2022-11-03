@@ -35,6 +35,7 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
 --- Up values
 local yield = coroutine.yield
+local wipe = wipe
 
 local function InitializeModule()
     wipe(QuestieQuest.Show.NPC)
@@ -169,6 +170,15 @@ do
     local function CalculateAvailableQuests()
 
         local questsPerYield = 64
+
+        -- Wipe the previous data
+        for _, categoryData in pairs(QuestieQuest.Show) do
+            for _, questData in pairs(categoryData) do
+                if questData.available then
+                    wipe(questData.available)
+                end
+            end
+        end
 
         -- Localize the variable for speeeeed
         local debugEnabled = Questie.db.global.debugEnabled
@@ -336,8 +346,14 @@ do
 
         local questsPerYield = 6
 
-        -- Localize the variable for speeeeed
-        local debugEnabled = Questie.db.global.debugEnabled
+        -- Clear the previous data
+        for _, categoryData in pairs(QuestieQuest.Show) do
+            for _, questData in pairs(categoryData) do
+                if questData.finisher then
+                    wipe(questData.finisher)
+                end
+            end
+        end
 
         local questCount = 0
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
