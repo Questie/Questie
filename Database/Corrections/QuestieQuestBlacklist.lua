@@ -622,9 +622,41 @@ function QuestieQuestBlacklist:Load()
         [13927] = true,
 
         --- Hallow's End
+        [12940] = true,
+        [12941] = true,
+        [12944] = true,
+        [12945] = true,
+        [12946] = true,
+        [12947] = true,
+        [12950] = true,
+        [13433] = true,
+        [13434] = true,
+        [13435] = true,
+        [13436] = true,
+        [13437] = true,
+        [13438] = true,
+        [13439] = true,
+        [13448] = true,
+        [13452] = true,
+        [13456] = true,
+        [13459] = true,
+        [13460] = true,
+        [13461] = true,
+        [13462] = true,
         [13463] = true,
+        [13464] = true,
+        [13465] = true,
+        [13466] = true,
+        [13467] = true,
+        [13468] = true,
+        [13469] = true,
+        [13470] = true,
+        [13471] = true,
         [13472] = true,
         [13473] = true,
+        [13474] = true,
+        [13501] = true,
+        [13548] = true,
 
         --- Pilgrim's Bounty
         [13483] = true,
@@ -1127,9 +1159,9 @@ function QuestieQuestBlacklist:Load()
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
-        
+
         -- Classic+TBC Naxxramas attune (no longer exists in wotlk)
-        
+
         [9121] = QuestieCorrections.WOTLK_ONLY,
         [9122] = QuestieCorrections.WOTLK_ONLY,
         [9123] = QuestieCorrections.WOTLK_ONLY,
