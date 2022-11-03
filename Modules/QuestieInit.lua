@@ -200,6 +200,7 @@ QuestieInit.Stages[2] = function()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 2 start.")
     -- We do this while we wait for the Quest Cache anyway.
     l10n:PostBoot()
+    QuestiePlayer:Initialize()
     coYield()
     QuestieJourney:Initialize()
 
@@ -264,7 +265,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     ChatFilter:RegisterEvents()
     QuestieMap:InitializeQueue()
-    QuestiePlayer:Initialize()
 
     coYield()
     QuestieQuest:Initialize()

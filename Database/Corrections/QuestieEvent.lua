@@ -617,6 +617,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11242, nil, nil, QuestieCorre
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B
@@ -838,9 +839,41 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Sce
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
 
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12940}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12941}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12944}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12945}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12946}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12947}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12950}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13433}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13434}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13435}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13436}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13437}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13438}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13439}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13448}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13452}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13456}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13459}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13460}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13461}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13462}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13463}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13464}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13465}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13466}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13467}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13468}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13469}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13470}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13471}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13472}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13473}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13474}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13501}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13548}) -- Candy Bucket
 
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12784}) -- Desperate Research
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12808}) -- A Desperate Alliance

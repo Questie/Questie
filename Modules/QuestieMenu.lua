@@ -63,6 +63,7 @@ local _townsfolk_texturemap = {
     [QuestieProfessions.professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
     [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
+    [QuestieProfessions.professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
@@ -336,13 +337,13 @@ function QuestieMenu:PopulateTownsfolkTypes(folkTypes) -- populate the table wit
     local count = 0
     for id, npcData in pairs(QuestieDB.npcData) do
         local flags = npcData[QuestieDB.npcKeys.npcFlags]
-        for name, data in pairs(folkTypes) do
-            if flags and bitband(flags, data.mask) == data.mask then
+        for name, folkType in pairs(folkTypes) do
+            if flags and bitband(flags, folkType.mask) == folkType.mask then
                 local npcName = npcData[QuestieDB.npcKeys.name]
                 local subName = npcData[QuestieDB.npcKeys.subName]
                 if npcName and sub(npcName, 1, 5) ~= "[DND]" then
-                    if (not data.requireSubname) or (subName and strlen(subName) > 1) then
-                        data.data[#data.data] = id
+                    if (not folkType.requireSubname) or (subName and strlen(subName) > 1) then
+                        folkType.data[#folkType.data+1] = id
                     end
                 end
             end
@@ -526,6 +527,10 @@ function QuestieMenu:PopulateTownsfolk()
 
     if Questie.IsTBC or Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
+    end
+    
+    if Questie.IsWotlk then
+        professionTrainers[QuestieProfessions.professionKeys.INSCRIPTION] = {}
     end
 
     local count = 0
