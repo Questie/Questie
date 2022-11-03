@@ -18,11 +18,15 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
 
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
+
+    SystemEventBus:Fire(SystemEventBus.events.ACE_DB_LOADED)
 
     QuestieEventHandler:RegisterEarlyEvents()
 end
