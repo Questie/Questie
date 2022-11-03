@@ -54,7 +54,7 @@ local relationTypes = {
     finisherComplete = {type="finisherComplete"},
 }
 
----@alias Show {NPC: table<NpcId, {available: table<QuestId, AvailableQuestMapData>, finisher: table<QuestId, FinisherQuestMapData>}>, GameObject: table, Item: table}
+---@alias Show {NPC: table<NpcId, {available: table<QuestId, RelationMapData>, finisher: table<QuestId, RelationMapData>}>, GameObject: table, Item: table}
 ---@type Show
 QuestieQuest.Show = {
     NPC = {
@@ -63,7 +63,7 @@ QuestieQuest.Show = {
             available = {
                 --[Questid] = { type }
             },
-            complete = {
+            finisher = {
                 --[Questid] = { type }
             },
             slay = {
@@ -83,7 +83,7 @@ QuestieQuest.Show = {
             available = {
                 --[Questid] = { type }
             },
-            complete = {
+            finisher = {
                 --[Questid] = { type }
             },
             loot = {
