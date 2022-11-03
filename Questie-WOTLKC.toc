@@ -25,8 +25,12 @@ Modules\Libs\QuestieLoader.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua
+
 #Message Handler
 Modules\Libs\MessageHandler.lua
+
+# System Bus
+ModulesNew\SystemEventBus.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
@@ -149,6 +153,8 @@ Modules\Quest\QuestEventHandler.lua
 Modules\Quest\QuestieQuest.lua
 Modules\Quest\QuestieQuestPrivates.lua
 
+Database\Zones\MapCoordinates.lua
+
 Modules\QuestieNameplate.lua
 Modules\QuestieCoordinates.lua
 
@@ -208,3 +214,19 @@ Modules\QuestieProfiler.lua
 
 # Main
 Questie.lua
+
+# Event bus
+ModulesNew\Quest\QuestEventBus.lua
+ModulesNew\Map\MapEventBus.lua
+
+# Pins
+ModulesNew\Map\Pins\BasePin.lua
+ModulesNew\Map\Pins\RelationPin.lua
+
+#Map Logic
+ModulesNew\Map\Processor\Available.lua
+ModulesNew\Map\FramePool.lua
+ModulesNew\Map\Map.lua
+ModulesNew\Map\MapTooltip.lua
+
+ModulesNew\Quest\Quest.lua
