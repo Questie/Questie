@@ -136,7 +136,7 @@ function BasePinMixin:OnReleased()
     --    self.BasePinMixin = nil
     --end
     -- self:Hide()
-    self:ClearNudgeSettings()
+    -- self:ClearNudgeSettings()
     -- self:SetParent(UIParent)
     -- self:ClearAllPoints()
 end
@@ -243,20 +243,20 @@ function BasePinMixin:OnMouseEnter()
     local tooltipFunction = function()
         local data = self.data
         MapEventBus:Fire(MapEventBus.events.TOOLTIP.RESET_TOOLTIP)
-        -- for index, id in pairs(data.id) do
-        --     local giverType = data.type[index]
-        --     MapEventBus:Fire(MapEventBus.events.TOOLTIP.ADD_AVAILABLE_TOOLTIP(id, giverType))
-        -- end
+        --? An idea might be to use cursor location here instead!
+
         local pinX, pinY = self:GetPosition()
         local otherPinX, otherPinY
+        local distance
         self:OnTooltip()
-        -- ---@param pin BasePinMixin
-        -- for pin in self:GetMap():EnumeratePinsByTemplate(worldPinTemplate) do
-        --     otherPinX, otherPinY = pin:GetPosition()
-        --     if pinX ~= otherPinX and pinY ~= otherPinY and Euclid(pinX, pinY, otherPinX, otherPinY) < 0.01 then
-        --         pin:OnTooltip()
-        --     end
-        -- end
+        ---@param pin BasePinMixin
+        for pin in self:GetMap():EnumeratePinsByTemplate(worldPinTemplate) do
+            otherPinX, otherPinY = pin:GetPosition()
+            distance = Euclid(pinX, pinY, otherPinX, otherPinY)
+            if pinX ~= otherPinX and pinY ~= otherPinY and distance < 0.008 then
+                pin:OnTooltip()
+            end
+        end
         MapEventBus:Fire(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP)
     end
 
