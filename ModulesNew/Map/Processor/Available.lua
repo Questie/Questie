@@ -228,6 +228,7 @@ local function Draw(self)
 
         highlightTexture:SetTexture(COMPLETE_ICON_PATH)
         frameLevelType = "PIN_FRAME_LEVEL_AREA_POI_COMPLETE"
+        Pin:SetSize(10, 15)
     elseif Pin.data.majorityType == "objectFinisher" then
         baseTexture:SetTexture(COMPLETE_ICON_PATH)
 
@@ -243,24 +244,26 @@ local function Draw(self)
 
         highlightTexture:SetTexture(COMPLETE_ICON_PATH)
         frameLevelType = "PIN_FRAME_LEVEL_AREA_POI_COMPLETE"
-    elseif Pin.data.majorityType == "item" then
-        -- The loot bag
-        baseTexture:SetTexture(LOOT_ICON_PATH)
+        Pin:SetSize(10, 15)
+    -- elseif Pin.data.majorityType == "item" then
+    --     -- The loot bag
+    --     baseTexture:SetTexture(LOOT_ICON_PATH)
 
-        -- The available icon for loot bag
-        local availableTexture = texPool:Acquire();
-        availableTexture:SetParent(Pin)
-        availableTexture:SetPoint("CENTER");
-        availableTexture:SetTexture(AVAILABLE_LOOT_ICON_PATH)
-        availableTexture:Show();
-        Pin.textures[#Pin.textures + 1] = availableTexture
+    --     -- The available icon for loot bag
+    --     local availableTexture = texPool:Acquire();
+    --     availableTexture:SetParent(Pin)
+    --     availableTexture:SetPoint("CENTER");
+    --     availableTexture:SetTexture(AVAILABLE_LOOT_ICON_PATH)
+    --     availableTexture:Show();
+    --     Pin.textures[#Pin.textures + 1] = availableTexture
 
-        highlightTexture:SetTexture(LOOT_ICON_PATH) ---TODO: This has not been tested to see if it looks good.
+    --     highlightTexture:SetTexture(LOOT_ICON_PATH) ---TODO: This has not been tested to see if it looks good.
     else
         baseTexture:SetTexture(AVAILABLE_ICON_PATH)
         Pin.textures[#Pin.textures + 1] = baseTexture
 
         highlightTexture:SetTexture(AVAILABLE_ICON_PATH)
+        Pin:SetSize(8, 15)
     end
     baseTexture:Show();
 
@@ -270,9 +273,8 @@ local function Draw(self)
     highlightTexture:SetAlpha(highlightAlpha)
     highlightTexture:SetDrawLayer("HIGHLIGHT")
     highlightTexture:SetBlendMode("ADD")
-    -- highlightTexture:SetVertexColor(1, 1, 0, 1)
     highlightTexture:Show()
-    -- Pin:SetHighlightTexture(highlightTexture)
+
 
     Pin:UseFrameLevelType(frameLevelType, self.frameLevel)
     Pin:SetPosition(self.x * 0.01, self.y * 0.01) -- Also runs ApplyFrameLevel
