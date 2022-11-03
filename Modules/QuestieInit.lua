@@ -4,6 +4,8 @@ local _QuestieInit = QuestieInit.private
 
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -320,7 +322,9 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     -- We do this last because it will run for a while and we don't want to block the rest of the init
     coYield()
-    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    -- QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+
+    SystemEventBus:Fire(SystemEventBus.events.INITIALIZE_DONE)
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")
 end
