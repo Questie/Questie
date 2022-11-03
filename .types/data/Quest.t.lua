@@ -41,17 +41,17 @@
 ---@class NpcObjective
 ---@field Type "monster"
 ---@field Id NpcId
----@field Text string
+----@field Text string
 
 ---@class ObjectObjective
 ---@field Type "object"
 ---@field Id ObjectId
----@field Text string
+----@field Text string
 
 ---@class ItemObjective
 ---@field Type "item"
 ---@field Id ItemId
----@field Text string
+----@field Text string
 
 ---@class ReputationObjective
 ---@field Type "reputation"
@@ -68,6 +68,16 @@
 ---@field Type "event"
 ---@field Text string
 ---@field Coordinates table<AreaId, CoordPair[]>
+
+---@alias SourceItemObjective ItemObjective
+
+---@class SpecialObjective
+---@field Icon string @Icon path
+---@field Description string @Description of the objective
+
+---@class SpecialObjectiveDbRef
+
+
 
 
 ---@class QuestObjective
