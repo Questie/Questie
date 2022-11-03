@@ -5,8 +5,6 @@ local Questie = select(2, ...)
 ---@class MapFramePool
 local FramePool = CreateFramePool("BUTTON")
 
-local basePin
-
 ---@class TexturePool
 ---@field Acquire fun(): Texture
 ---@field Release fun(self: TexturePool, texture: Texture): boolean
@@ -19,6 +17,9 @@ WorldMapFrame.pinPools[worldPinTemplate] = FramePool
 
 -- setup pin pool
 do
+    -- A raw BasePin used to revert to the default pin template
+    local basePin
+
     local count = 0
     local name = "QuestieMapFrame"
     FramePool.parent = WorldMapFrame:GetCanvas()
@@ -77,7 +78,7 @@ do
             --Frame setup
             pin:SetParent(FramePool.parent)
             pin:SetPoint("CENTER")
-            pin:SetHighlightTexture(nil)
+            pin:SetSize(16, 16)
 
             --? It is reset so the pin is not dirty
             pin.dirty = false
@@ -85,7 +86,6 @@ do
     end
 
     basePin = FramePool.creationFunc(FramePool)
-    DevTools_Dump(basePin)
 end
 
 -- Regular Textures
