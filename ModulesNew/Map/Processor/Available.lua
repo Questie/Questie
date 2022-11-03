@@ -266,14 +266,14 @@ local function Draw(self)
         Pin:SetSize(8, 15)
     end
     baseTexture:Show();
-
     Pin.textures[#Pin.textures + 1] = baseTexture
-    Pin.textures[#Pin.textures + 1] = highlightTexture
+
 
     highlightTexture:SetAlpha(highlightAlpha)
     highlightTexture:SetDrawLayer("HIGHLIGHT")
     highlightTexture:SetBlendMode("ADD")
     highlightTexture:Show()
+    Pin.textures[#Pin.textures + 1] = highlightTexture
 
 
     Pin:UseFrameLevelType(frameLevelType, self.frameLevel)
