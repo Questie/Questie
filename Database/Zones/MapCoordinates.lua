@@ -9,9 +9,14 @@ local Maps = {}
 ---@type table<UiMapId, MapInfo[]>
 local WorldMaps = {}
 
+--- Contains the API data from GetMapInfo for UiMapId
+---@type table<UiMapId, UiMapDetails>
+local MapInfo = {}
+
 -- Expose the map objects
 MapCoordinates.Maps = Maps
 MapCoordinates.WorldMaps = WorldMaps
+MapCoordinates.MapInfo = MapInfo
 
 -- Minimap world size scaling
 MinimapSizePerYard = {
@@ -25,7 +30,7 @@ local GetMapRectOnMap = C_Map.GetMapRectOnMap
 
 -- Scope these functions
 do
-    local UIMapType = {
+    local UiMapType = {
         Cosmic = 0,
         World = 1,
         Continent = 2,
@@ -68,7 +73,7 @@ do
         -- local worldX = map(x, localMin, localMax, self.rectOnContinentMap.minX, self.rectOnContinentMap.maxX)
         -- local worldY = map(y, localMin, localMax, self.rectOnContinentMap.minY, self.rectOnContinentMap.maxY)
         if x and y then
-            if Maps[self.parentMapID] and Maps[self.parentMapID].mapType == UIMapType.Continent then
+            if Maps[self.parentMapID] and Maps[self.parentMapID].mapType == UiMapType.Continent then
                 local worldX, worldY = self:ToWorldCoordinate(x, y)
                 if worldX and worldY then
                     ---@diagnostic disable-next-line: return-type-mismatch
@@ -107,15 +112,16 @@ do
 
     -- 946 is Cosmic with Outlands and Azeroth, 947 is only Azeroth
     -- Fetches all continents
-    local info = GetMapChildrenInfo(946, UIMapType.Continent, true) or
-        GetMapChildrenInfo(947, UIMapType.Continent, true)
+    local info = GetMapChildrenInfo(946, UiMapType.Continent, true) or
+        GetMapChildrenInfo(947, UiMapType.Continent, true)
     for mapIndex = 1, #info do
         local mapInfo = info[mapIndex]
+        MapInfo[mapInfo.mapID] = mapInfo
         --? Only populate once
         if not WorldMaps[mapInfo.parentMapID] then
             --? If the parentId is a world type use the parent, else use the continent
             --? (Basically, Azeroth(EK, Kalimdor, Northrend) or Outlands)
-            local worldMapId = GetMapInfo(mapInfo.parentMapID).mapType == UIMapType.World and mapInfo.parentMapID or mapInfo.mapID
+            local worldMapId = GetMapInfo(mapInfo.parentMapID).mapType == UiMapType.World and mapInfo.parentMapID or mapInfo.mapID
 
             ---@type MapInfo[]
             local WorldMap = {}
@@ -169,7 +175,7 @@ do
         -- We only check zone that are on the same worldmap against eachother.
         for mapId, mapInfo in pairs(worldMap) do
             -- Do not run on the continents, the zones writes themselves into the continents
-            if mapInfo.mapType ~= UIMapType.Continent then
+            if mapInfo.mapType ~= UiMapType.Continent then
                 for otherMapId, otherMapInfo in pairs(worldMap) do
                     if mapId ~= otherMapId then
                         local otherRectInfo = otherMapInfo.rectOnWorldMap
@@ -206,11 +212,11 @@ do
                                 --? To see if they just overlap on the worldmap or if they actually overlap.
 
                                 -- Here we check that the continent is the same, otherwise we get stuff like Trisfal Glades overlap with Northrend.
-                                if otherMapInfo.mapType == UIMapType.Continent and
+                                if otherMapInfo.mapType == UiMapType.Continent and
                                     mapInfo.parentMapID == otherMapInfo.mapID then
                                     -- A good way to debug this is to set the name
                                     mapInfo.nearbyZones[otherMapId] = otherMapInfo.name
-                                elseif (otherMapInfo.mapType ~= UIMapType.Continent) then
+                                elseif (otherMapInfo.mapType ~= UiMapType.Continent) then
                                     mapInfo.nearbyZones[otherMapId] = otherMapInfo.name
                                 end
                             end
@@ -224,6 +230,15 @@ do
             end
         end
     end
+
+    -- If the map does not exist, we try to run the GetMapInfo and populate the table.
+    MapCoordinates.MapInfo = setmetatable(MapCoordinates.MapInfo, {
+        __index = function(self, k)
+            local v = GetMapInfo(k);
+            self[k] = v
+            return v;
+        end,
+    })
 
 
     --* Kalimdor
