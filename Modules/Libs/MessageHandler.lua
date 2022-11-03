@@ -1,6 +1,6 @@
 ---@class MessageHandlerFactory
 local MessageHandlerFactory = setmetatable(QuestieLoader:CreateModule("MessageHandlerFactory"),
-    { __call = function(self) return self.New() end })
+                                           { __call = function(MessageBusName) return self.New(MessageBusName) end })
 
 ---@alias Event string
 ---@alias Callback fun(...:any):any
@@ -9,25 +9,31 @@ local MessageHandlerFactory = setmetatable(QuestieLoader:CreateModule("MessageHa
 --- Localize functions
 local yield = coroutine.yield
 local insert, remove = table.insert, table.remove
+local format = string.format
+local safePack = SafePack
 local wipe = wipe
 
 --- Creates a new MessageHandler
+---@param MessageBusName string @The name of the message bus, used in eventtrace
 ---@return MessageHandler
-function MessageHandlerFactory.New()
+function MessageHandlerFactory.New(MessageBusName)
     ---@class MessageHandler
     local handler = {}
 
     --- Contains all the events that are fired repeatably
     ---@type table<Event,Callback[]>
-    handler.repeatEvents = {}
+    local repeatEvents = {}
 
     --- Contains all the events that are fired once
     ---@type table<Event,Callback[]>
-    handler.onceEvents = {}
+    local onceEvents = {}
 
     -- Used when asyncronously calling events
     ---@type table<Event, boolean>
-    handler.executing = {}
+    local executing = {}
+
+    ---@type table<Event, table<table, Callback>>
+    local objects = {}
 
     --- The local function for both Async and Sync callbacks
     ---@param eventName Event
@@ -35,15 +41,27 @@ function MessageHandlerFactory.New()
     ---@param ... any @Input arguments for the callback
     ---@return table? @Returns a table of all the return values from the callbacks
     local function fire(eventName, asyncCount, ...)
-        if handler.executing[eventName] then
+        print("Event Fired", eventName)
+        if Questie.db.global.debugEnabled then
+            if EventTrace and EventTrace:CanLogEvent(eventName) then
+                local elementData = {
+                    event = eventName,
+                    args = safePack(...),
+                    displayEvent = format("%s: %s", MessageBusName, eventName),
+                    displayMessage = format("%s: %s", MessageBusName, eventName),
+                }
+                EventTrace:LogLine(elementData);
+            end
+        end
+        if executing[eventName] then
             error("Event '" .. eventName .. "' is already being executed!", 2)
         end
 
-        handler.executing[eventName] = true
+        executing[eventName] = true
 
         --* Fire once tables
-        if handler.onceEvents[eventName] then
-            local eventList = handler.onceEvents[eventName]
+        if onceEvents[eventName] then
+            local eventList = onceEvents[eventName]
             for callbackIndex = 1, #eventList do
                 -- Function call
                 eventList[callbackIndex](...)
@@ -53,8 +71,8 @@ function MessageHandlerFactory.New()
 
         --* Fire repeat tables
         local returnValues = nil
-        if handler.repeatEvents[eventName] then
-            local eventList = handler.repeatEvents[eventName]
+        if repeatEvents[eventName] then
+            local eventList = repeatEvents[eventName]
             for callbackIndex = 1, #eventList do
                 -- Function call
                 local retValue = eventList[callbackIndex](...)
@@ -71,7 +89,28 @@ function MessageHandlerFactory.New()
                 end
             end
         end
-        handler.executing[eventName] = nil
+
+        --* Fire object tables
+        if objects[eventName] then
+            local count = 0
+            for object, callback in pairs(objects[eventName]) do
+                -- Function call
+                local retValue = callback(object, ...)
+
+                -- If we have a return value we save it to the return table
+                if retValue then
+                    if not returnValues then returnValues = {} end
+                    returnValues[#returnValues + 1] = retValue
+                end
+
+                --If we are a async function we yield after each asyncCount
+                if asyncCount and count % asyncCount == 0 then
+                    yield()
+                end
+                count = count + 1
+            end
+        end
+        executing[eventName] = nil
 
         return returnValues
     end
@@ -105,10 +144,27 @@ function MessageHandlerFactory.New()
         elseif not eventName or type(eventName) ~= "string" then
             error("Usage: Register(eventName, callback): 'eventName' - a string expected.", 2)
         end
-        if not self.repeatEvents[eventName] then
-            self.repeatEvents[eventName] = {}
+        if not repeatEvents[eventName] then
+            repeatEvents[eventName] = {}
         end
-        insert(self.repeatEvents[eventName], callback)
+        insert(repeatEvents[eventName], callback)
+    end
+
+    ---Register a callback on an object, each callback is unique and registering a new one will overwrite it.
+    ---The callbacks first parameter will aways be the object itself
+    ---@param object table @The object that is registering the event
+    ---@param eventName Event
+    ---@param callback Callback
+    function handler:ObjectRegisterRepeating(object, eventName, callback)
+        if not callback or type(callback) ~= "function" then
+            error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'callback' - function expected.", 2)
+        elseif not eventName or type(eventName) ~= "string" then
+            error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'eventName' - a string expected.", 2)
+        elseif not object or type(object) ~= "table" then
+            error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'object' - a table expected.", 2)
+        end
+        objects[eventName] = objects[eventName] or {}
+        objects[eventName][object] = callback
     end
 
     --- Register a callback that will only be called once
@@ -120,10 +176,10 @@ function MessageHandlerFactory.New()
         elseif not eventName or type(eventName) ~= "string" then
             error("Usage: RegisterOnce(eventName, callback): 'eventName' - a string expected.", 2)
         end
-        if not self.onceEvents[eventName] then
-            self.onceEvents[eventName] = {}
+        if not onceEvents[eventName] then
+            onceEvents[eventName] = {}
         end
-        insert(self.onceEvents[eventName], callback)
+        insert(onceEvents[eventName], callback)
     end
 
     ---Unregister a callback by function
@@ -135,28 +191,58 @@ function MessageHandlerFactory.New()
         elseif not eventName or type(eventName) ~= "string" then
             error("Usage: Unregister(eventName, callback): 'eventName' - a string expected.", 2)
         end
-        local eventList = self.repeatEvents[eventName]
+        local eventList = repeatEvents[eventName]
         if eventList then
             for callbackIndex = 1, #eventList do
                 if eventList[callbackIndex] == callback then
-                    remove(self.repeatEvents[eventName], callbackIndex)
+                    remove(repeatEvents[eventName], callbackIndex)
                     return
                 end
             end
         end
     end
 
-    ---Unregisters all events for a given event name in repeat and once-lists
+    ---Unregister a callback by object
+    ---@param object table
+    ---@param eventName Event
+    function handler:ObjectUnregisterRepeating(object, eventName)
+        if not eventName or type(eventName) ~= "string" then
+            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'eventName' - a string expected.", 2)
+        elseif not object or type(object) ~= "table" then
+            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'object' - a table expected.", 2)
+        end
+        if objects[eventName] and objects[eventName][object] then
+            objects[eventName][object] = nil
+        end
+    end
+
+    ---Unregister all callbacks by object
+    ---@param object table
+    function handler:ObjectUnregisterAll(object)
+        if not object or type(object) ~= "table" then
+            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'object' - a table expected.", 2)
+        end
+        for _, objectList in pairs(objects) do
+            if objectList[object] then
+                objectList[object] = nil
+            end
+        end
+    end
+
+    ---Unregisters all events for a given event name in repeat, once-lists and object-lists
     ---@param eventName Event
     function handler:UnregisterAll(eventName)
         if not eventName or type(eventName) ~= "string" then
             error("Usage: UnregisterAll(eventName): 'eventName' - a string expected.", 2)
         end
-        if self.repeatEvents[eventName] then
-            wipe(self.repeatEvents[eventName])
+        if repeatEvents[eventName] then
+            wipe(repeatEvents[eventName])
         end
-        if self.onceEvents[eventName] then
-            wipe(self.onceEvents[eventName])
+        if onceEvents[eventName] then
+            wipe(onceEvents[eventName])
+        end
+        if objects[eventName] then
+            wipe(objects[eventName])
         end
     end
 
@@ -172,7 +258,7 @@ do
 
         --- Test simple usage
         do
-            local MessageHandler = MessageHandlerFactory:New()
+            local MessageHandler = MessageHandlerFactory.New("TestBus1")
             local returnedCount = 0
 
             local incrementFunction = function()
@@ -209,7 +295,7 @@ do
 
         --- Test multiple registered events
         do
-            local MessageHandler = MessageHandlerFactory:New()
+            local MessageHandler = MessageHandlerFactory.New("TestBus2")
             local returnedCount = 0
             local incrementFunction = function()
                 returnedCount = returnedCount + 1
@@ -240,7 +326,7 @@ do
 
         --- Test return
         do
-            local MessageHandler          = MessageHandlerFactory:New()
+            local MessageHandler          = MessageHandlerFactory.New("TestBus3")
             local returnedCount           = 0
             local incrementReturnFunction = function()
                 returnedCount = returnedCount + 1
@@ -262,7 +348,7 @@ do
 
         --- Test async and async return
         do
-            local MessageHandler = MessageHandlerFactory:New()
+            local MessageHandler = MessageHandlerFactory.New("TestBus4")
             local returnedCount = 0
 
             local incrementReturnFunction = function()
@@ -276,10 +362,10 @@ do
             end
 
             local routine = coroutine.create(
-                function()
-                    MessageHandler:FireAsync(testEvent, 2)
-                    assert(returnedCount == 5, Questie:Colorize(" -- FAILED: Event was not fired the correct amount of times", "red"))
-                end
+            function()
+                MessageHandler:FireAsync(testEvent, 2)
+                assert(returnedCount == 5, Questie:Colorize(" -- FAILED: Event was not fired the correct amount of times", "red"))
+            end
             )
             local timer
             timer = C_Timer.NewTicker(0, function()
