@@ -26,6 +26,11 @@ local function Initialize()
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_AREA_POI")
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_COMPLETE", "PIN_FRAME_LEVEL_AREA_POI", 100)
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", "PIN_FRAME_LEVEL_AREA_POI", 100)
+    MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
+        if MapProvider then
+            MapProvider:RefreshAllData(true)
+        end
+    end)
 end
 
 -- Run it the next frame
@@ -56,7 +61,7 @@ end
 
 function MapProvider:RefreshAllData(fromOnShow)
     print("RefreshAllData", fromOnShow)
-    if lastDrawnMapId ~= Map:GetMapID() then
+    if lastDrawnMapId ~= Map:GetMapID() or fromOnShow == true then
         -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
         if (fromOnShow == true) then
             Map:RemoveAllPinsByTemplate(worldPinTemplate)

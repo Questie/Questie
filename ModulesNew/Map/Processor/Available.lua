@@ -363,6 +363,8 @@ function AvailableMapProcessor.ProcessCompletedQuests(ShowData)
             majorityType["objectFinisher"] = 0
         end
     end
+
+    MapEventBus:Fire(MapEventBus.events.MAP.REDRAW_ALL)
 end
 
 ---comment
@@ -483,6 +485,8 @@ function AvailableMapProcessor.ProcessAvailableQuests(ShowData)
             majorityType["npc"] = 0
         end
     end
+
+    MapEventBus:Fire(MapEventBus.events.MAP.REDRAW_ALL)
 end
 
 ---Absolute center, not average
