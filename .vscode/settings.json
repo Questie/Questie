@@ -2738,6 +2738,7 @@
         "README.md": true,
         ".github/**": true,
         ".vscode/**": true,
+        "*.patch": true,
         // ".types/.SubModules/vscode-wow-api/**": true,
     },
     "files.exclude": {
