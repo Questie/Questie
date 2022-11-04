@@ -1,5 +1,5 @@
----@class AvailableMapProcessor
-local AvailableMapProcessor = QuestieLoader:CreateModule("AvailableMapProcessor")
+---@class RelationMapProcessor
+local RelationMapProcessor = QuestieLoader:CreateModule("RelationMapProcessor")
 local QuestEventBus = QuestieLoader:ImportModule("QuestEventBus")
 
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
@@ -39,8 +39,8 @@ local AVAILABLE_LOOT_ICON_PATH = QuestieLib.AddonPath .. "Icons\\lootAvailable.b
 local COMPLETE_ICON_PATH =  QuestieLib.AddonPath.."Icons\\complete.tga"
 
 local function Initialize()
-    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS, AvailableMapProcessor.ProcessAvailableQuests)
-    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS, AvailableMapProcessor.ProcessCompletedQuests)
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS, RelationMapProcessor.ProcessAvailableQuests)
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS, RelationMapProcessor.ProcessCompletedQuests)
     pinTemplate = worldPinTemplate
     map = MapProvider:GetMap()
     texPool = TexturePool
@@ -92,7 +92,7 @@ local DungeonLocations = setmetatable({}, {
 ---@param idType RelationPointType
 ---@param QuerySingleFunction fun(id: NpcId|ObjectId|ItemId, query: "spawns"): table<AreaId, {[1]: MapX, [2]: MapY}[]>>
 ---@param itemId ItemId? -- This is used to override the ID which is added into starterIcons
-function AvailableMapProcessor.GetSpawns(starterIcons, id, data, idType, QuerySingleFunction, itemId)
+function RelationMapProcessor.GetSpawns(starterIcons, id, data, idType, QuerySingleFunction, itemId)
     if starterIcons == nil or type(starterIcons) ~= "table" then
         error("GetSpawns called with invalid starterIcons")
         return
@@ -285,18 +285,18 @@ end
 
 ---comment
 ---@param ShowData Show
-function AvailableMapProcessor.ProcessCompletedQuests(ShowData)
+function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     print("ProcessCompletedQuests")
     ---@type table<UiMapId, AvailablePoints>
     local finisherIcons = {}
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.finisher then
-            AvailableMapProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
+            RelationMapProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
         end
     end
     for objectId, objectData in pairs(ShowData.GameObject) do
         if objectData.finisher then
-            AvailableMapProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", QuestieDB.QueryObjectSingle)
+            RelationMapProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", QuestieDB.QueryObjectSingle)
         end
     end
 
@@ -308,7 +308,7 @@ function AvailableMapProcessor.ProcessCompletedQuests(ShowData)
     }
 
     for UiMapId, data in pairs(finisherIcons) do
-        local combinedGivers = AvailableMapProcessor.CombineGivers(UiMapId, data, 4, 4)
+        local combinedGivers = RelationMapProcessor.CombineGivers(UiMapId, data, 4, 4)
         print("Finisher", UiMapId, #combinedGivers)
         for combinedGiverIndex = 1, #combinedGivers do
             local combinedGiver = combinedGivers[combinedGiverIndex]
@@ -369,18 +369,18 @@ end
 
 ---comment
 ---@param ShowData Show
-function AvailableMapProcessor.ProcessAvailableQuests(ShowData)
+function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     print("ProcessAvailableQuests")
     ---@type table<UiMapId, AvailablePoints>
     local starterIcons = {}
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.available and npcData.finisher == nil then
-            AvailableMapProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
+            RelationMapProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
         end
     end
     for objectId, objectData in pairs(ShowData.GameObject) do
         if objectData.available and objectData.finisher == nil then
-            AvailableMapProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
+            RelationMapProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
         end
     end
 
@@ -392,7 +392,7 @@ function AvailableMapProcessor.ProcessAvailableQuests(ShowData)
     --         local npcDrops = QuestieDB.QueryItemSingle(itemId, "npcDrops")
     --         if npcDrops then
     --             for _, npcId in pairs(npcDrops) do
-    --                 AvailableMapProcessor.GetSpawns(starterIcons, npcId, itemData.available, "item", QuestieDB.QueryNPCSingle, itemId)
+    --                 RelationMapProcessor.GetSpawns(starterIcons, npcId, itemData.available, "item", QuestieDB.QueryNPCSingle, itemId)
     --             end
     --         end
     --     end
@@ -408,7 +408,7 @@ function AvailableMapProcessor.ProcessAvailableQuests(ShowData)
     --             for _, npcId in pairs(npcDrops) do
     --                 if not availableItems[npcId] then
     --                     local npcData = {}
-    --                     AvailableMapProcessor.GetSpawns(npcData, npcId, itemData.available, "npc", QuestieDB.QueryNPCSingle, itemId)
+    --                     RelationMapProcessor.GetSpawns(npcData, npcId, itemData.available, "npc", QuestieDB.QueryNPCSingle, itemId)
     --                     starterIconsItem.starterIcons = npcData
     --                     availableItems[npcId] = starterIconsItem
     --                 end
@@ -427,7 +427,7 @@ function AvailableMapProcessor.ProcessAvailableQuests(ShowData)
         ["npc"] = 0
     }
     for UiMapId, data in pairs(starterIcons) do
-        local combinedGivers = AvailableMapProcessor.CombineGivers(UiMapId, data, 7, 12)
+        local combinedGivers = RelationMapProcessor.CombineGivers(UiMapId, data, 7, 12)
         for combinedGiverIndex = 1, #combinedGivers do
             local combinedGiver = combinedGivers[combinedGiverIndex]
             for _, idType in pairs(combinedGiver.type) do
@@ -536,7 +536,7 @@ end
 ---@param iconWidth number @Width in pixels
 ---@param iconHeight number @Height in pixels
 ---@return AvailablePoints[]
-function AvailableMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeight)
+function RelationMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeight)
     --print("calc1")
     if (points == nil) then return {} end
 

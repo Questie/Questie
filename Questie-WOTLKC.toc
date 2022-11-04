@@ -223,8 +223,10 @@ ModulesNew\Map\MapEventBus.lua
 ModulesNew\Map\Pins\BasePin.lua
 ModulesNew\Map\Pins\RelationPin.lua
 
+#Processors
+ModulesNew\Map\Processor\Relations.lua
+
 #Map Logic
-ModulesNew\Map\Processor\Available.lua
 ModulesNew\Map\FramePools\FramePool.lua
 ModulesNew\Map\Map.lua
 ModulesNew\Map\MapTooltip.lua
