@@ -35,6 +35,9 @@ do
         count = count + 1;
         frame = Mixin(frame, Questie.BasePinMixin)
         frame:SetSize(16, 16);
+        frame:SetScript("OnAttributeChanged", function(key, value)
+            print("OnAttributeChanged", key, value)
+        end)
         frame.dirty = false
         frame.textures = {}
         --frame:SetIgnoreGlobalPinScale(true)
