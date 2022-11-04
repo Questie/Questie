@@ -308,7 +308,7 @@ function AvailableMapProcessor.ProcessCompletedQuests(ShowData)
     }
 
     for UiMapId, data in pairs(finisherIcons) do
-        local combinedGivers = AvailableMapProcessor.CombineGivers(UiMapId, data)
+        local combinedGivers = AvailableMapProcessor.CombineGivers(UiMapId, data, 4, 4)
         print("Finisher", UiMapId, #combinedGivers)
         for combinedGiverIndex = 1, #combinedGivers do
             local combinedGiver = combinedGivers[combinedGiverIndex]
@@ -427,7 +427,7 @@ function AvailableMapProcessor.ProcessAvailableQuests(ShowData)
         ["npc"] = 0
     }
     for UiMapId, data in pairs(starterIcons) do
-        local combinedGivers = AvailableMapProcessor.CombineGivers(UiMapId, data)
+        local combinedGivers = AvailableMapProcessor.CombineGivers(UiMapId, data, 7, 12)
         for combinedGiverIndex = 1, #combinedGivers do
             local combinedGiver = combinedGivers[combinedGiverIndex]
             for _, idType in pairs(combinedGiver.type) do
@@ -533,8 +533,10 @@ end
 ---Combines different gives with each other
 ---@param uiMapId UiMapId
 ---@param points AvailablePoints
+---@param iconWidth number @Width in pixels
+---@param iconHeight number @Height in pixels
 ---@return AvailablePoints[]
-function AvailableMapProcessor.CombineGivers(uiMapId, points)
+function AvailableMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeight)
     --print("calc1")
     if (points == nil) then return {} end
 
@@ -542,8 +544,8 @@ function AvailableMapProcessor.CombineGivers(uiMapId, points)
 
     local worldMapFrameWidth = WorldMapFrame:GetWidth() * WorldMapFrame:GetEffectiveScale()
     local worldMapFrameHeight = WorldMapFrame:GetHeight() * WorldMapFrame:GetEffectiveScale()
-    local distWidth = ConvertPixelsToUI(7 * RelationPinMixin:GetIconScale(uiMapId), WorldMapFrame:GetEffectiveScale()) --actual = 12
-    local distHeight = ConvertPixelsToUI(12 * RelationPinMixin:GetIconScale(uiMapId), WorldMapFrame:GetEffectiveScale()) --actual = 29
+    local distWidth = ConvertPixelsToUI(iconWidth * RelationPinMixin:GetIconScale(uiMapId), WorldMapFrame:GetEffectiveScale()) --actual = 12
+    local distHeight = ConvertPixelsToUI(iconHeight * RelationPinMixin:GetIconScale(uiMapId), WorldMapFrame:GetEffectiveScale()) --actual = 29
 
     local length = #points.x == #points.y and #points.x or nil
     if length == nil then
