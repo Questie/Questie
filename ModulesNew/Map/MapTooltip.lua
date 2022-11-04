@@ -9,6 +9,10 @@ local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
 local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
+local QuestXP = QuestieLoader:ImportModule("QuestXP")
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
+
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
 
@@ -38,7 +42,7 @@ end
 
 do
     local REPUTATION_ICON_PATH = QuestieLib.AddonPath .. "Icons\\reputation.blp"
-    local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
+    local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t" -- IconID: 236681
 
     local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
     local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
@@ -70,18 +74,118 @@ do
     local function writeQuestRelations(questId)
         local shift = IsShiftKeyDown()
         local questName, questType = getType(questId)
+        local rewardString = ""
+
+        if (shift) then
+            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel)
+            if xpReward > 0 then
+                local questLevel = QuestieDB.QueryQuestSingle(questId, "questLevel")
+                rewardString = QuestieLib:PrintDifficultyColor(questLevel, "(" .. FormatLargeNumber(xpReward) .. l10n('xp') .. ") ",
+                                                               QuestieDB.IsRepeatable(questId))
+            end
+
+            local moneyReward = GetQuestLogRewardMoney(questId)
+            if moneyReward > 0 then
+                ---@diagnostic disable-next-line: param-type-mismatch
+                local coinTextureString = GetCoinTextureString(moneyReward)
+                rewardString = rewardString .. Questie:Colorize("(" .. coinTextureString .. ") ", "white")
+            end
+        end
+        rewardString = rewardString .. questType
+
+        --* Write the questName, coinTexture and questType
         local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
-        local rewardString = questType
-        if (not shift) and reputationReward and next(reputationReward) then
-            -- questieTooltip:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
-            questieTooltip:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questName, rewardString, 1, 1, 1, 1, 1, 0);
+        local questNameString = ""
+        if shift then
+            questNameString = questName
         else
-            if shift then
-                questieTooltip:AddDoubleLine(questName, rewardString, 1, 1, 1, 1, 1, 0);
+            if reputationReward and next(reputationReward) then
+                questNameString = REPUTATION_ICON_TEXTURE .. " " .. questName
             else
-                -- We use a transparent icon because this eases setting the correct margin
-                -- questieTooltip:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
-                questieTooltip:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questName, rewardString, 1, 1, 1, 1, 1, 0);
+                questNameString = TRANSPARENT_ICON_TEXTURE .. " " .. questName
+            end
+        end
+        questieTooltip:AddDoubleLine(questNameString, rewardString, 1, 1, 1, 1, 1, 0);
+
+        -- if (not shift) and reputationReward and next(reputationReward) then
+        --     -- questieTooltip:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+        --     questieTooltip:AddDoubleLine(REPUTATION_ICON_TEXTURE .. " " .. questName, rewardString, 1, 1, 1, 1, 1, 0);
+        -- else
+        --     if shift then
+        --         questieTooltip:AddDoubleLine(questName, rewardString, 1, 1, 1, 1, 1, 0);
+        --     else
+        --         -- We use a transparent icon because this eases setting the correct margin
+        --         -- questieTooltip:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questData.title, rewardString, 1, 1, 1, 1, 1, 0);
+        --         questieTooltip:AddDoubleLine(TRANSPARENT_ICON_TEXTURE .. " " .. questName, rewardString, 1, 1, 1, 1, 1, 0);
+        --     end
+        -- end
+
+        --* Write the quest description
+        if (shift) then
+            local questDescription = QuestieDB.QueryQuestSingle(questId, "objectivesText")
+            if questDescription then
+                local dataType = type(questDescription)
+                if dataType == "table" then
+                    for _, rawLine in pairs(questDescription) do
+                        local lines = QuestieLib:TextWrap(rawLine, "  ", true, true, math.max(375, questieTooltip:GetWidth())) --275 is the default questlog width
+                        for _, line in pairs(lines) do
+                            questieTooltip:AddLine(line, 0.86, 0.86, 0.86);
+                        end
+                    end
+                elseif dataType == "string" then
+                    local lines = QuestieLib:TextWrap(questDescription, "  ", true, true, math.max(375, questieTooltip:GetWidth())) --275 is the default questlog width
+                    for _, line in pairs(lines) do
+                        questieTooltip:AddLine(line, 0.86, 0.86, 0.86);
+                    end
+                end
+            end
+        end
+
+        if (shift) then
+            if reputationReward and next(reputationReward) then
+                local playerIsHuman = QuestiePlayer:GetRaceId() == 1
+                local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
+                local rewardTable = {}
+                local factionId, factionName
+                local rewardValue
+                local aldorPenalty, scryersPenalty
+                for _, rewardPair in pairs(reputationReward) do
+                    factionId = rewardPair[1]
+
+                    if factionId == 935 and playerIsHonoredWithShaTar and (scryersPenalty or aldorPenalty) then
+                        -- Quests for Aldor and Scryers gives reputation to the Sha'tar but only before being Honored
+                        -- with the Sha'tar
+                        break
+                    end
+
+                    factionName = GetFactionInfoByID(factionId)
+                    if factionName then
+                        rewardValue = rewardPair[2]
+
+                        if playerIsHuman and rewardValue > 0 then
+                            -- Humans get 10% more reputation
+                            rewardValue = math.floor(rewardValue * 1.1)
+                        end
+
+                        if factionId == 932 then -- Aldor
+                            scryersPenalty = 0 - math.floor(rewardValue * 1.1)
+                        elseif factionId == 934 then -- Scryers
+                            aldorPenalty = 0 - math.floor(rewardValue * 1.1)
+                        end
+
+                        rewardTable[#rewardTable + 1] = (rewardValue > 0 and "+" or "") .. rewardValue .. " " .. factionName
+                    end
+                end
+
+                if aldorPenalty then
+                    factionName = GetFactionInfoByID(932)
+                    rewardTable[#rewardTable + 1] = aldorPenalty .. " " .. factionName
+                elseif scryersPenalty then
+                    factionName = GetFactionInfoByID(934)
+                    rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
+                end
+
+                questieTooltip:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
             end
         end
     end
