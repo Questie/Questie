@@ -4,7 +4,7 @@
 [![Stars](https://img.shields.io/github/stars/Questie/Questie)](https://img.shields.io/github/stars/Questie/Questie)
 
 [![Downloads](https://img.shields.io/github/downloads/Questie/Questie/total.svg)](https://github.com/Questie/Questie/releases/)
-[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v7.4.2/total.svg)](https://github.com/Questie/Questie/releases/latest)
+[![Downloads Latest](https://img.shields.io/github/downloads/Questie/Questie/v7.4.4/total.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Date Latest](https://img.shields.io/github/release-date/Questie/Questie.svg)](https://github.com/Questie/Questie/releases/latest)
 [![Commits Since Latest](https://img.shields.io/github/commits-since/Questie/Questie/latest.svg)](https://github.com/Questie/Questie/commits/master)
 

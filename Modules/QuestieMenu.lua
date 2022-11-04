@@ -337,13 +337,13 @@ function QuestieMenu:PopulateTownsfolkTypes(folkTypes) -- populate the table wit
     local count = 0
     for id, npcData in pairs(QuestieDB.npcData) do
         local flags = npcData[QuestieDB.npcKeys.npcFlags]
-        for name, data in pairs(folkTypes) do
-            if flags and bitband(flags, data.mask) == data.mask then
+        for name, folkType in pairs(folkTypes) do
+            if flags and bitband(flags, folkType.mask) == folkType.mask then
                 local npcName = npcData[QuestieDB.npcKeys.name]
                 local subName = npcData[QuestieDB.npcKeys.subName]
                 if npcName and sub(npcName, 1, 5) ~= "[DND]" then
-                    if (not data.requireSubname) or (subName and strlen(subName) > 1) then
-                        data.data[#data.data] = id
+                    if (not folkType.requireSubname) or (subName and strlen(subName) > 1) then
+                        folkType.data[#folkType.data+1] = id
                     end
                 end
             end
