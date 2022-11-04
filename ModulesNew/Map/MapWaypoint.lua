@@ -79,73 +79,6 @@ function WaypointMapProvider:RefreshAllData(fromOnShow)
 
         lastDrawnMapId = Map:GetMapID()
     end
-
-
-    -- local Pin = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
-    -- -- Pin:SetNudgeSourceRadius(1)
-    -- -- -- Pin:SetNudgeSourceMagnitude(4, 1);
-    -- -- -- Pin:ClearNudgeSettings()
-    -- -- Pin:SetNudgeTargetFactor(0.0125);
-    -- -- Pin:SetNudgeSourceMagnitude(1,1)
-    -- -- Pin:SetNudgeZoomedOutFactor(1.25);
-    -- -- Pin:SetNudgeZoomedInFactor(1);
-    -- -- Pin:SetPosition(0.5, 0.5)
-    -- local iconTexture = TexturePool:Acquire();
-    -- iconTexture:ClearAllPoints();
-    -- Pin:SetSize(16, 16);
-    -- iconTexture:SetParent(Pin)
-    -- iconTexture:SetPoint("CENTER");
-    -- iconTexture:SetTexture(QuestieLib.AddonPath.."Icons\\available.blp",nil, nil, "LINEAR")
-    -- iconTexture:SetSize(16,16)
-    -- iconTexture:Show();
-    -- table.insert(Pin.textures, iconTexture)
-    -- Pin:SetPosition(0.5, 0.5001)
-    -- Pin:Show();
-    -- Pin:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", Round(0.5*100))
-    -- Pin:ApplyFrameLevel()
-
-
-    -- local Pin2 = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
-    -- -- Pin2:SetNudgeSourceRadius(1)
-    -- -- -- Pin2:SetNudgeSourceMagnitude(4, 1);
-    -- -- Pin2:SetNudgeTargetFactor(0.0125);
-    -- -- Pin2:SetNudgeSourceMagnitude(1,1)
-    -- -- Pin2:SetNudgeZoomedOutFactor(1.25);
-    -- -- Pin2:SetNudgeZoomedInFactor(1);
-    -- local iconTexture = TexturePool:Acquire();
-    -- iconTexture:ClearAllPoints();
-    -- Pin2:SetSize(16, 16);
-    -- iconTexture:SetParent(Pin2)
-    -- iconTexture:SetPoint("CENTER");
-    -- iconTexture:SetTexture(QuestieLib.AddonPath.."Icons\\explore.tga",nil, nil, "TRILINEAR")
-    -- iconTexture:SetSize(16,16)
-    -- iconTexture:Show();
-    -- table.insert(Pin2.textures, iconTexture)
-    -- Pin2:SetPosition(0.5005, 0.5)
-    -- Pin2:Show();
-    -- Pin2:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", Round(0.5*100))
-    -- Pin2:ApplyFrameLevel()
-
-    -- local Pin3 = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
-    -- -- Pin3:SetNudgeSourceRadius(1)
-    -- -- -- Pin3:SetNudgeSourceMagnitude(4, 1);
-    -- -- Pin3:SetNudgeTargetFactor(0.0125);
-    -- -- Pin3:SetNudgeSourceMagnitude(1,1)
-    -- -- Pin3:SetNudgeZoomedOutFactor(1.25);
-    -- -- Pin3:SetNudgeZoomedInFactor(1);
-    -- local iconTexture = TexturePool:Acquire();
-    -- iconTexture:ClearAllPoints();
-    -- Pin3:SetSize(16, 16);
-    -- iconTexture:SetParent(Pin3)
-    -- iconTexture:SetPoint("CENTER");
-    -- iconTexture:SetTexture(QuestieLib.AddonPath.."Icons\\explore.tga",nil, nil, "TRILINEAR")
-    -- iconTexture:SetSize(16,16)
-    -- iconTexture:Show();
-    -- table.insert(Pin3.textures, iconTexture)
-    -- Pin3:SetPosition(0.5, 0.5005)
-    -- Pin3:Show();
-    -- Pin3:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", Round(0.51*100))
-    -- Pin3:ApplyFrameLevel()
 end
 
 function WaypointMapProvider:OnShow()
@@ -157,8 +90,6 @@ function WaypointMapProvider:OnHide()
     print("OnHide")
     -- Override in your mixin, called when the map canvas is closed
     Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
-    --When we close the map always hide the QuestieTooltip!
-    questieTooltip:Hide()
     lastDrawnMapId = nil
 end
 
