@@ -1698,6 +1698,7 @@ function QuestieWotlkQuestFixes:Load()
         [13006] = {
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
+            [questKeys.preQuestSingle] = {12987},
         },
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
