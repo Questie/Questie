@@ -739,6 +739,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{52.5,66.5}},},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
+
+        -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
+        -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
+        -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
+
+        [80000] = {
+            [npcKeys.name] = "Lorehammer attuned",
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        }
     }
 end
 

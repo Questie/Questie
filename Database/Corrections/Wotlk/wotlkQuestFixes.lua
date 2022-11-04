@@ -1756,7 +1756,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
         [13048] = {
+            [questKeys.objectives] = {{{80000}}},
             [questKeys.preQuestGroup] = {13037,13038},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Attune the Lorehammer"), 0, {{"object", 192541},{"object", 192542},{"object", 192543},{"object", 192544},{"object", 192545},{"object", 192546}}},
+            },
         },
         [13049] = {
             [questKeys.preQuestGroup] = {13037,13038},
