@@ -225,8 +225,13 @@ ModulesNew\Map\Pins\RelationPin.lua
 
 #Map Logic
 ModulesNew\Map\Processor\Available.lua
-ModulesNew\Map\FramePool.lua
+ModulesNew\Map\FramePools\FramePool.lua
 ModulesNew\Map\Map.lua
 ModulesNew\Map\MapTooltip.lua
+
+## Waypoints
+ModulesNew\Map\FramePools\FramePoolWaypoint.lua
+ModulesNew\Map\MapWaypoint.lua
+ModulesNew\Map\Pins\WaypointPin.lua
 
 ModulesNew\Quest\Quest.lua

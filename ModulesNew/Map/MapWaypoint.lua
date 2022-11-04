@@ -1,7 +1,9 @@
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@class MapProvider
-local MapProvider = QuestieLoader:CreateModule("MapProvider")
+---@class WaypointMapProvider
+local WaypointMapProvider = QuestieLoader:CreateModule("WaypointMapProvider")
+---@type FramePoolWaypoint
+local FramePoolWaypoint = QuestieLoader:ImportModule("FramePoolWaypoint")
 
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
 
@@ -11,10 +13,10 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 local questieTooltip = QuestieTooltip --Localize the tooltip
 
 
---? The MapProvider is added at the bottom of the file
+--? The WaypointMapProvider is added at the bottom of the file
 
----@class MapProvider
-MapProvider = Mixin(MapProvider, MapCanvasDataProviderMixin)
+---@class WaypointMapProvider
+WaypointMapProvider = Mixin(WaypointMapProvider, MapCanvasDataProviderMixin)
 
 -- This is just a localized reference to self:GetMap()
 local Map = nil
@@ -23,11 +25,10 @@ local Map = nil
 local lastDrawnMapId = nil
 
 local function Initialize()
-    WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_COMPLETE", "PIN_FRAME_LEVEL_AREA_POI", 100)
-    WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", "PIN_FRAME_LEVEL_AREA_POI", 100)
+    WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_AREA_POI")
     MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
-        if MapProvider then
-            MapProvider:RefreshAllData(true)
+        if WaypointMapProvider then
+            WaypointMapProvider:RefreshAllData(true)
         end
     end)
 end
@@ -35,44 +36,52 @@ end
 -- Run it the next frame
 C_Timer.After(0, Initialize)
 
-function MapProvider:OnAdded(owningMap)
+function WaypointMapProvider:OnAdded(owningMap)
     -- Optionally override in your mixin, called when this provider is added to a map canvas
     self.owningMap = owningMap;
     Map = owningMap
 end
 
-function MapProvider:OnRemoved(owningMap)
+function WaypointMapProvider:OnRemoved(owningMap)
     -- Optionally override in your mixin, called when this provider is removed from a map canvas
     assert(owningMap == self.owningMap);
     self.owningMap = nil;
     Map = nil
 end
 
-function MapProvider:RemoveAllData()
+function WaypointMapProvider:RemoveAllData()
     -- Override in your mixin, this method should remove everything that has been added to the map
-    print("MapProvider RemoveAllData")
-    Map:RemoveAllPinsByTemplate(worldPinTemplate)
+    print("WaypointMapProvider RemoveAllData")
+    Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
 end
 
 local function DrawCall()
     MapEventBus:FireAsync(MapEventBus.events.MAP.DRAW_UIMAPID(Map:GetMapID()), 50)
 end
 
-function MapProvider:RefreshAllData(fromOnShow)
-    print("RefreshAllData", fromOnShow)
+function WaypointMapProvider:RefreshAllData(fromOnShow)
+    print("WaypointMapProvider RefreshAllData", fromOnShow)
     if lastDrawnMapId ~= Map:GetMapID() or fromOnShow == true then
         -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
         if (fromOnShow == true) then
-            Map:RemoveAllPinsByTemplate(worldPinTemplate)
+            Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
         end
+        local wayPointColor = {r=1, g=0.72, b=0, a=0.5}
+        local wayPointColorHover = {r=0.93, g=0.46, b=0.13, a=0.8}
+        local defaultLineDataMap = {thickness=4}
+        Mixin(defaultLineDataMap, wayPointColor)
         -- ThreadLib.ThreadSimple(DrawCall, 0)
-        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_UIMAPID(Map:GetMapID()))
+        -- MapEventBus:Fire(MapEventBus.events.MAP.DRAW_UIMAPID(Map:GetMapID()))
+        local Pin = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
+        Pin:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
+        Pin:DrawLine(Map:GetMapID(), 0, 0, 1, 1, defaultLineDataMap)
+        Pin:Show();
 
         lastDrawnMapId = Map:GetMapID()
     end
 
 
-    -- local Pin = Map:AcquirePin(worldPinTemplate)
+    -- local Pin = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
     -- -- Pin:SetNudgeSourceRadius(1)
     -- -- -- Pin:SetNudgeSourceMagnitude(4, 1);
     -- -- -- Pin:ClearNudgeSettings()
@@ -96,7 +105,7 @@ function MapProvider:RefreshAllData(fromOnShow)
     -- Pin:ApplyFrameLevel()
 
 
-    -- local Pin2 = Map:AcquirePin(worldPinTemplate)
+    -- local Pin2 = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
     -- -- Pin2:SetNudgeSourceRadius(1)
     -- -- -- Pin2:SetNudgeSourceMagnitude(4, 1);
     -- -- Pin2:SetNudgeTargetFactor(0.0125);
@@ -117,7 +126,7 @@ function MapProvider:RefreshAllData(fromOnShow)
     -- Pin2:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", Round(0.5*100))
     -- Pin2:ApplyFrameLevel()
 
-    -- local Pin3 = Map:AcquirePin(worldPinTemplate)
+    -- local Pin3 = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
     -- -- Pin3:SetNudgeSourceRadius(1)
     -- -- -- Pin3:SetNudgeSourceMagnitude(4, 1);
     -- -- Pin3:SetNudgeTargetFactor(0.0125);
@@ -139,83 +148,63 @@ function MapProvider:RefreshAllData(fromOnShow)
     -- Pin3:ApplyFrameLevel()
 end
 
-function MapProvider:OnShow()
+function WaypointMapProvider:OnShow()
     print("OnShow")
     -- Override in your mixin, called when the map canvas is shown
 end
 
-function MapProvider:OnHide()
+function WaypointMapProvider:OnHide()
     print("OnHide")
     -- Override in your mixin, called when the map canvas is closed
-    Map:RemoveAllPinsByTemplate(worldPinTemplate)
+    Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
     --When we close the map always hide the QuestieTooltip!
     questieTooltip:Hide()
     lastDrawnMapId = nil
 end
 
-function MapProvider:OnMapInsetSizeChanged(mapInsetIndex, expanded)
+function WaypointMapProvider:OnMapInsetSizeChanged(mapInsetIndex, expanded)
     -- Optionally override in your mixin, called when a map inset changes sizes
 end
 
-function MapProvider:OnMapInsetMouseEnter(mapInsetIndex)
+function WaypointMapProvider:OnMapInsetMouseEnter(mapInsetIndex)
     -- Optionally override in your mixin, called when a map inset gains mouse focus
 end
 
-function MapProvider:OnMapInsetMouseLeave(mapInsetIndex)
+function WaypointMapProvider:OnMapInsetMouseLeave(mapInsetIndex)
     -- Optionally override in your mixin, called when a map inset loses mouse focus
 end
 
-function MapProvider:OnCanvasScaleChanged()
-    -- Optionally override in your mixin, called when the canvas scale changes
-    --print("OnCanvasScaleChanged")
-    --Map:SetGlobalPinScale(0.5);
-    --for pin in Map:EnumeratePinsByTemplate(worldPinTemplate) do
-    --    print(pin:GetScale(), pin:GetEffectiveScale())
-    --pin:SetScale(1);
-    --end
-    --self:pinFunc()
-    --local info = C_GetMapInfo(Map:GetMapID())
-    --if(info.mapType == 2 or info.mapType == 1) then-- continent--World
-    --    if(pinFuncRoutine) then
-    --        pinFuncRoutine = nil
-    --    end
-    --    pinFuncRoutine = coroutine.create(function()
-    --        self:pinFunc()
-    --    end)
-    --    local timer
-    --    timer = C_Timer.NewTicker(0, function()
-    --        if(pinFuncRoutine and coroutine.status(pinFuncRoutine) == "suspended") then
-    --            coroutine.resume(pinFuncRoutine)
-    --        elseif(pinFuncRoutine and coroutine.status(pinFuncRoutine) == "dead") then
-    --            --print("Cache done!")
-    --            timer:Cancel()
-    --        elseif(pinFuncRoutine == nil) then
-    --            timer:Cancel()
-    --        end
-    --    end)
-    --end
+function WaypointMapProvider:OnCanvasScaleChanged()
+    --? Shrinks the width of the line when zooming in
+    for pin, bool in self:GetMap():EnumeratePinsByTemplate(FramePoolWaypoint.waypointPinTemplate) do
+        if(pin.lineTexture) then
+            --GetCanvasZoomPercent()
+            --GetCanvasScale()
+            pin.lineTexture:redraw(Map:GetCanvasScale())
+        end
+    end
 end
 
-function MapProvider:OnCanvasPanChanged()
+function WaypointMapProvider:OnCanvasPanChanged()
     -- Optionally override in your mixin, called when the pan location changes
     --print("OnCanvasPanChanged")
 end
 
-function MapProvider:OnCanvasSizeChanged()
+function WaypointMapProvider:OnCanvasSizeChanged()
     -- Optionally override in your mixin, called when the canvas size changes
     --print("OnCanvasSizeChanged")
 end
 
-function MapProvider:OnEvent(event, ...)
+function WaypointMapProvider:OnEvent(event, ...)
     -- Override in your mixin to accept events register via RegisterEvent
 end
 
-function MapProvider:OnGlobalAlphaChanged()
+function WaypointMapProvider:OnGlobalAlphaChanged()
     -- Optionally override in your mixin if your data provider obeys global alpha, called when the global alpha changes
 end
 
-function MapProvider:OnMapChanged()
-    print("OnMapChanged")
+function WaypointMapProvider:OnMapChanged()
+    print("WaypointMapProvider OnMapChanged")
     --  Optionally override in your mixin, called when map ID changes
 
     --local info = C_GetMapInfo(Map:GetMapID())
@@ -224,9 +213,9 @@ function MapProvider:OnMapChanged()
     --    pin:Hide()
     --end
     if lastDrawnMapId ~= Map:GetMapID() then
-        Map:RemoveAllPinsByTemplate(worldPinTemplate)
+        Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
         self:RefreshAllData(false);
     end
 end
 
-WorldMapFrame:AddDataProvider(MapProvider)
+WorldMapFrame:AddDataProvider(WaypointMapProvider)
