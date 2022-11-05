@@ -1767,6 +1767,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13058] = {
             [questKeys.preQuestGroup] = {13048,13049},
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.STORM_PEAKS]={{64.4,46.7}}}, ICON_TYPE_OBJECT, l10n("Use the Lorehammer to travel back in time"), 0},
+                {nil, ICON_TYPE_OBJECT, l10n("Defeat the North Wind"), 0, {{"monster", 30474}}},
+            },
         },
         [13059] = {
             [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
