@@ -1680,6 +1680,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,9000},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Ethereal Worg's Fang"), 0, {{"monster", 32569}}}},
         },
+        [12995] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{29915,29919,30037,30243,30250,30409,30475,30483,30484,30632,30725,30751,29880},29880,"Ebon Blade Banner planted near vrykul corpse"}}},
+        },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
         },
