@@ -16,6 +16,7 @@ QuestieCorrections.killCreditObjectiveFirst[12546] = true
 QuestieCorrections.killCreditObjectiveFirst[12561] = true
 QuestieCorrections.killCreditObjectiveFirst[12762] = true
 QuestieCorrections.killCreditObjectiveFirst[12919] = true
+QuestieCorrections.killCreditObjectiveFirst[13086] = true
 QuestieCorrections.killCreditObjectiveFirst[13373] = true
 QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
