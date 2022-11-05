@@ -1692,7 +1692,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13001},
         },
         [13005] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984}}}},
+            [questKeys.objectives] = {{{29984,"Iron Sentinel slain"},{29978,"Iron Dwarf Assailant slain"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984},{"monster",29978}}}},
             [questKeys.preQuestSingle] = {13057},
         },
         [13006] = {
