@@ -469,6 +469,11 @@ function QuestieWotlkNpcFixes:Load()
         [28912] = {
             [npcKeys.waypoints] = {},
         },
+        [28923] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.HALLS_OF_LIGHTNING]={{72.53,44.71},{-1,-1}},
+            },
+        },
         [29173] = {
             [npcKeys.waypoints] = {},
         },
