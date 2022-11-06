@@ -12,6 +12,9 @@ function QuestieWotlkNpcFixes:Load()
     local npcFlags = QuestieDB.npcFlags
 
     return {
+        [3996] = {
+            [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
+        },
         [15351] = {
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE]={{70.41,91.10}},
@@ -463,8 +466,18 @@ function QuestieWotlkNpcFixes:Load()
         [28358] = {
             [npcKeys.spawns] = {[zoneIDs.SHOLAZAR_BASIN]={{57.4,52.2},{58.4,53.8},},},
         },
+        [28587] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.HALLS_OF_LIGHTNING]={{76.53,38.28},{-1,-1}},
+            },
+        },
         [28912] = {
             [npcKeys.waypoints] = {},
+        },
+        [28923] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.HALLS_OF_LIGHTNING]={{72.53,44.71},{-1,-1}},
+            },
         },
         [29173] = {
             [npcKeys.waypoints] = {},
@@ -476,6 +489,9 @@ function QuestieWotlkNpcFixes:Load()
         [29456] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{19.74,47.93},},},
             [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{20.03,47.56},{20.26,47.70},{20.32,47.93},{20.26,48.16},{20.03,48.30},{19.80,48.16},{19.74,47.93},{19.80,47.70},{20.03,47.56}}}},
+        },
+        [29503] = {
+            [npcKeys.waypoints] = {[zoneIDs.STORM_PEAKS] = {{{77.4,62.8},{77.2,63.8},{76.15,63.9}}}},
         },
         [29563] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{54.79,60.36}}},
@@ -563,6 +579,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.21,59.21},},},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
+        [30236] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{85.2,75.8},{85.8,76.6},{85.8,78},{86,74.8},},},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [30295] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{56.3,51.4},},},
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
@@ -608,6 +628,14 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30469] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{48.52,54.36}}},
+        },
+        [30575] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{84.2,75.6},{84.4,75},{84.6,76.8},{85,76.2},{85,77.6},{85.2,73.4},{85.2,74.6},{85.4,74},{85.6,73.8},{85.6,78.4},{86.4,76.6},},},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [30593] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{83.4,72.8},{83.8,73.4},{84,74.4},{84.2,75.4},{84.2,75.8},{84.6,73},{84.8,78.6},{84.8,79.6},{85,74.2},{85,76.2},{85.4,74.8},{85.4,76.8},{85.4,78},{85.6,74.2},{85.6,75},{85.6,76.6},{85.8,79.8},{86,78.8},{86.2,75.6},{86.8,75},},},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30696] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{29.4,61.4},{29.6,61.6},{30.4,60.8},{30.8,61.8},{31.2,60.2},{31.2,61.2},{31.2,63.2},{31.2,65},{31.2,66.8},{31.4,58.4},{31.4,58.6},{31.4,63.6},{31.4,66.4},{31.4,67.6},{31.4,69.4},{31.4,70},{31.6,58.4},{31.6,58.8},{31.6,60.4},{31.6,60.6},{31.6,66.4},{31.6,67.2},{31.6,68},{31.8,68.8},{32,64.4},{32,64.6},{32,70},{32,70.6},{32.6,69.2},{32.8,70.2},{33.2,70.6},{33.4,65.8},{33.4,67.6},{33.8,69.6},{34,68.4},{34.2,69},{34.8,69.2},{34.8,70.4},{35,70.6},{35.2,71.8},{35.4,66.2},{35.4,66.6},{35.6,72},{35.8,70.2},{36.2,66},{36.2,67.6},{36.2,71},{36.4,65.4},{36.4,66.8},{36.6,65.4},{36.6,65.8},{36.6,67},{36.8,67.8},{37,71.2},{37.2,71.6},{37.4,70.4},{37.6,70.4},{37.6,70.8}}},
@@ -672,6 +700,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [31237] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{53.8,86.9}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [31242] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{30.9,29.3}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
@@ -733,6 +765,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{52.5,66.5}},},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
+
+        -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
+        -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
+        -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
+
+        [80000] = {
+            [npcKeys.name] = "Lorehammer attuned",
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        }
     }
 end
 

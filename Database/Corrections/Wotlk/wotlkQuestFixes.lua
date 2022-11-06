@@ -16,6 +16,7 @@ QuestieCorrections.killCreditObjectiveFirst[12546] = true
 QuestieCorrections.killCreditObjectiveFirst[12561] = true
 QuestieCorrections.killCreditObjectiveFirst[12762] = true
 QuestieCorrections.killCreditObjectiveFirst[12919] = true
+QuestieCorrections.killCreditObjectiveFirst[13086] = true
 QuestieCorrections.killCreditObjectiveFirst[13373] = true
 QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
@@ -31,6 +32,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{31108}},
             [questKeys.finishedBy] = {{31108}},
             [questKeys.exclusiveTo] = {13154,13156,},
+        },
+        [768] = {
+            [questKeys.requiredSkill] = {393,1},
+        },
+        [1056] = {
+            [questKeys.nextQuestInChain] = 1057,
         },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -496,6 +503,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_EVENT, l10n("Escort Budd to the Drak' Zin Ruins"), 0, {{"monster", 32663}}},
                 {nil, ICON_TYPE_OBJECT, l10n("Use Budd's Tag Troll spell to stun Drakkari trolls"), 0, {{"monster", 26425}, {"monster", 26447}}},
                 {nil, ICON_TYPE_OBJECT, l10n("Capture stunned Drakkari trolls with Bounty Hunter's Cage"), 0, {{"monster", 26425}, {"monster", 26447}}},
+            },
+        },
+        [11989] = {
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_EVENT, l10n("Use the Dull Carving Knife near Drakuru"),0,{{"monster", 26423}}},
             },
         },
         [12007] = {
@@ -1648,6 +1660,7 @@ function QuestieWotlkQuestFixes:Load()
         [12977] = {
             [questKeys.name] = "Hodir's Call",
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
+            [questKeys.preQuestSingle] = {12976},
         },
         [12979] = {
             [questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
@@ -1667,6 +1680,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,9000},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Ethereal Worg's Fang"), 0, {{"monster", 32569}}}},
         },
+        [12995] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{29915,29919,30037,30243,30250,30409,30475,30483,30484,30632,30725,30751,29880},29880,"Ebon Blade Banner planted near vrykul corpse"}}},
+        },
         [12996] = {
             [questKeys.objectives] = {{{29352,"Kirgaraak Defeated"}}},
         },
@@ -1680,12 +1696,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13001},
         },
         [13005] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984}}}},
+            [questKeys.objectives] = {{{29984,"Iron Sentinel slain"},{29978,"Iron Dwarf Assailant slain"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Use the Horn of the Peaks and call on the Earthen to defeat Iron Dwarves and Iron Sentinels"), 0, {{"monster", 29984},{"monster",29978}}}},
             [questKeys.preQuestSingle] = {13057},
         },
         [13006] = {
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
+            [questKeys.preQuestSingle] = {12987},
         },
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
@@ -1704,6 +1722,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13035] = {
             [questKeys.preQuestSingle] = {13057},
+        },
+        [13037] = {
+            [questKeys.objectives] = {{{30395}}},
         },
         [13039] = {
             [questKeys.preQuestSingle] = {13036},
@@ -1739,6 +1760,23 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13035,13005},
             [questKeys.triggerEnd] = {"Witness the Reckoning",{[zoneIDs.STORM_PEAKS]={{36,31.4,},},},},
         },
+        [13048] = {
+            [questKeys.objectives] = {{{80000}}},
+            [questKeys.preQuestGroup] = {13037,13038},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_OBJECT, l10n("Attune the Lorehammer"), 0, {{"object", 192541},{"object", 192542},{"object", 192543},{"object", 192544},{"object", 192545},{"object", 192546}}},
+            },
+        },
+        [13049] = {
+            [questKeys.preQuestGroup] = {13037,13038},
+        },
+        [13058] = {
+            [questKeys.preQuestGroup] = {13048,13049},
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.STORM_PEAKS]={{64.4,46.7}}}, ICON_TYPE_OBJECT, l10n("Use the Lorehammer to travel back in time"), 0},
+                {nil, ICON_TYPE_OBJECT, l10n("Defeat the North Wind"), 0, {{"monster", 30474}}},
+            },
+        },
         [13059] = {
             [questKeys.objectives] = {nil,{{192560}},nil,nil,{{{30475},32821,}}},
         },
@@ -1751,6 +1789,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, ICON_TYPE_TALK, l10n("Listen to Thorim's history"), 0, {{"monster", 29445}}},
             },
+        },
+        [13068] = {
+            [questKeys.preQuestSingle] = {13141},
         },
         [13073] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Speak to Arch Druid Lilliandra for transportation to Moonglade"), 0, {{"monster", 30630}}}},
@@ -1774,7 +1815,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13092},
         },
         [13106] = {
-            [questKeys.preQuestSingle] = {12899},
+            [questKeys.preQuestSingle] = {12897},
         },
         [13109] = {
             [questKeys.preQuestSingle] = {13047},
@@ -1890,6 +1931,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Eye of Dominion"), 0, {{"object", 193058}}}},
         },
         [13169] = {
+            [questKeys.objectives] = {{{30952,"Hungering Plaguehounds fed"}}},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Seize Control of an Eidolon Watcher"), 0, {{"object", 193058}}}},
         },
         [13170] = {
@@ -2648,6 +2690,36 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13906] = {
             [questKeys.preQuestSingle] = {13887},
+        },
+        [14079] = {
+            [questKeys.requiredRaces] = raceIDs.HUMAN,
+        },
+        [14081] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
+        [14082] = {
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+        },
+        [14083] = {
+            [questKeys.requiredRaces] = raceIDs.DWARF,
+        },
+        [14084] = {
+            [questKeys.requiredRaces] = raceIDs.GNOME,
+        },
+        [14085] = {
+            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
+        },
+        [14086] = {
+            [questKeys.requiredRaces] = raceIDs.ORC,
+        },
+        [14087] = {
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+        },
+        [14088] = {
+            [questKeys.requiredRaces] = raceIDs.TROLL,
+        },
+        [14089] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
