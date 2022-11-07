@@ -314,21 +314,25 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                 end
 
                 --TODO: Fix
-                -- if(lastPos and lastPos ~= Bezier:getPoints()[1]) then
-                --     local firstPoint = Bezier:getPoints()[1]
-                --     local x1, y1 = HBD:GetWorldCoordinatesFromZone(lastPos.x/100, lastPos.y/100, UiMapId)
-                --     local x2, y2 = HBD:GetWorldCoordinatesFromZone(firstPoint.x/100, firstPoint.y/100, UiMapId)
-                --     local sqDistance = math.sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
-                --     --We get TexCoords error if the disatnce is to low!
-                --     if(sqDistance < 55 and sqDistance > 0.1) then
-                --         local info = C_Map.GetMapInfo(UiMapId)
-                --         --print("Distance", math.sqrt(sqDistance), info.name)
-                --         --local temp = {}
-                --         --MapHandler.RegisterCallback(temp, MapHandler.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), drawMapLine, {UiMapId, lastPos.x/100, lastPos.y/100, firstPoint.x/100, firstPoint.y/100})
-                --         --print(lastPos.x/100, lastPos.y/100, firstPoint.x/100, firstPoint.y/100)
-                --         AvailableWaypoints:CreateWaypoint(UiMapId, lastPos.x/100, lastPos.y/100, firstPoint.x/100, firstPoint.y/100)
-                --     end
-                -- end
+                if(lastPos and lastPos ~= Bezier:getPoints()[1]) then
+                    local firstPoint = Bezier:getPoints()[1]
+                    -- local x1, y1 = HBD:GetWorldCoordinatesFromZone(lastPos.x/100, lastPos.y/100, UiMapId)
+                    -- local x2, y2 = HBD:GetWorldCoordinatesFromZone(firstPoint.x/100, firstPoint.y/100, UiMapId)
+                    local x1, y1 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(lastPos.x, lastPos.y)
+                    local x2, y2 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(firstPoint.x, firstPoint.y)
+                    print(x1, x2)
+
+                    local sqDistance = math.sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
+                    --We get TexCoords error if the disatnce is to low!
+                    if(sqDistance > 0.05 and sqDistance < 0.2) then
+                        starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
+                        starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
+                        starter[zoneId].x[#starter[zoneId].x + 1] = firstPoint.x
+                        starter[zoneId].y[#starter[zoneId].y + 1] = firstPoint.y
+                        starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
+                        starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
+                    end
+                end
             end
         end
         for areaId, coords in pairs(starter) do
@@ -591,7 +595,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             RelationMapProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
         end
     end
-    DevTools_Dump(starterWaypoints)
+    -- DevTools_Dump(starterWaypoints)
 
     --! Disabled because the insane amount of icons plus the multiple entries
     --! Also look at the combine givers the "alreadySpawned" stuff.
@@ -627,20 +631,38 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     -- end
     -- DevTools_Dump(availableItems)
 
+    -- Start / End coordinates
+    local sX, sY, eX, eY
     for UiMapId, data in pairs(starterWaypoints) do
         for i = 1, #data.x do
             if data.id[i] == data.id[i + 1] then
-                if data.x[i] and data.y[i] and data.x[i + 1] and data.y[i + 1] and data.waypointIndex[i] and data.waypointIndex[i + 1] and
+                if data.waypointIndex[i] and data.waypointIndex[i + 1] and
                     data.waypointIndex[i] == data.waypointIndex[i + 1] then
-                    -- print(UiMapId)
-                    local iconData = {
-                        uiMapId = UiMapId,
-                        sX = data.x[i] / 100,
-                        sY = data.y[i] / 100,
-                        eX = data.x[i + 1] / 100,
-                        eY = data.y[i + 1] / 100,
-                    }
-                    MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), drawWaypoint)
+                    if data.x[i] and data.y[i] and data.x[i + 1] and data.y[i + 1] then
+                        sX = data.x[i] / 100
+                        sY = data.y[i] / 100
+                        eX = data.x[i + 1] / 100
+                        eY = data.y[i + 1] / 100
+
+                        -- Determine dimensions and center point of line
+                        local dx, dy = eX - sX, eY - sY;
+
+                        -- Normalize direction if necessary
+                        if (dx < 0) then
+                            dx, dy = -dx, -dy;
+                        end
+                        -- If these are zero then the distance is 0
+                        if dx ~= 0 or dy ~= 0 then
+                            local iconData = {
+                                uiMapId = UiMapId,
+                                sX = sX,
+                                sY = sY,
+                                eX = eX,
+                                eY = eY
+                            }
+                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), drawWaypoint)
+                        end
+                    end
                 end
             end
         end

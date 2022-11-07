@@ -17,7 +17,7 @@ local FramePool = CreateFramePool("BUTTON")
 
 FramePoolWaypoint.FramePool = FramePool
 
-
+local WaypointTexture = QuestieLib.AddonPath .. "Icons\\WHITE32X32BLACKLINES"
 
 -- register pin pool with the world map
 WorldMapFrame.pinPools[FramePoolWaypoint.waypointPinTemplate] = FramePool
@@ -40,6 +40,7 @@ local name = "QuestieWaypointMapFrame"
 FramePool.parent = WorldMapFrame:GetCanvas()
 FramePool.creationFunc = function(framePool)
     --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
+    -- print("FramePool.creationFunc", name .. count)
     ---@class WaypointMapIconFrame
     local frame = CreateFrame(framePool.frameType, name .. count, framePool.parent)
 
@@ -99,14 +100,14 @@ FramePool.resetterFunc = function(pinPool, pin)
     -- pin:SetParent(UIParent)
     -- pin:SetPoint("TOPLEFT")
     -- pin:Hide();
-    -- FramePool_HideAndClearAnchors(pinPool, pin)
+    FramePool_HideAndClearAnchors(pinPool, pin)
     -- pin:Hide();
 
-    pin:ClearAllPoints()
+    -- pin:ClearAllPoints()
     -- pin:SetParent(FramePool.parent)
-    pin:SetParent(UIParent)
-    pin:SetPoint("TOPLEFT")
-    pin:Hide();
+    -- pin:SetParent(UIParent)
+    -- pin:SetPoint("TOPLEFT")
+    -- pin:Hide();
 end
 -- MINIMAP
 
@@ -181,6 +182,9 @@ end
 -- Regular lines
 
 local lineCount = 0;
+---comment
+---@param self any
+---@param line Texture
 local function lineReset(self, line)
     --Questie:Debug(DEBUG_DEVELOP, "Blob.linePool.resetterFunc")
     -- print("Reset line ", line:GetName())
@@ -211,8 +215,11 @@ local function lineReset(self, line)
     -- line:SetParent(UIParent)
     -- TexturePool_HideAndClearAnchors(self, line)
     -- line:SetParent(frame)
+
     TexturePool_HideAndClearAnchors(self, line)
     -- line:SetTexture(nil)
+
+    -- line:SetPoint("CENTER")
 end
 
 -- The following function is used with permission from Daniel Stephens
@@ -294,7 +301,7 @@ local function redraw(self, zoomScale)
 end
 
 local function lineCreate(linePool)
-    print("Line:", lineCount)
+    -- print("Line:", lineCount)
     lineCount = lineCount + 1;
     ---@type Texture
     local line = linePool.parent:CreateTexture("LineTexture" .. lineCount, linePool.layer, nil, linePool.subLayer);
@@ -303,7 +310,7 @@ local function lineCreate(linePool)
     line.redraw = redraw
     --line:SetSnapToPixelGrid(false)
     --line:SetTexelSnappingBias(0)
-    line:SetTexture(QuestieLib.AddonPath .. "Icons\\WHITE32X32BLACKLINES", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE", "NEAREST")
+    line:SetTexture(WaypointTexture, "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE", "NEAREST")
     line:SetSnapToPixelGrid(false)
     line:SetTexelSnappingBias(0)
     line.maskTextures = {}
@@ -316,8 +323,8 @@ end
 --for i = 1, 835 do FramePoolWaypoint.LinePool:Release(_G["LineTexture"..i]) end
 --for i = 1, 835 do _G["LineTexture"..i]:Show() end
 --for i = 1, 835 do _G["QuestieWaypointMapFrame"..i]:Show() end
-FramePoolWaypoint.LinePool = CreateTexturePool(UIParent, "ARTWORK", 0, nil, lineReset)
-FramePoolWaypoint.LinePool.parent = UIParent
+FramePoolWaypoint.LinePool = CreateTexturePool(Minimap, "ARTWORK", 0, nil, lineReset)
+FramePoolWaypoint.LinePool.parent = Minimap
 FramePoolWaypoint.LinePool.creationFunc = lineCreate;
 
 FramePoolWaypoint.LinePool.Acquire = function(self)
