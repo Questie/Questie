@@ -71,28 +71,29 @@ function WaypointPinMixin:DrawLine(UiMapID, sX, sY, eX, eY, Linedata, maskTextur
 
     self:SetSize(dx*width, dy*height)
 
-    self.lineTexture = self.lineTexture or FramePoolWaypoint.LinePool:Acquire();
-    self.lineTexture:ClearAllPoints()
-    self.lineTexture:SetParent(self)
+    -- self.lineTexture = self.lineTexture or FramePoolWaypoint.LinePool:Acquire();
+    local lineTexture = FramePoolWaypoint.LinePool:Acquire();
+    -- lineTexture:ClearAllPoints()
+    lineTexture:SetParent(self)
     local startX = sX * width
     local startY = sY * height -- We do by / -100 due to using the top left point
     local endX = eX * width
     local endY = eY * height
 
     --Due to thickness being used in linemixin we instead just use defaultThickness
-    self.lineTexture.defaultThickness = lineData.thickness or 5;
-    self.lineTexture.color = {r=lineData.r or 1, g=lineData.g or 1, b=lineData.b or 1, a=lineData.a or 0.6}
+    lineTexture.defaultThickness = lineData.thickness or 5;
+    lineTexture.color = {r=lineData.r or 1, g=lineData.g or 1, b=lineData.b or 1, a=lineData.a or 0.6}
     if(maskTextures) then
         for _, maskTexture in pairs(maskTextures) do
-            self.lineTexture:AddMaskTexture(maskTexture)
+            lineTexture:AddMaskTexture(maskTexture)
         end
-        self.lineTexture.maskTextures = maskTextures
+        lineTexture.maskTextures = maskTextures
     end
-    self.lineTexture:SetVertexColor(self.lineTexture.color.r, self.lineTexture.color.g, self.lineTexture.color.b, self.lineTexture.color.a)
-    self.lineTexture:SetStartPoint(startX-framePosX, -(startY-framePosY))
-    self.lineTexture:SetEndPoint(endX-framePosX, -(endY-framePosY))
-    self.lineTexture:SetThickness(self.lineTexture.defaultThickness);
-    self.lineTexture:SetPoint("CENTER", endX-framePosX, -(endY-framePosY))
+    lineTexture:SetVertexColor(lineTexture.color.r, lineTexture.color.g, lineTexture.color.b, lineTexture.color.a)
+    lineTexture:SetStartPoint(startX-framePosX, -(startY-framePosY))
+    lineTexture:SetEndPoint(endX-framePosX, -(endY-framePosY))
+    lineTexture:SetThickness(lineTexture.defaultThickness);
+    lineTexture:SetPoint("CENTER", endX-framePosX, -(endY-framePosY))
 
     --? Minimap Stuff
     -- local fWidth, fHeight = self:GetSize();
@@ -117,8 +118,13 @@ function WaypointPinMixin:DrawLine(UiMapID, sX, sY, eX, eY, Linedata, maskTextur
 
     --self.self.lineTexture = self.lineTexture
 
-    self.lineTexture:redraw()
-    self.lineTexture:Show();
+    lineTexture:Show()
+    lineTexture.redraw(lineTexture)
+    self.lineTexture = lineTexture
+end
+
+function WaypointPinMixin:OnReleased()
+
 end
 
 --! There are some fucky wucky going on with the Mouse clicking if zoomed out, but fixing when required

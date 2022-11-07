@@ -25,9 +25,10 @@ local Map = nil
 local lastDrawnMapId = nil
 
 local function Initialize()
-    WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_AREA_POI")
+    --PIN_FRAME_LEVEL_AREA_POI
+    WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_DUNGEON_ENTRANCE")
     MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
-        if WaypointMapProvider then
+        if WaypointMapProvider and WorldMapFrame:IsVisible() then
             WaypointMapProvider:RefreshAllData(true)
         end
     end)
@@ -61,21 +62,21 @@ end
 
 function WaypointMapProvider:RefreshAllData(fromOnShow)
     print("WaypointMapProvider RefreshAllData", fromOnShow)
-    if lastDrawnMapId ~= Map:GetMapID() or fromOnShow == true then
+    if lastDrawnMapId ~= Map:GetMapID() then
         -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
         if (fromOnShow == true) then
             Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
         end
-        local wayPointColor = {r=1, g=0.72, b=0, a=0.5}
-        local wayPointColorHover = {r=0.93, g=0.46, b=0.13, a=0.8}
-        local defaultLineDataMap = {thickness=4}
-        Mixin(defaultLineDataMap, wayPointColor)
+        -- local wayPointColor = {r=1, g=0.72, b=0, a=0.5}
+        -- local wayPointColorHover = {r=0.93, g=0.46, b=0.13, a=0.8}
+        -- local defaultLineDataMap = {thickness=4}
+        -- Mixin(defaultLineDataMap, wayPointColor)
+        -- local Pin = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
+        -- Pin:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
+        -- Pin:DrawLine(Map:GetMapID(), 0, 0, 1, 1, defaultLineDataMap)
+        -- Pin:Show();
         -- ThreadLib.ThreadSimple(DrawCall, 0)
-        -- MapEventBus:Fire(MapEventBus.events.MAP.DRAW_UIMAPID(Map:GetMapID()))
-        local Pin = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
-        Pin:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
-        Pin:DrawLine(Map:GetMapID(), 0, 0, 1, 1, defaultLineDataMap)
-        Pin:Show();
+        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(Map:GetMapID()))
 
         lastDrawnMapId = Map:GetMapID()
     end
@@ -107,11 +108,12 @@ end
 
 function WaypointMapProvider:OnCanvasScaleChanged()
     --? Shrinks the width of the line when zooming in
+    local canvasScale = Map:GetCanvasScale()
     for pin, bool in self:GetMap():EnumeratePinsByTemplate(FramePoolWaypoint.waypointPinTemplate) do
         if(pin.lineTexture) then
             --GetCanvasZoomPercent()
             --GetCanvasScale()
-            pin.lineTexture:redraw(Map:GetCanvasScale())
+            pin.lineTexture:redraw(canvasScale)
         end
     end
 end

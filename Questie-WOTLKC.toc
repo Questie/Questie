@@ -215,6 +215,9 @@ Modules\QuestieProfiler.lua
 # Main
 Questie.lua
 
+#Map Helpers
+ModulesNew\Map\Helpers\Bezier.lua
+
 # Event bus
 ModulesNew\Quest\QuestEventBus.lua
 ModulesNew\Map\MapEventBus.lua

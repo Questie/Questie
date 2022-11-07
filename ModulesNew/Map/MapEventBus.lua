@@ -9,6 +9,7 @@ MapEventBus = Mixin(MapEventBus, MessageHandlerFactory.New("MapEventBus")) --[[@
 MapEventBus.events = {
     MAP = {
         DRAW_UIMAPID = function(UiMapId) return string.format("MAP-DRAW_UIMAPID_%d", UiMapId) end,
+        DRAW_WAYPOINTS_UIMAPID = function(UiMapId) return string.format("MAP-DRAW_WAYPOINTS_UIMAPID_%d", UiMapId) end,
         REMOVE_QUEST = function(questId) return string.format("MAP-REMOVE_QUEST_%d", questId) end,
 
         REDRAW_ALL = "MAP-REDRAW_ALL",

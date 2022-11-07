@@ -17,6 +17,8 @@ local FramePool = CreateFramePool("BUTTON")
 
 FramePoolWaypoint.FramePool = FramePool
 
+
+
 -- register pin pool with the world map
 WorldMapFrame.pinPools[FramePoolWaypoint.waypointPinTemplate] = FramePool
 
@@ -24,37 +26,86 @@ WorldMapFrame.pinPools[FramePoolWaypoint.waypointPinTemplate] = FramePool
 local count = 0
 local name = "QuestieWaypointMapFrame"
 
+
+-- local frame = CreateFrame("Frame", "ShitHideMeFrame", UIParent)
+-- frame:ClearAllPoints()
+-- -- frame:SetParent(FramePool.parent)
+-- frame:SetPoint("CENTER")
+-- frame:SetSize(50,50)
+-- frame:SetFrameStrata("TOOLTIP")
+-- frame:SetFrameLevel(10000)
+
 --- WORLD MAP
 -- setup pin pool
 FramePool.parent = WorldMapFrame:GetCanvas()
 FramePool.creationFunc = function(framePool)
     --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
     ---@class WaypointMapIconFrame
-    local frame = CreateFrame(framePool.frameType, name..count, framePool.parent)
+    local frame = CreateFrame(framePool.frameType, name .. count, framePool.parent)
 
     frame:SetParent(framePool.parent)
     frame.parent = framePool.parent;
     count = count + 1;
     frame = Mixin(frame, Questie.BasePinMixin)
     frame = MixinPin(frame, WaypointPinMixin)
-    frame.lineTexture = {}
+    frame.lineTextures = {}
+    frame:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
     --frame:SetIgnoreGlobalPinScale(true)
     return frame
 end
 FramePool.resetterFunc = function(pinPool, pin)
-    --Questie:Debug(DEBUG_DEVELOP, "FramePool.resetterFunc")
-    FramePool_HideAndClearAnchors(pinPool, pin)
-    pin:OnReleased()
+    -- if(pin.lineTexture) then
+    --     print("Releasing lineTexture", pin.lineTexture:GetName())
+    --     local released = FramePoolWaypoint.LinePool:Release(pin.lineTexture);
+    --     -- print("Released? : ", released)
+    --     FramePoolWaypoint.LinePool:resetterFunc(pin.lineTexture);
+    --     pin.lineTexture = nil
+    -- end
+
+    -- for i, lineTexture in pairs(pin.lineTextures) do
+    --     print("Releasing lineTexture", lineTexture:GetName())
+    --     local released = FramePoolWaypoint.LinePool:Release(lineTexture);
+    --     FramePoolWaypoint.LinePool:resetterFunc(lineTexture);
+    -- end
+    -- wipe(pin.lineTextures)
+
+    -- if (pin.lineTexture) then
+    --     -- print("Hiding lineTexture", pin.lineTexture:GetName())
+    --     local released = FramePoolWaypoint.LinePool:Release(pin.lineTexture);
+    --     pin.lineTexture = nil
+    -- end
+
+    -- FramePool_HideAndClearAnchors(pinPool, pin)
+    -- -- pin:OnReleased()
+
+    -- -- --Frame setup
+    -- pin:ClearAllPoints()
+    -- pin:SetParent(FramePool.parent)
+    -- pin:SetPoint("CENTER")
+    -- pin:Hide();
+
+    -- FramePool_HideAndClearAnchors(pinPool, pin)
+    -- pin:OnReleased()
 
     if(pin.lineTexture) then
+        -- pin.lineTexture:SetParent(frame)
+        -- pin.lineTexture:Hide()
         FramePoolWaypoint.LinePool:Release(pin.lineTexture);
     end
     pin.lineTexture = nil
 
     --Frame setup
+    -- pin:ClearAllPoints()
+    -- pin:SetParent(UIParent)
+    -- pin:SetPoint("TOPLEFT")
+    -- pin:Hide();
+    -- FramePool_HideAndClearAnchors(pinPool, pin)
+    -- pin:Hide();
+
     pin:ClearAllPoints()
-    pin:SetParent(FramePool.parent)
-    pin:SetPoint("CENTER")
+    -- pin:SetParent(FramePool.parent)
+    pin:SetParent(UIParent)
+    pin:SetPoint("TOPLEFT")
     pin:Hide();
 end
 -- MINIMAP
@@ -130,28 +181,111 @@ end
 -- Regular lines
 
 local lineCount = 0;
-
 local function lineReset(self, line)
     --Questie:Debug(DEBUG_DEVELOP, "Blob.linePool.resetterFunc")
+    -- print("Reset line ", line:GetName())
 
-    --line.color = nil;
-    --line.startX = nil
-    --line.startY = nil
-    --line.endX = nil
-    --line.endY = nil
-    --line.thickness = nil
-    --line.defaultThickness = nil
+    -- line.color = nil
+    -- line.startX = nil
+    -- line.startY = nil
+    -- line.endX = nil
+    -- line.endY = nil
+    -- line.thickness = nil
 
     --Remove all mask textures
     for _, maskTexture in pairs(line.maskTextures or {}) do
         line:RemoveMaskTexture(maskTexture);
     end
-    wipe(line.maskTextures)
+    line.maskTextures = {}
 
-    --line:SetParent(UIParent)
-    --line:ClearAllPoints()
-    --line:SetTexCoord(0,1,0,1)
-    --line:Hide();
+    -- line:ClearAllPoints()
+    -- line:SetParent(Minimap)
+    -- line:SetPoint("CENTER")
+    -- line:ClearAllPoints()
+    -- line:SetSize(100,100)
+    -- line:SetTexCoord(0,1,0,1)
+    -- line:SetParent(WorldMapFrame:GetCanvas())
+    -- line:SetParent(FramePool.parent)
+    -- line:ClearAllPoints()
+    -- line:SetParent(WorldMapFrame:GetCanvas())
+    -- line:SetParent(UIParent)
+    -- TexturePool_HideAndClearAnchors(self, line)
+    -- line:SetParent(frame)
+    TexturePool_HideAndClearAnchors(self, line)
+    -- line:SetTexture(nil)
+end
+
+-- The following function is used with permission from Daniel Stephens
+-- texture			- Texture
+-- canvasFrame      - Canvas Frame (for anchoring)
+-- startX,startY    - Coordinate of start of line
+-- endX,endY		- Coordinate of end of line
+-- lineWidth        - Width of line
+-- relPoint			- Relative point on canvas to interpret coords (Default BOTTOMLEFT)
+local function drawLine(texture, canvasFrame, startX, startY, endX, endY, lineWidth, lineFactor, relPoint)
+	if (not relPoint) then relPoint = "BOTTOMLEFT"; end
+	lineFactor = lineFactor * .5;
+
+	-- Determine dimensions and center point of line
+	local dx,dy = endX - startX, endY - startY;
+	local cx,cy = (startX + endX) / 2, (startY + endY) / 2;
+
+	-- Normalize direction if necessary
+	if (dx < 0) then
+		dx,dy = -dx,-dy;
+	end
+
+	-- Calculate actual length of line
+	local lineLength = sqrt((dx * dx) + (dy * dy));
+
+	-- Quick escape if it'sin zero length
+	if (lineLength == 0) then
+		texture:SetTexCoord(0,0,0,0,0,0,0,0);
+		texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx,cy);
+		texture:SetPoint("TOPRIGHT",   canvasFrame, relPoint, cx,cy);
+		return;
+	end
+
+	-- Sin and Cosine of rotation, and combination (for later)
+	local sin, cos = -dy / lineLength, dx / lineLength;
+	local sinCos = sin * cos;
+
+	-- Calculate bounding box size and texture coordinates
+	local boundingWidth, boundingHeight, bottomLeftX, bottomLeftY, topLeftX, topLeftY, topRightX, topRightY, bottomRightX, bottomRightY;
+	if (dy >= 0) then
+		boundingWidth = ((lineLength * cos) - (lineWidth * sin)) * lineFactor;
+		boundingHeight = ((lineWidth * cos) - (lineLength * sin)) * lineFactor;
+
+		bottomLeftX = (lineWidth / lineLength) * sinCos;
+		bottomLeftY = sin * sin;
+		bottomRightY = (lineLength / lineWidth) * sinCos;
+		bottomRightX = 1 - bottomLeftY;
+
+		topLeftX = bottomLeftY;
+		topLeftY = 1 - bottomRightY;
+		topRightX = 1 - bottomLeftX;
+		topRightY = bottomRightX;
+	else
+		boundingWidth = ((lineLength * cos) + (lineWidth * sin)) * lineFactor;
+		boundingHeight = ((lineWidth * cos) + (lineLength * sin)) * lineFactor;
+
+		bottomLeftX = sin * sin;
+		bottomLeftY = -(lineLength / lineWidth) * sinCos;
+		bottomRightX = 1 + (lineWidth / lineLength) * sinCos;
+		bottomRightY = bottomLeftX;
+
+		topLeftX = 1 - bottomRightX;
+		topLeftY = 1 - bottomLeftX;
+		topRightY = 1 - bottomLeftY;
+		topRightX = topLeftY;
+	end
+
+	-- Set texture coordinates and anchors
+	texture:ClearAllPoints();
+	texture:SetTexCoord(topLeftX, topLeftY, bottomLeftX, bottomLeftY, topRightX, topRightY, bottomRightX, bottomRightY);
+    -- These two values below are the bounding box for the line, use for mouseover in the future.
+	texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx - boundingWidth, cy - boundingHeight);
+	texture:SetPoint("TOPRIGHT",   canvasFrame, relPoint, cx + boundingWidth, cy + boundingHeight);
 end
 
 local function redraw(self, zoomScale)
@@ -160,20 +294,48 @@ local function redraw(self, zoomScale)
 end
 
 local function lineCreate(linePool)
-    --print("Line:", lineCount)
+    print("Line:", lineCount)
     lineCount = lineCount + 1;
-    local line = linePool.parent:CreateTexture("LineTexture"..lineCount, linePool.layer, linePool.textureTemplate, linePool.subLayer);
+    ---@type Texture
+    local line = linePool.parent:CreateTexture("LineTexture" .. lineCount, linePool.layer, nil, linePool.subLayer);
     line = Mixin(line, LineMixin)
-    line.drawlinefunction = DrawLine
+    line.drawlinefunction = drawLine
     line.redraw = redraw
     --line:SetSnapToPixelGrid(false)
     --line:SetTexelSnappingBias(0)
-    line:SetTexture(QuestieLib.AddonPath.."Icons\\WHITE32X32BLACKLINES", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE", "NEAREST")
+    line:SetTexture(QuestieLib.AddonPath .. "Icons\\WHITE32X32BLACKLINES", "CLAMPTOBLACKADDITIVE", "CLAMPTOBLACKADDITIVE", "NEAREST")
     line:SetSnapToPixelGrid(false)
     line:SetTexelSnappingBias(0)
     line.maskTextures = {}
     return line
 end
 
-FramePoolWaypoint.LinePool = CreateTexturePool(Minimap, "OVERLAY", 0, nil, lineReset)
+--for i = 1, 835 do _G["LineTexture"..i]:SetParent(UIParent) en
+--Ifor i = 1, 835 do _G["LineTexture"..i]:SetParent(_G["ShitHideMeFrame"]) end
+--for i = 1, 835 do _G["LineTexture"..i]:Hide() end
+--for i = 1, 835 do FramePoolWaypoint.LinePool:Release(_G["LineTexture"..i]) end
+--for i = 1, 835 do _G["LineTexture"..i]:Show() end
+--for i = 1, 835 do _G["QuestieWaypointMapFrame"..i]:Show() end
+FramePoolWaypoint.LinePool = CreateTexturePool(UIParent, "ARTWORK", 0, nil, lineReset)
+FramePoolWaypoint.LinePool.parent = UIParent
 FramePoolWaypoint.LinePool.creationFunc = lineCreate;
+
+FramePoolWaypoint.LinePool.Acquire = function(self)
+    -- print("Getting")
+	local numInactiveObjects = #self.inactiveObjects;
+	if numInactiveObjects > 0 then
+		local obj = self.inactiveObjects[numInactiveObjects];
+		self.activeObjects[obj] = true;
+		self.numActiveObjects = self.numActiveObjects + 1;
+		self.inactiveObjects[numInactiveObjects] = nil;
+		return obj, false;
+	end
+
+	local newObj = self.creationFunc(self);
+	if self.resetterFunc and not self.disallowResetIfNew then
+		self.resetterFunc(self, newObj);
+	end
+	self.activeObjects[newObj] = true;
+	self.numActiveObjects = self.numActiveObjects + 1;
+	return newObj, true;
+end
