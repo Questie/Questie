@@ -1,19 +1,29 @@
 ---@class QuestieNS
 local Questie = select(2, ...)
 
+---@class BasePinMixin : MapCanvasPinMixin
+---@field data table @This contains the data for the pin
+---@field dirty boolean @This is used to determine if the pin needs to be reset or not
+---@field textures Texture[] @This is a table of textures that are attached to the pin
+local BasePinMixin = Mixin(QuestieLoader:CreateModule("BasePinMixin"), MapCanvasPinMixin)
+
 ----- System Imports -----
 ---@type MapEventBus
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
 ---@type SystemEventBus
 local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
+---@type PinTemplates
+local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
+
+
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
----@class BasePinMixin : MapCanvasPinMixin
----@field data table @This contains the data for the pin
----@field dirty boolean @This is used to determine if the pin needs to be reset or not
----@field textures Texture[] @This is a table of textures that are attached to the pin
-local BasePinMixin = CreateFromMixins(MapCanvasPinMixin) --[[@as MapCanvasPinMixin]]
+-- ---@class BasePinMixin : MapCanvasPinMixin
+-- ---@field data table @This contains the data for the pin
+-- ---@field dirty boolean @This is used to determine if the pin needs to be reset or not
+-- ---@field textures Texture[] @This is a table of textures that are attached to the pin
+-- local BasePinMixin = CreateFromMixins(MapCanvasPinMixin) --[[@as MapCanvasPinMixin]]
 Questie.BasePinMixin = BasePinMixin
 
 --Up value
@@ -38,7 +48,7 @@ end
 
 function BasePinMixin:OnTooltip()
     -- Override in your mixing, called when the tooltip is shown
-    error("This should be overridden")
+    -- error("This should be overridden")
 end
 
 function BasePinMixin:OnLoad()
@@ -123,8 +133,10 @@ function BasePinMixin:OnAcquired(PinData, PinToMixin, ...) -- the arguments here
             self:SetScript("OnEnter", self.OnMouseEnter);
             self:SetScript("OnLeave", self.OnMouseLeave);
         end
-        -- Run the OnAcquired on the subpin
-        PinToMixin.OnAcquired(self, ...)
+        -- Run the OnAcquired on the subpin if it exists
+        if PinToMixin.OnAcquired ~= nil then
+            PinToMixin.OnAcquired(self, ...)
+        end
     end
 end
 
@@ -249,12 +261,19 @@ function BasePinMixin:OnMouseEnter()
         local otherPinX, otherPinY
         local distance
         self:OnTooltip()
+        local xd, yd = 0, 0
         ---@param pin BasePinMixin
-        for pin in self:GetMap():EnumeratePinsByTemplate(worldPinTemplate) do
-            otherPinX, otherPinY = pin:GetPosition()
-            distance = Euclid(pinX, pinY, otherPinX, otherPinY)
-            if pinX ~= otherPinX and pinY ~= otherPinY and distance < 0.008 then
-                pin:OnTooltip()
+        for pin in self:GetMap():EnumeratePinsByTemplate(PinTemplates.MapPinTemplate) do
+            --? There is a potential for a pin not to have OnTooltip
+            if pin.OnTooltip then
+                -- Euclid distance
+                otherPinX, otherPinY = pin.normalizedX, pin.normalizedY --Same as pin:GetPosition()
+                xd = pinX - otherPinX
+                yd = pinY - otherPinY
+                distance = sqrt(xd * xd + yd * yd)
+                if pinX ~= otherPinX and pinY ~= otherPinY and distance < 0.008 then
+                    pin:OnTooltip()
+                end
             end
         end
         MapEventBus:Fire(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP)
@@ -268,10 +287,6 @@ function BasePinMixin:OnMouseEnter()
         mouseTimer:Cancel()
     end
     mouseTimer = C_Timer.NewTicker(0.1, mousePositionCheck)
-    --local x, y = self:GetCenter()
-    --local getEffectiveScale = self:GetEffectiveScale()
-    --print("X", x*getEffectiveScale, "Y", y*getEffectiveScale)
-    --print("W", width * getEffectiveScale, "H", height * getEffectiveScale)
 end
 
 
@@ -301,24 +316,17 @@ function BasePinMixin:OnMouseUp()
     end
 end
 
-local setNudgeVector = BasePinMixin.SetNudgeVector
+-- function BasePinMixin:OnMapInsetSizeChanged(mapInsetIndex, expanded)
+--     -- Optionally override in your mixin, called when a map inset changes sizes
+-- end
 
-function BasePinMixin:SetNudgeVector(sourcePinZoomedOutNudgeFactor, sourcePinZoomedInNudgeFactor, x, y)
-    -- print("SetNudgeVector", sourcePinZoomedOutNudgeFactor, sourcePinZoomedInNudgeFactor, x, y)
-    setNudgeVector(self, sourcePinZoomedOutNudgeFactor, sourcePinZoomedInNudgeFactor, x, y)
-end
+-- function BasePinMixin:OnMapInsetMouseEnter(mapInsetIndex)
+--     -- Optionally override in your mixin, called when a map inset gains mouse focus
+-- end
 
-function BasePinMixin:OnMapInsetSizeChanged(mapInsetIndex, expanded)
-    -- Optionally override in your mixin, called when a map inset changes sizes
-end
-
-function BasePinMixin:OnMapInsetMouseEnter(mapInsetIndex)
-    -- Optionally override in your mixin, called when a map inset gains mouse focus
-end
-
-function BasePinMixin:OnMapInsetMouseLeave(mapInsetIndex)
-    -- Optionally override in your mixin, called when a map inset loses mouse focus
-end
+-- function BasePinMixin:OnMapInsetMouseLeave(mapInsetIndex)
+--     -- Optionally override in your mixin, called when a map inset loses mouse focus
+-- end
 
 -- Clear the nudge settings, this is actually a blizzard function but does not exist in Classic it seems.
 function BasePinMixin:ClearNudgeSettings()
