@@ -31,7 +31,7 @@ QuestEventBus.quickFire = {
     ---@param ShowData Show
     CALCULATED_COMPLETED_QUESTS = function(ShowData) QuestEventBus:Fire(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS, ShowData) end,
     -- MAP = {
-    --     DRAW_UIMAPID = function(UiMapId) return string.format("MAP-DRAW_UIMAPID_%d", UiMapId) end,
+    --     DRAW_RELATION_UIMAPID = function(UiMapId) return string.format("MAP-DRAW_RELATION_UIMAPID_%d", UiMapId) end,
     --     REMOVE_QUEST = "MAP-REMOVE_QUEST", --Return questId, catch-all remove pins
 
 
