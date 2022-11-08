@@ -1,16 +1,18 @@
----@type QuestieNS
-local Questie = select(2, ...)
-
 -- Contains library functions that do not have a logical place.
 ---@class FramePoolWaypoint
 local FramePoolWaypoint = QuestieLoader:CreateModule("FramePoolWaypoint")
 
+---@type PinTemplates
+local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
+
+---@type BasePinMixin
+local BasePinMixin = QuestieLoader:ImportModule("BasePinMixin")
 ---@type WaypointPinMixin
 local WaypointPinMixin = QuestieLoader:ImportModule("WaypointPinMixin")
+
+
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-
-FramePoolWaypoint.waypointPinTemplate = "WaypointMapWorldmapTemplate"
 
 ---@class WaypointMapFramePool
 local FramePool = CreateFramePool("BUTTON")
@@ -20,38 +22,24 @@ FramePoolWaypoint.FramePool = FramePool
 local WaypointTexture = QuestieLib.AddonPath .. "Icons\\WHITE32X32BLACKLINES"
 
 -- register pin pool with the world map
-WorldMapFrame.pinPools[FramePoolWaypoint.waypointPinTemplate] = FramePool
+WorldMapFrame.pinPools[PinTemplates.WaypointPinTemplate] = FramePool
 
 
 local count = 0
 local name = "QuestieWaypointMapFrame"
-
-
--- local frame = CreateFrame("Frame", "ShitHideMeFrame", UIParent)
--- frame:ClearAllPoints()
--- -- frame:SetParent(FramePool.parent)
--- frame:SetPoint("CENTER")
--- frame:SetSize(50,50)
--- frame:SetFrameStrata("TOOLTIP")
--- frame:SetFrameLevel(10000)
 
 --- WORLD MAP
 -- setup pin pool
 FramePool.parent = WorldMapFrame:GetCanvas()
 FramePool.creationFunc = function(framePool)
     --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
-    -- print("FramePool.creationFunc", name .. count)
-    ---@class WaypointMapIconFrame
-    local frame = CreateFrame(framePool.frameType, name .. count, framePool.parent)
-
-    frame:SetParent(framePool.parent)
-    frame.parent = framePool.parent;
     count = count + 1;
-    frame = Mixin(frame, Questie.BasePinMixin)
-    frame = MixinPin(frame, WaypointPinMixin)
-    frame.lineTextures = {}
+
+    ---@class WaypointMapIconFrame
+    local frame = CreateFrame(framePool.frameType, Questie.db.global.debugEnabled and name .. count or nil, framePool.parent)
+    --? This differs a little bit, here we actually OVERWRITE BasePinMixin functions
+    frame = Mixin(frame, BasePinMixin, WaypointPinMixin)
     frame:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
-    --frame:SetIgnoreGlobalPinScale(true)
     return frame
 end
 FramePool.resetterFunc = function(pinPool, pin)
@@ -293,6 +281,15 @@ local function drawLine(texture, canvasFrame, startX, startY, endX, endY, lineWi
     -- These two values below are the bounding box for the line, use for mouseover in the future.
 	texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx - boundingWidth, cy - boundingHeight);
 	texture:SetPoint("TOPRIGHT",   canvasFrame, relPoint, cx + boundingWidth, cy + boundingHeight);
+    -- print(cx - boundingWidth, cy - boundingHeight)
+    texture.bLeftX = bottomLeftX
+    texture.bLeftY = bottomLeftY
+    texture.bRightX = bottomRightX
+    texture.bRightY = bottomRightY
+    texture.tLeftX = topLeftX
+    texture.tLeftY = topLeftY
+    texture.tRightX = topRightX
+    texture.tRightY = topRightY
 end
 
 local function redraw(self, zoomScale)
