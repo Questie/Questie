@@ -1,3 +1,7 @@
+
+---@alias BasePoint { uiMapId: UiMapId, x: MapX, y: MapY , frameLevel: number }
+
+---@alias RelationPoint BasePoint|{iconData: table<QuestId, RelationMapData>, id: NpcId|ObjectId|ItemId, type: RelationPointType, majorityType: RelationPointType}
 ---@alias AvailablePoints { x: MapX[], y: MapY[], iconData: table<QuestId, RelationMapData>[], id: NpcId[], type: RelationPointType[]}
 
 

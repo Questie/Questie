@@ -42,5 +42,7 @@
 ---@field y MapY[]
 ----@field zone AreaId
 
---- R, G, B
----@class Color : {[1]: number, [2]: number, [3]: number}
+--- R, G, B, A
+---@class Color : {[1]: number, [2]: number, [3]: number, [4]: number?}
+
+---@class XYPoint : {x: MapX, y: MapY}

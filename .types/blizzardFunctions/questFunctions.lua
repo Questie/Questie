@@ -66,3 +66,7 @@ function GetQuestLogQuestText(questLogIndex) end
 ---@param questID integer            @The index of the header you wish to expand. - 0 to expand all quest headers
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_ExpandQuestHeader)
 function ExpandQuestHeader(questID) end
+
+---[Documentation](https://wowpedia.fandom.com/wiki/API_GetQuestLogRewardMoney)
+---@param questId QuestId
+function GetQuestLogRewardMoney(questId) end
