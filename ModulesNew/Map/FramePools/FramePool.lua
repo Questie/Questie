@@ -1,19 +1,30 @@
----@type QuestieNS
-local Questie = select(2, ...)
+---@class FramePoolMap
+---@field private frameType string
+---@field private parent Region
+local FramePool = Mixin(QuestieLoader:CreateModule("FramePoolMap"), CreateFramePool("BUTTON", WorldMapFrame:GetCanvas()))
 
+---@type PinTemplates
+local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
 
----@class MapFramePool
-local FramePool = CreateFramePool("BUTTON")
+---@type BasePinMixin
+local BasePinMixin = QuestieLoader:ImportModule("BasePinMixin")
 
 ---@class TexturePool
----@field Acquire fun(): Texture
 ---@field Release fun(self: TexturePool, texture: Texture): boolean
+---@field private inactiveObjects Texture[]
+---@field private activeObjects table<Texture, boolean>
+---@field private disallowResetIfNew boolean
+---@field private parent Frame @The parent where all the textures are created
 TexturePool = CreateTexturePool(WorldMapFrame:GetCanvas(), "OVERLAY", 0, nil)
+TexturePool.disallowResetIfNew = true
 
-worldPinTemplate = "QLMapWorldmapTemplate"
+
+
+--* Up values
+local wipe = wipe
 
 -- register pin pool with the world map
-WorldMapFrame.pinPools[worldPinTemplate] = FramePool
+WorldMapFrame.pinPools[PinTemplates.MapPinTemplate] = FramePool
 
 -- setup pin pool
 do
@@ -22,24 +33,23 @@ do
 
     local count = 0
     local name = "QuestieMapFrame"
-    FramePool.parent = WorldMapFrame:GetCanvas()
 
     -- This function creates the pin itself
+    ---@param framePool FramePoolMap
+    ---@return MapIconFrame
     FramePool.creationFunc = function(framePool)
         --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
+        count = count + 1
         ---@class MapIconFrame : Button, BasePinMixin
         local frame = CreateFrame(framePool.frameType, name .. count, framePool.parent)
-
-        frame:SetParent(framePool.parent)
-        frame.parent = framePool.parent;
-        count = count + 1;
-        frame = Mixin(frame, Questie.BasePinMixin)
-        frame:SetSize(16, 16);
-        frame:SetScript("OnAttributeChanged", function(key, value)
-            print("OnAttributeChanged", key, value)
-        end)
+        frame.highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
+        frame = Mixin(frame, BasePinMixin) --[[@as MapIconFrame]]
         frame.dirty = false
         frame.textures = {}
+        frame:SetHighlightTexture(frame.highlightTexture)
+        frame.highlightTexture:ClearAllPoints()
+        frame.highlightTexture:SetPoint("CENTER")
+        frame.highlightTexture:SetSize(16, 16)
         --frame:SetIgnoreGlobalPinScale(true)
         return frame
     end
@@ -54,7 +64,7 @@ do
             -- Release all textures or create the table if it doesn't exist
             if pin.textures then
                 for textureIndex = 1, #pin.textures do
-                    TexturePool:Release(pin.textures[textureIndex]);
+                    TexturePool:Release(pin.textures[textureIndex])
                 end
                 pin.textures = wipe(pin.textures)
             end
@@ -76,12 +86,14 @@ do
 
             -- Reset the functions within the pin, maybe we have to do this smarter for performance
             ---@diagnostic disable-next-line: cast-local-type
-            pin = Mixin(pin, Questie.BasePinMixin)
+            pin = Mixin(pin, BasePinMixin)
 
             --Frame setup
-            pin:SetParent(FramePool.parent)
-            pin:SetPoint("CENTER")
-            pin:SetSize(16, 16)
+
+            -- Reset highlight texture
+            --? nil is allowed
+            ---@diagnostic disable-next-line: param-type-mismatch
+            pin.highlightTexture:SetTexture(nil)
 
             --? It is reset so the pin is not dirty
             pin.dirty = false
@@ -93,33 +105,69 @@ end
 
 -- Regular Textures
 do
-    local textureCount = 0;
+    local textureCount = 0
 
+    ---@param self TexturePool
+    ---@return Texture
+    ---@return boolean
+    TexturePool.Acquire = function(self)
+        --? This code is 99% from blizzard, only Questie Specific taged things are changed.
+        local numInactiveObjects = #self.inactiveObjects
+        if numInactiveObjects > 0 then
+            local obj = self.inactiveObjects[numInactiveObjects]
+            self.activeObjects[obj] = true
+            self.numActiveObjects = self.numActiveObjects + 1
+            self.inactiveObjects[numInactiveObjects] = nil
+
+            --* Questie Specific
+            obj.dirty = true
+
+            return obj, false
+        end
+
+        local newObj = self.creationFunc(self)
+        if self.resetterFunc and not self.disallowResetIfNew then
+            self.resetterFunc(self, newObj)
+        end
+        self.activeObjects[newObj] = true
+        self.numActiveObjects = self.numActiveObjects + 1
+
+        --* Questie Specific
+        newObj.dirty = true
+
+        return newObj, true
+    end
+
+    --- The function is called internally in the TexturePool, use TexturePool:Acquire
+    ---@param texturePool TexturePool
+    ---@return MapIconTexture
     TexturePool.creationFunc = function(texturePool)
-        textureCount = textureCount + 1;
-        local tex = texturePool.parent:CreateTexture("IconTexture" .. textureCount, texturePool.layer, texturePool.textureTemplate, texturePool.subLayer);
+        textureCount = textureCount + 1
+        ---@class MapIconTexture : Texture
+        local tex = texturePool.parent:CreateTexture("IconTexture" .. textureCount)
         --tex:SetSnapToPixelGrid(false)
         --tex:SetTexelSnappingBias(0)
         tex:SetSize(16, 16)
         tex:SetSnapToPixelGrid(false)
         tex:SetTexelSnappingBias(0)
+        tex.dirty = false
         return tex
     end
 
-    ---comment
+    ---Resets the texture to the default state
     ---@param self TexturePool
-    ---@param tex Texture
+    ---@param tex MapIconTexture
     TexturePool.resetterFunc = function(self, tex)
         --Questie:Debug(DEBUG_DEVELOP, "Blob.TexturePool.resetterFunc")
         --print("Reseting texture", tex:GetName())
-        --tex:ClearAllPoints()
-        --tex:SetParent(FramePool.parent)
-        ----tex:SetTexCoord(0,1,0,1)
-        tex:SetAlpha(1)
-        tex:SetDesaturated(false)
-        tex:SetBlendMode("BLEND")
-        tex:SetDrawLayer("ARTWORK")
-        tex:Hide();
+
+        if tex.dirty then
+            tex:SetSize(16, 16)
+            tex:SetAlpha(1)
+            tex:SetDesaturated(false)
+            tex:Hide()
+            tex.dirty = false
+        end
     end
 end
 
@@ -181,9 +229,10 @@ local AllowedFunction = {
 }
 
 --- This function Mixes in the pin and creates a "call-chain" for functions on the base object
+--- If the table above is missing a function or if the value is false, it will be overwritten
 function MixinPin(object, ...)
     for i = 1, select("#", ...) do
-        local mixin = select(i, ...);
+        local mixin = select(i, ...)
         for k, v in pairs(mixin) do
             if AllowedFunction[k] and object[k] and type(object[k]) == "function" and type(v) == "function" then
                 local func = object[k]
@@ -197,16 +246,17 @@ function MixinPin(object, ...)
         end
     end
 
-    return object;
+    return object
 end
 
+--- Not in use, the idea behind it was to be able to remove the mixin from the pin
 function MixoutPin(object, ...)
     for i = 1, select("#", ...) do
-        local mixin = select(i, ...);
+        local mixin = select(i, ...)
         for k, v in pairs(mixin) do
-            object[k] = nil;
+            object[k] = nil
         end
     end
 
-    return object;
+    return object
 end
