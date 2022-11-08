@@ -2,12 +2,11 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 ---@class WaypointMapProvider
 local WaypointMapProvider = QuestieLoader:CreateModule("WaypointMapProvider")
----@type FramePoolWaypoint
-local FramePoolWaypoint = QuestieLoader:ImportModule("FramePoolWaypoint")
 
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
 
-local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type PinTemplates
+local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
 
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
@@ -53,29 +52,20 @@ end
 function WaypointMapProvider:RemoveAllData()
     -- Override in your mixin, this method should remove everything that has been added to the map
     print("WaypointMapProvider RemoveAllData")
-    Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
+    Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
 end
 
 local function DrawCall()
-    MapEventBus:FireAsync(MapEventBus.events.MAP.DRAW_UIMAPID(Map:GetMapID()), 50)
+    MapEventBus:FireAsync(MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(Map:GetMapID()), 50)
 end
 
 function WaypointMapProvider:RefreshAllData(fromOnShow)
     print("WaypointMapProvider RefreshAllData", fromOnShow)
     if lastDrawnMapId ~= Map:GetMapID() then
         -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
-        if (fromOnShow == true) then
-            Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
-        end
-        -- local wayPointColor = {r=1, g=0.72, b=0, a=0.5}
-        -- local wayPointColorHover = {r=0.93, g=0.46, b=0.13, a=0.8}
-        -- local defaultLineDataMap = {thickness=4}
-        -- Mixin(defaultLineDataMap, wayPointColor)
-        -- local Pin = Map:AcquirePin(FramePoolWaypoint.waypointPinTemplate)
-        -- Pin:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
-        -- Pin:DrawLine(Map:GetMapID(), 0, 0, 1, 1, defaultLineDataMap)
-        -- Pin:Show();
-        -- ThreadLib.ThreadSimple(DrawCall, 0)
+        -- if (fromOnShow == true) then
+
+        -- end
         MapEventBus:Fire(MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(Map:GetMapID()))
 
         lastDrawnMapId = Map:GetMapID()
@@ -90,7 +80,7 @@ end
 function WaypointMapProvider:OnHide()
     print("OnHide")
     -- Override in your mixin, called when the map canvas is closed
-    Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
+    Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
     lastDrawnMapId = nil
 end
 
@@ -108,14 +98,14 @@ end
 
 function WaypointMapProvider:OnCanvasScaleChanged()
     --? Shrinks the width of the line when zooming in
-    local canvasScale = Map:GetCanvasScale()
-    for pin, bool in self:GetMap():EnumeratePinsByTemplate(FramePoolWaypoint.waypointPinTemplate) do
-        if(pin.lineTexture) then
-            --GetCanvasZoomPercent()
-            --GetCanvasScale()
-            pin.lineTexture:redraw(canvasScale)
-        end
-    end
+    -- local canvasScale = Map:GetCanvasScale()
+    -- for pin, bool in self:GetMap():EnumeratePinsByTemplate(PinTemplates.WaypointPinTemplate) do
+    --     if(pin.lineTexture) then
+    --         --GetCanvasZoomPercent()
+    --         --GetCanvasScale()
+    --         pin.lineTexture:redraw(canvasScale)
+    --     end
+    -- end
 end
 
 function WaypointMapProvider:OnCanvasPanChanged()
@@ -146,7 +136,7 @@ function WaypointMapProvider:OnMapChanged()
     --    pin:Hide()
     --end
     if lastDrawnMapId ~= Map:GetMapID() then
-        Map:RemoveAllPinsByTemplate(FramePoolWaypoint.waypointPinTemplate)
+        Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
         self:RefreshAllData(false);
     end
 end
