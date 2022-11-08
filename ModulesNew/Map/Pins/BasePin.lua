@@ -188,69 +188,11 @@ end
 
 function BasePinMixin:OnMouseLeave()
     -- Override in your mixin, called when the mouse leaves this pin
-    -- print("leave")
-    -- questieTooltip:Hide()
 end
 
 function BasePinMixin:OnMouseEnter()
     --* We set the enter position for the mouse
     mouseLocationX, mouseLocationY = GetCursorPosition()
-    -- Override in your mixin, called when the mouse enters this pin
-    --local _, _, _, xOfs, yOfs = self:GetPoint(1)
-    --local w, h = self:GetSize()
-    --local getEffectiveScale = self:GetEffectiveScale()
-
-    --print("X", xOfs, "Y", yOfs)
-    --print("W", w, "(",(w*getEffectiveScale), ")", "H", h, "(",(h*getEffectiveScale), ")")
-    --local left, bottom, width, height = self:GetRect()
-    --width = width * getEffectiveScale
-    --height = height * getEffectiveScale
-    --local bo = self:GetBottom();
-    --local to = self:GetTop();
-    --local le = self:GetLeft();
-    --local ri = self:GetRight();
-    --print("L", left * getEffectiveScale, "B", bottom * getEffectiveScale)
-    --print("R", (left + width) * getEffectiveScale, "T", (bottom - height) * getEffectiveScale)
-    --print(bo*getEffectiveScale, to*getEffectiveScale, le*getEffectiveScale, ri*getEffectiveScale)
-
-    --globalT = self.data
-    --Questie.ThreadLib:SimpleThread(function()
-    -- MessageHandler.RegisterCallback(questieTooltip, MessageHandler.events.KEY_PRESS.MODIFIER_PRESSED_SHIFT, self.AdvancedTooltip, self)
-    -- MessageHandler.RegisterCallback(questieTooltip, MessageHandler.events.KEY_PRESS.MODIFIER_RELEASED_SHIFT, self.SimpleTooltip, self)
-    -- if IsShiftKeyDown() then
-    --     self:AdvancedTooltip()
-    -- else
-    --     self:SimpleTooltip()
-    -- end
-    -- --end)
-
-    -- if(self.object.OnMouseEnter) then
-    --     self.object.OnMouseEnter()
-    -- end
-
-
-    -- local count = 0
-    -- local first = true
-    -- questieTooltip:ClearLines()
-    -- questieTooltip:SetOwner(WorldMapFrame, "ANCHOR_CURSOR")
-    -- for index, questData in pairs(self.data.availableData) do
-    --     for questId, _ in pairs(questData) do
-    --         local name = QuestieDB.QueryQuestSingle(questId, "name")
-    --         questieTooltip:AddLine(name)
-    --         count = count + 1
-    --     end
-    -- end
-
-    -- questieTooltip:AddLine("Total Givers:" .. tostring(count))
-    -- questieTooltip:Show()
-
-    -- print(self.highlightTexture)
-    -- if self.highlightTexture then
-    --     self.highlightTexture:SetDrawLayer("HIGHLIGHT")
-    --     self.highlightTexture:SetVertexColor(1, 1, 0, 1)
-    --     -- self.highlightTexture:SetScale(2)
-    --     self.highlightTexture:Show()
-    -- end
 
     local tooltipFunction = function()
         local data = self.data

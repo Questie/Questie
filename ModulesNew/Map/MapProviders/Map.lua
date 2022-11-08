@@ -30,6 +30,7 @@ local function Initialize()
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", "PIN_FRAME_LEVEL_AREA_POI", 100)
     MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
         if MapProvider and WorldMapFrame:IsVisible() then
+            Map:RemoveAllPinsByTemplate(PinTemplates.MapPinTemplate)
             MapProvider:RefreshAllData(true)
         end
     end)

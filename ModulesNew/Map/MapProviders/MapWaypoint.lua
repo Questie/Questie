@@ -28,6 +28,7 @@ local function Initialize()
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_DUNGEON_ENTRANCE")
     MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
         if WaypointMapProvider and WorldMapFrame:IsVisible() then
+            Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
             WaypointMapProvider:RefreshAllData(true)
         end
     end)
@@ -61,7 +62,7 @@ end
 
 function WaypointMapProvider:RefreshAllData(fromOnShow)
     print("WaypointMapProvider RefreshAllData", fromOnShow)
-    if lastDrawnMapId ~= Map:GetMapID() then
+    if lastDrawnMapId ~= Map:GetMapID() or fromOnShow == true then
         -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
         -- if (fromOnShow == true) then
 

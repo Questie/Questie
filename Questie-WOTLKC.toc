@@ -233,6 +233,7 @@ ModulesNew\Map\Processor\Relations.lua
 ##* Pin Template definitions
 ModulesNew\Map\PinTemplates.lua
 
+
 ##* Framepools
 ModulesNew\Map\FramePools\FramePool.lua
 ModulesNew\Map\FramePools\FramePoolWaypoint.lua
@@ -246,6 +247,9 @@ ModulesNew\Map\Pins\WaypointPin.lua
 ##* Map Providers
 ModulesNew\Map\MapProviders\Map.lua
 ModulesNew\Map\MapProviders\MapWaypoint.lua
+
+##* Renderers
+ModulesNew\Map\Renderers\RelationRenderers.lua
 
 ModulesNew\Map\MapTooltip.lua
 

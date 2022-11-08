@@ -121,7 +121,7 @@ function WaypointPinMixin:DrawLine(UiMapID, sX, sY, eX, eY, Linedata, maskTextur
 
 
     lineTexture:Show()
-    -- lineTexture.redraw(lineTexture)
+    lineTexture.redraw(lineTexture)
     self.lineTexture = lineTexture
 end
 
@@ -150,19 +150,30 @@ function WaypointPinMixin:OnCanvasScaleChanged()
     --* ScrollContainer.currentScale or ScrollContainer.targetScale or 1 == Map:GetCanvasScale
 
     --? Shrinks the width of the line when zooming in
-    self.lineTexture:redraw(ScrollContainer.currentScale or ScrollContainer.targetScale or 1)
+    local canvasScale = ScrollContainer.currentScale or ScrollContainer.targetScale or 1
+    if not self.lastScale or self.lastScale ~= canvasScale then
+        self.lineTexture:redraw(canvasScale)
+        self.lastScale = canvasScale
+    end
+
 end
 
 function WaypointPinMixin:OnMouseEnterLine()
     -- Override in your mixin, called when the mouse enters this pin
     Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseEnterLine")
     print(self:GetName(), "OnMouseEnterLine")
+    local gg = function()
+        questieTooltip:AddLine(self:GetName())
+    end
+    MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.TOOLTIP.WRITE_WAYPOINT_TOOLTIP, gg)
 end
 
 function WaypointPinMixin:OnMouseLeaveLine()
     -- Override in your mixin, called when the mouse enters this pin
     Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseLeaveLine")
     print(self:GetName(), "OnMouseLeaveLine")
+    MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.TOOLTIP.WRITE_WAYPOINT_TOOLTIP)
+    questieTooltip:Hide()
 end
 
 do
@@ -203,6 +214,8 @@ do
             mouseMovementTimer = nil
             wipe(hoveredLines)
         end
+        -- TODO: This is not 100% perfect, on very small lines the hover is patchy
+        -- todo  Doing something like a lineLength check to see if it is very small and if the mouse is inside the frame would probably solve it
         if self.data.lineCornerPoints ~= nil and #self.data.lineCornerPoints > 0 then
             ---@type MapX, MapY
             local x, y
@@ -211,6 +224,9 @@ do
                 if (x ~= lastX or y ~= lastY) then
                     mousePoint.x = x
                     mousePoint.y = y
+
+                    --* Only rewrite the tooltip if something changed
+                    local change = false
 
                     --? We have to enumerate all frame because sometimes two overlap and stop the mouse events
                     --? Such as OnMouseEnter and OnMouseLeave
@@ -221,14 +237,21 @@ do
                             if not hoveredLines[line] then
                                 line:OnMouseEnterLine()
                                 hoveredLines[line] = true
+                                change = true
                             end
                         else
                             --? If inside is false and the line is in the hoveredLines table, then it means that the mouse is no longer hovering over the line
                             if hoveredLines[line] then
                                 line:OnMouseLeaveLine()
                                 hoveredLines[line] = nil
+                                change = true
                             end
                         end
+                    end
+                    if change then
+                        MapEventBus:Fire(MapEventBus.events.TOOLTIP.RESET_TOOLTIP)
+                        MapEventBus:Fire(MapEventBus.events.TOOLTIP.WRITE_WAYPOINT_TOOLTIP)
+                        MapEventBus:Fire(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP)
                     end
 
                     -- Set the last mouse position
@@ -240,7 +263,7 @@ do
     end
 
     function WaypointPinMixin:OnMouseLeave()
-        print("OnMouseLeave")
+        print(self:GetName(), "OnMouseLeave")
         -- Override in your mixin, called when the mouse leaves this pin
         if mouseMovementTimer ~= nil then
             mouseMovementTimer:Cancel()

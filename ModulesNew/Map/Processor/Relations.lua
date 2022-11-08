@@ -7,56 +7,28 @@ local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
----@type MapProvider
-local MapProvider = QuestieLoader:ImportModule("MapProvider")
----@type WaypointMapProvider
-local WaypointMapProvider = QuestieLoader:ImportModule("WaypointMapProvider")
-
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
 local MapCoodinates = QuestieLoader:ImportModule("MapCoordinates")
 
-local MapTooltip = QuestieLoader:ImportModule("MapTooltip")
-
-local QuestieQuest = QuestieLoader:CreateModule("QQuest")
-
 -- Pin Mixin
 local RelationPinMixin = QuestieLoader:ImportModule("RelationPinMixin")
----@type WaypointPinMixin
-local WaypointPinMixin = QuestieLoader:ImportModule("WaypointPinMixin")
-
----@type PinTemplates
-local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
-
-local FramePoolWaypoint = QuestieLoader:ImportModule("FramePoolWaypoint")
-
-local wayPointColor = { r = 1, g = 0.72, b = 0, a = 0.5 }
-local wayPointColorHover = { r = 0.93, g = 0.46, b = 0.13, a = 0.8 }
-local defaultLineDataMap = { thickness = 4 }
-Mixin(defaultLineDataMap, wayPointColor)
+---@type RelationRenderers
+local RelationRenderers = QuestieLoader:ImportModule("RelationRenderers")
 
 -- Math
 local abs, sqrt = math.abs, math.sqrt
 local tInsert = table.insert
 local lRound = Round
 
-local map
-local waypointMap
---- -@type TexturePool
-local texPool
 
-local AVAILABLE_ICON_PATH = QuestieLib.AddonPath .. "Icons\\available.blp"
-local LOOT_ICON_PATH = QuestieLib.AddonPath .. "Icons\\loot.blp"
-local OBJECT_ICON_PATH = QuestieLib.AddonPath .. "Icons\\object.blp"
-local AVAILABLE_LOOT_ICON_PATH = QuestieLib.AddonPath .. "Icons\\lootAvailable.blp"
-local COMPLETE_ICON_PATH = QuestieLib.AddonPath .. "Icons\\complete.tga"
+local wayPointColor = { r = 1, g = 0.72, b = 0, a = 0.5 }
+local wayPointColorHover = { r = 0.93, g = 0.46, b = 0.13, a = 0.8 }
+local defaultLineDataMap = { thickness = 4 }
+Mixin(defaultLineDataMap, wayPointColor)
 
 local function Initialize()
     QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS, RelationMapProcessor.ProcessAvailableQuests)
     QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS, RelationMapProcessor.ProcessCompletedQuests)
-    map = MapProvider:GetMap()
-    waypointMap = WaypointMapProvider:GetMap()
-    texPool = TexturePool
 end
 
 C_Timer.After(0, Initialize)
@@ -261,7 +233,8 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
             end
             for waypointListIndex, rawWaypoints in pairs(waypointsList or {}) do
                 SplineLib:ClearPoints()
-                for _, waypoint in pairs(rawWaypoints) do
+                for waypointIndex = 1, # rawWaypoints do
+                    local waypoint = rawWaypoints[waypointIndex]
                     SplineLib:AddPoint(waypoint[1], waypoint[2])
                 end
                 local newLines = {}
@@ -273,7 +246,7 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                         if (subPoint * percentageBetweenPoints ~= 1) then
                             local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
                             local point = { x = x, y = y }
-                            table.insert(newLines, point);
+                            newLines[#newLines+1] = point
                         end
                     end
                 end
@@ -283,8 +256,10 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                 --Bezier:setAutoStepScale(1)
                 Bezier:reduce(pReduce)
 
+                local points = Bezier:getPoints()
                 lastPos = nil
-                for _, point in pairs(Bezier:getPoints() or {}) do
+                for pointIndex = 1, #points do
+                    local point = points[pointIndex]
                     if (lastPos == nil) then
                         lastPos = point;
                     else
@@ -303,8 +278,8 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                 end
 
                 --TODO: Fix
-                if (lastPos and lastPos ~= Bezier:getPoints()[1]) then
-                    local firstPoint = Bezier:getPoints()[1]
+                if (lastPos and lastPos ~= points[1]) then
+                    local firstPoint = points[1]
                     -- local x1, y1 = HBD:GetWorldCoordinatesFromZone(lastPos.x/100, lastPos.y/100, UiMapId)
                     -- local x2, y2 = HBD:GetWorldCoordinatesFromZone(firstPoint.x/100, firstPoint.y/100, UiMapId)
                     if MapCoodinates.Maps[UiMapId] then
@@ -394,79 +369,6 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
     return starterWaypoints
 end
 
----@param self RelationPoint
-local function Draw(self)
-    ---@type MapIconFrame
-    local Pin = map:AcquirePin(PinTemplates.MapPinTemplate, self, RelationPinMixin)
-
-    -- local highlightTexture = texPool:Acquire()
-    -- local highlightAlpha = 0.4
-    -- highlightTexture:SetParent(Pin)
-    -- highlightTexture:SetPoint("CENTER");
-    -- highlightTexture:SetTexture(COMPLETE_ICON_PATH)
-    -- highlightTexture:SetAlpha(highlightAlpha)
-    -- highlightTexture:SetDrawLayer("HIGHLIGHT")
-    -- highlightTexture:SetBlendMode("ADD")
-    -- highlightTexture:Hide()
-    -- Pin.textures[#Pin.textures + 1] = highlightTexture
-
-    local baseTexture = texPool:Acquire();
-    baseTexture:SetParent(Pin)
-    baseTexture:SetPoint("CENTER");
-
-    local frameLevelType = "PIN_FRAME_LEVEL_AREA_POI_AVAILABLE"
-
-    if Pin.data.majorityType == "npcFinisher" then
-        baseTexture:SetTexture(COMPLETE_ICON_PATH)
-
-        -- highlightTexture:SetTexture(COMPLETE_ICON_PATH)
-        Pin.highlightTexture:SetTexture(COMPLETE_ICON_PATH)
-        frameLevelType = "PIN_FRAME_LEVEL_AREA_POI_COMPLETE"
-        Pin:SetSize(10, 15)
-    elseif Pin.data.majorityType == "objectFinisher" then
-        baseTexture:SetTexture(COMPLETE_ICON_PATH)
-
-        --? Is this even good...?
-        -- The object icon for the complete icon
-        local objectTexture = texPool:Acquire();
-        objectTexture:SetParent(Pin)
-        objectTexture:SetPoint("CENTER", 5, -5);
-        objectTexture:SetTexture(OBJECT_ICON_PATH)
-        objectTexture:SetSize(12, 12)
-        objectTexture:Show();
-        Pin.textures[#Pin.textures + 1] = objectTexture
-
-        Pin.highlightTexture:SetTexture(COMPLETE_ICON_PATH)
-        frameLevelType = "PIN_FRAME_LEVEL_AREA_POI_COMPLETE"
-        Pin:SetSize(10, 15)
-        -- elseif Pin.data.majorityType == "item" then
-        --     -- The loot bag
-        --     baseTexture:SetTexture(LOOT_ICON_PATH)
-
-        --     -- The available icon for loot bag
-        --     local availableTexture = texPool:Acquire();
-        --     availableTexture:SetParent(Pin)
-        --     availableTexture:SetPoint("CENTER");
-        --     availableTexture:SetTexture(AVAILABLE_LOOT_ICON_PATH)
-        --     availableTexture:Show();
-        --     Pin.textures[#Pin.textures + 1] = availableTexture
-
-        --     highlightTexture:SetTexture(LOOT_ICON_PATH) ---TODO: This has not been tested to see if it looks good.
-    else
-        baseTexture:SetTexture(AVAILABLE_ICON_PATH)
-        Pin.textures[#Pin.textures + 1] = baseTexture
-
-        Pin.highlightTexture:SetTexture(AVAILABLE_ICON_PATH)
-        Pin:SetSize(8, 15)
-    end
-    baseTexture:Show();
-    Pin.textures[#Pin.textures + 1] = baseTexture
-
-    Pin:UseFrameLevelType(frameLevelType, self.frameLevel)
-    Pin:SetPosition(self.x * 0.01, self.y * 0.01) -- Also runs ApplyFrameLevel
-    -- Pin:ApplyFrameLevel()
-    -- Pin:Show();
-end
 
 ---comment
 ---@param ShowData Show
@@ -515,7 +417,7 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
                 majorityType = majority
             }
             --* Register draw
-            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId), Draw)
+            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId), RelationRenderers.Draw)
             MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_COMPLETED, function()
                 MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId))
             end)
@@ -551,86 +453,6 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     end
 
     MapEventBus:Fire(MapEventBus.events.MAP.REDRAW_ALL)
-end
-
---- This is a debug function which is used to draw a small dot, for example, the corners of the waypoint rectangle
----comment
----@param self table
----@param vertexColor Color?
----@return unknown
-local function drawDebugDot(self, vertexColor)
-    local Pin = map:AcquirePin(PinTemplates.MapPinTemplate, self)
-    local frameLevelType = "PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS"
-    Pin:SetSize(2, 2)
-
-    local baseTexture = texPool:Acquire();
-    baseTexture:SetParent(Pin)
-    baseTexture:SetPoint("CENTER");
-    baseTexture:SetTexture(QuestieLib.AddonPath .. "Icons\\masks\\circlemask.blp")
-    baseTexture:SetSize(2, 2)
-    baseTexture:Show();
-    if vertexColor and #vertexColor >= 3 then
-        baseTexture:SetVertexColor(vertexColor[1], vertexColor[2], vertexColor[3], vertexColor[4] or 1)
-    end
-    Pin.textures[#Pin.textures + 1] = baseTexture
-
-    Pin:UseFrameLevelType(frameLevelType, self.frameLevel)
-    Pin:SetPosition(self.x * 0.01, self.y * 0.01) -- Also runs ApplyFrameLevel
-    Pin:Show();
-    return Pin
-end
-
-local function drawWaypoint(self)
-    local Pin = waypointMap:AcquirePin(PinTemplates.WaypointPinTemplate, self, WaypointPinMixin)
-    -- print(self.sX, self.sY, self.eX, self.eY)
-
-    -- --* Calculate the rectangle corners
-    -- --? Information can be found: https://stackoverflow.com/questions/1936934/turn-a-line-into-a-rectangle
-    -- local dx = self.eX - self.sX
-    -- local dy = self.eY - self.sY
-    -- --? Is this ever needed? : Logon
-    -- -- Normalize direction if necessary
-    -- -- if (dx < 0) then
-    -- -- 	dx,dy = -dx,-dy;
-    -- -- end
-    -- local lineLength = sqrt(dx * dx + dy * dy)
-    -- dx = dx / lineLength
-    -- dy = dy / lineLength
-    -- local thickness = (0.0012 / 4) * defaultLineDataMap.thickness
-    -- local px = thickness * (-dy)
-    -- local py = thickness * dx
-    -- Pin.lineCornerPoints = {
-    --     { x = self.sX + px, y = self.sY + py }, -- x1, y1
-    --     { x = self.eX + px, y = self.eY + py }, -- x2, y2
-    --     { x = self.eX - px, y = self.eY - py }, -- x3, y3
-    --     { x = self.sX - px, y = self.sY - py }, -- x4, y4
-    -- }
-    Pin:DrawLine(self.uiMapId, self.sX, self.sY, self.eX, self.eY, defaultLineDataMap)
-
-    --? This draws each waypoint as a rectangle, do not remove this code it is extreamly useful for debugging
-    if true == true then
-        --? Start and end dot
-        drawDebugDot({ uiMapId = self.uiMapId, x = self.sX * 100, y = self.sY * 100, frameLevel = 100, iconData = {}, id = self.id,
-            type = self.type })
-        drawDebugDot({ uiMapId = self.uiMapId, x = self.eX * 100, y = self.eY * 100, frameLevel = 100, iconData = {}, id = self.id,
-            type = self.type })
-        --? Corner dots
-        local vertexColor = { math.random(), math.random(), math.random(), 1 }
-        drawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[1].x * 100, y = self.lineCornerPoints[1].y * 100, frameLevel = 95, iconData = {},
-            id = self.id,
-            type = self.type }, vertexColor)
-        drawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[2].x * 100, y = self.lineCornerPoints[2].y * 100, frameLevel = 95, iconData = {},
-            id = self.id,
-            type = self.type }, vertexColor)
-        drawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[3].x * 100, y = self.lineCornerPoints[3].y * 100, frameLevel = 95, iconData = {},
-            id = self.id,
-            type = self.type }, vertexColor)
-        drawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[4].x * 100, y = self.lineCornerPoints[4].y * 100, frameLevel = 95, iconData = {},
-            id = self.id,
-            type = self.type }, vertexColor)
-    end
-
-    Pin:Show();
 end
 
 ---comment
@@ -715,7 +537,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                             local lineLength = sqrt(dx * dx + dy * dy)
                             dx = dx / lineLength
                             dy = dy / lineLength
-                            local thickness = (0.0012 / 4) * defaultLineDataMap.thickness
+                            local thickness = (0.0015 / 4) * defaultLineDataMap.thickness -- old 0.0013
                             local px = thickness * (-dy)
                             local py = thickness * dx
                             local lineCornerPoints = {
@@ -724,15 +546,21 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                                 { x = eX - px, y = eY - py }, -- x3, y3
                                 { x = sX - px, y = sY - py }, -- x4, y4
                             }
+                            ---@class WaypointPoint
                             local iconData = {
                                 uiMapId = UiMapId,
                                 sX = sX,
                                 sY = sY,
                                 eX = eX,
                                 eY = eY,
-                                lineCornerPoints = lineCornerPoints
+                                id = data.id[i],
+                                lineCornerPoints = lineCornerPoints,
+                                defaultLineDataMap = defaultLineDataMap,
                             }
-                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), drawWaypoint)
+                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), RelationRenderers.DrawWaypoint)
+                            MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_AVAILABLE, function()
+                                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId))
+                            end)
                         end
                     end
                 end
@@ -775,7 +603,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                 majorityType = majority
             }
             --* Register draw
-            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId), Draw)
+            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId), RelationRenderers.Draw)
             MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_AVAILABLE, function()
                 MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId))
             end)

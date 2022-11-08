@@ -28,11 +28,12 @@ MapEventBus.events = {
         AVAILABLE_QUESTS_DRAWN = "MAP-AVAILABLE_QUESTS_DRAWN",
     },
     TOOLTIP = {
-        ---comment
-        ---@param id NpcId|ObjectId|ItemId
-        ---@param type RelationPointType
-        ---@return string
-        ADD_AVAILABLE_TOOLTIP = function(id, type) return string.format("TOOLTIP-ADD_AVAILABLE_TOOLTIP_%d_%s", id, type) end,
+        -- ---comment
+        -- ---@param id NpcId|ObjectId|ItemId
+        -- ---@param type RelationPointType
+        -- ---@return string
+        -- ADD_AVAILABLE_TOOLTIP = function(id, type) return string.format("TOOLTIP-ADD_AVAILABLE_TOOLTIP_%d_%s", id, type) end,
+        WRITE_WAYPOINT_TOOLTIP = "TOOLTIP-WRITE_WAYPOINT_TOOLTIP",
         RESET_TOOLTIP = "TOOLTIP-RESET_TOOLTIP",
         DRAW_TOOLTIP = "TOOLTIP-DRAW_TOOLTIP",
     }
