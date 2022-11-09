@@ -1,6 +1,6 @@
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@class WaypointMapProvider
+---@class WaypointMapProvider : MapCanvasDataProvider
 local WaypointMapProvider = QuestieLoader:CreateModule("WaypointMapProvider")
 
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
@@ -21,15 +21,32 @@ WaypointMapProvider = Mixin(WaypointMapProvider, MapCanvasDataProviderMixin)
 local Map = nil
 
 
+local isDrawn = false
 local lastDrawnMapId = nil
 
+local function RemoveAllPins()
+    Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
+    isDrawn = false
+    lastDrawnMapId = nil
+end
+
+local function DrawAllPins()
+    local mapId = Map:GetMapID()
+    if not isDrawn and lastDrawnMapId ~= mapId then
+        printE("DrawAllPins", mapId)
+        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(mapId))
+        isDrawn = true
+        lastDrawnMapId = mapId
+    end
+end
+
 local function Initialize()
-    --PIN_FRAME_LEVEL_AREA_POI
+    -- Create framelevels for this provider
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_DUNGEON_ENTRANCE")
     MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
         if WaypointMapProvider and WorldMapFrame:IsVisible() then
-            Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
-            WaypointMapProvider:RefreshAllData(true)
+            RemoveAllPins()
+            DrawAllPins()
         end
     end)
 end
@@ -52,37 +69,24 @@ end
 
 function WaypointMapProvider:RemoveAllData()
     -- Override in your mixin, this method should remove everything that has been added to the map
-    print("WaypointMapProvider RemoveAllData")
-    Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
-end
-
-local function DrawCall()
-    MapEventBus:FireAsync(MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(Map:GetMapID()), 50)
+    -- print("WaypointMapProvider RemoveAllData")
+    RemoveAllPins()
 end
 
 function WaypointMapProvider:RefreshAllData(fromOnShow)
-    print("WaypointMapProvider RefreshAllData", fromOnShow)
-    if lastDrawnMapId ~= Map:GetMapID() or fromOnShow == true then
-        -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
-        -- if (fromOnShow == true) then
-
-        -- end
-        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(Map:GetMapID()))
-
-        lastDrawnMapId = Map:GetMapID()
-    end
+    -- print("WaypointMapProvider RefreshAllData", fromOnShow)
+    DrawAllPins()
 end
 
 function WaypointMapProvider:OnShow()
-    print("OnShow")
+    -- print("OnShow")
     -- Override in your mixin, called when the map canvas is shown
 end
 
 function WaypointMapProvider:OnHide()
-    print("OnHide")
+    -- print("OnHide")
     -- Override in your mixin, called when the map canvas is closed
-    Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
-    lastDrawnMapId = nil
+    RemoveAllPins()
 end
 
 function WaypointMapProvider:OnMapInsetSizeChanged(mapInsetIndex, expanded)
@@ -98,15 +102,7 @@ function WaypointMapProvider:OnMapInsetMouseLeave(mapInsetIndex)
 end
 
 function WaypointMapProvider:OnCanvasScaleChanged()
-    --? Shrinks the width of the line when zooming in
-    -- local canvasScale = Map:GetCanvasScale()
-    -- for pin, bool in self:GetMap():EnumeratePinsByTemplate(PinTemplates.WaypointPinTemplate) do
-    --     if(pin.lineTexture) then
-    --         --GetCanvasZoomPercent()
-    --         --GetCanvasScale()
-    --         pin.lineTexture:redraw(canvasScale)
-    --     end
-    -- end
+
 end
 
 function WaypointMapProvider:OnCanvasPanChanged()
@@ -128,18 +124,10 @@ function WaypointMapProvider:OnGlobalAlphaChanged()
 end
 
 function WaypointMapProvider:OnMapChanged()
-    print("WaypointMapProvider OnMapChanged")
+    -- print("WaypointMapProvider OnMapChanged")
     --  Optionally override in your mixin, called when map ID changes
-
-    --local info = C_GetMapInfo(Map:GetMapID())
-    --print(info.mapID, info.name, info.mapType, info.parentMapID)
-    --for pin, bool in Map:EnumeratePinsByTemplate("QLMapWorldmapTemplate") do
-    --    pin:Hide()
-    --end
-    if lastDrawnMapId ~= Map:GetMapID() then
-        Map:RemoveAllPinsByTemplate(PinTemplates.WaypointPinTemplate)
-        self:RefreshAllData(false);
-    end
+    RemoveAllPins()
+    DrawAllPins()
 end
 
 WorldMapFrame:AddDataProvider(WaypointMapProvider)

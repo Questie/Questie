@@ -1,13 +1,11 @@
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-
----@class MapProvider
+---@class MapProvider : MapCanvasDataProvider
 local MapProvider = QuestieLoader:CreateModule("MapProvider")
 ---@type PinTemplates
-local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
-
-local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
-
-local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+local PinTemplates = QuestieLoader("PinTemplates")
+---@type MapEventBus
+local MapEventBus = QuestieLoader("MapEventBus")
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader("SystemEventBus")
 
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
@@ -22,7 +20,23 @@ MapProvider = Mixin(MapProvider, MapCanvasDataProviderMixin)
 local Map = nil
 
 
+local isDrawn = false
 local lastDrawnMapId = nil
+
+local function RemoveAllPins()
+    Map:RemoveAllPinsByTemplate(PinTemplates.MapPinTemplate)
+    isDrawn = false
+    lastDrawnMapId = nil
+end
+
+local function DrawAllPins()
+    local mapId = Map:GetMapID()
+    if not isDrawn and lastDrawnMapId ~= mapId then
+        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(mapId))
+        isDrawn = true
+        lastDrawnMapId = mapId
+    end
+end
 
 local function Initialize()
     -- Create framelevels for this provider
@@ -35,6 +49,7 @@ local function Initialize()
         end
     end)
 end
+
 
 -- Run it the next frame
 C_Timer.After(0, Initialize)
@@ -55,24 +70,12 @@ end
 function MapProvider:RemoveAllData()
     -- Override in your mixin, this method should remove everything that has been added to the map
     print("MapProvider RemoveAllData")
-    Map:RemoveAllPinsByTemplate(PinTemplates.MapPinTemplate)
-end
-
-local function DrawCall()
-    MapEventBus:FireAsync(MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(Map:GetMapID()), 50)
+    RemoveAllPins()
 end
 
 function MapProvider:RefreshAllData(fromOnShow)
     print("RefreshAllData", fromOnShow)
-    if lastDrawnMapId ~= Map:GetMapID() or fromOnShow == true then
-        -- Override in your mixin, this method should assume the map is completely blank, and refresh any data necessary on the map
-        -- if (fromOnShow == true) then
-
-        -- end
-        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(Map:GetMapID()))
-
-        lastDrawnMapId = Map:GetMapID()
-    end
+    DrawAllPins()
 end
 
 function MapProvider:OnShow()
@@ -83,10 +86,9 @@ end
 function MapProvider:OnHide()
     print("OnHide")
     -- Override in your mixin, called when the map canvas is closed
-    Map:RemoveAllPinsByTemplate(PinTemplates.MapPinTemplate)
+    RemoveAllPins()
     --When we close the map always hide the QuestieTooltip!
     questieTooltip:Hide()
-    lastDrawnMapId = nil
 end
 
 function MapProvider:OnMapInsetSizeChanged(mapInsetIndex, expanded)
@@ -153,16 +155,8 @@ end
 function MapProvider:OnMapChanged()
     print("OnMapChanged")
     --  Optionally override in your mixin, called when map ID changes
-
-    --local info = C_GetMapInfo(Map:GetMapID())
-    --print(info.mapID, info.name, info.mapType, info.parentMapID)
-    --for pin, bool in Map:EnumeratePinsByTemplate("QLMapWorldmapTemplate") do
-    --    pin:Hide()
-    --end
-    if lastDrawnMapId ~= Map:GetMapID() then
-        Map:RemoveAllPinsByTemplate(PinTemplates.MapPinTemplate)
-        self:RefreshAllData(false);
-    end
+    RemoveAllPins()
+    DrawAllPins()
 end
 
 WorldMapFrame:AddDataProvider(MapProvider)
