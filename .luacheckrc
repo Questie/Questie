@@ -2715,6 +2715,7 @@ globals = {
     "WorldMapZoneDropDown",
     "WorldMapZoneMinimapDropDown_Update",
 	"DevTools_Dump",
+    "EventTrace",
     -----------------------------------------------------> Blizzard Data
     "CALENDAR_FULLDATE_MONTH_NAMES",
     "CALENDAR_WEEKDAY_NAMES",

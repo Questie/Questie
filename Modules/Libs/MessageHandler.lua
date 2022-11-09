@@ -12,6 +12,51 @@ local insert, remove = table.insert, table.remove
 local format = string.format
 local safePack = SafePack
 local wipe = wipe
+local debugstack = debugstack
+
+C_Timer.After(0, function()
+    SlashCmdList["EVENTTRACE"]()
+end)
+
+---comment
+---@param event string
+---@param displayEvent string
+---@param displayMessage string
+---@param prePendString string? @optional
+---@param ... any
+local function LogEvent(event, displayEvent, displayMessage, prePendString, ...)
+    -- Prepend string to event
+    event = prePendString and "_"..event or event
+    if EventTrace and EventTrace:CanLogEvent(event) then
+        local elementData = {
+            event = event,
+            args = safePack(...),
+            displayEvent = displayEvent,
+            displayMessage = displayMessage,
+        }
+        EventTrace:LogLine(elementData);
+    end
+end
+
+---Print to EventTrace
+---@param message string
+---@param ... any
+printE = function(message, ...)
+    ---@type string
+    local d = debugstack(2, 1, 1)
+
+    --? Get the lua filename and code line number
+    local fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
+    if not fileName or not lineNr then
+        -- The depth was too low
+        d = debugstack(1, 1, 1)
+        fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
+    end
+    if fileName and lineNr and type(message) == "string" then
+        -- Add a _ to sort better in the EventLog
+        LogEvent(fileName, format("%s:%s", fileName, lineNr), format("%s:%s %s", fileName, lineNr, message), "_", ...)
+    end
+end
 
 --- Creates a new MessageHandler
 ---@param MessageBusName string @The name of the message bus, used in eventtrace
@@ -43,18 +88,11 @@ function MessageHandlerFactory.New(MessageBusName)
     local function fire(eventName, asyncCount, ...)
         print("Event Fired", eventName)
         if Questie.db.global.debugEnabled then
-            if EventTrace and EventTrace:CanLogEvent(eventName) then
-                local elementData = {
-                    event = eventName,
-                    args = safePack(...),
-                    displayEvent = format("%s: %s", MessageBusName, eventName),
-                    displayMessage = format("%s: %s", MessageBusName, eventName),
-                }
-                EventTrace:LogLine(elementData);
-            end
+            -- Add a ! to sort better in the EventLog
+            LogEvent(eventName, format("%s: %s", MessageBusName, eventName), format("%s: %s", MessageBusName, eventName), "!", ...)
         end
         if executing[eventName] then
-            error("Event '" .. eventName .. "' is already being executed!", 2)
+            error("Event '" .. eventName .. "' is already being executed! Did previous call crash?", 2)
         end
 
         executing[eventName] = true

@@ -2659,6 +2659,7 @@
         "GetQuestIDFromLogIndex",
         "ChatFrame_AddMessageEventFilter",
         "ReloadUI",
+        "EventTrace",
         "-----------------------------------------------------> Blizzard Data",
         "CALENDAR_FULLDATE_MONTH_NAMES",
         "CALENDAR_WEEKDAY_NAMES",
