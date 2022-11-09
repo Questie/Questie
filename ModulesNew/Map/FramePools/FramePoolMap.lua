@@ -1,13 +1,13 @@
----@class FramePoolMap
+---@class FramePoolMap : FramePool
 ---@field private frameType string
 ---@field private parent Region
 local FramePool = Mixin(QuestieLoader:CreateModule("FramePoolMap"), CreateFramePool("BUTTON", WorldMapFrame:GetCanvas()))
 
 ---@type PinTemplates
-local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
+local PinTemplates = QuestieLoader("PinTemplates")
 
 ---@type BasePinMixin
-local BasePinMixin = QuestieLoader:ImportModule("BasePinMixin")
+local BasePinMixin = QuestieLoader("BasePinMixin")
 
 ---@class TexturePool
 ---@field Release fun(self: TexturePool, texture: Texture): boolean
@@ -15,9 +15,9 @@ local BasePinMixin = QuestieLoader:ImportModule("BasePinMixin")
 ---@field private activeObjects table<Texture, boolean>
 ---@field private disallowResetIfNew boolean
 ---@field private parent Frame @The parent where all the textures are created
-TexturePool = CreateTexturePool(WorldMapFrame:GetCanvas(), "OVERLAY", 0, nil)
+local TexturePool = CreateTexturePool(WorldMapFrame:GetCanvas(), "OVERLAY", 0, nil)
 TexturePool.disallowResetIfNew = true
-
+FramePool.TexturePool = TexturePool
 
 
 --* Up values
