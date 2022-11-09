@@ -35,7 +35,7 @@ FramePool.creationFunc = function(framePool)
     --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
     count = count + 1;
 
-    ---@class WaypointMapIconFrame
+    ---@class WaypointMapIconFrame : WaypointPinMixin
     local frame = CreateFrame(framePool.frameType, Questie.db.global.debugEnabled and name .. count or nil, framePool.parent)
     --? This differs a little bit, here we actually OVERWRITE BasePinMixin functions
     frame = Mixin(frame, BasePinMixin, WaypointPinMixin)

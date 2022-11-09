@@ -195,7 +195,7 @@ end
 
 local SplineLib = CreateCatmullRomSpline(2);
 
----@param starterWaypoints table<UiMapId, AvailablePoints>
+---@param starterWaypoints table<UiMapId, AvailableWaypointPoints>
 ---@param id NpcId|ObjectId|ItemId
 ---@param data table
 ---@param idType RelationPointType
@@ -461,7 +461,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     print("ProcessAvailableQuests")
     ---@type table<UiMapId, AvailablePoints>
     local starterIcons = {}
-    ---@type table<UiMapId, AvailablePoints>
+    ---@type table<UiMapId, AvailableWaypointPoints>
     local starterWaypoints = {}
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.available and npcData.finisher == nil then
@@ -474,8 +474,6 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             RelationMapProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
         end
     end
-    -- DevTools_Dump(starterWaypoints)
-
     --! Disabled because the insane amount of icons plus the multiple entries
     --! Also look at the combine givers the "alreadySpawned" stuff.
     --? These should probably be Polygons
