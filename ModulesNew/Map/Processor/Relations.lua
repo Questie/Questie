@@ -479,8 +479,10 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
 
     -- Start / End coordinates
     local sX, sY, eX, eY, dX, dY
+    -- Made up "waypointId" which is incremented for every line
+    local waypointId = 0
     for UiMapId, data in pairs(starterWaypoints) do
-        for i = 1, #data.x do
+        for i = 1, #data.x, 2 do
             if data.id[i] == data.id[i + 1] then
                 if data.waypointIndex[i] and data.waypointIndex[i + 1] and
                     data.waypointIndex[i] == data.waypointIndex[i + 1] then
@@ -491,22 +493,22 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                         eY = data.y[i + 1] / 100
 
                         -- Determine dimensions and center point of line
-                        local dx, dy = eX - sX, eY - sY;
+                        dX, dY = eX - sX, eY - sY;
 
                         -- Normalize direction if necessary
-                        if (dx < 0) then
-                            dx, dy = -dx, -dy;
+                        if (dX < 0) then
+                            dX, dY = -dX, -dY;
                         end
                         -- If these are zero then the distance is 0
-                        if dx ~= 0 or dy ~= 0 then
+                        if dX ~= 0 or dY ~= 0 then
                             --* Calculate the rectangle corners
                             --? Information can be found: https://stackoverflow.com/questions/1936934/turn-a-line-into-a-rectangle
-                            local lineLength = sqrt(dx * dx + dy * dy)
-                            dx = dx / lineLength
-                            dy = dy / lineLength
-                            local thickness = (0.0015 / 4) * defaultLineDataMap.thickness -- old 0.0013
-                            local px = thickness * (-dy)
-                            local py = thickness * dx
+                            local lineLength = sqrt(dX * dX + dY * dY)
+                            dX = dX / lineLength
+                            dY = dY / lineLength
+                            local thickness = (0.002 / 4) * defaultLineDataMap.thickness -- old 0.0013
+                            local px = thickness * (-dY)
+                            local py = thickness * dX
                             local lineCornerPoints = {
                                 { x = sX + px, y = sY + py }, -- x1, y1
                                 { x = eX + px, y = eY + py }, -- x2, y2
@@ -521,6 +523,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                                 eX = eX,
                                 eY = eY,
                                 id = data.id[i],
+                                waypointId = waypointId,
                                 lineCornerPoints = lineCornerPoints,
                                 defaultLineDataMap = defaultLineDataMap,
                             }
@@ -532,6 +535,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                     end
                 end
             end
+            waypointId = waypointId + 1
         end
         -- DevTools_Dump(MapCoodinates.MapInfo[UiMapId])
         -- break
