@@ -21,6 +21,9 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 
+---@type QuestEventBus
+local QuestEventBus = QuestieLoader("QuestEventBus")
+
 local tableRemove = table.remove
 
 local QUEST_LOG_STATES = {
@@ -119,6 +122,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         QuestieQuest:AcceptQuest(questId)
     end
 
+    QuestEventBus.quickFire.QUEST_ACCEPTED(questId)
     return true
 end
 
@@ -156,6 +160,8 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     QuestieQuest:CompleteQuest(questId)
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
+
+    QuestEventBus.quickFire.QUEST_COMPLETED(questId)
 end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
@@ -198,6 +204,9 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         QuestieQuest:AbandonedQuest(questId)
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
+
+        QuestEventBus.quickFire.QUEST_ABANDONED(questId)
+
         questLog[questId] = nil
     end
 end
