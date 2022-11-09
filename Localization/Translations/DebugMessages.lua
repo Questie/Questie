@@ -280,7 +280,7 @@ local debugMessagesLocales = {
     },
     ["Initializing townfolks"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Инициализация полезных объектов и NPC (ремонт, почтовый ящик и т.п.)",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -292,7 +292,7 @@ local debugMessagesLocales = {
     },
     ["Optimizing waypoints"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Оптимизация путевых точек",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
