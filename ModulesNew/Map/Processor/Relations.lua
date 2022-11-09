@@ -263,10 +263,6 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                     if (lastPos == nil) then
                         lastPos = point;
                     else
-                        --local temp = {}
-                        --MapHandler.RegisterCallback(temp, MapHandler.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), drawMapLine, {UiMapId, lastPos.x/100, lastPos.y/100, point.x/100, point.y/100})
-                        --local lineFrame = drawMinimapLine({UiMapId, lastPos.x/100, lastPos.y/100, point.x/100, point.y/100})
-                        -- AvailableWaypoints:CreateWaypoint(UiMapId, lastPos.x/100, lastPos.y/100, point.x/100, point.y/100)
                         starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
                         starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
                         starter[zoneId].x[#starter[zoneId].x + 1] = point.x
@@ -280,8 +276,6 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                 --TODO: Fix
                 if (lastPos and lastPos ~= points[1]) then
                     local firstPoint = points[1]
-                    -- local x1, y1 = HBD:GetWorldCoordinatesFromZone(lastPos.x/100, lastPos.y/100, UiMapId)
-                    -- local x2, y2 = HBD:GetWorldCoordinatesFromZone(firstPoint.x/100, firstPoint.y/100, UiMapId)
                     if MapCoodinates.Maps[UiMapId] then
                         local x1, y1 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(lastPos.x, lastPos.y)
                         local x2, y2 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(firstPoint.x, firstPoint.y)
@@ -421,31 +415,6 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
             MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_COMPLETED, function()
                 MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId))
             end)
-            --* Register tooltips
-            -- for i = 1, #combinedGiver.id do
-            --     local id = combinedGiver.id[i]
-            --     local idType = combinedGiver.type[i]
-            --     if not registered[idType] then
-            --         registered[idType] = {}
-            --     end
-            --     if not registered[idType][id] then
-            --         registered[idType][id] = true
-            --         local object
-            --         if idType == "npcFinisher" then
-            --             object = QuestieQuest.Show.NPC[id]
-            --         elseif idType == "objectFinisher" then
-            --             object = QuestieQuest.Show.GameObject[id]
-            --         -- elseif idType == "item" then
-            --         --     object = QuestieQuest.Show.Item[id]
-            --         end
-            --         local tooltipFunction = function() MapTooltip.SimpleAvailableTooltip(id, idType, object) end
-            --         local event = MapEventBus.events.TOOLTIP.ADD_AVAILABLE_TOOLTIP(id, idType)
-            --         MapEventBus:ObjectRegisterRepeating(object.finisher, event, tooltipFunction)
-            --         MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_AVAILABLE, function()
-            --             MapEventBus:ObjectUnregisterRepeating(object.finisher, event)
-            --         end)
-            --     end
-            -- end
             -- Reset the type counters
             majorityType["npcFinisher"] = 0
             majorityType["objectFinisher"] = 0
@@ -509,7 +478,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     -- DevTools_Dump(availableItems)
 
     -- Start / End coordinates
-    local sX, sY, eX, eY
+    local sX, sY, eX, eY, dX, dY
     for UiMapId, data in pairs(starterWaypoints) do
         for i = 1, #data.x do
             if data.id[i] == data.id[i + 1] then
