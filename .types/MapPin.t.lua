@@ -3,6 +3,7 @@
 
 ---@alias RelationPoint BasePoint|{iconData: table<QuestId, RelationMapData>, id: NpcId|ObjectId|ItemId, type: RelationPointType, majorityType: RelationPointType}
 ---@alias AvailablePoints { x: MapX[], y: MapY[], iconData: table<QuestId, RelationMapData>[], id: NpcId[], type: RelationPointType[]}
+---@alias AvailableWaypointPoints AvailablePoints|{ waypointIndex: number[] }
 
 
 ---@alias RelationPointType "npc"|"object"|"item"|"npcFinisher"|"objectFinisher"
