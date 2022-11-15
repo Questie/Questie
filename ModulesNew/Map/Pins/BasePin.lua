@@ -1,6 +1,3 @@
----@class QuestieNS
-local Questie = select(2, ...)
-
 ---@class BasePinMixin : MapCanvasPinMixin
 ---@field data table @This contains the data for the pin
 ---@field dirty boolean @This is used to determine if the pin needs to be reset or not
@@ -15,16 +12,10 @@ local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
 ---@type PinTemplates
 local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
-
+---@type PinAnimationHelper
+local PinAnimationHelper = QuestieLoader("PinAnimationHelper")
 
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
--- ---@class BasePinMixin : MapCanvasPinMixin
--- ---@field data table @This contains the data for the pin
--- ---@field dirty boolean @This is used to determine if the pin needs to be reset or not
--- ---@field textures Texture[] @This is a table of textures that are attached to the pin
--- local BasePinMixin = CreateFromMixins(MapCanvasPinMixin) --[[@as MapCanvasPinMixin]]
-Questie.BasePinMixin = BasePinMixin
 
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
@@ -46,20 +37,24 @@ local function Euclid(x, y, i, e)
     return sqrt(xd * xd + yd * yd)
 end
 
+---@param self MapIconFrame
 function BasePinMixin:OnTooltip()
     -- Override in your mixing, called when the tooltip is shown
     -- error("This should be overridden")
 end
 
+---@param self MapIconFrame
 function BasePinMixin:OnLoad()
     -- Override in your mixin, called when this pin is created
     -- print("PinOnLoad")
 end
 
+---@param self MapIconFrame
 function BasePinMixin:GetType()
     return "BasePin"
 end
 
+---@param self MapIconFrame
 function BasePinMixin:OnAcquired(PinData, PinToMixin, ...) -- the arguments here are anything that are passed into AcquirePin after the pinTemplate
     --? Set the pin as dirty, this makes it reset fully when going through the framepool
     self.dirty = true
@@ -140,6 +135,7 @@ function BasePinMixin:OnAcquired(PinData, PinToMixin, ...) -- the arguments here
     end
 end
 
+---@param self MapIconFrame
 function BasePinMixin:OnReleased()
     -- print("OnPinRelease")
     -- Override in your mixin, called when this pin is being released by a data provider and is no longer on the map
@@ -153,6 +149,7 @@ function BasePinMixin:OnReleased()
     -- self:ClearAllPoints()
 end
 
+---@param self MapIconFrame
 function BasePinMixin:OnClick(button)
     -- Override in your mixin, called when this pin is clicked
     --Make the polygon click-through
@@ -186,53 +183,79 @@ local function mousePositionCheck()
     end
 end
 
-function BasePinMixin:OnMouseLeave()
-    -- Override in your mixin, called when the mouse leaves this pin
-end
+do
+    --? When multiple pins animate we keep track of which pins are animating in here.
+    local _animationGroups = setmetatable({}, {__index = function(t, k)
+        local new = {}
+        t[k] = new
+        return new
+    end})
 
-function BasePinMixin:OnMouseEnter()
-    --* We set the enter position for the mouse
-    mouseLocationX, mouseLocationY = GetCursorPosition()
+    ---@param self MapIconFrame
+    function BasePinMixin:OnMouseLeave()
+        -- Override in your mixin, called when the mouse leaves this pin
+        PinAnimationHelper.ScaleGroupTo(_animationGroups[self], 1, 0.03)
+        wipe(_animationGroups[self])
+    end
 
-    local tooltipFunction = function()
-        local data = self.data
-        MapEventBus:Fire(MapEventBus.events.TOOLTIP.RESET_TOOLTIP)
-        --? An idea might be to use cursor location here instead!
+    ---@param self MapIconFrame
+    function BasePinMixin:OnMouseEnter()
+        --* We set the enter position for the mouse
+        mouseLocationX, mouseLocationY = GetCursorPosition()
 
-        local pinX, pinY = self:GetPosition()
-        local otherPinX, otherPinY
-        local distance
-        self:OnTooltip()
-        local xd, yd = 0, 0
-        ---@param pin BasePinMixin
-        for pin in self:GetMap():EnumeratePinsByTemplate(PinTemplates.MapPinTemplate) do
-            --? There is a potential for a pin not to have OnTooltip
-            if pin.OnTooltip then
-                -- Euclid distance
-                otherPinX, otherPinY = pin.normalizedX, pin.normalizedY --Same as pin:GetPosition()
-                xd = pinX - otherPinX
-                yd = pinY - otherPinY
-                distance = sqrt(xd * xd + yd * yd)
-                if pinX ~= otherPinX and pinY ~= otherPinY and distance < 0.008 then
-                    pin:OnTooltip()
+        local tooltipFunction = function()
+            local data = self.data
+
+            MapEventBus:Fire(MapEventBus.events.RESET_TOOLTIP)
+
+            --? Maybe keep this?
+            -- I swapped from actual coordinate location to the location of the pin in frame coordinates
+            -- If you zoom you don't want the same combination of tooltips so this is better
+            --? An idea might be to use cursor location here instead!
+            -- local pinX, pinY = self:GetPosition()
+            -- local otherPinX, otherPinY
+            -- otherPinX, otherPinY = pin.normalizedX, pin.normalizedY --Same as pin:GetPosition() so they do exist.
+             --distance < 0.008
+
+            local distance
+            self:OnTooltip()
+            local _, _, _, pinX, pinY = self:GetPoint(1)
+            table.insert(_animationGroups[self], self)
+            local xd, yd = 0, 0
+            ---@param pin MapIconFrame
+            for pin in self:GetMap():EnumeratePinsByTemplate(PinTemplates.MapPinTemplate) do
+                --? There is a potential for a pin not to have OnTooltip
+                if pin.OnTooltip then
+                    -- Euclid distance
+                    local _, _, _, otherPinX, otherPinY = pin:GetPoint(1)
+                    xd = pinX - otherPinX
+                    yd = pinY - otherPinY
+                    distance = sqrt(xd * xd + yd * yd)
+                    if pinX ~= otherPinX and pinY ~= otherPinY and distance < 10 then
+                        pin:OnTooltip()
+                        table.insert(_animationGroups[self], pin)
+                    end
                 end
             end
+            PinAnimationHelper.ScaleGroupTo(_animationGroups[self], 1.2, 0.03)
+            MapEventBus:Fire(MapEventBus.events.DRAW_TOOLTIP)
         end
-        MapEventBus:Fire(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP)
-    end
 
-    SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.KEY_PRESS.MODIFIER_PRESSED_SHIFT, tooltipFunction)
-    SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.KEY_PRESS.MODIFIER_RELEASED_SHIFT, tooltipFunction)
-    tooltipFunction()
 
-    if mouseTimer and mouseTimer.Cancel then
-        mouseTimer:Cancel()
+
+        SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.MODIFIER_PRESSED_SHIFT, tooltipFunction)
+        SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.MODIFIER_RELEASED_SHIFT, tooltipFunction)
+        tooltipFunction()
+
+        if mouseTimer and mouseTimer.Cancel then
+            mouseTimer:Cancel()
+        end
+        mouseTimer = C_Timer.NewTicker(0.1, mousePositionCheck)
     end
-    mouseTimer = C_Timer.NewTicker(0.1, mousePositionCheck)
 end
 
 
-
+---@param self MapIconFrame
 function BasePinMixin:OnMouseDown()
     -- Override in your mixin, called when the mouse is pressed on this pin
     if (IsMouseButtonDown("LeftButton")) then
@@ -240,6 +263,7 @@ function BasePinMixin:OnMouseDown()
     end
 end
 
+---@param self MapIconFrame
 function BasePinMixin:OnMouseUp()
     -- Override in your mixin, called when the mouse is released
     local cursorX, cursorY = WorldMapFrame.ScrollContainer:GetCursorPosition();
