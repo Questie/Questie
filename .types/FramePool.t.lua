@@ -1,0 +1,36 @@
+---@class ObjectPool
+---@field OnLoad fun(creationFunc: fun(pool, T), resetterFunc)
+---@field Acquire fun(): any
+---@field Release fun(self: ObjectPool, object): boolean
+---@field ReleaseAll fun()
+---@field SetResetDisallowedIfNew fun(disallowed: boolean)
+---@field EnumerateActive fun():function @Returns an iterator for the active objects
+---@field EnumerateInactive fun():function @Returns an iterator for the inactive objects
+----@field GetNextActive fun(current)
+----@field GetNextInactive fun(current)
+---@field IsActive fun(object)
+---@field GetNumActive fun()
+
+
+---@class FramePool
+---@field Acquire function
+---@field EnumerateActive function
+---@field EnumerateInactive function
+---@field GetNextActive function
+---@field GetNextInactive function
+---@field GetNumActive function
+---@field GetTemplate function
+---@field IsActive function
+---@field OnLoad function()
+---@field Release fun(self: FramePool, frame: Frame): boolean
+---@field ReleaseAll function
+---@field SetResetDisallowedIfNew function
+---@field activeObjects table
+---@field creationFunc fun(framePool: FramePool, frame: Frame|Button)
+---@field disallowResetIfNew any
+---@field frameTemplate any
+---@field frameType any
+---@field inactiveObjects table
+---@field numActiveObjects integer = -1|0
+---@field parent any
+---@field resetterFunc any
