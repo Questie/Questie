@@ -7,6 +7,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieEvent = QuestieLoader:ImportModule("QuestieEvent")
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
+---@type SystemEventBus
 local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
@@ -14,6 +15,7 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 
 --Up value
+---@type GameTooltip
 local questieTooltip = QuestieTooltip --Localize the tooltip
 
 --? Unregister all events on hide and register draw and reset call for the tooltip.
@@ -205,7 +207,7 @@ do
                     rewardTable[#rewardTable + 1] = scryersPenalty .. " " .. factionName
                 end
 
-                questieTooltip:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1, 1, 0)
+                questieTooltip:AddLine(REPUTATION_ICON_TEXTURE .. " " .. Questie:Colorize(table.concat(rewardTable, " / "), "reputationBlue"), 1, 1, 1, 1)
             end
         end
     end
