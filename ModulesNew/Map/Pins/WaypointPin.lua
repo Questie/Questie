@@ -217,6 +217,13 @@ do
     local hoveredLines = {}
     local mouseMovementTimer
 
+    -- Used in the registered events for shift
+    local function tooltipFunction()
+        MapEventBus:Fire(MapEventBus.events.RESET_TOOLTIP)
+        MapEventBus:Fire(MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
+        MapEventBus:Fire(MapEventBus.events.DRAW_TOOLTIP)
+    end
+
     -- A value between 0-1 is expected for x and y
     ---@type XYPoint
     ---@diagnostic disable-next-line: assign-type-mismatch
@@ -228,6 +235,7 @@ do
         --* Reset the mouse check timer
         if mouseMovementTimer ~= nil then
             mouseMovementTimer:Cancel()
+            SystemEventBus:ObjectUnregisterAll(mouseMovementTimer)
             mouseMovementTimer = nil
             wipe(hoveredLines)
         end
@@ -266,9 +274,7 @@ do
                         end
                     end
                     if change then
-                        MapEventBus:Fire(MapEventBus.events.RESET_TOOLTIP)
-                        MapEventBus:Fire(MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
-                        MapEventBus:Fire(MapEventBus.events.DRAW_TOOLTIP)
+                        tooltipFunction()
                     end
 
                     -- Set the last mouse position
@@ -276,6 +282,11 @@ do
                     lastY = y
                 end
             end)
+
+            -- Register tooltip for shift click, We register it to the timer because it has a good lifecycle
+            -- We unregister it when the timer is canceled
+            SystemEventBus:ObjectRegisterRepeating(mouseMovementTimer, SystemEventBus.events.MODIFIER_PRESSED_SHIFT, tooltipFunction)
+            SystemEventBus:ObjectRegisterRepeating(mouseMovementTimer, SystemEventBus.events.MODIFIER_RELEASED_SHIFT, tooltipFunction)
         end
     end
 
@@ -284,6 +295,7 @@ do
         -- Override in your mixin, called when the mouse leaves this pin
         if mouseMovementTimer ~= nil then
             mouseMovementTimer:Cancel()
+            SystemEventBus:ObjectUnregisterAll(mouseMovementTimer)
             mouseMovementTimer = nil
 
             --? We left the frame, push OnMouseLeaveLine to all lines
