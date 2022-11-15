@@ -1,6 +1,6 @@
 ---@class MessageHandlerFactory
 local MessageHandlerFactory = setmetatable(QuestieLoader:CreateModule("MessageHandlerFactory"),
-                                           { __call = function(MessageBusName) return self.New(MessageBusName) end })
+                                           { __call = function(self, MessageBusName) return self.New(MessageBusName) end })
 
 ---@alias EventString string
 ---@alias Callback fun(...:any):any
@@ -19,7 +19,11 @@ local MessageHandlerFactory = setmetatable(QuestieLoader:CreateModule("MessageHa
 local yield = coroutine.yield
 local insert, remove = table.insert, table.remove
 local format = string.format
-local safePack = SafePack
+local safePack = function(...) -- Copied from Blizzard Code
+    local tbl = { ... };
+    tbl.n = select("#", ...);
+    return tbl;
+end
 local wipe = wipe
 local debugstack = debugstack
 
@@ -35,7 +39,7 @@ end)
 ---@param ... any
 local function LogEvent(event, displayEvent, displayMessage, prePendString, ...)
     -- Prepend string to event
-    event = prePendString and "_"..event or event
+    event = prePendString and "_" .. event or event
     if EventTrace and EventTrace:CanLogEvent(event) then
         local elementData = {
             event = event,
@@ -51,9 +55,10 @@ end
 ---@param message string
 ---@param ... any
 ---@diagnostic disable-next-line: lowercase-global -- We want this to be global and lowercase like print
-printE = function(message, ...)
+Questie.printE = function(message, ...)
     ---@type string
-    local d = debugstack(2, 1, 1) --[[@as string]] -- For some reason the VSCode ext doesn't show that this returns a string
+    local d = debugstack(2, 1, 1) --[[@as string]]
+    -- For some reason the VSCode ext doesn't show that this returns a string
 
     --? Get the lua filename and code line number
     local fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')

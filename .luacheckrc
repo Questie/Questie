@@ -2714,6 +2714,7 @@ globals = {
     "WorldMapZoneMinimapDropDown",
     "WorldMapZoneDropDown",
     "WorldMapZoneMinimapDropDown_Update",
+    "SlashCmdList",
 	"DevTools_Dump",
     "EventTrace",
     -----------------------------------------------------> Blizzard Data

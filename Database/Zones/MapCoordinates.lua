@@ -19,7 +19,7 @@ MapCoordinates.WorldMaps = WorldMaps
 MapCoordinates.MapInfo = MapInfo
 
 -- Minimap world size scaling
-MinimapSizePerYard = {
+local MinimapSizePerYard = {
 
 }
 
@@ -244,7 +244,7 @@ do
     --* Kalimdor
     local xCoord = 20
     local instanceId, worldCoords = C_Map.GetWorldPosFromMapPos(947, { x = xCoord, y = 60 })
-    local dist = 0
+    local dist
     repeat
         local _, newCoord = C_Map.GetWorldPosFromMapPos(947, { x = xCoord, y = 60 })
         dist = worldCoords.y - newCoord.y
