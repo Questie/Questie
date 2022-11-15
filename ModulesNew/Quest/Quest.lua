@@ -112,6 +112,28 @@ QuestieQuest.Show = {
     }
 }
 
+do
+    -- A bit of a workaround to avoid putting the function in the global space
+    local MergeShowData
+    function QuestieQuest.MergeShowData(t1, t2)
+        for k, v in pairs(t2) do
+            if type(v) == "table" then
+                if type(t1[k] or false) == "table" then
+                    MergeShowData(t1[k] or {}, t2[k] or {})
+                else
+                    t1[k] = v
+                end
+            else
+                t1[k] = v
+            end
+        end
+        return t1
+    end
+
+    MergeShowData = QuestieQuest.MergeShowData
+end
+
+
 --? Creates a localized space where the local variables and functions are stored
 do
     --- Used to keep track of the active timer for CalculateAvailableQuests
@@ -119,9 +141,12 @@ do
     ---@type Ticker|nil
     local timer
 
-    local function AddQuestGivers(questId)
+    ---@param show Show
+    ---@param questId QuestId
+    local function AddQuestGivers(show, questId)
         -- print("Add questgives", questId)
-        local show = QuestieQuest.Show
+        -- local show = QuestieQuest.Show
+
         local starts = QuestieDB.QueryQuestSingle(questId, "startedBy") or {}
         if (starts[1] ~= nil) then
             local npcs = starts[1]
@@ -211,6 +236,9 @@ do
         local isLevelRequirementsFulfilled = QuestieDB.IsLevelRequirementsFulfilled
         local isDoable = QuestieDB.IsDoable
 
+        -- This contains the new show data
+        local newShowData = { NPC = {}, GameObject = {}, Item = {} }
+
         local questCount = 0
         for questId in pairs(data) do
             -- local quest = DB.Quest[questId]
@@ -237,7 +265,7 @@ do
                     ) then
 
                     if isLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and isDoable(questId, debugEnabled) then
-                        AddQuestGivers(questId)
+                        AddQuestGivers(newShowData, questId)
                     end
                 end
             end
@@ -249,6 +277,21 @@ do
                 yield()
             end
         end
+
+
+        --! Verify that the merge is working correctly
+        -- Clear the previous data
+        for _, categoryData in pairs(QuestieQuest.Show) do
+            for _, questData in pairs(categoryData) do
+                if questData.available then
+                    wipe(questData.available)
+                end
+            end
+        end
+        -- Merge in the new data
+        QuestieQuest.MergeShowData(QuestieQuest.Show, newShowData)
+        -- Redraw
+        MapEventBus.FireEvent.REMOVE_ALL_AVAILABLE()
         QuestEventBus.FireEvent.CALCULATED_AVAILABLE_QUESTS(QuestieQuest.Show)
     end
 
@@ -262,7 +305,7 @@ do
         end
 
         --? Run this first because there are parts that depend on the Show data still being there.
-        MapEventBus:Fire(MapEventBus.events.REMOVE_ALL_AVAILABLE)
+        -- MapEventBus:Fire(MapEventBus.events.REMOVE_ALL_AVAILABLE)
 
         timer = ThreadLib.Thread(CalculateAvailableQuests, 0, "Error in CalculateAvailableQuests", function() print("test") end)
     end
@@ -274,9 +317,10 @@ do
     ---@type Ticker|nil
     local timer
 
-    local function AddQuestFinishers(questId)
+    ---@param show Show
+    ---@param questId QuestId
+    local function AddQuestFinishers(show, questId)
         -- print("Add questgives", questId)
-        local show = QuestieQuest.Show
         local finishes = QuestieDB.QueryQuestSingle(questId, "finishedBy") or {}
         if (finishes[1] ~= nil) then
             local npcs = finishes[1]
@@ -311,19 +355,13 @@ do
     local function CalculateCompleteQuests()
         local questsPerYield = 6
 
-        -- Clear the previous data
-        for _, categoryData in pairs(QuestieQuest.Show) do
-            for _, questData in pairs(categoryData) do
-                if questData.finisher then
-                    wipe(questData.finisher)
-                end
-            end
-        end
+        -- This contains the new show data
+        local newShowData = { NPC = {}, GameObject = {} }
 
         local questCount = 0
         for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
             if QuestieDB.IsComplete(questId) == 1 then
-                AddQuestFinishers(questId)
+                AddQuestFinishers(newShowData, questId)
             end
 
             -- Reset the questCount
@@ -333,6 +371,20 @@ do
                 yield()
             end
         end
+
+        --! Verify that the merge is working correctly
+        -- Clear the previous data
+        for _, categoryData in pairs(QuestieQuest.Show) do
+            for _, questData in pairs(categoryData) do
+                if questData.finisher then
+                    wipe(questData.finisher)
+                end
+            end
+        end
+        -- Merge in the new data
+        QuestieQuest.MergeShowData(QuestieQuest.Show, newShowData)
+        -- Redraw
+        MapEventBus.FireEvent.REMOVE_ALL_COMPLETED()
         QuestEventBus.FireEvent.CALCULATED_COMPLETED_QUESTS(QuestieQuest.Show)
     end
 
