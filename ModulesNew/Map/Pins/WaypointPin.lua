@@ -170,41 +170,27 @@ function WaypointPinMixin:OnCanvasScaleChanged()
     end
 end
 
-do
-    --? When multiple lines try to write we keep track of which have already been written in here
-    local _drawnTooltip = {}
+function WaypointPinMixin:OnMouseEnterLine()
+    -- Override in your mixin, called when the mouse enters this pin
+    Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseEnterLine")
+    print(self:GetName(), "OnMouseEnterLine")
 
-    function WaypointPinMixin:OnMouseEnterLine()
-        -- Override in your mixin, called when the mouse enters this pin
-        Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseEnterLine")
-        print(self:GetName(), "OnMouseEnterLine")
+    MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP, self.OnTooltip)
+    -- Animate line
+    WaypointAnimationHelper.ScaleWaypointsByPin(self, 0.8, 0.03)
+end
 
-        -- Register tooltip writer
-        local onTooltip = function()
-            if not _drawnTooltip[self.data.id] then
-                _drawnTooltip[self.data.id] = true
-                self:OnTooltip()
-            end
-        end
-        MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP, onTooltip)
-        -- Animate line
-        WaypointAnimationHelper.ScaleWaypointsByPin(self, 0.8, 0.03)
-    end
+function WaypointPinMixin:OnMouseLeaveLine()
+    -- Override in your mixin, called when the mouse enters this pin
+    Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseLeaveLine")
+    print(self:GetName(), "OnMouseLeaveLine")
 
-    function WaypointPinMixin:OnMouseLeaveLine()
-        -- Override in your mixin, called when the mouse enters this pin
-        Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseLeaveLine")
-        print(self:GetName(), "OnMouseLeaveLine")
+    -- Unregister the write command
+    MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
+    questieTooltip:Hide()
 
-        -- Unregister the write command
-        MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
-        questieTooltip:Hide()
-
-        -- Remove the tooltip from the list of drawn tooltips
-        _drawnTooltip[self.data.id] = nil
-        -- Reset the scale of the waypoints
-        WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
-    end
+    -- Reset the scale of the waypoints
+    WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
 end
 
 do

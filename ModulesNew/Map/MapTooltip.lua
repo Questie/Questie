@@ -18,6 +18,10 @@ local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type GameTooltip
 local questieTooltip = QuestieTooltip --Localize the tooltip
 
+-- Keeps track of the currently shown tooltip
+-- Gets reset on each ResetTooltip call
+local _drawnTooltips = {}
+
 --? Unregister all events on hide and register draw and reset call for the tooltip.
 do
     --- This is a hook for hide to remove callbacks for the tooltip
@@ -28,9 +32,11 @@ do
     hooksecurefunc(questieTooltip, "Hide", Hide);
 
     local function ResetTooltip()
+        wipe(_drawnTooltips)
         questieTooltip:ClearLines()
         questieTooltip:SetOwner(WorldMapFrame, "ANCHOR_CURSOR")
     end
+
     local function DrawTooltip()
         if IsShiftKeyDown() then
             questieTooltip:SetMinimumWidth(375)
@@ -39,6 +45,7 @@ do
         end
         questieTooltip:Show()
     end
+
     MapEventBus:RegisterRepeating(MapEventBus.events.RESET_TOOLTIP, ResetTooltip)
     MapEventBus:RegisterRepeating(MapEventBus.events.DRAW_TOOLTIP, DrawTooltip)
 
@@ -229,26 +236,32 @@ do
                 giverName = QuestieDB.QueryItemSingle(id, "name")
             end
 
-            if shift and (not firstLine) then
-                -- Spacer between NPCs
-                questieTooltip:AddLine("             ")
-            end
-            if (firstLine and not shift) then
-                questieTooltip:AddDoubleLine(giverName, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
-            elseif (firstLine and shift) then
-                questieTooltip:AddLine(giverName, 0.2, 1, 0.2);
-            else
-                questieTooltip:AddLine(giverName, 0.2, 1, 0.2);
-            end
-            if ShowData.finisher then
-                for questId in pairs(ShowData.finisher) do
-                    writeQuestRelations(questId)
+            if not _drawnTooltips[giverName] then
+                if shift and (not firstLine) then
+                    -- Spacer between NPCs
+                    questieTooltip:AddLine("             ")
                 end
-            end
-            if ShowData.available then
-                for questId in pairs(ShowData.available) do
-                    writeQuestRelations(questId)
+                if (firstLine and not shift) then
+                    questieTooltip:AddDoubleLine(giverName, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                elseif (firstLine and shift) then
+                    questieTooltip:AddLine(giverName, 0.2, 1, 0.2);
+                else
+                    questieTooltip:AddLine(giverName, 0.2, 1, 0.2);
                 end
+                if ShowData.finisher then
+                    for questId in pairs(ShowData.finisher) do
+                        writeQuestRelations(questId)
+                        _drawnTooltips[questId] = true
+                    end
+                end
+                if ShowData.available then
+                    for questId in pairs(ShowData.available) do
+                        writeQuestRelations(questId)
+                        _drawnTooltips[questId] = true
+                    end
+                end
+
+                _drawnTooltips[giverName] = true
             end
         end
     end
