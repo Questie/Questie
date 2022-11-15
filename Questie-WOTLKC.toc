@@ -237,6 +237,7 @@ ModulesNew\Map\PinTemplates.lua
 ##* Map Helpers
 ModulesNew\Map\Helpers\Bezier.lua
 ModulesNew\Map\Helpers\PinAnimationHelper.lua
+ModulesNew\Map\Helpers\WaypointAnimationHelper.lua
 
 ##* Framepools
 ModulesNew\Map\FramePools\FramePoolMap.lua
