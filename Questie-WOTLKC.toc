@@ -215,8 +215,6 @@ Modules\QuestieProfiler.lua
 # Main
 Questie.lua
 
-#Map Helpers
-ModulesNew\Map\Helpers\Bezier.lua
 
 # Event bus
 ModulesNew\Quest\QuestEventBus.lua
@@ -233,6 +231,9 @@ ModulesNew\Map\Processor\Relations.lua
 ##* Pin Template definitions
 ModulesNew\Map\PinTemplates.lua
 
+##* Map Helpers
+ModulesNew\Map\Helpers\Bezier.lua
+ModulesNew\Map\Helpers\PinAnimationHelper.lua
 
 ##* Framepools
 ModulesNew\Map\FramePools\FramePoolMap.lua
