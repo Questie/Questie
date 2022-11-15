@@ -43,6 +43,11 @@ local function InitializeModule()
     wipe(QuestieQuest.Show.Item)
     QuestieQuest.CalculateAvailableQuests()
     QuestieQuest.CalculateCompleteQuests()
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_ACCEPTED, QuestieQuest.CalculateAvailableQuests)
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_COMPLETED, QuestieQuest.CalculateAvailableQuests)
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_ABANDONED, QuestieQuest.CalculateAvailableQuests)
+
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_COMPLETED, QuestieQuest.CalculateCompleteQuests)
 end
 
 SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, InitializeModule)
