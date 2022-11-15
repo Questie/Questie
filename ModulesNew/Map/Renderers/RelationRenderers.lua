@@ -43,7 +43,7 @@ end
 C_Timer.After(0, Initialize)
 
 ---@param self RelationPoint
-function RelationRenderers.Draw(self)
+function RelationRenderers.DrawRelation(self)
     ---@type MapIconFrame
     local Pin = IconMap:AcquirePin(PinTemplates.MapPinTemplate, self, RelationPinMixin)
 
@@ -110,6 +110,7 @@ function RelationRenderers.Draw(self)
     baseTexture:Show();
     Pin.textures[#Pin.textures + 1] = baseTexture
 
+
     Pin:UseFrameLevelType(frameLevelType, self.frameLevel)
     Pin:SetPosition(self.x * 0.01, self.y * 0.01) -- Also runs ApplyFrameLevel
     -- Pin:ApplyFrameLevel()
@@ -155,25 +156,26 @@ do
         Pin:DrawLine(self.uiMapId, self.sX, self.sY, self.eX, self.eY, self.defaultLineDataMap)
 
         --? This draws each waypoint as a rectangle, do not remove this code it is extreamly useful for debugging
-        if true == true then
+        if true == false then
             --? Start and end dot (Keep the lines, they are useful for debugging though unessary in most cases)
             -- RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.sX * 100, y = self.sY * 100, frameLevel = 100, iconData = {}, id = self.id })
             -- RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.eX * 100, y = self.eY * 100, frameLevel = 100, iconData = {}, id = self.id })
             local idEven = self.waypointId % 2 == 0
+            local size = idEven and 1 or 2
             --? Corner dots
             local vertexColor = { random(), random(), random(), 1 }
-            RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[1].x * 100, y = self.lineCornerPoints[1].y * 100, frameLevel = self.waypointId % 2 == 0 and 95 or 90,
+            RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[1].x * 100, y = self.lineCornerPoints[1].y * 100, frameLevel = idEven and 95 or 90,
                 iconData = dummyIconData,
-                id = self.id }, vertexColor, idEven and 1 or 2, idEven and 1 or 2)
+                id = self.id }, vertexColor, size, size)
             RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[2].x * 100, y = self.lineCornerPoints[2].y * 100, frameLevel = idEven and 95 or 90,
                 iconData = dummyIconData,
-                id = self.id }, vertexColor, idEven and 1 or 2, idEven and 1 or 2)
+                id = self.id }, vertexColor, size, size)
             RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[3].x * 100, y = self.lineCornerPoints[3].y * 100, frameLevel = idEven and 95 or 90,
                 iconData = dummyIconData,
-                id = self.id }, vertexColor, idEven and 1 or 2, idEven and 1 or 2)
+                id = self.id }, vertexColor, size, size)
             RelationRenderers.DrawDebugDot({ uiMapId = self.uiMapId, x = self.lineCornerPoints[4].x * 100, y = self.lineCornerPoints[4].y * 100, frameLevel = idEven and 95 or 90,
                 iconData = dummyIconData,
-                id = self.id }, vertexColor, idEven and 1 or 2, idEven and 1 or 2)
+                id = self.id }, vertexColor, size, size)
         end
 
         Pin:Show();
