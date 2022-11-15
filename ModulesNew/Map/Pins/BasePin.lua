@@ -14,8 +14,12 @@ local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
 ---@type PinAnimationHelper
 local PinAnimationHelper = QuestieLoader("PinAnimationHelper")
+---@type WaypointAnimationHelper
+local WaypointAnimationHelper = QuestieLoader("WaypointAnimationHelper")
 
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
+local tInsert = table.insert
 
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
@@ -194,6 +198,7 @@ do
     ---@param self MapIconFrame
     function BasePinMixin:OnMouseLeave()
         -- Override in your mixin, called when the mouse leaves this pin
+        -- Reset the icons to their state
         PinAnimationHelper.ScaleGroupTo(_animationGroups[self], 1, 0.03)
         wipe(_animationGroups[self])
     end
@@ -204,8 +209,6 @@ do
         mouseLocationX, mouseLocationY = GetCursorPosition()
 
         local tooltipFunction = function()
-            local data = self.data
-
             MapEventBus:Fire(MapEventBus.events.RESET_TOOLTIP)
 
             --? Maybe keep this?
@@ -217,34 +220,43 @@ do
             -- otherPinX, otherPinY = pin.normalizedX, pin.normalizedY --Same as pin:GetPosition() so they do exist.
              --distance < 0.008
 
-            local distance
-            self:OnTooltip()
-            local _, _, _, pinX, pinY = self:GetPoint(1)
-            table.insert(_animationGroups[self], self)
+            -- There might be a ton of pins, so declare them now for speed.
             local xd, yd = 0, 0
+            local distance
+
+            -- Run tooltip for hovered pin and add it to animation group
+            self:OnTooltip()
+            tInsert(_animationGroups[self], self)
+
+            -- Get current position in the UI (PS. Not map X,Y coordinates)
+            local _, _, _, pinX, pinY = self:GetPoint(1)
             ---@param pin MapIconFrame
             for pin in self:GetMap():EnumeratePinsByTemplate(PinTemplates.MapPinTemplate) do
                 --? There is a potential for a pin not to have OnTooltip
                 if pin.OnTooltip then
                     -- Euclid distance
+                    -- Get current position for pin in the UI (PS. Not map X,Y coordinates)
                     local _, _, _, otherPinX, otherPinY = pin:GetPoint(1)
                     xd = pinX - otherPinX
                     yd = pinY - otherPinY
                     distance = sqrt(xd * xd + yd * yd)
                     if pinX ~= otherPinX and pinY ~= otherPinY and distance < 10 then
                         pin:OnTooltip()
-                        table.insert(_animationGroups[self], pin)
+                        tInsert(_animationGroups[self], pin)
                     end
                 end
             end
-            PinAnimationHelper.ScaleGroupTo(_animationGroups[self], 1.2, 0.03)
             MapEventBus:Fire(MapEventBus.events.DRAW_TOOLTIP)
+            -- Run animations for all affected pins
+            PinAnimationHelper.ScaleGroupTo(_animationGroups[self], 1.2, 0.03)
         end
 
 
-
+        -- Register tooltip for shift click
         SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.MODIFIER_PRESSED_SHIFT, tooltipFunction)
         SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.MODIFIER_RELEASED_SHIFT, tooltipFunction)
+
+        -- Kick eveything off
         tooltipFunction()
 
         if mouseTimer and mouseTimer.Cancel then

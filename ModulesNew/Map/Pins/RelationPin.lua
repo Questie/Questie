@@ -1,4 +1,5 @@
 ---@class RelationPinMixin : BasePinMixin
+---@field data WaypointPoint
 local RelationPinMixin = QuestieLoader:CreateModule("RelationPinMixin")
 
 ----- System Imports -----
@@ -10,9 +11,13 @@ local SystemEventBus = QuestieLoader:ImportModule("SystemEventBus")
 local MapCoordinates = QuestieLoader:ImportModule("MapCoordinates")
 
 ----- Imports -----
+---@type PinTemplates
+local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
 local QuestieQuest = QuestieLoader:ImportModule("QQuest")
 local MapTooltip = QuestieLoader:ImportModule("MapTooltip")
 
+---@type WaypointAnimationHelper
+local WaypointAnimationHelper = QuestieLoader("WaypointAnimationHelper")
 
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
@@ -78,8 +83,10 @@ function RelationPinMixin:OnTooltip()
     end
 end
 
-
+----@param self WaypointPoint|WaypointMapIconFrame
 function RelationPinMixin:OnMouseEnter()
+    -- Animate the waypoints attached to the different NPC/GO attached to this pin
+    WaypointAnimationHelper.ScaleWaypointsByPin(self, 0.8, 0.03)
     -- print("enter2")
     -- Override in your mixin, called when this pin is clicked
 
@@ -174,5 +181,8 @@ end
 function RelationPinMixin:OnMouseLeave()
     -- Override in your mixin, called when the mouse leaves this pin
     -- print("leave2")
+
+    -- Animate the waypoints attached to the different NPC/GO attached to this pin
+    WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
     questieTooltip:Hide()
 end

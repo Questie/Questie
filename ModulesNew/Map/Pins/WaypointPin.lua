@@ -1,4 +1,5 @@
 ---@class WaypointPinMixin : BasePinMixin, Button
+---@field data WaypointPoint
 ---@field lineCornerPoints {[1]: XYPoint, [2]: XYPoint, [3]: XYPoint, [4]: XYPoint} @The points of the line corners, values between 0-1 is expected
 local WaypointPinMixin = QuestieLoader:CreateModule("WaypointPinMixin")
 
@@ -24,6 +25,9 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 local QuestieEVent = QuestieLoader:ImportModule("QuestieEvent")
+
+---@type WaypointAnimationHelper
+local WaypointAnimationHelper = QuestieLoader("WaypointAnimationHelper")
 
 
 --Up value
@@ -152,7 +156,7 @@ function WaypointPinMixin:OnCanvasScaleChanged()
     --? Shrinks the width of the line when zooming in
     local canvasScale = ScrollContainer.currentScale or ScrollContainer.targetScale or 1
     if not self.lastScale or self.lastScale ~= canvasScale then
-        self.lineTexture:redraw(canvasScale)
+        WaypointAnimationHelper.ScaleTo(self, canvasScale, 0.01)
         self.lastScale = canvasScale
     end
 
@@ -166,6 +170,8 @@ function WaypointPinMixin:OnMouseEnterLine()
         questieTooltip:AddLine(self:GetName())
     end
     MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP, gg)
+
+    WaypointAnimationHelper.ScaleWaypointsByPin(self, 0.8, 0.03)
 end
 
 function WaypointPinMixin:OnMouseLeaveLine()
@@ -174,6 +180,8 @@ function WaypointPinMixin:OnMouseLeaveLine()
     print(self:GetName(), "OnMouseLeaveLine")
     MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
     questieTooltip:Hide()
+
+    WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
 end
 
 do

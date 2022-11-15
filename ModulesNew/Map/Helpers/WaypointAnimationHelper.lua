@@ -49,14 +49,26 @@ function WaypointAnimationHelper.ScaleTo(line, scale, duration)
 end
 
 ---comment
----@param baseLine WaypointMapIconFrame|WaypointPinMixin
+---@param baseLine WaypointPinMixin|RelationPinMixin
 ---@param scale number
 ---@param duration number @The ticker runs ever 0.01 second so the duration should be a multiple of 0.01
-function WaypointAnimationHelper.ScaleWaypointsById(baseLine, scale, duration)
+function WaypointAnimationHelper.ScaleWaypointsByPin(baseLine, scale, duration)
     local canvasScale = baseLine:GetMap():GetCanvasScale()
+    local baseLineType = type(baseLine.data.id)
+    ---@param line WaypointMapIconFrame
     for line in baseLine:GetMap():EnumeratePinsByTemplate(PinTemplates.WaypointPinTemplate) do
-        if baseLine.data.id == line.data.id then
-            WaypointAnimationHelper.ScaleTo(line, canvasScale * scale, duration)
+        if baseLineType == "number" then
+            -- This is a regular line frame which only has data for one thing at a time.
+            if baseLine.data.id == line.data.id and baseLine.data.type == line.data.type then
+                WaypointAnimationHelper.ScaleTo(line, canvasScale * scale, duration)
+            end
+        elseif baseLineType == "table" then
+            -- This is a relation pin, it can have multiple Ids under itself, so we loop them
+            for index = 1, #baseLine.data.id do
+                if baseLine.data.id[index] == line.data.id and baseLine.data.type[index] == line.data.type then
+                    WaypointAnimationHelper.ScaleTo(line, canvasScale * scale, 0.03)
+                end
+            end
         end
     end
 end
