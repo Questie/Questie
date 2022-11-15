@@ -13,11 +13,6 @@ local MapCoordinates = QuestieLoader:ImportModule("MapCoordinates")
 local QuestieQuest = QuestieLoader:ImportModule("QQuest")
 local MapTooltip = QuestieLoader:ImportModule("MapTooltip")
 
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-local l10n = QuestieLoader:ImportModule("l10n")
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-local QuestieEVent = QuestieLoader:ImportModule("QuestieEvent")
-
 
 --Up value
 local questieTooltip = QuestieTooltip --Localize the tooltip
