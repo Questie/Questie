@@ -200,15 +200,6 @@ do
     local function CalculateAvailableQuests()
         local questsPerYield = 64
 
-        -- Wipe the previous data
-        for _, categoryData in pairs(QuestieQuest.Show) do
-            for _, questData in pairs(categoryData) do
-                if questData.available then
-                    wipe(questData.available)
-                end
-            end
-        end
-
         -- Localize the variable for speeeeed
         local debugEnabled = Questie.db.global.debugEnabled
 
