@@ -125,7 +125,7 @@ function WaypointPinMixin:DrawLine(UiMapID, sX, sY, eX, eY, Linedata, maskTextur
 
 
     lineTexture:Show()
-    lineTexture.redraw(lineTexture)
+    lineTexture.redraw(lineTexture, self:GetMap():GetCanvasScale())
     self.lineTexture = lineTexture
 end
 
