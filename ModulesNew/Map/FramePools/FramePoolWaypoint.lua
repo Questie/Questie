@@ -1,6 +1,8 @@
--- Contains library functions that do not have a logical place.
----@class FramePoolWaypoint
-local FramePoolWaypoint = QuestieLoader:CreateModule("FramePoolWaypoint")
+---@class FramePoolWaypoint : FramePool
+---@field private frameType string
+---@field private parent Region
+local FramePoolWaypoint = Mixin(QuestieLoader:CreateModule("FramePoolWaypoint"), CreateFramePool("BUTTON", WorldMapFrame:GetCanvas()))
+FramePoolWaypoint.disallowResetIfNew = true
 
 ---@type PinTemplates
 local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
@@ -14,15 +16,11 @@ local WaypointPinMixin = QuestieLoader:ImportModule("WaypointPinMixin")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 
----@class WaypointMapFramePool
-local FramePool = CreateFramePool("BUTTON")
-
-FramePoolWaypoint.FramePool = FramePool
 
 local WaypointTexture = QuestieLib.AddonPath .. "Icons\\WHITE32X32BLACKLINES"
 
 -- register pin pool with the world map
-WorldMapFrame.pinPools[PinTemplates.WaypointPinTemplate] = FramePool
+WorldMapFrame.pinPools[PinTemplates.WaypointPinTemplate] = FramePoolWaypoint
 
 
 local count = 0
@@ -30,19 +28,19 @@ local name = "QuestieWaypointMapFrame"
 
 --- WORLD MAP
 -- setup pin pool
-FramePool.parent = WorldMapFrame:GetCanvas()
-FramePool.creationFunc = function(framePool)
-    --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
+FramePoolWaypoint.parent = WorldMapFrame:GetCanvas()
+FramePoolWaypoint.creationFunc = function(framePool)
+    --Questie:Debug(DEBUG_DEVELOP, "FramePoolWaypoint.creationFunc")
     count = count + 1;
 
     ---@class WaypointMapIconFrame : WaypointPinMixin
-    local frame = CreateFrame(framePool.frameType, Questie.db.global.debugEnabled and name .. count or nil, framePool.parent)
+    local frame = CreateFrame(FramePoolWaypoint.frameType, Questie.db.global.debugEnabled and name .. count or nil, FramePoolWaypoint.parent)
     --? This differs a little bit, here we actually OVERWRITE BasePinMixin functions
     frame = Mixin(frame, BasePinMixin, WaypointPinMixin)
     frame:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
     return frame
 end
-FramePool.resetterFunc = function(pinPool, pin)
+FramePoolWaypoint.resetterFunc = function(pinPool, pin)
     -- if(pin.lineTexture) then
     --     print("Releasing lineTexture", pin.lineTexture:GetName())
     --     local released = FramePoolWaypoint.LinePool:Release(pin.lineTexture);
@@ -69,7 +67,7 @@ FramePool.resetterFunc = function(pinPool, pin)
 
     -- -- --Frame setup
     -- pin:ClearAllPoints()
-    -- pin:SetParent(FramePool.parent)
+    -- pin:SetParent(FramePoolWaypoint.parent)
     -- pin:SetPoint("CENTER")
     -- pin:Hide();
 
@@ -92,7 +90,7 @@ FramePool.resetterFunc = function(pinPool, pin)
     -- pin:Hide();
 
     -- pin:ClearAllPoints()
-    -- pin:SetParent(FramePool.parent)
+    -- pin:SetParent(FramePoolWaypoint.parent)
     -- pin:SetParent(UIParent)
     -- pin:SetPoint("TOPLEFT")
     -- pin:Hide();
@@ -320,9 +318,16 @@ end
 --for i = 1, 835 do FramePoolWaypoint.LinePool:Release(_G["LineTexture"..i]) end
 --for i = 1, 835 do _G["LineTexture"..i]:Show() end
 --for i = 1, 835 do _G["QuestieWaypointMapFrame"..i]:Show() end
+---@class LinePool
+---@field Release fun(self: TexturePool, texture: Texture): boolean
+---@field private inactiveObjects Texture[]
+---@field private activeObjects table<Texture, boolean>
+---@field private disallowResetIfNew boolean
+---@field private parent Frame @The parent where all the textures are created
 FramePoolWaypoint.LinePool = CreateTexturePool(Minimap, "ARTWORK", 0, nil, lineReset)
 FramePoolWaypoint.LinePool.parent = Minimap
 FramePoolWaypoint.LinePool.creationFunc = lineCreate;
+FramePoolWaypoint.LinePool.resetterFunc = lineReset;
 
 FramePoolWaypoint.LinePool.Acquire = function(self)
     -- print("Getting")

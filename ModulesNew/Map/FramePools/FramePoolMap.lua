@@ -2,6 +2,7 @@
 ---@field private frameType string
 ---@field private parent Region
 local FramePool = Mixin(QuestieLoader:CreateModule("FramePoolMap"), CreateFramePool("BUTTON", WorldMapFrame:GetCanvas()))
+FramePool.disallowResetIfNew = true
 
 ---@type PinTemplates
 local PinTemplates = QuestieLoader("PinTemplates")
@@ -22,6 +23,8 @@ FramePool.TexturePool = TexturePool
 
 --* Up values
 local wipe = wipe
+local setmetatable = setmetatable
+local tInsert = table.insert
 
 -- register pin pool with the world map
 WorldMapFrame.pinPools[PinTemplates.MapPinTemplate] = FramePool
@@ -34,6 +37,34 @@ do
     local count = 0
     local name = "QuestieMapFrame"
 
+
+    ---@type table<MapIconFrame, table<string, boolean>>
+    local dirtyKeys = {}
+    -- local metaTable = { __newindex = function (self, key, value)
+    --     if not dirtyKeys[self] then
+    --         dirtyKeys[self] = {}
+    --     end
+    --     if not dirtyKeys[self][key] then
+    --         dirtyKeys[self][key] = true
+    --     end
+    --     -- tInsert(dirtyKeys[self], key)
+    --     self[key] = value
+    --     return self[key]
+    -- end }
+
+    -- local __newindex = function (self, key, value)
+    --     -- print("Settings new index", key, value)
+    --     if not dirtyKeys[self] then
+    --         dirtyKeys[self] = {}
+    --     end
+    --     if not dirtyKeys[self][key] then
+    --         dirtyKeys[self][key] = true
+    --     end
+    --     -- tInsert(dirtyKeys[self], key)
+    --     rawset(self, key, value)
+    --     return self[key]
+    -- end
+
     -- This function creates the pin itself
     ---@param framePool FramePoolMap
     ---@return MapIconFrame
@@ -42,6 +73,7 @@ do
         count = count + 1
         ---@class MapIconFrame : Button, BasePinMixin
         local frame = CreateFrame(framePool.frameType, name .. count, framePool.parent)
+
         frame.highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
         frame = Mixin(frame, BasePinMixin) --[[@as MapIconFrame]]
         frame.dirty = false
@@ -50,6 +82,9 @@ do
         frame.highlightTexture:ClearAllPoints()
         frame.highlightTexture:SetPoint("CENTER")
         frame.highlightTexture:SetSize(16, 16)
+        -- local metatable = getmetatable(frame)
+        -- metatable.__newindex = __newindex
+        -- frame = setmetatable(frame, metatable) --[[@as MapIconFrame]]
         --frame:SetIgnoreGlobalPinScale(true)
         return frame
     end
@@ -60,6 +95,9 @@ do
     ---@param pin MapIconFrame|BasePinMixin
     FramePool.resetterFunc = function(pinPool, pin)
         if pin.dirty == true then
+            if dirtyKeys[pin] then
+                DevTools_Dump(dirtyKeys[pin])
+            end
             -- print("FramePool.resetterFunc")
             -- Release all textures or create the table if it doesn't exist
             if pin.textures then
@@ -97,6 +135,8 @@ do
 
             --? It is reset so the pin is not dirty
             pin.dirty = false
+
+
         end
     end
 
