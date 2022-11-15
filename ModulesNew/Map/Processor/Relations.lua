@@ -483,7 +483,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     local waypointId = 0
     for UiMapId, data in pairs(starterWaypoints) do
         for i = 1, #data.x, 2 do
-            if data.id[i] == data.id[i + 1] then
+            if data.id[i] == data.id[i + 1] and data.type[i] == data.type[i + 1] then
                 if data.waypointIndex[i] and data.waypointIndex[i + 1] and
                     data.waypointIndex[i] == data.waypointIndex[i + 1] then
                     if data.x[i] and data.y[i] and data.x[i + 1] and data.y[i + 1] then
@@ -524,6 +524,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                                 eY = eY,
                                 id = data.id[i],
                                 waypointId = waypointId,
+                                type = data.type[i],
                                 lineCornerPoints = lineCornerPoints,
                                 defaultLineDataMap = defaultLineDataMap,
                             }
