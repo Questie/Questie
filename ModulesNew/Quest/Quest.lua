@@ -44,15 +44,16 @@ local function InitializeModule()
     QuestieQuest.CalculateAvailableQuests()
     QuestieQuest.CalculateCompleteQuests()
 end
+
 SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, InitializeModule)
 
 ---@class RelationMapData
 ---@field type "availablePickup"|"availableDrop"|"finisherComplete"
 
 local relationTypes = {
-    availablePickup = {type="availablePickup"},
-    availableDrop = {type="availableDrop"},
-    finisherComplete = {type="finisherComplete"},
+    availablePickup = { type = "availablePickup" },
+    availableDrop = { type = "availableDrop" },
+    finisherComplete = { type = "finisherComplete" },
 }
 
 ---@alias Show {NPC: table<NpcId, {available: table<QuestId, RelationMapData>, finisher: table<QuestId, RelationMapData>}>, GameObject: table, Item: table}
@@ -122,9 +123,9 @@ do
         -- print("Add questgives", questId)
         local show = QuestieQuest.Show
         local starts = QuestieDB.QueryQuestSingle(questId, "startedBy") or {}
-        if(starts[1] ~= nil)then
+        if (starts[1] ~= nil) then
             local npcs = starts[1]
-            for i=1, #npcs do
+            for i = 1, #npcs do
                 local npcId = npcs[i]
                 -- print("Adding quest giver NPC :", npcId, "for quest", questId)
                 show.NPC[npcId] = show.NPC[npcId] or {}
@@ -137,9 +138,9 @@ do
                 show.NPC[npcId].available[questId] = relationTypes.availablePickup
             end
         end
-        if(starts[2] ~= nil)then
+        if (starts[2] ~= nil) then
             local gameobjects = starts[2]
-            for i=1, #gameobjects do
+            for i = 1, #gameobjects do
                 local gameObjectId = gameobjects[i]
                 if show.GameObject[gameObjectId] == nil then
                     show.GameObject[gameObjectId] = {}
@@ -150,9 +151,9 @@ do
                 show.GameObject[gameObjectId].available[questId] = relationTypes.availablePickup
             end
         end
-        if(starts[3] ~= nil)then
+        if (starts[3] ~= nil) then
             local items = starts[3]
-            for i=1, #items do
+            for i = 1, #items do
                 local itemId = items[i]
                 -- print("Adding quest giver ITEM:", itemId, "for quest", questId)
                 if show.Item[itemId] == nil then
@@ -167,7 +168,6 @@ do
     end
 
     local function CalculateAvailableQuests()
-
         local questsPerYield = 64
 
         -- Wipe the previous data
@@ -203,9 +203,9 @@ do
 
         --- Fast Localizations
         local autoBlacklist = QQ.autoBlacklist
-        local hiddenQuests = QuestieCorrections.hiddenQuests
-        local hidden  = Questie.db.char.hidden
-        local NewThread = ThreadLib.ThreadSimple
+        local hiddenQuests  = QuestieCorrections.hiddenQuests
+        local hidden        = Questie.db.char.hidden
+        local NewThread     = ThreadLib.ThreadSimple
         -- local DB = QuestieLoader:ImportModule("DB")
 
         local isLevelRequirementsFulfilled = QuestieDB.IsLevelRequirementsFulfilled
@@ -217,17 +217,24 @@ do
             --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
             if (not autoBlacklist[questId]) then
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-                if(
+                if (
                     (not Questie.db.char.complete[questId]) and -- Don't show completed quests
-                    ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-                    (not hiddenQuests[questId] and not hidden[questId]) and -- Don't show blacklisted or player hidden quests
-                    (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and  -- Show repeatable quests if the quest is repeatable and the option is enabled
-                    (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and  -- Show dungeon quests only with the option enabled
-                    (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and  -- Show Raid quests only with the option enabled
-                    (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and -- Show PvP quests only with the option enabled
-                    (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and -- Don't show AQ War Effort quests with the option enabled
-                    ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
-                ) then
+                        -- Don't show quests if they're already in the quest log
+                        ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and
+                        -- Don't show blacklisted or player hidden quests
+                        (not hiddenQuests[questId] and not hidden[questId]) and
+                        -- Show repeatable quests if the quest is repeatable and the option is enabled
+                        (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and
+                        -- Show dungeon quests only with the option enabled
+                        (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and
+                        -- Show Raid quests only with the option enabled
+                        (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and
+                        -- Show PvP quests only with the option enabled
+                        (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and
+                        -- Don't show AQ War Effort quests with the option enabled
+                        (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and
+                        ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
+                    ) then
 
                     if isLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and isDoable(questId, debugEnabled) then
                         AddQuestGivers(questId)
@@ -271,11 +278,11 @@ do
         -- print("Add questgives", questId)
         local show = QuestieQuest.Show
         local finishes = QuestieDB.QueryQuestSingle(questId, "finishedBy") or {}
-        if(finishes[1] ~= nil)then
+        if (finishes[1] ~= nil) then
             local npcs = finishes[1]
-            for i=1, #npcs do
+            for i = 1, #npcs do
                 local npcId = npcs[i]
-                print("Adding quest giver NPC :", npcId, "for quest", questId)
+                -- printE("Adding quest finisher NPC :", npcId, "for quest", questId)
                 if show.NPC[npcId] == nil then
                     show.NPC[npcId] = {}
                 end
@@ -285,11 +292,11 @@ do
                 show.NPC[npcId].finisher[questId] = relationTypes.finisherComplete
             end
         end
-        if(finishes[2] ~= nil)then
+        if (finishes[2] ~= nil) then
             local gameobjects = finishes[2]
-            for i=1, #gameobjects do
+            for i = 1, #gameobjects do
                 local gameObjectId = gameobjects[i]
-                print("Adding quest giver GO  :", gameObjectId, "for quest", questId)
+                -- printE("Adding quest finisher GO  :", gameObjectId, "for quest", questId)
                 if show.GameObject[gameObjectId] == nil then
                     show.GameObject[gameObjectId] = {}
                 end
@@ -302,7 +309,6 @@ do
     end
 
     local function CalculateCompleteQuests()
-
         local questsPerYield = 6
 
         -- Clear the previous data
