@@ -122,7 +122,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         QuestieQuest:AcceptQuest(questId)
     end
 
-    QuestEventBus.quickFire.QUEST_ACCEPTED(questId)
+    QuestEventBus.FireEvent.QUEST_ACCEPTED(questId)
     return true
 end
 
@@ -161,7 +161,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     QuestieJourney:CompleteQuest(questId)
     QuestieAnnounce:CompletedQuest(questId)
 
-    QuestEventBus.quickFire.QUEST_COMPLETED(questId)
+    QuestEventBus.FireEvent.QUEST_COMPLETED(questId)
 end
 
 --- Fires when a quest is removed from the quest log. This includes turning it in and abandoning it.
@@ -205,7 +205,7 @@ function _QuestEventHandler:MarkQuestAsAbandoned(questId)
         QuestieJourney:AbandonQuest(questId)
         QuestieAnnounce:AbandonedQuest(questId)
 
-        QuestEventBus.quickFire.QUEST_ABANDONED(questId)
+        QuestEventBus.FireEvent.QUEST_ABANDONED(questId)
 
         questLog[questId] = nil
     end

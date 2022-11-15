@@ -29,13 +29,33 @@ do
         questieTooltip:ClearLines()
         questieTooltip:SetOwner(WorldMapFrame, "ANCHOR_CURSOR")
     end
-
     local function DrawTooltip()
+        if IsShiftKeyDown() then
+            questieTooltip:SetMinimumWidth(375)
+        else
+            questieTooltip:SetMinimumWidth(0)
+        end
         questieTooltip:Show()
     end
+    MapEventBus:RegisterRepeating(MapEventBus.events.RESET_TOOLTIP, ResetTooltip)
+    MapEventBus:RegisterRepeating(MapEventBus.events.DRAW_TOOLTIP, DrawTooltip)
 
-    MapEventBus:RegisterRepeating(MapEventBus.events.TOOLTIP.RESET_TOOLTIP, ResetTooltip)
-    MapEventBus:RegisterRepeating(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP, DrawTooltip)
+    -- --? We force a minimum width when shift is held down.
+    -- local function ShiftPressed()
+    --     printE("Tooltip Setting Minimum Width")
+    --     questieTooltip:SetMinimumWidth(200)
+    --     questieTooltip:SetWidth(500)
+    -- end
+    -- local function ShiftReleased()
+    --     if (questieTooltip:GetMinimumWidth() ~= 0) then
+    --         printE("Tooltip Resetting Minimum Width")
+    --         questieTooltip:SetMinimumWidth(0)
+    --     end
+    -- end
+    -- C_Timer.After(0, function()
+    --     SystemEventBus:RegisterRepeating(SystemEventBus.events.MODIFIER_PRESSED_SHIFT,  ShiftPressed)
+    --     SystemEventBus:RegisterRepeating(SystemEventBus.events.MODIFIER_RELEASED_SHIFT,  ShiftReleased)
+    -- end)
 end
 
 

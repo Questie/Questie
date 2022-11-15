@@ -411,9 +411,9 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
                 majorityType = majority
             }
             --* Register draw
-            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId), RelationRenderers.Draw)
-            MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_COMPLETED, function()
-                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId))
+            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId], RelationRenderers.DrawRelation)
+            MapEventBus:RegisterOnce(MapEventBus.events.REMOVE_ALL_COMPLETED, function()
+                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId])
             end)
             -- Reset the type counters
             majorityType["npcFinisher"] = 0
@@ -421,7 +421,7 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
         end
     end
 
-    MapEventBus:Fire(MapEventBus.events.MAP.REDRAW_ALL)
+    MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
 end
 
 ---comment
@@ -527,9 +527,9 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                                 lineCornerPoints = lineCornerPoints,
                                 defaultLineDataMap = defaultLineDataMap,
                             }
-                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId), RelationRenderers.DrawWaypoint)
-                            MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_AVAILABLE, function()
-                                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(UiMapId))
+                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[UiMapId], RelationRenderers.DrawWaypoint)
+                            MapEventBus:RegisterOnce(MapEventBus.events.REMOVE_ALL_AVAILABLE, function()
+                                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[UiMapId])
                             end)
                         end
                     end
@@ -574,9 +574,9 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                 majorityType = majority
             }
             --* Register draw
-            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId), RelationRenderers.Draw)
-            MapEventBus:RegisterOnce(MapEventBus.events.MAP.REMOVE_ALL_AVAILABLE, function()
-                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(UiMapId))
+            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId], RelationRenderers.DrawRelation)
+            MapEventBus:RegisterOnce(MapEventBus.events.REMOVE_ALL_AVAILABLE, function()
+                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId])
             end)
             -- Reset the type counters
             majorityType["item"] = 0
@@ -585,7 +585,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
         end
     end
 
-    MapEventBus:Fire(MapEventBus.events.MAP.REDRAW_ALL)
+    MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
 end
 
 ---Absolute center, not average

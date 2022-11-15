@@ -2,8 +2,17 @@
 local MessageHandlerFactory = setmetatable(QuestieLoader:CreateModule("MessageHandlerFactory"),
                                            { __call = function(MessageBusName) return self.New(MessageBusName) end })
 
----@alias Event string
+---@alias EventString string
 ---@alias Callback fun(...:any):any
+
+-- These are more for readabilty rather than type safety
+
+-- SimpleEvent is a string in bus.events but a function bus.FireEvent
+---@alias SimpleEvent EventString
+-- ParameterEvent is a string in bus.events but a function bus.FireEvent
+---@alias ParameterEvent EventString
+-- FormatEvent is a table or function in bus.events but a function bus.FireEvent (has to be manually defined)
+---@alias FormatEvent table|function
 
 
 --- Localize functions
@@ -41,15 +50,16 @@ end
 ---Print to EventTrace
 ---@param message string
 ---@param ... any
+---@diagnostic disable-next-line: lowercase-global -- We want this to be global and lowercase like print
 printE = function(message, ...)
     ---@type string
-    local d = debugstack(2, 1, 1)
+    local d = debugstack(2, 1, 1) --[[@as string]] -- For some reason the VSCode ext doesn't show that this returns a string
 
     --? Get the lua filename and code line number
     local fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
     if not fileName or not lineNr then
         -- The depth was too low
-        d = debugstack(1, 1, 1)
+        d = debugstack(1, 1, 1) --[[@as string]]
         fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
     end
     if fileName and lineNr and type(message) == "string" then
@@ -57,6 +67,58 @@ printE = function(message, ...)
         LogEvent(fileName, format("%s:%s", fileName, lineNr), format("%s:%s %s", fileName, lineNr, message), "_", ...)
     end
 end
+
+--? Used by the CreateFormaterEvent function
+--? This metatable is used for events that have parameters
+--? __call is used when an event has more than 1 parameter
+--? __index is used when an event has only 1 parameter
+local eventFormatMetaTable = {
+    --? This is used when you have 2 or more parameters that are used in the format string
+    ---@param self {event: string, formatEvent: string, parameters: string[]}
+    ---@param firstParam any
+    ---@param ... any
+    ---@return string
+    __call = function(self, firstParam, ...)
+        if firstParam then
+            if #self.parameters > 1 then
+                return format(self.formatEvent, ...)
+            else
+                error("Only one parameter, Instead use it as a table eg. events.DRAW_RELATION_UIMAPID[UiMapId]", 2)
+            end
+        else
+            error("Do not call this function without parameters!", 2)
+        end
+        -- if firstParam then
+        --     --? Only cache when it only requires one paramater
+        --     if not self.cache and #self.parameters == 1 then
+        --         self.cache = {}
+        --     end
+
+        --     --? If the cache is set, use it
+        --     if self.cache[firstParam] then
+        --         return self.cache[firstParam]
+        --     elseif self.cache then
+        --         --? Cache exists but the value is missing
+        --         self.cache[firstParam] = format(self.formatEvent, firstParam)
+        --         return self.cache[firstParam]
+        --     else
+        --         --? No cache exists
+        --         return format(self.formatEvent, firstParam, ...)
+        --     end
+        -- end
+    end,
+    --? This is used when you have 1 parameter that is used in the format string
+    ---@param self {event: string, formatEvent: string, parameters: string[]}
+    ---@param firstParam any
+    __index = function(self, firstParam)
+        if firstParam and #self.parameters == 1 then
+            self[firstParam] = format(self.formatEvent, firstParam)
+            return self[firstParam]
+        else
+            return nil
+        end
+    end,
+}
 
 --- Creates a new MessageHandler
 ---@param MessageBusName string @The name of the message bus, used in eventtrace
@@ -66,22 +128,42 @@ function MessageHandlerFactory.New(MessageBusName)
     local handler = {}
 
     --- Contains all the events that are fired repeatably
-    ---@type table<Event,Callback[]>
+    ---@type table<EventString,Callback[]>
     local repeatEvents = {}
 
     --- Contains all the events that are fired once
-    ---@type table<Event,Callback[]>
+    ---@type table<EventString,Callback[]>
     local onceEvents = {}
 
     -- Used when asyncronously calling events
-    ---@type table<Event, boolean>
+    ---@type table<EventString, boolean>
     local executing = {}
 
-    ---@type table<Event, table<table, Callback>>
+    ---@type table<EventString, table<table, Callback>>
     local objects = {}
 
+    ---A helper function to create the table with meta functions for format events
+    ---@param eventName EventString
+    ---@param formatEvent string
+    ---@param parameters string[]
+    ---@return any|table|function -- The return is a little weird to support forcing the type of the return to either a function or a table
+    function handler.CreateFormaterEvent(eventName, formatEvent, parameters)
+        if not eventName or type(eventName) ~= "string" then
+            error("Event must be a string!", 2)
+        end
+        if not formatEvent or type(formatEvent) ~= "string" then
+            error("FormatEvent must be a string!", 2)
+        end
+        if not parameters or type(parameters) ~= "table" or #parameters == 0 then
+            error("Parameterized events must have parameters", 2)
+        end
+        local formattedEvent = { event = eventName, formatEvent = formatEvent, parameters = parameters }
+        setmetatable(formattedEvent, eventFormatMetaTable)
+        return formattedEvent
+    end
+
     --- The local function for both Async and Sync callbacks
-    ---@param eventName Event
+    ---@param eventName EventString
     ---@param asyncCount number? @How many events to fire per yield
     ---@param ... any @Input arguments for the callback
     ---@return table? @Returns a table of all the return values from the callbacks
@@ -154,7 +236,8 @@ function MessageHandlerFactory.New(MessageBusName)
     end
 
     --- Fire a callback event
-    ---@param eventName Event
+    --- NOTE: It is up to you to match the number of parameters for the event you fire
+    ---@param eventName EventString
     ---@param ... any @Input arguments for the callback
     ---@return table? @A table containing all the return values
     function handler:Fire(eventName, ...)
@@ -162,7 +245,8 @@ function MessageHandlerFactory.New(MessageBusName)
     end
 
     --- Fire a async callback event which invokes coroutine yield
-    ---@param eventName Event
+    --- NOTE: It is up to you to match the number of parameters for the event you fire
+    ---@param eventName EventString
     ---@param asyncCount number? @How many events to fire per yield
     ---@param ... any @Input arguments for the callback
     ---@return table? @A table containing all the return values
@@ -174,7 +258,7 @@ function MessageHandlerFactory.New(MessageBusName)
     end
 
     ---Register a callback
-    ---@param eventName Event
+    ---@param eventName EventString
     ---@param callback Callback
     function handler:RegisterRepeating(eventName, callback)
         if not callback or type(callback) ~= "function" then
@@ -191,7 +275,7 @@ function MessageHandlerFactory.New(MessageBusName)
     ---Register a callback on an object, each callback is unique and registering a new one will overwrite it.
     ---The callbacks first parameter will aways be the object itself
     ---@param object table @The object that is registering the event
-    ---@param eventName Event
+    ---@param eventName EventString
     ---@param callback Callback
     function handler:ObjectRegisterRepeating(object, eventName, callback)
         if not callback or type(callback) ~= "function" then
@@ -206,7 +290,7 @@ function MessageHandlerFactory.New(MessageBusName)
     end
 
     --- Register a callback that will only be called once
-    ---@param eventName Event
+    ---@param eventName EventString
     ---@param callback Callback
     function handler:RegisterOnce(eventName, callback)
         if not callback or type(callback) ~= "function" then
@@ -221,7 +305,7 @@ function MessageHandlerFactory.New(MessageBusName)
     end
 
     ---Unregister a callback by function
-    ---@param eventName Event
+    ---@param eventName EventString
     ---@param callback Callback
     function handler:UnregisterRepeating(eventName, callback)
         if not callback or type(callback) ~= "function" then
@@ -242,7 +326,7 @@ function MessageHandlerFactory.New(MessageBusName)
 
     ---Unregister a callback by object
     ---@param object table
-    ---@param eventName Event
+    ---@param eventName EventString
     function handler:ObjectUnregisterRepeating(object, eventName)
         if not eventName or type(eventName) ~= "string" then
             error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'eventName' - a string expected.", 2)
@@ -268,7 +352,7 @@ function MessageHandlerFactory.New(MessageBusName)
     end
 
     ---Unregisters all events for a given event name in repeat, once-lists and object-lists
-    ---@param eventName Event
+    ---@param eventName EventString
     function handler:UnregisterAll(eventName)
         if not eventName or type(eventName) ~= "string" then
             error("Usage: UnregisterAll(eventName): 'eventName' - a string expected.", 2)

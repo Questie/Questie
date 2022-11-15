@@ -165,14 +165,14 @@ function WaypointPinMixin:OnMouseEnterLine()
     local gg = function()
         questieTooltip:AddLine(self:GetName())
     end
-    MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.TOOLTIP.WRITE_WAYPOINT_TOOLTIP, gg)
+    MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP, gg)
 end
 
 function WaypointPinMixin:OnMouseLeaveLine()
     -- Override in your mixin, called when the mouse enters this pin
     Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseLeaveLine")
     print(self:GetName(), "OnMouseLeaveLine")
-    MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.TOOLTIP.WRITE_WAYPOINT_TOOLTIP)
+    MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
     questieTooltip:Hide()
 end
 
@@ -249,9 +249,9 @@ do
                         end
                     end
                     if change then
-                        MapEventBus:Fire(MapEventBus.events.TOOLTIP.RESET_TOOLTIP)
-                        MapEventBus:Fire(MapEventBus.events.TOOLTIP.WRITE_WAYPOINT_TOOLTIP)
-                        MapEventBus:Fire(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP)
+                        MapEventBus:Fire(MapEventBus.events.RESET_TOOLTIP)
+                        MapEventBus:Fire(MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
+                        MapEventBus:Fire(MapEventBus.events.DRAW_TOOLTIP)
                     end
 
                     -- Set the last mouse position

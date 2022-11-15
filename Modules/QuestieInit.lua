@@ -324,7 +324,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     -- QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
-    SystemEventBus:Fire(SystemEventBus.events.INITIALIZE_DONE)
+    SystemEventBus.FireEvent.INITIALIZE_DONE()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")
 end

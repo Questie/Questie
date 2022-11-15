@@ -242,7 +242,7 @@ do
                 yield()
             end
         end
-        QuestEventBus.quickFire.CALCULATED_AVAILABLE_QUESTS(QuestieQuest.Show)
+        QuestEventBus.FireEvent.CALCULATED_AVAILABLE_QUESTS(QuestieQuest.Show)
     end
 
     -- Starts a thread to calculate available quests to avoid lag spikes
@@ -255,7 +255,7 @@ do
         end
 
         --? Run this first because there are parts that depend on the Show data still being there.
-        MapEventBus:Fire(MapEventBus.events.MAP.REMOVE_ALL_AVAILABLE)
+        MapEventBus:Fire(MapEventBus.events.REMOVE_ALL_AVAILABLE)
 
         timer = ThreadLib.Thread(CalculateAvailableQuests, 0, "Error in CalculateAvailableQuests", function() print("test") end)
     end
@@ -327,7 +327,7 @@ do
                 yield()
             end
         end
-        QuestEventBus.quickFire.CALCULATED_COMPLETED_QUESTS(QuestieQuest.Show)
+        QuestEventBus.FireEvent.CALCULATED_COMPLETED_QUESTS(QuestieQuest.Show)
     end
 
     -- Starts a thread to calculate available quests to avoid lag spikes
@@ -340,7 +340,7 @@ do
         end
 
         --? Run this first because there are parts that depend on the Show data still being there.
-        MapEventBus:Fire(MapEventBus.events.MAP.REMOVE_ALL_COMPLETED)
+        MapEventBus:Fire(MapEventBus.events.REMOVE_ALL_COMPLETED)
 
         timer = ThreadLib.Thread(CalculateCompleteQuests, 0, "Error in CalculateCompleteQuests", function() print("test") end)
     end

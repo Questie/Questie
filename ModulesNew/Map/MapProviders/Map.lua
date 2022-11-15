@@ -32,7 +32,7 @@ end
 local function DrawAllPins()
     local mapId = Map:GetMapID()
     if not isDrawn and lastDrawnMapId ~= mapId then
-        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_RELATION_UIMAPID(mapId))
+        MapEventBus:Fire(MapEventBus.events.DRAW_RELATION_UIMAPID[mapId])
         isDrawn = true
         lastDrawnMapId = mapId
     end
@@ -42,10 +42,10 @@ local function Initialize()
     -- Create framelevels for this provider
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_COMPLETE", "PIN_FRAME_LEVEL_AREA_POI", 100)
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", "PIN_FRAME_LEVEL_AREA_POI", 100)
-    MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
+    MapEventBus:RegisterRepeating(MapEventBus.events.REDRAW_ALL, function()
         if MapProvider and WorldMapFrame:IsVisible() then
-            Map:RemoveAllPinsByTemplate(PinTemplates.MapPinTemplate)
-            MapProvider:RefreshAllData(true)
+            RemoveAllPins()
+            DrawAllPins()
         end
     end)
 end

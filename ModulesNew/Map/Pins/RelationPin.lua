@@ -93,17 +93,17 @@ function RelationPinMixin:OnMouseEnter()
 
     -- local tooltipFunction = function()
     --     local data = self.data
-    --     MapEventBus:Fire(MapEventBus.events.TOOLTIP.RESET_TOOLTIP)
+    --     MapEventBus:Fire(MapEventBus.events.RESET_TOOLTIP)
     --     -- for index, id in pairs(data.id) do
     --     --     local giverType = data.type[index]
-    --     --     MapEventBus:Fire(MapEventBus.events.TOOLTIP.ADD_AVAILABLE_TOOLTIP(id, giverType))
+    --     --     MapEventBus:Fire(MapEventBus.events.ADD_AVAILABLE_TOOLTIP(id, giverType))
     --     -- end
     --     self:OnTooltip()
-    --     MapEventBus:Fire(MapEventBus.events.TOOLTIP.DRAW_TOOLTIP)
+    --     MapEventBus:Fire(MapEventBus.events.DRAW_TOOLTIP)
     -- end
 
-    -- SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.KEY_PRESS.MODIFIER_PRESSED_SHIFT, tooltipFunction)
-    -- SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.KEY_PRESS.MODIFIER_RELEASED_SHIFT, tooltipFunction)
+    -- SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.MODIFIER_PRESSED_SHIFT, tooltipFunction)
+    -- SystemEventBus:ObjectRegisterRepeating(questieTooltip, SystemEventBus.events.MODIFIER_RELEASED_SHIFT, tooltipFunction)
     -- tooltipFunction()
 
     -- questieTooltip:ClearLines()

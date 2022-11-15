@@ -34,7 +34,7 @@ local function DrawAllPins()
     local mapId = Map:GetMapID()
     if not isDrawn and lastDrawnMapId ~= mapId then
         printE("DrawAllPins", mapId)
-        MapEventBus:Fire(MapEventBus.events.MAP.DRAW_WAYPOINTS_UIMAPID(mapId))
+        MapEventBus:Fire(MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[mapId])
         isDrawn = true
         lastDrawnMapId = mapId
     end
@@ -43,7 +43,7 @@ end
 local function Initialize()
     -- Create framelevels for this provider
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_DUNGEON_ENTRANCE")
-    MapEventBus:RegisterRepeating(MapEventBus.events.MAP.REDRAW_ALL, function()
+    MapEventBus:RegisterRepeating(MapEventBus.events.REDRAW_ALL, function()
         if WaypointMapProvider and WorldMapFrame:IsVisible() then
             RemoveAllPins()
             DrawAllPins()
