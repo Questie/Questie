@@ -144,7 +144,16 @@ end
 --! End fucky wucky, read above
 
 function WaypointPinMixin:OnTooltip()
-
+    local data = self.data
+    local id = data.id
+    local idType = data.type
+    local object
+    if idType == "npcFinisher" or idType == "npc" then
+        object = QuestieQuest.Show.NPC[id]
+    elseif idType == "objectFinisher" or idType == "object" then
+        object = QuestieQuest.Show.GameObject[id]
+    end
+    MapTooltip.SimpleAvailableTooltip(id, idType, object)
 end
 
 function WaypointPinMixin:OnCanvasScaleChanged()
@@ -159,29 +168,43 @@ function WaypointPinMixin:OnCanvasScaleChanged()
         WaypointAnimationHelper.ScaleTo(self, canvasScale, 0.01)
         self.lastScale = canvasScale
     end
-
 end
 
-function WaypointPinMixin:OnMouseEnterLine()
-    -- Override in your mixin, called when the mouse enters this pin
-    Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseEnterLine")
-    print(self:GetName(), "OnMouseEnterLine")
-    local gg = function()
-        questieTooltip:AddLine(self:GetName())
+do
+    --? When multiple lines try to write we keep track of which have already been written in here
+    local _drawnTooltip = {}
+
+    function WaypointPinMixin:OnMouseEnterLine()
+        -- Override in your mixin, called when the mouse enters this pin
+        Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseEnterLine")
+        print(self:GetName(), "OnMouseEnterLine")
+
+        -- Register tooltip writer
+        local onTooltip = function()
+            if not _drawnTooltip[self.data.id] then
+                _drawnTooltip[self.data.id] = true
+                self:OnTooltip()
+            end
+        end
+        MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP, onTooltip)
+        -- Animate line
+        WaypointAnimationHelper.ScaleWaypointsByPin(self, 0.8, 0.03)
     end
-    MapEventBus:ObjectRegisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP, gg)
 
-    WaypointAnimationHelper.ScaleWaypointsByPin(self, 0.8, 0.03)
-end
+    function WaypointPinMixin:OnMouseLeaveLine()
+        -- Override in your mixin, called when the mouse enters this pin
+        Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseLeaveLine")
+        print(self:GetName(), "OnMouseLeaveLine")
 
-function WaypointPinMixin:OnMouseLeaveLine()
-    -- Override in your mixin, called when the mouse enters this pin
-    Questie:Debug(Questie.DEBUG_DEVELOP, "WaypointPinMixin:OnMouseLeaveLine")
-    print(self:GetName(), "OnMouseLeaveLine")
-    MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
-    questieTooltip:Hide()
+        -- Unregister the write command
+        MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
+        questieTooltip:Hide()
 
-    WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
+        -- Remove the tooltip from the list of drawn tooltips
+        _drawnTooltip[self.data.id] = nil
+        -- Reset the scale of the waypoints
+        WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
+    end
 end
 
 do

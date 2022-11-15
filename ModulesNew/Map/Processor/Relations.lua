@@ -523,8 +523,9 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                                 eX = eX,
                                 eY = eY,
                                 id = data.id[i],
-                                waypointId = waypointId,
                                 type = data.type[i],
+                                waypointId = waypointId,
+                                iconData = data.iconData[i],
                                 lineCornerPoints = lineCornerPoints,
                                 defaultLineDataMap = defaultLineDataMap,
                             }
