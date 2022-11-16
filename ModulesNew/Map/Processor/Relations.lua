@@ -413,6 +413,76 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
     return starterWaypoints
 end
 
+--- Register the draw calls for the waypoints
+---@param waypoints table<UiMapId, AvailableWaypointPoints>
+---@param renderer function
+---@param REMOVE_EVENT EventString
+local function RegisterWaypoints(waypoints, renderer, REMOVE_EVENT)
+    -- Start / End coordinates
+    local sX, sY, eX, eY, dX, dY
+    -- Made up "waypointId" which is incremented for every line
+    local waypointId = 0
+    for UiMapId, data in pairs(waypoints) do
+        for i = 1, #data.x, 2 do
+            if data.id[i] == data.id[i + 1] and data.type[i] == data.type[i + 1] then
+                if data.waypointIndex[i] and data.waypointIndex[i + 1] and
+                    data.waypointIndex[i] == data.waypointIndex[i + 1] then
+                    if data.x[i] and data.y[i] and data.x[i + 1] and data.y[i + 1] then
+                        sX = data.x[i] / 100
+                        sY = data.y[i] / 100
+                        eX = data.x[i + 1] / 100
+                        eY = data.y[i + 1] / 100
+
+                        -- Determine dimensions and center point of line
+                        dX, dY = eX - sX, eY - sY;
+
+                        -- Normalize direction if necessary
+                        if (dX < 0) then
+                            dX, dY = -dX, -dY;
+                        end
+                        -- If these are zero then the distance is 0
+                        if dX ~= 0 or dY ~= 0 then
+                            --* Calculate the rectangle corners
+                            --? Information can be found: https://stackoverflow.com/questions/1936934/turn-a-line-into-a-rectangle
+                            local lineLength = sqrt(dX * dX + dY * dY)
+                            dX = dX / lineLength
+                            dY = dY / lineLength
+                            local thickness = (0.002 / 4) * defaultLineDataMap.thickness -- old 0.0013
+                            local px = thickness * (-dY)
+                            local py = thickness * dX
+                            local lineCornerPoints = {
+                                { x = sX + px, y = sY + py }, -- x1, y1
+                                { x = eX + px, y = eY + py }, -- x2, y2
+                                { x = eX - px, y = eY - py }, -- x3, y3
+                                { x = sX - px, y = sY - py }, -- x4, y4
+                            }
+                            ---@class WaypointPoint
+                            local iconData = {
+                                uiMapId = UiMapId,
+                                sX = sX,
+                                sY = sY,
+                                eX = eX,
+                                eY = eY,
+                                id = data.id[i],
+                                type = data.type[i],
+                                waypointId = waypointId,
+                                iconData = data.iconData[i],
+                                lineCornerPoints = lineCornerPoints,
+                                defaultLineDataMap = defaultLineDataMap,
+                            }
+                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[UiMapId], renderer)
+                            MapEventBus:RegisterOnce(REMOVE_EVENT, function()
+                                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[UiMapId])
+                            end)
+                        end
+                    end
+                end
+            end
+            waypointId = waypointId + 1
+        end
+    end
+end
+
 ---comment
 ---@param ShowData Show
 function RelationMapProcessor.ProcessCompletedQuests(ShowData)
@@ -437,6 +507,9 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
             RelationMapProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", QuestieDB.QueryObjectSingle)
         end
     end
+
+    --! This is not tested, but should work
+    RegisterWaypoints(finisherWaypoints, RelationRenderers.DrawWaypoint, MapEventBus.events.REMOVE_ALL_COMPLETED)
 
     -- We return the majority type to control the icon
     -- Hardcode the types because we already know them
@@ -541,70 +614,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     -- end
     -- DevTools_Dump(availableItems)
 
-    -- Start / End coordinates
-    local sX, sY, eX, eY, dX, dY
-    -- Made up "waypointId" which is incremented for every line
-    local waypointId = 0
-    for UiMapId, data in pairs(starterWaypoints) do
-        for i = 1, #data.x, 2 do
-            if data.id[i] == data.id[i + 1] and data.type[i] == data.type[i + 1] then
-                if data.waypointIndex[i] and data.waypointIndex[i + 1] and
-                    data.waypointIndex[i] == data.waypointIndex[i + 1] then
-                    if data.x[i] and data.y[i] and data.x[i + 1] and data.y[i + 1] then
-                        sX = data.x[i] / 100
-                        sY = data.y[i] / 100
-                        eX = data.x[i + 1] / 100
-                        eY = data.y[i + 1] / 100
-
-                        -- Determine dimensions and center point of line
-                        dX, dY = eX - sX, eY - sY;
-
-                        -- Normalize direction if necessary
-                        if (dX < 0) then
-                            dX, dY = -dX, -dY;
-                        end
-                        -- If these are zero then the distance is 0
-                        if dX ~= 0 or dY ~= 0 then
-                            --* Calculate the rectangle corners
-                            --? Information can be found: https://stackoverflow.com/questions/1936934/turn-a-line-into-a-rectangle
-                            local lineLength = sqrt(dX * dX + dY * dY)
-                            dX = dX / lineLength
-                            dY = dY / lineLength
-                            local thickness = (0.002 / 4) * defaultLineDataMap.thickness -- old 0.0013
-                            local px = thickness * (-dY)
-                            local py = thickness * dX
-                            local lineCornerPoints = {
-                                { x = sX + px, y = sY + py }, -- x1, y1
-                                { x = eX + px, y = eY + py }, -- x2, y2
-                                { x = eX - px, y = eY - py }, -- x3, y3
-                                { x = sX - px, y = sY - py }, -- x4, y4
-                            }
-                            ---@class WaypointPoint
-                            local iconData = {
-                                uiMapId = UiMapId,
-                                sX = sX,
-                                sY = sY,
-                                eX = eX,
-                                eY = eY,
-                                id = data.id[i],
-                                type = data.type[i],
-                                waypointId = waypointId,
-                                iconData = data.iconData[i],
-                                lineCornerPoints = lineCornerPoints,
-                                defaultLineDataMap = defaultLineDataMap,
-                            }
-                            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[UiMapId], RelationRenderers.DrawWaypoint)
-                            MapEventBus:RegisterOnce(MapEventBus.events.REMOVE_ALL_AVAILABLE, function()
-                                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[UiMapId])
-                            end)
-                        end
-                    end
-                end
-            end
-            waypointId = waypointId + 1
-        end
-    end
-
+    RegisterWaypoints(starterWaypoints, RelationRenderers.DrawWaypoint, MapEventBus.events.REMOVE_ALL_AVAILABLE)
 
     -- We return the majority type to control the icon
     -- Hardcode the types because we already know them
