@@ -228,7 +228,8 @@ ModulesNew\Map\MapEventBus.lua
 
 
 #Processors
-ModulesNew\Map\Processor\Relations.lua
+ModulesNew\Map\Processor\RelationsData.lua
+ModulesNew\Map\Processor\RelationsProcessor.lua
 
 
 
