@@ -62,10 +62,12 @@ local relationTypes = {
 }
 
 ---@alias Show {NPC: table<NpcId, {available: table<QuestId, RelationMapData>, finisher: table<QuestId, RelationMapData>}>, GameObject: table, Item: table}
+-- This table containts all the data that wants to be showed in some way, each subtable is a different of provider
+-- The relevant parts reads the table and use the data that is relevant to them, Relation parts read available and finisher for example
 ---@type Show
 QuestieQuest.Show = {
     NPC = {
-        --ID
+        --ID (These are just here for reference)
         [0] = {
             available = {
                 --[Questid] = { type }
@@ -85,7 +87,7 @@ QuestieQuest.Show = {
         }
     },
     GameObject = {
-        --ID
+        --ID (These are just here for reference)
         [0] = {
             available = {
                 --[Questid] = { type }
@@ -102,7 +104,7 @@ QuestieQuest.Show = {
         }
     },
     Item = {
-        --ID
+        --ID (These are just here for reference)
         [0] = {
             available = {
                 --[Questid] = { type }
@@ -139,6 +141,9 @@ do
 end
 
 
+--------------------------------------------
+-------------- Available Quest -------------
+--------------------------------------------
 --? Creates a localized space where the local variables and functions are stored
 do
     --- Used to keep track of the active timer for CalculateAvailableQuests
@@ -307,6 +312,10 @@ do
     end
 end
 
+
+--------------------------------------------
+-------------- Complete Quest --------------
+--------------------------------------------
 do
     --- Used to keep track of the active timer for CalculateAvailableQuests
     --- Is used by the QuestieQuest.CalculateAndDrawAvailableQuestsIterative func
