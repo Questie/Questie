@@ -157,47 +157,48 @@ do
         -- print("Add questgives", questId)
         -- local show = QuestieQuest.Show
 
-        local starts = QuestieDB.QueryQuestSingle(questId, "startedBy") or {}
-        if (starts[1] ~= nil) then
-            local npcs = starts[1]
-            for i = 1, #npcs do
-                local npcId = npcs[i]
-                -- print("Adding quest giver NPC :", npcId, "for quest", questId)
-                show.NPC[npcId] = show.NPC[npcId] or {}
-                if show.NPC[npcId] == nil then
-                    show.NPC[npcId] = {}
+        local starts = QuestieDB.QueryQuestSingle(questId, "startedBy")
+        if starts then
+            if (starts[1] ~= nil) then
+                local npcs = starts[1]
+                for i = 1, #npcs do
+                    local npcId = npcs[i]
+                    -- print("Adding quest giver NPC :", npcId, "for quest", questId)
+                    if show.NPC[npcId] == nil then
+                        show.NPC[npcId] = {}
+                    end
+                    if show.NPC[npcId].available == nil then
+                        show.NPC[npcId].available = {}
+                    end
+                    show.NPC[npcId].available[questId] = relationTypes.availablePickup
                 end
-                if show.NPC[npcId].available == nil then
-                    show.NPC[npcId].available = {}
-                end
-                show.NPC[npcId].available[questId] = relationTypes.availablePickup
             end
-        end
-        if (starts[2] ~= nil) then
-            local gameobjects = starts[2]
-            for i = 1, #gameobjects do
-                local gameObjectId = gameobjects[i]
-                if show.GameObject[gameObjectId] == nil then
-                    show.GameObject[gameObjectId] = {}
+            if (starts[2] ~= nil) then
+                local gameobjects = starts[2]
+                for i = 1, #gameobjects do
+                    local gameObjectId = gameobjects[i]
+                    if show.GameObject[gameObjectId] == nil then
+                        show.GameObject[gameObjectId] = {}
+                    end
+                    if show.GameObject[gameObjectId].available == nil then
+                        show.GameObject[gameObjectId].available = {}
+                    end
+                    show.GameObject[gameObjectId].available[questId] = relationTypes.availablePickup
                 end
-                if show.GameObject[gameObjectId].available == nil then
-                    show.GameObject[gameObjectId].available = {}
-                end
-                show.GameObject[gameObjectId].available[questId] = relationTypes.availablePickup
             end
-        end
-        if (starts[3] ~= nil) then
-            local items = starts[3]
-            for i = 1, #items do
-                local itemId = items[i]
-                -- print("Adding quest giver ITEM:", itemId, "for quest", questId)
-                if show.Item[itemId] == nil then
-                    show.Item[itemId] = {}
+            if (starts[3] ~= nil) then
+                local items = starts[3]
+                for i = 1, #items do
+                    local itemId = items[i]
+                    -- print("Adding quest giver ITEM:", itemId, "for quest", questId)
+                    if show.Item[itemId] == nil then
+                        show.Item[itemId] = {}
+                    end
+                    if show.Item[itemId].available == nil then
+                        show.Item[itemId].available = {}
+                    end
+                    show.Item[itemId].available[questId] = relationTypes.availableDrop
                 end
-                if show.Item[itemId].available == nil then
-                    show.Item[itemId].available = {}
-                end
-                show.Item[itemId].available[questId] = relationTypes.availableDrop
             end
         end
     end
@@ -323,33 +324,35 @@ do
     ---@param questId QuestId
     local function AddQuestFinishers(show, questId)
         -- print("Add questgives", questId)
-        local finishes = QuestieDB.QueryQuestSingle(questId, "finishedBy") or {}
-        if (finishes[1] ~= nil) then
-            local npcs = finishes[1]
-            for i = 1, #npcs do
-                local npcId = npcs[i]
-                -- printE("Adding quest finisher NPC :", npcId, "for quest", questId)
-                if show.NPC[npcId] == nil then
-                    show.NPC[npcId] = {}
+        local finishes = QuestieDB.QueryQuestSingle(questId, "finishedBy")
+        if finishes then
+            if (finishes[1] ~= nil) then
+                local npcs = finishes[1]
+                for i = 1, #npcs do
+                    local npcId = npcs[i]
+                    -- printE("Adding quest finisher NPC :", npcId, "for quest", questId)
+                    if show.NPC[npcId] == nil then
+                        show.NPC[npcId] = {}
+                    end
+                    if show.NPC[npcId].finisher == nil then
+                        show.NPC[npcId].finisher = {}
+                    end
+                    show.NPC[npcId].finisher[questId] = relationTypes.finisherComplete
                 end
-                if show.NPC[npcId].finisher == nil then
-                    show.NPC[npcId].finisher = {}
-                end
-                show.NPC[npcId].finisher[questId] = relationTypes.finisherComplete
             end
-        end
-        if (finishes[2] ~= nil) then
-            local gameobjects = finishes[2]
-            for i = 1, #gameobjects do
-                local gameObjectId = gameobjects[i]
-                -- printE("Adding quest finisher GO  :", gameObjectId, "for quest", questId)
-                if show.GameObject[gameObjectId] == nil then
-                    show.GameObject[gameObjectId] = {}
+            if (finishes[2] ~= nil) then
+                local gameobjects = finishes[2]
+                for i = 1, #gameobjects do
+                    local gameObjectId = gameobjects[i]
+                    -- printE("Adding quest finisher GO  :", gameObjectId, "for quest", questId)
+                    if show.GameObject[gameObjectId] == nil then
+                        show.GameObject[gameObjectId] = {}
+                    end
+                    if show.GameObject[gameObjectId].finisher == nil then
+                        show.GameObject[gameObjectId].finisher = {}
+                    end
+                    show.GameObject[gameObjectId].finisher[questId] = relationTypes.finisherComplete
                 end
-                if show.GameObject[gameObjectId].finisher == nil then
-                    show.GameObject[gameObjectId].finisher = {}
-                end
-                show.GameObject[gameObjectId].finisher[questId] = relationTypes.finisherComplete
             end
         end
     end
