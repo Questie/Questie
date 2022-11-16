@@ -26,6 +26,7 @@ Modules\Libs\QuestieLoader.lua
 #Libs (These depend on QuestieLoader)
 Libs\Tween\Tween.lua
 ModulesNew\Map\Helpers\Spline.lua
+ModulesNew\Map\Helpers\Bezier.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua
@@ -236,7 +237,6 @@ ModulesNew\Map\Processor\Relations.lua
 ModulesNew\Map\PinTemplates.lua
 
 ##* Map Helpers
-ModulesNew\Map\Helpers\Bezier.lua
 ModulesNew\Map\Helpers\PinAnimationHelper.lua
 ModulesNew\Map\Helpers\WaypointAnimationHelper.lua
 
