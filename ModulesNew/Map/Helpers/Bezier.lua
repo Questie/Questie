@@ -24,8 +24,10 @@
 -- THE SOFTWARE.
 
 local tInsert = table.insert
+local abs, sqrt, max, floor = math.abs, math.sqrt, math.max, math.floor
 
-Bezier = {}
+---@class Bezier
+local Bezier = QuestieLoader:CreateModule("Bezier")
 
 function Bezier:init()
 	self.points = {}
@@ -51,33 +53,29 @@ end
 function Bezier:pointDistance(p1, p2)
 	local dx = p2.x - p1.x
 	local dy = p2.y - p1.y
-	return math.sqrt(dx*dx + dy*dy)
+	return sqrt(dx*dx + dy*dy)
 end
 
 function Bezier:getLength()
 	local length = 0
 	local last = nil
 
-	for i,point in ipairs(self.points) do
-		if last then
-			length = length + self:pointDistance(point, last)
-		end
-		last = point
-	end
+    for pointIndex = 1, #self.points do
+        local point = self.points[pointIndex]
+        if last then
+            length = length + self:pointDistance(last, point)
+        end
+        last = point
+    end
+
+	-- for i,point in ipairs(self.points) do
+	-- 	if last then
+	-- 		length = length + self:pointDistance(point, last)
+	-- 	end
+	-- 	last = point
+	-- end
 
 	return(length)
-end
-
-function Bezier:draw(isClosed)
-	self:beginPath()
-
-	for i,point in ipairs(self.points) do
-		self:lineTo(point.x, point.y)
-	end
-
-	if isClosed then self:closePath() end
-
-	self:endPath()
 end
 
 -- Estimate number of steps based on the distance between each point/control
@@ -94,7 +92,7 @@ function Bezier:estimateSteps(p1, p2, p3, p4)
 		distance = distance + self:pointDistance(p3, p4)
 	end
 
-	return math.max(1, math.floor(distance * self.autoStepScale))
+	return max(1, floor(distance * self.autoStepScale))
 end
 
 -- Bezier functions from Paul Bourke
@@ -162,11 +160,17 @@ function Bezier:reduce(epsilon)
 	local old = self.points
 	self.points = {}
 
-	for i,point in ipairs(old) do
-		if point.keep then
-			tInsert(self.points, {x=point.x, y=point.y})
-		end
-	end
+    for pointIndex = 1, #old do
+        if old[pointIndex].keep then
+            old[pointIndex].keep = nil
+            self.points[#self.points + 1] = old[pointIndex]
+        end
+    end
+	-- for i,point in ipairs(old) do
+	-- 	if point.keep then
+	-- 		tInsert(self.points, {x=point.x, y=point.y})
+	-- 	end
+	-- end
 end
 
 function Bezier:douglasPeucker(first, last, epsilon)
@@ -174,7 +178,24 @@ function Bezier:douglasPeucker(first, last, epsilon)
 	local index = 0
 
 	for i=first+1, last-1 do
-		local d = self:pointLineDistance(self.points[i], self.points[first], self.points[last])
+        --? Moving the code within this function call to here gives insane optimization
+		-- local d = self:pointLineDistance(self.points[i], self.points[first], self.points[last])
+        --* Start Bezier:pointLineDistance()
+        -- calculates area of the triangle
+        local point = self.points[i]
+        local firstPoint = self.points[first]
+        local lastPoint = self.points[last]
+        local area = 0.5 * (firstPoint.x * lastPoint.y + lastPoint.x * point.y + point.x * firstPoint.y - lastPoint.x * firstPoint.y - point.x * lastPoint.y - firstPoint.x * point.y)
+        if area < 0 then
+            area = -area
+        end
+        -- calculates the length of the bottom edge
+        local dx = firstPoint.x - lastPoint.x
+        local dy = firstPoint.y - lastPoint.y
+        local bottom = sqrt(dx*dx + dy*dy)
+        -- the triangle's height is also the distance found
+        local d = area / bottom
+        --* End Bezier:pointLineDistance()
 
 		if d > dmax then
 			index = i
@@ -191,13 +212,19 @@ function Bezier:douglasPeucker(first, last, epsilon)
 	end
 end
 
+
+--* This function is not in use because i moved it into douglasPeucker
 function Bezier:pointLineDistance(p, a, b)
 	-- calculates area of the triangle
-	local area = math.abs(0.5 * (a.x * b.y + b.x * p.y + p.x * a.y - b.x * a.y - p.x * b.y - a.x * p.y))
+	-- local area = math.abs(0.5 * (a.x * b.y + b.x * p.y + p.x * a.y - b.x * a.y - p.x * b.y - a.x * p.y))
+    local area = 0.5 * (a.x * b.y + b.x * p.y + p.x * a.y - b.x * a.y - p.x * b.y - a.x * p.y)
+    if area < 0 then
+        area = -area
+    end
 	-- calculates the length of the bottom edge
 	local dx = a.x - b.x
 	local dy = a.y - b.y
-	local bottom = math.sqrt(dx*dx + dy*dy)
+	local bottom = sqrt(dx*dx + dy*dy)
 	-- the triangle's height is also the distance found
 	return area / bottom
 end

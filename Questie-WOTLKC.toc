@@ -25,6 +25,7 @@ Modules\Libs\QuestieLoader.lua
 
 #Libs (These depend on QuestieLoader)
 Libs\Tween\Tween.lua
+ModulesNew\Map\Helpers\Spline.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua

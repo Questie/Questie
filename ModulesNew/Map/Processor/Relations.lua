@@ -1,24 +1,41 @@
 ---@class RelationMapProcessor
 local RelationMapProcessor = QuestieLoader:CreateModule("RelationMapProcessor")
-local QuestEventBus = QuestieLoader:ImportModule("QuestEventBus")
+--- Bus Imports ---
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader("SystemEventBus")
+---@type QuestEventBus
+local QuestEventBus = QuestieLoader("QuestEventBus")
+---@type MapEventBus
+local MapEventBus = QuestieLoader("MapEventBus")
 
-local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
+--- Questie Imports ---
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+local QuestieDB = QuestieLoader("QuestieDB")
 ---@type ZoneDB
-local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+local ZoneDB = QuestieLoader("ZoneDB")
+---@type MapCoordinates
+local MapCoodinates = QuestieLoader("MapCoordinates")
 
-local MapCoodinates = QuestieLoader:ImportModule("MapCoordinates")
-
+--- Pin Imports ---
 -- Pin Mixin
 local RelationPinMixin = QuestieLoader:ImportModule("RelationPinMixin")
 ---@type RelationRenderers
 local RelationRenderers = QuestieLoader:ImportModule("RelationRenderers")
 
+--- Lib Imports ---
+
+---@type Spline
+local Spline = QuestieLoader:ImportModule("Spline")
+---@type Bezier
+local Bezier = QuestieLoader:ImportModule("Bezier")
+
 -- Math
-local abs, sqrt = math.abs, math.sqrt
+local abs, sqrt, floor = math.abs, math.sqrt, math.floor
 local tInsert = table.insert
 local lRound = Round
+
+
+local SplineLib = Spline:CreateCatmullRomSpline(2);
 
 
 local wayPointColor = { r = 1, g = 0.72, b = 0, a = 0.5 }
@@ -27,11 +44,12 @@ local defaultLineDataMap = { thickness = 4 }
 Mixin(defaultLineDataMap, wayPointColor)
 
 local function Initialize()
-    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS, RelationMapProcessor.ProcessAvailableQuests)
-    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS, RelationMapProcessor.ProcessCompletedQuests)
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS,
+                                    RelationMapProcessor.ProcessAvailableQuests)
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS,
+                                    RelationMapProcessor.ProcessCompletedQuests)
 end
-
-C_Timer.After(0, Initialize)
+SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, Initialize)
 
 ---Get the dungeon locations in the correct format or false(because we can't save nil)
 ---@param AreaId AreaId
@@ -193,8 +211,6 @@ function RelationMapProcessor.GetSpawns(starterIcons, id, data, idType, QuerySin
     return starterIcons
 end
 
-local SplineLib = CreateCatmullRomSpline(2);
-
 ---@param starterWaypoints table<UiMapId, AvailableWaypointPoints>
 ---@param id NpcId|ObjectId|ItemId
 ---@param data table
@@ -233,20 +249,23 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
             end
             for waypointListIndex, rawWaypoints in pairs(waypointsList or {}) do
                 SplineLib:ClearPoints()
-                for waypointIndex = 1, # rawWaypoints do
+                for waypointIndex = 1, #rawWaypoints do
                     local waypoint = rawWaypoints[waypointIndex]
                     SplineLib:AddPoint(waypoint[1], waypoint[2])
                 end
                 local newLines = {}
                 local percentageBetweenPoints = 0.10
-                for i = 2, SplineLib:GetNumPoints() do
-                    for subPoint = 1, math.floor(1 / percentageBetweenPoints) do
+                for i = 2, SplineLib.numPoints do -- Same as SplineLib:GetNumPoints()
+                    for subPoint = 1, floor(1 / percentageBetweenPoints) do
                         --print(subPoint*percentageBetweenPoints)
                         --It should never be 0 or 1, but due to us starting on 1 we only need to check for 1
                         if (subPoint * percentageBetweenPoints ~= 1) then
-                            local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
+                            -- local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
+                            local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
+                                                                     unpack(SplineLib.pointData, (i - 2) * SplineLib.numDimensions + 1,
+                                                                            (i + 2) * SplineLib.numDimensions));
                             local point = { x = x, y = y }
-                            newLines[#newLines+1] = point
+                            newLines[#newLines + 1] = point
                         end
                     end
                 end
@@ -280,7 +299,7 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                         local x1, y1 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(lastPos.x, lastPos.y)
                         local x2, y2 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(firstPoint.x, firstPoint.y)
 
-                        local sqDistance = math.sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
+                        local sqDistance = sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
                         --We get TexCoords error if the disatnce is to low!
                         if (sqDistance > 0.05 and sqDistance < 0.2) then
                             starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
@@ -318,7 +337,7 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
                         starterWaypoints[UiMapId].waypointIndex[index] = waypointIndex
 
 
-                        --? If we ever want to enable this, here's the code, do not delete!
+                        --? If we ever want to nearby zones for waypoints, here's the code, do not delete!
                         -- All nearby zones.
                         --[[
                         local worldX, worldY = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(x, y)
@@ -363,7 +382,6 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
     return starterWaypoints
 end
 
-
 ---comment
 ---@param ShowData Show
 function RelationMapProcessor.ProcessCompletedQuests(ShowData)
@@ -390,7 +408,7 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
 
     for UiMapId, data in pairs(finisherIcons) do
         local combinedGivers = RelationMapProcessor.CombineGivers(UiMapId, data, 4, 4)
-        print("Finisher", UiMapId, #combinedGivers)
+        -- print("Finisher", UiMapId, #combinedGivers)
         for combinedGiverIndex = 1, #combinedGivers do
             local combinedGiver = combinedGivers[combinedGiverIndex]
             for _, idType in pairs(combinedGiver.type) do
@@ -404,7 +422,7 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
             local iconData = { uiMapId = UiMapId,
                 x = combinedGiver.x,
                 y = combinedGiver.y,
-                frameLevel = lRound(combinedGiver.y),
+                frameLevel = floor(combinedGiver.y + 0.5), --Rounding
                 iconData = combinedGiver.iconData,
                 id = combinedGiver.id,
                 type = combinedGiver.type,
@@ -539,8 +557,6 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             end
             waypointId = waypointId + 1
         end
-        -- DevTools_Dump(MapCoodinates.MapInfo[UiMapId])
-        -- break
     end
 
 
@@ -569,7 +585,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             local iconData = { uiMapId = UiMapId,
                 x = combinedGiver.x,
                 y = combinedGiver.y,
-                frameLevel = lRound(combinedGiver.y),
+                frameLevel = floor(combinedGiver.y + 0.5), --Rounding
                 iconData = combinedGiver.iconData,
                 id = combinedGiver.id,
                 type = combinedGiver.type,
