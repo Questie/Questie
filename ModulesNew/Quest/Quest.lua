@@ -284,15 +284,15 @@ do
         -- Clear the previous data
         for _, categoryData in pairs(QuestieQuest.Show) do
             for _, questData in pairs(categoryData) do
-                if questData.available then
-                    wipe(questData.available)
-                end
+                -- if questData.available then
+                --     wipe(questData.available)
+                -- end
+                questData.available = nil
             end
         end
         -- Merge in the new data
         QuestieQuest.MergeShowData(QuestieQuest.Show, newShowData)
-        -- Redraw
-        MapEventBus.FireEvent.REMOVE_ALL_AVAILABLE()
+        yield()
         QuestEventBus.FireEvent.CALCULATED_AVAILABLE_QUESTS(QuestieQuest.Show)
     end
 
@@ -304,9 +304,6 @@ do
         if timer then
             timer:Cancel()
         end
-
-        --? Run this first because there are parts that depend on the Show data still being there.
-        -- MapEventBus:Fire(MapEventBus.events.REMOVE_ALL_AVAILABLE)
 
         timer = ThreadLib.Thread(CalculateAvailableQuests, 0, "Error in CalculateAvailableQuests", function() print("test") end)
     end
@@ -381,15 +378,15 @@ do
         -- Clear the previous data
         for _, categoryData in pairs(QuestieQuest.Show) do
             for _, questData in pairs(categoryData) do
-                if questData.finisher then
-                    wipe(questData.finisher)
-                end
+                -- if questData.finisher then
+                --     wipe(questData.finisher)
+                -- end
+                questData.finisher = nil
             end
         end
         -- Merge in the new data
         QuestieQuest.MergeShowData(QuestieQuest.Show, newShowData)
-        -- Redraw
-        MapEventBus.FireEvent.REMOVE_ALL_COMPLETED()
+        yield()
         QuestEventBus.FireEvent.CALCULATED_COMPLETED_QUESTS(QuestieQuest.Show)
     end
 
@@ -401,9 +398,6 @@ do
         if timer then
             timer:Cancel()
         end
-
-        --? Run this first because there are parts that depend on the Show data still being there.
-        MapEventBus:Fire(MapEventBus.events.REMOVE_ALL_COMPLETED)
 
         timer = ThreadLib.Thread(CalculateCompleteQuests, 0, "Error in CalculateCompleteQuests", function() print("test") end)
     end

@@ -195,6 +195,9 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
             RelationDataProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", QuestieDB.QueryObjectSingle)
         end
     end
+    -- Redraw
+    yield()
+    MapEventBus.FireEvent.REMOVE_ALL_COMPLETED()
 
     --! This is not tested, but should work
     RegisterWaypoints(finisherWaypoints, RelationRenderers.DrawWaypoint, MapEventBus.events.REMOVE_ALL_COMPLETED)
@@ -312,6 +315,9 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     -- end
     -- DevTools_Dump(availableItems)
 
+    -- Redraw
+    yield()
+    MapEventBus.FireEvent.REMOVE_ALL_AVAILABLE()
     RegisterWaypoints(starterWaypoints, RelationRenderers.DrawWaypoint, MapEventBus.events.REMOVE_ALL_AVAILABLE)
 
     -- We return the majority type to control the icon
