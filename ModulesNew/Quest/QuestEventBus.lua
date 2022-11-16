@@ -25,10 +25,13 @@ local parameterEvents = {
     ---@type ParameterEvent|fun(questId: QuestId)
     QUEST_COMPLETED = "QUEST-COMPLETED",
 
+    ---@type ParameterEvent|fun(questId: QuestId, changes: table)
+    QUEST_UPDATED = "QUEST-UPDATE",
+
     ---@type ParameterEvent|fun(ShowData: Show)
-    CALCULATED_AVAILABLE_QUESTS = "CALCULATED-AVAILABLE-QUESTS",
+    CALCULATE_AVAILABLE_QUESTS_DONE = "CALCULATE_AVAILABLE_QUESTS_DONE",
     ---@type ParameterEvent|fun(ShowData: Show)
-    CALCULATED_COMPLETED_QUESTS = "CALCULATED-COMPLETED-QUESTS",
+    CALCULATE_COMPLETED_QUESTS_DONE = "CALCULATE_COMPLETED_QUESTS_DONE",
 }
 
 ---@class QuestEventBusFormatEvents

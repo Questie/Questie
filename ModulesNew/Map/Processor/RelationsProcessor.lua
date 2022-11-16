@@ -63,7 +63,7 @@ local function Initialize()
     -- This logic allows the code to be cancelled if a new execution is started
     ---@type Ticker?, Ticker?
     local availableTimer, completeTimer
-    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS,
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATE_AVAILABLE_QUESTS_DONE,
         function(show)
             -- Cancel the previous timer
             if availableTimer then
@@ -74,7 +74,7 @@ local function Initialize()
                 availableTimer = nil
             end, 0, "RelationMapProcessor.ProcessAvailableQuests")
         end)
-    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS,
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATE_COMPLETED_QUESTS_DONE,
         function(show)
             -- Cancel the previous timer
             if completeTimer then
@@ -308,6 +308,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     ---@type table<UiMapId, AvailableWaypointPoints>
     local starterWaypoints = {}
     for npcId, npcData in pairs(ShowData.NPC) do
+        -- If a NPC has a start, it is a starter. However, if it has a finisher we skip it
         if npcData.available and npcData.finisher == nil then
             RelationDataProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
             local expensiveOperation = RelationDataProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
@@ -328,6 +329,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     end
     print("StarterIcons NPC Done")
     for objectId, objectData in pairs(ShowData.GameObject) do
+        -- If a GameObject has a start, it is a starter. However, if it has a finisher we skip it
         if objectData.available and objectData.finisher == nil then
             RelationDataProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
             -- Yield

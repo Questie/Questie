@@ -292,6 +292,8 @@ function _QuestEventHandler:UpdateAllQuests()
 
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
+
+            QuestEventBus.FireEvent.QUEST_UPDATED(questId, objIds)
         end
     else
         Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")

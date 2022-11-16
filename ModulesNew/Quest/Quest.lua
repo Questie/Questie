@@ -47,7 +47,17 @@ local function InitializeModule()
     QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_COMPLETED, QuestieQuest.CalculateAvailableQuests)
     QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_ABANDONED, QuestieQuest.CalculateAvailableQuests)
 
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_ACCEPTED, QuestieQuest.CalculateCompleteQuests)
     QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_COMPLETED, QuestieQuest.CalculateCompleteQuests)
+
+    QuestEventBus:RegisterRepeating(QuestEventBus.events.QUEST_UPDATED, function(questId, objIds)
+        local isComplete = QuestieDB.IsComplete(questId)
+        if isComplete == 1 then -- Quest is complete
+            QuestieQuest.CalculateAvailableQuests()
+        elseif isComplete == -1 then -- Quest is incomplete
+            QuestieQuest.CalculateCompleteQuests()
+        end
+    end)
 end
 
 SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, InitializeModule)
@@ -294,7 +304,7 @@ do
         -- Merge in the new data
         QuestieQuest.MergeShowData(QuestieQuest.Show, newShowData)
         yield()
-        QuestEventBus.FireEvent.CALCULATED_AVAILABLE_QUESTS(QuestieQuest.Show)
+        QuestEventBus.FireEvent.CALCULATE_AVAILABLE_QUESTS_DONE(QuestieQuest.Show)
     end
 
     -- Starts a thread to calculate available quests to avoid lag spikes
@@ -390,7 +400,7 @@ do
         -- Merge in the new data
         QuestieQuest.MergeShowData(QuestieQuest.Show, newShowData)
         yield()
-        QuestEventBus.FireEvent.CALCULATED_COMPLETED_QUESTS(QuestieQuest.Show)
+        QuestEventBus.FireEvent.CALCULATE_COMPLETED_QUESTS_DONE(QuestieQuest.Show)
     end
 
     -- Starts a thread to calculate available quests to avoid lag spikes
