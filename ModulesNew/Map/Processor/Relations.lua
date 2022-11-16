@@ -33,9 +33,28 @@ local Bezier = QuestieLoader:ImportModule("Bezier")
 local abs, sqrt, floor = math.abs, math.sqrt, math.floor
 local tInsert = table.insert
 local lRound = Round
+local wipe = wipe
 
 
 local SplineLib = Spline:CreateCatmullRomSpline(2);
+local BezierLib = Bezier:CreateBezier();
+--* These are set here to show up in the profiler
+RelationMapProcessor.SplineLib = SplineLib
+RelationMapProcessor.BezierLib = BezierLib
+
+
+-- Contains processed waypoints
+-- This is a weak table so references to the table will be removed when the table is no longer used
+-- The references are being kept and calculated in ProcessAvailableQuests and ProcessCompletedQuests
+local ProcessedWaypoints = setmetatable({}, { __mode = "kv" })
+
+-- This contains references to the processed waypoints
+-- Keeps the weak tables of ProcessedWaypoints from being garbage collected
+local AvailableProcessedWaypoints = {}
+
+-- This contains references to the processed waypoints
+-- Keeps the weak tables of ProcessedWaypoints from being garbage collected
+local CompleteProcessedWaypoints = {}
 
 
 local wayPointColor = { r = 1, g = 0.72, b = 0, a = 0.5 }
@@ -237,83 +256,95 @@ function RelationMapProcessor.GetWaypoints(starterWaypoints, id, data, idType, Q
         error("GetSpawns called with invalid itemId")
         return
     end
-    local spawns = QuerySingleFunction(id, "waypoints")
-    if spawns ~= nil then
+    local waypoints = ProcessedWaypoints[id] or QuerySingleFunction(id, "waypoints")
+    if waypoints ~= nil then
         ---@type table<AreaId, {x: MapX[], y: MapY[], waypointIndex: number[]}>>
-        local starter = {}
-        for zoneId, waypointsList in pairs(spawns) do
-            local UiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-            local lastPos
-            if starter[zoneId] == nil then
-                starter[zoneId] = { x = {}, y = {}, questId = {}, waypointIndex = {} }
-            end
-            for waypointListIndex, rawWaypoints in pairs(waypointsList or {}) do
-                SplineLib:ClearPoints()
-                for waypointIndex = 1, #rawWaypoints do
-                    local waypoint = rawWaypoints[waypointIndex]
-                    SplineLib:AddPoint(waypoint[1], waypoint[2])
+        local starter
+        if not ProcessedWaypoints[id] then
+            starter = {}
+            for zoneId, waypointsList in pairs(waypoints) do
+                local UiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
+                local lastPos
+                if starter[zoneId] == nil then
+                    starter[zoneId] = { x = {}, y = {}, waypointIndex = {} }
                 end
-                local newLines = {}
-                local percentageBetweenPoints = 0.10
-                for i = 2, SplineLib.numPoints do -- Same as SplineLib:GetNumPoints()
-                    for subPoint = 1, floor(1 / percentageBetweenPoints) do
-                        --print(subPoint*percentageBetweenPoints)
-                        --It should never be 0 or 1, but due to us starting on 1 we only need to check for 1
-                        if (subPoint * percentageBetweenPoints ~= 1) then
-                            -- local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
-                            local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
-                                                                     unpack(SplineLib.pointData, (i - 2) * SplineLib.numDimensions + 1,
-                                                                            (i + 2) * SplineLib.numDimensions));
-                            local point = { x = x, y = y }
-                            newLines[#newLines + 1] = point
+                for waypointListIndex, rawWaypoints in pairs(waypointsList or {}) do
+                    SplineLib:ClearPoints()
+                    for waypointIndex = 1, #rawWaypoints do
+                        local waypoint = rawWaypoints[waypointIndex]
+                        SplineLib:AddPoint(waypoint[1], waypoint[2])
+                    end
+                    local newLines = {}
+                    local percentageBetweenPoints = 0.10
+                    for i = 2, SplineLib.numPoints do -- Same as SplineLib:GetNumPoints()
+                        for subPoint = 1, floor(1 / percentageBetweenPoints) do
+                            --print(subPoint*percentageBetweenPoints)
+                            --It should never be 0 or 1, but due to us starting on 1 we only need to check for 1
+                            if (subPoint * percentageBetweenPoints ~= 1) then
+                                -- local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
+                                local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
+                                                                        unpack(SplineLib.pointData, (i - 2) * SplineLib.numDimensions + 1,
+                                                                                (i + 2) * SplineLib.numDimensions));
+                                -- print((i - 2) * SplineLib.numDimensions + 1, (i + 2) * SplineLib.numDimensions)
+                                -- local index = (i - 2) * SplineLib.numDimensions + 1
+                                -- local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
+                                -- SplineLib.pointData[index], SplineLib.pointData[index + 1], SplineLib.pointData[index + 2],
+                                -- SplineLib.pointData[index + 3], SplineLib.pointData[index + 4], SplineLib.pointData[index + 5],
+                                -- SplineLib.pointData[index + 6], SplineLib.pointData[index + 7]
+                                -- );
+                                local point = { x = x, y = y }
+                                newLines[#newLines + 1] = point
+                            end
                         end
                     end
-                end
-                local pReduce = 0.03
-                Bezier:init();
-                Bezier:setPoints(newLines)
-                --Bezier:setAutoStepScale(1)
-                Bezier:reduce(pReduce)
+                    local pReduce = 0.03
+                    BezierLib.points = newLines -- BezierLib:setPoints(newLines)
+                    --BezierLib:setAutoStepScale(1)
+                    BezierLib:reduce(pReduce)
 
-                local points = Bezier:getPoints()
-                lastPos = nil
-                for pointIndex = 1, #points do
-                    local point = points[pointIndex]
-                    if (lastPos == nil) then
-                        lastPos = point;
-                    else
-                        starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
-                        starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
-                        starter[zoneId].x[#starter[zoneId].x + 1] = point.x
-                        starter[zoneId].y[#starter[zoneId].y + 1] = point.y
-                        starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
-                        starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
-                        lastPos = point;
-                    end
-                end
-
-                --TODO: Fix
-                if (lastPos and lastPos ~= points[1]) then
-                    local firstPoint = points[1]
-                    if MapCoodinates.Maps[UiMapId] then
-                        local x1, y1 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(lastPos.x, lastPos.y)
-                        local x2, y2 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(firstPoint.x, firstPoint.y)
-
-                        local sqDistance = sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
-                        --We get TexCoords error if the disatnce is to low!
-                        if (sqDistance > 0.05 and sqDistance < 0.2) then
+                    local points = BezierLib.points --BezierLib:getPoints()
+                    lastPos = nil
+                    for pointIndex = 1, #points do
+                        local point = points[pointIndex]
+                        if (lastPos == nil) then
+                            lastPos = point;
+                        else
                             starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
                             starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
-                            starter[zoneId].x[#starter[zoneId].x + 1] = firstPoint.x
-                            starter[zoneId].y[#starter[zoneId].y + 1] = firstPoint.y
+                            starter[zoneId].x[#starter[zoneId].x + 1] = point.x
+                            starter[zoneId].y[#starter[zoneId].y + 1] = point.y
                             starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
                             starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
+                            lastPos = point;
                         end
-                    else
-                        print(UiMapId)
+                    end
+
+                    --TODO: Fix
+                    if (lastPos and lastPos ~= points[1]) then
+                        local firstPoint = points[1]
+                        if MapCoodinates.Maps[UiMapId] then
+                            local x1, y1 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(lastPos.x, lastPos.y)
+                            local x2, y2 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(firstPoint.x, firstPoint.y)
+
+                            local sqDistance = sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
+                            --We get TexCoords error if the disatnce is to low!
+                            if (sqDistance > 0.05 and sqDistance < 0.2) then
+                                starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
+                                starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
+                                starter[zoneId].x[#starter[zoneId].x + 1] = firstPoint.x
+                                starter[zoneId].y[#starter[zoneId].y + 1] = firstPoint.y
+                                starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
+                                starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
+                            end
+                        end
                     end
                 end
             end
+            --* Set the processed waypoints
+            ProcessedWaypoints[id] = starter
+        else
+            --* Use the previously processed waypoints
+            starter = waypoints
         end
         for areaId, coords in pairs(starter) do
             if coords.x and coords.y then
@@ -386,11 +417,19 @@ end
 ---@param ShowData Show
 function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     print("ProcessCompletedQuests")
+
+    --? This is used to remove waypoints that are no longer in use
+    wipe(CompleteProcessedWaypoints)
+
     ---@type table<UiMapId, AvailablePoints>
     local finisherIcons = {}
+    ---@type table<UiMapId, AvailableWaypointPoints>
+    local finisherWaypoints = {}
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.finisher then
             RelationMapProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
+            RelationMapProcessor.GetWaypoints(finisherWaypoints, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
+            CompleteProcessedWaypoints[npcId] = ProcessedWaypoints[npcId]
         end
     end
     for objectId, objectData in pairs(ShowData.GameObject) do
@@ -446,6 +485,10 @@ end
 ---@param ShowData Show
 function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     print("ProcessAvailableQuests")
+
+    --? This is used to remove waypoints that are no longer in use
+    wipe(AvailableProcessedWaypoints)
+
     ---@type table<UiMapId, AvailablePoints>
     local starterIcons = {}
     ---@type table<UiMapId, AvailableWaypointPoints>
@@ -454,6 +497,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
         if npcData.available and npcData.finisher == nil then
             RelationMapProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
             RelationMapProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
+            AvailableProcessedWaypoints[npcId] = ProcessedWaypoints[npcId]
         end
     end
     for objectId, objectData in pairs(ShowData.GameObject) do
@@ -461,6 +505,8 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             RelationMapProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
         end
     end
+
+
     --! Disabled because the insane amount of icons plus the multiple entries
     --! Also look at the combine givers the "alreadySpawned" stuff.
     --? These should probably be Polygons

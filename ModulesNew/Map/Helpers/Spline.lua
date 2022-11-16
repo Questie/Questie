@@ -2,6 +2,11 @@
 ---@class Spline
 local Spline = QuestieLoader:CreateModule("Spline")
 
+-- Upvalues
+local floor = math.floor
+local wipe, select = wipe, select
+
+
 local function CatmullRom_CalculatePointOnCurveHelper(t, tSquared, tCubed, p1, p2, p3, p4)
 	local term1 = 2.0 * p2 + (p3 - p1) * t;
 	local term2 = (2.0 * p1 - 5.0 * p2 + 4.0 * p3 - p4) * tSquared;
@@ -43,10 +48,10 @@ end
 -- 		CatmullRom_CalculatePointOnCurveHelper(t, tSquared, tCubed, p1w, p2w, p3w, p4w);
 -- end
 
-local CatmullRomSplineMixinQuestie = {};
+local CatmullRomSplineMixinQuestie = {}
 
 function Spline:CreateCatmullRomSpline(numDimensions)
-	local spline = CreateFromMixins(CatmullRomSplineMixinQuestie);
+    local spline = CreateFromMixins(CatmullRomSplineMixinQuestie);
 	spline:OnLoad(numDimensions)
 	return spline;
 end
@@ -66,6 +71,8 @@ function CatmullRomSplineMixinQuestie:OnLoad(numDimensions)
 	end
 
 	self.numDimensions = numDimensions;
+	self.numPoints = 0;
+	self.pointData = {};
 	self:ClearPoints();
 end
 
@@ -112,7 +119,7 @@ end
 
 function CatmullRomSplineMixinQuestie:ClearPoints()
 	self.numPoints = 0;
-	self.pointData = {};
+	self.pointData = wipe(self.pointData);
 end
 
 function CatmullRomSplineMixinQuestie:CalculatePointOnGlobalCurve(t)
@@ -126,12 +133,33 @@ function CatmullRomSplineMixinQuestie:CalculatePointOnLocalCurveSegment(startSeg
 	return self.calculateFunction(t, unpack(self.pointData, (startSegmentIndex - 2) * self.numDimensions + 1, (startSegmentIndex + 2) * self.numDimensions));
 end
 
+--* Do not remove, shows how the original clamp function works
+-- function Clamp(value, min, max)
+-- 	if value > max then
+-- 		return max;
+-- 	elseif value < min then
+-- 		return min;
+-- 	end
+-- 	return value;
+-- end
+
 function CatmullRomSplineMixinQuestie:FindSegmentOnGlobalCurve(t)
-	local numPoints = self:GetNumPoints();
+	local numPoints = self.numPoints --self:GetNumPoints();
 	if numPoints > 1 then
 		local numSegments = numPoints - 1;
 		local segment = numSegments * t;
-		local segmentIndex = Clamp(math.floor(segment), 0, numSegments - 1) + 2;
-		return segmentIndex, PercentageBetween(segment + 2, segmentIndex, segmentIndex + 1);
+        local segmentIndex = floor(segment);
+        --* Clamp (See above function)
+        if segmentIndex > numSegments - 1 then
+            segmentIndex = numSegments - 1;
+        elseif segmentIndex < 0 then
+            segmentIndex = 0;
+        end
+        segmentIndex = segmentIndex + 2
+        --* End Clamp
+		-- local segmentIndex = Clamp(math.floor(segment), 0, numSegments - 1) + 2;
+        local percentageBetween = (segment + 2 - segmentIndex) / (segmentIndex + 1 - segmentIndex)
+        --PercentageBetween(segment + 2, segmentIndex, segmentIndex + 1);
+		return segmentIndex, percentageBetween
 	end
 end

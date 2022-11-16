@@ -25,38 +25,49 @@
 
 local tInsert = table.insert
 local abs, sqrt, max, floor = math.abs, math.sqrt, math.max, math.floor
+local wipe = table.wipe
 
 ---@class Bezier
 local Bezier = QuestieLoader:CreateModule("Bezier")
 
-function Bezier:init()
-	self.points = {}
+
+local BezierInternal = {}
+
+function Bezier:CreateBezier()
+    local bezier = CreateFromMixins(BezierInternal);
+	bezier:init()
+	return bezier;
+end
+
+
+function BezierInternal:init()
+	self.points = self.points and wipe(self.points) or {}
 	self.autoStepScale = .1
 end
 
-function Bezier:getPoints()
+function BezierInternal:getPoints()
 	return self.points
 end
 
-function Bezier:setPoints(points)
+function BezierInternal:setPoints(points)
 	self.points = points
 end
 
-function Bezier:setAutoStepScale(scale)
+function BezierInternal:setAutoStepScale(scale)
 	self.autoStepScale = scale
 end
 
-function Bezier:getAutoStepScale()
+function BezierInternal:getAutoStepScale()
 	return self.autoStepScale
 end
 
-function Bezier:pointDistance(p1, p2)
+function BezierInternal:pointDistance(p1, p2)
 	local dx = p2.x - p1.x
 	local dy = p2.y - p1.y
 	return sqrt(dx*dx + dy*dy)
 end
 
-function Bezier:getLength()
+function BezierInternal:getLength()
 	local length = 0
 	local last = nil
 
@@ -80,7 +91,7 @@ end
 
 -- Estimate number of steps based on the distance between each point/control
 -- Inspired by http://antigrain.com/research/adaptive_bezier/
-function Bezier:estimateSteps(p1, p2, p3, p4)
+function BezierInternal:estimateSteps(p1, p2, p3, p4)
 	local distance = 0
 	if p1 and p2 then
 		distance = distance + self:pointDistance(p1, p2)
@@ -97,7 +108,7 @@ end
 
 -- Bezier functions from Paul Bourke
 -- http://paulbourke.net/geometry/bezier/
-function Bezier:createQuadraticCurve(p1, p2, p3, steps)
+function BezierInternal:createQuadraticCurve(p1, p2, p3, steps)
 	self.points = {}
 	steps = steps or self:estimateSteps(p1, p2, p3)
 	for i = 0, steps do
@@ -105,7 +116,7 @@ function Bezier:createQuadraticCurve(p1, p2, p3, steps)
 	end
 end
 
-function Bezier:createCubicCurve(p1, p2, p3, p4, steps)
+function BezierInternal:createCubicCurve(p1, p2, p3, p4, steps)
 	self.points = {}
 	steps = steps or self:estimateSteps(p1, p2, p3, p4)
 	for i = 0, steps do
@@ -113,7 +124,7 @@ function Bezier:createCubicCurve(p1, p2, p3, p4, steps)
 	end
 end
 
-function Bezier:bezier3(p1,p2,p3,mu)
+function BezierInternal:bezier3(p1,p2,p3,mu)
 	local mum1,mum12,mu2
 	local p = {}
 	mu2 = mu * mu
@@ -126,7 +137,7 @@ function Bezier:bezier3(p1,p2,p3,mu)
 	return p
 end
 
-function Bezier:bezier4(p1,p2,p3,p4,mu)
+function BezierInternal:bezier4(p1,p2,p3,p4,mu)
 	local mum1,mum13,mu3;
 	local p = {}
 
@@ -144,7 +155,7 @@ end
 -- Reduce nodes based on Ramer-Douglas-Peucker algorithm
 -- http://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
 -- Additional help from http://quangnle.wordpress.com/2012/12/30/corona-sdk-curve-fitting-1-implementation-of-ramer-douglas-peucker-algorithm-to-reduce-points-of-a-curve/
-function Bezier:reduce(epsilon)
+function BezierInternal:reduce(epsilon)
 	epsilon = epsilon or .1
 
 	if #self.points > 1 then
@@ -161,9 +172,10 @@ function Bezier:reduce(epsilon)
 	self.points = {}
 
     for pointIndex = 1, #old do
-        if old[pointIndex].keep then
-            old[pointIndex].keep = nil
-            self.points[#self.points + 1] = old[pointIndex]
+        local point = old[pointIndex]
+        if point.keep then
+            point.keep = nil
+            self.points[#self.points + 1] = point
         end
     end
 	-- for i,point in ipairs(old) do
@@ -173,14 +185,14 @@ function Bezier:reduce(epsilon)
 	-- end
 end
 
-function Bezier:douglasPeucker(first, last, epsilon)
+function BezierInternal:douglasPeucker(first, last, epsilon)
 	local dmax = 0
 	local index = 0
 
 	for i=first+1, last-1 do
         --? Moving the code within this function call to here gives insane optimization
 		-- local d = self:pointLineDistance(self.points[i], self.points[first], self.points[last])
-        --* Start Bezier:pointLineDistance()
+        --* Start BezierInternal:pointLineDistance()
         -- calculates area of the triangle
         local point = self.points[i]
         local firstPoint = self.points[first]
@@ -195,7 +207,7 @@ function Bezier:douglasPeucker(first, last, epsilon)
         local bottom = sqrt(dx*dx + dy*dy)
         -- the triangle's height is also the distance found
         local d = area / bottom
-        --* End Bezier:pointLineDistance()
+        --* End BezierInternal:pointLineDistance()
 
 		if d > dmax then
 			index = i
@@ -214,7 +226,7 @@ end
 
 
 --* This function is not in use because i moved it into douglasPeucker
-function Bezier:pointLineDistance(p, a, b)
+function BezierInternal:pointLineDistance(p, a, b)
 	-- calculates area of the triangle
 	-- local area = math.abs(0.5 * (a.x * b.y + b.x * p.y + p.x * a.y - b.x * a.y - p.x * b.y - a.x * p.y))
     local area = 0.5 * (a.x * b.y + b.x * p.y + p.x * a.y - b.x * a.y - p.x * b.y - a.x * p.y)
