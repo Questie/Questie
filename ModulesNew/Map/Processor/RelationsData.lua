@@ -20,11 +20,20 @@ local BezierLib = Bezier:CreateBezier();
 RelationDataProcessor.SplineLib = SplineLib
 RelationDataProcessor.BezierLib = BezierLib
 
+-- Math
+local sqrt, floor = math.sqrt, math.floor
+
 -- Contains processed waypoints
 -- This is a weak table so references to the table will be removed when the table is no longer used
 -- The references are being kept and calculated in ProcessAvailableQuests and ProcessCompletedQuests
 local ProcessedWaypoints = setmetatable({}, { __mode = "kv" })
 RelationDataProcessor.ProcessedWaypoints = ProcessedWaypoints
+
+-- Contains processed spawns
+-- This is a weak table so references to the table will be removed when the table is no longer used
+-- The references are being kept and calculated in ProcessAvailableQuests and ProcessCompletedQuests
+local ProcessedSpawns = setmetatable({}, { __mode = "kv" })
+RelationDataProcessor.ProcessedSpawns = ProcessedSpawns
 
 ---Get the dungeon locations in the correct format or false(because we can't save nil)
 ---@param AreaId AreaId
@@ -70,6 +79,7 @@ local DungeonLocations = setmetatable({}, {
 ---@param idType RelationPointType
 ---@param QuerySingleFunction fun(id: NpcId|ObjectId|ItemId, query: "spawns"): table<AreaId, {[1]: MapX, [2]: MapY}[]>>
 ---@param itemId ItemId? -- This is used to override the ID which is added into starterIcons
+---@return boolean? ProcessedSpawns @ This is true if we run the really expensive operations
 function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, QuerySingleFunction, itemId)
     if starterIcons == nil or type(starterIcons) ~= "table" then
         error("GetSpawns called with invalid starterIcons")
@@ -90,39 +100,51 @@ function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, QuerySi
         error("GetSpawns called with invalid itemId")
         return
     end
-    local spawns = QuerySingleFunction(id, "spawns")
+    local processedSpawns = true
+    local spawns = ProcessedSpawns[id] or QuerySingleFunction(id, "spawns")
     if spawns ~= nil then
         ---@type table<AreaId, {x: MapX[], y: MapY[]}>>
-        local starter = {}
-        for SpawnAreaId, coords in pairs(spawns) do
+        local starter
+        if not ProcessedSpawns[id] then
+            starter = {}
+            for SpawnAreaId, coords in pairs(spawns) do
 
-            local dungeonLocation = DungeonLocations[SpawnAreaId]
+                local dungeonLocation = DungeonLocations[SpawnAreaId]
 
-            if starter[SpawnAreaId] == nil and not dungeonLocation then
-                starter[SpawnAreaId] = { x = {}, y = {}, questId = {} }
-            end
-
-            if not dungeonLocation then
-                for coordIndex = 1, #coords do
-                    local coord = coords[coordIndex]
-                    -- Add the coordinates to the table
-                    starter[SpawnAreaId].x[#starter[SpawnAreaId].x + 1] = coord[1]
-                    starter[SpawnAreaId].y[#starter[SpawnAreaId].y + 1] = coord[2]
+                if starter[SpawnAreaId] == nil and not dungeonLocation then
+                    starter[SpawnAreaId] = { x = {}, y = {} }
                 end
-            else
-                for areaId, dungeonCoords in pairs(dungeonLocation) do
-                    if starter[areaId] == nil then
-                        starter[areaId] = { x = {}, y = {}, questId = {} } --, areaId = areaId
-                    end
-                    for coordIndex = 1, #dungeonCoords.x do
-                        local x = dungeonCoords.x[coordIndex]
-                        local y = dungeonCoords.y[coordIndex]
+
+                if not dungeonLocation then
+                    for coordIndex = 1, #coords do
+                        local coord = coords[coordIndex]
+                        local index = #starter[SpawnAreaId].x + 1
                         -- Add the coordinates to the table
-                        starter[areaId].x[#starter[areaId].x + 1] = x
-                        starter[areaId].y[#starter[areaId].y + 1] = y
+                        starter[SpawnAreaId].x[index] = coord[1]
+                        starter[SpawnAreaId].y[index] = coord[2]
+                    end
+                else
+                    for areaId, dungeonCoords in pairs(dungeonLocation) do
+                        if starter[areaId] == nil then
+                            starter[areaId] = { x = {}, y = {} } --, areaId = areaId
+                        end
+                        for coordIndex = 1, #dungeonCoords.x do
+                            local x = dungeonCoords.x[coordIndex]
+                            local y = dungeonCoords.y[coordIndex]
+                            local index = #starter[areaId].x + 1
+                            -- Add the coordinates to the table
+                            starter[areaId].x[index] = x
+                            starter[areaId].y[index] = y
+                        end
                     end
                 end
             end
+            --* Set the processed spawns
+            ProcessedSpawns[id] = starter
+        else
+            --* Use the previously processed spawns
+            starter = spawns
+            processedSpawns = false
         end
         for areaId, coords in pairs(starter) do
             if coords.x and coords.y then
@@ -183,7 +205,7 @@ function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, QuerySi
             end
         end
     end
-    return starterIcons
+    return processedSpawns
 end
 
 ---@param starterWaypoints table<UiMapId, AvailableWaypointPoints>
@@ -192,6 +214,7 @@ end
 ---@param idType RelationPointType
 ---@param QuerySingleFunction fun(id: NpcId|ObjectId|ItemId, query: "waypoints"): table<AreaId, {[1]: MapX, [2]: MapY}[]>>
 ---@param itemId ItemId? -- This is used to override the ID which is added into starterWaypoints
+---@return boolean? ProcessedWaypoints @ This is true if we run the really expensive operations
 function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, QuerySingleFunction, itemId)
     if starterWaypoints == nil or type(starterWaypoints) ~= "table" then
         error("GetSpawns called with invalid starterWaypoints")
@@ -212,6 +235,7 @@ function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, 
         error("GetSpawns called with invalid itemId")
         return
     end
+    local processedWaypoints = true
     local waypoints = ProcessedWaypoints[id] or QuerySingleFunction(id, "waypoints")
     if waypoints ~= nil then
         ---@type table<AreaId, {x: MapX[], y: MapY[], waypointIndex: number[]}>>
@@ -239,7 +263,7 @@ function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, 
                             if (subPoint * percentageBetweenPoints ~= 1) then
                                 -- local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
                                 local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
-                                                                        unpack(SplineLib.pointData, (i - 2) * SplineLib.numDimensions + 1,
+                                                                         unpack(SplineLib.pointData, (i - 2) * SplineLib.numDimensions + 1,
                                                                                 (i + 2) * SplineLib.numDimensions));
                                 -- print((i - 2) * SplineLib.numDimensions + 1, (i + 2) * SplineLib.numDimensions)
                                 -- local index = (i - 2) * SplineLib.numDimensions + 1
@@ -301,6 +325,7 @@ function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, 
         else
             --* Use the previously processed waypoints
             starter = waypoints
+            processedWaypoints = false
         end
         for areaId, coords in pairs(starter) do
             if coords.x and coords.y then
@@ -366,5 +391,5 @@ function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, 
             end
         end
     end
-    return starterWaypoints
+    return processedWaypoints
 end

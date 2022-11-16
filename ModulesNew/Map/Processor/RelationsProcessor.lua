@@ -25,17 +25,16 @@ local RelationPinMixin = QuestieLoader:ImportModule("RelationPinMixin")
 local RelationRenderers = QuestieLoader:ImportModule("RelationRenderers")
 
 --- Lib Imports ---
-
----@type Spline
-local Spline = QuestieLoader:ImportModule("Spline")
----@type Bezier
-local Bezier = QuestieLoader:ImportModule("Bezier")
+---@type ThreadLib
+local ThreadLib = QuestieLoader("ThreadLib")
 
 -- Math
 local abs, sqrt, floor = math.abs, math.sqrt, math.floor
 local tInsert = table.insert
 local lRound = Round
 local wipe = wipe
+
+local yield = coroutine.yield
 
 
 -- This contains references to the processed waypoints
@@ -46,6 +45,14 @@ local AvailableProcessedWaypoints = {}
 -- Keeps the weak tables of ProcessedWaypoints from being garbage collected
 local CompleteProcessedWaypoints = {}
 
+-- This contains references to the processed spawns
+-- Keeps the weak tables of ProcessedSpawns from being garbage collected
+local AvailableProcessedSpawns = {}
+
+-- This contains references to the processed spawns
+-- Keeps the weak tables of ProcessedSpawns from being garbage collected
+local CompleteProcessedSpawns = {}
+
 
 local wayPointColor = { r = 1, g = 0.72, b = 0, a = 0.5 }
 local wayPointColorHover = { r = 0.93, g = 0.46, b = 0.13, a = 0.8 }
@@ -53,11 +60,33 @@ local defaultLineDataMap = { thickness = 4 }
 Mixin(defaultLineDataMap, wayPointColor)
 
 local function Initialize()
+    -- This logic allows the code to be cancelled if a new execution is started
+    ---@type Ticker?, Ticker?
+    local availableTimer, completeTimer
     QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_AVAILABLE_QUESTS,
-                                    RelationMapProcessor.ProcessAvailableQuests)
+        function(show)
+            -- Cancel the previous timer
+            if availableTimer then
+                availableTimer:Cancel()
+            end
+            availableTimer = ThreadLib.Thread(function()
+                RelationMapProcessor.ProcessAvailableQuests(show)
+                availableTimer = nil
+            end, 0, "RelationMapProcessor.ProcessAvailableQuests")
+        end)
     QuestEventBus:RegisterRepeating(QuestEventBus.events.CALCULATED_COMPLETED_QUESTS,
-                                    RelationMapProcessor.ProcessCompletedQuests)
+        function(show)
+            -- Cancel the previous timer
+            if completeTimer then
+                completeTimer:Cancel()
+            end
+            completeTimer = ThreadLib.Thread(function()
+                RelationMapProcessor.ProcessCompletedQuests(show)
+                completeTimer = nil
+            end, 0, "RelationMapProcessor.ProcessCompletedQuests")
+        end)
 end
+
 SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, Initialize)
 
 --- Register the draw calls for the waypoints
@@ -142,6 +171,13 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     --? This is used to remove waypoints that are no longer in use
     wipe(CompleteProcessedWaypoints)
 
+    --? This is used to remove spawns that are no longer in use
+    wipe(CompleteProcessedSpawns)
+
+    -- Up value
+    local processedWaypoints = RelationDataProcessor.ProcessedWaypoints
+    local processedSpawns = RelationDataProcessor.ProcessedSpawns
+
     ---@type table<UiMapId, AvailablePoints>
     local finisherIcons = {}
     ---@type table<UiMapId, AvailableWaypointPoints>
@@ -150,7 +186,8 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
         if npcData.finisher then
             RelationDataProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
             RelationDataProcessor.GetWaypoints(finisherWaypoints, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
-            CompleteProcessedWaypoints[npcId] = RelationDataProcessor.ProcessedWaypoints[npcId]
+            CompleteProcessedWaypoints[npcId] = processedWaypoints[npcId]
+            CompleteProcessedSpawns[npcId] = processedSpawns[npcId]
         end
     end
     for objectId, objectData in pairs(ShowData.GameObject) do
@@ -201,7 +238,7 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
             majorityType["objectFinisher"] = 0
         end
     end
-
+    -- yield()
     MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
 end
 
@@ -213,6 +250,13 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     --? This is used to remove waypoints that are no longer in use
     wipe(AvailableProcessedWaypoints)
 
+    --? This is used to remove spawns that are no longer in use
+    wipe(AvailableProcessedSpawns)
+
+    -- Up value
+    local processedWaypoints = RelationDataProcessor.ProcessedWaypoints
+    local processedSpawns = RelationDataProcessor.ProcessedSpawns
+
     ---@type table<UiMapId, AvailablePoints>
     local starterIcons = {}
     ---@type table<UiMapId, AvailableWaypointPoints>
@@ -220,15 +264,18 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.available and npcData.finisher == nil then
             RelationDataProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
-            RelationDataProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
-            AvailableProcessedWaypoints[npcId] = RelationDataProcessor.ProcessedWaypoints[npcId]
+            local expensiveOperation = RelationDataProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
+            AvailableProcessedWaypoints[npcId] = processedWaypoints[npcId]
+            AvailableProcessedSpawns[npcId] = processedSpawns[npcId]
         end
     end
+    print("StarterIcons NPC Done")
     for objectId, objectData in pairs(ShowData.GameObject) do
         if objectData.available and objectData.finisher == nil then
             RelationDataProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
         end
     end
+    print("StarterIcons OBJECT Done")
 
 
     --! Disabled because the insane amount of icons plus the multiple entries
@@ -275,6 +322,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
         ["npc"] = 0
     }
     for UiMapId, data in pairs(starterIcons) do
+        local EVENT = MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId]
         local combinedGivers = RelationMapProcessor.CombineGivers(UiMapId, data, 7, 12)
         for combinedGiverIndex = 1, #combinedGivers do
             local combinedGiver = combinedGivers[combinedGiverIndex]
@@ -299,9 +347,9 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
                 majorityType = majority
             }
             --* Register draw
-            MapEventBus:ObjectRegisterRepeating(iconData, MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId], RelationRenderers.DrawRelation)
+            MapEventBus:ObjectRegisterRepeating(iconData, EVENT, RelationRenderers.DrawRelation)
             MapEventBus:RegisterOnce(MapEventBus.events.REMOVE_ALL_AVAILABLE, function()
-                MapEventBus:ObjectUnregisterRepeating(iconData, MapEventBus.events.DRAW_RELATION_UIMAPID[UiMapId])
+                MapEventBus:ObjectUnregisterRepeating(iconData, EVENT)
             end)
             -- Reset the type counters
             majorityType["item"] = 0
@@ -309,10 +357,10 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             majorityType["npc"] = 0
         end
     end
-
+    print("StarterIcons REGISTER Done")
+    yield()
     MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
 end
-
 
 --------------------------------------------
 -------------- Combiner     ----------------
