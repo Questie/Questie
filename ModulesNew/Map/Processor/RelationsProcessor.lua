@@ -168,6 +168,11 @@ end
 function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     print("ProcessCompletedQuests")
 
+    -- -- CountPerYield
+    -- local CountPerYield = 10
+    -- -- Yield Counter
+    -- local count = 0
+
     --? This is used to remove waypoints that are no longer in use
     wipe(CompleteProcessedWaypoints)
 
@@ -185,22 +190,46 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.finisher then
             RelationDataProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
-            RelationDataProcessor.GetWaypoints(finisherWaypoints, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
+            local expensiveOperation = RelationDataProcessor.GetWaypoints(finisherWaypoints, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
             CompleteProcessedWaypoints[npcId] = processedWaypoints[npcId]
             CompleteProcessedSpawns[npcId] = processedSpawns[npcId]
+            -- Yield
+            -- if count > CountPerYield then
+            --     count = 0
+            --     yield()
+            -- else
+            --     count = count + 1
+            --     -- We add another one if the operation is expensive
+            --     if expensiveOperation then
+            --         count = count + 10
+            --     end
+            -- end
         end
     end
+    print("CompleteIcons NPC Done")
     for objectId, objectData in pairs(ShowData.GameObject) do
         if objectData.finisher then
             RelationDataProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", QuestieDB.QueryObjectSingle)
+            -- Yield
+            -- if count > CountPerYield then
+            --     count = 0
+            --     yield()
+            -- else
+            --     count = count + 1
+            -- end
         end
     end
+    print("CompleteIcons OBJECT Done")
+
     -- Redraw
-    yield()
+    -- yield()
     MapEventBus.FireEvent.REMOVE_ALL_COMPLETED()
 
     --! This is not tested, but should work
+    -- yield()
     RegisterWaypoints(finisherWaypoints, RelationRenderers.DrawWaypoint, MapEventBus.events.REMOVE_ALL_COMPLETED)
+    -- yield()
+    print("CompleteIcons WAYPOINT Done")
 
     -- We return the majority type to control the icon
     -- Hardcode the types because we already know them
@@ -239,8 +268,17 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
             -- Reset the type counters
             majorityType["npcFinisher"] = 0
             majorityType["objectFinisher"] = 0
+
+            -- Yield
+            -- if count > CountPerYield then
+            --     count = 0
+            --     yield()
+            -- else
+            --     count = count + 1
+            -- end
         end
     end
+    print("CompleteIcons REGISTER Done")
     -- yield()
     MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
 end
@@ -249,6 +287,11 @@ end
 ---@param ShowData Show
 function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     print("ProcessAvailableQuests")
+
+    -- -- CountPerYield
+    -- local CountPerYield = 10
+    -- -- Yield Counter
+    -- local count = 0
 
     --? This is used to remove waypoints that are no longer in use
     wipe(AvailableProcessedWaypoints)
@@ -270,12 +313,30 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             local expensiveOperation = RelationDataProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
             AvailableProcessedWaypoints[npcId] = processedWaypoints[npcId]
             AvailableProcessedSpawns[npcId] = processedSpawns[npcId]
+            -- Yield
+            -- if count > CountPerYield then
+            --     count = 0
+            --     yield()
+            -- else
+            --     count = count + 1
+            --     -- We add another one if the operation is expensive
+            --     if expensiveOperation then
+            --         count = count + 10
+            --     end
+            -- end
         end
     end
     print("StarterIcons NPC Done")
     for objectId, objectData in pairs(ShowData.GameObject) do
         if objectData.available and objectData.finisher == nil then
             RelationDataProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
+            -- Yield
+            -- if count > CountPerYield then
+            --     count = 0
+            --     yield()
+            -- else
+            --     count = count + 1
+            -- end
         end
     end
     print("StarterIcons OBJECT Done")
@@ -316,9 +377,14 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     -- DevTools_Dump(availableItems)
 
     -- Redraw
-    yield()
+    -- yield()
     MapEventBus.FireEvent.REMOVE_ALL_AVAILABLE()
+
+    -- This is not been "yielded"
+    -- yield()
     RegisterWaypoints(starterWaypoints, RelationRenderers.DrawWaypoint, MapEventBus.events.REMOVE_ALL_AVAILABLE)
+    print("StarterIcons WAYPOINT Done")
+    -- yield()
 
     -- We return the majority type to control the icon
     -- Hardcode the types because we already know them
@@ -361,10 +427,18 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             majorityType["item"] = 0
             majorityType["object"] = 0
             majorityType["npc"] = 0
+
+            -- Yield
+            -- if count > CountPerYield then
+            --     count = 0
+            --     yield()
+            -- else
+            --     count = count + 1
+            -- end
         end
     end
     print("StarterIcons REGISTER Done")
-    yield()
+    -- yield()
     MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
 end
 
