@@ -54,8 +54,8 @@ end
 ---Print to EventTrace
 ---@param message string
 ---@param ... any
----@diagnostic disable-next-line: lowercase-global -- We want this to be global and lowercase like print
-Questie.printE = function(message, ...)
+    ---@diagnostic disable-next-line: lowercase-global -- We want this to be global and lowercase like print
+function printE(message, ...)
     ---@type string
     local d = debugstack(2, 1, 1) --[[@as string]]
     -- For some reason the VSCode ext doesn't show that this returns a string
