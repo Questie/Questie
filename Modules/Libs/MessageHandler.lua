@@ -1,5 +1,7 @@
----@class MessageHandlerFactory
-local MessageHandlerFactory = setmetatable(QuestieLoader:CreateModule("MessageHandlerFactory"),
+---@diagnostic disable: lowercase-global
+
+---@class EventBusFactory
+local EventBusFactory = setmetatable(QuestieLoader:CreateModule("EventBusFactory"),
                                            { __call = function(self, MessageBusName) return self.New(MessageBusName) end })
 
 ---@alias EventString string
@@ -54,22 +56,23 @@ end
 ---Print to EventTrace
 ---@param message string
 ---@param ... any
-    ---@diagnostic disable-next-line: lowercase-global -- We want this to be global and lowercase like print
 function printE(message, ...)
-    ---@type string
-    local d = debugstack(2, 1, 1) --[[@as string]]
-    -- For some reason the VSCode ext doesn't show that this returns a string
+    if Questie.db.global.debugEnabled then
+        ---@type string
+        local d = debugstack(2, 1, 1) --[[@as string]]
+        -- For some reason the VSCode ext doesn't show that this returns a string
 
-    --? Get the lua filename and code line number
-    local fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
-    if not fileName or not lineNr then
-        -- The depth was too low
-        d = debugstack(1, 1, 1) --[[@as string]]
-        fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
-    end
-    if fileName and lineNr and type(message) == "string" then
-        -- Add a _ to sort better in the EventLog
-        LogEvent(fileName, format("%s:%s", fileName, lineNr), format("%s:%s %s", fileName, lineNr, message), "_", ...)
+        --? Get the lua filename and code line number
+        local fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
+        if not fileName or not lineNr then
+            -- The depth was too low
+            d = debugstack(1, 1, 1) --[[@as string]]
+            fileName, lineNr = d:match('(%w+%.lua)%"%]:(%d+)')
+        end
+        if fileName and lineNr and type(message) == "string" then
+            -- Add a _ to sort better in the EventLog
+            LogEvent(fileName, format("%s:%s", fileName, lineNr), format("%s:%s %s", fileName, lineNr, message), "_", ...)
+        end
     end
 end
 
@@ -125,11 +128,11 @@ local eventFormatMetaTable = {
     end,
 }
 
---- Creates a new MessageHandler
+--- Creates a new EventBus
 ---@param MessageBusName string @The name of the message bus, used in eventtrace
----@return MessageHandler
-function MessageHandlerFactory.New(MessageBusName)
-    ---@class MessageHandler
+---@return EventBus
+function EventBusFactory.New(MessageBusName)
+    ---@class EventBus
     local handler = {}
 
     --- Contains all the events that are fired repeatably
@@ -378,14 +381,14 @@ end
 
 ----- Tests -----
 do
-    --? This is the tests for MessageHandlerFactory
-    local function RunMessageHandlerTests()
-        Questie:Debug(Questie.DEBUG_CRITICAL, " -- Running " .. Questie:Colorize("MessageHandlerFactory", "yellow") .. " tests --")
+    --? This is the tests for EventBusFactory
+    local function RunEventBusTests()
+        Questie:Debug(Questie.DEBUG_CRITICAL, " -- Running " .. Questie:Colorize("EventBusFactory", "yellow") .. " tests --")
         local testEvent = "EVENT_TEST"
 
         --- Test simple usage
         do
-            local MessageHandler = MessageHandlerFactory.New("TestBus1")
+            local EventBus = EventBusFactory.New("TestBus1")
             local returnedCount = 0
 
             local incrementFunction = function()
@@ -393,36 +396,36 @@ do
             end
 
             -- Add and fire
-            MessageHandler:RegisterRepeating(testEvent, incrementFunction)
-            MessageHandler:Fire(testEvent)
+            EventBus:RegisterRepeating(testEvent, incrementFunction)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 1, Questie:Colorize(" -- FAILED: Event was not fired", "red"))
 
             -- Unregister and fire
-            MessageHandler:UnregisterRepeating(testEvent, incrementFunction)
-            MessageHandler:Fire(testEvent)
+            EventBus:UnregisterRepeating(testEvent, incrementFunction)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 1, Questie:Colorize(" -- FAILED: Event was fired after unregistering", "red"))
 
             -- Register two events and fire
-            MessageHandler:RegisterRepeating(testEvent, incrementFunction)
-            MessageHandler:RegisterRepeating(testEvent, incrementFunction)
-            MessageHandler:Fire(testEvent)
+            EventBus:RegisterRepeating(testEvent, incrementFunction)
+            EventBus:RegisterRepeating(testEvent, incrementFunction)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 3, Questie:Colorize(" -- FAILED: Event was not fired twice", "red"))
 
             -- Unregister all events and fire
-            MessageHandler:UnregisterAll(testEvent)
-            MessageHandler:Fire(testEvent)
+            EventBus:UnregisterAll(testEvent)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 3, Questie:Colorize(" -- FAILED: Event was fired after unregistering all", "red"))
 
             -- Register once and fire
-            MessageHandler:RegisterOnce(testEvent, incrementFunction)
-            MessageHandler:Fire(testEvent)
-            MessageHandler:Fire(testEvent)
+            EventBus:RegisterOnce(testEvent, incrementFunction)
+            EventBus:Fire(testEvent)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 4, Questie:Colorize(" -- FAILED: Event was not fired once", "red"))
         end
 
         --- Test multiple registered events
         do
-            local MessageHandler = MessageHandlerFactory.New("TestBus2")
+            local EventBus = EventBusFactory.New("TestBus2")
             local returnedCount = 0
             local incrementFunction = function()
                 returnedCount = returnedCount + 1
@@ -433,27 +436,27 @@ do
 
             local testEvent2 = "EVENT_TEST2"
 
-            MessageHandler:RegisterRepeating(testEvent, incrementFunction)
-            MessageHandler:RegisterRepeating(testEvent2, incrementFunction2)
-            MessageHandler:Fire(testEvent)
+            EventBus:RegisterRepeating(testEvent, incrementFunction)
+            EventBus:RegisterRepeating(testEvent2, incrementFunction2)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 1, Questie:Colorize(" -- FAILED: Event 1 was not fired", "red"))
-            MessageHandler:Fire(testEvent2)
+            EventBus:Fire(testEvent2)
             assert(returnedCount == 2, Questie:Colorize(" -- FAILED: Event 2 was not fired", "red"))
 
             -- Unregister and fire
-            MessageHandler:UnregisterRepeating(testEvent, incrementFunction)
-            MessageHandler:Fire(testEvent)
+            EventBus:UnregisterRepeating(testEvent, incrementFunction)
+            EventBus:Fire(testEvent)
             assert(returnedCount == 2, Questie:Colorize(" -- FAILED: Event 1 was fired after unregistering", "red"))
-            MessageHandler:Fire(testEvent2)
+            EventBus:Fire(testEvent2)
             assert(returnedCount == 3, Questie:Colorize(" -- FAILED: Event 2 was not fired", "red"))
-            MessageHandler:UnregisterRepeating(testEvent2, incrementFunction2)
-            MessageHandler:Fire(testEvent2)
+            EventBus:UnregisterRepeating(testEvent2, incrementFunction2)
+            EventBus:Fire(testEvent2)
             assert(returnedCount == 3, Questie:Colorize(" -- FAILED: Event 2 was fired after unregistering", "red"))
         end
 
         --- Test return
         do
-            local MessageHandler          = MessageHandlerFactory.New("TestBus3")
+            local EventBus          = EventBusFactory.New("TestBus3")
             local returnedCount           = 0
             local incrementReturnFunction = function()
                 returnedCount = returnedCount + 1
@@ -462,9 +465,9 @@ do
 
             -- Register mutliple events and fire
             for _ = 1, 5 do
-                MessageHandler:RegisterRepeating(testEvent, incrementReturnFunction)
+                EventBus:RegisterRepeating(testEvent, incrementReturnFunction)
             end
-            local retVal = MessageHandler:Fire(testEvent)
+            local retVal = EventBus:Fire(testEvent)
             assert(retVal, Questie:Colorize(" -- FAILED: Return value was nil", "red"))
             assert(retVal[1] == 1, Questie:Colorize(" -- FAILED: 1 Function value was not returned", "red"))
             assert(retVal[2] == 2, Questie:Colorize(" -- FAILED: 2 Function value was not returned", "red"))
@@ -475,7 +478,7 @@ do
 
         --- Test async and async return
         do
-            local MessageHandler = MessageHandlerFactory.New("TestBus4")
+            local EventBus = EventBusFactory.New("TestBus4")
             local returnedCount = 0
 
             local incrementReturnFunction = function()
@@ -485,12 +488,12 @@ do
 
             -- Register mutliple events and fire
             for _ = 1, 5 do
-                MessageHandler:RegisterRepeating(testEvent, incrementReturnFunction)
+                EventBus:RegisterRepeating(testEvent, incrementReturnFunction)
             end
 
             local routine = coroutine.create(
             function()
-                MessageHandler:FireAsync(testEvent, 2)
+                EventBus:FireAsync(testEvent, 2)
                 assert(returnedCount == 5, Questie:Colorize(" -- FAILED: Event was not fired the correct amount of times", "red"))
             end
             )
@@ -508,7 +511,7 @@ do
 
                 -- Kill the timer when the coroutine is dead.
                 if (coroutine.status(routine) == "dead") then
-                    Questie:Debug(Questie.DEBUG_CRITICAL, "- MessageHandlerFactory - |cFF00FF00SUCCESS!|r")
+                    Questie:Debug(Questie.DEBUG_CRITICAL, "- EventBusFactory - |cFF00FF00SUCCESS!|r")
                     timer:Cancel()
                 end
             end)
@@ -516,7 +519,7 @@ do
     end
 
     -- Run it after all files has been loaded
-    C_Timer.After(2, RunMessageHandlerTests)
+    C_Timer.After(2, RunEventBusTests)
 
 end
 -----------------

@@ -35,7 +35,7 @@ Modules\Libs\ThreadLib.lua
 Modules\Libs\MessageHandler.lua
 
 # System Bus
-ModulesNew\SystemEventBus.lua
+ModulesNew\EventBus\SystemEventBus.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
@@ -222,8 +222,8 @@ Questie.lua
 
 
 # Event bus
-ModulesNew\Quest\QuestEventBus.lua
-ModulesNew\Map\MapEventBus.lua
+ModulesNew\EventBus\QuestEventBus.lua
+ModulesNew\EventBus\MapEventBus.lua
 
 
 

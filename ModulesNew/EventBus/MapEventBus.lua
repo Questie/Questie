@@ -1,9 +1,9 @@
----@class MapEventBus : MessageHandler
+---@class MapEventBus : EventBus
 local MapEventBus = QuestieLoader:CreateModule("MapEventBus")
 
-local MessageHandlerFactory = QuestieLoader:ImportModule("MessageHandlerFactory")
+local EventBusFactory = QuestieLoader:ImportModule("EventBusFactory")
 
-MapEventBus = Mixin(MapEventBus, MessageHandlerFactory.New("MapEventBus")) --[[@as MapEventBus]]
+MapEventBus = Mixin(MapEventBus, EventBusFactory.New("MapEventBus")) --[[@as MapEventBus]]
 
 ----------- Event Definition -----------
 

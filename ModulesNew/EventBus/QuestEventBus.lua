@@ -1,9 +1,9 @@
----@class QuestEventBus : MessageHandler
+---@class QuestEventBus : EventBus
 local QuestEventBus = QuestieLoader:CreateModule("QuestEventBus")
 
-local MessageHandlerFactory = QuestieLoader:ImportModule("MessageHandlerFactory")
+local EventBusFactory = QuestieLoader:ImportModule("EventBusFactory")
 
-QuestEventBus = Mixin(QuestEventBus, MessageHandlerFactory.New("QuestEventBus")) --[[@as QuestEventBus]]
+QuestEventBus = Mixin(QuestEventBus, EventBusFactory.New("QuestEventBus")) --[[@as QuestEventBus]]
 
 ----------- Event Definition -----------
 
@@ -27,6 +27,7 @@ local parameterEvents = {
 
     ---@type ParameterEvent|fun(questId: QuestId, changes: table)
     QUEST_UPDATED = "QUEST-UPDATE",
+
 
     ---@type ParameterEvent|fun(ShowData: Show)
     CALCULATE_AVAILABLE_QUESTS_DONE = "CALCULATE_AVAILABLE_QUESTS_DONE",

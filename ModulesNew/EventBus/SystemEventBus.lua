@@ -1,9 +1,9 @@
----@class SystemEventBus : MessageHandler
+---@class SystemEventBus : EventBus
 local SystemEventBus = QuestieLoader:CreateModule("SystemEventBus")
 
-local MessageHandlerFactory = QuestieLoader:ImportModule("MessageHandlerFactory")
+local EventBusFactory = QuestieLoader:ImportModule("EventBusFactory")
 
-SystemEventBus = Mixin(SystemEventBus, MessageHandlerFactory.New("SystemEventBus")) --[[@as SystemEventBus]]
+SystemEventBus = Mixin(SystemEventBus, EventBusFactory.New("SystemEventBus")) --[[@as SystemEventBus]]
 
 
 ----------- Event Definition -----------
