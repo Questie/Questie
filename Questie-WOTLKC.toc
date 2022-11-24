@@ -32,7 +32,7 @@ ModulesNew\Map\Helpers\Bezier.lua
 Modules\Libs\ThreadLib.lua
 
 #Message Handler
-Modules\Libs\MessageHandler.lua
+ModulesNew\EventBus\EventBusFactory.lua
 
 # System Bus
 ModulesNew\EventBus\SystemEventBus.lua
