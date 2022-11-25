@@ -2,6 +2,7 @@
 local MapProvider = QuestieLoader:CreateModule("MapProvider")
 ---@type PinTemplates
 local PinTemplates = QuestieLoader("PinTemplates")
+-- Event bus --
 ---@type MapEventBus
 local MapEventBus = QuestieLoader("MapEventBus")
 ---@type SystemEventBus
@@ -50,9 +51,7 @@ local function Initialize()
     end)
 end
 
-
--- Run it the next frame
-C_Timer.After(0, Initialize)
+SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, Initialize)
 
 function MapProvider:OnAdded(owningMap)
     -- Optionally override in your mixin, called when this provider is added to a map canvas

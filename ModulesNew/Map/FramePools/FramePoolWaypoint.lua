@@ -36,66 +36,20 @@ FramePoolWaypoint.creationFunc = function(framePool)
     ---@class WaypointMapIconFrame : WaypointPinMixin
     local frame = CreateFrame(FramePoolWaypoint.frameType, Questie.db.global.debugEnabled and name .. count or nil, FramePoolWaypoint.parent)
     --? This differs a little bit, here we actually OVERWRITE BasePinMixin functions
-    frame = Mixin(frame, BasePinMixin, WaypointPinMixin)
+    frame = Mixin(frame, BasePinMixin, WaypointPinMixin) --[[@as WaypointMapIconFrame]]
     frame:UseFrameLevelType("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS")
     return frame
 end
 FramePoolWaypoint.resetterFunc = function(pinPool, pin)
-    -- if(pin.lineTexture) then
-    --     print("Releasing lineTexture", pin.lineTexture:GetName())
-    --     local released = FramePoolWaypoint.LinePool:Release(pin.lineTexture);
-    --     -- print("Released? : ", released)
-    --     FramePoolWaypoint.LinePool:resetterFunc(pin.lineTexture);
-    --     pin.lineTexture = nil
-    -- end
-
-    -- for i, lineTexture in pairs(pin.lineTextures) do
-    --     print("Releasing lineTexture", lineTexture:GetName())
-    --     local released = FramePoolWaypoint.LinePool:Release(lineTexture);
-    --     FramePoolWaypoint.LinePool:resetterFunc(lineTexture);
-    -- end
-    -- wipe(pin.lineTextures)
-
-    -- if (pin.lineTexture) then
-    --     -- print("Hiding lineTexture", pin.lineTexture:GetName())
-    --     local released = FramePoolWaypoint.LinePool:Release(pin.lineTexture);
-    --     pin.lineTexture = nil
-    -- end
-
-    -- FramePool_HideAndClearAnchors(pinPool, pin)
-    -- -- pin:OnReleased()
-
-    -- -- --Frame setup
-    -- pin:ClearAllPoints()
-    -- pin:SetParent(FramePoolWaypoint.parent)
-    -- pin:SetPoint("CENTER")
-    -- pin:Hide();
-
-    -- FramePool_HideAndClearAnchors(pinPool, pin)
-    -- pin:OnReleased()
-
-    if(pin.lineTexture) then
+    if (pin.lineTexture) then
         -- pin.lineTexture:SetParent(frame)
         -- pin.lineTexture:Hide()
         FramePoolWaypoint.LinePool:Release(pin.lineTexture);
     end
     pin.lineTexture = nil
 
-    --Frame setup
-    -- pin:ClearAllPoints()
-    -- pin:SetParent(UIParent)
-    -- pin:SetPoint("TOPLEFT")
-    -- pin:Hide();
-    -- FramePool_HideAndClearAnchors(pinPool, pin)
     pin:Hide();
-	pin:ClearAllPoints();
-    -- pin:Hide();
-
-    -- pin:ClearAllPoints()
-    -- pin:SetParent(FramePoolWaypoint.parent)
-    -- pin:SetParent(UIParent)
-    -- pin:SetPoint("TOPLEFT")
-    -- pin:Hide();
+    pin:ClearAllPoints();
 end
 -- MINIMAP
 
@@ -177,37 +131,14 @@ local function lineReset(self, line)
     --Questie:Debug(DEBUG_DEVELOP, "Blob.linePool.resetterFunc")
     -- print("Reset line ", line:GetName())
 
-    -- line.color = nil
-    -- line.startX = nil
-    -- line.startY = nil
-    -- line.endX = nil
-    -- line.endY = nil
-    -- line.thickness = nil
-
     --Remove all mask textures
     for _, maskTexture in pairs(line.maskTextures or {}) do
         line:RemoveMaskTexture(maskTexture);
     end
     line.maskTextures = {}
 
-    -- line:ClearAllPoints()
-    -- line:SetParent(Minimap)
-    -- line:SetPoint("CENTER")
-    -- line:ClearAllPoints()
-    -- line:SetSize(100,100)
-    -- line:SetTexCoord(0,1,0,1)
-    -- line:SetParent(WorldMapFrame:GetCanvas())
-    -- line:SetParent(FramePool.parent)
-    -- line:ClearAllPoints()
-    -- line:SetParent(WorldMapFrame:GetCanvas())
-    -- line:SetParent(UIParent)
-    -- TexturePool_HideAndClearAnchors(self, line)
-    -- line:SetParent(frame)
-
-    TexturePool_HideAndClearAnchors(self, line)
-    -- line:SetTexture(nil)
-
-    -- line:SetPoint("CENTER")
+	line:Hide();
+	line:ClearAllPoints();
 end
 
 -- The following function is used with permission from Daniel Stephens
@@ -218,69 +149,69 @@ end
 -- lineWidth        - Width of line
 -- relPoint			- Relative point on canvas to interpret coords (Default BOTTOMLEFT)
 local function drawLine(texture, canvasFrame, startX, startY, endX, endY, lineWidth, lineFactor, relPoint)
-	if (not relPoint) then relPoint = "BOTTOMLEFT"; end
-	lineFactor = lineFactor * .5;
+    if (not relPoint) then relPoint = "BOTTOMLEFT"; end
+    lineFactor = lineFactor * .5;
 
-	-- Determine dimensions and center point of line
-	local dx,dy = endX - startX, endY - startY;
-	local cx,cy = (startX + endX) / 2, (startY + endY) / 2;
+    -- Determine dimensions and center point of line
+    local dx, dy = endX - startX, endY - startY;
+    local cx, cy = (startX + endX) / 2, (startY + endY) / 2;
 
-	-- Normalize direction if necessary
-	if (dx < 0) then
-		dx,dy = -dx,-dy;
-	end
+    -- Normalize direction if necessary
+    if (dx < 0) then
+        dx, dy = -dx, -dy;
+    end
 
-	-- Calculate actual length of line
-	local lineLength = sqrt((dx * dx) + (dy * dy));
+    -- Calculate actual length of line
+    local lineLength = sqrt((dx * dx) + (dy * dy));
 
-	-- Quick escape if it'sin zero length
-	if (lineLength == 0) then
-		texture:SetTexCoord(0,0,0,0,0,0,0,0);
-		texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx,cy);
-		texture:SetPoint("TOPRIGHT",   canvasFrame, relPoint, cx,cy);
-		return;
-	end
+    -- Quick escape if it'sin zero length
+    if (lineLength == 0) then
+        texture:SetTexCoord(0, 0, 0, 0, 0, 0, 0, 0);
+        texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx, cy);
+        texture:SetPoint("TOPRIGHT", canvasFrame, relPoint, cx, cy);
+        return;
+    end
 
-	-- Sin and Cosine of rotation, and combination (for later)
-	local sin, cos = -dy / lineLength, dx / lineLength;
-	local sinCos = sin * cos;
+    -- Sin and Cosine of rotation, and combination (for later)
+    local sin, cos = -dy / lineLength, dx / lineLength;
+    local sinCos = sin * cos;
 
-	-- Calculate bounding box size and texture coordinates
-	local boundingWidth, boundingHeight, bottomLeftX, bottomLeftY, topLeftX, topLeftY, topRightX, topRightY, bottomRightX, bottomRightY;
-	if (dy >= 0) then
-		boundingWidth = ((lineLength * cos) - (lineWidth * sin)) * lineFactor;
-		boundingHeight = ((lineWidth * cos) - (lineLength * sin)) * lineFactor;
+    -- Calculate bounding box size and texture coordinates
+    local boundingWidth, boundingHeight, bottomLeftX, bottomLeftY, topLeftX, topLeftY, topRightX, topRightY, bottomRightX, bottomRightY;
+    if (dy >= 0) then
+        boundingWidth = ((lineLength * cos) - (lineWidth * sin)) * lineFactor;
+        boundingHeight = ((lineWidth * cos) - (lineLength * sin)) * lineFactor;
 
-		bottomLeftX = (lineWidth / lineLength) * sinCos;
-		bottomLeftY = sin * sin;
-		bottomRightY = (lineLength / lineWidth) * sinCos;
-		bottomRightX = 1 - bottomLeftY;
+        bottomLeftX = (lineWidth / lineLength) * sinCos;
+        bottomLeftY = sin * sin;
+        bottomRightY = (lineLength / lineWidth) * sinCos;
+        bottomRightX = 1 - bottomLeftY;
 
-		topLeftX = bottomLeftY;
-		topLeftY = 1 - bottomRightY;
-		topRightX = 1 - bottomLeftX;
-		topRightY = bottomRightX;
-	else
-		boundingWidth = ((lineLength * cos) + (lineWidth * sin)) * lineFactor;
-		boundingHeight = ((lineWidth * cos) + (lineLength * sin)) * lineFactor;
+        topLeftX = bottomLeftY;
+        topLeftY = 1 - bottomRightY;
+        topRightX = 1 - bottomLeftX;
+        topRightY = bottomRightX;
+    else
+        boundingWidth = ((lineLength * cos) + (lineWidth * sin)) * lineFactor;
+        boundingHeight = ((lineWidth * cos) + (lineLength * sin)) * lineFactor;
 
-		bottomLeftX = sin * sin;
-		bottomLeftY = -(lineLength / lineWidth) * sinCos;
-		bottomRightX = 1 + (lineWidth / lineLength) * sinCos;
-		bottomRightY = bottomLeftX;
+        bottomLeftX = sin * sin;
+        bottomLeftY = -(lineLength / lineWidth) * sinCos;
+        bottomRightX = 1 + (lineWidth / lineLength) * sinCos;
+        bottomRightY = bottomLeftX;
 
-		topLeftX = 1 - bottomRightX;
-		topLeftY = 1 - bottomLeftX;
-		topRightY = 1 - bottomLeftY;
-		topRightX = topLeftY;
-	end
+        topLeftX = 1 - bottomRightX;
+        topLeftY = 1 - bottomLeftX;
+        topRightY = 1 - bottomLeftY;
+        topRightX = topLeftY;
+    end
 
-	-- Set texture coordinates and anchors
-	texture:ClearAllPoints();
-	texture:SetTexCoord(topLeftX, topLeftY, bottomLeftX, bottomLeftY, topRightX, topRightY, bottomRightX, bottomRightY);
+    -- Set texture coordinates and anchors
+    texture:ClearAllPoints();
+    texture:SetTexCoord(topLeftX, topLeftY, bottomLeftX, bottomLeftY, topRightX, topRightY, bottomRightX, bottomRightY);
     -- These two values below are the bounding box for the line, use for mouseover in the future.
-	texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx - boundingWidth, cy - boundingHeight);
-	texture:SetPoint("TOPRIGHT",   canvasFrame, relPoint, cx + boundingWidth, cy + boundingHeight);
+    texture:SetPoint("BOTTOMLEFT", canvasFrame, relPoint, cx - boundingWidth, cy - boundingHeight);
+    texture:SetPoint("TOPRIGHT", canvasFrame, relPoint, cx + boundingWidth, cy + boundingHeight);
     -- print(cx - boundingWidth, cy - boundingHeight)
     texture.bLeftX = bottomLeftX
     texture.bLeftY = bottomLeftY
@@ -333,20 +264,20 @@ FramePoolWaypoint.LinePool.resetterFunc = lineReset;
 
 FramePoolWaypoint.LinePool.Acquire = function(self)
     -- print("Getting")
-	local numInactiveObjects = #self.inactiveObjects;
-	if numInactiveObjects > 0 then
-		local obj = self.inactiveObjects[numInactiveObjects];
-		self.activeObjects[obj] = true;
-		self.numActiveObjects = self.numActiveObjects + 1;
-		self.inactiveObjects[numInactiveObjects] = nil;
-		return obj, false;
-	end
+    local numInactiveObjects = #self.inactiveObjects;
+    if numInactiveObjects > 0 then
+        local obj = self.inactiveObjects[numInactiveObjects];
+        self.activeObjects[obj] = true;
+        self.numActiveObjects = self.numActiveObjects + 1;
+        self.inactiveObjects[numInactiveObjects] = nil;
+        return obj, false;
+    end
 
-	local newObj = self.creationFunc(self);
-	if self.resetterFunc and not self.disallowResetIfNew then
-		self.resetterFunc(self, newObj);
-	end
-	self.activeObjects[newObj] = true;
-	self.numActiveObjects = self.numActiveObjects + 1;
-	return newObj, true;
+    local newObj = self.creationFunc(self);
+    if self.resetterFunc and not self.disallowResetIfNew then
+        self.resetterFunc(self, newObj);
+    end
+    self.activeObjects[newObj] = true;
+    self.numActiveObjects = self.numActiveObjects + 1;
+    return newObj, true;
 end

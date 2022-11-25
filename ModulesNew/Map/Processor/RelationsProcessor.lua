@@ -31,9 +31,7 @@ local RelationRenderers = QuestieLoader:ImportModule("RelationRenderers")
 local ThreadLib = QuestieLoader("ThreadLib")
 
 -- Math
-local abs, sqrt, floor = math.abs, math.sqrt, math.floor
-local tInsert = table.insert
-local lRound = Round
+local sqrt, floor = math.sqrt, math.floor
 local wipe = wipe
 
 local yield = coroutine.yield
@@ -653,7 +651,6 @@ end
 ---@return MapX x, MapY y
 local function AbsCenterPoint(points)
     --Localize the functions
-    --local min, max = math.min, math.max
     local minX = 99999999999
     local minY = 99999999999
     local maxX = 0
@@ -679,12 +676,7 @@ local function AbsCenterPoint(points)
         if (y and maxY < y) then
             maxY = y
         end
-        --minX = min(minX, point.x or point.orgX);
-        --minY = min(minY, point.y or point.orgY);
-        --maxX = max(maxX, point.x or point.orgX);
-        --maxY = max(maxY, point.y or point.orgY);
     end
-    --local fCenterX = minX + ((maxX - minX)/2)--local fCenterY = minY + ((maxY - minY)/2)
     ---@diagnostic disable-next-line: return-type-mismatch
     return minX + ((maxX - minX) / 2), minY + ((maxY - minY) / 2)
 end
@@ -725,10 +717,6 @@ function RelationMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeig
         FoundUntouched = nil;
         for sourcePointIndex = 1, length do
             if (points.touched[sourcePointIndex] == nil) then
-                --! This stuff works, but i have to figure out a way to not also throw a way the coords.
-                -- Prevent the same data from being added twice
-                -- local alreadyAdded = {}
-
                 --We touch this
                 FoundUntouched = true;
                 points.touched[sourcePointIndex] = true;
@@ -742,8 +730,6 @@ function RelationMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeig
                         id = { points.id[sourcePointIndex] },
                         type = { points.type[sourcePointIndex] }
                     }
-                    -- Add the first data to alreadyAdded
-                    -- alreadyAdded[points.iconData[sourcePointIndex]] = true
 
                     --* tinsert(notes.? points.?) is the same as below
                     -- notes.x[#notes.x + 1] = points.x[sourcePointIndex]
@@ -769,8 +755,6 @@ function RelationMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeig
 
                                 if (dX < distWidth and dY < distHeight) then
                                     points.touched[targetPointIndex] = true
-                                    -- If the data has previously been added already, don't add it again
-                                    -- if not alreadyAdded[points.iconData[targetPointIndex]] then
 
                                     --* tinsert(notes.? points.?) is the same as below
                                     local index = #notes.x + 1
@@ -779,9 +763,6 @@ function RelationMapProcessor.CombineGivers(uiMapId, points, iconWidth, iconHeig
                                     notes.iconData[index] = points.iconData[targetPointIndex]
                                     notes.id[index] = points.id[targetPointIndex]
                                     notes.type[index] = points.type[targetPointIndex]
-
-                                    -- alreadyAdded[points.iconData[targetPointIndex]] = true
-                                    -- end
                                 end
                             end
                         end

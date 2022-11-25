@@ -360,14 +360,14 @@ function QuestieDB:GetItem(itemId, skipCache)
 end
 
 ---@param questId number
----@return boolean
+---@return boolean?
 function QuestieDB.IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
     return flags and mod(flags, 2) == 1
 end
 
 ---@param questId number
----@return boolean
+---@return boolean?
 function QuestieDB.IsDailyQuest(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "questFlags")
     -- test a bit flag: (value % (2*flag) >= flag)

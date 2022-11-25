@@ -1,15 +1,14 @@
-local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
-
 ---@class WaypointMapProvider : MapCanvasDataProvider
 local WaypointMapProvider = QuestieLoader:CreateModule("WaypointMapProvider")
 
+-- Event Bus --
+---@type MapEventBus
 local MapEventBus = QuestieLoader:ImportModule("MapEventBus")
+---@type SystemEventBus
+local SystemEventBus = QuestieLoader("SystemEventBus")
 
 ---@type PinTemplates
 local PinTemplates = QuestieLoader:ImportModule("PinTemplates")
-
---Up value
-local questieTooltip = QuestieTooltip --Localize the tooltip
 
 
 --? The WaypointMapProvider is added at the bottom of the file
@@ -33,7 +32,6 @@ end
 local function DrawAllPins()
     local mapId = Map:GetMapID()
     if not isDrawn and lastDrawnMapId ~= mapId then
-        printE("DrawAllPins", mapId)
         MapEventBus:Fire(MapEventBus.events.DRAW_WAYPOINTS_UIMAPID[mapId])
         isDrawn = true
         lastDrawnMapId = mapId
@@ -51,8 +49,7 @@ local function Initialize()
     end)
 end
 
--- Run it the next frame
-C_Timer.After(0, Initialize)
+SystemEventBus:RegisterOnce(SystemEventBus.events.INITIALIZE_DONE, Initialize)
 
 function WaypointMapProvider:OnAdded(owningMap)
     -- Optionally override in your mixin, called when this provider is added to a map canvas
