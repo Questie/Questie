@@ -72,7 +72,7 @@ do
         --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
         count = count + 1
         ---@class MapIconFrame : Button, BasePinMixin
-        local frame = CreateFrame(framePool.frameType, name .. count, framePool.parent)
+        local frame = CreateFrame(framePool.frameType, Questie.db.global.debugEnabled and name .. count or nil, framePool.parent)
 
         frame.highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
         frame = Mixin(frame, BasePinMixin) --[[@as MapIconFrame]]
@@ -211,7 +211,7 @@ do
     end
 end
 
-
+-- If we run MixinPin these are the functions that will be mixed in and chained
 local AllowedFunction = {
     -- ["OnLoad"] = true, -- Because of how we mix in the pin after Acquired, this could destroy things
     -- ["OnAcquired"] = true, -- Because of how we mix in the pin after Acquired, this could destroy things
@@ -225,28 +225,28 @@ local AllowedFunction = {
     ["OnMapInsetMouseEnter"] = true,
     ["OnMapInsetMouseLeave"] = true,
     ["SetNudgeTargetFactor"] = true,
-    ["GetNudgeTargetFactor"] = true,
+    ["GetNudgeTargetFactor"] = false,
     ["SetNudgeSourceRadius"] = true,
-    ["GetNudgeSourceRadius"] = true,
+    ["GetNudgeSourceRadius"] = false,
     ["SetNudgeSourceMagnitude"] = true,
-    ["GetNudgeSourceZoomedOutMagnitude"] = true,
-    ["GetNudgeSourceZoomedInMagnitude"] = true,
+    ["GetNudgeSourceZoomedOutMagnitude"] = false,
+    ["GetNudgeSourceZoomedInMagnitude"] = false,
     ["SetNudgeZoomedInFactor"] = true,
-    ["GetZoomedInNudgeFactor"] = true,
+    ["GetZoomedInNudgeFactor"] = false,
     ["SetNudgeZoomedOutFactor"] = true,
-    ["GetZoomedOutNudgeFactor"] = true,
+    ["GetZoomedOutNudgeFactor"] = false,
     ["IgnoresNudging"] = true,
-    ["GetMap"] = true,
-    ["GetNudgeVector"] = true,
-    ["GetNudgeSourcePinZoomedOutNudgeFactor"] = true,
-    ["GetNudgeSourcePinZoomedInNudgeFactor"] = true,
+    ["GetMap"] = false,
+    ["GetNudgeVector"] = false,
+    ["GetNudgeSourcePinZoomedOutNudgeFactor"] = false,
+    ["GetNudgeSourcePinZoomedInNudgeFactor"] = false,
     ["SetNudgeVector"] = true,
-    ["GetNudgeFactor"] = true,
+    ["GetNudgeFactor"] = false,
     ["SetNudgeFactor"] = true,
-    ["GetNudgeZoomFactor"] = true,
+    ["GetNudgeZoomFactor"] = false,
     ["SetPosition"] = true,
-    ["GetPosition"] = true,
-    ["GetGlobalPosition"] = true,
+    ["GetPosition"] = false,
+    ["GetGlobalPosition"] = false,
     ["PanTo"] = true,
     ["PanAndZoomTo"] = true,
     ["OnCanvasScaleChanged"] = true,
@@ -262,7 +262,7 @@ local AllowedFunction = {
     ["ApplyCurrentScale"] = true,
     ["ApplyCurrentAlpha"] = true,
     ["UseFrameLevelType"] = true,
-    ["GetFrameLevelType"] = true,
+    ["GetFrameLevelType"] = false,
     ["ApplyFrameLevel"] = true,
     -- Own added types
     ["GetType"] = false, -- This should always be overwritten not chained.

@@ -106,19 +106,21 @@ function BasePinMixin:OnAcquired(PinData, PinToMixin, ...) -- the arguments here
     if (PinData) then
         self.data = PinData
     else
-        error("Pin must have data!")
-        print(debugstack(2, 0, 5))
+        error("Pin must have data!", 2)
     end
 
     if self.GetType == nil then
-        error("BasePinMixin must have a GetType function!")
+        error("BasePinMixin must have a GetType function!", 2)
     end
 
     --! Important to run this last, because if we want overwrite things in the submixins we need to do this last
     --? Mixin another pin with extra functionality
     if PinToMixin ~= nil then
         if PinToMixin.GetType == nil then
-            error("Every PinMixin type must have a GetType function!")
+            error("Every PinMixin type must have a GetType function!", 2)
+        end
+        if PinToMixin.GetIconScale == nil then
+            error("Every PinMixin type must have a GetIconScale function!", 2)
         end
         MixinPin(self, PinToMixin)
         -- local isMouseClickEnabled = self:IsMouseClickEnabled();
@@ -189,11 +191,11 @@ end
 
 do
     --? When multiple pins animate we keep track of which pins are animating in here.
-    local _animationGroups = setmetatable({}, {__index = function(t, k)
+    local _animationGroups = setmetatable({}, { __index = function(t, k)
         local new = {}
         t[k] = new
         return new
-    end})
+    end })
 
     ---@param self MapIconFrame
     function BasePinMixin:OnMouseLeave()
@@ -218,7 +220,7 @@ do
             -- local pinX, pinY = self:GetPosition()
             -- local otherPinX, otherPinY
             -- otherPinX, otherPinY = pin.normalizedX, pin.normalizedY --Same as pin:GetPosition() so they do exist.
-             --distance < 0.008
+            --distance < 0.008
 
             -- There might be a ton of pins, so declare them now for speed.
             local xd, yd = 0, 0

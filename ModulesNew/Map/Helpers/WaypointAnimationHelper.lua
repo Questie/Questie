@@ -6,9 +6,13 @@ local Tween = QuestieLoader("Tween")
 ---@type PinTemplates
 local PinTemplates = QuestieLoader("PinTemplates")
 
+-- Up Values
+local type = type
+local C_Timer = C_Timer
+
 local _animations = {}
 
----comment
+--- Scale a single waypoint line
 ---@param line WaypointMapIconFrame|WaypointPinMixin
 ---@param scale number
 ---@param duration number @The ticker runs ever 0.01 second so the duration should be a multiple of 0.01
@@ -48,8 +52,8 @@ function WaypointAnimationHelper.ScaleTo(line, scale, duration)
     end)
 end
 
----comment
----@param baseLine WaypointPinMixin|RelationPinMixin
+---Scale all waypoints on a map that are related to the baseLine object
+---@param baseLine WaypointPinMixin
 ---@param scale number
 ---@param duration number @The ticker runs ever 0.01 second so the duration should be a multiple of 0.01
 function WaypointAnimationHelper.ScaleWaypointsByPin(baseLine, scale, duration)

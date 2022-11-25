@@ -86,7 +86,9 @@ FramePoolWaypoint.resetterFunc = function(pinPool, pin)
     -- pin:SetParent(UIParent)
     -- pin:SetPoint("TOPLEFT")
     -- pin:Hide();
-    FramePool_HideAndClearAnchors(pinPool, pin)
+    -- FramePool_HideAndClearAnchors(pinPool, pin)
+    pin:Hide();
+	pin:ClearAllPoints();
     -- pin:Hide();
 
     -- pin:ClearAllPoints()

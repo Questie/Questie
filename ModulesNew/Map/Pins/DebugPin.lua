@@ -59,25 +59,26 @@ function DebugPinMixin:GetIconScale(uiMapId)    --? Scale the icon based on what
 end
 
 function DebugPinMixin:OnReleased()
-
+    print("DebugPinMixin OnReleased")
 end
 
 function DebugPinMixin:OnClick(button)
     -- Override in your mixin, called when this pin is clicked
+    print("DebugPinMixin OnClick", button)
 end
 
 function DebugPinMixin:OnMouseUp()
-
+    print("DebugPinMixin OnMouseUp")
 end
 
 function DebugPinMixin:OnTooltip()
-
+    print("DebugPinMixin OnTooltip")
 end
 
 function DebugPinMixin:OnMouseEnter()
-    print("OnMouseLeave")
+    print("DebugPinMixin OnMouseEnter")
 end
 
 function DebugPinMixin:OnMouseLeave()
-    print("OnMouseLeave")
+    print("DebugPinMixin OnMouseLeave")
 end
