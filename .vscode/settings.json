@@ -2730,8 +2730,21 @@
         ".\\.types\\.SubModules\\vscode-wow-api\\EmmyLua\\Optional",
     ],
 
-    "Lua.workspace.preloadFileSize": 3000,
-    "Lua.workspace.maxPreload": 2000,
+    "Lua.runtime.version": "Lua 5.1", // WoW runs a modified 5.1
+    "Lua.workspace.preloadFileSize": 3000, // Max preload size of files, needs to be big
+    "Lua.workspace.maxPreload": 10000, // Max number of preloaded files
+    "Lua.telemetry.enable": false, //Telemetry
+    "Lua.completion.displayContext": 0, // Suggested settings for wow-api
+    "Lua.hover.enumsLimit": 5, // Suggested settings for wow-api
+
+    // Default formatter for the language
+    "[lua]": {
+        // "editor.formatOnSave": true, // always format on save
+        // "editor.formatOnSaveMode": "modifications", // only format modified lines
+        "editor.defaultFormatter": "sumneko.lua" // use sumneko.lua as default formatter
+    },
+    //Optional
+    // "Lua.hover.expandAlias": false, // This shows the alias type instead of the primitive type
 
     "search.exclude": {
         ".luacheckrc": true,
