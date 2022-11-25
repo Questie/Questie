@@ -31,11 +31,13 @@ ModulesNew\Map\Helpers\Bezier.lua
 # Thread Manager
 Modules\Libs\ThreadLib.lua
 
-#Message Handler
+#* Event bus *#
 ModulesNew\EventBus\EventBusFactory.lua
-
-# System Bus
+## System Bus
 ModulesNew\EventBus\SystemEventBus.lua
+## Event bus
+ModulesNew\EventBus\QuestEventBus.lua
+ModulesNew\EventBus\MapEventBus.lua
 
 #Quest XP
 Database\QuestXP\QuestieXP.lua
@@ -219,11 +221,6 @@ Modules\QuestieProfiler.lua
 
 # Main
 Questie.lua
-
-
-# Event bus
-ModulesNew\EventBus\QuestEventBus.lua
-ModulesNew\EventBus\MapEventBus.lua
 
 
 
