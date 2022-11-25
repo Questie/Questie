@@ -228,7 +228,6 @@ Questie.lua
 ## General
 ModulesNew\Map\Processor\SpawnProcessor.lua
 ## Relation
-ModulesNew\Map\Processor\RelationsData.lua
 ModulesNew\Map\Processor\RelationsProcessor.lua
 
 
