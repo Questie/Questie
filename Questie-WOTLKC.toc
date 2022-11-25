@@ -237,8 +237,8 @@ ModulesNew\Map\Processor\RelationsProcessor.lua
 ModulesNew\Map\PinTemplates.lua
 
 ##* Map Helpers
-ModulesNew\Map\Helpers\PinAnimationHelper.lua
-ModulesNew\Map\Helpers\WaypointAnimationHelper.lua
+ModulesNew\Map\Helpers\Animation\PinAnimationHelper.lua
+ModulesNew\Map\Helpers\Animation\WaypointAnimationHelper.lua
 
 ##* Framepools
 ModulesNew\Map\FramePools\FramePoolMap.lua
