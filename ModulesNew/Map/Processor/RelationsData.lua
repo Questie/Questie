@@ -6,6 +6,8 @@ local RelationDataProcessor = QuestieLoader:CreateModule("RelationDataProcessor"
 local ZoneDB = QuestieLoader("ZoneDB")
 ---@type MapCoordinates
 local MapCoodinates = QuestieLoader("MapCoordinates")
+---@type SpawnProcessor
+local SpawnProcessor = QuestieLoader("SpawnProcessor")
 
 --- Lib Imports ---
 
@@ -22,18 +24,6 @@ RelationDataProcessor.BezierLib = BezierLib
 
 -- Math
 local sqrt, floor = math.sqrt, math.floor
-
--- Contains processed waypoints
--- This is a weak table so references to the table will be removed when the table is no longer used
--- The references are being kept and calculated in ProcessAvailableQuests and ProcessCompletedQuests
-local ProcessedWaypoints = setmetatable({}, { __mode = "kv" })
-RelationDataProcessor.ProcessedWaypoints = ProcessedWaypoints
-
--- Contains processed spawns
--- This is a weak table so references to the table will be removed when the table is no longer used
--- The references are being kept and calculated in ProcessAvailableQuests and ProcessCompletedQuests
-local ProcessedSpawns = setmetatable({}, { __mode = "kv" })
-RelationDataProcessor.ProcessedSpawns = ProcessedSpawns
 
 ---Get the dungeon locations in the correct format or false(because we can't save nil)
 ---@param AreaId AreaId
@@ -77,10 +67,12 @@ local DungeonLocations = setmetatable({}, {
 ---@param id NpcId|ObjectId|ItemId
 ---@param data table
 ---@param idType RelationPointType
----@param QuerySingleFunction fun(id: NpcId|ObjectId|ItemId, query: "spawns"): table<AreaId, {[1]: MapX, [2]: MapY}[]>>
+---@param spawnType "NPC"| "Object"
+----@param QuerySingleFunction fun(id: NpcId|ObjectId|ItemId, query: "spawns"): table<AreaId, {[1]: MapX, [2]: MapY}[]>>
 ---@param itemId ItemId? -- This is used to override the ID which is added into starterIcons
----@return boolean? ProcessedSpawns @ This is true if we run the really expensive operations
-function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, QuerySingleFunction, itemId)
+---@return boolean? expensiveOperation @ True = processed, False = cached, nil = no spawns exists
+---@return table<AreaId, Coordinates>? Spawns @ The processed spawns
+function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, spawnType, itemId)
     if starterIcons == nil or type(starterIcons) ~= "table" then
         error("GetSpawns called with invalid starterIcons")
         return
@@ -93,60 +85,16 @@ function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, QuerySi
     elseif idType ~= "npc" and idType ~= "object" and idType ~= "item" and idType ~= "npcFinisher" and idType ~= "objectFinisher" then
         error("GetSpawns called with invalid type")
         return
-    elseif QuerySingleFunction == nil or type(QuerySingleFunction) ~= "function" then
-        error("GetSpawns called with invalid QuerySingleFunction")
+    elseif spawnType == nil or type(spawnType) ~= "string" then
+        error("GetSpawns called with invalid spawnType")
         return
     elseif itemId ~= nil and type(itemId) ~= "number" and idType == "item" then
         error("GetSpawns called with invalid itemId")
         return
     end
-    local processedSpawns = true
-    local spawns = ProcessedSpawns[id] or QuerySingleFunction(id, "spawns")
+    local processedSpawns, spawns = SpawnProcessor.GetSpawns(id, spawnType)
     if spawns ~= nil then
-        ---@type table<AreaId, {x: MapX[], y: MapY[]}>>
-        local starter
-        if not ProcessedSpawns[id] then
-            starter = {}
-            for SpawnAreaId, coords in pairs(spawns) do
-
-                local dungeonLocation = DungeonLocations[SpawnAreaId]
-
-                if starter[SpawnAreaId] == nil and not dungeonLocation then
-                    starter[SpawnAreaId] = { x = {}, y = {} }
-                end
-
-                if not dungeonLocation then
-                    for coordIndex = 1, #coords do
-                        local coord = coords[coordIndex]
-                        local index = #starter[SpawnAreaId].x + 1
-                        -- Add the coordinates to the table
-                        starter[SpawnAreaId].x[index] = coord[1]
-                        starter[SpawnAreaId].y[index] = coord[2]
-                    end
-                else
-                    for areaId, dungeonCoords in pairs(dungeonLocation) do
-                        if starter[areaId] == nil then
-                            starter[areaId] = { x = {}, y = {} } --, areaId = areaId
-                        end
-                        for coordIndex = 1, #dungeonCoords.x do
-                            local x = dungeonCoords.x[coordIndex]
-                            local y = dungeonCoords.y[coordIndex]
-                            local index = #starter[areaId].x + 1
-                            -- Add the coordinates to the table
-                            starter[areaId].x[index] = x
-                            starter[areaId].y[index] = y
-                        end
-                    end
-                end
-            end
-            --* Set the processed spawns
-            ProcessedSpawns[id] = starter
-        else
-            --* Use the previously processed spawns
-            starter = spawns
-            processedSpawns = false
-        end
-        for areaId, coords in pairs(starter) do
+        for areaId, coords in pairs(spawns) do
             if coords.x and coords.y then
                 for i = 1, #coords.x do
 
@@ -205,16 +153,16 @@ function RelationDataProcessor.GetSpawns(starterIcons, id, data, idType, QuerySi
             end
         end
     end
-    return processedSpawns
+    return processedSpawns, spawns
 end
 
 ---@param starterWaypoints table<UiMapId, AvailableWaypointPoints>
 ---@param id NpcId|ObjectId|ItemId
 ---@param data table
 ---@param idType RelationPointType
----@param QuerySingleFunction fun(id: NpcId|ObjectId|ItemId, query: "waypoints"): table<AreaId, {[1]: MapX, [2]: MapY}[]>>
 ---@param itemId ItemId? -- This is used to override the ID which is added into starterWaypoints
 ---@return boolean? ProcessedWaypoints @ This is true if we run the really expensive operations
+---@return table<AreaId, {x: MapX[], y: MapY[], waypointIndex: number[]}>? Waypoints @ The processed spawns
 function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, QuerySingleFunction, itemId)
     if starterWaypoints == nil or type(starterWaypoints) ~= "table" then
         error("GetSpawns called with invalid starterWaypoints")
@@ -228,106 +176,15 @@ function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, 
     elseif idType ~= "npc" and idType ~= "object" and idType ~= "item" and idType ~= "npcFinisher" and idType ~= "objectFinisher" then
         error("GetSpawns called with invalid type")
         return
-    elseif QuerySingleFunction == nil or type(QuerySingleFunction) ~= "function" then
-        error("GetSpawns called with invalid QuerySingleFunction")
-        return
     elseif itemId ~= nil and type(itemId) ~= "number" and idType == "item" then
         error("GetSpawns called with invalid itemId")
         return
     end
-    local processedWaypoints = true
-    local waypoints = ProcessedWaypoints[id] or QuerySingleFunction(id, "waypoints")
+    -- local processedWaypoints = true
+    -- local waypoints = ProcessedWaypoints[id] or QuerySingleFunction(id, "waypoints")
+    local processedWaypoints, waypoints = SpawnProcessor.GetWaypoints(id)
     if waypoints ~= nil then
-        ---@type table<AreaId, {x: MapX[], y: MapY[], waypointIndex: number[]}>>
-        local starter
-        if not ProcessedWaypoints[id] then
-            starter = {}
-            for zoneId, waypointsList in pairs(waypoints) do
-                local UiMapId = ZoneDB:GetUiMapIdByAreaId(zoneId)
-                local lastPos
-                if starter[zoneId] == nil then
-                    starter[zoneId] = { x = {}, y = {}, waypointIndex = {} }
-                end
-                for waypointListIndex, rawWaypoints in pairs(waypointsList or {}) do
-                    SplineLib:ClearPoints()
-                    for waypointIndex = 1, #rawWaypoints do
-                        local waypoint = rawWaypoints[waypointIndex]
-                        SplineLib:AddPoint(waypoint[1], waypoint[2])
-                    end
-                    local newLines = {}
-                    local percentageBetweenPoints = 0.10
-                    for i = 2, SplineLib.numPoints do -- Same as SplineLib:GetNumPoints()
-                        for subPoint = 1, floor(1 / percentageBetweenPoints) do
-                            --print(subPoint*percentageBetweenPoints)
-                            --It should never be 0 or 1, but due to us starting on 1 we only need to check for 1
-                            if (subPoint * percentageBetweenPoints ~= 1) then
-                                -- local x, y = SplineLib:CalculatePointOnLocalCurveSegment(i, subPoint * percentageBetweenPoints)
-                                local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
-                                                                         unpack(SplineLib.pointData, (i - 2) * SplineLib.numDimensions + 1,
-                                                                                (i + 2) * SplineLib.numDimensions));
-                                -- print((i - 2) * SplineLib.numDimensions + 1, (i + 2) * SplineLib.numDimensions)
-                                -- local index = (i - 2) * SplineLib.numDimensions + 1
-                                -- local x, y = SplineLib.calculateFunction(subPoint * percentageBetweenPoints,
-                                -- SplineLib.pointData[index], SplineLib.pointData[index + 1], SplineLib.pointData[index + 2],
-                                -- SplineLib.pointData[index + 3], SplineLib.pointData[index + 4], SplineLib.pointData[index + 5],
-                                -- SplineLib.pointData[index + 6], SplineLib.pointData[index + 7]
-                                -- );
-                                local point = { x = x, y = y }
-                                newLines[#newLines + 1] = point
-                            end
-                        end
-                    end
-                    local pReduce = 0.03
-                    BezierLib.points = newLines -- BezierLib:setPoints(newLines)
-                    --BezierLib:setAutoStepScale(1)
-                    BezierLib:reduce(pReduce)
-
-                    local points = BezierLib.points --BezierLib:getPoints()
-                    lastPos = nil
-                    for pointIndex = 1, #points do
-                        local point = points[pointIndex]
-                        if (lastPos == nil) then
-                            lastPos = point;
-                        else
-                            starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
-                            starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
-                            starter[zoneId].x[#starter[zoneId].x + 1] = point.x
-                            starter[zoneId].y[#starter[zoneId].y + 1] = point.y
-                            starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
-                            starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
-                            lastPos = point;
-                        end
-                    end
-
-                    --TODO: Fix
-                    if (lastPos and lastPos ~= points[1]) then
-                        local firstPoint = points[1]
-                        if MapCoodinates.Maps[UiMapId] then
-                            local x1, y1 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(lastPos.x, lastPos.y)
-                            local x2, y2 = MapCoodinates.Maps[UiMapId]:ToWorldCoordinate(firstPoint.x, firstPoint.y)
-
-                            local sqDistance = sqrt(SquaredDistanceBetweenPoints(x1, y1, x2, y2))
-                            --We get TexCoords error if the disatnce is to low!
-                            if (sqDistance > 0.05 and sqDistance < 0.2) then
-                                starter[zoneId].x[#starter[zoneId].x + 1] = lastPos.x
-                                starter[zoneId].y[#starter[zoneId].y + 1] = lastPos.y
-                                starter[zoneId].x[#starter[zoneId].x + 1] = firstPoint.x
-                                starter[zoneId].y[#starter[zoneId].y + 1] = firstPoint.y
-                                starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
-                                starter[zoneId].waypointIndex[#starter[zoneId].waypointIndex + 1] = waypointListIndex
-                            end
-                        end
-                    end
-                end
-            end
-            --* Set the processed waypoints
-            ProcessedWaypoints[id] = starter
-        else
-            --* Use the previously processed waypoints
-            starter = waypoints
-            processedWaypoints = false
-        end
-        for areaId, coords in pairs(starter) do
+        for areaId, coords in pairs(waypoints) do
             if coords.x and coords.y then
                 local UiMapId = ZoneDB:GetUiMapIdByAreaId(areaId)
                 for i = 1, #coords.x do
@@ -391,5 +248,5 @@ function RelationDataProcessor.GetWaypoints(starterWaypoints, id, data, idType, 
             end
         end
     end
-    return processedWaypoints
+    return processedWaypoints, waypoints
 end

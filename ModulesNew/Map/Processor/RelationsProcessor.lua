@@ -17,6 +17,8 @@ local ZoneDB = QuestieLoader("ZoneDB")
 local MapCoodinates = QuestieLoader("MapCoordinates")
 ---@type RelationDataProcessor
 local RelationDataProcessor = QuestieLoader("RelationDataProcessor")
+---@type SpawnProcessor
+local SpawnProcessor = QuestieLoader("SpawnProcessor")
 
 --- Pin Imports ---
 -- Pin Mixin
@@ -36,7 +38,7 @@ local wipe = wipe
 
 local yield = coroutine.yield
 
-
+--? These are important to keep cached information available, if they are wiped the CG will remove the data.
 -- This contains references to the processed waypoints
 -- Keeps the weak tables of ProcessedWaypoints from being garbage collected
 local AvailableProcessedWaypoints = {}
@@ -52,6 +54,7 @@ local AvailableProcessedSpawns = {}
 -- This contains references to the processed spawns
 -- Keeps the weak tables of ProcessedSpawns from being garbage collected
 local CompleteProcessedSpawns = {}
+-- ************
 
 
 local wayPointColor = { r = 1, g = 0.72, b = 0, a = 0.5 }
@@ -179,37 +182,40 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     --? This is used to remove spawns that are no longer in use
     wipe(CompleteProcessedSpawns)
 
-    -- Up value
-    local processedWaypoints = RelationDataProcessor.ProcessedWaypoints
-    local processedSpawns = RelationDataProcessor.ProcessedSpawns
-
     ---@type table<UiMapId, AvailablePoints>
     local finisherIcons = {}
     ---@type table<UiMapId, AvailableWaypointPoints>
     local finisherWaypoints = {}
     for npcId, npcData in pairs(ShowData.NPC) do
         if npcData.finisher then
-            RelationDataProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
-            local expensiveOperation = RelationDataProcessor.GetWaypoints(finisherWaypoints, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
-            CompleteProcessedWaypoints[npcId] = processedWaypoints[npcId]
-            CompleteProcessedSpawns[npcId] = processedSpawns[npcId]
+            local _, spawns = RelationDataProcessor.GetSpawns(finisherIcons, npcId, npcData.finisher, "npcFinisher", "NPC")
+            if spawns then
+                CompleteProcessedSpawns[spawns] = true
+                local expensiveOperation, waypoints = RelationDataProcessor.GetWaypoints(finisherWaypoints, npcId, npcData.finisher, "npcFinisher", QuestieDB.QueryNPCSingle)
+                if waypoints then
+                    CompleteProcessedWaypoints[waypoints] = true
+                end
+                -- -- We add another one if the operation is expensive
+                -- if expensiveOperation then
+                --     count = count + 10
+                -- end
+            end
             -- Yield
             -- if count > CountPerYield then
             --     count = 0
             --     yield()
             -- else
             --     count = count + 1
-            --     -- We add another one if the operation is expensive
-            --     if expensiveOperation then
-            --         count = count + 10
-            --     end
             -- end
         end
     end
     print("CompleteIcons NPC Done")
     for objectId, objectData in pairs(ShowData.GameObject) do
         if objectData.finisher then
-            RelationDataProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", QuestieDB.QueryObjectSingle)
+            local _, spawns = RelationDataProcessor.GetSpawns(finisherIcons, objectId, objectData.finisher, "objectFinisher", "NPC")
+            if spawns then
+                CompleteProcessedSpawns[spawns] = true
+            end
             -- Yield
             -- if count > CountPerYield then
             --     count = 0
@@ -280,7 +286,7 @@ function RelationMapProcessor.ProcessCompletedQuests(ShowData)
     end
     print("CompleteIcons REGISTER Done")
     -- yield()
-    MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
+    MapEventBus:Fire(MapEventBus.events.REDRAW_ALL_RELATIONS)
 end
 
 ---comment
@@ -299,10 +305,6 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     --? This is used to remove spawns that are no longer in use
     wipe(AvailableProcessedSpawns)
 
-    -- Up value
-    local processedWaypoints = RelationDataProcessor.ProcessedWaypoints
-    local processedSpawns = RelationDataProcessor.ProcessedSpawns
-
     ---@type table<UiMapId, AvailablePoints>
     local starterIcons = {}
     ---@type table<UiMapId, AvailableWaypointPoints>
@@ -310,10 +312,16 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     for npcId, npcData in pairs(ShowData.NPC) do
         -- If a NPC has a start, it is a starter. However, if it has a finisher we skip it
         if npcData.available and npcData.finisher == nil then
-            RelationDataProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
-            local expensiveOperation = RelationDataProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
-            AvailableProcessedWaypoints[npcId] = processedWaypoints[npcId]
-            AvailableProcessedSpawns[npcId] = processedSpawns[npcId]
+            -- RelationDataProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", QuestieDB.QueryNPCSingle)
+            local _, spawns = RelationDataProcessor.GetSpawns(starterIcons, npcId, npcData.available, "npc", "NPC")
+            if spawns then
+                AvailableProcessedSpawns[spawns] = true
+
+                local expensiveOperation, waypoints = RelationDataProcessor.GetWaypoints(starterWaypoints, npcId, npcData.available, "npc")
+                if waypoints then
+                    AvailableProcessedWaypoints[waypoints] = true
+                end
+            end
             -- Yield
             -- if count > CountPerYield then
             --     count = 0
@@ -327,11 +335,16 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
             -- end
         end
     end
+
+    local processedObjectSpawns = SpawnProcessor.ProcessedObjectSpawns
     print("StarterIcons NPC Done")
     for objectId, objectData in pairs(ShowData.GameObject) do
         -- If a GameObject has a start, it is a starter. However, if it has a finisher we skip it
         if objectData.available and objectData.finisher == nil then
-            RelationDataProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", QuestieDB.QueryObjectSingle)
+            local _, spawns = RelationDataProcessor.GetSpawns(starterIcons, objectId, objectData.available, "object", "Object")
+            if spawns then
+                AvailableProcessedSpawns[spawns] = true
+            end
             -- Yield
             -- if count > CountPerYield then
             --     count = 0
@@ -441,7 +454,7 @@ function RelationMapProcessor.ProcessAvailableQuests(ShowData)
     end
     print("StarterIcons REGISTER Done")
     -- yield()
-    MapEventBus:Fire(MapEventBus.events.REDRAW_ALL)
+    MapEventBus:Fire(MapEventBus.events.REDRAW_ALL_RELATIONS)
 end
 
 --------------------------------------------

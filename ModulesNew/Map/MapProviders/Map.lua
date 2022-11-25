@@ -42,7 +42,7 @@ local function Initialize()
     -- Create framelevels for this provider
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_COMPLETE", "PIN_FRAME_LEVEL_AREA_POI", 100)
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelAbove("PIN_FRAME_LEVEL_AREA_POI_AVAILABLE", "PIN_FRAME_LEVEL_AREA_POI", 100)
-    MapEventBus:RegisterRepeating(MapEventBus.events.REDRAW_ALL, function()
+    MapEventBus:RegisterRepeating(MapEventBus.events.REDRAW_ALL_RELATIONS, function()
         if MapProvider and WorldMapFrame:IsVisible() then
             RemoveAllPins()
             DrawAllPins()

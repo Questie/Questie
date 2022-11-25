@@ -43,7 +43,7 @@ end
 local function Initialize()
     -- Create framelevels for this provider
     WorldMapFrame:GetPinFrameLevelsManager():InsertFrameLevelBelow("PIN_FRAME_LEVEL_AREA_POI_WAYPOINTS", "PIN_FRAME_LEVEL_DUNGEON_ENTRANCE")
-    MapEventBus:RegisterRepeating(MapEventBus.events.REDRAW_ALL, function()
+    MapEventBus:RegisterRepeating(MapEventBus.events.REDRAW_ALL_RELATIONS, function()
         if WaypointMapProvider and WorldMapFrame:IsVisible() then
             RemoveAllPins()
             DrawAllPins()

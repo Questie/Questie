@@ -20,6 +20,8 @@ local simpleEvents = {
     REDRAW_ALL = "REDRAW_ALL",
 
     --* Relation Events
+    ---@type SimpleEvent
+    REDRAW_ALL_RELATIONS = "REDRAW_ALL_RELATIONS",
 
     ---@type SimpleEvent
     REMOVE_ALL_AVAILABLE = "REMOVE_ALL_AVAILABLE",
