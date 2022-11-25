@@ -842,32 +842,30 @@ function QuestieMap:GetNearestSpawn(objective)
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
     -- TODO: This is just a temporary workaround - We have to find out why "objective.spawnList" can be nil
-	C_Timer.After(2, function()
-		if next(objective.spawnList) then
-			for id, spawnData in pairs(objective.spawnList) do
-				for zone, spawns in pairs(spawnData.Spawns) do
-					for _,spawn in pairs(spawns) do
-						local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-						local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, uiMapId)
-						local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
-						if dist then
-							if dInstance ~= playerI then
-								dist = 500000 + dist * 100 -- hack
-							end
-							if dist < bestDistance then
-								bestDistance = dist
-								bestSpawn = spawn
-								bestSpawnZone = zone
-								bestSpawnId = id
-								bestSpawnType = spawnData.Type
-								bestSpawnName = spawnData.Name
-							end
-						end
-					end
-				end
-			end
-		end
-	end)
+    if objective and objective.spawnList and next(objective.spawnList) then
+        for id, spawnData in pairs(objective.spawnList) do
+            for zone, spawns in pairs(spawnData.Spawns) do
+                for _, spawn in pairs(spawns) do
+                    local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
+                    local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
+                    if dist then
+                        if dInstance ~= playerI then
+                            dist = 500000 + dist * 100 -- hack
+                        end
+                        if dist < bestDistance then
+                            bestDistance = dist
+                            bestSpawn = spawn
+                            bestSpawnZone = zone
+                            bestSpawnId = id
+                            bestSpawnType = spawnData.Type
+                            bestSpawnName = spawnData.Name
+                        end
+                    end
+                end
+            end
+        end
+    end
     return bestSpawn, bestSpawnZone, bestSpawnName, bestSpawnId, bestSpawnType, bestDistance
 end
 
