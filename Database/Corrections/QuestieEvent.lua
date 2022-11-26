@@ -816,6 +816,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A W
 
 --- Wotlk event quests
 
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13483}) -- Spring Gatherers
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13479}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13480}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13502}) -- A Tisket, a Tasket, a Noblegarden Basket
@@ -875,8 +877,6 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13474}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13501}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13548}) -- Candy Bucket
 
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13483}) -- Spring Gatherers
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14036}) -- Pilgrim's Bounty
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14022}) -- Pilgrim's Bounty
 
