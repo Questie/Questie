@@ -377,6 +377,9 @@ function QuestieWotlkQuestFixes:Load()
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
         },
+        [11688] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
         },
