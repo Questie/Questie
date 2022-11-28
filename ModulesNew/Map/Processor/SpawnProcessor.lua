@@ -20,6 +20,9 @@ local BezierLib = Bezier:CreateBezier();
 local sqrt, floor = math.sqrt, math.floor
 local type, unpack = type, unpack
 
+--? This design pattern allows us to keep a temporary cache of the processed coordinate data
+--? It keeps it until next collection unless the table is stored somewhere else,
+--? then it will be kept until that reference is removed
 -- Contains processed waypoints (Only NPCs for obvious reasons)
 -- This is a weak table so references to the table will be removed when the table is no longer used
 -- The references are being kept and calculated in ProcessAvailableQuests and ProcessCompletedQuests
