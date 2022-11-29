@@ -246,10 +246,10 @@ ModulesNew\Map\FramePools\FramePoolMap.lua
 ModulesNew\Map\FramePools\FramePoolWaypoint.lua
 
 ##* Pins
-ModulesNew\Map\Pins\BasePin.lua
-ModulesNew\Map\Pins\DebugPin.lua
-ModulesNew\Map\Pins\RelationPin.lua
-ModulesNew\Map\Pins\WaypointPin.lua
+ModulesNew\Map\Pins\Map\BasePin.lua
+ModulesNew\Map\Pins\Map\DebugPin.lua
+ModulesNew\Map\Pins\Map\RelationPin.lua
+ModulesNew\Map\Pins\Map\WaypointPin.lua
 
 ##* Map Providers
 ModulesNew\Map\MapProviders\Map.lua
