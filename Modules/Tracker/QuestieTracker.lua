@@ -1050,8 +1050,7 @@ function QuestieTracker:Update()
 
         end
 
-        _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
-        _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderWidth, _QuestieTracker.baseFrame:GetHeight())
+        QuestieCompat.SetResizeBounds(_QuestieTracker.baseFrame, activeQuestsHeaderWidth, _QuestieTracker.baseFrame:GetHeight(), GetScreenWidth()/2, GetScreenHeight())
         _QuestieTracker.trackedQuestsFrame:Show()
     end
 
