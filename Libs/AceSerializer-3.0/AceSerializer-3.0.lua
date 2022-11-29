@@ -10,7 +10,7 @@
 -- make into AceSerializer.
 -- @class file
 -- @name AceSerializer-3.0
--- @release $Id: AceSerializer-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
+-- @release $Id: AceSerializer-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 local MAJOR,MINOR = "AceSerializer-3.0", 5
 local AceSerializer, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
@@ -83,9 +83,9 @@ local function SerializeValue(v, res, nres)
 	elseif t=="table" then	-- ^T...^t = table (list of key,value pairs)
 		nres=nres+1
 		res[nres] = "^T"
-		for k,v in pairs(v) do
-			nres = SerializeValue(k, res, nres)
-			nres = SerializeValue(v, res, nres)
+		for key,value in pairs(v) do
+			nres = SerializeValue(key, res, nres)
+			nres = SerializeValue(value, res, nres)
 		end
 		nres=nres+1
 		res[nres] = "^t"
