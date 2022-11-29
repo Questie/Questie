@@ -104,6 +104,30 @@ function MinimapCanvasMixin:UpdateMinimapZoom()
         if self.lastZoom ~= doubleCheckZoom then
             self.lastZoom = doubleCheckZoom
         end
+        if self.indoors == "outdoor" then
+            self.minimapSizeX = (outdoorZoom0[1] / minimap_scale.outdoor[self.lastZoom]) / 2
+            self.minimapSizeY = (outdoorZoom0[2] / minimap_scale.outdoor[self.lastZoom]) / 2
+        else
+            self.minimapSizeX = (indoorZoom0[1] / minimap_scale.indoor[self.lastZoom]) / 2
+            self.minimapSizeY = (indoorZoom0[2] / minimap_scale.indoor[self.lastZoom]) / 2
+        end
+        -- What is the distance required to update
+        if self.indoors == "outdoor" then
+            -- We don't need the faster update rate that zoom 4 would provide
+            if self.lastZoom >= 1 then
+                self.distance = (self.baseDistance) / minimap_scale.outdoor[self.lastZoom - 1]
+            else
+                self.distance = (self.baseDistance) / minimap_scale.outdoor[self.lastZoom]
+            end
+        else
+            -- We don't need the faster update rate that zoom 4 would provide
+            if self.lastZoom >= 2 then
+                self.distance = (self.baseDistance / 2) / minimap_scale.indoor[self.lastZoom - 2]
+            else
+                self.distance = (self.baseDistance / 2) / minimap_scale.indoor[self.lastZoom]
+            end
+        end
+        self.debugText:Print("MinDistance", self.distance)
         self.debugText:Print("Zoom", self.lastZoom, self.indoors)
     end)
     -- self.updateZoom = false
@@ -118,6 +142,9 @@ function MinimapCanvasMixin:OnLoad()
     self.dataProviderEventsCount = {};
     self.pinPools = {};
     self.pinTemplateTypes = {};
+
+    self.pins = {}
+
     -- self.activeAreaTriggers = {};
     -- self.lockReasons = {};
     -- self.pinsToNudge = {};
@@ -147,6 +174,8 @@ function MinimapCanvasMixin:OnLoad()
         self.updateZoom = true
     end)
 
+    self.pinsToKeep = {}
+
     -- Initialize the zoom
     self:UpdateMinimapZoom()
 
@@ -156,8 +185,9 @@ function MinimapCanvasMixin:OnLoad()
     local timeElapsed = 0
     -- local lastFacing = 0 -- For rotating
     local ticksSinceLastZoomUpdate = 0
-    local baseDistance = 0.5
-    local distance = 0.5
+    self.baseDistance = 0.5
+    self.distance = 0.5
+    local slow = 0
     self.eventFrame:SetScript("OnUpdate", function(_, elapsed)
         timeElapsed = timeElapsed + elapsed
         if timeElapsed >= 0.03125 then -- 30 fps
@@ -173,24 +203,6 @@ function MinimapCanvasMixin:OnLoad()
                 ticksSinceLastZoomUpdate = ticksSinceLastZoomUpdate + 1
             end
 
-            -- What is the distance required to update
-            if self.indoors == "outdoor" then
-                -- We don't need the faster update rate that zoom 4 would provide
-                if self.lastZoom >= 1 then
-                    distance = (baseDistance) / minimap_scale.outdoor[self.lastZoom - 1]
-                else
-                    distance = (baseDistance) / minimap_scale.outdoor[self.lastZoom]
-                end
-            else
-                -- We don't need the faster update rate that zoom 4 would provide
-                if self.lastZoom >= 2 then
-                    distance = (baseDistance / 2) / minimap_scale.indoor[self.lastZoom - 2]
-                else
-                    distance = (baseDistance / 2) / minimap_scale.indoor[self.lastZoom]
-                end
-            end
-            self.debugText:Print("MinDistance", distance)
-
 
             local playerX, playerY = UnitPosition("player");
             if playerX and playerY then
@@ -198,7 +210,7 @@ function MinimapCanvasMixin:OnLoad()
                 local yd = playerY - self.lastPlayerY;
                 if xd < 0 then xd = -xd end
                 if yd < 0 then yd = -yd end
-                if (xd * xd + yd * yd) ^ 0.5 > distance then -- ^ 0.5 is sqrt but faster
+                if (xd * xd + yd * yd) ^ 0.5 > self.distance then -- ^ 0.5 is sqrt but faster
                     -- if xd * xd + yd * yd > 2*2 then Sqr distance
                     self.lastPlayerX, self.lastPlayerY = playerX, playerY;
                     self.debugText:Print("Distance since lastPos", ((xd * xd + yd * yd) ^ 0.5))
@@ -210,6 +222,10 @@ function MinimapCanvasMixin:OnLoad()
     end)
 
     -- Debug shit
+
+    self.minimapWidth = Minimap:GetWidth() / 2
+    self.minimapHeight = Minimap:GetHeight() / 2
+
     -- ---@type FramePoolMinimap
     -- local FramePoolMinimap = QuestieLoader:ImportModule("FramePoolMinimap")
     -- local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
@@ -233,85 +249,138 @@ function MinimapCanvasMixin:OnLoad()
     -- testFrame.x, testFrame.y = GetPlayerWorldPosFast(1413)
 end
 
+local function map(x, in_min, in_max, out_min, out_max)
+    return out_min + (x - in_min)*(out_max - out_min)/(in_max - in_min)
+end
+
 function MinimapCanvasMixin:UpdateMinimap()
     -- print("MOVED")
     local mapID = C_Map.GetBestMapForUnit("player");
-    local x, y = GetPlayerWorldPosFast(mapID)
+    local x, y = MapCoordinates.GetPlayerWorldPosFast(mapID)
 
-    local minimapShape = GetMinimapShape and minimap_shapes[GetMinimapShape() or "ROUND"]
+    local minimapShape = "SQUARE" --GetMinimapShape and minimap_shapes[GetMinimapShape() or "ROUND"]
 
-    local minimapWidth = Minimap:GetWidth() / 2
-    local minimapHeight = Minimap:GetHeight() / 2
+    -- local minimapWidth = Minimap:GetWidth() / 2
+    -- local minimapHeight = Minimap:GetHeight() / 2
     -- local minimapSizeX, minimapSizeY = minimap_size[self.indoors][self.lastZoom][1] / 2, minimap_size[self.indoors][self.lastZoom][2] / 2
 
-    local minimapSizeX, minimapSizeY
-    if self.indoors == "outdoor" then
-        minimapSizeX, minimapSizeY = outdoorZoom0[1] / minimap_scale.outdoor[self.lastZoom],
-            outdoorZoom0[2] / minimap_scale.outdoor[self.lastZoom]
-    else
-        minimapSizeX, minimapSizeY = indoorZoom0[1] / minimap_scale.indoor[self.lastZoom],
-            indoorZoom0[2] / minimap_scale.indoor[self.lastZoom]
-    end
+    local minimapWidth = self.minimapWidth
+    local minimapHeight = self.minimapHeight
+    local minimapSizeX = self.minimapSizeX
+    local minimapSizeY = self.minimapSizeY
 
-    if true then
-        return
-    end
-    -- for rotating minimap support
-    -- local facing
-    -- if rotateMinimap then
-    --     facing = GetPlayerFacing()
-    -- else
-    --     facing = 0
-    -- end
+    local count = 0
+    for pinIndex = 1, #self.pins do
+        -- for pin in self:EnumerateAllPins() do
+        local pin = self.pins[pinIndex]
+
+        -- When a pin has been released it will not have x and y
+        if pin ~= nil and pin.x ~= nil then
+
+            -- for rotating minimap support
+            -- local facing
+            -- if rotateMinimap then
+            --     facing = GetPlayerFacing()
+            -- else
+            --     facing = 0
+            -- end
 
 
-    local xDist, yDist = x - testFrame.x, y - testFrame.y
+            local xDist, yDist = x - pin.x, y - pin.y
+            if (xDist * xDist + yDist * yDist) ^ 0.5 < (pin.maxDistance or 2) then
 
-    -- handle rotation
-    -- if rotateMinimap then
-    --     local dx, dy = xDist, yDist
-    --     local mapSin = sin(facing)
-    --     local mapCos = cos(facing)
-    --     xDist = dx*mapCos - dy*mapSin
-    --     yDist = dx*mapSin + dy*mapCos
+                -- handle rotation
+                -- if rotateMinimap then
+                --     local dx, dy = xDist, yDist
+                --     local mapSin = sin(facing)
+                --     local mapCos = cos(facing)
+                --     xDist = dx*mapCos - dy*mapSin
+                --     yDist = dx*mapSin + dy*mapCos
 
-    --     print(xDist > 0 and "+" or "-", yDist > 0 and "+" or "-")
-    -- end
+                --     print(xDist > 0 and "+" or "-", yDist > 0 and "+" or "-")
+                -- end
 
-    -- adapt delta position to the map radius
-    local diffX = xDist / (minimapSizeX / 2)
-    local diffY = yDist / (minimapSizeY / 2)
+                -- adapt delta position to the map radius
+                local diffX = xDist / minimapSizeX
+                local diffY = yDist / minimapSizeY
 
-    -- different minimap shapes
-    ---@type boolean|number
-    local isRound = true
-    if minimapShape and not (xDist == 0 or yDist == 0) then
-        isRound = (xDist < 0) and 1 or 3
-        if yDist < 0 then
-            isRound = minimapShape[isRound]
-        else
-            isRound = minimapShape[isRound + 1]
+                -- different minimap shapes
+                ---@type boolean|number
+                local isRound = true
+                if minimapShape and not (xDist == 0 or yDist == 0) then
+                    isRound = (xDist < 0) and 1 or 3
+                    if yDist < 0 then
+                        isRound = minimapShape[isRound]
+                    else
+                        isRound = minimapShape[isRound + 1]
+                    end
+                end
+
+                -- calculate distance from the center of the map
+                local dist
+                if isRound then
+                    dist = ((diffX * diffX + diffY * diffY) / 0.9 ^ 2)
+                else
+                    local useDiff = diffX * diffX
+                    if diffY * diffY > useDiff then
+                        useDiff = diffY * diffY
+                    end
+                    dist = (useDiff / 0.9 ^ 2)
+                end
+
+                -- if distance > 1, then adapt node position to slide on the border
+                if dist > 1 then -- float on edge
+                    dist = dist ^ 0.5
+                    diffX = diffX / dist
+                    diffY = diffY / dist
+                end
+
+                -- If a pin is not visible there is not reason to draw it, so we hide if alpha is 0
+                local alpha = (pin.minAlphaDistance and pin.maxAlphaDistance) and map(dist, pin.minAlphaDistance, pin.maxAlphaDistance, 1, 0) or 1
+                local scale = (pin.minScaleDistance and pin.maxScaleDistance) and map(dist, pin.minScaleDistance, pin.maxScaleDistance, 1, 0) or 1
+                if alpha > 0 and scale > 0 then
+                    -- pin:Show()
+                    -- pin:ClearAllPoints()
+                    pin:SetPoint("CENTER", Minimap, "CENTER", (-diffX * minimapWidth), (diffY * minimapHeight))
+                    -- pin:SetAlpha(1 - (dist - 1))
+                    if pin.minAlphaDistance and pin.maxAlphaDistance then
+                        pin:SetAlpha(alpha)
+                    end
+                    if pin.minScaleDistance and pin.maxScaleDistance then
+                        -- print(Minimap:GetEffectiveScale())
+                        for tex = 1, #pin.textures do
+                            pin.textures[tex]:SetScale(scale <= 1 and scale or 1)
+                        end
+                        -- pin:SetScale(scale)
+                    end
+                    count = count + 1
+                    if pin.hidden then
+                        pin.hidden = false
+                        pin:Show()
+                    end
+                -- Alpha is 0 so we hide the pin
+                elseif not pin.hidden then
+                    pin.hidden = true
+                    pin:Hide()
+                end
+            elseif not pin.hidden then
+                pin.hidden = true
+                pin:Hide()
+            end
+            -- Add the pins as one that is in use
+            self.pinsToKeep[#self.pinsToKeep+1] = pin
         end
     end
+    self.debugText:Print("Drawn Minimap Icons", count)
 
-    -- calculate distance from the center of the map
-    local dist
-    if isRound then
-        dist = ((diffX * diffX + diffY * diffY) / 0.9 ^ 2)
+    -- Instead of doing expensive tremove and so on we just track the pins are used
+    -- Replacing the old list with the new, to save memory we wipe the list if they are the same
+    if #self.pins ~= #self.pinsToKeep then
+        self.pins = self.pinsToKeep
+        self.pinsToKeep = {}
     else
-        dist = (max(diffX * diffX, diffY * diffY) / 0.9 ^ 2)
+        wipe(self.pinsToKeep)
     end
-
-    -- if distance > 1, then adapt node position to slide on the border
-    if dist > 1 then -- float on edge
-        dist = dist ^ 0.5
-        diffX = diffX / dist
-        diffY = diffY / dist
-    end
-
-    testFrame:Show()
-    testFrame:ClearAllPoints()
-    testFrame:SetPoint("CENTER", Minimap, "CENTER", (-diffX * minimapWidth), (diffY * minimapHeight))
 end
 
 function MinimapCanvasMixin:OnShow()
@@ -390,6 +459,10 @@ do
         end
     end
 
+    ---comment
+    ---@param pinTemplate any
+    ---@param ... unknown
+    ---@return MinimapIconFrame
     function MinimapCanvasMixin:AcquirePin(pinTemplate, ...)
         if not self.pinPools[pinTemplate] then
             -- local pinTemplateType = self.pinTemplateTypes[pinTemplate] or "FRAME";
@@ -432,7 +505,7 @@ do
         -- self.ScrollContainer:MarkCanvasDirty();
         pin:Show();
         pin:OnAcquired(...);
-
+        self.pins[#self.pins + 1] = pin
         return pin;
     end
 end
@@ -441,18 +514,26 @@ function MinimapCanvasMixin:SetPinTemplateType(pinTemplate, pinTemplateType)
     self.pinTemplateTypes[pinTemplate] = pinTemplateType;
 end
 
+-- /run MinimapCanvas:RemoveAllPinsByTemplate("QuestieMinimapPinTemplate")
 function MinimapCanvasMixin:RemoveAllPinsByTemplate(pinTemplate)
     if self.pinPools[pinTemplate] then
-        self.pinPools[pinTemplate]:ReleaseAll();
+        -- self.pinPools[pinTemplate]:ReleaseAll();
+        local pinPool = self.pinPools[pinTemplate]
+        for obj in pairs(pinPool.activeObjects) do
+            --! It is very important that x and y are set to nil
+            obj.x = nil
+            obj.y = nil
+            pinPool:Release(obj);
+            -- tremove(self.pins, tIndexOf(self.pins, obj))
+        end
         -- self.ScrollContainer:MarkCanvasDirty();
     end
 end
 
 function MinimapCanvasMixin:RemovePin(pin)
-    if pin:GetNudgeSourceRadius() > 0 then
-        self.pinNudgingDirty = true;
-    end
-
+    --! It is very important that x and y are set to nil
+    pin.x = nil
+    pin.y = nil
     self.pinPools[pin.pinTemplate]:Release(pin);
     -- self.ScrollContainer:MarkCanvasDirty();
 end

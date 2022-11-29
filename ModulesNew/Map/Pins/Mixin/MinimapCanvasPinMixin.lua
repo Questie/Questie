@@ -36,25 +36,62 @@ function MinimapCanvasPinMixin:OnMouseUp()
 	-- Override in your mixin, called when the mouse is released
 end
 
-function MinimapCanvasPinMixin:GetMap()
+function MinimapCanvasPinMixin:GetMinimap()
 	return self.owningMinimap;
 end
 
-function MinimapCanvasPinMixin:SetPosition(normalizedX, normalizedY, insetIndex)
-	self.normalizedX = normalizedX;
-	self.normalizedY = normalizedY;
-	self.insetIndex = insetIndex;
-	self:GetMap():SetPinPosition(self, normalizedX, normalizedY, insetIndex);
+-- This distance is number of "minimaps" 1 = the edge of the minimap, 2 = double the edge and so on
+-- If the alpha ever becomes 0 the pin is hidden automatically
+---@param minAlphaDistance number
+---@param maxAlphaDistance number
+function MinimapCanvasPinMixin:SetAlphaDistance(minAlphaDistance, maxAlphaDistance)
+    if not minAlphaDistance or type(minAlphaDistance) ~= "number" then
+        error("MinAlphaDistance must be a number", 2)
+    end
+    if not maxAlphaDistance or type(maxAlphaDistance) ~= "number" then
+        error("MaxAlphaDistance must be a number", 2)
+    end
+    self.minAlphaDistance = minAlphaDistance;
+    self.maxAlphaDistance = maxAlphaDistance;
+end
+
+-- This distance is number of "minimaps" 1 = the edge of the minimap, 2 = double the edge and so on
+-- If the scale ever becomes 0 the pin is hidden automatically
+---@param minScaleDistance number
+---@param maxScaleDistance number
+function MinimapCanvasPinMixin:SetScaleDistance(minScaleDistance, maxScaleDistance)
+    if not minScaleDistance or type(minScaleDistance) ~= "number" then
+        error("MinScaleDistance must be a number", 2)
+    end
+    if not maxScaleDistance or type(maxScaleDistance) ~= "number" then
+        error("MaxScaleDistance must be a number", 2)
+    end
+    self.minScaleDistance = minScaleDistance;
+    self.maxScaleDistance = maxScaleDistance;
+end
+
+--- Sets the max distance in world coordinates that this pin will be evaluated
+--- Note that this distance and SetAlphaDistance are not related or the same
+---@param maxDistance number
+function MinimapCanvasPinMixin:SetMaxCalulationDistance(maxDistance)
+    if not maxDistance or type(maxDistance) ~= "number" then
+        error("MaxDistance must be a number", 2)
+    end
+    self.maxDistance = maxDistance
+end
+
+---comment
+---@param x any
+---@param y any
+function MinimapCanvasPinMixin:SetPosition(x, y)
+	self.x = x;
+	self.y = y;
+	-- self:GetMap():SetPinPosition(self, x, y, insetIndex);
 end
 
 -- Returns the global position if not part of an inset, otherwise returns local coordinates of that inset
 function MinimapCanvasPinMixin:GetPosition()
-	return self.normalizedX, self.normalizedY, self.insetIndex;
-end
-
-function MinimapCanvasPinMixin:OnCanvasScaleChanged()
-	-- self:ApplyCurrentScale();
-	self:ApplyCurrentAlpha();
+	return self.x, self.y;
 end
 
 function MinimapCanvasPinMixin:SetScalingLimits(scaleFactor, startScale, endScale)
@@ -70,7 +107,7 @@ function MinimapCanvasPinMixin:SetAlphaLimits(alphaFactor, startAlpha, endAlpha)
 end
 
 -- function MinimapCanvasPinMixin:ApplyCurrentPosition()
--- 	self:GetMap():ApplyPinPosition(self, self.normalizedX, self.normalizedY, self.insetIndex);
+-- 	self:GetMap():ApplyPinPosition(self, self.x, self.y, self.insetIndex);
 -- end
 
 -- function MinimapCanvasPinMixin:ApplyCurrentScale()

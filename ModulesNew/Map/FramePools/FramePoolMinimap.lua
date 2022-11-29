@@ -7,6 +7,9 @@ FramePoolMinimap.disallowResetIfNew = true
 ---@type PinTemplates
 local PinTemplates = QuestieLoader("PinTemplates")
 
+---@type BasePinMiniMixin
+local BasePinMiniMixin = QuestieLoader("BasePinMiniMixin")
+
 ---@type MinimapCanvas
 local MinimapCanvas = QuestieLoader("MinimapCanvas")
 
@@ -67,15 +70,15 @@ do
 
     -- This function creates the pin itself
     ---@param framePool FramePoolMinimap
-    ---@return MapIconFrame
+    ---@return MinimapIconFrame
     FramePoolMinimap.creationFunc = function(framePool)
         --Questie:Debug(DEBUG_DEVELOP, "FramePool.creationFunc")
         count = count + 1
-        ---@class MapIconFrame : Button -- BasePinMixin
+        ---@class MinimapIconFrame : Button, BasePinMiniMixin
         local frame = CreateFrame(framePool.frameType, name .. count or nil, framePool.parent)
 
         frame.highlightTexture = frame:CreateTexture(nil, "HIGHLIGHT")
-        -- frame = Mixin(frame, BasePinMixin) --[[@as MapIconFrame]]
+        frame = Mixin(frame, BasePinMiniMixin) --[[@as MinimapIconFrame]]
         frame.dirty = false
         frame.textures = {}
         frame.data = {}
@@ -93,7 +96,7 @@ do
     -- This function is run everytime a pin is acquired from the pool
     ---comment
     ---@param pinPool any
-    ---@param pin MapIconFrame|BasePinMixin
+    ---@param pin MinimapIconFrame|BasePinMiniMixin
     FramePoolMinimap.resetterFunc = function(pinPool, pin)
         if pin.dirty == true then
             if dirtyKeys[pin] then
@@ -125,7 +128,7 @@ do
 
             -- Reset the functions within the pin, maybe we have to do this smarter for performance
             ---@diagnostic disable-next-line: cast-local-type
-            -- pin = Mixin(pin, BasePinMixin)
+            pin = Mixin(pin, BasePinMiniMixin)
 
             --Frame setup
 
@@ -141,7 +144,7 @@ do
         end
     end
 
-    -- basePin = FramePoolMinimap.creationFunc(FramePoolMinimap)
+    basePin = FramePoolMinimap.creationFunc(FramePoolMinimap)
 end
 
 

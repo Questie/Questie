@@ -274,6 +274,9 @@ ModulesNew\Map\MinimapProviders\MinimapCanvas.lua
 ##* Framepools
 ModulesNew\Map\FramePools\FramePoolMinimap.lua
 
+##* Pins
+ModulesNew\Map\Pins\Minimap\BasePinMini.lua
+
 ##* Minimap Providers
 ModulesNew\Map\MinimapProviders\MinimapProvider.lua
 
