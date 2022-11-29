@@ -18,6 +18,69 @@ MapCoordinates.Maps = Maps
 MapCoordinates.WorldMaps = WorldMaps
 MapCoordinates.MapInfo = MapInfo
 
+
+do
+    --- Credit goes to elcius
+    -- https://www.wowinterface.com/forums/showpost.php?p=328355&postcount=3
+    local MapRects = {};
+    local TempVec2D = CreateVector2D(0, 0);
+    local UnitPosition = UnitPosition
+    ---A Fast way to get Player Position
+    ---@param mapID UiMapId
+    ---@return MapX?
+    ---@return MapY?
+    function GetPlayerMapPosFast(mapID)
+        if not mapID then
+            return nil, nil
+        end
+        local R, P = MapRects[mapID], TempVec2D;
+        if not R then
+            R = {};
+            _, R[1] = C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(0, 0));
+            _, R[2] = C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(1, 1));
+            R[2]:Subtract(R[1]);
+            MapRects[mapID] = R;
+        end
+        --? X and Y are a bit strange here from blizzard API, but this is correct.
+        P.x, P.y = UnitPosition("player");
+        P:Subtract(R[1]);
+        return (1 / R[2].y) * P.y--[[@as MapX]] , (1 / R[2].x) * P.x --[[@as MapY]]
+    end
+
+    ---A Fast way to get Player Position
+    ---@param mapID UiMapId
+    ---@return WorldX?
+    ---@return WorldY?
+    function GetPlayerWorldPosFast(mapID)
+        if not mapID then
+            return nil, nil
+        end
+        local R, P = MapRects[mapID], TempVec2D;
+        if not R then
+            R = {};
+            _, R[1] = C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(0, 0));
+            _, R[2] = C_Map.GetWorldPosFromMapPos(mapID, CreateVector2D(1, 1));
+            R[2]:Subtract(R[1]);
+            MapRects[mapID] = R;
+        end
+        --? X and Y are a bit strange here from blizzard API, but this is correct.
+        P.x, P.y = UnitPosition("player");
+        P:Subtract(R[1]);
+        local mapX, mapY = ((1 / R[2].y) * P.y)*100, ((1 / R[2].x) * P.x)*100
+
+        --? Convert to world coordinates
+        local rectInfo = Maps[mapID].rectOnWorldMap
+        if rectInfo then
+            ---@type WorldX
+            local worldX = rectInfo.minX + mapX * (rectInfo.maxX - rectInfo.minX) / 100 --[[@as WorldX]]
+            ---@type WorldY
+            local worldY = rectInfo.minY + mapY * (rectInfo.maxY - rectInfo.minY) / 100 --[[@as WorldY]]
+            return worldX, worldY
+        end
+        return nil, nil
+    end
+end
+
 -- Minimap world size scaling
 local MinimapSizePerYard = {
 
@@ -42,20 +105,25 @@ do
 
     --- Convert map coordinates to the world map of the zone (Azeroth or Outlands for example)
     ---@param self MapInfo
-    ---@param x MapX
-    ---@param y MapY
-    ---@return WorldX?, WorldY?
-    local function toWorldCoordinate(self, x, y)
+    ---@param mapX MapX @ Map X coordinate 0 - 100 (not 0-1)
+    ---@param mapY MapY @ Map Y coordinate 0 - 100 (not 0-1)
+    ---@return WorldX? WorldX @ World X coordinate 0 - 100
+    ---@return WorldY? WorldY @ World Y coordinate 0 - 100
+    local function toWorldCoordinate(self, mapX, mapY)
         --? This code is to show a more "readable" version, do not delete
         -- local worldX = map(x, localMin, localMax, self.rectOnWorldMap.minX, self.rectOnWorldMap.maxX)
         -- local worldY = map(y, localMin, localMax, self.rectOnWorldMap.minY, self.rectOnWorldMap.maxY)
-        if x and y then
+        if mapX and mapY then
+            if mapX < 0 or mapX > 100 or mapY < 0 or mapY > 100 then
+                Questie:Error("test")
+                return nil, nil
+            end
             local rectInfo = self.rectOnWorldMap
             if rectInfo then
                 ---@type WorldX
-                local worldX = rectInfo.minX + x * (rectInfo.maxX - rectInfo.minX) / 100 --[[@as WorldX]]
+                local worldX = rectInfo.minX + mapX * (rectInfo.maxX - rectInfo.minX) / 100 --[[@as WorldX]]
                 ---@type WorldY
-                local worldY = rectInfo.minY + y * (rectInfo.maxY - rectInfo.minY) / 100 --[[@as WorldY]]
+                local worldY = rectInfo.minY + mapY * (rectInfo.maxY - rectInfo.minY) / 100 --[[@as WorldY]]
                 return worldX, worldY
             end
         end
@@ -65,23 +133,24 @@ do
     --- Convert map coordinates to the continent map (EK, Kalimdor, Northrend and Outlands).
     --- This is mostly used for minimap.
     ---@param self MapInfo
-    ---@param x MapX
-    ---@param y MapY
-    ---@return ContinentX?, ContinentY?
-    local function toContinentCoordinate(self, x, y)
+    ---@param mapX MapX @ Map X coordinate 0 - 100 (not 0-1)
+    ---@param mapY MapY @ Map Y coordinate 0 - 100 (not 0-1)
+    ---@return ContinentX? ContinentX @ 0 - 100 (not 0-1)
+    ---@return ContinentY? ContinentY @ 0 - 100 (not 0-1)
+    local function toContinentCoordinate(self, mapX, mapY)
         --? This code is to show a more "readable" version, do not delete
         -- local worldX = map(x, localMin, localMax, self.rectOnContinentMap.minX, self.rectOnContinentMap.maxX)
         -- local worldY = map(y, localMin, localMax, self.rectOnContinentMap.minY, self.rectOnContinentMap.maxY)
-        if x and y then
+        if mapX and mapY then
             if Maps[self.parentMapID] and Maps[self.parentMapID].mapType == UiMapType.Continent then
-                local worldX, worldY = self:ToWorldCoordinate(x, y)
+                local worldX, worldY = self:ToWorldCoordinate(mapX, mapY)
                 if worldX and worldY then
                     ---@diagnostic disable-next-line: return-type-mismatch
                     return Maps[self.parentMapID]:ToMapCoordinate(worldX, worldY)
                 end
             elseif self.parentMapID == 1945 then -- A bit of a special case for outlands
                 ---@diagnostic disable-next-line: return-type-mismatch
-                return self:ToWorldCoordinate(x, y)
+                return self:ToWorldCoordinate(mapX, mapY)
             end
         end
         return nil, nil
@@ -89,10 +158,11 @@ do
 
     --- Convert world coordinates to the current map.
     ---@param self MapInfo
-    ---@param worldX WorldX?
-    ---@param worldY WorldY?
-    ---@return MapX?, MapY?
-    local function toMapCoordinateMap(self, worldX, worldY)
+    ---@param worldX WorldX? @ World X coordinate 0 - 100 (not 0-1)
+    ---@param worldY WorldY? @ World X coordinate 0 - 100 (not 0-1)
+    ---@return MapX? MapX @ Map X coordinate 0 - 100
+    ---@return MapY? MapY @ Map Y coordinate 0 - 100
+    local function toMapCoordinate(self, worldX, worldY)
         if worldX and worldY then
             local WorldMap = WorldMaps[self.worldMapId]
             local rectInfo = WorldMap and WorldMap[self.mapID].rectOnWorldMap or nil
@@ -152,7 +222,7 @@ do
                         -- Convertion functions
                         subMapInfo.ToWorldCoordinate = toWorldCoordinate
                         subMapInfo.ToContinentCoordinate = toContinentCoordinate
-                        subMapInfo.ToMapCoordinate = toMapCoordinateMap
+                        subMapInfo.ToMapCoordinate = toMapCoordinate
 
                         -- A table that contains all the nearbyZones
                         subMapInfo.nearbyZones = {}

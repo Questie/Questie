@@ -64,7 +64,9 @@ end
 function BezierInternal:pointDistance(p1, p2)
 	local dx = p2.x - p1.x
 	local dy = p2.y - p1.y
-	return sqrt(dx*dx + dy*dy)
+    if dx < 0 then dx = -dx end
+    if dy < 0 then dy = -dy end
+	return (dx*dx + dy*dy) ^ 0.5
 end
 
 function BezierInternal:getLength()

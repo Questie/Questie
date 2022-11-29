@@ -100,6 +100,54 @@ function WaypointPinMixin:DrawLine(UiMapID, sX, sY, eX, eY, Linedata, maskTextur
     lineTexture:SetPoint("CENTER", endX - framePosX, -(endY - framePosY))
 
 
+    -- local ULvx = sX*width - framePosX;
+    -- local ULvy = sY*height - framePosY;
+    -- local LLvx = sX*width - framePosX;
+    -- local LLvy = sY*height - framePosY;
+    -- local URvx = eX*width - framePosX;
+    -- local URvy = eY*height - framePosY;
+    -- local LRvx = eX*width - framePosX;
+    -- local LRvy = eY*height - framePosY;
+    -- lineTexture.ULvx = ULvx
+    -- lineTexture.ULvy = ULvy
+    -- lineTexture.LLvx = LLvx
+    -- lineTexture.LLvy = LLvy
+    -- lineTexture.URvx = URvx
+    -- lineTexture.URvy = URvy
+    -- lineTexture.LRvx = LRvx
+    -- lineTexture.LRvy = LRvy
+    -- lineTexture:ClearAllPoints();
+    -- -- lineTexture:SetParent(blobFrame)
+    -- lineTexture:SetAllPoints();
+    -- lineTexture:SetPoint("CENTER");
+
+    -- lineTexture:SetVertexOffset(UPPER_LEFT_VERTEX, ULvx, -(ULvy));
+    -- lineTexture:SetVertexOffset(LOWER_LEFT_VERTEX, LLvx, LLvy-(ULvy));
+    -- lineTexture:SetVertexOffset(UPPER_RIGHT_VERTEX, -(fWidth-URvx), -(URvy));
+    -- lineTexture:SetVertexOffset(LOWER_RIGHT_VERTEX, -(fWidth-LRvx), LRvy-fHeight);
+    -- lineTexture.UPPER_LEFT_VERTEX_X =  ULvx
+    -- lineTexture.UPPER_LEFT_VERTEX_Y =  -(ULvy)
+    -- lineTexture.LOWER_LEFT_VERTEX_X =  LLvx
+    -- lineTexture.LOWER_LEFT_VERTEX_Y =  LLvy-(ULvy)
+    -- lineTexture.UPPER_RIGHT_VERTEX_X =  -(fWidth-URvx)
+    -- lineTexture.UPPER_RIGHT_VERTEX_Y =  -(URvy)
+    -- lineTexture.LOWER_RIGHT_VERTEX_X =  -(fWidth-LRvx)
+    -- lineTexture.LOWER_RIGHT_VERTEX_Y =  LRvy-fHeight
+    --ORG
+    -- lineTexture:SetVertexOffset(UPPER_LEFT_VERTEX, ULvx, -(ULvy));
+    -- lineTexture:SetVertexOffset(LOWER_LEFT_VERTEX, LLvx, fHeight-LLvy);
+    -- lineTexture:SetVertexOffset(UPPER_RIGHT_VERTEX, -(fWidth-URvx), -(URvy));
+    -- lineTexture:SetVertexOffset(LOWER_RIGHT_VERTEX, -(fWidth-LRvx), fHeight-LRvy);
+    -- lineTexture.UPPER_LEFT_VERTEX_X =  ULvx
+    -- lineTexture.UPPER_LEFT_VERTEX_Y =  -(ULvy)
+    -- lineTexture.LOWER_LEFT_VERTEX_X =  LLvx
+    -- lineTexture.LOWER_LEFT_VERTEX_Y =  fHeight-LLvy
+    -- lineTexture.UPPER_RIGHT_VERTEX_X =  -(fWidth-URvx)
+    -- lineTexture.UPPER_RIGHT_VERTEX_Y =  -(URvy)
+    -- lineTexture.LOWER_RIGHT_VERTEX_X =  -(fWidth-LRvx)
+    -- lineTexture.LOWER_RIGHT_VERTEX_Y =  fHeight-LRvy
+
+
     --? Minimap Stuff
     -- local fWidth, fHeight = self:GetSize();
 
@@ -187,7 +235,6 @@ function WaypointPinMixin:OnMouseLeaveLine()
 
     -- Unregister the write command
     MapEventBus:ObjectUnregisterRepeating(self, MapEventBus.events.WRITE_WAYPOINT_TOOLTIP)
-    questieTooltip:Hide()
 
     -- Reset the scale of the waypoints
     WaypointAnimationHelper.ScaleWaypointsByPin(self, 1, 0.03)
@@ -304,6 +351,7 @@ do
                     line:OnMouseLeaveLine()
                 end
             end
+            questieTooltip:Hide()
             wipe(hoveredLines)
         end
     end

@@ -22,6 +22,7 @@ Libs\HereBeDragons\HereBeDragons-Migrate.lua
 
 # Loader module
 Modules\Libs\QuestieLoader.lua
+ModulesNew\Debug\DebugText.lua
 
 #Libs (These depend on QuestieLoader)
 Libs\Tween\Tween.lua
@@ -258,6 +259,23 @@ ModulesNew\Map\MapProviders\MapWaypoint.lua
 ModulesNew\Map\Renderers\RelationRenderers.lua
 
 ModulesNew\Map\MapTooltip.lua
+
+#### Minimap ####
+##* Underlying canvas and provider system
+ModulesNew\Map\MinimapProviders\Mixin\MinimapCanvasBase.lua
+ModulesNew\Map\MinimapProviders\Mixin\MinimapDataProviderBase.lua
+
+##* Pin Mixin
+ModulesNew\Map\Pins\Mixin\MinimapCanvasPinMixin.lua
+
+##* Minimap Canvas
+ModulesNew\Map\MinimapProviders\MinimapCanvas.lua
+
+##* Framepools
+ModulesNew\Map\FramePools\FramePoolMinimap.lua
+
+##* Minimap Providers
+ModulesNew\Map\MinimapProviders\MinimapProvider.lua
 
 
 ModulesNew\Quest\Quest.lua
