@@ -7,6 +7,8 @@ local MapCoordinates = QuestieLoader("MapCoordinates");
 -- Up value
 local Minimap = Minimap
 
+local pi = math.pi
+
 --? Here we calculate the minimap size in coords
 -- TODO: Fix this to work with all minimap sizes and world maps (outlands)
 local function GetMinimapWidthFromYards(mapId, yards)
@@ -129,6 +131,7 @@ function MinimapCanvasMixin:UpdateMinimapZoom()
         end
         self.debugText:Print("MinDistance", self.distance)
         self.debugText:Print("Zoom", self.lastZoom, self.indoors)
+        self:UpdateMinimap()
     end)
     -- self.updateZoom = false
 end
@@ -162,10 +165,15 @@ function MinimapCanvasMixin:OnLoad()
 
     -- self:EvaluateLockReasons();
 
+    self.forceUpdate = false
+
     ---@type UiMapId
     self.lastPlayerUiMapId = 0
     self.lastPlayerX = 0
     self.lastPlayerY = 0
+    self.lastFacing = 0
+
+    self.rotateMinimap = GetCVar("rotateMinimap") == "1"
 
     -- This variable is used to know when we are changing the zoom level internally and not by the user
     ---@type boolean
@@ -192,10 +200,19 @@ function MinimapCanvasMixin:OnLoad()
         timeElapsed = timeElapsed + elapsed
         if timeElapsed >= 0.03125 then -- 30 fps
             timeElapsed = 0 -- Reset the elapsed time
+
+            -- Do we want to force an update?
+            if self.forceUpdate then
+                self:UpdateMinimapZoom()
+                -- self:UpdateMinimap()
+                self.forceUpdate = false
+                return
+            end
+
             if self.updateZoom or ticksSinceLastZoomUpdate >= 60 then
                 if self.updateZoom or self.lastZoom ~= Minimap:GetZoom() then
                     self:UpdateMinimapZoom()
-                    self:UpdateMinimap()
+                    -- self:UpdateMinimap()
                 end
                 ticksSinceLastZoomUpdate = 0
                 return
@@ -203,6 +220,15 @@ function MinimapCanvasMixin:OnLoad()
                 ticksSinceLastZoomUpdate = ticksSinceLastZoomUpdate + 1
             end
 
+            if self.rotateMinimap then
+                local facing = GetPlayerFacing()
+                self.debugText:Print("Facing", facing)
+                if facing ~= self.lastFacing then
+                    self.lastFacing = facing
+                    self:UpdateMinimap()
+                    return
+                end
+            end
 
             local playerX, playerY = UnitPosition("player");
             if playerX and playerY then
@@ -214,10 +240,10 @@ function MinimapCanvasMixin:OnLoad()
                     -- if xd * xd + yd * yd > 2*2 then Sqr distance
                     self.lastPlayerX, self.lastPlayerY = playerX, playerY;
                     self.debugText:Print("Distance since lastPos", ((xd * xd + yd * yd) ^ 0.5))
-                    self.debugText:Print("WorldPos", GetPlayerWorldPosFast(GetBestMapForUnit("player")))
                     self:UpdateMinimap()
                 end
             end
+            self.debugText:Print("WorldPos", GetPlayerWorldPosFast(GetBestMapForUnit("player")))
         end
     end)
 
@@ -268,6 +294,17 @@ function MinimapCanvasMixin:UpdateMinimap()
     local minimapHeight = self.minimapHeight
     local minimapSizeX = self.minimapSizeX
     local minimapSizeY = self.minimapSizeY
+    -- self.debugText:Print("minimapSize X,Y", minimapSizeX, minimapSizeY)
+    -- self.debugText:Print("minimapWidth/Height", minimapWidth, minimapHeight)
+
+    -- for rotating minimap support
+    local facing
+    if self.rotateMinimap then --rotateMinimap
+        facing = self.lastFacing * 180 / pi
+        -- self.debugText:Print("Facing", facing)
+    else
+        facing = 0
+    end
 
     local count = 0
     for pinIndex = 1, #self.pins do
@@ -277,28 +314,23 @@ function MinimapCanvasMixin:UpdateMinimap()
         -- When a pin has been released it will not have x and y
         if pin ~= nil and pin.x ~= nil then
 
-            -- for rotating minimap support
-            -- local facing
-            -- if rotateMinimap then
-            --     facing = GetPlayerFacing()
-            -- else
-            --     facing = 0
-            -- end
-
 
             local xDist, yDist = x - pin.x, y - pin.y
+            -- self.debugText:Print("base x/yDist", xDist, yDist)
             if (xDist * xDist + yDist * yDist) ^ 0.5 < (pin.maxDistance or 2) then
 
                 -- handle rotation
-                -- if rotateMinimap then
-                --     local dx, dy = xDist, yDist
-                --     local mapSin = sin(facing)
-                --     local mapCos = cos(facing)
-                --     xDist = dx*mapCos - dy*mapSin
-                --     yDist = dx*mapSin + dy*mapCos
+                if self.rotateMinimap then --rotateMinimap
+                    local dx, dy = xDist, yDist
+                    local mapSin = sin(facing)
+                    local mapCos = cos(facing)
+                    xDist = (minimapSizeX*2) * (dx*mapCos - dy*mapSin)
+                    yDist = (minimapSizeY*2) * (dx*mapSin + dy*mapCos)
 
-                --     print(xDist > 0 and "+" or "-", yDist > 0 and "+" or "-")
-                -- end
+                    -- self.debugText:Print("xDist", xDist, "\nyDist", yDist)
+
+                    -- print(xDist > 0 and 4"+" or "-", yDist > 0 and "+" or "-")
+                end
 
                 -- adapt delta position to the map radius
                 local diffX = xDist / minimapSizeX
@@ -400,7 +432,13 @@ end
 
 function MinimapCanvasMixin:OnEvent(event, ...)
     print(event, ...)
-    if event == "MINIMAP_UPDATE_ZOOM" then -- Player went from outdoors to indoors or vice versa
+    if event == "CVAR_UPDATE" then
+        local cvar, value = ...
+        if cvar == "ROTATE_MINIMAP" then
+            self.rotateMinimap = (value == "1")
+            self.forceUpdate = true
+        end
+    elseif event == "MINIMAP_UPDATE_ZOOM" then -- Player went from outdoors to indoors or vice versa
         self.updateZoom = true
     elseif event == "ZONE_CHANGED_NEW_AREA" then
         ---@type UiMapId
