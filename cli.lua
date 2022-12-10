@@ -1,4 +1,13 @@
 require("cli.dump")
+bit = require("bit32")
+
+--[[
+
+Requires Lua 5.1
+
+bit32 library can be installed with luarocks
+
+--]]
 
 WOW_PROJECT_ID = 2
 WOW_PROJECT_CLASSIC = 2
@@ -15,6 +24,28 @@ ERR_QUEST_COMPLETE_S = "ERR_QUEST_COMPLETE_S"
 tremove = table.remove
 tinsert = table.insert
 
+local function printToFile(version)
+    local file = io.open("Database/"..version.."/compiledDB.lua", "w")
+    file:write('QuestieCompiledDB = {\n["itemBin"] = ')
+    file:write(string.format("%q", Questie.db.global.itemBin))
+    file:write(',\n["itemPtrs"] = ')
+    file:write(string.format("%q", Questie.db.global.itemPtrs))
+    file:write(',\n["objBin"] = ')
+    file:write(string.format("%q", Questie.db.global.objBin))
+    file:write(',\n["objPtrs"] = ')
+    file:write(string.format("%q", Questie.db.global.objPtrs))
+    file:write(',\n["npcBin"] = ')
+    file:write(string.format("%q", Questie.db.global.npcBin))
+    file:write(',\n["npcPtrs"] = ')
+    file:write(string.format("%q", Questie.db.global.npcPtrs))
+    file:write(',\n["questBin"] = ')
+    file:write(string.format("%q", Questie.db.global.questBin))
+    file:write(',\n["questPtrs"] = ')
+    file:write(string.format("%q", Questie.db.global.questPtrs))
+    file:write('\n}\n\n')
+    file:close()
+end
+
 local _EmptyDummyFunction = function() end
 local _TableDummyFunction = function() return {} end
 
@@ -22,7 +53,6 @@ coroutine.yield = _EmptyDummyFunction -- no need to yield in the cli (TODO: mayb
 mod = function(a, b)
     return a % b
 end
-bit = require("bit32")
 hooksecurefunc = _EmptyDummyFunction
 GetAddOnInfo = function()
     return "Questie", "|cFFFFFFFFQuestie|r|cFF00FF00 v6.3.9 (TBC B2)|r", "A standalone Classic QuestHelper", true, "INSECURE", false
@@ -194,7 +224,7 @@ local function _CheckClassicDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     Questie.db.global.debugEnabled = true
-    QuestieDBCompiler:Compile(function() end)
+    QuestieDBCompiler:Compile()
 
     QuestieDB:Initialize()
 
@@ -209,7 +239,9 @@ local function _CheckClassicDatabase()
 
     print("\n\27[32mClassic database compiled successfully\27[0m")
 end
+
 _CheckClassicDatabase()
+printToFile("Classic")
 
 Questie = nil -- Reset for second test
 
@@ -259,7 +291,7 @@ local function _CheckTBCDatabase()
 
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
-    QuestieDBCompiler:Compile(function() end)
+    QuestieDBCompiler:Compile()
 
     QuestieDB:Initialize()
 
@@ -274,7 +306,9 @@ local function _CheckTBCDatabase()
 
     print("\n\27[32mTBC database compiled successfully\27[0m\n")
 end
+
 _CheckTBCDatabase()
+printToFile("TBC")
 
 Questie = nil -- Reset for thrid test
 
@@ -325,7 +359,7 @@ local function _CheckWotlkDatabase()
     local QuestieDBCompiler = QuestieLoader:ImportModule("DBCompiler")
 
     Questie.db.global.debugEnabled = true
-    QuestieDBCompiler:Compile(function() end)
+    QuestieDBCompiler:Compile()
 
     QuestieDB:Initialize()
 
@@ -340,9 +374,13 @@ local function _CheckWotlkDatabase()
 
     print("\n\27[32mWotlk database compiled successfully\27[0m\n")
 end
+
 --? It is REALLLY slow and designed to be run through docker otherwise you have to change the path.
 -- local profiler = require("cli/profiler")
 -- profiler.start()
+
 _CheckWotlkDatabase()
+printToFile("Wotlk")
+
 -- profiler.stop()
 -- profiler.report("/code/profiler.log")

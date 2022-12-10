@@ -26,3 +26,6 @@ releases/
 
 #Log files
 *.log
+
+#Pre-compiled database
+compiledDB.lua
