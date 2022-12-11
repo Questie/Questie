@@ -2666,6 +2666,7 @@ l10n.zoneCategoryLookup = {
         [3905] = "Coilfang Reservoir",
     },
     [4] = {
+        [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
         [3358] = "Arathi Basin"
@@ -2699,8 +2700,18 @@ l10n.zoneCategoryLookup = {
         [-668] = "Enchanting", -- Dummy ID
     },
     [7] = {
+        [-1] = "Epic",
+        [-22] = "Seasonal",
+        [-41] = "Day of the Dead",
+        [-221] = "Treasure Map",
+        [-241] = "Tournament",
+        [-284] = "Special",
+        [-344] = "Legendary",
         [-364] = "Darkmoon Faire",
+        [-365] = "Ahn'Qiraj War",
         [-366] = "Lunar Festival",
+        [-367] = "Reputation",
+        [-368] = "Invasion",
         [-369] = "Midsummer",
         [-370] = "Brewfest",
         [-374] = "Noblegarden",
