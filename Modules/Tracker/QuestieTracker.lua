@@ -246,8 +246,8 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             local isFound = false
 
             for bag = 0 , 4 do
-                for slot = 1, GetContainerNumSlots(bag) do
-                    local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
+                for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
+                    local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
                         isFound = true
@@ -413,13 +413,13 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.FakeHide = function(self)
-            self:RegisterForClicks(nil)
+            self:RegisterForClicks()
             self:SetScript("OnEnter", nil)
             self:SetScript("OnLeave", nil)
 
-            self:SetNormalTexture(nil)
-            self:SetPushedTexture(nil)
-            self:SetHighlightTexture(nil)
+            --self:SetNormalTexture(nil)
+            --self:SetPushedTexture(nil)
+            --self:SetHighlightTexture(nil)
         end
 
         btn:HookScript("OnUpdate", btn.OnUpdate)
@@ -448,7 +448,9 @@ end
 
 function QuestieTracker:ResetDurabilityFrame()
     DurabilityFrame:ClearAllPoints()
-    DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
+    if durabilityInitialPosition then
+        DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
+    end
 end
 
 function QuestieTracker:MoveDurabilityFrame()

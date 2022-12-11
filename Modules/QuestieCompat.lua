@@ -45,3 +45,19 @@ function QuestieCompat.SelectActiveQuests(...)
         return SelectActiveQuests(...)
     end
 end
+
+function QuestieCompat.GetContainerNumSlots(...)
+    if Questie.IsWotlk then
+        return C_Container.GetContainerNumSlots(...)
+    else
+        return GetContainerNumSlots(...)
+    end
+end
+
+function QuestieCompat.GetContainerItemInfo(...)
+    if Questie.IsWotlk then
+        return C_Container.GetContainerItemInfo(...)
+    else
+        return GetContainerItemInfo(...)
+    end
+end
