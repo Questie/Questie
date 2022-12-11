@@ -101,4 +101,4 @@ for y in sorted(x):
     for id, name in map0[str(y)]:
         print('        [%s]="%s",' % (id, name))
     print('    },')
-    print(})
+    print('}')
