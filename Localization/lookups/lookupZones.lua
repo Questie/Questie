@@ -4,18 +4,18 @@ local l10n = QuestieLoader:ImportModule("l10n")
 l10n.continentLookup = {
     [1] = "Eastern Kingdoms",
     [2] = "Kalimdor",
-    [3] = "Dungeons",
-    [4] = "Battlegrounds",
-    [5] = "Class",
-    [6] = "Professions",
-    [7] = "Events",
-    [530] = "Outland",
-    [571] = "Northrend"
+    [3] = "Outland",
+    [4] = "Northrend",
+    [5] = "Dungeons",
+    [6] = "Battlegrounds",
+    [7] = "Class",
+    [8] = "Professions",
+    [9] = "Events",
 }
 
 -- Table was generated with the ExternalScripts(DONOTINCLUDEINRELEASE)/getAreaRelations.py script
 l10n.zoneLookup = {
-    [1]={
+    [0]={
         [1]="Dun Morogh",
         [2]="Longshore",
         [3]="Badlands",
@@ -650,7 +650,7 @@ l10n.zoneLookup = {
         [4668]="The Cooper Residence",
         [4679]="The Forlorn Cavern",
     },
-    [2]={
+    [1]={
         [14]="Durotar",
         [15]="Dustwallow Marsh",
         [16]="Azshara",
@@ -2557,11 +2557,11 @@ l10n.zoneLookup = {
 }
 
 l10n.zoneCategoryLookup = {
-    [1] = l10n.zoneLookup[1],
-    [2] = l10n.zoneLookup[2],
-    [530] = l10n.zoneLookup[530],
-    [571] = l10n.zoneLookup[571],
-    [3] = {
+    [1] = l10n.zoneLookup[0],
+    [2] = l10n.zoneLookup[1],
+    [3] = l10n.zoneLookup[530],
+    [4] = l10n.zoneLookup[571],
+    [5] = {
         [206] = "Utgarde Keep",
         [209] = "Shadowfang Keep",
         [491] = "Razorfen Kraul",
@@ -2629,7 +2629,7 @@ l10n.zoneCategoryLookup = {
         [4813]="Pit of Saron",
         [4987]="The Ruby Sanctum",
     },
-    [4] = {
+    [6] = {
         [-25] = "Battlegrounds",
         [2597] = "Alterac Valley",
         [3277] = "Warsong Gulch",
@@ -2643,7 +2643,7 @@ l10n.zoneCategoryLookup = {
         [14287] = "Dragonblight",
         [14288] = "Battle for Wintergrasp",
     },
-    [5] = {
+    [7] = {
         [-61] = "Warlock",
         [-81] = "Warrior",
         [-82] = "Shaman",
@@ -2655,7 +2655,7 @@ l10n.zoneCategoryLookup = {
         [-263] = "Druid",
         [-372] = "Death Knight",
     },
-    [6] = {
+    [8] = {
         [-24] = "Herbalism",
         [-101] = "Fishing",
         [-121] = "Blacksmithing",
@@ -2671,7 +2671,7 @@ l10n.zoneCategoryLookup = {
         [-667] = "Mining", -- Dummy ID
         [-668] = "Enchanting", -- Dummy ID
     },
-    [7] = {
+    [9] = {
         [-1] = "Epic",
         [-22] = "Seasonal",
         [-41] = "Day of the Dead",

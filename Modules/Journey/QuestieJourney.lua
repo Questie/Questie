@@ -34,11 +34,13 @@ local notesPopupWinIsOpen = false
 QuestieJourney.questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
     KALIMDOR = 2,
-    DUNGEONS = 3,
-    BATTLEGROUNDS = 4,
-    CLASS = 5,
-    PROFESSIONS = 6,
-    EVENTS = 7,
+    OUTLAND = 3,
+    NORTHREND = 4,
+    DUNGEONS = 5,
+    BATTLEGROUNDS = 6,
+    CLASS = 7,
+    PROFESSIONS = 8,
+    EVENTS = 9,
 }
 
 
