@@ -45,7 +45,9 @@ QuestieJourney.questCategoryKeys = {
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        continents[id] = l10n(name)
+        if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
+            continents[id] = l10n(name)
+        end
     end
     coroutine.yield()
     continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
