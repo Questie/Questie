@@ -45,6 +45,18 @@ function QuestieWotlkQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [6961] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
+        [7022] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7023] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7024] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
         [7800] = {
             [questKeys.preQuestSingle] = {},
         },
