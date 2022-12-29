@@ -2097,9 +2097,6 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {7021,7024},
             [questKeys.nextQuestInChain] = 6962,
         },
-        [7024] = {
-            [questKeys.nextQuestInChain] = 6962,
-        },
         [6981] = {
             [questKeys.startedBy] = {{3654},nil,{10441}},
             [questKeys.triggerEnd] = {"Speak with someone in Ratchet about the Glowing Shard", {[zoneIDs.THE_BARRENS]={{62.97,37.21}}}},
