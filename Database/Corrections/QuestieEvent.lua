@@ -244,8 +244,8 @@ QuestieEvent.eventDates = {
         endDate = "24/9"
     },
     ["Pilgrim's Bounty"] = {
-        startDate = "5/9",
-        endDate = "11/9"
+        startDate = "22/11",
+        endDate = "28/11"
     },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
@@ -816,6 +816,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A W
 
 --- Wotlk event quests
 
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13483}) -- Spring Gatherers
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13479}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13480}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13502}) -- A Tisket, a Tasket, a Noblegarden Basket
@@ -875,12 +877,16 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13474}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13501}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13548}) -- Candy Bucket
 
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12784}) -- Desperate Research
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12808}) -- A Desperate Alliance
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13483}) -- Spring Gatherers
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14036}) -- Pilgrim's Bounty
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14022}) -- Pilgrim's Bounty
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14024}) -- Pumpkin Pie
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14028}) -- Cranberry Chutney
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14030}) -- They're Ravenous In Darnassus
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14035}) -- Slow-roasted Turkey
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14040}) -- Pumpkin Pie
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14041}) -- Cranberry Chutney
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14043}) -- Candied Sweet Potatoes
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14047}) -- Slow-roasted Turkey
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game

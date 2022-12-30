@@ -45,6 +45,18 @@ function QuestieWotlkQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [6961] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
+        [7022] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7023] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7024] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
         [7800] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -382,6 +394,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
+        },
+        [11688] = {
+            [questKeys.preQuestSingle] = {},
         },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},

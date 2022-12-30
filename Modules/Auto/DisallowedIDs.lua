@@ -197,4 +197,6 @@ _QuestieAuto.disallowedQuests = {
     [12567] = true, -- Blessing of Zim'Abwa repeatable
     [12618] = true, -- Blessing of Zim'Torga repeatable
     [12656] = true, -- Blessing of Zim'Rhuk repeatable
+
+    [11705] = true, -- Foolish Endeavors
 }
