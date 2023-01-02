@@ -1202,6 +1202,7 @@ function QuestieQuestBlacklist:Load()
         [14108] = true,
 
         --- Phase 3 Trial of the Crusader
+        [14151] = true, -- Cardinal Ruby (Alchemy)
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
 
         --- Phase 4 Icecrown Citadel
