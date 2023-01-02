@@ -2393,6 +2393,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13352},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
+        [13359] = {
+            [questKeys.preQuestSingle] = {13348},
+            [questKeys.nextQuestInChain] = 13360,
+        },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
         },
@@ -2442,6 +2446,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13395] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31254,32414,31276},31329}}},
+        },
+        [13398] = {
+            [questKeys.preQuestSingle] = {13396},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
