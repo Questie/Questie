@@ -45,6 +45,18 @@ function QuestieWotlkQuestFixes:Load()
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [6961] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
+        [7022] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7023] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7024] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
         [7800] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -57,6 +69,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [8552] = {
             [questKeys.specialFlags] = 0,
+        },
+        [8746] = {
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+        },
+        [8762] = {
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
         },
         [9154] = {
             [questKeys.startedBy] = {{16241,16255}},
