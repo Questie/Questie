@@ -337,6 +337,9 @@ function QuestieWotlkQuestFixes:Load()
         [11567] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ask Alanya for transportation"),0,{{"monster", 27933}}}},
         },
+        [11569] = {
+            [questKeys.preQuestSingle] = {11571},
+        },
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
         },
