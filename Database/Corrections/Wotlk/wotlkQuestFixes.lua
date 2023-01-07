@@ -2954,5 +2954,8 @@ function QuestieWotlkQuestFixes:Load()
         [24615] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [24857] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
     }
 end
