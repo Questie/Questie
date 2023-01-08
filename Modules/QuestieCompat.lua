@@ -119,17 +119,21 @@ end
 function QuestieCompat.GetContainerItemInfo(bagID, slot)
     if Questie.IsWotlk then
         local containerInfo = C_Container.GetContainerItemInfo(bagID, slot)
-        return containerInfo.iconFileID,
-               containerInfo.stackCount,
-               containerInfo.isLocked,
-               containerInfo.quality,
-               containerInfo.isReadable,
-               containerInfo.hasLoot,
-               containerInfo.hyperlink,
-               containerInfo.isFiltered,
-               containerInfo.hasNoValue,
-               containerInfo.itemID,
-               containerInfo.isBound
+        if containerInfo then
+            return containerInfo.iconFileID,
+                   containerInfo.stackCount,
+                   containerInfo.isLocked,
+                   containerInfo.quality,
+                   containerInfo.isReadable,
+                   containerInfo.hasLoot,
+                   containerInfo.hyperlink,
+                   containerInfo.isFiltered,
+                   containerInfo.hasNoValue,
+                   containerInfo.itemID,
+                   containerInfo.isBound
+       else
+            return nil
+       end
     else
         return GetContainerItemInfo(bagID, slot)
     end
