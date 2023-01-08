@@ -717,6 +717,9 @@ function QuestieWotlkQuestFixes:Load()
         [12127] = {
             [questKeys.objectives] = {{{26283}},nil,{{36846}}},
         },
+        [12132] = {
+            [questKeys.preQuestGroup] = {12125,12126,12127},
+        },
         [12135] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
                 [zoneIDs.AZUREMYST_ISLE]={{49.3,51.5,},},
