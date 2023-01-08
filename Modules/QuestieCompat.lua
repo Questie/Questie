@@ -138,3 +138,17 @@ function QuestieCompat.GetContainerItemInfo(bagID, slot)
         return GetContainerItemInfo(bagID, slot)
     end
 end
+
+---[Documentation](https://wowpedia.fandom.com/wiki/API_GetItemCooldown)
+---Returns info about the cooldown state and time of an item.
+---@param itemID number The item ID.
+---@return number startTime The time when the cooldown started (as returned by GetTime()) or zero if no cooldown.
+---@return number duration The number of seconds the cooldown will last, or zero if no cooldown.
+---@return number enable 1 if the item is ready or on cooldown, 0 if the item is used, but the cooldown didn't start yet (e.g. potion in combat).
+function QuestieCompat.GetItemCooldown(itemID)
+    if C_Container and C_Container.GetItemCooldown then
+        return C_Container.GetItemCooldown(itemID)
+    else
+        return GetItemCooldown(itemID)
+    end
+end

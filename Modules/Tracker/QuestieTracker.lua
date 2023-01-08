@@ -320,7 +320,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 return
             end
 
-            local start, duration, enabled = GetItemCooldown(self.itemID)
+            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
 
             if enabled and duration > 3 and enabled == 1 then
                 cooldown:Show()
