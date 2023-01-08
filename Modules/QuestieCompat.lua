@@ -56,7 +56,18 @@ end
 
 function QuestieCompat.GetContainerItemInfo(...)
     if Questie.IsWotlk then
-        return C_Container.GetContainerItemInfo(...)
+        local containerInfo = C_Container.GetContainerItemInfo(...)
+        return containerInfo.iconFileID,
+               containerInfo.stackCount,
+               containerInfo.isLocked,
+               containerInfo.quality,
+               containerInfo.isReadable,
+               containerInfo.hasLoot,
+               containerInfo.hyperlink,
+               containerInfo.isFiltered,
+               containerInfo.hasNoValue,
+               containerInfo.itemID,
+               containerInfo.isBound
     else
         return GetContainerItemInfo(...)
     end
