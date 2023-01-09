@@ -229,7 +229,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
     -- create buttons for quest items
     for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
         local buttonName = "Questie_ItemButton"..i
-        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate, ActionButtonTemplate")
+        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
         btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
         btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
@@ -545,7 +545,6 @@ local function _UpdateQuestItem(self, quest)
         self.line.expandQuest:Hide()
 
         self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
-        self:SetParent(self.line)
         self:Show()
 
         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
