@@ -1860,6 +1860,10 @@ function QuestieWotlkQuestFixes:Load()
         [13093] = {
             [questKeys.preQuestSingle] = {13092},
         },
+        [13098] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 13099,
+        },
         [13106] = {
             [questKeys.preQuestSingle] = {12897},
         },
