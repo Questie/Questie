@@ -46,8 +46,8 @@ end
 function QuestieCompat.GetAvailableQuests()
     if C_GossipInfo and C_GossipInfo.GetAvailableQuests then
         return C_GossipInfo.GetAvailableQuests()
-    elseif GetAvailableQuests then
-        return GetAvailableQuests()
+    elseif GetGossipAvailableQuests then
+        return GetGossipAvailableQuests()
     end
     error(errorMsg, 2)
 end
