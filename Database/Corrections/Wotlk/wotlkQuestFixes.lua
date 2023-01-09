@@ -1602,7 +1602,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12932] = {
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.preQuestSingle] = {12974},
             [questKeys.exclusiveTo] = {12954},
             [questKeys.nextQuestInChain] = 9977, -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
@@ -1673,8 +1672,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12954] = {
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {12974,9977}, -- This is the version of the quest you get if you HAVE completed 9977
+            [questKeys.preQuestSingle] = {9977},
             [questKeys.exclusiveTo] = {12932},
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
         },
