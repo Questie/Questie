@@ -45,6 +45,14 @@ function QuestieWotlkQuestFixes:Load()
         [1056] = {
             [questKeys.nextQuestInChain] = 1057,
         },
+        [1132] = {
+            [questKeys.startedBy] = {{4455}},
+            [questKeys.finishedBy] = {{4456}},
+        },
+        [1135] = {
+            [questKeys.startedBy] = {{4456}},
+            [questKeys.finishedBy] = {{4456}},
+        },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
