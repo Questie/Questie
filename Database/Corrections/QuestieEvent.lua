@@ -52,6 +52,7 @@ Harvest Festival history:         lunar calendar 15/8 in gregorian calendar:
 local QuestieEvent = QuestieLoader:CreateModule("QuestieEvent")
 ---@class QuestieEventPrivate
 local _QuestieEvent = QuestieEvent.private
+
 QuestieEvent.activeQuests = {}
 _QuestieEvent.eventNamesForQuests = {}
 
@@ -243,8 +244,8 @@ QuestieEvent.eventDates = {
         endDate = "24/9"
     },
     ["Pilgrim's Bounty"] = {
-        startDate = "5/9",
-        endDate = "11/9"
+        startDate = "22/11",
+        endDate = "28/11"
     },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
@@ -616,6 +617,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11242, nil, nil, QuestieCorre
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11409}) -- Now This is Ram Racing... Almost.
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11438}) -- [PH] Beer Garden B
@@ -814,6 +816,8 @@ tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A W
 
 --- Wotlk event quests
 
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13483}) -- Spring Gatherers
+tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13479}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13480}) -- The Great Egg Hunt
 tinsert(QuestieEvent.eventQuests, {"Noblegarden", 13502}) -- A Tisket, a Tasket, a Noblegarden Basket
@@ -837,16 +841,52 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Sce
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
 
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12940}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12941}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12944}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12945}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12946}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12947}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12950}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13433}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13434}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13435}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13436}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13437}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13438}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13439}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13448}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13452}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13456}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13459}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13460}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13461}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13462}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13463}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13464}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13465}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13466}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13467}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13468}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13469}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13470}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13471}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13472}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13473}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13474}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13501}) -- Candy Bucket
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 13548}) -- Candy Bucket
 
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12784}) -- Desperate Research
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 12808}) -- A Desperate Alliance
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13483}) -- Spring Gatherers
-tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 13484}) -- Spring Collectors
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14036}) -- Pilgrim's Bounty
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14022}) -- Pilgrim's Bounty
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14024}) -- Pumpkin Pie
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14028}) -- Cranberry Chutney
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14030}) -- They're Ravenous In Darnassus
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14035}) -- Slow-roasted Turkey
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14040}) -- Pumpkin Pie
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14041}) -- Cranberry Chutney
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14043}) -- Candied Sweet Potatoes
+tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14047}) -- Slow-roasted Turkey
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game

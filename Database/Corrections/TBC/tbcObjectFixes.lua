@@ -611,5 +611,9 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{40,30}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
         },
+        [500007] = {
+            [objectKeys.name] = "Alcaz Survey Credit", -- 4391
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+        },
     }
 end

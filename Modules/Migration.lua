@@ -113,7 +113,7 @@ local migrationFunctions = {
                 Questie.db.char.questAnnounceChannel = "disabled"
                 Questie.db.char.questAnnounceObjectives = false
             else
-                Questie.db.char.questAnnounceChannel = "group"
+                Questie.db.char.questAnnounceChannel = "party"
                 Questie.db.char.questAnnounceObjectives = true
             end
         end
@@ -154,6 +154,11 @@ local migrationFunctions = {
         end
         if Questie.db.global.nameplateTargetFrameEnabled == false then -- old default value
             Questie.db.global.nameplateTargetFrameEnabled = true
+        end
+    end,
+    [16] = function()
+        if Questie.db.char.questAnnounceChannel == "group" then
+            Questie.db.char.questAnnounceChannel = "party"
         end
     end,
 }

@@ -172,9 +172,10 @@ function QuestieComms:Initialize()
     -- Responds to the "hi" event from others.
     Questie:RegisterMessage("QC_ID_REQUEST_FULL_QUESTLIST", _QuestieComms.RequestQuestLog);
 
-    if not Questie.db.global.disableYellComms then
-        C_Timer.NewTicker(60, QuestieComms.SortRemotePlayers) -- periodically check for old players and remove them.
-    end
+    -- Part of yellcomms, removing
+    -- if not Questie.db.global.disableYellComms then
+    --     C_Timer.NewTicker(60, QuestieComms.SortRemotePlayers) -- periodically check for old players and remove them.
+    -- end
 
 end
 

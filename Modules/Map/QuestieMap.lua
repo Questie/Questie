@@ -400,7 +400,7 @@ function QuestieMap:ShowObject(objectID, icon, scale, title, body, disableShiftT
     if type(objectID) ~= "number" then return end
     -- get the gameobject data
     local object = QuestieDB:GetObject(objectID)
-    if not object then return end
+    if not object or not object.spawns then return end
 
     -- create the icon data
     local data = {}
@@ -694,7 +694,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
 
     --Hide unexplored logic
-    if (not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y) and Questie.db.char.hideUnexploredMapIcons) then
+    if (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(iconMap.UiMapID, x, y)) then
         iconMap:FakeHide()
         iconMinimap:FakeHide()
     end
@@ -841,12 +841,13 @@ function QuestieMap:GetNearestSpawn(objective)
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-    if next(objective.spawnList) then
+    -- TODO: This is just a temporary workaround - We have to find out why "objective.spawnList" can be nil
+    if objective and objective.spawnList and next(objective.spawnList) then
         for id, spawnData in pairs(objective.spawnList) do
             for zone, spawns in pairs(spawnData.Spawns) do
-                for _,spawn in pairs(spawns) do
+                for _, spawn in pairs(spawns) do
                     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, uiMapId)
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
                     local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
                     if dist then
                         if dInstance ~= playerI then

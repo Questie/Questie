@@ -750,8 +750,14 @@ function QuestieQuestFixes:Load()
         [1471] = {
             [questKeys.exclusiveTo] = {1504}, -- #1542
         },
+        [1472] = {
+            [questKeys.exclusiveTo] = {},
+        },
         [1473] = {
             [questKeys.exclusiveTo] = {1501},
+        },
+        [1474] = {
+            [questKeys.exclusiveTo] = {1513},
         },
         [1477] = {
             [questKeys.exclusiveTo] = {1395}, -- #1727
@@ -777,6 +783,12 @@ function QuestieQuestFixes:Load()
         },
         [1506] = {
             [questKeys.exclusiveTo] = {1478}, -- #1427
+        },
+        [1507] = {
+            [questKeys.exclusiveTo] = {},
+        },
+        [1513] = {
+            [questKeys.exclusiveTo] = {1474},
         },
         [1516] = {
             [questKeys.exclusiveTo] = {1519},
@@ -951,7 +963,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [1955] = {
-            [questKeys.triggerEnd] = {"Kill the Demon of the Orb", {[zoneIDs.DUSTWALLOW_MARSH]={{45.6,57,2}}}},
+            [questKeys.triggerEnd] = {"Kill the Demon of the Orb", {[zoneIDs.DUSTWALLOW_MARSH]={{45.6,57.2}}}},
         },
         [1959] = {
             [questKeys.startedBy] = {{2128,3049,5880,7311},nil,nil},
@@ -1332,6 +1344,9 @@ function QuestieQuestFixes:Load()
         },
         [4134] = {
             [questKeys.preQuestSingle] = {}, -- #1859
+        },
+        [4136] = {
+            [questKeys.preQuestSingle] = {}, -- #4459
         },
         [4143] = {
             [questKeys.zoneOrSort] = 1477,
@@ -1850,6 +1865,12 @@ function QuestieQuestFixes:Load()
         [5930] = {
             [questKeys.triggerEnd] = {"Seek out the Great Bear Spirit and learn what it has to share with you about the nature of the bear.", {[zoneIDs.MOONGLADE]={{39.25,27.73}}}},
         },
+        [5931] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Silva Fil'naveth to fly back to Darnassus"), 0, {{"monster", 11800}}}},
+        },
+        [5932] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Talk to Bunthen Plainswind to fly back to Thunder Bluff"), 0, {{"monster", 11798}}}},
+        },
         [5943] = {
             [questKeys.triggerEnd] = {"Escort Gizelton Caravan past Mannoroc Coven", {[zoneIDs.DESOLACE]={{55.69,67.79}}}},
         },
@@ -1869,16 +1890,24 @@ function QuestieQuestFixes:Load()
             },
         },
         [6061] = {
-            [questKeys.triggerEnd] = {"Tame an Adult Plainstrider", {[zoneIDs.MULGORE]={{43.5,44.99},{43.69,51.84},{52.68,57.44},{41.96,55.26},{48.15,47.89}}}},
+            [questKeys.objectives] = {{{2956, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6062] = {
-            [questKeys.triggerEnd] = {"Tame a Dire Mottled Boar", {[zoneIDs.DUROTAR]={{51.54,45.89},{52.44,48.97}}}},
+            [questKeys.objectives] = {{{3099, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6063] = {
-            [questKeys.triggerEnd] = {"Tame a Webwood Lurker", {[zoneIDs.TELDRASSIL]={{59.18,58.07},{53.97,62.29}}}},
+            [questKeys.objectives] = {{{1998, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6064] = {
-            [questKeys.triggerEnd] = {"Tame a Large Crag Boar", {[zoneIDs.DUN_MOROGH]={{48.29,56.71},{40.19,47.1},{50.59,51.31},{48.07,47.34}}}},
+            [questKeys.objectives] = {{{1126, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6065] = {
             [questKeys.exclusiveTo] = {6066,6067,6061},
@@ -1924,28 +1953,44 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6074,6075,6064},
         },
         [6082] = {
-            [questKeys.triggerEnd] = {"Tame an Armored Scorpid", {[zoneIDs.DUROTAR]={{45.27,45.59},{54.99,37.63}}}},
+            [questKeys.objectives] = {{{3126, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6083] = {
-            [questKeys.triggerEnd] = {"Tame a Surf Crawler", {[zoneIDs.DUROTAR]={{58.94,29.09},{61.07,78.01}}}},
+            [questKeys.objectives] = {{{3107, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6084] = {
-            [questKeys.triggerEnd] = {"Tame a Snow Leopard", {[zoneIDs.DUN_MOROGH]={{48.41,59.35},{37.78,38.02}}}},
+            [questKeys.objectives] = {{{1201, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6085] = {
-            [questKeys.triggerEnd] = {"Tame an Ice Claw Bear", {[zoneIDs.DUN_MOROGH]={{49.89,53.52},{37.04,44.95},{50.16,58.83}}}},
+            [questKeys.objectives] = {{{1196, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6087] = {
-            [questKeys.triggerEnd] = {"Tame a Prairie Stalker", {[zoneIDs.MULGORE]={{43.5,51.95},{46.73,49.71},{42.99,47.64},{59.13,58.63}}}},
+            [questKeys.objectives] = {{{2959, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6088] = {
-            [questKeys.triggerEnd] = {"Tame a Swoop", {[zoneIDs.MULGORE]={{46.55,49.4},{42.75,49.11},{43.07,52.3},{46.58,45.05},{42.44,43.16}}}},
+            [questKeys.objectives] = {{{2970, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6101] = {
-            [questKeys.triggerEnd] = {"Tame a Nightsaber Stalker", {[zoneIDs.TELDRASSIL]={{40.09,55.45},{55.92,72.07},{46.89,72.28}}}},
+            [questKeys.objectives] = {{{2043, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6102] = {
-            [questKeys.triggerEnd] = {"Tame a Strigid Screecher", {[zoneIDs.TELDRASSIL]={{43.81,50.88}}}},
+            [questKeys.objectives] = {{{1996, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6136] = {
             [questKeys.preQuestSingle] = {6133}, -- #1572
@@ -3449,6 +3494,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredClasses] = classIDs.WARLOCK,
             [questKeys.objectivesText] = {"Bring the hearts of Avelina Lilly and Isaac Pearson to Carendin Halgar in the Temple of the Damned."},
             [questKeys.objectives] = {nil,nil,{{190179},{190180}},nil,nil},
+            [questKeys.preQuestSingle] = {1472},
             [questKeys.exclusiveTo] = {65610},
             [questKeys.zoneOrSort] = sortKeys.WARLOCK,
         },
