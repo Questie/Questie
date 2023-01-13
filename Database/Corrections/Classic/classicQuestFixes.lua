@@ -942,6 +942,7 @@ function QuestieQuestFixes:Load()
         },
         [1918] = {
             [questKeys.startedBy] = {{12759},nil,{16408}},
+            [questKeys.preQuestSingle] = {25},
         },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
@@ -2119,6 +2120,7 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
+            [questKeys.nextQuestInChain] = 6962,
         },
         [6981] = {
             [questKeys.startedBy] = {{3654},nil,{10441}},
@@ -2141,6 +2143,7 @@ function QuestieQuestFixes:Load()
         [7021] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
+            [questKeys.nextQuestInChain] = 6962,
         },
         [7022] = {
             [questKeys.startedBy] = {{13433},nil,nil},
@@ -2151,6 +2154,7 @@ function QuestieQuestFixes:Load()
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
+            [questKeys.nextQuestInChain] = 6962,
         },
         [7026] = {
             [questKeys.objectivesText] = {},
