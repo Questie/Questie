@@ -199,4 +199,5 @@ _QuestieAuto.disallowedQuests = {
     [12656] = true, -- Blessing of Zim'Rhuk repeatable
 
     [11705] = true, -- Foolish Endeavors
+    [11733] = true, -- Traversing the Rift
 }
