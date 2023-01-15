@@ -177,9 +177,6 @@ function QuestieQuestFixes:Load()
         [415] = {
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
         },
-        [420] = {
-            [questKeys.nextQuestInChain] = 287,
-        },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
         },
