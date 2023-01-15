@@ -1234,6 +1234,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 12661,
         },
         [12651] = {
+            [questKeys.preQuestGroup] = {12558,12556,12592},
             [questKeys.exclusiveTo] = {12654},
             [questKeys.nextQuestInChain] = 12654,
         },
