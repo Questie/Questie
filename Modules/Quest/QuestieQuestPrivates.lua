@@ -14,6 +14,10 @@ local function _GetIconScaleForMonster()
     return Questie.db.global.monsterScale or 1
 end
 
+local function _GetIconScaleForInteract()
+    return 1.35 -- TODO: Add setting to change the size
+end
+
 local function _GetIconScaleForObject()
     return Questie.db.global.objectScale or 1
 end
@@ -112,8 +116,8 @@ monster = function(npcId, objective)
         Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
         Hostile = isFriendlyToPlayer,
         Icon = isFriendlyToPlayer and ICON_TYPE_INTERACT or ICON_TYPE_SLAY,
-        GetIconScale = _GetIconScaleForMonster,
-        IconScale = _GetIconScaleForMonster(),
+        GetIconScale = isFriendlyToPlayer and _GetIconScaleForInteract or _GetIconScaleForMonster,
+        IconScale = isFriendlyToPlayer and _GetIconScaleForInteract() or _GetIconScaleForMonster(),
         TooltipKey = "m_" .. npcId, -- todo: use ID based keys
     }
 
