@@ -1019,7 +1019,11 @@ end
 ---@param friendlyToFaction string --The NPC database field friendlyToFaction - so either nil, "A", "H" or "AH"
 ---@return boolean
 function QuestieDB.IsFriendlyToPlayer(friendlyToFaction)
-    if (not friendlyToFaction) or friendlyToFaction == "AH" then
+    if (not friendlyToFaction) then
+        return false
+    end
+
+    if friendlyToFaction == "AH" then
         return true
     end
 
