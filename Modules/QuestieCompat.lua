@@ -45,9 +45,22 @@ end
 ---@return GossipQuestUIInfo[] info
 function QuestieCompat.GetAvailableQuests()
     if C_GossipInfo and C_GossipInfo.GetAvailableQuests then
-        return C_GossipInfo.GetAvailableQuests()
+        local info = C_GossipInfo.GetAvailableQuests()
+        local availableQuests = {}
+        local index = 1
+        for _, availableQuest in pairs(info) do
+            availableQuests[index] = availableQuest.title
+            availableQuests[index + 1] = availableQuest.questLevel
+            availableQuests[index + 2] = availableQuest.isTrivial
+            availableQuests[index + 3] = availableQuest.frequency
+            availableQuests[index + 4] = availableQuest.repeatable
+            availableQuests[index + 5] = availableQuest.isLegendary
+            availableQuests[index + 6] = availableQuest.isIgnored
+            index = index + 6
+        end
+        return unpack(availableQuests)
     elseif GetGossipAvailableQuests then
-        return GetGossipAvailableQuests()
+        return GetGossipAvailableQuests() -- https://wowpedia.fandom.com/wiki/API_GetGossipAvailableQuests
     end
     error(errorMsg, 2)
 end
@@ -57,9 +70,21 @@ end
 ---@return GossipQuestUIInfo[] info
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
-        return C_GossipInfo.GetActiveQuests()
-    elseif GetActiveQuests then
-        return GetActiveQuests()
+        local info = C_GossipInfo.GetActiveQuests()
+        local activeQuests = {}
+        local index = 1
+        for _, activeQuest in pairs(info) do
+            activeQuests[index] = activeQuest.title
+            activeQuests[index + 1] = activeQuest.questLevel
+            activeQuests[index + 2] = activeQuest.isTrivial
+            activeQuests[index + 3] = activeQuest.isComplete
+            activeQuests[index + 4] = activeQuest.isLegendary
+            activeQuests[index + 5] = activeQuest.isIgnored
+            index = index + 5
+        end
+        return unpack(activeQuests)
+    elseif GetGossipActiveQuests then
+        return GetGossipActiveQuests() -- https://wowpedia.fandom.com/wiki/API_GetGossipActiveQuests
     end
     error(errorMsg, 2)
 end
@@ -69,9 +94,10 @@ end
 ---@param index number Index of the quest to select (I think questId might work here too...)
 function QuestieCompat.SelectAvailableQuest(index)
     if C_GossipInfo and C_GossipInfo.SelectAvailableQuest then
-        return C_GossipInfo.SelectAvailableQuest(index)
-    elseif SelectAvailableQuest then
-        return SelectAvailableQuest(index)
+        local questId = C_GossipInfo.GetAvailableQuests()[index].questID
+        return C_GossipInfo.SelectAvailableQuest(questId)
+    elseif SelectGossipAvailableQuest then
+        return SelectGossipAvailableQuest(index)
     end
     error(errorMsg, 2)
 end
@@ -81,9 +107,10 @@ end
 ---@param index number|QuestId Index of the active quest to select, from 1 to GetNumGossipActiveQuests(); order corresponds to the order of return values from GetGossipActiveQuests().
 function QuestieCompat.SelectActiveQuest(index)
     if C_GossipInfo and C_GossipInfo.SelectActiveQuest then
-        return C_GossipInfo.SelectActiveQuest(index)
-    elseif SelectActiveQuest then
-        return SelectActiveQuest(index)
+        local questId = C_GossipInfo.GetActiveQuests()[index].questID
+        return C_GossipInfo.SelectActiveQuest(questId)
+    elseif SelectGossipActiveQuest then
+        return SelectGossipActiveQuest(index)
     end
     error(errorMsg, 2)
 end
