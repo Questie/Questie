@@ -3,12 +3,12 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 l10n.questCategoryLookup = {
     [-1] = "Epic",
-    [-21] = "Wailing Caverns",
+    [-21] = "Hallow's End",
     [-22] = "Seasonal",
     [-23] = "Undercity",
     [-24] = "Herbalism",
     [-25] = "Battlegrounds",
-    [-41] = "Uldaman",
+    [-41] = "Day of the Dead",
     [-61] = "Warlock",
     [-81] = "Warrior",
     [-82] = "Shaman",
@@ -40,4 +40,7 @@ l10n.questCategoryLookup = {
     [-371] = "Inscription",
     [-372] = "Death Knight",
     [-373] = "Jewelcrafting",
+    [-374] = "Noblegarden",
+    [-375] = "Pilgrim's Bounty",
+    [-376] = "Love is in the Air",
 };
