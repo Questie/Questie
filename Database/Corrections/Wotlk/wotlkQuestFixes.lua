@@ -2703,16 +2703,89 @@ function QuestieWotlkQuestFixes:Load()
         [13559] = {
             [questKeys.requiredMinRep] = {1119,3000},
         },
+        [13625] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13627] = {
+            [questKeys.startedBy] = {{33434}},
+            [questKeys.finishedBy] = {{33434}},
+        },
         [13631] = {
             [questKeys.startedBy] = {{32871},nil,{46052}},
+        },
+        [13633] = {
+            [questKeys.preQuestSingle] = {13668},
+        },
+        [13634] = {
+            [questKeys.preQuestSingle] = {13668},
         },
         [13662] = {
             [questKeys.preQuestSingle] = {7722},
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
         },
+        [13666] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13669] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13670] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13671] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13673] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13674] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13675] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13676] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13677] = {
+            [questKeys.parentQuest] = 0,
+        },
+        [13681] = {
+            [questKeys.startedBy] = {{33435}},
+            [questKeys.finishedBy] = {{33435}},
+        },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
+        },
+        [13820] = {
+            [questKeys.startedBy] = {{33817}},
+            [questKeys.finishedBy] = {{33434}},
+            [questKeys.exclusiveTo] = {13627},
+        },
+        [13828] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33842}}}},
+        },
+        [13829] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+        },
+        [13835] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33842}}}},
+        },
+        [13837] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33842}}}},
+        },
+        [13838] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+        },
+        [13839] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
         },
         [13825] = {
             [questKeys.startedBy] = {{8125}},
