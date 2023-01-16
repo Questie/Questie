@@ -716,6 +716,9 @@ function QuestieTBCQuestFixes:Load()
         [8883] = {
             [questKeys.questLevel] = 70,
         },
+        [8888] = {
+            [questKeys.exclusiveTo] = {8889,8890,9394,},
+        },
         [8894] = {
             [questKeys.preQuestSingle] = {},
         },

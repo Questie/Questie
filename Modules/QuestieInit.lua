@@ -104,6 +104,11 @@ end
 
 ---Run the validator
 local function runValidator()
+    if Questie.db.global.skipValidation then
+        -- TODO: We need a checkbox for this setting
+        return
+    end
+
     if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
         Questie:Error("Cannot run the validator on string data, load database first")
         return

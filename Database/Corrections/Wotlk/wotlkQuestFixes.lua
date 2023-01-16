@@ -33,17 +33,37 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{31108}},
             [questKeys.exclusiveTo] = {13154,13156,},
         },
+        [648] = {
+            [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{61,53}}}},
+        },
         [768] = {
             [questKeys.requiredSkill] = {393,1},
+        },
+        [836] = {
+            [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS]={{49.8,43.8}}}},
         },
         [1056] = {
             [questKeys.nextQuestInChain] = 1057,
         },
+        [1132] = {
+            [questKeys.startedBy] = {{4455}},
+            [questKeys.finishedBy] = {{4456}},
+        },
+        [1135] = {
+            [questKeys.startedBy] = {{4456}},
+            [questKeys.finishedBy] = {{4456}},
+        },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2767] = {
+            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{54.3,51.2}}}},
+        },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [4763] = {
+            [questKeys.objectives] = {nil,nil,{{12355}}},
         },
         [6961] = {
             [questKeys.exclusiveTo] = {6962},
@@ -327,6 +347,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11567] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ask Alanya for transportation"),0,{{"monster", 27933}}}},
+        },
+        [11569] = {
+            [questKeys.preQuestSingle] = {11571},
         },
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
@@ -701,6 +724,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12127] = {
             [questKeys.objectives] = {{{26283}},nil,{{36846}}},
+        },
+        [12132] = {
+            [questKeys.preQuestGroup] = {12125,12126,12127},
         },
         [12135] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
@@ -1208,6 +1234,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 12661,
         },
         [12651] = {
+            [questKeys.preQuestGroup] = {12558,12556,12592},
             [questKeys.exclusiveTo] = {12654},
             [questKeys.nextQuestInChain] = 12654,
         },
@@ -1286,6 +1313,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12683] = {
             [questKeys.objectives] = {{{28003,},{28003}}},
+            [questKeys.preQuestGroup] = {12559,12556},
         },
         [12685] = {
             [questKeys.objectives] = {{{28671}}},
@@ -1390,6 +1418,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
         },
         [12734] = {
+            [questKeys.objectives] = {{{28086,"Blade blooded on Sapphire Hive Wasp"},{28096,"Blade blooded on Hardknuckle Charger"}},nil,nil,nil,{{{28109,28110},28109,"Blade Blooded on Mistwhisper members"}}},
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12735] = {
@@ -1575,7 +1604,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12932] = {
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.preQuestSingle] = {12974},
             [questKeys.exclusiveTo] = {12954},
             [questKeys.nextQuestInChain] = 9977, -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
@@ -1646,8 +1674,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12954] = {
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {12974,9977}, -- This is the version of the quest you get if you HAVE completed 9977
+            [questKeys.preQuestSingle] = {9977},
             [questKeys.exclusiveTo] = {12932},
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
         },
@@ -1834,6 +1861,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13093] = {
             [questKeys.preQuestSingle] = {13092},
+        },
+        [13098] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 13099,
         },
         [13106] = {
             [questKeys.preQuestSingle] = {12897},
@@ -2393,6 +2424,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13352},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
+        [13359] = {
+            [questKeys.preQuestSingle] = {13348},
+            [questKeys.nextQuestInChain] = 13360,
+        },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
         },
@@ -2442,6 +2477,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13395] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31254,32414,31276},31329}}},
+        },
+        [13398] = {
+            [questKeys.preQuestSingle] = {13396},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
@@ -2945,6 +2983,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [24615] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
     }
