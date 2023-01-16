@@ -117,7 +117,7 @@ end
 ---@return number itemID The unique ID for the item in the specified bag slot.
 ---@return boolean isBound True if the item is bound to the current character, false otherwise.
 function QuestieCompat.GetContainerItemInfo(bagID, slot)
-    if Questie.IsWotlk then
+    if C_Container and C_Container.GetContainerItemInfo then
         local containerInfo = C_Container.GetContainerItemInfo(bagID, slot)
         if containerInfo then
             return containerInfo.iconFileID,
@@ -134,9 +134,10 @@ function QuestieCompat.GetContainerItemInfo(bagID, slot)
        else
             return nil
        end
-    else
+    elseif GetContainerItemInfo then
         return GetContainerItemInfo(bagID, slot)
     end
+    error(errorMsg, 2)
 end
 
 ---[Documentation](https://wowpedia.fandom.com/wiki/API_GetItemCooldown)
