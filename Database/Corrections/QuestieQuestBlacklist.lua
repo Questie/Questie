@@ -1180,27 +1180,6 @@ function QuestieQuestBlacklist:Load()
         [12808] = true,
         [12811] = true,
 
-        --- Phase 2 Ulduar / Argent Tournament
-        [13633] = true,
-        [13634] = true,
-        [13667] = true,
-        [13668] = true,
-        [13682] = true,
-        [13789] = true,
-        [13790] = true,
-        [13809] = true,
-        [13810] = true,
-        [13811] = true,
-        [13846] = true,
-        [13861] = true,
-        [13862] = true,
-        [14101] = true,
-        [14102] = true,
-        [14104] = true,
-        [14105] = true,
-        [14107] = true,
-        [14108] = true,
-
         --- Phase 3 Trial of the Crusader
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
 
