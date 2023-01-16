@@ -27,7 +27,7 @@ local function _MarkDailyAndRepeatableQuests(lines, textures, ...)
     for i=1, select("#", ...), 7 do
         lineIndex = lineIndex + 1
         local activeQuestLine = lines[lineIndex]
-        if activeQuestLine:IsVisible() and activeQuestLine.type == "Available" then
+        if activeQuestLine and activeQuestLine:IsVisible() and activeQuestLine.type == "Available" then
             local _, _, _, frequency, isRepeatable = select(i, ...)
             if isRepeatable then
                 local texture = textures[lineIndex]
