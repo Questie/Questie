@@ -161,6 +161,11 @@ local migrationFunctions = {
             Questie.db.char.questAnnounceChannel = "party"
         end
     end,
+    [17] = function()
+        if Questie.IsWotlk then
+            Questie.db.global.isleOfQuelDanasPhase = 9 -- Last Isle Of Quel Danas Phase
+        end
+    end,
 }
 
 function Migration:Migrate()
