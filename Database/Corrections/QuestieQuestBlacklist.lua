@@ -1108,6 +1108,8 @@ function QuestieQuestBlacklist:Load()
         [12108] = true, -- Not in the game
         [12233] = true, -- Not in the game
         [12426] = true, -- Not in the game
+        [12479] = true, -- Not in the game
+        [12480] = true, -- Not in the game
         [12490] = true, -- Not in the game
         [25229] = true, -- Not in the game
         [12780] = true, -- Not in the game
