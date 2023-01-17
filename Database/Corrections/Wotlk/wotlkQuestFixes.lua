@@ -1921,6 +1921,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Bag of Jagged Shards near Malykriss Furnace"), 0, {{"object", 193004}}}},
         },
         [13139] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13125,13130,13135},
         },
         [13140] = {
@@ -2427,6 +2428,9 @@ function QuestieWotlkQuestFixes:Load()
         [13359] = {
             [questKeys.preQuestSingle] = {13348},
             [questKeys.nextQuestInChain] = 13360,
+        },
+        [13360] = {
+            [questKeys.preQuestSingle] = {13359},
         },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
