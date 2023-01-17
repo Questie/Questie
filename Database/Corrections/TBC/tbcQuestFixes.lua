@@ -794,8 +794,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{16500},nil,nil},
         },
         [9291] = {
-            [questKeys.preQuestSingle] = {9280},
             [questKeys.startedBy] = {{16502},nil,nil},
+            [questKeys.finishedBy] = {{16502},nil,nil},
+            [questKeys.requiredRaces] = raceIDs.DRAENEI,
+            [questKeys.preQuestSingle] = {9280},
         },
         [9303] = {
             [questKeys.objectives] = {{{16518,"Nestlewood Owlkin inoculated"}},nil,nil,nil},
