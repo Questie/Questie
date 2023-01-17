@@ -3099,6 +3099,9 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{29.8,75.7}},
             }},
         },
+        [24431] = {
+            [questKeys.specialFlags] = 1,
+        },
         [24597] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
