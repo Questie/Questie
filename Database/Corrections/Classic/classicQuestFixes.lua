@@ -145,6 +145,9 @@ function QuestieQuestFixes:Load()
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
+        [361] = {
+            [questKeys.startedBy] = {{1520,1522,1523},nil,{2839}}, -- temp correction for item start
+        },
         [364] = {
             [questKeys.preQuestSingle] = {}, -- #882
         },
@@ -499,6 +502,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {944}, -- #1517
             [questKeys.exclusiveTo] = {950}, -- #1517
         },
+        [968] = {
+            [questKeys.startedBy] = {{2338,2339},nil,{5352}}, -- temp correction for item start
+        },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
         },
@@ -765,6 +771,9 @@ function QuestieQuestFixes:Load()
         [1479] = {
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+        },
+        [1480] = {
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019},nil,{6766,20310}}, -- temp correction for item start
         },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
@@ -1412,6 +1421,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {4493,4494},
         },
         [4506] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32}}}},
         },
         [4542] = {

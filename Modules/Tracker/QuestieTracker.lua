@@ -229,7 +229,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
     -- create buttons for quest items
     for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
         local buttonName = "Questie_ItemButton"..i
-        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate, ActionButtonTemplate")
+        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
         btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
         btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
@@ -246,8 +246,8 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
             local isFound = false
 
             for bag = 0 , 4 do
-                for slot = 1, GetContainerNumSlots(bag) do
-                    local texture, _, _, _, _, _, _, _, _, itemID = GetContainerItemInfo(bag, slot)
+                for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
+                    local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
                     if quest.sourceItemId == itemID then
                         validTexture = texture
                         isFound = true
@@ -320,7 +320,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                 return
             end
 
-            local start, duration, enabled = GetItemCooldown(self.itemID)
+            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
 
             if enabled and duration > 3 and enabled == 1 then
                 cooldown:Show()
@@ -413,13 +413,13 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
         end
 
         btn.FakeHide = function(self)
-            self:RegisterForClicks(nil)
+            self:RegisterForClicks()
             self:SetScript("OnEnter", nil)
             self:SetScript("OnLeave", nil)
 
-            self:SetNormalTexture(nil)
-            self:SetPushedTexture(nil)
-            self:SetHighlightTexture(nil)
+            --self:SetNormalTexture(nil)
+            --self:SetPushedTexture(nil)
+            --self:SetHighlightTexture(nil)
         end
 
         btn:HookScript("OnUpdate", btn.OnUpdate)
@@ -448,7 +448,9 @@ end
 
 function QuestieTracker:ResetDurabilityFrame()
     DurabilityFrame:ClearAllPoints()
-    DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
+    if durabilityInitialPosition then
+        DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
+    end
 end
 
 function QuestieTracker:MoveDurabilityFrame()
@@ -543,7 +545,6 @@ local function _UpdateQuestItem(self, quest)
         self.line.expandQuest:Hide()
 
         self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
-        self:SetParent(self.line)
         self:Show()
 
         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
@@ -1050,8 +1051,7 @@ function QuestieTracker:Update()
 
         end
 
-        _QuestieTracker.baseFrame:SetMaxResize(GetScreenWidth()/2, GetScreenHeight())
-        _QuestieTracker.baseFrame:SetMinResize(activeQuestsHeaderWidth, _QuestieTracker.baseFrame:GetHeight())
+        QuestieCompat.SetResizeBounds(_QuestieTracker.baseFrame, activeQuestsHeaderWidth, _QuestieTracker.baseFrame:GetHeight(), GetScreenWidth()/2, GetScreenHeight())
         _QuestieTracker.trackedQuestsFrame:Show()
     end
 

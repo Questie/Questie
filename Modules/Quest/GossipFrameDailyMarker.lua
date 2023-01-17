@@ -10,7 +10,7 @@ local function _GetLineAndIconMaps()
     local lines = {}
     local icons = {}
 
-    for i = 1, NUMGOSSIPBUTTONS do
+    for i = 1, NUMGOSSIPBUTTONS or #C_GossipInfo.GetOptions() do
         local titleLine = _G["GossipTitleButton" .. i]
         if (not titleLine) then
             break
@@ -27,7 +27,7 @@ local function _MarkDailyAndRepeatableQuests(lines, textures, ...)
     for i=1, select("#", ...), 7 do
         lineIndex = lineIndex + 1
         local activeQuestLine = lines[lineIndex]
-        if activeQuestLine:IsVisible() and activeQuestLine.type == "Available" then
+        if activeQuestLine and activeQuestLine:IsVisible() and activeQuestLine.type == "Available" then
             local _, _, _, frequency, isRepeatable = select(i, ...)
             if isRepeatable then
                 local texture = textures[lineIndex]
@@ -45,5 +45,5 @@ local gossipTitleLines, gossipIconTextures = _GetLineAndIconMaps()
 ---This function changes the icons of available quests in the Gossip Frame
 ---Repeatable turn in quests get a blue ? and repeatable quests (like dailies) get a blue !
 function GossipFrameDailyMarker.Mark()
-    _MarkDailyAndRepeatableQuests(gossipTitleLines, gossipIconTextures, GetGossipAvailableQuests())
+    _MarkDailyAndRepeatableQuests(gossipTitleLines, gossipIconTextures, QuestieCompat.GetAvailableQuests())
 end

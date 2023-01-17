@@ -1313,6 +1313,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12683] = {
             [questKeys.objectives] = {{{28003,},{28003}}},
+            [questKeys.preQuestGroup] = {12559,12556},
         },
         [12685] = {
             [questKeys.objectives] = {{{28671}}},
@@ -2702,16 +2703,135 @@ function QuestieWotlkQuestFixes:Load()
         [13559] = {
             [questKeys.requiredMinRep] = {1119,3000},
         },
+        [13625] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.parentQuest] = 0,
+        },
+        [13627] = {
+            [questKeys.startedBy] = {{33434}},
+            [questKeys.finishedBy] = {{33434}},
+        },
         [13631] = {
             [questKeys.startedBy] = {{32871},nil,{46052}},
+        },
+        [13633] = {
+            [questKeys.preQuestSingle] = {13668},
+        },
+        [13634] = {
+            [questKeys.preQuestSingle] = {13668},
         },
         [13662] = {
             [questKeys.preQuestSingle] = {7722},
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
         },
+        [13666] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.parentQuest] = 0,
+        },
+        [13669] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.parentQuest] = 0,
+        },
+        [13670] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.parentQuest] = 0,
+        },
+        [13671] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.parentQuest] = 0,
+        },
+        [13673] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.parentQuest] = 0,
+        },
+        [13674] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.parentQuest] = 0,
+        },
+        [13675] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.parentQuest] = 0,
+        },
+        [13676] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.parentQuest] = 0,
+        },
+        [13677] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.parentQuest] = 0,
+        },
+        [13681] = {
+            [questKeys.startedBy] = {{33435}},
+            [questKeys.finishedBy] = {{33435}},
+        },
+        [13682] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13788] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13789] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13790] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13791] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13793] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13809] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13810] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13811] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13812] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13813] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13814] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
+        },
+        [13820] = {
+            [questKeys.startedBy] = {{33817}},
+            [questKeys.finishedBy] = {{33434}},
+            [questKeys.exclusiveTo] = {13627},
+        },
+        [13828] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+        },
+        [13829] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+        },
+        [13835] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+        },
+        [13837] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+        },
+        [13838] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+        },
+        [13839] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
         },
         [13825] = {
             [questKeys.startedBy] = {{8125}},
@@ -2740,8 +2860,23 @@ function QuestieWotlkQuestFixes:Load()
         [13836] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
         },
+        [13846] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
+        },
+        [13861] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13862] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13863] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13864] = {
+            [questKeys.preQuestSingle] = {13794},
         },
         [13887] = {
             [questKeys.preQuestSingle] = {13850},

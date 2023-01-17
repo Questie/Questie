@@ -200,4 +200,5 @@ _QuestieAuto.disallowedQuests = {
 
     [11705] = true, -- Foolish Endeavors
     [11733] = true, -- Traversing the Rift
+    [12671] = true, -- Reconnaissance Flight
 }

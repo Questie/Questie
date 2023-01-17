@@ -14,6 +14,7 @@ Modules\WorldMapTaintWorkaround.lua
 embeds.xml
 
 Modules\VersionCheck.lua
+Modules\QuestieCompat.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
