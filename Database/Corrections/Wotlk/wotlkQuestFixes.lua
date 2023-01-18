@@ -2708,6 +2708,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,3000},
         },
         [13625] = {
+            [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.parentQuest] = 0,
         },
@@ -2764,6 +2765,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 0,
         },
         [13677] = {
+            [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.parentQuest] = 0,
         },
