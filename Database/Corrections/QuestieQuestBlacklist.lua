@@ -1168,12 +1168,6 @@ function QuestieQuestBlacklist:Load()
         [9343] = QuestieCorrections.WOTLK_ONLY,
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
 
-        -- Classic+TBC Naxxramas attune (no longer exists in wotlk)
-
-        [9121] = QuestieCorrections.WOTLK_ONLY,
-        [9122] = QuestieCorrections.WOTLK_ONLY,
-        [9123] = QuestieCorrections.WOTLK_ONLY,
-
         -- Scourge invasion
         [12752] = true,
         [12753] = true,
