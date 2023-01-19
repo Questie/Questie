@@ -101,6 +101,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{16281}},
             [questKeys.questLevel] = -1,
         },
+        [9211] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9213] = {
             [questKeys.specialFlags] = 1,
         },
