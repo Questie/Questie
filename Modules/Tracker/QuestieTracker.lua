@@ -545,6 +545,8 @@ local function _UpdateQuestItem(self, quest)
         self.line.expandQuest:Hide()
 
         self:SetPoint("TOPLEFT", self.line, "TOPLEFT", 0, 0)
+        -- TODO: remove this re-parenting and trigger this function from wherever the tracker is changing Questie.db.char.isTrackerExpanded
+        self:SetParent(self.line)
         self:Show()
 
         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
@@ -553,6 +555,7 @@ local function _UpdateQuestItem(self, quest)
         end
     else
         self.line.expandQuest:Show()
+        -- TODO: see above
         self:SetParent(UIParent)
         self:Hide()
     end
