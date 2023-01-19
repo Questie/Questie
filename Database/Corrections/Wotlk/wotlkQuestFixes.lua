@@ -2732,6 +2732,7 @@ function QuestieWotlkQuestFixes:Load()
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13669] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -2748,6 +2749,7 @@ function QuestieWotlkQuestFixes:Load()
         [13673] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13674] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
