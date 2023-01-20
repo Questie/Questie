@@ -2775,6 +2775,20 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.parentQuest] = 0,
         },
+        [13679] = {
+            [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13680] = {
+            [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
+            },
+        },
         [13681] = {
             [questKeys.startedBy] = {{33435}},
             [questKeys.finishedBy] = {{33435}},
