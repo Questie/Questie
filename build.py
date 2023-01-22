@@ -108,16 +108,16 @@ def get_version_dir(is_release_build, versionOverride):
 
     return release_dir
 
-directoriesToSkip = ['.blizzardfunctions', '.git', '.github', '.history', '.idea', '.types', '.vscode', 'ExternalScripts(DONOTINCLUDEINRELEASE)', 'releases']
-filesToSkip = ['.gitattributes', '.gitignore', '.luacheckrc', 'build.py', 'changelog.py', 'cli.lua', '.DS_Store']
+directoriesToInclude = ['Database', 'Icons', 'Libs', 'Localization', 'Modules']
+filesToInclude = ['embeds.xml', 'Questie.lua', 'Questie.toc', 'Questie-BCC.toc', 'Questie-Classic.toc', 'Questie-WOTLKC.toc']
 
 def copy_content_to(release_folder_path):
     for _, directories, files in os.walk('.'):
         for directory in directories:
-            if directory not in directoriesToSkip:
+            if directory in directoriesToInclude:
                 shutil.copytree(directory, '%s/%s' % (release_folder_path, directory))
         for file in files:
-            if file not in filesToSkip:
+            if file in filesToInclude:
                 shutil.copy2(file, '%s/%s' % (release_folder_path, file))
         break
 
