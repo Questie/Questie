@@ -2948,6 +2948,9 @@ function QuestieWotlkQuestFixes:Load()
         [13764] = {
             [questKeys.exclusiveTo] = {13762,13763},
         },
+        [13767] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Orgrimmar Wolf"), 0, {{"monster", 33799}}}},
+        },
         [13768] = {
             [questKeys.exclusiveTo] = {13769,13770},
         },
@@ -2956,6 +2959,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13770] = {
             [questKeys.exclusiveTo] = {13768,13769},
+        },
+        [13772] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Darkspear Raptor"), 0, {{"monster", 33796}}}},
         },
         [13773] = {
             [questKeys.exclusiveTo] = {13774,13775},
@@ -2966,6 +2972,9 @@ function QuestieWotlkQuestFixes:Load()
         [13775] = {
             [questKeys.exclusiveTo] = {13773,13774},
         },
+        [13777] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Mulgore Kodo"), 0, {{"monster", 33792}}}},
+        },
         [13778] = {
             [questKeys.exclusiveTo] = {13779,13780},
         },
@@ -2975,6 +2984,9 @@ function QuestieWotlkQuestFixes:Load()
         [13780] = {
             [questKeys.exclusiveTo] = {13778,13779},
         },
+        [13782] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Forsaken Warhorse"), 0, {{"monster", 33798}}}},
+        },
         [13783] = {
             [questKeys.exclusiveTo] = {13784,13785},
         },
@@ -2983,6 +2995,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13785] = {
             [questKeys.exclusiveTo] = {13783,13784},
+        },
+        [13787] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Silvermoon Hawkstrider"), 0, {{"monster", 33791}}}},
         },
         [13788] = {
             [questKeys.preQuestSingle] = {13794},
