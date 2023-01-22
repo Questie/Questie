@@ -66,10 +66,10 @@ Database\Corrections\QuestieEvent.lua
 Database\Corrections\Automatic\itemStartFixes.lua
 
 # Classic Corrections
-Database\Corrections\Classic\classicQuestFixes.lua
-Database\Corrections\Classic\classicNPCFixes.lua
-Database\Corrections\Classic\classicItemFixes.lua
-Database\Corrections\Classic\classicObjectFixes.lua
+Database\Corrections\classic\classicQuestFixes.lua
+Database\Corrections\classic\classicNPCFixes.lua
+Database\Corrections\classic\classicItemFixes.lua
+Database\Corrections\classic\classicObjectFixes.lua
 
 # Compiler
 Database\compiler.lua
