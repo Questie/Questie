@@ -1771,6 +1771,94 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {42733},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{53.1,61.2}}}, ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
         },
+        [13012] = {
+            [questKeys.startedBy] = {{30348}},
+            [questKeys.finishedBy] = {{30348}},
+        },
+        [13013] = {
+            [questKeys.startedBy] = {{30357}},
+            [questKeys.finishedBy] = {{30357}},
+        },
+        [13014] = {
+            [questKeys.startedBy] = {{30358}},
+            [questKeys.finishedBy] = {{30358}},
+        },
+        [13015] = {
+            [questKeys.startedBy] = {{30359}},
+            [questKeys.finishedBy] = {{30359}},
+        },
+        [13016] = {
+            [questKeys.startedBy] = {{30360}},
+            [questKeys.finishedBy] = {{30360}},
+        },
+        [13017] = {
+            [questKeys.startedBy] = {{30531}},
+            [questKeys.finishedBy] = {{30531}},
+        },
+        [13018] = {
+            [questKeys.startedBy] = {{30362}},
+            [questKeys.finishedBy] = {{30362}},
+        },
+        [13019] = {
+            [questKeys.startedBy] = {{30363}},
+            [questKeys.finishedBy] = {{30363}},
+        },
+        [13020] = {
+            [questKeys.startedBy] = {{30375}},
+            [questKeys.finishedBy] = {{30375}},
+        },
+        [13021] = {
+            [questKeys.startedBy] = {{30536}},
+            [questKeys.finishedBy] = {{30536}},
+        },
+        [13022] = {
+            [questKeys.startedBy] = {{30533}},
+            [questKeys.finishedBy] = {{30533}},
+        },
+        [13023] = {
+            [questKeys.startedBy] = {{30534}},
+            [questKeys.finishedBy] = {{30534}},
+        },
+        [13024] = {
+            [questKeys.startedBy] = {{30365}},
+            [questKeys.finishedBy] = {{30365}},
+        },
+        [13025] = {
+            [questKeys.startedBy] = {{30367}},
+            [questKeys.finishedBy] = {{30367}},
+        },
+        [13026] = {
+            [questKeys.startedBy] = {{30368}},
+            [questKeys.finishedBy] = {{30368}},
+        },
+        [13027] = {
+            [questKeys.startedBy] = {{30369}},
+            [questKeys.finishedBy] = {{30369}},
+        },
+        [13028] = {
+            [questKeys.startedBy] = {{30370}},
+            [questKeys.finishedBy] = {{30370}},
+        },
+        [13029] = {
+            [questKeys.startedBy] = {{30371}},
+            [questKeys.finishedBy] = {{30371}},
+        },
+        [13030] = {
+            [questKeys.startedBy] = {{30372}},
+            [questKeys.finishedBy] = {{30372}},
+        },
+        [13031] = {
+            [questKeys.startedBy] = {{30373}},
+            [questKeys.finishedBy] = {{30373}},
+        },
+        [13032] = {
+            [questKeys.startedBy] = {{30374}},
+            [questKeys.finishedBy] = {{30374}},
+        },
+        [13033] = {
+            [questKeys.startedBy] = {{30364}},
+            [questKeys.finishedBy] = {{30364}},
+        },
         [13034] = {
             [questKeys.preQuestSingle] = {},
         },

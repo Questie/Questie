@@ -351,6 +351,25 @@ tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8636}) -- Rumblerock the El
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8644}) -- Stonefort the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8675}) -- Skychaser the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8719}) -- Bladesing the Elder
+-- Northrend Elders
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13025}) -- Lunaro the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13033}) -- Arp the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13019}) -- Thoim the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13013}) -- Beldak the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13030}) -- Whurain the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13031}) -- Skywarden the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13012}) -- Sardis the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13014}) -- Morthie the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13018}) -- Sandrene the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13026}) -- Bluewolf the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13024}) -- Wanikaya the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13028}) -- Graymane the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13020}) -- Stonebeard the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13027}) -- Tauros the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13032}) -- Muraco the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13029}) -- Pamuya the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13015}) -- Fargal the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13016}) -- Northal the Elder
 
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8897}) -- Dearest Colara
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8898}) -- Dearest Colara
