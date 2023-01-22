@@ -2804,6 +2804,7 @@ function QuestieWotlkQuestFixes:Load()
         [13625] = {
             [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
             [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
         },
         [13627] = {
@@ -2826,41 +2827,50 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13669] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
         },
         [13670] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
         },
         [13671] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
         },
         [13673] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13674] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
         },
         [13675] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
         },
         [13676] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
         },
         [13677] = {
             [questKeys.objectives] = {{{33229,"Use Thrust on Melee Target"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"},{33272,"Use Charge on vulnerable Charge Target"}}},
             [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
         },
         [13679] = {
