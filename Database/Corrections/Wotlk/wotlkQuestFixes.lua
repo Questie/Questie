@@ -2801,6 +2801,15 @@ function QuestieWotlkQuestFixes:Load()
         [13559] = {
             [questKeys.requiredMinRep] = {1119,3000},
         },
+        [13600] = {
+            [questKeys.exclusiveTo] = {13603,13616},
+        },
+        [13603] = {
+            [questKeys.exclusiveTo] = {13600,13616},
+        },
+        [13616] = {
+            [questKeys.exclusiveTo] = {13600,13603},
+        },
         [13625] = {
             [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -2893,6 +2902,87 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13682] = {
             [questKeys.preQuestSingle] = {13794},
+        },
+        [13741] = {
+            [questKeys.exclusiveTo] = {13742,13743},
+        },
+        [13742] = {
+            [questKeys.exclusiveTo] = {13741,13743},
+        },
+        [13743] = {
+            [questKeys.exclusiveTo] = {13741,13742},
+        },
+        [13746] = {
+            [questKeys.exclusiveTo] = {13747,13748},
+        },
+        [13747] = {
+            [questKeys.exclusiveTo] = {13746,13748},
+        },
+        [13748] = {
+            [questKeys.exclusiveTo] = {13746,13747},
+        },
+        [13752] = {
+            [questKeys.exclusiveTo] = {13753,13754},
+        },
+        [13753] = {
+            [questKeys.exclusiveTo] = {13752,13754},
+        },
+        [13754] = {
+            [questKeys.exclusiveTo] = {13752,13753},
+        },
+        [13757] = {
+            [questKeys.exclusiveTo] = {13758,13759},
+        },
+        [13758] = {
+            [questKeys.exclusiveTo] = {13757,13759},
+        },
+        [13759] = {
+            [questKeys.exclusiveTo] = {13757,13758},
+        },
+        [13762] = {
+            [questKeys.exclusiveTo] = {13763,13764},
+        },
+        [13763] = {
+            [questKeys.exclusiveTo] = {13762,13764},
+        },
+        [13764] = {
+            [questKeys.exclusiveTo] = {13762,13763},
+        },
+        [13768] = {
+            [questKeys.exclusiveTo] = {13769,13770},
+        },
+        [13769] = {
+            [questKeys.exclusiveTo] = {13768,13770},
+        },
+        [13770] = {
+            [questKeys.exclusiveTo] = {13768,13769},
+        },
+        [13773] = {
+            [questKeys.exclusiveTo] = {13774,13775},
+        },
+        [13774] = {
+            [questKeys.exclusiveTo] = {13773,13775},
+        },
+        [13775] = {
+            [questKeys.exclusiveTo] = {13773,13774},
+        },
+        [13778] = {
+            [questKeys.exclusiveTo] = {13779,13780},
+        },
+        [13779] = {
+            [questKeys.exclusiveTo] = {13778,13780},
+        },
+        [13780] = {
+            [questKeys.exclusiveTo] = {13778,13779},
+        },
+        [13783] = {
+            [questKeys.exclusiveTo] = {13784,13785},
+        },
+        [13784] = {
+            [questKeys.exclusiveTo] = {13783,13785},
+        },
+        [13785] = {
+            [questKeys.exclusiveTo] = {13783,13784},
         },
         [13788] = {
             [questKeys.preQuestSingle] = {13794},
