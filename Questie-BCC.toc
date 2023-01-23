@@ -66,16 +66,16 @@ Database\Corrections\QuestieEvent.lua
 Database\Corrections\Automatic\itemStartFixes.lua
 
 # Classic Corrections
-Database\Corrections\classic\classicQuestFixes.lua
-Database\Corrections\classic\classicNPCFixes.lua
-Database\Corrections\classic\classicItemFixes.lua
-Database\Corrections\classic\classicObjectFixes.lua
+Database\Corrections\classicQuestFixes.lua
+Database\Corrections\classicNPCFixes.lua
+Database\Corrections\classicItemFixes.lua
+Database\Corrections\classicObjectFixes.lua
 
 # TBC Corrections
-Database\Corrections\tbc\tbcQuestFixes.lua
-Database\Corrections\tbc\tbcNPCFixes.lua
-Database\Corrections\tbc\tbcItemFixes.lua
-Database\Corrections\tbc\tbcObjectFixes.lua
+Database\Corrections\tbcQuestFixes.lua
+Database\Corrections\tbcNPCFixes.lua
+Database\Corrections\tbcItemFixes.lua
+Database\Corrections\tbcObjectFixes.lua
 
 # Compiler
 Database\compiler.lua
