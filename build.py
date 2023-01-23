@@ -113,7 +113,7 @@ def main():
                 {
                     "flavor": "wrath",
                     "interface": %s
-                }""" % interface_wotlk
+                },""" % interface_wotlk
 
     with open(release_folder_path + '/release.json', 'w') as rf:
         rf.write('''{
@@ -125,7 +125,7 @@ def main():
             ]
         }
     ]
-}''' % (zip_name, flavorString))
+}''' % (zip_name, flavorString[:-1]))
 
     print('New release "%s" created successfully' % release_dir)
 
