@@ -667,6 +667,33 @@ function QuestieQuestBlacklist:Load()
         --- Brewfest
         [13931] = true,
         [13932] = true,
+
+        -- Lunar Festival
+        [13012] = true,
+        [13013] = true,
+        [13014] = true,
+        [13015] = true,
+        [13016] = true,
+        [13017] = true,
+        [13018] = true,
+        [13019] = true,
+        [13020] = true,
+        [13021] = true,
+        [13022] = true,
+        [13023] = true,
+        [13024] = true,
+        [13025] = true,
+        [13026] = true,
+        [13027] = true,
+        [13028] = true,
+        [13029] = true,
+        [13030] = true,
+        [13031] = true,
+        [13032] = true,
+        [13033] = true,
+
+
+        -- End of Wotlk event quests
         -------------------
 
         --mount replacement
