@@ -690,31 +690,31 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
         },
         [8867] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8870] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8871] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8872] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8873] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8874] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8875] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8876] = {
             [questKeys.requiredLevel] = 25,
         },
         [8883] = {
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
         },
         [8888] = {
             [questKeys.exclusiveTo] = {8889,8890,9394,},
@@ -4236,7 +4236,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{15351},nil,nil},
             [questKeys.finishedBy] = {{15351},nil},
             [questKeys.requiredLevel] = 70,
-            [questKeys.questLevel] = 70,
+            [questKeys.questLevel] = -1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.objectivesText] = {"Win a battleground match and return to an Alliance Brigadier General at any Alliance capital city or Shattrath."},
             [questKeys.triggerEnd] = {"Victory in a battleground match", {
