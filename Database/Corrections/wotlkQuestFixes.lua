@@ -33,17 +33,49 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{31108}},
             [questKeys.exclusiveTo] = {13154,13156,},
         },
+        [648] = {
+            [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{61,53}}}},
+        },
         [768] = {
             [questKeys.requiredSkill] = {393,1},
+        },
+        [836] = {
+            [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS]={{49.8,43.8}}}},
         },
         [1056] = {
             [questKeys.nextQuestInChain] = 1057,
         },
+        [1132] = {
+            [questKeys.startedBy] = {{4455}},
+            [questKeys.finishedBy] = {{4456}},
+        },
+        [1135] = {
+            [questKeys.startedBy] = {{4456}},
+            [questKeys.finishedBy] = {{4456}},
+        },
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [2767] = {
+            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{54.3,51.2}}}},
+        },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [4763] = {
+            [questKeys.objectives] = {nil,nil,{{12355}}},
+        },
+        [6961] = {
+            [questKeys.exclusiveTo] = {6962},
+        },
+        [7022] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7023] = {
+            [questKeys.exclusiveTo] = {7025},
+        },
+        [7024] = {
+            [questKeys.exclusiveTo] = {6962},
         },
         [7800] = {
             [questKeys.preQuestSingle] = {},
@@ -58,10 +90,22 @@ function QuestieWotlkQuestFixes:Load()
         [8552] = {
             [questKeys.specialFlags] = 0,
         },
+        [8746] = {
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+        },
+        [8762] = {
+            [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
+        },
         [9154] = {
             [questKeys.startedBy] = {{16241,16255}},
             [questKeys.finishedBy] = {{16281}},
             [questKeys.questLevel] = -1,
+        },
+        [9211] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9213] = {
+            [questKeys.specialFlags] = 1,
         },
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
@@ -310,6 +354,9 @@ function QuestieWotlkQuestFixes:Load()
         [11567] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Ask Alanya for transportation"),0,{{"monster", 27933}}}},
         },
+        [11569] = {
+            [questKeys.preQuestSingle] = {11571},
+        },
         [11570] = {
             [questKeys.triggerEnd] = {"Escort Lurgglbr to safety",{[zoneIDs.BOREAN_TUNDRA]={{41.35,16.29,},},},},
         },
@@ -376,6 +423,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11673] = {
             [questKeys.triggerEnd] = {"Bonker Togglevolt escorted to safety.",{[zoneIDs.BOREAN_TUNDRA]={{53.84,13.85,},},},},
+        },
+        [11688] = {
+            [questKeys.preQuestSingle] = {},
         },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
@@ -680,6 +730,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12127] = {
             [questKeys.objectives] = {{{26283}},nil,{{36846}}},
+        },
+        [12132] = {
+            [questKeys.preQuestGroup] = {12125,12126,12127},
         },
         [12135] = {
             [questKeys.triggerEnd] = {"Put Out the Fires",{
@@ -1187,6 +1240,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.nextQuestInChain] = 12661,
         },
         [12651] = {
+            [questKeys.preQuestGroup] = {12558,12556,12592},
             [questKeys.exclusiveTo] = {12654},
             [questKeys.nextQuestInChain] = 12654,
         },
@@ -1265,6 +1319,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12683] = {
             [questKeys.objectives] = {{{28003,},{28003}}},
+            [questKeys.preQuestGroup] = {12559,12556},
         },
         [12685] = {
             [questKeys.objectives] = {{{28671}}},
@@ -1369,6 +1424,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
         },
         [12734] = {
+            [questKeys.objectives] = {{{28086,"Blade blooded on Sapphire Hive Wasp"},{28096,"Blade blooded on Hardknuckle Charger"}},nil,nil,nil,{{{28109,28110},28109,"Blade Blooded on Mistwhisper members"}}},
             [questKeys.requiredMinRep] = {1104,9000},
         },
         [12735] = {
@@ -1554,7 +1610,6 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12932] = {
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.preQuestSingle] = {12974},
             [questKeys.exclusiveTo] = {12954},
             [questKeys.nextQuestInChain] = 9977, -- This is the version of the quest you get if you have NOT completed 9977
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
@@ -1625,8 +1680,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12954] = {
             [questKeys.objectives] = {{{30014}}},
-            [questKeys.preQuestSingle] = {},
-            [questKeys.preQuestGroup] = {12974,9977}, -- This is the version of the quest you get if you HAVE completed 9977
+            [questKeys.preQuestSingle] = {9977},
             [questKeys.exclusiveTo] = {12932},
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
         },
@@ -1716,6 +1770,94 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.requiredSourceItems] = {42733},
             [questKeys.extraObjectives] = {{{[zoneIDs.STORM_PEAKS]={{53.1,61.2}}}, ICON_TYPE_EVENT, l10n("Place Icemaw Bear Flank"), 0}}
+        },
+        [13012] = {
+            [questKeys.startedBy] = {{30348}},
+            [questKeys.finishedBy] = {{30348}},
+        },
+        [13013] = {
+            [questKeys.startedBy] = {{30357}},
+            [questKeys.finishedBy] = {{30357}},
+        },
+        [13014] = {
+            [questKeys.startedBy] = {{30358}},
+            [questKeys.finishedBy] = {{30358}},
+        },
+        [13015] = {
+            [questKeys.startedBy] = {{30359}},
+            [questKeys.finishedBy] = {{30359}},
+        },
+        [13016] = {
+            [questKeys.startedBy] = {{30360}},
+            [questKeys.finishedBy] = {{30360}},
+        },
+        [13017] = {
+            [questKeys.startedBy] = {{30531}},
+            [questKeys.finishedBy] = {{30531}},
+        },
+        [13018] = {
+            [questKeys.startedBy] = {{30362}},
+            [questKeys.finishedBy] = {{30362}},
+        },
+        [13019] = {
+            [questKeys.startedBy] = {{30363}},
+            [questKeys.finishedBy] = {{30363}},
+        },
+        [13020] = {
+            [questKeys.startedBy] = {{30375}},
+            [questKeys.finishedBy] = {{30375}},
+        },
+        [13021] = {
+            [questKeys.startedBy] = {{30536}},
+            [questKeys.finishedBy] = {{30536}},
+        },
+        [13022] = {
+            [questKeys.startedBy] = {{30533}},
+            [questKeys.finishedBy] = {{30533}},
+        },
+        [13023] = {
+            [questKeys.startedBy] = {{30534}},
+            [questKeys.finishedBy] = {{30534}},
+        },
+        [13024] = {
+            [questKeys.startedBy] = {{30365}},
+            [questKeys.finishedBy] = {{30365}},
+        },
+        [13025] = {
+            [questKeys.startedBy] = {{30367}},
+            [questKeys.finishedBy] = {{30367}},
+        },
+        [13026] = {
+            [questKeys.startedBy] = {{30368}},
+            [questKeys.finishedBy] = {{30368}},
+        },
+        [13027] = {
+            [questKeys.startedBy] = {{30369}},
+            [questKeys.finishedBy] = {{30369}},
+        },
+        [13028] = {
+            [questKeys.startedBy] = {{30370}},
+            [questKeys.finishedBy] = {{30370}},
+        },
+        [13029] = {
+            [questKeys.startedBy] = {{30371}},
+            [questKeys.finishedBy] = {{30371}},
+        },
+        [13030] = {
+            [questKeys.startedBy] = {{30372}},
+            [questKeys.finishedBy] = {{30372}},
+        },
+        [13031] = {
+            [questKeys.startedBy] = {{30373}},
+            [questKeys.finishedBy] = {{30373}},
+        },
+        [13032] = {
+            [questKeys.startedBy] = {{30374}},
+            [questKeys.finishedBy] = {{30374}},
+        },
+        [13033] = {
+            [questKeys.startedBy] = {{30364}},
+            [questKeys.finishedBy] = {{30364}},
         },
         [13034] = {
             [questKeys.preQuestSingle] = {},
@@ -1814,6 +1956,10 @@ function QuestieWotlkQuestFixes:Load()
         [13093] = {
             [questKeys.preQuestSingle] = {13092},
         },
+        [13098] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.nextQuestInChain] = 13099,
+        },
         [13106] = {
             [questKeys.preQuestSingle] = {12897},
         },
@@ -1869,6 +2015,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Bag of Jagged Shards near Malykriss Furnace"), 0, {{"object", 193004}}}},
         },
         [13139] = {
+            [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {13125,13130,13135},
         },
         [13140] = {
@@ -2372,6 +2519,13 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13352},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Activate the Summoning Stone after collecting 5 Dark Matter"), 0, {{"object", 400015}}}},
         },
+        [13359] = {
+            [questKeys.preQuestSingle] = {13348},
+            [questKeys.nextQuestInChain] = 13360,
+        },
+        [13360] = {
+            [questKeys.preQuestSingle] = {13359},
+        },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
         },
@@ -2421,6 +2575,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13395] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{31254,32414,31276},31329}}},
+        },
+        [13398] = {
+            [questKeys.preQuestSingle] = {13396},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
@@ -2644,16 +2801,268 @@ function QuestieWotlkQuestFixes:Load()
         [13559] = {
             [questKeys.requiredMinRep] = {1119,3000},
         },
+        [13600] = {
+            [questKeys.exclusiveTo] = {13603,13616},
+        },
+        [13603] = {
+            [questKeys.exclusiveTo] = {13600,13616},
+        },
+        [13616] = {
+            [questKeys.exclusiveTo] = {13600,13603},
+        },
+        [13625] = {
+            [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
+            [questKeys.parentQuest] = 0,
+        },
+        [13627] = {
+            [questKeys.startedBy] = {{33434}},
+            [questKeys.finishedBy] = {{33434}},
+        },
         [13631] = {
             [questKeys.startedBy] = {{32871},nil,{46052}},
+        },
+        [13633] = {
+            [questKeys.preQuestSingle] = {13668},
+        },
+        [13634] = {
+            [questKeys.preQuestSingle] = {13668},
         },
         [13662] = {
             [questKeys.preQuestSingle] = {7722},
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
         },
+        [13666] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
+            [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
+        },
+        [13669] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
+            [questKeys.parentQuest] = 0,
+        },
+        [13670] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
+            [questKeys.parentQuest] = 0,
+        },
+        [13671] = {
+            [questKeys.preQuestGroup] = {13828,13835,13837},
+            [questKeys.exclusiveTo] = {13679},
+            [questKeys.parentQuest] = 0,
+        },
+        [13673] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
+            [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
+        },
+        [13674] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
+            [questKeys.parentQuest] = 0,
+        },
+        [13675] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
+            [questKeys.parentQuest] = 0,
+        },
+        [13676] = {
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
+            [questKeys.parentQuest] = 0,
+        },
+        [13677] = {
+            [questKeys.objectives] = {{{33229,"Use Thrust on Melee Target"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"},{33272,"Use Charge on vulnerable Charge Target"}}},
+            [questKeys.preQuestGroup] = {13829,13838,13839},
+            [questKeys.exclusiveTo] = {13680},
+            [questKeys.parentQuest] = 0,
+        },
+        [13679] = {
+            [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13680] = {
+            [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13681] = {
+            [questKeys.startedBy] = {{33435}},
+            [questKeys.finishedBy] = {{33435}},
+        },
+        [13682] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13741] = {
+            [questKeys.exclusiveTo] = {13742,13743},
+        },
+        [13742] = {
+            [questKeys.exclusiveTo] = {13741,13743},
+        },
+        [13743] = {
+            [questKeys.exclusiveTo] = {13741,13742},
+        },
+        [13746] = {
+            [questKeys.exclusiveTo] = {13747,13748},
+        },
+        [13747] = {
+            [questKeys.exclusiveTo] = {13746,13748},
+        },
+        [13748] = {
+            [questKeys.exclusiveTo] = {13746,13747},
+        },
+        [13752] = {
+            [questKeys.exclusiveTo] = {13753,13754},
+        },
+        [13753] = {
+            [questKeys.exclusiveTo] = {13752,13754},
+        },
+        [13754] = {
+            [questKeys.exclusiveTo] = {13752,13753},
+        },
+        [13757] = {
+            [questKeys.exclusiveTo] = {13758,13759},
+        },
+        [13758] = {
+            [questKeys.exclusiveTo] = {13757,13759},
+        },
+        [13759] = {
+            [questKeys.exclusiveTo] = {13757,13758},
+        },
+        [13762] = {
+            [questKeys.exclusiveTo] = {13763,13764},
+        },
+        [13763] = {
+            [questKeys.exclusiveTo] = {13762,13764},
+        },
+        [13764] = {
+            [questKeys.exclusiveTo] = {13762,13763},
+        },
+        [13767] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Orgrimmar Wolf"), 0, {{"monster", 33799}}}},
+        },
+        [13768] = {
+            [questKeys.exclusiveTo] = {13769,13770},
+        },
+        [13769] = {
+            [questKeys.exclusiveTo] = {13768,13770},
+        },
+        [13770] = {
+            [questKeys.exclusiveTo] = {13768,13769},
+        },
+        [13772] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Darkspear Raptor"), 0, {{"monster", 33796}}}},
+        },
+        [13773] = {
+            [questKeys.exclusiveTo] = {13774,13775},
+        },
+        [13774] = {
+            [questKeys.exclusiveTo] = {13773,13775},
+        },
+        [13775] = {
+            [questKeys.exclusiveTo] = {13773,13774},
+        },
+        [13777] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Mulgore Kodo"), 0, {{"monster", 33792}}}},
+        },
+        [13778] = {
+            [questKeys.exclusiveTo] = {13779,13780},
+        },
+        [13779] = {
+            [questKeys.exclusiveTo] = {13778,13780},
+        },
+        [13780] = {
+            [questKeys.exclusiveTo] = {13778,13779},
+        },
+        [13782] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Forsaken Warhorse"), 0, {{"monster", 33798}}}},
+        },
+        [13783] = {
+            [questKeys.exclusiveTo] = {13784,13785},
+        },
+        [13784] = {
+            [questKeys.exclusiveTo] = {13783,13785},
+        },
+        [13785] = {
+            [questKeys.exclusiveTo] = {13783,13784},
+        },
+        [13787] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Silvermoon Hawkstrider"), 0, {{"monster", 33791}}}},
+        },
+        [13788] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13789] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13790] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13791] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13793] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13809] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13810] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13811] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13812] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13813] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13814] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
+        },
+        [13820] = {
+            [questKeys.startedBy] = {{33817}},
+            [questKeys.finishedBy] = {{33434}},
+            [questKeys.exclusiveTo] = {13627},
+        },
+        [13828] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+        },
+        [13829] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+        },
+        [13835] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+        },
+        [13837] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+        },
+        [13838] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+        },
+        [13839] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
         },
         [13825] = {
             [questKeys.startedBy] = {{8125}},
@@ -2682,8 +3091,23 @@ function QuestieWotlkQuestFixes:Load()
         [13836] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
         },
+        [13846] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
+        },
+        [13861] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13862] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13863] = {
+            [questKeys.preQuestSingle] = {13794},
+        },
+        [13864] = {
+            [questKeys.preQuestSingle] = {13794},
         },
         [13887] = {
             [questKeys.preQuestSingle] = {13850},
@@ -2902,6 +3326,9 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{29.8,75.7}},
             }},
         },
+        [24431] = {
+            [questKeys.specialFlags] = 1,
+        },
         [24597] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -2924,6 +3351,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [24615] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
     }

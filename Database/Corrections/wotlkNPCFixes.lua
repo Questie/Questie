@@ -745,9 +745,23 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{68.02,51.59}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32423] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{71.6,37.5}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [32430] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{54,36.9}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [33308] = {
+            [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST]={{10.4,35},{11.6,37},{11.6,39.8},{11.8,40.6},{12.4,29.2},{12.4,39.4},{12.8,25},{12.8,39.2},{14.2,27.8},{14.4,38.4},{15,37},{15.2,31.4},{15.2,31.8},{15.4,34},{15.4,34.8},{17.6,28.4},{18.2,35.6},{19.8,30.6},{20.4,38}}},
+            [npcKeys.zoneID] = zoneIDs.CRYSTALSONG_FOREST,
+        },
+        [33434] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.3,24.6}}},
+        },
+        [33435] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74,24.6}}},
         },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},

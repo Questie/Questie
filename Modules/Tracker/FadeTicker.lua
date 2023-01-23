@@ -51,8 +51,9 @@ local function _Start()
                     ticker = nil
                 end
             else
-                if fadeTickerValue > 0 then
+                if fadeTickerValue >= 0 then
                     fadeTickerValue = fadeTickerValue - 0.02
+                    if fadeTickerValue < 0 then fadeTickerValue = 0 end
 
                     -- Fade the background and border(if enabled)
                     if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then

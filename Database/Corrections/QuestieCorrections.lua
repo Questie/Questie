@@ -45,6 +45,9 @@ local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes"
 ---@type QuestieWotlkObjectFixes
 local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
 
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+
 --- Automatic corrections
 local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes")
 
@@ -144,6 +147,15 @@ function QuestieCorrections:MinimalInit() -- db already compiled
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
     QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
+
+    if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
+        for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
+            -- This has to be a nil-check, because the value could be false
+            if (QuestieCorrections.hiddenQuests[id] == nil) then
+                QuestieCorrections.hiddenQuests[id] = hide
+            end
+        end
+    end
 
     if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists

@@ -221,16 +221,12 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     local frame = CreateFrame("Frame")
 
     local iconScale = Questie.db.global.nameplateTargetFrameScale
-
-    frame:SetFrameStrata("LOW")
-    frame:SetFrameLevel(10)
-    frame:SetWidth(16 * iconScale)
-    frame:SetHeight(16 * iconScale)
-    frame:EnableMouse(false)
+    local strata = "MEDIUM"
 
     local targetFrame = TargetFrame -- Default Blizzard target frame
     if ElvUF_Target then
         targetFrame = ElvUF_Target
+        strata = "LOW"
     elseif PitBull4_Frames_Target then
         targetFrame = PitBull4_Frames_Target
     elseif SUFUnittarget then
@@ -239,6 +235,12 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
     end
 
     frame:SetParent(targetFrame)
+    frame:SetFrameStrata(strata)
+    frame:SetFrameLevel(11)
+    frame:SetWidth(16 * iconScale)
+    frame:SetHeight(16 * iconScale)
+    frame:EnableMouse(false)
+
     frame:SetPoint("RIGHT", Questie.db.global.nameplateTargetFrameX, Questie.db.global.nameplateTargetFrameY)
 
     frame.Icon = frame:CreateTexture(nil, "ARTWORK")

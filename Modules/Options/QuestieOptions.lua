@@ -43,7 +43,7 @@ function QuestieOptions:Initialize()
     AceConfigDialog:SetDefaultSize("Questie", 625, 780)
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
     configFrame:SetLayout("Fill")
-    configFrame.frame:SetMinResize(550, 400)
+    QuestieCompat.SetResizeBounds(configFrame.frame, 550, 400)
 
     configFrame:Hide()
     coroutine.yield()

@@ -34,18 +34,22 @@ local notesPopupWinIsOpen = false
 QuestieJourney.questCategoryKeys = {
     EASTERN_KINGDOMS = 1,
     KALIMDOR = 2,
-    DUNGEONS = 3,
-    BATTLEGROUNDS = 4,
-    CLASS = 5,
-    PROFESSIONS = 6,
-    EVENTS = 7,
+    OUTLAND = 3,
+    NORTHREND = 4,
+    DUNGEONS = 5,
+    BATTLEGROUNDS = 6,
+    CLASS = 7,
+    PROFESSIONS = 8,
+    EVENTS = 9,
 }
 
 
 function QuestieJourney:Initialize()
     local continents = {}
     for id, name in pairs(l10n.continentLookup) do
-        continents[id] = l10n(name)
+        if not (name == "Outland" and Questie.IsClassic) and not (name == "Northrend" and (Questie.IsClassic or Questie.IsTBC)) then
+            continents[id] = l10n(name)
+        end
     end
     coroutine.yield()
     continents[QuestieJourney.questCategoryKeys.CLASS] = QuestiePlayer:GetLocalizedClassName()
@@ -71,7 +75,7 @@ function QuestieJourney:BuildMainFrame()
         end)
         journeyFrame:SetTitle(l10n("%s's Journey", UnitName("player")))
         journeyFrame:SetLayout("Fill")
-        journeyFrame.frame:SetMinResize(550, 400)
+        QuestieCompat.SetResizeBounds(journeyFrame.frame, 550, 400)
 
         local tabGroup = AceGUI:Create("TabGroup")
         tabGroup:SetLayout("Flow")

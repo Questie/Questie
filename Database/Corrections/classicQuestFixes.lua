@@ -145,6 +145,9 @@ function QuestieQuestFixes:Load()
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
+        [361] = {
+            [questKeys.startedBy] = {{1520,1522,1523},nil,{2839}}, -- temp correction for item start
+        },
         [364] = {
             [questKeys.preQuestSingle] = {}, -- #882
         },
@@ -176,9 +179,6 @@ function QuestieQuestFixes:Load()
         },
         [415] = {
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
-        },
-        [420] = {
-            [questKeys.nextQuestInChain] = 287,
         },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
@@ -502,6 +502,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {944}, -- #1517
             [questKeys.exclusiveTo] = {950}, -- #1517
         },
+        [968] = {
+            [questKeys.startedBy] = {{2338,2339},nil,{5352}}, -- temp correction for item start
+        },
         [976] = {
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
         },
@@ -769,6 +772,9 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
             [questKeys.zoneOrSort] = sortKeys.SEASONAL,
         },
+        [1480] = {
+            [questKeys.startedBy] = {{4663,4664,4665,4666,4667,4668,4705,13019},nil,{6766,20310}}, -- temp correction for item start
+        },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
         },
@@ -942,6 +948,7 @@ function QuestieQuestFixes:Load()
         },
         [1918] = {
             [questKeys.startedBy] = {{12759},nil,{16408}},
+            [questKeys.preQuestSingle] = {25},
         },
         [1920] = {
             [questKeys.preQuestSingle] = {}, -- #1328
@@ -1414,6 +1421,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {4493,4494},
         },
         [4506] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32}}}},
         },
         [4542] = {
@@ -1890,16 +1898,24 @@ function QuestieQuestFixes:Load()
             },
         },
         [6061] = {
-            [questKeys.triggerEnd] = {"Tame an Adult Plainstrider", {[zoneIDs.MULGORE]={{43.5,44.99},{43.69,51.84},{52.68,57.44},{41.96,55.26},{48.15,47.89}}}},
+            [questKeys.objectives] = {{{2956, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6062] = {
-            [questKeys.triggerEnd] = {"Tame a Dire Mottled Boar", {[zoneIDs.DUROTAR]={{51.54,45.89},{52.44,48.97}}}},
+            [questKeys.objectives] = {{{3099, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6063] = {
-            [questKeys.triggerEnd] = {"Tame a Webwood Lurker", {[zoneIDs.TELDRASSIL]={{59.18,58.07},{53.97,62.29}}}},
+            [questKeys.objectives] = {{{1998, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6064] = {
-            [questKeys.triggerEnd] = {"Tame a Large Crag Boar", {[zoneIDs.DUN_MOROGH]={{48.29,56.71},{40.19,47.1},{50.59,51.31},{48.07,47.34}}}},
+            [questKeys.objectives] = {{{1126, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6065] = {
             [questKeys.exclusiveTo] = {6066,6067,6061},
@@ -1945,28 +1961,44 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {6074,6075,6064},
         },
         [6082] = {
-            [questKeys.triggerEnd] = {"Tame an Armored Scorpid", {[zoneIDs.DUROTAR]={{45.27,45.59},{54.99,37.63}}}},
+            [questKeys.objectives] = {{{3126, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6083] = {
-            [questKeys.triggerEnd] = {"Tame a Surf Crawler", {[zoneIDs.DUROTAR]={{58.94,29.09},{61.07,78.01}}}},
+            [questKeys.objectives] = {{{3107, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6084] = {
-            [questKeys.triggerEnd] = {"Tame a Snow Leopard", {[zoneIDs.DUN_MOROGH]={{48.41,59.35},{37.78,38.02}}}},
+            [questKeys.objectives] = {{{1201, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6085] = {
-            [questKeys.triggerEnd] = {"Tame an Ice Claw Bear", {[zoneIDs.DUN_MOROGH]={{49.89,53.52},{37.04,44.95},{50.16,58.83}}}},
+            [questKeys.objectives] = {{{1196, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6087] = {
-            [questKeys.triggerEnd] = {"Tame a Prairie Stalker", {[zoneIDs.MULGORE]={{43.5,51.95},{46.73,49.71},{42.99,47.64},{59.13,58.63}}}},
+            [questKeys.objectives] = {{{2959, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6088] = {
-            [questKeys.triggerEnd] = {"Tame a Swoop", {[zoneIDs.MULGORE]={{46.55,49.4},{42.75,49.11},{43.07,52.3},{46.58,45.05},{42.44,43.16}}}},
+            [questKeys.objectives] = {{{2970, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6101] = {
-            [questKeys.triggerEnd] = {"Tame a Nightsaber Stalker", {[zoneIDs.TELDRASSIL]={{40.09,55.45},{55.92,72.07},{46.89,72.28}}}},
+            [questKeys.objectives] = {{{2043, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6102] = {
-            [questKeys.triggerEnd] = {"Tame a Strigid Screecher", {[zoneIDs.TELDRASSIL]={{43.81,50.88}}}},
+            [questKeys.objectives] = {{{1996, nil}}},
+            [questKeys.questFlags] = 0,
+            [questKeys.specialFlags] = 0,
         },
         [6136] = {
             [questKeys.preQuestSingle] = {6133}, -- #1572
@@ -2095,6 +2127,7 @@ function QuestieQuestFixes:Load()
         },
         [6961] = {
             [questKeys.exclusiveTo] = {7021,7024},
+            [questKeys.nextQuestInChain] = 6962,
         },
         [6981] = {
             [questKeys.startedBy] = {{3654},nil,{10441}},
@@ -2117,6 +2150,7 @@ function QuestieQuestFixes:Load()
         [7021] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7024},
+            [questKeys.nextQuestInChain] = 6962,
         },
         [7022] = {
             [questKeys.startedBy] = {{13433},nil,nil},
@@ -2127,6 +2161,7 @@ function QuestieQuestFixes:Load()
         [7024] = {
             [questKeys.finishedBy] = {{13445},nil},
             [questKeys.exclusiveTo] = {6961,7021},
+            [questKeys.nextQuestInChain] = 6962,
         },
         [7026] = {
             [questKeys.objectivesText] = {},

@@ -32,7 +32,7 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     baseFrame:EnableMouse(true)
     baseFrame:SetMovable(true)
     baseFrame:SetResizable(true)
-    baseFrame:SetMinResize(1, 1)
+    QuestieCompat.SetResizeBounds(baseFrame, 1, 1)
 
     baseFrame:SetScript("OnMouseDown", TrackerBaseFrame.OnDragStart)
     baseFrame:SetScript("OnMouseUp", TrackerBaseFrame.OnDragStop)

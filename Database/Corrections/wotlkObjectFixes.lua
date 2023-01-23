@@ -11,6 +11,10 @@ function QuestieWotlkObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [187674] = {
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{43,56.3},{43.1,56.8},{43.6,57.3},},},
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
         [188474] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{32.29,71.72}}},
         },
@@ -48,6 +52,10 @@ function QuestieWotlkObjectFixes:Load()
         },
         [194123] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}},},
+            [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [194463] = {
+            [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.1,60.5},{43.5,54.9},{45,57},{41,54},{39,60},{46.1,61},{46.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
 

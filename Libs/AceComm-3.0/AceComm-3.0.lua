@@ -9,7 +9,7 @@
 -- make into AceComm.
 -- @class file
 -- @name AceComm-3.0
--- @release $Id: AceComm-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
+-- @release $Id: AceComm-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 
 --[[ AceComm-3.0
 
@@ -34,10 +34,6 @@ local error, assert = error, assert
 
 -- WoW APIs
 local Ambiguate = Ambiguate
-
--- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
--- List them here for Mikk's FindGlobals script
--- GLOBALS: LibStub, DEFAULT_CHAT_FRAME, geterrorhandler, RegisterAddonMessagePrefix
 
 AceComm.embeds = AceComm.embeds or {}
 
