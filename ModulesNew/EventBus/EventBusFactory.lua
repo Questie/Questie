@@ -290,8 +290,8 @@ function EventBusFactory.New(MessageBusName)
             error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'callback' - function expected.", 2)
         elseif not eventName or type(eventName) ~= "string" then
             error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'eventName' - a string expected.", 2)
-        elseif not object or type(object) ~= "table" then
-            error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'object' - a table expected.", 2)
+        elseif not object or (type(object) ~= "table" and type(object) ~= "userdata") then
+            error("Usage: ObjectRegisterRepeating(object, eventName, callback): 'object' - a table/userdata expected.", 2)
         end
         objects[eventName] = objects[eventName] or {}
         objects[eventName][object] = callback
@@ -338,8 +338,8 @@ function EventBusFactory.New(MessageBusName)
     function handler:ObjectUnregisterRepeating(object, eventName)
         if not eventName or type(eventName) ~= "string" then
             error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'eventName' - a string expected.", 2)
-        elseif not object or type(object) ~= "table" then
-            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'object' - a table expected.", 2)
+        elseif not object or (type(object) ~= "table" and type(object) ~= "userdata") then
+            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'object' - a table/userdata expected.", 2)
         end
         if objects[eventName] and objects[eventName][object] then
             objects[eventName][object] = nil
@@ -349,8 +349,8 @@ function EventBusFactory.New(MessageBusName)
     ---Unregister all callbacks by object
     ---@param object table
     function handler:ObjectUnregisterAll(object)
-        if not object or type(object) ~= "table" then
-            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'object' - a table expected.", 2)
+        if not object or (type(object) ~= "table" and type(object) ~= "userdata") then
+            error("Usage: ObjectUnregisterRepeating(object, eventName, callback): 'object' - a table/userdata expected.", 2)
         end
         for _, objectList in pairs(objects) do
             if objectList[object] then
