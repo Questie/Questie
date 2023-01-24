@@ -1196,6 +1196,7 @@ function QuestieQuestBlacklist:Load()
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
 
         -- Scourge invasion
+        [12616] = true,
         [12752] = true,
         [12753] = true,
         [12772] = true,
