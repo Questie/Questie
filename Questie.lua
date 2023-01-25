@@ -55,6 +55,8 @@ function Questie:Colorize(str, color)
         c = "|cB900FFFF";
     elseif color == "reputationBlue" then
         c = "|cFF8080ff";
+    elseif color == 'blizzardBlue' then
+        c = '|cFF00C0FF';
     elseif color == "yellow" then
         c = "|cFFffff00";
     elseif color == "orange" then
