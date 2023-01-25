@@ -2186,6 +2186,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Mount the Stabled Campaign Warhorse"] = { -- 13847, 13847 ,13851 ,13852 ,13854 ,13855 ,13856 ,13857 ,13858 ,13859 ,13860
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"] = { -- 13666, 13673
         ["ptBR"] = false,
         ["ruRU"] = false,

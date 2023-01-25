@@ -3094,8 +3094,38 @@ function QuestieWotlkQuestFixes:Load()
         [13846] = {
             [questKeys.preQuestSingle] = {13794},
         },
+        [13847] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
+        },
+        [13851] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13852] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13854] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13855] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13856] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13857] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13858] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13859] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+        },
+        [13860] = {
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
         },
         [13861] = {
             [questKeys.preQuestSingle] = {13794},
