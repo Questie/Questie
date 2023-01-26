@@ -2806,6 +2806,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13603] = {
             [questKeys.exclusiveTo] = {13600,13616},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13616] = {
             [questKeys.exclusiveTo] = {13600,13603},
@@ -2905,6 +2906,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13741] = {
             [questKeys.exclusiveTo] = {13742,13743},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13742] = {
             [questKeys.exclusiveTo] = {13741,13743},
@@ -2914,6 +2916,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13746] = {
             [questKeys.exclusiveTo] = {13747,13748},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13747] = {
             [questKeys.exclusiveTo] = {13746,13748},
@@ -2923,6 +2926,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13752] = {
             [questKeys.exclusiveTo] = {13753,13754},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13753] = {
             [questKeys.exclusiveTo] = {13752,13754},
@@ -2932,6 +2936,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13757] = {
             [questKeys.exclusiveTo] = {13758,13759},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13758] = {
             [questKeys.exclusiveTo] = {13757,13759},
@@ -2965,6 +2970,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13773] = {
             [questKeys.exclusiveTo] = {13774,13775},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13774] = {
             [questKeys.exclusiveTo] = {13773,13775},
@@ -2977,6 +2983,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13778] = {
             [questKeys.exclusiveTo] = {13779,13780},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13779] = {
             [questKeys.exclusiveTo] = {13778,13780},
@@ -2989,6 +2996,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13783] = {
             [questKeys.exclusiveTo] = {13784,13785},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
         },
         [13784] = {
             [questKeys.exclusiveTo] = {13783,13785},
