@@ -2904,6 +2904,76 @@ function QuestieWotlkQuestFixes:Load()
         [13682] = {
             [questKeys.preQuestSingle] = {13794},
         },
+        [13699] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33800}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13713] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13723] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33793}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13724] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33790}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13725] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13726] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33799}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13727] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13728] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33792}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13729] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33798}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
+        [13731] = {
+            [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33791}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33447}}},
+            },
+        },
         [13741] = {
             [questKeys.exclusiveTo] = {13742,13743},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33211},{"monster", 33224}}}},
