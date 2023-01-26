@@ -2886,14 +2886,14 @@ function QuestieWotlkQuestFixes:Load()
         [13679] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}},
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}},
                 {nil, ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
             },
         },
         [13680] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}},
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}},
                 {nil, ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
             },
         },
@@ -3024,7 +3024,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13762,13763},
         },
         [13767] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Orgrimmar Wolf"), 0, {{"monster", 33799}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33799}}}},
         },
         [13768] = {
             [questKeys.exclusiveTo] = {13769,13770},
@@ -3036,7 +3036,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13768,13769},
         },
         [13772] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Darkspear Raptor"), 0, {{"monster", 33796}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796}}}},
         },
         [13773] = {
             [questKeys.exclusiveTo] = {13774,13775},
@@ -3049,7 +3049,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13773,13774},
         },
         [13777] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Mulgore Kodo"), 0, {{"monster", 33792}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33792}}}},
         },
         [13778] = {
             [questKeys.exclusiveTo] = {13779,13780},
@@ -3062,7 +3062,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13778,13779},
         },
         [13782] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Forsaken Warhorse"), 0, {{"monster", 33798}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33798}}}},
         },
         [13783] = {
             [questKeys.exclusiveTo] = {13784,13785},
@@ -3075,7 +3075,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13783,13784},
         },
         [13787] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Silvermoon Hawkstrider"), 0, {{"monster", 33791}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33791}}}},
         },
         [13788] = {
             [questKeys.preQuestSingle] = {13794},
@@ -3120,27 +3120,27 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13828] = {
             [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13829] = {
             [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13835] = {
             [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13837] = {
             [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Quel'dorei Steed"), 0, {{"monster", 33843}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13838] = {
             [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13839] = {
             [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Sunreaver Hawkstrider"), 0, {{"monster", 33842}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13825] = {
             [questKeys.startedBy] = {{8125}},
@@ -3173,37 +3173,37 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13794},
         },
         [13847] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
         },
         [13851] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13852] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13854] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13855] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13856] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13857] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13858] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13859] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13860] = {
-            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount the Stabled Campaign Warhorse"), 0, {{"monster", 34125}}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13861] = {
             [questKeys.preQuestSingle] = {13794},
