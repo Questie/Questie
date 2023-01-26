@@ -3085,12 +3085,14 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13790] = {
             [questKeys.preQuestSingle] = {13794},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13791] = {
             [questKeys.preQuestSingle] = {13794},
         },
         [13793] = {
             [questKeys.preQuestSingle] = {13794},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13809] = {
             [questKeys.preQuestSingle] = {13794},
@@ -3100,6 +3102,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13811] = {
             [questKeys.preQuestSingle] = {13794},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13812] = {
             [questKeys.preQuestSingle] = {13794},
@@ -3109,6 +3112,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13814] = {
             [questKeys.preQuestSingle] = {13794},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},
