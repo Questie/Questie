@@ -1156,64 +1156,61 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     return questObjectives
 end
 
---Draw a single available quest, it is used by the DrawAllAvailableQuests function.
----@param quest Quest
-function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
-    --? Some quests can be started by both an NPC and a GameObject
+---Helper function for _QuestieQuest:DrawAvailableQuest(quest)
+---@param quest Quest Quest object as returned by QuestieDB:GetQuest
+---@param npcs number[] List of NPC IDs
+function _QuestieQuest:DrawAvailableNPCs(quest, npcs)
+    for i=1, #npcs do
+        local npc = QuestieDB:GetNPC(npcs[i])
 
-    if quest.Starts["GameObject"] ~= nil then
-        local gameObjects = quest.Starts["GameObject"]
-        for i=1, #gameObjects do
-            local obj = QuestieDB:GetObject(gameObjects[i])
-            if(obj ~= nil and obj.spawns ~= nil) then
-                for zone, spawns in pairs(obj.spawns) do
-                    if(zone ~= nil and spawns ~= nil) then
-                        local coords
-                        for spawnIndex=1, #spawns do
-                            coords = spawns[spawnIndex]
-                            local data = {
-                                Id = quest.Id,
-                                Icon = _QuestieQuest:GetQuestIcon(quest),
-                                GetIconScale = _GetIconScaleForAvailable,
-                                IconScale = _GetIconScaleForAvailable(),
-                                Type = "available",
-                                QuestData = quest,
-                                Name = obj.name,
-                                IsObjectiveNote = false,
-                            }
+        if (npc ~= nil and npc.spawns ~= nil) then
+            QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
 
-                            if(coords[1] == -1 or coords[2] == -1) then
-                                local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
-                                if dungeonLocation ~= nil then
-                                    for _, value in ipairs(dungeonLocation) do
-                                        QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                    end
+            --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
+            local starterIcons = {}
+            local starterLocs = {}
+            for npcZone, spawns in pairs(npc.spawns) do
+                if(npcZone ~= nil and spawns ~= nil) then
+                    local coords
+                    for spawnIndex=1, #spawns do
+                        coords = spawns[spawnIndex]
+                        local data = {
+                            Id = quest.Id,
+                            Icon = _QuestieQuest:GetQuestIcon(quest),
+                            GetIconScale = _GetIconScaleForAvailable,
+                            IconScale = _GetIconScaleForAvailable(),
+                            Type = "available",
+                            QuestData = quest,
+                            Name = npc.name,
+                            IsObjectiveNote = false,
+                        }
+                        if(coords[1] == -1 or coords[2] == -1) then
+                            local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
+                            if dungeonLocation ~= nil then
+                                for _, value in ipairs(dungeonLocation) do
+                                    local zone = value[1];
+                                    local x = value[2];
+                                    local y = value[3];
+
+                                    QuestieMap:DrawWorldIcon(data, zone, x, y)
                                 end
-                            else
-                                QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
+                            end
+                        else
+                            local x = coords[1];
+                            local y = coords[2];
+                            starterIcons[npcZone] = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
+                            if not starterLocs[npcZone] then
+                                starterLocs[npcZone] = {x, y}
                             end
                         end
                     end
                 end
             end
-        end
-    end
-    if(quest.Starts["NPC"] ~= nil)then
-        local npcs = quest.Starts["NPC"]
-        for i=1, #npcs do
-            local npc = QuestieDB:GetNPC(npcs[i])
 
-            if (npc ~= nil and npc.spawns ~= nil) then
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
-
-                --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-                local starterIcons = {}
-                local starterLocs = {}
-                for npcZone, spawns in pairs(npc.spawns) do
-                    if(npcZone ~= nil and spawns ~= nil) then
-                        local coords
-                        for spawnIndex=1, #spawns do
-                            coords = spawns[spawnIndex]
+            if npc.waypoints then
+                for zone, waypoints in pairs(npc.waypoints) do
+                    if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
+                        if not starterIcons[zone] then
                             local data = {
                                 Id = quest.Id,
                                 Icon = _QuestieQuest:GetQuestIcon(quest),
@@ -1224,47 +1221,49 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 Name = npc.name,
                                 IsObjectiveNote = false,
                             }
-                            if(coords[1] == -1 or coords[2] == -1) then
-                                local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
-                                if dungeonLocation ~= nil then
-                                    for _, value in ipairs(dungeonLocation) do
-                                        local zone = value[1];
-                                        local x = value[2];
-                                        local y = value[3];
-
-                                        QuestieMap:DrawWorldIcon(data, zone, x, y)
-                                    end
-                                end
-                            else
-                                local x = coords[1];
-                                local y = coords[2];
-                                starterIcons[npcZone] = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
-                                if not starterLocs[npcZone] then
-                                    starterLocs[npcZone] = {x, y}
-                                end
-                            end
+                            starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
+                            starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                         end
+                        QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
                     end
                 end
+            end
+        end
+    end
+end
 
-                if npc.waypoints then
-                    for zone, waypoints in pairs(npc.waypoints) do
-                        if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                            if not starterIcons[zone] then
-                                local data = {
-                                    Id = quest.Id,
-                                    Icon = _QuestieQuest:GetQuestIcon(quest),
-                                    GetIconScale = _GetIconScaleForAvailable,
-                                    IconScale = _GetIconScaleForAvailable(),
-                                    Type = "available",
-                                    QuestData = quest,
-                                    Name = npc.name,
-                                    IsObjectiveNote = false,
-                                }
-                                starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                                starterLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
+---Helper function for _QuestieQuest:DrawAvailableQuest(quest)
+---@param quest Quest Quest object as returned by QuestieDB:GetQuest
+---@param gameObjects number[] List of object IDs
+function _QuestieQuest:DrawAvailableObjects(quest, gameObjects)
+    for i=1, #gameObjects do
+        local obj = QuestieDB:GetObject(gameObjects[i])
+        if(obj ~= nil and obj.spawns ~= nil) then
+            for zone, spawns in pairs(obj.spawns) do
+                if(zone ~= nil and spawns ~= nil) then
+                    local coords
+                    for spawnIndex=1, #spawns do
+                        coords = spawns[spawnIndex]
+                        local data = {
+                            Id = quest.Id,
+                            Icon = _QuestieQuest:GetQuestIcon(quest),
+                            GetIconScale = _GetIconScaleForAvailable,
+                            IconScale = _GetIconScaleForAvailable(),
+                            Type = "available",
+                            QuestData = quest,
+                            Name = obj.name,
+                            IsObjectiveNote = false,
+                        }
+
+                        if(coords[1] == -1 or coords[2] == -1) then
+                            local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
+                            if dungeonLocation ~= nil then
+                                for _, value in ipairs(dungeonLocation) do
+                                    QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
+                                end
                             end
-                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
+                        else
+                            QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
                         end
                     end
                 end
@@ -1273,19 +1272,44 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
     end
 end
 
+--Draw a single available quest, it is used by the DrawAllAvailableQuests function.
+---@param quest Quest Quest object as returned by QuestieDB:GetQuest
+function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
+    -- Some quests can be started by both an NPC and a GameObject
+    if quest.Starts["Item"] ~= nil then
+        for _, itemID in ipairs(quest.Starts["Item"]) do
+            local npcs = QuestieDB.QueryItemSingle(itemID, 'npcDrops')
+            if npcs then
+                _QuestieQuest:DrawAvailableNPCs(quest, npcs)
+            end
+            local objects = QuestieDB.QueryItemSingle(itemID, 'objectDrops')
+            if objects then
+                _QuestieQuest:DrawAvailableObjects(quest, objects)
+            end
+        end
+    end
+    if quest.Starts["GameObject"] ~= nil then
+        _QuestieQuest:DrawAvailableObjects(quest, quest.Starts["GameObject"])
+    end
+    if quest.Starts["NPC"] then
+        _QuestieQuest:DrawAvailableNPCs(quest, quest.Starts["NPC"])
+    end
+end
+
 ---@param quest Quest
 function _QuestieQuest:GetQuestIcon(quest)
-    local icon
     if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-        icon = ICON_TYPE_AVAILABLE_GRAY
+        return ICON_TYPE_AVAILABLE_GRAY
+    elseif quest.Starts and quest.Starts['Item'] then
+        if quest.Starts['NPC'] or quest.Starts['Object'] then Questie:Debug(Questie.DEBUG_ELEVATED, 'Quest starts from item and NPC/object: ', quest.Id) end
+        return ICON_TYPE_AVAILABLE_LOOT
     elseif quest.IsRepeatable then
-        icon = ICON_TYPE_REPEATABLE
+        return ICON_TYPE_REPEATABLE
     elseif(quest:IsTrivial()) then
-        icon = ICON_TYPE_AVAILABLE_GRAY
+        return ICON_TYPE_AVAILABLE_GRAY
     else
-        icon = ICON_TYPE_AVAILABLE
+        return ICON_TYPE_AVAILABLE
     end
-    return icon
 end
 
 --? Creates a localized space where the local variables and functions are stored

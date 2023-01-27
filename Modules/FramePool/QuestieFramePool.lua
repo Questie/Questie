@@ -39,6 +39,7 @@ function QuestieFramePool:SetIcons()
     -- TODO Add all types (we gotta stop using globals, needs refactoring)
     ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
     ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
+    ICON_TYPE_AVAILABLE_LOOT =  QuestieLib.AddonPath.."Icons\\available_loot.blp"
     ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
     ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
     ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
