@@ -3175,6 +3175,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13846] = {
             [questKeys.preQuestSingle] = {13794},
+            [questKeys.requiredMaxRep] = {1106,42000},
         },
         [13847] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
