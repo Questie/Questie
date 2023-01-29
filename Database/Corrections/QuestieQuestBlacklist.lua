@@ -1211,6 +1211,8 @@ function QuestieQuestBlacklist:Load()
         --- Phase 3 Trial of the Crusader
         [14151] = true, -- Cardinal Ruby (Alchemy)
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
+        [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
+        [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
 
         --- Phase 4 Icecrown Citadel
         [24506] = true, -- Inside the Frozen Citadel (H)
