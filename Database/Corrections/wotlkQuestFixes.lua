@@ -2835,6 +2835,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
         },
+        [13664] = {
+            [questKeys.preQuestSingle] = {13736,13737,13738,13739,13740,13702,13732,13733,13734,13735},
+        },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679},
