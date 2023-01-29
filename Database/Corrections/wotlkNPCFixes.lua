@@ -771,6 +771,10 @@ function QuestieWotlkNpcFixes:Load()
         [33435] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74,24.6}}},
         },
+        [33519] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{77.8,21.6}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [33695] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.2,32.4},{44.2,32.6},{44.2,33.6},{44.4,31.4},{44.6,32},{44.6,34.2},{44.8,31.4},{45.6,32},{46.6,32.4},{46.8,32.6},{46.8,33.6}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
