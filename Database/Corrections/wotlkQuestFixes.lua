@@ -1121,9 +1121,6 @@ function QuestieWotlkQuestFixes:Load()
         [12557] = {
             [questKeys.objectives] = {nil,nil,{{38386},{38339},{38340},{38346}}},
         },
-        [12561] = {
-            [questKeys.preQuestSingle] = {12803},
-        },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
         },
