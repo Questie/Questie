@@ -1406,9 +1406,9 @@ do
     end
 end
 
-function QuestieQuest:DrawDailyQuest(questId)
-    local quest = QuestieDB:GetQuest(questId)
+function QuestieQuest.DrawDailyQuest(questId)
     if QuestieDB.IsDoable(questId) then
+        local quest = QuestieDB:GetQuest(questId)
         _QuestieQuest:DrawAvailableQuest(quest)
     end
 end
