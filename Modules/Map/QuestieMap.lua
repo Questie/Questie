@@ -375,7 +375,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
 
     -- draw the notes
     for zone, spawns in pairs(npc.spawns) do
-        if(zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB:IsDungeonZone(zone))) then
+        if(zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB.IsDungeonZone(zone))) then
             for _, coords in ipairs(spawns) do
                 -- instance spawn, draw entrance on map
                 local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
