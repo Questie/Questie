@@ -24,6 +24,9 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
             },
         },
+        [15576] = {
+            [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.5,76.5}}},
+        },
         [16281] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.39}}},
         },
