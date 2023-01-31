@@ -3094,6 +3094,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13794},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
+        [13795] = {
+            [questKeys.preQuestSingle] = {13702,13732,13733,13734,13735,13736,13737,13738,13739,13740},
+        },
         [13809] = {
             [questKeys.preQuestSingle] = {13794},
         },
