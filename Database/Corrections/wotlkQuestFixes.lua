@@ -2311,11 +2311,16 @@ function QuestieWotlkQuestFixes:Load()
         [13279] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Pustulant Spinal Fluid"), 0, {{"object", 193580}}}},
         },
+        [13280] = {
+            [questKeys.preQuestSingle] = {13296},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Plant Alliance Battle Standard"), 0, {{"object", 193565}}}},
+        },
         [13281] = {
             [questKeys.preQuestSingle] = {13279},
         },
         [13283] = {
             [questKeys.preQuestSingle] = {13293},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Plant Horde Battle Standard"), 0, {{"object", 193565}}}},
         },
         [13284] = {
             [questKeys.preQuestSingle] = {13341},
