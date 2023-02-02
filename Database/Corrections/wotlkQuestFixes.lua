@@ -2833,7 +2833,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMaxRep] = {59,9000},
         },
         [13664] = {
-            [questKeys.preQuestSingle] = {13736,13737,13738,13739,13740,13702,13732,13733,13734,13735},
+            [questKeys.preQuestSingle] = {13700,13701},
         },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -2902,7 +2902,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{33435}},
         },
         [13682] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13664},
         },
         [13699] = {
             [questKeys.objectives] = {{{30675,"Argent Champion defeated"}}},
@@ -3080,43 +3080,43 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33791}}}},
         },
         [13788] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13664},
         },
         [13789] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700},
         },
         [13790] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13791] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700},
         },
         [13793] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13795] = {
             [questKeys.preQuestSingle] = {13702,13732,13733,13734,13735,13736,13737,13738,13739,13740},
         },
         [13809] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13664},
         },
         [13810] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13701},
         },
         [13811] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13701},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13812] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13664},
         },
         [13813] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13701},
         },
         [13814] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13701},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13819] = {
@@ -3179,7 +3179,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
         },
         [13846] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700,13701},
             [questKeys.requiredMaxRep] = {1106,42000},
         },
         [13847] = {
@@ -3216,16 +3216,16 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13861] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700},
         },
         [13862] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13701},
         },
         [13863] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13701},
         },
         [13864] = {
-            [questKeys.preQuestSingle] = {13794},
+            [questKeys.preQuestSingle] = {13700},
         },
         [13887] = {
             [questKeys.preQuestSingle] = {13850},
