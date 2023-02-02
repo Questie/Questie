@@ -2834,6 +2834,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13664] = {
             [questKeys.preQuestSingle] = {13700,13701},
+            [questKeys.extraObjectives] = {
+                {nil, ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33870}}},
+                {nil, ICON_TYPE_TALK, l10n("Speak to Squire Cavin"), 0, {{"monster", 33522}}},
+            },
         },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
