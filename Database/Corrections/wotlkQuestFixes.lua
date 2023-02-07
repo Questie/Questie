@@ -3460,6 +3460,9 @@ function QuestieWotlkQuestFixes:Load()
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
+        [24541] = {
+            [questKeys.sourceItemId] = 49867,
+        },
         [24597] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -3493,6 +3496,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24636] = {
             [questKeys.exclusiveTo] = {24629, 24635},
+        },
+        [24656] = {
+            [questKeys.sourceItemId] = 49867,
         },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,

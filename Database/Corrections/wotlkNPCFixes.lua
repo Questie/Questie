@@ -792,6 +792,10 @@ function QuestieWotlkNpcFixes:Load()
         [37172] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
         },
+        [37671] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.7,11.9},{47.8,11.7},{47.6,11.8}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
         [37675] = {
             [npcKeys.spawns] = {[1657]={{41.95,51.96}},[1537]={{34.15,66.42}},[1519]={{62.41,75.38}},[3557]={{73.73,56.06}}, -- original data
                                [zoneIDs.THUNDER_BLUFF]={{43.6,52.9}},[zoneIDs.ORGRIMMAR]={{53.8,66.4}},[zoneIDs.UNDERCITY]={{65.9,38.7}},[zoneIDs.SILVERMOON_CITY]={{64.6,67.3}}}, -- corrections
@@ -807,6 +811,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [38045] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.6,38.6}},},
+        },
+        [38065] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.92,47.27},{34.07,47.27}}},
+            [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [38293] = {
             [npcKeys.spawns] = {[1657]={{42.0,50.05}},[1537]={{35.37,69.01}}, -- original data
