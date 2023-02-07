@@ -15,6 +15,9 @@ function QuestieWotlkNpcFixes:Load()
         [3996] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
         },
+        [11886] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{24.8,79.8}}},
+        },
         [15351] = {
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE]={{70.41,91.10}},
@@ -33,11 +36,11 @@ function QuestieWotlkNpcFixes:Load()
         [16361] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.45}}},
         },
+        [16075] = {
+            [npcKeys.spawns] = {}, -- Replaced in WotLK
+        },
         [17977] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
-        },
-        [11886] = {
-            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{24.8,79.8}}},
         },
         [19220] = {
             [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
@@ -786,11 +789,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.2,32.4},{44.2,32.6},{44.2,33.6},{44.4,31.4},{44.6,32},{44.6,34.2},{44.8,31.4},{45.6,32},{46.6,32.4},{46.8,32.6},{46.8,33.6}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [37172] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
+        },
+        [37675] = {
+            [npcKeys.spawns] = {[1657]={{41.95,51.96}},[1537]={{34.15,66.42}},[1519]={{62.41,75.38}},[3557]={{73.73,56.06}}, -- original data
+                               [zoneIDs.THUNDER_BLUFF]={{43.6,52.9}},[zoneIDs.ORGRIMMAR]={{53.8,66.4}},[zoneIDs.UNDERCITY]={{65.9,38.7}},[zoneIDs.SILVERMOON_CITY]={{64.6,67.3}}}, -- corrections
+        },
         [38042] = {
-            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52.8,76.8}},},
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{53.7,66.9}},},
         },
         [38043] = {
-            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{64.6,66.2}},},
+            [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{64.4,66.5}},},
         },
         [38044] = {
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF] = {{44,52.8}},},
@@ -798,9 +808,16 @@ function QuestieWotlkNpcFixes:Load()
         [38045] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY] = {{66.6,38.6}},},
         },
+        [38293] = {
+            [npcKeys.spawns] = {[1657]={{42.0,50.05}},[1537]={{35.37,69.01}}, -- original data
+                               [zoneIDs.THE_EXODAR]={{76,57.5}}}, -- correction
+        },
         [38294] = {
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{52.5,66.5}},},
             [npcKeys.zoneID] = zoneIDs.DALARAN,
+        },
+        [38295] = {
+            [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{44.2,55.8}},[zoneIDs.UNDERCITY]={{64.3,37.5}},[zoneIDs.SILVERMOON_CITY]={{64.4,70.3}}}
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
