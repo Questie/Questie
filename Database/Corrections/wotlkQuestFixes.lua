@@ -3484,6 +3484,16 @@ function QuestieWotlkQuestFixes:Load()
         [24615] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        -- Hackfix to hide the other two as a available once one of the random three dailies has been accepted
+        [24629] = {
+            [questKeys.exclusiveTo] = {24635, 24636},
+        },
+        [24635] = {
+            [questKeys.exclusiveTo] = {24629, 24636},
+        },
+        [24636] = {
+            [questKeys.exclusiveTo] = {24629, 24635},
+        },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
