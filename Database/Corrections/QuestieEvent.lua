@@ -861,6 +861,19 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24636}) -- Bonbon Blitz
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24655}) -- Something Stinks
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Scents
 
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24576}) -- A Friendly Chat...
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24657}) -- A Friendly Chat...
+
+-- These seem to be breadcrumbs to "You've Been Served" (14488) but aren't available
+-- Might either not be in game at all or guarded behind finishing one of the two "A Friendly Chat..." quests above
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24792}) -- Man on the Inside
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24793}) -- Man on the Inside
+
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24848}) -- Fireworks At The Gilded Rose
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24849}) -- Hot On The Trail
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24850}) -- Snivel's Sweetheart
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24851}) -- Hot On The Trail
+
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
 
