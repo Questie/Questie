@@ -827,6 +827,15 @@ function QuestieWotlkNpcFixes:Load()
         [38295] = {
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{44.2,55.8}},[zoneIDs.UNDERCITY]={{64.3,37.5}},[zoneIDs.SILVERMOON_CITY]={{64.4,70.3}}}
         },
+        [38340] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{49,68.96}}}
+        },
+        [38341] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{54.26,63.77}}}
+        },
+        [38342] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.21,54.09}}}
+        },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
         -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
