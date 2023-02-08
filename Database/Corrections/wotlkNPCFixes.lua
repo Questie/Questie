@@ -791,6 +791,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [37172] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
         [37671] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.7,11.9},{47.8,11.7},{47.6,11.8}}},
@@ -799,6 +800,12 @@ function QuestieWotlkNpcFixes:Load()
         [37675] = {
             [npcKeys.spawns] = {[1657]={{41.95,51.96}},[1537]={{34.15,66.42}},[1519]={{62.41,75.38}},[3557]={{73.73,56.06}}, -- original data
                                [zoneIDs.THUNDER_BLUFF]={{43.6,52.9}},[zoneIDs.ORGRIMMAR]={{53.8,66.4}},[zoneIDs.UNDERCITY]={{65.9,38.7}},[zoneIDs.SILVERMOON_CITY]={{64.6,67.3}}}, -- corrections
+        },
+        [37715] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
+        },
+        [38035] = {
+            [npcKeys.spawns] = {},
         },
         [38042] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{53.7,66.9}},},
@@ -826,6 +833,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [38295] = {
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{44.2,55.8}},[zoneIDs.UNDERCITY]={{64.3,37.5}},[zoneIDs.SILVERMOON_CITY]={{64.4,70.3}}}
+        },
+        [38328] = {
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.96,53.12}}}
         },
         [38340] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{49,68.96}}}
