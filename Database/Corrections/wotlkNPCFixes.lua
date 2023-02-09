@@ -793,6 +793,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
         },
+        [37214] = {
+            [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}},[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}}
+        },
         [37671] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.7,11.9},{47.8,11.7},{47.6,11.8}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,
@@ -803,6 +806,24 @@ function QuestieWotlkNpcFixes:Load()
         },
         [37715] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
+        },
+        [37917] = {
+            [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}},[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}}
+        },
+        [37984] = {
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{28.3,38.5},{28.6,38.2},{27.9,37.8},{28.6,37.4},{28.3,36.7}}},
+        },
+        [38006] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLLOW_MARSH] = {{61.5,39.8},{61.9,39.7},{61.4,39.5},{61.5,39.3},{61.8,39.3}}},
+        },
+        [38016] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{21.3,52.9},{21.6,52.8},{21.0,52.8},{21.8,52.6},{20.9,52.4}}},
+        },
+        [38023] = {
+            [npcKeys.spawns] = {[zoneIDs.WINTERSPRING] = {{64.2,37.6},{64.4,37.6},{64.2,37.4},{64.5,37.3},{64.4,37.1}}},
+        },
+        [38030] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{41.2,22.5},{41.1,22.2},{41.6,22.0},{41.2,21.9},{41.4,21.8}}},
         },
         [38035] = {
             [npcKeys.spawns] = {},
