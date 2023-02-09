@@ -814,7 +814,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{28.3,38.5},{28.6,38.2},{27.9,37.8},{28.6,37.4},{28.3,36.7}}},
         },
         [38006] = {
-            [npcKeys.spawns] = {[zoneIDs.DUSTWALLLOW_MARSH] = {{61.5,39.8},{61.9,39.7},{61.4,39.5},{61.5,39.3},{61.8,39.3}}},
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{61.5,39.8},{61.9,39.7},{61.4,39.5},{61.5,39.3},{61.8,39.3}}},
         },
         [38016] = {
             [npcKeys.spawns] = {[zoneIDs.THE_HINTERLANDS] = {{21.3,52.9},{21.6,52.8},{21.0,52.8},{21.8,52.6},{20.9,52.4}}},
