@@ -374,13 +374,14 @@ function QuestieQuest:AcceptQuest(questId)
             function() QuestieTooltips:RemoveQuest(questId) end,
             function() if Questie.db.char.collapsedQuests then Questie.db.char.collapsedQuests[questId] = nil end end,  -- re-accepted quest can be collapsed. expand it. specially dailies.
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
+            function()
+                -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
+                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+            end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
             function() QuestieTracker:Update() end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
-
-        --Broadcast an update.
-        --Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId); -- :UpdateQuest is called immediately after AcceptQuest now, so this is redundant
     else
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already existed, not adding")
     end
@@ -631,7 +632,7 @@ function QuestieQuest:AddFinisher(quest)
 
             if finisher.waypoints then
                 for zone, waypoints in pairs(finisher.waypoints) do
-                    if (not ZoneDB:IsDungeonZone(zone)) then
+                    if (not ZoneDB.IsDungeonZone(zone)) then
                         if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1]  then
                             local data = {
                                 Id = questId,
@@ -1405,9 +1406,9 @@ do
     end
 end
 
-function QuestieQuest:DrawDailyQuest(questId)
-    local quest = QuestieDB:GetQuest(questId)
+function QuestieQuest.DrawDailyQuest(questId)
     if QuestieDB.IsDoable(questId) then
+        local quest = QuestieDB:GetQuest(questId)
         _QuestieQuest:DrawAvailableQuest(quest)
     end
 end

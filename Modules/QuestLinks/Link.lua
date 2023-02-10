@@ -123,7 +123,7 @@ _AddQuestTitle = function(quest)
 
     local titleColor = "gold"
     if quest.specialFlags == 1 then
-        titleColor = "blizzardBlue"
+        titleColor = "blue"
     end
 
     if Questie.db.global.trackerShowQuestLevel and Questie.db.global.enableTooltipsQuestID then

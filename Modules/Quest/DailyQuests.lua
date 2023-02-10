@@ -104,7 +104,7 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
 
     for questId, _ in pairs(possibleQuestIds) do
         if questId == currentQuestId then
-            _DailyQuests:ShowDailyQuest(questId);
+            _DailyQuests.ShowDailyQuest(questId);
             Questie.db.char.hiddenDailies[type][questId] = nil;
         else
             -- If the quest is not in the questlog remove all frames
@@ -125,9 +125,9 @@ end
 
 ---@param questId number
 ---@return nil
-function _DailyQuests:ShowDailyQuest(questId)
+function _DailyQuests.ShowDailyQuest(questId)
     if (not QuestieMap.questIdFrames[questId]) then
-        QuestieQuest:DrawDailyQuest(questId);
+        QuestieQuest.DrawDailyQuest(questId);
     end
 end
 

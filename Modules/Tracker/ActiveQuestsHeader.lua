@@ -75,12 +75,12 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
             else
                 self:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
             end
-            trackerBaseFrame:SetMinResize(trackerSpaceBuffer + self.trackedQuests.label:GetUnboundedStringWidth() + trackerSpaceBuffer, trackerFontSizeHeader)
+            QuestieCompat.SetResizeBounds(trackerBaseFrame, trackerSpaceBuffer + self.trackedQuests.label:GetUnboundedStringWidth() + trackerSpaceBuffer, trackerFontSizeHeader)
         else
             self:Hide()
             self.questieIcon:Hide()
             self.trackedQuests:Hide()
-            trackerBaseFrame:SetMinResize(trackerSpaceBuffer, trackerFontSizeHeader)
+            QuestieCompat.SetResizeBounds(trackerBaseFrame, trackerSpaceBuffer, trackerFontSizeHeader)
         end
     end
 

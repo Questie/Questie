@@ -127,7 +127,7 @@ function QuestieOptionsDefaults:Load()
             autocomplete = false,
             autoModifier = "shift",
             acceptTrivial = false,
-            questAnnounceChannel = "group",
+            questAnnounceChannel = "party",
             questAnnounceItems = true,
             questAnnounceAccepted = false,
             questAnnounceAbandoned = false,

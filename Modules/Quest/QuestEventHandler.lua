@@ -168,6 +168,9 @@ function _QuestEventHandler:QuestRemoved(questId)
         questLog[questId] = {}
     end
 
+    -- The party members don't care whether a quest was turned in or abandoned, so we can just broadcast here
+    Questie:SendMessage("QC_ID_BROADCAST_QUEST_REMOVE", questId)
+
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
         Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in before. Nothing do to.")
