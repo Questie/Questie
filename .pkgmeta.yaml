@@ -3,14 +3,18 @@
 package-as: Questie
 
 ignore:
+  - .dockerfiles
   - .git
   - .github
   - .types
   - .vscode
+  - cli
   - ExternalScripts(DONOTINCLUDEINRELEASE)
   - releases
+  - .editorconfig
   - .gitattributes
   - .gitignore
+  - .gitmodules
   - .luacheckrc
   - cli.lua
   - "*.py"
