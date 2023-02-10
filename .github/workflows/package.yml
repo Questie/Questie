@@ -17,6 +17,15 @@ jobs:
       - name: Clone project
         uses: actions/checkout@v1
 
+        # This allows us to reference the generated changelog as: ${{steps.changelog.outputs.changelog}}"
+#      - name: Generate Changelog
+#        id: changelog
+#        run: |
+#          delimiter="$(openssl rand -hex 8)"
+#          echo "changelog<<${delimiter}" >> $GITHUB_OUTPUT
+#          python changelog.py -p >> $GITHUB_OUTPUT
+#          echo "${delimiter}" >> $GITHUB_OUTPUT
+
       - name: Package and release Wrath
         uses: BigWigsMods/packager@set-output-patch
         with:
