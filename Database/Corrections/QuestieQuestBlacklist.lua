@@ -1118,6 +1118,8 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
+        [9229] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
+        [9230] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [9233] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10884] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
