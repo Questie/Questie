@@ -3,6 +3,14 @@
 import subprocess
 import sys
 
+'''
+This program accepts optional command line options:
+
+    -p
+    --pipeline
+        Generate a changelog fit for the GitHub pipeline. This escapes " and '
+'''
+
 # define the tags that should be shown and their order
 commit_keys_and_header = (
     ('feature', '## New Features\n\n'),
@@ -12,10 +20,17 @@ commit_keys_and_header = (
     ('locale', '## Localization Fixes\n\n'),
 )
 
+is_pipeline_run = False
+
 def is_python_36():
     return sys.version_info.major == 3 and sys.version_info.minor >= 6
 
 def get_commit_changelog():
+    global is_pipeline_run
+    for arg in sys.argv[1:]:
+        if arg in ['-p', '--pipeline']:
+            is_pipeline_run = True
+
     last_tag = get_last_git_tag()
     git_log = get_chronological_git_log(last_tag)
     categories = get_sorted_categories(git_log)
@@ -78,6 +93,7 @@ def transform_lines_into_past_tense(line):
 
 
 def get_changelog_string(categories):
+    global is_pipeline_run
     changelog = ''
     for key_header in commit_keys_and_header:
         key = key_header[0]
@@ -85,7 +101,10 @@ def get_changelog_string(categories):
             header = key_header[1]
             changelog += header
             for line in categories[key]:
-                changelog += f'* {line}\n'.replace('\\[', '[')
+                line = line.replace('\\[', '[')
+                if is_pipeline_run:
+                    line = line.replace('"', '\\"').replace('\'', '\\\'')
+                changelog += f'* {line}\n'
             changelog += '\n'
 
     return changelog
