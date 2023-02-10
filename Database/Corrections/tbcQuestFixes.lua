@@ -186,6 +186,9 @@ function QuestieTBCQuestFixes:Load()
         [1978] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [1998] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
         },
