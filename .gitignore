@@ -12,6 +12,9 @@
 ## IntelliJ settings
 .idea/
 
+# Local BigWigsPackager directory
+.release/
+
 #This is used for the atom build package, enables the build to happen on each save.
 .atom-build.yml
 
