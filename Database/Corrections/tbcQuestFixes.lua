@@ -174,6 +174,9 @@ function QuestieTBCQuestFixes:Load()
         [1805] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [1859] = {
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.TROLL,
+        },
         [1886] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
