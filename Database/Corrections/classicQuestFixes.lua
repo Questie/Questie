@@ -145,9 +145,6 @@ function QuestieQuestFixes:Load()
         [353] = {
             [questKeys.preQuestSingle] = {}, -- #2364
         },
-        [361] = {
-            [questKeys.startedBy] = {{1520,1522,1523},nil,{2839}}, -- temp correction for item start
-        },
         [364] = {
             [questKeys.preQuestSingle] = {}, -- #882
         },
