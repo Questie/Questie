@@ -3472,6 +3472,10 @@ function QuestieWotlkQuestFixes:Load()
         [24431] = {
             [questKeys.specialFlags] = 1,
         },
+        [24536] = {
+            [questKeys.objectives] = {{{3296}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 3296}}}},
+        },
         [24541] = {
             [questKeys.sourceItemId] = 49867,
         },
@@ -3564,6 +3568,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{37172}},
             [questKeys.exclusiveTo] = {24638, 24645, 24647, 24648, 24649, 24650, 24651},
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_SLAY, l10n("Destroy Chemical Wagon using Snagglebolt's Khorium Bomb"), 0, {{"object", 400057}}}},
+        },
+        [24655] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{68,1976},1976}}},
+            [questKeys.extraObjectives] = {{nil, ICON_TYPE_OBJECT, l10n("Use Snagglebolt's Air Analyzer on perfumed guards"), 0, {{"monster", 68},{"monster", 1976}}}},
         },
         [24656] = {
             [questKeys.sourceItemId] = 49867,
