@@ -3352,6 +3352,18 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
+        [14418] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [14419] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [14420] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [14421] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
         [24216] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
                 [zoneIDs.SHATTRATH_CITY]={{66.85,57.04}},

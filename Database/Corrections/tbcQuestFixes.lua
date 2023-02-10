@@ -174,6 +174,18 @@ function QuestieTBCQuestFixes:Load()
         [1805] = {
             [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
+        [1886] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1898] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1899] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [1978] = {
+            [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
         [2240] = {
             [questKeys.triggerEnd] = {"Explore the Hidden Chamber", {[zoneIDs.BADLANDS]={{35.22,10.32}}}},
         },
