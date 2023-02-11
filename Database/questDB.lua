@@ -41,6 +41,7 @@ QuestieDB.questKeys = {
     ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
     ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
     ['requiredSpell'] = 28, -- int: quest is only available if character has this spellID
+    ['requiredSpecialization'] = 29, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
 }
 
 QuestieDB.questKeysReversed = {}
@@ -77,12 +78,14 @@ QuestieDB.questCompilerTypes = {
     ['reputationReward'] = "u8s24pairs",
     ['extraObjectives'] = "extraobjectives",
     ['requiredSpell'] = "u24",
+    ['requiredSpecialization'] = "u24",
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill',
     'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest', 'requiredSpell',
+    'requiredSpecialization',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',
