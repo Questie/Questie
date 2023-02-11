@@ -1184,6 +1184,15 @@ function QuestieQuestBlacklist:Load()
         [13173] = true, -- Not in the game
         [13175] = true, -- Not in the game
         [14203] = true, -- Not in the game
+        
+        [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8385] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8388] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13475] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13476] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13477] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13478] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
