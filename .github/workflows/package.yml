@@ -26,3 +26,10 @@ jobs:
         uses: BigWigsMods/packager@master
         with:
           args: -d -e -l -m .pkgmeta.yaml
+
+      - name: Upload GitHub artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Questie-${{github.sha}}
+          path: .release/Questie-*.zip
+
