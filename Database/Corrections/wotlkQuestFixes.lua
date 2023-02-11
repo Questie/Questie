@@ -3352,6 +3352,9 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
+        [14352] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [14418] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
