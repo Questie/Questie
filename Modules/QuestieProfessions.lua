@@ -9,6 +9,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
+local specializationNames = {}
 local alternativeProfessionNames = {}
 
 -- Fast local references
@@ -179,9 +180,57 @@ local sortIds = {
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 
+QuestieProfessions.specializationKeys = { -- specializations use spellID, professions use skillID
+    ALCHEMY = QuestieProfessions.professionKeys.ALCHEMY,
+    ALCHEMY_ELIXIR = 28677,
+    ALCHEMY_POTION = 28675,
+    ALCHEMY_TRANSMUTATION = 28672,
+    BLACKSMITHING = QuestieProfessions.professionKeys.BLACKSMITHING,
+    BLACKSMITHING_ARMOR = 9788,
+    BLACKSMITHING_WEAPON = 9787,
+    BLACKSMITHING_WEAPON_AXE = 17041,
+    BLACKSMITHING_WEAPON_HAMMER = 17040,
+    BLACKSMITHING_WEAPON_SWORD = 17039,
+    ENGINEERING = QuestieProfessions.professionKeys.ENGINEERING,
+    ENGINEERING_GNOMISH = 20219,
+    ENGINEERING_GOBLIN = 20222,
+    LEATHERWORKING = QuestieProfessions.professionKeys.LEATHERWORKING,
+    LEATHERWORKING_DRAGONSCALE = 10656,
+    LEATHERWORKING_ELEMENTAL = 10658,
+    LEATHERWORKING_TRIBAL = 10660,
+    TAILORING = QuestieProfessions.professionKeys.TAILORING,
+    TAILORING_MOONCLOTH = 26798,
+    TAILORING_SHADOWEAVE = 26801,
+    TAILORING_SPELLFIRE = 26797,
+}
+
+specializationNames = {
+    [QuestieProfessions.specializationKeys.ALCHEMY_ELIXIR] = "Elixir Master",
+    [QuestieProfessions.specializationKeys.ALCHEMY_POTION] = "Potion Master",
+    [QuestieProfessions.specializationKeys.ALCHEMY_TRANSMUTATION] = "Transmutation Master",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_ARMOR] = "Armorsmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON] = "Weaponsmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON_AXE] = "Master Axesmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON_HAMMER] = "Master Hammersmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON_SWORD] = "Master Swordsmith",
+    [QuestieProfessions.specializationKeys.ENGINEERING_GNOMISH] = "Gnomish Engineer",
+    [QuestieProfessions.specializationKeys.ENGINEERING_GOBLIN] = "Goblin Engineer",
+    [QuestieProfessions.specializationKeys.LEATHERWORKING_DRAGONSCALE] = "Dragonscale Leatherworking",
+    [QuestieProfessions.specializationKeys.LEATHERWORKING_ELEMENTAL] = "Elemental Leatherworking",
+    [QuestieProfessions.specializationKeys.LEATHERWORKING_TRIBAL] = "Tribal Leatherworking",
+    [QuestieProfessions.specializationKeys.TAILORING_MOONCLOTH] = "Mooncloth Tailoring",
+    [QuestieProfessions.specializationKeys.TAILORING_SHADOWEAVE] = "Shadoweave Tailoring",
+    [QuestieProfessions.specializationKeys.TAILORING_SPELLFIRE] = "Spellfire Tailoring",
+}
+
 ---@return string
 function QuestieProfessions:GetProfessionName(professionKey)
     return professionNames[professionKey]
+end
+
+---@return string
+function QuestieProfessions:GetSpecializationName(specializationKey)
+    return specializationNames[professionKey]
 end
 
 ---@return number
