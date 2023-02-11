@@ -13,7 +13,9 @@ ignore:
   - .types
   - .vscode
   - cli
+  - Database/TBC
   - ExternalScripts(DONOTINCLUDEINRELEASE)
+  - Localization/lookups/TBC
   - releases
   - .editorconfig
   - .gitattributes
@@ -21,6 +23,7 @@ ignore:
   - .gitmodules
   - .luacheckrc
   - cli.lua
+  - Questie-BCC.toc
   - "*.py"
 
 embedded-libraries:
