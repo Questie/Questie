@@ -2,6 +2,10 @@
 
 package-as: Questie
 
+manual-changelog:
+  filename: CHANGELOG.md
+  markup-type: markdown
+
 ignore:
   - .dockerfiles
   - .git
