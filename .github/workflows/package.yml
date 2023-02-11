@@ -30,6 +30,6 @@ jobs:
       - name: Upload GitHub artifact
         uses: actions/upload-artifact@v3
         with:
-          name: Questie-${{github.sha}}
+          name: Questie-${{github.ref}}
           path: .release/Questie-*.zip
 
