@@ -36,6 +36,8 @@ function QuestieQuestFixes:Load()
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
     local sortKeys = QuestieDB.sortKeys
+    local profKeys = QuestieProfessions.professionKeys
+    local specKeys = QuestieProfessions.specializationKeys
 
     return {
         [2] = {
