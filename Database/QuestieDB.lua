@@ -633,7 +633,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
     if (requiredSpecialization) and (requiredSpecialization > 0) then
         local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
-        if (not (hasSpecialization)) then
+        if (not hasSpecialization) then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
             --? We don't blacklist purely based on lacking the spell, since it's rare and can change quickly
             --if(not hasSpell) then
@@ -646,7 +646,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local requiredSpell = QuestieDB.QueryQuestSingle(questId, "requiredSpell")
     if (requiredSpell) and (requiredSpell > 0) then
         local hasSpell = IsSpellKnownOrOverridesKnown(requiredSpell)
-        if (not (hasSpell)) then
+        if (not hasSpell) then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
             --? We don't blacklist purely based on lacking the spell, since it's rare and can change quickly
             --if(not hasSpell) then
