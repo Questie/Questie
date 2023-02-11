@@ -7,6 +7,8 @@ local QuestieQuestFixes = QuestieLoader:CreateModule("QuestieQuestFixes")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
+---@type QuestieProfessions
+local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
