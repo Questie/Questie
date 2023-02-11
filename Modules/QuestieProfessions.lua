@@ -125,6 +125,52 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
+---@param requiredSpecialization { [1]: number } [1] = professionId
+---@return boolean HasSpecialization
+function QuestieProfessions:HasSpecialization(requiredSpecialization)
+    if not requiredSpecialization then
+        --? We return true here because otherwise we would have to check for nil everywhere
+        return true
+    end
+    for _, value in pairs(QuestieProfessions.professionKeys) do
+        if value == requiredSpecialization then -- if we determine input is a profession
+            if requiredSpecialization == QuestieProfessions.professionKeys.ALCHEMY then
+                return not (IsSpellKnown(QuestieProfessions.specializationKeys.ALCHEMY_ELIXIR)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.ALCHEMY_POTION)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.ALCHEMY_TRANSMUTATION))
+                -- if the profession is alchemy, we only return true if the player does NOT know
+                -- the spells for elixir, potion, or transmutation master; otherwise return false
+            elseif requiredSpecialization == QuestieProfessions.professionKeys.BLACKSMITHING then
+                return not (IsSpellKnown(QuestieProfessions.specializationKeys.BLACKSMITHING_ARMOR)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON))
+            
+            elseif requiredSpecialization == QuestieProfessions.professionKeys.ENGINEERING then
+                return not (IsSpellKnown(QuestieProfessions.specializationKeys.ENGINEERING_GNOMISH)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.ENGINEERING_GOBLIN))
+            
+            elseif requiredSpecialization == QuestieProfessions.professionKeys.LEATHERWORKING then
+                return not (IsSpellKnown(QuestieProfessions.specializationKeys.LEATHERWORKING_DRAGONSCALE)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.LEATHERWORKING_ELEMENTAL)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.LEATHERWORKING_TRIBAL))
+            
+            elseif requiredSpecialization == QuestieProfessions.professionKeys.TAILORING then
+                return not (IsSpellKnown(QuestieProfessions.specializationKeys.TAILORING_MOONCLOTH)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.TAILORING_SHADOWEAVE)
+                or IsSpellKnown(QuestieProfessions.specializationKeys.TAILORING_SPELLFIRE))
+            
+            end
+            return _HasProfession(requiredSpecialization)
+            -- if the profession is not one with known specs, return true if the player has that profession
+        end
+    end
+    for _, value in pairs(QuestieProfessions.specializationKeys) do
+        if value == requiredSpecialization then -- if we determine input is a specialization
+            return IsSpellKnownOrOverridesKnown(requiredSpecialization) -- return true if the spell is known, false if not
+        end
+    end
+    return true
+end
+
 ---@enum ProfessionEnum
 QuestieProfessions.professionKeys = {
     FIRST_AID = 129,
