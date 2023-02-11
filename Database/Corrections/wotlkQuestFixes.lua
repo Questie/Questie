@@ -28,6 +28,8 @@ function QuestieWotlkQuestFixes:Load()
     local classIDs = QuestieDB.classKeys
     local zoneIDs = ZoneDB.zoneIDs
     local sortKeys = QuestieDB.sortKeys
+    local profKeys = QuestieProfessions.professionKeys
+    local specKeys = QuestieProfessions.specializationKeys
 
     return {
         [236] = {
