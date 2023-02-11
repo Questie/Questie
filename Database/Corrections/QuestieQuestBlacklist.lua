@@ -1207,11 +1207,24 @@ function QuestieQuestBlacklist:Load()
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
         
         -- Old Naxx quests (Naxx40 goes away in wotlk)
-        [9120] = QuestieCorrections.WOTLK_ONLY,
-        [9229] = QuestieCorrections.WOTLK_ONLY,
-        [9230] = QuestieCorrections.WOTLK_ONLY,
-        [9233] = QuestieCorrections.WOTLK_ONLY,
-        [9237] = QuestieCorrections.WOTLK_ONLY,
+        [9120] = QuestieCorrections.WOTLK_ONLY, -- The Fall of Kel'Thuzad
+        [9229] = QuestieCorrections.WOTLK_ONLY, -- The Fate of Ramaladni
+        [9230] = QuestieCorrections.WOTLK_ONLY, -- Ramaladni's Icy Grasp
+        [9232] = QuestieCorrections.WOTLK_ONLY, -- The Only Song I Know...
+        [9233] = QuestieCorrections.WOTLK_ONLY, -- Omarion's Handbook
+        [9234] = QuestieCorrections.WOTLK_ONLY, -- Icebane Gauntlets
+        [9235] = QuestieCorrections.WOTLK_ONLY, -- Icebane Bracers
+        [9236] = QuestieCorrections.WOTLK_ONLY, -- Icebane Breastplate
+        [9237] = QuestieCorrections.WOTLK_ONLY, -- Glacial Cloak
+        [9238] = QuestieCorrections.WOTLK_ONLY, -- Glacial Wrists
+        [9239] = QuestieCorrections.WOTLK_ONLY, -- Glacial Gloves
+        [9240] = QuestieCorrections.WOTLK_ONLY, -- Glacial Vest
+        [9241] = QuestieCorrections.WOTLK_ONLY, -- Polar Bracers
+        [9242] = QuestieCorrections.WOTLK_ONLY, -- Polar Gloves
+        [9243] = QuestieCorrections.WOTLK_ONLY, -- Polar Tunic
+        [9244] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Bracers
+        [9245] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Gauntlets
+        [9246] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Breastplate
 
 
         -- Scourge invasion
