@@ -27,6 +27,6 @@ jobs:
 #          echo "${delimiter}" >> $GITHUB_OUTPUT
 
       - name: Package and release Wrath
-        uses: BigWigsMods/packager@set-output-patch
+        uses: BigWigsMods/packager@master
         with:
           args: -d -e -l -m .pkgmeta.yaml
