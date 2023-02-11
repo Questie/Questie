@@ -276,7 +276,7 @@ end
 
 ---@return string
 function QuestieProfessions:GetSpecializationName(specializationKey)
-    return specializationNames[professionKey]
+    return specializationNames[specializationKey]
 end
 
 ---@return number
