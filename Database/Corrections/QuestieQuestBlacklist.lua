@@ -1117,11 +1117,7 @@ function QuestieQuestBlacklist:Load()
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
-
-        [9120] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [9229] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [9230] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [9233] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
+        
         [10884] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
@@ -1209,6 +1205,14 @@ function QuestieQuestBlacklist:Load()
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
+        
+        -- Old Naxx quests (Naxx40 goes away in wotlk)
+        [9120] = QuestieCorrections.WOTLK_ONLY,
+        [9229] = QuestieCorrections.WOTLK_ONLY,
+        [9230] = QuestieCorrections.WOTLK_ONLY,
+        [9233] = QuestieCorrections.WOTLK_ONLY,
+        [9237] = QuestieCorrections.WOTLK_ONLY,
+
 
         -- Scourge invasion
         [12616] = true,
