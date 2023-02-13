@@ -116,6 +116,9 @@ function QuestieWotlkQuestFixes:Load()
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
         },
+        [9358] = {
+            [questKeys.exclusiveTo] = {9252},
+        },
         [9629] = {
             [questKeys.objectives] = {{{17326}}},
         },
