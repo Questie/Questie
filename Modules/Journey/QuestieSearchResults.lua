@@ -811,19 +811,25 @@ end
 
 function QuestieSearchResults:GetDetailFrame(detailType, id)
     local frame = AceGUI:Create("Frame")
-    frame:SetHeight(300)
+    frame:SetHeight(500)
     frame:SetWidth(300)
+    frame:SetLayout("Fill");
+    local details = AceGUI:Create("ScrollFrame")
+    details:SetFullWidth(true);
+    details:SetFullHeight(true);
+    details:SetLayout("Flow")
+    frame:AddChild(details)
     if detailType == "quest" then
-        QuestieSearchResults:QuestDetailsFrame(frame, id)
+        QuestieSearchResults:QuestDetailsFrame(details, id)
         frame:SetTitle(l10n("Quest Details"))
     elseif detailType == "npc" then
-        QuestieSearchResults:SpawnDetailsFrame(frame, id, detailType)
+        QuestieSearchResults:SpawnDetailsFrame(details, id, detailType)
         frame:SetTitle(l10n("NPC Details"))
     elseif detailType == "object" then
-        QuestieSearchResults:SpawnDetailsFrame(frame, id, detailType)
+        QuestieSearchResults:SpawnDetailsFrame(details, id, detailType)
         frame:SetTitle(l10n("Object Details"))
     elseif detailType == "item" then
-        QuestieSearchResults:ItemDetailsFrame(frame, id)
+        QuestieSearchResults:ItemDetailsFrame(details, id)
         frame:SetTitle(l10n("Item Details"))
     else
         frame:ReleaseChildren()
