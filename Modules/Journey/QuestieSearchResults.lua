@@ -31,6 +31,7 @@ local AceGUI = LibStub("AceGUI-3.0");
 
 local _HandleOnGroupSelected
 local lastOpenSearch = "quest"
+local _selected = 0
 
 local BY_NAME = 1
 local BY_ID = 2
@@ -61,7 +62,7 @@ local function AddLinkedParagraph(frame, linkType, lookupObject, header, query)
             -- QuestieJourneyUtils:AddLine(frame, lookupDB[id][lookupKey].." ("..id..")")
             local link = AceGUI:Create("InteractiveLabel")
             link:SetText(query(id, "name").." ("..id..")");
-            link:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame(linkType, id) end)
+            link:SetCallback("OnClick", function() QuestieSearchResults:SetSearch(linkType, id) end)
             frame:AddChild(link);
         end
     end
@@ -343,7 +344,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             local frame = AceGUI:Create("InteractiveLabel")
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
-            frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame("quest", v) end)
+            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
             frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
             frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
             frame:SetText(QuestieLib:GetColoredQuestName(quest.Id,  true, true))
@@ -383,7 +384,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
             frame:SetText(QuestieLib:GetColoredQuestName(quest.Id, true, true))
             frame:SetUserData("id", v)
             frame:SetUserData("name", quest.name)
-            frame:SetCallback("OnClick", function() QuestieSearchResults:GetDetailFrame("quest", v) end)
+            frame:SetCallback("OnClick", function() QuestieSearchResults:SetSearch("quest", v) end)
             frame:SetCallback("OnEnter", _QuestieJourney.ShowJourneyTooltip)
             frame:SetCallback("OnLeave", _QuestieJourney.HideJourneyTooltip)
 
@@ -608,6 +609,11 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
 
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
+    if _selected ~= 0 then
+        selectedId = _selected
+        resultTree:SelectByValue(_selected)
+        _selected = 0
+    end
 end
 
 _HandleOnGroupSelected = function (resultType)
@@ -642,13 +648,13 @@ _HandleOnGroupSelected = function (resultType)
     elseif lastOpenSearch == "object" then
         QuestieSearchResults:SpawnDetailsFrame(details, selectedId, 'object')
     elseif lastOpenSearch == "item" then
-        QuestieSearchResults:ItemDetailsFrame(details, selectedId, 'item')
+        QuestieSearchResults:ItemDetailsFrame(details, selectedId)
     end
 end
 
 local function SelectTabGroup(container, _, resultType)
-    QuestieSearchResults:DrawResultTab(container, resultType);
     lastOpenSearch = resultType
+    QuestieSearchResults:DrawResultTab(container, resultType);
 end
 
 local function _GetSearchFunction(searchBox, searchGroup)
@@ -734,7 +740,7 @@ function QuestieSearchResults:DrawSearchResultTab(searchGroup, searchType, query
             },
         })
         searchResultTabs:SetCallback("OnGroupSelected", SelectTabGroup)
-        searchResultTabs:SelectTab("quest");
+        if _selected == 0 then searchResultTabs:SelectTab("quest"); end
         searchGroup:AddChild(searchResultTabs);
     else
         searchGroup:ReleaseChildren();
@@ -836,4 +842,13 @@ function QuestieSearchResults:GetDetailFrame(detailType, id)
         return
     end
     frame:Show()
+end
+
+function QuestieSearchResults:SetSearch(detailType, id)
+    _selected = id
+    searchBox:SetText(tostring(id))
+    Questie.db.char.searchType = BY_ID
+    typeDropdown:SetValue(BY_ID)
+    QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
+    searchResultTabs:SelectTab(detailType)
 end
