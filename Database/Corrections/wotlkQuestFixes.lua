@@ -104,6 +104,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{16281}},
             [questKeys.questLevel] = -1,
         },
+        [9189] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [9211] = {
             [questKeys.specialFlags] = 1,
         },
