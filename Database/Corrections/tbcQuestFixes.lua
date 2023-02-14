@@ -214,6 +214,14 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 20,
             [questKeys.parentQuest] = 0,
         },
+        [2880] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.specialFlags] = 1,
+        },
+        [2881] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.specialFlags] = 1,
+        },
         [2989] = {
             [questKeys.triggerEnd] = {"Search the Altar of Zul", {[zoneIDs.THE_HINTERLANDS]={{48.86,68.42}}}},
         },
