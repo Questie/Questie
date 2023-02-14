@@ -1122,6 +1122,11 @@ function QuestieQuestBlacklist:Load()
         [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
         [10901] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13431
+        [6821] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6822] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6823] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6824] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [7486] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
         [11621] = true, -- Not in the game
         [11179] = true, -- Not in the game
         [11622] = true, -- Not in the game
