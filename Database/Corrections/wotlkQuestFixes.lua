@@ -113,6 +113,30 @@ function QuestieWotlkQuestFixes:Load()
         [9213] = {
             [questKeys.specialFlags] = 1,
         },
+        [9221] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9222] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9223] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9224] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9225] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9226] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9227] = {
+            [questKeys.specialFlags] = 1,
+        },
+        [9228] = {
+            [questKeys.specialFlags] = 1,
+        },
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
         },
