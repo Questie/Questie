@@ -97,7 +97,7 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
 
             if WatchFrame then
                 local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint()}))
-                Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
+                Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
                 if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                     TrackerBaseFrame.SetSafePoint(baseFrame)
@@ -109,11 +109,12 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     else
         if WatchFrame then
             local result, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint()}))
-            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "AUTO"
+            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
 
             if not result then
                 Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                 print(l10n("Error: Questie tracker in invalid location, resetting..."))
+                Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
                 TrackerBaseFrame.SetSafePoint(baseFrame)
             end
         else
@@ -171,17 +172,23 @@ function TrackerBaseFrame.Update()
 end
 
 function TrackerBaseFrame.SetSafePoint()
+    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()*8
+
+    local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
+    local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
+
     baseFrame:ClearAllPoints()
 
-    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()/2
-    local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
-
-    local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
-    if trackerSetPoint == "AUTO" then
-        baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", resetCords["TOPLEFT"].x, resetCords["TOPLEFT"].y)
+    if trackerSetPoint == "BOTTOMLEFT" then
+        baseFrame:SetPoint("BOTTOMLEFT", UIParent, "CENTER", -xOff, -yOff)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "CENTER", -xOff, -yOff}
     else
-        baseFrame:SetPoint(trackerSetPoint, UIParent, "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y)
+        baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", -xOff, yOff)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "CENTER", -xOff, yOff}
     end
+
+    _MoveDurabilityFrame()
+    _UpdateTracker()
 end
 
 function TrackerBaseFrame.ShrinkToMinSize(minSize)
@@ -229,15 +236,22 @@ end
 local function _UpdateTrackerPosition()
     local xOff, yOff = baseFrame:GetLeft(), baseFrame:GetTop()
 
-    baseFrame:ClearAllPoints()
-    -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
-    baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+    local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
 
-    Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xOff, -(GetScreenHeight() - yOff)}
+    baseFrame:ClearAllPoints()
+
+    if trackerSetPoint == "BOTTOMLEFT" then
+        baseFrame:SetPoint("BOTTOMLEFT", UIParent, xOff, baseFrame:GetBottom())
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xOff, baseFrame:GetBottom()}
+    else
+        baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xOff, -(GetScreenHeight() - yOff)}
+    end
 
     _MoveDurabilityFrame()
     _UpdateTracker()
 end
+
 
 function TrackerBaseFrame.OnDragStop()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop]")
@@ -276,6 +290,9 @@ function TrackerBaseFrame.OnResizeStart(_, button)
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
         _UpdateTracker()
         baseFrame.sizer:SetAlpha(1)
+        C_Timer.After(0.1, function()
+            _UpdateTracker()
+        end)
     end
 end
 
@@ -310,7 +327,7 @@ function TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombin
         if (trackerVarsCombined < activeQuestsHeaderWidth) then
             baseFrame:SetWidth(activeQuestsHeaderWidth)
         elseif (trackerVarsCombined ~= baseFrameWidth) then
-            baseFrame:SetWidth(trackerVarsCombined)
+            baseFrame:SetWidth(trackerVarsCombined + 10)
         end
     end
 end

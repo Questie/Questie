@@ -19,13 +19,13 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 local marginLeft = 10
-local trackerSpaceBuffer = 10
+local trackerSpaceBuffer = 1
 
 ---@param trackerBaseFrame Frame
 function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
     local frm = CreateFrame("Button", nil, trackerBaseFrame)
 
-    if Questie.db.global.trackerHeaderAutoMove then
+    if Questie.db.global.autoMoveHeader then
         if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
             frm:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", marginLeft, 10)
         else
@@ -66,7 +66,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
             self:SetHeight(trackerFontSizeHeader + 5)
             self:Show()
 
-            if Questie.db.global.trackerHeaderAutoMove then
+            if Questie.db.global.autoMoveHeader then
                 if Questie.db[Questie.db.global.questieTLoc].TrackerLocation and (Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMLEFT" or Questie.db[Questie.db.global.questieTLoc].TrackerLocation[1] == "BOTTOMRIGHT") then
                     self:SetPoint("BOTTOMLEFT", trackerBaseFrame, "BOTTOMLEFT", 0, 10)
                 else

@@ -181,7 +181,6 @@ Modules\Tracker\FadeTicker.lua
 Modules\Tracker\TrackerBaseFrame.lua
 Modules\Tracker\QuestieQuestTimers.lua
 Modules\Tracker\ActiveQuestsHeader.lua
-Modules\Tracker\AchievementTracker.lua
 Modules\Tracker\LinePool.lua
 
 Modules\QuestieDBMIntegration.lua

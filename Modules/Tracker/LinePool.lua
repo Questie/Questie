@@ -21,14 +21,10 @@ local poolSize = 80
 local lineIndex = 0
 local linePool = {}
 
-local achievementPoolSize = 40
-local achievementLineIndex = 0
-local achievementLinePool = {}
-
 local baseFrame
 local lineMarginLeft = 10
 
-local _OnClick, _OnHighlightEnter, _OnHighlightLeave, _SetMode
+local _OnClickQuest, _OnClickAchieve, _OnHighlightEnter, _OnHighlightLeave, _SetMode
 local _UntrackQuest, _TrackerUpdate
 
 ---@param trackedQuestsFrame Frame
@@ -44,6 +40,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         local line = CreateFrame("Button", nil, trackedQuestsFrame)
         line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         line.label:SetJustifyH("LEFT")
+        line.label:SetJustifyV("TOP")
         line.label:SetPoint("TOPLEFT", line)
         line.label:Hide()
 
@@ -68,11 +65,21 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         line.SetMode = _SetMode
 
         function line:SetZone(ZoneId)
-            self.ZoneId = TrackerUtils:GetZoneNameByID(ZoneId)
-            self.expandZone.zoneId = ZoneId
+            if ZoneId == "Achievements" then
+                self.expandZone.zoneId = ZoneId
+            else
+                self.ZoneId = TrackerUtils:GetZoneNameByID(ZoneId)
+                self.expandZone.zoneId = ZoneId
+            end
         end
 
         function line:SetQuest(Quest)
+            if type(Quest) ~= "table" then
+                local questID = Quest
+                Quest = {
+                    Id = questID
+                }
+            end
             self.Quest = Quest
             self.expandQuest.questId = Quest.Id
         end
@@ -84,19 +91,25 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         function line:SetVerticalPadding(amount)
             if self.mode == "zone" then
                 self:SetHeight(Questie.db.global.trackerFontSizeZone + amount)
-            elseif self.mode == "quest" then
+            elseif self.mode == "quest" or "achieve" then
                 self:SetHeight(Questie.db.global.trackerFontSizeQuest + amount)
             else
                 self:SetHeight(Questie.db.global.trackerFontSizeObjective + amount)
             end
         end
 
-        line:SetMode("quest")
         line:EnableMouse(true)
         line:RegisterForDrag("LeftButton")
         line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-        line:SetScript("OnClick", _OnClick)
+        function line:SetOnClick(onClickmode)
+            if onClickmode == "quest" then
+                self:SetScript("OnClick", _OnClickQuest)
+            elseif onClickmode == "achieve" then
+                self:SetScript("OnClick", _OnClickAchieve)
+            end
+        end
+
         line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
         line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
 
@@ -142,6 +155,9 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                 Questie.db.char.collapsedZones[self.zoneId] = true
             end
             _TrackerUpdate()
+            C_Timer.After(0.01, function()
+                _TrackerUpdate()
+            end)
         end)
 
         expandZone:SetScript("OnEnter", function(self)
@@ -201,6 +217,9 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                 Questie.db.char.collapsedQuests[self.questId] = true
             end
             _TrackerUpdate()
+            C_Timer.After(0.01, function()
+                _TrackerUpdate()
+            end)
         end)
 
         expandQuest:SetScript("OnEnter", FadeTicker.OnEnter)
@@ -214,128 +233,6 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         line.expandQuest = expandQuest
 
         linePool[i] = line
-        lastFrame = line
-    end
-end
-
----@param trackedAchievementsFrame Frame
-function LinePool.InitializeAchievementLines(trackedAchievementsFrame, OnAchievementClick, AchievementUpdate)
-    local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-
-    local lastFrame
-    for i = 1, achievementPoolSize do
-        local line = CreateFrame("Button", nil, trackedAchievementsFrame)
-        line:SetSize(1, 1)
-
-        line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-        line.label:SetJustifyH("LEFT")
-        line.label:SetPoint("TOPLEFT", line)
-        line.label:Hide()
-
-        -- autoadjust parent size for clicks
-        line.label._SetText = line.label.SetText
-        line.label.frame = line
-        line.label.SetText = function(self, text)
-            self:_SetText(text)
-            self.frame:SetWidth(self:GetWidth())
-            self.frame:SetHeight(self:GetHeight())
-        end
-
-        if lastFrame then
-            line:SetPoint("TOPLEFT", lastFrame, "BOTTOMLEFT", 0, 0)
-        else
-            line:SetPoint("TOPLEFT", trackedAchievementsFrame, "TOPLEFT", lineMarginLeft, -30)
-        end
-
-        line.SetMode = _SetMode
-
-        function line:SetAchievement(achievementId)
-            self.expand.achievementId = achievementId
-        end
-
-        function line:SetVerticalPadding(amount)
-            if self.mode == "achievement" then
-                self:SetHeight(Questie.db.global.trackerFontSizeQuest + amount)
-            else
-                self:SetHeight(Questie.db.global.trackerFontSizeObjective + amount)
-            end
-        end
-
-        line:SetMode("achievement")
-        line:EnableMouse(true)
-        line:RegisterForDrag("LeftButton")
-        line:RegisterForClicks("RightButtonUp", "LeftButtonUp")
-
-        line:SetScript("OnClick", OnAchievementClick)
-        line:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
-        line:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
-
-        line:SetScript("OnEnter", function(self)
-            _OnHighlightEnter(self)
-            FadeTicker.OnEnter()
-        end)
-
-        line:SetScript("OnLeave", function(self)
-            _OnHighlightLeave(self)
-            FadeTicker.OnLeave()
-        end)
-
-        -- create expanding buttons
-        local expand = CreateFrame("Button", nil, line)
-        expand.texture = expand:CreateTexture(nil, "OVERLAY", nil, 0)
-        expand.texture:SetWidth(trackerFontSizeQuest)
-        expand.texture:SetHeight(trackerFontSizeQuest)
-        expand.texture:SetAllPoints(expand)
-
-        expand:SetWidth(trackerFontSizeQuest)
-        expand:SetHeight(trackerFontSizeQuest)
-        expand:SetPoint("RIGHT", line, "LEFT", 0, 0)
-
-        expand.SetMode = function(self, mode)
-            if mode ~= self.mode then
-                self.mode = mode
-                if mode == 1 then
-                    self.texture:SetTexture("Interface\\Buttons\\UI-MinusButton-Up")
-                else
-                    self.texture:SetTexture("Interface\\Buttons\\UI-PlusButton-Up")
-                end
-                self:SetWidth(Questie.db.global.trackerFontSizeQuest+3)
-                self:SetHeight(Questie.db.global.trackerFontSizeQuest+3)
-            end
-        end
-
-        expand:SetMode(1) -- maximized
-        expand:EnableMouse(true)
-        expand:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-
-        expand:SetScript("OnClick", function(self)
-            if InCombatLockdown() then
-                return
-            end
-            if self.mode == 1 then
-                self:SetMode(0)
-            else
-                self:SetMode(1)
-            end
-            if Questie.db.char.collapsedAchievements[self.achievementId] then
-                Questie.db.char.collapsedAchievements[self.achievementId] = nil
-            else
-                Questie.db.char.collapsedAchievements[self.achievementId] = true
-            end
-            AchievementUpdate()
-        end)
-
-        expand:SetScript("OnEnter", FadeTicker.OnEnter)
-        expand:SetScript("OnLeave", FadeTicker.OnLeave)
-        expand:Hide()
-
-        if Questie.db.global.trackerFadeMinMaxButtons then
-            expand:SetAlpha(0)
-        end
-
-        line.expand = expand
-
-        achievementLinePool[i] = line
         lastFrame = line
     end
 end
@@ -360,22 +257,6 @@ function LinePool.ResetLinesForChange()
     lineIndex = 0
 end
 
-function LinePool.ResetAchievementLinesForChange()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "LinePool: ResetAchievementLinesForChange")
-    if InCombatLockdown() or not Questie.db.global.trackerEnabled then
-        return
-    end
-
-    for _, line in pairs(achievementLinePool) do
-        line.mode = nil
-        if line.expand then
-            line.expand.mode = nil
-        end
-    end
-
-    achievementLineIndex = 0
-end
-
 function LinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -383,15 +264,6 @@ function LinePool.GetNextLine()
     end
 
     return linePool[lineIndex]
-end
-
-function LinePool.GetNextAchievementLine()
-    achievementLineIndex = achievementLineIndex + 1
-    if not achievementLinePool[achievementLineIndex] then
-        return nil -- past the line limit
-    end
-
-    return achievementLinePool[achievementLineIndex]
 end
 
 function LinePool.IsFirstLine()
@@ -427,17 +299,6 @@ function LinePool.HideUnusedLines()
     end
 end
 
-function LinePool.HideUnusedAchievementLines()
-    for i = achievementLineIndex + 1, achievementPoolSize do
-        if achievementLinePool[i] then -- Safe Guard to really concurrent triggeres
-            achievementLinePool[i]:Hide()
-            achievementLinePool[i].mode = nil
-            achievementLinePool[i].expand.achievementId = nil
-            achievementLinePool[i].expand.mode = nil
-        end
-    end
-end
-
 local function _GetHighestIndex()
     return lineIndex > poolSize and poolSize or lineIndex
 end
@@ -461,16 +322,8 @@ function LinePool.SetAllItemButtonAlpha(alpha)
     end
 end
 
-function LinePool.SetAllExpandAchievementsAlpha(alpha)
-    local highestIndex = achievementLineIndex > achievementPoolSize and achievementPoolSize or achievementLineIndex
-
-    for i = 1, highestIndex do
-        achievementLinePool[i].expand:SetAlpha(alpha)
-    end
-end
-
-_OnClick = function(self, button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClick]")
+_OnClickQuest = function(self, button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClickQuest]")
     if (not self.Quest) then
         return
     end
@@ -503,8 +356,44 @@ _OnClick = function(self, button)
     end
 end
 
+_OnClickAchieve = function(self, button)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClickAchieve]")
+    if (not self.Quest) then
+        return
+    end
+
+    if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
+        if GetTrackedAchievements(self.Quest.Id) then
+            if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+                ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
+
+            else
+                RemoveTrackedAchievement(self.Quest.Id)
+                AchievementFrame_ForceUpdate()
+            end
+        end
+
+    elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
+        if (not AchievementFrame) then
+			AchievementFrame_LoadUI()
+		end
+
+        if (not AchievementFrame:IsShown()) then
+            AchievementFrame_ToggleAchievementFrame()
+            AchievementFrame_SelectAchievement(self.Quest.Id)
+        else
+			if (AchievementFrameAchievements.selection ~= self.Quest.Id) then
+				AchievementFrame_SelectAchievement(self.Quest.Id)
+			end
+        end
+    elseif button == "RightButton" then
+        local menu = TrackerMenu:GetMenuForAchievement(self.Quest)
+        LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
+    end
+end
+
 _OnHighlightEnter = function(self)
-    if self.mode == "quest" or self.mode == "objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
+    if self.mode == "quest" or self.mode == "achieve" or self.mode == "objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
         local highestIndex = _GetHighestIndex()
         for i = 1, highestIndex do
             local line = linePool[i]
@@ -539,7 +428,7 @@ _SetMode = function(self, mode)
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT,
                 trackerFontSizeZone, _GetOutline())
             self.label:SetHeight(trackerFontSizeZone)
-        elseif mode == "quest" or mode == "achievement" then
+        elseif mode == "quest" or mode == "achieve" then
             local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT,
                 trackerFontSizeQuest, _GetOutline())

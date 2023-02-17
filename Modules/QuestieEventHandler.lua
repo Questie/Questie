@@ -38,10 +38,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
----@type AchievementTracker
-local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
----@type QuestgiverFrame
-local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
+---@type GossipFrameDailyMarker
+local GossipFrameDailyMarker = QuestieLoader:ImportModule("GossipFrameDailyMarker")
 
 local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
 local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
@@ -76,13 +74,9 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function (...)
         QuestieAuto.GOSSIP_SHOW(...)
-        QuestgiverFrame.GossipMark(...)
+        GossipFrameDailyMarker.Mark(...)
     end)
-    Questie:RegisterEvent("QUEST_GREETING", function (...)
-        QuestieAuto.QUEST_GREETING(...)
-        QuestgiverFrame.GreetingMark(...)
-    end)
-    --Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
@@ -115,8 +109,18 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
 
     if Questie.IsWotlk then
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", AchievementTracker.TrackedAchievementListChanged)
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementTracker.Update)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function()
+            QuestieTracker:Update()
+            C_Timer.After(0.1, function()
+                QuestieTracker:Update()
+            end)
+        end)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
+            QuestieTracker:Update()
+            C_Timer.After(0.1, function()
+                QuestieTracker:Update()
+            end)
+        end)
     end
 end
 

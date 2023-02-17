@@ -53,6 +53,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.char.AutoUntrackedQuests = {}
                     end
                     QuestieTracker:Update()
+                    C_Timer.After(0.5, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             showCompleteQuests = {
@@ -73,11 +76,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 1.3,
                 width = 1.0,
                 name = function() return l10n('Min Complete Quests'); end,
-                desc = function() return l10n('When this is checked, completed quests will automatically minimize.'); end,
+                desc = function() return l10n('When this is checked, completed quests will automatically minimize.\n\nNOTE: If this option is currently enabled, disabling this option will maximize ALL minimized quests currently in your Questie Tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.collapseCompletedQuests; end,
                 set = function(_, value)
                     Questie.db.global.collapseCompletedQuests = value
+                    if Questie.db.global.collapseCompletedQuests == false then
+                        Questie.db.char.collapsedQuests = {}
+                    end
                     QuestieTracker:Update()
                 end
             },
@@ -92,6 +98,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerShowQuestLevel = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.5, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             showQuestTimer = {
@@ -133,12 +142,15 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 1.7,
                 width = 1.0,
                 name = function() return l10n('Enable Header'); end,
-                desc = function() return l10n('When this is checked, the Questie Tracker Header will become visible and the total number of quests you have in your log will be shown.'); end,
+                desc = function() return l10n('When this is checked, the Active Quests Header will become visible and the total number of quests you have in your log will be shown.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerHeaderEnabled; end,
                 set = function(_, value)
                     Questie.db.global.trackerHeaderEnabled = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             autoMoveHeader = {
@@ -146,15 +158,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 1.8,
                 width = 1.0,
                 name = function() return l10n('Auto Move Header'); end,
-                desc = function() return l10n("When this is checked, the Questie Tracker Header will automatically move to the bottom of the Questie Tracker while the Tracker is placed in the bottom area of your screen. Otherwise, it will remain at the top always.\n\nNOTE: This setting only works while the 'Tracker SetPoint' is using the default 'Auto' mode."); end,
+                desc = function() return l10n("When this is checked, the Active Quests Header will automatically move to the top or bottom of the Questie Tracker depending on which 'Tracked Quests Grow' setting is used.\n\nNOTE: This setting only works while the 'Tracked Quests Grow' setting is set to 'Up'."); end,
                 disabled = function() return not Questie.db.global.trackerHeaderEnabled or
-                        not Questie.db.global.trackerEnabled or
-                        Questie.db[Questie.db.global.questieTLoc].trackerSetpoint ~= "AUTO";
+                    not Questie.db.global.trackerEnabled or
+                    Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "TOPLEFT";
                 end,
-                get = function() return Questie.db.global.trackerHeaderAutoMove; end,
+                get = function() return Questie.db.global.autoMoveHeader; end,
                 set = function(_, value)
-                    Questie.db.global.trackerHeaderAutoMove = value
+                    Questie.db.global.autoMoveHeader = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             stickyDurabilityFrame = {
@@ -212,9 +227,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                         QuestieTracker.FadeMMBTickerValue = 1
                         QuestieTracker.FadeMMBTicker = C_Timer.NewTicker(0.02, function()
 
-                            if QuestieTracker.FadeMMBTickerValue > 0 then
+                            if QuestieTracker.FadeMMBTickerValue > 1 then
                                 QuestieTracker.FadeMMBTickerValue = QuestieTracker.FadeMMBTickerValue - 0.02
-
                                 if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
                                     LinePool.SetAllExpandQuestAlpha(QuestieTracker.FadeMMBTickerValue * 3.3)
                                 end
@@ -244,7 +258,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         QuestieTracker.FadeQIBTickerValue = 1
                         QuestieTracker.FadeQIBTicker = C_Timer.NewTicker(0.02, function()
 
-                            if QuestieTracker.FadeQIBTickerValue > 0 then
+                            if QuestieTracker.FadeQIBTickerValue > 1 then
                                 QuestieTracker.FadeQIBTickerValue = QuestieTracker.FadeQIBTickerValue - 0.02
 
                                 if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
@@ -311,7 +325,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         QuestieTracker.FadeBGTickerValue = 1
                         QuestieTracker.FadeBGTicker = C_Timer.NewTicker(0.02, function()
 
-                            if QuestieTracker.FadeBGTickerValue > 0 then
+                            if QuestieTracker.FadeBGTickerValue > 1 then
                                 QuestieTracker.FadeBGTickerValue = QuestieTracker.FadeBGTickerValue - 0.02
 
                                 if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and
@@ -333,6 +347,22 @@ function QuestieOptions.tabs.tracker:Initialize()
                         end)
                     end
                     QuestieTracker:Update()
+                end
+            },
+            hideSizer = {
+                type = "toggle",
+                order = 2.504,
+                width = 1.0,
+                name = function() return l10n("Hide Tracker Sizer"); end,
+                desc = function() return l10n("When this is the checked, the Questie Tracker Sizer that appears in the bottom right hand corner will be hidden."); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.sizerHidden; end,
+                set = function(_, value)
+                    Questie.db.global.sizerHidden = value
+                    QuestieTracker:Update()
+                    C_Timer.After(0.5, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             lockTracker = {
@@ -395,6 +425,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
                 func = function()
                     QuestieTracker:ResetLocation()
+                    QuestieTracker:Update()
                 end
             },
 
@@ -514,22 +545,22 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "select",
                 order = 3.2,
                 values = function() return {
-                        ["AUTO"] = l10n('Auto'),
-                        ["TOPLEFT"] = l10n('Top Left'),
-                        ["TOPRIGHT"] = l10n('Top Right'),
-                        ["BOTTOMLEFT"] = l10n('Bottom Left'),
-                        ["BOTTOMRIGHT"] = l10n('Bottom Right'),
+                        ["TOPLEFT"] = l10n('Down'),
+                        ["BOTTOMLEFT"] = l10n('Up'),
                     }
                 end,
                 style = 'dropdown',
-                name = function() return l10n('Tracker SetPoint'); end,
-                desc = function() return l10n("This determines the direction in which the tracker grows. The default setting will adjust based on where you drag the tracker automatically or you can override it and force it to populate however you like.\n\nFor example, if you select 'Bottom Left' then the tracker will grow from Left to Right and Quests will be populated from the Bottom of the Tracker to the Top. This setting is ideal when you want the tracker to be placed in the 'Bottom Left' region of your UI etc.\n\nNOTE: If you change this setting then 'Auto Move Header' will be disabled and will remain at the top of the Tracker even while minimized."); end,
+                name = function() return l10n('Tracked Quests Grow'); end,
+                desc = function() return l10n("This determines the direction in which the tracker grows when you add or remove quests. This will also move the Active Quests Header to either the top of the Questie Tracker (when using the 'Down' setting) or the bottom of the Questie Tracker (when using the 'Up' setting). \n\nNOTE: You can override the Active Quests Header movement behavior by disabling the 'Auto Move Header' option in Questie Tracker Options to force the Active Quests Header to remain at the top of the Questie Tracker."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db[Questie.db.global.questieTLoc].trackerSetpoint; end,
                 set = function(_, key)
                     Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = key
                     QuestieTracker:ResetLocation()
                     QuestieTracker:MoveDurabilityFrame()
+                    C_Timer.After(0.5, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
 

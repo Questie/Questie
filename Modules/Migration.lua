@@ -138,9 +138,6 @@ local migrationFunctions = {
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end,
     [14] = function()
-        if Questie.db.char.isAchievementsExpanded == nil then
-            Questie.db.char.isAchievementsExpanded = true
-        end
     end,
     [15] = function()
         if Questie.db.global.clusterLevelHotzone == 70 then -- old default value

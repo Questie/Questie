@@ -280,3 +280,105 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
     whileDead = true,
     hideOnEscape = true
 }
+
+function TrackerMenu:GetMenuForAchievement(achieve)
+    local menu = {}
+    tinsert(menu, {text="|cFFFFFF00" .. select(2, GetAchievementInfo(achieve.Id)) .. "|r", isTitle = true})
+
+    _AddAchieveLinkToChatOption(menu, achieve)
+    _AddShowInAchievementsOption(menu, achieve)
+    _AddUntrackAchieveOption(menu, achieve)
+
+    tinsert(menu, {text="|cFF39c0edWowhead URL|r", func = function()
+        StaticPopup_Show("QUESTIE_WOWHEAD_AURL", achieve.Id)
+    end})
+
+    _AddLockUnlockOption(menu)
+
+    tinsert(menu, { text= l10n('Cancel'), func = function() end})
+
+    return menu
+end
+
+_AddAchieveLinkToChatOption = function (menu, achieve)
+    tinsert(menu, {text = l10n('Link Achievement to chat'), func = function()
+        LibDropDown:CloseDropDownMenus()
+        if GetTrackedAchievements(achieve.Id) then
+            if ( not ChatFrame1EditBox:IsVisible() ) then
+                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
+
+            else
+                ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
+            end
+        end
+    end})
+end
+
+_AddShowInAchievementsOption = function (menu, achieve)
+    tinsert(menu, {text= l10n('Show in Achievements Log'), func = function()
+        LibDropDown:CloseDropDownMenus()
+        if (not AchievementFrame) then
+			AchievementFrame_LoadUI()
+		end
+
+        if (not AchievementFrame:IsShown()) then
+            AchievementFrame_ToggleAchievementFrame()
+            AchievementFrame_SelectAchievement(achieve.Id)
+        else
+			if (AchievementFrameAchievements.selection ~= achieve.Id) then
+				AchievementFrame_SelectAchievement(achieve.Id)
+			end
+        end
+    end})
+end
+
+_AddUntrackAchieveOption = function (menu, achieve)
+    tinsert(menu, {text= l10n('Untrack Achievement'), func = function()
+        LibDropDown:CloseDropDownMenus();
+        RemoveTrackedAchievement(achieve.Id)
+        AchievementFrame_ForceUpdate()
+    end})
+end
+
+-- Register the Wowhead popup dialog
+StaticPopupDialogs["QUESTIE_WOWHEAD_AURL"] = {
+    text = "Wowhead URL",
+    button2 = CLOSE,
+    hasEditBox = true,
+    editBoxWidth = 280,
+
+    EditBoxOnEnterPressed = function(self)
+        self:GetParent():Hide()
+    end,
+
+    EditBoxOnEscapePressed = function(self)
+        self:GetParent():Hide()
+    end,
+
+    OnShow = function(self)
+        local achieveID = self.text.text_arg1
+        local name = select(2, GetAchievementInfo(achieveID))
+
+        self.text:SetFont("GameFontNormal", 12)
+        self.text:SetText(self.text:GetText() .. Questie:Colorize("\n\n" .. name, "gold"))
+
+        local langShort = string.sub(l10n:GetUILocale(), 1, 2) .. "."
+        if langShort == "en." then
+            langShort = ""
+        end
+
+        local wowheadLink
+
+        if langShort then
+            langShort = langShort:gsub("%.", "/") -- The Wotlk wowhead URL differs to the other Classic URLs
+        end
+        wowheadLink = "https://" .. "wowhead.com/wotlk/" .. langShort .. "achievement=" .. achieveID
+
+        self.editBox:SetText(wowheadLink)
+        self.editBox:SetFocus()
+        self.editBox:HighlightText()
+    end,
+
+    whileDead = true,
+    hideOnEscape = true
+}

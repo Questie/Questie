@@ -32,14 +32,13 @@ local function _Start()
                     end
 
                     -- Un-fade the resizer
-                    if Questie.db.char.isTrackerExpanded then
+                    if Questie.db.char.isTrackerExpanded and not Questie.db.global.sizerHidden then
                         baseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
                     end
 
                     -- Un-fade the minimize buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
                         LinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
-                        LinePool.SetAllExpandAchievementsAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Un-fade the quest item buttons
@@ -64,14 +63,13 @@ local function _Start()
                     end
 
                     -- Fade the resizer
-                    if Questie.db.char.isTrackerExpanded then
+                    if Questie.db.char.isTrackerExpanded and not Questie.db.global.sizerHidden then
                         baseFrame.sizer:SetAlpha(fadeTickerValue*3.3)
                     end
 
                     -- Fade the minimuze buttons
                     if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
                         LinePool.SetAllExpandQuestAlpha(fadeTickerValue * 3.3)
-                        LinePool.SetAllExpandAchievementsAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Fade the quest item buttons
