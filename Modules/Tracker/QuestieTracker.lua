@@ -988,9 +988,9 @@ function QuestieTracker:Update()
     trackedAchievementIds = {GetTrackedAchievements()}
     local firstAchieveInZone = false
 
-    for i = 1, #trackedAchievementIds do
-        local id, name, _, _, _, _, _, description, _, _, _, _, wasEarnedByMe, _, _ = GetAchievementInfo(trackedAchievementIds[i])
-        local numCriteria = GetAchievementNumCriteria(trackedAchievementIds[i])
+    for achieveId = 1, #trackedAchievementIds do
+        local id, name, _, _, _, _, _, description, _, _, _, _, wasEarnedByMe, _, _ = GetAchievementInfo(trackedAchievementIds[achieveId])
+        local numCriteria = GetAchievementNumCriteria(trackedAchievementIds[achieveId])
 
         local zoneName = "Achievements"
 
@@ -1135,8 +1135,8 @@ function QuestieTracker:Update()
                     end
 
                     -- Achievements with more than one objective
-                    for i = 1, numCriteria do
-                        local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, i)
+                    for objCriteria = 1, numCriteria do
+                        local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, objCriteria)
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
                         line:SetMode("objective")
@@ -1164,7 +1164,7 @@ function QuestieTracker:Update()
                         local objDesc = criteriaString:gsub("%.", "")
 
                         -- [wasEarnedByMe] checks the "Parent" Achievement and if complete marks it complete.
-                        -- This allows listing Sub-Achievements embedded in an Achievement and treats them as 
+                        -- This allows listing Sub-Achievements embedded in an Achievement and treats them as
                         -- Achievement objectives allowing us to list them as either complete or not complete.
                         if wasEarnedByMe then
                             line.label:SetText(Questie:Colorize(l10n("Achievement completed!"), "green"))

@@ -108,7 +108,7 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
         end
     else
         if WatchFrame then
-            local result, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint()}))
+            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint()}))
             Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
 
             if not result then
