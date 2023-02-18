@@ -2,6 +2,9 @@ local WatchFrame = QuestWatchFrame or WatchFrame
 
 ---@class QuestieTracker
 local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
+---@type QuestieTrackerPrivate
+QuestieTracker.private = QuestieTracker.private or {}
+---@class QuestieTrackerPrivate
 local _QuestieTracker = QuestieTracker.private
 -------------------------
 --Import modules.
@@ -685,6 +688,10 @@ function QuestieTracker:Update()
     -- The Tracker is not expanded. No use to calculate anything - just hide everything
     if not Questie.db.char.isTrackerExpanded then
         _QuestieTracker.trackedQuestsFrame:Hide()
+        _QuestieTracker.baseFrame.sizer:SetAlpha(0)
+        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
+        _QuestieTracker.baseFrame:SetBackdropBorderColor(0, 0, 0, 0)
+        TrackerBaseFrame.ShrinkToMinSize(1)
         LinePool.HideUnusedLines()
         _QuestieTracker.baseFrame:Show()
         return
@@ -707,6 +714,7 @@ function QuestieTracker:Update()
     -- Begin populating the tracker with quests
     for _, questId in pairs(order) do
         local quest = QuestieDB:GetQuest(questId)
+        if not quest then break end
         local complete = quest:IsComplete()
         local zoneName
 
@@ -850,6 +858,7 @@ function QuestieTracker:Update()
                         button.line.expandQuest:Hide()
 
                         button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
+                        -- TODO: change this to UIParent
                         button:SetParent(button.line)
                         button:Show()
 
@@ -1401,9 +1410,18 @@ _OnTrackedQuestClick = function(self)
         self:SetMode(1)
         Questie.db.char.isTrackerExpanded = true
         _QuestieTracker.baseFrame.sizer:SetAlpha(1)
-        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-        if Questie.db.global.trackerBorderEnabled then
-            _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+
+        if Questie.db.global.trackerBackdropEnabled then
+            _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+
+            if Questie.db.global.trackerBorderEnabled then
+                _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+            else
+                _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+            end
+        else
+            _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
+            _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
     end
     if Questie.db.global.stickyDurabilityFrame then

@@ -2711,10 +2711,14 @@
         "Questie_Toggle",
         "Questie_SpecialNPCs",
         "TEMP_Questie2Events",
-        "LQuestie_Create_UIDropDownMenu",
-        "GossipAvailableQuestButtonMixin",
-        "GossipActiveQuestButtonMixin",
-        "ChatFontNormal"
+        "AchievementFrame",
+        "AchievementFrameAchievements",
+        "ChatFontNormal",
+        "GetTrackedAchievements",
+        "GetAchievementInfo",
+        "GetAchievementNumCriteria",
+        "GetAchievementCriteriaInfo",
+        "BackdropTemplateMixin"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**", //Because they do not actually differ from classic in structure, load the smallest

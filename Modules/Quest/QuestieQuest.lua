@@ -379,7 +379,12 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function() QuestieTracker:Update() end,
+            function() QuestieTracker:Update()
+                -- This is necessary to call it again to update the trackers formatting
+                C_Timer.After(0.1, function()
+                    QuestieTracker:Update()
+                end)
+            end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
     else
@@ -403,6 +408,10 @@ function QuestieQuest:CompleteQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
+        -- This is necessary to call it again to update the trackers formatting
+        C_Timer.After(0.1, function()
+            QuestieTracker:Update()
+        end)
     end)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
@@ -445,6 +454,10 @@ function QuestieQuest:AbandonedQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
+            -- This is necessary to call it again to update the trackers formatting
+            C_Timer.After(0.1, function()
+                QuestieTracker:Update()
+            end)
         end)
 
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
@@ -479,6 +492,10 @@ function QuestieQuest:UpdateQuest(questId)
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
+            -- This is necessary to call it again to update the trackers formatting
+            C_Timer.After(0.1, function()
+                QuestieTracker:Update()
+            end)
         end)
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)

@@ -129,12 +129,18 @@ end
 
 function TrackerBaseFrame.Update()
     if Questie.db.char.isTrackerExpanded and GetNumQuestLogEntries() > 0 then
+
         if Questie.db.global.trackerBackdropEnabled then
-            if not Questie.db.global.trackerBackdropFader then
-                baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                if Questie.db.global.trackerBorderEnabled then
+
+            if Questie.db.global.trackerBorderEnabled then
+
+                if not Questie.db.global.trackerBackdropFader then
+                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
                 end
+
+            else
+                baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
 
         else
@@ -143,7 +149,9 @@ function TrackerBaseFrame.Update()
         end
 
     else
-        baseFrame.sizer:SetAlpha(0)
+        if Questie.db.global.sizerHidden then
+            baseFrame.sizer:SetAlpha(0)
+        end
         baseFrame:SetBackdropColor(0, 0, 0, 0)
         baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
     end
@@ -173,8 +181,6 @@ end
 
 function TrackerBaseFrame.SetSafePoint()
     local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()*8
-
-    local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
 
     baseFrame:ClearAllPoints()
@@ -192,11 +198,20 @@ function TrackerBaseFrame.SetSafePoint()
 end
 
 function TrackerBaseFrame.ShrinkToMinSize(minSize)
-    local xOff, yOff = baseFrame:GetLeft(), baseFrame:GetTop()
+    --[[
+    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()*8
+    local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
 
     baseFrame:ClearAllPoints()
-    -- Offsets start from BOTTOMLEFT. So TOPLEFT is +, - for offsets. Thanks Blizzard >_>
-    baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
+
+    if trackerSetPoint == "BOTTOMLEFT" then
+        baseFrame:SetPoint("BOTTOMLEFT", UIParent, "CENTER", -xOff, -yOff)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "CENTER", -xOff, -yOff}
+    else
+        baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", -xOff, yOff)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "CENTER", -xOff, yOff}
+    end
+    --]]
 
     baseFrame:SetHeight(minSize)
 end
