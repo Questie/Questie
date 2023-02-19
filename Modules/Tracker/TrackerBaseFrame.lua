@@ -128,7 +128,7 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
 end
 
 function TrackerBaseFrame.Update()
-    if Questie.db.char.isTrackerExpanded and GetNumQuestLogEntries() > 0 then
+    if Questie.db.char.isTrackerExpanded then
 
         if Questie.db.global.trackerBackdropEnabled then
 

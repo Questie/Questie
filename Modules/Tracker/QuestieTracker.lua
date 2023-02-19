@@ -241,7 +241,7 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
 
         btn.SetItem = function(self, quest, size)
             local validTexture
-            local isFound = false
+            local isFound, isFoundRequired = false
 
             for bag = 0 , 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
@@ -250,6 +250,15 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                         validTexture = texture
                         isFound = true
                         break
+                    end
+
+                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+
+                        if quest.requiredSourceItems[1] == itemID then
+                            validTexture = texture
+                            isFoundRequired = true
+                            break
+                        end
                     end
                 end
             end
@@ -263,11 +272,24 @@ function _QuestieTracker:CreateTrackedQuestItemButtons()
                         isFound = true
                         break
                     end
+
+                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+
+                        if quest.requiredSourceItems[1] == itemID then
+                            validTexture = GetInventoryItemTexture("player", inventorySlot)
+                            isFoundRequired = true
+                            break
+                        end
+                    end
                 end
             end
 
-            if validTexture and isFound then
-                self.itemID = quest.sourceItemId
+            if validTexture and isFound or isFoundRequired then
+                if isFound then
+                    self.itemID = quest.sourceItemId
+                elseif isFoundRequired then
+                    self.itemID = quest.requiredSourceItems[1]
+                end
                 self.questID = quest.Id
                 self.charges = GetItemCount(self.itemID, nil, true)
                 self.rangeTimer = -1
@@ -837,10 +859,15 @@ function QuestieTracker:Update()
                 line:SetVerticalPadding(2)
 
                 -- Add quest item buttons
-                if quest.sourceItemId and questCompletePercent[quest.Id] ~= 1 then
+                if (quest.sourceItemId or quest.requiredSourceItems) and questCompletePercent[quest.Id] ~= 1 then
                     local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
                     local button = _GetNextItemButton()
-                    button.itemID = quest.sourceItemId
+                    if quest.sourceItemId then
+                        button.itemID = quest.sourceItemId
+
+                    elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+                        button.itemID = quest.requiredSourceItems[1]
+                    end
                     button.fontSize = fontSizeCompare
                     button.line = line
 
