@@ -691,7 +691,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     end
 
     if (not objective.Color) then
-        objective.Color = QuestieLib:GetRandomColor(quest.Id + 32768 * objectiveIndex)
+        objective.Color = QuestieLib:ColorWheel()
     end
 
     if next(objective.spawnList) then
@@ -1023,7 +1023,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 
     if (not quest.Color) then
-        quest.Color = QuestieLib:GetRandomColor(quest.Id)
+        quest.Color = QuestieLib:ColorWheel()
     end
 
     -- we've already checked the objectives table by doing IsComplete
