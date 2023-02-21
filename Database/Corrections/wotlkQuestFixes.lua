@@ -1161,6 +1161,9 @@ function QuestieWotlkQuestFixes:Load()
         [12557] = {
             [questKeys.objectives] = {nil,nil,{{38386},{38339},{38340},{38346}}},
         },
+        [12561] = {
+            [questKeys.requiredSpell] = {54197},
+        },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
         },
@@ -1514,6 +1517,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, ICON_TYPE_TALK, l10n("Talk to Highlord Darion Mograine"), 0, {{"monster", 29173}}},
                 {{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{38.8,38.4}}}, ICON_TYPE_EVENT, l10n("The Light of Dawn Uncovered"),},
             },
+        },
+        [12803] = {
+            [questKeys.requiredSpell] = {54197},
         },
         [12804] = {
             [questKeys.preQuestSingle] = {12520},
