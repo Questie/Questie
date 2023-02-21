@@ -53,13 +53,11 @@ local activeQuestHeaderMarginLeft = 10
 local questHeaderMarginLeft = activeQuestHeaderMarginLeft + 15
 local objectiveMarginLeft = activeQuestHeaderMarginLeft + questHeaderMarginLeft + 5
 
-local buttonIndex = 0
 local lastAQW = GetTime()
 local durabilityInitialPosition
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
 -- Private Global Vars
-local itemButtons = {}
 local trackedAchievementIds = {}
 local isFirstRun = true
 
@@ -119,8 +117,6 @@ function QuestieTracker.Initialize()
     _QuestieTracker.trackedQuestsFrame = _QuestieTracker:CreateTrackedQuestsFrame(_QuestieTracker.activeQuestsHeader)
     LinePool.Initialize(_QuestieTracker.trackedQuestsFrame, QuestieTracker.Untrack, QuestieTracker.Update)
 
-    -- Quest and Item button tables
-    _QuestieTracker:CreateTrackedQuestItemButtons()
     QuestieTracker.started = true
     FadeTicker.Initialize(_QuestieTracker.baseFrame)
 
@@ -223,230 +219,6 @@ function _QuestieTracker:CreateTrackedQuestsFrame(ActiveQuestsHeader)
     return frm
 end
 
-function _QuestieTracker:CreateTrackedQuestItemButtons()
-    -- create buttons for quest items
-    for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
-        local buttonName = "Questie_ItemButton"..i
-        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
-        local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
-        btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
-        btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
-        btn:SetAttribute("type1", "item")
-        btn:SetAttribute("type2", "stop")
-        btn:Hide()
-
-        if Questie.db.global.trackerFadeQuestItemButtons then
-            btn:SetAlpha(0)
-        end
-
-        btn.SetItem = function(self, quest, size)
-            local validTexture
-            local isFound, isFoundRequired = false
-
-            for bag = 0 , 4 do
-                for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
-                    local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
-                    if quest.sourceItemId == itemID then
-                        validTexture = texture
-                        isFound = true
-                        break
-                    end
-
-                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
-
-                        if quest.requiredSourceItems[1] == itemID then
-                            validTexture = texture
-                            isFoundRequired = true
-                            break
-                        end
-                    end
-                end
-            end
-
-            -- Edge case to find "equipped" quest items since they will no longer be in the players bag
-            if (not isFound) then
-                for inventorySlot = 1, 19 do
-                    local itemID = GetInventoryItemID("player", inventorySlot)
-                    if quest.sourceItemId == itemID then
-                        validTexture = GetInventoryItemTexture("player", inventorySlot)
-                        isFound = true
-                        break
-                    end
-
-                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
-
-                        if quest.requiredSourceItems[1] == itemID then
-                            validTexture = GetInventoryItemTexture("player", inventorySlot)
-                            isFoundRequired = true
-                            break
-                        end
-                    end
-                end
-            end
-
-            if validTexture and isFound or isFoundRequired then
-                if isFound then
-                    self.itemID = quest.sourceItemId
-                elseif isFoundRequired then
-                    self.itemID = quest.requiredSourceItems[1]
-                end
-                self.questID = quest.Id
-                self.charges = GetItemCount(self.itemID, nil, true)
-                self.rangeTimer = -1
-
-                self:SetAttribute("item", "item:" .. tostring(self.itemID))
-                self:SetNormalTexture(validTexture)
-                self:SetPushedTexture(validTexture)
-                self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-                self:SetSize(size, size)
-
-                self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
-
-                self:SetScript("OnEvent", self.OnEvent)
-                self:SetScript("OnShow", self.OnShow)
-                self:SetScript("OnHide", self.OnHide)
-                self:SetScript("OnEnter", self.OnEnter)
-                self:SetScript("OnLeave", self.OnLeave)
-
-                -- Cooldown Updates
-                cooldown:SetSize(size-4, size-4)
-                cooldown:SetPoint("CENTER", self, "CENTER", 0, 0)
-                cooldown:Hide()
-
-                -- Range Updates
-                self.range:SetText("●")
-                self.range:SetPoint("TOPRIGHT", self, "TOPRIGHT", 3, 0)
-                self.range:Hide()
-
-                -- Charges Updates
-                self.count:Hide()
-                self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), trackerSpaceBuffer*0.40)
-                if self.charges > 1 then
-                    self.count:SetText(self.charges)
-                    self.count:Show()
-                end
-                self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 3)
-
-                self.UpdateButton(self)
-
-                return true
-            end
-
-            return false
-        end
-
-        btn.UpdateButton = function(self)
-            if not self.itemID or not self:IsVisible() then
-                return
-            end
-
-            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
-
-            if enabled and duration > 3 and enabled == 1 then
-                cooldown:Show()
-                cooldown:SetCooldown(start, duration)
-            else
-                cooldown:Hide()
-            end
-        end
-
-        btn.OnEvent = function(self, event, ...)
-            if (event == "PLAYER_TARGET_CHANGED") then
-                self.rangeTimer = -1
-                self.range:Hide()
-
-            elseif (event == "BAG_UPDATE_COOLDOWN") then
-                self.UpdateButton(self)
-            end
-        end
-
-        btn.OnUpdate = function(self, elapsed)
-            if not self.itemID or not self:IsVisible() then
-                return
-            end
-
-            local valid
-            local rangeTimer = self.rangeTimer
-            local charges = GetItemCount(self.itemID, nil, true)
-
-            if (not charges or charges ~= self.charges) then
-                self.count:Hide()
-                self.charges = GetItemCount(self.itemID, nil, true)
-                if self.charges > 1 then
-                    self.count:SetText(self.charges)
-                    self.count:Show()
-                end
-            end
-
-            if UnitExists("target") then
-
-                if not self.itemName then
-                    self.itemName = GetItemInfo(self.itemID)
-                end
-
-                if (rangeTimer) then
-                    rangeTimer = rangeTimer - elapsed
-
-                    if (rangeTimer <= 0) then
-
-                        valid = IsItemInRange(self.itemName, "target")
-
-                        if valid == false then
-                            self.range:SetVertexColor(1.0, 0.1, 0.1)
-                            self.range:Show()
-
-                        elseif valid == true then
-                            self.range:SetVertexColor(0.6, 0.6, 0.6)
-                            self.range:Show()
-                        end
-
-                        rangeTimer = 0.3
-                    end
-
-                    self.rangeTimer = rangeTimer
-                end
-            end
-        end
-
-        btn.OnShow = function(self)
-            self:RegisterEvent("PLAYER_TARGET_CHANGED")
-            self:RegisterEvent("BAG_UPDATE_COOLDOWN")
-        end
-
-        btn.OnHide = function(self)
-            self:UnregisterEvent("PLAYER_TARGET_CHANGED")
-            self:UnregisterEvent("BAG_UPDATE_COOLDOWN")
-        end
-
-        btn.OnEnter = function(self)
-            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
-            GameTooltip:Show()
-
-            FadeTicker.OnEnter(self)
-        end
-
-        btn.OnLeave = function(self)
-            GameTooltip:Hide()
-
-            FadeTicker.OnLeave(self)
-        end
-
-        btn.FakeHide = function(self)
-            self:RegisterForClicks()
-            self:SetScript("OnEnter", nil)
-            self:SetScript("OnLeave", nil)
-        end
-
-        btn:HookScript("OnUpdate", btn.OnUpdate)
-
-        btn:FakeHide()
-
-        itemButtons[i] = btn
-        itemButtons[i]:Hide()
-    end
-end
-
 function QuestieTracker:ResetLocation()
     _QuestieTracker.activeQuestsHeader.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
@@ -532,18 +304,15 @@ end
 function QuestieTracker:Collapse()
     if _QuestieTracker.activeQuestsHeader and _QuestieTracker.activeQuestsHeader.trackedQuests and Questie.db.char.isTrackerExpanded then
         _QuestieTracker.activeQuestsHeader.trackedQuests:Click()
+        QuestieTracker:Update()
     end
 end
 
 function QuestieTracker:Expand()
     if _QuestieTracker.activeQuestsHeader and _QuestieTracker.activeQuestsHeader.trackedQuests and (not Questie.db.char.isTrackerExpanded) then
         _QuestieTracker.activeQuestsHeader.trackedQuests:Click()
+        QuestieTracker:Update()
     end
-end
-
-local function _GetNextItemButton()
-    buttonIndex = buttonIndex + 1
-    return itemButtons[buttonIndex]
 end
 
 local function _ReportErrorMessage(zoneOrtSort)
@@ -705,7 +474,7 @@ function QuestieTracker:Update()
     end)
 
     _UpdateLayout()
-    buttonIndex = 0
+    LinePool.ResetButtonsForChange()
 
     -- The Tracker is not expanded. No use to calculate anything - just hide everything
     if not Questie.db.char.isTrackerExpanded then
@@ -715,6 +484,11 @@ function QuestieTracker:Update()
         _QuestieTracker.baseFrame:SetBackdropBorderColor(0, 0, 0, 0)
         TrackerBaseFrame.ShrinkToMinSize(1)
         LinePool.HideUnusedLines()
+
+        QuestieCombatQueue:Queue(function()
+            LinePool.HideUnusedButtons()
+        end)
+
         _QuestieTracker.baseFrame:Show()
         return
     end
@@ -835,23 +609,16 @@ function QuestieTracker:Update()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
                 line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
 
-                local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
+                local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
                 line.label:SetText(coloredQuestName)
 
                 line.label:SetWidth(_QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft +2 - trackerSpaceBuffer)
                 line:SetWidth(line.label:GetWidth())
 
-                if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
-                    if not Questie.db.char.collapsedQuests[quest.Id] then
-                        Questie.db.char.collapsedQuests[quest.Id] = true
-                        line.expandQuest:SetMode(1)
-                    end
+                if Questie.db.char.collapsedQuests[quest.Id] then
+                    line.expandQuest:SetMode(0)
                 else
-                    if Questie.db.char.collapsedQuests[quest.Id] then
-                        line.expandQuest:SetMode(0)
-                    else
-                        line.expandQuest:SetMode(1)
-                    end
+                    line.expandQuest:SetMode(1)
                 end
 
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
@@ -861,7 +628,7 @@ function QuestieTracker:Update()
                 -- Add quest item buttons
                 if (quest.sourceItemId or quest.requiredSourceItems) and questCompletePercent[quest.Id] ~= 1 then
                     local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
-                    local button = _GetNextItemButton()
+                    local button = LinePool.GetNextItemButton()
                     if quest.sourceItemId then
                         button.itemID = quest.sourceItemId
 
@@ -900,7 +667,7 @@ function QuestieTracker:Update()
                     end
 
                     line.button = button
-                elseif Questie.db.global.collapseCompletedQuests and complete == 1 then
+                elseif complete == 1 then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
@@ -942,31 +709,33 @@ function QuestieTracker:Update()
 
                     if complete == 0 then
                         for _, objective in pairs(quest.Objectives) do
-                            line = LinePool.GetNextLine()
-                            if not line then break end -- stop populating the tracker
-                            line:SetMode("objective")
-                            line:SetOnClick("quest")
-                            line:SetQuest(quest)
-                            line:SetObjective(objective)
-                            line.expandZone:Hide()
-                            line.expandQuest:Hide()
+                            if (not Questie.db.global.hideCompletedObjectives) or (objective.Needed ~= objective.Collected) then
+                                line = LinePool.GetNextLine()
+                                if not line then break end -- stop populating the tracker
+                                line:SetMode("objective")
+                                line:SetOnClick("quest")
+                                line:SetQuest(quest)
+                                line:SetObjective(objective)
+                                line.expandZone:Hide()
+                                line.expandQuest:Hide()
 
-                            line.label:ClearAllPoints()
-                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                                line.label:ClearAllPoints()
+                                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
-                            local lineEnding = ""
-                            local objDesc = objective.Description:gsub("%.", "")
-                            if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
-                            line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
+                                local lineEnding = ""
+                                local objDesc = objective.Description:gsub("%.", "")
+                                if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
+                                line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                            local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer
-                            line.label:SetWidth(lineWidth)
-                            line:SetWidth(lineWidth)
+                                local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer
+                                line.label:SetWidth(lineWidth)
+                                line:SetWidth(lineWidth)
 
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
-                            line:SetVerticalPadding(1)
-                            line:Show()
-                            line.label:Show()
+                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+                                line:SetVerticalPadding(1)
+                                line:Show()
+                                line.label:Show()
+                            end
                         end
 
                     -- Tags quest as either complete or failed so as to always have at least one objective.
@@ -977,6 +746,7 @@ function QuestieTracker:Update()
                     -- TODO: Why? The Quest Tracker only tracks a quests progress, nothing more. Besides,
                     -- Questie already informs the user where to turn in the quest. In the case of a failure,
                     -- the quest is marked on the map as available again.
+                    --elseif (not Questie.db.global.hideCompletedObjectives and (complete == 1 or complete == -1)) then
                     elseif (complete == 1 or complete == -1) then
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
@@ -1024,19 +794,18 @@ function QuestieTracker:Update()
     trackedAchievementIds = {GetTrackedAchievements()}
     local firstAchieveInZone = false
 
-    for achieveId = 1, #trackedAchievementIds do
-        local id, name, _, _, _, _, _, description, _, _, _, _, wasEarnedByMe, _, _ = GetAchievementInfo(trackedAchievementIds[achieveId])
-        local numCriteria = GetAchievementNumCriteria(trackedAchievementIds[achieveId])
-
+    for trackedId = 1, #trackedAchievementIds do
+        local achieveId, achieveName, _, _, _, _, _, achieveDescription, _, _, _, _, achieveComplete, _, _ = GetAchievementInfo(trackedAchievementIds[trackedId])
+        local numCriteria = GetAchievementNumCriteria(trackedAchievementIds[trackedId])
         local zoneName = "Achievements"
 
         local achieve = {
-            Id = id,
-            Name = name,
-            Description = description
+            Id = achieveId,
+            Name = achieveName,
+            Description = achieveDescription
         }
 
-        if achieve.Id then
+        if achieveId and (not achieveComplete) then
             hasQuest = true
 
             -- Add achievement zone
@@ -1094,6 +863,7 @@ function QuestieTracker:Update()
                 line:SetQuest(achieve)
                 line:SetObjective(nil)
                 line.expandZone:Hide()
+                line.expandQuest:Show()
 
                 line.label:ClearAllPoints()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
@@ -1104,29 +874,15 @@ function QuestieTracker:Update()
                 line.label:SetWidth(_QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft +2 - trackerSpaceBuffer)
                 line:SetWidth(line.label:GetWidth())
 
-                if Questie.db.global.collapseCompletedQuests and wasEarnedByMe then
-                    if not Questie.db.char.collapsedQuests[achieve.Id] then
-                        Questie.db.char.collapsedQuests[achieve.Id] = true
-                        line.expandQuest:SetMode(1)
-                    end
+                if Questie.db.char.collapsedQuests[achieve.Id] then
+                    line.expandQuest:SetMode(0)
                 else
-                    if Questie.db.char.collapsedQuests[achieve.Id] then
-                        line.expandQuest:SetMode(0)
-                    else
-                        line.expandQuest:SetMode(1)
-                    end
+                    line.expandQuest:SetMode(1)
                 end
 
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
                 line:SetVerticalPadding(3)
-
-                if Questie.db.global.collapseCompletedQuests and wasEarnedByMe then
-                    line.expandQuest:Hide()
-                else
-                    line.expandQuest:Show()
-                end
-
                 line:Show()
                 line.label:Show()
 
@@ -1147,7 +903,7 @@ function QuestieTracker:Update()
                         line.label:ClearAllPoints()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
-                        local objDesc = description:gsub("%.", "")
+                        local objDesc = achieve.Description:gsub("%.", "")
                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected=0, Needed=1}) .. objDesc)
 
                         if line.label:GetUnboundedStringWidth() > 200 then
@@ -1173,62 +929,58 @@ function QuestieTracker:Update()
                     -- Achievements with more than one objective
                     for objCriteria = 1, numCriteria do
                         local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, objCriteria)
-                        line = LinePool.GetNextLine()
-                        if not line then break end -- stop populating the tracker
-                        line:SetMode("objective")
-                        line:SetOnClick("achieve")
+                        if ((Questie.db.global.hideCompletedObjectives) and (not completed)) or (not Questie.db.global.hideCompletedObjectives) then
+                            line = LinePool.GetNextLine()
+                            if not line then break end -- stop populating the tracker
+                            line:SetMode("objective")
+                            line:SetOnClick("achieve")
 
-                        local objId
-                        if ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and not QuestieDB:GetQuest(refId))) then
-                            objId = refId
-                        else
-                            objId = achieve
-                        end
-
-                        line:SetQuest(objId)
-                        line:SetObjective("objective")
-                        line.expandZone:Hide()
-                        line.expandQuest:Hide()
-
-                        line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
-
-                        if (criteriaString == "") then
-                            criteriaString = description
-                        end
-
-                        local objDesc = criteriaString:gsub("%.", "")
-
-                        -- [wasEarnedByMe] checks the "Parent" Achievement and if complete marks it complete.
-                        -- This allows listing Sub-Achievements embedded in an Achievement and treats them as
-                        -- Achievement objectives allowing us to list them as either complete or not complete.
-                        if wasEarnedByMe then
-                            line.label:SetText(Questie:Colorize(l10n("Achievement completed!"), "green"))
-                        elseif (not completed) then
-                            local lineEnding = tostring(quantityString)
-                            if lineEnding == "0" then
-                                line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc)
+                            local objId
+                            if ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and not QuestieDB:GetQuest(refId))) then
+                                objId = refId
                             else
-                                line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc .. ": " .. lineEnding)
+                                objId = achieve
                             end
 
-                            if line.label:GetUnboundedStringWidth() > 290 then
-                                line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc .. ":\n" .. lineEnding)
-                                line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 3)
+                            line:SetQuest(objId)
+                            line:SetObjective("objective")
+                            line.expandZone:Hide()
+                            line.expandQuest:Hide()
+
+                            line.label:ClearAllPoints()
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+
+                            if (criteriaString == "") then
+                                criteriaString = achieve.Description
                             end
-                        else
-                            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objDesc)
+
+                            local objDesc = criteriaString:gsub("%.", "")
+                            if (not completed) then
+                                local lineEnding = tostring(quantityString)
+                                if lineEnding == "0" then
+                                    line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc)
+                                else
+                                    line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc .. ": " .. lineEnding)
+                                end
+
+                                if line.label:GetUnboundedStringWidth() > 290 then
+                                    line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc .. ":\n" .. lineEnding)
+                                    line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 3)
+                                end
+                            else
+                                line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objDesc)
+                            end
+
+                            local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer
+                            line.label:SetWidth(lineWidth)
+                            line:SetWidth(lineWidth)
+
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+
+                            line:SetVerticalPadding(1)
+                            line:Show()
+                            line.label:Show()
                         end
-
-                        local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer
-                        line.label:SetWidth(lineWidth)
-                        line:SetWidth(lineWidth)
-
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
-
-                        line:SetVerticalPadding(1)
-                        line:Show()
-                        line.label:Show()
                     end
                 end
 
@@ -1252,29 +1004,12 @@ function QuestieTracker:Update()
         line = LinePool.GetLastLine()
     end
 
-    -- Begin post clean up of unused frameIndexes
-    local startUnusedButtons = 1
-
-    if Questie.db.char.isTrackerExpanded then
-        startUnusedButtons = buttonIndex + 1
-    end
-
+    -- Hide unused lines
     LinePool.HideUnusedLines()
 
     -- Hide unused item buttons
     QuestieCombatQueue:Queue(function()
-        for i = startUnusedButtons, C_QuestLog.GetMaxNumQuestsCanAccept() do
-            local button = itemButtons[i]
-            if button.itemID then
-                button:FakeHide()
-                button.itemID = nil
-                button.itemName = nil
-                button.lineID = nil
-                button.fontSize = nil
-                button:SetParent(UIParent)
-                button:Hide()
-            end
-        end
+        LinePool.HideUnusedButtons()
     end)
 
     if line then

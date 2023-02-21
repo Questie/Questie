@@ -68,7 +68,7 @@ function QuestieOptionsDefaults:Load()
             -- Tracker Settings Tab
             autoTrackQuests = true,
             trackerShowCompleteQuests = true,
-            collapseCompletedQuests = false,
+            hideCompletedObjectives = false,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
             hookTracking = true,

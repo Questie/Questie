@@ -23,7 +23,7 @@ TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFra
 local tinsert = table.insert
 
 -- forward declaration
-local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption, _AddAchieveLinkToChatOption, _AddShowInAchievementsOption, _AddUntrackAchieveOption
+local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption
 
 local _UpdateTrackerBaseFrame, _UntrackQuest
 
@@ -287,7 +287,13 @@ function TrackerMenu:GetMenuForAchievement(achieve)
 
     _AddAchieveLinkToChatOption(menu, achieve)
     _AddShowInAchievementsOption(menu, achieve)
-    _AddUntrackAchieveOption(menu, achieve)
+
+    local trackedAchievementIds = {GetTrackedAchievements()}
+    for trackedId = 1, #trackedAchievementIds do
+        if trackedAchievementIds[trackedId] == achieve.Id then
+            _AddUntrackAchieveOption(menu, achieve)
+        end
+    end
 
     tinsert(menu, {text="|cFF39c0edWowhead URL|r", func = function()
         StaticPopup_Show("QUESTIE_WOWHEAD_AURL", achieve.Id)

@@ -380,7 +380,7 @@ function QuestieQuest:AcceptQuest(questId)
             end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
             function() QuestieTracker:Update()
-                -- This is necessary to call it again to update the trackers formatting
+                -- This is neccessary to call it again to update the trackers formatting
                 C_Timer.After(0.1, function()
                     QuestieTracker:Update()
                 end)
@@ -408,7 +408,7 @@ function QuestieQuest:CompleteQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-        -- This is necessary to call it again to update the trackers formatting
+        -- This is neccessary to call it again to update the trackers formatting
         C_Timer.After(0.1, function()
             QuestieTracker:Update()
         end)
@@ -454,7 +454,7 @@ function QuestieQuest:AbandonedQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-            -- This is necessary to call it again to update the trackers formatting
+            -- This is neccessary to call it again to update the trackers formatting
             C_Timer.After(0.1, function()
                 QuestieTracker:Update()
             end)
@@ -492,7 +492,7 @@ function QuestieQuest:UpdateQuest(questId)
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-            -- This is necessary to call it again to update the trackers formatting
+            -- This is neccessary to call it again to update the trackers formatting
             C_Timer.After(0.1, function()
                 QuestieTracker:Update()
             end)

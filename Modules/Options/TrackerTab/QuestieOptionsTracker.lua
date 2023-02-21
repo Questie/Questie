@@ -53,7 +53,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.char.AutoUntrackedQuests = {}
                     end
                     QuestieTracker:Update()
-                    C_Timer.After(0.5, function()
+                    C_Timer.After(0.1, function()
                         QuestieTracker:Update()
                     end)
                 end
@@ -71,20 +71,20 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            collapseCompletedQuests = {
+            hideCompletedObjectives = {
                 type = "toggle",
                 order = 1.3,
                 width = 1.0,
-                name = function() return l10n('Min Complete Quests'); end,
-                desc = function() return l10n('When this is checked, completed quests will automatically minimize.\n\nNOTE: If this option is currently enabled, disabling this option will maximize ALL minimized quests currently in your Questie Tracker.'); end,
+                name = function() return l10n('Hide Complete Objs'); end,
+                desc = function() return l10n('When this is checked, completed quest/achievement objectives will automatically be removed from the tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return Questie.db.global.collapseCompletedQuests; end,
+                get = function() return Questie.db.global.hideCompletedObjectives; end,
                 set = function(_, value)
-                    Questie.db.global.collapseCompletedQuests = value
-                    if Questie.db.global.collapseCompletedQuests == false then
-                        Questie.db.char.collapsedQuests = {}
-                    end
+                    Questie.db.global.hideCompletedObjectives = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             showQuestLevels = {
@@ -98,7 +98,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerShowQuestLevel = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.5, function()
+                    C_Timer.After(0.1, function()
                         QuestieTracker:Update()
                     end)
                 end
@@ -211,6 +211,11 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.hideTrackerInDungeons; end,
                 set = function(_, value)
                     Questie.db.global.hideTrackerInDungeons = value
+                    if value then
+                        QuestieTracker:Collapse()
+                    else
+                        QuestieTracker:Expand()
+                    end
                 end
             },
             fadeMinMaxButtons = {
@@ -360,7 +365,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.sizerHidden = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.5, function()
+                    C_Timer.After(0.1, function()
                         QuestieTracker:Update()
                     end)
                 end
@@ -558,7 +563,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = key
                     QuestieTracker:ResetLocation()
                     QuestieTracker:MoveDurabilityFrame()
-                    C_Timer.After(0.5, function()
+                    C_Timer.After(0.1, function()
                         QuestieTracker:Update()
                     end)
                 end

@@ -19,7 +19,9 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
 local poolSize = 80
 local lineIndex = 0
+local buttonIndex = 0
 local linePool = {}
+local buttonPool = {}
 
 local baseFrame
 local lineMarginLeft = 10
@@ -35,6 +37,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
 
+    -- create linePool for quests/achievements
     local lastFrame
     for i = 1, poolSize do
         local line = CreateFrame("Button", nil, trackedQuestsFrame)
@@ -235,6 +238,228 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         linePool[i] = line
         lastFrame = line
     end
+
+    -- create buttonPool for quest items
+    for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
+        local buttonName = "Questie_ItemButton"..i
+        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
+        local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
+        btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
+        btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
+        btn:SetAttribute("type1", "item")
+        btn:SetAttribute("type2", "stop")
+        btn:Hide()
+
+        if Questie.db.global.trackerFadeQuestItemButtons then
+            btn:SetAlpha(0)
+        end
+
+        btn.SetItem = function(self, quest, size)
+            local validTexture
+            local isFound, isFoundRequired = false
+
+            for bag = 0 , 4 do
+                for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
+                    local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
+                    if quest.sourceItemId == itemID then
+                        validTexture = texture
+                        isFound = true
+                        break
+                    end
+
+                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+
+                        if quest.requiredSourceItems[1] == itemID then
+                            validTexture = texture
+                            isFoundRequired = true
+                            break
+                        end
+                    end
+                end
+            end
+
+            -- Edge case to find "equipped" quest items since they will no longer be in the players bag
+            if (not isFound) then
+                for inventorySlot = 1, 19 do
+                    local itemID = GetInventoryItemID("player", inventorySlot)
+                    if quest.sourceItemId == itemID then
+                        validTexture = GetInventoryItemTexture("player", inventorySlot)
+                        isFound = true
+                        break
+                    end
+
+                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+
+                        if quest.requiredSourceItems[1] == itemID then
+                            validTexture = GetInventoryItemTexture("player", inventorySlot)
+                            isFoundRequired = true
+                            break
+                        end
+                    end
+                end
+            end
+
+            if validTexture and isFound or isFoundRequired then
+                if isFound then
+                    self.itemID = quest.sourceItemId
+                elseif isFoundRequired then
+                    self.itemID = quest.requiredSourceItems[1]
+                end
+                self.questID = quest.Id
+                self.charges = GetItemCount(self.itemID, nil, true)
+                self.rangeTimer = -1
+
+                self:SetAttribute("item", "item:" .. tostring(self.itemID))
+                self:SetNormalTexture(validTexture)
+                self:SetPushedTexture(validTexture)
+                self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+                self:SetSize(size, size)
+
+                self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+
+                self:SetScript("OnEvent", self.OnEvent)
+                self:SetScript("OnShow", self.OnShow)
+                self:SetScript("OnHide", self.OnHide)
+                self:SetScript("OnEnter", self.OnEnter)
+                self:SetScript("OnLeave", self.OnLeave)
+
+                -- Cooldown Updates
+                cooldown:SetSize(size-4, size-4)
+                cooldown:SetPoint("CENTER", self, "CENTER", 0, 0)
+                cooldown:Hide()
+
+                -- Range Updates
+                self.range:SetText("●")
+                self.range:SetPoint("TOPRIGHT", self, "TOPRIGHT", 3, 0)
+                self.range:Hide()
+
+                -- Charges Updates
+                self.count:Hide()
+                self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), 1 * 0.40)
+                if self.charges > 1 then
+                    self.count:SetText(self.charges)
+                    self.count:Show()
+                end
+                self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 3)
+
+                self.UpdateButton(self)
+
+                return true
+            end
+
+            return false
+        end
+
+        btn.UpdateButton = function(self)
+            if not self.itemID or not self:IsVisible() then
+                return
+            end
+
+            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
+
+            if enabled and duration > 3 and enabled == 1 then
+                cooldown:Show()
+                cooldown:SetCooldown(start, duration)
+            else
+                cooldown:Hide()
+            end
+        end
+
+        btn.OnEvent = function(self, event, ...)
+            if (event == "PLAYER_TARGET_CHANGED") then
+                self.rangeTimer = -1
+                self.range:Hide()
+
+            elseif (event == "BAG_UPDATE_COOLDOWN") then
+                self.UpdateButton(self)
+            end
+        end
+
+        btn.OnUpdate = function(self, elapsed)
+            if not self.itemID or not self:IsVisible() then
+                return
+            end
+
+            local valid
+            local rangeTimer = self.rangeTimer
+            local charges = GetItemCount(self.itemID, nil, true)
+
+            if (not charges or charges ~= self.charges) then
+                self.count:Hide()
+                self.charges = GetItemCount(self.itemID, nil, true)
+                if self.charges > 1 then
+                    self.count:SetText(self.charges)
+                    self.count:Show()
+                end
+            end
+
+            if UnitExists("target") then
+
+                if not self.itemName then
+                    self.itemName = GetItemInfo(self.itemID)
+                end
+
+                if (rangeTimer) then
+                    rangeTimer = rangeTimer - elapsed
+
+                    if (rangeTimer <= 0) then
+
+                        valid = IsItemInRange(self.itemName, "target")
+
+                        if valid == false then
+                            self.range:SetVertexColor(1.0, 0.1, 0.1)
+                            self.range:Show()
+
+                        elseif valid == true then
+                            self.range:SetVertexColor(0.6, 0.6, 0.6)
+                            self.range:Show()
+                        end
+
+                        rangeTimer = 0.3
+                    end
+
+                    self.rangeTimer = rangeTimer
+                end
+            end
+        end
+
+        btn.OnShow = function(self)
+            self:RegisterEvent("PLAYER_TARGET_CHANGED")
+            self:RegisterEvent("BAG_UPDATE_COOLDOWN")
+        end
+
+        btn.OnHide = function(self)
+            self:UnregisterEvent("PLAYER_TARGET_CHANGED")
+            self:UnregisterEvent("BAG_UPDATE_COOLDOWN")
+        end
+
+        btn.OnEnter = function(self)
+            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+            GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
+            GameTooltip:Show()
+
+            FadeTicker.OnEnter(self)
+        end
+
+        btn.OnLeave = function(self)
+            GameTooltip:Hide()
+
+            FadeTicker.OnLeave(self)
+        end
+
+        btn.FakeHide = function(self)
+            self:RegisterForClicks()
+            self:SetScript("OnEnter", nil)
+            self:SetScript("OnLeave", nil)
+        end
+
+        btn:HookScript("OnUpdate", btn.OnUpdate)
+
+        btn:FakeHide()
+
+        buttonPool[i] = btn
+        buttonPool[i]:Hide()
+    end
 end
 
 function LinePool.ResetLinesForChange()
@@ -257,6 +482,15 @@ function LinePool.ResetLinesForChange()
     lineIndex = 0
 end
 
+function LinePool.ResetButtonsForChange()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "LinePool: ResetButtonsForChange")
+    if InCombatLockdown() or not Questie.db.global.trackerEnabled then
+        return
+    end
+
+    buttonIndex = 0
+end
+
 function LinePool.GetNextLine()
     lineIndex = lineIndex + 1
     if not linePool[lineIndex] then
@@ -264,6 +498,15 @@ function LinePool.GetNextLine()
     end
 
     return linePool[lineIndex]
+end
+
+function LinePool.GetNextItemButton()
+    buttonIndex = buttonIndex + 1
+    if not buttonPool[buttonIndex] then
+        return nil -- past the line limit
+    end
+
+    return buttonPool[buttonIndex]
 end
 
 function LinePool.IsFirstLine()
@@ -299,6 +542,27 @@ function LinePool.HideUnusedLines()
     end
 end
 
+function LinePool.HideUnusedButtons()
+    local startUnusedButtons = 1
+
+    if Questie.db.char.isTrackerExpanded then
+        startUnusedButtons = buttonIndex + 1
+    end
+
+    for i = startUnusedButtons, C_QuestLog.GetMaxNumQuestsCanAccept() do
+        local button = buttonPool[i]
+        if button.itemID then
+            button:FakeHide()
+            button.itemID = nil
+            button.itemName = nil
+            button.lineID = nil
+            button.fontSize = nil
+            button:SetParent(UIParent)
+            button:Hide()
+        end
+    end
+end
+
 local function _GetHighestIndex()
     return lineIndex > poolSize and poolSize or lineIndex
 end
@@ -326,6 +590,10 @@ _OnClickQuest = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClickQuest]")
     if (not self.Quest) then
         return
+    end
+
+    if TrackerMenu.menuFrame:IsShown() then
+        LibDropDown:CloseDropDownMenus()
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindSetTomTom, button) then
@@ -360,6 +628,10 @@ _OnClickAchieve = function(self, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[LinePool:_OnClickAchieve]")
     if (not self.Quest) then
         return
+    end
+
+    if TrackerMenu.menuFrame:IsShown() then
+        LibDropDown:CloseDropDownMenus()
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then

@@ -320,14 +320,18 @@ function _EventHandler:GroupLeft()
     QuestieComms:ResetAll()
 end
 
-local wasTrackerExpanded = false
-
+local trackerHiddenByCombat = false
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
-    if Questie.db.global.hideTrackerInCombat then
-        wasTrackerExpanded = Questie.db.char.isTrackerExpanded
+    if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
+        trackerHiddenByCombat = true
         QuestieTracker:Collapse()
     end
+
+    if IsInInstance() and Questie.db.global.hideTrackerInDungeons then
+        QuestieTracker:Collapse()
+    end
+
     if InCombatLockdown() then
         if QuestieConfigFrame:IsShown() then
             QuestieOptions:HideFrame()
@@ -337,8 +341,11 @@ end
 
 function _EventHandler:PlayerRegenEnabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_ENABLED")
-    if Questie.db.global.hideTrackerInCombat and (wasTrackerExpanded == true) then
-        QuestieTracker:Expand()
+    if Questie.db.global.hideTrackerInCombat and trackerHiddenByCombat then
+        if (not Questie.db.global.hideTrackerInDungeons) or (not IsInInstance()) then
+            trackerHiddenByCombat = false
+            QuestieTracker:Expand()
+        end
     end
 end
 
@@ -349,9 +356,20 @@ function _EventHandler:ZoneChangedNewArea()
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     if IsInInstance() then
-        wasTrackerExpanded = Questie.db.char.isTrackerExpanded
         QuestieTracker:Collapse()
-    elseif wasTrackerExpanded then
+        -- By my tests it takes a full 6-7 seconds for the instance to load. There are a lot of
+        -- backend Questie updates that occur when a player zones into an instance. This is
+        -- necessary to get the tracker back into it's "normal" state after all the updates.
+        C_Timer.After(8, function()
+            QuestieTracker:Update()
+        end)
+    elseif (not Questie.db.char.isTrackerExpanded) then
         QuestieTracker:Expand()
+        -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
+        -- backend Questie updates that occur when a player zones out of an instance. This is
+        -- necessary to get the tracker back into it's "normal" state after all the updates.
+        C_Timer.After(8, function()
+            QuestieTracker:Update()
+        end)
     end
 end
