@@ -28,22 +28,53 @@ local unusedFrames = {}
 local usedFrames = {};
 local allFrames = {}
 
-
+-- Load icon pathes from SavedVariables or set the default ones
 function QuestieFramePool:SetIcons()
-    ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-    ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-    ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-    ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-    ICON_TYPE_TALK = QuestieLib.AddonPath.."Icons\\chatbubblegossipicon.blp"
-
-    -- TODO Add all types (we gotta stop using globals, needs refactoring)
-    ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
-    ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
-    ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
-    ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-    ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+    -- TODOs
+    -- 1. Move ICON_TYPE_* out of global namespace here and in the rest of the actual code
+    -- 2. Replace ICON_TYPE_* references in the corrections (extraObjectives) with an integer (it's compiled to DB...)
+    -- 3. Move function elsewhere?
+    ICON_TYPE_SLAY = Questie.db.global.ICON_TYPE_SLAY or Questie.Icons["slay"]
+    ICON_TYPE_LOOT = Questie.db.global.ICON_TYPE_LOOT or Questie.Icons["loot"]
+    ICON_TYPE_EVENT = Questie.db.global.ICON_TYPE_EVENT or Questie.Icons["event"]
+    ICON_TYPE_OBJECT = Questie.db.global.ICON_TYPE_OBJECT or Questie.Icons["object"]
+    ICON_TYPE_TALK = Questie.db.global.ICON_TYPE_TALK or Questie.Icons["talk"]
+    ICON_TYPE_AVAILABLE = Questie.db.global.ICON_TYPE_AVAILABLE or Questie.Icons["available"]
+    ICON_TYPE_AVAILABLE_GRAY = Questie.db.global.ICON_TYPE_AVAILABLE_GRAY or Questie.Icons["available_gray"]
+    ICON_TYPE_COMPLETE = Questie.db.global.ICON_TYPE_COMPLETE or Questie.Icons["complete"]
+    ICON_TYPE_GLOW = Questie.db.global.ICON_TYPE_GLOW or Questie.Icons["glow"]
+    ICON_TYPE_REPEATABLE = Questie.db.global.ICON_TYPE_REPEATABLE or Questie.Icons["repeatable"]
 end
 
+-- Toggle between Questie icons and pfQuest icons
+---@param value boolean Wether to toggle pfQuest style on or off
+function QuestieFramePool:TogglePfQuestStyle(value)
+    if value then
+        Questie.db.global.ICON_TYPE_SLAY = Questie.Icons["node"]
+        Questie.db.global.ICON_TYPE_LOOT = Questie.Icons["node"]
+        Questie.db.global.ICON_TYPE_EVENT = Questie.Icons["node"]
+        Questie.db.global.ICON_TYPE_OBJECT = Questie.Icons["node"]
+        -- TODO remove these setting changes once we have a style selection window/frame
+        Questie.db.global.questObjectiveColors = true
+        Questie.db.global.alwaysGlowMap = false
+        Questie.db.global.questMinimapObjectiveColors = true
+        Questie.db.global.alwaysGlowMinimap = false
+        Questie.db.global.clusterLevelHotzone = 1
+    else
+        Questie.db.global.ICON_TYPE_SLAY = Questie.Icons["slay"]
+        Questie.db.global.ICON_TYPE_LOOT = Questie.Icons["loot"]
+        Questie.db.global.ICON_TYPE_EVENT = Questie.Icons["event"]
+        Questie.db.global.ICON_TYPE_OBJECT = Questie.Icons["object"]
+        -- TODO remove these setting changes once we have a style selection window/frame
+        Questie.db.global.questObjectiveColors = false
+        Questie.db.global.alwaysGlowMap = true
+        Questie.db.global.questMinimapObjectiveColors = false
+        Questie.db.global.alwaysGlowMinimap = false
+        Questie.db.global.clusterLevelHotzone = 50
+    end
+    self:SetIcons()
+    QuestieQuest:SmoothReset()
+end
 
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing

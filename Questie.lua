@@ -128,5 +128,19 @@ function Questie:Debug(...)
     end
 end
 
+Questie.Icons = {
+    ["slay"] = "Interface\\Addons\\Questie\\Icons\\slay.blp",
+    ["loot"] = "Interface\\Addons\\Questie\\Icons\\loot.blp",
+    ["event"] = "Interface\\Addons\\Questie\\Icons\\event.blp",
+    ["object"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
+    ["talk"] = "Interface\\Addons\\Questie\\Icons\\chatbubblegossipicon.blp",
+    ["available"] = "Interface\\Addons\\Questie\\Icons\\available.blp",
+    ["available_gray"] = "Interface\\Addons\\Questie\\Icons\\available_gray.blp",
+    ["complete"] = "Interface\\Addons\\Questie\\Icons\\complete.blp",
+    ["glow"] = "Interface\\Addons\\Questie\\Icons\\glow.blp",
+    ["repeatable"] = "Interface\\Addons\\Questie\\Icons\\repeatable.blp",
+    ["node"] = "Interface\\Addons\\Questie\\Icons\\node.tga",
+}
+
 -- Start checking the game's cache.
 QuestieValidateGameCache.StartCheck()

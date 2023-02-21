@@ -13,6 +13,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
+---@type QuestieFramePool
+local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -245,6 +247,18 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    usePfQuestIcons = {
+                        type = "toggle",
+                        order = 14,
+                        name = function() return l10n('Use pfQuest/Codex style icons'); end,
+                        desc = function() return l10n('Toggles between Questie icons and pfQuest/ClassicCodex icons.\n\nToggling affects the following settings:\n\n- Glow\n- Color icons by Quest\n- Objective note clustering'); end,
+                        width = 1.5,
+                        get = function(info) return Questie.db.global.usePfQuestIcons end,
+                        set = function(info, value)
+                            Questie.db.global.usePfQuestIcons = value
+                            QuestieFramePool:TogglePfQuestStyle(value)
+                        end
+                    }
                 },
             },
             Spacer_A1 = QuestieOptionsUtils:Spacer(2.1, (not Questie.IsWotlk)),
@@ -411,7 +425,7 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "range",
                 order = 16,
                 name = function()
-                    if Questie.db.char.absoluteLevelOffset then 
+                    if Questie.db.char.absoluteLevelOffset then
                         return l10n('Level from');
                     else
                         return l10n('< Show below level');
