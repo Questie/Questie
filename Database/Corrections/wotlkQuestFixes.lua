@@ -1162,7 +1162,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{38386},{38339},{38340},{38346}}},
         },
         [12561] = {
-            [questKeys.requiredSpell] = {54197},
+            [questKeys.requiredSpell] = 54197,
         },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
@@ -1519,7 +1519,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12803] = {
-            [questKeys.requiredSpell] = {54197},
+            [questKeys.requiredSpell] = 54197,
         },
         [12804] = {
             [questKeys.preQuestSingle] = {12520},
