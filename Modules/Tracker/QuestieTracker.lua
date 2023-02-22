@@ -167,7 +167,7 @@ function QuestieTracker.Initialize()
             QuestieTracker:Collapse()
         end
 
-        -- Font's and cooldowns can occationally not apply upon login
+        -- Font's and cooldowns can occasionally not apply upon login
         trackedAchievementIds = {GetTrackedAchievements()}
         QuestieTracker:Update()
     end)
@@ -652,7 +652,6 @@ function QuestieTracker:Update()
                         button.line.expandQuest:Hide()
 
                         button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
-                        -- TODO: change this to UIParent
                         button:SetParent(button.line)
                         button:Show()
 
@@ -788,7 +787,7 @@ function QuestieTracker:Update()
 
     -- Begin populating the tracker with tracked achievements - Note: We're limited to tracking only 10 Achievements at a time.
     -- For all intents and purposes at a code level we're going to treat each tracked Achievement the same way we treat and add Quests. This loop is
-    -- neccessary to keep seperate from the above tracked Quests loop so we can place all tracked Achievements into it's own "Zone" called Achievements.
+    -- necessary to keep separate from the above tracked Quests loop so we can place all tracked Achievements into it's own "Zone" called Achievements.
     -- This will force Achievements to always appear at the bottom of the tracker. Obviously it'll show at the top if there are no quests being tracked.
     trackedAchievementIds = {}
     trackedAchievementIds = {GetTrackedAchievements()}
@@ -936,7 +935,7 @@ function QuestieTracker:Update()
                             line:SetOnClick("achieve")
 
                             local objId
-                            if ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and not QuestieDB:GetQuest(refId))) then
+                            if refId and select(2,GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB:GetQuest(refId)))) then
                                 objId = refId
                             else
                                 objId = achieve

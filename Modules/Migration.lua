@@ -138,8 +138,6 @@ local migrationFunctions = {
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end,
     [14] = function()
-    end,
-    [15] = function()
         if Questie.db.global.clusterLevelHotzone == 70 then -- old default value
             Questie.db.global.clusterLevelHotzone = 50
         end
@@ -153,12 +151,12 @@ local migrationFunctions = {
             Questie.db.global.nameplateTargetFrameEnabled = true
         end
     end,
-    [16] = function()
+    [15] = function()
         if Questie.db.char.questAnnounceChannel == "group" then
             Questie.db.char.questAnnounceChannel = "party"
         end
     end,
-    [17] = function()
+    [16] = function()
         if Questie.IsWotlk then
             Questie.db.global.isleOfQuelDanasPhase = 9 -- Last Isle Of Quel Danas Phase
         end

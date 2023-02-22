@@ -12,6 +12,9 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 local baseFrame
 local _UpdateTracker, _MoveDurabilityFrame
+local mouselookTicker = {}
+local dragButton
+local updateTimer
 
 TrackerBaseFrame.IsInitialized = false
 local isSizing = false
@@ -129,25 +132,19 @@ end
 
 function TrackerBaseFrame.Update()
     if Questie.db.char.isTrackerExpanded then
-
         if Questie.db.global.trackerBackdropEnabled then
-
             if Questie.db.global.trackerBorderEnabled then
-
                 if not Questie.db.global.trackerBackdropFader then
                     baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
                 end
-
             else
                 baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
-
         else
             baseFrame:SetBackdropColor(0, 0, 0, 0)
             baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
-
     else
         if Questie.db.global.sizerHidden then
             baseFrame.sizer:SetAlpha(0)
@@ -166,7 +163,6 @@ function TrackerBaseFrame.Update()
             baseFrame:EnableMouse(true)
             baseFrame:SetResizable(true)
         end)
-
     else
         baseFrame:SetMovable(false)
         QuestieCombatQueue:Queue(function()
@@ -180,17 +176,14 @@ function TrackerBaseFrame.Update()
 end
 
 function TrackerBaseFrame.SetSafePoint()
-    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()*8
+    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()/2
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
-
+    local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
     baseFrame:ClearAllPoints()
 
-    if trackerSetPoint == "BOTTOMLEFT" then
-        baseFrame:SetPoint("BOTTOMLEFT", UIParent, "CENTER", -xOff, -yOff)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "CENTER", -xOff, -yOff}
-    else
-        baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", -xOff, yOff)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "CENTER", -xOff, yOff}
+    if trackerSetPoint then
+        baseFrame:SetPoint(trackerSetPoint, UIParent, "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y}
     end
 
     _MoveDurabilityFrame()
@@ -198,26 +191,8 @@ function TrackerBaseFrame.SetSafePoint()
 end
 
 function TrackerBaseFrame.ShrinkToMinSize(minSize)
-    --[[
-    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()*8
-    local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
-
-    baseFrame:ClearAllPoints()
-
-    if trackerSetPoint == "BOTTOMLEFT" then
-        baseFrame:SetPoint("BOTTOMLEFT", UIParent, "CENTER", -xOff, -yOff)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "CENTER", -xOff, -yOff}
-    else
-        baseFrame:SetPoint("TOPLEFT", UIParent, "CENTER", -xOff, yOff)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "CENTER", -xOff, yOff}
-    end
-    --]]
-
     baseFrame:SetHeight(minSize)
 end
-
-local mouselookTicker = {}
-local dragButton
 
 ---@param button string @The mouse button that is pressed when dragging starts
 function TrackerBaseFrame.OnDragStart(button)
@@ -249,24 +224,27 @@ function TrackerBaseFrame.OnDragStart(button)
 end
 
 local function _UpdateTrackerPosition()
-    local xOff, yOff = baseFrame:GetLeft(), baseFrame:GetTop()
-
+    local xLeft, yTop, xRight, yBottom = baseFrame:GetLeft(), baseFrame:GetTop(), baseFrame:GetRight(), baseFrame:GetBottom()
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
-
     baseFrame:ClearAllPoints()
 
     if trackerSetPoint == "BOTTOMLEFT" then
-        baseFrame:SetPoint("BOTTOMLEFT", UIParent, xOff, baseFrame:GetBottom())
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xOff, baseFrame:GetBottom()}
+        baseFrame:SetPoint("BOTTOMLEFT", UIParent, xLeft, yBottom)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xLeft, yBottom}
+    elseif trackerSetPoint == "BOTTOMRIGHT" then
+        baseFrame:SetPoint("BOTTOMRIGHT", UIParent, -(GetScreenWidth() - xRight), yBottom)
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -(GetScreenWidth() - xRight), yBottom}
+    elseif trackerSetPoint == "TOPRIGHT" then
+        baseFrame:SetPoint("TOPRIGHT", UIParent, -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop))
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPRIGHT", "UIParent", "TOPRIGHT", -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop)}
     else
-        baseFrame:SetPoint("TOPLEFT", UIParent, xOff, -(GetScreenHeight() - yOff))
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xOff, -(GetScreenHeight() - yOff)}
+        baseFrame:SetPoint("TOPLEFT", UIParent, xLeft, -(GetScreenHeight() - yTop))
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop)}
     end
 
     _MoveDurabilityFrame()
     _UpdateTracker()
 end
-
 
 function TrackerBaseFrame.OnDragStop()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop]")
@@ -280,8 +258,6 @@ function TrackerBaseFrame.OnDragStop()
 
     QuestieCombatQueue:Queue(_UpdateTrackerPosition)
 end
-
-local updateTimer
 
 ---@param button string @The mouse button that is pressed when resize starts
 function TrackerBaseFrame.OnResizeStart(_, button)
