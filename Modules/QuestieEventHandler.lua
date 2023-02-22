@@ -81,6 +81,28 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
 
+    -- UI Achievement Events
+    if Questie.IsWotlk then
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+                -- This is necessary to call it again to update the trackers formatting
+                C_Timer.After(0.1, function()
+                    QuestieTracker:Update()
+                end)
+            end)
+        end)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+                -- This is necessary to call it again to update the trackers formatting
+                C_Timer.After(0.1, function()
+                    QuestieTracker:Update()
+                end)
+            end)
+        end)
+    end
+
     -- Questie Comms Events
 
     -- Party join event for QuestieComms, Use bucket to hinder this from spamming (Ex someone using a raid invite addon etc)
@@ -107,27 +129,6 @@ function QuestieEventHandler:RegisterLateEvents()
             end
         end
     end)
-
-    if Questie.IsWotlk then
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-                -- This is necessary to call it again to update the trackers formatting
-                C_Timer.After(0.1, function()
-                    QuestieTracker:Update()
-                end)
-            end)
-        end)
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-                -- This is necessary to call it again to update the trackers formatting
-                C_Timer.After(0.1, function()
-                    QuestieTracker:Update()
-                end)
-            end)
-        end)
-    end
 end
 
 function _EventHandler:PlayerLogin()

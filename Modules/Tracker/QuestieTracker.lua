@@ -151,6 +151,7 @@ function QuestieTracker.Initialize()
             end
         end
 
+        -- Quest Focus Feature
         if Questie.db.char.TrackerFocus then
             local focusType = type(Questie.db.char.TrackerFocus)
             if focusType == "number" then
@@ -163,11 +164,25 @@ function QuestieTracker.Initialize()
             end
         end
 
+        -- Hides tracker during a login or reloadUI
         if Questie.db.global.hideTrackerInDungeons and IsInInstance() then
             QuestieTracker:Collapse()
         end
 
-        -- Font's and cooldowns can occasionally not apply upon login
+        -- If the player loots a "Quest Item" then this triggers a Tracker Update so the
+        -- Quest Item Button can be switched on and appear in the tracker.
+        Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text)
+            local itemId = tonumber(string.match(text, "item:(%d+)"))
+            if select(6, GetItemInfo(itemId)) == "Quest" then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Quest Item Detected (itemId): "..itemId)
+                C_Timer.After(0.5, function()
+                    QuestieTracker:Update()
+                end)
+            end
+        end)
+
+        -- Font's and cooldowns can occasionally not apply upon login.
+        -- Tracked Achievements aren't always available upon login.
         trackedAchievementIds = {GetTrackedAchievements()}
         QuestieTracker:Update()
     end)

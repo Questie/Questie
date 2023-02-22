@@ -134,15 +134,6 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
                 _QuestieAnnounce:AnnounceSelf(startQuestId, itemId)
             end
         end
-
-        -- If the player loots a "Quest Item" then this triggers a Tracker Update so the
-        -- Quest Item Button can be switched on and appear in the tracker.
-        if select(6, GetItemInfo(itemId)) == "Quest" then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] Quest Item Detected (itemId): "..itemId)
-            C_Timer.After(0.5, function()
-                QuestieTracker:Update()
-            end)
-        end
     end
 end
 
