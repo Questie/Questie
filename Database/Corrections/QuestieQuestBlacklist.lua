@@ -1265,6 +1265,10 @@ function QuestieQuestBlacklist:Load()
         [12808] = true,
         [12811] = true,
 
+        --- Phase 2 Secrets of Ulduar
+        [13372] = true, -- 10man EoE keys become unavailable with P2
+        [13384] = true, -- 10man EoE keys become unavailable with P2
+
         --- Phase 3 Trial of the Crusader
         [14151] = true, -- Cardinal Ruby (Alchemy)
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
