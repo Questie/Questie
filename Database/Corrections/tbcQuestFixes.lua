@@ -1029,6 +1029,9 @@ function QuestieTBCQuestFixes:Load()
         [9608] = {
             [questKeys.triggerEnd] = {"Fully Investigate The Blood Furnace", {[zoneIDs.HELLFIRE_PENINSULA]={{45.89,51.93}}}},
         },
+        [9618] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [9635] = {
             [questKeys.requiredSkill] = {202,305},
         },
