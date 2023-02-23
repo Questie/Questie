@@ -2619,6 +2619,9 @@ function QuestieQuestFixes:Load()
         [8430] = {
             [questKeys.exclusiveTo] = {8368,8426,8427,8428,8429},
         },
+        [8438] = {
+            [questKeys.zoneOrSort] = sortKeys.ARATHI_BASIN,
+        },
         [8447] = {
             [questKeys.triggerEnd] = {"Waking Legends.",{[zoneIDs.MOONGLADE]={{40.0,48.6}}}},
         },
