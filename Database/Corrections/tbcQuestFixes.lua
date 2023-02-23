@@ -51,6 +51,9 @@ function QuestieTBCQuestFixes:Load()
         [225] = {
             [questKeys.requiredLevel] = 25,
         },
+        [254] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
         },
