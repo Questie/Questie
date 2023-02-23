@@ -3300,99 +3300,99 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14023] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14024] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14028] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14030] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14033] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14035] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14037] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14040] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14041] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14043] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14044] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14047] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14048] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14051] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14053] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14054] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14055] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14058] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14059] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14060] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14061] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14062] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14064] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14065] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
-            [questKeys.zoneOrSort] = -375,
+            [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
         [14079] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
