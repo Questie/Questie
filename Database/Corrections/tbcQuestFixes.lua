@@ -966,6 +966,9 @@ function QuestieTBCQuestFixes:Load()
         [9531] = {
             [questKeys.objectives] = {{{17318,"The Traitor Uncovered"}},nil,nil},
         },
+        [9532] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
+        },
         [9538] = {
             [questKeys.triggerEnd] = {"Stillpine Furbolg Language Primer Read", {[zoneIDs.AZUREMYST_ISLE]={{49.29,51.07}}}},
         },
