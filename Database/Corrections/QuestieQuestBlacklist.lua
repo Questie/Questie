@@ -1191,6 +1191,7 @@ function QuestieQuestBlacklist:Load()
         [13173] = true, -- Not in the game
         [13175] = true, -- Not in the game
         [14203] = true, -- Not in the game
+        [14032] = true, -- Not in the game
         
         [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
         [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
