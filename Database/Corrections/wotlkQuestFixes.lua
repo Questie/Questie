@@ -3298,6 +3298,12 @@ function QuestieWotlkQuestFixes:Load()
         [13906] = {
             [questKeys.preQuestSingle] = {13887},
         },
+        [14064] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14065] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [14079] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
