@@ -1237,6 +1237,17 @@ function QuestieQuestBlacklist:Load()
         [9245] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Gauntlets
         [9246] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Breastplate
 
+        -- "learn to ride" series (unimplemented)
+        [14079] = true, -- elwynn (human)
+        [14081] = true, -- eversong (belf)
+        [14082] = true, -- exodar (draenei)
+        [14083] = true, -- dun morogh (dwarf)
+        [14084] = true, -- dun morogh (gnome)
+        [14085] = true, -- darnassus (nelf)
+        [14086] = true, -- orgrimmar (orc)
+        [14087] = true, -- mulgore (tauren)
+        [14088] = true, -- durotar (troll)
+        [14089] = true, -- tirisfal (undead)
 
         -- Scourge invasion
         [12616] = true,
