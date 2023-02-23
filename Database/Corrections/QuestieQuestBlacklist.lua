@@ -1192,7 +1192,8 @@ function QuestieQuestBlacklist:Load()
         [13175] = true, -- Not in the game
         [14203] = true, -- Not in the game
         [14032] = true, -- Not in the game
-        [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
+        [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
+        [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         
         [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
         [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
