@@ -3298,6 +3298,72 @@ function QuestieWotlkQuestFixes:Load()
         [13906] = {
             [questKeys.preQuestSingle] = {13887},
         },
+        [14023] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14024] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14028] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14030] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14033] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14035] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14037] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14040] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14041] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14043] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14044] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14047] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14048] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14051] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14053] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14054] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14055] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [14058] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14059] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14060] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14061] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [14062] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [14064] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
