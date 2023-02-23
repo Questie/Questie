@@ -109,6 +109,10 @@ function QuestieTBCQuestFixes:Load()
         [927] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [950] = {
+            [questKeys.questLevel] = 12,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
