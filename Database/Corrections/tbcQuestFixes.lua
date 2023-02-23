@@ -820,6 +820,9 @@ function QuestieTBCQuestFixes:Load()
         [9181] = {
             [questKeys.specialFlags] = 1,
         },
+        [9189] = {
+            [questKeys.requiredRaces] = raceIDs.BLOOD_ELF
+        },
         [9190] = {
             [questKeys.specialFlags] = 1,
         },
