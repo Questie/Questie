@@ -28,36 +28,6 @@ local unusedFrames = {}
 local usedFrames = {};
 local allFrames = {}
 
--- Toggle between Questie icons and pfQuest icons
----@param value boolean Wether to toggle pfQuest style on or off
-function QuestieFramePool:TogglePfQuestStyle(value)
-    if value then
-        Questie.db.global.ICON_SLAY = Questie.icons["node"]
-        Questie.db.global.ICON_LOOT = Questie.icons["node"]
-        Questie.db.global.ICON_EVENT = Questie.icons["node"]
-        Questie.db.global.ICON_OBJECT = Questie.icons["node"]
-        -- TODO remove these setting changes once we have a style selection window/frame
-        Questie.db.global.questObjectiveColors = true
-        Questie.db.global.alwaysGlowMap = false
-        Questie.db.global.questMinimapObjectiveColors = true
-        Questie.db.global.alwaysGlowMinimap = false
-        Questie.db.global.clusterLevelHotzone = 1
-    else
-        Questie.db.global.ICON_SLAY = Questie.icons["slay"]
-        Questie.db.global.ICON_LOOT = Questie.icons["loot"]
-        Questie.db.global.ICON_EVENT = Questie.icons["event"]
-        Questie.db.global.ICON_OBJECT = Questie.icons["object"]
-        -- TODO remove these setting changes once we have a style selection window/frame
-        Questie.db.global.questObjectiveColors = false
-        Questie.db.global.alwaysGlowMap = true
-        Questie.db.global.questMinimapObjectiveColors = false
-        Questie.db.global.alwaysGlowMinimap = false
-        Questie.db.global.clusterLevelHotzone = 50
-    end
-    Questie:SetIcons()
-    QuestieQuest:SmoothReset()
-end
-
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     questID = 0, -- set before showing
