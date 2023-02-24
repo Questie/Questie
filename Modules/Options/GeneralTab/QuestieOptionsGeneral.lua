@@ -256,7 +256,31 @@ function QuestieOptions.tabs.general:Initialize()
                         get = function(info) return Questie.db.global.usePfQuestIcons end,
                         set = function(info, value)
                             Questie.db.global.usePfQuestIcons = value
-                            QuestieFramePool:TogglePfQuestStyle(value)
+                            if value then
+                                Questie.db.global.ICON_SLAY = Questie.icons["node"]
+                                Questie.db.global.ICON_LOOT = Questie.icons["node"]
+                                Questie.db.global.ICON_EVENT = Questie.icons["node"]
+                                Questie.db.global.ICON_OBJECT = Questie.icons["node"]
+                                -- TODO remove these setting changes once we have a style selection window/frame
+                                Questie.db.global.questObjectiveColors = true
+                                Questie.db.global.alwaysGlowMap = false
+                                Questie.db.global.questMinimapObjectiveColors = true
+                                Questie.db.global.alwaysGlowMinimap = false
+                                Questie.db.global.clusterLevelHotzone = 1
+                            else
+                                Questie.db.global.ICON_SLAY = Questie.icons["slay"]
+                                Questie.db.global.ICON_LOOT = Questie.icons["loot"]
+                                Questie.db.global.ICON_EVENT = Questie.icons["event"]
+                                Questie.db.global.ICON_OBJECT = Questie.icons["object"]
+                                -- TODO remove these setting changes once we have a style selection window/frame
+                                Questie.db.global.questObjectiveColors = false
+                                Questie.db.global.alwaysGlowMap = true
+                                Questie.db.global.questMinimapObjectiveColors = false
+                                Questie.db.global.alwaysGlowMinimap = false
+                                Questie.db.global.clusterLevelHotzone = 50
+                            end
+                            Questie:SetIcons()
+                            QuestieQuest:SmoothReset()
                         end
                     }
                 },

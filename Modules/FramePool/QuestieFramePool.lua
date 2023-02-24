@@ -28,22 +28,6 @@ local unusedFrames = {}
 local usedFrames = {};
 local allFrames = {}
 
--- Load icon pathes from SavedVariables or set the default ones
-function QuestieFramePool:SetIcons()
-    -- TODOs
-    -- 3. Move function elsewhere?
-    Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.global.ICON_SLAY or Questie.icons["slay"]
-    Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.global.ICON_LOOT or Questie.icons["loot"]
-    Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.global.ICON_EVENT or Questie.icons["event"]
-    Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.global.ICON_OBJECT or Questie.icons["object"]
-    Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.global.ICON_TALK or Questie.icons["talk"]
-    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.global.ICON_AVAILABLE or Questie.icons["available"]
-    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.global.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
-    Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.global.ICON_COMPLETE or Questie.icons["complete"]
-    Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.global.ICON_GLOW or Questie.icons["glow"]
-    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.global.ICON_REPEATABLE or Questie.icons["repeatable"]
-end
-
 -- Toggle between Questie icons and pfQuest icons
 ---@param value boolean Wether to toggle pfQuest style on or off
 function QuestieFramePool:TogglePfQuestStyle(value)
@@ -70,7 +54,7 @@ function QuestieFramePool:TogglePfQuestStyle(value)
         Questie.db.global.alwaysGlowMinimap = false
         Questie.db.global.clusterLevelHotzone = 50
     end
-    self:SetIcons()
+    Questie:SetIcons()
     QuestieQuest:SmoothReset()
 end
 
