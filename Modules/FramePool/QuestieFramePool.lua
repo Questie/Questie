@@ -31,29 +31,27 @@ local allFrames = {}
 -- Load icon pathes from SavedVariables or set the default ones
 function QuestieFramePool:SetIcons()
     -- TODOs
-    -- 1. Move ICON_TYPE_* out of global namespace here and in the rest of the actual code
-    -- 2. Replace ICON_TYPE_* references in the corrections (extraObjectives) with an integer (it's compiled to DB...)
     -- 3. Move function elsewhere?
-    ICON_TYPE_SLAY = Questie.db.global.ICON_TYPE_SLAY or Questie.Icons["slay"]
-    ICON_TYPE_LOOT = Questie.db.global.ICON_TYPE_LOOT or Questie.Icons["loot"]
-    ICON_TYPE_EVENT = Questie.db.global.ICON_TYPE_EVENT or Questie.Icons["event"]
-    ICON_TYPE_OBJECT = Questie.db.global.ICON_TYPE_OBJECT or Questie.Icons["object"]
-    ICON_TYPE_TALK = Questie.db.global.ICON_TYPE_TALK or Questie.Icons["talk"]
-    ICON_TYPE_AVAILABLE = Questie.db.global.ICON_TYPE_AVAILABLE or Questie.Icons["available"]
-    ICON_TYPE_AVAILABLE_GRAY = Questie.db.global.ICON_TYPE_AVAILABLE_GRAY or Questie.Icons["available_gray"]
-    ICON_TYPE_COMPLETE = Questie.db.global.ICON_TYPE_COMPLETE or Questie.Icons["complete"]
-    ICON_TYPE_GLOW = Questie.db.global.ICON_TYPE_GLOW or Questie.Icons["glow"]
-    ICON_TYPE_REPEATABLE = Questie.db.global.ICON_TYPE_REPEATABLE or Questie.Icons["repeatable"]
+    Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.global.ICON_SLAY or Questie.icons["slay"]
+    Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.global.ICON_LOOT or Questie.icons["loot"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.global.ICON_EVENT or Questie.icons["event"]
+    Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.global.ICON_OBJECT or Questie.icons["object"]
+    Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.global.ICON_TALK or Questie.icons["talk"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.global.ICON_AVAILABLE or Questie.icons["available"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.global.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
+    Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.global.ICON_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.global.ICON_GLOW or Questie.icons["glow"]
+    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.global.ICON_REPEATABLE or Questie.icons["repeatable"]
 end
 
 -- Toggle between Questie icons and pfQuest icons
 ---@param value boolean Wether to toggle pfQuest style on or off
 function QuestieFramePool:TogglePfQuestStyle(value)
     if value then
-        Questie.db.global.ICON_TYPE_SLAY = Questie.Icons["node"]
-        Questie.db.global.ICON_TYPE_LOOT = Questie.Icons["node"]
-        Questie.db.global.ICON_TYPE_EVENT = Questie.Icons["node"]
-        Questie.db.global.ICON_TYPE_OBJECT = Questie.Icons["node"]
+        Questie.db.global.ICON_SLAY = Questie.icons["node"]
+        Questie.db.global.ICON_LOOT = Questie.icons["node"]
+        Questie.db.global.ICON_EVENT = Questie.icons["node"]
+        Questie.db.global.ICON_OBJECT = Questie.icons["node"]
         -- TODO remove these setting changes once we have a style selection window/frame
         Questie.db.global.questObjectiveColors = true
         Questie.db.global.alwaysGlowMap = false
@@ -61,10 +59,10 @@ function QuestieFramePool:TogglePfQuestStyle(value)
         Questie.db.global.alwaysGlowMinimap = false
         Questie.db.global.clusterLevelHotzone = 1
     else
-        Questie.db.global.ICON_TYPE_SLAY = Questie.Icons["slay"]
-        Questie.db.global.ICON_TYPE_LOOT = Questie.Icons["loot"]
-        Questie.db.global.ICON_TYPE_EVENT = Questie.Icons["event"]
-        Questie.db.global.ICON_TYPE_OBJECT = Questie.Icons["object"]
+        Questie.db.global.ICON_SLAY = Questie.icons["slay"]
+        Questie.db.global.ICON_LOOT = Questie.icons["loot"]
+        Questie.db.global.ICON_EVENT = Questie.icons["event"]
+        Questie.db.global.ICON_OBJECT = Questie.icons["object"]
         -- TODO remove these setting changes once we have a style selection window/frame
         Questie.db.global.questObjectiveColors = false
         Questie.db.global.alwaysGlowMap = true

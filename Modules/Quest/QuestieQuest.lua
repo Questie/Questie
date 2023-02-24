@@ -597,7 +597,7 @@ function QuestieQuest:AddFinisher(quest)
                     for _, coords in ipairs(spawns) do
                         local data = {
                             Id = questId,
-                            Icon = ICON_TYPE_COMPLETE,
+                            Icon = Questie.ICON_TYPE_COMPLETE,
                             GetIconScale = _GetIconScaleForAvailable,
                             IconScale = _GetIconScaleForAvailable(),
                             Type = "complete",
@@ -636,7 +636,7 @@ function QuestieQuest:AddFinisher(quest)
                         if not finisherIcons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1]  then
                             local data = {
                                 Id = questId,
-                                Icon = ICON_TYPE_COMPLETE,
+                                Icon = Questie.ICON_TYPE_COMPLETE,
                                 GetIconScale = _GetIconScaleForAvailable,
                                 IconScale = _GetIconScaleForAvailable(),
                                 Type = "complete",
@@ -869,7 +869,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
 
     local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 
-    if orderedList[1] and orderedList[1].Icon == ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
+    if orderedList[1] and orderedList[1].Icon == Questie.ICON_TYPE_OBJECT then -- new clustering / limit code should prevent problems, always show all object notes
         range = range * 0.2;  -- Only use 20% of the default range.
     end
 
@@ -1277,13 +1277,13 @@ end
 function _QuestieQuest:GetQuestIcon(quest)
     local icon
     if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-        icon = ICON_TYPE_AVAILABLE_GRAY
+        icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     elseif quest.IsRepeatable then
-        icon = ICON_TYPE_REPEATABLE
+        icon = Questie.ICON_TYPE_REPEATABLE
     elseif(quest:IsTrivial()) then
-        icon = ICON_TYPE_AVAILABLE_GRAY
+        icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     else
-        icon = ICON_TYPE_AVAILABLE
+        icon = Questie.ICON_TYPE_AVAILABLE
     end
     return icon
 end
@@ -1368,7 +1368,7 @@ do
                                 if frame and frame.data and frame.data.QuestData then
                                     local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
                                     if newIcon ~= frame.data.Icon then
-                                        frame:UpdateTexture(newIcon)
+                                        frame:UpdateTexture(Questie.usedIcons[newIcon])
                                     end
                                 end
                             end
