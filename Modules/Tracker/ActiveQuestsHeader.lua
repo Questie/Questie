@@ -15,6 +15,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local LSM30 = LibStub("LibSharedMedia-3.0", true)
 
@@ -113,25 +115,26 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
                 return
             end
 
-            if InCombatLockdown() then
-                QuestieOptions:HideFrame()
-            else
-                QuestieOptions:OpenConfigWindow()
-            end
-
             if QuestieJourney:IsShown() then
                 QuestieJourney.ToggleJourneyWindow()
             end
+
+            QuestieCombatQueue:Queue(function()
+                QuestieOptions:OpenConfigWindow()
+            end)
 
             return
 
         elseif button == "RightButton" then
             if not IsModifierKeyDown() then
 
-                -- Close config window if it's open to avoid desyncing the Checkbox
-                QuestieOptions:HideFrame()
+                if QuestieConfigFrame:IsShown() then
+                    QuestieConfigFrame:Hide()
+                end
 
-                QuestieJourney.ToggleJourneyWindow()
+                QuestieCombatQueue:Queue(function()
+                    QuestieJourney.ToggleJourneyWindow()
+                end)
 
                 return
 

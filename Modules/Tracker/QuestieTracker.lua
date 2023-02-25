@@ -22,7 +22,7 @@ local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
 local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 ---@type QuestieCombatQueue
@@ -624,16 +624,23 @@ function QuestieTracker:Update()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
                 line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
 
-                local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
+                local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
                 line.label:SetText(coloredQuestName)
 
-                line.label:SetWidth(_QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft +2 - trackerSpaceBuffer)
+                line.label:SetWidth(_QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft - 2 - trackerSpaceBuffer)
                 line:SetWidth(line.label:GetWidth())
 
-                if Questie.db.char.collapsedQuests[quest.Id] then
-                    line.expandQuest:SetMode(0)
+                if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
+                    if not Questie.db.char.collapsedQuests[quest.Id] then
+                        Questie.db.char.collapsedQuests[quest.Id] = true
+                        line.expandQuest:SetMode(1)
+                    end
                 else
-                    line.expandQuest:SetMode(1)
+                    if Questie.db.char.collapsedQuests[quest.Id] then
+                        line.expandQuest:SetMode(0)
+                    else
+                        line.expandQuest:SetMode(1)
+                    end
                 end
 
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
@@ -653,7 +660,6 @@ function QuestieTracker:Update()
                     button.fontSize = fontSizeCompare
                     button.line = line
 
-                    --QuestieCombatQueue:Queue(_UpdateQuestItem, button, quest)
                     if button:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
                         local height = 0
                         local frame = button.line
@@ -681,7 +687,7 @@ function QuestieTracker:Update()
                     end
 
                     line.button = button
-                elseif complete == 1 then
+                elseif Questie.db.global.collapseCompletedQuests and complete == 1 then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
@@ -741,7 +747,7 @@ function QuestieTracker:Update()
                                 if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
                                 line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                                local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer
+                                local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + Questie.db.global.trackerFontSizeObjective - trackerSpaceBuffer
                                 line.label:SetWidth(lineWidth)
                                 line:SetWidth(lineWidth)
 
@@ -920,7 +926,7 @@ function QuestieTracker:Update()
                         local objDesc = achieve.Description:gsub("%.", "")
                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected=0, Needed=1}) .. objDesc)
 
-                        if line.label:GetUnboundedStringWidth() > 200 then
+                        if line.label:GetWidth() > 170 then
                             local objSpltDesc, objSpltFind, objDescLength
                             objDescLength = strlenutf8(objDesc)
                             objSpltFind = strfind(objDesc, "%s", objDescLength/2)
@@ -929,7 +935,7 @@ function QuestieTracker:Update()
                             line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 3)
                         end
 
-                        local lineWidth = (_QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer)
+                        local lineWidth = (_QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + Questie.db.global.trackerFontSizeObjective - trackerSpaceBuffer)
                         line.label:SetWidth(lineWidth)
                         line:SetWidth(lineWidth)
 
@@ -977,7 +983,7 @@ function QuestieTracker:Update()
                                     line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc .. ": " .. lineEnding)
                                 end
 
-                                if line.label:GetUnboundedStringWidth() > 290 then
+                                if line.label:GetUnboundedStringWidth() > 170 then
                                     line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc .. ":\n" .. lineEnding)
                                     line.label:SetHeight(Questie.db.global.trackerFontSizeObjective * 3)
                                 end
@@ -985,7 +991,7 @@ function QuestieTracker:Update()
                                 line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objDesc)
                             end
 
-                            local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + 2 - trackerSpaceBuffer
+                            local lineWidth = _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + Questie.db.global.trackerFontSizeObjective - trackerSpaceBuffer
                             line.label:SetWidth(lineWidth)
                             line:SetWidth(lineWidth)
 

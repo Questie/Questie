@@ -105,16 +105,14 @@ function _QuestieQuestTimers:GetRemainingTime(questId)
 end
 
 function _QuestieQuestTimers:UpdateTimerFrame()
-    if InCombatLockdown() then
-        return
-    end
-
-    if timer then
-        local seconds = _QuestieQuestTimers:GetRemainingTime(timer.questId)
-        if (not seconds) then
-            return
+    QuestieCombatQueue:Queue(function()
+        if timer then
+            local seconds = _QuestieQuestTimers:GetRemainingTime(timer.questId)
+            if (not seconds) then
+                return
+            end
+            timer.frame.label:SetText(Questie:Colorize(seconds, "blue"))
+            timer.frame:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
         end
-        timer.frame.label:SetText(Questie:Colorize(seconds, "blue"))
-        timer.frame:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
-    end
+    end)
 end

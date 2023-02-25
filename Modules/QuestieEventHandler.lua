@@ -337,10 +337,12 @@ function _EventHandler:PlayerRegenDisabled()
         QuestieTracker:Collapse()
     end
 
-    if InCombatLockdown() then
-        if QuestieConfigFrame:IsShown() then
-            QuestieOptions:HideFrame()
-        end
+    if QuestieConfigFrame:IsShown() then
+        QuestieConfigFrame:Hide()
+    end
+
+    if QuestieJourney:IsShown() then
+        QuestieJourney.ToggleJourneyWindow()
     end
 end
 

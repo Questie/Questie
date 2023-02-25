@@ -71,9 +71,28 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            hideCompletedObjectives = {
+            collapseCompletedQuests = {
                 type = "toggle",
                 order = 1.3,
+                width = 1.0,
+                name = function() return l10n('Min Complete Quests'); end,
+                desc = function() return l10n('When this is checked, completed quests will automatically minimize.'); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.collapseCompletedQuests; end,
+                set = function(_, value)
+                    Questie.db.global.collapseCompletedQuests = value
+                    if Questie.db.global.collapseCompletedQuests == false then
+                        Questie.db.char.collapsedQuests = {}
+                    end
+                    QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
+                end
+            },
+            hideCompletedObjectives = {
+                type = "toggle",
+                order = 1.35,
                 width = 1.0,
                 name = function() return l10n('Hide Complete Objs'); end,
                 desc = function() return l10n('When this is checked, completed quest/achievement objectives will automatically be removed from the tracker.'); end,
@@ -212,7 +231,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.hideTrackerInDungeons; end,
                 set = function(_, value)
                     Questie.db.global.hideTrackerInDungeons = value
-                    if value then
+                    if value and IsInInstance() then
                         QuestieTracker:Collapse()
                     else
                         QuestieTracker:Expand()

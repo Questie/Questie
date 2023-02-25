@@ -20,8 +20,8 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local poolSize = 80
 local lineIndex = 0
 local buttonIndex = 0
-local linePool = {}
-local buttonPool = {}
+linePool = {}
+buttonPool = {}
 
 local baseFrame
 local lineMarginLeft = 10
@@ -335,14 +335,11 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 
                 -- Charges Updates
                 self.count:Hide()
-                self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontSizeObjective), 1 * 0.40)
                 if self.charges > 1 then
                     self.count:SetText(self.charges)
                     self.count:Show()
                 end
                 self.count:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -2, 3)
-
-                self.UpdateButton(self)
 
                 return true
             end
@@ -350,28 +347,10 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             return false
         end
 
-        btn.UpdateButton = function(self)
-            if not self.itemID or not self:IsVisible() then
-                return
-            end
-
-            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
-
-            if enabled and duration > 3 and enabled == 1 then
-                cooldown:Show()
-                cooldown:SetCooldown(start, duration)
-            else
-                cooldown:Hide()
-            end
-        end
-
         btn.OnEvent = function(self, event, ...)
             if (event == "PLAYER_TARGET_CHANGED") then
                 self.rangeTimer = -1
                 self.range:Hide()
-
-            elseif (event == "BAG_UPDATE_COOLDOWN") then
-                self.UpdateButton(self)
             end
         end
 
@@ -384,12 +363,28 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             local rangeTimer = self.rangeTimer
             local charges = GetItemCount(self.itemID, nil, true)
 
+            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
+
+            if enabled == 1 and duration > 0 then
+                cooldown:SetCooldown(start, duration, enabled)
+                cooldown:Show()
+            else
+                cooldown:Hide()
+            end
+
             if (not charges or charges ~= self.charges) then
                 self.count:Hide()
                 self.charges = GetItemCount(self.itemID, nil, true)
                 if self.charges > 1 then
                     self.count:SetText(self.charges)
                     self.count:Show()
+                end
+                if self.charges == 0 then
+                    QuestieCombatQueue:Queue(function()
+                        C_Timer.After(0.2, function()
+                            QuestieTracker:Update()
+                        end)
+                    end)
                 end
             end
 
@@ -425,12 +420,10 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
 
         btn.OnShow = function(self)
             self:RegisterEvent("PLAYER_TARGET_CHANGED")
-            self:RegisterEvent("BAG_UPDATE_COOLDOWN")
         end
 
         btn.OnHide = function(self)
             self:UnregisterEvent("PLAYER_TARGET_CHANGED")
-            self:UnregisterEvent("BAG_UPDATE_COOLDOWN")
         end
 
         btn.OnEnter = function(self)

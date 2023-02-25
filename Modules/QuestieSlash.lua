@@ -34,7 +34,9 @@ function QuestieSlash.HandleCommands(input)
 
     -- /questie
     if mainCommand == "" or not mainCommand then
-        QuestieOptions:OpenConfigWindow();
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:OpenConfigWindow();
+        end)
 
         if QuestieJourney:IsShown() then
             QuestieJourney.ToggleJourneyWindow();
