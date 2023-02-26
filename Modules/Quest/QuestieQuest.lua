@@ -484,11 +484,44 @@ function QuestieQuest:UpdateQuest(questId)
             QuestieMap:UnloadQuestFrames(questId)
             --QuestieTooltips:RemoveQuest(questId)
             QuestieQuest:AddFinisher(quest)
+            quest.WasComplete = true
         elseif isComplete == -1 then -- Failed quests should be shown as available again
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest failed")
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
+        elseif isComplete == 0 and quest.WasComplete then -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest drops?
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has been reset to not complete?")
+
+            -- Reset quest objectives
+            if quest then
+                quest.Objectives = {}
+
+                if quest.ObjectiveData then
+                    for _, objective in pairs(quest.ObjectiveData) do
+                        objective.AlreadySpawned = {}
+                    end
+                end
+                if next(quest.SpecialObjectives) then
+                    for _, objective in pairs(quest.SpecialObjectives) do
+                        objective.AlreadySpawned = {}
+                    end
+                end
+            end
+
+            QuestieMap:UnloadQuestFrames(questId)
+
+            -- Reset any collapsed quest flags
+            if Questie.db.char.collapsedQuests then
+                Questie.db.char.collapsedQuests[questId] = nil
+            end
+
+            QuestieQuest:PopulateQuestLogInfo(quest)
+            QuestieQuest:PopulateObjectiveNotes(quest)
+
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+
+            quest.WasComplete = false
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()

@@ -325,7 +325,7 @@ function _EventHandler:GroupLeft()
     QuestieComms:ResetAll()
 end
 
-local trackerHiddenByCombat = false
+local trackerHiddenByCombat, optionsHiddenByCombat, journeyHiddenByCombat = false
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
@@ -338,10 +338,12 @@ function _EventHandler:PlayerRegenDisabled()
     end
 
     if QuestieConfigFrame:IsShown() then
+        optionsHiddenByCombat = true
         QuestieConfigFrame:Hide()
     end
 
     if QuestieJourney:IsShown() then
+        journeyHiddenByCombat = true
         QuestieJourney.ToggleJourneyWindow()
     end
 end
@@ -353,6 +355,16 @@ function _EventHandler:PlayerRegenEnabled()
             trackerHiddenByCombat = false
             QuestieTracker:Expand()
         end
+    end
+
+    if optionsHiddenByCombat then
+        QuestieConfigFrame:Show()
+        optionsHiddenByCombat = false
+    end
+
+    if journeyHiddenByCombat then
+        QuestieJourney.ToggleJourneyWindow()
+        journeyHiddenByCombat = false
     end
 end
 

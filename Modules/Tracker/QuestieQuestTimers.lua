@@ -1,5 +1,8 @@
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
 local _QuestieQuestTimers = {}
 
 local blizzardTimerLocation = {}
