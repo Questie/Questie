@@ -1193,9 +1193,15 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {3782,3784},
             [itemKeys.relatedQuests] = {65610},
         },
+        [190307] = {
+            [itemKeys.name] = "Unlit Torch",
+            [itemKeys.objectDrops] = {400014},
+            [itemKeys.flags] = 2, -- Conjured
+            [itemKeys.relatedQuests] = {65602},
+        },
         [190309] = {
             [itemKeys.name] = "Wooden Figurine",
-            [itemKeys.objectDrops] = {400013},
+            [itemKeys.objectDrops] = {375544},
             [itemKeys.relatedQuests] = {65602},
         },
     }
