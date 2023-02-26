@@ -589,9 +589,9 @@ function QuestieTracker:Update()
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                     end
 
-                    local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() + trackerFontSizeZone
-                    line.label:SetWidth(lineWidth)
-                    line:SetWidth(lineWidth)
+                    local zoneLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() + trackerFontSizeZone
+                    line.label:SetWidth(zoneLineWidth)
+                    line:SetWidth(zoneLineWidth)
 
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
@@ -631,9 +631,9 @@ function QuestieTracker:Update()
                 local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
                 line.label:SetText(coloredQuestName)
 
-                local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
-                line.label:SetWidth(lineWidth)
-                line:SetWidth(lineWidth)
+                local questLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
+                line.label:SetWidth(questLineWidth)
+                line:SetWidth(questLineWidth)
 
                 if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
                     if not Questie.db.char.collapsedQuests[quest.Id] then
@@ -724,9 +724,9 @@ function QuestieTracker:Update()
 
                         line.label:SetHeight(trackerFontSizeObjective * 1.3)
 
-                        local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
-                        line.label:SetWidth(lineWidth)
-                        line:SetWidth(lineWidth)
+                        local timerLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                        line.label:SetWidth(timerLineWidth)
+                        line:SetWidth(timerLineWidth)
 
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
                         line:Show()
@@ -753,9 +753,9 @@ function QuestieTracker:Update()
                                 if objective.Needed > 0 then lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed) end
                                 line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                                local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
-                                line.label:SetWidth(lineWidth)
-                                line:SetWidth(lineWidth)
+                                local notDoneObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                                line.label:SetWidth(notDoneObjLineWidth)
+                                line:SetWidth(notDoneObjLineWidth)
 
                                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
                                 line:SetVerticalPadding(1)
@@ -791,9 +791,9 @@ function QuestieTracker:Update()
                             line.label:SetText(Questie:Colorize(l10n("Quest completion failed!"), "red"))
                         end
 
-                        local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
-                        line.label:SetWidth(lineWidth)
-                        line:SetWidth(lineWidth)
+                        local doneObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                        line.label:SetWidth(doneObjLineWidth)
+                        line:SetWidth(doneObjLineWidth)
 
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
 
@@ -860,9 +860,9 @@ function QuestieTracker:Update()
                     line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                 end
 
-                local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() + trackerFontSizeZone
-                line.label:SetWidth(lineWidth)
-                line:SetWidth(lineWidth)
+                local achieveZoneLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() + trackerFontSizeZone
+                line.label:SetWidth(achieveZoneLineWidth)
+                line:SetWidth(achieveZoneLineWidth)
 
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
@@ -901,9 +901,9 @@ function QuestieTracker:Update()
 
                 line.label:SetText("|cFFFFFF00" .. achieve.Name .. "|r")
 
-                local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
-                line.label:SetWidth(lineWidth)
-                line:SetWidth(lineWidth)
+                local achieveLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
+                line.label:SetWidth(achieveLineWidth)
+                line:SetWidth(achieveLineWidth)
 
                 if Questie.db.char.collapsedQuests[achieve.Id] then
                     line.expandQuest:SetMode(0)
@@ -946,9 +946,9 @@ function QuestieTracker:Update()
                             line.label:SetHeight(trackerFontSizeObjective * 3)
                         end
 
-                        local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
-                        line.label:SetWidth(lineWidth)
-                        line:SetWidth(lineWidth)
+                        local achieveOneObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                        line.label:SetWidth(achieveOneObjLineWidth)
+                        line:SetWidth(achieveOneObjLineWidth)
 
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 4)
 
@@ -1006,9 +1006,9 @@ function QuestieTracker:Update()
                                 line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objDesc)
                             end
 
-                            local lineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
-                            line.label:SetWidth(lineWidth)
-                            line:SetWidth(lineWidth)
+                            local achieveLotsObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                            line.label:SetWidth(achieveLotsObjLineWidth)
+                            line:SetWidth(achieveLotsObjLineWidth)
 
                             trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 4)
 
@@ -1066,11 +1066,6 @@ function QuestieTracker:Update()
             end
         else
             _QuestieTracker.baseFrame:SetHeight( (_QuestieTracker.baseFrame:GetTop() - line:GetBottom() + trackerFontSizeObjective - 2) + trackerBottomPadding )
-            line = LinePool.GetPreviousLine()
-
-            if not line then
-                line = LinePool.GetLastLine()
-            end
         end
 
         QuestieCompat.SetResizeBounds(_QuestieTracker.baseFrame, activeQuestsHeaderWidth, _QuestieTracker.baseFrame:GetHeight(), GetScreenWidth()/2, GetScreenHeight())
