@@ -161,15 +161,31 @@ local migrationFunctions = {
             Questie.db.global.isleOfQuelDanasPhase = 9 -- Last Isle Of Quel Danas Phase
         end
     end,
+    [17] = function()
+        if Questie.db.global.trackerHeaderAutoMove == false then
+            Questie.db.global.trackerHeaderAutoMove = nil -- kill old key
+            Questie.db.global.autoMoveHeader = false -- migrate previous setting to new key
+        end
+    end,
     [18] = function()
-        if Questie.db.char.enableQuestFrameIcons == nil then
-            Questie.db.char.enableQuestFrameIcons = true
+        if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then -- old default value
+            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
         end
     end,
     [19] = function()
-        Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons["complete"]
-        Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons["complete"]
-        Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons["complete"]
+        if Questie.db.global.sizerHidden == nil then -- new option
+            Questie.db.global.sizerHidden = false -- set default
+        end
+    end,
+    [20] = function()
+        if Questie.db.global.hideCompletedQuestObjectives == nil then -- new option
+            Questie.db.global.hideCompletedQuestObjectives = false -- set default
+        end
+    end,
+    [21] = function()
+        if Questie.db.global.hideCompletedAchieveObjectives == nil then -- new option
+            Questie.db.global.hideCompletedAchieveObjectives = false -- set default
+        end
     end,
 }
 
