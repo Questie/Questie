@@ -487,10 +487,10 @@ function QuestieTracker:Update()
         TrackerBaseFrame.Update()
         _QuestieTracker.activeQuestsHeader:Update()
         _QuestieTracker.trackedQuestsFrame:Update()
-        LinePool.ResetButtonsForChange()
     end)
 
     _UpdateLayout()
+    LinePool.ResetButtonsForChange()
 
     -- The Tracker is not expanded. No use to calculate anything - just hide everything
     if not Questie.db.char.isTrackerExpanded then
@@ -665,33 +665,31 @@ function QuestieTracker:Update()
                     button.fontSize = fontSizeCompare
                     button.line = line
 
-                    QuestieCombatQueue:Queue(function()
-                        if button:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
-                            local height = 0
-                            local frame = button.line
+                    if button:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
+                        local height = 0
+                        local frame = button.line
 
-                            while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
-                                local _, parent, _, _, yOff = frame:GetPoint()
-                                height = height - (frame:GetHeight() - yOff)
-                                frame = parent
-                            end
+                        while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
+                            local _, parent, _, _, yOff = frame:GetPoint()
+                            height = height - (frame:GetHeight() - yOff)
+                            frame = parent
+                        end
 
-                            button.line.expandQuest:Hide()
+                        button.line.expandQuest:Hide()
 
-                            button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
-                            button:SetParent(button.line)
-                            button:Show()
+                        button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
+                        button:SetParent(button.line)
+                        button:Show()
 
-                            if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
-                                button:SetParent(UIParent)
-                                button:Hide()
-                            end
-                        else
-                            button.line.expandQuest:Show()
+                        if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
                             button:SetParent(UIParent)
                             button:Hide()
                         end
-                    end)
+                    else
+                        button.line.expandQuest:Show()
+                        button:SetParent(UIParent)
+                        button:Hide()
+                    end
 
                     line.button = button
                 elseif Questie.db.global.collapseCompletedQuests and complete == 1 then
@@ -757,7 +755,7 @@ function QuestieTracker:Update()
                                 line.label:SetWidth(notDoneObjLineWidth)
                                 line:SetWidth(notDoneObjLineWidth)
 
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
                                 line:SetVerticalPadding(1)
                                 line:Show()
                                 line.label:Show()
@@ -950,7 +948,7 @@ function QuestieTracker:Update()
                         line.label:SetWidth(achieveOneObjLineWidth)
                         line:SetWidth(achieveOneObjLineWidth)
 
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 4)
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
 
                         line:SetVerticalPadding(1)
                         line:Show()
@@ -1010,7 +1008,7 @@ function QuestieTracker:Update()
                             line.label:SetWidth(achieveLotsObjLineWidth)
                             line:SetWidth(achieveLotsObjLineWidth)
 
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 4)
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
 
                             line:SetVerticalPadding(1)
                             line:Show()
