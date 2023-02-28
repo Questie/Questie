@@ -2775,6 +2775,7 @@ globals = {
     "ICON_TYPE_AVAILABLE_GRAY",
     "ICON_TYPE_REPEATABLE",
     "ICON_TYPE_TALK",
+    "ICON_TYPE_INTERACT",
     "Questie_Toggle",
     "QuestieJourneyFrame",
     "QuestieConfigFrame",
