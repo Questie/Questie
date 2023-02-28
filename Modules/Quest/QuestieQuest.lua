@@ -1068,7 +1068,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     for objectiveIndex, objective in pairs(questObjectives) do
         if objective.type and string.len(objective.type) > 1 then
             if (not quest.ObjectiveData) or (not quest.ObjectiveData[objectiveIndex]) then
-                Questie:Error("Missing objective data for quest " .. quest.Id .. " and objective " .. objective.text)
+                Questie:Error(l10n("Missing objective data for quest "),  quest.Id, " ", objective.text)
             else
                 if not quest.Objectives[objectiveIndex] then
                     quest.Objectives[objectiveIndex] = {
