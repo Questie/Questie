@@ -20,6 +20,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type IsleOfQuelDanas
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local tableRemove = table.remove
 
@@ -333,7 +335,10 @@ end
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
     if event == "QUEST_ACCEPTED" then
-        _QuestEventHandler:QuestAccepted(...)
+        -- Prevents duplicate quest entries in the tracker while in combat
+        QuestieCombatQueue:Queue(function(...)
+            _QuestEventHandler:QuestAccepted(...)
+        end)
     elseif event == "QUEST_TURNED_IN" then
         _QuestEventHandler:QuestTurnedIn(...)
     elseif event == "QUEST_REMOVED" then

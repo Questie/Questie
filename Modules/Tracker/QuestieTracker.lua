@@ -1051,7 +1051,7 @@ function QuestieTracker:Update()
 
                             local objDesc = criteriaString:gsub("%.", "")
                             if (not completed) then
-                                local lineEnding = tostring(quantityProgress) .. "/" .. tostring(quantityNeeded)
+                                local lineEnding = tostring(quantityString)
                                 if lineEnding == "0" then
                                     line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc)
                                 else
