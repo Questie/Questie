@@ -140,6 +140,7 @@ Questie.icons = {
     ["glow"] = "Interface\\Addons\\Questie\\Icons\\glow.blp",
     ["repeatable"] = "Interface\\Addons\\Questie\\Icons\\repeatable.blp",
     ["node"] = "Interface\\Addons\\Questie\\Icons\\node.tga",
+    ["player"] = "Interface\\WorldMap\\WorldMapPartyIcon",
 }
 
 Questie.usedIcons = {}
@@ -167,6 +168,12 @@ function Questie:SetIcons()
     Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.global.ICON_COMPLETE or Questie.icons["complete"]
     Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.global.ICON_GLOW or Questie.icons["glow"]
     Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.global.ICON_REPEATABLE or Questie.icons["repeatable"]
+end
+
+function Questie:GetIconNameFromPath(path)
+    for k, v in pairs(Questie.icons) do
+        if path == v then return k end
+    end
 end
 
 -- Start checking the game's cache.
