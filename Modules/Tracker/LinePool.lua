@@ -17,6 +17,8 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -257,57 +259,53 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             btn:SetAlpha(0)
         end
 
-        btn.SetItem = function(self, quest, size)
+        btn.SetItem = function(self, quest, itemType, size)
             local validTexture
-            local isFound, isFoundRequired = false
 
             for bag = 0 , 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                     local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
-                    if quest.sourceItemId == itemID then
+                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).flags == 64 and itemType == "primary" then
                         validTexture = texture
-                        isFound = true
+                        self.itemID = quest.sourceItemId
                         break
                     end
 
-                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
-
-                        if quest.requiredSourceItems[1] == itemID then
-                            validTexture = texture
-                            isFoundRequired = true
-                            break
+                    if type(quest.requiredSourceItems) == "table" then
+                        for _, questItemId in pairs(quest.requiredSourceItems) do
+                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).flags == 64 and questItemId == itemID and (itemType == "primary" or itemType == "secondary") then
+                                validTexture = texture
+                                self.itemID = questItemId
+                                break
+                            end
                         end
                     end
                 end
             end
 
             -- Edge case to find "equipped" quest items since they will no longer be in the players bag
-            if (not isFound) then
+            if (not validTexture) then
                 for inventorySlot = 1, 19 do
                     local itemID = GetInventoryItemID("player", inventorySlot)
-                    if quest.sourceItemId == itemID then
+                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).flags == 64 and itemType == "primary" then
                         validTexture = GetInventoryItemTexture("player", inventorySlot)
-                        isFound = true
+                        self.itemID = quest.sourceItemId
                         break
                     end
 
-                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
-
-                        if quest.requiredSourceItems[1] == itemID then
-                            validTexture = GetInventoryItemTexture("player", inventorySlot)
-                            isFoundRequired = true
-                            break
+                    if type(quest.requiredSourceItems) == "table" then
+                        for _, questItemId in pairs(quest.requiredSourceItems) do
+                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).flags == 64 and questItemId == itemID and (itemType == "primary" or itemType == "secondary") then
+                                validTexture = GetInventoryItemTexture("player", inventorySlot)
+                                self.itemID = questItemId
+                                break
+                            end
                         end
                     end
                 end
             end
 
-            if validTexture and isFound or isFoundRequired then
-                if isFound then
-                    self.itemID = quest.sourceItemId
-                elseif isFoundRequired then
-                    self.itemID = quest.requiredSourceItems[1]
-                end
+            if validTexture and self.itemID then
                 self.questID = quest.Id
                 self.charges = GetItemCount(self.itemID, nil, true)
                 self.rangeTimer = -1
@@ -553,6 +551,7 @@ function LinePool.HideUnusedButtons()
             button.itemName = nil
             button.lineID = nil
             button.fontSize = nil
+            button:ClearAllPoints()
             button:SetParent(UIParent)
             button:Hide()
         end

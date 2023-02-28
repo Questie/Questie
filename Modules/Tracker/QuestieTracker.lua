@@ -50,7 +50,7 @@ local trackerFontSizeQuest = 1
 local trackerFontSizeObjective = 1
 
 local activeQuestHeaderMarginLeft = 10
-local questHeaderMarginLeft = activeQuestHeaderMarginLeft + 15
+local questHeaderMarginLeft = activeQuestHeaderMarginLeft + 17
 local objectiveMarginLeft = activeQuestHeaderMarginLeft + questHeaderMarginLeft + 5
 
 local lastAQW = GetTime()
@@ -519,6 +519,8 @@ function QuestieTracker:Update()
     local hasQuest = false
     local firstQuestInZone = false
     local zoneCheck
+    local primaryButton = false
+    local secondaryButton = false
 
     local line
     trackerLineWidth = 0 -- This is needed so the Tracker can also decrease its width
@@ -613,6 +615,7 @@ function QuestieTracker:Update()
             end
 
             if (not Questie.db.char.collapsedZones[quest.zoneOrSort]) then
+                local buttonSize = trackerFontSizeQuest+2+trackerFontSizeObjective
 
                 -- Add quests
                 line = LinePool.GetNextLine()
@@ -652,20 +655,23 @@ function QuestieTracker:Update()
 
                 line:SetVerticalPadding(2)
 
-                -- Add quest item buttons
-                if (quest.sourceItemId or quest.requiredSourceItems) and questCompletePercent[quest.Id] ~= 1 then
+                -- Adds the primary Quest Item button
+                if (quest.sourceItemId or (quest.requiredSourceItems and #quest.requiredSourceItems == 1)) and questCompletePercent[quest.Id] ~= 1 then
                     local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
+
                     local button = LinePool.GetNextItemButton()
+
                     if quest.sourceItemId then
                         button.itemID = quest.sourceItemId
 
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         button.itemID = quest.requiredSourceItems[1]
                     end
+
                     button.fontSize = fontSizeCompare
                     button.line = line
 
-                    if button:SetItem(quest, trackerFontSizeQuest+2+trackerFontSizeObjective) then
+                    if button:SetItem(quest, "primary", buttonSize) then
                         local height = 0
                         local frame = button.line
 
@@ -680,6 +686,7 @@ function QuestieTracker:Update()
                         button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
                         button:SetParent(button.line)
                         button:Show()
+                        primaryButton = true
 
                         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
                             button:SetParent(UIParent)
@@ -692,10 +699,55 @@ function QuestieTracker:Update()
                     end
 
                     line.button = button
+
                 elseif Questie.db.global.collapseCompletedQuests and complete == 1 then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
+                end
+
+                -- Adds the secondary Quest Item button (if present)
+                if (primaryButton and quest.requiredSourceItems and #quest.requiredSourceItems > 1) and questCompletePercent[quest.Id] ~= 1 then
+                    local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
+
+                    if type(quest.requiredSourceItems) == "table" then
+                        for _, itemId in pairs(quest.requiredSourceItems) do
+                            if itemId and itemId ~= quest.sourceItemId and QuestieDB:GetItem(itemId).flags == 64 then
+                                local altButton = LinePool.GetNextItemButton()
+                                altButton.itemID = itemId
+                                altButton.fontSize = fontSizeCompare
+                                altButton.line = line
+
+                                if altButton:SetItem(quest, "secondary", buttonSize) then
+                                    local height = 0
+                                    local frame = altButton.line
+
+                                    while frame and frame ~= _QuestieTracker.trackedQuestsFrame do
+                                        local _, parent, _, _, yOff = frame:GetPoint()
+                                        height = height - (frame:GetHeight() - yOff)
+                                        frame = parent
+                                    end
+
+                                    altButton.line.label:ClearAllPoints()
+                                    altButton.line.label:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", questHeaderMarginLeft * 2 + 2, 0)
+                                    altButton:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", buttonSize + 2, 0)
+                                    altButton:SetParent(altButton.line)
+                                    altButton:Show()
+                                    secondaryButton = true
+
+                                    if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
+                                        altButton:SetParent(UIParent)
+                                        altButton:Hide()
+                                    end
+                                else
+                                    altButton:SetParent(UIParent)
+                                    altButton:Hide()
+                                end
+
+                                line.altButton = altButton
+                            end
+                        end
+                    end
                 end
 
                 line:Show()
@@ -716,7 +768,11 @@ function QuestieTracker:Update()
                         line.expandQuest:Hide()
 
                         line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
+                        if secondaryButton then
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50 + buttonSize, 0)
+                        else
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", trackerSpaceBuffer/1.50, 0)
+                        end
 
                         line.label:SetText(QuestieQuestTimers:GetRemainingTime(questId, line, false))
 
@@ -744,7 +800,11 @@ function QuestieTracker:Update()
                                 line.expandQuest:Hide()
 
                                 line.label:ClearAllPoints()
-                                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                                if secondaryButton then
+                                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft + buttonSize, 0)
+                                else
+                                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                                end
 
                                 local lineEnding = ""
                                 local objDesc = objective.Description:gsub("%.", "")
@@ -781,7 +841,11 @@ function QuestieTracker:Update()
                         line.expandQuest:Hide()
 
                         line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                        if secondaryButton then
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft + buttonSize, 0)
+                        else
+                            line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                        end
 
                         if (complete == 1) then
                             line.label:SetText(Questie:Colorize(l10n("Quest completed!"), "green"))
@@ -808,6 +872,8 @@ function QuestieTracker:Update()
                 end
                 line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
             end
+            primaryButton = false
+            secondaryButton = false
         end
     end
 
@@ -985,7 +1051,7 @@ function QuestieTracker:Update()
 
                             local objDesc = criteriaString:gsub("%.", "")
                             if (not completed) then
-                                local lineEnding = tostring(quantityString)
+                                local lineEnding = tostring(quantityProgress) .. "/" .. tostring(quantityNeeded)
                                 if lineEnding == "0" then
                                     line.label:SetText(QuestieLib:GetRGBForObjective({Collected=quantityProgress, Needed=quantityNeeded}) .. objDesc)
                                 else
