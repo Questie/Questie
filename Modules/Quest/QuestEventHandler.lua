@@ -79,18 +79,21 @@ end
 function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
-    if questLog[questId] and questLog[questId].timer then
-        -- We had a QUEST_REMOVED event which started this timer and now it was accepted again.
-        -- So the quest was abandoned before, because QUEST_TURNED_IN would have run before QUEST_ACCEPTED.
-        questLog[questId].timer:Cancel()
-        questLog[questId].timer = nil
-        _QuestEventHandler:MarkQuestAsAbandoned(questId)
-    end
+    -- Prevents duplicate quest entries in the tracker while in combat
+    QuestieCombatQueue:Queue(function()
+        if questLog[questId] and questLog[questId].timer then
+            -- We had a QUEST_REMOVED event which started this timer and now it was accepted again.
+            -- So the quest was abandoned before, because QUEST_TURNED_IN would have run before QUEST_ACCEPTED.
+            questLog[questId].timer:Cancel()
+            questLog[questId].timer = nil
+            _QuestEventHandler:MarkQuestAsAbandoned(questId)
+        end
 
-    questLog[questId] = {}
-    skipNextUQLCEvent = true
-    QuestieLib:CacheItemNames(questId)
-    _QuestEventHandler:HandleQuestAccepted(questId)
+        questLog[questId] = {}
+        skipNextUQLCEvent = true
+        QuestieLib:CacheItemNames(questId)
+        _QuestEventHandler:HandleQuestAccepted(questId)
+    end)
 end
 
 ---@param questId number
@@ -335,10 +338,7 @@ end
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
     if event == "QUEST_ACCEPTED" then
-        -- Prevents duplicate quest entries in the tracker while in combat
-        QuestieCombatQueue:Queue(function(...)
-            _QuestEventHandler:QuestAccepted(...)
-        end)
+        _QuestEventHandler:QuestAccepted(...)
     elseif event == "QUEST_TURNED_IN" then
         _QuestEventHandler:QuestTurnedIn(...)
     elseif event == "QUEST_REMOVED" then
