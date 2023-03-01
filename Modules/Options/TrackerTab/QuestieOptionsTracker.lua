@@ -328,6 +328,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerBackdropEnabled = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             enableBorder = {
@@ -593,7 +596,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     }
                 end,
                 style = 'dropdown',
-                name = function() return l10n('Tracker Grows'); end,
+                name = function() return l10n('Tracker Growth Direction'); end,
                 desc = function() return l10n("This determines the direction in which the tracker grows when you add or remove quests. This will also move the Active Quests Header to either the top of the Questie Tracker (when using either the 'Down & Right' or the 'Down & Left' setting) or the bottom of the Questie Tracker (when using the either the 'Up & Right' or the 'Down & Right' setting). \n\nNOTE: You can override the Active Quests Header movement behavior by disabling the 'Auto Move Header' option in Questie Tracker Options to force the Active Quests Header to remain at the top of the Questie Tracker."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db[Questie.db.global.questieTLoc].trackerSetpoint; end,
