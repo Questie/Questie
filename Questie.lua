@@ -141,6 +141,23 @@ Questie.icons = {
     ["repeatable"] = "Interface\\Addons\\Questie\\Icons\\repeatable.blp",
     ["node"] = "Interface\\Addons\\Questie\\Icons\\node.tga",
     ["player"] = "Interface\\WorldMap\\WorldMapPartyIcon",
+    ["fav"] = "Interface\\Addons\\Questie\\Icons\\fav.tga",
+    ["faction_alliance"] = "Interface\\Addons\\Questie\\Icons\\icon_alliance.tga",
+    ["faction_horde"] = "Interface\\Addons\\Questie\\Icons\\icon_horde.tga",
+    ["loot_mono"] = "Interface\\Addons\\Questie\\Icons\\loot_mono.tga",
+    ["node_cut"] = "Interface\\Addons\\Questie\\Icons\\node_cut.tga",
+    ["object_mono"] = "Interface\\Addons\\Questie\\Icons\\object_mono.tga",
+    ["route"] = "Interface\\Addons\\Questie\\Icons\\route.tga",
+    ["slay_mono"] = "Interface\\Addons\\Questie\\Icons\\slay_mono.tga",
+    ["startend"] = "Interface\\Addons\\Questie\\Icons\\startend.tga",
+    ["startendstart"] = "Interface\\Addons\\Questie\\Icons\\startendstart.tga",
+    ["tracker_clean"] = "Interface\\Addons\\Questie\\Icons\\tracker_clean.tga",
+    ["tracker_close"] = "Interface\\Addons\\Questie\\Icons\\tracker_close.tga",
+    ["tracker_database"] = "Interface\\Addons\\Questie\\Icons\\tracker_database.tga",
+    ["tracker_giver"] = "Interface\\Addons\\Questie\\Icons\\tracker_giver.tga",
+    ["tracker_quests"] = "Interface\\Addons\\Questie\\Icons\\tracker_quests.tga",
+    ["tracker_search"] = "Interface\\Addons\\Questie\\Icons\\tracker_search.tga",
+    ["tracker_settings"] = "Interface\\Addons\\Questie\\Icons\\tracker_settings.tga",
 }
 
 Questie.usedIcons = {}
