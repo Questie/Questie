@@ -266,7 +266,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                     local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
                     -- These type of quest items can never be secondary buttons
-                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).flags == 64 and buttonType == "primary" then
+                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).class == 12 and buttonType == "primary" then
                         validTexture = texture
                         self.itemID = quest.sourceItemId
                         break
@@ -274,7 +274,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                     -- These type of quest items are technically secondary buttons but are assigned primary button slots
                     if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         local questItemId = quest.requiredSourceItems[1]
-                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).flags == 64 and questItemId == itemID then
+                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID then
                             validTexture = texture
                             self.itemID = questItemId
                             break
@@ -282,7 +282,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                     -- These type of quest items can never be primary buttons
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
                         for _, questItemId in pairs(quest.requiredSourceItems) do
-                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).flags == 64 and questItemId == itemID and buttonType == "secondary" then
+                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID and buttonType == "secondary" then
                                 validTexture = texture
                                 self.itemID = questItemId
                                 break
@@ -297,7 +297,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                 for inventorySlot = 1, 19 do
                     local itemID = GetInventoryItemID("player", inventorySlot)
                     -- These type of quest items can never be secondary buttons
-                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).flags == 64 and buttonType == "primary" then
+                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).class == 12 and buttonType == "primary" then
                         validTexture = GetInventoryItemTexture("player", inventorySlot)
                         self.itemID = quest.sourceItemId
                         break
@@ -305,7 +305,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                     -- These type of quest items are technically secondary buttons but are assigned primary button slots
                     if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         local questItemId = quest.requiredSourceItems[1]
-                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).flags == 64 and questItemId == itemID then
+                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID then
                             validTexture = GetInventoryItemTexture("player", inventorySlot)
                             self.itemID = questItemId
                             break
@@ -313,7 +313,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
                     -- These type of quest items can never be primary buttons
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
                         for _, questItemId in pairs(quest.requiredSourceItems) do
-                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).flags == 64 and questItemId == itemID and buttonType == "secondary" then
+                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID and buttonType == "secondary" then
                                 validTexture = GetInventoryItemTexture("player", inventorySlot)
                                 self.itemID = questItemId
                                 break

@@ -712,7 +712,7 @@ function QuestieTracker:Update()
 
                     if type(quest.requiredSourceItems) == "table" then
                         for _, itemId in pairs(quest.requiredSourceItems) do
-                            if itemId and itemId ~= quest.sourceItemId and QuestieDB:GetItem(itemId).flags == 64 then
+                            if itemId and itemId ~= quest.sourceItemId and QuestieDB:GetItem(itemId).class == 12 then
                                 local altButton = LinePool.GetNextItemButton()
                                 altButton.itemID = itemId
                                 altButton.fontSize = fontSizeCompare
