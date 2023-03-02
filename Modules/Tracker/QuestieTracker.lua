@@ -815,7 +815,12 @@ function QuestieTracker:Update()
                                 line.label:SetWidth(notDoneObjLineWidth)
                                 line:SetWidth(notDoneObjLineWidth)
 
-                                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                                if secondaryButton then
+                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12 + buttonSize)
+                                else
+                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                                end
+
                                 line:SetVerticalPadding(1)
                                 line:Show()
                                 line.label:Show()
@@ -857,7 +862,11 @@ function QuestieTracker:Update()
                         line.label:SetWidth(doneObjLineWidth)
                         line:SetWidth(doneObjLineWidth)
 
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                        if secondaryButton then
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12 + buttonSize)
+                        else
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                        end
 
                         line:SetVerticalPadding(1)
                         line:Show()

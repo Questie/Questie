@@ -22,6 +22,8 @@ local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
 local tableRemove = table.remove
 
