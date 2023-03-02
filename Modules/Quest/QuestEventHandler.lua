@@ -311,6 +311,7 @@ function _QuestEventHandler:BankFrameClosed()
     if lastTimeBankFrameClosedEvent ~= now then
         lastTimeBankFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
+        QuestieTracker:Update()
     end
 end
 
