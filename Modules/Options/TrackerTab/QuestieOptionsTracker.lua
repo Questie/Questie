@@ -62,13 +62,16 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "toggle",
                 order = 1.2,
                 width = 1.5,
-                name = function() return l10n('Show Complete Quests'); end,
-                desc = function() return l10n("When this is checked, completed quests will show in the Questie Tracker.\n\nNOTE: This setting is only works when 'Auto Track Quests' is enabled."); end,
+                name = function() return l10n('Show Completed Quests'); end,
+                desc = function() return l10n("When this is checked, completed quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled."); end,
                 disabled = function() return (not Questie.db.global.trackerEnabled) or (not Questie.db.global.autoTrackQuests); end,
                 get = function() return Questie.db.global.trackerShowCompleteQuests; end,
                 set = function(_, value)
                     Questie.db.global.trackerShowCompleteQuests = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.01, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             showQuestLevels = {
