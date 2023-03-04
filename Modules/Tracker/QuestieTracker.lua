@@ -5,7 +5,7 @@ local QuestieTracker = QuestieLoader:CreateModule("QuestieTracker")
 ---@type QuestieTrackerPrivate
 QuestieTracker.private = QuestieTracker.private or {}
 ---@class QuestieTrackerPrivate
-_QuestieTracker = QuestieTracker.private
+local _QuestieTracker = QuestieTracker.private
 -------------------------
 --Import modules.
 -------------------------
@@ -20,7 +20,7 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
-QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
+local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestTimers
