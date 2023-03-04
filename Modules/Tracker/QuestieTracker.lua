@@ -511,8 +511,8 @@ function QuestieTracker:Update()
 
         _QuestieTracker.baseFrame:Show()
 
-        _, activeQuests = GetNumQuestLogEntries()
-        autoUnTrackedQuests = 0
+        local _, activeQuests = GetNumQuestLogEntries()
+        local autoUnTrackedQuests = 0
 
         for _ in pairs (Questie.db.char.AutoUntrackedQuests) do
             autoUnTrackedQuests = autoUnTrackedQuests + 1
