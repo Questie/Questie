@@ -135,10 +135,13 @@ function TrackerBaseFrame.Update()
         if Questie.db.global.trackerBackdropEnabled then
             if Questie.db.global.trackerBorderEnabled then
                 if not Questie.db.global.trackerBackdropFader then
-                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                    baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                    if not Questie.db.global.alwaysShowTracker then
+                        baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                        baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                    end
                 end
             else
+                baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                 baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
         else
@@ -205,7 +208,7 @@ function TrackerBaseFrame.OnDragStart(button)
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
             dragButton = button
             baseFrame:StartMoving()
-            if Questie.db.char.isTrackerExpanded then
+            if Questie.db.char.isTrackerExpanded and (not Questie.db.global.sizerHidden) then
                 baseFrame.sizer:SetAlpha(1)
             end
         else
@@ -280,7 +283,11 @@ function TrackerBaseFrame.OnResizeStart(_, button)
     elseif button == "RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
         _UpdateTracker()
-        baseFrame.sizer:SetAlpha(1)
+
+        if not Questie.db.global.sizerHidden then
+            baseFrame.sizer:SetAlpha(1)
+        end
+
         C_Timer.After(0.1, function()
             _UpdateTracker()
         end)

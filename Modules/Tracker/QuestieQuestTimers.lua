@@ -1,17 +1,20 @@
 ---@class QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
+---@type QuestieQuestTimersPrivate
+QuestieQuestTimers.private = QuestieQuestTimers.private or {}
+---@class QuestieQuestTimersPrivate
+local _QuestieQuestTimers = QuestieQuestTimers.private
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
-
-local _QuestieQuestTimers = {}
 
 local blizzardTimerLocation = {}
 local timer
 
 function QuestieQuestTimers:Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
     if Questie.IsWotlk then
-        -- For now we assume there are no timed quests in Wotlk
+        -- QuestTimerFrame_Update doesn't exist in WotLK
         return
     end
 
@@ -39,15 +42,25 @@ function QuestieQuestTimers:Initialize()
 end
 
 function QuestieQuestTimers:HideBlizzardTimer()
+    -- Classic WotLK
     if Questie.IsWotlk then
-        -- For now we assume there are no timed quests in Wotlk
+        WatchFrame:Hide()
         return
     end
+
+    -- Classic WoW
     QuestTimerFrame:ClearAllPoints()
     QuestTimerFrame:SetPoint("TOP", -10000, -10000)
 end
 
 function QuestieQuestTimers:ShowBlizzardTimer()
+    -- Classic WotLK
+    if Questie.IsWotlk then
+        WatchFrame:Show()
+        return
+    end
+
+    -- Classic WoW
     if blizzardTimerLocation[1] then
         QuestTimerFrame:ClearAllPoints()
         QuestTimerFrame:SetPoint(unpack(blizzardTimerLocation))
@@ -55,10 +68,6 @@ function QuestieQuestTimers:ShowBlizzardTimer()
 end
 
 function QuestieQuestTimers:GetRemainingTime(questId, frame, clear)
-    if Questie.IsWotlk then
-        -- For now we assume there are no timed quests in Wotlk
-        return nil
-    end
     local remainingSeconds = _QuestieQuestTimers:GetRemainingTime(questId)
 
     if (not remainingSeconds) then
@@ -95,6 +104,7 @@ function _QuestieQuestTimers:GetRemainingTime(questId)
         -- GetQuestLogTimeLeft returns the correct value though.
         local seconds = GetQuestLogTimeLeft(questLogIndex)
         SelectQuestLogEntry(currentQuestLogSelection)
+
         if seconds then
             return SecondsToTime(seconds)
         else

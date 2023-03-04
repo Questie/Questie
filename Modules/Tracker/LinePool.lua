@@ -19,6 +19,9 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+---@type QuestieQuestTimers
+local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
+local _QuestieQuestTimers = QuestieQuestTimers.private
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -46,6 +49,7 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
     local lastFrame
     for i = 1, poolSize do
         local line = CreateFrame("Button", nil, trackedQuestsFrame)
+        local timeElapsed = 0
         line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
         line.label:SetJustifyH("LEFT")
         line.label:SetJustifyV("TOP")
@@ -90,10 +94,23 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
             end
             self.Quest = Quest
             self.expandQuest.questId = Quest.Id
+
+            -- Set Timed Quest Flag
+            if Quest.trackTimedQuest then
+                self.trackTimedQuest = Quest.trackTimedQuest
+            end
         end
 
         function line:SetObjective(Objective)
             self.Objective = Objective
+        end
+
+        line.OnUpdate = function(self, elapsed)
+            timeElapsed = timeElapsed + elapsed
+            if timeElapsed > 1 and self.trackTimedQuest then
+                _QuestieQuestTimers:UpdateTimerFrame()
+                timeElapsed = 0
+            end
         end
 
         function line:SetVerticalPadding(amount)
@@ -239,6 +256,10 @@ function LinePool.Initialize(trackedQuestsFrame, UntrackQuest, TrackerUpdate)
         end
 
         line.expandQuest = expandQuest
+
+        if Questie.IsWotlk then
+            line:HookScript("OnUpdate", line.OnUpdate)
+        end
 
         linePool[i] = line
         lastFrame = line
@@ -483,6 +504,7 @@ function LinePool.ResetLinesForChange()
 
     for _, line in pairs(linePool) do
         line.mode = nil
+        line.trackTimedQuest = nil
         if line.expandQuest then
             line.expandQuest.mode = nil
         end
@@ -548,6 +570,7 @@ function LinePool.HideUnusedLines()
             linePool[i]:Hide()
             linePool[i].mode = nil
             linePool[i].Quest = nil
+            linePool[i].trackTimedQuest = nil
             linePool[i].Objective = nil
             linePool[i].expandQuest.mode = nil
             linePool[i].expandZone.mode = nil

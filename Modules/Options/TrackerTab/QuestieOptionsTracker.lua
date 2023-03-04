@@ -69,7 +69,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerShowCompleteQuests = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.01, function()
+                    C_Timer.After(0.1, function()
                         QuestieTracker:Update()
                     end)
                 end
@@ -153,7 +153,21 @@ function QuestieOptions.tabs.tracker:Initialize()
                 end,
                 set = function(_, value)
                     Questie.db.global.showBlizzardQuestTimer = value
-                    QuestieTracker:Update()
+
+                    if Questie.IsWotlk then
+                        if value == true then
+                            WatchFrame:Show()
+                        else
+                            WatchFrame:Hide()
+                        end
+
+                        QuestieTracker:Update()
+                        C_Timer.After(0.1, function()
+                            QuestieTracker:Update()
+                        end)
+                    else
+                        QuestieTracker:Update()
+                    end
                 end
             },
             enableTrackerHooks = {
@@ -173,6 +187,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                         QuestieTracker:Unhook()
                     end
                     QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             enableHeader = {
@@ -185,6 +202,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerHeaderEnabled; end,
                 set = function(_, value)
                     Questie.db.global.trackerHeaderEnabled = value
+                    QuestieTracker.currentHeaderEnabledSetting = value
                     QuestieTracker:Update()
                     C_Timer.After(0.1, function()
                         QuestieTracker:Update()
@@ -330,10 +348,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerBackdropEnabled; end,
                 set = function(_, value)
                     Questie.db.global.trackerBackdropEnabled = value
+
+                    if value == true and not Questie.db.global.trackerBackdropFader then
+                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                    else
+                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
+                    end
+
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             enableBorder = {
@@ -349,7 +371,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerBorderEnabled = value
                     if value == true and not Questie.db.global.trackerBackdropFader then
-                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 1)
+                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
                     else
                         _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                     end
@@ -401,11 +423,28 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 2.9,
                 width = 1.5,
                 name = function() return l10n("Hide Tracker Sizer"); end,
-                desc = function() return l10n("When this is the checked, the Questie Tracker Sizer that appears in the bottom right hand corner will be hidden."); end,
+                desc = function() return l10n("When this is checked, the Questie Tracker Sizer that appears in the bottom right hand corner will be hidden."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.sizerHidden; end,
                 set = function(_, value)
                     Questie.db.global.sizerHidden = value
+                    QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
+                end
+            },
+            alwaysShowTracker = {
+                type = "toggle",
+                order = 2.95,
+                width = 1.5,
+                name = function() return l10n("Always Show Tracker"); end,
+                desc = function() return l10n("When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something."); end,
+                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                get = function() return Questie.db.global.alwaysShowTracker; end,
+                set = function(_, value)
+                    Questie.db.global.alwaysShowTracker = value
+                    Questie.db.char.isTrackerExpanded = true
                     QuestieTracker:Update()
                     C_Timer.After(0.1, function()
                         QuestieTracker:Update()
@@ -417,7 +456,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 3.0,
                 width = 1.5,
                 name = function() return l10n("Lock Tracker"); end,
-                desc = function() return l10n("When this is the checked, the Tracker is locked and you need to hold CTRL when you want to move it."); end,
+                desc = function() return l10n("When this is checked, the Tracker is locked and you need to hold CTRL when you want to move it."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerLocked; end,
                 set = function(_, value)
