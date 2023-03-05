@@ -117,12 +117,12 @@ function _QuestieQuest:ShowQuestIcons()
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
-        if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completly hidden from the Tracker menu
+        if (not trackerHiddenQuests) or (not trackerHiddenQuests[questId]) then -- Skip quests which are completely hidden from the Tracker menu
             for _, frameName in pairs(frameList) do -- this may seem a bit expensive, but its actually really fast due to the order things are checked
                 ---@type IconFrame
                 local icon = _G[frameName];
                 if not icon.data then
-                    error("Desync! Icon has not been removed correctly, but has already been resetted. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
+                    error("Desync! Icon has not been removed correctly, but has already been reset. Skipping frame \"" .. frameName .. "\" for quest " .. questId)
                 else
                     local objectiveString = tostring(questId) .. " " .. tostring(icon.data.ObjectiveIndex)
                     if (not Questie.db.char.TrackerHiddenObjectives) or (not Questie.db.char.TrackerHiddenObjectives[objectiveString]) then
@@ -249,7 +249,7 @@ function QuestieQuest:SmoothReset()
     QuestieDBMIntegration:ClearAll()
     local stepTable = {
         function()
-            -- Wait until game cache has quest log okey.
+            -- Wait until game cache has quest log okay.
             return QuestLogCache.TestGameCache()
         end,
         function()
@@ -380,7 +380,7 @@ function QuestieQuest:AcceptQuest(questId)
             end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
             function() QuestieTracker:Update()
-                -- This is neccessary to call it again to update the trackers formatting
+                -- This is necessary to call it again to update the trackers formatting
                 C_Timer.After(0.1, function()
                     QuestieTracker:Update()
                 end)
@@ -525,7 +525,7 @@ function QuestieQuest:UpdateQuest(questId)
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-            -- This is neccessary to call it again to update the trackers formatting
+            -- This is necessary to call it again to update the trackers formatting
             C_Timer.After(0.1, function()
                 QuestieTracker:Update()
             end)
@@ -556,7 +556,9 @@ function QuestieQuest:GetAllQuestIds()
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
-        elseif data.isComplete ~= -1 then -- TODO FIX LATER. Now currentQuestLog may have part of failed quests. Check what is needed? All or none of those?
+        --This prevents us from adding Failed Quests to the tracker - we want the ability to track all quests.
+        --elseif data.isComplete ~= -1 then -- TODO FIX LATER. Now currentQuestLog may have part of failed quests. Check what is needed? All or none of those?
+        else
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
             if quest then
@@ -726,7 +728,7 @@ end
 ---@param objectiveIndex ObjectiveIndex
 ---@param objective QuestObjective
 ---@param blockItemTooltips any
-function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be pcalled
+function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be p-called
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
 
     if (not objective.Update) then
@@ -895,7 +897,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                             worldX = 0,
                             worldY = 0,
                             distance = 0,
-                            touched = nil, -- TODO change. This is ment to let lua reserve memory for all keys needed for sure.
+                            touched = nil, -- TODO change. This is meant to let lua reserve memory for all keys needed for sure.
                         }
                         local x, y, _ = HBD:GetWorldCoordinatesFromZone(drawIcon.x/100, drawIcon.y/100, uiMapId)
                         x = x or 0
@@ -963,7 +965,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
                 centerX = secondDungeonLocation[2]
                 centerY = secondDungeonLocation[3]
 
-                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as mindist is more than 0
+                local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
                 if iconMap and iconMini then
                     iconPerZone[icon.zone] = {iconMap, centerX, centerY}
                     spawnsMapRefs[#spawnsMapRefs+1] = iconMap
@@ -977,7 +979,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
             centerY = firstDungeonLocation[3]
         end
 
-        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as mindist is more than 0
+        local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
         if iconMap and iconMini then
             iconPerZone[icon.zone] = {iconMap, centerX, centerY}
             spawnsMapRefs[#spawnsMapRefs+1] = iconMap
@@ -1019,7 +1021,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
             for zone, waypoints in pairs(spawnData.Waypoints) do
                 local firstWaypoint = waypoints[1][1]
                 if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then -- spawn an icon in this zone for the mob
-                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as mindist is more than 0
+                    local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as min-dist is more than 0
                     if iconMap and iconMini then
                         iconPerZone[zone] = {iconMap, firstWaypoint[1], firstWaypoint[2]}
                         tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
@@ -1212,7 +1214,7 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     if (not questObjectives) then return end
 
     for _, objective in pairs(questObjectives) do -- DO NOT MODIFY THE RETURNED TABLE
-        -- TODO Move this to QuestEventHandler module or QuestieQuest:AcceptQuest( ) + QuestieQuest:UpdateQuest( ) (acceptquest one required to register objectives without progress)
+        -- TODO Move this to QuestEventHandler module or QuestieQuest:AcceptQuest( ) + QuestieQuest:UpdateQuest( ) (accept quest one required to register objectives without progress)
         -- TODO After ^^^ moving remove this function and use "QuestLogCache.GetQuest(questId).objectives -- DO NOT MODIFY THE RETURNED TABLE" in place of it.
         QuestieAnnounce:ObjectiveChanged(questId, objective.text, objective.numFulfilled, objective.numRequired)
     end

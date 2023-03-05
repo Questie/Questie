@@ -572,14 +572,15 @@ function QuestieTracker:Update()
             if Questie.db.global.showBlizzardQuestTimer then
                 QuestieQuestTimers:ShowBlizzardTimer()
                 quest.timedBlizzardQuest = true
+                quest.trackTimedQuest = false
             else
-                --QuestieQuestTimers:HideBlizzardTimer()
+                QuestieQuestTimers:HideBlizzardTimer()
                 quest.timedBlizzardQuest = false
                 quest.trackTimedQuest = true
             end
         end
 
-        if ((complete ~= 1 or Questie.db.global.trackerShowCompleteQuests) and not quest.timedBlizzardQuest) and (Questie.db.global.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId]) or ((not Questie.db.global.autoTrackQuests) and Questie.db.char.TrackedQuests[questId]) then
+        if (complete ~= 1 or Questie.db.global.trackerShowCompleteQuests or quest.trackTimedQuest or quest.timedBlizzardQuest) and (Questie.db.global.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId]) or ((not Questie.db.global.autoTrackQuests) and Questie.db.char.TrackedQuests[questId]) then
             hasQuest = true
 
             -- Add zones
@@ -648,14 +649,20 @@ function QuestieTracker:Update()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
                 line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
 
-                local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
+                local coloredQuestName
+                if quest.trackTimedQuest or quest.timedBlizzardQuest then
+                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
+                else
+                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
+                end
+
                 line.label:SetText(coloredQuestName)
 
                 local questLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
                 line.label:SetWidth(questLineWidth)
                 line:SetWidth(questLineWidth)
 
-                if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
+                if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) and not ((quest.trackTimedQuest) or (quest.timedBlizzardQuest)) then
                     if not Questie.db.char.collapsedQuests[quest.Id] then
                         Questie.db.char.collapsedQuests[quest.Id] = true
                         line.expandQuest:SetMode(1)
@@ -721,7 +728,7 @@ function QuestieTracker:Update()
 
                     line.button = button
 
-                elseif Questie.db.global.collapseCompletedQuests and complete == 1 then
+                elseif Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
@@ -778,7 +785,7 @@ function QuestieTracker:Update()
                 if (not Questie.db.char.collapsedQuests[quest.Id]) then
 
                     -- Add quest timers (if applicable)
-                    if quest.trackTimedQuest then
+                    if quest.trackTimedQuest and (not quest.timedBlizzardQuest) then
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
 
@@ -878,8 +885,10 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
                         end
 
-                        if (complete == 1) then
+                        if (complete == 1 and (not quest.timedBlizzardQuest)) then
                             line.label:SetText(Questie:Colorize(l10n("Quest Complete!"), "green"))
+                        elseif (complete == 1 and quest.timedBlizzardQuest) then
+                            line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active!"), "blue"))
                         elseif (complete == -1) then
                             line.label:SetText(Questie:Colorize(l10n("Quest Failed!"), "red"))
                         end
@@ -1393,6 +1402,7 @@ function _QuestieTracker:PrintProgressColor(percent, text)
 end
 
 _RemoveQuestWatch = function(index, isQuestie)
+    if isQuestie == nil then return end
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch")
     if QuestieTracker._disableHooks then
         return
@@ -1406,6 +1416,7 @@ _RemoveQuestWatch = function(index, isQuestie)
             questId = index;
         end
         if questId then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch (not isQuestie) "..questId)
             QuestieTracker:UntrackQuestId(questId)
         end
     end
@@ -1440,7 +1451,7 @@ end
 
 function QuestieTracker:AQW_Insert(index, expire)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
-    if (not Questie.db.global.trackerEnabled) then -- or QuestieTracker._disableHooks then
+    if (not Questie.db.global.trackerEnabled) then
         return
     end
 
