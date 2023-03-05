@@ -1402,21 +1402,22 @@ function _QuestieTracker:PrintProgressColor(percent, text)
 end
 
 _RemoveQuestWatch = function(index, isQuestie)
-    if isQuestie == nil then return end
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch")
+
     if QuestieTracker._disableHooks then
         return
     end
 
     if not isQuestie then
         local questId = select(8, GetQuestLogTitle(index))
+
         if questId == 0 then
             -- When an objective progresses in TBC "index" is the questId, but when a quest is manually removed from
             --  the quest watch (e.g. shift clicking it in the quest log) "index" is the questLogIndex.
             questId = index;
         end
+
         if questId then
-            Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveQuestWatch (not isQuestie) "..questId)
             QuestieTracker:UntrackQuestId(questId)
         end
     end
@@ -1430,7 +1431,7 @@ function QuestieTracker:UntrackQuestId(questId)
     end
 
     if Questie.db.char.hideUntrackedQuestsMapIcons then
-        -- Remove quest Icons from map when untracking quest.
+        -- Remove quest Icons from map when un-tracking quest.
         -- Also reset caches of spawned Icons so re-tracking works.
         QuestieMap:UnloadQuestFrames(questId)
         local quest = QuestieDB:GetQuest(questId)

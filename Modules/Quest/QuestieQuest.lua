@@ -362,6 +362,7 @@ end
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
+    local complete = QuestieDB:GetQuest(questId):IsComplete()
     if not QuestiePlayer.currentQuestlog[questId] then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
@@ -387,6 +388,21 @@ function QuestieQuest:AcceptQuest(questId)
             end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
+
+    -- Not sure why failed quests are flagged via :IsComplete() == 1 and not -1.
+    -- Removing this flag allows the Auto Track Quests to re-add failed quests
+    -- to the tracker automatically.
+    elseif complete == 1 then
+        if Questie.db.char.AutoUntrackedQuests[questId] then
+
+            Questie.db.char.AutoUntrackedQuests[questId] = nil
+
+            QuestieTracker:Update()
+            -- This is necessary to call it again to update the trackers formatting
+            C_Timer.After(0.1, function()
+                QuestieTracker:Update()
+            end)
+        end
     else
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already existed, not adding")
     end
