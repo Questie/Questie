@@ -125,7 +125,7 @@ function _QuestieQuestTimers:UpdateTimerFrame()
                 return
             end
             timer.frame.label:SetText(Questie:Colorize(seconds, "blue"))
-            timer.frame:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
+            timer.frame:SetVerticalPadding(2)
         end
     end)
 end

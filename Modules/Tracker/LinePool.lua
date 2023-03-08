@@ -557,7 +557,12 @@ function LinePool.GetCurrentLine()
 end
 
 function LinePool.GetPreviousLine()
-    return linePool[lineIndex - 1]
+    lineIndex = lineIndex - 1
+    if not linePool[lineIndex] then
+        return nil -- past the line limit
+    end
+
+    return linePool[lineIndex]
 end
 
 function LinePool.GetLastLine()
@@ -677,6 +682,10 @@ _OnClickAchieve = function(self, button)
                 ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
 
             else
+                if (not AchievementFrame) then
+                    AchievementFrame_LoadUI()
+                end
+
                 RemoveTrackedAchievement(self.Quest.Id)
                 AchievementFrame_ForceUpdate()
             end

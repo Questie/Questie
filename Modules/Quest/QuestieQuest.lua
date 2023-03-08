@@ -373,7 +373,16 @@ function QuestieQuest:AcceptQuest(questId)
             --Get all the Frames for the quest and unload them, the available quest icon for example.
             function() QuestieMap:UnloadQuestFrames(questId) end,
             function() QuestieTooltips:RemoveQuest(questId) end,
-            function() if Questie.db.char.collapsedQuests then Questie.db.char.collapsedQuests[questId] = nil end end,  -- re-accepted quest can be collapsed. expand it. specially dailies.
+            function()
+                -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
+                if Questie.db.char.collapsedQuests then
+                    Questie.db.char.collapsedQuests[questId] = nil
+                end
+                -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
+                if Questie.db.char.AutoUntrackedQuests[questId] then
+                    Questie.db.char.AutoUntrackedQuests[questId] = nil
+                end
+            end,
             function() QuestieQuest:PopulateQuestLogInfo(quest) end,
             function()
                 -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
@@ -389,12 +398,10 @@ function QuestieQuest:AcceptQuest(questId)
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
 
-    -- Not sure why failed quests are flagged via :IsComplete() == 1 and not -1.
-    -- Removing this flag allows the Auto Track Quests to re-add failed quests
-    -- to the tracker automatically.
-    elseif complete == 1 then
+    -- Re-accepted quest can be untracked. Clear it. Especially timed quests flagged as either complete or failed.
+    elseif complete == 1 or complete == 0 then
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest was once accepted. IsComplete = ", complete)
         if Questie.db.char.AutoUntrackedQuests[questId] then
-
             Questie.db.char.AutoUntrackedQuests[questId] = nil
 
             QuestieTracker:Update()
@@ -495,17 +502,43 @@ function QuestieQuest:UpdateQuest(questId)
         end
 
         local isComplete = quest:IsComplete()
+
+        -- Quest is complete
         if isComplete == 1 then -- Quest is complete
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
-            --QuestieTooltips:RemoveQuest(questId)
             QuestieQuest:AddFinisher(quest)
             quest.WasComplete = true
-        elseif isComplete == -1 then -- Failed quests should be shown as available again
+
+        -- Failed quests should be shown as available again
+        elseif isComplete == -1 then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest failed")
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
+
+        -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
+        -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
+        -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
+        elseif isComplete == 0 then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest Objective Status is: "..isComplete)
+            if quest then
+                if quest.Objectives then
+                    local numCompleteObjectives = 0
+                    for i = 1, #quest.Objectives do
+                        if quest.Objectives[i].Completed == true then
+                            numCompleteObjectives = numCompleteObjectives + 1
+                        end
+                    end
+
+                    if numCompleteObjectives == #quest.Objectives then
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are complete")
+                        QuestieMap:UnloadQuestFrames(questId)
+                        QuestieQuest:AddFinisher(quest)
+                        quest.WasComplete = true
+                    end
+                end
+            end
         elseif isComplete == 0 and quest.WasComplete then -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest drops?
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has been reset to not complete?")
 
@@ -642,7 +675,7 @@ function QuestieQuest:AddFinisher(quest)
     local questId = quest.Id
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
-    if (QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1) and (not Questie.db.char.complete[questId])) then
+    if (QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1 or quest:IsComplete() == 0) and (not Questie.db.char.complete[questId])) then
         local finisher
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
@@ -1440,7 +1473,7 @@ do
                                 ---@type Quest
                                 local quest = QuestieDB:GetQuest(questId)
                                 if (not quest.tagInfoWasCached) then
-                                    Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
+                                    --Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
                                     QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
                                     quest.tagInfoWasCached = true
                                 end

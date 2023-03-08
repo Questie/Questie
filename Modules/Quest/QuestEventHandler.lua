@@ -1,9 +1,13 @@
 ---@class QuestEventHandler
 local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
+---@class QuestEventHandlerPrivate
 local _QuestEventHandler = QuestEventHandler.private
+
 local _QuestLogUpdateQueue = {} -- Helper module
 local questLogUpdateQueue = {} -- The actual queue
 
+---@type QuestEventHandlerPrivate
+QuestEventHandler.private = QuestEventHandler.private or {}
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type QuestieQuest
