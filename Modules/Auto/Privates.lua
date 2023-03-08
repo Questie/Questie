@@ -34,7 +34,7 @@ function _QuestieAuto:CompleteQuestFromGossip(index, availableQuests, modulo)
     local title = availableQuests[index]
     local isComplete = availableQuests[index + 3]
 
-    if _QuestieAuto:IsAllowedQuest() and isComplete then
+    if _QuestieAuto:IsAllowedQuest() and isComplete and title then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quest: \"" .. title .. "\"", "index", index)
         QuestieCompat.SelectActiveQuest(math.floor(index / modulo) + 1)
     else

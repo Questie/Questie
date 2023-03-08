@@ -837,6 +837,7 @@ function QuestieTracker:Update()
                             if (not Questie.db.global.hideCompletedQuestObjectives or #quest.Objectives == 1) or (objective.Needed ~= objective.Collected) then
                                 line = LinePool.GetNextLine()
                                 if not line then break end -- stop populating the tracker
+
                                 line:SetMode("objective")
                                 line:SetOnClick("quest")
                                 line:SetQuest(quest)
