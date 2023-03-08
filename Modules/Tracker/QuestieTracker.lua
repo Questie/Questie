@@ -854,7 +854,7 @@ function QuestieTracker:Update()
 
                                 local objDesc = objective.Description:gsub("%.", "")
                                 if objective.Completed ~= true then
-                                    local lineEnding = ""
+                                    local lineEnding
                                     lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
                                     line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
