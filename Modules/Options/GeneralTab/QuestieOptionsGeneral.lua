@@ -251,7 +251,13 @@ function QuestieOptions.tabs.general:Initialize()
                         type = "toggle",
                         order = 14,
                         name = function() return l10n('Toggle pfQuest/ClassicCodex icon style'); end,
-                        desc = function() return l10n('Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- Glow\n- Color icons by Quest\n- Objective note clustering distance'); end,
+                        desc = function() return l10n('Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- ')
+                                                 ..l10n('Always Glow Behind Map Icons')..'\n- '
+                                                 ..l10n('Different Map Icon Color for Each Quest')..'\n- '
+                                                 ..l10n('Always Glow Behind Minimap Icons')..'\n- '
+                                                 ..l10n('Different Minimap Icon Color for Each Quest')..'\n- '
+                                                 ..l10n('Objective icon cluster amount');
+                        end,
                         width = 1.5,
                         get = function(info) return Questie.db.global.usePfQuestIcons end,
                         set = function(info, value)
@@ -261,6 +267,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 Questie.db.global.ICON_LOOT = Questie.icons["node"]
                                 Questie.db.global.ICON_EVENT = Questie.icons["node"]
                                 Questie.db.global.ICON_OBJECT = Questie.icons["node"]
+                                Questie.db.global.ICON_TALK = Questie.icons["node"]
                                 -- TODO remove these setting changes once we have a style selection window/frame
                                 Questie.db.global.questObjectiveColors = true
                                 Questie.db.global.alwaysGlowMap = false
@@ -272,6 +279,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 Questie.db.global.ICON_LOOT = Questie.icons["loot"]
                                 Questie.db.global.ICON_EVENT = Questie.icons["event"]
                                 Questie.db.global.ICON_OBJECT = Questie.icons["object"]
+                                Questie.db.global.ICON_TALK = Questie.icons["talk"]
                                 -- TODO remove these setting changes once we have a style selection window/frame
                                 Questie.db.global.questObjectiveColors = false
                                 Questie.db.global.alwaysGlowMap = true
