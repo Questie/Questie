@@ -318,7 +318,7 @@ function QuestieOptions.tabs.general:Initialize()
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Icon for loot objectives') end,
-                        desc = function() return l10n('The icon that is displayed for quest objectives where you need to loot an item from something'); end,
+                        desc = function() return l10n('The icon that is displayed for quest objectives where you need to loot an item'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_LOOT) or "loot"; end,
                         set = function(input, key)
                             Questie.db.global.ICON_LOOT = Questie.icons[key]
@@ -348,7 +348,7 @@ function QuestieOptions.tabs.general:Initialize()
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Icon for event objectives') end,
-                        desc = function() return l10n('The icon that is displayed for quest objectives where you need do something in a certain area, like exploring it or casting a spell there'); end,
+                        desc = function() return l10n('The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENT) or "event"; end,
                         set = function(input, key)
                             Questie.db.global.ICON_EVENT = Questie.icons[key]
@@ -393,7 +393,7 @@ function QuestieOptions.tabs.general:Initialize()
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Icon for unavailable and trivial quests') end,
-                        desc = function() return l10n('The icon that is displayed for available quests that either do not reward experience due to low level or are unavailable due to some condition like player level not being met'); end,
+                        desc = function() return l10n('The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don\'t reward experience'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_AVAILABLE_GRAY) or "available_gray"; end,
                         set = function(input, key)
                             Questie.db.global.ICON_AVAILABLE_GRAY = Questie.icons[key]
@@ -408,7 +408,7 @@ function QuestieOptions.tabs.general:Initialize()
                         sorting = _GetIconTypesSort(),
                         style = 'dropdown',
                         name = function() return l10n('Icon for available repeatable quests') end,
-                        desc = function() return l10n('The icon that is displayed for available repeatable quests and daily/weekly quests'); end,
+                        desc = function() return l10n('The icon that is displayed for available repeatable quests like dailies'); end,
                         get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_REPEATABLE) or "repeatable"; end,
                         set = function(input, key)
                             Questie.db.global.ICON_REPEATABLE = Questie.icons[key]
