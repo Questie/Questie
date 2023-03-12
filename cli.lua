@@ -181,7 +181,7 @@ local function _CheckClassicDatabase()
 
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
-    QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
+    Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
     QuestieCorrections:Initialize({
@@ -247,7 +247,7 @@ local function _CheckTBCDatabase()
 
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
-    QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
+    Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
     QuestieCorrections:Initialize({
@@ -312,7 +312,7 @@ local function _CheckWotlkDatabase()
 
     print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
 
-    QuestieLoader:ImportModule("QuestieFramePool"):SetIcons()
+    Questie:SetIcons()
     QuestieLoader:ImportModule("ZoneDB"):Initialize()
 
     QuestieCorrections:Initialize({

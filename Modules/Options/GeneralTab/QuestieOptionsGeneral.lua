@@ -22,6 +22,8 @@ QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
 local _GetShortcuts
+local _GetIconTypes
+local _GetIconTypesSort
 
 function QuestieOptions.tabs.general:Initialize()
     return {
