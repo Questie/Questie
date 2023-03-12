@@ -569,6 +569,8 @@ function QuestieTracker:Update()
     local zoneCheck
     local primaryButton = false
     local secondaryButton = false
+    local twoObjLines = false
+    local threeObjLines = false
 
     local line
     trackerLineWidth = 0 -- This is needed so the Tracker can also decrease its width
@@ -861,8 +863,6 @@ function QuestieTracker:Update()
                 line.label:Show()
 
                 -- Add quest Objectives (if applicable)
-                local twoLines = false
-                local threeLines = false
                 if (not Questie.db.char.collapsedQuests[quest.Id]) then
 
                     -- Add Quest Timers (if applicable)
@@ -969,7 +969,7 @@ function QuestieTracker:Update()
                                             objTextLength = strlenutf8(completeText)
                                             objSpltFind = strfind(completeText, "%s", objTextLength/2)
                                             objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
-                                            twoLines = true
+                                            twoObjLines = true
 
                                         -- Split 3 lines
                                         else
@@ -979,15 +979,15 @@ function QuestieTracker:Update()
                                             objTextLength2 = strlenutf8(remainderLine)
                                             objSpltFind2 = strfind(remainderLine, "%s", objTextLength2/2)
                                             objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(remainderLine, 1, objSpltFind2).."\n"..strsub(remainderLine, objSpltFind2+1, objTextLength2)..""
-                                            threeLines = true
+                                            threeObjLines = true
                                         end
 
                                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objSpltText)
 
                                         -- If an objective has been split, increase height
-                                        if threeLines then
+                                        if threeObjLines then
                                             line.label:SetHeight(trackerFontSizeObjective * 4)
-                                        elseif twoLines then
+                                        elseif twoObjLines then
                                             line.label:SetHeight(trackerFontSizeObjective * 3)
                                         end
 
@@ -1012,9 +1012,9 @@ function QuestieTracker:Update()
 
                                 -- If an objective has been split, increase vertical padding -- hacks
                                 if line.label:GetHeight() > trackerFontSizeObjective + .015 then
-                                    if threeLines then
+                                    if threeObjLines then
                                         line:SetVerticalPadding(trackerFontSizeObjective*2 + Questie.db.global.trackerQuestPadding)
-                                    elseif twoLines then
+                                    elseif twoObjLines then
                                         line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
                                     end
                                 else
@@ -1063,7 +1063,7 @@ function QuestieTracker:Update()
                                 objTextLength = strlenutf8(completeText)
                                 objSpltFind = strfind(completeText, "%s", objTextLength/2)
                                 objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
-                                twoLines = true
+                                twoObjLines = true
 
                             -- Split 3 lines
                             else
@@ -1073,15 +1073,15 @@ function QuestieTracker:Update()
                                 objTextLength2 = strlenutf8(remainderLine)
                                 objSpltFind2 = strfind(remainderLine, "%s", objTextLength2/2)
                                 objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(remainderLine, 1, objSpltFind2).."\n"..strsub(remainderLine, objSpltFind2+1, objTextLength2)..""
-                                threeLines = true
+                                threeObjLines = true
                             end
 
                             line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objSpltText)
 
                             -- If an objective has been split, increase height
-                            if threeLines then
+                            if threeObjLines then
                                 line.label:SetHeight(trackerFontSizeObjective * 4)
-                            elseif twoLines then
+                            elseif twoObjLines then
                                 line.label:SetHeight(trackerFontSizeObjective * 3)
                             end
 
@@ -1117,16 +1117,16 @@ function QuestieTracker:Update()
 
                 -- If an objective has been split and is the last objective in a quest, adjust "Padding Between Quests" setting in Tracker Options
                 if line.label:GetHeight() > trackerFontSizeObjective + .015 and (not Questie.db.global.collapseCompletedQuests) then
-                    if threeLines then
+                    if threeObjLines then
                         line:SetVerticalPadding(trackerFontSizeObjective*2 + Questie.db.global.trackerQuestPadding)
-                    elseif twoLines then
+                    elseif twoObjLines then
                         line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
                     end
                 else
                     line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
                 end
-                twoLines = false
-                threeLines = false
+                twoObjLines = false
+                threeObjLines = false
             end
             primaryButton = false
             secondaryButton = false
@@ -1838,13 +1838,13 @@ _RemoveTrackedAchievement = function(achieveId, isQuestie)
     end
 end
 
-function QuestieTracker:UpdateAchieveTrackerCache(event, achieveId, added)
+function QuestieTracker:UpdateAchieveTrackerCache(achieve, achieveId, added)
     -- Since we're essentually adding & force removing an achievement from the QuestWatch frame while we add an achievement to the Questie Tracker, the event this
     -- function is called from, TRACKED_ACHIEVEMENT_LIST_CHANGED, fires twice. When we remove an achievement from the Questie Tracker the event still fires twice
     -- because the Blizzard function responsible for this is essentually a "toggle". It quickly re-adds the achievement to the QuestWatch frame and then removes it.
     -- So, again this event again fires twice. We only need to allow this to run once and it often fires before the Questie.db.char.trackedAchievementIds table is
     -- updated so we're going to throttle this 1/10th of a second.
-    if added then
+    if achieve and added then
         C_Timer.After(0.1, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: UpdateAchieveTrackerCache for ID ",achieveId)
 

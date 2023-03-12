@@ -2053,6 +2053,7 @@
         "StartAuction",
         "StartAutoRun",
         "StartDuel",
+        "StaticPopup_Hide",
         "StaticPopup_Show",
         "StopAttack",
         "StopAutoRun",

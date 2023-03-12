@@ -27,7 +27,7 @@ TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFra
 local tinsert = table.insert
 
 -- forward declaration
-local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddAbandonedQuest, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption, _AddAchieveLinkToChatOption, _AddShowInAchievementsOption, _AddUntrackAchieveOption
+local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddAbandonedQuest, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption, _AddAchieveLinkToChatOption, _AddShowInAchievementsOption, _AddUntrackAchieveOption, _MinMaxQuestOption
 
 local _UpdateTrackerBaseFrame, _UntrackQuest
 
@@ -384,7 +384,7 @@ _AddUntrackAchieveOption = function (menu, achieve)
     tinsert(menu, {text= l10n('Untrack Achievement'), func = function()
         LibDropDown:CloseDropDownMenus()
         Questie.db.char.trackedAchievementIds[achieve.Id] = nil
-        QuestieTracker:UpdateAchieveTrackerCache(_, achieve.Id, true)
+        QuestieTracker:UpdateAchieveTrackerCache(achieve, achieve.Id, true)
 
         if (not AchievementFrame) then
 			AchievementFrame_LoadUI()

@@ -685,7 +685,7 @@ _OnClickAchieve = function(self, button)
         else
             if Questie.db.char.trackedAchievementIds[self.Quest.Id] then
                 Questie.db.char.trackedAchievementIds[self.Quest.Id] = nil
-                QuestieTracker:UpdateAchieveTrackerCache(_, self.Quest.Id, true)
+                QuestieTracker:UpdateAchieveTrackerCache(self, self.Quest.Id, true)
 
                 if (not AchievementFrame) then
                     AchievementFrame_LoadUI()
