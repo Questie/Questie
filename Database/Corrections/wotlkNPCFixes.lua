@@ -420,6 +420,9 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{52.62,24.06}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
+        [27575] = { -- #4675
+            [npcKeys.name] = "Lord Devrestrasz",
+        },
         [27627] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{62.18,42.41}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,

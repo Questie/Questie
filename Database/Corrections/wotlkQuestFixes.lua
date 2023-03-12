@@ -1017,6 +1017,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Tatjana Delivered",{[zoneIDs.GRIZZLY_HILLS]={{57.77,41.7,},},},},
         },
         [12372] = {
+            [questKeys.objectivesText] = "Devrestrasz at Wyrmrest Temple has asked you to slay 3 Azure Dragons, slay 5 Azure Drakes, and to destabilize the Azure Dragonshrine while riding a Wyrmrest Defender into battle.", -- #4675
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Ride a Wyrmrest Defender to defend the Temple"), 0, {{"monster", 27629}}},
             },
@@ -1055,6 +1056,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12434] = {
             [questKeys.specialFlags] = 1,
+        },
+        [12435] = { -- #4675
+            [questKeys.name] = "Report to Lord Devrestrasz",
+            [questKeys.objectivesText] = "Speak with Lord Devrestrasz at Wyrmrest Temple.",
         },
         [12439] = {
             [questKeys.exclusiveTo] = {12000},
