@@ -1319,6 +1319,7 @@ globals = {
     "GetQuestItemInfo",
     "GetQuestItemLink",
     "GetQuestLogChoiceInfo",
+    "GetQuestLogCompletionText",
     "GetQuestLogIndexByID",
     "GetQuestLogItemDrop",
     "GetQuestLogItemLink",

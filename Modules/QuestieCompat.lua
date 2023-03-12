@@ -56,7 +56,7 @@ function QuestieCompat.GetAvailableQuests()
             availableQuests[index + 4] = availableQuest.repeatable
             availableQuests[index + 5] = availableQuest.isLegendary
             availableQuests[index + 6] = availableQuest.isIgnored
-            index = index + 6
+            index = index + 7
         end
         return unpack(availableQuests)
     elseif GetGossipAvailableQuests then
@@ -80,7 +80,7 @@ function QuestieCompat.GetActiveQuests()
             activeQuests[index + 3] = activeQuest.isComplete
             activeQuests[index + 4] = activeQuest.isLegendary
             activeQuests[index + 5] = activeQuest.isIgnored
-            index = index + 5
+            index = index + 6
         end
         return unpack(activeQuests)
     elseif GetGossipActiveQuests then

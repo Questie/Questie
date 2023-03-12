@@ -112,7 +112,7 @@ function ZoneDB:GetDungeonLocation(areaId)
 end
 
 ---@param areaId AreaId
-function ZoneDB:IsDungeonZone(areaId)
+function ZoneDB.IsDungeonZone(areaId)
     return dungeonLocations[areaId] ~= nil
 end
 

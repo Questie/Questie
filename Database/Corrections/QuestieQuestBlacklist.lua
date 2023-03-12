@@ -33,6 +33,7 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_ONLY,
+        [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -271,8 +272,8 @@ function QuestieQuestBlacklist:Load()
         [8898] = true,
         [8899] = true,
         [9029] = true,
-        [8981] = true,
-        [8993] = true,
+        [8981] = QuestieCorrections.WOTLK_ONLY, --removed in wotlk
+        [8993] = QuestieCorrections.WOTLK_ONLY, --removed in wotlk
         [8900] = true,
         [8901] = true,
         [8902] = true,
@@ -667,6 +668,33 @@ function QuestieQuestBlacklist:Load()
         --- Brewfest
         [13931] = true,
         [13932] = true,
+
+        -- Lunar Festival
+        [13012] = true,
+        [13013] = true,
+        [13014] = true,
+        [13015] = true,
+        [13016] = true,
+        [13017] = true,
+        [13018] = true,
+        [13019] = true,
+        [13020] = true,
+        [13021] = true,
+        [13022] = true,
+        [13023] = true,
+        [13024] = true,
+        [13025] = true,
+        [13026] = true,
+        [13027] = true,
+        [13028] = true,
+        [13029] = true,
+        [13030] = true,
+        [13031] = true,
+        [13032] = true,
+        [13033] = true,
+
+
+        -- End of Wotlk event quests
         -------------------
 
         --mount replacement
@@ -1090,17 +1118,24 @@ function QuestieQuestBlacklist:Load()
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
-
+        
         [10884] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
         [10901] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13431
+        [6821] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6822] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6823] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6824] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [7486] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
         [11621] = true, -- Not in the game
         [11179] = true, -- Not in the game
         [11622] = true, -- Not in the game
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
+        [11578] = true, -- Not in the game
+        [11579] = true, -- Not in the game
         [11939] = true, -- Not in the game
         [11997] = true, -- Not in the game
         [12087] = true, -- Not in the game
@@ -1116,8 +1151,11 @@ function QuestieQuestBlacklist:Load()
         [12780] = true, -- Not in the game
         [12590] = true, -- Not in the game
         [11461] = true, -- Not in the game
+        [12911] = true, -- Not in the game
         [13150] = true, -- Not in the game
         [13317] = true, -- Not in the game
+        [14103] = true, -- Not in the game
+        [14160] = true, -- Not in the game
         [13374] = true, -- Not in the game
         [13381] = true, -- Not in the game
         [13908] = true, -- Not in the game
@@ -1146,11 +1184,25 @@ function QuestieQuestBlacklist:Load()
         [12834] = true, -- Not in the game
         [12825] = true, -- Not in the game
         [12890] = true, -- Not in the game
+        [12990] = true, -- Not in the game
+        [13183] = true, -- Not in the game
         [13184] = true, -- Not in the game
         [13176] = true, -- Not in the game
         [13173] = true, -- Not in the game
         [13175] = true, -- Not in the game
         [14203] = true, -- Not in the game
+        [14032] = true, -- Not in the game
+        [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
+        [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
+        
+        [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8385] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8388] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13475] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13476] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13477] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13478] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
@@ -1167,8 +1219,41 @@ function QuestieQuestBlacklist:Load()
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
+        
+        -- Old Naxx quests (Naxx40 goes away in wotlk)
+        [9120] = QuestieCorrections.WOTLK_ONLY, -- The Fall of Kel'Thuzad
+        [9229] = QuestieCorrections.WOTLK_ONLY, -- The Fate of Ramaladni
+        [9230] = QuestieCorrections.WOTLK_ONLY, -- Ramaladni's Icy Grasp
+        [9232] = QuestieCorrections.WOTLK_ONLY, -- The Only Song I Know...
+        [9233] = QuestieCorrections.WOTLK_ONLY, -- Omarion's Handbook
+        [9234] = QuestieCorrections.WOTLK_ONLY, -- Icebane Gauntlets
+        [9235] = QuestieCorrections.WOTLK_ONLY, -- Icebane Bracers
+        [9236] = QuestieCorrections.WOTLK_ONLY, -- Icebane Breastplate
+        [9237] = QuestieCorrections.WOTLK_ONLY, -- Glacial Cloak
+        [9238] = QuestieCorrections.WOTLK_ONLY, -- Glacial Wrists
+        [9239] = QuestieCorrections.WOTLK_ONLY, -- Glacial Gloves
+        [9240] = QuestieCorrections.WOTLK_ONLY, -- Glacial Vest
+        [9241] = QuestieCorrections.WOTLK_ONLY, -- Polar Bracers
+        [9242] = QuestieCorrections.WOTLK_ONLY, -- Polar Gloves
+        [9243] = QuestieCorrections.WOTLK_ONLY, -- Polar Tunic
+        [9244] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Bracers
+        [9245] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Gauntlets
+        [9246] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Breastplate
+
+        -- "learn to ride" series (unimplemented)
+        [14079] = true, -- elwynn (human)
+        [14081] = true, -- eversong (belf)
+        [14082] = true, -- exodar (draenei)
+        [14083] = true, -- dun morogh (dwarf)
+        [14084] = true, -- dun morogh (gnome)
+        [14085] = true, -- darnassus (nelf)
+        [14086] = true, -- orgrimmar (orc)
+        [14087] = true, -- mulgore (tauren)
+        [14088] = true, -- durotar (troll)
+        [14089] = true, -- tirisfal (undead)
 
         -- Scourge invasion
+        [12616] = true,
         [12752] = true,
         [12753] = true,
         [12772] = true,
@@ -1180,9 +1265,25 @@ function QuestieQuestBlacklist:Load()
         [12808] = true,
         [12811] = true,
 
+        --- Phase 2 Secrets of Ulduar
+        [13372] = true, -- 10man EoE keys become unavailable with P2
+        [13384] = true, -- 10man EoE keys become unavailable with P2
+
         --- Phase 3 Trial of the Crusader
         [14151] = true, -- Cardinal Ruby (Alchemy)
         [14199] = true, -- Proof of Demise: The Black Knight (Daily heroic)
+        [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
+        [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
+        [14142] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14142) (Retail Data)
+        [14096] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14096) (Retail Data)
+        [14074] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14074) (Retail Data)
+        [14143] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14143) (Retail Data)
+        [14136] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14136) (Retail Data)
+        [14152] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14152) (Retail Data)
+        [14077] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14077) (Retail Data)
+        [14144] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
+        [14080] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
+        [14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
 
         --- Phase 4 Icecrown Citadel
         [24506] = true, -- Inside the Frozen Citadel (H)
@@ -1735,27 +1836,17 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 --         [13864] = true, --* Battle Before The Citadel (https://www.wowhead.com/wotlk/quest=13864) (Retail Data)
 --         [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
 --         [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
---         [14074] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14074) (Retail Data)
 --         [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
---         [14077] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14077) (Retail Data)
---         [14080] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14080) (Retail Data)
 --         [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
 --         [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
 --         [14095] = true, --* Identifying the Remains (https://www.wowhead.com/wotlk/quest=14095) (Retail Data)
---         [14096] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14096) (Retail Data)
         [14101] = true, --* Drottinn Hrothgar (https://www.wowhead.com/wotlk/quest=14101) (Retail Data)
         [14102] = true, --* Mistcaller Yngvar (https://www.wowhead.com/wotlk/quest=14102) (Retail Data)
         [14104] = true, --* Ornolf The Scarred (https://www.wowhead.com/wotlk/quest=14104) (Retail Data)
         [14105] = true, --* Deathspeaker Kharos (https://www.wowhead.com/wotlk/quest=14105) (Retail Data)
         [14107] = true, --* The Fate Of The Fallen (https://www.wowhead.com/wotlk/quest=14107) (Retail Data)
---         [14136] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14136) (Retail Data)
---         [14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
 --         [14141] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14141) (Retail Data)
---         [14142] = true, --* You've Really Done It This Time, Kul (https://www.wowhead.com/wotlk/quest=14142) (Retail Data)
---         [14143] = true, --* A Leg Up (https://www.wowhead.com/wotlk/quest=14143) (Retail Data)
---         [14144] = true, --* The Light's Mercy (https://www.wowhead.com/wotlk/quest=14144) (Retail Data)
 --         [14145] = true, --* What Do You Feed a Yeti, Anyway? (https://www.wowhead.com/wotlk/quest=14145) (Retail Data)
---         [14152] = true, --* Rescue at Sea (https://www.wowhead.com/wotlk/quest=14152) (Retail Data)
 --         [14200] = true, --* Kickoff Mail Marker (https://www.wowhead.com/wotlk/quest=14200) (Retail Data)
 --         [24442] = true, --* Battle Plans Of The Kvaldir (https://www.wowhead.com/wotlk/quest=24442) (Retail Data)
 

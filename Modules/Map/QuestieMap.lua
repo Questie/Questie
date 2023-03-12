@@ -375,7 +375,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
 
     -- draw the notes
     for zone, spawns in pairs(npc.spawns) do
-        if(zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB:IsDungeonZone(zone))) then
+        if(zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB.IsDungeonZone(zone))) then
             for _, coords in ipairs(spawns) do
                 -- instance spawn, draw entrance on map
                 local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
@@ -603,7 +603,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMap.AreaID = areaID
     iconMap.UiMapID = uiMapId
     iconMap.miniMapIcon = false;
-    iconMap:UpdateTexture(data.Icon);
+    iconMap:UpdateTexture(Questie.usedIcons[data.Icon]);
 
     ---@type IconFrame
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -615,7 +615,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     --data.refMiniMap = iconMinimap -- used for removing
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
-    iconMinimap:UpdateTexture(data.Icon);
+    iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
 
     local questieGlobalDB = Questie.db.global
 

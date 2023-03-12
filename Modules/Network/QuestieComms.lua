@@ -777,7 +777,7 @@ function QuestieComms:CreateQuestDataPacket(questId)
                 quest.objectives[objectiveIndex].ful = objective.numFulfilled;--[_QuestieComms.idLookup["fulfilled"]] = objective.numFulfilled;
                 quest.objectives[objectiveIndex].req = objective.numRequired;--[_QuestieComms.idLookup["required"]] = objective.numRequired;
             else
-                Questie:Error("Missing objective data for quest " .. tostring(questId) .. " " .. tostring(objectiveIndex))
+                Questie:Error(l10n("Missing objective data for quest "), tostring(questId), " ", tostring(objectiveIndex))
             end
         end
     end
@@ -1020,11 +1020,11 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
                     if(majorOwn < tonumber(major) or (majorOwn == tonumber(major) and minorOwn < tonumber(minor)) or (majorOwn == tonumber(major) and minorOwn == tonumber(minor) and patchOwn < tonumber(patch)) and (not UnitAffectingCombat("player"))) then
                         suggestUpdate = false;
                         if(majorOwn < tonumber(major)) then
-                            Questie:Print("|cffff0000A Major patch for Questie exists!|r");
-                            Questie:Print("|cffff0000Please update as soon as possible!|r");
+                            Questie:Print("|cffff0000", l10n("A Major patch for Questie exists!"), "|r");
+                            Questie:Print("|cffff0000", l10n("Please update as soon as possible!"), "|r");
                         else
-                            Questie:Print("|cffff0000You have an outdated version of Questie!|r");
-                            Questie:Print("|cffff0000Please consider updating!|r");
+                            Questie:Print("|cffff0000", l10n("You have an outdated version of Questie!"), "|r");
+                            Questie:Print("|cffff0000", l10n("Please consider updating!"), "|r");
                         end
                     end
                 end
@@ -1040,9 +1040,9 @@ function _QuestieComms:OnCommReceived_unsafe(message, distribution, sender)
         elseif(decompressedData and not warnedUpdate and decompressedData.msgVer) then
             -- We want to know who actually is the one with the mismatched version!
             if(floor(commMessageVersion) < floor(decompressedData.msgVer)) then
-                Questie:Error("You have an incompatible QuestieComms message! Please update!", "  Yours: v", commMessageVersion, sender..": v", decompressedData.msgVer);
+                Questie:Error(l10n("You have an incompatible QuestieComms message! Please update!"), l10n("  Yours: v"), commMessageVersion, sender..": v", decompressedData.msgVer);
             elseif(floor(commMessageVersion) > floor(decompressedData.msgVer)) then
-                Questie:Print("|cFFFF0000WARNING!|r", sender, "has an incompatible Questie version, QuestieComms won't work!", " Yours:", commMessageVersion, sender..":", decompressedData.msgVer)
+                Questie:Print("|cFFFF0000", l10n("WARNING!"), "|r", sender, l10n("has an incompatible Questie version, QuestieComms won't work!"), l10n(" Yours: v"), commMessageVersion, sender..": v", decompressedData.msgVer)
             end
             warnedUpdate = true;
         end

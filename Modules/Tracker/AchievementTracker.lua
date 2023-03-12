@@ -5,6 +5,8 @@ local AchievementTracker = QuestieLoader:CreateModule("AchievementTracker")
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type TrackerUtils
 local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type LinePool
 local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type l10n
@@ -91,11 +93,14 @@ function AchievementTracker.Update()
         return
     end
 
-    trackedAchievementIds = {GetTrackedAchievements()}
-    LinePool.ResetAchievementLinesForChange()
-    AchievementTracker.LoadAchievements()
+    -- TODO: This is a work around. A proper fix would be to split the data update and the UI update apart
+    QuestieCombatQueue:Queue(function()
+        trackedAchievementIds = {GetTrackedAchievements()}
+        LinePool.ResetAchievementLinesForChange()
+        AchievementTracker.LoadAchievements()
 
-    _UpdateTracker()
+        _UpdateTracker()
+    end)
 end
 
 function AchievementTracker.Hide()

@@ -46,7 +46,7 @@ function QuestieOptions.tabs.minimap:Initialize()
             questMinimapObjectiveColors = {
                 type = "toggle",
                 order = 1.2,
-                name = function() return l10n('Different Map Icon Color for Each Quest'); end,
+                name = function() return l10n('Different Minimap Icon Color for Each Quest'); end,
                 desc = function() return l10n('Show map icons with colors that are randomly generated based on quest ID.'); end,
                 width = "full",
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,

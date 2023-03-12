@@ -9,10 +9,11 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local playerProfessions = {}
 local professionTable = {}
 local professionNames = {}
+local specializationNames
 local alternativeProfessionNames = {}
 
 -- Fast local references
-local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo
+local ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown = ExpandSkillHeader, GetNumSkillLines, GetSkillLineInfo, IsSpellKnown
 
 hooksecurefunc("AbandonSkill", function(skillIndex)
     local skillName = GetSkillLineInfo(skillIndex)
@@ -124,6 +125,54 @@ function QuestieProfessions:HasProfessionAndSkillLevel(requiredSkill)
     return _HasProfession(profession), _HasSkillLevel(profession, skillLevel)
 end
 
+---@param requiredSpecialization { [1]: number } [1] = professionId
+---@return boolean HasSpecialization
+function QuestieProfessions:HasSpecialization(requiredSpecialization)
+    if not requiredSpecialization then
+        --? We return true here because otherwise we would have to check for nil everywhere
+        return true
+    end
+    local professionKeys = QuestieProfessions.professionKeys
+    local specializationKeys = QuestieProfessions.specializationKeys
+    for _, value in pairs(QuestieProfessions.professionKeys) do
+        if value == requiredSpecialization then -- if we determine input is a profession
+            if requiredSpecialization == professionKeys.ALCHEMY then
+                return not (IsSpellKnown(specializationKeys.ALCHEMY_ELIXIR)
+                or IsSpellKnown(specializationKeys.ALCHEMY_POTION)
+                or IsSpellKnown(specializationKeys.ALCHEMY_TRANSMUTATION))
+                -- if the profession is alchemy, we only return true if the player does NOT know
+                -- the spells for elixir, potion, or transmutation master; otherwise return false
+            elseif requiredSpecialization == professionKeys.BLACKSMITHING then
+                return not (IsSpellKnown(specializationKeys.BLACKSMITHING_ARMOR)
+                or IsSpellKnown(specializationKeys.BLACKSMITHING_WEAPON))
+
+            elseif requiredSpecialization == professionKeys.ENGINEERING then
+                return not (IsSpellKnown(specializationKeys.ENGINEERING_GNOMISH)
+                or IsSpellKnown(specializationKeys.ENGINEERING_GOBLIN))
+
+            elseif requiredSpecialization == professionKeys.LEATHERWORKING then
+                return not (IsSpellKnown(specializationKeys.LEATHERWORKING_DRAGONSCALE)
+                or IsSpellKnown(specializationKeys.LEATHERWORKING_ELEMENTAL)
+                or IsSpellKnown(specializationKeys.LEATHERWORKING_TRIBAL))
+
+            elseif requiredSpecialization == professionKeys.TAILORING then
+                return not (IsSpellKnown(specializationKeys.TAILORING_MOONCLOTH)
+                or IsSpellKnown(specializationKeys.TAILORING_SHADOWEAVE)
+                or IsSpellKnown(specializationKeys.TAILORING_SPELLFIRE))
+
+            end
+            return _HasProfession(requiredSpecialization)
+            -- if the profession is not one with known specs, return true if the player has that profession
+        end
+    end
+    for _, value in pairs(specializationKeys) do
+        if value == requiredSpecialization then -- if we determine input is a specialization
+            return IsSpellKnown(requiredSpecialization) -- return true if the spell is known, false if not
+        end
+    end
+    return true
+end
+
 ---@enum ProfessionEnum
 QuestieProfessions.professionKeys = {
     FIRST_AID = 129,
@@ -179,9 +228,58 @@ local sortIds = {
     --[QuestieProfessions.professionKeys.RIDING] = ,
 }
 
+QuestieProfessions.specializationKeys = { -- specializations use spellID, professions use skillID
+    ALCHEMY = QuestieProfessions.professionKeys.ALCHEMY,
+    ALCHEMY_ELIXIR = 28677,
+    ALCHEMY_POTION = 28675,
+    ALCHEMY_TRANSMUTATION = 28672,
+    BLACKSMITHING = QuestieProfessions.professionKeys.BLACKSMITHING,
+    BLACKSMITHING_ARMOR = 9788,
+    BLACKSMITHING_WEAPON = 9787,
+    BLACKSMITHING_WEAPON_AXE = 17041,
+    BLACKSMITHING_WEAPON_HAMMER = 17040,
+    BLACKSMITHING_WEAPON_SWORD = 17039,
+    ENGINEERING = QuestieProfessions.professionKeys.ENGINEERING,
+    ENGINEERING_GNOMISH = 20219,
+    ENGINEERING_GOBLIN = 20222,
+    LEATHERWORKING = QuestieProfessions.professionKeys.LEATHERWORKING,
+    LEATHERWORKING_DRAGONSCALE = 10656,
+    LEATHERWORKING_ELEMENTAL = 10658,
+    LEATHERWORKING_TRIBAL = 10660,
+    TAILORING = QuestieProfessions.professionKeys.TAILORING,
+    TAILORING_MOONCLOTH = 26798,
+    TAILORING_SHADOWEAVE = 26801,
+    TAILORING_SPELLFIRE = 26797,
+}
+
+specializationNames = {
+    [QuestieProfessions.specializationKeys.ALCHEMY_ELIXIR] = "Elixir Master",
+    [QuestieProfessions.specializationKeys.ALCHEMY_POTION] = "Potion Master",
+    [QuestieProfessions.specializationKeys.ALCHEMY_TRANSMUTATION] = "Transmutation Master",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_ARMOR] = "Armorsmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON] = "Weaponsmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON_AXE] = "Master Axesmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON_HAMMER] = "Master Hammersmith",
+    [QuestieProfessions.specializationKeys.BLACKSMITHING_WEAPON_SWORD] = "Master Swordsmith",
+    [QuestieProfessions.specializationKeys.ENGINEERING_GNOMISH] = "Gnomish Engineer",
+    [QuestieProfessions.specializationKeys.ENGINEERING_GOBLIN] = "Goblin Engineer",
+    [QuestieProfessions.specializationKeys.LEATHERWORKING_DRAGONSCALE] = "Dragonscale Leatherworking",
+    [QuestieProfessions.specializationKeys.LEATHERWORKING_ELEMENTAL] = "Elemental Leatherworking",
+    [QuestieProfessions.specializationKeys.LEATHERWORKING_TRIBAL] = "Tribal Leatherworking",
+    [QuestieProfessions.specializationKeys.TAILORING_MOONCLOTH] = "Mooncloth Tailoring",
+    [QuestieProfessions.specializationKeys.TAILORING_SHADOWEAVE] = "Shadoweave Tailoring",
+    [QuestieProfessions.specializationKeys.TAILORING_SPELLFIRE] = "Spellfire Tailoring",
+}
+
 ---@return string
 function QuestieProfessions:GetProfessionName(professionKey)
     return professionNames[professionKey]
+end
+
+---@return string
+function QuestieProfessions:GetSpecializationName(specializationKey)
+    -- TODO: this function is as of yet unused, if you plan on using it add translations for the specializationNames table
+    return specializationNames[specializationKey]
 end
 
 ---@return number

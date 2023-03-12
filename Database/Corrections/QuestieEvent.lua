@@ -231,7 +231,7 @@ QuestieEvent.eventDates = {
         startDate = "23/1",
         endDate = "10/2"
     },
-    ["Love is in the Air"] = {startDate = "11/2", endDate = "16/2"},
+    ["Love is in the Air"] = {startDate = "06/2", endDate = "20/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
         startDate = "13/5",
         endDate = "19/5"
@@ -285,49 +285,50 @@ tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8684}) -- Dreamseer the Eld
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8635}) -- Splitrock the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8883}) -- Valadar Starsong
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8713}) -- Starsong the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8867}) -- Lunar Fireworks
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8865}) -- Festive Lunar Pant Suits
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8868}) -- Elune's Blessing
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8642}) -- Silvervein the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8866}) -- Bronzebeard the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8643}) -- Highpeak the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8678}) -- Proudhorn the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8864}) -- Festive Lunar Dresses
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8670}) -- Runetotem the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8725}) -- Riversong the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8683}) -- Dawnstrider the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8879}) -- Large Rockets
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8716}) -- Starglade the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8650}) -- Snowcrown the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8876}) -- Small Rockets
 -- tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8874}) -- The Lunar Festival
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8880}) -- Cluster Rockets
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8722}) -- Meadowrun the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8652}) -- Graveborn the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8878}) -- Festive Recipes
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8873}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8720}) -- Skygleam the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8673}) -- Bloodhoof the Elder
 -- tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8875}) -- The Lunar Festival
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8862}) -- Elune's Candle
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8862, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Elune's Candle
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8863, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Festival Dumplings
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8864, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Festive Lunar Dresses
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8865, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Festive Lunar Pant Suits
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8867, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Lunar Fireworks
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8873, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- The Lunar Festival
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8876, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Small Rockets
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8877, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Firework Launcher
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8878, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Festive Recipes
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8879, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Large Rockets
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8880, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Cluster Rockets
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8881, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Large Cluster Rockets
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8882, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Cluster Launcher
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8723}) -- Nightwind the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8681}) -- Thunderhorn the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8676}) -- Wildmane the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8651}) -- Ironband the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8863}) -- Festival Dumplings
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8672}) -- Stonespire the Elder
 -- tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8870}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8871}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8649}) -- Stormbrow the Elder
 -- tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8872}) -- The Lunar Festival
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8726}) -- Brightspear the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8877}) -- Firework Launcher
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8718}) -- Bladeswift the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8685}) -- Mistwalker the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8653}) -- Goldwell the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8671}) -- Ragetotem the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8677}) -- Darkhorn the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8882}) -- Cluster Launcher
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8714}) -- Moonstrike the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8645}) -- Obsidian the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8717}) -- Moonwarden the Elder
@@ -343,7 +344,6 @@ tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8680}) -- Windtotem the Eld
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8686}) -- High Mountain the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8654}) -- Primestone the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8721}) -- Starweave the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8881}) -- Large Cluster Rockets
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8619}) -- Morndeep the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8688}) -- Windrun the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8682}) -- Skyseer the Elder
@@ -352,24 +352,28 @@ tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8644}) -- Stonefort the Eld
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8675}) -- Skychaser the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 8719}) -- Bladesing the Elder
 -- Northrend Elders
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13025}) -- Lunaro the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13033}) -- Arp the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13019}) -- Thoim the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13013}) -- Beldak the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13030}) -- Whurain the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13031}) -- Skywarden the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13012}) -- Sardis the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13013}) -- Beldak the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13014}) -- Morthie the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13018}) -- Sandrene the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13026}) -- Bluewolf the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13024}) -- Wanikaya the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13028}) -- Graymane the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13020}) -- Stonebeard the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13027}) -- Tauros the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13032}) -- Muraco the Elder
-tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13029}) -- Pamuya the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13015}) -- Fargal the Elder
 tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13016}) -- Northal the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13017}) -- Jarten the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13018}) -- Sandrene the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13019}) -- Thoim the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13020}) -- Stonebeard the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13021}) -- Igasho the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13022}) -- Nurgen the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13023}) -- Kilias the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13024}) -- Wanikaya the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13025}) -- Lunaro the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13026}) -- Bluewolf the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13027}) -- Tauros the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13028}) -- Graymane the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13029}) -- Pamuya the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13030}) -- Whurain the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13031}) -- Skywarden the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13032}) -- Muraco the Elder
+tinsert(QuestieEvent.eventQuests, {"Lunar Festival", 13033}) -- Arp the Elder
 
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8897}) -- Dearest Colara
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8898}) -- Dearest Colara
@@ -381,11 +385,11 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8903}) -- Dangerous Lov
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8904}) -- Dangerous Love
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8979}) -- Fenstad's Hunch
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8980}) -- Zinge's Assessment
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8981}) -- Gift Giving
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8981, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Gift Giving
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8982}) -- Tracing the Source
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8983}) -- Tracing the Source
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8984}) -- The Source Revealed
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8993}) -- Gift Giving
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 8993, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Gift Giving
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9024}) -- Aristan's Hunch
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9025}) -- Morgan's Discovery
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 9026}) -- Tracing the Source
@@ -854,8 +858,48 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24615}) -- A Gift for t
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24629}) -- A Perfect Puff of Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24635}) -- A Cloudlet of Classy Cologne
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24636}) -- Bonbon Blitz
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24536}) -- Something Stinks
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24655}) -- Something Stinks
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24541}) -- Pilfering Perfume
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24656}) -- Pilfering Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Scents
+
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24576}) -- A Friendly Chat...
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24657}) -- A Friendly Chat...
+
+-- These seem to be breadcrumbs to "You've Been Served" (14488) but aren't available
+-- Might either not be in game at all or guarded behind finishing one of the two "A Friendly Chat..." quests above
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24792}) -- Man on the Inside
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24793}) -- Man on the Inside
+
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24848}) -- Fireworks At The Gilded Rose
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24849}) -- Hot On The Trail
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24850}) -- Snivel's Sweetheart
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24851}) -- Hot On The Trail
+
+-- These "Crushing the Crown" quests are dailies, handed out based on the player's current level.
+-- The Durotar + Elwynn quests are available at level 5, with each successive quest being available
+-- at 14, 23, 32, 41, 51, 61, and 71, respectively. They are exclusive to each other; once you hit 14,
+-- you can no longer pick up the level 5 quest. However, since we have no way of filtering quests based
+-- on a "maximum" level, we simply hide all of the higher level ones, which will be picked up automatically
+-- instead of the level 5 one. Users can only tell the difference if they're watching quest IDs.
+-- TODO: If we implement maxLevel, these hacky workarounds should be implemented properly.
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24638}) -- Crushing the Crown (Durotar)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24645}) -- Crushing the Crown (Ambermill)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24647}) -- Crushing the Crown (Hillsbrad H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24648}) -- Crushing the Crown (Theramore H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24649}) -- Crushing the Crown (Aerie Peak H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24650}) -- Crushing the Crown (Everlook H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24651}) -- Crushing the Crown (Shattrath H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24652}) -- Crushing the Crown (Crystalsong H)
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24658}) -- Crushing the Crown (Elwynn)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24659}) -- Crushing the Crown (Darkshore)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24660}) -- Crushing the Crown (Hillsbrad A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24662}) -- Crushing the Crown (Theramore A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24663}) -- Crushing the Crown (Aerie Peak A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24664}) -- Crushing the Crown (Everlook A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24665}) -- Crushing the Crown (Shattrath A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24666}) -- Crushing the Crown (Crystalsong A)
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar

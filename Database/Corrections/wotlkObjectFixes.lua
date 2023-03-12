@@ -287,5 +287,55 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{17.42,36.36}}}, -- Zeb'Halak
             [objectKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
         },
+        [400048] = {
+            [objectKeys.name] = "Chemical Wagon", -- Orgrimmar
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{40.13,15.71}}},
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [400049] = {
+            [objectKeys.name] = "Chemical Wagon", -- Ambermill
+            [objectKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{54.75,61.33}}},
+            [objectKeys.zoneID] = zoneIDs.SILVERPINE_FOREST,
+        },
+        [400050] = {
+            [objectKeys.name] = "Chemical Wagon", -- Elwynn
+            [objectKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.19,65.44}}},
+            [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
+        },
+        [400051] = {
+            [objectKeys.name] = "Chemical Wagon", -- Darkshore
+            [objectKeys.spawns] = {[zoneIDs.DARKSHORE]={{42.47,79.46}}},
+            [objectKeys.zoneID] = zoneIDs.DARKSHORE,
+        },
+        [400052] = {
+            [objectKeys.name] = "Chemical Wagon", -- Hillsbrad
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{28.22,37.63}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
+        [400053] = {
+            [objectKeys.name] = "Chemical Wagon", -- Theramore
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{60.83,38.49}}},
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+        },
+        [400054] = {
+            [objectKeys.name] = "Chemical Wagon", -- Aerie Peak
+            [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{23.44,53.68}}},
+            [objectKeys.zoneID] = zoneIDs.THE_HINTERLANDS,
+        },
+        [400055] = {
+            [objectKeys.name] = "Chemical Wagon", -- Everlook
+            [objectKeys.spawns] = {[zoneIDs.WINTERSPRING]={{64.67,37.36}}},
+            [objectKeys.zoneID] = zoneIDs.WINTERSPRING,
+        },
+        [400056] = {
+            [objectKeys.name] = "Chemical Wagon", -- Shattrath
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{41.46,22.52}}},
+            [objectKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [400057] = {
+            [objectKeys.name] = "Chemical Wagon", -- Crystalsong
+            [objectKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST]={{50.5,50.11},{46.44,50.86},{48.46,51.01},{49.09,47.62}}},
+            [objectKeys.zoneID] = zoneIDs.CRYSTALSONG_FOREST,
+        },
     }
 end
