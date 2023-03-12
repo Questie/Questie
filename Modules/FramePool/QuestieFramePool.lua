@@ -40,8 +40,14 @@ function QuestieFramePool:SetIcons()
     ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
     ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
     ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
+    ICON_TYPE_INCOMPLETE =  QuestieLib.AddonPath.."Icons\\incomplete.blp"
     ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
     ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
+    ICON_TYPE_REPEATABLE_COMPLETE =  QuestieLib.AddonPath.."Icons\\repeatable_complete.blp"
+    ICON_TYPE_EVENTQUEST =  QuestieLib.AddonPath.."Icons\\eventquest.blp"
+    ICON_TYPE_EVENTQUEST_COMPLETE =  QuestieLib.AddonPath.."Icons\\eventquest_complete.blp"
+    ICON_TYPE_PVPQUEST =  QuestieLib.AddonPath.."Icons\\pvpquest.blp"
+    ICON_TYPE_PVPQUEST_COMPLETE =  QuestieLib.AddonPath.."Icons\\pvpquest_complete.blp"
 end
 
 

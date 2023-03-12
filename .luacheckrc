@@ -1507,6 +1507,7 @@ globals = {
     "GetZonePVPInfo",
     "GetZoneText",
     "GiveMasterLoot",
+    "GossipAvailableQuestButtonMixin",
     "GrantLevel",
     "GroupHasOfflineMember",
     "GuildControlAddRank",

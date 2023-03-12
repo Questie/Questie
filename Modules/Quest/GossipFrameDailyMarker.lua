@@ -3,47 +3,60 @@
 ---@class GossipFrameDailyMarker
 local GossipFrameDailyMarker = QuestieLoader:CreateModule("GossipFrameDailyMarker")
 
-local DAILY_AVAILABLE_QUEST_ICON_FILE_ID = GetFileIDFromPath("Interface\\GossipFrame\\DailyQuestIcon")
-local REPEATABLE_QUEST_ICON_FILE_ID = GetFileIDFromPath("Interface\\GossipFrame\\DailyActiveQuestIcon")
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-local function _GetLineAndIconMaps()
-    local lines = {}
-    local icons = {}
-
-    for i = 1, NUMGOSSIPBUTTONS or #C_GossipInfo.GetOptions() do
-        local titleLine = _G["GossipTitleButton" .. i]
-        if (not titleLine) then
-            break
+local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
+function GossipAvailableQuestButtonMixin:Setup(...)
+    oldAvailableSetup(self, ...)
+    if self.GetElementData ~= nil then
+        local info = self.GetElementData().info
+        if info == nil then return end
+        local id = info.questID
+        if QuestieDB.IsPvPQuest(id) then
+            self.Icon:SetTexture(ICON_TYPE_PVPQUEST)
+        elseif QuestieDB.IsActiveEventQuest(id) then
+            self.Icon:SetTexture(ICON_TYPE_EVENTQUEST)
+        elseif QuestieDB.IsRepeatable(id) then
+            self.Icon:SetTexture(ICON_TYPE_REPEATABLE)
+        else
+            self.Icon:SetTexture(ICON_TYPE_AVAILABLE)
         end
-        tinsert(lines, titleLine)
-        tinsert(icons, _G[titleLine:GetName() .. "GossipIcon"])
     end
-
-    return lines, icons
 end
 
-local function _MarkDailyAndRepeatableQuests(lines, textures, ...)
-    local lineIndex = 0
-    for i=1, select("#", ...), 7 do
-        lineIndex = lineIndex + 1
-        local activeQuestLine = lines[lineIndex]
-        if activeQuestLine and activeQuestLine:IsVisible() and activeQuestLine.type == "Available" then
-            local _, _, _, frequency, isRepeatable = select(i, ...)
-            if isRepeatable then
-                local texture = textures[lineIndex]
-                texture:SetTexture(REPEATABLE_QUEST_ICON_FILE_ID)
-            elseif (frequency == LE_QUEST_FREQUENCY_DAILY or frequency == LE_QUEST_FREQUENCY_WEEKLY) then
-                local texture = textures[lineIndex]
-                texture:SetTexture(DAILY_AVAILABLE_QUEST_ICON_FILE_ID)
+local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
+function GossipActiveQuestButtonMixin:Setup(...)
+    oldActiveSetup(self, ...)
+    if self.GetElementData ~= nil then
+        local info = self.GetElementData().info
+        if info == nil then return end
+        local id = info.questID
+        if QuestieDB.IsComplete(id) == 1 then
+            if QuestieDB.IsPvPQuest(id) then
+                self.Icon:SetTexture(ICON_TYPE_PVPQUEST_COMPLETE)
+            elseif QuestieDB.IsActiveEventQuest(id) then
+                self.Icon:SetTexture(ICON_TYPE_EVENTQUEST_COMPLETE)
+            elseif QuestieDB.IsRepeatable(id) then
+                self.Icon:SetTexture(ICON_TYPE_REPEATABLE_COMPLETE)
+            else
+                self.Icon:SetTexture(ICON_TYPE_COMPLETE)
             end
+        else
+            self.Icon:SetTexture(ICON_TYPE_INCOMPLETE)
         end
     end
 end
-
-local gossipTitleLines, gossipIconTextures = _GetLineAndIconMaps()
 
 ---This function changes the icons of available quests in the Gossip Frame
 ---Repeatable turn in quests get a blue ? and repeatable quests (like dailies) get a blue !
 function GossipFrameDailyMarker.Mark()
-    _MarkDailyAndRepeatableQuests(gossipTitleLines, gossipIconTextures, QuestieCompat.GetAvailableQuests())
+    --print("test1")
+    if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
+        --print("test2")
+        return -- This call is automatically hooked, no need to run a function
+    else -- If DF API not available, use Shadowlands (9.0.0) method
+        --print("test3")
+        _MarkDailyAndRepeatableQuests(gossipTitleLines, gossipIconTextures, QuestieCompat.GetAvailableQuests())
+    end
 end
