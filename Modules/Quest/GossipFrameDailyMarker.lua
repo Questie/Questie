@@ -13,7 +13,9 @@ function GossipAvailableQuestButtonMixin:Setup(...)
         local info = self.GetElementData().info
         if info == nil then return end
         local id = info.questID
-        if QuestieDB.IsPvPQuest(id) then
+        if QuestieDB.isTrivial(id) then
+            self.Icon:SetTexture(ICON_TYPE_AVAILABLE_GRAY)
+        elseif QuestieDB.IsPvPQuest(id) then
             self.Icon:SetTexture(ICON_TYPE_PVPQUEST)
         elseif QuestieDB.IsActiveEventQuest(id) then
             self.Icon:SetTexture(ICON_TYPE_EVENTQUEST)
