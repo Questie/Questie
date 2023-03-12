@@ -122,6 +122,30 @@ local tooltipOptionsLocales = {
         ["esES"] = "Muestra misiones (disponibles/completadas) en el tooltip del PNJ.",
         ["frFR"] = "Affiche les quêtes (disponibles / terminées) dans les info-bulles des PNJ.",
     },
+    ["Show quest XP at max level"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Опыт на макс. уровне",
+        ["deDE"] = "Zeige XP auf Max-Level",
+        ["koKR"] = false,
+        ["esMX"] = "Mostrar EXP de misión en el nivel máximo",
+        ["enUS"] = true,
+        ["zhCN"] = "显示高等级的任务经验值",
+        ["zhTW"] = false,
+        ["esES"] = "Mostrar EXP de misión en el nivel máximo",
+        ["frFR"] = "Voir l'expérience des quêtes au niveau maximum",
+    },
+    ["Shows the quest XP values on quests even at max level."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Показывать опыт за задания даже на максимальном уровне персонажа",
+        ["deDE"] = "Zeigt die Quest XP auch auf Max-Level an.",
+        ["koKR"] = false,
+        ["esMX"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
+        ["enUS"] = true,
+        ["zhCN"] = "即使在最高等级,任务也会显示任务经验值。",
+        ["zhTW"] = false,
+        ["esES"] = "Muestra los valores de EXP de misiones incluso en el nivel máximo.",
+        ["frFR"] = "Montrer le montant d'expérience des quêtes, même au niveau maximum.",
+    },
 }
 
 for k, v in pairs(tooltipOptionsLocales) do

@@ -16,6 +16,8 @@ local QuestieComms = QuestieLoader:ImportModule("QuestieComms")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -36,31 +38,20 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 ---@type MinimapIcon
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type AchievementTracker
+local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
+---@type GossipFrameDailyMarker
+local GossipFrameDailyMarker = QuestieLoader:ImportModule("GossipFrameDailyMarker")
 
+local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
+local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
+
+--* Calculated in _EventHandler:PlayerLogin()
+---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
+local FACTION_STANDING_CHANGED_PATTERN
 
 function QuestieEventHandler:RegisterEarlyEvents()
-    local savedVarsTimer
-    Questie:RegisterEvent("PLAYER_LOGIN", function()
-        MinimapIcon:Init() -- This needs to happen outside of a Timer
-
-        local maxTickerRuns = 50 -- 50 * 0.1 seconds = 5 seconds
-        local tickCounter = 0
-
-        savedVarsTimer = C_Timer.NewTicker(0.1, function()
-            tickCounter = tickCounter + 1
-            if (not QuestieConfig) then
-                -- The Saved Variables are not loaded yet
-                if tickCounter == (maxTickerRuns - 1) then
-                    -- The time is over, must be a fresh install
-                    _EventHandler:PlayerLogin()
-                end
-                return
-            end
-
-            savedVarsTimer:Cancel()
-            _EventHandler:PlayerLogin()
-        end, maxTickerRuns)
-    end)
+    Questie:RegisterEvent("PLAYER_LOGIN", _EventHandler.PlayerLogin)
 end
 
 function QuestieEventHandler:RegisterLateEvents()
@@ -73,15 +64,19 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _EventHandler.ModifierStateChanged)
     -- Events to update a players professions and reputations
-    Questie:RegisterEvent("CHAT_MSG_SKILL", _EventHandler.ChatMsgSkill)
-    Questie:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", _EventHandler.ChatMsgCompatFactionChange)
+    Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
+    Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, _EventHandler.ChatMsgCompatFactionChange)
+    Questie:RegisterEvent("CHAT_MSG_SYSTEM", _EventHandler.ChatMsgSystem)
 
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", QuestieAuto.GOSSIP_SHOW)
+    Questie:RegisterEvent("GOSSIP_SHOW", function (...)
+        QuestieAuto.GOSSIP_SHOW(...)
+        GossipFrameDailyMarker.Mark(...)
+    end)
     Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
@@ -114,27 +109,97 @@ function QuestieEventHandler:RegisterLateEvents()
         end
     end)
 
-    Questie:ContinueInit() -- continue startup inside Questie.lua
+    if Questie.IsWotlk then
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", AchievementTracker.TrackedAchievementListChanged)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", AchievementTracker.Update)
+    end
 end
 
 function _EventHandler:PlayerLogin()
+    -- Check config exists
+    if not Questie.db or not QuestieConfig then
+        -- Did you move Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig",.......) out of Questie:OnInitialize() ?
+        Questie:Error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
+        error("Config DB from saved variables is not loaded and initialized. Please report this issue on Questie github or discord.")
+        return
+    end
+
+    do
+        -- All this information was researched here: https://www.townlong-yak.com/framexml/live/GlobalStrings.lua
+
+        local locale = GetLocale()
+        local FACTION_STANDING_CHANGED_LOCAL = FACTION_STANDING_CHANGED or "You are now %s with %s."
+        local replaceCount -- Just init it with an impossible value
+        local replaceString = ".+"
+
+        --! Has to got from least likely to work to most, otherwise you will get false positives
+        local replaceTypes = {
+            ruRU = "%(%%%d$s%)", --ruRU "|3-6(%2$s) |3-6(%1$s)." ("Ваша репутация с %2$s теперь %1$s.
+            zhTW = "%%s%(%%s%)", --zhTW "你在%2$s中的聲望達到了%1$s。"")
+            deDE = "'%%%d$s'", --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            zhCNkoKR = "%%%d$s", --zhCN(zhTW?)/koKR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+            enPlus = "%%s", -- European languages except (deDE)
+        }
+
+        if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhCNkoKR, replaceString)
+        elseif locale == "deDE" then --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.deDE, replaceString) -- Germans are always special
+        elseif locale == "zhTW" then --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhTW, replaceString)
+        elseif locale == "ruRU" then --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.ruRU, replaceString)
+        else
+            FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.enPlus, replaceString)
+        end
+
+        --? A fallback to try everything if the replaceCount is still -1 or 0
+        if replaceCount and replaceCount < 1 then
+            for _, replaceType in pairs(replaceTypes) do
+                FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceType, replaceString)
+                if replaceCount > 0 then
+                    break
+                end
+            end
+        end
+
+        --? Nothing worked :(
+        if replaceCount and replaceCount < 1 then --- Error: Default to match EVERYTHING, because it's better that it works
+            FACTION_STANDING_CHANGED_PATTERN = ".+"
+            Questie:Error("Something went wrong with the FACTION_STANDING_CHANGED_PATTERN!")
+            Questie:Error("FACTION_STANDING_CHANGED is set to " .. tostring(FACTION_STANDING_CHANGED) .. ", please report this on GitHub!")
+        end
+    end
+
+    -- Start real Questie init
     QuestieInit:Init()
 end
 
+--- Fires when a System Message (yellow text) is output to the main chat window
+---@param message string The message value from the CHAT_MSG_SYSTEM event
+function _EventHandler:ChatMsgSystem(message)
+    -- When a new quest is accepted or completed quest is turned in, update the LibDataBroker text with the appropriate message
+    if string.find(message, questCompletedMessage) == 1 or string.find(message, questAcceptedMessage) == 1 then
+        MinimapIcon:UpdateText(message)
+    elseif string.find(message, FACTION_STANDING_CHANGED_PATTERN) then -- When you discover a new faction or increase standing eg. Neutral -> Friendly
+        QuestieReputation:Update()
+    end
+end
 
 --- Fires when a UI Info Message (yellow text) appears near the top of the screen
 ---@param errorType number The error type value from the UI_INFO_MESSAGE event
 ---@param message string The message value from the UI_INFO_MESSAGE event
 function _EventHandler:UiInfoMessage(errorType, message)
-    -- When the UI Info Message is for a quest objective, update the LibDataBroker text with the message
-    -- Global Strings used:
-    -- 287: ERR_QUEST_OBJECTIVE_COMPLETE_S
-    -- 288: ERR_QUEST_UNKNOWN_COMPLETE
-    -- 289: ERR_QUEST_ADD_KILL_SII
-    -- 290: ERR_QUEST_ADD_FOUND_SII
-    -- 291: ERR_QUEST_ADD_ITEM_SII
-    -- 292: ERR_QUEST_ADD_PLAYER_KILL_SII
-    if errorType >= 287 and errorType <= 292 then
+    local messages = {
+        ["ERR_QUEST_OBJECTIVE_COMPLETE_S"] = true,
+        ["ERR_QUEST_UNKNOWN_COMPLETE"] = true,
+        ["ERR_QUEST_ADD_KILL_SII"] = true,
+        ["ERR_QUEST_ADD_FOUND_SII"] = true,
+        ["ERR_QUEST_ADD_ITEM_SII"] = true,
+        ["ERR_QUEST_ADD_PLAYER_KILL_SII "] = true,
+        ["ERR_QUEST_FAILED_S"] = true,
+    }
+    if messages[GetGameMessageInfo(errorType)] then
         MinimapIcon:UpdateText(message)
     end
 end
@@ -158,7 +223,7 @@ function _EventHandler:PlayerLevelUp(level)
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end)
     QuestieJourney:PlayerLevelUp(level)
 end
@@ -174,9 +239,9 @@ function _EventHandler:ModifierStateChanged()
         GameTooltip:Show()
     end
     if Questie.db.global.trackerLocked then
-        if QuestieTracker.private.baseFrame ~= nil then
+        if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
-                QuestieTracker.private.baseFrame:Update()
+                TrackerBaseFrame.Update()
             end)
         end
     end
@@ -185,37 +250,35 @@ end
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
     Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_SKILL")
-    local isProfUpdate = QuestieProfessions:Update()
+    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     -- This needs to be done to draw new quests that just came available
-    if isProfUpdate then
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+    if isProfUpdate or isNewProfession then
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
 --- Fires when some chat messages about reputations are displayed
 function _EventHandler:ChatMsgCompatFactionChange()
     Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
-    local factionChanged = QuestieReputation:Update(false)
-    if factionChanged then
+    local factionChanged, newFaction = QuestieReputation:Update(false)
+    if factionChanged or newFaction then
         QuestieCombatQueue:Queue(function()
-            QuestieTracker:ResetLinesForChange()
             QuestieTracker:Update()
         end)
-        QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
+        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
 end
 
-local numberOfGroupMembers = -1
-function _EventHandler:GroupRosterUpdate()
+function _EventHandler.GroupRosterUpdate()
     local currentMembers = GetNumGroupMembers()
     -- Only want to do logic when number increases, not decreases.
-    if numberOfGroupMembers < currentMembers then
+    if QuestiePlayer.numberOfGroupMembers < currentMembers then
         -- Tell comms to send information to members.
         --Questie:SendMessage("QC_ID_BROADCAST_FULL_QUESTLIST")
-        numberOfGroupMembers = currentMembers
+        QuestiePlayer.numberOfGroupMembers = currentMembers
     else
         -- We do however always want the local to be the current number to allow up and down.
-        numberOfGroupMembers = currentMembers
+        QuestiePlayer.numberOfGroupMembers = currentMembers
     end
 end
 
@@ -223,19 +286,19 @@ function _EventHandler:GroupJoined()
     Questie:Debug(Questie.DEBUG_DEVELOP, "GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
-    checkTimer = C_Timer.NewTicker(0.1, function()
+    checkTimer = C_Timer.NewTicker(0.2, function()
         local partyPending = UnitInParty("player")
         local isInParty = UnitInParty("party1")
         local isInRaid = UnitInRaid("raid1")
         if partyPending then
             if (isInParty or isInRaid) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler]", "Player joined party/raid, ask for questlogs")
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler] Player joined party/raid, ask for questlogs")
                 --Request other players log.
                 Questie:SendMessage("QC_ID_REQUEST_FULL_QUESTLIST")
                 checkTimer:Cancel()
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler]", "Player no longer in a party or pending invite. Cancel timer")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieEventHandler] Player no longer in a party or pending invite. Cancel timer")
             checkTimer:Cancel()
         end
     end)

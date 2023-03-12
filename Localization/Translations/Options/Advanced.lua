@@ -268,7 +268,7 @@ local advancedOptionsLocales = {
     },
     ["The database needs to be updated to change language. Press reload to apply the new language"] = {
         ["ptBR"] = "O banco de dados precisa ser atualizado para alterar o idioma. Pressione recarregar para aplicar o novo idioma",
-        ["ruRU"] = "БД должна обновиться для изменения языка. Нажмите 'Перезагрузка интерфейса' для использования нового языка",
+        ["ruRU"] = "БД должна обновиться для изменения языка. Нажмите 'Перезагрузка' для использования нового языка",
         ["deDE"] = "Die Datenbank muss durch den Sprachenwechsel neugeladen werden. Drücke reload um die neue Sprache zu aktivieren.",
         ["koKR"] = "언어 설정을 위해 데이터베이스 업데이트가 필요합니다. 새로 적용된 언어를 위해 Reload를 누르세요.",
         ["esMX"] = "Es necesario actualizar la base de datos para cambiar el idioma. Presiona recargar para aplicar el nuevo idioma",

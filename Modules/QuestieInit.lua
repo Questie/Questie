@@ -1,6 +1,9 @@
 ---@class QuestieInit
 local QuestieInit = QuestieLoader:CreateModule("QuestieInit")
-local _QuestieInit = {}
+local _QuestieInit = QuestieInit.private
+
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 
 ---@type QuestEventHandler
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
@@ -36,6 +39,8 @@ local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 ---@type QuestieJourney
@@ -44,12 +49,86 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney")
 local HBDHooks = QuestieLoader:ImportModule("HBDHooks")
 ---@type ChatFilter
 local ChatFilter = QuestieLoader:ImportModule("ChatFilter")
+---@type QuestieShutUp
+local QuestieShutUp = QuestieLoader:ImportModule("QuestieShutUp")
 ---@type Hooks
 local Hooks = QuestieLoader:ImportModule("Hooks")
----@class QuestieValidateGameCache
+---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
+---@type MinimapIcon
+local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
+---@type QuestieComms
+local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
+---@type QuestieOptions
+local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
+---@type QuestieCoords
+local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
+---@type QuestieDBMIntegration
+local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
+---@type QuestieQuestTimers
+local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieSlash
+local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 
+local coYield = coroutine.yield
 
+local function loadFullDatabase()
+    print("\124cFF4DDBFF [1/9] " .. l10n("Loading database") .. "...")
+
+    QuestieInit:LoadBaseDB()
+
+    print("\124cFF4DDBFF [2/9] " .. l10n("Applying database corrections") .. "...")
+
+    coYield()
+    QuestieCorrections:Initialize()
+
+    print("\124cFF4DDBFF [3/9] " .. l10n("Initializing townfolks") .. "...")
+    coYield()
+    QuestieMenu:PopulateTownsfolk()
+
+    print("\124cFF4DDBFF [4/9] " .. l10n("Initializing locale") .. "...")
+    coYield()
+    l10n:Initialize()
+
+    coYield()
+    QuestieDB.private:DeleteGatheringNodes()
+
+    print("\124cFF4DDBFF [5/9] " .. l10n("Optimizing waypoints") .. "...")
+    coYield()
+    QuestieCorrections:PreCompile()
+end
+
+---Run the validator
+local function runValidator()
+    if Questie.db.global.skipValidation then
+        -- TODO: We need a checkbox for this setting
+        return
+    end
+
+    if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
+        Questie:Error("Cannot run the validator on string data, load database first")
+        return
+    end
+    -- Run validator
+    if Questie.db.global.debugEnabled then
+        coYield()
+        print("Validating NPCs...")
+         QuestieDBCompiler:ValidateNPCs()
+        coYield()
+        print("Validating objects...")
+         QuestieDBCompiler:ValidateObjects()
+        coYield()
+        print("Validating items...")
+         QuestieDBCompiler:ValidateItems()
+        coYield()
+        print("Validating quests...")
+        QuestieDBCompiler:ValidateQuests()
+    end
+end
 
 -- ********************************************************************************
 -- Start of QuestieInit.Stages ******************************************************
@@ -58,9 +137,17 @@ local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGame
 QuestieInit.Stages = {}
 
 QuestieInit.Stages[1] = function() -- run as a coroutine
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting the real init.")
+
+    --? This was moved here because the lag that it creates is much less noticable here, while still initalizing correctly.
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieInit:Stage1] Starting QuestieOptions.Initialize Thread.")
+    ThreadLib.ThreadSimple(QuestieOptions.Initialize, 0)
+
+    MinimapIcon:Init()
+
     HBDHooks:Init()
 
-    QuestieFramePool:SetIcons()
+    Questie:SetIcons()
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
@@ -69,109 +156,139 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         l10n:SetUILocale(GetLocale());
     end
 
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[Questie:OnInitialize] Questie addon loaded")
+    QuestieShutUp:ToggleFilters(Questie.db.global.questieShutUp)
 
-    coroutine.yield()
+    coYield()
     ZoneDB:Initialize()
 
-    coroutine.yield()
+    coYield()
     Migration:Migrate()
 
-    QuestieProfessions:Init()
+    IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
-    -- check if the DB needs to be recompiled
+    QuestieProfessions:Init()
+    coYield()
+
+    local dbCompiled = false
+
+    -- Check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
         print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
-        print("\124cFF4DDBFF [1/7] " .. l10n("Loading database") .. "...")
-
-        QuestieInit:LoadBaseDB()
-        _QuestieInit:OverrideDBWithTBCData()
-
-        print("\124cFF4DDBFF [2/7] " .. l10n("Applying database corrections") .. "...")
-
-        coroutine.yield()
-        QuestieCorrections:Initialize()
-        coroutine.yield()
-        QuestieMenu:PopulateTownsfolk()
-
-        print("\124cFF4DDBFF [3/7] " .. l10n("Initializing locale") .. "...")
-        coroutine.yield()
-        l10n:Initialize()
-
-        coroutine.yield()
-        QuestieDB.private:DeleteGatheringNodes()
-
-        coroutine.yield()
-        QuestieCorrections:PreCompile()
+        loadFullDatabase()
         QuestieDBCompiler:Compile()
+        dbCompiled = true
     else
-        _QuestieInit:OverrideDBWithTBCData()
-
-        coroutine.yield()
         l10n:Initialize()
-
-        coroutine.yield()
+        coYield()
         QuestieCorrections:MinimalInit()
     end
 
     if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
         Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
-        coroutine.yield()
+        coYield()
         QuestieMenu:BuildCharacterTownsfolk()
     end
 
-    coroutine.yield()
+    coYield()
     QuestieDB:Initialize()
 
-    QuestieCleanup:Run()
+    --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
+    if Questie.db.global.debugEnabled and dbCompiled then
+        runValidator()
+        print("\124cFF4DDBFF Load and Validation complete...")
+    end
 
-    -- continue to next Init Stage
-    return QuestieInit.Stages[2]
+    QuestieCleanup:Run()
 end
 
-QuestieInit.Stages[2] = function() -- not a coroutine
+QuestieInit.Stages[2] = function()
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 2 start.")
+    -- We do this while we wait for the Quest Cache anyway.
+    l10n:PostBoot()
+    QuestiePlayer:Initialize()
+    coYield()
+    QuestieJourney:Initialize()
+
     -- Continue to the next Init Stage once Game Cache's Questlog is good
-    QuestieValidateGameCache.AddCallback(_QuestieInit.StartStageCoroutine, _QuestieInit, 3)
+    while not QuestieValidateGameCache:IsCacheGood() do
+        coYield()
+    end
 end
 
 QuestieInit.Stages[3] = function() -- run as a coroutine
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 3 start.")
+
     -- register events that rely on questie being initialized
     QuestieEventHandler:RegisterLateEvents()
-    QuestEventHandler:RegisterEvents()
-    ChatFilter:RegisterEvents()
-    coroutine.yield()
 
+    -- ** OLD ** Questie:ContinueInit() ** START **
+    QuestieTooltips:Initialize()
+    QuestieCoords:Initialize()
+    QuestieQuestTimers:Initialize()
+    QuestieComms:Initialize()
+
+    QuestieSlash.RegisterSlashCommands()
+
+    coYield()
+
+    -- Update the default text on the map show/hide button for localization
+    if Questie.db.char.enabled then
+        Questie_Toggle:SetText(l10n("Hide Questie"));
+    else
+        Questie_Toggle:SetText(l10n("Show Questie"));
+    end
+
+    -- Update status of Map button on hide between play sessions
+    if Questie.db.global.mapShowHideEnabled then
+        Questie_Toggle:Show();
+    else
+        Questie_Toggle:Hide();
+    end
+
+    -- Change position of Map button when continent dropdown is hidden
+    C_Timer.After(1, function()
+        if not WorldMapContinentDropDown:IsShown() then
+            Questie_Toggle:ClearAllPoints();
+            if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
+                AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
+                AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
+                Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
+            else
+                Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
+            end
+        end
+    end)
+
+    if Questie.db.global.dbmHUDEnable then
+        QuestieDBMIntegration:EnableHUD()
+    end
+    -- ** OLD ** Questie:ContinueInit() ** END **
+
+
+    coYield()
+    QuestEventHandler:RegisterEvents()
+    coYield()
+    ChatFilter:RegisterEvents()
     QuestieMap:InitializeQueue()
 
-    coroutine.yield()
-    QuestiePlayer:Initialize()
-    l10n:PostBoot()
-
-    coroutine.yield()
-    QuestieJourney:Initialize()
-    coroutine.yield()
+    coYield()
     QuestieQuest:Initialize()
-    coroutine.yield()
+    coYield()
     QuestieQuest:GetAllQuestIdsNoObjectives()
-    coroutine.yield()
-    QuestieQuest:CalculateAndDrawAvailableQuestsIterative()
-    coroutine.yield()
-    QuestieNameplate:Initialize()
-    coroutine.yield()
+    coYield()
     QuestieMenu:PopulateTownsfolkPostBoot()
-    Questie:Debug(Questie.DEBUG_ELEVATED, "PLAYER_ENTERED_WORLD")
-
-    coroutine.yield()
+    coYield()
     QuestieQuest:GetAllQuestIds()
 
     -- Initialize the tracker
-    coroutine.yield()
-    QuestieTracker:Initialize()
+    coYield()
+    QuestieTracker.Initialize()
     Hooks:HookQuestLogTitle()
+    QuestieCombatQueue.Initialize()
 
     local dateToday = date("%y-%m-%d")
 
-    if Questie.db.char.showAQWarEffortQuests and (Questie.db.char.aqWarningPrintDate == nil or Questie.db.char.aqWarningPrintDate < dateToday) then
+    if Questie.db.char.showAQWarEffortQuests and ((not Questie.db.char.aqWarningPrintDate) or (Questie.db.char.aqWarningPrintDate < dateToday)) then
         Questie.db.char.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
@@ -180,26 +297,37 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
         end)
     end
 
+    if Questie.IsTBC and (not Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled) then
+        C_Timer.After(2, function()
+            Questie:Print(l10n("Current active phase of Isle of Quel'Danas is '%s'. Check the General settings to change the phase or disable this message.", IsleOfQuelDanas.localizedPhaseNames[Questie.db.global.isleOfQuelDanasPhase]))
+        end)
+    end
+
+    coYield()
     QuestieMenu:OnLogin()
 
+    coYield()
     if Questie.db.global.debugEnabled then
         QuestieLoader:PopulateGlobals()
     end
 
     Questie.started = true
 
-    if Questie.IsTBC and QuestiePlayer:GetPlayerLevel() == 70 then
+    if Questie.IsWotlk and QuestiePlayer.GetPlayerLevel() == 70 then
         local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
         local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
 
         if lastRequestWasYesterday or isPastDailyReset then
-            -- We send empty Reputable events to ask for the current daily quests. Other users of the addon will answer if they have better data.
-            C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "GUILD");
-            C_ChatInfo.SendAddonMessage("REPUTABLE", "send:1.21-bcc::::::::::", "YELL");
             Questie.db.char.lastDailyRequestDate = date("%d-%m-%y");
             Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
         end
     end
+
+    -- We do this last because it will run for a while and we don't want to block the rest of the init
+    coYield()
+    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Questie init done.")
 end
 
 -- End of QuestieInit.Stages ******************************************************
@@ -209,9 +337,9 @@ end
 
 function QuestieInit:LoadDatabase(key)
     if QuestieDB[key] then
-        coroutine.yield()
+        coYield()
         QuestieDB[key] = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
-        coroutine.yield()
+        coYield()
         QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
@@ -219,66 +347,21 @@ function QuestieInit:LoadDatabase(key)
 end
 
 function QuestieInit:LoadBaseDB()
-
-    -- load NPC data
     QuestieInit:LoadDatabase("npcData")
-    QuestieInit:LoadDatabase("npcDataTBC")
-
-    -- load object data
     QuestieInit:LoadDatabase("objectData")
-    QuestieInit:LoadDatabase("objectDataTBC")
-
-    -- load quest data
     QuestieInit:LoadDatabase("questData")
-    QuestieInit:LoadDatabase("questDataTBC")
-
-    -- load item data
     QuestieInit:LoadDatabase("itemData")
-    QuestieInit:LoadDatabase("itemDataTBC")
-
-end
-
-function _QuestieInit:OverrideDBWithTBCData()
-    if QuestieDB.questDataTBC then
-        -- we loaded the TBC db, alias the tables
-        QuestieDB.questData = QuestieDB.questDataTBC
-        QuestieDB.objectData = QuestieDB.objectDataTBC
-        QuestieDB.npcData = QuestieDB.npcDataTBC
-        QuestieDB.itemData = QuestieDB.itemDataTBC
-    end
 end
 
 
--- this function creates coroutine to run a function from QuestieInit.Stages[]
----@param stage number @the stage to start
-function _QuestieInit:StartStageCoroutine(stage)
-    local initFrame = CreateFrame("Frame")
-    local routine = coroutine.create(QuestieInit.Stages[stage])
-
-    local function InitOnUpdate()
-        local success, ret = coroutine.resume(routine)
-        if success then
-            if coroutine.status(routine) == "dead" then
-                initFrame:SetScript("OnUpdate", nil)
-                initFrame:SetParent(nil)
-                initFrame = nil
-                if type(ret) == "function" then -- continue to next stage, if it was returned by coroutine
-                    ret()
-                end
-            end
-        else
-            Questie:Error(l10n("Error during initialization!"), ret)
-            initFrame:SetScript("OnUpdate", nil)
-            initFrame:SetParent(nil)
-            initFrame = nil
-        end
+function _QuestieInit.StartStageCoroutine()
+    for i = 1, #QuestieInit.Stages do
+        QuestieInit.Stages[i]()
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:StartStageCoroutine] Stage " .. i .. " done.")
     end
-
-    initFrame:SetScript("OnUpdate", InitOnUpdate)
-    InitOnUpdate() -- starts the coroutine imediately instead at next OnUpdate
 end
 
 -- called by the PLAYER_LOGIN event handler
 function QuestieInit:Init()
-    _QuestieInit:StartStageCoroutine(1)
+    ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 end

@@ -25,7 +25,7 @@ function QuestieOptions.tabs.tooltip:Initialize()
                 desc = function() return l10n('When this is enabled, quest info will be added to relevant mob/item tooltips.'); end,
                 width = 1.5,
                 get = function () return Questie.db.global.enableTooltips; end,
-                set = function (info, value) Questie.db.global.enableTooltips = value end
+                set = function (_, value) Questie.db.global.enableTooltips = value end
             },
             showQuestLevels = {
                 type = "toggle",
@@ -35,7 +35,7 @@ function QuestieOptions.tabs.tooltip:Initialize()
                 width = 1.5,
                 disabled = function() return not Questie.db.global.enableTooltips; end,
                 get = function() return Questie.db.global.enableTooltipsQuestLevel; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.global.enableTooltipsQuestLevel = value
                     if value and not Questie.db.global.trackerShowQuestLevel then
                         Questie.db.global.trackerShowQuestLevel = true
@@ -50,7 +50,7 @@ function QuestieOptions.tabs.tooltip:Initialize()
                 desc = function() return l10n('When this is enabled, shared quest info will only show players in your party.'); end,
                 width = 1.5,
                 get = function () return Questie.db.global.onlyPartyShared; end,
-                set = function (info, value) Questie.db.global.onlyPartyShared = value end
+                set = function (_, value) Questie.db.global.onlyPartyShared = value end
             },
             questsInNpcTooltip = {
                 type = "toggle",
@@ -59,8 +59,17 @@ function QuestieOptions.tabs.tooltip:Initialize()
                 desc = function() return l10n('Show quests (available/complete) in the NPC tooltips.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.showQuestsInNpcTooltip; end,
-                set = function (info, value) Questie.db.char.showQuestsInNpcTooltip = value end
-            }
+                set = function (_, value) Questie.db.char.showQuestsInNpcTooltip = value end
+            },
+            questXpAtMaxLevel = {
+                type = "toggle",
+                order = 1.5,
+                name = function() return l10n('Show quest XP at max level'); end,
+                desc = function() return l10n('Shows the quest XP values on quests even at max level.'); end,
+                width = 1.5,
+                get = function () return Questie.db.global.showQuestXpAtMaxLevel; end,
+                set = function (_, value) Questie.db.global.showQuestXpAtMaxLevel = value end
+            },
         }
     }
 end

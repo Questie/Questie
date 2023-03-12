@@ -1,7 +1,24 @@
+Ace3 Release - Revision r1294 (October 22nd, 2022)
+--------------------------------------------------
+- Ace3 should be fully supported on WoW 10.0
+- AceGUI-3.0: TabGroup: Fixes for WoW 10.0 template changes
+- AceConfigDialog-3.0: New Settings panel integration for WoW 10.0
+
+Ace3 Release - Revision r1281 (September 21st, 2022)
+--------------------------------------------------
+- AceGUI-3.0: Preliminary support for WoW 10.0
+- AceGUI-3.0: MultiLineEditBox: Fixed an issue with mouse interactivity on re-cycled editboxes in certain circumstances
+- AceGUI-3.0: Label: Use font objects to allow font fallback mechanics to be used
+
+Ace3 Release - Revision r1259 (February 23rd, 2022)
+--------------------------------------------------
+- AceGUI-3.0: Dropdown: Fix double click sound on toggling the dropdown (Issue #575)
+- AceConfigDialog-3.0: Fix width number multiplier on multiselects (Issue #584)
+
 Ace3 Release - Revision r1252 (May 17th, 2021)
 --------------------------------------------------
-- AceConfigDialog-3.0: Increased the frame level of dialogs to allow other addons to draw below them.
-- AceConfigDialog-3.0: The validation/confirmation popup is now opaque and not click-through, to avoid accidentally activating options below it.
+- AceConfigDialog-3.0: Increased the frame level of dialogs to allow other addons to draw below them
+- AceConfigDialog-3.0: The validation/confirmation popup is now opaque and not click-through, to avoid accidentally activating options below it
 - AceHook-3.0: Allow UnhookAll to be used without embedding (Fixes #558)
 
 Ace3 Release - Revision r1241 (October 13th, 2020)

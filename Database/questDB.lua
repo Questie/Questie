@@ -1,4 +1,4 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
@@ -40,6 +40,8 @@ QuestieDB.questKeys = {
     ['parentQuest'] = 25, -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = 26, -- table: {{FACTION,VALUE}, ...}, A list of reputation reward for factions
     ['extraObjectives'] = 27, -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
+    ['requiredSpell'] = 28, -- int: quest is only available if character has this spellID
+    ['requiredSpecialization'] = 29, -- int: quest is only available if character meets the spec requirements. Use QuestieProfessions.specializationKeys for having a spec, or QuestieProfessions.professionKeys to indicate having the profession with no spec. See QuestieProfessions.lua for more info.
 }
 
 QuestieDB.questKeysReversed = {}
@@ -58,7 +60,7 @@ QuestieDB.questCompilerTypes = {
     ['objectivesText'] = "u8u16stringarray", -- table: {string,...}, Description of the quest. Auto-complete if nil.
     ['triggerEnd'] = "trigger", -- table: {text, {[zoneID] = {coordPair,...},...}}
     ['objectives'] = "objectives", -- table
-    ['sourceItemId'] = "u16", -- int, item provided by quest starter
+    ['sourceItemId'] = "u24", -- int, item provided by quest starter
     ['preQuestGroup'] = "u8u24array", -- table: {quest(int)}
     ['preQuestSingle'] = "u8u24array", -- table: {quest(int)}
     ['childQuests'] = "u8u24array", -- table: {quest(int)}
@@ -68,19 +70,22 @@ QuestieDB.questCompilerTypes = {
     ['requiredSkill'] = "u12pair", -- table: {skill(int), value(int)}
     ['requiredMinRep'] = "s24pair", -- table: {faction(int), value(int)}
     ['requiredMaxRep'] = "s24pair", -- table: {faction(int), value(int)}
-    ['requiredSourceItems'] = "u8u16array", -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
+    ['requiredSourceItems'] = "u8u24array", -- table: {item(int), ...} Items that are not an objective but still needed for the quest.
     ['nextQuestInChain'] = "u24", -- int: if this quest is active/finished, the current quest is not available anymore
-    ['questFlags'] = "u16", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
+    ['questFlags'] = "u24", -- bitmask: see https://github.com/cmangos/issues/wiki/Quest_template#questflags
     ['specialFlags'] = "u16", -- bitmask: 1 = Repeatable, 2 = Needs event, 4 = Monthly reset (req. 1). See https://github.com/cmangos/issues/wiki/Quest_template#specialflags
     ['parentQuest'] = "u24", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
-    ['reputationReward'] = "u8s16pairs",
+    ['reputationReward'] = "u8s24pairs",
     ['extraObjectives'] = "extraobjectives",
+    ['requiredSpell'] = "u24",
+    ['requiredSpecialization'] = "u24",
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
     --static size
     'requiredLevel', 'questLevel', 'requiredRaces', 'requiredClasses', 'sourceItemId', 'zoneOrSort', 'requiredSkill',
-    'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest',
+    'requiredMinRep', 'requiredMaxRep', 'nextQuestInChain', 'questFlags', 'specialFlags', 'parentQuest', 'requiredSpell',
+    'requiredSpecialization',
 
     -- variable size
     'name', 'preQuestGroup', 'preQuestSingle', 'childQuests', 'inGroupWith', 'exclusiveTo', 'requiredSourceItems',

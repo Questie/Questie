@@ -28,22 +28,6 @@ local unusedFrames = {}
 local usedFrames = {};
 local allFrames = {}
 
-
-function QuestieFramePool:SetIcons()
-    ICON_TYPE_SLAY =  QuestieLib.AddonPath.."Icons\\slay.blp"
-    ICON_TYPE_LOOT =  QuestieLib.AddonPath.."Icons\\loot.blp"
-    ICON_TYPE_EVENT =  QuestieLib.AddonPath.."Icons\\event.blp"
-    ICON_TYPE_OBJECT =  QuestieLib.AddonPath.."Icons\\object.blp"
-
-    -- TODO Add all types (we gotta stop using globals, needs refactoring)
-    ICON_TYPE_AVAILABLE =  QuestieLib.AddonPath.."Icons\\available.blp"
-    ICON_TYPE_AVAILABLE_GRAY =  QuestieLib.AddonPath.."Icons\\available_gray.blp"
-    ICON_TYPE_COMPLETE =  QuestieLib.AddonPath.."Icons\\complete.blp"
-    ICON_TYPE_GLOW = QuestieLib.AddonPath.."Icons\\glow.blp"
-    ICON_TYPE_REPEATABLE =  QuestieLib.AddonPath.."Icons\\repeatable.blp"
-end
-
-
 StaticPopupDialogs["QUESTIE_CONFIRMHIDE"] = {
     text = "", -- set before showing
     questID = 0, -- set before showing
@@ -80,7 +64,7 @@ function QuestieFramePool:GetFrame()
 
     if returnFrame and returnFrame.frameId and usedFrames[returnFrame.frameId] then
         -- something went horribly wrong (desync bug?) don't use this frame since its already in use
-        --Questie:Debug(Questie.DEBUG_SPAM, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool:GetFrame] Tried to reuse frame, but that frame is already in use. frameId:", returnFrame.frameId)
         returnFrame = nil
     end
     if not returnFrame then
@@ -129,14 +113,6 @@ function QuestieFramePool:GetFrame()
 
     usedFrames[returnFrame.frameId] = returnFrame
     return returnFrame
-end
-
-function QuestieFramePool:UnloadAll()
-    for _, frame in ipairs(allFrames) do
-        frame:Unload()
-    end
-    QuestieMap.questIdFrames = {}
-    QuestieMap.manualFrames = {}
 end
 
 function QuestieFramePool:UpdateGlowConfig(mini, mode)
@@ -206,13 +182,11 @@ function QuestieFramePool:CreateWaypoints(iconFrame, waypointTable, lineWidth, c
     for _, waypointSubTable in pairs(waypointTable) do
         lastPos = nil
         for _, waypoint in pairs(waypointSubTable) do
-            if (lastPos == nil) then
-                lastPos = waypoint;
-            else
+            if lastPos then
                 local lineFrame = QuestieFramePool:CreateLine(iconFrame, lastPos[1], lastPos[2], waypoint[1], waypoint[2], lWidth, col, areaId)
                 tinsert(lineFrameList, lineFrame);
-                lastPos = waypoint;
             end
+            lastPos = waypoint
         end
     end
     return lineFrameList;
@@ -259,7 +233,7 @@ function QuestieFramePool:CreateLine(iconFrame, startX, startY, endX, endY, line
     lineFrame.type = "line"
 
     --Include the line in the iconFrame.
-    if (iconFrame.data.lineFrames == nil) then
+    if not iconFrame.data.lineFrames then
         iconFrame.data.lineFrames = {};
     end
     tinsert(iconFrame.data.lineFrames, lineFrame);

@@ -1,0 +1,5 @@
+ID,MapID,LeftBoundary,RightBoundary,TopBoundary,BottomBoundary,ContinentOffset[0],ContinentOffset[1],Scale,TaxiMin[0],TaxiMin[1],TaxiMax[0],TaxiMax[1],WorldMapID
+1,0,26,44,8,60,16.875,-1.5,0.7,-16530,-16530,12270,12270,1
+2,1,16,46,9,52,-20.1875,3.3125,0.7,-11870,-13370,12470,10970,1
+3,530,23,47,15,61,14.5,-7,0.75,-5867,-1600,6400,10670,0
+4,571,16,45,12,33,1.8125,-6.375,0.7,-3733,-6933,11730,8533,1

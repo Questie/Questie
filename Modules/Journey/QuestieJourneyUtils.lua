@@ -121,7 +121,8 @@ function QuestieJourneyUtils:CollectQuests(quests)
                 completedCounter = completedCounter + 1
             else
                 local queryResult = QuestieDB.QueryQuest(
-                        questId,
+                    questId,
+                    {
                         "exclusiveTo",
                         "nextQuestInChain",
                         "parentQuest",
@@ -129,6 +130,7 @@ function QuestieJourneyUtils:CollectQuests(quests)
                         "preQuestGroup",
                         "requiredMinRep",
                         "requiredMaxRep"
+                    }
                 ) or {}
                 local exclusiveTo = queryResult[1]
                 local nextQuestInChain = queryResult[2]

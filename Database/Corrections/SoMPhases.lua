@@ -1,7 +1,7 @@
 ---@type QuestieQuestBlacklist
 local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 
-local currentPhase = 4 -- TODO: Use API function which hopefully will come in the future
+local currentPhase = 5 -- TODO: Use API function which hopefully will come in the future
 
 -- Phase 1 is omitted, because everything not in this list is supposed to be available in Phase 1
 local questsToBlacklistBySoMPhase = {

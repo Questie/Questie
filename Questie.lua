@@ -12,94 +12,19 @@ local band = bit.band
 -------------------------
 --Import modules.
 -------------------------
----@type QuestieComms
-local QuestieComms = QuestieLoader:ImportModule("QuestieComms");
----@type QuestieOptions
-local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions");
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
----@type QuestieCoords
-local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 ---@type QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
----@type QuestieTooltips
-local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
----@type QuestieDBMIntegration
-local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
----@type QuestieQuestTimers
-local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
----@type QuestieCombatQueue
-local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type QuestieSlash
-local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
----@class QuestieValidateGameCache
+---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
----@type l10n
-local l10n = QuestieLoader:ImportModule("l10n")
 
 
 function Questie:OnInitialize()
-    Questie.TBC_BETA_BUILD_VERSION_SHORTHAND = ""
-
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
     QuestieEventHandler:RegisterEarlyEvents()
-end
-
-function Questie:ContinueInit()
-    --QuestieTracker:Initialize() --moved to stage 2 init event function
-    QuestieTooltips:Initialize()
-    QuestieCoords:Initialize()
-    QuestieQuestTimers:Initialize()
-    QuestieCombatQueue:Initialize()
-    QuestieComms:Initialize()
-
-    -- Register Slash Commands
-    Questie:RegisterChatCommand("questieclassic", "HandleSlash")
-    Questie:RegisterChatCommand("questie", "HandleSlash")
-
-    QuestieOptions:Initialize()
-
-    --Initialize the DB settings.
-    Questie:Debug(Questie.DEBUG_DEVELOP, l10n("Setting clustering value, clusterLevelHotzone set to %s : Redrawing!", Questie.db.global.clusterLevelHotzone))
-
-
-    -- Update the default text on the map show/hide button for localization
-    if Questie.db.char.enabled then
-        Questie_Toggle:SetText(l10n("Hide Questie"));
-    else
-        Questie_Toggle:SetText(l10n("Show Questie"));
-    end
-
-    -- Update status of Map button on hide between play sessions
-    if Questie.db.global.mapShowHideEnabled then
-        Questie_Toggle:Show();
-    else
-        Questie_Toggle:Hide();
-    end
-
-    -- Change position of Map button when continent dropdown is hidden
-    C_Timer.After(1, function()
-        if not WorldMapContinentDropDown:IsShown() then
-            Questie_Toggle:ClearAllPoints();
-            if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
-                AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
-                AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
-                Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
-            else
-                Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
-            end
-        end
-    end)
-
-    if Questie.db.global.dbmHUDEnable then
-        QuestieDBMIntegration:EnableHUD()
-    end
-end
-
-function Questie:OnUpdate()
-
 end
 
 function Questie:OnEnable()
@@ -110,33 +35,34 @@ function Questie:OnDisable()
     -- Called when the addon is disabled
 end
 
-function Questie:HandleSlash(input)
-    QuestieSlash:HandleCommands(input)
-end
-
+--- Colorize a string with a color code
+---@param str string @The string colorize
+--Name or string in the format "RRGGBB" i.e "FF0000" for red
+---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
+---@return string
 function Questie:Colorize(str, color)
-    local c = '';
+    local c = "|cFF"..color;
 
-    if color == 'red' then
-        c = '|cFFff0000';
-    elseif color == 'gray' then
-        c = '|cFFa6a6a6';
-    elseif color == 'purple' then
-        c = '|cFFB900FF';
-    elseif color == 'blue' then
-        c = '|cB900FFFF';
-    elseif color == 'lightBlue' then
-        c = '|cB900FFFF';
-    elseif color == 'reputationBlue' then
-        c = '|cFF8080ff';
-    elseif color == 'yellow' then
-        c = '|cFFffff00';
-    elseif color == 'orange' then
-        c = '|cFFFF6F22';
-    elseif color == 'green' then
-        c = '|cFF00ff00';
+    if color == "red" then
+        c = "|cFFff0000";
+    elseif color == "gray" then
+        c = "|cFFa6a6a6";
+    elseif color == "purple" then
+        c = "|cFFB900FF";
+    elseif color == "blue" then
+        c = "|cB900FFFF";
+    elseif color == "lightBlue" then
+        c = "|cB900FFFF";
+    elseif color == "reputationBlue" then
+        c = "|cFF8080ff";
+    elseif color == "yellow" then
+        c = "|cFFffff00";
+    elseif color == "orange" then
+        c = "|cFFFF6F22";
+    elseif color == "green" then
+        c = "|cFF00ff00";
     elseif color == "white" then
-        c = '|cFFffffff';
+        c = "|cFFffffff";
     elseif color == "gold" then
         c = "|cFFffd100" -- this is the default game font
     end
@@ -199,6 +125,71 @@ function Questie:Debug(...)
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
         end
+    end
+end
+
+Questie.icons = {
+    ["slay"] = "Interface\\Addons\\Questie\\Icons\\slay.blp",
+    ["loot"] = "Interface\\Addons\\Questie\\Icons\\loot.blp",
+    ["event"] = "Interface\\Addons\\Questie\\Icons\\event.blp",
+    ["object"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
+    ["talk"] = "Interface\\Addons\\Questie\\Icons\\chatbubblegossipicon.blp",
+    ["available"] = "Interface\\Addons\\Questie\\Icons\\available.blp",
+    ["available_gray"] = "Interface\\Addons\\Questie\\Icons\\available_gray.blp",
+    ["complete"] = "Interface\\Addons\\Questie\\Icons\\complete.blp",
+    ["glow"] = "Interface\\Addons\\Questie\\Icons\\glow.blp",
+    ["repeatable"] = "Interface\\Addons\\Questie\\Icons\\repeatable.blp",
+    ["node"] = "Interface\\Addons\\Questie\\Icons\\node.tga",
+    ["player"] = "Interface\\WorldMap\\WorldMapPartyIcon",
+    ["fav"] = "Interface\\Addons\\Questie\\Icons\\fav.tga",
+    ["faction_alliance"] = "Interface\\Addons\\Questie\\Icons\\icon_alliance.tga",
+    ["faction_horde"] = "Interface\\Addons\\Questie\\Icons\\icon_horde.tga",
+    ["loot_mono"] = "Interface\\Addons\\Questie\\Icons\\loot_mono.tga",
+    ["node_cut"] = "Interface\\Addons\\Questie\\Icons\\node_cut.tga",
+    ["object_mono"] = "Interface\\Addons\\Questie\\Icons\\object_mono.tga",
+    ["route"] = "Interface\\Addons\\Questie\\Icons\\route.tga",
+    ["slay_mono"] = "Interface\\Addons\\Questie\\Icons\\slay_mono.tga",
+    ["startend"] = "Interface\\Addons\\Questie\\Icons\\startend.tga",
+    ["startendstart"] = "Interface\\Addons\\Questie\\Icons\\startendstart.tga",
+    ["tracker_clean"] = "Interface\\Addons\\Questie\\Icons\\tracker_clean.tga",
+    ["tracker_close"] = "Interface\\Addons\\Questie\\Icons\\tracker_close.tga",
+    ["tracker_database"] = "Interface\\Addons\\Questie\\Icons\\tracker_database.tga",
+    ["tracker_giver"] = "Interface\\Addons\\Questie\\Icons\\tracker_giver.tga",
+    ["tracker_quests"] = "Interface\\Addons\\Questie\\Icons\\tracker_quests.tga",
+    ["tracker_search"] = "Interface\\Addons\\Questie\\Icons\\tracker_search.tga",
+    ["tracker_settings"] = "Interface\\Addons\\Questie\\Icons\\tracker_settings.tga",
+}
+
+Questie.usedIcons = {}
+
+Questie.ICON_TYPE_SLAY = 1
+Questie.ICON_TYPE_LOOT = 2
+Questie.ICON_TYPE_EVENT = 3
+Questie.ICON_TYPE_OBJECT = 4
+Questie.ICON_TYPE_TALK = 5
+Questie.ICON_TYPE_AVAILABLE = 6
+Questie.ICON_TYPE_AVAILABLE_GRAY = 7
+Questie.ICON_TYPE_COMPLETE = 8
+Questie.ICON_TYPE_GLOW = 9
+Questie.ICON_TYPE_REPEATABLE = 10
+
+-- Load icon pathes from SavedVariables or set the default ones
+function Questie:SetIcons()
+    Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.global.ICON_SLAY or Questie.icons["slay"]
+    Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.global.ICON_LOOT or Questie.icons["loot"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.global.ICON_EVENT or Questie.icons["event"]
+    Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.global.ICON_OBJECT or Questie.icons["object"]
+    Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.global.ICON_TALK or Questie.icons["talk"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.global.ICON_AVAILABLE or Questie.icons["available"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.global.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
+    Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.global.ICON_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.global.ICON_GLOW or Questie.icons["glow"]
+    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.global.ICON_REPEATABLE or Questie.icons["repeatable"]
+end
+
+function Questie:GetIconNameFromPath(path)
+    for k, v in pairs(Questie.icons) do
+        if path == v then return k end
     end
 end
 

@@ -27,6 +27,8 @@ local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local _, playerClass = UnitClass("player")
 local playerFaction = UnitFactionGroup("player")
 
+
+
 local _townsfolk_texturemap = {
     ["Flight Master"] = "Interface\\Minimap\\tracking\\flightmaster",
     ["Meeting Stones"] = QuestieLib.AddonPath.."Icons\\mstone.blp",
@@ -61,6 +63,7 @@ local _townsfolk_texturemap = {
     [QuestieProfessions.professionKeys.FISHING] = "Interface\\Icons\\trade_fishing",
     [QuestieProfessions.professionKeys.SKINNING] = "Interface\\Icons\\inv_misc_pelt_wolf_01",
     [QuestieProfessions.professionKeys.JEWELCRAFTING] = "Interface\\Icons\\inv_misc_gem_01",
+    [QuestieProfessions.professionKeys.INSCRIPTION] = "Interface\\Icons\\inv_inscription_tradeskill01",
 }
 
 local _spawned = {} -- used to check if we have already spawned an icon for this npc
@@ -72,7 +75,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             Questie.db.char.vendorList[key]
 
     if (not ids) then
-        Questie:Debug(Questie.DEBUG_INFO, "Invalid townsfolk key " .. tostring(key))
+        Questie:Debug(Questie.DEBUG_INFO, "Invalid townsfolk key", tostring(key))
         return
     end
 
@@ -100,7 +103,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             local timer
             local e = 1
             local max = (#ids)+1
-            timer = C_Timer.NewTicker(0.01, function() 
+            timer = C_Timer.NewTicker(0.01, function()
                 local start = e
                 while e < max and e-start < 32 do
                     local id = ids[e]
@@ -131,11 +134,11 @@ local function build(key)
 
     return {
         text = l10n(tostring(key)),
-        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end, 
-        icon=icon, 
+        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end,
+        icon=icon,
         notCheckable=false,
-        checked=Questie.db.char.townsfolkConfig[key], 
-        isNotRadio=true, 
+        checked=Questie.db.char.townsfolkConfig[key],
+        isNotRadio=true,
         keepShownOnClick=true
     }
 end
@@ -305,14 +308,20 @@ local function _reformatVendors(lst, existingTable)
     return newList
 end
 
+local sub, bitband, strlen = string.sub, bit.band, string.len
+
+---Fetches townfolk of a specific mask
+---@param mask NpcFlags
+---@param requireSubname boolean?
+---@return NpcId[]
 function QuestieMenu:PopulateTownsfolkType(mask, requireSubname) -- populate the table with all npc ids based on the given bitmask
     local tbl = {}
     for id, data in pairs(QuestieDB.npcData) do
         local flags = data[QuestieDB.npcKeys.npcFlags]
-        if flags and bit.band(flags, mask) == mask then
+        if flags and bitband(flags, mask) == mask then
             local name = data[QuestieDB.npcKeys.name]
             local subName = data[QuestieDB.npcKeys.subName]
-            if name and string.sub(name, 1, 5) ~= "[DND]" then
+            if name and sub(name, 1, 5) ~= "[DND]" then
                 if (not requireSubname) or (subName and string.len(subName) > 1) then
                     tinsert(tbl, id)
                 end
@@ -322,69 +331,185 @@ function QuestieMenu:PopulateTownsfolkType(mask, requireSubname) -- populate the
     return tbl
 end
 
+---Uses a table to fetch multiple townfolk types at the same time.
+---@param folkTypes table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
+function QuestieMenu:PopulateTownsfolkTypes(folkTypes) -- populate the table with all npc ids based on the given bitmask
+    local count = 0
+    for id, npcData in pairs(QuestieDB.npcData) do
+        local flags = npcData[QuestieDB.npcKeys.npcFlags]
+        for name, folkType in pairs(folkTypes) do
+            if flags and bitband(flags, folkType.mask) == folkType.mask then
+                local npcName = npcData[QuestieDB.npcKeys.name]
+                local subName = npcData[QuestieDB.npcKeys.subName]
+                if npcName and sub(npcName, 1, 5) ~= "[DND]" then
+                    if (not folkType.requireSubname) or (subName and strlen(subName) > 1) then
+                        folkType.data[#folkType.data+1] = id
+                    end
+                end
+            end
+        end
+        if count > 700 then -- 700 seems like a good number
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
+    end
+    return folkTypes
+end
+
+
+---Initialization for townfolk
 function QuestieMenu:PopulateTownsfolk()
-    Questie.db.global.townsfolk = {
-        ["Repair"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.REPAIR, true), 
-        ["Auctioneer"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.AUCTIONEER, false),
-        ["Banker"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BANKER, true),
-        ["Battlemaster"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.BATTLEMASTER, true),
-        ["Flight Master"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.FLIGHT_MASTER),
-        ["Innkeeper"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.INNKEEPER, true),
+
+    --? This datastructure is used in PopulateTownsfolkTypes to fetch multiple townfolk data in the same npc loop cycle
+    ---@type table<string, {mask: NpcFlags|integer, requireSubname: boolean, data: NpcId[]}>
+    local townsfolkData = {
+        ["Repair"] = {
+            mask = QuestieDB.npcFlags.REPAIR,
+            requireSubname = true,
+            data = {}
+        },
+        ["Auctioneer"] = {
+            mask = QuestieDB.npcFlags.AUCTIONEER,
+            requireSubname = false,
+            data = {}
+        },
+        ["Banker"] = {
+            mask = QuestieDB.npcFlags.BANKER,
+            requireSubname = true,
+            data = {}
+        },
+        ["Battlemaster"] = {
+            mask = QuestieDB.npcFlags.BATTLEMASTER,
+            requireSubname = true,
+            data = {}
+        },
+        ["Flight Master"] = {
+            mask = QuestieDB.npcFlags.FLIGHT_MASTER,
+            requireSubname = false,
+            data = {}
+        },
+        ["Innkeeper"] = {
+            mask = QuestieDB.npcFlags.INNKEEPER,
+            requireSubname = true,
+            data = {}
+        },
+        ["Stable Master"] = { -- Used further down by hunters.
+            mask = QuestieDB.npcFlags.STABLEMASTER,
+            requireSubname = false,
+            data = {}
+        },
+        ["Spirit Healer"] = {-- Used further down
+            mask = QuestieDB.npcFlags.SPIRIT_HEALER,
+            requireSubname = false,
+            data = {}
+        }
+    }
+    QuestieMenu:PopulateTownsfolkTypes(townsfolkData)
+
+    local townfolk = {
+        ["Repair"] = townsfolkData["Repair"].data,
+        ["Auctioneer"] = townsfolkData["Auctioneer"].data,
+        ["Banker"] = townsfolkData["Banker"].data,
+        ["Battlemaster"] = townsfolkData["Battlemaster"].data,
+        ["Flight Master"] = townsfolkData["Flight Master"].data,
+        ["Innkeeper"] = townsfolkData["Innkeeper"].data,
         ["Weapon Master"] = {}, -- populated below
     }
-    Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = true
-    local classTrainers = Questie.IsTBC and {
-        ["MAGE"] = {198, 313, 328, 331, 944, 1228, 2124, 2128, 3047, 3048, 3049, 4566, 4567, 4568, 4987, 5144, 5145, 5146, 5497, 5498, 5880, 5882, 5883, 5884, 5885, 7311, 7312, 15279, 16269, 16500, 16651, 16652, 16653, 16749, 17481, 17513, 17514, 26326, 27704},
-        ["SHAMAN"] = {986, 3030, 3031, 3032, 3062, 3066, 3157, 3173, 3344, 3403, 4991, 13417, 17089, 17204, 17212, 17219, 17519, 17520, 20407, 23127, 26330},
-        ["PRIEST"] = {375, 376, 377, 837, 1226, 2123, 2129, 3044, 3045, 3046, 3595, 3600, 3706, 3707, 4090, 4091, 4092, 4606, 4607, 4608, 4989, 5141, 5142, 5143, 5484, 5489, 5994, 6014, 6018, 11397, 11401, 11406, 15284, 16276, 16502, 16658, 16659, 16660, 16756, 17482, 17510, 17511, 26328},
-        ["PALADIN"] = {925, 926, 927, 928, 1232, 4988, 5147, 5148, 5149, 5491, 5492, 8140, 15280, 16275, 16501, 16679, 16680, 16681, 16761, 17121, 17483, 17509, 17844, 20406, 23128, 26327},
-        ["WARRIOR"] = {911, 912, 913, 914, 985, 1229, 1901, 2119, 2131, 3041, 3042, 3043, 3059, 3063, 3153, 3169, 3353, 3354, 3408, 3593, 3598, 4087, 4089, 4593, 4594, 4595, 4992, 5113, 5114, 5479, 5480, 7315, 8141, 16387, 16503, 16771, 17120, 17480, 17504, 26332},
-        ["HUNTER"] = {895, 987, 1231, 1404, 3038, 3039, 3040, 3061, 3065, 3154, 3171, 3352, 3406, 3407, 3596, 3601, 3963, 4138, 4146, 4205, 4986, 5115, 5116, 5117, 5501, 5515, 5516, 5517, 8308, 10930, 15513, 16270, 16499, 16672, 16673, 16674, 16738, 17110, 17122, 17505, 26325},
-        ["WARLOCK"] = {459, 460, 461, 906, 988, 2126, 2127, 3156, 3172, 3324, 3325, 3326, 4563, 4564, 4565, 4993, 5171, 5172, 5173, 5495, 5496, 5612, 6251, 15283, 16266, 16646, 16647, 16648, 26331},
-        ["ROGUE"] = {915, 916, 917, 918, 1234, 1411, 2122, 2130, 3155, 3170, 3327, 3328, 3401, 3594, 3599, 4163, 4214, 4215, 4582, 4583, 4584, 4990, 5165, 5166, 5167, 13283, 15285, 16279, 16684, 16685, 16686, 22005, 26329},
-        ["DRUID"] = {3033, 3034, 3036, 3060, 3064, 3597, 3602, 4217, 4218, 4219, 4985, 5504, 5505, 5506, 8142, 9465, 12042, 16655, 16721, 26324}
-    } or { -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=
-        ["MAGE"] = {198,313,328,331,944,1228,2124,2128,3047,3048,3049,4566,4567,4568,5144,5145,5146,5497,5498,5880,5882,5883,5884,5885,7311,7312},
-        ["SHAMAN"] = {986,3030,3031,3032,3062,3066,3157,3173,3344,3403,13417},
-        ["PRIEST"] = {375,376,377,837,1226,2123,2129,3044,3045,3046,3595,3600,3706,3707,4090,4091,4092,4606,4607,4608,5141,5142,5143,5484,5489,5994,6014,6018,11397,11401,11406},
-        ["PALADIN"] = {925,926,927,928,1232,5147,5148,5149,5491,5492,8140},
-        ["WARRIOR"] = {911,912,913,914,985,1229,1901,2119,2131,3041,3042,3043,3059,3063,3153,3169,3353,3354,3408,3593,3598,4087,4089,4593,4594,4595,5113,5114,5479,5480,7315,8141,16387},
-        ["HUNTER"] = {895,987,1231,1404,3038,3039,3040,3061,3065,3154,3171,3352,3406,3407,3596,3601,3963,4138,4146,4205,5115,5116,5117,5501,5515,5516,5517,8308,10930},
-        ["WARLOCK"] = {459,460,461,906,988,2126,2127,3156,3172,3324,3325,3326,4563,4564,4565,5171,5172,5173,5495,5496,5612},
-        ["ROGUE"] = {915,916,917,918,1234,1411,2122,2130,3155,3170,3327,3328,3401,3594,3599,4163,4214,4215,4582,4583,4584,5165,5166,5167,13283},
-        ["DRUID"] = {3033,3034,3036,3060,3064,3597,3602,4217,4218,4219,5504,5505,5506,8142,9465,12042}
-    }
 
-    local validTrainers = Questie.IsTBC and {
-        514,812,908,1103,1215,1218,1241,1292,1300,1317,1346,1355,1382,1385,1386,1430,1458,1470,1473,1632,1651,1676,1680,1681,1683,
-        1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2798,2818,2834,2836,2837,2855,2856,2998,3001,
-        3004,3007,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,3290,3332,3345,3347,3355,3357,3363,
-        3365,3373,3399,3404,3478,3484,3494,3523,3549,3555,3557,3603,3604,3605,3606,3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,
-        4204,4210,4211,4212,4213,4254,4258,4552,4573,4576,4578,4588,4591,4596,4598,4611,4614,4616,4898,4900,5127,5137,5150,5153,5157,
-        5159,5161,5164,5174,5177,5392,5482,5493,5499,5502,5511,5513,5518,5564,5566,5690,5695,5759,5784,5938,5939,5941,5943,6094,6286,
-        6287,6288,6289,6290,6291,6292,6295,6297,6299,6306,6387,7087,7088,7089,7230,7231,7232,7406,7866,7867,7868,7869,7870,7871,7944,
-        7946,7948,7949,8126,8128,8144,8146,8153,8306,8736,8738,9584,10370,10993,11017,11025,11031,11037,11048,11050,11051,11052,11072,
-        11073,11074,11097,11098,11146,11177,11178,11865,11866,11867,11868,11869,11870,12025,12030,12032,12920,12939,12961,13084,14401,14740,15400,
-        15501,16160,16161,16253,16272,16273,16277,16278,16366,16367,16583,16588,16621,16633,16639,16640,16642,16644,16662,16663,16667,
-        16669,16676,16688,16692,16702,16719,16723,16724,16725,16726,16727,16728,16729,16731,16736,16744,16746,16752,16763,16773,16774,
-        16780,16823,17005,17101,17214,17215,17222,17245,17246,17424,17434,17441,17442,17487,17488,17634,17637,17983,18018,18747,18748,
-        18749,18751,18752,18753,18754,18755,18771,18772,18773,18774,18775,18776,18777,18779,18802,18804,18987,18988,18990,18991,18993,
-        19052,19063,19180,19184,19185,19186,19187,19251,19252,19341,19369,19478,19539,19540,19576,19774,19775,19777,19778,20124,20125,
-        21087,22477,24868,25099
-    } or { -- SELECT Entry FROM creature_template WHERE NpcFlags & 16 = 16 AND TrainerType=2 (do this again with tbc DB)
-        223,514,812,908,957,1103,1215,1218,1241,1246,1292,1300,1317,1346,1355,1382,1383,1385,1386,1430,1458,1466,1470,1473,1632,1651,
-        1676,1680,1681,1683,1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2737,2798,2818,2834,2836,
-        2837,2855,2856,2857,2998,3001,3004,3007,3008,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,
-        3290,3332,3345,3347,3355,3357,3363,3365,3373,3399,3404,3412,3478,3484,3494,3523,3530,3531,3549,3555,3557,3603,3604,3605,3606,
-        3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,4204,4210,4211,4212,4213,4254,4258,4552,4573,4576,4578,4586,4588,4591,4596,
-        4598,4605,4609,4611,4614,4616,4898,4900,5127,5137,5150,5153,5157,5159,5161,5164,5174,5177,5392,5482,5493,5499,5500,5502,5511,
-        5513,5518,5564,5566,5567,5690,5695,5759,5784,5811,5938,5939,5941,5943,6094,6286,6287,6288,6289,6290,6291,6292,6295,6297,6299,
-        6306,6387,7087,7088,7089,7230,7231,7232,7406,7866,7867,7868,7869,7870,7871,7944,7946,7948,7949,8126,8128,8144,8146,8153,8306,
-        8736,8738,9584,10266,10276,10277,10278,10993,11017,11025,11026,11028,11029,11031,11037,11041,11042,11044,11046,11047,11048,
-        11049,11050,11051,11052,11065,11066,11067,11068,11070,11071,11072,11073,11074,11081,11083,11084,11096,11097,11098,11146,
-        11177,11178,11865,11866,11867,11868,11869,11870,12025,12030,12032,12920,12939,12961,13084,14401,14740
-    }
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=1; --Warrior
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=2; --Paladin
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=3; --Hunter
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=4; --Rogue
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=5; --Priest
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=6; --Deathknight
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=7; --Shaman
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=8; --Mage
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=9; --Warlock
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=10; --unknown
+    -- SELECT entry FROM creature_template WHERE trainertype=0 AND trainerclass=11; --Druid
+    ---@type table<Classes, NpcId[]>
+    local classTrainers
+    if Questie.IsWotlk then
+        classTrainers = {
+            ["WARRIOR"]={911,912,913,914,985,1229,1901,2119,2131,3041,3042,3043,3059,3063,3153,3169,3353,3354,3408,3593,3598,4087,4089,4593,4594,4595,5113,5114,5479,5480,7315,8141,16503,16771,17120,17480,17504,26332},
+            ["PALADIN"]={925,926,927,928,1232,5147,5148,5149,5491,5492,8140,15280,16275,16501,16679,16680,16681,16761,17121,17483,17509,17844,20406,23128,26327,35281},
+            ["HUNTER"]={895,987,1231,1404,3038,3039,3040,3061,3065,3154,3171,3352,3406,3407,3596,3601,3963,4138,4146,4205,5115,5116,5117,5501,5515,5516,5517,8308,10930,15513,16270,16499,16672,16673,16674,16738,17110,17122,17505,26325},
+            ["ROGUE"]={915,916,917,918,1234,1411,2122,2130,3155,3170,3327,3328,3401,3594,3599,4163,4214,4215,4582,4583,4584,5165,5166,5167,6707,13283,15285,16279,16684,16685,16686,26329},
+            ["PRIEST"]={375,376,377,837,1226,2123,2129,3044,3045,3046,3595,3600,3706,3707,4090,4091,4092,4606,4607,4608,5141,5142,5143,5484,5489,5994,6014,6018,11397,11401,11406,15284,16276,16502,16658,16659,16660,16756,17482,17510,17511,26328},
+            ["DEATHKNIGHT"]={28471,28472,28474,29194,29195,29196,31084},
+            ["SHAMAN"]={986,3030,3031,3032,3062,3066,3157,3173,3344,3403,13417,17089,17204,17212,17219,17519,17520,20407,23127,26330},
+            ["MAGE"]={198,328,331,944,1228,2124,2128,2485,2489,2492,3047,3048,3049,4165,4566,4567,4568,5144,5145,5146,5497,5498,5880,5882,5883,5884,5885,5957,5958,7311,7312,15279,16269,16500,16651,16652,16653,16654,16749,16755,17105,17481,17513,17514,19340,20791,23103,26326,27703,27704,27705,28956,28958,29156},
+            ["WARLOCK"]={459,460,461,906,988,2126,2127,3156,3172,3324,3325,3326,4563,4564,4565,5171,5172,5173,5495,5496,5612,6251,15283,16266,16646,16647,16648,23534,26331},
+            ["UNKNOWN"]={},
+            ["DRUID"]={3033,3034,3036,3060,3064,3597,3602,4217,4218,4219,5504,5505,5506,8142,9465,12042,16655,16721,26324},
+        }
+    elseif Questie.IsTBC then
+        classTrainers = {
+            ["WARRIOR"] = {911,912,913,914,985,1229,1901,2119,2131,3041,3042,3043,3059,3063,3153,3169,3353,3354,3408,3593,3598,4087,4089,4593,4594,4595,4992,5113,5114,5479,5480,7315,8141,16387,16503,16771,17120,17480,17504,26332},
+            ["PALADIN"] = {925,926,927,928,1232,4988,5147,5148,5149,5491,5492,8140,15280,16275,16501,16679,16680,16681,16761,17121,17483,17509,17844,20406,23128,26327},
+            ["HUNTER"] = {895,987,1231,1404,3038,3039,3040,3061,3065,3154,3171,3352,3406,3407,3596,3601,3963,4138,4146,4205,4986,5115,5116,5117,5501,5515,5516,5517,8308,10930,15513,16270,16499,16672,16673,16674,16738,17110,17122,17505,26325},
+            ["ROGUE"] = {915,916,917,918,1234,1411,2122,2130,3155,3170,3327,3328,3401,3594,3599,4163,4214,4215,4582,4583,4584,4990,5165,5166,5167,13283,15285,16279,16684,16685,16686,22005,26329},
+            ["PRIEST"] = {375,376,377,837,1226,2123,2129,3044,3045,3046,3595,3600,3706,3707,4090,4091,4092,4606,4607,4608,4989,5141,5142,5143,5484,5489,5994,6014,6018,11397,11401,11406,15284,16276,16502,16658,16659,16660,16756,17482,17510,17511,26328},
+            ["SHAMAN"] = {986,3030,3031,3032,3062,3066,3157,3173,3344,3403,4991,13417,17089,17204,17212,17219,17519,17520,20407,23127,26330},
+            ["MAGE"] = {198,313,328,331,944,1228,2124,2128,3047,3048,3049,4566,4567,4568,4987,5144,5145,5146,5497,5498,5880,5882,5883,5884,5885,7311,7312,15279,16269,16500,16651,16652,16653,16749,17481,17513,17514,26326,27704},
+            ["WARLOCK"] = {459,460,461,906,988,2126,2127,3156,3172,3324,3325,3326,4563,4564,4565,4993,5171,5172,5173,5495,5496,5612,6251,15283,16266,16646,16647,16648,26331},
+            ["DRUID"] = {3033,3034,3036,3060,3064,3597,3602,4217,4218,4219,4985,5504,5505,5506,8142,9465,12042,16655,16721,26324}
+        }
+    else
+        classTrainers = {
+            ["WARRIOR"] = {911,912,913,914,985,1229,1901,2119,2131,3041,3042,3043,3059,3063,3153,3169,3353,3354,3408,3593,3598,4087,4089,4593,4594,4595,5113,5114,5479,5480,7315,8141,16387},
+            ["PALADIN"] = {925,926,927,928,1232,5147,5148,5149,5491,5492,8140},
+            ["HUNTER"] = {895,987,1231,1404,3038,3039,3040,3061,3065,3154,3171,3352,3406,3407,3596,3601,3963,4138,4146,4205,5115,5116,5117,5501,5515,5516,5517,8308,10930},
+            ["ROGUE"] = {915,916,917,918,1234,1411,2122,2130,3155,3170,3327,3328,3401,3594,3599,4163,4214,4215,4582,4583,4584,5165,5166,5167,13283},
+            ["PRIEST"] = {375,376,377,837,1226,2123,2129,3044,3045,3046,3595,3600,3706,3707,4090,4091,4092,4606,4607,4608,5141,5142,5143,5484,5489,5994,6014,6018,11397,11401,11406},
+            ["SHAMAN"] = {986,3030,3031,3032,3062,3066,3157,3173,3344,3403,13417},
+            ["MAGE"] = {198,313,328,331,944,1228,2124,2128,3047,3048,3049,4566,4567,4568,5144,5145,5146,5497,5498,5880,5882,5883,5884,5885,7311,7312},
+            ["WARLOCK"] = {459,460,461,906,988,2126,2127,3156,3172,3324,3325,3326,4563,4564,4565,5171,5172,5173,5495,5496,5612},
+            ["DRUID"] = {3033,3034,3036,3060,3064,3597,3602,4217,4218,4219,5504,5505,5506,8142,9465,12042}
+        }
+    end
 
+    -- SELECT Entry FROM creature_template WHERE NpcFlags & 16 = 16 AND TrainerType=2
+    ---@type NpcId[]
+    local validProfessionTrainers
+    if Questie.IsWotlk then
+        validProfessionTrainers = {514,812,908,1103,1215,1218,1241,1292,1300,1317,1346,1355,1382,1385,1386,1430,1458,1470,1473,1632,1651,1676,1680,1681,1683,1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2798,2818,2834,2836,2837,2855,2856,2998,3001,3004,3007,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,3290,3332,3345,3347,3355,3357,3363,3365,3373,3399,3404,3478,3484,3494,3523,3549,3555,3557,3603,3604,3605,3606,3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,4204,4210,4211,4212,4213,4254,4258,4552,4573,4576,4578,4588,4591,4596,4598,4611,4614,4616,4898,4900,5032,5037,5038,5040,5041,5127,5137,5150,5153,5157,5159,5161,5164,5174,5177,5392,5482,5493,5499,5502,5511,5513,5518,5564,5566,5690,5695,5759,5784,5938,5939,5941,5943,6094,6286,6287,6288,6289,6290,6291,6292,6295,6297,6299,6306,6387,7087,7088,7089,7230,7231,7232,7406,7866,7867,7868,7869,7870,7871,7944,7946,7948,7949,8126,8128,8144,8146,8153,8306,8736,8738,9584,10370,10993,11017,11025,11031,11037,11048,11050,11051,11052,11072,11073,11074,11097,11098,11146,11177,11178,11557,11865,11866,11867,11868,11869,11870,12025,12030,12032,12961,13084,14740,15400,15501,16000,16160,16161,16190,16253,16265,16272,16273,16277,16278,16366,16367,16583,16588,16621,16633,16639,16640,16642,16644,16662,16663,16667,16669,16676,16688,16692,16702,16719,16723,16724,16725,16726,16727,16728,16729,16731,16736,16744,16746,16752,16763,16773,16774,16780,16823,17005,17101,17214,17215,17222,17245,17246,17424,17434,17441,17442,17487,17488,17634,17637,17983,18018,18747,18748,18749,18751,18752,18753,18754,18755,18771,18772,18773,18774,18775,18776,18777,18779,18802,18804,18911,18987,18988,18990,18991,18993,19052,19063,19180,19184,19185,19186,19187,19251,19252,19341,19369,19478,19539,19540,19576,19774,19775,19777,19778,20124,20125,21087,22477,23734,24868,25099,25277,26564,26903,26904,26905,26906,26907,26909,26910,26911,26912,26913,26914,26915,26916,26951,26952,26953,26954,26955,26956,26957,26958,26959,26960,26961,26962,26963,26964,26969,26972,26974,26975,26976,26977,26980,26981,26982,26986,26987,26988,26989,26990,26991,26992,26993,26994,26995,26996,26997,26998,26999,27000,27001,27023,27029,27034,28693,28694,28696,28697,28698,28699,28700,28701,28702,28703,28704,28705,28706,28742,29233,29505,29506,29507,29508,29509,29513,29514,29631,29924,30706,30709,30710,30711,30713,30715,30716,30717,30721,30722,32474,33580,33581,33586,33587,33589,33590,33630,33631,33633,33634,33635,33636,33637,33638,33640,33641,33674,33675,33676,33677,33678,33679,33680,33681,33682,33683,33684,33996}
+    elseif Questie.IsTBC then
+        validProfessionTrainers =  {
+            514,812,908,1103,1215,1218,1241,1292,1300,1317,1346,1355,1382,1385,1386,1430,1458,1470,1473,1632,1651,1676,1680,1681,1683,
+            1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2798,2818,2834,2836,2837,2855,2856,2998,3001,
+            3004,3007,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,3290,3332,3345,3347,3355,3357,3363,
+            3365,3373,3399,3404,3478,3484,3494,3523,3549,3555,3557,3603,3604,3605,3606,3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,
+            4204,4210,4211,4212,4213,4254,4258,4552,4573,4576,4578,4588,4591,4596,4598,4611,4614,4616,4898,4900,5127,5137,5150,5153,5157,
+            5159,5161,5164,5174,5177,5392,5482,5493,5499,5502,5511,5513,5518,5564,5566,5690,5695,5759,5784,5938,5939,5941,5943,6094,6286,
+            6287,6288,6289,6290,6291,6292,6295,6297,6299,6306,6387,7087,7088,7089,7230,7231,7232,7406,7866,7867,7868,7869,7870,7871,7944,
+            7946,7948,7949,8126,8128,8144,8146,8153,8306,8736,8738,9584,10370,10993,11017,11025,11031,11037,11048,11050,11051,11052,11072,
+            11073,11074,11097,11098,11146,11177,11178,11865,11866,11867,11868,11869,11870,12025,12030,12032,12920,12939,12961,13084,14401,14740,15400,
+            15501,16160,16161,16253,16272,16273,16277,16278,16366,16367,16583,16588,16621,16633,16639,16640,16642,16644,16662,16663,16667,
+            16669,16676,16688,16692,16702,16719,16723,16724,16725,16726,16727,16728,16729,16731,16736,16744,16746,16752,16763,16773,16774,
+            16780,16823,17005,17101,17214,17215,17222,17245,17246,17424,17434,17441,17442,17487,17488,17634,17637,17983,18018,18747,18748,
+            18749,18751,18752,18753,18754,18755,18771,18772,18773,18774,18775,18776,18777,18779,18802,18804,18987,18988,18990,18991,18993,
+            19052,19063,19180,19184,19185,19186,19187,19251,19252,19341,19369,19478,19539,19540,19576,19774,19775,19777,19778,20124,20125,
+            21087,22477,24868,25099
+        }
+    else
+        validProfessionTrainers = {
+            223,514,812,908,957,1103,1215,1218,1241,1246,1292,1300,1317,1346,1355,1382,1383,1385,1386,1430,1458,1466,1470,1473,1632,1651,
+            1676,1680,1681,1683,1699,1700,1701,1702,1703,2114,2132,2326,2327,2329,2367,2390,2391,2399,2627,2704,2737,2798,2818,2834,2836,
+            2837,2855,2856,2857,2998,3001,3004,3007,3008,3009,3011,3013,3026,3028,3067,3069,3087,3136,3137,3174,3175,3179,3181,3184,3185,
+            3290,3332,3345,3347,3355,3357,3363,3365,3373,3399,3404,3412,3478,3484,3494,3523,3530,3531,3549,3555,3557,3603,3604,3605,3606,
+            3607,3703,3704,3964,3965,3967,4156,4159,4160,4193,4204,4210,4211,4212,4213,4254,4258,4552,4573,4576,4578,4586,4588,4591,4596,
+            4598,4605,4609,4611,4614,4616,4898,4900,5127,5137,5150,5153,5157,5159,5161,5164,5174,5177,5392,5482,5493,5499,5500,5502,5511,
+            5513,5518,5564,5566,5567,5690,5695,5759,5784,5811,5938,5939,5941,5943,6094,6286,6287,6288,6289,6290,6291,6292,6295,6297,6299,
+            6306,6387,7087,7088,7089,7230,7231,7232,7406,7866,7867,7868,7869,7870,7871,7944,7946,7948,7949,8126,8128,8144,8146,8153,8306,
+            8736,8738,9584,10266,10276,10277,10278,10993,11017,11025,11026,11028,11029,11031,11037,11041,11042,11044,11046,11047,11048,
+            11049,11050,11051,11052,11065,11066,11067,11068,11070,11071,11072,11073,11074,11081,11083,11084,11096,11097,11098,11146,
+            11177,11178,11865,11866,11867,11868,11869,11870,12025,12030,12032,12920,12939,12961,13084,14401,14740
+        }
+    end
+
+    ---@type table<ProfessionEnum, NpcId[]>
     local professionTrainers = {
         [QuestieProfessions.professionKeys.FIRST_AID] = {},
         [QuestieProfessions.professionKeys.BLACKSMITHING] = {},
@@ -400,16 +525,22 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.SKINNING] = {}
     }
 
-    if Questie.IsTBC then
+    if Questie.IsTBC or Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
     end
+    
+    if Questie.IsWotlk then
+        professionTrainers[QuestieProfessions.professionKeys.INSCRIPTION] = {}
+    end
 
-    for _, id in pairs(validTrainers) do
+    local count = 0
+    for i=1, #validProfessionTrainers do
+        local id = validProfessionTrainers[i]
         if QuestieDB.npcData[id] then
             local subName = QuestieDB.npcData[id][QuestieDB.npcKeys.subName]
             if subName then
-                if Questie.db.global.townsfolk[subName] then -- weapon master, 
-                    tinsert(Questie.db.global.townsfolk[subName], id)
+                if townfolk[subName] then -- weapon master,
+                    tinsert(townfolk[subName], id)
                 else
                     for k, professionId in pairs(QuestieProfessions.professionTable) do
                         if string.match(subName, k) then
@@ -419,28 +550,45 @@ function QuestieMenu:PopulateTownsfolk()
                 end
             end
         end
+
+        if count > 10 then -- Yield every 10 iterations, 10 is just a madeup number, is pretty fast.
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
 
-    Questie.db.global.professionTrainers = professionTrainers
+    -- Fix NPC Gubber Blump (10216) can train fishing profession
+    tinsert(professionTrainers[QuestieProfessions.professionKeys.FISHING], 10216)
+    -- Fix NPC Aresella (18991) can train first aid profession
+    if Questie.IsTBC or Questie.IsWotlk then
+        tinsert(professionTrainers[QuestieProfessions.professionKeys.FIRST_AID], 18991)
+    end
 
-    if Questie.IsTBC then
-        local meetingStones = {
-            178824,178825,178826,178827,178828,178829,178831,178832,178833,178834,178844,178845,178884,179554,179555,179585,179595,
-            179596,182558,182559,182560,184455,184456,184458,184462,184463,185321,185322,185433,185550,186251,188171,188172,
-        }
+    if Questie.IsTBC or Questie.IsWotlk then
+        local meetingStones = Questie.IsTBC and { --TBC
+            178824,178825,178826,178827,178828,178829,178831,178832,178833,178834,178844,178845,
+            178884,179554,179555,179584,179585,179586,179587,179595,179596,179597,182558,182559,
+            182560,184455,184456,184458,184462,184463,185321,185322,185433,185550,186251,188171,
+            188172
+        } or {-- Wotlk
+            178824,178825,178826,178827,178828,178829,178831,178832,178833,178834,178844,178845,
+            178884,179554,179555,179584,179585,179586,179587,179595,179596,179597,182558,182559,
+            182560,184455,184456,184458,184462,184463,185321,185322,185433,185550,186251,188171,
+            188172,188488,191227,191529,192017,192399,192557,192622,193166,193602,194097,195013,
+            195498,195695,202184}
 
-        Questie.db.global.townsfolk["Meeting Stones"] = {}
+        townfolk["Meeting Stones"] = {}
         for _, id in pairs(meetingStones) do
-            tinsert(Questie.db.global.townsfolk["Meeting Stones"], id)
+            tinsert(townfolk["Meeting Stones"], id)
         end
     end
 
     -- todo: specialized trainer types (leatherworkers, engineers, etc)
 
-    Questie.db.global.classSpecificTownsfolk = {}
-    Questie.db.global.factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}}
-    
-    
+    local classSpecificTownsfolk = {}
+    local factionSpecificTownsfolk = {["Horde"] = {}, ["Alliance"] = {}}
+
     for class, trainers in pairs(classTrainers) do
         local newTrainers = {}
         for _, trainer in pairs(trainers) do
@@ -451,24 +599,24 @@ function QuestieMenu:PopulateTownsfolk()
                 end
             end
         end
-        Questie.db.global.classSpecificTownsfolk[class] = {}
-        Questie.db.global.classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
+        classSpecificTownsfolk[class] = {}
+        classSpecificTownsfolk[class]["Class Trainer"] = newTrainers
     end
-    --Questie.db.char.townsfolk["Class Trainer"] = classTrainers[class]
 
     if playerClass == "HUNTER" then
-        Questie.db.global.classSpecificTownsfolk["HUNTER"]["Stable Master"] = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.STABLEMASTER)
+        classSpecificTownsfolk["HUNTER"]["Stable Master"] = townsfolkData["Stable Master"].data
     elseif playerClass == "MAGE" then
-        Questie.db.global.classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
+        classSpecificTownsfolk["MAGE"]["Portal Trainer"] = {4165,2485,2489,5958,5957,2492,16654,16755,19340,20791,27703,27705}
     end
 
-    Questie.db.global.factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.SPIRIT_HEALER)
-    Questie.db.global.factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = QuestieMenu:PopulateTownsfolkType(QuestieDB.npcFlags.SPIRIT_HEALER)
+    factionSpecificTownsfolk["Horde"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
+    factionSpecificTownsfolk["Alliance"]["Spirit Healer"]  = townsfolkData["Spirit Healer"].data
 
-    Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
-    Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
+    factionSpecificTownsfolk["Horde"]["Mailbox"] = {}
+    factionSpecificTownsfolk["Alliance"]["Mailbox"] = {}
 
     for _, id in pairs(Questie.IsTBC and { -- mailbox list
+        --TBC
         32349,140908,142075,142089,142093,142094,142095,142102,142109,142110,142111,142117,143981,143982,143983,143984,
         143985,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,144131,144179,144570,
         153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176324,176404,177044,178864,
@@ -477,7 +625,23 @@ function QuestieMenu:PopulateTownsfolk()
         183857,183858,184085,184133,184134,184135,184136,184137,184138,184139,184140,184147,184148,184490,184652,184944,
         185102,185471,185472,185473,185477,142103,176319,142119,143986,175864,181639,185965,186230,186629,188132,187260,
         187113,188123
+    } or Questie.IsWotlk and {
+        --Wotlk
+        32349,140908,142075,142089,142093,142094,142095,142102,142103,142109,142110,142111,142117,142119,143981,143982,
+        143983,143984,143985,143986,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144130,
+        144131,144179,144570,153578,153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,175668,
+        175864,176319,176324,176404,177044,178864,179895,179896,180451,181236,181380,181381,181639,181883,181980,182356,
+        182357,182359,182360,182361,182362,182363,182364,182365,182391,182567,182939,182946,182948,182949,182950,182955,
+        183037,183038,183039,183040,183042,183047,183167,183856,183857,183858,184085,184133,184134,184135,184136,184137,
+        184138,184139,184140,184147,184148,184490,184652,184944,185102,185471,185472,185473,185477,185965,186230,186435,
+        186506,186629,186687,187113,187260,187268,187316,187322,188123,188132,188241,188256,188355,188486,188531,188534,
+        188541,188604,188618,188682,188710,189328,189329,189969,190914,190915,191228,191521,191605,191832,191946,191947,
+        191948,191949,191950,191951,191952,191953,191954,191955,191956,191957,192952,193030,193043,193044,193045,193071,
+        193791,193972,194016,194027,194147,194492,194788,195218,195219,195467,195468,195528,195529,195530,195554,195555,
+        195556,195557,195558,195559,195560,195561,195562,195603,195604,195605,195606,195607,195608,195609,195610,195611,
+        195612,195613,195614,195615,195616,195617,195618,195619,195620,195624,195625,195626,195627,195628,195629
     } or {
+        --Classic
         32349,142075,142089,142093,142094,142095,142102,142103,142109,142110,142111,142117,142119,143981,143982,143983,
         143984,143985,143986,143987,143988,143989,143990,144011,144112,144125,144126,144127,144128,144129,144131,153578,
         153716,157637,163313,163645,164618,164840,171556,171699,171752,173047,173221,176319,176324,176404,177044,178864,
@@ -487,33 +651,50 @@ function QuestieMenu:PopulateTownsfolk()
             local factionID = QuestieDB.objectData[id][QuestieDB.objectKeys.factionID]
 
             if factionID == 0 then
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
-            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
-            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 12) == 0 then
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
-            elseif QuestieDB.factionTemplate[factionID] and bit.band(QuestieDB.factionTemplate[factionID], 10) == 0 then
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+                tinsert(factionSpecificTownsfolk["Horde"]["Mailbox"], id)
+                tinsert(factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bitband(QuestieDB.factionTemplate[factionID], 12) == 0 and bitband(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                tinsert(factionSpecificTownsfolk["Horde"]["Mailbox"], id)
+                tinsert(factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bitband(QuestieDB.factionTemplate[factionID], 12) == 0 then
+                tinsert(factionSpecificTownsfolk["Horde"]["Mailbox"], id)
+            elseif QuestieDB.factionTemplate[factionID] and bitband(QuestieDB.factionTemplate[factionID], 10) == 0 then
+                tinsert(factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
             else
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Horde"]["Mailbox"], id)
-                tinsert(Questie.db.global.factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
+                tinsert(factionSpecificTownsfolk["Horde"]["Mailbox"], id)
+                tinsert(factionSpecificTownsfolk["Alliance"]["Mailbox"], id)
             end
         else
-            Questie:Debug(Questie.DEBUG_DEVELOP, "Missing mailbox: " .. tostring(id))
+            Questie:Debug(Questie.DEBUG_DEVELOP, "Missing mailbox:", tostring(id))
         end
     end
 
-    Questie.db.global.petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
+    local petFoodVendorTypes = {["Meat"] = {},["Fish"]={},["Cheese"]={},["Bread"]={},["Fungus"]={},["Fruit"]={},["Raw Meat"]={},["Raw Fish"]={}}
     local petFoodIndexes = {"Meat","Fish","Cheese","Bread","Fungus","Fruit","Raw Meat","Raw Fish"}
 
+    count = 0
     for id, data in pairs(QuestieDB.itemData) do
         local foodType = data[QuestieDB.itemKeys.foodType]
         if foodType then
-            tinsert(Questie.db.global.petFoodVendorTypes[petFoodIndexes[foodType]], id)
+            tinsert(petFoodVendorTypes[petFoodIndexes[foodType]], id)
         end
+        if count > 300 then -- Yield every 300 iterations, 300 is just a madeup number, is pretty fast.
+            count = 0
+            coroutine.yield()
+        end
+        count = count + 1
     end
+
+    coroutine.yield()
+
+    --- Set the globals
+    Questie.db.global.townsfolk = townfolk
+    Questie.db.global.townsfolkNeedsUpdatedGlobalVendors = true
+
+    Questie.db.global.professionTrainers = professionTrainers
+    Questie.db.global.classSpecificTownsfolk = classSpecificTownsfolk
+    Questie.db.global.factionSpecificTownsfolk = factionSpecificTownsfolk
+    Questie.db.global.petFoodVendorTypes = petFoodVendorTypes
 end
 
 function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries here)
@@ -534,6 +715,7 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         ["PALADIN"] = {21177,17033},
         ["WARRIOR"] = {},
         ["HUNTER"] = {},
+        ["DEATHKNIGHT"] = {37201},
         ["WARLOCK"] = {5565,16583},
         ["ROGUE"] = {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
@@ -551,7 +733,7 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         2928,4361,10647,10648,4291,4357,8924,8343,4363,2678,5173,4400,2930,4342,2325,4340,
         6261,8923,2324,2604,6260,4378,10290,17194,4341
     }))
-    Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieMenu:PopulateVendors({4496, 4497, 4498, 4499}))
+    Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieMenu:PopulateVendors({4496, 4497, 4498, 4499, (Questie.IsTBC or Questie.IsWotlk) and 30744 or nil}))
     QuestieMenu:UpdatePlayerVendors()
 end
 
@@ -597,6 +779,10 @@ end
 function QuestieMenu:PopulateVendors(itemList, existingTable, restrictLevel)
     local factionKey = playerFaction == "Alliance" and "A" or "H"
     local tbl = existingTable or {}
+    -- Create a cache to minimize db calls
+    local factionCache = {}
+    local flagCache = {}
+
     local playerLevel = restrictLevel and UnitLevel("Player") or 0
     for _, id in pairs(itemList) do
         --print(id)
@@ -608,12 +794,19 @@ function QuestieMenu:PopulateVendors(itemList, existingTable, restrictLevel)
         if valid then
             local vendors = QuestieDB.QueryItemSingle(id, "vendors")
             if vendors then
-                for _, vendorId in pairs(vendors) do
+                for i=1, #vendors do
+                    local vendorId = vendors[i]
                     --print(vendorId)
-                    local friendlyToFaction = QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
+                    local friendlyToFaction = factionCache[vendorId] or QuestieDB.QueryNPCSingle(vendorId, "friendlyToFaction")
+                    if not factionCache[vendorId] then
+                        factionCache[vendorId] = friendlyToFaction
+                    end
                     if (not friendlyToFaction) or friendlyToFaction == "AH" or friendlyToFaction == factionKey then
-                        local flags = QuestieDB.QueryNPCSingle(vendorId, "npcFlags")
-                        if bit.band(flags, QuestieDB.npcFlags.VENDOR) == QuestieDB.npcFlags.VENDOR then
+                        local flags = flagCache[vendorId] or QuestieDB.QueryNPCSingle(vendorId, "npcFlags")
+                        if not flagCache[vendorId] then
+                            flagCache[vendorId] = flags
+                        end
+                        if bitband(flags, QuestieDB.npcFlags.VENDOR) == QuestieDB.npcFlags.VENDOR then
                             tbl[vendorId] = true
                         end
                     end

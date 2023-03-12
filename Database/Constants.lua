@@ -4,6 +4,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 QuestieDB.sortKeys = {
     SEASONAL = -22,
     HERBALISM = -24,
+    BATTLEGROUND = -25,
     WARLOCK = -61,
     WARRIOR = -81,
     SHAMAN = -82,
@@ -27,11 +28,17 @@ QuestieDB.sortKeys = {
     REPUTATION = -367,
     MIDSUMMER = -369,
     BREWFEST = -370,
+    INSCRIPTION = -371,
+    DEATHKNIGHT = -372,
+    JEWELCRAFTING = -373,
+    NOBLEGARDEN = -374,
+    PILGRIMS_BOUNTY = -375,
+    LOVE_IS_IN_THE_AIR = -376,
 }
 
-local isTBC = string.byte(GetBuildInfo(), 1) == 50
+local isWotlk = WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC
 
-QuestieDB.factionTemplate = isTBC and { -- [id] = EnemyGroup
+QuestieDB.factionTemplate = isWotlk and { -- [id] = EnemyGroup
     [1] = 12,
     [2] = 10,
     [3] = 12,
@@ -208,7 +215,7 @@ QuestieDB.factionTemplate = isTBC and { -- [id] = EnemyGroup
     [494] = 1,
     [495] = 8,
     [514] = 1,
-    [534] = 0,
+    [534] = 4, --* Changed from 0 -> 4 to be hostile towards horde
     [554] = 7,
     [574] = 1,
     [575] = 1,
@@ -223,7 +230,7 @@ QuestieDB.factionTemplate = isTBC and { -- [id] = EnemyGroup
     [674] = 0,
     [694] = 4,
     [695] = 0,
-    [714] = 0,
+    [714] = 2, --* Changed from 0 -> 2 to be hostile towards alliance
     [734] = 0,
     [735] = 0,
     [736] = 1,
@@ -818,7 +825,7 @@ QuestieDB.factionTemplate = isTBC and { -- [id] = EnemyGroup
     [494] = 1,
     [495] = 8,
     [514] = 1,
-    [534] = 0,
+    [534] = 4, --* Changed from 0 -> 4 to be hostile towards horde
     [554] = 7,
     [574] = 1,
     [575] = 1,
@@ -833,7 +840,7 @@ QuestieDB.factionTemplate = isTBC and { -- [id] = EnemyGroup
     [674] = 0,
     [694] = 4,
     [695] = 0,
-    [714] = 0,
+    [714] = 2, --* Changed from 0 -> 2 to be hostile towards alliance
     [734] = 0,
     [735] = 0,
     [736] = 1,

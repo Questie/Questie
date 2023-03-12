@@ -1,11 +1,12 @@
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieQuestPrivate
+QuestieQuest.private = QuestieQuest.private or {}
+---@class QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestiePlayer
-local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 
@@ -25,170 +26,232 @@ local function _GetIconScaleForLoot()
     return Questie.db.global.lootScale or 1
 end
 
-_QuestieQuest.objectiveSpawnListCallTable = {
-    ["killcredit"] = function(npcId, objective, objectiveData)
-        local ret = {}
-        for _, npc in pairs(objectiveData.IdList) do
-            ret[npc] = _QuestieQuest.objectiveSpawnListCallTable["monster"](npc, objective)[npc]
-        end
-        return ret
-    end,
-    ["monster"] = function(npcId, objective)
-        if (not npcId) then
-            Questie:Error(
-                    "Corrupted objective data handed to objectiveSpawnListCallTable['monster']:",
-                    "'" .. objective.Description .. "' -",
-                    "Please report this error on Discord or GitHub."
-            )
-            return nil
-        end
 
-        local name = QuestieDB.QueryNPCSingle(npcId, "name")
+---@class SpawnListBase
+---@field Name string
+---@field Spawns table<AreaId, CoordPair[]>>
+---@field Icon string @Icon path
+---@field GetIconScale function Function to get the iconScale
+---@field IconScale number Initial value returned by the GetIconScale function
 
-        if (not name) then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for NPC:", npcId)
-            return nil
-        end
 
-        local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
+---@class SpawnListTooltip
+---@field TooltipKey string
 
-        if (not spawns) then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
-            spawns = {}
-        end
+---@class SpawnListObject : SpawnListBase, SpawnListTooltip
+---@field Id ObjectId The ID of the Object
 
-        local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
+---@class SpawnListNPC : SpawnListBase, SpawnListTooltip
+---@field Id NpcId The ID of the NPC
+---@field Waypoints table<AreaId, CoordPair[]>
+---@field Hostile true|boolean
 
-        local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
-        local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
+---@class SpawnListItem : SpawnListBase, SpawnListTooltip, SpawnListNPC, SpawnListObject
+---@field Id ObjectId|NpcId The ID of the Object or Npc
+---@field ItemId ItemId The ID of the item that the spawn drops
 
-        return {
-            [npcId] = {
-                Id = npcId,
-                Name = name,
-                Spawns = enableSpawns and spawns or {},
-                Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
-                Hostile = true,
-                Icon = ICON_TYPE_SLAY,
-                GetIconScale = _GetIconScaleForMonster,
-                IconScale = _GetIconScaleForMonster(),
-                TooltipKey = "m_" .. npcId, -- todo: use ID based keys
-            }
-        }
-    end,
-    ["object"] = function(objectId, objective)
-        if (not objectId) then
-            Questie:Error(
-                    "Corrupted objective data handed to objectiveSpawnListCallTable['object']:",
-                    "'" .. objective.Description .. "' -",
-                    "Please report this error on Discord or GitHub."
-            )
-            return nil
-        end
+---@class SpawnListEvent : SpawnListBase
+---@field Id number The ID of the Event (Is this even used?)
 
-        local name = QuestieDB.QueryObjectSingle(objectId, "name")
+local killcredit, monster, object, event, item
 
-        if (not name) then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for object:", objectId)
-            return nil
-        end
+---@type table<"killcredit"|"monster"|"object"|"event"|"item", function>
+_QuestieQuest.objectiveSpawnListCallTable = {}
+---comment
+---@param npcId NpcId
+---@param objective any
+---@param objectiveData KillObjective
+---@return table<NpcId, SpawnListNPC>[]
+killcredit = function(npcId, objective, objectiveData)
+    ---@type SpawnListNPC[]
+    local ret = {}
+    for npcIdIndex = 1, #objectiveData.IdList do
+        local killCreditNpcId = objectiveData.IdList[npcIdIndex]
+        ret[killCreditNpcId] = monster(killCreditNpcId, objective)[killCreditNpcId]
+    end
+    return ret
+end
 
-        local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+---@param npcId any
+---@param objective any
+---@return table<NpcId, SpawnListNPC>?
+monster = function(npcId, objective)
+    if (not npcId) then
+        Questie:Error(
+            "Corrupted objective data handed to objectiveSpawnListCallTable['monster']:",
+            "'" .. objective.Description .. "' -",
+            "Please report this error on Discord or GitHub."
+        )
+        return nil
+    end
 
-        if (not spawns) then
-            Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
-            spawns = {}
-        end
+    local name = QuestieDB.QueryNPCSingle(npcId, "name")
+    if (not name) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for NPC:", npcId)
+        return nil
+    end
 
-        return {
-            [objectId] = {
-                Id = objectId,
-                Name = name,
-                Spawns = spawns,
-                Icon = ICON_TYPE_OBJECT,
-                GetIconScale = _GetIconScaleForObject,
-                IconScale = _GetIconScaleForObject(),
-                TooltipKey = "o_" .. objectId,
-            }
-        }
-    end,
-    ["event"] = function(id, objective)
-        local spawns = {}
-        if objective.Coordinates then
-            spawns = objective.Coordinates
-        else
-            Questie:Error("Missing event data for Objective:", objective.Description, "id:", id)
-            spawns = {}
-        end
+    local spawns = QuestieDB.QueryNPCSingle(npcId, "spawns")
+    if (not spawns) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for NPC:", npcId)
+        spawns = {}
+    end
 
-        return {
-            [1] = {
-                Id = id or 0,
-                Name = objective.Description or "Event Trigger",
-                Spawns = spawns,
-                Icon = ICON_TYPE_EVENT,
-                GetIconScale = _GetIconScaleForEvent,
-                IconScale = _GetIconScaleForEvent(),
-            }
-        }
-    end,
-    ["item"] = function(itemId, objective)
-        if (not itemId) then
-            Questie:Error(
-                    "Corrupted objective data handed to objectiveSpawnListCallTable['item']:",
-                    "'" .. objective.Description .. "' -",
-                    "Please report this error on Discord or GitHub."
-            )
-            return nil
-        end
+    local rank = QuestieDB.QueryNPCSingle(npcId, "rank")
 
-        local ret = {};
-        local item = QuestieDB:GetItem(itemId);
-        if item ~= nil and item.Sources ~= nil and (not item.Hidden) then
-            for _, source in pairs(item.Sources) do
-                if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
-                    local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective);
-                    if sourceList == nil then
-                        Questie:Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
-                    else
-                        for id, sourceData in pairs(sourceList) do
-                            if not ret[id] then
-                                ret[id] = {}
-                                ret[id].Name = sourceData.Name
-                                ret[id].Spawns = {}
-                                ret[id].Waypoints = {}
-                                ret[id].Hostile = true
-                                ret[id].ItemId = item.Id
-                                if source.Type == "object" then
-                                    ret[id].Icon = ICON_TYPE_OBJECT
-                                    ret[id].GetIconScale = _GetIconScaleForObject
-                                    ret[id].IconScale = _GetIconScaleForObject()
-                                else
-                                    ret[id].Icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and ICON_TYPE_LOOT or ICON_TYPE_EVENT
-                                    ret[id].GetIconScale = _GetIconScaleForLoot
-                                    ret[id].IconScale = _GetIconScaleForLoot()
-                                end
-                                ret[id].TooltipKey = sourceData.TooltipKey
-                                ret[id].Id = id
+    local enableSpawns = not QuestieCorrections.questNPCBlacklist[npcId]
+    local enableWaypoints = enableSpawns and 2 ~= rank -- a rare mob spawn. todo: option for this
+
+    ---@type SpawnListNPC
+    local monster = {
+        Id = npcId,
+        Name = name,
+        Spawns = enableSpawns and spawns or {},
+        Waypoints = enableWaypoints and QuestieDB.QueryNPCSingle(npcId, "waypoints") or {},
+        Hostile = true,
+        Icon = Questie.ICON_TYPE_SLAY,
+        GetIconScale = _GetIconScaleForMonster,
+        IconScale = _GetIconScaleForMonster(),
+        TooltipKey = "m_" .. npcId, -- todo: use ID based keys
+    }
+
+    return {
+        [npcId] = monster
+    }
+end
+
+---comment
+---@param objectId any
+---@param objective any
+---@return table<ObjectId, SpawnListObject>?
+object = function(objectId, objective)
+    if (not objectId) then
+        Questie:Error(
+            "Corrupted objective data handed to objectiveSpawnListCallTable['object']:",
+            "'" .. objective.Description .. "' -",
+            "Please report this error on Discord or GitHub."
+        )
+        return nil
+    end
+
+    local name = QuestieDB.QueryObjectSingle(objectId, "name")
+    if (not name) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "Name missing for object:", objectId)
+        return nil
+    end
+
+    local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
+    if (not spawns) then
+        Questie:Debug(Questie.DEBUG_CRITICAL, "Spawn data missing for object:", objectId)
+        spawns = {}
+    end
+
+
+    ---@type SpawnListObject
+    local retObject = {
+        Id = objectId,
+        Name = name,
+        Spawns = spawns,
+        Icon = Questie.ICON_TYPE_OBJECT,
+        GetIconScale = _GetIconScaleForObject,
+        IconScale = _GetIconScaleForObject(),
+        TooltipKey = "o_" .. objectId,
+    }
+
+    return {
+        [objectId] = retObject
+    }
+end
+
+---comment
+---@param eventId any
+---@param objective any
+---@return { [1]: SpawnListEvent }?
+event = function(eventId, objective)
+    local spawns = objective.Coordinates
+    if (not spawns) then
+        Questie:Error("Missing event data for Objective:", objective.Description, "id:", eventId)
+        spawns = {}
+    end
+
+    ---@type SpawnListEvent
+    local retEvent = {
+        Id = eventId or 0,
+        Name = objective.Description or "Event Trigger",
+        Spawns = spawns,
+        Icon = Questie.ICON_TYPE_EVENT,
+        GetIconScale = _GetIconScaleForEvent,
+        IconScale = _GetIconScaleForEvent(),
+    }
+
+    return {
+        [1] = retEvent
+    }
+end
+
+---comment
+---@param itemId any
+---@param objective any
+---@return table<ItemId, SpawnListItem>?
+item = function(itemId, objective)
+    if (not itemId) then
+        Questie:Error(
+            "Corrupted objective data handed to objectiveSpawnListCallTable['item']:",
+            "'" .. objective.Description .. "' -",
+            "Please report this error on Discord or GitHub."
+        )
+        return nil
+    end
+
+    local ret = {}
+    local item = QuestieDB:GetItem(itemId)
+    if item and item.Sources and (not item.Hidden) then
+        for _, source in pairs(item.Sources) do
+            if _QuestieQuest.objectiveSpawnListCallTable[source.Type] and source.Type ~= "item" then -- anti-recursive-loop check, should never be possible but would be bad if it was
+                local sourceList = _QuestieQuest.objectiveSpawnListCallTable[source.Type](source.Id, objective)
+                if not sourceList then
+                    Questie:Error("Missing objective data for", source.Type, "'", objective, "'", source.Id)
+                else
+                    for id, sourceData in pairs(sourceList) do
+                        if (not ret[id]) then
+                            ret[id] = {
+                                Id = id,
+                                Name = sourceData.Name,
+                                Hostile = true,
+                                ItemId = item.Id,
+                                TooltipKey = sourceData.TooltipKey,
+                            }
+                            ret[id].Spawns = {}
+                            ret[id].Waypoints = {}
+                            if source.Type == "object" then
+                                ret[id].Icon = Questie.ICON_TYPE_OBJECT
+                                ret[id].GetIconScale = _GetIconScaleForObject
+                                ret[id].IconScale = _GetIconScaleForObject()
+                            else
+                                ret[id].Icon = (
+                                    (not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and
+                                    Questie.ICON_TYPE_LOOT or Questie.ICON_TYPE_EVENT
+                                ret[id].GetIconScale = _GetIconScaleForLoot
+                                ret[id].IconScale = _GetIconScaleForLoot()
                             end
-                            if sourceData.Spawns and not item.Hidden then
-                                for zone, spawns in pairs(sourceData.Spawns) do
-                                    if not ret[id].Spawns[zone] then
-                                        ret[id].Spawns[zone] = {};
-                                    end
-                                    for _, spawn in pairs(spawns) do
-                                        tinsert(ret[id].Spawns[zone], spawn);
-                                    end
+                        end
+                        if sourceData.Spawns then
+                            for zone, spawns in pairs(sourceData.Spawns) do
+                                if (not ret[id].Spawns[zone]) then
+                                    ret[id].Spawns[zone] = {}
+                                end
+                                for _, spawn in pairs(spawns) do
+                                    tinsert(ret[id].Spawns[zone], spawn)
                                 end
                             end
-                            if sourceData.Waypoints and not Item.Hidden then
-                                for zone, spawns in pairs(sourceData.Waypoints) do
-                                    if not ret[id].Waypoints[zone] then
-                                        ret[id].Waypoints[zone] = {};
-                                    end
-                                    for _, spawn in pairs(spawns) do
-                                        tinsert(ret[id].Waypoints[zone], spawn);
-                                    end
+                        end
+                        if sourceData.Waypoints then
+                            for zone, spawns in pairs(sourceData.Waypoints) do
+                                if (not ret[id].Waypoints[zone]) then
+                                    ret[id].Waypoints[zone] = {}
+                                end
+                                for _, spawn in pairs(spawns) do
+                                    tinsert(ret[id].Waypoints[zone], spawn)
                                 end
                             end
                         end
@@ -196,21 +259,12 @@ _QuestieQuest.objectiveSpawnListCallTable = {
                 end
             end
         end
-        return ret
     end
-}
-
-function _QuestieQuest:LevelRequirementsFulfilled(quest, playerLevel, minLevel, maxLevel)
-    return (quest.level == 60 and quest.requiredLevel == 1) or (quest.level >= minLevel or Questie.db.char.lowlevel) and quest.level <= maxLevel and (quest.requiredLevel <= playerLevel or Questie.db.char.manualMinLevelOffset or Questie.db.char.manualMinLevelOffsetAbsolute)
+    return ret
 end
 
--- We always want to show a quest if it is a childQuest and its parent is in the quest log
-function _QuestieQuest:IsParentQuestActive(parentID)
-    if parentID == nil or parentID == 0 then
-        return false
-    end
-    if QuestiePlayer.currentQuestlog[parentID] then
-        return true
-    end
-    return false
-end
+_QuestieQuest.objectiveSpawnListCallTable["killcredit"] = killcredit
+_QuestieQuest.objectiveSpawnListCallTable["monster"] = monster
+_QuestieQuest.objectiveSpawnListCallTable["object"] = object
+_QuestieQuest.objectiveSpawnListCallTable["event"] = event
+_QuestieQuest.objectiveSpawnListCallTable["item"] = item

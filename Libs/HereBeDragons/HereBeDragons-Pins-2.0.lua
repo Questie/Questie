@@ -1,8 +1,11 @@
+---@diagnostic disable: assign-type-mismatch
 -- HereBeDragons-Pins is a library to show pins/icons on the world map and minimap
 
 local MAJOR, MINOR = "HereBeDragonsQuestie-Pins-2.0", 8
 assert(LibStub, MAJOR .. " requires LibStub")
 
+---@class HereBeDragonsQuestie-Pins-2.0
+---@field MinimapGroup Frame
 local pins, _oldversion = LibStub:NewLibrary(MAJOR, MINOR)
 if not pins then return end
 
@@ -67,6 +70,7 @@ local minimap_size = {
     },
 }
 
+---@class MinimapShapes
 local minimap_shapes = {
     -- { upper-left, lower-left, upper-right, lower-right }
     ["SQUARE"]                = { false, false, false, false },
@@ -110,6 +114,7 @@ local rotateMinimap = GetCVar("rotateMinimap") == "1"
 local indoors = GetCVar("minimapZoom")+0 == pins.Minimap:GetZoom() and "outdoor" or "indoor"
 
 local minimapPinCount, queueFullUpdate = 0, false
+---@type unknown, MinimapShapes?
 local minimapScale, minimapShape, mapRadius, minimapWidth, minimapHeight, mapSin, mapCos
 local lastZoom, lastFacing, lastXY, lastYY
 
@@ -128,6 +133,7 @@ local function drawMinimapPin(pin, data)
     local diffY = yDist / mapRadius
 
     -- different minimap shapes
+    ---@type boolean|number
     local isRound = true
     if minimapShape and not (xDist == 0 or yDist == 0) then
         isRound = (xDist < 0) and 1 or 3
@@ -541,6 +547,8 @@ pins.updateFrame:RegisterEvent("MINIMAP_UPDATE_ZOOM")
 pins.updateFrame:RegisterEvent("PLAYER_LOGIN")
 pins.updateFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 
+--- Fuck adding too much emmy support to libs.
+---@diagnostic disable-next-line: undefined-field
 HBD.RegisterCallback(pins, "PlayerZoneChanged", UpdateMinimap)
 
 

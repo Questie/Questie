@@ -82,17 +82,18 @@ _CreateZoneDropdown = function()
         currentZoneId = _QuestieJourney.lastZoneSelection[2]
     end
 
-    if currentZoneId and currentZoneId > 0 then
-        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
-        dropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
+    local zones = QuestieJourney.zones[currentContinentId]
+    if currentZoneId and currentZoneId > 0 and zones then
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
+        dropdown:SetList(zones, sortedZones)
         dropdown:SetValue(currentZoneId)
 
         local zoneTree = _QuestieJourney.questsByZone:CollectZoneQuests(currentZoneId)
         _QuestieJourney.questsByZone:ManageTree(treegroup, zoneTree)
-    elseif currentZoneId == RESET then
+    elseif currentZoneId == RESET and zones then
         dropdown:SetText(l10n('Select Your Zone'))
-        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(QuestieJourney.zones[currentContinentId])
-        dropdown:SetList(QuestieJourney.zones[currentContinentId], sortedZones)
+        local sortedZones = QuestieJourneyUtils:GetSortedZoneKeys(zones)
+        dropdown:SetList(zones, sortedZones)
     else
         dropdown:SetDisabled(true)
     end

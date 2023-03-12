@@ -23,17 +23,19 @@ function FactionDB:GetFactionsWithQuests()
     for questId in pairs(QuestieDB.QuestPointers) do
         
         if (not QuestieCorrections.hiddenQuests[questId])
-            and QuestiePlayer:HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
-            and QuestiePlayer:HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses"))
+            and QuestiePlayer.HasRequiredRace(QuestieDB.QueryQuestSingle(questId, "requiredRaces"))
+            and QuestiePlayer.HasRequiredClass(QuestieDB.QueryQuestSingle(questId, "requiredClasses"))
         then
             local reputationReward = QuestieDB.QueryQuestSingle(questId, "reputationReward")
-            for _, v in pairs(reputationReward) do
-                local factionId, reputationRewardAmount = unpack(v)
-                if reputationRewardAmount > 0 then
-                    if (not factionMap[factionId]) then
-                        factionMap[factionId] = {}
+            if reputationReward then
+                for _, v in pairs(reputationReward) do
+                    local factionId, reputationRewardAmount = unpack(v)
+                    if reputationRewardAmount > 0 then
+                        if (not factionMap[factionId]) then
+                            factionMap[factionId] = {}
+                        end
+                        factionMap[factionId][questId] = true
                     end
-                    factionMap[factionId][questId] = true
                 end
             end
         end

@@ -1,4 +1,4 @@
----@type QuestieDB
+---@class QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 
@@ -29,8 +29,8 @@ end
 
 QuestieDB.npcCompilerTypes = {
     ['name'] = "u8string",
-    ['minLevelHealth'] = "u24",
-    ['maxLevelHealth'] = "u24",
+    ['minLevelHealth'] = "u32",
+    ['maxLevelHealth'] = "u32",
     ['minLevel'] = "u8",
     ['maxLevel'] = "u8",
     ['rank'] = "u8",
@@ -53,7 +53,8 @@ QuestieDB.npcCompilerOrder = { -- order easily skipable data first for efficienc
     'name', 'spawns', 'waypoints', 'questStarts', 'questEnds', 'subName'
 }
 
-QuestieDB.npcFlags = Questie.IsTBC and {
+---@enum NpcFlags
+QuestieDB.npcFlags = (Questie.IsTBC or Questie.IsWotlk) and {
     NONE = 0,
     GOSSIP = 1,
     QUEST_GIVER = 2,

@@ -110,7 +110,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
         
         local continent = QuestieJourneyUtils:GetZoneName(startindex)
 
-        startNPCZoneLabel:SetText(continent)
+        startNPCZoneLabel:SetText(l10n(continent))
         startNPCZoneLabel:SetFullWidth(true)
         startNPCGroup:AddChild(startNPCZoneLabel)
 
@@ -284,7 +284,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
 
         local continent = QuestieJourneyUtils:GetZoneName(endindex)
         
-        endNPCZoneLabel:SetText(continent)
+        endNPCZoneLabel:SetText(l10n(continent))
         endNPCZoneLabel:SetFullWidth(true)
         endNPCGroup:AddChild(endNPCZoneLabel)
 

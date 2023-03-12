@@ -10,7 +10,6 @@ local unpack_limit = 4096 -- wow api limits unpack to somewhere between 7000-800
 local band = bit.band
 local lshift = bit.lshift
 local rshift = bit.rshift
-local mod = mod
 local stringchar = string.char
 local stringbyte = string.byte
 local stringsub = string.sub
@@ -38,9 +37,25 @@ QSL_ttab[92] = 125;
 
 local StreamPool = {}
 
+local function _StreamReset(self)
+    self._pointer = 1
+    self._bin = {}
+    self._level = 0
+end
+
+local function _StreamFinished(self)
+    self:reset()
+    tinsert(StreamPool, self)
+end
+
 function QuestieStreamLib:GetStream(mode) -- returns a new stream
+    if not mode then
+        Questie:Error("QuestieStreamLib: Stream encoding mode is not defined.")
+        error("Stream encoding mode is not defined.")
+    end
+
     local stream = tremove(StreamPool)
-    if stream then
+    if stream and stream._mode == mode then
         return stream
     else
         stream = {}
@@ -48,58 +63,65 @@ function QuestieStreamLib:GetStream(mode) -- returns a new stream
     for k,v in pairs(QuestieStreamLib) do -- copy functions to new object
         stream[k] = v
     end
-    stream._pointer = 1
-    stream._bin = {}
-    stream._raw_bin = {}
-    stream._rawptr = 1
-    stream._level = 0
-    stream.reset = function(self)
-        self._pointer = 1
-        self._bin = {}
-        self._raw_bin = {}
-        self._rawptr = 1
-        self._level = 0
-    end
-    stream.finished = function(self) -- its best to call this (not required) when done using the stream
-        self:reset()
-        tinsert(StreamPool, self)
-    end
-    if mode then
-        stream._mode = mode
+    stream.reset = _StreamReset
+    stream.finished = _StreamFinished -- its best to call this (not required) when done using the stream
+
+    stream:reset()
+    stream._mode = mode
+
+    if mode == "raw" or mode == "raw_assert" then
+        stream.ReadByte = QuestieStreamLib._ReadByte_raw
+        stream.ReadShort = QuestieStreamLib._ReadShort_raw
+        stream.ReadInt24 = QuestieStreamLib._ReadInt24_raw
+        stream.ReadInt = QuestieStreamLib._ReadInt_raw
+        stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair_raw
+        stream.ReadTinyString = QuestieStreamLib._ReadTinyString_raw
+        stream.ReadShortString = QuestieStreamLib._ReadShortString_raw
+        stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil_raw
+
         if mode == "raw" then
-            stream.ReadByte = QuestieStreamLib._ReadByte_raw
-            stream.ReadTinyString = QuestieStreamLib._ReadTinyStringBySubstring
-            stream.ReadShortString = QuestieStreamLib._ReadShortStringBySubstring
-            stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNilBySubstring
-            stream._WriteByte = QuestieStreamLib._writeByte
-        elseif mode == "1short" then
+            stream.WriteByte = QuestieStreamLib._writeByte
+            stream.WriteShort = QuestieStreamLib._WriteShort
+            stream.WriteInt = QuestieStreamLib._WriteInt
+            stream.WriteInt24 = QuestieStreamLib._WriteInt24
+            stream.WriteInt12Pair = QuestieStreamLib._WriteInt12Pair
+            stream.WriteLong = QuestieStreamLib._WriteLong
+        else
+            stream.WriteByte = QuestieStreamLib._writeByte_assert
+            stream.WriteShort = QuestieStreamLib._WriteShort_assert
+            stream.WriteInt = QuestieStreamLib._WriteInt_assert
+            stream.WriteInt24 = QuestieStreamLib._WriteInt24_assert
+            stream.WriteInt12Pair = QuestieStreamLib._WriteInt12Pair_assert
+            stream.WriteLong = QuestieStreamLib._WriteLong_assert
+        end
+        stream.WriteTinyString = QuestieStreamLib._WriteTinyString
+    else
+        if mode == "1short" then
             stream.ReadByte = QuestieStreamLib._ReadByte_1short
-            stream._WriteByte = QuestieStreamLib._WriteByte_1short
+            stream.ReadTinyString = QuestieStreamLib._ReadTinyString
+            stream.WriteByte = QuestieStreamLib._WriteByte_1short
+            stream.WriteTinyString = QuestieStreamLib._WriteTinyString
         else
             stream.ReadByte = QuestieStreamLib._ReadByte_b89
-            stream._WriteByte = QuestieStreamLib._WriteByte_b89
-
-            function stream:ReadTinyString()
-                local length = self:ReadByte()
-                local ret = {};
-                for i = 1, length do
-                    tinsert(ret, self:_readByte()) -- slightly better lua code is slightly better
-                end
-                return stringchar(unpack(ret))
-            end
-            
-            function stream:WriteTinyString(val)
-                self:WriteByte(string.len(val));
-                for i=1, string.len(val) do
-                    self:_writeByte(stringbyte(val, i));
-                end
-            end
-
+            stream.ReadTinyString = QuestieStreamLib._ReadTinyString_b89
+            stream.WriteByte = QuestieStreamLib._WriteByte_b89
+            stream.WriteTinyString = QuestieStreamLib._WriteTinyString_b89
         end
-    else
-        stream.ReadByte = QuestieStreamLib._ReadByte_b89
-        stream._WriteByte = QuestieStreamLib._WriteByte_b89
+        stream.ReadShort = QuestieStreamLib._ReadShort
+        stream.ReadInt24 = QuestieStreamLib._ReadInt24
+        stream.ReadInt = QuestieStreamLib._ReadInt
+        stream.ReadInt12Pair = QuestieStreamLib._ReadInt12Pair
+        stream.ReadTinyString = QuestieStreamLib._ReadTinyString
+        stream.ReadShortString = QuestieStreamLib._ReadShortString
+        stream.ReadTinyStringNil = QuestieStreamLib._ReadTinyStringNil
+
+        stream.WriteShort = QuestieStreamLib._WriteShort
+        stream.WriteInt = QuestieStreamLib._WriteInt
+        stream.WriteInt24 = QuestieStreamLib._WriteInt24
+        stream.WriteInt12Pair = QuestieStreamLib._WriteInt12Pair
+        stream.WriteLong = QuestieStreamLib._WriteLong
     end
+
     return stream
 end
 
@@ -112,15 +134,16 @@ function QuestieStreamLib:_writeByte(val)
     self._pointer = self._pointer + 1
 end
 
+function QuestieStreamLib:_writeByte_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 255, "Overflow") -- 8 bits
+    self:_writeByte(val)
+end
+
 function QuestieStreamLib:_readByte()
     self._pointer = self._pointer + 1
     return self._bin[self._pointer-1]
-end
-
-function QuestieStreamLib:WriteByte(val)
-    self:_WriteByte(val)
-    self._raw_bin[self._rawptr] = val
-    self._rawptr = self._rawptr + 1
 end
 
 function QuestieStreamLib:SetPointer(pointer)
@@ -141,15 +164,13 @@ function QuestieStreamLib:_ReadByte_b89()
 end
 
 function QuestieStreamLib:_WriteByte_b89(e)
-    if e == nil then
-        return 
-    end
+    if not e then return end
     local level = math.floor(e / 86);
     if self._level ~= level then
         self._level = level
         self:_writeByte(QSL_ltab[level])
     end
-    local chr = mod(e, 86) + 33
+    local chr = (e % 86) + 33
     if QSL_ttab[chr] then
         self:_writeByte(QSL_ttab[chr])
     else
@@ -190,31 +211,11 @@ function QuestieStreamLib:_ReadByte_1short()
     return v
 end
 
-function QuestieStreamLib:_WriteByte_raw(e)
-    self:_writeByte(e)
-end
-
 function QuestieStreamLib:_ReadByte_raw()
-    local val = stringbyte(self._bin, self._pointer)
-    --print("Read data at " .. self._pointer .. " = " .. val)
-    self._pointer = self._pointer + 1
-    return val
-    --return self:_readByte()
+    local p = self._pointer
+    self._pointer = p + 1
+    return stringbyte(self._bin, p)
 end
-
--- this is now set in GetStream based on type
---function QuestieStreamLib:ReadByte()
---    local r = self._buffer[self._pointer];
---    self._pointer = self._pointer + 1;
---    return r
---end
---function QuestieStreamLib:WriteByte(val)
---    --print("wbyte: " .. val);
---    self._buffer[self._pointer] = mod(val, 256);
---    --print("wbyte: " .. _buffer[_pointer]);
---    self._pointer = self._pointer + 1;
---end
-
 
 function QuestieStreamLib:ReadBytes(count)
     local ret = {};
@@ -232,28 +233,57 @@ function QuestieStreamLib:ReadShorts(count)
     return unpack(ret)
 end
 
-function QuestieStreamLib:ReadShort()
+function QuestieStreamLib:_ReadShort()
     return lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
-function QuestieStreamLib:ReadInt12Pair()
+function QuestieStreamLib:_ReadShort_raw()
+    local p = self._pointer
+    self._pointer = p + 2
+    local a,b = stringbyte(self._bin, p, p+1)
+    return a*256 + b
+end
+
+function QuestieStreamLib:_ReadInt12Pair()
     local a = self:ReadByte()
     return self:ReadByte() + lshift(band(a, 15), 8), self:ReadByte() + lshift(band(a, 240), 4)
 end
 
-function QuestieStreamLib:ReadInt24()
+function QuestieStreamLib:_ReadInt12Pair_raw()
+    local p = self._pointer
+    self._pointer = p + 3
+    local a,b,c = stringbyte(self._bin, p, p+2)
+    local low4bit = a % 16
+    return low4bit * 256 + b, (a - low4bit) * 16 + c
+end
+
+function QuestieStreamLib:_ReadInt24()
     return lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
-function QuestieStreamLib:ReadInt()
+function QuestieStreamLib:_ReadInt24_raw()
+    local p = self._pointer
+    self._pointer = p + 3
+    local a,b,c = stringbyte(self._bin, p, p+2)
+    return a*65536 + b*256 + c
+end
+
+function QuestieStreamLib:_ReadInt()
     return lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
+end
+
+function QuestieStreamLib:_ReadInt_raw()
+    local p = self._pointer
+    self._pointer = p + 4
+    local a,b,c,d = stringbyte(self._bin, p, p+3)
+    return a*16777216 + b*65536 + c*256 + d
 end
 
 function QuestieStreamLib:ReadLong()
     return lshift(self:ReadByte(), 56) +lshift(self:ReadByte(), 48) +lshift(self:ReadByte(), 40) +lshift(self:ReadByte(), 32) +lshift(self:ReadByte(), 24) + lshift(self:ReadByte(), 16) + lshift(self:ReadByte(), 8) + self:ReadByte();
 end
 
-function QuestieStreamLib:ReadTinyString()
+function QuestieStreamLib:_ReadTinyString()
     local length = self:ReadByte()
     local ret = {};
     for i = 1, length do
@@ -262,23 +292,36 @@ function QuestieStreamLib:ReadTinyString()
     return stringchar(unpack(ret))
 end
 
-function QuestieStreamLib:_ReadTinyStringBySubstring()
+function QuestieStreamLib:_ReadTinyString_b89()
     local length = self:ReadByte()
-    if length == 0 then return "" end
-    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
-    self._pointer = self._pointer + length
-    return ret
+    local ret = {};
+    for i = 1, length do
+        tinsert(ret, self:_readByte()) -- slightly better lua code is slightly better
+    end
+    return stringchar(unpack(ret))
 end
 
-function QuestieStreamLib:_ReadTinyStringNilBySubstring()
-    local length = self:ReadByte()
-    if length == 0 then return nil end
-    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
-    self._pointer = self._pointer + length
-    return ret
+function QuestieStreamLib:_ReadTinyString_raw()
+    local p = self._pointer
+    local length = stringbyte(self._bin, p)
+    p = p + 1
+    self._pointer = p + length
+    return stringsub(self._bin, p, p+length-1)
 end
 
-function QuestieStreamLib:ReadTinyStringNil()
+function QuestieStreamLib:_ReadTinyStringNil_raw()
+    local p = self._pointer
+    local length = stringbyte(self._bin, p)
+    p = p + 1
+    if length == 0 then
+        self._pointer = p
+        return nil
+    end
+    self._pointer = p + length
+    return stringsub(self._bin, p, p+length-1)
+end
+
+function QuestieStreamLib:_ReadTinyStringNil()
     local length = self:ReadByte()
     if length == 0 then return nil end
     local ret = {};
@@ -288,7 +331,7 @@ function QuestieStreamLib:ReadTinyStringNil()
     return stringchar(unpack(ret))
 end
 
-function QuestieStreamLib:ReadShortString()
+function QuestieStreamLib:_ReadShortString()
     local length = self:ReadShort()
     local ret = {};
     if length > unpack_limit then
@@ -304,72 +347,113 @@ function QuestieStreamLib:ReadShortString()
     end
 end
 
-function QuestieStreamLib:_ReadShortStringBySubstring()
-    local length = self:ReadShort()
-    local ret = stringsub(self._bin, self._pointer, self._pointer+length-1)
-    self._pointer = self._pointer + length
-    return ret
+function QuestieStreamLib:_ReadShortString_raw()
+    local p = self._pointer
+    local a,b = stringbyte(self._bin, p, p+1)
+    local length = a*256 + b
+    p = p + 2
+    self._pointer = p + length
+    return stringsub(self._bin, p, p+length-1)
 end
 
-function QuestieStreamLib:WriteBytes(...)
-    for _,val in pairs({...}) do
-        self:WriteByte(val)
-    end
-end
-
-function QuestieStreamLib:WriteShorts(...)
-    for _,val in pairs({...}) do
-        self:WriteShort(val)
-    end
-end
-
-function QuestieStreamLib:WriteShort(val)
+function QuestieStreamLib:_WriteShort(val)
     --print("wshort: " .. val);
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
 end
 
-function QuestieStreamLib:WriteInt(val)
-    self:WriteByte(mod(rshift(val, 24), 256));
-    self:WriteByte(mod(rshift(val, 16), 256));
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+function QuestieStreamLib:_WriteShort_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 65535, "Overflow") -- 16 bits
+    self:_WriteShort(val)
 end
 
-function QuestieStreamLib:WriteInt24(val)
+function QuestieStreamLib:_WriteInt(val)
+    self:WriteByte(rshift(val, 24) % 256);
+    self:WriteByte(rshift(val, 16) % 256);
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
+end
+
+function QuestieStreamLib:_WriteInt_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 4294967295, "Overflow") -- 32 bits
+    self:_WriteInt(val)
+end
+
+function QuestieStreamLib:_WriteInt24(val)
     --print("wi24: " .. val);
-    self:WriteByte(mod(rshift(val, 16), 256));
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+    self:WriteByte(rshift(val, 16) % 256);
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
 end
 
-function QuestieStreamLib:WriteInt12Pair(val1, val2)
+function QuestieStreamLib:_WriteInt24_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 16777215, "Overflow") -- 24 bits
+    self:_WriteInt24(val)
+end
+
+function QuestieStreamLib:_WriteInt12Pair(val1, val2)
     self:WriteByte(band(rshift(val1, 8), 15) + lshift(band(rshift(val2, 8), 15), 4))
-    self:WriteByte(mod(val1, 256))
-    self:WriteByte(mod(val2, 256))
+    self:WriteByte(val1 % 256)
+    self:WriteByte(val2 % 256)
 end
 
-function QuestieStreamLib:WriteLong(val)
-    self:WriteByte(mod(rshift(val, 56), 256));
-    self:WriteByte(mod(rshift(val, 48), 256));
-    self:WriteByte(mod(rshift(val, 40), 256));
-    self:WriteByte(mod(rshift(val, 32), 256));
-    self:WriteByte(mod(rshift(val, 24), 256));
-    self:WriteByte(mod(rshift(val, 16), 256));
-    self:WriteByte(mod(rshift(val, 8), 256));
-    self:WriteByte(mod(val, 256));
+function QuestieStreamLib:_WriteInt12Pair_assert(val1, val2)
+    assert(type(val1) == "number", "Not a number")
+    assert(val1 >= 0, "Underflow")
+    assert(val1 <= 4095, "Overflow") -- 12 bits
+
+    assert(type(val2) == "number", "Not a number")
+    assert(val2 >= 0, "Underflow")
+    assert(val2 <= 4095, "Overflow") -- 12 bits
+
+    self:_WriteInt12Pair(val1, val2)
 end
 
-function QuestieStreamLib:WriteTinyString(val)
-    self:WriteByte(string.len(val));
-    for i=1, string.len(val) do
+function QuestieStreamLib:_WriteLong(val)
+    self:WriteByte(rshift(val, 56) % 256);
+    self:WriteByte(rshift(val, 48) % 256);
+    self:WriteByte(rshift(val, 40) % 256);
+    self:WriteByte(rshift(val, 32) % 256);
+    self:WriteByte(rshift(val, 24) % 256);
+    self:WriteByte(rshift(val, 16) % 256);
+    self:WriteByte(rshift(val, 8) % 256);
+    self:WriteByte(val % 256);
+end
+
+function QuestieStreamLib:_WriteLong_assert(val)
+    assert(type(val) == "number", "Not a number")
+    assert(val >= 0, "Underflow")
+    assert(val <= 18446744073709551615, "Overflow") -- 64 bits
+
+    self:_WriteLong(val)
+end
+
+function QuestieStreamLib:_WriteTinyString(val)
+    local length = string.len(val)
+    self:WriteByte(length);
+    for i=1, length do
         self:WriteByte(stringbyte(val, i));
     end
 end
 
+function QuestieStreamLib:_WriteTinyString_b89(val)
+    local length = string.len(val)
+    self:WriteByte(length);
+    for i=1, length do
+        self:_writeByte(stringbyte(val, i));
+    end
+end
+
 function QuestieStreamLib:WriteShortString(val)
-    self:WriteShort(string.len(val));
-    for i=1, string.len(val) do
+    local length = string.len(val)
+    self:WriteShort(length);
+    for i=1, length do
         self:WriteByte(stringbyte(val, i));
     end
 end
@@ -388,28 +472,12 @@ function QuestieStreamLib:Save()
     return table.concat(self._bin)
 end
 
-function QuestieStreamLib:SaveRaw()
-    if self._rawptr-1 > unpack_limit then
-        for i=1,self._rawptr-1 do
-            self._raw_bin[i] = stringchar(self._raw_bin[i])
-        end
-        return table.concat(self._raw_bin)
-    end
-    return stringchar(unpack(self._raw_bin))
-end
-
 function QuestieStreamLib:Load(bin)
     self._pointer = 1
-    if self._mode == "raw" then
+    if self._mode == "raw" or self._mode == "raw_assert" then
         self._bin = bin
     else
         self._bin = {stringbyte(bin, 1, -1)}
     end
-    self._level = 0
-end
-
-function QuestieStreamLib:LoadRaw(bin)
-    self._pointer = 1
-    self._bin = bin
     self._level = 0
 end

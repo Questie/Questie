@@ -1,5 +1,5 @@
 --DBM HudMap integration written by MysticalOS
---All code here executes functions from https://github.com/DeadlyBossMods/DBM-Classic/blob/master/DBM-Core/DBM-HudMap.lua
+--All code here executes functions from https://github.com/DeadlyBossMods/DBM-Unified/blob/master/DBM-Core/DBM-HudMap.lua
 ----------------------
 --  Globals/Locals  --
 ----------------------
@@ -13,7 +13,7 @@ local LastInstanceMapID = 9999--Just making sure to set initial zone ID to a num
 local KalimdorPoints = {}--Maintains Kalimdor objective list
 local EKPoints = {}--Maintains Eastern Kingdoms objective list
 local OutlandPoints = {}--Maintains Outland objective list
---local NorthrendPoints = {}--Maintains Northrend Kingdoms objective list
+local NorthrendPoints = {}--Maintains Northrend Kingdoms objective list
 local AddedHudIds = {}--Tracking table of all active hud markers
 local playerName = UnitName("player")
 local QuestieHUDEnabled = false
@@ -75,12 +75,11 @@ do
                 RemoveHudQuestIcon(tableString)
             end
         end
-        --Future Proofing
-       --[[ if keepInstance ~= 571 then
+       if keepInstance ~= 571 then
             for tableString, points in pairs(NorthrendPoints) do
                 RemoveHudQuestIcon(tableString)
             end
-        end--]]
+        end
     end
 
     local function ReAddHudIcons()
@@ -94,6 +93,10 @@ do
             end
         elseif LastInstanceMapID == 530 then--It means we are now in Kalimdor (but weren't before)
             for tableString, points in pairs(OutlandPoints) do
+                AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
+            end
+        elseif LastInstanceMapID == 571 then--It means we are now in Northrend (but weren't before)
+            for tableString, points in pairs(NorthrendPoints) do
                 AddHudQuestIcon(tableString, points.icon, points.AreaID, points.x, points.y, points.r, points.g, points.b)
             end
         end
@@ -149,6 +152,7 @@ do
             KalimdorPoints = {}
             EKPoints = {}
             OutlandPoints = {}
+            NorthrendPoints = {}
             --Also used onClick for GUI option to turn feature off, of course, just pass disable arg
             if disable then
                 QuestieHUDEnabled = false
@@ -233,6 +237,24 @@ function QuestieDBMIntegration:RegisterHudQuestIcon(tableString, icon, AreaID, x
             --else
                 --print("Rejecting point for being on a different continent")
             end
+        elseif instanceID == 571 then
+            --Build a Kalimdor Points Table
+            if not NorthrendPoints[tableString] then
+                NorthrendPoints[tableString] = {}
+                NorthrendPoints[tableString].icon = icon
+                NorthrendPoints[tableString].AreaID = AreaID
+                NorthrendPoints[tableString].x = x
+                NorthrendPoints[tableString].y = y
+                NorthrendPoints[tableString].r = r
+                NorthrendPoints[tableString].g = g
+                NorthrendPoints[tableString].b = b
+            end
+            --Object being reistered is in continent we currently reside, add to hud
+            if LastInstanceMapID == 571 then
+                AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
+            --else
+                --print("Rejecting point for being on a different continent")
+            end
         end
     end
 end
@@ -244,6 +266,7 @@ function QuestieDBMIntegration:UnregisterHudQuestIcon(tableString)
         if KalimdorPoints[tableString] then KalimdorPoints[tableString] = nil end
         if EKPoints[tableString] then EKPoints[tableString] = nil end
         if OutlandPoints[tableString] then OutlandPoints[tableString] = nil end
+        if NorthrendPoints[tableString] then OutlandPoints[tableString] = nil end
         if AddedHudIds[tableString] then
             RemoveHudQuestIcon(tableString)
         end

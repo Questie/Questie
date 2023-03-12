@@ -11,11 +11,15 @@ Flow:
 ---@class QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:CreateModule("QuestieValidateGameCache")
 
-local stringSub, tremove = string.sub, table.remove
+
+---@type QuestieLib
+local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
+
+local stringByte, tremove = string.byte, table.remove
 local GetNumQuestLogEntries, GetQuestLogTitle, GetQuestObjectives = GetNumQuestLogEntries, GetQuestLogTitle, C_QuestLog.GetQuestObjectives
 
-local tpack = table.pack or function(...) return { n = select("#", ...), ... } end
-local tunpack = table.unpack or unpack
+local tpack =  QuestieLib.tpack
+local tunpack = QuestieLib.tunpack
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
@@ -77,25 +81,39 @@ local function OnQuestLogUpdate()
             break -- We exceeded the data in the quest log
         end
         if (not isHeader) then
-            local hasInvalidObjective -- for debug stats
-            local objectiveList = GetQuestObjectives(questId)
-            for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
-                if (not objective.text) or stringSub(objective.text, 1, 1) == " " then
-                    -- Game hasn't cached the quest fully yet
-                    isQuestLogGood = false
-                    hasInvalidObjective = true
+            if (not HaveQuestData(questId)) then
+                isQuestLogGood = false
+            else
+                local hasInvalidObjective -- for debug stats
+                local objectiveList = GetQuestObjectives(questId)
 
-                    -- No early "return false" here to force iterate whole quest log and speed up caching
+                if type(objectiveList) ~= "table" then
+                    -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
+                    -- I guess older code queried data before HaveQuestData() was true.
+                    Questie:Error("REPORT THIS ERROR! Quest objectives aren't a table. This may stop Questie from loading. questId =", questId)
+                    hasInvalidObjective = true
+                    objectiveList = {}
                 end
-            end
-            if not hasInvalidObjective then
-                goodQuestsCount = goodQuestsCount + 1
+
+                for _, objective in pairs(objectiveList) do -- objectiveList may be {}, which is also a valid cached quest in quest log
+                    if (not objective.text) or (stringByte(objective.text, 1) == 32) then -- if (text starts with a space " ") then
+                        -- Game hasn't cached the quest fully yet
+                        isQuestLogGood = false
+                        hasInvalidObjective = true
+
+                        -- No early "return false" here to force iterate whole quest log and speed up caching
+                    end
+                end
+
+                if not hasInvalidObjective then
+                    goodQuestsCount = goodQuestsCount + 1
+                end
             end
         end
     end
 
     if not isQuestLogGood then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest: "..goodQuestsCount.."/"..numQuests )
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieValidateGameCache] Quest log is NOT yet okey. Good quest:", goodQuestsCount.."/"..numQuests )
         return
     end
 
@@ -108,14 +126,14 @@ local function OnQuestLogUpdate()
 
     DestroyEventFrame()
 
-    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest: "..goodQuestsCount.."/"..numQuests )
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieValidateGameCache] Quest log is ok. Good quest:", goodQuestsCount.."/"..numQuests )
 
     isCacheGood = true
 
     -- Call all callbacks
     while (#callbacks > 0) do
         local callback = tremove(callbacks, 1)
-        local func, args = tunpack(callback)
+        local func, args = callback[1], callback[2]
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieValidateGameCache] Calling a callback.")
         func(tunpack(args))
     end

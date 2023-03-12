@@ -1,0 +1,45 @@
+ID,Directory,MapName_lang,MapDescription0_lang,MapDescription1_lang,PvpShortDescription_lang,PvpLongDescription_lang,MapType,InstanceType,ExpansionID,AreaTableID,LoadingScreenID,TimeOfDayOverride,ParentMapID,CosmeticParentMapID,TimeOffset,MinimapIconScale,CorpseMapID,MaxPlayers,WindSettingsID,ZmpFileDataID,Flags[0],Flags[1],Flags[2]
+0,Azeroth,Eastern Kingdoms,,,,,1,0,0,0,4,-1,-1,-1,0,1,-1,0,0,804940,16858641,1310720,0
+1,Kalimdor,Kalimdor,,,,,1,0,0,0,3,-1,-1,-1,0,1,-1,0,0,804935,16858641,1310720,0
+13,test,Test Dungeon,,,,,2,1,0,13649,61,-1,-1,-1,0,1,-1,0,0,0,411057731,393216,0
+25,ScottTest,Scott Test,,,,,2,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,67073,8,0
+29,TEST_01,CashTest,,,,,2,1,0,0,0,-1,-1,-1,0,1,-1,10,0,0,67073,8,0
+30,PVPZone01,Alterac Valley,"Hidden within the Alterac Mountains, Alterac Valley is the home of Thrall's own clan of orcs, the Frostwolves. The Stormpike dwarves have established a foothold in the valley and seek to plumb its depths for riches and links to their ancestral past. The territorial Frostwolves, unwilling to suffer the dwarven incursion, have rallied an army... an army eager for righteous slaughter.","Hidden within the Alterac Mountains, Alterac Valley is the home of Thrall's own clan of orcs, the Frostwolves. The Stormpike dwarves have established a foothold in the valley and seek to plumb its depths for riches and links to their ancestral past. The territorial Frostwolves, unwilling to suffer the dwarven incursion, have rallied an army... an army eager for righteous slaughter.",,,1,3,0,0,104,-1,-1,-1,0,1,-1,0,0,0,16858641,262152,0
+33,Shadowfang,Shadowfang Keep,,,,,1,1,0,0,204,-1,-1,-1,0,1,0,10,0,0,16858641,262144,0
+34,StormwindJail,Stormwind Stockade,,,,,2,1,0,717,194,-1,-1,-1,0,1,0,10,0,0,67073,0,0
+35,StormwindPrison,<unused>StormwindPrison,,,,,2,0,0,717,23,-1,-1,-1,0,1,0,0,0,0,67073,8,0
+36,DeadminesInstance,Deadmines,,,,,1,1,0,0,142,-1,-1,-1,0,1,0,10,0,0,16858641,262144,0
+37,PVPZone02,Azshara Crater,Crush the Alliance!,Defend yourself from the onslaught of the Horde!,,,1,0,0,0,25,-1,-1,-1,0,1,-1,0,0,0,16858641,262152,0
+42,Collin,Collin's Test,,,,,2,0,0,0,0,-1,-1,-1,0,1,-1,0,0,0,67073,8,0
+43,WailingCaverns,Wailing Caverns,,,,,2,1,0,718,143,-1,-1,-1,0,1,1,10,0,0,67073,0,0
+44,Monastery,<unused> Monastery,,,,,2,1,0,0,42,-1,-1,-1,0,1,0,10,0,0,67073,8,0
+47,RazorfenKraulInstance,Razorfen Kraul,,,,,1,1,0,0,188,-1,-1,-1,0,1,1,10,0,0,16858641,262144,0
+48,Blackfathom,Blackfathom Deeps,,,,,2,1,0,719,196,-1,-1,-1,0,1,1,10,0,0,67073,0,0
+70,Uldaman,Uldaman,,,,,2,1,0,1337,144,-1,-1,-1,0,1,0,10,0,0,67073,0,0
+90,GnomeragonInstance,Gnomeregan,,,,,2,1,0,721,193,-1,-1,-1,0,1,0,10,0,0,67073,0,0
+109,SunkenTemple,Sunken Temple,,,,,2,1,0,1477,191,-1,-1,-1,0,1,0,10,0,0,67073,0,0
+129,RazorfenDowns,Razorfen Downs,,,,,1,1,0,0,145,-1,-1,-1,0,1,1,10,0,0,16858641,262144,0
+169,EmeraldDream,Emerald Dream,,,,,1,2,0,0,0,-1,-1,-1,0,1,-1,40,0,0,16858641,262152,0
+189,MonasteryInstances,Scarlet Monastery,,,,,1,1,0,0,190,-1,-1,-1,0,1,0,10,0,0,16858641,262144,0
+209,TanarisInstance,Zul'Farrak,,,,,1,1,0,0,146,-1,-1,-1,0,1,1,10,0,0,16858641,262144,0
+229,BlackRockSpire,Blackrock Spire,,,,,2,1,0,1583,189,-1,-1,-1,0,1,0,10,0,0,67073,0,0
+230,BlackrockDepths,Blackrock Depths,,,,,2,1,0,1584,103,-1,-1,-1,0,1,0,5,0,0,67073,0,0
+249,OnyxiaLairInstance,Onyxia's Lair,,,,,2,2,0,2159,61,-1,-1,-1,0,1,1,40,0,0,67073,128,0
+269,CavernsOfTime,Caverns of Time,,,,,1,1,0,0,4,-1,-1,-1,0,1,0,10,0,0,16858641,262144,0
+289,SchoolofNecromancy,Scholomance,,,,,1,1,0,0,102,-1,-1,-1,0,1,0,5,0,0,16858641,262144,0
+309,Zul'gurub,Zul'Gurub,,,,,1,2,0,1977,161,-1,-1,-1,0,1,0,20,0,0,16858641,262144,0
+329,Stratholme,Stratholme,,,,,1,1,0,0,101,-1,-1,-1,0,1,0,5,0,0,16858641,262144,0
+349,Mauradon,Maraudon,,,,,2,1,0,2100,81,-1,-1,-1,0,1,1,10,0,0,67073,0,0
+369,DeeprunTram,Deeprun Tram,,,,,2,0,0,2257,205,-1,-1,-1,0,1,0,0,0,0,67073,1048584,0
+389,OrgrimmarInstance,Ragefire Chasm,,,,,2,1,0,2437,195,-1,-1,-1,0,1,1,10,0,0,67073,0,0
+409,MoltenCore,Molten Core,,,,,2,2,0,2717,192,-1,-1,-1,0,1,0,40,0,0,67073,128,0
+429,DireMaul,Dire Maul,,,,,2,1,0,2557,82,-1,-1,-1,0,1,1,5,0,0,67073,0,0
+449,AlliancePVPBarracks,Alliance PVP Barracks,,,,,2,0,0,2918,181,-1,-1,-1,0,1,0,0,0,0,67073,1048576,0
+450,HordePVPBarracks,Horde PVP Barracks,,,,,2,0,0,2917,182,-1,-1,-1,0,1,0,0,0,0,67073,1048576,0
+451,development,Development Land,,,,,1,0,0,0,21,-1,-1,-1,0,1,0,0,0,0,16858641,262152,0
+469,BlackwingLair,Blackwing Lair,,,,,1,2,0,2677,141,-1,-1,-1,0,1,0,40,0,0,16858641,262272,0
+489,PVPZone03,Warsong Gulch,"A valley bordering Ashenvale Forest and the Barrens, Warsong Gulch hosts a constant battle between the Horde and the Alliance. Orcs use their Warsong Mill to cut lumber reaped from Ashenvale, provoking the night elves of Silverwing Hold. Eager to aid their allies, members of every race in Azeroth rush to the Gulch to lend sword, or spell, to the conflict.","A valley bordering Ashenvale Forest and the Barrens, Warsong Gulch hosts a constant battle between the Horde and the Alliance. Orcs use their Warsong Mill to cut lumber reaped from Ashenvale, provoking the night elves of Silverwing Hold. Eager to aid their allies, members of every race in Azeroth rush to the Gulch to lend sword, or spell, to the conflict.",,,1,3,0,3277,122,-1,-1,-1,0,1,0,0,0,0,16858641,262144,0
+509,AhnQiraj,Ruins of Ahn'Qiraj,,,,,1,2,0,3429,184,-1,-1,-1,0,1,1,20,0,0,16858641,262144,0
+529,PVPZone04,Arathi Basin,"The Arathi Basin is one of the main staging points of war between the Humans and the Forsaken in Azeroth. The League of Arathor seek to reclaim lost lands for their benefactors in Stormwind, while the Defilers – elite troopers under the watchful eye of Varimathras – seek to sever the vital connection between the Humans and their Dwarven allies to the south.","The Arathi Basin is one of the main staging points of war between the Humans and the Forsaken in Azeroth. The League of Arathor seek to reclaim lost lands for their benefactors in Stormwind, while the Defilers – elite troopers under the watchful eye of Varimathras – seek to sever the vital connection between the Humans and their Dwarven allies to the south.",,,1,3,0,3358,183,-1,-1,-1,0,1.25,0,0,0,0,16858641,262144,0
+531,AhnQirajTemple,Ahn'Qiraj Temple,,,,,1,2,0,3428,185,-1,-1,-1,0,1,1,40,0,0,16858641,262272,0
+533,Stratholme Raid,Naxxramas,,,,,1,2,0,3456,197,-1,-1,-1,0,1,0,40,0,0,16858641,262272,0

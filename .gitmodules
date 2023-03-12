@@ -1,0 +1,7 @@
+[submodule ".types/.SubModules/BlizzardInterfaceCode"]
+    path = .types/.SubModules/BlizzardInterfaceCode
+    url = https://github.com/tomrus88/BlizzardInterfaceCode.git
+    branch = wrath
+[submodule ".types/.SubModules/vscode-wow-api"]
+    path = .types/.SubModules/vscode-wow-api
+    url = https://github.com/Ketho/vscode-wow-api.git

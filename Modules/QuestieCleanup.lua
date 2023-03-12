@@ -12,10 +12,6 @@ function QuestieCleanup:Run()
     QuestieDB.questData = nil
     QuestieDB.objectData = nil
     QuestieDB.itemData = nil
-    QuestieDB.npcDataTBC = nil
-    QuestieDB.questDataTBC = nil
-    QuestieDB.objectDataTBC = nil
-    QuestieDB.itemDataTBC = nil
 
     -- clean up lang
     l10n.itemLookup = nil

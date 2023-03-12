@@ -50,6 +50,18 @@ local zoneSectionLocales = {
         ["zhTW"] = "外域",
         ["zhCN"] = "外域",
     },
+    ["Northrend"] = {
+        ["ptBR"] = "Nortúndria",
+        ["ruRU"] = "Нордскол",
+        ["deDE"] = "Nordend",
+        ["koKR"] = "노스렌드",
+        ["esMX"] = "Rasganorte",
+        ["enUS"] = true,
+        ["frFR"] = "Norfendre",
+        ["esES"] = "Rasganorte",
+        ["zhTW"] = "北裂境",
+        ["zhCN"] = "诺森德",
+    },
     ["Professions"] = {
         ["ptBR"] = "Profissões",
         ["ruRU"] = "Профессии",

@@ -87,7 +87,6 @@ function QuestieOptions.tabs.advanced:Initialize()
                 get = function() return Questie.db.global.enableTooltipsQuestID; end,
                 set = function (_, value)
                     Questie.db.global.enableTooltipsQuestID = value
-                    QuestieTracker:ResetLinesForChange()
                     QuestieTracker:Update()
                 end
             },

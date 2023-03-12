@@ -7,7 +7,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 
 
 ---@param objectId number
----@return table<string, string>
+---@return string?, string?
 function MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(objectId)
     local tableEntry = _MeetingStones.levelRanges[objectId]
 
@@ -150,5 +150,57 @@ _MeetingStones.levelRanges = {
     [188172] = {
         name = "Sunwell Plateau",
         range = "(70)"
+    },
+    [188488] = {
+        name = "Utgarde Keep",
+        range = "(68-80)"
+    },
+    [191227] = {
+        name = "Azjol-Nerub",
+        range = "(70-80)"
+    },
+    [191529] = {
+        name = "Drak'Tharon Keep",
+        range = "(72-80)"
+    },
+    [192017] = {
+        name = "Ulduar",
+        range = "(75-80)"
+    },
+    [192399] = {
+        name = "Utgarde Pinnacle",
+        range = "(78-80)"
+    },
+    [192557] = {
+        name = "Gundrak",
+        range = "(74-80)"
+    },
+    [192622] = {
+        name = "Wyrmrest Temple",
+        range = "(80)"
+    },
+    [193166] = {
+        name = "Naxxramas",
+        range = "(77-80)"
+    },
+    [193602] = {
+        name = "The Nexus",
+        range = "(70-80)"
+    },
+    [195013] = {
+        name = "Vault of Archavon",
+        range = "(80)"
+    },
+    [195498] = {
+        name = "Argent Tournament",
+        range = "(80)"
+    },
+    [195695] = {
+        name = "Icecrown Citadel",
+        range = "(80)"
+    },
+    [202184] = {
+        name = "The Frozen Halls",
+        range = "(80)"
     },
 }
