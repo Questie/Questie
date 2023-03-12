@@ -327,7 +327,7 @@ readers["extraobjectives"] = function(stream)
         for i=1,count do
             ret[i] = {
                 readers["spawnlist"](stream),
-                stream:ReadTinyString(),
+                stream:ReadInt24(),
                 stream:ReadShortString(),
                 stream:ReadInt24(),
                 readers["reflist"](stream)
@@ -620,7 +620,7 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(#value)
             for _, data in pairs(value) do
                 QuestieDBCompiler.writers["spawnlist"](stream, data[1])
-                stream:WriteTinyString(data[2]) -- icon
+                stream:WriteInt24(data[2]) -- icon
                 stream:WriteShortString(data[3]) -- description
                 stream:WriteInt24(data[4] or 0) -- objective index (or 0)
                 QuestieDBCompiler.writers["reflist"](stream, data[5] or {})
@@ -738,7 +738,7 @@ skippers["extraobjectives"] = function(stream)
     local count = stream:ReadByte()
     for _=1,count do
         spawnlistSkipper(stream)
-        stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream._pointer + 3
         stream._pointer = stream:ReadShort() + stream._pointer
         stream._pointer = stream._pointer + 3
         reflistSkipper(stream)

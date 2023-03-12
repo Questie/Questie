@@ -33,11 +33,11 @@ function QuestieMap.utils:SetDrawOrder(frame)
 
     -- Draw layer is between -8 and 7, please leave some number above so we don't paint ourselves into a corner...
     if frame.data then
-        if frame.data.Icon == ICON_TYPE_REPEATABLE then
+        if frame.data.Icon == Questie.ICON_TYPE_REPEATABLE then
             frame.texture:SetDrawLayer("OVERLAY", 4)
-        elseif frame.data.Icon == ICON_TYPE_AVAILABLE then
+        elseif frame.data.Icon == Questie.ICON_TYPE_AVAILABLE then
             frame.texture:SetDrawLayer("OVERLAY", 5)
-        elseif frame.data.Icon == ICON_TYPE_COMPLETE then
+        elseif frame.data.Icon == Questie.ICON_TYPE_COMPLETE then
             frame.texture:SetDrawLayer("OVERLAY", 6)
         else
             frame.texture:SetDrawLayer("OVERLAY", 0)
