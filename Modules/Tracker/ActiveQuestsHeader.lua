@@ -90,7 +90,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
 
     -- Questie Icon Texture Settings
     questieIcon.texture = questieIcon:CreateTexture(nil, "BACKGROUND", nil, 0)
-    questieIcon.texture:SetTexture(ICON_TYPE_COMPLETE)
+    questieIcon.texture:SetTexture(Questie.icons["complete"])
     questieIcon.texture:SetPoint("CENTER", 0, 0)
 
     questieIcon:EnableMouse(true)

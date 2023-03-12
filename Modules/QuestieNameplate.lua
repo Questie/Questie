@@ -272,9 +272,25 @@ function _QuestieNameplate.GetValidIcon(tooltips) -- helper function to get the 
         if tooltip.objective and tooltip.objective.Update then
             tooltip.objective:Update() -- get latest qlog data if its outdated
             if (not tooltip.objective.Completed) and tooltip.objective.Icon then
-                -- If the tooltip icon is ICON_TYPE_OBJECT we use ICON_TYPE_LOOT because NPCs should never show
+                -- If the tooltip icon is Questie.ICON_TYPE_OBJECT we use Questie.ICON_TYPE_LOOT because NPCs should never show
                 -- a cogwheel icon.
-                return tooltip.objective.Icon == ICON_TYPE_OBJECT and ICON_TYPE_LOOT or tooltip.objective.Icon
+                local iconType = tooltip.objective.Icon
+                if iconType == Questie.ICON_TYPE_OBJECT or iconType == Questie.ICON_TYPE_LOOT then
+                    return Questie.icons["loot"]
+                elseif iconType == Questie.ICON_TYPE_SLAY then
+                    return Questie.icons["slay"]
+                elseif iconType == Questie.ICON_TYPE_EVENT then
+                    return Questie.icons["event"]
+                elseif iconType == Questie.ICON_TYPE_TALK then
+                    return Questie.icons["talk"]
+                --? icon types below here are never reached or just not used on nameplates ?
+                elseif iconType == Questie.ICON_TYPE_AVAILABLE or iconType == Questie.ICON_TYPE_AVAILABLE_GRAY then
+                    return Questie.icons["available"]
+                elseif iconType == Questie.ICON_TYPE_REPEATABLE then
+                    return Questie.icons["repeatable"]
+                elseif iconType == Questie.ICON_TYPE_COMPLETE then
+                    return Questie.icons["complete"]
+                end
             end
         end
     end
