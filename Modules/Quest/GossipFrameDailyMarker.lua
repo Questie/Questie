@@ -10,19 +10,15 @@ local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
 function GossipAvailableQuestButtonMixin:Setup(...)
     oldAvailableSetup(self, ...)
     if self.GetElementData ~= nil then
-        local info = self.GetElementData().info
-        if info == nil then return end
-        local id = info.questID
-        if QuestieDB.isTrivial(id) then
-            self.Icon:SetTexture(ICON_TYPE_AVAILABLE_GRAY)
-        elseif QuestieDB.IsPvPQuest(id) then
-            self.Icon:SetTexture(ICON_TYPE_PVPQUEST)
+        local id = self.GetElementData().info.questID
+        if QuestieDB.IsPvPQuest(id) then
+            self.Icon:SetTexture(Questie.icons["pvpquest"])
         elseif QuestieDB.IsActiveEventQuest(id) then
-            self.Icon:SetTexture(ICON_TYPE_EVENTQUEST)
+            self.Icon:SetTexture(Questie.icons["eventquest"])
         elseif QuestieDB.IsRepeatable(id) then
-            self.Icon:SetTexture(ICON_TYPE_REPEATABLE)
+            self.Icon:SetTexture(Questie.icons["repeatable"])
         else
-            self.Icon:SetTexture(ICON_TYPE_AVAILABLE)
+            self.Icon:SetTexture(Questie.icons["available"])
         end
     end
 end
@@ -31,21 +27,19 @@ local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
 function GossipActiveQuestButtonMixin:Setup(...)
     oldActiveSetup(self, ...)
     if self.GetElementData ~= nil then
-        local info = self.GetElementData().info
-        if info == nil then return end
-        local id = info.questID
+        local id = self.GetElementData().info.questID
         if QuestieDB.IsComplete(id) == 1 then
             if QuestieDB.IsPvPQuest(id) then
-                self.Icon:SetTexture(ICON_TYPE_PVPQUEST_COMPLETE)
+                self.Icon:SetTexture(Questie.icons["pvpquest_complete"])
             elseif QuestieDB.IsActiveEventQuest(id) then
-                self.Icon:SetTexture(ICON_TYPE_EVENTQUEST_COMPLETE)
+                self.Icon:SetTexture(Questie.icons["eventquest_complete"])
             elseif QuestieDB.IsRepeatable(id) then
-                self.Icon:SetTexture(ICON_TYPE_REPEATABLE_COMPLETE)
+                self.Icon:SetTexture(Questie.icons["repeatable_complete"])
             else
-                self.Icon:SetTexture(ICON_TYPE_COMPLETE)
+                self.Icon:SetTexture(Questie.icons["complete"])
             end
         else
-            self.Icon:SetTexture(ICON_TYPE_INCOMPLETE)
+            self.Icon:SetTexture(Questie.icons["incomplete"])
         end
     end
 end
