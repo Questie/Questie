@@ -964,8 +964,10 @@ function QuestieTracker:Update()
                                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. completeText)
                                         local objSpltText, objSpltFind, objTextLength, objSpltFind2, objTextLength2, remainderLine
 
+                                        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update (line.label:SetText) [",line.label:GetUnboundedStringWidth(),"]")
+
                                         -- Split 2 lines
-                                        if line.label:GetUnboundedStringWidth() > 280 and line.label:GetUnboundedStringWidth() < 290 then
+                                        if line.label:GetUnboundedStringWidth() > 170 and line.label:GetUnboundedStringWidth() < 450 then
                                             objTextLength = strlenutf8(completeText)
                                             objSpltFind = strfind(completeText, "%s", objTextLength/2)
                                             objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
@@ -1058,8 +1060,10 @@ function QuestieTracker:Update()
                             line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. completeText)
                             local objSpltText, objSpltFind, objTextLength, objSpltFind2, objTextLength2, remainderLine
 
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Update (line.label:SetText) [",line.label:GetUnboundedStringWidth(),"]")
+
                             -- Split 2 lines
-                            if line.label:GetUnboundedStringWidth() > 280 and line.label:GetUnboundedStringWidth() < 290 then
+                            if line.label:GetUnboundedStringWidth() > 170 and line.label:GetUnboundedStringWidth() < 450 then
                                 objTextLength = strlenutf8(completeText)
                                 objSpltFind = strfind(completeText, "%s", objTextLength/2)
                                 objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
@@ -1839,9 +1843,9 @@ _RemoveTrackedAchievement = function(achieveId, isQuestie)
 end
 
 function QuestieTracker:UpdateAchieveTrackerCache(achieve, achieveId, added)
-    -- Since we're essentually adding & force removing an achievement from the QuestWatch frame while we add an achievement to the Questie Tracker, the event this
+    -- Since we're essentially adding & force removing an achievement from the QuestWatch frame while we add an achievement to the Questie Tracker, the event this
     -- function is called from, TRACKED_ACHIEVEMENT_LIST_CHANGED, fires twice. When we remove an achievement from the Questie Tracker the event still fires twice
-    -- because the Blizzard function responsible for this is essentually a "toggle". It quickly re-adds the achievement to the QuestWatch frame and then removes it.
+    -- because the Blizzard function responsible for this is essentially a "toggle". It quickly re-adds the achievement to the QuestWatch frame and then removes it.
     -- So, again this event again fires twice. We only need to allow this to run once and it often fires before the Questie.db.char.trackedAchievementIds table is
     -- updated so we're going to throttle this 1/10th of a second.
     if achieve and added then
