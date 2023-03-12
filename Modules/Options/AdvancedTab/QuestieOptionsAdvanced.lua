@@ -99,6 +99,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 set = function (_, value)
                     Questie.db.global.enableTooltipsQuestID = value
                     QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             debugEnabled = {

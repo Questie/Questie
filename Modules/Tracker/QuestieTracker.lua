@@ -57,6 +57,7 @@ local questHeaderMarginLeft = activeQuestHeaderMarginLeft + 17
 local objectiveMarginLeft = activeQuestHeaderMarginLeft + questHeaderMarginLeft + 5
 
 local lastAQW = GetTime()
+local lastAchieveId = GetTime()
 local durabilityInitialPosition
 
 local trackedAchievementIds = {}
@@ -64,7 +65,7 @@ local isFirstRun = true
 
 -- Forward declaration
 local _OnTrackedQuestClick
-local _RemoveQuestWatch
+local _RemoveQuestWatch, _RemoveTrackedAchievement
 local _PlayerPosition, _QuestProximityTimer
 local _GetDistanceToClosestObjective, _GetContinent
 
@@ -100,6 +101,9 @@ function QuestieTracker.Initialize()
     if (not Questie.db.char.collapsedQuests) then
         Questie.db.char.collapsedQuests = {}
     end
+    if (not Questie.db.char.trackedAchievementIds) then
+        Questie.db.char.trackedAchievementIds = {}
+    end
     if (not Questie.db[Questie.db.global.questieTLoc].TrackerWidth) then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
     end
@@ -130,11 +134,8 @@ function QuestieTracker.Initialize()
         durabilityInitialPosition = {DurabilityFrame:GetPoint()}
     end
 
-    -- TODO: Do we really need to wait here? Especially 2 (!) seconds on the second timer seems quite late
-
-    -- TODO: Yes. This ensures all other data we're getting from other addons and WoW is loaded. There are edge
+    -- Insures all other data we're getting from other addons and WoW is loaded. There are edge
     -- cases where Questie loads too fast before everything else is available.
-
     C_Timer.After(2.0, function()
         if Questie.db.global.stickyDurabilityFrame then
             -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
@@ -184,22 +185,42 @@ function QuestieTracker.Initialize()
 
                 C_Timer.After(0.25, function()
                     _QuestEventHandler:UpdateAllQuests()
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] QuestEventHandler:UpdateAllQuests()")
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Callback - QuestEventHandler:UpdateAllQuests()")
                 end)
 
                 QuestieCombatQueue:Queue(function()
                     C_Timer.After(0.5, function()
                         QuestieTracker:Update()
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Update()")
                     end)
                 end)
             end
         end)
 
-        -- Font's and cooldowns can occasionally not apply upon login.
-        -- Tracked Achievements aren't always available upon login.
-        trackedAchievementIds = {GetTrackedAchievements()}
-        QuestieTracker:Update()
+        -- Tracked Achievements aren't always available upon login
+
+        -- Populate the Saved VAR
+        if GetTrackedAchievements() ~= nil then
+            local tempAchieves = {GetTrackedAchievements()}
+            for _, achieveId in pairs(tempAchieves) do
+                Questie.db.char.trackedAchievementIds[achieveId] = true
+            end
+        end
+
+        -- Populate the tracked achievement cache
+        if Questie.db.char.trackedAchievementIds and trackedAchievementIds then
+            for achieveId in pairs(Questie.db.char.trackedAchievementIds) do
+                if Questie.db.char.trackedAchievementIds[achieveId] == true then
+                    trackedAchievementIds[achieveId] = true
+                end
+            end
+        end
+
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+            C_Timer.After(0.5, function()
+                QuestieTracker:Update()
+            end)
+        end)
     end)
 end
 
@@ -603,14 +624,23 @@ function QuestieTracker:Update()
                     line = LinePool.GetNextLine()
                     if not line then break end -- stop populating the tracker
 
+                    -- Set Line Mode and Zone
                     line:SetMode("zone")
                     line:SetZone(quest.zoneOrSort)
-                    line.expandQuest:Hide()
-                    line.expandZone:Show()
 
+                    -- Setup Min/Max Button
+                    line.expandZone:Show()
+                    line.expandZone:ClearAllPoints()
+                    line.expandZone:SetWidth(line.label:GetWidth())
+                    line.expandZone:SetHeight(trackerFontSizeZone)
+                    line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
+                    line.expandQuest:Hide()
+
+                    -- Set Label SetPoint
                     line.label:ClearAllPoints()
                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
+                    -- Set Zone Title and Min/Max state
                     if Questie.db.char.collapsedZones[quest.zoneOrSort] then
                         line.expandZone:SetMode(0)
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
@@ -619,59 +649,44 @@ function QuestieTracker:Update()
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                     end
 
-                    local zoneLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() + trackerFontSizeZone
+                    -- Set Label and Line widths
+                    local zoneLineWidth = _QuestieTracker.baseFrame:GetWidth() - trackerFontSizeZone
                     line.label:SetWidth(zoneLineWidth)
                     line:SetWidth(zoneLineWidth)
 
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+                    -- Compare Zone and Tracker widths, then save current width
+                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((19 - trackerFontSizeZone) * 3.4) - trackerFontSizeZone)
 
-                    line.expandZone:ClearAllPoints()
-                    line.expandZone:SetWidth(line.label:GetWidth())
-                    line.expandZone:SetHeight(trackerFontSizeZone)
-                    line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
-
+                    -- Adds 4 pixels between Zone and first Quest Title
                     line:SetVerticalPadding(4)
+
+                    -- Set Zone Line states
                     line:Show()
                     line.label:Show()
-
                     line.Quest = nil
                     line.Objective = nil
-
                     firstQuestInZone = false
                     zoneCheck = zoneName
                 end
             end
 
+            -- Add quest
             if (not Questie.db.char.collapsedZones[quest.zoneOrSort]) then
-                local buttonSize = trackerFontSizeQuest+2+trackerFontSizeObjective
+                -- Set Quest Item Button size
+                local buttonSize = 12 + trackerFontSizeQuest
 
-                -- Add quests
                 line = LinePool.GetNextLine()
                 if not line then break end -- stop populating the tracker
 
+                -- Set Line Mode, Types, Clickers
                 line:SetMode("quest")
                 line:SetOnClick("quest")
                 line:SetQuest(quest)
                 line:SetObjective(nil)
                 line.expandZone:Hide()
 
-                line.label:ClearAllPoints()
-                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
-                line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
-
-                local coloredQuestName
-                if quest.trackTimedQuest or quest.timedBlizzardQuest then
-                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
-                else
-                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
-                end
-
-                line.label:SetText(coloredQuestName)
-
-                local questLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
-                line.label:SetWidth(questLineWidth)
-                line:SetWidth(questLineWidth)
-
+                -- Set Min/Max Button
+                line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questHeaderMarginLeft - 8, 0)
                 if Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) and not ((quest.trackTimedQuest) or (quest.timedBlizzardQuest)) then
                     if not Questie.db.char.collapsedQuests[quest.Id] then
                         Questie.db.char.collapsedQuests[quest.Id] = true
@@ -685,12 +700,28 @@ function QuestieTracker:Update()
                     end
                 end
 
-                if Questie.db.global.enableTooltipsQuestID then
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerFontSizeQuest/2)
-                else
-                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
-                end
+                -- Set Label SetPoint
+                line.label:ClearAllPoints()
+                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft + trackerFontSizeQuest / 3, 0)
 
+                -- Set Quest Title
+                local coloredQuestName
+                if quest.trackTimedQuest or quest.timedBlizzardQuest then
+                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
+                else
+                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, Questie.db.global.collapseCompletedQuests, false)
+                end
+                line.label:SetText(coloredQuestName)
+
+                -- Set Label and Line widths
+                local questLineWidth =  _QuestieTracker.baseFrame:GetWidth() - (questHeaderMarginLeft + trackerFontSizeQuest*2)
+                line.label:SetWidth(questLineWidth)
+                line:SetWidth(questLineWidth)
+
+                -- Compare Quest and Tracker widths, then save current width
+                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((18 - trackerFontSizeQuest) * 1.8) - trackerFontSizeQuest + 4)
+
+                -- Adds 2 pixels between Quest Title and first Objective
                 line:SetVerticalPadding(2)
 
                 -- Adds the primary Quest Item button
@@ -698,7 +729,9 @@ function QuestieTracker:Update()
                     local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
 
                     local button = LinePool.GetNextItemButton()
+                    if not button then break end -- stop populating the tracker
 
+                    -- Check and set itemID
                     if quest.sourceItemId then
                         button.itemID = quest.sourceItemId
 
@@ -706,6 +739,7 @@ function QuestieTracker:Update()
                         button.itemID = quest.requiredSourceItems[1]
                     end
 
+                    -- Setup Primary Button
                     button.fontSize = fontSizeCompare
                     button.line = line
 
@@ -719,18 +753,28 @@ function QuestieTracker:Update()
                             frame = parent
                         end
 
-                        button.line.expandQuest:Hide()
+                        if Questie.db.char.collapsedQuests[quest.Id] then
+                            button.line.expandQuest:Show()
+                        else
+                            button.line.expandQuest:Hide()
+                        end
 
                         button:SetPoint("TOPLEFT", button.line, "TOPLEFT", 0, 0)
                         button:SetParent(button.line)
                         button:Show()
+
+                        -- Set flag to allow secondary Quest Item Buttons
                         primaryButton = true
 
+                        -- If the Quests Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest
+                        -- frame. If the tracker frame is hidden in combat, then it would also try and hide the buttons which you can't do in combat.
                         if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
                             button:SetParent(UIParent)
                             button:Hide()
                         end
                     else
+                        -- Button failed to get setup for some reason or the quest item
+                        -- is now gone. Hide it and enable the Quest Min/Max button.
                         button.line.expandQuest:Show()
                         button:SetParent(UIParent)
                         button:Hide()
@@ -738,6 +782,7 @@ function QuestieTracker:Update()
 
                     line.button = button
 
+                -- Hide button if quest complete or failed
                 elseif Questie.db.global.collapseCompletedQuests and (complete == 1 or complete == -1) then
                     line.expandQuest:Hide()
                 else
@@ -749,9 +794,15 @@ function QuestieTracker:Update()
                     local fontSizeCompare = trackerFontSizeQuest + trackerFontSizeObjective + Questie.db.global.trackerQuestPadding -- hack to allow refreshing when changing font size
 
                     if type(quest.requiredSourceItems) == "table" then
+                        -- Make sure it's a "secondary" button and if a quest item and is "usable".
+                        -- So far I haven't had any issues with "primary" buttons not being usable.
                         for _, itemId in pairs(quest.requiredSourceItems) do
-                            if itemId and itemId ~= quest.sourceItemId and QuestieDB:GetItem(itemId).class == 12 then
+                            if itemId and itemId ~= quest.sourceItemId and QuestieDB:GetItem(itemId).class == 12 and (GetItemSpell(itemId) ~= nil) then
+
                                 local altButton = LinePool.GetNextItemButton()
+                                if not altButton then break end -- stop populating the tracker
+
+                                -- Setup Secondary Button settings
                                 altButton.itemID = itemId
                                 altButton.fontSize = fontSizeCompare
                                 altButton.line = line
@@ -766,17 +817,34 @@ function QuestieTracker:Update()
                                         frame = parent
                                     end
 
-                                    altButton.line.label:ClearAllPoints()
-                                    altButton.line.label:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", questHeaderMarginLeft * 2 + 2, 0)
-                                    altButton:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", buttonSize + 2, 0)
-                                    altButton:SetParent(altButton.line)
-                                    altButton:Show()
-                                    secondaryButton = true
-
+                                    -- If the Quests Zone or Quest is minimized then set UIParent and hide buttons since the buttons are normally attached to the Quest
+                                    -- frame. If the tracker frame is hidden in combat, then it would also try and hide the buttons which you can't do in combat.
                                     if Questie.db.char.collapsedZones[quest.zoneOrSort] or Questie.db.char.collapsedQuests[quest.Id] then
                                         altButton:SetParent(UIParent)
                                         altButton:Hide()
+
+                                    -- Set Secondary Button and indent Quest Title
+                                    else
+                                        altButton.line.label:ClearAllPoints()
+                                        altButton.line.label:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", questHeaderMarginLeft + 2 + buttonSize + trackerFontSizeQuest / 3, 0)
+
+                                        local secondaryButtonWidth
+                                        secondaryButtonWidth = _QuestieTracker.baseFrame:GetWidth() - (questHeaderMarginLeft + trackerFontSizeQuest*2 + buttonSize)
+                                        altButton.line.label:SetWidth(secondaryButtonWidth)
+                                        altButton.line:SetWidth(secondaryButtonWidth)
+
+                                        -- Compare Secondary Button/Quest Title and Tracker widths, then save current width
+                                        trackerLineWidth = math.max(trackerLineWidth, altButton.line.label:GetUnboundedStringWidth() + ((18 - trackerFontSizeQuest) * 1.8) - trackerFontSizeQuest + 6 + buttonSize)
+
+                                        altButton:SetPoint("TOPLEFT", altButton.line, "TOPLEFT", buttonSize + 2, 0)
+                                        altButton:SetParent(altButton.line)
+                                        altButton:Show()
                                     end
+
+                                    -- Set flag to shift objective lines
+                                    secondaryButton = true
+
+                                -- Button failed to get setup for some reason or the quest item is now gone.
                                 else
                                     altButton:SetParent(UIParent)
                                     altButton:Hide()
@@ -788,23 +856,29 @@ function QuestieTracker:Update()
                     end
                 end
 
+                -- Set Quest Line states
                 line:Show()
                 line.label:Show()
 
-                -- Add quest objectives (if applicable)
+                -- Add quest Objectives (if applicable)
+                local twoLines = false
+                local threeLines = false
                 if (not Questie.db.char.collapsedQuests[quest.Id]) then
 
-                    -- Add quest timers (if applicable)
-                    if quest.trackTimedQuest and (not quest.timedBlizzardQuest) then
+                    -- Add Quest Timers (if applicable)
+                    if (quest.trackTimedQuest and (not quest.timedBlizzardQuest)) or (complete == 0 and quest.timedBlizzardQuest) then
+
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
 
+                        -- Set Line Mode, Types, Clickers
                         line:SetMode("objective")
                         line:SetOnClick("quest")
                         line:SetQuest(quest)
                         line.expandZone:Hide()
                         line.expandQuest:Hide()
 
+                        -- Set Label SetPoints
                         line.label:ClearAllPoints()
                         if secondaryButton then
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft + buttonSize, 0)
@@ -812,32 +886,50 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
                         end
 
-                        local timeRemaining = QuestieQuestTimers:GetRemainingTime(questId, line, false)
-                        if timeRemaining then
-                            line.label:SetText(Questie:Colorize(timeRemaining, "blue"))
+                        -- Set Quest Timer label based on state
+                        if (complete == 0 and quest.timedBlizzardQuest) then
+                            line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active!"), "blue"))
                         else
-                            line.label:SetText(Questie:Colorize("0 Seconds", "blue"))
+                            local timeRemaining = QuestieQuestTimers:GetRemainingTime(questId, line, false)
+                            if timeRemaining then
+                                line.label:SetText(Questie:Colorize(timeRemaining, "blue"))
+                            else
+                                line.label:SetText(Questie:Colorize(l10n("0 Seconds"), "blue"))
+                            end
                         end
 
+                        -- Set Timer height
                         line.label:SetHeight(trackerFontSizeObjective * 1.3)
 
-                        local timerLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                        -- Set Label and Line widths
+                        local timerLineWidth = _QuestieTracker.baseFrame:GetWidth() - (objectiveMarginLeft + trackerFontSizeObjective*2)
                         line.label:SetWidth(timerLineWidth)
                         line:SetWidth(timerLineWidth)
 
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                        -- Compare Timer and Tracker widths based on vars, then save current width
+                        if secondaryButton then
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((19 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective)
+                        else
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((19 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective)
+                        end
 
+                        -- Adds 2 pixels between Quest Timer and first Objective (if applicable)
                         line:SetVerticalPadding(2)
+
+                        -- Set Quest Timer Line states
                         line:Show()
                         line.label:Show()
                     end
 
                     if complete == 0 then
+                        -- Add Quest Objectives
                         for _, objective in pairs(quest.Objectives) do
                             if (not Questie.db.global.hideCompletedQuestObjectives or #quest.Objectives == 1) or (objective.Needed ~= objective.Collected) then
+
                                 line = LinePool.GetNextLine()
                                 if not line then break end -- stop populating the tracker
 
+                                -- Set Line Mode, Types, Clickers
                                 line:SetMode("objective")
                                 line:SetOnClick("quest")
                                 line:SetQuest(quest)
@@ -845,6 +937,7 @@ function QuestieTracker:Update()
                                 line.expandZone:Hide()
                                 line.expandQuest:Hide()
 
+                                -- Set Label SetPoints
                                 line.label:ClearAllPoints()
                                 if secondaryButton then
                                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft + buttonSize, 0)
@@ -852,74 +945,102 @@ function QuestieTracker:Update()
                                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
                                 end
 
+                                -- Set Quest Objective label based on state
                                 local objDesc = objective.Description:gsub("%.", "")
                                 if objective.Completed ~= true then
                                     local lineEnding
                                     lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
-
                                     line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                                    if line.label:GetUnboundedStringWidth() > 170 then
-                                        local objSpltText, objSpltFind, objTextLength
-                                        objTextLength = strlenutf8(objDesc)
-                                        objSpltFind = strfind(objDesc, "%s", objTextLength/2)
-                                        objSpltText = ""..strsub(objDesc, 1, objSpltFind).."\n"..strsub(objDesc, objSpltFind+1, objTextLength)..""
-                                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objSpltText .. ": " .. lineEnding)
-                                        line.label:SetHeight(trackerFontSizeObjective * 3)
-                                    end
-
                                 else
+                                    -- Split line if it's REALLY long and sometimes a Quest is flagged 0 (not complete) but the flag "objective.Completed" is true.
+                                    -- So far the only quests I've encountered are ones that usually require interacting with an item or place. This changes the
+                                    -- Objective from a "Task: 1/1" looking complete it leaves the player with... "OK, what now?". The Blizzard Quest Tracker
+                                    -- takes this step further by providing the player with "Completion Text". "Hey dummy, go here to turn in your complete quest
+                                    -- to 'Complete' your quest." In short, it's a ...to complete quest and a quest turn in quest... in one step.
                                     local questIndex = GetQuestLogIndexByID(quest.Id)
                                     local completeText = GetQuestLogCompletionText(questIndex)
+                                    if completeText ~= nil then
+                                        line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. completeText)
+                                        local objSpltText, objSpltFind, objTextLength, objSpltFind2, objTextLength2, remainderLine
 
-                                    line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. completeText)
+                                        -- Split 2 lines
+                                        if line.label:GetUnboundedStringWidth() > 280 and line.label:GetUnboundedStringWidth() < 290 then
+                                            objTextLength = strlenutf8(completeText)
+                                            objSpltFind = strfind(completeText, "%s", objTextLength/2)
+                                            objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
+                                            twoLines = true
 
-                                    if line.label:GetUnboundedStringWidth() > 170 then
-                                        local objSpltText, objSpltFind, objTextLength
-                                        objTextLength = strlenutf8(completeText)
-                                        objSpltFind = strfind(completeText, "%s", objTextLength/2)
-                                        objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
+                                        -- Split 3 lines
+                                        else
+                                            objTextLength = strlenutf8(completeText)
+                                            objSpltFind = strfind(completeText, "%s", objTextLength/3)
+                                            remainderLine = strsub(completeText, objSpltFind+1, objTextLength)
+                                            objTextLength2 = strlenutf8(remainderLine)
+                                            objSpltFind2 = strfind(remainderLine, "%s", objTextLength2/2)
+                                            objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(remainderLine, 1, objSpltFind2).."\n"..strsub(remainderLine, objSpltFind2+1, objTextLength2)..""
+                                            threeLines = true
+                                        end
+
                                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objSpltText)
-                                        line.label:SetHeight(trackerFontSizeObjective * 3)
-                                    end
 
-                                    QuestieQuest:AddFinisher(quest)
+                                        -- If an objective has been split, increase height
+                                        if threeLines then
+                                            line.label:SetHeight(trackerFontSizeObjective * 4)
+                                        elseif twoLines then
+                                            line.label:SetHeight(trackerFontSizeObjective * 3)
+                                        end
+
+                                        QuestieQuest:AddFinisher(quest)
+                                    end
                                 end
 
-                                local notDoneObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                                -- Set Label and Line widths
+                                local notDoneObjLineWidth, notDoneTrackerLineWidth
+                                if secondaryButton then
+                                    notDoneObjLineWidth = _QuestieTracker.baseFrame:GetWidth() - (objectiveMarginLeft + trackerFontSizeObjective*2 + buttonSize)
+                                    notDoneTrackerLineWidth = line.label:GetUnboundedStringWidth() + ((20 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective + 6 + buttonSize
+                                else
+                                    notDoneObjLineWidth = _QuestieTracker.baseFrame:GetWidth() - (objectiveMarginLeft + trackerFontSizeObjective*2)
+                                    notDoneTrackerLineWidth = line.label:GetUnboundedStringWidth() + ((19 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective + 6
+                                end
                                 line.label:SetWidth(notDoneObjLineWidth)
                                 line:SetWidth(notDoneObjLineWidth)
 
-                                if secondaryButton then
-                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12 + buttonSize)
+                                -- Compare Objective and Tracker width based on vars, then save current width
+                                trackerLineWidth = math.max(trackerLineWidth, notDoneTrackerLineWidth)
+
+                                -- If an objective has been split, increase vertical padding -- hacks
+                                if line.label:GetHeight() > trackerFontSizeObjective + .015 then
+                                    if threeLines then
+                                        line:SetVerticalPadding(trackerFontSizeObjective*2 + Questie.db.global.trackerQuestPadding)
+                                    elseif twoLines then
+                                        line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
+                                    end
                                 else
-                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                                    line:SetVerticalPadding(1)
                                 end
 
-                                line:SetVerticalPadding(1)
+                                -- Set Quest Objective state
                                 line:Show()
                                 line.label:Show()
                             end
                         end
 
                     -- Tags quest as either complete or failed so as to always have at least one objective.
-
-                    -- TODO: change tags to reflect NPC to turn a quest into or in the case of a failure
-                    -- which NPC to obtain the quest from again...
-
-                    -- TODO: Why? The Quest Tracker only tracks a quests progress, nothing more. Besides,
-                    -- Questie already informs the user where to turn in the quest. In the case of a failure,
-                    -- the quest is marked on the map as available again.
                     elseif (complete == 1 and (not quest.trackTimedQuest)) or complete == -1 or quest.Completed == true then
+
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
 
+                        -- Set Line Mode, Types, Clickers
                         line:SetMode("objective")
                         line:SetOnClick("quest")
                         line:SetQuest(quest)
                         line.expandZone:Hide()
                         line.expandQuest:Hide()
 
+                        -- Set Label SetPoints
                         line.label:ClearAllPoints()
                         if secondaryButton then
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft + buttonSize, 0)
@@ -927,7 +1048,46 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
                         end
 
-                        if (complete == 1 and (not quest.timedBlizzardQuest)) then
+                        -- Set Quest Objective label based on state
+                        local questIndex = GetQuestLogIndexByID(quest.Id)
+                        local completeText = GetQuestLogCompletionText(questIndex)
+
+                        -- Instead of a boring "Quest Complete!" tag, lets show who or where to turn the quest into or what to
+                        -- do next! This pulls the Quest Completion Text directly from Blizzard. Shouldn't need localization.
+                        if (complete == 1 and (not quest.timedBlizzardQuest) and (completeText ~= nil)) then
+                            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. completeText)
+                            local objSpltText, objSpltFind, objTextLength, objSpltFind2, objTextLength2, remainderLine
+
+                            -- Split 2 lines
+                            if line.label:GetUnboundedStringWidth() > 280 and line.label:GetUnboundedStringWidth() < 290 then
+                                objTextLength = strlenutf8(completeText)
+                                objSpltFind = strfind(completeText, "%s", objTextLength/2)
+                                objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(completeText, objSpltFind+1, objTextLength)..""
+                                twoLines = true
+
+                            -- Split 3 lines
+                            else
+                                objTextLength = strlenutf8(completeText)
+                                objSpltFind = strfind(completeText, "%s", objTextLength/3)
+                                remainderLine = strsub(completeText, objSpltFind+1, objTextLength)
+                                objTextLength2 = strlenutf8(remainderLine)
+                                objSpltFind2 = strfind(remainderLine, "%s", objTextLength2/2)
+                                objSpltText = ""..strsub(completeText, 1, objSpltFind).."\n"..strsub(remainderLine, 1, objSpltFind2).."\n"..strsub(remainderLine, objSpltFind2+1, objTextLength2)..""
+                                threeLines = true
+                            end
+
+                            line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objSpltText)
+
+                            -- If an objective has been split, increase height
+                            if threeLines then
+                                line.label:SetHeight(trackerFontSizeObjective * 4)
+                            elseif twoLines then
+                                line.label:SetHeight(trackerFontSizeObjective * 3)
+                            end
+
+                            QuestieQuest:AddFinisher(quest)
+
+                        elseif (complete == 1 and (not quest.timedBlizzardQuest)) then
                             line.label:SetText(Questie:Colorize(l10n("Quest Complete!"), "green"))
                         elseif (complete == 1 and quest.timedBlizzardQuest) then
                             line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active!"), "blue"))
@@ -935,17 +1095,15 @@ function QuestieTracker:Update()
                             line.label:SetText(Questie:Colorize(l10n("Quest Failed!"), "red"))
                         end
 
-                        local doneObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                        -- Set Label and Line widths
+                        local doneObjLineWidth = _QuestieTracker.baseFrame:GetWidth() - (objectiveMarginLeft + trackerFontSizeObjective*2)
                         line.label:SetWidth(doneObjLineWidth)
                         line:SetWidth(doneObjLineWidth)
 
-                        if secondaryButton then
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12 + buttonSize)
-                        else
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
-                        end
+                        -- Compare Objective and Tracker width based on vars, then save current width
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((18 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective + 4)
 
-                        line:SetVerticalPadding(1)
+                        -- Set Quest Objective state
                         line:Show()
                         line.label:Show()
                     end
@@ -957,11 +1115,18 @@ function QuestieTracker:Update()
                     line = LinePool.GetLastLine()
                 end
 
-                if line.label:GetHeight() > trackerFontSizeObjective + .015 then
-                    line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
+                -- If an objective has been split and is the last objective in a quest, adjust "Padding Between Quests" setting in Tracker Options
+                if line.label:GetHeight() > trackerFontSizeObjective + .015 and (not Questie.db.global.collapseCompletedQuests) then
+                    if threeLines then
+                        line:SetVerticalPadding(trackerFontSizeObjective*2 + Questie.db.global.trackerQuestPadding)
+                    elseif twoLines then
+                        line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
+                    end
                 else
                     line:SetVerticalPadding(Questie.db.global.trackerQuestPadding)
                 end
+                twoLines = false
+                threeLines = false
             end
             primaryButton = false
             secondaryButton = false
@@ -972,13 +1137,11 @@ function QuestieTracker:Update()
     -- For all intents and purposes at a code level we're going to treat each tracked Achievement the same way we treat and add Quests. This loop is
     -- necessary to keep separate from the above tracked Quests loop so we can place all tracked Achievements into it's own "Zone" called Achievements.
     -- This will force Achievements to always appear at the bottom of the tracker. Obviously it'll show at the top if there are no quests being tracked.
-    trackedAchievementIds = {}
-    trackedAchievementIds = {GetTrackedAchievements()}
     local firstAchieveInZone = false
 
-    for trackedId = 1, #trackedAchievementIds do
-        local achieveId, achieveName, _, _, _, _, _, achieveDescription, _, _, _, _, achieveComplete, _, _ = GetAchievementInfo(trackedAchievementIds[trackedId])
-        local numCriteria = GetAchievementNumCriteria(trackedAchievementIds[trackedId])
+    for trackedId, _ in pairs (trackedAchievementIds) do
+        local achieveId, achieveName, _, _, _, _, _, achieveDescription, _, _, _, _, achieveComplete, _, _ = GetAchievementInfo(trackedId)
+        local numCriteria = GetAchievementNumCriteria(trackedId)
         local zoneName = "Achievements"
 
         local achieve = {
@@ -999,14 +1162,23 @@ function QuestieTracker:Update()
                 line = LinePool.GetNextLine()
                 if not line then break end -- stop populating the tracker
 
+                -- Set Line Mode and Zone
                 line:SetMode("zone")
                 line:SetZone(zoneName)
-                line.expandQuest:Hide()
-                line.expandZone:Show()
 
+                -- Setup Min/Max Button
+                line.expandZone:Show()
+                line.expandQuest:Hide()
+                line.expandZone:ClearAllPoints()
+                line.expandZone:SetWidth(line.label:GetWidth())
+                line.expandZone:SetHeight(trackerFontSizeZone)
+                line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
+
+                -- Set Label SetPoint
                 line.label:ClearAllPoints()
                 line.label:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
 
+                -- Set Zone Title and Min/Max state
                 if Questie.db.char.collapsedZones[zoneName] then
                     line.expandZone:SetMode(0)
                     line.label:SetText("|cFFC0C0C0" .. zoneName .. " +|r")
@@ -1015,70 +1187,80 @@ function QuestieTracker:Update()
                     line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                 end
 
-                local achieveZoneLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() + trackerFontSizeZone
+                -- Set Label and Line widths
+                local achieveZoneLineWidth = _QuestieTracker.baseFrame:GetWidth() - trackerFontSizeZone
                 line.label:SetWidth(achieveZoneLineWidth)
                 line:SetWidth(achieveZoneLineWidth)
 
-                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+                -- Compare Zone and Tracker widths, then save current width
+                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((19 - trackerFontSizeZone) * 3.4) - trackerFontSizeZone)
 
-                line.expandZone:ClearAllPoints()
-                line.expandZone:SetWidth(line.label:GetWidth())
-                line.expandZone:SetHeight(trackerFontSizeZone)
-                line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
-
+                -- Adds 4 pixels between Zone and first Achievement Title
                 line:SetVerticalPadding(4)
+
+                -- Set Zone Line states
                 line:Show()
                 line.label:Show()
-
                 line.Quest = nil
                 line.Objective = nil
-
                 firstAchieveInZone = false
                 zoneCheck = zoneName
             end
 
+            -- Add Achievement
             if (not Questie.db.char.collapsedZones[zoneName]) then
 
-                -- Add achievements
                 line = LinePool.GetNextLine()
                 if not line then break end -- stop populating the tracker
 
+                -- Set Line Mode, Types, Clickers
                 line:SetMode("achieve")
                 line:SetOnClick("achieve")
                 line:SetQuest(achieve)
                 line:SetObjective(nil)
                 line.expandZone:Hide()
+
+                -- Set Min/Max Button
                 line.expandQuest:Show()
-
-                line.label:ClearAllPoints()
-                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
-                line.expandQuest:SetPoint("RIGHT", line, "LEFT", questHeaderMarginLeft - 8, 0)
-
-                line.label:SetText("|cFFFFFF00" .. achieve.Name .. "|r")
-
-                local achieveLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - questHeaderMarginLeft + trackerFontSizeQuest
-                line.label:SetWidth(achieveLineWidth)
-                line:SetWidth(achieveLineWidth)
-
+                line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questHeaderMarginLeft - 8, 0)
                 if Questie.db.char.collapsedQuests[achieve.Id] then
                     line.expandQuest:SetMode(0)
                 else
                     line.expandQuest:SetMode(1)
                 end
 
-                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+                -- Set Label SetPoint
+                line.label:ClearAllPoints()
+                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questHeaderMarginLeft, 0)
 
-                line:SetVerticalPadding(3)
+                -- Set Achievement Title
+                line.label:SetText("|cFFFFFF00" .. achieve.Name .. "|r")
+
+                -- Set Label and Line widths
+                local achieveLineWidth = _QuestieTracker.baseFrame:GetWidth() - (questHeaderMarginLeft + trackerFontSizeQuest*2)
+                line.label:SetWidth(achieveLineWidth)
+                line:SetWidth(achieveLineWidth)
+
+                -- Compare Achievement and Tracker widths, then save current width
+                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((18 - trackerFontSizeQuest) * 1.8) - trackerFontSizeQuest + 4)
+
+                -- Adds 2 pixels between Achievement Title and first Objective
+                line:SetVerticalPadding(2)
+
+                -- Set Achievement Line states
                 line:Show()
                 line.label:Show()
 
-                -- Add achievement objectives (if applicable)
+                -- Add achievement Objective (if applicable)
                 if (not Questie.db.char.collapsedQuests[achieve.Id]) then
 
-                    -- Achievements with one objective
+                    -- Achievements with one Objective
                     if numCriteria == 0 then
+
                         line = LinePool.GetNextLine()
                         if not line then break end -- stop populating the tracker
+
+                        -- Set Line Mode, Types, Clickers
                         line:SetMode("objective")
                         line:SetOnClick("achieve")
                         line:SetQuest(achieve)
@@ -1086,9 +1268,11 @@ function QuestieTracker:Update()
                         line.expandZone:Hide()
                         line.expandQuest:Hide()
 
+                        -- Set Label SetPoints
                         line.label:ClearAllPoints()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
+                        -- Set Achievement Objective label based on state
                         local objDesc = achieve.Description:gsub("%.", "")
                         line.label:SetText(QuestieLib:GetRGBForObjective({Collected=0, Needed=1}) .. objDesc)
 
@@ -1101,41 +1285,51 @@ function QuestieTracker:Update()
                             line.label:SetHeight(trackerFontSizeObjective * 3)
                         end
 
-                        local achieveOneObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                        -- Set Label and Line widths
+                        local achieveOneObjLineWidth = _QuestieTracker.baseFrame:GetWidth() - (objectiveMarginLeft + trackerFontSizeObjective*2)
                         line.label:SetWidth(achieveOneObjLineWidth)
                         line:SetWidth(achieveOneObjLineWidth)
 
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                        -- Compare Objective and Tracker width based on vars, then save current width
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((18 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective + 4)
 
+                        -- Adds 1 pixel between Achievement Objective and next Achievement Title
                         line:SetVerticalPadding(1)
+
+                        -- Set Achievement Objective state
                         line:Show()
                         line.label:Show()
                     end
 
-                    -- Achievements with more than one objective
+                    -- Achievements with more than one Objective
                     for objCriteria = 1, numCriteria do
                         local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, objCriteria)
                         if ((Questie.db.global.hideCompletedAchieveObjectives) and (not completed)) or (not Questie.db.global.hideCompletedAchieveObjectives) then
+
                             line = LinePool.GetNextLine()
                             if not line then break end -- stop populating the tracker
+
+                            -- Set Line Mode, Types, Clickers
                             line:SetMode("objective")
                             line:SetOnClick("achieve")
 
+                            -- Set correct Objective ID. Sometimes stand alone trackable achievements are part of a group of achievements under a parent achievement.
                             local objId
                             if refId and select(2,GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB:GetQuest(refId)))) then
                                 objId = refId
                             else
                                 objId = achieve
                             end
-
                             line:SetQuest(objId)
                             line:SetObjective("objective")
                             line.expandZone:Hide()
                             line.expandQuest:Hide()
 
+                            -- Set Label SetPoints
                             line.label:ClearAllPoints()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
+                            -- Set Achievement Objective label based on state
                             if (criteriaString == "") then
                                 criteriaString = achieve.Description
                             end
@@ -1169,18 +1363,22 @@ function QuestieTracker:Update()
                                 line.label:SetText(QuestieLib:GetRGBForObjective({Collected=1, Needed=1}) .. objDesc)
                             end
 
-                            local achieveLotsObjLineWidth = trackerSpaceBuffer + _QuestieTracker.baseFrame:GetWidth() - objectiveMarginLeft + trackerFontSizeObjective
+                            -- Set Label and Line widths
+                            local achieveLotsObjLineWidth = _QuestieTracker.baseFrame:GetWidth() - (objectiveMarginLeft + trackerFontSizeObjective*2)
                             line.label:SetWidth(achieveLotsObjLineWidth)
                             line:SetWidth(achieveLotsObjLineWidth)
 
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + 12)
+                            -- Compare Objective and Tracker width based on vars, then save current width
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + ((18 - trackerFontSizeObjective) * 3.4) - trackerFontSizeObjective + 4)
 
+                            -- If an objective has been split, increase vertical padding -- hacks
                             if line.label:GetHeight() > trackerFontSizeObjective + .015 then
-                                line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
+                                line:SetVerticalPadding(trackerFontSizeObjective)
                             else
                                 line:SetVerticalPadding(1)
                             end
 
+                            -- Set Achievement Objective state
                             line:Show()
                             line.label:Show()
                         end
@@ -1191,6 +1389,7 @@ function QuestieTracker:Update()
                     line = LinePool.GetLastLine()
                 end
 
+                -- If an objective has been split and is the last objective in an achievement, adjust "Padding Between Quests" setting in Tracker Options
                 if line.label:GetHeight() > trackerFontSizeObjective + .015 then
                     line:SetVerticalPadding(trackerFontSizeObjective + Questie.db.global.trackerQuestPadding)
                 else
@@ -1200,9 +1399,7 @@ function QuestieTracker:Update()
         end
     end
 
-    -- TODO: Is this needed?
-
-    -- TODO: Yes. This is a safety check to make sure we have the last line selected so the tracker can be properly trimmed.
+    -- Safety check to make sure we have the last line selected before trimming the bottom of the Active Quests Frame.
     if not line then
         line = LinePool.GetLastLine()
     end
@@ -1317,6 +1514,7 @@ function QuestieTracker:Update()
     end
 end
 
+-- DO NOT REMOVE: This function is used by both LinePool and TrackerMenu to remove quests.
 function QuestieTracker.Untrack(quest)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: Untrack")
     QuestieTracker:UntrackQuestId(quest.Id)
@@ -1328,10 +1526,21 @@ function QuestieTracker:Unhook()
     end
 
     QuestieTracker._disableHooks = true
+
+    -- Quest Hooks
     if QuestieTracker._IsQuestWatched then
         IsQuestWatched = QuestieTracker._IsQuestWatched
         GetNumQuestWatches = QuestieTracker._GetNumQuestWatches
     end
+
+    -- Achievement Hooks
+    if Questie.IsWotlk then
+        if QuestieTracker._IsTrackedAchievement then
+            IsTrackedAchievement = QuestieTracker._IsTrackedAchievement
+            GetNumTrackedAchievements = QuestieTracker._GetNumTrackedAchievements
+        end
+    end
+
     _QuestieTracker._alreadyHooked = nil
     WatchFrame:Show()
 end
@@ -1340,9 +1549,12 @@ function QuestieTracker:HookBaseTracker()
     if _QuestieTracker._alreadyHooked then
         return
     end
+
     QuestieTracker._disableHooks = nil
 
     if not QuestieTracker._alreadyHookedSecure then
+
+        -- Quest Hooks
         if AutoQuestWatch_Insert then
             hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer)
                 QuestieTracker:AQW_Insert(index, watchTimer)
@@ -1353,7 +1565,15 @@ function QuestieTracker:HookBaseTracker()
         end)
         hooksecurefunc("RemoveQuestWatch", _RemoveQuestWatch)
 
-        -- totally prevent the blizzard tracker frame from showing (BAD CODE, shouldn't be needed but some have had trouble)
+        -- Achievement Hooks
+        if Questie.IsWotlk then
+            hooksecurefunc("AddTrackedAchievement", function(achieveId)
+                QuestieTracker:TrackAchieve(achieveId)
+            end)
+            hooksecurefunc("RemoveTrackedAchievement", _RemoveTrackedAchievement)
+        end
+
+        -- This allows showing the "Blizzard Timer" when enabled
         WatchFrame:HookScript("OnShow", function(self)
             if QuestieTracker._disableHooks then
                 return
@@ -1364,15 +1584,17 @@ function QuestieTracker:HookBaseTracker()
                 self:Hide()
             end
         end)
+
         QuestieTracker._alreadyHookedSecure = true
     end
 
+    -- Quest Hooks
     if not QuestieTracker._IsQuestWatched then
         QuestieTracker._IsQuestWatched = IsQuestWatched
         QuestieTracker._GetNumQuestWatches = GetNumQuestWatches
     end
 
-    -- this is probably bad
+    -- Intercept and return a Questie boolean value
     IsQuestWatched = function(index)
         local questId = select(8, GetQuestLogTitle(index));
         if questId == 0 then
@@ -1387,14 +1609,31 @@ function QuestieTracker:HookBaseTracker()
         end
     end
 
+    -- If for some reason this doesn't get hooked, we always want to return 0
     GetNumQuestWatches = function()
         return 0
     end
 
-    if Questie.db.global.showBlizzardQuestTimer then
-        WatchFrame:Show()
-    else
-        WatchFrame:Hide()
+    -- Achievement Hooks
+    if Questie.IsWotlk then
+        if not QuestieTracker._IsTrackedAchievement then
+            QuestieTracker._IsTrackedAchievement = IsTrackedAchievement
+            QuestieTracker._GetNumTrackedAchievements = GetNumTrackedAchievements
+        end
+
+        -- Intercept and return a Questie boolean value
+        IsTrackedAchievement = function(achieveId)
+            if Questie.db.char.trackedAchievementIds[achieveId] then
+                return achieveId and Questie.db.char.trackedAchievementIds[achieveId]
+            else
+                return false
+            end
+        end
+
+        -- If for some reason this doesn't get hooked, we always want to return 0
+        GetNumTrackedAchievements = function()
+            return 0
+        end
     end
 
     QuestieTracker._alreadyHooked = true
@@ -1512,23 +1751,22 @@ end
 
 function QuestieTracker:AQW_Insert(index, expire)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: AQW_Insert")
-    if (not Questie.db.global.trackerEnabled) then
+
+    if (not Questie.db.global.trackerEnabled) or (index == 0) then
         return
     end
 
-    if index == 0 then
-        return;
-    end
-
+    -- This prevents double calling this function
     local now = GetTime()
     if index and index == QuestieTracker._last_aqw and (now - lastAQW) < 0.1 then
-        -- this fixes double calling due to AQW+AQW_Insert (QuestGuru fix)
         return
     end
-
     lastAQW = now
     QuestieTracker._last_aqw = index
-    RemoveQuestWatch(index, true) -- prevent hitting 5 quest watch limit
+
+    -- This removes quests from the Blizzard QuestWatchFrame so when the option "Show Blizzard Timer" is enabled,
+    -- that is all the player will see. This also prevents hitting the Blizzard Quest Watch Limit.
+    RemoveQuestWatch(index, true)
 
     local questId = select(8, GetQuestLogTitle(index))
     if questId == 0 then
@@ -1538,15 +1776,20 @@ function QuestieTracker:AQW_Insert(index, expire)
     end
 
     if questId > 0 then
+        -- These checks makes sure the only way to track a quest is through the Blizzard Quest Log
+        -- or another Addon hooked into the Blizzard Quest Log that replaces the default Quest Log.
         if not Questie.db.global.autoTrackQuests then
             if Questie.db.char.TrackedQuests[questId] then
                 Questie.db.char.TrackedQuests[questId] = nil
             else
+                -- Add quest to the tracker
                 Questie.db.char.TrackedQuests[questId] = true
             end
         else
             if Questie.db.char.AutoUntrackedQuests[questId] then
                 Questie.db.char.AutoUntrackedQuests[questId] = nil
+
+            -- Add quest to the tracker
             elseif IsShiftKeyDown() and (QuestLogFrame:IsShown() or (QuestLogExFrame and QuestLogExFrame:IsShown())) then--hack
                 Questie.db.char.AutoUntrackedQuests[questId] = true
             end
@@ -1578,6 +1821,133 @@ function QuestieTracker:AQW_Insert(index, expire)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
+end
+
+_RemoveTrackedAchievement = function(achieveId, isQuestie)
+    if QuestieTracker._disableHooks then
+        return
+    end
+
+    if not isQuestie then
+        if achieveId then
+            QuestieTracker:UntrackAchieveId(achieveId)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveTrackedAchievement (Blizzard)")
+        end
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: RemoveTrackedAchievement (Questie)")
+    end
+end
+
+function QuestieTracker:UpdateAchieveTrackerCache(event, achieveId, added)
+    -- Since we're essentually adding & force removing an achievement from the QuestWatch frame while we add an achievement to the Questie Tracker, the event this
+    -- function is called from, TRACKED_ACHIEVEMENT_LIST_CHANGED, fires twice. When we remove an achievement from the Questie Tracker the event still fires twice
+    -- because the Blizzard function responsible for this is essentually a "toggle". It quickly re-adds the achievement to the QuestWatch frame and then removes it.
+    -- So, again this event again fires twice. We only need to allow this to run once and it often fires before the Questie.db.char.trackedAchievementIds table is
+    -- updated so we're going to throttle this 1/10th of a second.
+    if added then
+        C_Timer.After(0.1, function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: UpdateAchieveTrackerCache for ID ",achieveId)
+
+            if (not Questie.db.global.trackerEnabled) or (achieveId == 0) then
+                return
+            end
+            -- Look for changes in the Saved VAR and update the achievement cache
+            if Questie.db.char.trackedAchievementIds[achieveId] ~= trackedAchievementIds[achieveId] then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: UpdateAchieveTrackerCache - Change Detected!")
+                trackedAchievementIds[achieveId] = Questie.db.char.trackedAchievementIds[achieveId]
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                    -- This is necessary to call it again to update the trackers formatting
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
+                end)
+            else
+                Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: UpdateAchieveTrackerCache - No Change Detected!")
+            end
+        end)
+    end
+end
+
+function QuestieTracker:UntrackAchieveId(achieveId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: UntrackAchieve")
+
+    if Questie.db.char.trackedAchievementIds[achieveId] then
+        Questie.db.char.trackedAchievementIds[achieveId] = nil
+    end
+end
+
+function QuestieTracker:TrackAchieve(achieveId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker: TrackAchieve")
+
+    if (not Questie.db.global.trackerEnabled) or (achieveId == 0) then
+        return
+    end
+
+    -- If an achievement is already tracked in the Achievement UI then untrack it.
+    if Questie.db.char.trackedAchievementIds[achieveId] then
+		QuestieTracker:UntrackAchieveId(achieveId)
+        RemoveTrackedAchievement(achieveId, true)
+		return
+	end
+
+    -- Prevents tracking more than 10 Achievements
+    local count = 0
+    for _ in pairs (Questie.db.char.trackedAchievementIds) do
+        count = count + 1
+    end
+
+	if (count == 10) then
+        RemoveTrackedAchievement(achieveId, true)
+		UIErrorsFrame:AddMessage(format(l10n("You may only track 10 achievements at a time."), 10), 1.0, 0.1, 0.1, 1.0)
+		return
+	end
+
+    -- This prevents double calling this function
+    local now = GetTime()
+    if achieveId and achieveId == QuestieTracker._last_achieveId and (now - lastAchieveId) < 0.1 then
+        return
+    end
+    lastAchieveId = now
+    QuestieTracker._last_achieveId = achieveId
+
+    -- This removes achievements from the Blizzard QuestWatchFrame so when the
+    -- option "Show Blizzard Timer" is enabled, that is all the player will see.
+    RemoveTrackedAchievement(achieveId, true)
+
+    if achieveId > 0 then
+
+        -- This handles the Track check box in the Achievement UI
+        local mouseFocus = GetMouseFocus():GetName()
+        local frameMatch = strmatch(mouseFocus, "(AchievementFrameAchievementsContainerButton%dTracked.*)")
+
+        -- Upon first login or reloadui, this frame isn't loaded
+        if (not AchievementFrame) then
+			AchievementFrame_LoadUI()
+		end
+
+        -- This check makes sure the only way to track an achieve is through the Blizzard Achievement UI
+        if Questie.db.char.trackedAchievementIds[achieveId] then
+            Questie.db.char.trackedAchievementIds[achieveId] = nil
+
+        -- Add the achievement to the tracker
+        elseif IsShiftKeyDown() and AchievementFrame:IsShown() then
+            Questie.db.char.trackedAchievementIds[achieveId] = true
+
+        elseif AchievementFrame:IsShown() and (mouseFocus == frameMatch) then
+            Questie.db.char.trackedAchievementIds[achieveId] = true
+        end
+
+        -- Make sure the achievement (re)added to the tracker or achievement header isn't in a minimized state
+        if Questie.db.char.collapsedQuests[achieveId] == true then
+            Questie.db.char.collapsedQuests[achieveId] = nil
+        end
+
+        if Questie.db.char.collapsedZones["Achievements"] == true then
+            Questie.db.char.collapsedZones["Achievements"] = nil
+        end
+    end
 end
 
 local function _GetWorldPlayerPosition()

@@ -22,6 +22,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieQuestTimers
 local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
 local _QuestieQuestTimers = QuestieQuestTimers.private
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -677,17 +679,28 @@ _OnClickAchieve = function(self, button)
     end
 
     if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
-        if GetTrackedAchievements(self.Quest.Id) then
-            if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-                ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
+        if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
+            ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
 
-            else
+        else
+            if Questie.db.char.trackedAchievementIds[self.Quest.Id] then
+                Questie.db.char.trackedAchievementIds[self.Quest.Id] = nil
+                QuestieTracker:UpdateAchieveTrackerCache(_, self.Quest.Id, true)
+
                 if (not AchievementFrame) then
                     AchievementFrame_LoadUI()
                 end
 
-                RemoveTrackedAchievement(self.Quest.Id)
-                AchievementFrame_ForceUpdate()
+                if AchievementFrame:IsShown() then
+                    AchievementFrameAchievements_ForceUpdate()
+                end
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
+            else
+                -- Assume this is an Objective of an Achievement
+                UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
             end
         end
 

@@ -83,16 +83,12 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- UI Achievement Events
     if Questie.IsWotlk then
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-                -- This is necessary to call it again to update the trackers formatting
-                C_Timer.After(0.1, function()
-                    QuestieTracker:Update()
-                end)
-            end)
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(...)
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
+                QuestieTracker:UpdateAchieveTrackerCache(...)
         end)
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_UPDATE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
                 -- This is necessary to call it again to update the trackers formatting

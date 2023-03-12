@@ -232,6 +232,7 @@ function _QuestEventHandler:QuestLogUpdate()
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
     end
+    QuestieTracker:Update()
 end
 
 --- Fires whenever a quest objective progressed

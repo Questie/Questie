@@ -704,7 +704,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeZone; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeZone = value
-                    QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             fontZone = {
@@ -728,7 +730,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "range",
                 order = 4.9,
                 name = function() return l10n('Font Size for Quest Titles'); end,
-                desc = function() return l10n('The font size used for quest titles.'); end,
+                desc = function() return l10n("The font size used for quest titles.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."); end,
                 width = "double",
                 min = 8,
                 max = 18,
@@ -737,7 +739,12 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeQuest; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeQuest = value
-                    QuestieTracker:Update()
+                    if Questie.db.global.trackerFontSizeObjective > value then
+                        Questie.db.global.trackerFontSizeObjective = value
+                    end
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             fontQuest = {
@@ -759,7 +766,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "range",
                 order = 5.1,
                 name = function() return l10n('Font Size for Objectives'); end,
-                desc = function() return l10n('The font size used for objectives.'); end,
+                desc = function() return l10n("The font size used for objectives.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."); end,
                 width = "double",
                 min = 8,
                 max = 18,
@@ -767,8 +774,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerFontSizeObjective; end,
                 set = function(_, value)
-                    Questie.db.global.trackerFontSizeObjective = value
-                    QuestieTracker:Update()
+                    if Questie.db.global.trackerFontSizeQuest < value then
+                        Questie.db.global.trackerFontSizeObjective = Questie.db.global.trackerFontSizeQuest
+                    else
+                        Questie.db.global.trackerFontSizeObjective = value
+                    end
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             fontObjective = {
@@ -799,7 +812,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function(_, value)
                     Questie.db.global.trackerQuestPadding = value
-                    QuestieTracker:Update()
+                    C_Timer.After(0.1, function()
+                        QuestieTracker:Update()
+                    end)
                 end
             },
             fontOutline = {

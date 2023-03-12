@@ -15,6 +15,10 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -23,7 +27,7 @@ TrackerMenu.menuFrame = LibDropDown:Create_UIDropDownMenu("QuestieTrackerMenuFra
 local tinsert = table.insert
 
 -- forward declaration
-local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption, _AddAchieveLinkToChatOption, _AddShowInAchievementsOption, _AddUntrackAchieveOption
+local _AddFocusOption, _AddTomTomOption, _AddShowHideObjectivesOption, _AddShowHideQuestsOption, _AddShowObjectivesOnMapOption, _AddShowFinisherOnMapOption, _AddObjectiveOption, _AddLinkToChatOption, _AddShowInQuestLogOption, _AddAbandonedQuest, _AddUntrackOption, _AddFocusUnfocusOption, _AddLockUnlockOption, _AddAchieveLinkToChatOption, _AddShowInAchievementsOption, _AddUntrackAchieveOption
 
 local _UpdateTrackerBaseFrame, _UntrackQuest
 
@@ -64,13 +68,15 @@ function TrackerMenu:GetMenuForQuest(quest)
     tinsert(menu, {text=coloredQuestName, isTitle = true})
 
     _AddObjectiveOption(menu, subMenu, quest)
-    _AddShowHideQuestsOption(menu, quest)
-    _AddLinkToChatOption(menu, quest)
+    _AddFocusUnfocusOption(menu, quest)
     _AddTomTomOption(menu, quest, nil)
+    _MinMaxQuestOption(menu, quest)
+    _AddShowHideQuestsOption(menu, quest)
     _AddShowFinisherOnMapOption(menu, quest)
     _AddShowInQuestLogOption(menu, quest)
+    _AddLinkToChatOption(menu, quest)
     _AddUntrackOption(menu, quest)
-    _AddFocusUnfocusOption(menu, quest)
+    _AddAbandonedQuest(menu, quest)
 
     tinsert(menu, {text="|cFF39c0edWowhead URL|r", func = function()
         StaticPopup_Show("QUESTIE_WOWHEAD_URL", quest.Id)
@@ -102,6 +108,28 @@ _AddTomTomOption = function (menu, quest, objective)
             TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
     end})
+end
+
+_MinMaxQuestOption = function (menu, quest)
+    if Questie.db.char.collapsedQuests[quest.Id] then
+        tinsert(menu, {text = l10n('Maximize Quest'), func = function()
+            Questie.db.char.collapsedQuests[quest.Id] = false
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+
+        end})
+    else
+        tinsert(menu, {text = l10n('Minimize Quest'), func = function()
+            Questie.db.char.collapsedQuests[quest.Id] = true
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+
+        end})
+    end
 end
 
 _AddShowHideObjectivesOption = function (menu, quest, objective)
@@ -205,6 +233,24 @@ _AddShowInQuestLogOption = function (menu, quest)
     end})
 end
 
+_AddAbandonedQuest = function(menu, quest)
+    tinsert(menu, {text= l10n('Abandon Quest'), func = function()
+        LibDropDown:CloseDropDownMenus()
+        local lastQuest = GetQuestLogSelection()
+        SelectQuestLogEntry(GetQuestLogIndexByID(quest.Id))
+        SetAbandonQuest()
+        local items = GetAbandonQuestItems()
+        if items then
+            StaticPopup_Hide("ABANDON_QUEST")
+            StaticPopup_Show("ABANDON_QUEST_WITH_ITEMS", GetAbandonQuestName(), items)
+        else
+            StaticPopup_Hide("ABANDON_QUEST_WITH_ITEMS")
+            StaticPopup_Show("ABANDON_QUEST", GetAbandonQuestName())
+        end
+        SelectQuestLogEntry(lastQuest)
+    end})
+end
+
 _AddUntrackOption = function (menu, quest)
     tinsert(menu, {text= l10n('Untrack Quest'), func = function()
         LibDropDown:CloseDropDownMenus();
@@ -227,7 +273,6 @@ _AddLockUnlockOption = function (menu)
         tinsert(menu, {text= l10n('Lock Tracker'), func = function() LibDropDown:CloseDropDownMenus(); Questie.db.global.trackerLocked = true; _UpdateTrackerBaseFrame() end})
     end
 end
-
 
 -- Register the Wowhead popup dialog
 StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
@@ -288,9 +333,8 @@ function TrackerMenu:GetMenuForAchievement(achieve)
     _AddAchieveLinkToChatOption(menu, achieve)
     _AddShowInAchievementsOption(menu, achieve)
 
-    local trackedAchievementIds = {GetTrackedAchievements()}
-    for trackedId = 1, #trackedAchievementIds do
-        if trackedAchievementIds[trackedId] == achieve.Id then
+    for trackedId, _ in pairs (Questie.db.char.trackedAchievementIds) do
+        if trackedId == achieve.Id then
             _AddUntrackAchieveOption(menu, achieve)
         end
     end
@@ -309,13 +353,11 @@ end
 _AddAchieveLinkToChatOption = function (menu, achieve)
     tinsert(menu, {text = l10n('Link Achievement to chat'), func = function()
         LibDropDown:CloseDropDownMenus()
-        if GetTrackedAchievements(achieve.Id) then
-            if ( not ChatFrame1EditBox:IsVisible() ) then
-                ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
+        if ( not ChatFrame1EditBox:IsVisible() ) then
+            ChatFrame_OpenChat(GetAchievementLink(achieve.Id))
 
-            else
-                ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
-            end
+        else
+            ChatEdit_InsertLink(GetAchievementLink(achieve.Id))
         end
     end})
 end
@@ -340,9 +382,21 @@ end
 
 _AddUntrackAchieveOption = function (menu, achieve)
     tinsert(menu, {text= l10n('Untrack Achievement'), func = function()
-        LibDropDown:CloseDropDownMenus();
-        RemoveTrackedAchievement(achieve.Id)
-        AchievementFrame_ForceUpdate()
+        LibDropDown:CloseDropDownMenus()
+        Questie.db.char.trackedAchievementIds[achieve.Id] = nil
+        QuestieTracker:UpdateAchieveTrackerCache(_, achieve.Id, true)
+
+        if (not AchievementFrame) then
+			AchievementFrame_LoadUI()
+		end
+
+        if AchievementFrame:IsShown() then
+            AchievementFrameAchievements_ForceUpdate()
+        end
+
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end})
 end
 

@@ -323,11 +323,10 @@ function TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombin
     else
         -- auto width
         if (trackerVarsCombined < activeQuestsHeaderWidth and Questie.db.global.trackerHeaderEnabled) then
-            baseFrame:SetWidth(activeQuestsHeaderWidth + 4)
+            baseFrame:SetWidth(activeQuestsHeaderWidth)
 
         elseif (trackerVarsCombined ~= baseFrameWidth) then
-            local rightSideBuffer = math.max(Questie.db.global.trackerFontSizeQuest, Questie.db.global.trackerFontSizeObjective)
-            baseFrame:SetWidth(trackerVarsCombined + 18 - rightSideBuffer)
+            baseFrame:SetWidth(trackerVarsCombined)
         end
     end
 end
