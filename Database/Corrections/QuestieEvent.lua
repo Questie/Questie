@@ -863,6 +863,7 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24655}) -- Something St
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24541}) -- Pilfering Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24656}) -- Pilfering Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Scents
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24805}) -- Uncommon Scents
 
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24576}) -- A Friendly Chat...
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24657}) -- A Friendly Chat...
