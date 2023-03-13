@@ -952,7 +952,7 @@ function QuestieTracker:Update()
                                     lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
                                     line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                                else
+                                elseif (objective.Completed == true and #quest.Objectives == 1) then
                                     -- Split line if it's REALLY long and sometimes a Quest is flagged 0 (not complete) but the flag "objective.Completed" is true.
                                     -- So far the only quests I've encountered are ones that usually require interacting with an item or place. This changes the
                                     -- Objective from a "Task: 1/1" looking complete it leaves the player with... "OK, what now?". The Blizzard Quest Tracker
