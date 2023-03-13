@@ -264,8 +264,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11306] = {
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.HOWLING_FJORD]={{53.65,66.50},},}, Questie.ICON_TYPE_OBJECT, l10n("Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"),0},
-                {{[zoneIDs.HOWLING_FJORD]={{53.49,66.23},},}, Questie.ICON_TYPE_OBJECT, l10n("Mix the Flask of Vrykul Blood with Harris's Plague Samples"),1},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"),0,{{"object", 186656}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mix the Flask of Vrykul Blood with Harris's Plague Samples"),1,{{"object", 186657}}},
             },
         },
         [11307] = {
