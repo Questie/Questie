@@ -153,6 +153,9 @@ function QuestieWotlkQuestFixes:Load()
         [9358] = {
             [questKeys.exclusiveTo] = {9252},
         },
+        [9361] = {
+            [questKeys.requiredSourceItems] = {23270},
+        },
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
         },
