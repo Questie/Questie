@@ -30,6 +30,14 @@ function QuestieWotlkNpcFixes:Load()
         [15576] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.5,76.5}}},
         },
+        [15892] = {
+            [npcKeys.spawns] = {
+            [zoneIDs.STORMWIND_CITY]={{61.73,75.73}},
+            [zoneIDs.IRONFORGE]={{30.4,61.4},{30.4,61.6},{30.6,17.8},{30.6,61.4},{30.8,61.8},{31.2,63.2},{31.6,62.8}},,
+            [zoneIDs.DARNASSUS]={{42.16,43.97},{32.2,12.2}},
+            [zoneIDs.DALARAN]={{48.96,44.53},{49.35,43.57},{49.78,44.62}},
+            [zoneIDs.SHATTRATH_CITY]={{53.51,34.4},{53.32,35.34},{52.88,34.63}}},
+        },
         [16281] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.39}}},
         },
