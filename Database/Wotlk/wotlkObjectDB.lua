@@ -7809,7 +7809,7 @@ QuestieDB.objectData = [[return {
 [185196] = {"Legion Obelisk",nil,nil,{[3522]={{73.53,43.52}}},3522},
 [185197] = {"Legion Obelisk",nil,nil,{[3522]={{75.46,40.54}}},3522},
 [185198] = {"Legion Obelisk",nil,nil,{[3522]={{75.33,41.73}}},3522},
-[185200] = {"Eye of Veil Reskk",nil,nil,{[3519]={{50.12,19.37},{49.4,14.04}}},3519},
+[185200] = {"Eye of Veil Reskk",nil,nil,{[3519]={{50.12,19.37}}},3519},
 [185201] = {"Eye of Veil Shienor",nil,nil,{[3519]={{57.89,23.15}}},3519},
 [185206] = {"Green Spot Grog Keg",nil,nil,{[3522]={{55.28,25.99}}},3522},
 [185207] = {"Marmot Den",nil,nil,{[3522]={{56.43,29.26}}},3522},
