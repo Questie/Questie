@@ -550,6 +550,9 @@ function QuestieWotlkQuestFixes:Load()
         [11894] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Uncured Caribou Hide"),0,{{"object", 188086}}}},
         },
+        [11895] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Storm Totem to summon Storm Tempest"),0,{{"monster", 26048}}}},
+        },
         [11896] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
         },
