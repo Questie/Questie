@@ -1156,7 +1156,6 @@ function QuestieWotlkQuestFixes:Load()
         [12532] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12533,12534},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
         },
         [12533] = {
             [questKeys.preQuestSingle] = {},
