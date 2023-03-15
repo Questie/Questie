@@ -2363,6 +2363,21 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13237},
         },
+        [13265] = {
+            [questKeys.requiredSpell] = -59390,
+        },
+        [13268] = {
+            [questKeys.requiredSpell] = -59390,
+        },
+        [13269] = {
+            [questKeys.requiredSpell] = -59390,
+        },
+        [13270] = {
+            [questKeys.requiredSpell] = -59390,
+        },
+        [13272] = {
+            [questKeys.requiredSpell] = -59390,
+        },
         [13276] = {
             [questKeys.objectives] = {{{31142,"Icy Ghouls Exploded"},{31147,"Vicious Geists Exploded"},{31205,"Risen Alliance Soldiers Exploded"}}},
             [questKeys.preQuestSingle] = {13264},
