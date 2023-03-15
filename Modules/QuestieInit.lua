@@ -147,7 +147,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     HBDHooks:Init()
 
-    QuestieFramePool:SetIcons()
+    Questie:SetIcons()
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then

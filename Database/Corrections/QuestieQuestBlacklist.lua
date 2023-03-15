@@ -33,6 +33,7 @@ function QuestieQuestBlacklist:Load()
         [11189] = true, -- Removed
         [13417] = true, -- Duplicate of 12973
         [936] = QuestieCorrections.CLASSIC_ONLY,
+        [2000] = true, -- Not in the game - #4487
         -- Welcome! quests (Collectors Edition)
         [5805] = true,
         [5841] = true,
@@ -614,8 +615,10 @@ function QuestieQuestBlacklist:Load()
         [24629] = true,
         [24635] = true,
         [24636] = true,
+        [24536] = true,
         [24655] = true,
         [24804] = true,
+        [24805] = true,
 
         --- Children's Week
         [13926] = true,
@@ -1117,21 +1120,24 @@ function QuestieQuestBlacklist:Load()
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
-
-        [9120] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [9229] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [9230] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [9233] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
+        
         [10884] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
         [10901] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13431
+        [6821] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6822] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6823] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [6824] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [7486] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
         [11621] = true, -- Not in the game
         [11179] = true, -- Not in the game
         [11622] = true, -- Not in the game
         [11551] = true, -- Not in the game
         [11552] = true, -- Not in the game
         [11553] = true, -- Not in the game
+        [11578] = true, -- Not in the game
+        [11579] = true, -- Not in the game
         [11939] = true, -- Not in the game
         [11997] = true, -- Not in the game
         [12087] = true, -- Not in the game
@@ -1147,8 +1153,11 @@ function QuestieQuestBlacklist:Load()
         [12780] = true, -- Not in the game
         [12590] = true, -- Not in the game
         [11461] = true, -- Not in the game
+        [12911] = true, -- Not in the game
         [13150] = true, -- Not in the game
         [13317] = true, -- Not in the game
+        [14103] = true, -- Not in the game
+        [14160] = true, -- Not in the game
         [13374] = true, -- Not in the game
         [13381] = true, -- Not in the game
         [13908] = true, -- Not in the game
@@ -1184,6 +1193,18 @@ function QuestieQuestBlacklist:Load()
         [13173] = true, -- Not in the game
         [13175] = true, -- Not in the game
         [14203] = true, -- Not in the game
+        [14032] = true, -- Not in the game
+        [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
+        [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
+        
+        [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8385] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [8388] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13475] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13476] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13477] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
+        [13478] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
 
         [6804] = QuestieCorrections.WOTLK_ONLY,
         [7737] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13662 in wotlk
@@ -1200,6 +1221,38 @@ function QuestieQuestBlacklist:Load()
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
+        
+        -- Old Naxx quests (Naxx40 goes away in wotlk)
+        [9120] = QuestieCorrections.WOTLK_ONLY, -- The Fall of Kel'Thuzad
+        [9229] = QuestieCorrections.WOTLK_ONLY, -- The Fate of Ramaladni
+        [9230] = QuestieCorrections.WOTLK_ONLY, -- Ramaladni's Icy Grasp
+        [9232] = QuestieCorrections.WOTLK_ONLY, -- The Only Song I Know...
+        [9233] = QuestieCorrections.WOTLK_ONLY, -- Omarion's Handbook
+        [9234] = QuestieCorrections.WOTLK_ONLY, -- Icebane Gauntlets
+        [9235] = QuestieCorrections.WOTLK_ONLY, -- Icebane Bracers
+        [9236] = QuestieCorrections.WOTLK_ONLY, -- Icebane Breastplate
+        [9237] = QuestieCorrections.WOTLK_ONLY, -- Glacial Cloak
+        [9238] = QuestieCorrections.WOTLK_ONLY, -- Glacial Wrists
+        [9239] = QuestieCorrections.WOTLK_ONLY, -- Glacial Gloves
+        [9240] = QuestieCorrections.WOTLK_ONLY, -- Glacial Vest
+        [9241] = QuestieCorrections.WOTLK_ONLY, -- Polar Bracers
+        [9242] = QuestieCorrections.WOTLK_ONLY, -- Polar Gloves
+        [9243] = QuestieCorrections.WOTLK_ONLY, -- Polar Tunic
+        [9244] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Bracers
+        [9245] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Gauntlets
+        [9246] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Breastplate
+
+        -- "learn to ride" series (unimplemented)
+        [14079] = true, -- elwynn (human)
+        [14081] = true, -- eversong (belf)
+        [14082] = true, -- exodar (draenei)
+        [14083] = true, -- dun morogh (dwarf)
+        [14084] = true, -- dun morogh (gnome)
+        [14085] = true, -- darnassus (nelf)
+        [14086] = true, -- orgrimmar (orc)
+        [14087] = true, -- mulgore (tauren)
+        [14088] = true, -- durotar (troll)
+        [14089] = true, -- tirisfal (undead)
 
         -- Scourge invasion
         [12616] = true,
@@ -1213,6 +1266,10 @@ function QuestieQuestBlacklist:Load()
         [12784] = true,
         [12808] = true,
         [12811] = true,
+
+        --- Phase 2 Secrets of Ulduar
+        [13372] = true, -- 10man EoE keys become unavailable with P2
+        [13384] = true, -- 10man EoE keys become unavailable with P2
 
         --- Phase 3 Trial of the Crusader
         [14151] = true, -- Cardinal Ruby (Alchemy)

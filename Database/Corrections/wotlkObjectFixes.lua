@@ -11,6 +11,9 @@ function QuestieWotlkObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [185200] = {
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
+        },
         [187674] = {
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{43,56.3},{43.1,56.8},{43.6,57.3},},},
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,

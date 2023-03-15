@@ -145,21 +145,21 @@ function QuestieProfessions:HasSpecialization(requiredSpecialization)
             elseif requiredSpecialization == professionKeys.BLACKSMITHING then
                 return not (IsSpellKnown(specializationKeys.BLACKSMITHING_ARMOR)
                 or IsSpellKnown(specializationKeys.BLACKSMITHING_WEAPON))
-            
+
             elseif requiredSpecialization == professionKeys.ENGINEERING then
                 return not (IsSpellKnown(specializationKeys.ENGINEERING_GNOMISH)
                 or IsSpellKnown(specializationKeys.ENGINEERING_GOBLIN))
-            
+
             elseif requiredSpecialization == professionKeys.LEATHERWORKING then
                 return not (IsSpellKnown(specializationKeys.LEATHERWORKING_DRAGONSCALE)
                 or IsSpellKnown(specializationKeys.LEATHERWORKING_ELEMENTAL)
                 or IsSpellKnown(specializationKeys.LEATHERWORKING_TRIBAL))
-            
+
             elseif requiredSpecialization == professionKeys.TAILORING then
                 return not (IsSpellKnown(specializationKeys.TAILORING_MOONCLOTH)
                 or IsSpellKnown(specializationKeys.TAILORING_SHADOWEAVE)
                 or IsSpellKnown(specializationKeys.TAILORING_SPELLFIRE))
-            
+
             end
             return _HasProfession(requiredSpecialization)
             -- if the profession is not one with known specs, return true if the player has that profession
@@ -278,6 +278,7 @@ end
 
 ---@return string
 function QuestieProfessions:GetSpecializationName(specializationKey)
+    -- TODO: this function is as of yet unused, if you plan on using it add translations for the specializationNames table
     return specializationNames[specializationKey]
 end
 

@@ -13,6 +13,7 @@ QuestieLib.AddonPath = "Interface\\Addons\\Questie\\"
 local math_abs = math.abs
 local math_sqrt = math.sqrt
 local math_max = math.max
+local math_random = math.random
 local tinsert = table.insert
 local stringSub = string.sub
 local stringGsub = string.gsub
@@ -142,15 +143,50 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     return QuestieLib:PrintDifficultyColor(level, name, QuestieDB.IsRepeatable(questId))
 end
 
----@param randomSeed number
+local colors = {
+    {0.3125, 0.44140625, 1},  --Blizzard Polygon-blue --Alpha of 128
+    --{123,  146, 255},  --Blizzard Polygon-blue-2 --Alpha of 61
+    {0.5, 0.46875, 0.84765625},  --Medium Purple
+    {0.58203125, 0.89453125, 0.0546875},   --Inch Worm
+    {0.45703125, 0.8515625, 0.78125},  --Downy
+    {1, 0.5625, 0.625},  --Salmon Pink
+    --{149, 159, 112},  --Avocado, Bad? Fix it
+    {0, 0.6484375, 0.59375},  --Persian Green
+    {0.70703125, 0.109375, 0.4765625},  --Medium Violet Red     --ORG Dark Purple {119, 18,  79}
+    {0.58203125, 0.2148375, 1},  --Light Slate Blue
+    {0.72265625, 0.3671875, 0},    --Alloy Orange
+    {0, 0.9765625, 0.546875},  --Spring Green
+    {0.8515625, 0.2148375,  0.57421875},  --Deep Cerise
+    {1, 0.65234375, 0},    --Orange
+    {0.8125, 0.7109375, 1},  --Mauve
+    {0, 0.25390625,  0.58984375},  --Smalt
+    {1, 0.25, 1},  --Pink Flamingo
+    {1, 1, 0},    --Yellow
+    {0.16015625,  0.65234375, 0},    --Slimy Green
+    {0, 0.66015625, 1},  --Deep Sky Blue
+    {0.87109375, 0.87109375, 0.56640625},  --Primrose
+    {0, 0.5859375,  0},    --Vine Green --G67 default
+    {0, 0.3,  1},  --Navy Blue
+    {0, 0.97265625, 0},    --Lime
+    {0, 1, 1},  --Aqua
+    {1, 0.1484375,  0},    --Scarlet
+}
+
+local numColors = #colors
+local lastColor = math_random(numColors)
+
 ---@return Color
-function QuestieLib:GetRandomColor(randomSeed)
-    QuestieLib:MathRandomSeed(randomSeed)
-    return {
-        0.45 + QuestieLib:MathRandom() / 2,
-        0.45 + QuestieLib:MathRandom() / 2,
-        0.45 + QuestieLib:MathRandom() / 2
-    }
+function QuestieLib:ColorWheel()
+    lastColor = lastColor + 1
+    if lastColor > numColors then
+        lastColor = 1
+    end
+    return colors[lastColor]
+end
+
+---@return Color
+function QuestieLib:GetRandomColor()
+    return colors[math_random(numColors)]
 end
 
 ---@param questId number

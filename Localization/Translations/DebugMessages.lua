@@ -397,7 +397,31 @@ local debugMessagesLocales = {
         ["deDE"] = "Der Quest %s fehlt in Questie's Datenbank, bitte melde dies auf GitHub oder Discord!",
         ["esES"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
         ["esMX"] = "Falta la misión %s en la base de datos de Questie. ¡Por favor, infórmalo en GitHub o Discord!",
-    }
+    },
+    ["Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Missing objective data for quest "] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Отсутствует информация о цели задания ",
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(debugMessagesLocales) do

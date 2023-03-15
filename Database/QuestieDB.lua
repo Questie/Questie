@@ -635,10 +635,6 @@ function QuestieDB.IsDoable(questId, debugPrint)
         local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
         if (not hasSpecialization) then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
-            --? We don't blacklist purely based on lacking the spell, since it's rare and can change quickly
-            --if(not hasSpell) then
-            --    QuestieQuest.autoBlacklist[questId] = "spell"
-            --end
             return false
         end
     end
@@ -648,10 +644,6 @@ function QuestieDB.IsDoable(questId, debugPrint)
         local hasSpell = IsSpellKnownOrOverridesKnown(requiredSpell)
         if (not hasSpell) then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
-            --? We don't blacklist purely based on lacking the spell, since it's rare and can change quickly
-            --if(not hasSpell) then
-            --    QuestieQuest.autoBlacklist[questId] = "spell"
-            --end
             return false
         end
     end
@@ -955,7 +947,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
                 for _, ref in pairs(o[5]) do
                     for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], QO.SpecialObjectives[index])) do
-                        -- we want to be able to override the icon in the corrections (e.g. ICON_TYPE_OBJECT on objects instead of ICON_TYPE_LOOT)
+                        -- we want to be able to override the icon in the corrections (e.g. Questie.ICON_TYPE_OBJECT on objects instead of Questie.ICON_TYPE_LOOT)
                         v.Icon = o[2]
                         spawnList[k] = v
                     end
