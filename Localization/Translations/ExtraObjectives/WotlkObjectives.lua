@@ -1946,7 +1946,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Drink Drakuru's Elixir when you gathered Zim'bo's Mojo"] = { -- 12007
+    ["Drink Drakuru's Elixir after gathering Zim'bo's Mojo"] = { -- 12007
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
