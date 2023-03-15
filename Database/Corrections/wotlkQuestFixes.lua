@@ -634,7 +634,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{188416}}},
         },
         [12029] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
         },
         [12032] = {
             [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
@@ -653,7 +653,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
         },
         [12038] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
         },
         [12039] = {
             [questKeys.preQuestSingle] = {12034},
