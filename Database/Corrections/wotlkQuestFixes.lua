@@ -103,6 +103,9 @@ function QuestieWotlkQuestFixes:Load()
         [8762] = {
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
         },
+        [8892] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [9078] = {
             [questKeys.requiredClasses] = classIDs.ROGUE,
         },
@@ -149,6 +152,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9358] = {
             [questKeys.exclusiveTo] = {9252},
+        },
+        [9361] = {
+            [questKeys.requiredSourceItems] = {23270},
         },
         [9425] = {
             [questKeys.requiredRaces] = raceIDs.BLOOD_ELF,
@@ -264,8 +270,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11306] = {
             [questKeys.extraObjectives] = {
-                {{[zoneIDs.HOWLING_FJORD]={{53.65,66.50},},}, Questie.ICON_TYPE_OBJECT, l10n("Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"),0},
-                {{[zoneIDs.HOWLING_FJORD]={{53.49,66.23},},}, Questie.ICON_TYPE_OBJECT, l10n("Mix the Flask of Vrykul Blood with Harris's Plague Samples"),1},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Fill the Empty Apothecary's Flask at the Cauldron of Vrykul Blood"),0,{{"object", 186656}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mix the Flask of Vrykul Blood with Harris's Plague Samples"),1,{{"object", 186657}}},
             },
         },
         [11307] = {
@@ -516,6 +522,9 @@ function QuestieWotlkQuestFixes:Load()
         [11878] = {
             [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
         },
+        [11879] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Wooly Mammoth Bull to assist in killing Kaw the Mammoth Destroyer"),0,{{"monster", 25743}}}},
+        },
         [11880] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -541,8 +550,17 @@ function QuestieWotlkQuestFixes:Load()
         [11894] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Uncured Caribou Hide"),0,{{"object", 188086}}}},
         },
+        [11895] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Storm Totem to summon Storm Tempest"),0,{{"monster", 26048}}}},
+        },
         [11896] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25752,25753,25758},26082,}}},
+        },
+        [11898] = {
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.BOREAN_TUNDRA]={{86.55,28.59}}}, Questie.ICON_TYPE_EVENT, l10n("Enter teleporter to access Naxxanar"),},
+                {{[zoneIDs.BOREAN_TUNDRA]={{86.80,30.12}}}, Questie.ICON_TYPE_EVENT, l10n("Use Naxxanar teleporters"),},
+            },
         },
         [11899] = {
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
@@ -622,7 +640,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{188416}}},
         },
         [12029] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
         },
         [12032] = {
             [questKeys.triggerEnd] = {"Oacha'noa's compulsion obeyed.",{[zoneIDs.DRAGONBLIGHT]={{34.09,84.01,},},},},
@@ -641,7 +659,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
         },
         [12038] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{26570},26612,}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
         },
         [12039] = {
             [questKeys.preQuestSingle] = {12034},
@@ -862,6 +880,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12204] = {
+            [questKeys.preQuestSingle] = {12099,12058},
             [questKeys.preQuestGroup] = {},
         },
         [12206] = {
@@ -880,7 +899,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12413},
         },
         [12214] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{27296,27028},27296,}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{27206,27213,27296,27028},27296,}}},
         },
         [12218] = {
             [questKeys.extraObjectives] = {
@@ -1137,7 +1156,6 @@ function QuestieWotlkQuestFixes:Load()
         [12532] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12533,12534},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Capture Chicken Escapee"), 0, {{"monster", 28161}}}},
         },
         [12533] = {
             [questKeys.preQuestSingle] = {},
@@ -1162,6 +1180,10 @@ function QuestieWotlkQuestFixes:Load()
         [12549] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12523,12525},
+        },
+        [12551] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12520,12549},
         },
         [12555] = {
             [questKeys.objectives] = {{{28274,"Plague Sprayers webbed and destroyed"}}},
@@ -1205,6 +1227,14 @@ function QuestieWotlkQuestFixes:Load()
         [12596] = {
             [questKeys.preQuestSingle] = {12740},
             [questKeys.preQuestGroup] = {},
+        },
+        [12603] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12556,12558,12569},
+        },
+        [12605] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {12556,12558,12569},
         },
         [12606] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28415,28413},28415}}},
@@ -1367,7 +1397,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12683] = {
             [questKeys.objectives] = {{{28003,},{28003}}},
-            [questKeys.preQuestGroup] = {12559,12556},
+            [questKeys.preQuestGroup] = {12556,12558,12569},
         },
         [12685] = {
             [questKeys.objectives] = {{{28671}}},
@@ -1519,6 +1549,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
+        },
+        [12797] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.UN_GORO_CRATER]={{50.54,7.74,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
         },
         [12801] = {
             [questKeys.extraObjectives] = {
@@ -3201,30 +3234,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{33434}},
             [questKeys.exclusiveTo] = {13627},
         },
-        [13828] = {
-            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
-        },
-        [13829] = {
-            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
-        },
-        [13835] = {
-            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
-        },
-        [13837] = {
-            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
-        },
-        [13838] = {
-            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
-        },
-        [13839] = {
-            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
-        },
         [13825] = {
             [questKeys.startedBy] = {{8125}},
             [questKeys.finishedBy] = {{8125}},
@@ -3236,6 +3245,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {{12919}},
             -- [questKeys.exclusiveTo] = {6607}, -- This is not ideal. You can only do 13826 if you completed 6607 prior to Wotlk. But now with Wotlk you do 6607 and then can not do 13826
             [questKeys.requiredSkill] = {356,225},
+        },
+        [13828] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+        },
+        [13829] = {
+            [questKeys.objectives] = {{{33973,"Jeran Lockwood's advice"},{33229,"Use Thrust on Melee Target"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13830] = {
             [questKeys.triggerEnd] = {"Discover the Ghostfish mystery",{[zoneIDs.SHOLAZAR_BASIN]={{48.89,62.29,},},},},
@@ -3249,8 +3266,24 @@ function QuestieWotlkQuestFixes:Load()
         [13834] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.WINTERGRASP]={{70,36},{63,60},{50,44},{37.6,36},{56,66},{42,75},{34.7,19.5}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Terror Fish"), 0}},
         },
+        [13835] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+        },
         [13836] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.DALARAN]={{64,64}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Severed Arm")}},
+        },
+        [13837] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
+        },
+        [13838] = {
+            [questKeys.objectives] = {{{33974,"Valis Windchaser's advice"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
+        },
+        [13839] = {
+            [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13846] = {
             [questKeys.preQuestSingle] = {13700,13701},

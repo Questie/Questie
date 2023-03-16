@@ -122,6 +122,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Plant the Demon Summoning Torch"] = { -- 8481
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Platziere die Fackel zur Dämonenbeschwörung",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Arcanite Buoy"] = { -- 8729
         ["ptBR"] = false,
         ["ruRU"] = "Используйте Арканитовый буй",

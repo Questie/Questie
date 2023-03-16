@@ -615,8 +615,10 @@ function QuestieQuestBlacklist:Load()
         [24629] = true,
         [24635] = true,
         [24636] = true,
+        [24536] = true,
         [24655] = true,
         [24804] = true,
+        [24805] = true,
 
         --- Children's Week
         [13926] = true,
