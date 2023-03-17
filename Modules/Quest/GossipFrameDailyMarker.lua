@@ -12,7 +12,7 @@ function GossipFrameDailyMarker.Mark()
     if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
         return -- This call is automatically hooked, no need to run a function
     else -- If DF API not available, use Shadowlands (9.0.0) method
-        -- todo
+        return -- todo
     end
 end
 
