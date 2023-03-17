@@ -15,6 +15,7 @@ function QuestieNPCFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
+    local waypointPresets = QuestieDB.waypointPresets
 
     return {
         [300] = {

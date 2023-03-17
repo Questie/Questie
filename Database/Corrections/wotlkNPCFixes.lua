@@ -10,6 +10,7 @@ function QuestieWotlkNpcFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
+    local waypointPresets = QuestieDB.waypointPresets
 
     return {
         [3996] = {
@@ -533,7 +534,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [29795] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [29799] = {
@@ -684,12 +685,12 @@ function QuestieWotlkNpcFixes:Load()
         },
         [30824] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30825] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [30944] = {
@@ -722,7 +723,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [31261] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [31271] = {
@@ -767,7 +768,7 @@ function QuestieWotlkNpcFixes:Load()
         },
         [32301] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{64.78,28.41}}},
-            [npcKeys.waypoints] = {[zoneIDs.ICECROWN]={{{68.5,52.9},{69.8,49.4},{69.8,43.8},{69.6,37.8},{68.8,28.2},{67,26.4},{64.8,28.4},{61.6,31},{60.3,34.4},{62.6,41.4},{66.6,51},{68.5,52.9}}}},
+            [npcKeys.waypoints] = waypointPresets.ORGRIMS_HAMMER,
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [32370] = {
