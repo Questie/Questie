@@ -1774,6 +1774,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12932},
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
         },
+        [12957] = {
+            [questKeys.objectives] = {{{29384},{29369}}},
+        },
         [12966] = {
             [questKeys.preQuestGroup] = {12915,12956},
             [questKeys.requiredMinRep] = {1119,0},
