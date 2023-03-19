@@ -1818,7 +1818,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12976},
         },
         [12978] = {
-            [questKeys.objectives] = {{{29370,29374,29380},29370}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{29370,29374,29380},29370,"Nidavelir Stormforged slain"}}},
         },
         [12979] = {
             [questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
