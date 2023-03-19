@@ -1863,6 +1863,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.preQuestSingle] = {12987},
         },
+        [13007] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount Tamed Jormungar to fight Iron Colossus"),0,{{"monster", 30301},{"object", 192262}}},},
+        },
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Talk to Wyrmbait and slay Icestorm"),0,{{"monster", 28674}}},},
