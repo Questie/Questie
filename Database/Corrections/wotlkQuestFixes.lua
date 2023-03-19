@@ -1681,6 +1681,11 @@ function QuestieWotlkQuestFixes:Load()
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
         },
+        [12910] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
+            },
+        },
         [12919] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Slay Scourge while riding Gymer"), 0, {{"monster", 29647}}},
