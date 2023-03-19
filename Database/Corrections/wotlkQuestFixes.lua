@@ -1629,6 +1629,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12855] = {
             [questKeys.preQuestSingle] = {12854},
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.STORM_PEAKS]={{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp"),},
+            },
         },
         [12856] = {
             [questKeys.objectives] = {{{29639,"Rescued Brunnhildar Prisoners"},{29708,"Freed Proto-Drakes"}}},
