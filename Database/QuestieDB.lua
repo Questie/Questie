@@ -1139,3 +1139,49 @@ function _QuestieDB:HideClassAndRaceQuests()
     end
     Questie:Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
 end
+
+-- This function is intended for usage with Gossip and Greeting frames, where there's a list of quests but no QuestIDs are
+-- obtainable until entering the specific quest dialog.
+-- This is a bruteforce method for obtaining a QuestID with no input other than a quest name, and the ID of the questgiver.
+-- It compares the name of the quest entry with the names of every quest that questgiver can either start or end.
+-- The GUID that should be passed is UnitGUID("npc").
+-- questStarter should be True if this is an available quest, False if this is an "active" quest (quest ender).
+---@param name string
+---@param questgiverGUID string
+---@param questStarter boolean
+---@return number
+function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
+    local questID = 0
+    if questgiverGUID then
+        local questgiverID = tonumber(questgiverGUID:match("-(%d+)-%x+$"), 10)
+        local unit_type = strsplit("-", questgiverGUID)
+        local questgiver
+        if unit_type == "Creature" then -- if questgiver is an NPC
+            questgiver = QuestieDB:GetNPC(questgiverID)
+        elseif unit_type == "GameObject" then -- if questgiver is an object (it's rare for an object to have a gossip/greeting frame, but Wanted Boards exist; see object 2713)
+            questgiver = QuestieDB:GetObject(questgiverID)
+        else
+            return questID; -- If the questgiver is not an NPC or object, bail!
+        end
+        -- iterate through every questEnds entry in our questgiver NPC's DB,
+        -- and check if the quest name matches this greeting frame entry
+        if questgiver then
+            if questStarter == true then
+                for k,id in pairs(questgiver.questStarts) do
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                    -- the QuestieDB.IsDoable check is important to filter out identically named quests
+                        questID = id
+                    end
+                end
+            else
+                for k,id in pairs(questgiver.questEnds) do
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                    -- the QuestieDB.IsDoable check is important to filter out identically named quests
+                        questID = id
+                    end
+                end
+            end
+        end
+    end
+    return questID;
+end
