@@ -622,7 +622,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12007] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir when you gathered Zim'bo's Mojo"),0,{{"object", 400047}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Drink Drakuru's Elixir after gathering Zim'bo's Mojo"),0,{{"object", 400047}}}},
         },
         [12017] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
@@ -1629,6 +1629,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12855] = {
             [questKeys.preQuestSingle] = {12854},
+            [questKeys.extraObjectives] = {
+                {{[zoneIDs.STORM_PEAKS]={{36.4,64.2}}}, Questie.ICON_TYPE_EVENT, l10n("Use Frosthound's Collar at the Abandoned Camp"),},
+            },
         },
         [12856] = {
             [questKeys.objectives] = {{{29639,"Rescued Brunnhildar Prisoners"},{29708,"Freed Proto-Drakes"}}},
@@ -1678,6 +1681,11 @@ function QuestieWotlkQuestFixes:Load()
         [12906] = {
             [questKeys.objectives] = {{{30146,"Exhausted Vrykul Disciplined"}}},
         },
+        [12910] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Mount Frostbite to track scent"), 0, {{"monster", 29857}}},
+            },
+        },
         [12919] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Slay Scourge while riding Gymer"), 0, {{"monster", 29647}}},
@@ -1694,6 +1702,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12925] = {
             [questKeys.preQuestSingle] = {12905},
+        },
+        [12927] = {
+            [questKeys.objectives] = {{{29746}}},
         },
         [12932] = {
             [questKeys.objectives] = {{{30014}}},
@@ -1771,6 +1782,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {12932},
             [questKeys.triggerEnd] = {"Yggdras Defeated",{[zoneIDs.ZUL_DRAK]={{47.93,56.85,},},},},
         },
+        [12957] = {
+            [questKeys.objectives] = {{{29384},{29369}}},
+        },
         [12966] = {
             [questKeys.preQuestGroup] = {12915,12956},
             [questKeys.requiredMinRep] = {1119,0},
@@ -1802,6 +1816,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "Hodir's Call",
             [questKeys.objectives] = {{{29974,"Niffelem Forefather freed"},},nil,nil,nil,{{{30144,30135},30144,},},},
             [questKeys.preQuestSingle] = {12976},
+        },
+        [12978] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{29370,29374,29380},29370,"Nidavelir Stormforged slain"}}},
         },
         [12979] = {
             [questKeys.objectives] = {nil,nil,{{42204},},nil,nil,},
@@ -1845,6 +1862,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.name] = "A Viscous Cleaning",
             [questKeys.requiredMinRep] = {1119,3000},
             [questKeys.preQuestSingle] = {12987},
+        },
+        [13007] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount Tamed Jormungar to fight Iron Colossus"),0,{{"monster", 30301},{"object", 192262}}},},
         },
         [13008] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{30273,30268,30274},30273,}}},
@@ -1955,6 +1975,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13037] = {
             [questKeys.objectives] = {{{30395}}},
+        },
+        [13038] = {
+            [questKeys.objectives] = {{{30448}}},
+            [questKeys.preQuestSingle] = {13034},
         },
         [13039] = {
             [questKeys.preQuestSingle] = {13036},
