@@ -57,8 +57,7 @@ local function updateGossipFrame()
             -- GetGossipAvailableQuests() returns a 6 individual values per quest entry...
             -- so we have to filter out to every 6th value, starting with 1, 7, 13, etc
             local questname = select((1 + ((i - 1) * 6)), availQuests)
-            local questid = 0
-            questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
+            local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
             local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
             gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, false))
         end
@@ -70,7 +69,7 @@ local function updateGossipFrame()
         for i=1, numActive do
             index = index + 1
             local questname = select((1 + ((i - 1) * 6)), activeQuests)
-            local questid = 0
+            local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
             local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
             gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, true))
         end
