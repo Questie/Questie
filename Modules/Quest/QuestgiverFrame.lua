@@ -1,5 +1,5 @@
----@class GossipFrameDailyMarker
-local GossipFrameDailyMarker = QuestieLoader:CreateModule("GossipFrameDailyMarker")
+---@class QuestgiverFrame
+local QuestgiverFrame = QuestieLoader:CreateModule("QuestgiverFrame")
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -112,7 +112,7 @@ QuestFrameGreetingPanel:HookScript(
     end
 )
 
-function GossipFrameDailyMarker.Mark()
+function QuestgiverFrame.GossipMark()
     if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
         return -- This call is automatically hooked, no need to run a function
     else -- If DF API not available, use Shadowlands (9.0.0) method
