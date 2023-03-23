@@ -120,6 +120,18 @@ function QuestieOptions.tabs.general:Initialize()
                             QuestieQuest:SmoothReset()
                         end,
                     },
+                    showCustomQuestFrameIcons = {
+                        type = "toggle",
+                        order = 4.5,
+                        name = function() return l10n('Show custom quest frame icons'); end,
+                        desc = function() return l10n('Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest.'); end,
+                        width = 1.5,
+                        disabled = function() return (not Questie.db.char.enabled); end,
+                        get = function() return Questie.db.char.enableQuestFrameIcons; end,
+                        set = function(info, value)
+                            Questie.db.char.enableQuestFrameIcons = value
+                        end,
+                    },
                     separatingHeader1 = {
                         type = "header",
                         order = 5,

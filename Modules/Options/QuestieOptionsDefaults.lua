@@ -57,6 +57,7 @@ function QuestieOptionsDefaults:Load()
             enableTooltipsQuestLevel = true,
             enableMapIcons = true,
             enableMiniMapIcons = true,
+            enableQuestFrameIcons = true,
             questieShutUp = false,
 
             -- TBC Isle of Quel'Danas

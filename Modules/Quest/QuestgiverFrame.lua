@@ -78,44 +78,48 @@ local function updateGossipFrame()
 end
 
 -- GREETING FRAMES (API independent)
-
-QuestFrameGreetingPanel:HookScript(
-    "OnShow",
-    function()
-        for i = 1, MAX_NUM_QUESTS do
-            local titleLine = _G["QuestTitleButton" .. i]
-            tinsert(titleLines, titleLine)
-            tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
-        end
-        local questgiver = UnitGUID("npc")
-        for i, titleLine in ipairs(titleLines) do
-            if (titleLine:IsVisible()) then
-                local lineIcon = questIconTextures[i]
-                -- determining if the current line is a "Current" quest or "Available" quest is important
-                -- because we have to use different API calls to obtain their quest titles
-                if (titleLine.isActive == 1) then
-                    lineIcon:SetTexture(Questie.icons["incomplete"]) -- fallback icon in case any of the logic below fails
-                    local title = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
-                    local questID = QuestieDB.GetQuestIDFromName(title, questgiver, false)
-                    local icon = determineAppropriateQuestIcon(questID, true)
-                    lineIcon:SetTexture(icon)
-                else
-                    lineIcon:SetTexture(Questie.icons["available"]) -- fallback icon in case any of the logic below fails
-                    local title = GetAvailableTitle(titleLine:GetID())
-                    local questID = QuestieDB.GetQuestIDFromName(title, questgiver, true)
-                    local icon = determineAppropriateQuestIcon(questID, false)
-                    lineIcon:SetTexture(icon)
-                end
+local function updateGreetingFrame()
+    for i = 1, MAX_NUM_QUESTS do
+        local titleLine = _G["QuestTitleButton" .. i]
+        tinsert(titleLines, titleLine)
+        tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
+    end
+    local questgiver = UnitGUID("npc")
+    for i, titleLine in ipairs(titleLines) do
+        if (titleLine:IsVisible()) then
+            local lineIcon = questIconTextures[i]
+            -- determining if the current line is a "Current" quest or "Available" quest is important
+            -- because we have to use different API calls to obtain their quest titles
+            if (titleLine.isActive == 1) then
+                lineIcon:SetTexture(Questie.icons["incomplete"]) -- fallback icon in case any of the logic below fails
+                local title = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
+                local questID = QuestieDB.GetQuestIDFromName(title, questgiver, false)
+                local icon = determineAppropriateQuestIcon(questID, true)
+                lineIcon:SetTexture(icon)
+            else
+                lineIcon:SetTexture(Questie.icons["available"]) -- fallback icon in case any of the logic below fails
+                local title = GetAvailableTitle(titleLine:GetID())
+                local questID = QuestieDB.GetQuestIDFromName(title, questgiver, true)
+                local icon = determineAppropriateQuestIcon(questID, false)
+                lineIcon:SetTexture(icon)
             end
         end
     end
-)
+end
 
 function QuestgiverFrame.GossipMark()
-    if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
-        return -- This call is automatically hooked, no need to run a function
-    else -- If DF API not available, use Shadowlands (9.0.0) method
-        updateGossipFrame()
+    if Questie.db.char.enableQuestFrameIcons == true then
+        if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
+            return -- This call is automatically hooked, no need to run a function
+        else -- If DF API not available, use Shadowlands (9.0.0) method
+            updateGossipFrame()
+        end
+    end
+end
+
+function QuestgiverFrame.GreetingMark()
+    if Questie.db.char.enableQuestFrameIcons == true then
+        updateGreetingFrame()
     end
 end
 
@@ -125,7 +129,7 @@ end
 local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
 function GossipAvailableQuestButtonMixin:Setup(...)
     oldAvailableSetup(self, ...)
-    if self.GetElementData ~= nil then
+    if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
         local id = self.GetElementData().info.questID
         self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
     end
@@ -134,7 +138,7 @@ end
 local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
 function GossipActiveQuestButtonMixin:Setup(...)
     oldActiveSetup(self, ...)
-    if self.GetElementData ~= nil then
+    if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
         local id = self.GetElementData().info.questID
         self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
     end
