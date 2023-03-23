@@ -77,7 +77,7 @@ QuestieDB.questCompilerTypes = {
     ['parentQuest'] = "u24", -- int, the ID of the parent quest that needs to be active for the current one to be available. See also 'childQuests' (field 14)
     ['reputationReward'] = "u8s24pairs",
     ['extraObjectives'] = "extraobjectives",
-    ['requiredSpell'] = "u24",
+    ['requiredSpell'] = "s24",
     ['requiredSpecialization'] = "u24",
 }
 
