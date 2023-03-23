@@ -4,72 +4,80 @@ local GossipFrameDailyMarker = QuestieLoader:CreateModule("GossipFrameDailyMarke
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
---------
--- GOSSIP FRAME BEGIN
---------
-
-function GossipFrameDailyMarker.Mark()
-    if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
-        return -- This call is automatically hooked, no need to run a function
-    else -- If DF API not available, use Shadowlands (9.0.0) method
-        return -- todo
-    end
-end
-
--- 10.0.0 API 
-
-local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
-function GossipAvailableQuestButtonMixin:Setup(...)
-    oldAvailableSetup(self, ...)
-    if self.GetElementData ~= nil then
-        local id = self.GetElementData().info.questID
-        if QuestieDB.IsPvPQuest(id) then
-            self.Icon:SetTexture(Questie.icons["pvpquest"])
-        elseif QuestieDB.IsActiveEventQuest(id) then
-            self.Icon:SetTexture(Questie.icons["eventquest"])
-        elseif QuestieDB.IsRepeatable(id) then
-            self.Icon:SetTexture(Questie.icons["repeatable"])
-        else
-            self.Icon:SetTexture(Questie.icons["available"])
-        end
-    end
-end
-
-local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
-function GossipActiveQuestButtonMixin:Setup(...)
-    oldActiveSetup(self, ...)
-    if self.GetElementData ~= nil then
-        local id = self.GetElementData().info.questID
-        if QuestieDB.IsComplete(id) == 1 then
-            if QuestieDB.IsPvPQuest(id) then
-                self.Icon:SetTexture(Questie.icons["pvpquest_complete"])
-            elseif QuestieDB.IsActiveEventQuest(id) then
-                self.Icon:SetTexture(Questie.icons["eventquest_complete"])
-            elseif QuestieDB.IsRepeatable(id) then
-                self.Icon:SetTexture(Questie.icons["repeatable_complete"])
-            else
-                self.Icon:SetTexture(Questie.icons["complete"])
-            end
-        else
-            self.Icon:SetTexture(Questie.icons["incomplete"])
-        end
-    end
-end
-
--- 9.0.0 API
-
--- todo
-
--- END GOSSIP FRAME
-
--- GREETING FRAME LOGIC BEGINS (api independent)
-
 local _G = _G
 local tinsert = tinsert
 local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 
 local titleLines = {}
 local questIconTextures = {}
+
+-- This is the logic used for determining which icon we should show for a quest
+---@param questID number
+---@param isActive boolean
+---@return string
+local function determineAppropriateQuestIcon(questID, isActive)
+    local icon = Questie.icons["available"] -- fallback icon in case any of the logic below fails
+    if isActive == true then
+        icon = Questie.icons["incomplete"] -- fallback icon in case any of the logic below fails
+        if QuestieDB.IsComplete(questID) == 1 then
+            if QuestieDB.IsPvPQuest(questID) then
+                icon = Questie.icons["pvpquest_complete"]
+            elseif QuestieDB.IsActiveEventQuest(questID) then
+                icon = Questie.icons["eventquest_complete"]
+            elseif QuestieDB.IsRepeatable(questID) then
+                icon = Questie.icons["repeatable_complete"]
+            else
+                icon = Questie.icons["complete"]
+            end
+        end
+    else
+        if QuestieDB.IsPvPQuest(questID) then
+            icon = Questie.icons["pvpquest"]
+        elseif QuestieDB.IsActiveEventQuest(questID) then
+            icon = Questie.icons["eventquest"]
+        elseif QuestieDB.IsRepeatable(questID) then
+            icon = Questie.icons["repeatable"]
+        end
+    end
+    return icon
+end
+
+-- 9.0.0 API GOSSIP
+local function updateGossipFrame()
+    local numAvailable = GetNumGossipAvailableQuests()
+    local numActive = GetNumGossipActiveQuests()
+    local totalNumQuests = numAvailable + numActive
+    local availQuests = GetGossipAvailableQuests()
+    local activeQuests = GetGossipActiveQuests()
+    local index = 0 -- this variable tracks the GossipTitleButton we should be targeting for icon changes
+    local questgiver = UnitGUID("npc")
+    if numAvailable > 0 then
+        for i=1, numAvailable do
+            index = index + 1
+            -- GetGossipAvailableQuests() returns a 6 individual values per quest entry...
+            -- so we have to filter out to every 6th value, starting with 1, 7, 13, etc
+            local questname = select((1 + ((i - 1) * 6)), availQuests)
+            local questid = 0
+            questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
+            local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
+            gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, false))
+        end
+        -- each new section in a gossip frame has an offset of 1, so for instance, with 2 quests shown,
+        -- 1 active 1 available, the available will be GossipTitleButton1 and the active will be GossipTitleButton3
+        if numActive > 0 then index = index + 1 end
+    end
+    if numActive > 0 then
+        for i=1, numActive do
+            index = index + 1
+            local questname = select((1 + ((i - 1) * 6)), activeQuests)
+            local questid = 0
+            local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
+            gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, true))
+        end
+    end
+end
+
+-- GREETING FRAMES (API independent)
 for i = 1, MAX_NUM_QUESTS do
     local titleLine = _G["QuestTitleButton" .. i]
     tinsert(titleLines, titleLine)
@@ -79,70 +87,56 @@ end
 QuestFrameGreetingPanel:HookScript(
     "OnShow",
     function()
-        --    TODO:
-        --  This entire section is a very hacky workaround (bruteforce) because Blizzard's classic API
-        --  doesn't expose questIDs for any aspect of greeting frames, only for gossip frames. If this
-        --  changes in the future, this entire function should be ditched to match gossip frame logic.
-        --    -yttrium
-        
-        -- First, we get the interacting NPC's ID and grab their DB info locally
-        local questgiverID = tonumber(UnitGUID("npc"):match("-(%d+)-%x+$"), 10)
-        local questGiver = QuestieDB:GetNPC(questgiverID)
-        
-        -- Now we iterate through each line in the greeting frame
+        print("Greeting panel detected")
+        local questgiver = UnitGUID("npc")
         for i, titleLine in ipairs(titleLines) do
             if (titleLine:IsVisible()) then
                 local lineIcon = questIconTextures[i]
-                
-                -- determining if the current line is a "Current" quest or "Available" quest is important because
-                -- we have to use different API calls to obtain their quest titles
+                -- determining if the current line is a "Current" quest or "Available" quest is important
+                -- because we have to use different API calls to obtain their quest titles
                 if (titleLine.isActive == 1) then
-                
                     lineIcon:SetTexture(Questie.icons["incomplete"]) -- fallback icon in case any of the logic below fails
-                    local title, isComplete = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
-        
-                    -- iterate through every questEnds entry in our NPC's DB,
-                    -- and check if the quest name matches this greeting frame entry
-                    for k,questID in pairs(questGiver.questEnds) do
-                        if (title == QuestieDB.QueryQuestSingle(questID, "name")) and (QuestieDB.IsDoable(questID)) then
-                        -- the QuestieDB.IsDoable check is important to filter out identically named quests
-                        
-                            if QuestieDB.IsComplete(questID) == 1 then
-                                if QuestieDB.IsPvPQuest(questID) then
-                                    lineIcon:SetTexture(Questie.icons["pvpquest_complete"])
-                                elseif QuestieDB.IsActiveEventQuest(questID) then
-                                    lineIcon:SetTexture(Questie.icons["eventquest_complete"])
-                                elseif QuestieDB.IsRepeatable(questID) then
-                                    lineIcon:SetTexture(Questie.icons["repeatable_complete"])
-                                else
-                                    lineIcon:SetTexture(Questie.icons["complete"])
-                                end
-                            end
-                        end
-                    end
-                    
+                    local title = GetActiveTitle(titleLine:GetID()) -- obtain plaintext name of quest
+                    local questID = QuestieDB.GetQuestIDFromName(title, questgiver, false)
+                    local icon = determineAppropriateQuestIcon(questID, true)
+                    lineIcon:SetTexture(icon)
                 else
-                
                     lineIcon:SetTexture(Questie.icons["available"]) -- fallback icon in case any of the logic below fails
-                    local title, isComplete = GetAvailableTitle(titleLine:GetID())
-                    
-                    -- iterate through every questStarts entry in our NPC's DB,
-                    -- and check if the quest name matches this greeting frame entry
-                    for k,questID in pairs(questGiver.questStarts) do
-                        if (title == QuestieDB.QueryQuestSingle(questID, "name")) and (QuestieDB.IsDoable(questID)) then
-                        -- the QuestieDB.IsDoable check is important to filter out identically named quests
-                        
-                            if QuestieDB.IsPvPQuest(questID) then
-                                lineIcon:SetTexture(Questie.icons["pvpquest"])
-                            elseif QuestieDB.IsActiveEventQuest(questID) then
-                                lineIcon:SetTexture(Questie.icons["eventquest"])
-                            elseif QuestieDB.IsRepeatable(questID) then
-                                lineIcon:SetTexture(Questie.icons["repeatable"])
-                            end
-                        end
-                    end
+                    local title = GetAvailableTitle(titleLine:GetID())
+                    local questID = QuestieDB.GetQuestIDFromName(title, questgiver, true)
+                    local icon = determineAppropriateQuestIcon(questID, false)
+                    lineIcon:SetTexture(icon)
                 end
             end
         end
     end
 )
+
+function GossipFrameDailyMarker.Mark()
+    if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
+        return -- This call is automatically hooked, no need to run a function
+    else -- If DF API not available, use Shadowlands (9.0.0) method
+        updateGossipFrame()
+    end
+end
+
+-- 10.0.0 API GOSSIP
+-- Boy, this code sure is clean... these DF Gossip APIs sure are great!
+-- What a shame that the greeting API hasn't been touched in two decades.
+local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
+function GossipAvailableQuestButtonMixin:Setup(...)
+    oldAvailableSetup(self, ...)
+    if self.GetElementData ~= nil then
+        local id = self.GetElementData().info.questID
+        self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
+    end
+end
+
+local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
+function GossipActiveQuestButtonMixin:Setup(...)
+    oldActiveSetup(self, ...)
+    if self.GetElementData ~= nil then
+        local id = self.GetElementData().info.questID
+        self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
+    end
+end

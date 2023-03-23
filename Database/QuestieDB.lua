@@ -1146,8 +1146,8 @@ end
 -- It compares the name of the quest entry with the names of every quest that questgiver can either start or end.
 -- The GUID that should be passed is UnitGUID("npc").
 -- questStarter should be True if this is an available quest, False if this is an "active" quest (quest ender).
----@param name string
----@param questgiverGUID string
+---@param name string?
+---@param questgiverGUID string?
 ---@param questStarter boolean
 ---@return number
 function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
