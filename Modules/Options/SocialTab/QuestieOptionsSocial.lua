@@ -147,6 +147,19 @@ function QuestieOptions.tabs.social:Initialize()
                             end
                         end,
                     },
+                    printLocalMessages = {
+                        type = "toggle",
+                        order = 5,
+                        name = function() return l10n('Display announcements locally when outside of a group'); end,
+                        desc = function() return l10n("Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."); end,
+                        disabled = function() return Questie.db.global.questieShutUp end,
+                        width = 2.5,
+                        get = function () return Questie.db.char.questAnnounceLocally end,
+                        set = function (_, value)
+                            Questie.db.char.questAnnounceLocally = value
+                            Questie:Debug(Questie.DEBUG_DEVELOP, "Quest announce locally changed to:", value)
+                        end,
+                    },
                 },
             },
         }

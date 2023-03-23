@@ -133,6 +133,7 @@ function QuestieOptionsDefaults:Load()
             questAnnounceAbandoned = false,
             questAnnounceObjectives = true,
             questAnnounceCompleted = false,
+            questAnnounceLocally = false,
             isTrackerExpanded = true,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
