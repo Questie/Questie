@@ -78,16 +78,15 @@ local function updateGossipFrame()
 end
 
 -- GREETING FRAMES (API independent)
-for i = 1, MAX_NUM_QUESTS do
-    local titleLine = _G["QuestTitleButton" .. i]
-    tinsert(titleLines, titleLine)
-    tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
-end
 
 QuestFrameGreetingPanel:HookScript(
     "OnShow",
     function()
-        print("Greeting panel detected")
+        for i = 1, MAX_NUM_QUESTS do
+            local titleLine = _G["QuestTitleButton" .. i]
+            tinsert(titleLines, titleLine)
+            tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
+        end
         local questgiver = UnitGUID("npc")
         for i, titleLine in ipairs(titleLines) do
             if (titleLine:IsVisible()) then
