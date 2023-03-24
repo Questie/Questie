@@ -41,7 +41,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
     end
     lastEvent = "GOSSIP_SHOW"
 
-    local availableQuests = {GetGossipAvailableQuests()}
+    local availableQuests = {QuestieCompat.GetAvailableQuests()}
     local currentNPC = UnitName("target")
     if lastNPCTalkedTo ~= currentNPC or #availableQuests ~= lastAmountOfAvailableQuests then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Greeted by a new NPC")
@@ -72,7 +72,7 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
 
     if Questie.db.char.autocomplete and isAllowedNPC then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quests from gossip")
-        local completeQuests = {GetGossipActiveQuests()}
+        local completeQuests = {QuestieCompat.GetActiveQuests()}
 
         for index=1, #completeQuests, MOP_INDEX_COMPLETE do
             _QuestieAuto:CompleteQuestFromGossip(index, completeQuests, MOP_INDEX_COMPLETE)

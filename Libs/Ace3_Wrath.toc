@@ -1,0 +1,28 @@
+## Interface: 30400
+
+## Title: Lib: Ace3
+## Notes: AddOn development framework
+## Author: Ace3 Development Team
+## X-Website: http://www.wowace.com
+## X-Category: Library
+## X-License: Limited BSD
+## Version: Release-r1294
+
+LibStub\LibStub.lua
+CallbackHandler-1.0\CallbackHandler-1.0.xml
+AceAddon-3.0\AceAddon-3.0.xml
+AceEvent-3.0\AceEvent-3.0.xml
+AceTimer-3.0\AceTimer-3.0.xml
+AceBucket-3.0\AceBucket-3.0.xml
+AceHook-3.0\AceHook-3.0.xml
+AceDB-3.0\AceDB-3.0.xml
+AceDBOptions-3.0\AceDBOptions-3.0.xml
+AceLocale-3.0\AceLocale-3.0.xml
+AceConsole-3.0\AceConsole-3.0.xml
+AceGUI-3.0\AceGUI-3.0.xml
+AceConfig-3.0\AceConfig-3.0.xml
+AceComm-3.0\AceComm-3.0.xml
+AceTab-3.0\AceTab-3.0.xml
+AceSerializer-3.0\AceSerializer-3.0.xml
+
+Ace3.lua

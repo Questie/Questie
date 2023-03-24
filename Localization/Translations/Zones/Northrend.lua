@@ -6410,6 +6410,18 @@ local northrendLocales = {
         ["zhTW"] = "銀白聯賽場地",
         ["zhCN"] = "银色比武场",
     },
+    ["Tournament"] = {
+        ["ptBR"] = "Torneio",
+        ["ruRU"] = "Турнир",
+        ["deDE"] = "Turnier",
+        ["koKR"] = "토너먼트",
+        ["esMX"] = "Torneo",
+        ["enUS"] = true,
+        ["frFR"] = "Tournoi",
+        ["esES"] = "Torneo",
+        ["zhTW"] = false,
+        ["zhCN"] = "比赛",
+    },
     ["Expedition Base Camp"] = {
         ["ptBR"] = "Acampamento da Expedição",
         ["ruRU"] = "Главный лагерь экспедиции",

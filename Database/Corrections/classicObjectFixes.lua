@@ -231,10 +231,15 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{39.34,41.53}}},
             [objectKeys.zoneID] = zoneIDs.THOUSAND_NEEDLES,
         },
-        -- Fake IDs
-        [400013] = {
+        [375544] = {
             [objectKeys.name] = "Wooden Figurine",
-            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.6,22}}},
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.61,22.03}}},
+            [objectKeys.zoneID] = zoneIDs.ASHENVALE,
+        },
+        -- Fake IDs
+        [400014] = {
+            [objectKeys.name] = "Unlit Torch",
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{26.79,22.43}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
         [500000] = {

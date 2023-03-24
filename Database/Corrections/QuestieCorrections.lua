@@ -45,6 +45,9 @@ local QuestieWotlkItemFixes = QuestieLoader:ImportModule("QuestieWotlkItemFixes"
 ---@type QuestieWotlkObjectFixes
 local QuestieWotlkObjectFixes = QuestieLoader:ImportModule("QuestieWotlkObjectFixes")
 
+---@type IsleOfQuelDanas
+local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
+
 --- Automatic corrections
 local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes")
 
@@ -66,6 +69,7 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 QuestieCorrections.WOTLK_ONLY = 3
+QuestieCorrections.TBC_AND_WOTLK = 4
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -98,6 +102,12 @@ local function filterExpansion(values)
                 values[k] = nil
             else
                 values[k] = true
+            end
+        elseif v == QuestieCorrections.TBC_AND_WOTLK then
+            if isTBC or isWotlk then
+                values[k] = true
+            else
+                values[k] = nil
             end
         end
     end
@@ -144,6 +154,15 @@ function QuestieCorrections:MinimalInit() -- db already compiled
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
     QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
+
+    if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
+        for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
+            -- This has to be a nil-check, because the value could be false
+            if (QuestieCorrections.hiddenQuests[id] == nil) then
+                QuestieCorrections.hiddenQuests[id] = hide
+            end
+        end
+    end
 
     if (Questie.IsWotlk) then
         -- We only add blacklist if no blacklist entry for the quest already exists

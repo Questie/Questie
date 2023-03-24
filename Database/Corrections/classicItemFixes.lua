@@ -892,6 +892,10 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [16581] = {
+            [itemKeys.relatedQuests] = {6421},
+            [itemKeys.npcDrops] = {},
+        },
         [16642] = {
             [itemKeys.relatedQuests] = {6504},
             [itemKeys.npcDrops] = {},
@@ -1189,9 +1193,15 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {3782,3784},
             [itemKeys.relatedQuests] = {65610},
         },
+        [190307] = {
+            [itemKeys.name] = "Unlit Torch",
+            [itemKeys.objectDrops] = {400014},
+            [itemKeys.flags] = 2, -- Conjured
+            [itemKeys.relatedQuests] = {65602},
+        },
         [190309] = {
             [itemKeys.name] = "Wooden Figurine",
-            [itemKeys.objectDrops] = {400013},
+            [itemKeys.objectDrops] = {375544},
             [itemKeys.relatedQuests] = {65602},
         },
     }

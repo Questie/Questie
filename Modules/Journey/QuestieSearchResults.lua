@@ -25,6 +25,8 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
+local stringrep = string.rep
+
 local AceGUI = LibStub("AceGUI-3.0");
 
 local _HandleOnGroupSelected
@@ -109,6 +111,40 @@ local function CreateShowHideButton(id)
         self:SetCallback("OnClick", function() self:RemoveFromMap(self) end)
     end
     return button
+end
+
+local function rec(theTable, ret, indent)
+    ret = ret..stringrep('    ', indent)..'{\n'
+    indent = indent + 1
+    for k, v in pairs(theTable) do
+        local t = type(v)
+        if t == 'nil' then
+            ret = ret..stringrep('    ', indent)..'['..k..']=nil'
+        elseif t == 'table' then
+            ret = rec(v, ret..stringrep('    ', indent)..'['..k..']=\n', indent)
+        else
+            ret = ret..stringrep('    ', indent)..'['..k..']='..v
+        end
+        ret = ret..'\n'
+    end
+    return ret..stringrep('    ', indent-1)..'},'
+end
+
+local function recurseTable(theTable, theKeys)
+    local ret = Questie:Colorize('Raw data (shown because debug is enabled):\n\n', 'red')
+    for key, _ in pairs(theKeys) do
+        ret = ret..Questie:Colorize(key, 'yellow')..': '
+        local t = type(theTable[key])
+        if t == 'nil' then
+            ret = ret..'nil'
+        elseif t == 'table' then
+            ret = rec(theTable[key], ret, 0)
+        else
+            ret = ret..theTable[key]
+        end
+        ret = ret..'\n'
+    end
+    return ret
 end
 
 function QuestieSearchResults:QuestDetailsFrame(details, id)
@@ -220,12 +256,16 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
         AddLinkedParagraph(details, "quest", preQuestSingle, l10n("Requires one of these quests to be finished:"), QuestieDB.QueryQuestSingle)
     end
     QuestieJourneyUtils:AddLine(details, "")
+
+    if Questie.db.global.debugEnabled then
+        QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB:GetQuest(id), QuestieDB.questKeys))
+    end
 end
 
 function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
     local header = AceGUI:Create("Heading");
     header:SetFullWidth(true);
-    
+
     local id = 0
     local typeLabel = ""
     local query
@@ -365,6 +405,14 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     QuestieJourneyUtils:Spacer(f);
 
+    if Questie.db.global.debugEnabled then
+        if spawnType == "npc" then
+            QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetNPC(spawn), QuestieDB.npcKeys))
+        elseif spawnType == "object" then
+            QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetObject(spawn), QuestieDB.objectKeys))
+        end
+    end
+
     -- Fix for sometimes the scroll content will max out and not show everything until window is resized
     f.content:SetHeight(10000);
 end
@@ -454,7 +502,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         f:AddChild(noObjectSourcesLabel)
     else
         local objectLabel = AceGUI:Create("Label")
-        
+
         local objectIdsWithSpawns = {}
         for _, objectId in pairs(objectDrops) do
             local spawns = QuestieDB.QueryObjectSingle(objectId, "spawns")
@@ -503,6 +551,9 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         end
     end
 
+    if Questie.db.global.debugEnabled then
+        QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetItem(itemId), QuestieDB.itemKeys))
+    end
     -- Fix for sometimes the scroll content will max out and not show everything until window is resized
     f.content:SetHeight(10000);
 end
@@ -604,7 +655,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
     return function()
         if searchBox:GetText() ~= "" then
             local searchText = searchBox:GetText()
-    
+
             local itemName = GetItemInfo(searchText)
             if itemName then -- An itemLink was added to the searchBox
                 searchBox:SetText(itemName)

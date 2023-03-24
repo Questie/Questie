@@ -1,8 +1,8 @@
-## Interface: 30400
-## Title: Questie|cFF00FF00 v7.4.2|r
+## Interface: 30401
+## Title: Questie|cFF00FF00 v7.4.14|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 7.4.2
+## Version: 7.4.14
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
@@ -14,6 +14,7 @@ Modules\WorldMapTaintWorkaround.lua
 embeds.xml
 
 Modules\VersionCheck.lua
+Modules\QuestieCompat.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
@@ -65,22 +66,22 @@ Database\Corrections\QuestieEvent.lua
 Database\Corrections\Automatic\itemStartFixes.lua
 
 # Classic Corrections
-Database\Corrections\Classic\classicQuestFixes.lua
-Database\Corrections\Classic\classicNPCFixes.lua
-Database\Corrections\Classic\classicItemFixes.lua
-Database\Corrections\Classic\classicObjectFixes.lua
+Database\Corrections\classicQuestFixes.lua
+Database\Corrections\classicNPCFixes.lua
+Database\Corrections\classicItemFixes.lua
+Database\Corrections\classicObjectFixes.lua
 
 # TBC Corrections
-Database\Corrections\TBC\tbcQuestFixes.lua
-Database\Corrections\TBC\tbcNPCFixes.lua
-Database\Corrections\TBC\tbcItemFixes.lua
-Database\Corrections\TBC\tbcObjectFixes.lua
+Database\Corrections\tbcQuestFixes.lua
+Database\Corrections\tbcNPCFixes.lua
+Database\Corrections\tbcItemFixes.lua
+Database\Corrections\tbcObjectFixes.lua
 
 # Wotlk Corrections
-Database\Corrections\Wotlk\wotlkQuestFixes.lua
-Database\Corrections\Wotlk\wotlkNPCFixes.lua
-Database\Corrections\Wotlk\wotlkItemFixes.lua
-Database\Corrections\Wotlk\wotlkObjectFixes.lua
+Database\Corrections\wotlkQuestFixes.lua
+Database\Corrections\wotlkNPCFixes.lua
+Database\Corrections\wotlkItemFixes.lua
+Database\Corrections\wotlkObjectFixes.lua
 
 # Compiler
 Database\compiler.lua

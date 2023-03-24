@@ -104,6 +104,11 @@ end
 
 ---Run the validator
 local function runValidator()
+    if Questie.db.global.skipValidation then
+        -- TODO: We need a checkbox for this setting
+        return
+    end
+
     if type(QuestieDB.questData) == "string" or type(QuestieDB.npcData) == "string" or type(QuestieDB.objectData) == "string" or type(QuestieDB.itemData) == "string" then
         Questie:Error("Cannot run the validator on string data, load database first")
         return
@@ -142,7 +147,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     HBDHooks:Init()
 
-    QuestieFramePool:SetIcons()
+    Questie:SetIcons()
 
     -- Set proper locale. Either default to client Locale or override based on user.
     if Questie.db.global.questieLocaleDiff then
@@ -200,6 +205,7 @@ QuestieInit.Stages[2] = function()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieInit:Stage3] Stage 2 start.")
     -- We do this while we wait for the Quest Cache anyway.
     l10n:PostBoot()
+    QuestiePlayer:Initialize()
     coYield()
     QuestieJourney:Initialize()
 
@@ -264,7 +270,6 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     coYield()
     ChatFilter:RegisterEvents()
     QuestieMap:InitializeQueue()
-    QuestiePlayer:Initialize()
 
     coYield()
     QuestieQuest:Initialize()

@@ -9,7 +9,7 @@
 -- make into AceHook.
 -- @class file
 -- @name AceHook-3.0
--- @release $Id: AceHook-3.0.lua 1243 2020-10-18 00:00:19Z nevcairiel $
+-- @release $Id: AceHook-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 local ACEHOOK_MAJOR, ACEHOOK_MINOR = "AceHook-3.0", 9
 local AceHook, oldminor = LibStub:NewLibrary(ACEHOOK_MAJOR, ACEHOOK_MINOR)
 
@@ -195,7 +195,6 @@ function hook(self, obj, method, handler, script, secure, raw, forceSecure, usag
 			registry[self][method] = nil
 		end
 		handlers[uid], actives[uid], scripts[uid] = nil, nil, nil
-		uid = nil
 	end
 
 	local orig

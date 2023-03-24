@@ -75,12 +75,12 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
             else
                 self:SetPoint("TOPLEFT", trackerBaseFrame, "TOPLEFT", 0, -10)
             end
-            trackerBaseFrame:SetMinResize(trackerSpaceBuffer + self.trackedQuests.label:GetUnboundedStringWidth() + trackerSpaceBuffer, trackerFontSizeHeader)
+            QuestieCompat.SetResizeBounds(trackerBaseFrame, trackerSpaceBuffer + self.trackedQuests.label:GetUnboundedStringWidth() + trackerSpaceBuffer, trackerFontSizeHeader)
         else
             self:Hide()
             self.questieIcon:Hide()
             self.trackedQuests:Hide()
-            trackerBaseFrame:SetMinResize(trackerSpaceBuffer, trackerFontSizeHeader)
+            QuestieCompat.SetResizeBounds(trackerBaseFrame, trackerSpaceBuffer, trackerFontSizeHeader)
         end
     end
 
@@ -90,7 +90,7 @@ function ActiveQuestsHeader.Initialize(trackerBaseFrame, OnClick)
 
     -- Questie Icon Texture Settings
     questieIcon.texture = questieIcon:CreateTexture(nil, "BACKGROUND", nil, 0)
-    questieIcon.texture:SetTexture(ICON_TYPE_COMPLETE)
+    questieIcon.texture:SetTexture(Questie.icons["complete"])
     questieIcon.texture:SetPoint("CENTER", 0, 0)
 
     questieIcon:EnableMouse(true)

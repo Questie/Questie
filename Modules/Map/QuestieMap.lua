@@ -375,7 +375,7 @@ function QuestieMap:ShowNPC(npcID, icon, scale, title, body, disableShiftToRemov
 
     -- draw the notes
     for zone, spawns in pairs(npc.spawns) do
-        if(zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB:IsDungeonZone(zone))) then
+        if(zone ~= nil and spawns ~= nil) and ((not excludeDungeon) or (not ZoneDB.IsDungeonZone(zone))) then
             for _, coords in ipairs(spawns) do
                 -- instance spawn, draw entrance on map
                 local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
@@ -603,7 +603,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMap.AreaID = areaID
     iconMap.UiMapID = uiMapId
     iconMap.miniMapIcon = false;
-    iconMap:UpdateTexture(data.Icon);
+    iconMap:UpdateTexture(Questie.usedIcons[data.Icon]);
 
     ---@type IconFrame
     local iconMinimap = QuestieFramePool:GetFrame()
@@ -615,7 +615,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     --data.refMiniMap = iconMinimap -- used for removing
     --Are we a minimap note?
     iconMinimap.miniMapIcon = true;
-    iconMinimap:UpdateTexture(data.Icon);
+    iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
 
     local questieGlobalDB = Questie.db.global
 
@@ -841,12 +841,13 @@ function QuestieMap:GetNearestSpawn(objective)
     local playerX, playerY, playerI = HBD:GetPlayerWorldPosition()
     local bestDistance = 999999999
     local bestSpawn, bestSpawnZone, bestSpawnId, bestSpawnType, bestSpawnName
-    if next(objective.spawnList) then
+    -- TODO: This is just a temporary workaround - We have to find out why "objective.spawnList" can be nil
+    if objective and objective.spawnList and next(objective.spawnList) then
         for id, spawnData in pairs(objective.spawnList) do
             for zone, spawns in pairs(spawnData.Spawns) do
-                for _,spawn in pairs(spawns) do
+                for _, spawn in pairs(spawns) do
                     local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1]/100.0, spawn[2]/100.0, uiMapId)
+                    local dX, dY, dInstance = HBD:GetWorldCoordinatesFromZone(spawn[1] / 100.0, spawn[2] / 100.0, uiMapId)
                     local dist = HBD:GetWorldDistance(dInstance, playerX, playerY, dX, dY)
                     if dist then
                         if dInstance ~= playerI then

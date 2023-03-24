@@ -1,7 +1,7 @@
 --- AceDBOptions-3.0 provides a universal AceConfig options screen for managing AceDB-3.0 profiles.
 -- @class file
 -- @name AceDBOptions-3.0
--- @release $Id: AceDBOptions-3.0.lua 1202 2019-05-15 23:11:22Z nevcairiel $
+-- @release $Id: AceDBOptions-3.0.lua 1284 2022-09-25 09:15:30Z nevcairiel $
 local ACEDBO_MAJOR, ACEDBO_MINOR = "AceDBOptions-3.0", 15
 local AceDBOptions = LibStub:NewLibrary(ACEDBO_MAJOR, ACEDBO_MINOR)
 
@@ -12,10 +12,6 @@ local pairs, next = pairs, next
 
 -- WoW APIs
 local UnitClass = UnitClass
-
--- Global vars/functions that we don't upvalue since they might get hooked, or upgraded
--- List them here for Mikk's FindGlobals script
--- GLOBALS: NORMAL_FONT_COLOR_CODE, FONT_COLOR_CODE_CLOSE
 
 AceDBOptions.optionTables = AceDBOptions.optionTables or {}
 AceDBOptions.handlers = AceDBOptions.handlers or {}
