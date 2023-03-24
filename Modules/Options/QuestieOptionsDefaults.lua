@@ -57,7 +57,6 @@ function QuestieOptionsDefaults:Load()
             enableTooltipsQuestLevel = true,
             enableMapIcons = true,
             enableMiniMapIcons = true,
-            enableQuestFrameIcons = true,
             questieShutUp = false,
 
             -- TBC Isle of Quel'Danas
@@ -144,7 +143,8 @@ function QuestieOptionsDefaults:Load()
             showPvPQuests = true,
             showAQWarEffortQuests = false,
             showQuestsInNpcTooltip = true,
-            ldbDisplayText = "Questie"
+            ldbDisplayText = "Questie",
+            enableQuestFrameIcons = true
         },
         profile = { minimap = { hide = false } }
     }
