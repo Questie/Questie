@@ -69,7 +69,7 @@ local function updateGossipFrame()
         for i=1, numActive do
             index = index + 1
             local questname = select((1 + ((i - 1) * 6)), activeQuests)
-            local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, true)
+            local questid = QuestieDB.GetQuestIDFromName(questname, questgiver, false)
             local gossipIcon = _G["GossipTitleButton" .. index .. "GossipIcon"]
             gossipIcon:SetTexture(determineAppropriateQuestIcon(questid, true))
         end
