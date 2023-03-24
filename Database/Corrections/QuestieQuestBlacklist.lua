@@ -1041,7 +1041,7 @@ function QuestieQuestBlacklist:Load()
         [708] = true,
         [909] = true,
         [1288] = true,
-        [1661] = true,
+        [1661] = QuestieCorrections.TBC_AND_WOTLK,
         [3366] = true,
         [3381] = true,
         [5627] = true,
