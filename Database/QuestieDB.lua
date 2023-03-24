@@ -39,6 +39,7 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local _QuestieQuest = QuestieQuest.private
 
 local tinsert = table.insert
+local abs = math.abs
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
 local QUEST_FLAGS_DAILY = 4096
@@ -683,7 +684,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local requiredSpell = QuestieDB.QueryQuestSingle(questId, "requiredSpell")
     if (requiredSpell) and (requiredSpell ~= 0) then
-        local hasSpell = IsSpellKnownOrOverridesKnown(math.abs(requiredSpell))
+        local hasSpell = IsSpellKnownOrOverridesKnown(abs(requiredSpell))
         if (requiredSpell > 0) and (not hasSpell) then --if requiredSpell is positive, we make the quest ineligible if the player does NOT have the spell
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
             return false

@@ -9,6 +9,7 @@
 
 ---@alias FactionId number
 ---@alias SkillId number
+---@alias SpellId number
 
 ---@alias SkillPair {[1]: SkillId, [2]: number}
 ---@alias ReputationPair {[1]: FactionId, [2]: number}
