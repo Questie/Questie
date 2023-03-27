@@ -167,10 +167,10 @@ for data in listOfData:
     for locale in locales:
         with open(f'DUMP_OUTPUT\Localization\lookups\\{expansion}\lookupFactions\\{locale}.lua', 'w', encoding='utf-8') as output_file:
             output_file.write("""---@type l10n
-    local l10n = QuestieLoader:ImportModule("l10n")
+local l10n = QuestieLoader:ImportModule("l10n")
 
-    l10n.factionGroupLookup = {
-    """)
+l10n.factionGroupLookup = {
+""")
             # sort by parent faction id, but put -1 (no parent) at the beginning
             faction_lookup[locale]=dict(sorted(faction_lookup[locale].items(), key=lambda item: item[0] if item[0] != -1 else -999999))
             for parent_faction_id, faction_dict in faction_lookup[locale].items():
@@ -181,12 +181,12 @@ for data in listOfData:
                         if int(row['ID']) == parent_faction_id:
                             parent_faction_name = row['Name_lang']
                             break
-                output_file.write(f'\t-- {parent_faction_name}\n')
-                output_file.write(f'\t[{parent_faction_id}] = {{\n')
+                output_file.write(f'    -- {parent_faction_name}\n')
+                output_file.write(f'    [{parent_faction_id}] = {{\n')
                 for faction_id, faction_name in faction_dict.items():
                     if faction_id in used_factions:
-                        output_file.write(f'\t\t[{faction_id}] = "{faction_name}",\n')
-                output_file.write('\t},\n')
+                        output_file.write(f'        [{faction_id}] = "{faction_name}",\n')
+                output_file.write('    },\n')
             output_file.write('}\n')
         # output_file.write('}\n')
 
@@ -202,5 +202,5 @@ for data in listOfData:
     <Script file="ruRU.lua"/>
     <Script file="zhCN.lua"/>
     <Script file="zhTW.lua"/>
-    </Ui>
-    """)
+</Ui>
+""")
