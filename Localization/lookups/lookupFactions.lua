@@ -81,5 +81,18 @@ l10n.factionGroupLookup = {
         [1015] = "Netherwing",
         [1038] = "Ogri'la",
         [1077] = "Shattered Sun Offensive"
+    },
+    [1097] = {
+        [1037] = "Alliance Vanguard",
+        [1052] = "Horde Expedition",
+        [1073] = "The Kalu'ak",
+        [1090] = "Kirin Tor",
+        [1091] = "The Wyrmrest Accord",
+        [1098] = "Knights of the Ebon Blade",
+        [1106] = "Argent Crusade",
+        [1119] = "The Sons of Hodir",
+        [1156] = "The Ashen Verdict",
+        [1104] = "Frenzyheart Tribe",
+        [1105] = "The Oracles"
     }
 }
