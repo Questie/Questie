@@ -1189,22 +1189,6 @@ function QuestieDBCompiler:ValidateQuests()
     local validator = QuestieDBCompiler:GetDBHandle(Questie.db.global.questBin, Questie.db.global.questPtrs, QuestieDBCompiler:BuildSkipMap(QuestieDB.questCompilerTypes, QuestieDB.questCompilerOrder))
 
     local playerLevel = UnitLevel("player")
-
-    --! IF YOU SEE THIS FUNCTION REMOVE IT AND CHANGE IT TO QUESTIELIB FUNCTION INSTEAD
-    local function getTbcLevel(questLevel, requiredLevel, playerLevel)
-        if (questLevel == -1) then
-            local level = playerLevel
-            if (requiredLevel > level) then
-                questLevel = requiredLevel;
-            else
-                questLevel = level;
-                -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
-                requiredLevel = level;
-            end
-        end
-        return questLevel, requiredLevel
-    end
-
     -- We now only compare the nonCompiled data and the compiled data without overrides, it'll have to do.
     local count = 0
     for questId, nonCompiledData in pairs(QuestieDB.questData) do
@@ -1216,13 +1200,13 @@ function QuestieDBCompiler:ValidateQuests()
 
             --Special case for questLevel
             if (Questie.IsTBC or Questie.IsWotlk) and (key == "questLevel" or key == "requiredLevel") then
-                local questLevel, requiredLevel = getTbcLevel(compiledData[2], compiledData[1], playerLevel)
+                local questLevel, requiredLevel = QuestieLib.GetTbcLevel(0, playerLevel, compiledData[2], compiledData[1])
                 if (key == "questLevel") then
                     a = questLevel
                 elseif (key == "requiredLevel") then
                     a = requiredLevel
                 end
-                questLevel, requiredLevel = getTbcLevel(nonCompiledData[QuestieDB.questKeys["questLevel"]], nonCompiledData[QuestieDB.questKeys["requiredLevel"]], playerLevel)
+                questLevel, requiredLevel = QuestieLib.GetTbcLevel(0, playerLevel, nonCompiledData[QuestieDB.questKeys["questLevel"]], nonCompiledData[QuestieDB.questKeys["requiredLevel"]])
                 if (key == "questLevel") then
                     b = questLevel
                 elseif (key == "requiredLevel") then
@@ -1316,6 +1300,44 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
                 end
             end
             return readers[types[key]](stream)
+        end
+        --- Credit for the QueryAll structure goes to @Laume/Laumesis
+        handle.QueryAll = function(id)
+            local ptr = pointers[id]
+            local override = overrides[id]
+
+            if not ptr then
+                if not override then return nil end
+                local ret = {}
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    ret[key] = override[keyToRootIndex[key]]
+                end
+                return ret
+            end
+
+            stream._pointer = ptr
+
+            local ret = {}
+            if override then
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    local rootIndex = keyToRootIndex[key]
+                    if override[rootIndex] then
+                        ret[key] = override[rootIndex]
+                        skippers[types[key]](stream)
+                    else
+                        ret[key] = readers[types[key]](stream)
+                    end
+                end
+            else
+                for index=1,#indexToKey do
+                    local key = indexToKey[index]
+                    ret[key] = readers[types[key]](stream)
+                end
+            end
+
+            return ret
         end
         ---@param id QuestId|ObjectId|ItemId|NpcId
         ---@param keys string[]
@@ -1447,6 +1469,25 @@ function QuestieDBCompiler:GetDBHandle(data, pointers, skipMap, keyToRootIndex, 
             end
             return readers[types[key]](stream)
         end
+
+        --- Credit for the QueryAll structure goes to @Laume/Laumesis
+        handle.QueryAll = function(id)
+            local ptr = pointers[id]
+
+            if not ptr then
+                return nil
+            end
+
+            stream._pointer = ptr
+
+            local ret = {}
+            for index=1,#indexToKey do
+                local key = indexToKey[index]
+                ret[key] = readers[types[key]](stream)
+            end
+            return ret
+        end
+
         ---@param id QuestId|ObjectId|ItemId|NpcId
         ---@param keys string[]
         ---@return table|nil

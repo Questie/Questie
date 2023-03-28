@@ -234,20 +234,22 @@ end
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId QuestId
 ---@param playerLevel Level? ---@ PlayerLevel, if nil we fetch current level
+---@param questLevel Level? ---@ QuestLevel, if nil we fetch quest level
+---@param requiredLevel Level? ---@ RequiredLevel, if nil we fetch required level
 ---@return Level questLevel, Level requiredLevel @questLevel & requiredLevel
-function QuestieLib.GetTbcLevel(questId, playerLevel)
-    local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
-    if (questLevel == -1) then
+function QuestieLib.GetTbcLevel(questId, playerLevel, questLevel, requiredLevel)
+    local qLevel, reqLevel = questLevel or QuestieDB.QueryQuestSingle(questId, "questLevel"), requiredLevel or QuestieDB.QueryQuestSingle(questId, "requiredLevel")
+    if (qLevel == -1) then
         local level = playerLevel or QuestiePlayer.GetPlayerLevel();
-        if (requiredLevel > level) then
-            questLevel = requiredLevel;
+        if (reqLevel > level) then
+            qLevel = reqLevel;
         else
-            questLevel = level;
+            qLevel = level;
             -- We also set the requiredLevel to the player level so the quest is not hidden without "show low level quests"
-            requiredLevel = level;
+            reqLevel = level;
         end
     end
-    return questLevel, requiredLevel;
+    return qLevel, reqLevel;
 end
 
 ---@param questId QuestId
