@@ -4,9 +4,6 @@ local QuestgiverFrame = QuestieLoader:CreateModule("QuestgiverFrame")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
----@type QuestieCompat
-local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
-
 local _G = _G
 local tinsert = tinsert
 local MAX_NUM_QUESTS = MAX_NUM_QUESTS
