@@ -4,6 +4,9 @@ local QuestgiverFrame = QuestieLoader:CreateModule("QuestgiverFrame")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
+---@type QuestieCompat
+local QuestieCompat = QuestieLoader:ImportModule("QuestieCompat")
+
 local _G = _G
 local tinsert = tinsert
 local MAX_NUM_QUESTS = MAX_NUM_QUESTS
@@ -12,6 +15,7 @@ local titleLines = {}
 local questIconTextures = {}
 
 -- This is the logic used for determining which icon we should show for a quest
+-- This just determines the "type" of icon shown, not the exact icon file - see Questie.icons
 ---@param questID number
 ---@param isActive boolean
 ---@return string
@@ -46,8 +50,8 @@ end
 local function updateGossipFrame()
     local numAvailable = GetNumGossipAvailableQuests()
     local numActive = GetNumGossipActiveQuests()
-    local availQuests = {GetGossipAvailableQuests()}
-    local activeQuests = {GetGossipActiveQuests()}
+    local availQuests = {QuestieCompat.GetAvailableQuests()}
+    local activeQuests = {QuestieCompat.GetActiveQuests()}
     local index = 0 -- this variable tracks the GossipTitleButton we should be targeting for icon changes
     local questgiver = UnitGUID("npc")
     if numAvailable > 0 then

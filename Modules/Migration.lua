@@ -166,6 +166,11 @@ local migrationFunctions = {
             Questie.db.global.isleOfQuelDanasPhase = 9 -- Last Isle Of Quel Danas Phase
         end
     end,
+    [18] = function()
+        if Questie.db.char.enableQuestFrameIcons == nil then
+            Questie.db.char.enableQuestFrameIcons = true
+        end
+    end,
 }
 
 function Migration:Migrate()
