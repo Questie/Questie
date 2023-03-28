@@ -168,6 +168,12 @@ function QuestieWotlkQuestFixes:Load()
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
         },
+        [9681] = {
+            [questKeys.startedBy] = {{17717,17718}},
+		},
+        [9684] = {
+            [questKeys.objectives] = {{{17845}},nil,{{24156}}},
+		},
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
         },

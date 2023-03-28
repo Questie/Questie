@@ -993,8 +993,8 @@ function QuestieQuestBlacklist:Load()
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
-        [9681] = true, -- Replaced with [A Study in Power (64319)]
-        [9684] = true, -- Replaced with [Claiming the Light (63866)]
+        --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch
+        --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch
         [9721] = true, -- Replaced with [A Summons from Lady Liadrin (64139)]
         [9722] = true, -- Replaced with [The Master's Path (64140)]
         [9723] = true, -- Replaced with [A Gesture of Commitment (64141)]
@@ -1026,6 +1026,10 @@ function QuestieQuestBlacklist:Load()
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
         [64217] = true, -- Boosted character quest
+		
+		-- Paladin class quests with SWP patch
+        [64319] = true, -- removed in wotlk
+        [63866] = true, -- removed in wotlk
 
         -- Revered Among X quests
         [10459] = true,
