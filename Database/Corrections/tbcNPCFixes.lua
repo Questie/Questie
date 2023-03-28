@@ -262,6 +262,9 @@ function QuestieTBCNpcFixes:Load()
         [17550] = {
             [npcKeys.waypoints] = {},
         },
+        [17587] = {
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{42.86,57.14},{37.84,18.12},{39.6,37.8},{56.83,59.81},{40.27,71.21},{46.6,31.9},{55.2,28.6},{53.6,42.6},{58.6,41.6},{55.2,47.4}}},
+        },
         [17610] = {
             [npcKeys.waypoints] = {},
         },
