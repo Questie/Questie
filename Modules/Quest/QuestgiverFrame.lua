@@ -127,22 +127,24 @@ function QuestgiverFrame.GreetingMark()
 end
 
 -- 10.0.0 API GOSSIP
--- Boy, this code sure is clean... these DF Gossip APIs sure are great!
+-- Boy, this code is clean... these DF Gossip APIs sure are great!
 -- What a shame that the greeting API hasn't been touched in two decades.
-local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
-function GossipAvailableQuestButtonMixin:Setup(...)
-    oldAvailableSetup(self, ...)
-    if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
-        local id = self.GetElementData().info.questID
-        self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
+if GossipAvailableQuestButtonMixin then
+    local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
+    function GossipAvailableQuestButtonMixin:Setup(...)
+        oldAvailableSetup(self, ...)
+        if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
+            local id = self.GetElementData().info.questID
+            self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
+        end
     end
-end
 
-local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
-function GossipActiveQuestButtonMixin:Setup(...)
-    oldActiveSetup(self, ...)
-    if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
-        local id = self.GetElementData().info.questID
-        self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
+    local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
+    function GossipActiveQuestButtonMixin:Setup(...)
+        oldActiveSetup(self, ...)
+        if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
+            local id = self.GetElementData().info.questID
+            self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
+        end
     end
 end
