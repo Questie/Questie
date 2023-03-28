@@ -1153,32 +1153,34 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
     if questgiverGUID then
         local questgiverID = tonumber(questgiverGUID:match("-(%d+)-%x+$"), 10)
         local unit_type = strsplit("-", questgiverGUID)
-        local questgiver
+        local questsStarted
+        local questsEnded
         if unit_type == "Creature" then -- if questgiver is an NPC
-            questgiver = QuestieDB:GetNPC(questgiverID)
+            questsStarted = QuestieDB.QueryNPCSingle(questgiverID, "questStarts")
+            questsEnded = QuestieDB.QueryNPCSingle(questgiverID, "questEnds")
         elseif unit_type == "GameObject" then -- if questgiver is an object (it's rare for an object to have a gossip/greeting frame, but Wanted Boards exist; see object 2713)
-            questgiver = QuestieDB:GetObject(questgiverID)
+            questsStarted = QuestieDB.QueryObjectSingle(questgiverID, "questStarts")
+            questsEnded = QuestieDB.QueryObjectSingle(questgiverID, "questEnds")
         else
             return questID; -- If the questgiver is not an NPC or object, bail!
         end
         -- iterate through every questEnds entry in our questgiver's DB, and check if each quest name matches this greeting frame entry
-        if questgiver then
-            if questStarter == true then
-                for _, id in pairs(questgiver.questStarts) do
-                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+
+        if questStarter == true then
+            for _, id in pairs(questsStarted) do
+                if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
                     -- the QuestieDB.IsDoable check is important to filter out identically named quests
-                        questID = id
-                    end
+                    questID = id
                 end
-            else
-                for _, id in pairs(questgiver.questEnds) do
-                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
-                    -- the QuestieDB.IsDoable check is important to filter out identically named quests
-                        questID = id
-                    end
+            end
+        else
+            for _, id in pairs(questsEnded) do
+                if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                    questID = id
                 end
             end
         end
+
     end
     return questID;
 end
