@@ -167,6 +167,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
+            [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 1 Aquatic Stinkhorn, 1 Blood Mushroom, 1 Ruinous Polyspore, and 1 Fel Cone Fungus."},
         },
         [9681] = {
             [questKeys.startedBy] = {{17717,17718}},

@@ -62,6 +62,9 @@ function QuestieWotlkNpcFixes:Load()
         [16475] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{84.19,43.03}}},
         },
+        [17663] = {
+            [npcKeys.name] = "Maatparm",
+        },
         [17718] = {
             [npcKeys.questStarts] = {9684,9681},
         },
