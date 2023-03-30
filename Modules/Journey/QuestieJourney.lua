@@ -62,7 +62,7 @@ function QuestieJourney:Initialize()
 
     local factionGroups = {}
     local factionWithoutId = -1
-    for index=1, GetNumFactions() do
+    for index=1, GetNumFactions() do -- TODO: Remove this as it limits the Journey to only show known factions to the player
         local name, _, _, _, _, _, _, _, isHeader, _, hasRep, _, _, factionID = GetFactionInfo(index)
         if factionID then
             if isHeader then
@@ -77,6 +77,10 @@ function QuestieJourney:Initialize()
     self.continents = continents
     self.factionGroups = factionGroups
     self.factionMap = FactionDB:GetFactionsWithQuests()
+
+    -- TODO Loop over factionMap and use GetFactionInfoByID to grab the required translations
+    -- TODO Delete all faction translations. We still need the IDs though so maybe keep enUS
+
     self.factions = FactionDB:GetRelevantFactions()
     self.factionIdToParentIdTable = FactionDB:GetFactionIdToParentIdTable()
     self.zoneMap = ZoneDB:GetZonesWithQuests(true)
