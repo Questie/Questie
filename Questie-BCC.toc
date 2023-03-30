@@ -85,9 +85,9 @@ Database\compiler.lua
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
-Localization\lookups\lookupFactions.lua
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
+Localization\lookups\TBC\lookupFactions\lookupFactions.xml
 Localization\lookups\TBC\lookupItems\lookupItems.xml
 Localization\lookups\TBC\lookupNpcs\lookupNpcs.xml
 Localization\lookups\TBC\lookupObjects\lookupObjects.xml

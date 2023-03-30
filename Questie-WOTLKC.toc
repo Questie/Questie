@@ -91,9 +91,9 @@ Database\compiler.lua
 Localization\l10n.lua
 Localization\Translations\Translations.xml
 
-Localization\lookups\lookupFactions.lua
 Localization\lookups\lookupQuestCategories.lua
 Localization\lookups\lookupZones.lua
+Localization\lookups\Wotlk\lookupFactions\lookupFactions.xml
 Localization\lookups\Wotlk\lookupItems\lookupItems.xml
 Localization\lookups\Wotlk\lookupNpcs\lookupNpcs.xml
 Localization\lookups\Wotlk\lookupObjects\lookupObjects.xml
