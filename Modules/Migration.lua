@@ -171,6 +171,11 @@ local migrationFunctions = {
             Questie.db.char.enableQuestFrameIcons = true
         end
     end,
+    [19] = function()
+        Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons["complete"]
+        Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons["complete"]
+        Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons["complete"]
+    end,
 }
 
 function Migration:Migrate()
