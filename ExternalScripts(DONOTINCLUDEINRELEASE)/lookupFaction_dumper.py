@@ -166,11 +166,15 @@ for data in listOfData:
 
     for locale in locales:
         with open(f'DUMP_OUTPUT\Localization\lookups\\{expansion}\lookupFactions\\{locale}.lua', 'w', encoding='utf-8') as output_file:
-            output_file.write("""---@type l10n
+            output_file.write("""if GetLocale() ~= "%s" then
+    return
+end
+
+---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
 l10n.factionGroupLookup = {
-""")
+""" % (locale))
             # sort by parent faction id, but put -1 (no parent) at the beginning
             faction_lookup[locale]=dict(sorted(faction_lookup[locale].items(), key=lambda item: item[0] if item[0] != -1 else -999999))
             for parent_faction_id, faction_dict in faction_lookup[locale].items():
