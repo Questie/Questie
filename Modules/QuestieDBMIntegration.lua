@@ -25,7 +25,12 @@ local QuestieHUDEnabled = false
 local function AddHudQuestIcon(tableString, icon, AreaID, x, y, r, g, b)
     if tableString and not AddedHudIds[tableString] then
         --Icon based filters, if icon is disabled, return without adding
-        if not Questie.db.global.dbmHUDShowSlay and Questie.usedIcons[Questie.ICON_TYPE_SLAY] or not Questie.db.global.dbmHUDShowQuest and (Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] or Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE]) or not Questie.db.global.dbmHUDShowInteract and Questie.usedIcons[Questie.ICON_TYPE_OBJECT] or not Questie.db.global.dbmHUDShowLoot and Questie.usedIcons[Questie.ICON_TYPE_LOOT] then return end
+        if  not Questie.db.global.dbmHUDShowSlay and icon == Questie.ICON_TYPE_SLAY or 
+            not Questie.db.global.dbmHUDShowQuest and (icon == Questie.ICON_TYPE_COMPLETE or icon == Questie.ICON_TYPE_AVAILABLE) or 
+            not Questie.db.global.dbmHUDShowInteract and icon == Questie.ICON_TYPE_OBJECT or 
+            not Questie.db.global.dbmHUDShowLoot and icon == Questie.ICON_TYPE_LOOT then 
+            return 
+        end
         if not DBM.HudMap.HUDEnabled then
             --Force a fixed zoom, if one is not set, hudmap tries to zoom out until all registered icons fit, that's no good for world wide quest icons
             DBM.HudMap:SetFixedZoom(Questie.db.global.DBMHUDZoom or 100)
