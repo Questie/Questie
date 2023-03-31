@@ -91,6 +91,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {}, -- Overriding Classic correction
             [questKeys.triggerEnd] = {"Place a tribute at Grom's Monument",{[zoneIDs.ASHENVALE]={{83,78,},},},},
         },
+        [8346] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{15274},15274,"Mana Tap creature"}}},
+        },
         [8551] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
@@ -164,7 +167,11 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9648] = {
             [questKeys.name] = "Maatparm Mushroom Menagerie",
+            [questKeys.objectivesText] = {"Maatparm at Blood Watch wants 1 Aquatic Stinkhorn, 1 Blood Mushroom, 1 Ruinous Polyspore, and 1 Fel Cone Fungus."},
         },
+        [9681] = {
+            [questKeys.startedBy] = {{17717,17718}},
+		},
         [9876] = {
             [questKeys.nextQuestInChain] = 9738,
         },
