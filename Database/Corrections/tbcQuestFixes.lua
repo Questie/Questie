@@ -36,6 +36,9 @@ function QuestieTBCQuestFixes:Load()
         [76] = {
             [questKeys.triggerEnd] = {"Scout through the Jasperlode Mine", {[zoneIDs.ELWYNN_FOREST]={{60.53,50.18}}}},
         },
+        [77] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [155] = {
             [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
         },
