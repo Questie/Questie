@@ -13,6 +13,9 @@ function QuestieWotlkNpcFixes:Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [3190] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.6,18.6}}},
+        },
         [3996] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
         },
