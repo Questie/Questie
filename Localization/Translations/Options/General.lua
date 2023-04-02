@@ -148,7 +148,7 @@ local generalOptionsLocales = {
     },
     ["Hide unexplored area Icons"] = {
         ["ptBR"] = "Ocultar ícones da área inexplorada",
-        ["ruRU"] = "Скрыть значки неисследованных зон",
+        ["ruRU"] = "Скрыть в неисследованных",
         ["deDE"] = "Icons in nicht entdeckten Gebieten verbergen",
         ["koKR"] = "미탐험 지역 아이콘 가리기",
         ["esMX"] = "Esconder icono de áreas inexploradas.",
@@ -172,7 +172,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons of untracked quests"] = {
         ["ptBR"] = "Ocultar ícones de missões não rastreadas",
-        ["ruRU"] = "Скрыть значки неотслеживаемых заданий",
+        ["ruRU"] = "Скрыть неотслеживаемое",
         ["deDE"] = "Icons nicht getrackter Quests verbergen",
         ["koKR"] = nil,
         ["esMX"] = "Ocultar iconos de misiones sin seguimiento",
@@ -196,7 +196,7 @@ local generalOptionsLocales = {
     },
     ["Show custom quest frame icons"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Пользовательские значки в диалогах",
         ["deDE"] = "Zeige angepasste Icons in Quest-Fenster",
         ["koKR"] = nil,
         ["esMX"] = nil,
