@@ -208,7 +208,7 @@ local generalOptionsLocales = {
     },
     ["Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Включает использование пользовательских значков во время диалога с NPC, отражающих статус и тип каждого задания",
         ["deDE"] = "Questie zeigt in NPC-Dialogen angepasste Icons, die den Status und Typ jeder Quest widerspiegeln.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -424,7 +424,7 @@ local generalOptionsLocales = {
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Стиль значков pfQuest/ClassicCodex",
         ["deDE"] = "pfQuest/ClassicCodex Iconstil umschalten",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -436,7 +436,7 @@ local generalOptionsLocales = {
     },
     ["Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- "] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Переключает между стилями значков Questie или pfQuest/ClassicCodex.\n\nЭто влияет на:\n\n- Значки целей заданий\n- ",
         ["deDE"] = "Schaltet zwischen Questie Iconstil und pfQuest/ClassicCodex Iconstil um.\n\nUmschalten beeinflusst die folgenden Einstellungen:\n\n- Zielicons\n- ",
         ["koKR"] = false,
         ["esMX"] = false,
