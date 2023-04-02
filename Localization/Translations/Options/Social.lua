@@ -257,7 +257,7 @@ local socialOptionsLocales = {
     },
     ["Display announcements locally when outside of a group"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Оповещения вне группы",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -269,7 +269,7 @@ local socialOptionsLocales = {
     },
     ["Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Questie будет отображать в чате оповещения о прогрессе ваших заданий, когда вы вне группы. Другие игроки НЕ БУДУТ видеть эти оповещения",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
