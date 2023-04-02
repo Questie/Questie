@@ -448,7 +448,7 @@ local generalOptionsLocales = {
     },
     ["Icon Overrides (show/hide)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Переопределение значков",
         ["deDE"] = "Icons überschreiben",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -460,7 +460,7 @@ local generalOptionsLocales = {
     },
     ["Slay objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Убийство",
         ["deDE"] = "Tötungsziele",
         ["koKR"] = false,
         ["esMX"] = false,
