@@ -400,7 +400,7 @@ local debugMessagesLocales = {
     },
     ["Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Включен другой аддон с координатами, это может вызвать ошибки. Во избежание этого Questie сейчас отключает координаты на карте мира и миникарте. Это может быть переопределено в настройках",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
