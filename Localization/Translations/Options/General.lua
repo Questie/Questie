@@ -628,7 +628,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don't reward experience"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Значок для серых заданий: недоступные (для принятия которых требуются определенные условия) и низкоуровые (за выполнение которых вы не получите опыт)",
+        ["ruRU"] = "Значок для серых заданий: недоступные (для принятия которых требуются определенные условия) и низкоуровневые (за выполнение которых вы не получите опыт)",
         ["deDE"] = "Das Icon welches für Quests angezeigt wird die zusätzliche Bedingungen haben bevor sie akzeptiert werden können, oder so niedriglevelig sind, dass sie keine Erfahrung gewähren",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -988,7 +988,7 @@ local generalOptionsLocales = {
     },
     ["Accept trivial (low level) quests"] = {
         ["ptBR"] = "Aceitar missões triviais (nível baixo)",
-        ["ruRU"] = "Автопринятие 'серых' заданий",
+        ["ruRU"] = "Автопринятие низкоуровневых",
         ["deDE"] = "Triviale (niedrigstufige) Quests annehmen",
         ["koKR"] = "저레벨 퀘스트 수락",
         ["esMX"] = "Aceptar misiones triviales (de bajo nivel)",
@@ -1024,7 +1024,7 @@ local generalOptionsLocales = {
     },
     ["Show All Quests below range (Low level quests)"] = {
         ["ptBR"] = "Veja todas as missões abaixo (missões de nível inferior)",
-        ["ruRU"] = "Низкоуровневые задания",
+        ["ruRU"] = "Задания низкого уровня",
         ["deDE"] = "Zeige niedrigstufige Quests",
         ["koKR"] = "범위를 벗어난 모든 퀘스트 표시 (저레벨 퀘스트 표시)",
         ["esMX"] = "Mostrar todas las misiones por debajo del rango (Misiones de bajo nivel)",
