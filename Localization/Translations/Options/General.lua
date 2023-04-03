@@ -148,7 +148,7 @@ local generalOptionsLocales = {
     },
     ["Hide unexplored area Icons"] = {
         ["ptBR"] = "Ocultar ícones da área inexplorada",
-        ["ruRU"] = "Скрыть значки неисследованных зон",
+        ["ruRU"] = "Скрыть в неисследованных",
         ["deDE"] = "Icons in nicht entdeckten Gebieten verbergen",
         ["koKR"] = "미탐험 지역 아이콘 가리기",
         ["esMX"] = "Esconder icono de áreas inexploradas.",
@@ -172,7 +172,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons of untracked quests"] = {
         ["ptBR"] = "Ocultar ícones de missões não rastreadas",
-        ["ruRU"] = "Скрыть значки неотслеживаемых заданий",
+        ["ruRU"] = "Скрыть неотслеживаемое",
         ["deDE"] = "Icons nicht getrackter Quests verbergen",
         ["koKR"] = nil,
         ["esMX"] = "Ocultar iconos de misiones sin seguimiento",
@@ -196,7 +196,7 @@ local generalOptionsLocales = {
     },
     ["Show custom quest frame icons"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Пользовательские значки в диалогах",
         ["deDE"] = "Zeige angepasste Icons in Quest-Fenster",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -208,7 +208,7 @@ local generalOptionsLocales = {
     },
     ["Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Включает использование пользовательских значков во время диалога с NPC, отражающих статус и тип каждого задания",
         ["deDE"] = "Questie zeigt in NPC-Dialogen angepasste Icons, die den Status und Typ jeder Quest widerspiegeln.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -376,7 +376,7 @@ local generalOptionsLocales = {
     },
     ["Enable PvP Quest Icons"] = {
         ["ptBR"] = "Ativar ícones de missões de JxJ",
-        ["ruRU"] = "Значки PVP-заданий",
+        ["ruRU"] = "Значки PvP-заданий",
         ["deDE"] = "PvP-Quests anzeigen",
         ["koKR"] = "PVP 퀘스트 아이콘 활성화",
         ["esMX"] = "Habilitar iconos de misiones de JcJ",
@@ -424,7 +424,7 @@ local generalOptionsLocales = {
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Стиль значков pfQuest/ClassicCodex",
         ["deDE"] = "pfQuest/ClassicCodex Iconstil umschalten",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -436,7 +436,7 @@ local generalOptionsLocales = {
     },
     ["Toggles between Questie icon style and pfQuest/ClassicCodex icon style.\n\nToggling affects the following settings:\n\n- Objective icons\n- "] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Переключает между стилями значков Questie или pfQuest/ClassicCodex.\n\nЭто влияет на:\n\n- Значки целей заданий\n- ",
         ["deDE"] = "Schaltet zwischen Questie Iconstil und pfQuest/ClassicCodex Iconstil um.\n\nUmschalten beeinflusst die folgenden Einstellungen:\n\n- Zielicons\n- ",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -448,7 +448,7 @@ local generalOptionsLocales = {
     },
     ["Icon Overrides (show/hide)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Переопределение значков",
         ["deDE"] = "Icons überschreiben",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -460,7 +460,7 @@ local generalOptionsLocales = {
     },
     ["Slay objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Убийство",
         ["deDE"] = "Tötungsziele",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -472,7 +472,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quest objectives where you need to kill an NPC"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для целей заданий, в которых вам нужно убить NPC",
         ["deDE"] = "Das Icon welches für Questziele wo du jemanden töten musst angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -484,7 +484,7 @@ local generalOptionsLocales = {
     },
     ["Loot objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Добыча",
         ["deDE"] = "Plünderungsziele",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -496,7 +496,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quest objectives where you need to loot an item"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для целей заданий, в которых вам нужно добыть предмет",
         ["deDE"] = "Das Icon welches für Questziele wo du etwas plündern musst angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -508,7 +508,7 @@ local generalOptionsLocales = {
     },
     ["Object objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Объект",
         ["deDE"] = "Objektziele",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -520,7 +520,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quest objectives where you need to interact with an object"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для целей заданий, в которых вам нужно провзаимодействовать с объектом",
         ["deDE"] = "Das Icon welches für Questziele wo du mit einem Objekt interagieren musst angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -532,7 +532,7 @@ local generalOptionsLocales = {
     },
     ["Event objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Событие",
         ["deDE"] = "Ereignisziele",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -544,7 +544,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для целей заданий, в которых вам нужно сделать что-либо в определенной области, например, исследовать ее или произнести там заклинание",
         ["deDE"] = "Das Icon welches für Questziele angezeigt wird wo du in einem bestimmten Gebiet etwas machen musst, wie es zu erkunden oder dort einen Zauberspruch zu benutzen",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -556,7 +556,7 @@ local generalOptionsLocales = {
     },
     ["Talk objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Разговор",
         ["deDE"] = "Gesprächsziele",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -568,7 +568,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quest objectives where you need to talk to an NPC"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для целей заданий, в которых вам нужно поговорить с NPC",
         ["deDE"] = "Das Icon welches für Questziele wo du mit einem NPC sprechen musst angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -580,7 +580,7 @@ local generalOptionsLocales = {
     },
     ["Normal Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Обычные задания",
         ["deDE"] = "Normale Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -592,7 +592,7 @@ local generalOptionsLocales = {
     },
     ["Available quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Доступные",
         ["deDE"] = "Verfügbare Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -604,7 +604,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for available quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для доступных заданий",
         ["deDE"] = "Das Icon welches für verfügbare Quests angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -616,7 +616,7 @@ local generalOptionsLocales = {
     },
     ["Unavailable and trivial quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Серые",
         ["deDE"] = "Nicht verfügbare und triviale Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -628,7 +628,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don't reward experience"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для серых заданий: недоступные (для принятия которых требуются определенные условия) и низкоуровневые (за выполнение которых вы не получите опыт)",
         ["deDE"] = "Das Icon welches für Quests angezeigt wird die zusätzliche Bedingungen haben bevor sie akzeptiert werden können, oder so niedriglevelig sind, dass sie keine Erfahrung gewähren",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -640,7 +640,7 @@ local generalOptionsLocales = {
     },
     ["Complete quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выполненные",
         ["deDE"] = "Abgeschlossene Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -652,7 +652,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for completed quests that can be handed in"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для выполненных заданий",
         ["deDE"] = "Das Icon welches für abgeschlossene Quests angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -664,7 +664,7 @@ local generalOptionsLocales = {
     },
     ["Repeatable Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Повторяемые задания",
         ["deDE"] = "Wiederholbare Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -676,7 +676,7 @@ local generalOptionsLocales = {
     },
     ["Available repeatable quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Доступные",
         ["deDE"] = "Verfügbare wiederholbare Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -688,7 +688,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for available repeatable quests like dailies"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для повторяемых заданий типа ежедневных",
         ["deDE"] = "Das Icon welches für verfügbare wiederholbare Quests angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -700,7 +700,7 @@ local generalOptionsLocales = {
     },
     ["Complete repeatable quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выполненные",
         ["deDE"] = "Abgeschlossene wiederholbare Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -712,7 +712,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for repeatable quests that can be handed in"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для выполненных повторяемых заданий типа ежедневных",
         ["deDE"] = "Das Icon welches für wiederholbare Quests angezeigt wird, die abgegeben werden können",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -724,7 +724,7 @@ local generalOptionsLocales = {
     },
     ["Event Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задания игровых событий",
         ["deDE"] = "Event-Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -736,7 +736,7 @@ local generalOptionsLocales = {
     },
     ["Available event quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Доступные",
         ["deDE"] = "Verfügbare Event-Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -748,7 +748,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for available event quests during holidays"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для доступных заданий игровых событий во время праздников",
         ["deDE"] = "Das Icon welches für verfügbare Event-Quests angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -760,7 +760,7 @@ local generalOptionsLocales = {
     },
     ["Complete event quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выполненные",
         ["deDE"] = "Abgeschlossene Event-Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -772,7 +772,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for event quests that can be handed in"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для выполненных заданий игровых событий во время праздников",
         ["deDE"] = "Das Icon welches für Event-Quests angezeigt wird, die abgegeben werden können",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -784,7 +784,7 @@ local generalOptionsLocales = {
     },
     ["PvP Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "PvP-задания",
         ["deDE"] = "PvP-Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -796,7 +796,7 @@ local generalOptionsLocales = {
     },
     ["Available PvP quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Доступные",
         ["deDE"] = "Verfügbare PvP-Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -808,7 +808,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for available PvP quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для доступных PVP-заданий",
         ["deDE"] = "Das Icon welches für verfügbare PvP-Quests angezeigt wird",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -820,7 +820,7 @@ local generalOptionsLocales = {
     },
     ["Complete PvP quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выполненные",
         ["deDE"] = "Abgeschlossene PvP-Quests",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -832,7 +832,7 @@ local generalOptionsLocales = {
     },
     ["The icon that is displayed for PvP quests that can be handed in"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Значок для выполненных PVP-заданий",
         ["deDE"] = "Das Icon welches für PvP-Quests angezeigt wird, die abgegeben werden können",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -988,7 +988,7 @@ local generalOptionsLocales = {
     },
     ["Accept trivial (low level) quests"] = {
         ["ptBR"] = "Aceitar missões triviais (nível baixo)",
-        ["ruRU"] = "Автопринятие 'серых' заданий",
+        ["ruRU"] = "Автопринятие низкоуровневых",
         ["deDE"] = "Triviale (niedrigstufige) Quests annehmen",
         ["koKR"] = "저레벨 퀘스트 수락",
         ["esMX"] = "Aceptar misiones triviales (de bajo nivel)",
@@ -1024,7 +1024,7 @@ local generalOptionsLocales = {
     },
     ["Show All Quests below range (Low level quests)"] = {
         ["ptBR"] = "Veja todas as missões abaixo (missões de nível inferior)",
-        ["ruRU"] = "Низкоуровневые задания",
+        ["ruRU"] = "Задания низкого уровня",
         ["deDE"] = "Zeige niedrigstufige Quests",
         ["koKR"] = "범위를 벗어난 모든 퀘스트 표시 (저레벨 퀘스트 표시)",
         ["esMX"] = "Mostrar todas las misiones por debajo del rango (Misiones de bajo nivel)",

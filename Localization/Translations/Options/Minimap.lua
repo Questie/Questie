@@ -40,7 +40,7 @@ local minimapOptionsLocales = {
     },
     ["Different Minimap Icon Color for Each Quest"] = {
             ["ptBR"] = false,
-            ["ruRU"] = false,
+            ["ruRU"] = "Различные цвета значков (миникарта)",
             ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",
             ["koKR"] = false,
             ["esMX"] = false,
