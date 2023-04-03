@@ -119,6 +119,9 @@ function QuestieQuestFixes:Load()
         [235] = {
             [questKeys.exclusiveTo] = {742,6382,6383},
         },
+        [249] = {
+            [questKeys.startedBy] = {{313},{31},nil},
+        },
         [254] = {
             [questKeys.parentQuest] = 253,
             [questKeys.specialFlags] = 1,
