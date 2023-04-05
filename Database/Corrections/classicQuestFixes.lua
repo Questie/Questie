@@ -546,6 +546,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {87,3000},
             [questKeys.requiredMaxRep] = {21,-5999},
         },
+        [1046] = {
+            [questKeys.objectives] = {nil,nil,{{5388,nil},{5462,nil}}},
+        },
         [1047] = {
             [questKeys.exclusiveTo] = {1015,1019},
         },
