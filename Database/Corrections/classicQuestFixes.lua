@@ -1237,8 +1237,32 @@ function QuestieQuestFixes:Load()
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
         },
+        [3526] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
         [3625] = {
             [questKeys.triggerEnd] = {"Weaponry Creation", {[zoneIDs.STRANGLETHORN_VALE]={{50.62,20.49}}}},
+        },
+        [3629] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
+        [3630] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
+        [3632] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
+        [3633] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
+        [3634] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
+        [3635] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
+        },
+        [3637] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
         [3639] = {
             [questKeys.exclusiveTo] = {3643,3641},
@@ -1375,6 +1399,9 @@ function QuestieQuestFixes:Load()
         },
         [4144] = {
             [questKeys.specialFlags] = 1, -- #1590
+        },
+        [4181] = {
+            [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
         [4185] = {
             [questKeys.triggerEnd] = {"Advice from Lady Prestor", {[zoneIDs.STORMWIND_CITY]={{78.04,17.96}}}},
