@@ -29,10 +29,11 @@ end
 
 function Questie:OnEnable()
     -- Called when the addon is enabled
+    WatchFrame:Hide()
 end
-
 function Questie:OnDisable()
     -- Called when the addon is disabled
+    WatchFrame:Show()
 end
 
 --- Colorize a string with a color code

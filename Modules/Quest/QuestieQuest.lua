@@ -389,12 +389,7 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function() QuestieTracker:Update()
-                -- This is necessary to call it again to update the trackers formatting
-                C_Timer.After(0.1, function()
-                    QuestieTracker:Update()
-                end)
-            end,
+            function() QuestieTracker:Update() end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
 
@@ -403,12 +398,7 @@ function QuestieQuest:AcceptQuest(questId)
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest was once accepted. IsComplete = ", complete)
         if Questie.db.char.AutoUntrackedQuests[questId] then
             Questie.db.char.AutoUntrackedQuests[questId] = nil
-
             QuestieTracker:Update()
-            -- This is necessary to call it again to update the trackers formatting
-            C_Timer.After(0.1, function()
-                QuestieTracker:Update()
-            end)
         end
     else
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already existed, not adding")
@@ -431,10 +421,6 @@ function QuestieQuest:CompleteQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-        -- This is neccessary to call it again to update the trackers formatting
-        C_Timer.After(0.1, function()
-            QuestieTracker:Update()
-        end)
     end)
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
@@ -477,10 +463,6 @@ function QuestieQuest:AbandonedQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-            -- This is neccessary to call it again to update the trackers formatting
-            C_Timer.After(0.1, function()
-                QuestieTracker:Update()
-            end)
         end)
 
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
@@ -574,10 +556,6 @@ function QuestieQuest:UpdateQuest(questId)
         end
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-            -- This is necessary to call it again to update the trackers formatting
-            C_Timer.After(0.1, function()
-                QuestieTracker:Update()
-            end)
         end)
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)

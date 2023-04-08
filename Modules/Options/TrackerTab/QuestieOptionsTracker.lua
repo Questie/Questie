@@ -7,11 +7,11 @@ local QuestieOptions = QuestieLoader:ImportModule("QuestieOptions")
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
-local _QuestieTracker = QuestieTracker.private
----@type LinePool
-local LinePool = QuestieLoader:ImportModule("LinePool")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+---@type TrackerLinePool
+local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -22,11 +22,6 @@ local _GetShortcuts
 local SharedMedia = LibStub("LibSharedMedia-3.0")
 
 function QuestieOptions.tabs.tracker:Initialize()
-    local fontTable = SharedMedia:HashTable("font")
-    local outlineTable = {}
-    outlineTable["None"] = "NONE"
-    outlineTable["Outline"] = "OUTLINE"
-    outlineTable["Monochrome"] = "MONOCHROME"
     return {
         name = function() return l10n('Tracker'); end,
         type = "group",
@@ -53,9 +48,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.char.AutoUntrackedQuests = {}
                     end
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             showCompleteQuests = {
@@ -69,9 +61,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerShowCompleteQuests = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             showQuestLevels = {
@@ -85,9 +74,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerShowQuestLevel = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             collapseCompletedQuests = {
@@ -104,9 +90,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.char.collapsedQuests = {}
                     end
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             hideCompletedQuestObjectives = {
@@ -120,9 +103,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.hideCompletedQuestObjectives = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             hideCompletedAchieveObjectives = {
@@ -136,9 +116,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.hideCompletedAchieveObjectives = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             showQuestTimer = {
@@ -160,14 +137,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                         else
                             WatchFrame:Hide()
                         end
-
-                        QuestieTracker:Update()
-                        C_Timer.After(0.1, function()
-                            QuestieTracker:Update()
-                        end)
-                    else
-                        QuestieTracker:Update()
                     end
+
+                    QuestieTracker:Update()
                 end
             },
             enableTrackerHooks = {
@@ -187,9 +159,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         QuestieTracker:Unhook()
                     end
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             enableHeader = {
@@ -198,15 +167,16 @@ function QuestieOptions.tabs.tracker:Initialize()
                 width = 1.5,
                 name = function() return l10n('Enable Active Quests Header'); end,
                 desc = function() return l10n('When this is checked, the Active Quests Header will become visible and the total number of quests you have in your log will be shown.'); end,
-                disabled = function() return not Questie.db.global.trackerEnabled; end,
+                disabled = function() return not Questie.db.global.trackerEnabled or Questie.db.global.alwaysShowTracker; end,
                 get = function() return Questie.db.global.trackerHeaderEnabled; end,
                 set = function(_, value)
                     Questie.db.global.trackerHeaderEnabled = value
-                    QuestieTracker.currentHeaderEnabledSetting = value
+
+                    if Questie.db.global.alwaysShowTracker == false then
+                        Questie.db.global.currentHeaderEnabledSetting = value
+                    end
+
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             autoMoveHeader = {
@@ -224,9 +194,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.autoMoveHeader = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             stickyDurabilityFrame = {
@@ -286,22 +253,29 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerFadeMinMaxButtons = value
                     if value == true then
-                        QuestieTracker.FadeMMBTickerValue = 1
-                        QuestieTracker.FadeMMBTicker = C_Timer.NewTicker(0.02, function()
+                        local fadeTicker
+                        local fadeTickerValue = 1
+                        fadeTicker = C_Timer.NewTicker(0.02, function()
 
-                            if QuestieTracker.FadeMMBTickerValue > 1 then
-                                QuestieTracker.FadeMMBTickerValue = QuestieTracker.FadeMMBTickerValue - 0.02
-                                if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeMinMaxButtons) then
-                                    LinePool.SetAllExpandQuestAlpha(QuestieTracker.FadeMMBTickerValue * 3.3)
+                            if fadeTickerValue <= 1 then
+                                fadeTickerValue = fadeTickerValue - 0.05
+
+                                if fadeTickerValue < 0 then
+                                    fadeTickerValue = 0
+                                    fadeTicker:Cancel()
+                                end
+
+                                if (Questie.db.char.isTrackerExpanded) then
+                                    TrackerLinePool.SetAllExpandQuestAlpha(fadeTickerValue)
                                 end
 
                             else
-                                QuestieTracker.FadeMMBTicker:Cancel()
-                                QuestieTracker.FadeMMBTicker = nil
+                                fadeTickerValue:Cancel()
+                                TrackerLinePool.SetAllExpandQuestAlpha(0)
                             end
                         end)
                     else
-                        LinePool.SetAllExpandQuestAlpha(1)
+                        TrackerLinePool.SetAllExpandQuestAlpha(1)
                     end
                     QuestieTracker:Update()
                 end
@@ -317,23 +291,29 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerFadeQuestItemButtons = value
                     if value == true then
-                        QuestieTracker.FadeQIBTickerValue = 1
-                        QuestieTracker.FadeQIBTicker = C_Timer.NewTicker(0.02, function()
+                        local fadeTicker
+                        local fadeTickerValue = 1
+                        fadeTicker = C_Timer.NewTicker(0.02, function()
 
-                            if QuestieTracker.FadeQIBTickerValue > 1 then
-                                QuestieTracker.FadeQIBTickerValue = QuestieTracker.FadeQIBTickerValue - 0.02
+                            if fadeTickerValue <= 1 then
+                                fadeTickerValue = fadeTickerValue - 0.05
 
-                                if (Questie.db.char.isTrackerExpanded and Questie.db.global.trackerFadeQuestItemButtons) then
-                                    LinePool.SetAllItemButtonAlpha(QuestieTracker.FadeQIBTickerValue * 3.3)
+                                if fadeTickerValue < 0 then
+                                    fadeTickerValue = 0
+                                    fadeTicker:Cancel()
+                                end
+
+                                if (Questie.db.char.isTrackerExpanded) then
+                                    TrackerLinePool.SetAllItemButtonAlpha(fadeTickerValue)
                                 end
 
                             else
-                                QuestieTracker.FadeQIBTicker:Cancel()
-                                QuestieTracker.FadeQIBTicker = nil
+                                fadeTickerValue:Cancel()
+                                TrackerLinePool.SetAllItemButtonAlpha(0)
                             end
                         end)
                     else
-                        LinePool.SetAllItemButtonAlpha(1)
+                        TrackerLinePool.SetAllItemButtonAlpha(1)
                     end
                     QuestieTracker:Update()
                 end
@@ -350,9 +330,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db.global.trackerBackdropEnabled = value
 
                     if value == true and not Questie.db.global.trackerBackdropFader then
-                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                        TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     else
-                        _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0, 0)
+                        TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
                     end
 
                     QuestieTracker:Update()
@@ -371,9 +351,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerBorderEnabled = value
                     if value == true and not Questie.db.global.trackerBackdropFader then
-                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
                     else
-                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                     end
                     QuestieTracker:Update()
                 end
@@ -391,27 +371,27 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerBackdropFader = value
                     if value == true then
-                        QuestieTracker.FadeBGTickerValue = 1
-                        QuestieTracker.FadeBGTicker = C_Timer.NewTicker(0.02, function()
+                        local fadeTicker
+                        local fadeTickerValue = 1
+                        fadeTicker = C_Timer.NewTicker(0.02, function()
 
-                            if QuestieTracker.FadeBGTickerValue > 1 then
-                                QuestieTracker.FadeBGTickerValue = QuestieTracker.FadeBGTickerValue - 0.02
+                            if fadeTickerValue <= 1 then
+                                fadeTickerValue = fadeTickerValue - 0.05
 
-                                if Questie.db.char.isTrackerExpanded and Questie.db.global.trackerBackdropEnabled and
-                                    Questie.db.global.trackerBackdropFader then
-                                    _QuestieTracker.baseFrame:SetBackdropColor(0, 0, 0,
-                                        math.min(Questie.db.global.trackerBackdropAlpha,
-                                            QuestieTracker.FadeBGTickerValue * 3.3))
-                                    if Questie.db.global.trackerBorderEnabled then
-                                        _QuestieTracker.baseFrame:SetBackdropBorderColor(1, 1, 1,
-                                            math.min(Questie.db.global.trackerBackdropAlpha,
-                                                QuestieTracker.FadeBGTickerValue * 3.3))
-                                    end
+                                if fadeTickerValue < 0 then
+                                    fadeTickerValue = 0
+                                    fadeTicker:Cancel()
                                 end
 
+                                if Questie.db.char.isTrackerExpanded then
+                                    TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, fadeTickerValue)
+
+                                    if Questie.db.global.trackerBorderEnabled then
+                                        TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, fadeTickerValue)
+                                    end
+                                end
                             else
-                                QuestieTracker.FadeBGTicker:Cancel()
-                                QuestieTracker.FadeBGTicker = nil
+                                fadeTickerValue:Cancel()
                             end
                         end)
                     end
@@ -429,9 +409,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.sizerHidden = value
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             alwaysShowTracker = {
@@ -444,11 +421,22 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.alwaysShowTracker; end,
                 set = function(_, value)
                     Questie.db.global.alwaysShowTracker = value
-                    Questie.db.char.isTrackerExpanded = true
+                    if Questie.db.global.alwaysShowTracker == true then
+
+                        if Questie.db.char.isTrackerExpanded == false then
+                            Questie.db.char.isTrackerExpanded = true
+                        end
+
+                        if (not QuestieTracker:HasQuest()) then
+                            Questie.db.global.trackerHeaderEnabled = true
+                        else
+                            Questie.db.global.trackerHeaderEnabled = Questie.db.global.currentHeaderEnabledSetting
+                        end
+                    else
+                        Questie.db.global.trackerHeaderEnabled = Questie.db.global.currentHeaderEnabledSetting
+                    end
+
                     QuestieTracker:Update()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
                 end
             },
             lockTracker = {
@@ -461,7 +449,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerLocked; end,
                 set = function(_, value)
                     Questie.db.global.trackerLocked = value
-                    TrackerBaseFrame.Update()
+                    TrackerBaseFrame:Update()
                 end
             },
 
@@ -646,9 +634,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = key
                     QuestieTracker:ResetLocation()
                     QuestieTracker:MoveDurabilityFrame()
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
+                    QuestieTracker:Update()
                 end
             },
 
@@ -676,7 +662,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 4.6,
-                values = fontTable,
+                values = SharedMedia:HashTable("font"),
                 style = 'dropdown',
                 name = function() return l10n('Font for Active Quests'); end,
                 desc = function() return l10n('The font Active Quests uses.'); end,
@@ -704,16 +690,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerFontSizeZone; end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeZone = value
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
+                    QuestieTracker:Update()
                 end
             },
             fontZone = {
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 4.8,
-                values = fontTable,
+                values = SharedMedia:HashTable("font"),
                 style = 'dropdown',
                 name = function() return l10n('Font for Zone Names'); end,
                 desc = function() return l10n('The font used for zone names.'); end,
@@ -742,16 +726,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                     if Questie.db.global.trackerFontSizeObjective > value then
                         Questie.db.global.trackerFontSizeObjective = value
                     end
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
+                    QuestieTracker:Update()
                 end
             },
             fontQuest = {
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 5.0,
-                values = fontTable,
+                values = SharedMedia:HashTable("font"),
                 style = 'dropdown',
                 name = function() return l10n('Font for Quest Titles'); end,
                 desc = function() return l10n('The font used for quest titles.'); end,
@@ -779,16 +761,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         Questie.db.global.trackerFontSizeObjective = value
                     end
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
+                    QuestieTracker:Update()
                 end
             },
             fontObjective = {
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 5.2,
-                values = fontTable,
+                values = SharedMedia:HashTable("font"),
                 style = 'dropdown',
                 name = function() return l10n('Font for Objectives'); end,
                 desc = function() return l10n('The font used for objectives.'); end,
@@ -812,16 +792,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerQuestPadding; end,
                 set = function(_, value)
                     Questie.db.global.trackerQuestPadding = value
-                    C_Timer.After(0.1, function()
-                        QuestieTracker:Update()
-                    end)
+                    QuestieTracker:Update()
                 end
             },
             fontOutline = {
                 type = "select",
                 dialogControl = 'LSM30_Font',
                 order = 5.4,
-                values = outlineTable,
+                values = {
+                            ["None"] = "NONE",
+                            ["Outline"] = "OUTLINE",
+                            ["Monochrome"] = "MONOCHROME"
+                        },
                 style = 'dropdown',
                 name = function() return l10n('Outline for Zones, Titles, and Objectives'); end,
                 desc = function() return l10n('The outline used for Quest Zones, Titles, and Objectives in Tracker.'); end,

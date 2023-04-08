@@ -187,6 +187,11 @@ local migrationFunctions = {
             Questie.db.global.hideCompletedAchieveObjectives = false -- set default
         end
     end,
+    [22] = function()
+        if Questie.db.global.currentHeaderEnabledSetting == nil then -- new option
+            Questie.db.global.currentHeaderEnabledSetting = false -- set default
+        end
+    end,
 }
 
 function Migration:Migrate()

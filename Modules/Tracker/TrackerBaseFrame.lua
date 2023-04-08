@@ -1,46 +1,44 @@
-local WatchFrame = QuestWatchFrame or WatchFrame
-
 ---@class TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:CreateModule("TrackerBaseFrame")
-
+-------------------------
+--Import QuestieTracker modules.
+-------------------------
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerFadeTicker
+local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
+-------------------------
+--Import Questie modules.
+-------------------------
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
----@type FadeTicker
-local FadeTicker = QuestieLoader:ImportModule("FadeTicker")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local baseFrame
-local _UpdateTracker, _MoveDurabilityFrame
-local mouselookTicker = {}
+local WatchFrame = QuestWatchFrame or WatchFrame
+local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
+local mouseLookTicker
 local dragButton
 local updateTimer
 
 TrackerBaseFrame.IsInitialized = false
-local isSizing = false
+TrackerBaseFrame.isSizing = false
 
----@param UpdateTracker function @The QuestieTracker:Update function
----@param MoveDurabilityFrame function @The QuestieTracker:MoveDurabilityFrame function
----@return Frame
-function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
-    _UpdateTracker = UpdateTracker
-    _MoveDurabilityFrame = MoveDurabilityFrame
-
-    baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
+function TrackerBaseFrame.Initialize()
+    baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
     baseFrame:SetFrameStrata("BACKGROUND")
     baseFrame:SetFrameLevel(0)
-    baseFrame:SetSize(280, 32)
+    baseFrame:SetSize(25, 25)
 
     baseFrame:EnableMouse(true)
     baseFrame:SetMovable(true)
     baseFrame:SetResizable(true)
-    QuestieCompat.SetResizeBounds(baseFrame, 1, 1)
 
     baseFrame:SetScript("OnMouseDown", TrackerBaseFrame.OnDragStart)
     baseFrame:SetScript("OnMouseUp", TrackerBaseFrame.OnDragStop)
-    baseFrame:SetScript("OnEnter", FadeTicker.OnEnter)
-    baseFrame:SetScript("OnLeave", FadeTicker.OnLeave)
+    baseFrame:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
+    baseFrame:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
 
     baseFrame:SetBackdrop( {
         bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
@@ -52,42 +50,66 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
     baseFrame:SetBackdropColor(0, 0, 0, 0)
     baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
 
-    local sizer = CreateFrame("Frame", "Questie_Sizer", baseFrame)
-    sizer:SetPoint("BOTTOMRIGHT", 0, 0)
+    local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+        sizerSetPoint = "TOPRIGHT"
+        sizerSetPointY = -4
+    else
+        sizerSetPoint = "BOTTOMRIGHT"
+        sizerSetPointY = 4
+    end
+
+    sizer = CreateFrame("Frame", "Questie_Sizer", baseFrame)
+    sizer:SetPoint(sizerSetPoint, 0, 0)
     sizer:SetWidth(25)
     sizer:SetHeight(25)
     sizer:SetAlpha(0)
-    sizer:EnableMouse()
+    sizer:EnableMouse(true)
     sizer:SetScript("OnMouseDown", TrackerBaseFrame.OnResizeStart)
     sizer:SetScript("OnMouseUp", TrackerBaseFrame.OnResizeStop)
-    sizer:SetScript("OnEnter", FadeTicker.OnEnter)
-    sizer:SetScript("OnLeave", FadeTicker.OnLeave)
+    sizer:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
+    sizer:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
 
     baseFrame.sizer = sizer
 
-    local line1 = sizer:CreateTexture(nil, "BACKGROUND")
-    line1:SetWidth(14)
-    line1:SetHeight(14)
-    line1:SetPoint("BOTTOMRIGHT", -4, 4)
-    line1:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+    sizerLine1 = sizer:CreateTexture(nil, "BACKGROUND")
+    sizerLine1:SetWidth(14)
+    sizerLine1:SetHeight(14)
+    sizerLine1:SetPoint(sizerSetPoint, -4, sizerSetPointY)
+    sizerLine1:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
     local x = 0.1 * 14/17
-    line1:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
 
-    local line2 = sizer:CreateTexture(nil, "BACKGROUND")
-    line2:SetWidth(11)
-    line2:SetHeight(11)
-    line2:SetPoint("BOTTOMRIGHT", -4, 4)
-    line2:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+        sizerLine1:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+    else
+        sizerLine1:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+    end
+
+    sizerLine2 = sizer:CreateTexture(nil, "BACKGROUND")
+    sizerLine2:SetWidth(11)
+    sizerLine2:SetHeight(11)
+    sizerLine2:SetPoint(sizerSetPoint, -4, sizerSetPointY)
+    sizerLine2:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
     x = 0.1 * 11/17
-    line2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
 
-    local line3 = sizer:CreateTexture(nil, "BACKGROUND")
-    line3:SetWidth(8)
-    line3:SetHeight(8)
-    line3:SetPoint("BOTTOMRIGHT", -4, 4)
-    line3:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
+    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+        sizerLine2:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+    else
+        sizerLine2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+    end
+
+    sizerLine3 = sizer:CreateTexture(nil, "BACKGROUND")
+    sizerLine3:SetWidth(8)
+    sizerLine3:SetHeight(8)
+    sizerLine3:SetPoint(sizerSetPoint, -4, sizerSetPointY)
+    sizerLine3:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
     x = 0.1 * 8/17
-    line3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+
+    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+        sizerLine3:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+    else
+        sizerLine3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+    end
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
@@ -103,10 +125,10 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
                 if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
-                    TrackerBaseFrame.SetSafePoint(baseFrame)
+                    TrackerBaseFrame:SetSafePoint()
                 end
             else
-                TrackerBaseFrame.SetSafePoint(baseFrame)
+                TrackerBaseFrame:SetSafePoint()
             end
         end
     else
@@ -118,27 +140,28 @@ function TrackerBaseFrame.Initialize(UpdateTracker, MoveDurabilityFrame)
                 Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                 print(l10n("Error: Questie tracker in invalid location, resetting..."))
                 Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
-                TrackerBaseFrame.SetSafePoint(baseFrame)
+                TrackerBaseFrame:SetSafePoint()
             end
         else
-            TrackerBaseFrame.SetSafePoint(baseFrame)
+            TrackerBaseFrame:SetSafePoint()
         end
     end
 
     baseFrame:Hide()
+
     TrackerBaseFrame.IsInitialized = true
+    TrackerBaseFrame.baseFrame = baseFrame
+
     return baseFrame
 end
 
-function TrackerBaseFrame.Update()
-    if Questie.db.char.isTrackerExpanded then
+function TrackerBaseFrame:Update()
+    if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
         if Questie.db.global.trackerBackdropEnabled then
             if Questie.db.global.trackerBorderEnabled then
                 if not Questie.db.global.trackerBackdropFader then
-                    if not Questie.db.global.alwaysShowTracker then
-                        baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                        baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
-                    end
+                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                    baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
                 end
             else
                 baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
@@ -148,10 +171,52 @@ function TrackerBaseFrame.Update()
             baseFrame:SetBackdropColor(0, 0, 0, 0)
             baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
-    else
+
+        local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+
+        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+            sizer:ClearAllPoints()
+            sizer:SetPoint("TOPRIGHT", 0, 0)
+
+            sizerLine1:ClearAllPoints()
+            sizerLine1:SetPoint("TOPRIGHT", -4, -4)
+            local x = 0.1 * 14/17
+            sizerLine1:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+
+            sizerLine2:ClearAllPoints()
+            sizerLine2:SetPoint("TOPRIGHT", -4, -4)
+            x = 0.1 * 11/17
+            sizerLine2:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+
+            sizerLine3:ClearAllPoints()
+            sizerLine3:SetPoint("TOPRIGHT", -4, -4)
+            x = 0.1 * 8/17
+            sizerLine3:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+        else
+            sizer:ClearAllPoints()
+            sizer:SetPoint("BOTTOMRIGHT", 0, 0)
+
+            sizerLine1:ClearAllPoints()
+            sizerLine1:SetPoint("BOTTOMRIGHT", -4, 4)
+            local x = 0.1 * 14/17
+            sizerLine1:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+
+            sizerLine2:ClearAllPoints()
+            sizerLine2:SetPoint("BOTTOMRIGHT", -4, 4)
+            x = 0.1 * 11/17
+            sizerLine2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+
+            sizerLine3:ClearAllPoints()
+            sizerLine3:SetPoint("BOTTOMRIGHT", -4, 4)
+            x = 0.1 * 8/17
+            sizerLine3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+        end
+
         if Questie.db.global.sizerHidden then
             baseFrame.sizer:SetAlpha(0)
         end
+    else
+        baseFrame.sizer:SetAlpha(0)
         baseFrame:SetBackdropColor(0, 0, 0, 0)
         baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
     end
@@ -178,7 +243,7 @@ function TrackerBaseFrame.Update()
     end
 end
 
-function TrackerBaseFrame.SetSafePoint()
+function TrackerBaseFrame:SetSafePoint()
     local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()/2
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
     local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
@@ -189,8 +254,8 @@ function TrackerBaseFrame.SetSafePoint()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y}
     end
 
-    _MoveDurabilityFrame()
-    _UpdateTracker()
+    QuestieTracker:MoveDurabilityFrame()
+    QuestieTracker:Update()
 end
 
 function TrackerBaseFrame.ShrinkToMinSize(minSize)
@@ -208,17 +273,15 @@ function TrackerBaseFrame.OnDragStart(button)
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
             dragButton = button
             baseFrame:StartMoving()
-            if Questie.db.char.isTrackerExpanded and (not Questie.db.global.sizerHidden) then
-                baseFrame.sizer:SetAlpha(1)
-            end
+            TrackerBaseFrame:Update()
         else
             -- Turns off mouse looking to prevent frame from becoming stuck to the pointer
             if not IsMouselooking() then
                 MouselookStart()
-                mouselookTicker = C_Timer.NewTicker(0.1, function()
+                mouseLookTicker = C_Timer.NewTicker(0.1, function()
                     if not IsMouseButtonDown(button) then
                         MouselookStop()
-                        mouselookTicker:Cancel()
+                        mouseLookTicker:Cancel()
                     end
                 end)
             end
@@ -245,8 +308,8 @@ local function _UpdateTrackerPosition()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop)}
     end
 
-    _MoveDurabilityFrame()
-    _UpdateTracker()
+    QuestieTracker:MoveDurabilityFrame()
+    QuestieTracker:Update()
 end
 
 function TrackerBaseFrame.OnDragStop()
@@ -258,7 +321,6 @@ function TrackerBaseFrame.OnDragStop()
 
     dragButton = nil
     baseFrame:StopMovingOrSizing()
-
     QuestieCombatQueue:Queue(_UpdateTrackerPosition)
 end
 
@@ -272,61 +334,42 @@ function TrackerBaseFrame.OnResizeStart(_, button)
     if button == "LeftButton" then
         if IsMouseButtonDown(button) then
             if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
-                isSizing = true
+                TrackerBaseFrame.isSizing = true
                 baseFrame:StartSizing("RIGHT")
+
+                local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
-                    _UpdateTracker() -- TODO: This really needs to work flawlessly and fast when its called every 0.1 second
+
+                    -- This keeps the trackers SetPoint "clamped" to the players desired location
+                    -- while the tracker lines expand and shrink due to Text Wrapping.
+                    baseFrame:StopMovingOrSizing()
+                    baseFrame:ClearAllPoints()
+                    baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
+
+                    QuestieTracker:Update()
+                    baseFrame:StartSizing("RIGHT")
                 end)
             end
         end
     elseif button == "RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
-        _UpdateTracker()
-
-        if not Questie.db.global.sizerHidden then
-            baseFrame.sizer:SetAlpha(1)
-        end
-
-        C_Timer.After(0.1, function()
-            _UpdateTracker()
-        end)
+        QuestieTracker:Update()
     end
 end
 
 ---@param button string @The mouse button that is pressed when resize stops
 function TrackerBaseFrame.OnResizeStop(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
-    if button == "RightButton" or isSizing ~= true then
+
+    if button == "RightButton" or TrackerBaseFrame.isSizing ~= true then
+        QuestieTracker:Update()
         return
     end
 
-    isSizing = false
+    TrackerBaseFrame.isSizing = false
     baseFrame:StopMovingOrSizing()
+    QuestieCombatQueue:Queue(_UpdateTrackerPosition)
     updateTimer:Cancel()
-end
-
----Updates the TrackerBaseFrame width to be at a minimum width of the activeQuestsHeader
----@param activeQuestsHeaderWidth number @The width of the ActiveQuestsHeader
----@param trackerVarsCombined number @Combined tracker width parameters
-function TrackerBaseFrame.UpdateWidth(activeQuestsHeaderWidth, trackerVarsCombined)
-    local baseFrameWidth = baseFrame:GetWidth()
-
-    if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
-        -- Manual user width
-        if (not isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < activeQuestsHeaderWidth) then
-            baseFrame:SetWidth(activeQuestsHeaderWidth)
-            Questie.db[Questie.db.global.questieTLoc].TrackerWidth = activeQuestsHeaderWidth
-        elseif (not isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth ~= baseFrameWidth) then
-            baseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
-        end
-    else
-        -- auto width
-        if (trackerVarsCombined < activeQuestsHeaderWidth and Questie.db.global.trackerHeaderEnabled) then
-            baseFrame:SetWidth(activeQuestsHeaderWidth)
-
-        elseif (trackerVarsCombined ~= baseFrameWidth) then
-            baseFrame:SetWidth(trackerVarsCombined)
-        end
-    end
 end

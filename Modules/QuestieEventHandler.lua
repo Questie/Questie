@@ -91,10 +91,6 @@ function QuestieEventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_UPDATE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-                -- This is necessary to call it again to update the trackers formatting
-                C_Timer.After(0.1, function()
-                    QuestieTracker:Update()
-                end)
             end)
         end)
     end
@@ -253,7 +249,7 @@ function _EventHandler:ModifierStateChanged()
     if Questie.db.global.trackerLocked then
         if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
-                TrackerBaseFrame.Update()
+                TrackerBaseFrame:Update()
             end)
         end
     end
@@ -321,7 +317,7 @@ function _EventHandler:GroupLeft()
     QuestieComms:ResetAll()
 end
 
-local trackerHiddenByCombat, optionsHiddenByCombat, journeyHiddenByCombat = false
+local trackerHiddenByCombat, optionsHiddenByCombat, journeyHiddenByCombat = false, false, false
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
     if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then

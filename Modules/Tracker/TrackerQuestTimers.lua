@@ -1,18 +1,23 @@
----@class QuestieQuestTimers
-local QuestieQuestTimers = QuestieLoader:CreateModule("QuestieQuestTimers")
----@type QuestieQuestTimersPrivate
-QuestieQuestTimers.private = QuestieQuestTimers.private or {}
----@class QuestieQuestTimersPrivate
-local _QuestieQuestTimers = QuestieQuestTimers.private
+---@class TrackerQuestTimers
+local TrackerQuestTimers = QuestieLoader:CreateModule("TrackerQuestTimers")
+-------------------------
+--Import QuestieTracker modules.
+-------------------------
+---@type TrackerLinePool
+local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+-------------------------
+--Import Questie modules.
+-------------------------
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+
+local LSM30 = LibStub("LibSharedMedia-3.0")
 
 local blizzardTimerLocation = {}
 local timer
 
-function QuestieQuestTimers:Initialize()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieQuestTimers:Initialize")
+function TrackerQuestTimers:Initialize()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerQuestTimers:Initialize")
     if Questie.IsWotlk then
         -- QuestTimerFrame_Update doesn't exist in WotLK
         return
@@ -25,23 +30,23 @@ function QuestieQuestTimers:Initialize()
                 Questie:Debug(Questie.DEBUG_CRITICAL, "Still no QuestTimerFrame_Update. Something is strange.")
                 return
             end
-            hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
+            hooksecurefunc("QuestTimerFrame_Update", TrackerQuestTimers.UpdateTimerFrame)
         end)
     else
-        hooksecurefunc("QuestTimerFrame_Update", _QuestieQuestTimers.UpdateTimerFrame)
+        hooksecurefunc("QuestTimerFrame_Update", TrackerQuestTimers.UpdateTimerFrame)
     end
 
     QuestTimerFrame:HookScript("OnShow", function()
         blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
         if Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer then
-            QuestieQuestTimers:HideBlizzardTimer()
+            TrackerQuestTimers:HideBlizzardTimer()
         else
-            QuestieQuestTimers:ShowBlizzardTimer()
+            TrackerQuestTimers:ShowBlizzardTimer()
         end
     end)
 end
 
-function QuestieQuestTimers:HideBlizzardTimer()
+function TrackerQuestTimers:HideBlizzardTimer()
     -- Classic WotLK
     if Questie.IsWotlk then
         WatchFrame:Hide()
@@ -53,7 +58,7 @@ function QuestieQuestTimers:HideBlizzardTimer()
     QuestTimerFrame:SetPoint("TOP", -10000, -10000)
 end
 
-function QuestieQuestTimers:ShowBlizzardTimer()
+function TrackerQuestTimers:ShowBlizzardTimer()
     -- Classic WotLK
     if Questie.IsWotlk then
         WatchFrame:Show()
@@ -67,8 +72,8 @@ function QuestieQuestTimers:ShowBlizzardTimer()
     end
 end
 
-function QuestieQuestTimers:GetRemainingTime(questId, frame, clear)
-    local remainingSeconds = _QuestieQuestTimers:GetRemainingTime(questId)
+function TrackerQuestTimers:GetRemainingTime(questId, frame, clear)
+    local remainingSeconds = TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 
     if (not remainingSeconds) then
         return nil
@@ -86,7 +91,7 @@ function QuestieQuestTimers:GetRemainingTime(questId, frame, clear)
     return remainingSeconds
 end
 
-function _QuestieQuestTimers:GetRemainingTime(questId)
+function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
     local questLogIndex = GetQuestLogIndexByID(questId)
     if (not questLogIndex) then
         return nil
@@ -106,7 +111,7 @@ function _QuestieQuestTimers:GetRemainingTime(questId)
         SelectQuestLogEntry(currentQuestLogSelection)
 
         if seconds then
-            return SecondsToTime(seconds)
+            return SecondsToTime(seconds, false, true), seconds
         else
             return nil
         end
@@ -117,15 +122,15 @@ function _QuestieQuestTimers:GetRemainingTime(questId)
     return nil
 end
 
-function _QuestieQuestTimers:UpdateTimerFrame()
+function TrackerQuestTimers:UpdateTimerFrame()
     QuestieCombatQueue:Queue(function()
         if timer then
-            local seconds = _QuestieQuestTimers:GetRemainingTime(timer.questId)
-            if (not seconds) then
+            local remainingSeconds = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
+            if (not remainingSeconds) then
                 return
             end
-            timer.frame.label:SetText(Questie:Colorize(seconds, "blue"))
-            timer.frame:SetVerticalPadding(2)
+            timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeObjective, TrackerLinePool.GetOutline)
+            timer.frame.label:SetText(Questie:Colorize(remainingSeconds, "blue"))
         end
     end)
 end

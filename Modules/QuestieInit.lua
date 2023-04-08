@@ -67,8 +67,8 @@ local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 ---@type QuestieDBMIntegration
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration");
----@type QuestieQuestTimers
-local QuestieQuestTimers = QuestieLoader:ImportModule("QuestieQuestTimers")
+---@type TrackerQuestTimers
+local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieSlash
@@ -224,7 +224,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     -- ** OLD ** Questie:ContinueInit() ** START **
     QuestieTooltips:Initialize()
     QuestieCoords:Initialize()
-    QuestieQuestTimers:Initialize()
+    TrackerQuestTimers:Initialize()
     QuestieComms:Initialize()
 
     QuestieSlash.RegisterSlashCommands()
