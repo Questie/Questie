@@ -366,7 +366,7 @@ function QuestieInit:Init()
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
     -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
-    if Questie.db.global.hookTracking then
+    if Questie.db.global.trackerEnabled then
         QuestieTracker:HookBaseTracker()
     end
 end

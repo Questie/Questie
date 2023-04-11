@@ -15,7 +15,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WatchFrame = QuestWatchFrame or WatchFrame
+local WatchFrame = QuestTimerFrame or WatchFrame
 local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
 local mouseLookTicker
 local dragButton
@@ -27,7 +27,7 @@ TrackerBaseFrame.isSizing = false
 function TrackerBaseFrame.Initialize()
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-    baseFrame:SetFrameStrata("BACKGROUND")
+    baseFrame:SetFrameStrata("LOW")
     baseFrame:SetFrameLevel(0)
     baseFrame:SetSize(25, 25)
 
@@ -347,6 +347,7 @@ function TrackerBaseFrame.OnResizeStart(_, button)
                     baseFrame:StopMovingOrSizing()
                     baseFrame:ClearAllPoints()
                     baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
+                    ------------------------------------------------------------------------------
 
                     QuestieTracker:Update()
                     baseFrame:StartSizing("RIGHT")
@@ -355,7 +356,7 @@ function TrackerBaseFrame.OnResizeStart(_, button)
         end
     elseif button == "RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
-        QuestieTracker:Update()
+        --QuestieTracker:Update()
     end
 end
 
@@ -364,7 +365,9 @@ function TrackerBaseFrame.OnResizeStop(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
 
     if button == "RightButton" or TrackerBaseFrame.isSizing ~= true then
-        QuestieTracker:Update()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
         return
     end
 

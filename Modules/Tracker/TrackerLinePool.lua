@@ -115,30 +115,37 @@ function TrackerLinePool.Initialize(questFrame)
         end
 
         line.OnUpdate = function(self, elapsed)
-            timeElapsed = timeElapsed + elapsed
+            if Questie.IsWotlk then
+                timeElapsed = timeElapsed + elapsed
 
-            if timeElapsed > 1 and self.trackTimedQuest and self.label.activeTimer then
-                local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(self.Quest.Id)
+                if timeElapsed > 1 and self.trackTimedQuest and self.label.activeTimer then
+                    local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(self.Quest.Id)
 
-                if timeRemaining == nil then
-                    timeElapsed = 0
-                    return
+                    if timeRemaining ~= nil then
+                        if timeRemaining > 1 then
+                            TrackerQuestTimers:UpdateTimerFrame()
+                        end
 
-                elseif timeRemaining > 2 then
-                    Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: Quest Timer Id ", self.Quest.Id .. " - Quest Timer ", timeRemainingString)
+                        if timeRemaining == 1 then
+                            TrackerQuestTimers:UpdateTimerFrame()
 
-                    TrackerQuestTimers:UpdateTimerFrame()
-                    timeElapsed = 0
+                            C_Timer.After(1 , function()
+                                Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: Quest Timer Expired!")
 
-                elseif timeRemaining <= 1 then
-                    C_Timer.After(1 , function()
-                        Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: Quest Timer Expired!")
+                                -- Assume the timer ran out so we need to manually trigger a QuestLog Update
+                                _QuestEventHandler:UpdateAllQuests()
+                            end)
+                        end
 
-                        -- Assume the timer ran out so we need to manually trigger a QuestLog Update
-                        _QuestEventHandler:UpdateAllQuests()
-                    end)
-                    timeElapsed = 0
+                        timeElapsed = 0
+
+                    else
+                        timeElapsed = 0
+                        return
+                    end
                 end
+            else
+                return
             end
         end
 

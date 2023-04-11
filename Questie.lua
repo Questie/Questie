@@ -1,4 +1,3 @@
-
 -- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
 -- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
 Questie.DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
@@ -19,7 +18,6 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
-
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
@@ -28,12 +26,19 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    -- Called when the addon is enabled
-    WatchFrame:Hide()
+    if Questie.IsWotlk then
+        -- Called when the addon is enabled
+        if (Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
+            WatchFrame:Hide()
+        end
+    end
 end
+
 function Questie:OnDisable()
-    -- Called when the addon is disabled
-    WatchFrame:Show()
+    if Questie.IsWotlk then
+        -- Called when the addon is disabled
+        WatchFrame:Show()
+    end
 end
 
 --- Colorize a string with a color code

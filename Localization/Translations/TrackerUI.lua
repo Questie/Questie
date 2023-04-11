@@ -2,17 +2,17 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local trackerUILocales = {
-    ["Questie Tracker: "] = {
-        ["ptBR"] = "Missões ativas: ",
-        ["ruRU"] = "Активные задания: ",
-        ["deDE"] = "Aktive Quests: ",
-        ["koKR"] = "활성 퀘스트: ",
-        ["esMX"] = "Misiones Activas: ",
+    ["Questie Tracker"] = {
+        ["ptBR"] = "Missões ativas",
+        ["ruRU"] = "Активные задания",
+        ["deDE"] = "Aktive Quests",
+        ["koKR"] = "활성 퀘스트",
+        ["esMX"] = "Misiones Activas",
         ["enUS"] = true,
-        ["zhCN"] = "当前任务: ",
-        ["zhTW"] = "目前的任務: ",
-        ["esES"] = "Misiones Activas: ",
-        ["frFR"] = "Quêtes actives : ",
+        ["zhCN"] = "当前任务",
+        ["zhTW"] = "目前的任務",
+        ["esES"] = "Misiones Activas",
+        ["frFR"] = "Quêtes actives",
     },
     ["Show Icons"] = {
         ["ptBR"] = "Mostrar ícones",

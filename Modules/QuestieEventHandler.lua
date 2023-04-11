@@ -74,7 +74,6 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function (...)
         QuestieAuto.GOSSIP_SHOW(...)
-        GossipFrameDailyMarker.Mark(...)
     end)
     Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by

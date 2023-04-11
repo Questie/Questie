@@ -11,6 +11,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerLinePool
 local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type TrackerQuestTimers
+local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
@@ -47,6 +49,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         Questie.db.char.AutoUntrackedQuests = {}
                     end
+
+                    -- Update quest log and mark tracked quests
+                    local questLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+                    if questLogFrame:IsShown() then
+                        QuestLog_Update()
+                    end
+
                     QuestieTracker:Update()
                 end
             },
@@ -125,39 +134,16 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return l10n('Show Blizzard Timer'); end,
                 desc = function() return l10n('When this is checked, the default Blizzard Timer Frame for quests will be shown instead of being embedded inside the tracker.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return (
-                        Questie.db.global.showBlizzardQuestTimer or (not Questie.db.global.trackerEnabled));
-                end,
+                get = function() return Questie.db.global.showBlizzardQuestTimer; end,
                 set = function(_, value)
                     Questie.db.global.showBlizzardQuestTimer = value
 
-                    if Questie.IsWotlk then
-                        if value == true then
-                            WatchFrame:Show()
-                        else
-                            WatchFrame:Hide()
-                        end
+                    if value == true then
+                        TrackerQuestTimers:ShowBlizzardTimer()
+                    else
+                        TrackerQuestTimers:HideBlizzardTimer()
                     end
 
-                    QuestieTracker:Update()
-                end
-            },
-            enableTrackerHooks = {
-                type = "toggle",
-                order = 1.8,
-                width = 1.5,
-                name = function() return l10n('Enable Tracker Hooks'); end,
-                desc = function() return l10n('Enable hooking the Blizzard quest tracker. This is required for some features of the Questie tracker, and to integrate with other addons. If you are having issues with quest tracking you may need to disable this (requires /reload).'); end,
-                disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return Questie.db.global.hookTracking; end,
-                set = function(_, value)
-                    Questie.db.global.hookTracking = value
-                    if value == true then
-                        -- may not have been initialized yet
-                        QuestieTracker:HookBaseTracker()
-                    else
-                        QuestieTracker:Unhook()
-                    end
                     QuestieTracker:Update()
                 end
             },
@@ -203,7 +189,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 name = function() return l10n('Sticky Durability Frame'); end,
                 desc = function() return l10n('When this is checked, the durability frame will be placed on the left or right side of the Tracker depending on where the Tracker is placed on your screen.'); end,
                 disabled = function() return not Questie.db.global.trackerEnabled; end,
-                get = function() return (Questie.db.global.stickyDurabilityFrame and Questie.db.global.trackerEnabled); end,
+                get = function() return Questie.db.global.stickyDurabilityFrame; end,
                 set = function(_, value)
                     Questie.db.global.stickyDurabilityFrame = value
                     if value then
@@ -344,9 +330,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 width = 1.5,
                 name = function() return l10n('Enable Border'); end,
                 desc = function() return l10n('When this is checked, the Questie Tracker Border becomes visible.'); end,
-                disabled = function() return not Questie.db.global.trackerBackdropEnabled or
-                        not Questie.db.global.trackerEnabled;
-                end,
+                disabled = function() return not Questie.db.global.trackerEnabled or not Questie.db.global.trackerBackdropEnabled; end,
                 get = function() return Questie.db.global.trackerBorderEnabled; end,
                 set = function(_, value)
                     Questie.db.global.trackerBorderEnabled = value
@@ -364,9 +348,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 width = 1.5,
                 name = function() return l10n('Fade Background'); end,
                 desc = function() return l10n('When this is checked, the Questie Tracker Backdrop and Border (if enabled) will fade and become transparent when not in use.'); end,
-                disabled = function() return not Questie.db.global.trackerBackdropEnabled or
-                        not Questie.db.global.trackerEnabled;
-                end,
+                disabled = function() return not Questie.db.global.trackerEnabled or not Questie.db.global.trackerBackdropEnabled; end,
                 get = function() return Questie.db.global.trackerBackdropFader; end,
                 set = function(_, value)
                     Questie.db.global.trackerBackdropFader = value
@@ -471,19 +453,18 @@ function QuestieOptions.tabs.tracker:Initialize()
                 desc = function()
                     local description
                     if Questie.db.global.trackerEnabled then
-                        description = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.')
+                        description = l10n('Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This will reload the UI.')
                     elseif (not Questie.db.global.trackerEnabled) then
-                        description = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.')
+                        description = l10n('Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: This will reload the UI.')
                     end
                     return description
                 end,
+                disabled = function() return InCombatLockdown(); end,
                 func = function()
                     if Questie.db.global.trackerEnabled then
                         QuestieTracker:Disable()
-                        Questie.db.global.trackerEnabled = false
                     else
                         QuestieTracker:Enable()
-                        Questie.db.global.trackerEnabled = true
                     end
                 end
             },
@@ -495,7 +476,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 3.4,
                 width = 1.0,
                 name = function() return l10n('Reset Tracker Position'); end,
-                desc = function() return l10n("If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)."); end,
+                desc = function() return l10n("If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button."); end,
                 disabled = function() return not Questie.db.global.trackerEnabled or InCombatLockdown(); end,
                 func = function()
                     QuestieTracker:ResetLocation()

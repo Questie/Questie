@@ -212,9 +212,9 @@ function TrackerHeaderFrame:Update()
         local _, activeQuests = GetNumQuestLogEntries()
 
         if Questie.db.char.isTrackerExpanded then
-            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker: ") .. tostring(activeQuests) .. maxQuestAmount)
+            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. ": " .. tostring(activeQuests) .. maxQuestAmount)
         else
-            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker +"))
+            headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. " +")
         end
         headerFrame.trackedQuests.label:SetPoint("TOPLEFT", headerFrame.questieIcon, "TOPRIGHT", 2, 0)
 
