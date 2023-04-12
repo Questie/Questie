@@ -804,9 +804,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 min = 0,
                 max = 100,
                 step = 5,
-                disabled = function() return not Questie.db.global.trackerBackdropEnabled or
-                        not Questie.db.global.trackerEnabled;
-                end,
+                disabled = function() return not Questie.db.global.trackerBackdropEnabled or not Questie.db.global.trackerEnabled; end,
                 get = function() return Questie.db.global.trackerBackdropAlpha * 100; end,
                 set = function(_, value)
                     Questie.db.global.trackerBackdropAlpha = value / 100

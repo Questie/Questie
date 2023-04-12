@@ -566,7 +566,7 @@ function TrackerLinePool.ResetButtonsForChange()
     buttonIndex = 0
 end
 
----Updates all the line.label widths in the linePool
+---Updates all the line.label widths in the linePool for wrapped text only
 ---@param trackerLineWidth number
 function TrackerLinePool.UpdateLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest

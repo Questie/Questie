@@ -15,7 +15,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
-local WatchFrame = QuestTimerFrame or WatchFrame
+local WatchFrame = QuestWatchFrame or WatchFrame
 local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
 local mouseLookTicker
 local dragButton
@@ -356,7 +356,6 @@ function TrackerBaseFrame.OnResizeStart(_, button)
         end
     elseif button == "RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
-        --QuestieTracker:Update()
     end
 end
 

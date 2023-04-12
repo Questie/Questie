@@ -41,7 +41,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
-local trackerLineWidth = 1
+local trackerLineWidth = 0
+local trackerMinLineWidth = 275
 local trackerMarginRight = 20
 local trackerMarginLeft = 10
 local lastAQW = GetTime()
@@ -1009,6 +1010,9 @@ function QuestieTracker:Update()
                                     line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
                                     line:SetHeight(line.label:GetHeight())
 
+                                    -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                    trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+
                                     -- We do not compare and save a trackerLineWidth here because the width is dynamic. Instead it'll default to the widest
                                     -- previously saved trackerLineWidth above it. This forces the Text into more than one line and keeps the Tracker narrow.
                                     -- After the tracker linePool is populated, TrackerLinePool.UpdateLineWidths() is run from within the UpdateFormatting function
@@ -1088,6 +1092,9 @@ function QuestieTracker:Update()
                             -- Allow text wrapping and set Line and Label heights.
                             line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
                             line:SetHeight(line.label:GetHeight())
+
+                            -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                            trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
 
                             -- We do not compare and save a trackerLineWidth here because the width is dynamic. Instead it'll default to the widest
                             -- previously saved trackerLineWidth above it. This forces the Text into more than one line and keeps the Tracker narrow.
@@ -1385,6 +1392,9 @@ function QuestieTracker:Update()
                             -- TextWrap Objective and set height
                             line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
                             line:SetHeight(line.label:GetHeight())
+
+                            -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                            trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
 
                             -- We do not compare and save a trackerLineWidth here because the width is dynamic. Instead it'll default to the widest
                             -- previously saved trackerLineWidth above it. This forces the Text into more than one line and keeps the Tracker narrow.
