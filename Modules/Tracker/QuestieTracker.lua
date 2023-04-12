@@ -733,7 +733,7 @@ function QuestieTracker:Update()
                         for _, itemId in pairs(quest.requiredSourceItems) do
 
                             -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                            if itemId and itemId ~= quest.sourceItemId and QuestieDB:GetItem(itemId).class == 12 and (GetItemSpell(itemId) ~= nil) then
+                            if itemId and itemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and (GetItemSpell(itemId) ~= nil) then
 
                                 -- Get button from buttonPool
                                 local altButton = TrackerLinePool.GetNextItemButton()

@@ -323,27 +323,27 @@ function TrackerLinePool.Initialize(questFrame)
 
             for bag = 0 , 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
-                    local texture, _, _, _, _, _, _, _, _, itemID = QuestieCompat.GetContainerItemInfo(bag, slot)
+                    local texture, _, _, _, _, _, _, _, _, itemId = QuestieCompat.GetContainerItemInfo(bag, slot)
                     -- These type of quest items can never be secondary buttons
-                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).class == 12 and buttonType == "primary" then
+                    if quest.sourceItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and buttonType == "primary" then
                         validTexture = texture
-                        self.itemID = quest.sourceItemId
+                        self.itemId = quest.sourceItemId
                         break
                     end
                     -- These type of quest items are technically secondary buttons but are assigned primary button slots
                     if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         local questItemId = quest.requiredSourceItems[1]
-                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID then
+                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId then
                             validTexture = texture
-                            self.itemID = questItemId
+                            self.itemId = questItemId
                             break
                         end
                     -- These type of quest items can never be primary buttons
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
                         for _, questItemId in pairs(quest.requiredSourceItems) do
-                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID and buttonType == "secondary" then
+                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId and buttonType == "secondary" then
                                 validTexture = texture
-                                self.itemID = questItemId
+                                self.itemId = questItemId
                                 break
                             end
                         end
@@ -354,27 +354,27 @@ function TrackerLinePool.Initialize(questFrame)
             -- Edge case to find "equipped" quest items since they will no longer be in the players bag
             if (not validTexture) then
                 for inventorySlot = 1, 19 do
-                    local itemID = GetInventoryItemID("player", inventorySlot)
+                    local itemId = GetInventoryItemID("player", inventorySlot)
                     -- These type of quest items can never be secondary buttons
-                    if quest.sourceItemId == itemID and QuestieDB:GetItem(itemID).class == 12 and buttonType == "primary" then
+                    if quest.sourceItemId == itemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and buttonType == "primary" then
                         validTexture = GetInventoryItemTexture("player", inventorySlot)
-                        self.itemID = quest.sourceItemId
+                        self.itemId = quest.sourceItemId
                         break
                     end
                     -- These type of quest items are technically secondary buttons but are assigned primary button slots
                     if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         local questItemId = quest.requiredSourceItems[1]
-                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID then
+                        if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId then
                             validTexture = GetInventoryItemTexture("player", inventorySlot)
-                            self.itemID = questItemId
+                            self.itemId = questItemId
                             break
                         end
                     -- These type of quest items can never be primary buttons
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
                         for _, questItemId in pairs(quest.requiredSourceItems) do
-                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB:GetItem(questItemId).class == 12 and questItemId == itemID and buttonType == "secondary" then
+                            if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId and buttonType == "secondary" then
                                 validTexture = GetInventoryItemTexture("player", inventorySlot)
-                                self.itemID = questItemId
+                                self.itemId = questItemId
                                 break
                             end
                         end
@@ -382,12 +382,12 @@ function TrackerLinePool.Initialize(questFrame)
                 end
             end
 
-            if validTexture and self.itemID then
+            if validTexture and self.itemId then
                 self.questID = quest.Id
-                self.charges = GetItemCount(self.itemID, nil, true)
+                self.charges = GetItemCount(self.itemId, nil, true)
                 self.rangeTimer = -1
 
-                self:SetAttribute("item", "item:" .. tostring(self.itemID))
+                self:SetAttribute("item", "item:" .. tostring(self.itemId))
                 self:SetNormalTexture(validTexture)
                 self:SetPushedTexture(validTexture)
                 self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
@@ -435,15 +435,15 @@ function TrackerLinePool.Initialize(questFrame)
         end
 
         btn.OnUpdate = function(self, elapsed)
-            if not self.itemID or not self:IsVisible() then
+            if not self.itemId or not self:IsVisible() then
                 return
             end
 
             local valid
             local rangeTimer = self.rangeTimer
-            local charges = GetItemCount(self.itemID, nil, true)
+            local charges = GetItemCount(self.itemId, nil, true)
 
-            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemID)
+            local start, duration, enabled = QuestieCompat.GetItemCooldown(self.itemId)
 
             if enabled == 1 and duration > 0 then
                 cooldown:SetCooldown(start, duration, enabled)
@@ -454,7 +454,7 @@ function TrackerLinePool.Initialize(questFrame)
 
             if (not charges or charges ~= self.charges) then
                 self.count:Hide()
-                self.charges = GetItemCount(self.itemID, nil, true)
+                self.charges = GetItemCount(self.itemId, nil, true)
                 if self.charges > 1 then
                     self.count:SetText(self.charges)
                     self.count:Show()
@@ -472,7 +472,7 @@ function TrackerLinePool.Initialize(questFrame)
             if UnitExists("target") then
 
                 if not self.itemName then
-                    self.itemName = GetItemInfo(self.itemID)
+                    self.itemName = GetItemInfo(self.itemId)
                 end
 
                 if (rangeTimer) then
@@ -509,7 +509,7 @@ function TrackerLinePool.Initialize(questFrame)
 
         btn.OnEnter = function(self)
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            GameTooltip:SetHyperlink("item:"..tostring(self.itemID)..":0:0:0:0:0:0:0")
+            GameTooltip:SetHyperlink("item:"..tostring(self.itemId)..":0:0:0:0:0:0:0")
             GameTooltip:Show()
 
             TrackerFadeTicker.OnEnter(self)
@@ -692,7 +692,7 @@ function TrackerLinePool.HideUnusedButtons()
         local button = buttonPool[i]
         if button then
             button:FakeHide()
-            button.itemID = nil
+            button.itemId = nil
             button.itemName = nil
             button.lineID = nil
             button.fontSize = nil
