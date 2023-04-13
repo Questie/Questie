@@ -682,6 +682,7 @@ function TrackerUtils:GetSortedQuestIds()
     end
 
     if (Questie.db.global.trackerSortObjectives ~= "byProximity") and questProximityTimer and questProximityTimer ~= nil then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils.UpdateQuestProximityTimer - Stoped!")
         questProximityTimer:Cancel()
         questProximityTimer = nil
     end
@@ -692,19 +693,16 @@ end
 ---@param sortedQuestIds number
 ---@param sorter function
 function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils.UpdateQuestProximityTimer - Started!")
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
         questProximityTimer = C_Timer.NewTicker(5.0, function()
             local position = _GetWorldPlayerPosition()
-
             if position then
                 local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
-
-                if not distance or distance > 0.01 then
+                if not distance or distance > 0.01 then -- Position has changed
+                    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils.questProximityTimer")
                     playerPosition = position
-
-                    QuestieTracker:Update()
-
                     local orderCopy = {}
 
                     for index, val in pairs(sortedQuestIds) do
@@ -714,13 +712,11 @@ function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
                     table.sort(orderCopy, sorter)
 
                     for index, val in pairs(sortedQuestIds) do
-                        if orderCopy[index] ~= val then
-                            -- the order has changed
-                            QuestieTracker:Update()
-
+                        if orderCopy[index] ~= val then -- The order has changed
                             break
                         end
                     end
+                    QuestieTracker:Update()
                 end
             end
         end)
