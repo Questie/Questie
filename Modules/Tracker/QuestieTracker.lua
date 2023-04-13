@@ -232,6 +232,15 @@ function QuestieTracker.Initialize()
 
                 trackedAchievements = { GetTrackedAchievements() }
                 WatchFrame_Update()
+
+                -- Sync and populate QuestieTrackers achievement cache
+                if Questie.db.char.trackedAchievementIds ~= trackedAchievementIds then
+                    for achieveId in pairs(Questie.db.char.trackedAchievementIds) do
+                        if Questie.db.char.trackedAchievementIds[achieveId] == true then
+                            trackedAchievementIds[achieveId] = true
+                        end
+                    end
+                end
             else
                 QuestWatch_Update()
             end

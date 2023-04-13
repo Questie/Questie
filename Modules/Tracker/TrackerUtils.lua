@@ -681,6 +681,11 @@ function TrackerUtils:GetSortedQuestIds()
         end
     end
 
+    if (Questie.db.global.trackerSortObjectives ~= "byProximity") and questProximityTimer and questProximityTimer ~= nil then
+        questProximityTimer:Cancel()
+        questProximityTimer = nil
+    end
+
     return sortedQuestIds, questCompletePercent
 end
 
@@ -689,11 +694,6 @@ end
 function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
-        if (Questie.db.global.trackerSortObjectives ~= "byProximity") and questProximityTimer and questProximityTimer ~= nil then
-            questProximityTimer:Cancel()
-            questProximityTimer = nil
-        end
-
         questProximityTimer = C_Timer.NewTicker(5.0, function()
             local position = _GetWorldPlayerPosition()
 
