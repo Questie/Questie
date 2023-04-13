@@ -56,7 +56,7 @@ local migrationFunctions = {
         Questie.db.char = {}
 
         if not hasRunAccountWide then
-            for k,v in pairs(optionsDefaults.global) do
+            for k, v in pairs(optionsDefaults.global) do
                 Questie.db.global[k] = v
             end
         end
@@ -66,7 +66,7 @@ local migrationFunctions = {
             Questie.db.char.enabled = true
         end
 
-        for k,v in pairs(optionsDefaults.char) do
+        for k, v in pairs(optionsDefaults.char) do
             Questie.db.char[k] = v
         end
 
@@ -104,10 +104,10 @@ local migrationFunctions = {
             Questie.db.char.questAnnounce = true
         end
     end,
-    [7] =  function()
+    [7] = function()
         Questie.db.global.hasSeenBetaMessage = nil
     end,
-    [8] =  function()
+    [8] = function()
         if not Questie.db.char.questAnnounceChannel then
             if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
                 Questie.db.char.questAnnounceChannel = "disabled"
@@ -164,7 +164,7 @@ local migrationFunctions = {
     [17] = function()
         if Questie.db.global.trackerHeaderAutoMove == false then
             Questie.db.global.trackerHeaderAutoMove = nil -- kill old key
-            Questie.db.global.autoMoveHeader = false -- migrate previous setting to new key
+            Questie.db.global.autoMoveHeader = false      -- migrate previous setting to new key
         end
     end,
     [18] = function()
@@ -174,28 +174,23 @@ local migrationFunctions = {
     end,
     [19] = function()
         if Questie.db.global.sizerHidden == nil then -- new option
-            Questie.db.global.sizerHidden = false -- set default
+            Questie.db.global.sizerHidden = false    -- set default
         end
     end,
     [20] = function()
-        if Questie.db.global.hideCompletedQuestObjectives == nil then -- new option
-            Questie.db.global.hideCompletedQuestObjectives = false -- set default
+        if Questie.db.global.hideCompletedQuestObjectives == nil then   -- new option
+            Questie.db.global.hideCompletedQuestObjectives = false      -- set default
         end
-    end,
-    [21] = function()
         if Questie.db.global.hideCompletedAchieveObjectives == nil then -- new option
-            Questie.db.global.hideCompletedAchieveObjectives = false -- set default
+            Questie.db.global.hideCompletedAchieveObjectives = false    -- set default
         end
-    end,
-    [22] = function()
-        if Questie.db.global.currentHeaderEnabledSetting == nil then -- new option
-            Questie.db.global.currentHeaderEnabledSetting = false -- set default
+        if Questie.db.global.currentHeaderEnabledSetting == nil then    -- new option
+            Questie.db.global.currentHeaderEnabledSetting = false       -- set default
         end
     end,
 }
 
 function Migration:Migrate()
-
     if not Questie.db.global.migrationVersion then
         Questie.db.global.migrationVersion = {}
     end
@@ -217,5 +212,4 @@ function Migration:Migrate()
     end
 
     Questie.db.global.migrationVersion[player] = currentVersion
-
 end

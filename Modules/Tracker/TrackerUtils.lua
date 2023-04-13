@@ -25,6 +25,33 @@ local objectiveFlashTicker
 local zoneCache = {}
 local questCompletePercent = {}
 local playerPosition, questProximityTimer
+local bindTruthTable = {
+    ['left'] = function(button)
+        return "LeftButton" == button
+    end,
+    ['right'] = function(button)
+        return "RightButton" == button
+    end,
+    ['shiftleft'] = function(button)
+        return "LeftButton" == button and IsShiftKeyDown()
+    end,
+    ['shiftright'] = function(button)
+        return "RightButton" == button and IsShiftKeyDown()
+    end,
+    ['ctrlleft'] = function(button)
+        return "LeftButton" == button and IsControlKeyDown()
+    end,
+    ['ctrlright'] = function(button)
+        return "RightButton" == button and IsControlKeyDown()
+    end,
+    ['altleft'] = function(button)
+        return "LeftButton" == button and IsAltKeyDown()
+    end,
+    ['altright'] = function(button)
+        return "RightButton" == button and IsAltKeyDown()
+    end,
+    ['disabled'] = function() return false; end,
+}
 
 local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
 
@@ -45,7 +72,7 @@ function TrackerUtils:ShowQuestLog(quest)
             ShowUIPanel(questFrame)
 
             --Addon specific behaviors
-            if(QuestLogEx) then
+            if (QuestLogEx) then
                 QuestLogEx:Maximize();
             end
         else
@@ -67,7 +94,7 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
             TomTom:RemoveWaypoint(Questie.db.char._tom_waypoint)
         end
         local uiMapId = ZoneDB:GetUiMapIdByAreaId(zone)
-        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x/100, y/100,  {title = title, crazy = true})
+        Questie.db.char._tom_waypoint = TomTom:AddWaypoint(uiMapId, x / 100, y / 100, { title = title, crazy = true })
     end
 end
 
@@ -102,7 +129,6 @@ function TrackerUtils:FlashObjective(objective)
             for _, frameName in pairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
-
                     -- todo: move into frame.session
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
@@ -188,7 +214,6 @@ function TrackerUtils:FlashFinisher(quest)
             for _, frameName in pairs(framelist) do
                 local icon = _G[frameName];
                 if not icon.miniMapIcon then
-
                     -- todo: move into frame.session
                     if icon:IsShown() then
                         icon._hidden_by_flash = true
@@ -266,34 +291,6 @@ end
 ---@return function function Returns bindTruthTable table key and matched function
 ---@return boolean false If the keybind is not set
 function TrackerUtils:IsBindTrue(bind, button)
-    local bindTruthTable = {
-        ['left'] = function(button)
-            return "LeftButton" == button
-        end,
-        ['right'] = function(button)
-            return "RightButton" == button
-        end,
-        ['shiftleft'] = function(button)
-            return "LeftButton" == button and IsShiftKeyDown()
-        end,
-        ['shiftright'] = function(button)
-            return "RightButton" == button and IsShiftKeyDown()
-        end,
-        ['ctrlleft'] = function(button)
-            return "LeftButton" == button and IsControlKeyDown()
-        end,
-        ['ctrlright'] = function(button)
-            return "RightButton" == button and IsControlKeyDown()
-        end,
-        ['altleft'] = function(button)
-            return "LeftButton" == button and IsAltKeyDown()
-        end,
-        ['altright'] = function(button)
-            return "RightButton" == button and IsAltKeyDown()
-        end,
-        ['disabled'] = function() return false; end,
-    }
-
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
 
@@ -355,13 +352,12 @@ function TrackerUtils:UnFocus()
     if (not Questie.db.char.TrackerFocus) then
         return
     end
-    for questId in pairs (QuestiePlayer.currentQuestlog) do
+    for questId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
 
         if quest then
             quest.FadeIcons = nil
             if next(quest.Objectives) then
-
                 if Questie.db.char.TrackerHiddenQuests[quest.Id] then
                     quest.HideIcons = true
                     quest.FadeIcons = nil
@@ -404,7 +400,7 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
     end
 
     Questie.db.char.TrackerFocus = tostring(questId) .. " " .. tostring(objectiveIndex)
-    for questLogQuestId in pairs (QuestiePlayer.currentQuestlog) do
+    for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questLogQuestId)
         if quest and next(quest.Objectives) then
             if questLogQuestId == questId then
@@ -428,7 +424,6 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
                         objective.FadeIcons = true
                     end
                 end
-
             else
                 quest.FadeIcons = true
             end
@@ -443,7 +438,7 @@ function TrackerUtils:FocusQuest(questId)
     end
 
     Questie.db.char.TrackerFocus = questId
-    for questLogQuestId in pairs (QuestiePlayer.currentQuestlog) do
+    for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questLogQuestId)
         if quest then
             if questLogQuestId == questId then
@@ -458,7 +453,7 @@ end
 
 ---@param zoneOrtSort string
 function TrackerUtils:ReportErrorMessage(zoneOrtSort)
-    Questie:Error("SortID: |cffffbf00"..zoneOrtSort.."|r was not found in the Database. Please file a bugreport at:")
+    Questie:Error("SortID: |cffffbf00" .. zoneOrtSort .. "|r was not found in the Database. Please file a bugreport at:")
     Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
@@ -487,7 +482,7 @@ end
 ---@return number
 local function _GetDistance(x1, y1, x2, y2)
     -- Basic proximity distance calculation to compare two locs (normally player position and provided loc)
-    return math.sqrt( (x2-x1)^2 + (y2-y1)^2 );
+    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2);
 end
 
 ---@param questId number
@@ -563,7 +558,7 @@ end
 function TrackerUtils:GetSortedQuestIds()
     local sortedQuestIds = {}
     -- Update quest objectives
-    for questId in pairs (QuestiePlayer.currentQuestlog) do
+    for questId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
         if quest then
             if quest:IsComplete() == 1 or (not next(quest.Objectives)) then
@@ -593,21 +588,18 @@ function TrackerUtils:GetSortedQuestIds()
             end
             return vB < vA
         end)
-
     elseif Questie.db.global.trackerSortObjectives == "byLevel" then
         table.sort(sortedQuestIds, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
             return qA and qB and qA.level < qB.level
         end)
-
     elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
         table.sort(sortedQuestIds, function(a, b)
             local qA = QuestieDB:GetQuest(a)
             local qB = QuestieDB:GetQuest(b)
             return qA and qB and qA.level > qB.level
         end)
-
     elseif Questie.db.global.trackerSortObjectives == "byZone" then
         table.sort(sortedQuestIds, function(a, b)
             local qA = QuestieDB:GetQuest(a)
@@ -642,13 +634,11 @@ function TrackerUtils:GetSortedQuestIds()
                 end
             end
         end)
-
     elseif Questie.db.global.trackerSortObjectives == "byProximity" then
         local toSort = {}
         local continent = _GetContinent(C_Map.GetBestMapForUnit("player"))
 
         for _, questId in pairs(sortedQuestIds) do
-
             local sortData = {}
 
             sortData.questId = questId
@@ -672,16 +662,13 @@ function TrackerUtils:GetSortedQuestIds()
 
                 if not a.distance and b.distance then
                     return false;
-
                 elseif a.distance and not b.distance then
                     return true;
                 end
 
                 return a.distance < b.distance;
-
             elseif (continent == a.continent) and (continent ~= b.continent) then
                 return true
-
             elseif (continent ~= a.continent) and (continent == b.continent) then
                 return false
             end
@@ -702,7 +689,6 @@ end
 function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
-
         if (Questie.db.global.trackerSortObjectives ~= "byProximity") and questProximityTimer and questProximityTimer ~= nil then
             questProximityTimer:Cancel()
             questProximityTimer = nil
@@ -729,7 +715,6 @@ function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
 
                     for index, val in pairs(sortedQuestIds) do
                         if orderCopy[index] ~= val then
-
                             -- the order has changed
                             QuestieTracker:Update()
 

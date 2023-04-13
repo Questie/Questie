@@ -84,9 +84,9 @@ function TrackerLinePool.Initialize(questFrame)
         line.SetMode = TrackerLinePool.SetMode
 
         function line:SetZone(ZoneId)
-            if ZoneId == "Achievements" then
+            if type(ZoneId) == "string" then
                 self.expandZone.zoneId = ZoneId
-            else
+            elseif type(ZoneId) == "number" then
                 self.ZoneId = TrackerUtils:GetZoneNameByID(ZoneId)
                 self.expandZone.zoneId = ZoneId
             end
@@ -129,7 +129,7 @@ function TrackerLinePool.Initialize(questFrame)
                         if timeRemaining == 1 then
                             TrackerQuestTimers:UpdateTimerFrame()
 
-                            C_Timer.After(1 , function()
+                            C_Timer.After(1, function()
                                 Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: Quest Timer Expired!")
 
                                 -- Assume the timer ran out so we need to manually trigger a QuestLog Update
@@ -138,7 +138,6 @@ function TrackerLinePool.Initialize(questFrame)
                         end
 
                         timeElapsed = 0
-
                     else
                         timeElapsed = 0
                         return
@@ -305,7 +304,7 @@ function TrackerLinePool.Initialize(questFrame)
 
     -- create buttonPool for quest items
     for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
-        local buttonName = "Questie_ItemButton"..i
+        local buttonName = "Questie_ItemButton" .. i
         local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
         btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
@@ -321,7 +320,7 @@ function TrackerLinePool.Initialize(questFrame)
         btn.SetItem = function(self, quest, buttonType, size)
             local validTexture
 
-            for bag = 0 , 4 do
+            for bag = 0, 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                     local texture, _, _, _, _, _, _, _, _, itemId = QuestieCompat.GetContainerItemInfo(bag, slot)
                     -- These type of quest items can never be secondary buttons
@@ -338,7 +337,7 @@ function TrackerLinePool.Initialize(questFrame)
                             self.itemId = questItemId
                             break
                         end
-                    -- These type of quest items can never be primary buttons
+                        -- These type of quest items can never be primary buttons
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
                         for _, questItemId in pairs(quest.requiredSourceItems) do
                             if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId and buttonType == "secondary" then
@@ -369,7 +368,7 @@ function TrackerLinePool.Initialize(questFrame)
                             self.itemId = questItemId
                             break
                         end
-                    -- These type of quest items can never be primary buttons
+                        -- These type of quest items can never be primary buttons
                     elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems > 1 then
                         for _, questItemId in pairs(quest.requiredSourceItems) do
                             if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId and buttonType == "secondary" then
@@ -470,7 +469,6 @@ function TrackerLinePool.Initialize(questFrame)
             end
 
             if UnitExists("target") then
-
                 if not self.itemName then
                     self.itemName = GetItemInfo(self.itemId)
                 end
@@ -479,13 +477,11 @@ function TrackerLinePool.Initialize(questFrame)
                     rangeTimer = rangeTimer - elapsed
 
                     if (rangeTimer <= 0) then
-
                         valid = IsItemInRange(self.itemName, "target")
 
                         if valid == false then
                             self.range:SetVertexColor(1.0, 0.1, 0.1)
                             self.range:Show()
-
                         elseif valid == true then
                             self.range:SetVertexColor(0.6, 0.6, 0.6)
                             self.range:Show()
@@ -509,7 +505,7 @@ function TrackerLinePool.Initialize(questFrame)
 
         btn.OnEnter = function(self)
             GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
-            GameTooltip:SetHyperlink("item:"..tostring(self.itemId)..":0:0:0:0:0:0:0")
+            GameTooltip:SetHyperlink("item:" .. tostring(self.itemId) .. ":0:0:0:0:0:0:0")
             GameTooltip:Show()
 
             TrackerFadeTicker.OnEnter(self)
@@ -761,10 +757,8 @@ TrackerLinePool.OnClickQuest = function(self, button)
         if spawn then
             TrackerUtils:SetTomTomTarget(name, zone, spawn[1], spawn[2])
         end
-
     elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
-
             if Questie.db.global.trackerShowQuestLevel then
                 ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.Quest.level, self.Quest.name, self.Quest.Id))
             else
@@ -777,10 +771,8 @@ TrackerLinePool.OnClickQuest = function(self, button)
                 QuestLog_Update()
             end
         end
-
     elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         TrackerUtils:ShowQuestLog(self.Quest)
-
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForQuest(self.Quest)
         LibDropDown:EasyMenu(menu, TrackerMenu.menuFrame, "cursor", 0, 0, "MENU")
@@ -801,11 +793,10 @@ TrackerLinePool.OnClickAchieve = function(self, button)
     if TrackerUtils:IsBindTrue(Questie.db.global.trackerbindUntrack, button) then
         if (IsModifiedClick("CHATLINK") and ChatEdit_GetActiveWindow()) then
             ChatEdit_InsertLink(GetAchievementLink(self.Quest.Id))
-
         else
             if Questie.db.char.trackedAchievementIds[self.Quest.Id] then
                 QuestieTracker:UntrackAchieveId(self.Quest.Id)
-                QuestieTracker:UpdateAchieveTrackerCache(self, self.Quest.Id, true)
+                QuestieTracker:UpdateAchieveTrackerCache(self.Quest.Id)
 
                 if (not AchievementFrame) then
                     AchievementFrame_LoadUI()
@@ -816,25 +807,23 @@ TrackerLinePool.OnClickAchieve = function(self, button)
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
                 end)
-
             else
                 -- Assume this is an Objective of an Achievement
                 UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)
             end
         end
-
     elseif TrackerUtils:IsBindTrue(Questie.db.global.trackerbindOpenQuestLog, button) then
         if (not AchievementFrame) then
-			AchievementFrame_LoadUI()
-		end
+            AchievementFrame_LoadUI()
+        end
 
         if (not AchievementFrame:IsShown()) then
             AchievementFrame_ToggleAchievementFrame()
             AchievementFrame_SelectAchievement(self.Quest.Id)
         else
-			if (AchievementFrameAchievements.selection ~= self.Quest.Id) then
-				AchievementFrame_SelectAchievement(self.Quest.Id)
-			end
+            if (AchievementFrameAchievements.selection ~= self.Quest.Id) then
+                AchievementFrame_SelectAchievement(self.Quest.Id)
+            end
         end
     elseif button == "RightButton" then
         local menu = TrackerMenu:GetMenuForAchievement(self.Quest)

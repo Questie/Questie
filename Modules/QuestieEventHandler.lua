@@ -1,4 +1,3 @@
---- GLOBAL ---
 ---@class QuestieEventHandler
 local QuestieEventHandler = QuestieLoader:CreateModule("QuestieEventHandler")
 local _EventHandler = {}
@@ -41,8 +40,8 @@ local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type GossipFrameDailyMarker
 local GossipFrameDailyMarker = QuestieLoader:ImportModule("GossipFrameDailyMarker")
 
-local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
-local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
+local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
+local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
 
 --* Calculated in _EventHandler:PlayerLogin()
 ---en/br/es/fr/gb/it/mx: "You are now %s with %s." (e.g. "You are now Honored with Stormwind."), all other languages are very alike
@@ -61,6 +60,10 @@ function QuestieEventHandler:RegisterLateEvents()
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
     Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _EventHandler.ModifierStateChanged)
+    Questie:RegisterEvent("PLAYER_ALIVE", function(...)
+        QuestieTracker:CheckDurabilityAlertStatus()
+    end)
+
     -- Events to update a players professions and reputations
     Questie:RegisterBucketEvent("CHAT_MSG_SKILL", 2, _EventHandler.ChatMsgSkill)
     Questie:RegisterBucketEvent("CHAT_MSG_COMBAT_FACTION_CHANGE", 2, _EventHandler.ChatMsgCompatFactionChange)
@@ -72,20 +75,37 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", function (...)
+    Questie:RegisterEvent("GOSSIP_SHOW", function(...)
         QuestieAuto.GOSSIP_SHOW(...)
     end)
-    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING)             -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
-    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
-    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows
+    Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED)               -- Called twice when the stopping to talk to an NPC
+    Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE)             -- When complete window shows
 
     -- UI Achievement Events
     if Questie.IsWotlk then
-        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(...)
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
-                QuestieTracker:UpdateAchieveTrackerCache(...)
+        Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(index, achieveId, alreadyEarned)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
+            QuestieTracker:UntrackAchieveId(achieveId)
+            QuestieTracker:UpdateAchieveTrackerCache(achieveId)
+
+            if (not AchievementFrame) then
+                AchievementFrame_LoadUI()
+            end
+
+            AchievementFrameAchievements_ForceUpdate()
+
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end)
+
+        Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(index, achieveId, added)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
+            QuestieTracker:UpdateAchieveTrackerCache(achieveId)
+        end)
+
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_UPDATE")
             QuestieCombatQueue:Queue(function()
@@ -143,18 +163,18 @@ function _EventHandler:PlayerLogin()
         local replaceTypes = {
             ruRU = "%(%%%d$s%)", --ruRU "|3-6(%2$s) |3-6(%1$s)." ("Ваша репутация с %2$s теперь %1$s.
             zhTW = "%%s%(%%s%)", --zhTW "你在%2$s中的聲望達到了%1$s。"")
-            deDE = "'%%%d$s'", --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+            deDE = "'%%%d$s'",   --deDE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
             zhCNkoKR = "%%%d$s", --zhCN(zhTW?)/koKR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
-            enPlus = "%%s", -- European languages except (deDE)
+            enPlus = "%%s",      -- European languages except (deDE)
         }
 
-        if locale == "zhCN" or locale == "koKR" then --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
+        if locale == "zhCN" or locale == "koKR" then                                                                                       --CN/KR "你在%2$s中的声望达到了%1$s。" / "%2$s에 대해 %1$s 평판이 되었습니다."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhCNkoKR, replaceString)
-        elseif locale == "deDE" then --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
+        elseif locale == "deDE" then                                                                                                       --DE  "Die Fraktion '%2$s' ist Euch gegenüber jetzt '%1$s' eingestellt."
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.deDE, replaceString) -- Germans are always special
-        elseif locale == "zhTW" then --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
+        elseif locale == "zhTW" then                                                                                                       --TW "你的聲望已達到%s(%s)。", should we remove the parentheses?
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.zhTW, replaceString)
-        elseif locale == "ruRU" then --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
+        elseif locale == "ruRU" then                                                                                                       --RU "|3-6(%2$s) |3-6(%1$s).", should we remove the parentheses?
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.ruRU, replaceString)
         else
             FACTION_STANDING_CHANGED_PATTERN, replaceCount = string.gsub(FACTION_STANDING_CHANGED_LOCAL, replaceTypes.enPlus, replaceString)
@@ -206,6 +226,7 @@ function _EventHandler:UiInfoMessage(errorType, message)
         ["ERR_QUEST_ADD_PLAYER_KILL_SII "] = true,
         ["ERR_QUEST_FAILED_S"] = true,
     }
+
     if messages[GetGameMessageInfo(errorType)] then
         MinimapIcon:UpdateText(message)
     end
@@ -217,6 +238,11 @@ function _EventHandler:MapExplorationUpdated()
     if Questie.db.char.hideUnexploredMapIcons then
         QuestieMap.utils:MapExplorationUpdate()
     end
+
+    -- This is needed to updage exploratory achievements in the tracker
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
 end
 
 --- Fires when the player levels up
@@ -232,6 +258,7 @@ function _EventHandler:PlayerLevelUp(level)
 
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end)
+
     QuestieJourney:PlayerLevelUp(level)
 end
 
@@ -245,6 +272,7 @@ function _EventHandler:ModifierStateChanged()
         GameTooltip:SetFrameStrata("TOOLTIP")
         GameTooltip:Show()
     end
+
     if Questie.db.global.trackerLocked then
         if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
@@ -257,8 +285,9 @@ end
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
     Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_SKILL")
-    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
+
     -- This needs to be done to draw new quests that just came available
+    local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
@@ -272,6 +301,7 @@ function _EventHandler:ChatMsgCompatFactionChange()
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
+
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
 end
@@ -357,6 +387,8 @@ function _EventHandler:PlayerRegenEnabled()
         QuestieJourney.ToggleJourneyWindow()
         journeyHiddenByCombat = false
     end
+
+    QuestieTracker:CheckDurabilityAlertStatus()
 end
 
 function _EventHandler:ZoneChangedNewArea()
@@ -371,7 +403,9 @@ function _EventHandler:ZoneChangedNewArea()
         -- backend Questie updates that occur when a player zones into an instance. This is
         -- necessary to get the tracker back into it's "normal" state after all the updates.
         C_Timer.After(8, function()
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end)
     elseif (not Questie.db.char.isTrackerExpanded) then
         QuestieTracker:Expand()
@@ -379,7 +413,9 @@ function _EventHandler:ZoneChangedNewArea()
         -- backend Questie updates that occur when a player zones out of an instance. This is
         -- necessary to get the tracker back into it's "normal" state after all the updates.
         C_Timer.After(8, function()
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end)
     end
 end

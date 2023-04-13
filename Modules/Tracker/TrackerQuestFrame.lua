@@ -24,12 +24,9 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame:EnableMouse(true)
     questFrame:SetMovable(true)
     questFrame:SetResizable(true)
-
     questFrame:RegisterForDrag("LeftButton")
-
     questFrame:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
     questFrame:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
-
     questFrame:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
     questFrame:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
 
@@ -38,32 +35,32 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame.ScrollFrame:SetAllPoints(questFrame)
 
     local frameName = questFrame.ScrollFrame:GetName()
-    questFrame.ScrollBar = _G[frameName.."ScrollBar"]
+    questFrame.ScrollBar = _G[frameName .. "ScrollBar"]
     questFrame.ScrollBar:ClearAllPoints()
     questFrame.ScrollBar:SetPoint("TOPRIGHT", questFrame.ScrollUpButton, "BOTTOMRIGHT", -1, 4)
     questFrame.ScrollBar:SetPoint("BOTTOMRIGHT", questFrame.scrolldownbutton, "TOPRIGHT", -1, -2)
-	questFrame.ScrollBar:SetValueStep(25)
-	questFrame.ScrollBar.scrollStep = 25
+    questFrame.ScrollBar:SetValueStep(25)
+    questFrame.ScrollBar.scrollStep = 25
     questFrame.ScrollBar:SetValue(0)
     questFrame.scrollBarHideable = true
     questFrame.ScrollBar:Hide()
 
-    questFrame.ScrollUpButton = _G[frameName.."ScrollBarScrollUpButton"]
+    questFrame.ScrollUpButton = _G[frameName .. "ScrollBarScrollUpButton"]
     questFrame.ScrollUpButton:ClearAllPoints()
     questFrame.ScrollUpButton:SetPoint("TOPRIGHT", questFrame.ScrollFrame, "TOPRIGHT", -4, -1)
     questFrame.ScrollUpButton:Hide()
 
-    questFrame.ScrollDownButton = _G[frameName.."ScrollBarScrollDownButton"]
+    questFrame.ScrollDownButton = _G[frameName .. "ScrollBarScrollDownButton"]
     questFrame.ScrollDownButton:ClearAllPoints()
     questFrame.ScrollDownButton:SetPoint("BOTTOMRIGHT", questFrame.ScrollFrame, "BOTTOMRIGHT", -4, -7)
     questFrame.ScrollDownButton:Hide()
 
     questFrame.ScrollBg = questFrame.ScrollBar:CreateTexture(nil, "BACKGROUND")
-	questFrame.ScrollBg:SetAllPoints(questFrame.ScrollBar)
-	questFrame.ScrollBg:SetColorTexture(0, 0, 0, 0.75)
+    questFrame.ScrollBg:SetAllPoints(questFrame.ScrollBar)
+    questFrame.ScrollBg:SetColorTexture(0, 0, 0, 0.75)
     questFrame.ScrollBg:Hide()
 
-    questFrame.ScrollChildFrame = CreateFrame("Frame", _G[frameName.."ScrollChildFrame"])
+    questFrame.ScrollChildFrame = CreateFrame("Frame", _G[frameName .. "ScrollChildFrame"])
     questFrame.ScrollChildFrame:SetSize(questFrame.ScrollFrame:GetWidth(), (questFrame.ScrollFrame:GetHeight()))
 
     questFrame.ScrollFrame:SetScrollChild(questFrame.ScrollChildFrame)
@@ -75,7 +72,6 @@ end
 
 function TrackerQuestFrame:Update()
     if Questie.db.char.isTrackerExpanded then
-
         questFrame:ClearAllPoints()
         TrackerQuestFrame.PositionTrackedQuestsFrame()
 

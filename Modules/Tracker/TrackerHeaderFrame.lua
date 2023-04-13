@@ -46,7 +46,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
     questieIcon:EnableMouse(true)
     questieIcon:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
-    questieIcon:SetScript("OnClick", function (_, button)
+    questieIcon:SetScript("OnClick", function(_, button)
         if button == "LeftButton" then
             if IsShiftKeyDown() then
                 Questie.db.char.enabled = (not Questie.db.char.enabled)
@@ -56,7 +56,6 @@ function TrackerHeaderFrame.Initialize(baseFrame)
                 QuestieOptions:HideFrame()
 
                 return
-
             elseif IsControlKeyDown() then
                 QuestieQuest:SmoothReset()
 
@@ -72,10 +71,8 @@ function TrackerHeaderFrame.Initialize(baseFrame)
             end)
 
             return
-
         elseif button == "RightButton" then
             if not IsModifierKeyDown() then
-
                 if QuestieConfigFrame:IsShown() then
                     QuestieConfigFrame:Hide()
                 end
@@ -85,7 +82,6 @@ function TrackerHeaderFrame.Initialize(baseFrame)
                 end)
 
                 return
-
             elseif IsControlKeyDown() then
                 Questie.db.profile.minimap.hide = true;
                 Questie.minimapConfigIcon:Hide("Questie")
@@ -95,7 +91,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
         end
     end)
 
-    questieIcon:SetScript("OnEnter", function (self)
+    questieIcon:SetScript("OnEnter", function(self)
         if InCombatLockdown() then
             if GameTooltip:IsShown() then
                 GameTooltip:Hide()
@@ -103,18 +99,18 @@ function TrackerHeaderFrame.Initialize(baseFrame)
             end
         end
         GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
-        GameTooltip:AddLine("Questie ".. QuestieLib:GetAddonVersionString(), 1, 1, 1)
-        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") , "gray") .. ": " .. l10n("Toggle Options"))
-        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") , "gray") .. ": " .. l10n("Toggle My Journey"))
+        GameTooltip:AddLine("Questie " .. QuestieLib:GetAddonVersionString(), 1, 1, 1)
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click"), "gray") .. ": " .. l10n("Toggle Options"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Right Click"), "gray") .. ": " .. l10n("Toggle My Journey"))
         GameTooltip:AddLine(" ")
-        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") , "gray") .. ": " .. l10n("Drag while Unlocked"))
+        GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold"), "gray") .. ": " .. l10n("Drag while Unlocked"))
         GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold"), "gray") .. ": " .. l10n("Drag while Locked"))
         GameTooltip:Show()
 
         TrackerFadeTicker.OnEnter(self)
     end)
 
-    questieIcon:SetScript("OnLeave", function (self)
+    questieIcon:SetScript("OnLeave", function(self)
         if GameTooltip:IsShown() then
             GameTooltip:Hide()
         end
@@ -149,10 +145,11 @@ function TrackerHeaderFrame.Initialize(baseFrame)
     trackedQuests:RegisterForDrag("LeftButton")
     trackedQuests:RegisterForClicks("RightButtonUp", "LeftButtonUp")
 
-    trackedQuests:SetScript("OnClick", function (self)
+    trackedQuests:SetScript("OnClick", function(self)
         if InCombatLockdown() then
             return
         end
+
         if self.mode == 1 then
             self:SetMode(0)
             Questie.db.char.isTrackerExpanded = false
@@ -161,10 +158,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
             Questie.db.char.isTrackerExpanded = true
             TrackerBaseFrame:Update()
         end
-        if Questie.db.global.stickyDurabilityFrame then
-            QuestieTracker:CheckDurabilityAlertStatus()
-            QuestieTracker:MoveDurabilityFrame()
-        end
+
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -172,7 +166,6 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
     trackedQuests:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
     trackedQuests:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
-
     trackedQuests:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
     trackedQuests:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
 
@@ -185,6 +178,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
     else
         headerFrame:SetSize(1, 1)
     end
+
     headerFrame:SetFrameLevel(0)
 
     headerFrame:Hide()
@@ -216,8 +210,8 @@ function TrackerHeaderFrame:Update()
         else
             headerFrame.trackedQuests.label:SetText(l10n("Questie Tracker") .. " +")
         end
-        headerFrame.trackedQuests.label:SetPoint("TOPLEFT", headerFrame.questieIcon, "TOPRIGHT", 2, 0)
 
+        headerFrame.trackedQuests.label:SetPoint("TOPLEFT", headerFrame.questieIcon, "TOPRIGHT", 2, 0)
         headerFrame.trackedQuests:SetWidth(headerFrame.trackedQuests.label:GetUnboundedStringWidth())
         headerFrame.trackedQuests:SetHeight(trackerFontSizeHeader)
         headerFrame.trackedQuests:SetPoint("TOPLEFT", headerFrame.questieIcon, "TOPRIGHT", 2, 0)

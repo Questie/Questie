@@ -40,10 +40,11 @@ function TrackerBaseFrame.Initialize()
     baseFrame:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
     baseFrame:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
 
-    baseFrame:SetBackdrop( {
-        bgFile="Interface\\Tooltips\\UI-Tooltip-Background",
+    baseFrame:SetBackdrop({
+        bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
         edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
-        tile=true, edgeSize = 16,
+        tile = true,
+        edgeSize = 16,
         insets = { left = 4, right = 4, top = 4, bottom = 4 },
     })
 
@@ -77,12 +78,12 @@ function TrackerBaseFrame.Initialize()
     sizerLine1:SetHeight(14)
     sizerLine1:SetPoint(sizerSetPoint, -4, sizerSetPointY)
     sizerLine1:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    local x = 0.1 * 14/17
 
+    local x = 0.1 * 14 / 17
     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
-        sizerLine1:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+        sizerLine1:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
     else
-        sizerLine1:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+        sizerLine1:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
     end
 
     sizerLine2 = sizer:CreateTexture(nil, "BACKGROUND")
@@ -90,12 +91,12 @@ function TrackerBaseFrame.Initialize()
     sizerLine2:SetHeight(11)
     sizerLine2:SetPoint(sizerSetPoint, -4, sizerSetPointY)
     sizerLine2:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    x = 0.1 * 11/17
 
+    x = 0.1 * 11 / 17
     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
-        sizerLine2:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+        sizerLine2:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
     else
-        sizerLine2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+        sizerLine2:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
     end
 
     sizerLine3 = sizer:CreateTexture(nil, "BACKGROUND")
@@ -103,12 +104,12 @@ function TrackerBaseFrame.Initialize()
     sizerLine3:SetHeight(8)
     sizerLine3:SetPoint(sizerSetPoint, -4, sizerSetPointY)
     sizerLine3:SetTexture("Interface\\Tooltips\\UI-Tooltip-Border")
-    x = 0.1 * 8/17
 
+    x = 0.1 * 8 / 17
     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
-        sizerLine3:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+        sizerLine3:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
     else
-        sizerLine3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+        sizerLine3:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
     end
 
     if Questie.db[Questie.db.global.questieTLoc].TrackerLocation then
@@ -121,8 +122,9 @@ function TrackerBaseFrame.Initialize()
             Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
             if WatchFrame then
-                local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint()}))
+                local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
                 Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
+
                 if (not result2) then
                     Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
                     TrackerBaseFrame:SetSafePoint()
@@ -133,7 +135,7 @@ function TrackerBaseFrame.Initialize()
         end
     else
         if WatchFrame then
-            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint()}))
+            local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
             Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
 
             if not result then
@@ -180,43 +182,48 @@ function TrackerBaseFrame:Update()
 
             sizerLine1:ClearAllPoints()
             sizerLine1:SetPoint("TOPRIGHT", -4, -4)
-            local x = 0.1 * 14/17
-            sizerLine1:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+            local x = 0.1 * 14 / 17
+            sizerLine1:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
 
             sizerLine2:ClearAllPoints()
             sizerLine2:SetPoint("TOPRIGHT", -4, -4)
-            x = 0.1 * 11/17
-            sizerLine2:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+            x = 0.1 * 11 / 17
+            sizerLine2:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
 
             sizerLine3:ClearAllPoints()
             sizerLine3:SetPoint("TOPRIGHT", -4, -4)
-            x = 0.1 * 8/17
-            sizerLine3:SetTexCoord(1/32, 0.5 + x, 1/32 - x, 0.5, 1/32 + x, 0.5, 1/32, 0.5 - x)
+            x = 0.1 * 8 / 17
+            sizerLine3:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
         else
             sizer:ClearAllPoints()
             sizer:SetPoint("BOTTOMRIGHT", 0, 0)
 
             sizerLine1:ClearAllPoints()
             sizerLine1:SetPoint("BOTTOMRIGHT", -4, 4)
-            local x = 0.1 * 14/17
-            sizerLine1:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+            local x = 0.1 * 14 / 17
+            sizerLine1:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
 
             sizerLine2:ClearAllPoints()
             sizerLine2:SetPoint("BOTTOMRIGHT", -4, 4)
-            x = 0.1 * 11/17
-            sizerLine2:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+            x = 0.1 * 11 / 17
+            sizerLine2:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
 
             sizerLine3:ClearAllPoints()
             sizerLine3:SetPoint("BOTTOMRIGHT", -4, 4)
-            x = 0.1 * 8/17
-            sizerLine3:SetTexCoord(1/32 - x, 0.5, 1/32, 0.5 + x, 1/32, 0.5 - x, 1/32 + x, 0.5)
+            x = 0.1 * 8 / 17
+            sizerLine3:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
         end
 
         if Questie.db.global.sizerHidden then
             baseFrame.sizer:SetAlpha(0)
         end
+
+        if Questie.db.global.stickyDurabilityFrame then
+            QuestieTracker:MoveDurabilityFrame()
+        end
     else
         baseFrame.sizer:SetAlpha(0)
+        DurabilityFrame:Hide()
         baseFrame:SetBackdropColor(0, 0, 0, 0)
         baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
     end
@@ -228,6 +235,7 @@ function TrackerBaseFrame:Update()
             if IsMouseButtonDown() then
                 return
             end
+
             baseFrame:EnableMouse(true)
             baseFrame:SetResizable(true)
         end)
@@ -237,6 +245,7 @@ function TrackerBaseFrame:Update()
             if IsMouseButtonDown() then
                 return
             end
+
             baseFrame:EnableMouse(false)
             baseFrame:SetResizable(false)
         end)
@@ -244,14 +253,14 @@ function TrackerBaseFrame:Update()
 end
 
 function TrackerBaseFrame:SetSafePoint()
-    local xOff, yOff = baseFrame:GetWidth()/2, baseFrame:GetHeight()/2
+    local xOff, yOff = baseFrame:GetWidth() / 2, baseFrame:GetHeight() / 2
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
-    local resetCords = {["BOTTOMLEFT"] = {x = -xOff, y = -yOff}, ["BOTTOMRIGHT"] = {x = xOff, y = -yOff}, ["TOPLEFT"] = {x = -xOff, y =  yOff}, ["TOPRIGHT"] = {x = xOff, y =  yOff}}
+    local resetCords = { ["BOTTOMLEFT"] = { x = -xOff, y = -yOff },["BOTTOMRIGHT"] = { x = xOff, y = -yOff },["TOPLEFT"] = { x = -xOff, y = yOff },["TOPRIGHT"] = { x = xOff, y = yOff } }
     baseFrame:ClearAllPoints()
 
     if trackerSetPoint then
         baseFrame:SetPoint(trackerSetPoint, UIParent, "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y}
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y }
     end
 
     QuestieTracker:MoveDurabilityFrame()
@@ -265,6 +274,7 @@ end
 ---@param button string @The mouse button that is pressed when dragging starts
 function TrackerBaseFrame.OnDragStart(button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart]", button)
+
     if InCombatLockdown() then
         return
     end
@@ -296,16 +306,16 @@ local function _UpdateTrackerPosition()
 
     if trackerSetPoint == "BOTTOMLEFT" then
         baseFrame:SetPoint("BOTTOMLEFT", UIParent, xLeft, yBottom)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xLeft, yBottom}
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xLeft, yBottom }
     elseif trackerSetPoint == "BOTTOMRIGHT" then
         baseFrame:SetPoint("BOTTOMRIGHT", UIParent, -(GetScreenWidth() - xRight), yBottom)
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -(GetScreenWidth() - xRight), yBottom}
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { "BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -(GetScreenWidth() - xRight), yBottom }
     elseif trackerSetPoint == "TOPRIGHT" then
         baseFrame:SetPoint("TOPRIGHT", UIParent, -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop))
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPRIGHT", "UIParent", "TOPRIGHT", -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop)}
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { "TOPRIGHT", "UIParent", "TOPRIGHT", -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop) }
     else
         baseFrame:SetPoint("TOPLEFT", UIParent, xLeft, -(GetScreenHeight() - yTop))
-        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = {"TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop)}
+        Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { "TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop) }
     end
 
     QuestieTracker:MoveDurabilityFrame()
@@ -327,6 +337,7 @@ end
 ---@param button string @The mouse button that is pressed when resize starts
 function TrackerBaseFrame.OnResizeStart(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart]", button)
+
     if InCombatLockdown() or (not baseFrame:IsResizable()) then
         return
     end

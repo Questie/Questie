@@ -2890,5 +2890,10 @@
     "Lua.diagnostics.ignoredFiles": "Enable",
     "Lua.diagnostics.libraryFiles": "Enable",
     "Lua.runtime.version": "Lua 5.1",
-    "explorer.fileNesting.enabled": true
+    "explorer.fileNesting.enabled": true,
+    "Lua.format.defaultConfig": {
+        "max_line_length": "800",
+        "align_continuous_assign_statement": "false"
+    }
+
 }
