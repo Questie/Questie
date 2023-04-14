@@ -435,17 +435,15 @@ function QuestieTracker:Update()
         local complete = quest:IsComplete()
         local zoneName
 
-        if Questie.db.global.trackerSortObjectives == "byZone" or Questie.db.global.trackerSortObjectives == "none" then
-            -- Valid ZoneID
+        if Questie.db.global.trackerSortObjectives == "byZone" then
             if (quest.zoneOrSort) > 0 then
+                -- Valid ZoneID
                 zoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
-
-                -- Valid CategoryID
             elseif (quest.zoneOrSort) < 0 then
+                -- Valid CategoryID
                 zoneName = TrackerUtils:GetCategoryNameByID(quest.zoneOrSort)
-
-                -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
             else
+                -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
                 zoneName = tostring(quest.zoneOrSort)
                 TrackerUtils:ReportErrorMessage(zoneName)
             end

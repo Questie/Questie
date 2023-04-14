@@ -333,14 +333,13 @@ end
 ---@param catId number
 ---@return string translatedCatId Category Name (Localized)
 function TrackerUtils:GetCategoryNameByID(catId)
+    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetCategoryNameByID - catId: ", catId)
     local translatedCatId
 
-    for cat, name in pairs(l10n.questCategoryLookup) do
-        if catId == cat then
-            translatedCatId = l10n(name)
-        else
-            translatedCatId = "Unknown Category"
-        end
+    if type(catId) == "number" and catId < 0 and type(l10n.questCategoryLookup[catId]) == "string" then
+        translatedCatId = l10n.questCategoryLookup[catId]
+    else
+        translatedCatId = "Unknown Category"
     end
 
     return translatedCatId
