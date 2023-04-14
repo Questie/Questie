@@ -947,25 +947,51 @@ function QuestieTracker:Update()
                                     end
 
                                     if secondaryButton and secondaryButtonAlpha ~= 0 then
-                                        -- Check and measure Objective text with Secondary Button widths and update tracker width
-                                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight + questItemButtonSize)
+                                        if #quest.Objectives == 1 then
+                                            -- Set Objective with Secondary Quest Item button Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
+                                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
 
-                                        -- Set Objective with Secondary Quest Item button Label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
-                                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
+                                            -- Allow text wrapping.
+                                            line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+                                            line:SetHeight(line.label:GetHeight())
 
-                                        -- Compare current text label with Secondary button width and the largest text label in the Tracker, then save the widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft + questItemButtonSize)
+                                            -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft + questItemButtonSize)
+                                        else
+                                            -- Check and measure Objective text with Secondary Button widths and update tracker width
+                                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight + questItemButtonSize)
+
+                                            -- Set Objective with Secondary Quest Item button Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
+                                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
+
+                                            -- Compare current text label with Secondary button width and the largest text label in the Tracker, then save the widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft + questItemButtonSize)
+                                        end
                                     else
-                                        -- Check and measure Objective text width and update tracker width
-                                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
+                                        if #quest.Objectives == 1 then
+                                            -- Set Objective Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
-                                        -- Set Objective Label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+                                            -- Allow text wrapping.
+                                            line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+                                            line:SetHeight(line.label:GetHeight())
 
-                                        -- Compare largest text Label in the tracker with current Label, then save widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                            -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                        else
+                                            -- Check and measure Objective text width and update tracker width
+                                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
+
+                                            -- Set Objective Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+
+                                            -- Compare largest text Label in the tracker with current Label, then save widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                        end
                                     end
 
                                     -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
@@ -988,11 +1014,6 @@ function QuestieTracker:Update()
 
                                     -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
                                     trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
-
-                                    -- We do not compare and save a trackerLineWidth here because the width is dynamic. Instead it'll default to the widest
-                                    -- previously saved trackerLineWidth above it. This forces the Text into more than one line and keeps the Tracker narrow.
-                                    -- After the tracker linePool is populated, TrackerLinePool.UpdateLineWidths() is run from within the UpdateFormatting function
-                                    -- and all the dynamically wrapped lines will be updated with the widest possible trackerLineWidth value.
 
                                     -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
                                     QuestieQuest:AddFinisher(quest)
