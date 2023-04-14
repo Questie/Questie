@@ -23,8 +23,7 @@ local tinsert = table.insert
 
 local objectiveFlashTicker
 local zoneCache = {}
-local questCompletePercent = {}
-local playerPosition, questProximityTimer
+local questProximityTimer = nil
 local bindTruthTable = {
     ['left'] = function(button)
         return "LeftButton" == button
@@ -457,22 +456,26 @@ function TrackerUtils:ReportErrorMessage(zoneOrtSort)
     Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
----@return number|nil worldPosition
+---@return table|nil position
 local function _GetWorldPlayerPosition()
     -- Turns coords into 'world' coords so it can be compared with any coords in another zone
     local uiMapId = C_Map.GetBestMapForUnit("player")
     local mapPosition = C_Map.GetPlayerMapPosition(uiMapId, "player")
     local worldPosition = select(2, C_Map.GetWorldPosFromMapPos(uiMapId, mapPosition))
+    local position = {
+        x = worldPosition.x,
+        y = worldPosition.y
+    }
 
     if (not uiMapId) then
-        worldPosition = nil
+        position = nil
     end
 
     if (not mapPosition) or (not mapPosition.x) then
-        worldPosition = nil
+        position = nil
     end
 
-    return worldPosition
+    return position
 end
 
 ---@param x1 number
@@ -557,6 +560,7 @@ end
 
 function TrackerUtils:GetSortedQuestIds()
     local sortedQuestIds = {}
+    local questCompletePercent = {}
     -- Update quest objectives
     for questId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
@@ -696,6 +700,7 @@ function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
     Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils.UpdateQuestProximityTimer - Started!")
     -- Check location often and update if you've moved
     C_Timer.After(3.0, function()
+        local playerPosition
         questProximityTimer = C_Timer.NewTicker(5.0, function()
             local position = _GetWorldPlayerPosition()
             if position then

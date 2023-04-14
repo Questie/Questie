@@ -413,21 +413,23 @@ function QuestieTracker:Update()
     -- Setup local QuestieTracker:Update vars
     local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-
     local questMarginLeft = (trackerMarginLeft + 24) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
     local line
-    local order, questCompletePercent = TrackerUtils:GetSortedQuestIds()
+
+    local sortedQuestIds, questCompletePercent = TrackerUtils:GetSortedQuestIds()
+
     local firstQuestInZone = false
     local zoneCheck
+
     local primaryButton = false
     local secondaryButton = false
     local secondaryButtonAlpha
 
     -- Begin populating the tracker with quests
-    for _, questId in pairs(order) do
+    for _, questId in pairs(sortedQuestIds) do
         local quest = QuestieDB:GetQuest(questId)
         if not quest then break end
         local complete = quest:IsComplete()
