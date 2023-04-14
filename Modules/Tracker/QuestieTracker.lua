@@ -1089,11 +1089,6 @@ function QuestieTracker:Update()
                             -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
                             trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
 
-                            -- We do not compare and save a trackerLineWidth here because the width is dynamic. Instead it'll default to the widest
-                            -- previously saved trackerLineWidth above it. This forces the Text into more than one line and keeps the Tracker narrow.
-                            -- After the tracker linePool is populated, TrackerLinePool.UpdateLineWidths() is run from within the UpdateFormatting function
-                            -- and all the dynamically wrapped lines will be updated with the widest possible trackerLineWidth value.
-
                             -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
                             QuestieQuest:AddFinisher(quest)
                         else
@@ -1373,11 +1368,6 @@ function QuestieTracker:Update()
 
                             -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
                             trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
-
-                            -- We do not compare and save a trackerLineWidth here because the width is dynamic. Instead it'll default to the widest
-                            -- previously saved trackerLineWidth above it. This forces the Text into more than one line and keeps the Tracker narrow.
-                            -- After the tracker linePool is populated, TrackerLinePool.UpdateLineWidths() is run from within the UpdateFormatting function
-                            -- and all the dynamically wrapped lines will be updated with the widest possible trackerLineWidth value.
 
                             -- Set Objective state
                             line:Show()
