@@ -419,7 +419,7 @@ function QuestieTracker:Update()
 
     local line
 
-    local sortedQuestIds, questCompletePercent = TrackerUtils:GetSortedQuestIds()
+    local sortedQuestIds = TrackerUtils:GetSortedQuestIds()
 
     local firstQuestInZone = false
     local zoneCheck
@@ -716,7 +716,7 @@ function QuestieTracker:Update()
                 end
 
                 -- Adds the Secondary Quest Item Button (only if Primary is present)
-                if (primaryButton and quest.requiredSourceItems and #quest.requiredSourceItems > 1) and questCompletePercent[quest.Id] ~= 1 then
+                if (primaryButton and quest.requiredSourceItems and #quest.requiredSourceItems > 1 and next(quest.Objectives)) then
                     if type(quest.requiredSourceItems) == "table" then
                         -- Make sure it's a "secondary" button and if a quest item is "usable".
                         for _, itemId in pairs(quest.requiredSourceItems) do

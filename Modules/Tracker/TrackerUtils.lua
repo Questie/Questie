@@ -49,22 +49,22 @@ local bindTruthTable = {
     ['altright'] = function(button)
         return "RightButton" == button and IsAltKeyDown()
     end,
-    ['disabled'] = function() return false; end,
+    ['disabled'] = function() return false end,
 }
 
 local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
 
----@param quest table
+---@param quest table The table provided by QuestieDB:GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
-    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame;
-    --HideUIPanel(questFrame); -- don't use as I don't see why to use and protected function taints in combat
-    local questLogIndex = GetQuestLogIndexByID(quest.Id);
+    local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
+    --HideUIPanel(questFrame) -- don't use as I don't see why to use and protected function taints in combat
+    local questLogIndex = GetQuestLogIndexByID(quest.Id)
     SelectQuestLogEntry(questLogIndex)
 
     -- Scroll to the quest in the quest log
     local scrollSteps = _QuestLogScrollBar:GetValueStep()
-    _QuestLogScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3);
+    _QuestLogScrollBar:SetValue(questLogIndex * scrollSteps - scrollSteps * 3)
 
     if not questFrame:IsShown() then
         if not InCombatLockdown() then
@@ -72,7 +72,7 @@ function TrackerUtils:ShowQuestLog(quest)
 
             --Addon specific behaviors
             if (QuestLogEx) then
-                QuestLogEx:Maximize();
+                QuestLogEx:Maximize()
             end
         else
             Questie:Print(l10n("Can't open Quest Log while in combat. Open it manually."))
@@ -83,10 +83,10 @@ function TrackerUtils:ShowQuestLog(quest)
     QuestLog_Update()
 end
 
----@param title string
----@param zone number
----@param x number
----@param y number
+---@param title string The name of the WayPoint
+---@param zone number The zone ID number
+---@param x number X coordinate
+---@param y number Y coordinate
 function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     if TomTom and TomTom.AddWaypoint then
         if Questie.db.char._tom_waypoint and TomTom.RemoveWaypoint then -- remove old waypoint
@@ -97,7 +97,7 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
----@param objective table
+---@param objective table The table provided by QuestieDB:GetQuest(questId).Objectives[objective]
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = QuestieMap:GetNearestSpawn(objective)
     if spawn then
@@ -108,7 +108,7 @@ function TrackerUtils:ShowObjectiveOnMap(objective)
     end
 end
 
----@param quest table
+---@param quest table The table provided by QuestieDB:GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zone = QuestieMap:GetNearestQuestSpawn(quest)
     if spawn then
@@ -119,14 +119,14 @@ function TrackerUtils:ShowFinisherOnMap(quest)
     end
 end
 
----@param objective table
+---@param objective table The table provided by QuestieDB:GetQuest(questId).Objectives[objective]
 function TrackerUtils:FlashObjective(objective)
     if next(objective.AlreadySpawned) then
         local toFlash = {}
         -- ugly code
         for _, framelist in pairs(QuestieMap.questIdFrames) do
             for _, frameName in pairs(framelist) do
-                local icon = _G[frameName];
+                local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     -- todo: move into frame.session
                     if icon:IsShown() then
@@ -187,7 +187,7 @@ function TrackerUtils:FlashObjective(objective)
                             C_Timer.After(0.5, function()
                                 for _, framelist in pairs(QuestieMap.questIdFrames) do
                                     for _, frameName in pairs(framelist) do
-                                        local icon = _G[frameName];
+                                        local icon = _G[frameName]
                                         if icon._hidden_by_flash then
                                             icon._hidden_by_flash = nil
                                             icon:Show()
@@ -204,14 +204,14 @@ function TrackerUtils:FlashObjective(objective)
     end
 end
 
----@param quest table
+---@param quest table The table provided by QuestieDB:GetQuest(questId)
 function TrackerUtils:FlashFinisher(quest)
     local toFlash = {}
     -- ugly code
     for questId, framelist in pairs(QuestieMap.questIdFrames) do
         if questId ~= quest.Id then
             for _, frameName in pairs(framelist) do
-                local icon = _G[frameName];
+                local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     -- todo: move into frame.session
                     if icon:IsShown() then
@@ -222,7 +222,7 @@ function TrackerUtils:FlashFinisher(quest)
             end
         else
             for _, frameName in ipairs(framelist) do
-                local icon = _G[frameName];
+                local icon = _G[frameName]
                 if not icon.miniMapIcon then
                     icon._size = icon:GetWidth()
                     tinsert(toFlash, icon)
@@ -266,7 +266,7 @@ function TrackerUtils:FlashFinisher(quest)
                         C_Timer.After(0.5, function()
                             for _, framelist in pairs(QuestieMap.questIdFrames) do
                                 for _, frameName in pairs(framelist) do
-                                    local icon = _G[frameName];
+                                    local icon = _G[frameName]
                                     if icon._hidden_by_flash then
                                         icon._hidden_by_flash = nil
                                         icon:Show()
@@ -284,65 +284,60 @@ end
 
 ---@param bind string
 ---@param button string
----@return string bind Keybind
----@return string button Mouse Button
----@return string bind Returns matched bindTruthTable table key
----@return function function Returns bindTruthTable table key and matched function
----@return boolean false If the keybind is not set
+---@return string bind The input keybind string
+---@return string button The input button string
+---@return string bindTruthTable.bind Returns matched bind string
+---@return function|boolean bindTruthTable.bind.button Returns button function or false if there is no keybind set
 function TrackerUtils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
 
----@param zoneId number
----@return string translatedZoneName Zone Name (Localized)
+---@param zoneId number Zone ID number
+---@return string @Zone Name (Localized) or "Unknown Zone"
 local function GetZoneNameByIDFallback(zoneId)
-    local translatedZoneName
-
     if zoneCache[zoneId] then
-        translatedZoneName = zoneCache[zoneId]
+        return zoneCache[zoneId]
     end
 
-    for _, zones in pairs(l10n.zoneLookup) do
-        for zoneIDnum, zoneName in pairs(zones) do
-            if zoneIDnum == zoneId then
-                translatedZoneName = l10n(zoneName)
-                zoneCache[zoneId] = translatedZoneName
-            else
-                translatedZoneName = "Unknown Zone"
-            end
+    for _, zone in pairs(l10n.zoneLookup) do
+        if zone and type(zoneId) == "number" and zoneId > 0 and (l10n.zoneLookup[zone][zoneId]) == "string" then
+            zoneCache[zoneId] = l10n.zoneLookup[zone][zoneId]
+            return zoneCache[zoneId]
         end
     end
 
-    return translatedZoneName
+    return "Unknown Zone"
 end
 
----@param zoneId number
----@return string translatedZoneName Zone Name (Localized)
+---@param zoneId number Zone ID number
+---@return string @Zone Name (Localized)
 function TrackerUtils:GetZoneNameByID(zoneId)
-    local translatedZoneName
-    if C_Map and C_Map.GetAreaInfo then
-        local name = C_Map.GetAreaInfo(zoneId)
-        translatedZoneName = name or GetZoneNameByIDFallback(zoneId)
-    else
-        translatedZoneName = GetZoneNameByIDFallback(zoneId)
+    if zoneCache[zoneId] then
+        return zoneCache[zoneId]
     end
 
-    return translatedZoneName
+    if C_Map and C_Map.GetAreaInfo(zoneId) then
+        zoneCache[zoneId] = C_Map.GetAreaInfo(zoneId)
+    else
+        zoneCache[zoneId] = GetZoneNameByIDFallback(zoneId)
+    end
+
+    return zoneCache[zoneId]
 end
 
----@param catId number
----@return string translatedCatId Category Name (Localized)
+---@param catId number Catagory ID number
+---@return string CatagoryName Catagory Name (Localized) or "Unknown Category"
 function TrackerUtils:GetCategoryNameByID(catId)
-    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetCategoryNameByID - catId: ", catId)
-    local translatedCatId
+    if zoneCache[catId] then
+        return zoneCache[catId]
+    end
 
     if type(catId) == "number" and catId < 0 and type(l10n.questCategoryLookup[catId]) == "string" then
-        translatedCatId = l10n.questCategoryLookup[catId]
-    else
-        translatedCatId = "Unknown Category"
+        zoneCache[catId] = l10n.questCategoryLookup[catId]
+        return zoneCache[catId]
     end
 
-    return translatedCatId
+    return "Unknown Category"
 end
 
 function TrackerUtils:UnFocus()
@@ -390,8 +385,8 @@ function TrackerUtils:UnFocus()
     Questie.db.char.TrackerFocus = nil
 end
 
----@param questId number
----@param objectiveIndex number
+---@param questId number Quest ID number
+---@param objectiveIndex number Objective Index number
 function TrackerUtils:FocusObjective(questId, objectiveIndex)
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "string" or Questie.db.char.TrackerFocus ~= tostring(questId) .. " " .. tostring(objectiveIndex)) then
         TrackerUtils:UnFocus()
@@ -429,7 +424,7 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
     end
 end
 
----@param questId number
+---@param questId number Quest ID number
 function TrackerUtils:FocusQuest(questId)
     if Questie.db.char.TrackerFocus and (type(Questie.db.char.TrackerFocus) ~= "number" or Questie.db.char.TrackerFocus ~= questId) then
         TrackerUtils:UnFocus()
@@ -449,13 +444,13 @@ function TrackerUtils:FocusQuest(questId)
     end
 end
 
----@param zoneOrtSort string
-function TrackerUtils:ReportErrorMessage(zoneOrtSort)
-    Questie:Error("SortID: |cffffbf00" .. zoneOrtSort .. "|r was not found in the Database. Please file a bugreport at:")
+---@param zoneOrSort string The name of the Zone
+function TrackerUtils:ReportErrorMessage(zoneOrSort)
+    Questie:Error("SortID: |cffffbf00" .. zoneOrSort .. "|r was not found in the Database. Please file a bugreport at:")
     Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
----@return table|nil position
+---@return table|nil position Retuns Players current X/Y coordinates or nil if a Players postion can't be determined
 local function _GetWorldPlayerPosition()
     -- Turns coords into 'world' coords so it can be compared with any coords in another zone
     local uiMapId = C_Map.GetBestMapForUnit("player")
@@ -477,27 +472,27 @@ local function _GetWorldPlayerPosition()
     return position
 end
 
----@param x1 number
----@param y1 number
----@param x2 number
----@param y2 number
----@return number
+---@param x1 number Current Position X
+---@param y1 number Current Position Y
+---@param x2 number Previous Position X
+---@param y2 number Previous Position Y
+---@return number Distance @Distance between Current and Previous X/Y coordinates
 local function _GetDistance(x1, y1, x2, y2)
-    -- Basic proximity distance calculation to compare two locs (normally player position and provided loc)
-    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2);
+    return math.sqrt((x2 - x1) ^ 2 + (y2 - y1) ^ 2)
 end
 
----@param questId number
+---@param questId number Quest ID number
+---@return number|nil closestDistance Returns X/Y coordinates to closest Objective or nil if nothing is found
 local function _GetDistanceToClosestObjective(questId)
     -- main function for proximity sorting
-    local player = _GetWorldPlayerPosition();
+    local player = _GetWorldPlayerPosition()
 
     if (not player) then
         return nil
     end
 
-    local coordinates = {};
-    local quest = QuestieDB:GetQuest(questId);
+    local coordinates = {}
+    local quest = QuestieDB:GetQuest(questId)
 
     if (not quest) then
         return nil
@@ -516,29 +511,30 @@ local function _GetDistanceToClosestObjective(questId)
     local _, worldPosition = C_Map.GetWorldPosFromMapPos(uiMapId, {
         x = spawn[1] / 100,
         y = spawn[2] / 100
-    });
+    })
 
     tinsert(coordinates, {
         x = worldPosition.x,
         y = worldPosition.y
-    });
+    })
 
     if (not coordinates) then
         return nil
     end
 
-    local closestDistance;
+    local closestDistance
     for _, _ in pairs(coordinates) do
-        local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y);
+        local distance = _GetDistance(player.x, player.y, worldPosition.x, worldPosition.y)
         if (not closestDistance) or (distance < closestDistance) then
-            closestDistance = distance;
+            closestDistance = distance
         end
     end
 
-    return closestDistance;
+    return closestDistance
 end
 
----@param uiMapId number
+---@param uiMapId number Continent ID number
+---@return string Continent Returns Continent Name or "UNKNOW"
 local function _GetContinent(uiMapId)
     if (not uiMapId) then
         return
@@ -550,6 +546,7 @@ local function _GetContinent(uiMapId)
         useUiMapId = mapInfo.parentMapID
         mapInfo = C_Map.GetMapInfo(useUiMapId)
     end
+
     if mapInfo ~= nil then
         return mapInfo.name
     else
@@ -557,6 +554,7 @@ local function _GetContinent(uiMapId)
     end
 end
 
+---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
 function TrackerUtils:GetSortedQuestIds()
     local sortedQuestIds = {}
     local questCompletePercent = {}
@@ -660,16 +658,16 @@ function TrackerUtils:GetSortedQuestIds()
             b = toSort[b]
             if ((continent == a.continent) and (continent == b.continent)) or ((continent ~= a.continent) and (continent ~= b.continent)) then
                 if a.distance == b.distance then
-                    return a.q and b.q and a.q.level < b.q.level;
+                    return a.q and b.q and a.q.level < b.q.level
                 end
 
                 if not a.distance and b.distance then
-                    return false;
+                    return false
                 elseif a.distance and not b.distance then
-                    return true;
+                    return true
                 end
 
-                return a.distance < b.distance;
+                return a.distance < b.distance
             elseif (continent == a.continent) and (continent ~= b.continent) then
                 return true
             elseif (continent ~= a.continent) and (continent == b.continent) then
@@ -680,49 +678,43 @@ function TrackerUtils:GetSortedQuestIds()
         table.sort(sortedQuestIds, sorter)
 
         if not questProximityTimer then
-            TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
+            -- Check location often and update if you've moved
+            Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
+            C_Timer.After(3.0, function()
+                local playerPosition
+                questProximityTimer = C_Timer.NewTicker(5.0, function()
+                    local position = _GetWorldPlayerPosition()
+                    if position then
+                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        if not distance or distance > 0.01 then -- Position has changed
+                            Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils.questProximityTimer")
+                            playerPosition = position
+                            local orderCopy = {}
+
+                            for index, val in pairs(sortedQuestIds) do
+                                orderCopy[index] = val
+                            end
+
+                            table.sort(orderCopy, sorter)
+
+                            for index, val in pairs(sortedQuestIds) do
+                                if orderCopy[index] ~= val then -- The order has changed
+                                    break
+                                end
+                            end
+                            QuestieTracker:Update()
+                        end
+                    end
+                end)
+            end)
         end
     end
 
     if (Questie.db.global.trackerSortObjectives ~= "byProximity") and questProximityTimer and questProximityTimer ~= nil then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils.UpdateQuestProximityTimer - Stoped!")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
         questProximityTimer:Cancel()
         questProximityTimer = nil
     end
 
-    return sortedQuestIds, questCompletePercent
-end
-
----@param sortedQuestIds number
----@param sorter function
-function TrackerUtils.UpdateQuestProximityTimer(sortedQuestIds, sorter)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils.UpdateQuestProximityTimer - Started!")
-    -- Check location often and update if you've moved
-    C_Timer.After(3.0, function()
-        local playerPosition
-        questProximityTimer = C_Timer.NewTicker(5.0, function()
-            local position = _GetWorldPlayerPosition()
-            if position then
-                local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
-                if not distance or distance > 0.01 then -- Position has changed
-                    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils.questProximityTimer")
-                    playerPosition = position
-                    local orderCopy = {}
-
-                    for index, val in pairs(sortedQuestIds) do
-                        orderCopy[index] = val
-                    end
-
-                    table.sort(orderCopy, sorter)
-
-                    for index, val in pairs(sortedQuestIds) do
-                        if orderCopy[index] ~= val then -- The order has changed
-                            break
-                        end
-                    end
-                    QuestieTracker:Update()
-                end
-            end
-        end)
-    end)
+    return sortedQuestIds
 end
