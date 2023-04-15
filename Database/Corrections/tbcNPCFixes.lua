@@ -135,7 +135,7 @@ function QuestieTBCNpcFixes:Load()
         [15895] = {
             [npcKeys.spawns] = {[1657]={{33.89,13.87}},[1497]={{65.62,36.0}},[1637]={{41.66,31.98}},[1638]={{71.12,28.2}},[1537]={{28.85,16.23}},[1519]={{23.22,53.24}}, -- original data
                                [zoneIDs.THE_EXODAR]={{74,57.5}}, -- correction
-                               [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}}}, 
+                               [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}}},
         },
         [15920] = {
             [npcKeys.waypoints] = {[zoneIDs.EVERSONG_WOODS]={{{30,58.6}}}},
@@ -568,6 +568,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [23068] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{70.1,74.4},},},
+        },
+        [23100] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{44.2,41.0},},},
         },
         [23338] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{46.5,45.1},{60.6,60.1},},},

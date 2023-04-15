@@ -2515,6 +2515,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11089] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Sar'this for his help hunting a Flawless Arcane Elemental"), 0, {{"monster", 23093}}}},
         },
         [11090] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
