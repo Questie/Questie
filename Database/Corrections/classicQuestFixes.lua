@@ -576,6 +576,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Keep Piznik safe while he mines the mysterious ore", {[zoneIDs.STONETALON_MOUNTAINS]={{71.76, 60.22}}}},
         },
         [1097] = {
+            [questKeys.startedBy] = {{415,514},nil,nil},
             [questKeys.exclusiveTo] = {353}, -- #2364
         },
         [1100] = {
