@@ -129,7 +129,10 @@ local migrationFunctions = {
         end
     end,
     [11] = function()
-        Questie.db.global.trackerEnabled = true
+        if Questie.db.global.trackerEnabled then   -- old value
+            Questie.db.global.trackerEnabled = nil -- kill old value
+            Questie.db.char.trackerEnabled = true  -- create new value
+        end
     end,
     [12] = function()
         Questie.db.char.collapsedQuests = {}

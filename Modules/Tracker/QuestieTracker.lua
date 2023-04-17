@@ -57,7 +57,7 @@ local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame
 local QuestLogFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
 
 function QuestieTracker.Initialize()
-    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then
+    if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then
         return
     end
     if (not Questie.db.char.TrackerHiddenQuests) then
@@ -74,6 +74,9 @@ function QuestieTracker.Initialize()
     end
     if (not Questie.db.char.collapsedZones) then
         Questie.db.char.collapsedZones = {}
+    end
+    if (not Questie.db.char.minAllQuestsInZone) then
+        Questie.db.char.minAllQuestsInZone = {}
     end
     if (not Questie.db.char.collapsedQuests) then
         Questie.db.char.collapsedQuests = {}
@@ -276,7 +279,7 @@ end
 function QuestieTracker:MoveDurabilityFrame()
     local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
-    if Questie.db.global.trackerEnabled and Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsShown() and QuestieTracker.started and QuestieTrackerLoc ~= nil then
+    if Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsShown() and QuestieTracker.started and QuestieTrackerLoc ~= nil then
         if QuestieTrackerLoc and QuestieTrackerLoc[1] == "TOPLEFT" or QuestieTrackerLoc[1] == "BOTTOMLEFT" then
             DurabilityFrame:ClearAllPoints()
             DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -30)
@@ -331,14 +334,14 @@ function QuestieTracker:Enable()
         questsWatched = GetNumQuestWatches()
     end
 
-    Questie.db.global.trackerEnabled = true
+    Questie.db.char.trackerEnabled = true
     QuestieTracker.started = false
     QuestieTracker.Initialize()
     ReloadUI()
 end
 
 function QuestieTracker:Disable()
-    Questie.db.global.trackerEnabled = false
+    Questie.db.char.trackerEnabled = false
     QuestieTracker:ResetDurabilityFrame()
     Questie.db.char.TrackedQuests = {}
     Questie.db.char.AutoUntrackedQuests = {}
@@ -355,7 +358,7 @@ end
 
 -- Function for the Slash handler
 function QuestieTracker:Toggle()
-    if Questie.db.global.trackerEnabled then
+    if Questie.db.char.trackerEnabled then
         QuestieTracker:Disable()
     else
         QuestieTracker:Enable()
@@ -385,7 +388,7 @@ function QuestieTracker:Update()
     end
 
     -- Tracker has started but not enabled
-    if (not Questie.db.global.trackerEnabled or QuestieTracker.disableHooks == true) then
+    if (not Questie.db.char.trackerEnabled or QuestieTracker.disableHooks == true) then
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
                 trackerBaseFrame:Hide()
@@ -539,6 +542,20 @@ function QuestieTracker:Update()
                     line.label:SetText("|cFFC0C0C0" .. zoneName .. "|r")
                 end
 
+                -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
+                if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and not Questie.db.char.minAllQuestsInZone[zoneName].isTrue and not Questie.db.char.collapsedZones[zoneName] then
+                    local minQuestIdCount = 0
+                    for minQuestId, _ in pairs(Questie.db.char.minAllQuestsInZone[zoneName]) do
+                        if type(minQuestId) == "number" then
+                            minQuestIdCount = minQuestIdCount + 1
+                        end
+                    end
+
+                    if minQuestIdCount == 0 then
+                        Questie.db.char.minAllQuestsInZone[zoneName] = nil
+                    end
+                end
+
                 -- Check and measure Zone Label text width and update tracker width
                 QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginRight)
 
@@ -613,12 +630,21 @@ function QuestieTracker:Update()
 
                 -- Set Min/Max Button and default states
                 line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questMarginLeft - 8, 1)
+                line.expandQuest.zoneId = zoneName
+
+                -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
                 if Questie.db.global.collapseCompletedQuests and (complete == 1) and not (quest.trackTimedQuest or quest.timedBlizzardQuest) then
                     if not Questie.db.char.collapsedQuests[quest.Id] then
                         Questie.db.char.collapsedQuests[quest.Id] = true
-                        line.expandQuest:SetMode(1)
                     end
                 else
+                    -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the Zone header (MouseDown).
+                    -- QuestieTracker:Update is triggered and the table is then filled with all Quest ID's in the same Zone.
+                    if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and Questie.db.char.minAllQuestsInZone[zoneName].isTrue then
+                        Questie.db.char.minAllQuestsInZone[zoneName][quest.Id] = true
+                    end
+
+                    -- Handles all the Min/Max behavior individually for each quest.
                     if Questie.db.char.collapsedQuests[quest.Id] then
                         line.expandQuest:SetMode(0)
                     else
@@ -650,7 +676,7 @@ function QuestieTracker:Update()
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
 
                 -- Adds the primary Quest Item button
-                if ((quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1)) then
+                if (complete ~= 1 and (quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1)) then
                     -- Get button from buttonPool
                     local button = TrackerLinePool.GetNextItemButton()
                     if not button then break end -- stop populating the tracker
@@ -1213,6 +1239,20 @@ function QuestieTracker:Update()
                         line.label:SetText("|cFFC0C0C0" .. zoneName .. ": " .. GetNumTrackedAchievements(true) .. "/10|r")
                     end
 
+                    -- Checks the minAllQuestsInZone[zone] table and if empty, zero out the table.
+                    if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and not Questie.db.char.minAllQuestsInZone[zoneName].isTrue and not Questie.db.char.collapsedZones[zoneName] then
+                        local minQuestIdCount = 0
+                        for minQuestId, _ in pairs(Questie.db.char.minAllQuestsInZone[zoneName]) do
+                            if type(minQuestId) == "number" then
+                                minQuestIdCount = minQuestIdCount + 1
+                            end
+                        end
+
+                        if minQuestIdCount == 0 then
+                            Questie.db.char.minAllQuestsInZone[zoneName] = nil
+                        end
+                    end
+
                     -- Check and measure Zone Label text width and update tracker width
                     QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginRight)
 
@@ -1289,6 +1329,15 @@ function QuestieTracker:Update()
                     -- Set Min/Max Button and default states
                     line.expandQuest:Show()
                     line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questMarginLeft - 8, 1)
+                    line.expandQuest.zoneId = zoneName
+
+                    -- The minAllQuestsInZone table is always blank until a player Shift+Clicks the Zone header (MouseDown).
+                    -- QuestieTracker:Update is triggered and the table is then filled with all Achievement ID's in the same Zone.
+                    if Questie.db.char.minAllQuestsInZone[zoneName] ~= nil and Questie.db.char.minAllQuestsInZone[zoneName].isTrue then
+                        Questie.db.char.minAllQuestsInZone[zoneName][achieve.Id] = true
+                    end
+
+                    -- Handles all the Min/Max behavior individually for each Achievement.
                     if Questie.db.char.collapsedQuests[achieve.Id] then
                         line.expandQuest:SetMode(0)
                     else
@@ -1301,7 +1350,7 @@ function QuestieTracker:Update()
 
                     -- Set Achievement Title
                     if Questie.db.global.enableTooltipsQuestID then
-                        line.label:SetText("|cFFFFFF00" .. achieve.Name .. " (" .. achieveId .. ")|r")
+                        line.label:SetText("|cFFFFFF00" .. achieve.Name .. " (" .. achieve.Id .. ")|r")
                     else
                         line.label:SetText("|cFFFFFF00" .. achieve.Name .. "|r")
                     end
@@ -1659,8 +1708,8 @@ function QuestieTracker:UpdateFormatting()
         end
 
         -- Applies static height when the tracker hit's its maximum limit
-        if trackerBaseFrame:GetHeight() > GetScreenHeight() / 1.5 then
-            trackerBaseFrame:SetHeight(GetScreenHeight() / 1.5)
+        if trackerBaseFrame:GetHeight() > GetScreenHeight() * Questie.db.global.trackerHeightRatio then
+            trackerBaseFrame:SetHeight(GetScreenHeight() * Questie.db.global.trackerHeightRatio)
 
             if Questie.db.global.trackerHeaderEnabled then
                 trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 22)
@@ -1915,7 +1964,7 @@ end
 
 function QuestieTracker:AQW_Insert(index, expire)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:AQW_Insert")
-    if (not Questie.db.global.trackerEnabled) or (index == 0) or (index == nil) then
+    if (not Questie.db.char.trackerEnabled) or (index == 0) or (index == nil) then
         return
     end
 
@@ -2005,12 +2054,12 @@ function QuestieTracker:UpdateAchieveTrackerCache(achieveId)
     -- because the Blizzard function responsible for this is essentially a "toggle". It quickly re-adds the achievement to the QuestWatch frame and then removes it.
     -- So, again this event again fires twice. We only need to allow this to run once and it often fires before the Questie.db.char.trackedAchievementIds table is
     -- updated so we're going to throttle this 1/10th of a second.
-    if Questie.db.global.trackerEnabled then
+    if Questie.db.char.trackerEnabled then
         if achieveId then
             C_Timer.After(0.1, function()
                 Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UpdateAchieveTrackerCache for ID ", achieveId)
 
-                if (not Questie.db.global.trackerEnabled) or (achieveId == 0) then
+                if (not Questie.db.char.trackerEnabled) or (achieveId == 0) then
                     return
                 end
 
@@ -2040,7 +2089,7 @@ end
 
 function QuestieTracker:TrackAchieve(achieveId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:TrackAchieve")
-    if (not Questie.db.global.trackerEnabled) or (achieveId == 0) then
+    if (not Questie.db.char.trackerEnabled) or (achieveId == 0) then
         return
     end
 

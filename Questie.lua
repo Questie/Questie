@@ -28,7 +28,7 @@ end
 function Questie:OnEnable()
     if Questie.IsWotlk then
         -- Called when the addon is enabled
-        if (Questie.db.global.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
+        if (Questie.db.char.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
             WatchFrame:Hide()
         end
     end
@@ -47,7 +47,7 @@ end
 ---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
 ---@return string
 function Questie:Colorize(str, color)
-    local c = "|cFF"..color;
+    local c = "|cFF" .. color;
 
     if color == "red" then
         c = "|cFFff0000";
@@ -122,11 +122,11 @@ function Questie:Debug(...)
         -- DEBUG_INFO = 2
         -- DEBUG_DEVELOP = 3
         -- DEBUG_SPAM = 4
-        if ((band(optionsDebugLevel, 2^4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
-        if ((band(optionsDebugLevel, 2^3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
-        if ((band(optionsDebugLevel, 2^2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
-        if ((band(optionsDebugLevel, 2^1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
-        if ((band(optionsDebugLevel, 2^0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)

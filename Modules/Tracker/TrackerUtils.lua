@@ -574,7 +574,7 @@ function TrackerUtils:GetSortedQuestIds()
                 percent = percent / count
                 questCompletePercent[quest.Id] = percent
             end
-            table.insert(sortedQuestIds, questId)
+            tinsert(sortedQuestIds, questId)
         end
     end
 

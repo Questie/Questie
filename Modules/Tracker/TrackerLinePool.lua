@@ -198,23 +198,75 @@ function TrackerLinePool.Initialize(questFrame)
         expandZone:SetMode(1) -- maximized
         expandZone:EnableMouse(true)
         expandZone:RegisterForDrag("LeftButton")
-        expandZone:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+        expandZone:RegisterForClicks("LeftButtonUp", "LeftButtonDown", "RightButtonUp", "RightButtonDown")
 
-        expandZone:SetScript("OnClick", function(self)
-            if InCombatLockdown() then
-                return
+        expandZone:SetScript("OnMouseDown", function(self, button)
+            if button == "LeftButton" then
+                if IsShiftKeyDown() then
+                    -- This sets up the minAllQuestsInZone table upon first click
+                    if not Questie.db.char.collapsedZones[self.zoneId] then
+                        if not Questie.db.char.minAllQuestsInZone[self.zoneId] then
+                            Questie.db.char.minAllQuestsInZone[self.zoneId] = {}
+                            -- This flag prevents repopulating QuestID's where we don't want them.
+                            Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue = true
+
+                            QuestieCombatQueue:Queue(function()
+                                QuestieTracker:Update()
+                            end)
+                        end
+                    end
+                end
             end
-            if self.mode == 1 then
-                self:SetMode(0)
-            else
-                self:SetMode(1)
+        end)
+
+        expandZone:SetScript("OnMouseUp", function(self, button)
+            if button == "LeftButton" then
+                if IsShiftKeyDown() then
+                    if not Questie.db.char.collapsedZones[self.zoneId] then
+                        C_Timer.After(0.1, function()
+                            if Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue then
+                                -- Places all QuestID's into the collapsedQuests table and keeps the Min/Max buttons in sync.
+                                for questId, _ in pairs(Questie.db.char.minAllQuestsInZone[self.zoneId]) do
+                                    if type(questId) == "number" then
+                                        Questie.db.char.collapsedQuests[questId] = true
+                                    end
+                                end
+
+                                Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue = nil
+                            else
+                                -- Removes all QuestID's from the collapsedQuests table.
+                                for questId, _ in pairs(Questie.db.char.minAllQuestsInZone[self.zoneId]) do
+                                    if type(questId) == "number" then
+                                        Questie.db.char.collapsedQuests[questId] = nil
+                                    end
+                                end
+
+                                Questie.db.char.minAllQuestsInZone[self.zoneId] = nil
+                            end
+
+                            QuestieCombatQueue:Queue(function()
+                                QuestieTracker:Update()
+                            end)
+                        end)
+                    end
+                else
+                    if self.mode == 1 then
+                        self:SetMode(0)
+                    else
+                        self:SetMode(1)
+                    end
+
+                    if Questie.db.char.collapsedZones[self.zoneId] == true then
+                        Questie.db.char.collapsedZones[self.zoneId] = nil
+                    else
+                        Questie.db.char.collapsedZones[self.zoneId] = true
+                    end
+
+                    QuestieCombatQueue:Queue(function()
+                        QuestieTracker:Update()
+                    end)
+                end
             end
-            if Questie.db.char.collapsedZones[self.zoneId] == true then
-                Questie.db.char.collapsedZones[self.zoneId] = nil
-            else
-                Questie.db.char.collapsedZones[self.zoneId] = true
-            end
-            QuestieTracker:Update()
         end)
 
         expandZone:SetScript("OnEnter", function(self)
@@ -261,9 +313,6 @@ function TrackerLinePool.Initialize(questFrame)
         expandQuest:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
         expandQuest:SetScript("OnClick", function(self)
-            if InCombatLockdown() then
-                return
-            end
             if self.mode == 1 then
                 self:SetMode(0)
             else
@@ -271,10 +320,22 @@ function TrackerLinePool.Initialize(questFrame)
             end
             if Questie.db.char.collapsedQuests[self.questId] then
                 Questie.db.char.collapsedQuests[self.questId] = nil
+
+                -- This keeps both tables in sync so we can use them to maintain Min/Max states.
+                if Questie.db.char.minAllQuestsInZone[self.zoneId] and Questie.db.char.minAllQuestsInZone[self.zoneId][self.questId] then
+                    Questie.db.char.minAllQuestsInZone[self.zoneId][self.questId] = nil
+                end
             else
                 Questie.db.char.collapsedQuests[self.questId] = true
+
+                -- This keeps both tables in sync so we can use them to maintain Min/Max states.
+                if Questie.db.char.minAllQuestsInZone[self.zoneId] then
+                    Questie.db.char.minAllQuestsInZone[self.zoneId][self.questId] = true
+                end
             end
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end)
 
         if Questie.IsWotlk then
@@ -534,7 +595,7 @@ end
 
 function TrackerLinePool.ResetLinesForChange()
     Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: ResetLinesForChange")
-    if InCombatLockdown() or not Questie.db.global.trackerEnabled then
+    if InCombatLockdown() or not Questie.db.char.trackerEnabled then
         return
     end
 
@@ -555,7 +616,7 @@ end
 function TrackerLinePool.ResetButtonsForChange()
     Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: ResetButtonsForChange")
 
-    if InCombatLockdown() or not Questie.db.global.trackerEnabled then
+    if InCombatLockdown() or not Questie.db.char.trackerEnabled then
         return
     end
 

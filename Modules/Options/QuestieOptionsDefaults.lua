@@ -58,8 +58,6 @@ function QuestieOptionsDefaults:Load()
             enableMapIcons = true,
             enableMiniMapIcons = true,
             questieShutUp = false,
-            bugWorkarounds = true,
-
             -- TBC Isle of Quel'Danas
             isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,
@@ -104,7 +102,7 @@ function QuestieOptionsDefaults:Load()
             trackerQuestPadding = 4,
             trackerFontOutline = nil,
             trackerBackdropAlpha = 1,
-            --trackerReset = QuestieTracker:ResetLocation()
+            trackerHeightRatio = 0.50,
             globalTrackerLocation = true,
             showQuestXpAtMaxLevel = true,
             questieTLoc = "char",
@@ -150,6 +148,7 @@ function QuestieOptionsDefaults:Load()
             showPvPQuests = true,
             showAQWarEffortQuests = false,
             showQuestsInNpcTooltip = true,
+            trackerEnabled = true,
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true
         },

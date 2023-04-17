@@ -117,13 +117,13 @@ local function runValidator()
     if Questie.db.global.debugEnabled then
         coYield()
         print("Validating NPCs...")
-         QuestieDBCompiler:ValidateNPCs()
+        QuestieDBCompiler:ValidateNPCs()
         coYield()
         print("Validating objects...")
-         QuestieDBCompiler:ValidateObjects()
+        QuestieDBCompiler:ValidateObjects()
         coYield()
         print("Validating items...")
-         QuestieDBCompiler:ValidateItems()
+        QuestieDBCompiler:ValidateItems()
         coYield()
         print("Validating quests...")
         QuestieDBCompiler:ValidateQuests()
@@ -173,7 +173,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     -- Check if the DB needs to be recompiled
     if (not Questie.db.global.dbIsCompiled) or QuestieLib:GetAddonVersionString() ~= Questie.db.global.dbCompiledOnVersion or (Questie.db.global.questieLocaleDiff and Questie.db.global.questieLocale or GetLocale()) ~= Questie.db.global.dbCompiledLang then
-        print("\124cFFAAEEFF"..l10n("Questie DB has updated!").. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
+        print("\124cFFAAEEFF" .. l10n("Questie DB has updated!") .. "\124r\124cFFFF6F22 " .. l10n("Data is being processed, this may take a few moments and cause some lag..."))
         loadFullDatabase()
         QuestieDBCompiler:Compile()
         dbCompiled = true
@@ -340,7 +340,7 @@ function QuestieInit:LoadDatabase(key)
         coYield()
         QuestieDB[key] = loadstring(QuestieDB[key]) -- load the table from string (returns a function)
         coYield()
-        QuestieDB[key] = QuestieDB[key]() -- execute the function (returns the table)
+        QuestieDB[key] = QuestieDB[key]()           -- execute the function (returns the table)
     else
         Questie:Debug(Questie.DEBUG_DEVELOP, "Database is missing, this is likely do to era vs tbc: ", key)
     end
@@ -352,7 +352,6 @@ function QuestieInit:LoadBaseDB()
     QuestieInit:LoadDatabase("questData")
     QuestieInit:LoadDatabase("itemData")
 end
-
 
 function _QuestieInit.StartStageCoroutine()
     for i = 1, #QuestieInit.Stages do
@@ -366,7 +365,7 @@ function QuestieInit:Init()
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
     -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
-    if Questie.db.global.trackerEnabled then
+    if Questie.db.char.trackerEnabled then
         QuestieTracker:HookBaseTracker()
     end
 end

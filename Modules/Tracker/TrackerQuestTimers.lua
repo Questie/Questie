@@ -21,13 +21,13 @@ local timer
 
 -- Save the default location of the Blizzard QuestTimerFrame
 if not Questie.IsWotlk then
-    blizzardTimerLocation = {QuestTimerFrame:GetPoint()}
+    blizzardTimerLocation = { QuestTimerFrame:GetPoint() }
 end
 
 function TrackerQuestTimers:Initialize()
     Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerQuestTimers:Initialize")
 
-    if QuestieTracker.started or (not Questie.db.global.trackerEnabled) then
+    if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then
         return
     end
 
@@ -93,7 +93,6 @@ function TrackerQuestTimers:GetRemainingTime(questId, frame, clear)
 
     if clear then
         timer = nil
-
     elseif frame then
         timer = {
             frame = frame,
@@ -129,10 +128,9 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
             local timeRemainingString = SecondsToTime(timeRemaining, false, true)
 
             if not strfind(timeRemainingString, "Seconds?") then
-                timeRemainingString = timeRemainingString.." 0 Seconds"
+                timeRemainingString = timeRemainingString .. " 0 Seconds"
             end
             return timeRemainingString, timeRemaining
-
         else
             return nil
         end
@@ -144,7 +142,7 @@ function TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
 end
 
 function TrackerQuestTimers:UpdateTimerFrame()
-    if timer and (Questie.db.global.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
+    if timer and (Questie.db.char.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
         local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
         if timeRemainingString ~= nil then
             Questie:Debug(Questie.DEBUG_SPAM, "TrackerQuestTimers:UpdateTimerFrame - ", timeRemainingString)
