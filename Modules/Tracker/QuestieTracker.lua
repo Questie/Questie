@@ -49,8 +49,14 @@ local lastAQW = GetTime()
 local lastAchieveId = GetTime()
 local durabilityInitialPosition
 local questsWatched = GetNumQuestWatches()
-local trackedAchievements = { GetTrackedAchievements() }
-local trackedAchievementIds = {}
+
+local trackedAchievements
+local trackedAchievementIds
+if Questie.IsWotlk then
+    trackedAchievements = { GetTrackedAchievements() }
+    trackedAchievementIds = {}
+end
+
 local isFirstRun = true
 local allowFormattingUpdate = false
 local trackerBaseFrame, trackerHeaderFrame, trackerQuestFrame

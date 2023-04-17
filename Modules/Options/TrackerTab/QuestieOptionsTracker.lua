@@ -646,7 +646,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 min = 8,
                 max = 18,
                 step = 1,
-                disabled = function() return not Questie.db.char.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone" end,
+                disabled = function() return not Questie.db.char.trackerEnabled end,
                 get = function() return Questie.db.global.trackerFontSizeZone end,
                 set = function(_, value)
                     Questie.db.global.trackerFontSizeZone = value
@@ -661,7 +661,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Font for Zone Names') end,
                 desc = function() return l10n('The font used for zone names.') end,
-                disabled = function() return not Questie.db.char.trackerEnabled or Questie.db.global.trackerSortObjectives ~= "byZone" end,
+                disabled = function() return not Questie.db.char.trackerEnabled end,
                 get = function() return Questie.db.global.trackerFontZone or "Friz Quadrata TT" end,
                 set = function(_, value)
                     Questie.db.global.trackerFontZone = value
