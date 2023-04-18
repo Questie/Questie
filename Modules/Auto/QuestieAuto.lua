@@ -263,6 +263,13 @@ function QuestieAuto:QUEST_FINISHED()
     C_Timer.After(0.5, _QuestFinishedCallback)
 end
 
+function QuestieAuto:QUEST_ACCEPTED()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto][EVENT] QUEST_ACCEPTED")
+    if Questie.db.global.bugWorkarounds == true and QuestFrameDetailPanel:IsVisible() == true then
+        QuestFrameCloseButton:Click()
+    end
+end
+
 function _QuestieAuto:AllQuestWindowsClosed()
     if GossipFrame and (not GossipFrame:IsVisible())
             and GossipFrameGreetingPanel and (not GossipFrameGreetingPanel:IsVisible())
