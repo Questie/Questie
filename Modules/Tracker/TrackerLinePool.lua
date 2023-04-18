@@ -628,7 +628,7 @@ end
 function TrackerLinePool.UpdateLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
     local trackerMarginRight = 20
-    local questMarginLeft = 5 - (18 - trackerFontSizeQuest)
+    local questMarginLeft = 4 - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -640,13 +640,13 @@ function TrackerLinePool.UpdateLineWidths(trackerLineWidth)
 
                     if line.altButton then
                         line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
+                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + trackerMarginRight + questItemButtonSize)
                     else
                         line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - trackerMarginRight)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + trackerMarginRight)
                     end
 
-                    line:SetHeight(line.label:GetStringHeight())
+                    line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
                     line.label:SetHeight(line:GetHeight())
                 end
             end
@@ -940,10 +940,6 @@ TrackerLinePool.SetMode = function(self, mode)
             self.label:SetHeight(trackerFontSizeQuest)
             self.button = nil
         elseif mode == "objective" then
-            local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective, TrackerLinePool.GetOutline)
-            self.label:SetHeight(trackerFontSizeObjective)
-        elseif mode == "splitObjective" then
             local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
             self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective, TrackerLinePool.GetOutline)
             self.label:SetHeight(trackerFontSizeObjective)

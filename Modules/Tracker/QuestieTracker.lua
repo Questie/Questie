@@ -495,38 +495,8 @@ function QuestieTracker:Update()
             end
 
             if firstQuestInZone then
-                -- Checks the previous line to see if we need to add any line padding
-                if line and line.mode == "zone" then
-                    local previousLine = line
-
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-
-                    -- Adds 4 pixels after a Minimized Zone Title
-                    line:ClearAllPoints()
-                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -4)
-                elseif line and line.mode == "quest" then
-                    local previousLine = line
-
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-
-                    -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after a Minimized Quest Title
-                    line:ClearAllPoints()
-                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(2 + Questie.db.global.trackerQuestPadding))
-                elseif line and line.mode == "objective" then
-                    local previousLine = line
-
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-
-                    -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after a Quests Objective(s)
-                    line:ClearAllPoints()
-                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(2 + Questie.db.global.trackerQuestPadding))
-                else
-                    -- Get first line in linePool
-                    line = TrackerLinePool.GetNextLine()
-                end
+                -- Get first line in linePool
+                line = TrackerLinePool.GetNextLine()
 
                 -- Safety check - make sure we didn't run over our linePool limit.
                 if not line then break end
@@ -580,6 +550,11 @@ function QuestieTracker:Update()
                 line.expandZone:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
                 line.expandQuest:Hide()
 
+                -- Adds 4 pixels between Zone and first Quest Title
+                line:SetHeight(line.label:GetHeight() + 4)
+                line.label:SetHeight(line:GetHeight())
+                line.expandZone:SetHeight(line:GetHeight())
+
                 -- Set Zone states
                 line:Show()
                 line.label:Show()
@@ -591,38 +566,8 @@ function QuestieTracker:Update()
 
             -- Add quest
             if (not Questie.db.char.collapsedZones[zoneName]) then
-                -- Checks the previous line to see if we need to add any line padding
-                if line.mode == "zone" then
-                    local previousLine = line
-
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-
-                    -- Adds 4 pixels between a Zone Title and a Quest Title
-                    line:ClearAllPoints()
-                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -4)
-                elseif line.mode == "quest" then
-                    local previousLine = line
-
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-
-                    -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after a Minimized Quest
-                    line:ClearAllPoints()
-                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(4 + Questie.db.global.trackerQuestPadding))
-                elseif line.mode == "objective" then
-                    local previousLine = line
-
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-
-                    -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value between Quests
-                    line:ClearAllPoints()
-                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(2 + Questie.db.global.trackerQuestPadding))
-                else
-                    -- Get next line in linePool
-                    line = TrackerLinePool.GetNextLine()
-                end
+                -- Get next line in linePool
+                line = TrackerLinePool.GetNextLine()
 
                 -- Safety check - make sure we didn't run over our linePool limit.
                 if not line then break end
@@ -680,6 +625,9 @@ function QuestieTracker:Update()
 
                 -- Compare largest text Label in the tracker with current Label, then save widest width
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+
+                -- Adds 4 pixels between Quest Title and first Objective
+                line:SetHeight(line.label:GetHeight() + 4)
 
                 -- Adds the primary Quest Item button
                 if (complete ~= 1 and (quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1)) then
@@ -844,20 +792,8 @@ function QuestieTracker:Update()
                 if (not Questie.db.char.collapsedQuests[quest.Id]) then
                     -- Add Quest Timers (if applicable)
                     if (quest.trackTimedQuest or quest.timedBlizzardQuest) then
-                        -- Checks the previous line to see if we need to add any line padding
-                        if line.mode == "quest" then
-                            local previousLine = line
-
-                            -- Get next line in linePool
-                            line = TrackerLinePool.GetNextLine()
-
-                            -- Adds 2 pixels between the Quest Title and the Quest Timer or the "Blizzard Timer Active" tag
-                            line:ClearAllPoints()
-                            line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -2)
-                        else
-                            -- Get next line in linePool
-                            line = TrackerLinePool.GetNextLine()
-                        end
+                        -- Get next line in linePool
+                        line = TrackerLinePool.GetNextLine()
 
                         -- Safety check - make sure we didn't run over our linePool limit.
                         if not line then break end
@@ -901,6 +837,9 @@ function QuestieTracker:Update()
                         -- Compare largest text Label in the tracker with current Label, then save widest width
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
 
+                        -- Adds 4 pixels between Quest Timer and first Objective (if applicable)
+                        line:SetHeight(line.label:GetHeight() + 4)
+
                         -- Set Timer states
                         line:Show()
                         line.label:Show()
@@ -920,29 +859,8 @@ function QuestieTracker:Update()
                     if complete == 0 then
                         for _, objective in pairs(quest.Objectives) do
                             if (not Questie.db.global.hideCompletedQuestObjectives or (Questie.db.global.hideCompletedQuestObjectives and objective.Needed ~= objective.Collected)) then
-                                -- Checks the previous line to see if we need to add any line padding
-                                if line.mode == "quest" then
-                                    local previousLine = line
-
-                                    -- Get next line in linePool
-                                    line = TrackerLinePool.GetNextLine()
-
-                                    -- Adds 2 pixels between the Quest Title and the first Objective
-                                    line:ClearAllPoints()
-                                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -2)
-                                elseif line.mode == "objective" then
-                                    local previousLine = line
-
-                                    -- Get next line in linePool
-                                    line = TrackerLinePool.GetNextLine()
-
-                                    -- Adds 1 pixel between multiple Objectives
-                                    line:ClearAllPoints()
-                                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -1)
-                                else
-                                    -- Get next line in linePool
-                                    line = TrackerLinePool.GetNextLine()
-                                end
+                                -- Get next line in linePool
+                                line = TrackerLinePool.GetNextLine()
 
                                 -- Safety check - make sure we didn't run over our linePool limit.
                                 if not line then break end
@@ -1051,6 +969,9 @@ function QuestieTracker:Update()
                                     QuestieQuest:AddFinisher(quest)
                                 end
 
+                                -- Adds 1 pixel between multiple Objectives
+                                line:SetHeight(line.label:GetHeight() + 1)
+
                                 -- Set Objective state
                                 line:Show()
                                 line.label:Show()
@@ -1060,29 +981,8 @@ function QuestieTracker:Update()
                         -- Add complete/failed Quest Objectives and tag them as either complete or failed so as to always have at least one objective.
                         -- Some quests have "Blizzard Completion Text" that is displayed to show where to go next or where to turn in the quest.
                     elseif complete == 1 or complete == -1 or quest.Completed == true then
-                        -- Checks the previous line to see if we need to add any line padding
-                        if line.mode == "quest" then
-                            local previousLine = line
-
-                            -- Get next line in linePool
-                            line = TrackerLinePool.GetNextLine()
-
-                            -- Adds 2 pixels between the Quest Title and the Objective
-                            line:ClearAllPoints()
-                            line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -2)
-                        elseif line.mode == "objective" then
-                            local previousLine = line
-
-                            -- Get next line in linePool
-                            line = TrackerLinePool.GetNextLine()
-
-                            -- Adds 1 pixel between multiple Objectives
-                            line:ClearAllPoints()
-                            line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -1)
-                        else
-                            -- Get next line in linePool
-                            line = TrackerLinePool.GetNextLine()
-                        end
+                        -- Get next line in linePool
+                        line = TrackerLinePool.GetNextLine()
 
                         -- Safety check - make sure we didn't run over our linePool limit.
                         if not line then break end
@@ -1154,6 +1054,9 @@ function QuestieTracker:Update()
                 if not line then
                     line = TrackerLinePool.GetLastLine()
                 end
+
+                -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
+                line:SetHeight(line.label:GetHeight() + 2 + Questie.db.global.trackerQuestPadding)
             end
             primaryButton = false
             secondaryButton = false
@@ -1187,50 +1090,15 @@ function QuestieTracker:Update()
                 end
 
                 if firstAchieveInZone then
-                    -- Checks the previous line to see if we need to add any line padding
-                    if line and line.mode == "zone" then
-                        local previousLine = line
+                    -- Get first line in linePool
+                    line = TrackerLinePool.GetNextLine()
 
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds 4 pixels after a Minimized Zone Title
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -4)
-                    elseif line and line.mode == "achieve" then
-                        local previousLine = line
-
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after a Minimized Achievement Title
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(2 + Questie.db.global.trackerQuestPadding))
-                    elseif line and line.mode == "objective" then
-                        local previousLine = line
-
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after an Achievements Objective(s)
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(2 + Questie.db.global.trackerQuestPadding))
-                    else
-                        -- Get first line in linePool
-                        line = TrackerLinePool.GetNextLine()
-                    end
+                    -- Safety check - make sure we didn't run over our linePool limit.
+                    if not line then break end
 
                     -- Set Line Mode and Zone
                     line:SetMode("zone")
                     line:SetZone(zoneName)
-
-                    -- Setup Min/Max Button
-                    line.expandZone:Show()
-                    line.expandZone:ClearAllPoints()
-                    line.expandZone:SetWidth(line.label:GetWidth())
-                    line.expandZone:SetHeight(trackerFontSizeZone)
-                    line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
-                    line.expandQuest:Hide()
 
                     -- Setup Zone Label
                     line.label:ClearAllPoints()
@@ -1269,6 +1137,19 @@ function QuestieTracker:Update()
                     -- Compare largest text Label in the tracker with current Label, then save widest width
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
 
+                    -- Setup Min/Max Button
+                    line.expandZone:Show()
+                    line.expandZone:ClearAllPoints()
+                    line.expandZone:SetWidth(line.label:GetWidth())
+                    line.expandZone:SetHeight(trackerFontSizeZone)
+                    line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
+                    line.expandQuest:Hide()
+
+                    -- Adds 4 pixels between Zone and first Achievement Title
+                    line:SetHeight(line.label:GetHeight() + 4)
+                    line.label:SetHeight(line:GetHeight())
+                    line.expandZone:SetHeight(line:GetHeight())
+
                     -- Set Zone states
                     line:Show()
                     line.label:Show()
@@ -1280,47 +1161,8 @@ function QuestieTracker:Update()
 
                 -- Add Achievements
                 if (not Questie.db.char.collapsedZones[zoneName]) then
-                    -- Checks the previous line to see if we need to add any line padding
-                    if line.mode == "zone" then
-                        local previousLine = line
-
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds 4 pixels between the Zone and Achievement Title
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -4)
-                    elseif line.mode == "achieve" then
-                        local previousLine = line
-
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after a Minimized Achievement
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(4 + Questie.db.global.trackerQuestPadding))
-                    elseif line.mode == "objective" then
-                        local previousLine = line
-
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value between Achievements
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(2 + Questie.db.global.trackerQuestPadding))
-                    elseif line.mode == "splitObjective" then
-                        local previousLine = line
-
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-
-                        -- Adds QuestieOptions--> Tracker Tab: "Padding Between Quests" value after a split Objective
-                        line:ClearAllPoints()
-                        line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -(Questie.db.global.trackerQuestPadding))
-                    else
-                        -- Get next line in linePool
-                        line = TrackerLinePool.GetNextLine()
-                    end
+                    -- Get next line in linePool
+                    line = TrackerLinePool.GetNextLine()
 
                     -- Safety check - make sure we didn't run over our linePool limit.
                     if not line then break end
@@ -1370,6 +1212,9 @@ function QuestieTracker:Update()
 
                     -- Compare largest text Label in the tracker with current Label, then save widest width
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + questMarginLeft)
+
+                    -- Adds 4 pixels between Achievement Title and first Objective
+                    line:SetHeight(line.label:GetHeight() + 4)
 
                     -- Set Achievement states
                     line:Show()
@@ -1433,29 +1278,8 @@ function QuestieTracker:Update()
                         for objCriteria = 1, numCriteria do
                             local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, objCriteria)
                             if ((Questie.db.global.hideCompletedAchieveObjectives) and (not completed)) or (not Questie.db.global.hideCompletedAchieveObjectives) then
-                                -- Checks the previous line to see if we need to add any line padding
-                                if line.mode == "achieve" then
-                                    local previousLine = line
-
-                                    -- Get next line in linePool
-                                    line = TrackerLinePool.GetNextLine()
-
-                                    -- Adds 2 pixels between the Achievement Title and the first Objective
-                                    line:ClearAllPoints()
-                                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -2)
-                                elseif line.mode == "objective" then
-                                    local previousLine = line
-
-                                    -- Get next line in linePool
-                                    line = TrackerLinePool.GetNextLine()
-
-                                    -- Adds 1 pixel between each Objective
-                                    line:ClearAllPoints()
-                                    line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -1)
-                                else
-                                    -- Get next line in linePool
-                                    line = TrackerLinePool.GetNextLine()
-                                end
+                                -- Get next line in linePool
+                                line = TrackerLinePool.GetNextLine()
 
                                 -- Safety check - make sure we didn't run over our linePool limit.
                                 if not line then break end
@@ -1466,11 +1290,13 @@ function QuestieTracker:Update()
 
                                 -- Set correct Objective ID. Sometimes stand alone trackable Achievements are part of a group of Achievements under a parent Achievement.
                                 local objId
+
                                 if refId and select(2, GetAchievementInfo(refId)) == criteriaString and ((GetAchievementInfo(refId) and refId ~= 0) or (refId > 0 and (not QuestieDB:GetQuest(refId)))) then
                                     objId = refId
                                 else
                                     objId = achieve
                                 end
+
                                 line:SetQuest(objId)
                                 line:SetObjective("objective")
                                 line.expandZone:Hide()
@@ -1521,30 +1347,21 @@ function QuestieTracker:Update()
                                         -- Compare largest text Label in the tracker with current Label, then save widest width
                                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
 
+                                        -- Adds 1 pixel between split Objectives
+                                        line:SetHeight(line.label:GetHeight() + 1)
+
                                         -- Set Objective state
                                         line:Show()
                                         line.label:Show()
 
-                                        -- Checks the previous line to see if we need to add any line padding
-                                        if line.mode == "objective" then
-                                            local previousLine = line
-
-                                            -- Get next line in linePool
-                                            line = TrackerLinePool.GetNextLine()
-
-                                            -- Adds 1 pixel between split Objective lines
-                                            line:ClearAllPoints()
-                                            line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -1)
-                                        else
-                                            -- Get next line in linePool
-                                            line = TrackerLinePool.GetNextLine()
-                                        end
+                                        -- Get next line in linePool
+                                        line = TrackerLinePool.GetNextLine()
 
                                         -- Safety check - make sure we didn't run over our linePool limit.
                                         if not line then break end
 
                                         -- Set Line Mode, Types, Clickers
-                                        line:SetMode("splitObjective")
+                                        line:SetMode("objective")
                                         line:SetOnClick("achieve")
                                         line:SetQuest(objId)
                                         line:SetObjective("objective")
@@ -1592,6 +1409,9 @@ function QuestieTracker:Update()
                                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
                                 end
 
+                                -- Adds 1 pixel between multiple Objectives
+                                line:SetHeight(line.label:GetHeight() + 1)
+
                                 -- Set Objective state
                                 line:Show()
                                 line.label:Show()
@@ -1603,6 +1423,9 @@ function QuestieTracker:Update()
                     if not line then
                         line = TrackerLinePool.GetLastLine()
                     end
+
+                    -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
+                    line:SetHeight(line.label:GetHeight() + 2 + Questie.db.global.trackerQuestPadding)
                 end
             end
         end
@@ -1705,7 +1528,7 @@ function QuestieTracker:UpdateFormatting()
 
         -- Trims the bottom of the tracker (overall height) based on the trackers current state.
         local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
-        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight())
+        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight() - Questie.db.global.trackerQuestPadding)
 
         if Questie.db.global.trackerHeaderEnabled then
             trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + trackerHeaderFrame:GetHeight() + 22)
