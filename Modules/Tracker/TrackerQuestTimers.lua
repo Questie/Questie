@@ -80,12 +80,12 @@ function TrackerQuestTimers:ShowBlizzardTimer()
     end
 end
 
----@param questId number
+---@param quest table
 ---@param frame frame
 ---@param clear boolean
----@return string timeRemainingString, number timeRemaining, nil
-function TrackerQuestTimers:GetRemainingTime(questId, frame, clear)
-    local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(questId)
+---@return string|nil timeRemainingString, number|nil timeRemaining
+function TrackerQuestTimers:GetRemainingTime(quest, frame, clear)
+    local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then
         return nil
@@ -96,8 +96,23 @@ function TrackerQuestTimers:GetRemainingTime(questId, frame, clear)
     elseif frame then
         timer = {
             frame = frame,
-            questId = questId
+            questId = quest.Id
         }
+    end
+
+    quest.timedBlizzardQuest = nil
+    quest.trackTimedQuest = false
+
+    if timeRemaining then
+        if Questie.db.global.showBlizzardQuestTimer then
+            TrackerQuestTimers:ShowBlizzardTimer()
+            quest.timedBlizzardQuest = true
+            quest.trackTimedQuest = false
+        else
+            TrackerQuestTimers:HideBlizzardTimer()
+            quest.timedBlizzardQuest = false
+            quest.trackTimedQuest = true
+        end
     end
 
     return timeRemainingString, timeRemaining

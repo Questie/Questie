@@ -554,16 +554,54 @@ local function _GetContinent(uiMapId)
     end
 end
 
+local function _GetZoneName(zoneOrSort)
+    if not zoneOrSort then return end
+    local zoneName
+    if Questie.db.global.trackerSortObjectives == "byZone" then
+        if (zoneOrSort) > 0 then
+            -- Valid ZoneID
+            zoneName = TrackerUtils:GetZoneNameByID(zoneOrSort)
+        elseif (zoneOrSort) < 0 then
+            -- Valid CategoryID
+            zoneName = TrackerUtils:GetCategoryNameByID(zoneOrSort)
+        else
+            -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
+            zoneName = tostring(zoneOrSort)
+            TrackerUtils:ReportErrorMessage(zoneName)
+        end
+    else
+        -- Let's create custom Zones based on Sorting type.
+        if Questie.db.global.trackerSortObjectives == "byComplete" then
+            zoneName = "Quests (By % Completed)"
+        elseif Questie.db.global.trackerSortObjectives == "byLevel" then
+            zoneName = "Quests (By Level)"
+        elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
+            zoneName = "Quests (By Level Reversed)"
+        elseif Questie.db.global.trackerSortObjectives == "byProximity" then
+            zoneName = "Quests (By Proximity)"
+        end
+    end
+    return zoneName
+end
+
 ---@return table sortedQuestIds Table with sorted Quest ID's by Sort Type
+---@return table questDetails Table with raw quest table from QuestiePlayer.currentQuestLog, percentage completed value per quest, and a "translated" zoneName
 function TrackerUtils:GetSortedQuestIds()
     local sortedQuestIds = {}
-    local questCompletePercent = {}
+    local questDetails = {}
     -- Update quest objectives
-    for questId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questId)
+    for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
         if quest then
+            -- Insert Quest Ids into sortedQuestIds table
+            tinsert(sortedQuestIds, questId)
+
+            -- Create questDetails table keys and insert values
+            questDetails[quest.Id] = {}
+            questDetails[quest.Id].quest = quest
+            questDetails[quest.Id].zoneName = _GetZoneName(quest.zoneOrSort)
+
             if quest:IsComplete() == 1 or (not next(quest.Objectives)) then
-                questCompletePercent[quest.Id] = 1
+                questDetails[quest.Id].questCompletePercent = 1
             else
                 local percent = 0
                 local count = 0
@@ -572,57 +610,41 @@ function TrackerUtils:GetSortedQuestIds()
                     count = count + 1
                 end
                 percent = percent / count
-                questCompletePercent[quest.Id] = percent
+
+                questDetails[quest.Id].questCompletePercent = percent
             end
-            tinsert(sortedQuestIds, questId)
         end
     end
 
     -- Quests and objectives sort
     if Questie.db.global.trackerSortObjectives == "byComplete" then
         table.sort(sortedQuestIds, function(a, b)
-            local vA, vB = questCompletePercent[a], questCompletePercent[b]
+            local vA, vB = questDetails[a].questCompletePercent, questDetails[b].questCompletePercent
             if vA == vB then
-                local qA = QuestieDB:GetQuest(a)
-                local qB = QuestieDB:GetQuest(b)
+                local qA = questDetails[a].quest
+                local qB = questDetails[b].quest
                 return qA and qB and qA.level < qB.level
             end
             return vB < vA
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevel" then
         table.sort(sortedQuestIds, function(a, b)
-            local qA = QuestieDB:GetQuest(a)
-            local qB = QuestieDB:GetQuest(b)
+            local qA = questDetails[a].quest
+            local qB = questDetails[b].quest
             return qA and qB and qA.level < qB.level
         end)
     elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
         table.sort(sortedQuestIds, function(a, b)
-            local qA = QuestieDB:GetQuest(a)
-            local qB = QuestieDB:GetQuest(b)
+            local qA = questDetails[a].quest
+            local qB = questDetails[b].quest
             return qA and qB and qA.level > qB.level
         end)
     elseif Questie.db.global.trackerSortObjectives == "byZone" then
         table.sort(sortedQuestIds, function(a, b)
-            local qA = QuestieDB:GetQuest(a)
-            local qB = QuestieDB:GetQuest(b)
-            local qAZone, qBZone
-            if qA.zoneOrSort > 0 then
-                qAZone = TrackerUtils:GetZoneNameByID(qA.zoneOrSort)
-            elseif qA.zoneOrSort < 0 then
-                qAZone = TrackerUtils:GetCategoryNameByID(qA.zoneOrSort)
-            else
-                qAZone = tostring(qA.zoneOrSort)
-                TrackerUtils:ReportErrorMessage(qAZone)
-            end
-
-            if qB.zoneOrSort > 0 then
-                qBZone = TrackerUtils:GetZoneNameByID(qB.zoneOrSort)
-            elseif qB.zoneOrSort < 0 then
-                qBZone = TrackerUtils:GetCategoryNameByID(qB.zoneOrSort)
-            else
-                qBZone = tostring(qB.zoneOrSort)
-                TrackerUtils:ReportErrorMessage(qBZone)
-            end
+            local qA = questDetails[a].quest
+            local qB = questDetails[b].quest
+            local qAZone = questDetails[a].zoneName
+            local qBZone = questDetails[b].zoneName
 
             -- Sort by Zone then by Level to mimic QuestLog sorting
             if qAZone == qBZone then
@@ -644,7 +666,7 @@ function TrackerUtils:GetSortedQuestIds()
 
             sortData.questId = questId
             sortData.distance = _GetDistanceToClosestObjective(questId)
-            sortData.q = QuestieDB:GetQuest(questId)
+            sortData.q = questDetails[questId].quest
 
             local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
 
@@ -716,5 +738,5 @@ function TrackerUtils:GetSortedQuestIds()
         questProximityTimer = nil
     end
 
-    return sortedQuestIds
+    return sortedQuestIds, questDetails
 end

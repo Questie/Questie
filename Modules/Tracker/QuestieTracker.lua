@@ -428,7 +428,7 @@ function QuestieTracker:Update()
 
     local line
 
-    local sortedQuestIds = TrackerUtils:GetSortedQuestIds()
+    local sortedQuestIds, questDetails = TrackerUtils:GetSortedQuestIds()
 
     local firstQuestInZone = false
     local zoneCheck
@@ -439,52 +439,12 @@ function QuestieTracker:Update()
 
     -- Begin populating the tracker with quests
     for _, questId in pairs(sortedQuestIds) do
-        local quest = QuestieDB:GetQuest(questId)
-        if not quest then break end
+        if not questId then break end
+
+        local quest = questDetails[questId].quest
         local complete = quest:IsComplete()
-        local zoneName
-
-        if Questie.db.global.trackerSortObjectives == "byZone" then
-            if (quest.zoneOrSort) > 0 then
-                -- Valid ZoneID
-                zoneName = TrackerUtils:GetZoneNameByID(quest.zoneOrSort)
-            elseif (quest.zoneOrSort) < 0 then
-                -- Valid CategoryID
-                zoneName = TrackerUtils:GetCategoryNameByID(quest.zoneOrSort)
-            else
-                -- Probobly not in the Database. Assign zoneOrSort ID so Questie doesn't error
-                zoneName = tostring(quest.zoneOrSort)
-                TrackerUtils:ReportErrorMessage(zoneName)
-            end
-        else
-            -- Let's create a custom Zones based on Sorting type.
-            if Questie.db.global.trackerSortObjectives == "byComplete" then
-                zoneName = "Quests (By % Completed)"
-            elseif Questie.db.global.trackerSortObjectives == "byLevel" then
-                zoneName = "Quests (By Level)"
-            elseif Questie.db.global.trackerSortObjectives == "byLevelReversed" then
-                zoneName = "Quests (By Level Reversed)"
-            elseif Questie.db.global.trackerSortObjectives == "byProximity" then
-                zoneName = "Quests (By Proximity)"
-            end
-        end
-
-        -- Check for valid timed quests
-        quest.timedBlizzardQuest = nil
-        quest.trackTimedQuest = false
-        local remainingSeconds = TrackerQuestTimers:GetRemainingTime(questId, nil, true)
-
-        if remainingSeconds then
-            if Questie.db.global.showBlizzardQuestTimer then
-                TrackerQuestTimers:ShowBlizzardTimer()
-                quest.timedBlizzardQuest = true
-                quest.trackTimedQuest = false
-            else
-                TrackerQuestTimers:HideBlizzardTimer()
-                quest.timedBlizzardQuest = false
-                quest.trackTimedQuest = true
-            end
-        end
+        local zoneName = questDetails[questId].zoneName
+        local remainingSeconds = TrackerQuestTimers:GetRemainingTime(quest, nil, true)
 
         if (complete ~= 1 or Questie.db.global.trackerShowCompleteQuests or quest.trackTimedQuest or quest.timedBlizzardQuest)
             and (Questie.db.global.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId])
@@ -817,7 +777,7 @@ function QuestieTracker:Update()
                         if quest.timedBlizzardQuest then
                             line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active") .. "!", "blue"))
                         else
-                            local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTime(questId, line, false)
+                            local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTime(quest, line, false)
                             if timeRemaining <= 1 then
                                 line.label:SetText(Questie:Colorize("0 Seconds", "blue"))
                                 line.label.activeTimer = false
