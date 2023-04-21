@@ -799,9 +799,6 @@ function QuestieTracker:Update()
                         -- Compare largest text Label in the tracker with current Label, then save widest width
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
 
-                        -- Adds 1 pixels between Quest Timer and first Objective (if applicable)
-                        line:SetHeight(line.label:GetHeight() + 1)
-
                         -- Set Timer states
                         line:Show()
                         line.label:Show()
