@@ -422,7 +422,7 @@ function QuestieTracker:Update()
     -- Setup local QuestieTracker:Update vars
     local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-    local questMarginLeft = (trackerMarginLeft + 24) - (18 - trackerFontSizeQuest)
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight + 4) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -493,14 +493,14 @@ function QuestieTracker:Update()
                 end
 
                 -- Check and measure Zone Label text width and update tracker width
-                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginRight)
+                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
 
                 -- Set Zone Label and Line widths
-                line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginRight)
+                line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
                 line:SetWidth(line.label:GetWidth())
 
                 -- Compare largest text Label in the tracker with current Label, then save widest width
-                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth())
+                trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
 
                 -- Setup Min/Max Button
                 line.expandZone:Show()
@@ -912,7 +912,6 @@ function QuestieTracker:Update()
                                         -- Set Blizzard Description text for single objectives (This should only occure Pre-Wrath)
                                         line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. objDesc)
                                     end
-
                                     -- Set Blizzard Completion Label and Line widths
                                     line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
                                     line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
@@ -1477,8 +1476,8 @@ function QuestieTracker:UpdateFormatting()
 
     if trackerLineWidth > 1 and TrackerLinePool.GetCurrentLine() then
         local trackerVarsCombined = trackerMarginLeft + trackerLineWidth + trackerMarginRight
-        TrackerLinePool.UpdateLineWidths(trackerLineWidth)
         QuestieTracker:UpdateWidth(trackerVarsCombined)
+        TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
 
         -- When measuring string height, the returned values don't account for characters that drop below the bottom of the line.label

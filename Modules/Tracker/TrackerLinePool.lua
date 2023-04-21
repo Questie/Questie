@@ -625,10 +625,11 @@ end
 
 ---Updates all the line.label widths in the linePool for wrapped text only
 ---@param trackerLineWidth number
-function TrackerLinePool.UpdateLineWidths(trackerLineWidth)
+function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-    local trackerMarginRight = 20
-    local questMarginLeft = 4 - (18 - trackerFontSizeQuest)
+    local trackerMarginLeft = 10
+    local trackerMarginRight = 10
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight + 4) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -639,11 +640,11 @@ function TrackerLinePool.UpdateLineWidths(trackerLineWidth)
                     line.label:SetText(line.label:GetText())
 
                     if line.altButton then
-                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + trackerMarginRight + questItemButtonSize)
+                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - questItemButtonSize)
+                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
                     else
-                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - trackerMarginRight)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + trackerMarginRight)
+                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft)
+                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
                     end
 
                     line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
