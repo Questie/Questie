@@ -703,7 +703,7 @@ function TrackerUtils:GetSortedQuestIds()
 
         if not questProximityTimer then
             -- Check location often and update if you've moved
-            Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
+            Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
             C_Timer.After(3.0, function()
                 local playerPosition
                 questProximityTimer = C_Timer.NewTicker(5.0, function()
@@ -737,7 +737,7 @@ function TrackerUtils:GetSortedQuestIds()
     end
 
     if (Questie.db.global.trackerSortObjectives ~= "byProximity") and questProximityTimer and questProximityTimer ~= nil then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
+        Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
         questProximityTimer:Cancel()
         questProximityTimer = nil
     end
