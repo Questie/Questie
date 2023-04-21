@@ -16,7 +16,7 @@ exclude_files = {
     ".luacheckrc",
     "cli.lua",
     "**/.luarocks/**/", -- Created by the GitHub Action
-    "**/.install/**/", -- Created by the GitHub Action
+    "**/.install/**/",  -- Created by the GitHub Action
 }
 ignore = {
     "211", -- Unused local variable
@@ -2637,6 +2637,7 @@ globals = {
     "ProductChoiceFrame",
     "PvPCommentator",
     "QuestFrame",
+    "QuestFrameCloseButton ",
     "QuestFrameDetailPanel",
     "QuestFrameGreetingPanel",
     "QuestFrameGoodbyeButton",
@@ -2745,7 +2746,7 @@ globals = {
     "WorldMapZoneMinimapDropDown",
     "WorldMapZoneDropDown",
     "WorldMapZoneMinimapDropDown_Update",
-	"DevTools_Dump",
+    "DevTools_Dump",
     -----------------------------------------------------> Blizzard Data
     "CALENDAR_FULLDATE_MONTH_NAMES",
     "CALENDAR_WEEKDAY_NAMES",

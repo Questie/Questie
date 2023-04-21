@@ -58,6 +58,7 @@ function QuestieOptionsDefaults:Load()
             enableMapIcons = true,
             enableMiniMapIcons = true,
             questieShutUp = false,
+            bugWorkarounds = true,
             -- TBC Isle of Quel'Danas
             isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,
