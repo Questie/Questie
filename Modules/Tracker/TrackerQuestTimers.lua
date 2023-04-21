@@ -88,6 +88,8 @@ function TrackerQuestTimers:GetRemainingTime(quest, frame, clear)
     local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(quest.Id)
 
     if (timeRemainingString == nil) then
+        quest.timedBlizzardQuest = nil
+        quest.trackTimedQuest = false
         return nil
     end
 
@@ -99,9 +101,6 @@ function TrackerQuestTimers:GetRemainingTime(quest, frame, clear)
             questId = quest.Id
         }
     end
-
-    quest.timedBlizzardQuest = nil
-    quest.trackTimedQuest = false
 
     if timeRemaining then
         if Questie.db.global.showBlizzardQuestTimer then
@@ -164,6 +163,7 @@ function TrackerQuestTimers:UpdateTimerFrame()
             timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeObjective, TrackerLinePool.GetOutline)
             timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
         else
+            Questie:Debug(Questie.DEBUG_SPAM, "TrackerQuestTimers: Quest Timer Expired!")
             return
         end
     end
