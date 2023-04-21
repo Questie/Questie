@@ -778,12 +778,14 @@ function QuestieTracker:Update()
                             line.label:SetText(Questie:Colorize(l10n("Blizzard Timer Active") .. "!", "blue"))
                         else
                             local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTime(quest, line, false)
-                            if timeRemaining <= 1 then
-                                line.label:SetText(Questie:Colorize("0 Seconds", "blue"))
-                                line.label.activeTimer = false
-                            else
-                                line.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
-                                line.label.activeTimer = true
+                            if timeRemaining then
+                                if timeRemaining <= 1 then
+                                    line.label:SetText(Questie:Colorize("0 Seconds", "blue"))
+                                    line.label.activeTimer = false
+                                else
+                                    line.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
+                                    line.label.activeTimer = true
+                                end
                             end
                         end
 
@@ -797,8 +799,8 @@ function QuestieTracker:Update()
                         -- Compare largest text Label in the tracker with current Label, then save widest width
                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
 
-                        -- Adds 4 pixels between Quest Timer and first Objective (if applicable)
-                        line:SetHeight(line.label:GetHeight() + 4)
+                        -- Adds 1 pixels between Quest Timer and first Objective (if applicable)
+                        line:SetHeight(line.label:GetHeight() + 1)
 
                         -- Set Timer states
                         line:Show()
