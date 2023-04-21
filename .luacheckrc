@@ -2637,7 +2637,7 @@ globals = {
     "ProductChoiceFrame",
     "PvPCommentator",
     "QuestFrame",
-    "QuestFrameCloseButton ",
+    "QuestFrameCloseButton",
     "QuestFrameDetailPanel",
     "QuestFrameGreetingPanel",
     "QuestFrameGoodbyeButton",
