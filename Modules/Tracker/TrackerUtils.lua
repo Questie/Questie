@@ -5,6 +5,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -724,7 +726,9 @@ function TrackerUtils:GetSortedQuestIds()
                                     break
                                 end
                             end
-                            QuestieTracker:Update()
+                            QuestieCombatQueue:Queue(function()
+                                QuestieTracker:Update()
+                            end)
                         end
                     end
                 end)
