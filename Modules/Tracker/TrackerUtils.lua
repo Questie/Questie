@@ -294,6 +294,25 @@ function TrackerUtils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
 
+---@param quest table Quest Table
+---@return string|nil completionText Quest Completion text string or nil
+function TrackerUtils:GetCompletionText(quest)
+    local questIndex = GetQuestLogIndexByID(quest.Id)
+    local completionText
+
+    if Questie.IsWotlk then
+        completionText = GetQuestLogCompletionText(questIndex)
+    else
+        completionText = quest.Description[1]:gsub("%.", "")
+    end
+
+    if completionText then
+        return completionText
+    else
+        return nil
+    end
+end
+
 ---@param zoneId number Zone ID number
 ---@return string @Zone Name (Localized) or "Unknown Zone"
 local function GetZoneNameByIDFallback(zoneId)

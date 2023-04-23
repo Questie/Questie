@@ -16,7 +16,7 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerUtils
-local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -34,7 +34,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 local _QuestEventHandler = QuestEventHandler.private
 ---@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -544,7 +544,7 @@ function QuestieTracker:Update()
                 line.expandQuest.zoneId = zoneName
 
                 -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
-                if Questie.db.global.collapseCompletedQuests and (complete == 1) and not (quest.trackTimedQuest or quest.timedBlizzardQuest) then
+                if Questie.db.global.collapseCompletedQuests and complete == 1 and #quest.Objectives ~= 0 and not (quest.trackTimedQuest or quest.timedBlizzardQuest) then
                     if not Questie.db.char.collapsedQuests[quest.Id] then
                         Questie.db.char.collapsedQuests[quest.Id] = true
                     end
@@ -572,7 +572,7 @@ function QuestieTracker:Update()
                 if quest.trackTimedQuest or quest.timedBlizzardQuest then
                     coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
                 else
-                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and (complete == 1)), false)
+                    coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and complete == 1 and #quest.Objectives ~= 0), false)
                 end
                 line.label:SetText(coloredQuestName)
 
@@ -649,7 +649,7 @@ function QuestieTracker:Update()
                     line.button = button
 
                     -- Hide button if quest complete or failed
-                elseif ((Questie.db.global.collapseCompletedQuests and complete == 1) and not (quest.trackTimedQuest or quest.timedBlizzardQuest)) then
+                elseif (Questie.db.global.collapseCompletedQuests and complete == 1 and #quest.Objectives ~= 0 and not (quest.trackTimedQuest or quest.timedBlizzardQuest)) then
                     line.expandQuest:Hide()
                 else
                     line.expandQuest:Show()
@@ -804,15 +804,8 @@ function QuestieTracker:Update()
                         line.label:Show()
                     end
 
-                    local questIndex = GetQuestLogIndexByID(quest.Id)
-
-                    local completeText = nil
-                    if Questie.IsWotlk then
-                        -- Instead of a boring "Quest Complete!" tag, lets show who or where to turn the quest into or what to
-                        -- do next! This pulls the Quest Completion Text directly from Blizzard. Shouldn't need localization.
-                        -- This API unfortunately isn't available in Vanilla WoW or The Burning Crusade.
-                        completeText = GetQuestLogCompletionText(questIndex)
-                    end
+                    -- Set Completion Text
+                    local completionText = TrackerUtils:GetCompletionText(quest)
 
                     -- Add incomplete Quest Objectives
                     if complete == 0 then
@@ -904,14 +897,10 @@ function QuestieTracker:Update()
                                     end
 
                                     -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
-                                elseif (objective.Completed == true and (completeText ~= nil or (quest.Description[1] ~= nil and #quest.Objectives == 1))) then
-                                    if completeText ~= nil then
-                                        -- Set Blizzard Completion text for single objectives
-                                        line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completeText)
-                                    else
-                                        -- Set Blizzard Description text for single objectives (This should only occure Pre-Wrath)
-                                        line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. objDesc)
-                                    end
+                                elseif (objective.Completed == true and TrackerUtils:GetCompletionText(quest) ~= nil and #quest.Objectives == 1) then
+                                    -- Set Blizzard Completion text for single objectives
+                                    line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
+
                                     -- Set Blizzard Completion Label and Line widths
                                     line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
                                     line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
@@ -957,16 +946,9 @@ function QuestieTracker:Update()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
                         -- Set Objective label based on states
-                        if (complete == 1 and (completeText ~= nil or quest.Description[1] ~= nil) and #quest.Objectives == 0) then
-                            local questDescription = quest.Description[1]:gsub("%.", "")
-
-                            if completeText ~= nil then
-                                -- Set Blizzard Completion text for single objectives
-                                line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completeText)
-                            else
-                                -- Set Blizzard Description text for single objectives (This should only occure Pre-Wrath)
-                                line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. questDescription)
-                            end
+                        if (complete == 1 and TrackerUtils:GetCompletionText(quest) and #quest.Objectives == 0) then
+                            -- Set Blizzard Completion text for single objectives
+                            line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 
                             -- Set Line and Label widths
                             line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
@@ -1479,19 +1461,18 @@ function QuestieTracker:UpdateFormatting()
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
-
-        -- When measuring string height, the returned values don't account for characters that drop below the bottom of the line.label
-        -- frame, such as the lower case 'g'. The characters appear truncated so we have to add a +4 pixel bias to correct this.
-        trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()) + 4)
+        trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
 
         -- Trims the bottom of the tracker (overall height) based on the trackers current state.
         local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
-        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight() - Questie.db.global.trackerQuestPadding)
+        -- When measuring string height, the returned values don't account for characters that drop below the bottom of the line.label
+        -- frame, such as the lower case 'g'. The characters appear truncated so we have to add a +4 pixel bias to correct this.
+        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight() - Questie.db.global.trackerQuestPadding + 4)
 
         if Questie.db.global.trackerHeaderEnabled then
-            trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + trackerHeaderFrame:GetHeight() + 22)
+            trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + trackerHeaderFrame:GetHeight() + 20)
         else
-            trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + 22)
+            trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + 20)
         end
 
         -- Applies static height when the tracker hit's its maximum limit
@@ -1499,9 +1480,9 @@ function QuestieTracker:UpdateFormatting()
             trackerBaseFrame:SetHeight(GetScreenHeight() * Questie.db.global.trackerHeightRatio)
 
             if Questie.db.global.trackerHeaderEnabled then
-                trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 22)
+                trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 20)
             else
-                trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 22)
+                trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
             end
         end
 
