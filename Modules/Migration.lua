@@ -140,7 +140,10 @@ local migrationFunctions = {
     [13] = function()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end,
-    [14] = function()
+    [14] = function ()
+        -- Empty on purpose
+    end,
+    [15] = function()
         if Questie.db.global.clusterLevelHotzone == 70 then -- old default value
             Questie.db.global.clusterLevelHotzone = 50
         end
@@ -154,33 +157,43 @@ local migrationFunctions = {
             Questie.db.global.nameplateTargetFrameEnabled = true
         end
     end,
-    [15] = function()
+    [16] = function()
         if Questie.db.char.questAnnounceChannel == "group" then
             Questie.db.char.questAnnounceChannel = "party"
         end
     end,
-    [16] = function()
+    [17] = function()
         if Questie.IsWotlk then
             Questie.db.global.isleOfQuelDanasPhase = 9 -- Last Isle Of Quel Danas Phase
         end
     end,
-    [17] = function()
+    [18] = function()
+        if Questie.db.char.enableQuestFrameIcons == nil then
+            Questie.db.char.enableQuestFrameIcons = true
+        end
+    end,
+    [19] = function ()
+        Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons["complete"]
+        Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons["complete"]
+        Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons["complete"]
+    end,
+    [20] = function()
+        Questie.db.char.isAchievementsExpanded = nil
+
+        if Questie.db.global.trackerEnabled then   -- old value
+            Questie.db.global.trackerEnabled = nil -- kill old value
+            Questie.db.char.trackerEnabled = true  -- create new value
+        end
+        if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then -- old default value
+            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
+        end
         if Questie.db.global.trackerHeaderAutoMove == false then
             Questie.db.global.trackerHeaderAutoMove = nil -- kill old key
             Questie.db.global.autoMoveHeader = false      -- migrate previous setting to new key
         end
-    end,
-    [18] = function()
-        if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then -- old default value
-            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
-        end
-    end,
-    [19] = function()
         if Questie.db.global.sizerHidden == nil then -- new option
             Questie.db.global.sizerHidden = false    -- set default
         end
-    end,
-    [20] = function()
         if Questie.db.global.hideCompletedQuestObjectives == nil then   -- new option
             Questie.db.global.hideCompletedQuestObjectives = false      -- set default
         end
