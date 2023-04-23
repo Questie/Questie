@@ -1214,7 +1214,7 @@ local trackerOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-    ["If the Questie tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button (may require /reload)."] = {
+    ["If the Questie Tracker is stuck offscreen or lost, you can reset it's location to the center of the screen with this button."] = {
         ["ptBR"] = "Se o rastreador do Questie estiver preso fora da tela ou perdido, você poderá redefinir sua localização para o centro da tela com este botão (pode exigir / recarregar).",
         ["ruRU"] = "Если трекер исчез полностью или оказался за пределами экрана, то нажатие этой кнопки сбросит его положение в центр экрана (может потребоваться перезагрузка пользовательского интерфейса командой '/reload')",
         ["deDE"] = "Wenn der Questie-Tracker außerhalb des Bildschirms hängen bleibt oder verloren geht, kann seine Position mit dieser Schaltfläche auf die Mitte des Bildschirms zurückgesetzt werden (erfordert möglicherweise ein /reload).",
