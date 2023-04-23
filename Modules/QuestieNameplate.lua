@@ -124,7 +124,7 @@ end
 function QuestieNameplate:DrawTargetFrame()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
-    if (not Questie.db.global.nameplateEnabled) or (not Questie.db.global.nameplateTargetFrameEnabled) then
+    if (not Questie.db.global.nameplateTargetFrameEnabled) then
         return
     end
 
