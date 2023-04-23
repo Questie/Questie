@@ -101,7 +101,7 @@ function QuestieOptionsDefaults:Load()
             trackerFontSizeObjective = 10,
             trackerFontObjective = 'Friz Quadrata TT',
             trackerQuestPadding = 4,
-            trackerFontOutline = nil,
+            trackerFontOutline = "None",
             trackerBackdropAlpha = 1,
             trackerHeightRatio = 0.50,
             globalTrackerLocation = true,
