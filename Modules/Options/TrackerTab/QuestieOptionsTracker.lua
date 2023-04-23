@@ -758,7 +758,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 dialogControl = 'LSM30_Font',
                 order = 5.4,
                 values = {
-                    ["None"] = "NONE",
+                    ["None"] = "",
                     ["Outline"] = "OUTLINE",
                     ["Monochrome"] = "MONOCHROME"
                 },

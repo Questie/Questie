@@ -2739,7 +2739,6 @@ globals = {
     "ItemRefTooltipTextLeft1",
     "ChatEdit_GetActiveWindow",
     "ChatEdit_InsertLink",
-    "STANDARD_TEXT_FONT",
     "GetQuestIDFromLogIndex",
     "ChatFrame_AddMessageEventFilter",
     "ChatFrame_RemoveMessageEventFilter",

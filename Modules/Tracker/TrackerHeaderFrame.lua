@@ -200,7 +200,7 @@ function TrackerHeaderFrame:Update()
         headerFrame.questieIcon:SetPoint("TOPLEFT", headerFrame, "TOPLEFT", 8, 0)
         headerFrame.questieIcon:Show()
 
-        headerFrame.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader) or STANDARD_TEXT_FONT, trackerFontSizeHeader)
+        headerFrame.trackedQuests.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontHeader), trackerFontSizeHeader, Questie.db.global.trackerFontOutline)
 
         local maxQuestAmount = "/" .. C_QuestLog.GetMaxNumQuestsCanAccept()
         local _, activeQuests = GetNumQuestLogEntries()

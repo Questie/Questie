@@ -474,7 +474,7 @@ function TrackerLinePool.Initialize(questFrame)
 
                 -- Charges Updates
                 self.count:Hide()
-                self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeQuest)
+                self.count:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest), Questie.db.global.trackerFontSizeQuest, "OUTLINE")
                 if self.charges > 1 then
                     self.count:SetText(self.charges)
                     self.count:Show()
@@ -916,33 +916,22 @@ TrackerLinePool.OnHighlightLeave = function()
     end
 end
 
----@return string outlineValue
-TrackerLinePool.GetOutline = function()
-    local outlineValue = Questie.db.global.trackerFontOutline
-
-    if outlineValue == "NONE" then
-        outlineValue = nil
-    end
-
-    return outlineValue
-end
-
 ---@param mode string
 TrackerLinePool.SetMode = function(self, mode)
     if mode ~= self.mode then
         self.mode = mode
         if mode == "zone" then
             local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone) or STANDARD_TEXT_FONT, trackerFontSizeZone, TrackerLinePool.GetOutline)
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontZone), trackerFontSizeZone, Questie.db.global.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeZone)
         elseif mode == "quest" or mode == "achieve" then
             local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest) or STANDARD_TEXT_FONT, trackerFontSizeQuest, TrackerLinePool.GetOutline)
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontQuest), trackerFontSizeQuest, Questie.db.global.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeQuest)
             self.button = nil
         elseif mode == "objective" then
             local trackerFontSizeObjective = Questie.db.global.trackerFontSizeObjective
-            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, trackerFontSizeObjective, TrackerLinePool.GetOutline)
+            self.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective), trackerFontSizeObjective, Questie.db.global.trackerFontOutline)
             self.label:SetHeight(trackerFontSizeObjective)
         end
     end

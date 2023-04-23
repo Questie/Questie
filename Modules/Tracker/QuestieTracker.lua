@@ -770,7 +770,7 @@ function QuestieTracker:Update()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
                         -- Set Timer font
-                        line.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective) or STANDARD_TEXT_FONT, Questie.db.global.trackerFontSizeObjective, TrackerLinePool.GetOutline)
+                        line.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective), Questie.db.global.trackerFontSizeObjective, Questie.db.global.trackerFontOutline)
 
                         -- Set Timer Title based on states
                         line.label.activeTimer = false
