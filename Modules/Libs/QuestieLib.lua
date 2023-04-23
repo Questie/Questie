@@ -23,7 +23,7 @@ local tonumber = tonumber
 
 -- The original frame which we use to fetch the data required
 --                           Classic                          Wotlk Classic
-local textWrapFrameObject =  _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
+local textWrapFrameObject = _G["QuestLogObjectivesText"] or _G["QuestInfoObjectivesText"]
 
 --[[
     Red: 5+ level above player
@@ -62,7 +62,6 @@ function QuestieLib:PrintDifficultyColor(level, text, isDailyQuest, isEventQuest
 end
 
 function QuestieLib:GetDifficultyColorPercent(level)
-
     if level == -1 then level = QuestiePlayer.GetPlayerLevel() end
     local levelDiff = level - QuestiePlayer.GetPlayerLevel()
 
@@ -106,16 +105,20 @@ function QuestieLib:GetRGBForObjective(objective)
     local float = objective.Collected / objective.Needed
     local trackerColor = Questie.db.global.trackerColorObjectives
 
+
     if not trackerColor or trackerColor == "white" then
+        -- White
         return "|cFFEEEEEE"
     elseif trackerColor == "whiteAndGreen" then
+        -- White and Green
         return
-            objective.Collected == objective.Needed and RGBToHex(76, 255, 76) or
-                FloatRGBToHex(0.8, 0.8, 0.8)
+            objective.Collected == objective.Needed and RGBToHex(76, 255, 76) or FloatRGBToHex(0.8, 0.8, 0.8)
     elseif trackerColor == "whiteToGreen" then
+        -- White to Green
         return FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2)
     else
-        if float < .49 then return FloatRGBToHex(1, 0 + float / .5, 0) end
+        -- Red to Green
+        if float < .50 then return FloatRGBToHex(1, 0 + float / .5, 0) end
         if float == .50 then return FloatRGBToHex(1, 1, 0) end
         if float > .50 then return FloatRGBToHex(1 - float / 2, 1, 0) end
     end
@@ -150,32 +153,32 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
 end
 
 local colors = {
-    {0.3125, 0.44140625, 1},  --Blizzard Polygon-blue --Alpha of 128
-    --{123,  146, 255},  --Blizzard Polygon-blue-2 --Alpha of 61
-    {0.5, 0.46875, 0.84765625},  --Medium Purple
-    {0.58203125, 0.89453125, 0.0546875},   --Inch Worm
-    {0.45703125, 0.8515625, 0.78125},  --Downy
-    {1, 0.5625, 0.625},  --Salmon Pink
-    --{149, 159, 112},  --Avocado, Bad? Fix it
-    {0, 0.6484375, 0.59375},  --Persian Green
-    {0.70703125, 0.109375, 0.4765625},  --Medium Violet Red     --ORG Dark Purple {119, 18,  79}
-    {0.58203125, 0.2148375, 1},  --Light Slate Blue
-    {0.72265625, 0.3671875, 0},    --Alloy Orange
-    {0, 0.9765625, 0.546875},  --Spring Green
-    {0.8515625, 0.2148375,  0.57421875},  --Deep Cerise
-    {1, 0.65234375, 0},    --Orange
-    {0.8125, 0.7109375, 1},  --Mauve
-    {0, 0.25390625,  0.58984375},  --Smalt
-    {1, 0.25, 1},  --Pink Flamingo
-    {1, 1, 0},    --Yellow
-    {0.16015625,  0.65234375, 0},    --Slimy Green
-    {0, 0.66015625, 1},  --Deep Sky Blue
-    {0.87109375, 0.87109375, 0.56640625},  --Primrose
-    {0, 0.5859375,  0},    --Vine Green --G67 default
-    {0, 0.3,  1},  --Navy Blue
-    {0, 0.97265625, 0},    --Lime
-    {0, 1, 1},  --Aqua
-    {1, 0.1484375,  0},    --Scarlet
+    { 0.3125,     0.44140625, 1 },          --Blizzard Polygon-blue --Alpha of 128
+    --{123,         146,        255},         --Blizzard Polygon-blue-2 --Alpha of 61
+    { 0.5,        0.46875,    0.84765625 }, --Medium Purple
+    { 0.58203125, 0.89453125, 0.0546875 },  --Inch Worm
+    { 0.45703125, 0.8515625,  0.78125 },    --Downy
+    { 1,          0.5625,     0.625 },      --Salmon Pink
+    --{149,         159,        112},         --Avocado, Bad? Fix it
+    { 0,          0.6484375,  0.59375 },    --Persian Green
+    { 0.70703125, 0.109375,   0.4765625 },  --Medium Violet Red     --ORG Dark Purple {119, 18,  79}
+    { 0.58203125, 0.2148375,  1 },          --Light Slate Blue
+    { 0.72265625, 0.3671875,  0 },          --Alloy Orange
+    { 0,          0.9765625,  0.546875 },   --Spring Green
+    { 0.8515625,  0.2148375,  0.57421875 }, --Deep Cerise
+    { 1,          0.65234375, 0 },          --Orange
+    { 0.8125,     0.7109375,  1 },          --Mauve
+    { 0,          0.25390625, 0.58984375 }, --Smalt
+    { 1,          0.25,       1 },          --Pink Flamingo
+    { 1,          1,          0 },          --Yellow
+    { 0.16015625, 0.65234375, 0 },          --Slimy Green
+    { 0,          0.66015625, 1 },          --Deep Sky Blue
+    { 0.87109375, 0.87109375, 0.56640625 }, --Primrose
+    { 0,          0.5859375,  0 },          --Vine Green --G67 default
+    { 0,          0.3,        1 },          --Navy Blue
+    { 0,          0.97265625, 0 },          --Lime
+    { 0,          1,          1 },          --Aqua
+    { 1,          0.1484375,  0 },          --Scarlet
 }
 
 local numColors = #colors
@@ -208,26 +211,34 @@ function QuestieLib:GetQuestString(questId, name, level, blizzLike)
             char = stringSub(questTag, 1, 1)
         end
 
-        local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        -- The string.sub above doesn't work for multi byte characters in Chinese
+        local langCode = l10n:GetUILocale()
         if questType == 1 then
-            name = "[" .. level .. "+" .. "] " .. name -- Elite quest
+            -- Elite quest
+            name = "[" .. level .. "+" .. "] " .. name
         elseif questType == 81 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "D"
             end
-            name = "[" .. level .. char .. "] " .. name -- Dungeon quest
+            -- Dungeon quest
+            name = "[" .. level .. char .. "] " .. name
         elseif questType == 62 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
-            name = "[" .. level .. char .. "] " .. name -- Raid quest
+            -- Raid quest
+            name = "[" .. level .. char .. "] " .. name
         elseif questType == 41 then
-            name = "[" .. level .. "] " .. name -- Which one? This is just default.
-            -- name = "[" .. level .. questTag .. "] " .. name -- PvP quest
+            -- Which one? This is just default.
+            name = "[" .. level .. "] " .. name
+            -- PvP quest
+            -- name = "[" .. level .. questTag .. "] " .. name
         elseif questType == 83 then
-            name = "[" .. level .. "++" .. "] " .. name -- Legendary quest
+            -- Legendary quest
+            name = "[" .. level .. "++" .. "] " .. name
         else
-            name = "[" .. level .. "] " .. name -- Some other irrelevant type
+            -- Some other irrelevant type
+            name = "[" .. level .. "] " .. name
         end
     else
         name = "[" .. level .. "] " .. name
@@ -269,27 +280,34 @@ function QuestieLib:GetLevelString(questId, _, level, blizzLike)
         if (not blizzLike) then
             char = stringSub(questTag, 1, 1)
         end
-
-        local langCode = l10n:GetUILocale() -- the string.sub above doesn't work for multi byte characters in Chinese
+        -- the string.sub above doesn't work for multi byte characters in Chinese
+        local langCode = l10n:GetUILocale()
         if questType == 1 then
-            retLevel = "[" .. retLevel .. "+" .. "] " -- Elite quest
+            -- Elite quest
+            retLevel = "[" .. retLevel .. "+" .. "] "
         elseif questType == 81 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "D"
             end
-            retLevel = "[" .. retLevel .. char .. "] " -- Dungeon quest
+            -- Dungeon quest
+            retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 62 then
             if langCode == "zhCN" or langCode == "zhTW" or langCode == "koKR" or langCode == "ruRU" then
                 char = "R"
             end
-            retLevel = "[" .. retLevel .. char .. "] " -- Raid quest
+            -- Raid quest
+            retLevel = "[" .. retLevel .. char .. "] "
         elseif questType == 41 then
-            retLevel = "[" .. retLevel .. "] " -- Which one? This is just default.
-            -- name = "[" .. level .. questTag .. "] " .. name -- PvP quest
+            -- Which one? This is just default.
+            retLevel = "[" .. retLevel .. "] "
+            -- PvP quest
+            -- name = "[" .. level .. questTag .. "] " .. name
         elseif questType == 83 then
-            retLevel = "[" .. retLevel .. "++" .. "] " -- Legendary quest
+            -- Legendary quest
+            retLevel = "[" .. retLevel .. "++" .. "] "
         else
-            retLevel = "[" .. retLevel .. "] " -- Some other irrelevant type
+            -- Some other irrelevant type
+            retLevel = "[" .. retLevel .. "] "
         end
     else
         retLevel = "[" .. retLevel .. "] "
@@ -346,21 +364,18 @@ function QuestieLib:CacheItemNames(questId)
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
                 if not ((QuestieDB.ItemPointers or QuestieDB.itemData)[objectiveDB.Id]) then
-                    Questie:Debug(Questie.DEBUG_DEVELOP,
-                                  "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:",
-                                  objectiveDB.Id)
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieLib:CacheItemNames] Requesting item information for missing itemId:", objectiveDB.Id)
                     local item = Item:CreateFromItemID(objectiveDB.Id)
                     item:ContinueOnItemLoad(
                         function()
                             local itemName = item:GetItemName()
                             if not QuestieDB.itemDataOverrides[objectiveDB.Id] then
-                                QuestieDB.itemDataOverrides[objectiveDB.Id] =  {itemName, {questId}, {}, {}}
+                                QuestieDB.itemDataOverrides[objectiveDB.Id] = { itemName, { questId }, {}, {} }
                             else
                                 QuestieDB.itemDataOverrides[objectiveDB.Id][1] = itemName
                             end
                             Questie:Debug(Questie.DEBUG_DEVELOP,
-                                          "[QuestieLib:CacheItemNames] Created item information for item:",
-                                          itemName, ":", objectiveDB.Id)
+                                "[QuestieLib:CacheItemNames] Created item information for item:", itemName, ":", objectiveDB.Id)
                         end)
                 end
             end
@@ -394,13 +409,15 @@ end
 
 function QuestieLib:GetAddonVersionString()
     if (not cachedVersion) then
-        cachedVersion = GetAddOnMetadata("Questie", "Version") -- This brings up the ## Version from the TOC
+        -- This brings up the ## Version from the TOC
+        cachedVersion = GetAddOnMetadata("Questie", "Version")
     end
 
     return "v" .. cachedVersion
 end
 
-function QuestieLib:Count(table) -- according to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
+-- According to stack overflow, # and table.getn arent reliable (I've experienced this? not sure whats up)
+function QuestieLib:Count(table)
     local count = 0
     for _, _ in pairs(table) do count = count + 1 end
     return count
@@ -438,7 +455,7 @@ function QuestieLib:SortQuestIDsByLevel(quests)
 
     for q in pairs(quests) do
         local questLevel, _ = QuestieLib.GetTbcLevel(q);
-        tinsert(sortedQuestsByLevel, {questLevel or 0, q})
+        tinsert(sortedQuestsByLevel, { questLevel or 0, q })
     end
     table.sort(sortedQuestsByLevel, compareTablesByIndex)
 
@@ -463,8 +480,8 @@ function QuestieLib:MathRandom(low_or_high_arg, high_arg)
         end
     end
 
-    randomSeed = (randomSeed * 214013 + 2531011) % 2^32
-    local rand = (math.floor(randomSeed / 2^16) % 2^15) / 0x7fff
+    randomSeed = (randomSeed * 214013 + 2531011) % 2 ^ 32
+    local rand = (math.floor(randomSeed / 2 ^ 16) % 2 ^ 15) / 0x7fff
     if not high then
         return rand
     end
@@ -473,8 +490,8 @@ end
 
 function QuestieLib:UnpackBinary(val)
     local ret = {}
-    for q=0, 16 do
-        if bit.band(bit.rshift(val,q), 1) == 1 then
+    for q = 0, 16 do
+        if bit.band(bit.rshift(val, q), 1) == 1 then
             tinsert(ret, true)
         else
             tinsert(ret, false)
@@ -482,7 +499,6 @@ function QuestieLib:UnpackBinary(val)
     end
     return ret
 end
-
 
 -- Link contains test bench for regex in lua.
 -- https://hastebin.com/anodilisuw.bash
@@ -545,14 +561,14 @@ function QuestieLib.equals(a, b)
     if ta ~= tb then return false end
 
     if ta == "number" then
-        return math.abs(a-b) < 0.2
+        return math.abs(a - b) < 0.2
     elseif ta == "table" then
-        for k,v in pairs(a) do
+        for k, v in pairs(a) do
             if (not QuestieLib.equals(b[k], v)) then
                 return false
             end
         end
-        for k,v in pairs(b) do
+        for k, v in pairs(b) do
             if (not QuestieLib.equals(a[k], v)) then
                 return false
             end
@@ -581,7 +597,7 @@ function QuestieLib.tunpack(tbl)
         if i == tbl.n then
             return tbl[i]
         end
-        return tbl[i], recursion(i+1)
+        return tbl[i], recursion(i + 1)
     end
 
     return recursion(1)
@@ -627,14 +643,14 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
         textWrapObjectiveFontString:SetJustifyH("LEFT");
         ---@diagnostic disable-next-line: redundant-parameter
         textWrapObjectiveFontString:SetWordWrap(true)
-        textWrapObjectiveFontString:SetVertexColor(1,1,1, 1)--Set opacity to 0, even if it is shown it should be invisible
+        textWrapObjectiveFontString:SetVertexColor(1, 1, 1, 1) --Set opacity to 0, even if it is shown it should be invisible
         local font, size = textWrapFrameObject:GetFont()
         --Chinese? "Fonts\\ARKai_T.ttf"
         textWrapObjectiveFontString:SetFont(font, size);
         textWrapObjectiveFontString:Hide()
     end
 
-    if(textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
+    if (textWrapObjectiveFontString:IsVisible()) then Questie:Error("TextWrap already running... Please report this on GitHub or Discord.") end
 
     --Set Defaults
     combineTrailing = combineTrailing or true
@@ -649,7 +665,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
 
     textWrapObjectiveFontString:SetText(useLine)
     --Is the line wrapped?
-    if(textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
+    if (textWrapObjectiveFontString:GetUnboundedStringWidth() > textWrapObjectiveFontString:GetWrappedWidth()) then
         local lines = {}
         local startIndex = 1
         local endIndex = 2 --We should be able to start at a later index...
@@ -663,15 +679,15 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
             repeat
                 indexes = textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, endIndex)
                 --Last space of the line to be used to break a new row
-                if(string.sub(useLine, endIndex, endIndex) == " ") then
+                if (string.sub(useLine, endIndex, endIndex) == " ") then
                     lastSpaceIndex = endIndex
-                --Track the dot at the end of a line
-                elseif(string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
+                    --Track the dot at the end of a line
+                elseif (string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
                     dotIndex = endIndex
                 end
                 endIndex = endIndex + 1
                 --If we are at the end of characters break and set endIndex to strlen
-                if(endIndex > strlen(useLine)) then
+                if (endIndex > strlen(useLine)) then
                     endIndex = strlen(useLine)
                     lastSpaceIndex = endIndex
                     break
@@ -684,15 +700,15 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
 
             --This combines a trailing word to the previous line if it is the only word of the line
             --We check lastSpaceIndex here because the logic will be faulty (chinese client)
-            if(row == numberOfRows-1 and combineTrailing and lastSpaceIndex) then
+            if (row == numberOfRows - 1 and combineTrailing and lastSpaceIndex) then
                 --Get the last line, in it's full
                 local lastLine = string.sub(useLine, endIndex - 2, strlen(useLine))
 
                 --Does the line not contain any space we combine it into the previous line
-                if(not string.find(lastLine, " ")) then
+                if (not string.find(lastLine, " ")) then
                     newLine = string.sub(useLine, startIndex, strlen(useLine))
                     --print("NL1", newLine)
-                    table.insert(lines, prefix..newLine)
+                    table.insert(lines, prefix .. newLine)
                     --Break the for loop on last line, no more running required
                     break
                 end
@@ -701,14 +717,14 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
             startIndex = endIndex - 2
             endIndex = endIndex
 
-            table.insert(lines, prefix..newLine)
+            table.insert(lines, prefix .. newLine)
         end
         textWrapObjectiveFontString:Hide()
         return lines
     else
         --Line was not wrapped, return the string as is.
         textWrapObjectiveFontString:Hide()
-        useLine = prefix..string.gsub(line, "%. ", "%.%\n"..prefix)
-        return {useLine}
+        useLine = prefix .. string.gsub(line, "%. ", "%.%\n" .. prefix)
+        return { useLine }
     end
 end

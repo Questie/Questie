@@ -1,4 +1,3 @@
-
 -- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
 -- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
 Questie.DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
@@ -19,7 +18,6 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
-
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
@@ -28,11 +26,19 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    -- Called when the addon is enabled
+    if Questie.IsWotlk then
+        -- Called when the addon is enabled
+        if (Questie.db.char.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
+            WatchFrame:Hide()
+        end
+    end
 end
 
 function Questie:OnDisable()
-    -- Called when the addon is disabled
+    if Questie.IsWotlk then
+        -- Called when the addon is disabled
+        WatchFrame:Show()
+    end
 end
 
 --- Colorize a string with a color code
@@ -41,7 +47,7 @@ end
 ---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
 ---@return string
 function Questie:Colorize(str, color)
-    local c = "|cFF"..color;
+    local c = "|cFF" .. color;
 
     if color == "red" then
         c = "|cFFff0000";
@@ -116,11 +122,11 @@ function Questie:Debug(...)
         -- DEBUG_INFO = 2
         -- DEBUG_DEVELOP = 3
         -- DEBUG_SPAM = 4
-        if ((band(optionsDebugLevel, 2^4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
-        if ((band(optionsDebugLevel, 2^3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
-        if ((band(optionsDebugLevel, 2^2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
-        if ((band(optionsDebugLevel, 2^1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
-        if ((band(optionsDebugLevel, 2^0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
