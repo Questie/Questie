@@ -686,7 +686,13 @@ function TrackerUtils:GetSortedQuestIds()
             local sortData = {}
 
             sortData.questId = questId
-            sortData.distance = _GetDistanceToClosestObjective(questId)
+
+            if IsInInstance() then
+                sortData.distance = 0
+            else
+                sortData.distance = _GetDistanceToClosestObjective(questId)
+            end
+
             sortData.q = questDetails[questId].quest
 
             local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
@@ -720,34 +726,40 @@ function TrackerUtils:GetSortedQuestIds()
 
         table.sort(sortedQuestIds, sorter)
 
-        if not questProximityTimer then
+        if not questProximityTimer and not IsInInstance() then
             -- Check location often and update if you've moved
             Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
             C_Timer.After(3.0, function()
                 local playerPosition
                 questProximityTimer = C_Timer.NewTicker(5.0, function()
-                    local position = _GetWorldPlayerPosition()
-                    if position then
-                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
-                        if not distance or distance > 0.01 then -- Position has changed
-                            Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils.questProximityTimer")
-                            playerPosition = position
-                            local orderCopy = {}
+                    if IsInInstance() then
+                        Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
+                        questProximityTimer:Cancel()
+                        questProximityTimer = nil
+                    else
+                        local position = _GetWorldPlayerPosition()
+                        if position then
+                            local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                            if not distance or distance > 0.01 then -- Position has changed
+                                Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Updated!")
+                                playerPosition = position
+                                local orderCopy = {}
 
-                            for index, val in pairs(sortedQuestIds) do
-                                orderCopy[index] = val
-                            end
-
-                            table.sort(orderCopy, sorter)
-
-                            for index, val in pairs(sortedQuestIds) do
-                                if orderCopy[index] ~= val then -- The order has changed
-                                    break
+                                for index, val in pairs(sortedQuestIds) do
+                                    orderCopy[index] = val
                                 end
+
+                                table.sort(orderCopy, sorter)
+
+                                for index, val in pairs(sortedQuestIds) do
+                                    if orderCopy[index] ~= val then -- The order has changed
+                                        break
+                                    end
+                                end
+                                QuestieCombatQueue:Queue(function()
+                                    QuestieTracker:Update()
+                                end)
                             end
-                            QuestieCombatQueue:Queue(function()
-                                QuestieTracker:Update()
-                            end)
                         end
                     end
                 end)
