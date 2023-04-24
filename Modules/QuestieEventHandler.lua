@@ -128,8 +128,8 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- quest announce
     Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text, notPlayerName, _, _, playerName)
-        QuestieTracker.QuestItemLooted(text)
-        QuestieAnnounce.ItemLooted(text, notPlayerName, _, _, playerName)
+        QuestieTracker.QuestItemLooted(_, text)
+        QuestieAnnounce.ItemLooted(_, text, notPlayerName, _, _, playerName)
     end)
 
     -- since icon updates are disabled in instances, we need to reset on P_E_W
