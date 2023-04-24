@@ -365,9 +365,11 @@ end
 -- Function for the Slash handler
 function QuestieTracker:Toggle()
     if Questie.db.char.trackerEnabled then
-        QuestieTracker:Disable()
+        Questie.db.char.trackerEnabled = false
+        QuestieTracker:Update()
     else
-        QuestieTracker:Enable()
+        Questie.db.char.trackerEnabled = true
+        QuestieTracker:Update()
     end
 end
 
