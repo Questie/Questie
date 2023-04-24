@@ -165,6 +165,8 @@ function QuestieTracker.Initialize()
                         Questie.db.global.trackerHeaderEnabled = false
                     end
                 end
+            else
+                Questie.db.global.currentHeaderEnabledSetting = Questie.db.global.trackerHeaderEnabled
             end
 
             -- Sync and populate the QuestieTracker - this should only run when a player has loaded
