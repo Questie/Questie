@@ -4,7 +4,7 @@ local QuestEventHandler = QuestieLoader:CreateModule("QuestEventHandler")
 local _QuestEventHandler = QuestEventHandler.private
 
 local _QuestLogUpdateQueue = {} -- Helper module
-local questLogUpdateQueue = {} -- The actual queue
+local questLogUpdateQueue = {}  -- The actual queue
 
 ---@type QuestEventHandlerPrivate
 QuestEventHandler.private = QuestEventHandler.private or {}
@@ -301,6 +301,11 @@ function _QuestEventHandler:UpdateAllQuests()
             QuestieNameplate:UpdateNameplate()
             QuestieQuest:UpdateQuest(questId)
         end
+        QuestieCombatQueue:Queue(function()
+            C_Timer.After(2.0, function()
+                QuestieTracker:Update()
+            end)
+        end)
     else
         Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
     end

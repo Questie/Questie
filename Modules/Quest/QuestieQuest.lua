@@ -302,6 +302,11 @@ function QuestieQuest:SmoothReset()
                     _UpdateSpecials(QuestieQuest._nextRestQuest)
                     QuestieQuest._nextRestQuest = next(QuestiePlayer.currentQuestlog, QuestieQuest._nextRestQuest)
                 else
+                    QuestieCombatQueue:Queue(function()
+                        C_Timer.After(2.0, function()
+                            QuestieTracker:Update()
+                        end)
+                    end)
                     break
                 end
             end
@@ -390,7 +395,11 @@ function QuestieQuest:AcceptQuest(questId)
                 Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
             end,
             function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function() QuestieTracker:Update() end,
+            function()
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
+            end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
 
@@ -399,7 +408,9 @@ function QuestieQuest:AcceptQuest(questId)
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest was once accepted. IsComplete = ", complete)
         if Questie.db.char.AutoUntrackedQuests[questId] then
             Questie.db.char.AutoUntrackedQuests[questId] = nil
-            QuestieTracker:Update()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
         end
     else
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already existed, not adding")
@@ -555,9 +566,6 @@ function QuestieQuest:UpdateQuest(questId)
 
             quest.WasComplete = false
         end
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
 
         Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
     end
