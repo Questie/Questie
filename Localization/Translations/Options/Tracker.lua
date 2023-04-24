@@ -14,7 +14,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Rastreador",
         ["frFR"] = "Suivi",
     },
-    ["Questie Tracker Options"] = {
+    ["Tracker Options"] = {
         ["ptBR"] = "Opções do rastreador para missões",
         ["ruRU"] = "Настройки трекера (окна отслеживания) заданий",
         ["deDE"] = "Questie-Tracker Einstellungen",
@@ -1262,7 +1262,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Deshabilitar el rastreador",
         ["frFR"] = "Suivi par défaut",
     },
-    ["Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker."] = {
+    ["Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "Desativar o Rastreador substituirá o Questie Rastreador pelo Blizzard Quest Rastreador padrão.",
         ["ruRU"] = "После нажатия трекер Questie заменится трекером Blizzard",
         ["deDE"] = "Durch Deaktivieren des Trackers wird der Questie-Tracker durch den Standard-Blizzard-Quest-Tracker ersetzt.",
@@ -1286,7 +1286,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Habilitar el rastreador",
         ["frFR"] = "Suivi Questie",
     },
-    ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker."] = {
+    ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "A ativação do Rastreador substituirá o Blizzard Quest Rastreador padrão pelo Questie Rastreador.",
         ["ruRU"] = "После нажатия трекер Blizzard заменится трекером Questie",
         ["deDE"] = "Durch Aktivieren des Trackers wird der Standard-Blizzard-Quest-Tracker durch den Questie-Tracker ersetzt.",
@@ -1322,7 +1322,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Guardar Rastreador por Char",
         ["frFR"] = "Réglages par perso",
     },
-    ["You are currently saving the Questie Tracker Location and Size Per Character. This allows you to cusomize each character's tracker location.\n\nNOTE: Upon enabling Per Character, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings."] = {
+    ["The Questie Trackers Location and Set Point is currently being saved Per Character. This allows you to cusomize each character's Tracker location.\n\nNOTE: Upon enabling Per Character, the Questie Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings."] = {
         ["ptBR"] = "No momento, você está salvando o local do Questie Rastreador e o tamanho por personagem. Isso permite que você personalize a localização do rastreador de cada personagem.\n\nNOTA: Ao ativar o Per Character, o rastreador será redefinido no centro do seu Mova o Rastreador para o local desejado e defina o tamanho. Quando estiver pronto, digite '/recarregar' para finalizar suas configurações.",
         ["ruRU"] = "В данный момент положение и размер трекера сохраняются для каждого персонажа отдельно.\n\nПРИМЕЧАНИЕ: при изменении параметра положение трекера будет сброшено в центр экрана. После этого нужно переместить трекер в необходимое место и установить его размер. Для завершения настройки нужно перезагрузить пользовательский интерфейс командой '/reload'",
         ["deDE"] = "Die Position und Größe des Questie-Trackers wird aktuell pro Charakter gespeichert. Auf diese Weise kann der Tracker-Standort auf jeden Charakters unterschiedlich eingestellt werden.\n\nHINWEIS: Wenn 'Pro Charakter' aktiviert wird, wird die Position des Trackers zurückgesetzt. Anschließend sollte der Tracker an den gewünschten Ort verschoeben und die Größe passen eingestellt werden. Das Einstellen wird mit einem '/reload' abgeschlossen.",
@@ -1346,7 +1346,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Guardar Rastreador Global",
         ["frFR"] = "Réglages partagés",
     },
-    ["You are currently saving the  Questie Tracker Location and Size Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings."] = {
+    ["The Questie Trackers Location and Set Point is currently being saved Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Questie Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings."] = {
         ["ptBR"] = "No momento, você está salvando o local e o tamanho do Questie Rastreador globalmente. Isso permite que você tenha uma configuração para todos os caracteres.\n\nNOTA: Ao ativar Global, o Rastreador será redefinido para o centro da tela Mova o Rastreador para o local desejado e defina o tamanho. Quando estiver pronto, digite '/recarregar' para finalizar suas configurações.",
         ["ruRU"] = "В данный момент положение и размер трекера сохраняются одинаково для всех персонажей.\n\nПРИМЕЧАНИЕ: при изменении параметра положение трекера будет сброшено в центр экрана. После этого нужно переместить трекер в необходимое место и установить его размер. Для завершения настройки нужно перезагрузить пользовательский интерфейс командой '/reload'",
         ["deDE"] = "Die Position und Größe des Questie-Trackers wird aktuell global gespeichert. Auf diese Weise kann der Tracker-Standort für alle Charakter gleichermaßen eingestellt werden.\n\nHINWEIS: Wenn 'Pro Charakter' aktiviert wird, wird die Position des Trackers zurückgesetzt. Anschließend sollte der Tracker an den gewünschten Ort verschoeben und die Größe passen eingestellt werden. Das Einstellen wird mit einem '/reload' abgeschlossen.",
