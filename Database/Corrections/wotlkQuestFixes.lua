@@ -2665,6 +2665,10 @@ function QuestieWotlkQuestFixes:Load()
         [13360] = {
             [questKeys.preQuestSingle] = {13359},
         },
+        [13361] = {
+            [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
+        },
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
         },
@@ -2717,6 +2721,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13398] = {
             [questKeys.preQuestSingle] = {13396},
+        },
+        [13400] = {
+            [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},

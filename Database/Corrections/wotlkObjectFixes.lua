@@ -53,8 +53,23 @@ function QuestieWotlkObjectFixes:Load()
         [193580] = {
             [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{60.84,63.38},{61.55,63.96},{62.26,63.38}}},
         },
+        [193980] = {
+            [objectKeys.name] = "Bloodstained Stone",
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{49.7,73.4}}},
+            [objectKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [193997] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{55.4,68},{57,65},{58.6,60.3},{60.7,57.5},{62.8,60.1},{63.5,57.9},{65.4,60.8},{68.4,55.7},{68.9,54.8},{69.7,63.1},{71.1,62.4},{72.6,61.9},{75.3,48.5},},},
+        },
+        [194023] = {
+            [objectKeys.name] = "Bloodstained Stone",
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{49.2,73.9}}},
+            [objectKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [194024] = {
+            [objectKeys.name] = "Bloodstained Stone",
+            [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{48.3,72.8}}},
+            [objectKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [194123] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}},},
