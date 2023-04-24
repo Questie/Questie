@@ -58,6 +58,18 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
         lastIndexTried = lastIndexTried + MOP_INDEX_AVAILABLE
     end
 
+    -- Turn in complete quests
+    if Questie.db.char.autocomplete and isAllowedNPC then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quests from gossip")
+        local completeQuests = { QuestieCompat.GetActiveQuests() }
+
+        for index = 1, #completeQuests, MOP_INDEX_COMPLETE do
+            _QuestieAuto:CompleteQuestFromGossip(index, completeQuests, MOP_INDEX_COMPLETE)
+        end
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] DONE. Checked all complete quests")
+    end
+
+    -- Accept new quests
     if Questie.db.char.autoaccept and (not doneWithAccept) and isAllowedNPC then
         if lastIndexTried < #availableQuests then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking available quests from gossip")
@@ -68,16 +80,6 @@ function QuestieAuto:GOSSIP_SHOW(event, ...)
             doneWithAccept = true
             lastIndexTried = 1
         end
-    end
-
-    if Questie.db.char.autocomplete and isAllowedNPC then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking active quests from gossip")
-        local completeQuests = { QuestieCompat.GetActiveQuests() }
-
-        for index = 1, #completeQuests, MOP_INDEX_COMPLETE do
-            _QuestieAuto:CompleteQuestFromGossip(index, completeQuests, MOP_INDEX_COMPLETE)
-        end
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] DONE. Checked all complete quests")
     end
 end
 
