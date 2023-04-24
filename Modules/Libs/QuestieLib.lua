@@ -102,17 +102,15 @@ function QuestieLib:GetRGBForObjective(objective)
     if not objective.Collected or type(objective.Collected) ~= "number" then
         return FloatRGBToHex(0.8, 0.8, 0.8)
     end
+
     local float = objective.Collected / objective.Needed
     local trackerColor = Questie.db.global.trackerColorObjectives
-
-
     if not trackerColor or trackerColor == "white" then
         -- White
         return "|cFFEEEEEE"
     elseif trackerColor == "whiteAndGreen" then
         -- White and Green
-        return
-            objective.Collected == objective.Needed and RGBToHex(76, 255, 76) or FloatRGBToHex(0.8, 0.8, 0.8)
+        return objective.Collected == objective.Needed and RGBToHex(76, 255, 76) or FloatRGBToHex(0.8, 0.8, 0.8)
     elseif trackerColor == "whiteToGreen" then
         -- White to Green
         return FloatRGBToHex(0.8 - float / 2, 0.8 + float / 3, 0.8 - float / 2)

@@ -107,10 +107,7 @@ function QuestieTracker.Initialize()
     TrackerFadeTicker.Initialize(trackerBaseFrame)
     QuestieTracker.started = true
 
-    -- Initialize hooks
-    QuestieTracker:HookBaseTracker()
-
-    -- Attach durability frame to the tracker if shown and Sticky Durability Frame is enabled
+    -- Save the Durability Frames default location
     if not durabilityInitialPosition then
         durabilityInitialPosition = { DurabilityFrame:GetPoint() }
     end
@@ -118,6 +115,9 @@ function QuestieTracker.Initialize()
     -- Insures all other data we're getting from other addons and WoW is loaded. There are edge
     -- cases where Questie loads too fast before everything else is available.
     C_Timer.After(1.0, function()
+        -- Initialize hooks
+        QuestieTracker:HookBaseTracker()
+
         -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
         hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
 
@@ -1526,6 +1526,9 @@ function QuestieTracker:Unhook()
 
     TrackerQuestTimers:ShowBlizzardTimer()
 
+    -- ScrollFrame Hooks
+    UIPanelScrollBar_OnValueChanged = QuestieTracker.UIPanelScrollBar_OnValueChanged
+
     -- Quest Hooks
     if QuestieTracker.IsQuestWatched then
         IsQuestWatched = QuestieTracker.IsQuestWatched
@@ -1553,6 +1556,7 @@ function QuestieTracker:HookBaseTracker()
     if not QuestieTracker.alreadyHookedSecure then
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:HookBaseTracker - Secure hooks")
 
+
         -- Scroll frame Hooks - Hide the scroll bars all the time
         hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:ScrollFrame_OnScrollRangeChanged")
@@ -1577,6 +1581,17 @@ function QuestieTracker:HookBaseTracker()
     end
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:HookBaseTracker - Non-secure hooks")
+
+    -- ScrollFrame Hooks
+    QuestieTracker.UIPanelScrollBar_OnValueChanged = UIPanelScrollBar_OnValueChanged
+    UIPanelScrollBar_OnValueChanged = function(self, value)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UIPanelScrollBar_OnValueChanged")
+        if InCombatLockdown() then
+            return
+        else
+            self:GetParent():SetVerticalScroll(value)
+        end
+    end
 
     -- Quest Hooks
     if not QuestieTracker.IsQuestWatched then

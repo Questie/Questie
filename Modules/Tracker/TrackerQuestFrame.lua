@@ -67,6 +67,8 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
 
     questFrame:Hide()
 
+    TrackerQuestFrame.questFrame = baseFrame
+
     return questFrame
 end
 

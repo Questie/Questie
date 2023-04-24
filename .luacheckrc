@@ -2147,6 +2147,7 @@ globals = {
     "TurnOrActionStop",
     "TurnRightStart",
     "TurnRightStop",
+    "UIPanelScrollBar_OnValueChanged",
     "UninviteUnit",
     "UnitAffectingCombat",
     "UnitArmor",
