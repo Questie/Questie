@@ -1,7 +1,7 @@
 ---
 name: Quest issue
 about: If you encountered a bugged quest, missing objective markers or if quests are shown on your map which you already completed choose this issue type.
-labels: "Data Correction, Questie - Quest Issue"
+labels: "Data Correction"
 
 ---
 <!-- READ THIS FIRST
