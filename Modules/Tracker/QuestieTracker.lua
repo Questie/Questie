@@ -16,7 +16,7 @@ local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type TrackerQuestTimers
 local TrackerQuestTimers = QuestieLoader:ImportModule("TrackerQuestTimers")
 ---@type TrackerUtils
-TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -34,7 +34,7 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 local _QuestEventHandler = QuestEventHandler.private
 ---@type QuestieDB
-QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
