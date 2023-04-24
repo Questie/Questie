@@ -844,11 +844,7 @@ function QuestieTracker:Update()
                                     lineEnding = tostring(objective.Collected) .. "/" .. tostring(objective.Needed)
 
                                     -- Set Objective text
-                                    if objective.Needed == 1 then
-                                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc)
-                                    else
-                                        line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
-                                    end
+                                    line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
                                     if secondaryButton and secondaryButtonAlpha ~= 0 then
                                         if #quest.Objectives == 1 then
