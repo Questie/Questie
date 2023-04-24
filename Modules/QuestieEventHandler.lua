@@ -127,7 +127,10 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_TARGET_CHANGED", QuestieNameplate.DrawTargetFrame)
 
     -- quest announce
-    Questie:RegisterEvent("CHAT_MSG_LOOT", QuestieAnnounce.ItemLooted)
+    Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text, notPlayerName, _, _, playerName)
+        QuestieTracker.QuestItemLooted(text)
+        QuestieAnnounce.ItemLooted(text, notPlayerName, _, _, playerName)
+    end)
 
     -- since icon updates are disabled in instances, we need to reset on P_E_W
     Questie:RegisterEvent("PLAYER_ENTERING_WORLD", function()

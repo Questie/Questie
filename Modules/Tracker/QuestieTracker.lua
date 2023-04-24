@@ -167,27 +167,6 @@ function QuestieTracker.Initialize()
                 end
             end
 
-            -- If the player loots a "Quest Item" then this triggers a Tracker Update so the
-            -- Quest Item Button can be switched on and appear in the tracker.
-            ---@param text string
-            Questie:RegisterEvent("CHAT_MSG_LOOT", function(_, text)
-                local itemId = tonumber(string.match(text, "item:(%d+)"))
-                if select(6, GetItemInfo(itemId)) == "Quest" then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Quest Item Detected (itemId): " .. itemId)
-
-                    C_Timer.After(0.25, function()
-                        _QuestEventHandler:UpdateAllQuests()
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Callback - QuestEventHandler:UpdateAllQuests()")
-                    end)
-
-                    QuestieCombatQueue:Queue(function()
-                        C_Timer.After(0.5, function()
-                            QuestieTracker:Update()
-                        end)
-                    end)
-                end
-            end)
-
             -- Sync and populate the QuestieTracker - this should only run when a player has loaded
             -- Questie for the first time or when Re-enabling the QuestieTracker after it's disabled.
 
@@ -311,6 +290,27 @@ function QuestieTracker:CheckDurabilityAlertStatus()
         DurabilityFrame:Show()
     else
         DurabilityFrame:Hide()
+    end
+end
+
+-- If the player loots a "Quest Item" then this triggers a Tracker Update so the
+-- Quest Item Button can be switched on and appear in the tracker.
+---@param text string
+function QuestieTracker:QuestItemLooted(text)
+    local itemId = tonumber(string.match(text, "item:(%d+)"))
+    if select(6, GetItemInfo(itemId)) == "Quest" then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Quest Item Detected (itemId): " .. itemId)
+
+        C_Timer.After(0.25, function()
+            _QuestEventHandler:UpdateAllQuests()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] Callback - QuestEventHandler:UpdateAllQuests()")
+        end)
+
+        QuestieCombatQueue:Queue(function()
+            C_Timer.After(0.5, function()
+                QuestieTracker:Update()
+            end)
+        end)
     end
 end
 
