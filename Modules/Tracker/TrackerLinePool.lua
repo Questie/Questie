@@ -183,6 +183,40 @@ function TrackerLinePool.Initialize(questFrame)
             TrackerFadeTicker.OnLeave()
         end)
 
+        -- create objective complete criteria marks
+        local criteriaMark = CreateFrame("Button", nil, line)
+        criteriaMark.texture = criteriaMark:CreateTexture(nil, "OVERLAY", nil, 0)
+        criteriaMark.texture:SetWidth(Questie.db.global.trackerFontSizeObjective)
+        criteriaMark.texture:SetHeight(Questie.db.global.trackerFontSizeObjective)
+        criteriaMark.texture:SetAllPoints(criteriaMark)
+
+        criteriaMark:SetWidth(1)
+        criteriaMark:SetHeight(1)
+        criteriaMark:SetPoint("RIGHT", line.label, "LEFT", -4, 0)
+        criteriaMark:SetFrameLevel(100)
+
+        criteriaMark.SetCriteria = function(self, criteria)
+            if criteria ~= self.criteria then
+                self.criteria = criteria
+
+                if criteria == true then
+                    self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Checkmark")
+                    --self.texture:SetAlpha(1)
+                    --else
+                    --self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Minus")
+                    --self.texture:SetAlpha(0.5)
+                end
+
+                self:SetWidth(Questie.db.global.trackerFontSizeObjective)
+                self:SetHeight(Questie.db.global.trackerFontSizeObjective)
+            end
+        end
+
+        criteriaMark:SetCriteria(false)
+        criteriaMark:Hide()
+
+        line.criteriaMark = criteriaMark
+
         -- create expanding zone headers for quests sorted by zones
         local expandZone = CreateFrame("Button", nil, line)
         expandZone:SetWidth(1)
@@ -359,6 +393,7 @@ function TrackerLinePool.Initialize(questFrame)
         expandQuest:Hide()
 
         line.expandQuest = expandQuest
+
         linePool[i] = line
         nextFrame = line
     end
@@ -607,6 +642,9 @@ function TrackerLinePool.ResetLinesForChange()
         end
         if line.expandZone then
             line.expandZone.mode = nil
+        end
+        if line.criteriaMark then
+            line.criteriaMark:Hide()
         end
     end
 

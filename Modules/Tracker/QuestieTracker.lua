@@ -47,11 +47,12 @@ local trackerMarginRight = 20
 local trackerMarginLeft = 10
 local lastAQW = GetTime()
 local lastAchieveId = GetTime()
-local durabilityInitialPosition
+local durabilityInitialPosition = { DurabilityFrame:GetPoint() }
 local questsWatched = GetNumQuestWatches()
 
 local trackedAchievements
 local trackedAchievementIds
+
 if Questie.IsWotlk then
     trackedAchievements = { GetTrackedAchievements() }
     trackedAchievementIds = {}
@@ -107,24 +108,18 @@ function QuestieTracker.Initialize()
     TrackerFadeTicker.Initialize(trackerBaseFrame)
     QuestieTracker.started = true
 
-    -- Save the Durability Frames default location
-    if not durabilityInitialPosition then
-        durabilityInitialPosition = { DurabilityFrame:GetPoint() }
-    end
+    -- Initialize hooks
+    QuestieTracker:HookBaseTracker()
 
     -- Insures all other data we're getting from other addons and WoW is loaded. There are edge
     -- cases where Questie loads too fast before everything else is available.
     C_Timer.After(1.0, function()
-        -- Initialize hooks
-        QuestieTracker:HookBaseTracker()
-
-        -- This is the best way to not check 19238192398 events which might reset the position of the DurabilityFrame
-        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
-
         -- Attach DurabilityFrame to tracker
-        QuestieTracker:CheckDurabilityAlertStatus()
-        QuestieTracker:MoveDurabilityFrame()
-        DurabilityFrame:Hide()
+        if QuestieTracker.alreadyHooked then
+            QuestieTracker:CheckDurabilityAlertStatus()
+            QuestieTracker:MoveDurabilityFrame()
+            DurabilityFrame:Hide()
+        end
 
         -- Prevent Dugi Guides from automatically un-tracking quests from the tracker
         if Questie.db.global.autoTrackQuests then
@@ -1162,22 +1157,10 @@ function QuestieTracker:Update()
 
                     -- Add achievement Objective (if applicable)
                     if (not Questie.db.char.collapsedQuests[achieve.Id]) then
-                        -- Achievements with one Objective
+                        -- Achievements with no number criteria
                         if numCriteria == 0 then
-                            -- Checks the previous line to see if we need to add any line padding
-                            if line.mode == "achieve" then
-                                local previousLine = line
-
-                                -- Get next line in linePool
-                                line = TrackerLinePool.GetNextLine()
-
-                                -- Adds 2 pixels between the Achievement Title and the Objective
-                                line:ClearAllPoints()
-                                line:SetPoint("TOPLEFT", previousLine, "BOTTOMLEFT", 0, -2)
-                            else
-                                -- Get next line in linePool
-                                line = TrackerLinePool.GetNextLine()
-                            end
+                            -- Get next line in linePool
+                            line = TrackerLinePool.GetNextLine()
 
                             -- Safety check - make sure we didn't run over our linePool limit.
                             if not line then break end
@@ -1214,7 +1197,7 @@ function QuestieTracker:Update()
                             line.label:Show()
                         end
 
-                        -- Achievements with more than one Objective
+                        -- Achievements with number criteria
                         for objCriteria = 1, numCriteria do
                             local criteriaString, _, completed, quantityProgress, quantityNeeded, _, _, refId, quantityString = GetAchievementCriteriaInfo(achieve.Id, objCriteria)
                             if ((Questie.db.global.hideCompletedAchieveObjectives) and (not completed)) or (not Questie.db.global.hideCompletedAchieveObjectives) then
@@ -1253,7 +1236,7 @@ function QuestieTracker:Update()
 
                                 local objDesc = criteriaString:gsub("%.", "")
 
-                                -- Set incomplete Objective
+                                -- Set Objectives with more than one Objective number criteria
                                 if not (completed or quantityNeeded == 1 or quantityProgress == quantityNeeded) then
                                     if string.find(quantityString, "|") then
                                         quantityString = quantityString:gsub("/%s?", "/")
@@ -1272,7 +1255,7 @@ function QuestieTracker:Update()
                                     -- Set Label width
                                     line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
 
-                                    -- Split Objectie description and Progress/Needed into seperate lines
+                                    -- Split Objective description and Progress/Needed into seperate lines
                                     if (trackerLineWidth < line.label:GetUnboundedStringWidth() + objectiveMarginLeft) and (line.label:GetWidth() < line.label:GetUnboundedStringWidth() + 5) then
                                         -- Set Objective text
                                         line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = quantityProgress, Needed = quantityNeeded }) .. objDesc .. ": ")
@@ -1329,13 +1312,21 @@ function QuestieTracker:Update()
                                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
                                     end
 
-                                    -- Set complete Objective or Objectives with only a single Progress/Needed
+                                    -- Set Objectives with a single Objective number criteria
                                 else
                                     -- Set Objective text
+                                    local trackerColor = Questie.db.global.trackerColorObjectives
+
                                     if completed then
                                         line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. objDesc)
                                     else
                                         line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 0, Needed = 1 }) .. objDesc)
+                                    end
+
+                                    -- Set Objective criteria mark
+                                    if not Questie.db.global.hideCompletedAchieveObjectives and (not trackerColor or trackerColor == "white") then
+                                        line.criteriaMark:SetCriteria(completed)
+                                        line.criteriaMark:Show()
                                     end
 
                                     -- Check and measure Objective text width and update tracker width
@@ -1556,14 +1547,17 @@ function QuestieTracker:HookBaseTracker()
     if not QuestieTracker.alreadyHookedSecure then
         Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:HookBaseTracker - Secure hooks")
 
+        -- Durability Frame hook
+        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
 
-        -- Scroll frame Hooks - Hide the scroll bars all the time
+        -- Scroll Frame hook - always hide the scrollbar
         hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:ScrollFrame_OnScrollRangeChanged")
-            trackerQuestFrame.ScrollBar:Hide()
+            if trackerQuestFrame then
+                trackerQuestFrame.ScrollBar:Hide()
+            end
         end)
 
-        -- Quest Hooks
+        -- QuestWatch secure hook
         if AutoQuestWatch_Insert then
             hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
         end
@@ -1571,7 +1565,7 @@ function QuestieTracker:HookBaseTracker()
         hooksecurefunc("AddQuestWatch", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)
         hooksecurefunc("RemoveQuestWatch", QuestieTracker.RemoveQuestWatch)
 
-        -- Achievement Hooks
+        -- Achievement secure hooks
         if Questie.IsWotlk then
             hooksecurefunc("AddTrackedAchievement", function(achieveId) QuestieTracker:TrackAchieve(achieveId) end)
             hooksecurefunc("RemoveTrackedAchievement", QuestieTracker.RemoveTrackedAchievement)
