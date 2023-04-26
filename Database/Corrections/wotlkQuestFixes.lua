@@ -845,6 +845,9 @@ function QuestieWotlkQuestFixes:Load()
         [12157] = {
             [questKeys.exclusiveTo] = {12171,12174,12235,12297},
         },
+        [12159] = {
+            [questKeys.objectives] = {{{26891,"Miner at Rest"}}},
+        },
         [12166] = {
             [questKeys.objectives] = {{{26616,"Blighted Elk's corpse cleansed"},{26643,"Rabid Grizzly's corpse cleansed"},},nil,nil,nil,},
         },
