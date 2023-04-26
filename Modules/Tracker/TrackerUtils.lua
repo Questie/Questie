@@ -475,20 +475,20 @@ end
 local function _GetWorldPlayerPosition()
     -- Turns coords into 'world' coords so it can be compared with any coords in another zone
     local uiMapId = C_Map.GetBestMapForUnit("player")
+    if (not uiMapId) then
+        return nil
+    end
+
     local mapPosition = C_Map.GetPlayerMapPosition(uiMapId, "player")
+    if (not mapPosition) or (not mapPosition.x) then
+        return nil
+    end
+
     local worldPosition = select(2, C_Map.GetWorldPosFromMapPos(uiMapId, mapPosition))
     local position = {
         x = worldPosition.x,
         y = worldPosition.y
     }
-
-    if (not uiMapId) then
-        position = nil
-    end
-
-    if (not mapPosition) or (not mapPosition.x) then
-        position = nil
-    end
 
     return position
 end
@@ -684,19 +684,11 @@ function TrackerUtils:GetSortedQuestIds()
 
         for _, questId in pairs(sortedQuestIds) do
             local sortData = {}
-
             sortData.questId = questId
-
-            if IsInInstance() then
-                sortData.distance = 0
-            else
-                sortData.distance = _GetDistanceToClosestObjective(questId)
-            end
-
+            sortData.distance = _GetDistanceToClosestObjective(questId)
             sortData.q = questDetails[questId].quest
 
             local _, zone, _ = QuestieMap:GetNearestQuestSpawn(sortData.q)
-
             sortData.zone = zone
             sortData.continent = _GetContinent(ZoneDB:GetUiMapIdByAreaId(zone))
             toSort[questId] = sortData
@@ -729,40 +721,39 @@ function TrackerUtils:GetSortedQuestIds()
         if not questProximityTimer and not IsInInstance() then
             -- Check location often and update if you've moved
             Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
-            C_Timer.After(3.0, function()
-                local playerPosition
-                questProximityTimer = C_Timer.NewTicker(5.0, function()
-                    if IsInInstance() then
-                        Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
-                        questProximityTimer:Cancel()
-                        questProximityTimer = nil
-                    else
-                        local position = _GetWorldPlayerPosition()
-                        if position then
-                            local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
-                            if not distance or distance > 0.01 then -- Position has changed
-                                Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Updated!")
-                                playerPosition = position
-                                local orderCopy = {}
 
-                                for index, val in pairs(sortedQuestIds) do
-                                    orderCopy[index] = val
-                                end
+            local playerPosition
+            questProximityTimer = C_Timer.NewTicker(5.0, function()
+                if IsInInstance() and questProximityTimer then
+                    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
+                    questProximityTimer:Cancel()
+                    questProximityTimer = nil
+                else
+                    local position = _GetWorldPlayerPosition()
+                    if position then
+                        local distance = playerPosition and _GetDistance(position.x, position.y, playerPosition.x, playerPosition.y)
+                        if not distance or distance > 0.01 then -- Position has changed
+                            Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Updated!")
+                            playerPosition = position
+                            local orderCopy = {}
 
-                                table.sort(orderCopy, sorter)
-
-                                for index, val in pairs(sortedQuestIds) do
-                                    if orderCopy[index] ~= val then -- The order has changed
-                                        break
-                                    end
-                                end
-                                QuestieCombatQueue:Queue(function()
-                                    QuestieTracker:Update()
-                                end)
+                            for index, val in pairs(sortedQuestIds) do
+                                orderCopy[index] = val
                             end
+
+                            table.sort(orderCopy, sorter)
+
+                            for index, val in pairs(sortedQuestIds) do
+                                if orderCopy[index] ~= val then -- The order has changed
+                                    break
+                                end
+                            end
+                            QuestieCombatQueue:Queue(function()
+                                QuestieTracker:Update()
+                            end)
                         end
                     end
-                end)
+                end
             end)
         end
     end
