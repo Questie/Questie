@@ -949,6 +949,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{27354}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Deliver Shredder"),0,{{"monster", 27371}}}},
         },
+        [12247] = {
+            [questKeys.objectives] = {{{27274,"Orsonn's Story"},{27275,"Kodian's Story"}}},
+        },
         [12249] = {
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
