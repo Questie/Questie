@@ -926,6 +926,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {12207,12213},
         },
         [12231] = {
+            [questKeys.objectives] = {{{27274,"Orsonn's Story"},{27275,"Kodian's Story"}}},
             [questKeys.preQuestGroup] = {12207,12213},
         },
         [12232] = {
