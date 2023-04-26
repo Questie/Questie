@@ -3385,15 +3385,19 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13861] = {
             [questKeys.preQuestSingle] = {13700},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13862] = {
             [questKeys.preQuestSingle] = {13701},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13863] = {
             [questKeys.preQuestSingle] = {13701},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13864] = {
             [questKeys.preQuestSingle] = {13700},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
         },
         [13887] = {
             [questKeys.preQuestSingle] = {13850},
