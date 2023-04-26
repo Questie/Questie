@@ -401,12 +401,11 @@ function TrackerLinePool.Initialize(questFrame)
     -- create buttonPool for quest items
     for i = 1, C_QuestLog.GetMaxNumQuestsCanAccept() do
         local buttonName = "Questie_ItemButton" .. i
-        local btn = CreateFrame("Button", buttonName, UIParent, "SecureActionButtonTemplate")
+        local btn = CreateFrame("Button", buttonName, UIParent, "InsecureActionButtonTemplate")
         local cooldown = CreateFrame("Cooldown", nil, btn, "CooldownFrameTemplate")
         btn.range = btn:CreateFontString(nil, "OVERLAY", "NumberFontNormalSmallGray")
         btn.count = btn:CreateFontString(nil, "ARTWORK", "Game10Font_o1")
-        btn:SetAttribute("type1", "item")
-        btn:SetAttribute("type2", "stop")
+        btn:SetAttribute("type", "item")
         btn:Hide()
 
         if Questie.db.global.trackerFadeQuestItemButtons then
@@ -482,12 +481,10 @@ function TrackerLinePool.Initialize(questFrame)
                 self.charges = GetItemCount(self.itemId, nil, true)
                 self.rangeTimer = -1
 
-                self:SetAttribute("item", "item:" .. tostring(self.itemId))
                 self:SetNormalTexture(validTexture)
                 self:SetPushedTexture(validTexture)
                 self:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
                 self:SetSize(size, size)
-                self:SetFrameLevel(200)
 
                 self:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 
@@ -496,6 +493,9 @@ function TrackerLinePool.Initialize(questFrame)
                 self:SetScript("OnHide", self.OnHide)
                 self:SetScript("OnEnter", self.OnEnter)
                 self:SetScript("OnLeave", self.OnLeave)
+
+
+                self:SetAttribute("item", "item:" .. self.itemId)
 
                 -- Cooldown Updates
                 cooldown:SetSize(size - 4, size - 4)

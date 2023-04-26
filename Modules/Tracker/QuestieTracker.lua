@@ -388,7 +388,7 @@ end
 
 function QuestieTracker:Update()
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Update")
-    if (not QuestieTracker.started) then
+    if (not QuestieTracker.started) or InCombatLockdown() then
         return
     end
 
