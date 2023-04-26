@@ -185,6 +185,9 @@ function QuestieTBCQuestFixes:Load()
         [1486] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [1506] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [1508] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
