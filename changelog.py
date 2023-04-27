@@ -74,6 +74,7 @@ def transform_lines_into_past_tense(line):
     line = replace_start(line, 'Add ', 'Added ')
     line = replace_start(line, 'Fix ', 'Fixed ')
     line = replace_start(line, 'Mark ', 'Marked ')
+    line = replace_start(line, 'Improve ', 'Improved ')
     line = replace_start(line, 'Change ', 'Changed ')
     line = replace_start(line, 'Update ', 'Updated ')
     line = replace_start(line, 'Blacklist ', 'Blacklisted ')
