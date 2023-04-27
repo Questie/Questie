@@ -3388,6 +3388,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{33972,"Rugan Steelbelly's advice"},{33272,"Charge vulnerable Charge Target"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
+        [13843] = {
+            [questKeys.startedBy] = {nil,{191761}},
+            [questKeys.finishedBy] = {nil,{191761}},
+            [questKeys.preQuestSingle] = {12889},
+            [questKeys.requiredSkill] = {profKeys.ENGINEERING,400},
+        },
         [13846] = {
             [questKeys.preQuestSingle] = {13700,13701},
             [questKeys.requiredMaxRep] = {1106,42000},
