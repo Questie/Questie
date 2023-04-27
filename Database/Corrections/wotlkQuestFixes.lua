@@ -40,6 +40,9 @@ function QuestieWotlkQuestFixes:Load()
         [403] = {
             [questKeys.startedBy] = {nil,{269}},
         },
+        [508] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [648] = {
             [questKeys.triggerEnd] = {"Escort OOX-17/TN to safety", {[zoneIDs.TANARIS]={{61,53}}}},
         },
