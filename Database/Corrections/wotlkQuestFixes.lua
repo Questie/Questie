@@ -66,6 +66,9 @@ function QuestieWotlkQuestFixes:Load()
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [1252] = {
+            [questKeys.preQuestSingle] = {11123},
+        },
         [1253] = {
             [questKeys.preQuestSingle] = {11123},
         },
