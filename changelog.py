@@ -53,7 +53,7 @@ def get_sorted_categories(git_log):
                 line = line.replace(f'[{key}]', '').strip()
                 line = transform_lines_into_past_tense(line)
                 categories[key].append(line)
-            if line.startswith(f'[{key.capitalize()}]'):
+            elif line.startswith(f'[{key.capitalize()}]'):
                 line = line.replace(f'[{key.capitalize()}]', '').strip()
                 line = transform_lines_into_past_tense(line)
                 categories[key].append(line)
