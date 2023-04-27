@@ -919,6 +919,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Commandeer a Forsaken Blight Spreader"),1,{{"monster", 26523}}},
             },
         },
+        [12222] = {
+            [questKeys.preQuestSingle] = {12294},
+        },
         [12224] = {
             [questKeys.preQuestGroup] = {12221,12140,12072},
         },
