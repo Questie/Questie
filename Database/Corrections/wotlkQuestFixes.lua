@@ -2083,6 +2083,9 @@ function QuestieWotlkQuestFixes:Load()
         [13068] = {
             [questKeys.preQuestSingle] = {13141},
         },
+        [13071] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 30272}}}},
+        },
         [13073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak to Arch Druid Lilliandra for transportation to Moonglade"), 0, {{"monster", 30630}}}},
         },
