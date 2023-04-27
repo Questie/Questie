@@ -94,6 +94,9 @@ function QuestieTracker.Initialize()
     if (not Questie.db[Questie.db.global.questieTLoc].TrackerWidth) then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
     end
+    if (not Questie.db[Questie.db.global.questieTLoc].TrackerHeight) then
+        Questie.db[Questie.db.global.questieTLoc].TrackerHeight = 0
+    end
     if (not Questie.db[Questie.db.global.questieTLoc].trackerSetpoint) then
         Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
     end
@@ -244,6 +247,7 @@ function QuestieTracker:ResetLocation()
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
+    Questie.db[Questie.db.global.questieTLoc].TrackerHeight = 0
 
     trackerBaseFrame:SetSize(25, 25)
     TrackerBaseFrame:SetSafePoint()
@@ -965,7 +969,7 @@ function QuestieTracker:Update()
                 end
 
                 -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
-                line:SetHeight(line.label:GetHeight() + 2 + Questie.db.global.trackerQuestPadding)
+                line:SetHeight(line.label:GetHeight() + (Questie.db.global.trackerQuestPadding + 2))
             end
             primaryButton = false
             secondaryButton = false
@@ -1330,7 +1334,7 @@ function QuestieTracker:Update()
                     end
 
                     -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
-                    line:SetHeight(line.label:GetHeight() + 2 + Questie.db.global.trackerQuestPadding)
+                    line:SetHeight(line.label:GetHeight() + (Questie.db.global.trackerQuestPadding + 2))
                 end
             end
         end
@@ -1340,6 +1344,9 @@ function QuestieTracker:Update()
     if not line then
         line = TrackerLinePool.GetLastLine()
     end
+
+    -- Removes any padding from the last line in the tracker
+    line:SetHeight(line.label:GetHeight())
 
     -- Update tracker formatting
     if line then
@@ -1423,31 +1430,54 @@ function QuestieTracker:UpdateFormatting()
 
     if trackerLineWidth > 1 and TrackerLinePool.GetCurrentLine() then
         local trackerVarsCombined = trackerLineWidth + trackerMarginRight
+        local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
-        trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
+
         trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
+        trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
+        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight())
 
-        -- Trims the bottom of the tracker (overall height) based on the trackers current state.
-        local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
-        -- When measuring string height, the returned values don't account for characters that drop below the bottom of the line.label
-        -- frame, such as the lower case 'g'. The characters appear truncated so we have to add a +4 pixel bias to correct this.
-        trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight() - Questie.db.global.trackerQuestPadding + 4)
+        -- Applies static height when the tracker hit's its trackerHeightRatio limit or based on a players preference using the Tracker Sizer
+        local trackerHeightByRatio = GetScreenHeight() * Questie.db.global.trackerHeightRatio
+        local trackerHeightByManual = Questie.db[Questie.db.global.questieTLoc].TrackerHeight
 
+        -- Set the trackerBaseFrame to full height so we can measure it
         if Questie.db.global.trackerHeaderEnabled then
             trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + trackerHeaderFrame:GetHeight() + 20)
         else
             trackerBaseFrame:SetHeight(trackerQuestFrame:GetHeight() + 20)
         end
 
-        -- Applies static height when the tracker hit's its maximum limit
-        if trackerBaseFrame:GetHeight() > GetScreenHeight() * Questie.db.global.trackerHeightRatio then
-            trackerBaseFrame:SetHeight(GetScreenHeight() * Questie.db.global.trackerHeightRatio)
+        if trackerHeightByManual > 0 then
+            -- Manual height set by a player when using the Tracker Sizer limited by the trackers current maximum height
+            if trackerBaseFrame:GetHeight() > trackerHeightByManual then
+                trackerBaseFrame:SetHeight(trackerHeightByManual)
 
-            if Questie.db.global.trackerHeaderEnabled then
-                trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 20)
-            else
-                trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
+                -- Resize the trackerQuestFrame to match the trackerbaseFrame after the player is done resizing it
+                if Questie.db.global.trackerHeaderEnabled then
+                    -- With Header Frame
+                    trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 20)
+                else
+                    -- Without Header Frame
+                    trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
+                end
+            end
+        else
+            -- If the trackerBaseFrame is larger than the trackerHeightRatio then resize
+            if trackerBaseFrame:GetHeight() > trackerHeightByRatio then
+                -- Auto height based on the trackerHeightRatio setting in Questie Config --> Tracker
+                trackerBaseFrame:SetHeight(trackerHeightByRatio)
+
+                -- Resize the trackerQuestFrame to match the trackerbaseFrame after the trackerHeightRatio is applied
+                if Questie.db.global.trackerHeaderEnabled then
+                    -- With Header Frame
+                    trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 20)
+                else
+                    -- Without Header Frame
+                    trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
+                end
             end
         end
 
@@ -1461,17 +1491,18 @@ end
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
     local trackerHeaderFrameWidth = trackerHeaderFrame:GetWidth() + Questie.db.global.trackerFontSizeHeader + 10
     local trackerBaseFrameWidth = trackerBaseFrame:GetWidth()
+    local trackerWidthByManual = Questie.db[Questie.db.global.questieTLoc].TrackerWidth
 
-    if Questie.db[Questie.db.global.questieTLoc].TrackerWidth > 0 then
-        -- Manual user width
-        if (not TrackerBaseFrame.isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth < trackerHeaderFrameWidth) then
+    if trackerWidthByManual > 0 then
+        -- Manual width set by a player using the Tracker Sizer
+        if (not TrackerBaseFrame.isSizing) and (trackerWidthByManual < trackerHeaderFrameWidth) then
             trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
             Questie.db[Questie.db.global.questieTLoc].TrackerWidth = trackerHeaderFrameWidth
-        elseif (not TrackerBaseFrame.isSizing) and (Questie.db[Questie.db.global.questieTLoc].TrackerWidth ~= trackerBaseFrameWidth) then
-            trackerBaseFrame:SetWidth(Questie.db[Questie.db.global.questieTLoc].TrackerWidth)
+        elseif (not TrackerBaseFrame.isSizing) and (trackerWidthByManual ~= trackerBaseFrameWidth) then
+            trackerBaseFrame:SetWidth(trackerWidthByManual)
         end
     else
-        -- auto width
+        -- Auto width based on the maximum size of the largest line in the tracker
         if (trackerVarsCombined < trackerHeaderFrameWidth and Questie.db.global.trackerHeaderEnabled) then
             trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
         else

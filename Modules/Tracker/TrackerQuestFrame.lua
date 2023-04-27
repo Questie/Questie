@@ -89,7 +89,7 @@ function TrackerQuestFrame.PositionTrackedQuestsFrame()
         if Questie.db.global.autoMoveHeader then
             if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
-                questFrame:SetPoint("BOTTOMLEFT", trackerHeaderFrame, "TOPLEFT", 0, 2)
+                questFrame:SetPoint("BOTTOMLEFT", trackerHeaderFrame, "TOPLEFT", 0, 4)
             else
                 -- Auto move tracker header to the top
                 questFrame:SetPoint("TOPLEFT", trackerHeaderFrame, "BOTTOMLEFT", 0, 0)

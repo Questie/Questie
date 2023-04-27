@@ -255,7 +255,7 @@ end
 function TrackerBaseFrame:SetSafePoint()
     local xOff, yOff = baseFrame:GetWidth() / 2, baseFrame:GetHeight() / 2
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
-    local resetCords = { ["BOTTOMLEFT"] = { x = -xOff, y = -yOff },["BOTTOMRIGHT"] = { x = xOff, y = -yOff },["TOPLEFT"] = { x = -xOff, y = yOff },["TOPRIGHT"] = { x = xOff, y = yOff } }
+    local resetCords = { ["BOTTOMLEFT"] = { x = -xOff, y = -yOff }, ["BOTTOMRIGHT"] = { x = xOff, y = -yOff }, ["TOPLEFT"] = { x = -xOff, y = yOff }, ["TOPRIGHT"] = { x = xOff, y = yOff } }
     baseFrame:ClearAllPoints()
 
     if trackerSetPoint then
@@ -346,12 +346,12 @@ function TrackerBaseFrame.OnResizeStart(_, button)
         if IsMouseButtonDown(button) then
             if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
                 TrackerBaseFrame.isSizing = true
-                baseFrame:StartSizing("RIGHT")
 
                 local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
                 updateTimer = C_Timer.NewTicker(0.1, function()
                     Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
+                    Questie.db[Questie.db.global.questieTLoc].TrackerHeight = baseFrame:GetHeight()
 
                     -- This keeps the trackers SetPoint "clamped" to the players desired location
                     -- while the tracker lines expand and shrink due to Text Wrapping.
@@ -361,12 +361,18 @@ function TrackerBaseFrame.OnResizeStart(_, button)
                     ------------------------------------------------------------------------------
 
                     QuestieTracker:Update()
-                    baseFrame:StartSizing("RIGHT")
+
+                    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+                        baseFrame:StartSizing("TOPRIGHT")
+                    else
+                        baseFrame:StartSizing("BOTTOMRIGHT")
+                    end
                 end)
             end
         end
     elseif button == "RightButton" then
         Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
+        Questie.db[Questie.db.global.questieTLoc].TrackerHeight = 0
     end
 end
 
