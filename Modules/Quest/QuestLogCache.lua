@@ -5,6 +5,8 @@
 local QuestLogCache = QuestieLoader:CreateModule("QuestLogCache")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+---@type Sounds
+local Sounds = QuestieLoader:ImportModule("Sounds")
 
 local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
@@ -100,6 +102,10 @@ local function GetNewObjectives(questId, oldObjectives)
                     changedObjIds[#changedObjIds+1] = objIndex
                 end
 
+                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
+                    Sounds.PlayObjectiveComplete()
+                end
+
                 newObjectives[objIndex] = {
                     raw_text = newObj.text,
                     raw_finished = newObj.finished,
@@ -186,6 +192,11 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                                 end
                             end
                         end
+
+                        if cachedQuest and (not cachedQuest.isComplete) and isComplete then
+                            Sounds.PlayQuestComplete()
+                        end
+
                         if changedObjIds then
                             -- Save to cache
                             cache[questId] = {
