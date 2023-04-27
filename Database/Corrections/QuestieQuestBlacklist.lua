@@ -1026,7 +1026,7 @@ function QuestieQuestBlacklist:Load()
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
         [64217] = true, -- Boosted character quest
-		
+
 		-- Paladin class quests with SWP patch
         [64319] = true, -- removed in wotlk
         [63866] = true, -- removed in wotlk
@@ -1124,7 +1124,7 @@ function QuestieQuestBlacklist:Load()
 
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
-        
+
         [10884] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
@@ -1200,7 +1200,7 @@ function QuestieQuestBlacklist:Load()
         [14032] = true, -- Not in the game
         [13825] = true, -- EXISTS ingame, but can only be picked up if quest 6610 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
         [13826] = true, -- EXISTS ingame, but can only be picked up if quest 6607 was completed PRIOR to wrath - impossible for us to discern eligibility, better to hide than misinform everyone
-        
+
         [8367] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
         [8371] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
         [8385] = QuestieCorrections.WOTLK_ONLY, -- pvp marks removed in wotlk
@@ -1225,7 +1225,7 @@ function QuestieQuestBlacklist:Load()
         [9341] = QuestieCorrections.WOTLK_ONLY,
         [9343] = QuestieCorrections.WOTLK_ONLY,
         [10445] = QuestieCorrections.WOTLK_ONLY, -- replaced by 13432 in wotlk
-        
+
         -- Old Naxx quests (Naxx40 goes away in wotlk)
         [9120] = QuestieCorrections.WOTLK_ONLY, -- The Fall of Kel'Thuzad
         [9229] = QuestieCorrections.WOTLK_ONLY, -- The Fate of Ramaladni
@@ -1245,6 +1245,40 @@ function QuestieQuestBlacklist:Load()
         [9244] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Bracers
         [9245] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Gauntlets
         [9246] = QuestieCorrections.WOTLK_ONLY, -- Icy Scale Breastplate
+
+        -- Vanilla Onyxia Alliance attunement
+        [4182] = QuestieCorrections.WOTLK_ONLY,
+        [4183] = QuestieCorrections.WOTLK_ONLY,
+        [4184] = QuestieCorrections.WOTLK_ONLY,
+        [4185] = QuestieCorrections.WOTLK_ONLY,
+        [4186] = QuestieCorrections.WOTLK_ONLY,
+        [4223] = QuestieCorrections.WOTLK_ONLY,
+        [4224] = QuestieCorrections.WOTLK_ONLY,
+        [4241] = QuestieCorrections.WOTLK_ONLY,
+        [4242] = QuestieCorrections.WOTLK_ONLY,
+        [4264] = QuestieCorrections.WOTLK_ONLY,
+        [4282] = QuestieCorrections.WOTLK_ONLY,
+        [4322] = QuestieCorrections.WOTLK_ONLY,
+        [6402] = QuestieCorrections.WOTLK_ONLY,
+        [6403] = QuestieCorrections.WOTLK_ONLY,
+        [6501] = QuestieCorrections.WOTLK_ONLY,
+        [6502] = QuestieCorrections.WOTLK_ONLY,
+
+        -- Vanilla Onyxia Horde pre attunement
+        [4903] = QuestieCorrections.WOTLK_ONLY,
+        [4941] = QuestieCorrections.WOTLK_ONLY,
+        [4974] = QuestieCorrections.WOTLK_ONLY,
+        [6566] = QuestieCorrections.WOTLK_ONLY,
+        [6567] = QuestieCorrections.WOTLK_ONLY,
+        [6568] = QuestieCorrections.WOTLK_ONLY,
+        [6569] = QuestieCorrections.WOTLK_ONLY,
+        [6570] = QuestieCorrections.WOTLK_ONLY,
+        [6582] = QuestieCorrections.WOTLK_ONLY,
+        [6583] = QuestieCorrections.WOTLK_ONLY,
+        [6584] = QuestieCorrections.WOTLK_ONLY,
+        [6585] = QuestieCorrections.WOTLK_ONLY,
+        [6601] = QuestieCorrections.WOTLK_ONLY,
+        [6602] = QuestieCorrections.WOTLK_ONLY,
 
         -- "learn to ride" series (unimplemented)
         [14079] = true, -- elwynn (human)
