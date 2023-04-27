@@ -1678,6 +1678,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Locate Missing Scout",{[zoneIDs.STORM_PEAKS]={{37.68,66.75},{38.49,77.19},{31.65,64.53},{34.56,64.64},{36.43,77.3},},},},
         },
         [12865] = {
+            [questKeys.objectives] = {{{30013,"Stormcrest Eagles fed"}}},
             [questKeys.preQuestSingle] = {12863},
         },
         [12869] = {
