@@ -1555,13 +1555,6 @@ function QuestieTracker:HookBaseTracker()
         -- Durability Frame hook
         hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.MoveDurabilityFrame)
 
-        -- Scroll Frame hook - always hide the scrollbar
-        hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
-            if trackerQuestFrame then
-                trackerQuestFrame.ScrollBar:Hide()
-            end
-        end)
-
         -- QuestWatch secure hook
         if AutoQuestWatch_Insert then
             hooksecurefunc("AutoQuestWatch_Insert", function(index, watchTimer) QuestieTracker:AQW_Insert(index, watchTimer) end)

@@ -59,7 +59,7 @@ function TrackerQuestTimers:HideBlizzardTimer()
         -- Classic WotLK
         WatchFrame:Hide()
     else
-        -- Classic WoW: This move the QuestTimerFrame off screen. A faux Hide().
+        -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
         -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.
         WatchFrame:ClearAllPoints()
         WatchFrame:SetPoint("TOP", -10000, -10000)
