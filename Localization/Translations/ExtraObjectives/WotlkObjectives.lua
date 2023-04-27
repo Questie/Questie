@@ -1898,7 +1898,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Talk to Ricket for transportation"] = { -- 13060
+    ["Talk to Ricket for transportation"] = { -- 12862, 13060
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
