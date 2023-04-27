@@ -25,7 +25,7 @@ def get_commit_changelog():
 
 def get_last_git_tag():
     return subprocess.run(
-        ["git", "describe", "--abbrev=0", "--tags"], 
+        ["git", "describe", "--abbrev=0", "--tags"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
 
@@ -53,13 +53,17 @@ def get_sorted_categories(git_log):
                 line = line.replace(f'[{key}]', '').strip()
                 line = transform_lines_into_past_tense(line)
                 categories[key].append(line)
+            if f'[{key.capitalize()}]' in line:
+                line = line.replace(f'[{key.capitalize()}]', '').strip()
+                line = transform_lines_into_past_tense(line)
+                categories[key].append(line)
 
     for key in categories.keys():
         categories[key].sort()
-    
+
     return categories
 
-    
+
 def replace_start(line, a, b):
     if line.strip().startswith(a):
         return line.replace(a, b)
