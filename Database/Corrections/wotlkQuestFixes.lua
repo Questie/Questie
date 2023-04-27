@@ -1684,6 +1684,9 @@ function QuestieWotlkQuestFixes:Load()
         [12869] = {
             [questKeys.preQuestSingle] = {12867,13417},
         },
+        [12874] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Fjorlin Frostbrow"), 0, {{"monster", 29732}}}},
+        },
         [12876] = {
             [questKeys.preQuestSingle] = {12874},
         },
