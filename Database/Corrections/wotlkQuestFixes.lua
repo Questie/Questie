@@ -66,6 +66,9 @@ function QuestieWotlkQuestFixes:Load()
         [1198] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [1284] = {
+            [questKeys.preQuestSingle] = {11123},
+        },
         [2767] = {
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{54.3,51.2}}}},
         },
