@@ -614,6 +614,38 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
             },
             Spacer_A = QuestieOptionsUtils:Spacer(2.9, (not Questie.IsTBC)),
+            SoundTopSpacer = {
+                type = "header",
+                order = 2.10,
+                name = function() return l10n('Sounds'); end,
+            },
+            questCompleteSound = {
+                type = "toggle",
+                order = 2.11,
+                name = function() return l10n('Quest completed'); end,
+                desc = function() return l10n('Play a short sound when completing a quest so it is ready to turn in.'); end,
+                width = 1.5,
+                get = function () return Questie.db.char.soundOnQuestComplete; end,
+                set = function (_, value)
+                    Questie.db.char.soundOnQuestComplete = value
+                end,
+            },
+            objectiveCompleteSound = {
+                type = "toggle",
+                order = 2.12,
+                name = function() return l10n('Quest objective completed'); end,
+                desc = function() return l10n('Play a short sound when completing a quest objective.'); end,
+                width = 1.5,
+                get = function () return Questie.db.char.soundOnObjectiveComplete; end,
+                set = function (_, value)
+                    Questie.db.char.soundOnObjectiveComplete = value
+                end,
+            },
+            SoundBottomSpacer = {
+                type = "header",
+                order = 2.13,
+                name = "",
+            },
             minimapButtonEnabled = {
                 type = "toggle",
                 order = 3,
