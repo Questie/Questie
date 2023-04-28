@@ -144,7 +144,7 @@ local function create_MenuButton(name, parent)
             lib:UIDropDownMenu_StopCounting(self:GetParent());
         end
         -- To check: do we need special handle for classic since there is no UIDropDownMenuButton_ShouldShowIconTooltip()?
-        -- if ( self.tooltipTitle and not self.noTooltipWhileEnabled ) then
+        -- if (self.tooltipTitle and not self.noTooltipWhileEnabled) then
         if (self.tooltipTitle and not self.noTooltipWhileEnabled and not lib:UIDropDownMenuButton_ShouldShowIconTooltip(self)) then
             if (self.tooltipOnButton) then
                 tooltip:SetOwner(self, "ANCHOR_RIGHT");
@@ -897,7 +897,7 @@ end
 function lib:UIDropDownMenu_CreateFrames(level, index)
     while (level > L_UIDROPDOWNMENUQUESTIE_MAXLEVELS) do
         L_UIDROPDOWNMENUQUESTIE_MAXLEVELS = L_UIDROPDOWNMENUQUESTIE_MAXLEVELS + 1;
-        --local newList = CreateFrame("Button", "L_DropDownListQuestie"..L_UIDROPDOWNMENUQUESTIE_MAXLEVELS, nil, "L_UIDropDownListTemplate");
+        --local newList = CreateFrame("Button", "L_DropDownListQuestie" .. L_UIDROPDOWNMENUQUESTIE_MAXLEVELS, nil, "L_UIDropDownListTemplate");
         local newList = creatre_DropDownList("L_DropDownListQuestie" .. L_UIDROPDOWNMENUQUESTIE_MAXLEVELS)
         newList:SetFrameStrata("FULLSCREEN_DIALOG");
         newList:SetToplevel(true);
@@ -905,9 +905,9 @@ function lib:UIDropDownMenu_CreateFrames(level, index)
         newList:SetID(L_UIDROPDOWNMENUQUESTIE_MAXLEVELS);
         newList:SetWidth(180)
         newList:SetHeight(10)
-        --		for i = WoWRetail and 1 or (L_UIDROPDOWNMENUQUESTIE_MINBUTTONS+1), L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS do
+        --for i = WoWRetail and 1 or (L_UIDROPDOWNMENUQUESTIE_MINBUTTONS+1), L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS do
         for i = 1, L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS do
-            --local newButton = CreateFrame("Button", "L_DropDownListQuestie"..L_UIDROPDOWNMENU_MAXLEVELS.."Button"..i, newList, "L_UIDropDownMenuButtonTemplate");
+            --local newButton = CreateFrame("Button", "L_DropDownListQuestie" .. L_UIDROPDOWNMENU_MAXLEVELS .. "Button" .. i, newList, "L_UIDropDownMenuButtonTemplate");
             local newButton = create_MenuButton("L_DropDownListQuestie" .. L_UIDROPDOWNMENUQUESTIE_MAXLEVELS .. "Button" .. i, newList)
             newButton:SetID(i);
         end
@@ -916,7 +916,7 @@ function lib:UIDropDownMenu_CreateFrames(level, index)
     while (index > L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS) do
         L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS = L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS + 1;
         for i = 1, L_UIDROPDOWNMENUQUESTIE_MAXLEVELS do
-            --local newButton = CreateFrame("Button", "L_DropDownListQuestie"..i.."Button"..L_UIDROPDOWNMENU_MAXBUTTONS, _G["L_DropDownListQuestie"..i], "L_UIDropDownMenuButtonTemplate");
+            --local newButton = CreateFrame("Button", "L_DropDownListQuestie"..i.."Button"..L_UIDROPDOWNMENU_MAXBUTTONS, _G["L_DropDownListQuestie" .. i], "L_UIDropDownMenuButtonTemplate");
             local newButton = create_MenuButton("L_DropDownListQuestie" .. i .. "Button" .. L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS, _G["L_DropDownListQuestie" .. i])
             newButton:SetID(L_UIDROPDOWNMENUQUESTIE_MAXBUTTONS);
         end
@@ -968,7 +968,7 @@ end
 function lib:UIDropDownMenu_AddButton(info, level)
     --[[
 	Might to uncomment this if there are performance issues
-	if ( not L_UIDROPDOWNMENUQUESTIE_OPEN_MENU ) then
+	if (not L_UIDROPDOWNMENUQUESTIE_OPEN_MENU) then
 		return;
 	end
 	]]
