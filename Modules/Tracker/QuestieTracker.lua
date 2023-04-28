@@ -46,6 +46,7 @@ local trackerMinLineWidth = 275
 local trackerMarginRight = 20
 local trackerMarginLeft = 10
 local lastAQW = GetTime()
+local lastTrackerUpdate = GetTime()
 local lastAchieveId = GetTime()
 local durabilityInitialPosition = { DurabilityFrame:GetPoint() }
 local questsWatched = GetNumQuestWatches()
@@ -391,12 +392,15 @@ function QuestieTracker:Expand()
 end
 
 function QuestieTracker:Update()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Update")
-    if (not QuestieTracker.started) or InCombatLockdown() then
+    -- Prevents calling the tracker too often, especially when the QuestieCombatQueue empties after combat ends
+    local now = GetTime()
+    if (not QuestieTracker.started) or InCombatLockdown() or (now - lastTrackerUpdate) < 0.1 then
         return
     end
 
-    -- Tracker has started but not enabled
+    lastTrackerUpdate = now
+
+    -- Tracker has started but not enabled, hide the frames
     if (not Questie.db.char.trackerEnabled or QuestieTracker.disableHooks == true) then
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
@@ -407,6 +411,7 @@ function QuestieTracker:Update()
         return
     end
 
+    -- Tracker not expanded, no need for an update but it's still a good idea to update the frames
     QuestieCombatQueue:Queue(function()
         TrackerHeaderFrame:Update()
         TrackerQuestFrame:Update()
@@ -416,6 +421,8 @@ function QuestieTracker:Update()
             return
         end
     end)
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Update")
 
     TrackerLinePool.ResetLinesForChange()
     TrackerLinePool.ResetButtonsForChange()
@@ -440,7 +447,7 @@ function QuestieTracker:Update()
     local secondaryButton = false
     local secondaryButtonAlpha
 
-    -- Begin populating the tracker with quests
+    -- Begin populating the Tracker with Quests
     for _, questId in pairs(sortedQuestIds) do
         if not questId then break end
 
