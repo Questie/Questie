@@ -311,7 +311,7 @@ function QuestieTracker:QuestItemLooted(text)
             C_Timer.After(0.5, function()
                 QuestieTracker:Update()
             end)
-        end)
+        end, "QuestieTracker:Update")
     end
 end
 
@@ -1666,7 +1666,7 @@ function QuestieTracker:HookBaseTracker()
     QuestieTracker.alreadyHooked = true
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-    end)
+    end, "QuestieTracker:Update")
 end
 
 function QuestieTracker:RemoveQuest(questId)
@@ -1734,7 +1734,7 @@ function QuestieTracker:UntrackQuestId(questId)
 
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-    end)
+    end, "QuestieTracker:Update")
 end
 
 function QuestieTracker:AQW_Insert(index, expire)
@@ -1805,7 +1805,7 @@ function QuestieTracker:AQW_Insert(index, expire)
     end
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-    end)
+    end, "QuestieTracker:Update")
 end
 
 QuestieTracker.RemoveTrackedAchievement = function(achieveId, isQuestie)
@@ -1846,7 +1846,7 @@ function QuestieTracker:UpdateAchieveTrackerCache(achieveId)
 
                     QuestieCombatQueue:Queue(function()
                         QuestieTracker:Update()
-                    end)
+                    end, "QuestieTracker:Update")
                 else
                     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UpdateAchieveTrackerCache - No Change Detected!")
                 end

@@ -246,7 +246,7 @@ function TrackerLinePool.Initialize(questFrame)
 
                             QuestieCombatQueue:Queue(function()
                                 QuestieTracker:Update()
-                            end)
+                            end, "QuestieTracker:Update")
                         end
                     end
                 end
@@ -280,7 +280,7 @@ function TrackerLinePool.Initialize(questFrame)
 
                             QuestieCombatQueue:Queue(function()
                                 QuestieTracker:Update()
-                            end)
+                            end, "QuestieTracker:Update")
                         end)
                     end
                 else
@@ -298,7 +298,7 @@ function TrackerLinePool.Initialize(questFrame)
 
                     QuestieCombatQueue:Queue(function()
                         QuestieTracker:Update()
-                    end)
+                    end, "QuestieTracker:Update")
                 end
             end
         end)
@@ -369,7 +369,7 @@ function TrackerLinePool.Initialize(questFrame)
             end
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
 
         if Questie.IsWotlk then
@@ -560,7 +560,7 @@ function TrackerLinePool.Initialize(questFrame)
                         C_Timer.After(0.2, function()
                             QuestieTracker:Update()
                         end)
-                    end)
+                    end, "QuestieTracker:Update")
                 end
             end
 
@@ -909,7 +909,7 @@ TrackerLinePool.OnClickAchieve = function(self, button)
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
-                end)
+                end, "QuestieTracker:Update")
             else
                 -- Assume this is an Objective of an Achievement
                 UIErrorsFrame:AddMessage(format(l10n("You can't untrack an objective of an achievement.")), 1.0, 0.1, 0.1, 1.0)

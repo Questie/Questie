@@ -84,7 +84,7 @@ TrackerMenu.minMaxQuestOption = function(menu, quest)
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
-                end)
+                end, "QuestieTracker:Update")
             end
         })
     else
@@ -95,7 +95,7 @@ TrackerMenu.minMaxQuestOption = function(menu, quest)
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
-                end)
+                end, "QuestieTracker:Update")
             end
         })
     end
@@ -480,7 +480,7 @@ TrackerMenu.addUntrackAchieveOption = function(menu, achieve)
 
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end
     })
 end

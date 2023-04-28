@@ -99,7 +99,7 @@ function QuestieEventHandler:RegisterLateEvents()
 
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
 
         -- Track/Untrack Achievement updates
@@ -114,7 +114,7 @@ function QuestieEventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_UPDATE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
 
         -- Money based Achievement updates
@@ -122,7 +122,7 @@ function QuestieEventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_MONEY")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
 
         -- Emote based Achievement updates
@@ -130,7 +130,7 @@ function QuestieEventHandler:RegisterLateEvents()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_TEXT_EMOTE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
     end
 
@@ -266,7 +266,7 @@ function _EventHandler:MapExplorationUpdated()
     if Questie.IsWotlk then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-        end)
+        end, "QuestieTracker:Update")
     end
 end
 
@@ -302,7 +302,7 @@ function _EventHandler:ModifierStateChanged()
         if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
                 TrackerBaseFrame:Update()
-            end)
+            end, "QuestieTracker:Update")
         end
     end
 end
@@ -321,7 +321,7 @@ function _EventHandler:ChatMsgSkill()
     if Questie.IsWotlk then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-        end)
+        end, "QuestieTracker:Update")
     end
 end
 
@@ -332,7 +332,7 @@ function _EventHandler:ChatMsgCompatFactionChange()
     if factionChanged or newFaction then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-        end)
+        end, "QuestieTracker:Update")
 
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
@@ -437,7 +437,7 @@ function _EventHandler:ZoneChangedNewArea()
         C_Timer.After(8, function()
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
     elseif (not Questie.db.char.isTrackerExpanded) then
         QuestieTracker:Expand()
@@ -447,7 +447,7 @@ function _EventHandler:ZoneChangedNewArea()
         C_Timer.After(8, function()
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end)
     end
 end

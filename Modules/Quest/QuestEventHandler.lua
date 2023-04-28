@@ -302,7 +302,7 @@ function _QuestEventHandler:UpdateAllQuests()
             C_Timer.After(2.0, function()
                 QuestieTracker:Update()
             end)
-        end)
+        end, "QuestieTracker:Update")
     else
         Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
     end

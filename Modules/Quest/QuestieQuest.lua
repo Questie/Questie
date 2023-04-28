@@ -306,7 +306,7 @@ function QuestieQuest:SmoothReset()
                         C_Timer.After(2.0, function()
                             QuestieTracker:Update()
                         end)
-                    end)
+                    end, "QuestieTracker:Update")
                     break
                 end
             end
@@ -398,7 +398,7 @@ function QuestieQuest:AcceptQuest(questId)
             function()
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Update()
-                end)
+                end, "QuestieTracker:Update")
             end,
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
@@ -410,7 +410,7 @@ function QuestieQuest:AcceptQuest(questId)
             Questie.db.char.AutoUntrackedQuests[questId] = nil
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
-            end)
+            end, "QuestieTracker:Update")
         end
     else
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already existed, not adding")
@@ -433,7 +433,7 @@ function QuestieQuest:CompleteQuest(questId)
     QuestieTracker:RemoveQuest(questId)
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-    end)
+    end, "QuestieTracker:Update")
 
     --This should probably be done first, because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
     QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
@@ -475,7 +475,7 @@ function QuestieQuest:AbandonedQuest(questId)
         QuestieTooltips:RemoveQuest(questId)
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-        end)
+        end, "QuestieTracker:Update")
 
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
@@ -614,7 +614,7 @@ function QuestieQuest:GetAllQuestIds()
     end
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
-    end)
+    end, "QuestieTracker:Update")
 end
 
 function QuestieQuest:GetAllQuestIdsNoObjectives()
@@ -1438,15 +1438,15 @@ do
             if (not autoBlacklist[questId]) then
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
                 if (
-                    (not Questie.db.char.complete[questId]) and                                               -- Don't show completed quests
-                    ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-                    (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
-                    (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled
-                    (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and                        -- Show dungeon quests only with the option enabled
-                    (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                              -- Show Raid quests only with the option enabled
-                    (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                                -- Show PvP quests only with the option enabled
-                    (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and     -- Don't show AQ War Effort quests with the option enabled
-                    ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
+                        (not Questie.db.char.complete[questId]) and                                           -- Don't show completed quests
+                        ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
+                        (not hiddenQuests[questId] and not hidden[questId]) and                               -- Don't show blacklisted or player hidden quests
+                        (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                   -- Show repeatable quests if the quest is repeatable and the option is enabled
+                        (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and                    -- Show dungeon quests only with the option enabled
+                        (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                          -- Show Raid quests only with the option enabled
+                        (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                            -- Show PvP quests only with the option enabled
+                        (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and -- Don't show AQ War Effort quests with the option enabled
+                        ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
                     ) then
                     if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
                         QuestieQuest.availableQuests[questId] = true
