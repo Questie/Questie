@@ -85,6 +85,7 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- UI Achievement Events
     if Questie.IsWotlk then
+        -- Earned Achievement update
         Questie:RegisterEvent("ACHIEVEMENT_EARNED", function(index, achieveId, alreadyEarned)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ACHIEVEMENT_EARNED")
             QuestieTracker:UntrackAchieveId(achieveId)
@@ -101,13 +102,32 @@ function QuestieEventHandler:RegisterLateEvents()
             end)
         end)
 
+        -- Track/Untrack Achievement updates
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_LIST_CHANGED", function(index, achieveId, added)
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_LIST_CHANGED")
             QuestieTracker:UpdateAchieveTrackerCache(achieveId)
         end)
 
+        -- Timed based Achievement updates
+        -- TODO: Fired when a timed event for an achievement begins or ends. The achievement does not have to be actively tracked for this to trigger.
         Questie:RegisterEvent("TRACKED_ACHIEVEMENT_UPDATE", function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] TRACKED_ACHIEVEMENT_UPDATE")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+
+        -- Money based Achievement updates
+        Questie:RegisterEvent("CHAT_MSG_MONEY", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_MONEY")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+
+        -- Emote based Achievement updates
+        Questie:RegisterEvent("CHAT_MSG_TEXT_EMOTE", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_TEXT_EMOTE")
             QuestieCombatQueue:Queue(function()
                 QuestieTracker:Update()
             end)
@@ -242,10 +262,12 @@ function _EventHandler:MapExplorationUpdated()
         QuestieMap.utils:MapExplorationUpdate()
     end
 
-    -- This is needed to updage exploratory achievements in the tracker
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
+    -- Exploratory based Achievement updates
+    if Questie.IsWotlk then
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end
 end
 
 --- Fires when the player levels up
@@ -293,6 +315,13 @@ function _EventHandler:ChatMsgSkill()
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
         QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    end
+
+    -- Skill based Achievement updates
+    if Questie.IsWotlk then
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end
 end
 
