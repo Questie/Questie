@@ -132,7 +132,7 @@ local function create_MenuButton(name, parent)
     local function button_OnEnter(self)
         if (self.hasArrow) then
             local level = self:GetParent():GetID() + 1;
-            local listFrame = _G["L_DropDownListQuesie" .. level];
+            local listFrame = _G["L_DropDownListQuestie" .. level];
             if (not listFrame or not listFrame:IsShown() or select(2, listFrame:GetPoint(1)) ~= self) then
                 lib:ToggleDropDownMenu(self:GetParent():GetID() + 1, self.value, nil, nil, nil, nil, self.menuList, self);
             end
@@ -1298,7 +1298,7 @@ function lib:UIDropDownMenu_AddButton(info, level)
     local colorSwatch = _G[listFrameName .. "Button" .. index .. "ColorSwatch"];
     if (info.hasColorSwatch) then
         if (WoWClassicEra or WoWClassicTBC or WoWWOTLKC) then
-            _G["L_DropDownListQUESTIE" .. level .. "Button" .. index .. "ColorSwatch" .. "NormalTexture"]:SetVertexColor(info.r, info.g, info.b);
+            _G["L_DropDownListQuestie" .. level .. "Button" .. index .. "ColorSwatch" .. "NormalTexture"]:SetVertexColor(info.r, info.g, info.b);
         else
             _G["L_DropDownListQuestie" .. level .. "Button" .. index .. "ColorSwatch"].Color:SetVertexColor(info.r, info.g, info.b);
         end
