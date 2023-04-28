@@ -1,6 +1,8 @@
 ---@class Sounds
 local Sounds = QuestieLoader:CreateModule("Sounds")
 
+Sounds.QUEST_COMPLETE_SOUND_FILE = "sound/creature/peon/peonbuildingcomplete1.ogg"
+Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE = "sound/interface/iquestupdate.ogg"
 
 local shouldPlayObjectiveSound = false
 
@@ -13,7 +15,7 @@ function Sounds.PlayObjectiveComplete()
         shouldPlayObjectiveSound = true
         C_Timer.After(0.5, function ()
             if shouldPlayObjectiveSound then
-                PlaySoundFile("sound/interface/iquestupdate.ogg")
+                PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE)
                 shouldPlayObjectiveSound = false
             end
         end)
@@ -26,5 +28,5 @@ function Sounds.PlayQuestComplete()
     end
 
     shouldPlayObjectiveSound = false
-    PlaySoundFile("sound/creature/peon/peonbuildingcomplete1.ogg")
+    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE)
 end

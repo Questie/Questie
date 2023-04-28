@@ -15,6 +15,8 @@ local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type QuestieFramePool
 local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
+---@type Sounds
+local Sounds = QuestieLoader:ImportModule("Sounds");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 
@@ -624,26 +626,56 @@ function QuestieOptions.tabs.general:Initialize()
                 order = 2.11,
                 name = function() return l10n('Quest completed'); end,
                 desc = function() return l10n('Play a short sound when completing a quest so it is ready to turn in.'); end,
-                width = 1.5,
+                width = 1.2,
                 get = function () return Questie.db.char.soundOnQuestComplete; end,
                 set = function (_, value)
                     Questie.db.char.soundOnQuestComplete = value
                 end,
             },
+            questCompleteSoundButton = {
+                type = "execute",
+                order = 2.12,
+                name = "",
+                width = 0.5,
+                image = function ()
+                    return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
+                end,
+                func = function ()
+                    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE)
+                end
+            },
+            soundLineBreak = {
+                type = "description",
+                name = " ",
+                width = 1,
+                order = 2.125,
+            },
             objectiveCompleteSound = {
                 type = "toggle",
-                order = 2.12,
+                order = 2.13,
                 name = function() return l10n('Quest objective completed'); end,
                 desc = function() return l10n('Play a short sound when completing a quest objective.'); end,
-                width = 1.5,
+                width = 1.2,
                 get = function () return Questie.db.char.soundOnObjectiveComplete; end,
                 set = function (_, value)
                     Questie.db.char.soundOnObjectiveComplete = value
                 end,
             },
+            objectiveCompleteSoundButton = {
+                type = "execute",
+                order = 2.14,
+                name = "",
+                width = 0.5,
+                image = function ()
+                    return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
+                end,
+                func = function ()
+                    PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE)
+                end
+            },
             SoundBottomSpacer = {
                 type = "header",
-                order = 2.13,
+                order = 2.15,
                 name = "",
             },
             minimapButtonEnabled = {
