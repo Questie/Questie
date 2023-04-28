@@ -421,6 +421,13 @@ function _EventHandler:PlayerRegenEnabled()
     end
 
     QuestieTracker:CheckDurabilityAlertStatus()
+
+    -- Mob kill based Achievement updates
+    if Questie.IsWotlk and GetNumTrackedAchievements(true) > 0 then
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end
 end
 
 function _EventHandler:ZoneChangedNewArea()
