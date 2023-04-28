@@ -750,7 +750,7 @@ function TrackerUtils:GetSortedQuestIds()
                             end
                             QuestieCombatQueue:Queue(function()
                                 QuestieTracker:Update()
-                            end, "QuestieTracker:Update")
+                            end)
                         end
                     end
                 end

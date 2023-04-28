@@ -161,7 +161,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-        end, "QuestieTracker:Update")
+        end)
     end)
 
     trackedQuests:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)

@@ -383,7 +383,7 @@ function TrackerBaseFrame.OnResizeStop(_, button)
     if button == "RightButton" or TrackerBaseFrame.isSizing ~= true then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
-        end, "QuestieTracker:Update")
+        end)
         return
     end
 
