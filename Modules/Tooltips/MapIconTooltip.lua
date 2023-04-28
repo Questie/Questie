@@ -180,11 +180,6 @@ function MapIconTooltip:Show()
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
-            if pin.icon.data.lineFrames then
-                for _, line in pairs(pin.icon.data.lineFrames) do
-                    handleMapIcon(line)
-                end
-            end
         end
     end
 
