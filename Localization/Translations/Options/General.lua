@@ -1372,7 +1372,7 @@ local generalOptionsLocales = {
     },
     ["Sounds"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Звуки",
         ["deDE"] = true,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1384,7 +1384,7 @@ local generalOptionsLocales = {
     },
     ["Play a short sound when completing a quest so it is ready to turn in."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Воспроизводить короткий звук по выполнении задания, обозначая готовность его сдачи",
         ["deDE"] = "Spielt einen kurzen Ton, wenn eine Quest fertig ist und abgegeben werden kann.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1396,7 +1396,7 @@ local generalOptionsLocales = {
     },
     ["Quest objective completed"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Цель задания выполнена",
         ["deDE"] = "Quest-Ziel abgeschlossen",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1408,7 +1408,7 @@ local generalOptionsLocales = {
     },
     ["Play a short sound when completing a quest objective."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Воспроизводить короткий звук по выполнении цели задания",
         ["deDE"] = "Spielt einen kurzen Ton, wenn ein Quest-Ziel abgeschlossen ist.",
         ["koKR"] = nil,
         ["esMX"] = nil,
