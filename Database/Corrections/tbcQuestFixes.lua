@@ -2580,6 +2580,9 @@ function QuestieTBCQuestFixes:Load()
         [11131] = {
             [questKeys.triggerEnd] = {"Put Out the Fires", {[zoneIDs.DUN_MOROGH]={{53.1,51.4}},[zoneIDs.ELWYNN_FOREST]={{42,66.5}},[zoneIDs.AZUREMYST_ISLE]={{49.3,51.5}}}},
         },
+        [11140] = {
+            [questKeys.requiredSourceItems] = {33040,33044},
+        },
         [11142] = {
             [questKeys.objectives] = {nil,{{500007},{500007}}},
             [questKeys.triggerEnd] = {"Survey Alcaz Island", {[zoneIDs.DUSTWALLOW_MARSH]={{69.96,19.55}}}},

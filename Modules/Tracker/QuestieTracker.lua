@@ -816,6 +816,8 @@ function QuestieTracker:Update()
 
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
+                    -- gsub removes any blank lines
+                    completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
 
                     -- Add incomplete Quest Objectives
                     if complete == 0 then

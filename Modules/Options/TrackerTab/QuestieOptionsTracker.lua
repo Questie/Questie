@@ -139,8 +139,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "toggle",
                 order = 1.9,
                 width = 1.5,
-                name = function() return l10n('Enable Active Quests Header') end,
-                desc = function() return l10n('When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.') end,
+                name = function() return l10n("Enable Active Quests Header") end,
+                desc = function() return l10n("When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.") end,
                 disabled = function() return not Questie.db.char.trackerEnabled or Questie.db.global.alwaysShowTracker end,
                 get = function() return Questie.db.global.trackerHeaderEnabled end,
                 set = function(_, value)
@@ -609,8 +609,8 @@ function QuestieOptions.tabs.tracker:Initialize()
             fontSizeHeader = {
                 type = "range",
                 order = 4.5,
-                name = function() return l10n('Font Size for Active Quests') end,
-                desc = function() return l10n('The font size Active Quests uses.') end,
+                name = function() return l10n("Font Size for Active Quests Header") end,
+                desc = function() return l10n("The font size used for the Active Quests Header.") end,
                 width = "double",
                 min = 8,
                 max = 18,
@@ -628,8 +628,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 4.6,
                 values = SharedMedia:HashTable("font"),
                 style = 'dropdown',
-                name = function() return l10n('Font for Active Quests') end,
-                desc = function() return l10n('The font Active Quests uses.') end,
+                name = function() return l10n("Font for Active Quests Header") end,
+                desc = function() return l10n("The font used for the Active Quests Header.") end,
                 disabled = function() return not Questie.db.char.trackerEnabled or not Questie.db.global.trackerHeaderEnabled end,
                 get = function() return Questie.db.global.trackerFontHeader or "Friz Quadrata TT" end,
                 set = function(_, value)

@@ -221,6 +221,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},
         },
+        [11140] = {
+            [questKeys.requiredSourceItems] = {33040,33044},
+        },
         [11153] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HOWLING_FJORD]={{28.1,42.2}}}, Questie.ICON_TYPE_EVENT, l10n("Wait for Harrowmeiser's zeppelin to dock"),}},
         },
