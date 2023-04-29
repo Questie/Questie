@@ -152,8 +152,8 @@ function QuestieOptionsDefaults:Load()
             trackerEnabled = true,
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true,
-            soundOnQuestComplete = true,
-            soundOnObjectiveComplete = true,
+            soundOnQuestComplete = false,
+            soundOnObjectiveComplete = false,
         },
         profile = { minimap = { hide = false } }
     }
