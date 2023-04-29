@@ -204,6 +204,14 @@ local migrationFunctions = {
             Questie.db.global.currentHeaderEnabledSetting = false       -- set default
         end
     end,
+    [21] = function ()
+        if Questie.db.char.soundOnQuestComplete == nil then -- new option
+            Questie.db.char.soundOnQuestComplete = false
+        end
+        if Questie.db.char.soundOnObjectiveComplete == nil then -- new option
+            Questie.db.char.soundOnObjectiveComplete = false
+        end
+    end
 }
 
 function Migration:Migrate()

@@ -151,7 +151,9 @@ function QuestieOptionsDefaults:Load()
             showQuestsInNpcTooltip = true,
             trackerEnabled = true,
             ldbDisplayText = "Questie",
-            enableQuestFrameIcons = true
+            enableQuestFrameIcons = true,
+            soundOnQuestComplete = false,
+            soundOnObjectiveComplete = false,
         },
         profile = { minimap = { hide = false } }
     }
