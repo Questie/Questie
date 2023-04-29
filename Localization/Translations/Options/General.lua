@@ -1380,7 +1380,7 @@ local generalOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Sons",
     },
     ["Play a short sound when completing a quest so it is ready to turn in."] = {
         ["ptBR"] = nil,
@@ -1392,7 +1392,7 @@ local generalOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Jouer un court son lorsqu'une quête est complétée et prête à rendre.",
     },
     ["Quest objective completed"] = {
         ["ptBR"] = nil,
@@ -1404,7 +1404,7 @@ local generalOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objectif de quête complété",
     },
     ["Play a short sound when completing a quest objective."] = {
         ["ptBR"] = nil,
@@ -1416,7 +1416,7 @@ local generalOptionsLocales = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Jouer un court son lorsqu'un objectif de quête est complété.",
     },
 }
 
