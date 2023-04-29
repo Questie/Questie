@@ -890,7 +890,7 @@ local trackerOptionsLocales = {
         ["esES"] = "La fuente utilizada para los títulos de misiones.",
         ["frFR"] = "La police utilisée pour les titres de quête.",
     },
-    ["Font for Active Quests"] = {
+    ["Font for Active Quests Header"] = {
         ["ptBR"] = "Fonte para missões ativas",
         ["ruRU"] = "Шрифт заголовка трекера",
         ["deDE"] = "Schriftart für aktive Quests",
@@ -902,7 +902,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Fuente para misiones activas",
         ["frFR"] = "Police pour les quêtes actives",
     },
-    ["The font Active Quests uses."] = {
+    ["The font used for the Active Quests Header."] = {
         ["ptBR"] = "A fonte Missões ativas usa.",
         ["ruRU"] = "Шрифт, используемый в заголовке трекера",
         ["deDE"] = "Die Schriftart die für aktive Quests verwendet wird.",
@@ -914,7 +914,7 @@ local trackerOptionsLocales = {
         ["esES"] = "La fuente que utiliza misiones activas.",
         ["frFR"] = "La police utilisée par Active Quests.",
     },
-    ["Font Size for Active Quests"] = {
+    ["Font Size for Active Quests Header"] = {
         ["ptBR"] = "Tamanho da fonte para missões ativas",
         ["ruRU"] = "Размер шрифта заголовка трекера",
         ["deDE"] = "Schriftgröße für aktive Quests",
@@ -926,7 +926,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Tamaño de fuente para misiones activas",
         ["frFR"] = "Taille de police pour les quêtes actives",
     },
-    ["The font size Active Quests uses."] = {
+    ["The font size used for the Active Quests Header."] = {
         ["ptBR"] = "O tamanho da fonte que o Missões ativas usa.",
         ["ruRU"] = "Размер шрифта, используемого в заголовке трекера",
         ["deDE"] = "Die Schriftgröße die für aktive Quests verwendet wird.",
@@ -1143,30 +1143,6 @@ local trackerOptionsLocales = {
         ["frFR"] = false,
     },
     ["Enable Active Quests Header"] = {
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
-    },
-    ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown."] = {
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
-    },
-    ["Enable Header"] = {
         ["ptBR"] = "Ativar cabeçalho",
         ["ruRU"] = "Заголовок трекера",
         ["deDE"] = "Header anzeigen",
