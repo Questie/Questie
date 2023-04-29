@@ -205,11 +205,11 @@ local migrationFunctions = {
         end
     end,
     [21] = function ()
-        if Questie.db.char.soundOnQuestComplete == nil then
-            Questie.db.char.soundOnQuestComplete = true
+        if Questie.db.char.soundOnQuestComplete == nil then -- new option
+            Questie.db.char.soundOnQuestComplete = false
         end
-        if Questie.db.char.soundOnObjectiveComplete == nil then
-            Questie.db.char.soundOnObjectiveComplete = true
+        if Questie.db.char.soundOnObjectiveComplete == nil then -- new option
+            Questie.db.char.soundOnObjectiveComplete = false
         end
     end
 }
