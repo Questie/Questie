@@ -38,7 +38,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 local LSM30 = LibStub("LibSharedMedia-3.0")
 
-local linePoolSize = 360
+local linePoolSize = 250
 local lineIndex = 0
 local buttonPoolSize = 25
 local buttonIndex = 0

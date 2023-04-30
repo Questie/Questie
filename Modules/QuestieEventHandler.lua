@@ -132,6 +132,14 @@ function QuestieEventHandler:RegisterLateEvents()
                 QuestieTracker:Update()
             end)
         end)
+
+        -- Player equipment changed based Achievement updates
+        Questie:RegisterEvent("PLAYER_EQUIPMENT_CHANGED", function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_EQUIPMENT_CHANGED")
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
     end
 
     -- Questie Comms Events
