@@ -611,7 +611,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
     if _selected ~= 0 then
-        selectedId = _selected
+        local selectedId = _selected
         resultTree:SelectByValue(_selected)
         _selected = 0
     end
