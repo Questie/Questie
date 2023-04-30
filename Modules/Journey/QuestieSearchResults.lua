@@ -26,6 +26,7 @@ local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local stringrep = string.rep
+local stringsub = string.sub
 
 local AceGUI = LibStub("AceGUI-3.0");
 
@@ -663,10 +664,16 @@ local function _GetSearchFunction(searchBox, searchGroup)
             local searchText = searchBox:GetText()
 
             local itemName = GetItemInfo(searchText)
-            if itemName then -- An itemLink was added to the searchBox
+            if stringsub(searchText, 1, 4) == "|cff" and itemName then
+                -- An itemLink was added to the searchBox
                 searchBox:SetText(itemName)
                 QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, itemName, false)
+            elseif stringsub(searchText, 1, 4) == "|cff" then
+                -- This should be impossible to reach, since when you see an item link in the game the item should
+                -- be cached already which would be caught by the condition above
+                Questie:Debug(Questie.DEBUG_DEVELOP, "Search with link of an uncached item")
             else
+                -- Normal search
                 local text = string.trim(searchText, " \n\r\t[]");
                 QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false)
             end
