@@ -52,7 +52,7 @@ local trackerOptionsLocales = {
     },
     ["Show Quest / Achievement"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Задание / Достижение",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -64,7 +64,7 @@ local trackerOptionsLocales = {
     },
     ["This shortcut will open the Quest Log with the clicked Quest selected or open Achievements with the clicked Achievement selected."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Сочетание клавиш для открытия задания в журнале заданий или достижения в окне достижений",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -112,7 +112,7 @@ local trackerOptionsLocales = {
     },
     ["Auto Move Active Quests Header"] = {
         ["ptBR"] = "Mover cabeçalho automaticamente",
-        ["ruRU"] = "Автоперемещение",
+        ["ruRU"] = "Автоперемещение заголовка",
         ["deDE"] = "Header automatisch verschieben",
         ["koKR"] = "자동 이동 헤더",
         ["esMX"] = "Encabezado de movimiento automático",
@@ -148,7 +148,7 @@ local trackerOptionsLocales = {
     },
     ["Hide Completed Quest Objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть выполненные цели заданий",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -160,7 +160,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, completed Quest Objectives will automatically be removed from the Questie Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, выполненные цели заданий будут автоматически изъяты из трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -172,7 +172,7 @@ local trackerOptionsLocales = {
     },
     ["Hide Completed Achieve Objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть выполненные цели достижений",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -184,7 +184,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, completed Achievement Objectives will automatically be removed from the Questie Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, выполненные цели достижений будут автоматически изъяты из трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -208,7 +208,7 @@ local trackerOptionsLocales = {
     },
     ["Fade Min/Max Buttons"] = {
         ["ptBR"] = "Desvanecer botões Min/Max",
-        ["ruRU"] = "Скрытие '+' и '–'",
+        ["ruRU"] = "Скрыть '+' и '–'",
         ["deDE"] = "Min/Max ausblenden",
         ["koKR"] = "페이드 최소 / 최대 BTN",
         ["esMX"] = "Desvanecer botones Min/Máx",
@@ -232,7 +232,7 @@ local trackerOptionsLocales = {
     },
     ["Fade Quest Item Buttons"] = {
         ["ptBR"] = "Desvanecer BTNs do item de missão",
-        ["ruRU"] = "Скрытие предметов",
+        ["ruRU"] = "Скрыть предметы заданий",
         ["deDE"] = "Questgegenstände ausblenden",
         ["koKR"] = "페이드 퀘스트 아이템 BTN",
         ["esMX"] = "Desvanecer botones de objetos de misiones",
@@ -496,7 +496,7 @@ local trackerOptionsLocales = {
     },
     ["Auto Minimize Completed Quests"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Свернуть выполненные",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -520,7 +520,7 @@ local trackerOptionsLocales = {
     },
     ["Hide Tracker Sizer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть изменитель размера трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -532,7 +532,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, скрывается изменитель размера трекера, который отображается в правом нижнем или в правом верхнем углу",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -544,7 +544,7 @@ local trackerOptionsLocales = {
     },
     ["Always Show Tracker"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Всегда отображать трекер",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -556,7 +556,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет всегда отображаться, даже если не отслеживается ни одно задание.\n\nВАЖНО: Если заголовок 'Активные задания' отключен, то включение данной настройки будет включать его, когда ничего не отслеживается, и выключать, когда что-нибудь отслеживается",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -664,7 +664,7 @@ local trackerOptionsLocales = {
     },
     ["Tracker Height Ratio"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Соотношение высоты трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -676,7 +676,7 @@ local trackerOptionsLocales = {
     },
     ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -736,7 +736,7 @@ local trackerOptionsLocales = {
     },
     ["Untrack / Link"] = {
         ["ptBR"] = "Remover Rastreio/Vincular missão",
-        ["ruRU"] = "Отмена/ссылка",
+        ["ruRU"] = "Отмена / Ссылка",
         ["deDE"] = "Quest verlinken/entfernen",
         ["koKR"] = "추적종료 / 링크 퀘스트",
         ["esMX"] = "No rastrear/vincular misión",
@@ -748,7 +748,7 @@ local trackerOptionsLocales = {
     },
     ["This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания или достижения в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание или достижение",		
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -856,7 +856,7 @@ local trackerOptionsLocales = {
     },
     ["The font size used for Quest Titles.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Размер шрифта, используемого в названиях заданий.\n\nВАЖНО: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -892,7 +892,7 @@ local trackerOptionsLocales = {
     },
     ["Font for Active Quests Header"] = {
         ["ptBR"] = "Fonte para missões ativas",
-        ["ruRU"] = "Шрифт заголовка трекера",
+        ["ruRU"] = "Шрифт заголовка",
         ["deDE"] = "Schriftart für aktive Quests",
         ["koKR"] = "활성 퀘스트를위한 글꼴",
         ["esMX"] = "Fuente para misiones activas",
@@ -904,7 +904,7 @@ local trackerOptionsLocales = {
     },
     ["The font used for the Active Quests Header."] = {
         ["ptBR"] = "A fonte Missões ativas usa.",
-        ["ruRU"] = "Шрифт, используемый в заголовке трекера",
+        ["ruRU"] = "Шрифт, используемый в заголовке 'Активные задания'",
         ["deDE"] = "Die Schriftart die für aktive Quests verwendet wird.",
         ["koKR"] = "액티브 퀘스트 글꼴이 사용합니다.",
         ["esMX"] = "La fuente que utiliza misiones activas.",
@@ -916,7 +916,7 @@ local trackerOptionsLocales = {
     },
     ["Font Size for Active Quests Header"] = {
         ["ptBR"] = "Tamanho da fonte para missões ativas",
-        ["ruRU"] = "Размер шрифта заголовка трекера",
+        ["ruRU"] = "Размер шрифта заголовка 'Активные задания'",
         ["deDE"] = "Schriftgröße für aktive Quests",
         ["koKR"] = "활성 퀘스트의 글꼴 크기",
         ["esMX"] = "Tamaño de fuente para misiones activas",
@@ -1036,7 +1036,7 @@ local trackerOptionsLocales = {
     },
     ["The font size used for Objectives.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."] = {
         ["ptBR"] = "O tamanho da fonte usada para os objetivos.",
-        ["ruRU"] = "Размер шрифта, используемого в наименованиях целей",
+        ["ruRU"] = "Размер шрифта, используемого в наименованиях целей заданий.\n\nВАЖНО: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
         ["deDE"] = "Die Schriftgröße die für Questziele verwendet wird.",
         ["koKR"] = "목표에 사용되는 글꼴 크기입니다.",
         ["esMX"] = "El tamaño de fuente utilizado para los objetivos.",
@@ -1072,7 +1072,7 @@ local trackerOptionsLocales = {
     },
     ["Tracker Growth Direction"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Изменение размера трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1084,7 +1084,7 @@ local trackerOptionsLocales = {
     },
     ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. This will also move the Active Quests Header to either the top of the Questie Tracker (when using either the 'Down & Right' or the 'Down & Left' setting) or the bottom of the Questie Tracker (when using the either the 'Up & Right' or the 'Down & Right' setting).\n\nNOTE: You can override the Active Quests Header movement behavior by disabling the 'Auto Move Header' option in Questie Tracker Options to force the Active Quests Header to remain at the top of the Questie Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Также это перемещает заголовок 'Активные задания' на верх трекера (при использовании настройки 'Вниз и вправо' или 'Вниз и влево') или в низ трекера (при использовании настройки 'Вверх и вправо' или 'Вверх и влево').\n\nВАЖНО: Вы можете переопределить поведение перемещения заголовка 'Активные задания' путем отключения настройки 'Автоперемещение заголовка' на этой вкладке. В таком случае заголовок 'Активные задания' всегда будет наверху трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1096,7 +1096,7 @@ local trackerOptionsLocales = {
     },
     ["Down & Right"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вниз и вправо",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1108,7 +1108,7 @@ local trackerOptionsLocales = {
     },
     ["Down & Left"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вниз и влево",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1120,7 +1120,7 @@ local trackerOptionsLocales = {
     },
     ["Up & Right"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вверх и вправо",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1132,7 +1132,7 @@ local trackerOptionsLocales = {
     },
     ["Up & Left"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Вверх и влево",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1144,7 +1144,7 @@ local trackerOptionsLocales = {
     },
     ["Enable Active Quests Header"] = {
         ["ptBR"] = "Ativar cabeçalho",
-        ["ruRU"] = "Заголовок трекера",
+        ["ruRU"] = "Заголовок 'Активные задания'",
         ["deDE"] = "Header anzeigen",
         ["koKR"] = "헤더 활성화",
         ["esMX"] = "Habilitar encabezado",
@@ -1154,9 +1154,9 @@ local trackerOptionsLocales = {
         ["esES"] = "Habilitar encabezado",
         ["frFR"] = "Activer l'en-tête",
     },
-    ["When this is checked, the Active Quests Header will become visible and the total number of quests you have in your log will be shown."] = {
+    ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown."] = {
         ["ptBR"] = "Quando isso estiver marcado, o Cabeçalho do Rastreador de Missões ficará visível e o número total de missões que você possui no seu registro será mostrado.",
-        ["ruRU"] = "Показать/скрыть заголовок трекера. В нем показано текущее и доступное количество заданий в вашем журнале",
+        ["ruRU"] = "Показать/скрыть заголовок 'Активные задания'. В нем показано текущее количество заданий в вашем журнале заданий",
         ["deDE"] = "Wenn dies aktiviert ist, wird der 'Aktive Quests'-Header, sowie die Gesamtzahl der Quests im Questlog angezeigt.",
         ["koKR"] = "이 옵션을 선택하면 Questie 추적기 헤더가 표시되고 로그에있는 총 퀘스트 수가 표시됩니다.",
         ["esMX"] = "Cuando esto esté marcado, el Encabezado del Rastreador de Questie se hará visible y se mostrará el número total de misiones que tienes en tu registro",
@@ -1180,7 +1180,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nВАЖНО: Эта работает только при включенной настройке 'Автоотслеживание'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
