@@ -364,23 +364,25 @@ end
 function QuestieInit:Init()
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
-    -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
-    local WatchFrame = QuestTimerFrame or WatchFrame
+    if Questie.db.char.trackerEnabled then
+        -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
+        local WatchFrame = QuestTimerFrame or WatchFrame
 
-    if Questie.IsWotlk then
-        -- Classic WotLK
-        WatchFrame:Hide()
-    else
-        -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
-        -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.
-        WatchFrame:ClearAllPoints()
-        WatchFrame:SetPoint("TOP", -10000, -10000)
-    end
-
-    -- Need to hook this ASAP otherwise the scroll bars show up
-    hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
-        if TrackedQuestsScrollFrame then
-            TrackedQuestsScrollFrame.ScrollBar:Hide()
+        if Questie.IsWotlk then
+            -- Classic WotLK
+            WatchFrame:Hide()
+        else
+            -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
+            -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.
+            WatchFrame:ClearAllPoints()
+            WatchFrame:SetPoint("TOP", -10000, -10000)
         end
-    end)
+
+        -- Need to hook this ASAP otherwise the scroll bars show up
+        hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
+            if TrackedQuestsScrollFrame then
+                TrackedQuestsScrollFrame.ScrollBar:Hide()
+            end
+        end)
+    end
 end
