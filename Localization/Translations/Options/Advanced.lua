@@ -76,7 +76,7 @@ local advancedOptionsLocales = {
     },
     ["Enable bug workarounds"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Обходные решения",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -88,7 +88,7 @@ local advancedOptionsLocales = {
     },
     ["When enabled, Questie will hotfix vanilla UI bugs."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Когда включено, Questie будет исправлять ошибки классического интерфейса",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
