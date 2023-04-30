@@ -15,7 +15,7 @@ function Sounds.PlayObjectiveComplete()
         shouldPlayObjectiveSound = true
         C_Timer.After(0.5, function ()
             if shouldPlayObjectiveSound then
-                PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE)
+                PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE, "Master")
                 shouldPlayObjectiveSound = false
             end
         end)
@@ -28,5 +28,5 @@ function Sounds.PlayQuestComplete()
     end
 
     shouldPlayObjectiveSound = false
-    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE)
+    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE, "Master")
 end

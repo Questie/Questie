@@ -641,7 +641,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE)
+                    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE, "Master")
                 end
             },
             soundLineBreak = {
@@ -670,7 +670,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE)
+                    PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE, "Master")
                 end
             },
             SoundBottomSpacer = {
