@@ -646,7 +646,6 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
                 func = function ()
                     local soundFile = Questie.db.char.QuestCompleteSoundChoice ~= nil and Questie.db.char.QuestCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
-                    print(soundFile)
                     PlaySoundFile(soundFile, "Master")
                 end
             },
@@ -654,15 +653,16 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "select",
                 order = 2.13,
                 values = _GetQuestSoundChoices(),
-                --sorting = _GetQuestSoundChoicesSort(),
+                sorting = _GetQuestSoundChoicesSort(),
                 style = 'dropdown',
                 name = function() return l10n('Quest Complete Sound Selection') end,
                 desc = function() return l10n('The sound you hear when a quest is completed'); end,
-                get = function() return Questie.db.char.QuestCompleteSoundChoice; end,
+                get = function() return Questie.db.char.QuestCompleteSoundChoiceName or "None"; end,
                 disabled = function() return (not Questie.db.char.soundOnQuestComplete); end,
                 set = function(input, value)
-                    Questie.db.char.QuestCompleteSoundChoice = value
-                    QuestieQuest:SmoothReset()
+                    Questie.db.char.QuestCompleteSoundChoiceName = value
+                    Questie.db.char.QuestCompleteSoundChoice = Questie.sounds[value]
+                    --QuestieQuest:SmoothReset()
                 end,
             },
             soundLineBreak = {
@@ -691,21 +691,24 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    PlaySoundFile(Questie.db.char.ObjectiveCompleteSoundChoice or Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE, "Master")
+                    local soundFile = Questie.db.char.ObjectiveCompleteSoundChoice ~= nil and Questie.db.char.ObjectiveCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+                    PlaySoundFile(soundFile, "Master")
                 end
             },
             objectiveCompleteSoundChoice = {
                 type = "select",
                 order = 2.16,
                 values = _GetObjectiveSoundChoices(),
-                --sorting = _GetObjectiveSoundChoicesSort(),
+                sorting = _GetObjectiveSoundChoicesSort(),
                 style = 'dropdown',
                 name = function() return l10n('Objective Complete Sound Selection') end,
                 desc = function() return l10n('The sound you hear when an objective is completed'); end,
-                get = function() return  Questie.db.char.ObjectiveCompleteSoundChoice; end,
+                get = function() return  Questie.db.char.ObjectiveCompleteSoundChoiceName; end,
                 disabled = function() return (not Questie.db.char.soundOnObjectiveComplete); end,
                 set = function(input, value)
-                    Questie.db.char.ObjectiveCompleteSoundChoice = value
+                    Questie.db.char.ObjectiveCompleteSoundChoiceName = value
+                    Questie.db.char.ObjectiveCompleteSoundChoice = Questie.sounds[value]
+                    --QuestieQuest:SmoothReset()
                 end,
             },
             SoundBottomSpacer = {
@@ -998,54 +1001,38 @@ end
 
 _GetQuestSoundChoices = function()
     return {
-        ["None"] = nil ,
-        ["Default"] = "Sound/Creature/Peon/PeonBuildingComplete1.ogg",
-        ["Troll Male"] = "Sound/Character/Troll/TrollVocalMale/TrollMaleCongratulations01.ogg",
-        ["Troll Female"] = "Sound/Character/Troll/TrollVocalFemale/TrollFemaleCongratulations01.ogg",
-        ["Tauren Male"] = "Sound/Creature/Tauren/TaurenYes3.ogg",
-        ["Tauren Female"] = "Sound/Character/Tauren/TaurenVocalFemale/TaurenFemaleCongratulations01.ogg",
-        ["Undead Male"] = "Sound/Character/Scourge/ScourgeVocalMale/UndeadMaleCongratulations02.ogg",
-        ["Undead Female"] = "Sound/Character/Scourge/ScourgeVocalFemale/UndeadFemaleCongratulations01.ogg",
-        ["Orc Male"] = "Sound/Character/Orc/OrcVocalMale/OrcMaleCongratulations02.ogg",
-        ["Orc Female"] = "Sound/Character/Orc/OrcVocalFemale/OrcFemaleCongratulations01.ogg",
-        ["NightElf Female"] = "Sound/Character/NightElf/NightElfVocalFemale/NightElfFemaleCongratulations02.ogg",
-        ["NightElf Male"] = "Sound/Character/NightElf/NightElfVocalMale/NightElfMaleCongratulations01.ogg",
-        ["Human Female"] = "Sound/Character/Human/HumanVocalFemale/HumanFemaleCongratulations01.ogg",
-        ["Human Male"] = "Sound/Character/Human/HumanVocalMale/HumanMaleCongratulations01.ogg",
-        ["Gnome Male"] = "Sound/Character/Gnome/GnomeVocalMale/GnomeMaleCongratulations03.ogg",
-        ["Gnome Female"] = "Sound/Character/Gnome/GnomeVocalFemale/GnomeFemaleCongratulations01.ogg",
-        ["Dwarf Male"] = "Sound/Character/Dwarf/DwarfVocalMale/DwarfMaleCongratulations04.ogg",
-        ["Dwarf Female"] = "Sound/Character/Dwarf/DwarfVocalFemale/DwarfFemaleCongratulations01.ogg",
-        ["Draenei Male"] = "Sound/Character/Draenei/DraeneiMaleCongratulations02.ogg",
-        ["Draenei Female"] = "Sound/Character/Draenei/DraeneiFemaleCongratulations03.ogg",
-        ["BloodElf Female"] = "Sound/Character/BloodElf/BloodElfFemaleCongratulations03.ogg",
-        ["BloodElf Male"] = "Sound/Character/BloodElf/BloodElfMaleCongratulations02.ogg",
-        ["Worgen Male"] = "Sound/Character/PCWorgenMale/VO_PCWorgenMale_Congratulations01.ogg",
-        ["Worgen Female"] = "Sound/Character/PCWorgenFemale/VO_PCWorgenFemale_Congratulations01.ogg",
-        ["Goblin Male"] = "Sound/Character/PCGoblinMale/VO_PCGoblinMale_Congratulations01.ogg",
-        ["Goblin Female"] = "Sound/Character/PCGoblinFemale/VO_PCGoblinFemale_Congratulations01.ogg",
-        ["Pandaren Male"] = "Sound/Character/PCPandarenMale/VO_PCPandarenMale_Congratulations02.ogg",
-        ["Pandaren Female"] = "Sound/Character/PCPandarenFemale/VO_PCPandarenFemale_Congratulations02.ogg",	
-        ["Void Elf Male"] = "Sound/Character/pc_-_void_elf_male/vo_735_pc_-_void_elf_male_28_m.ogg",
-        ["Void Elf Female"] = "Sound/Character/pc_-_void_elf_female/vo_735_pc_-_void_elf_female_28_f.ogg",
-        ["Highmountain Tauren Male"] = "Sound/Character/pc_-_highmountain_tauren_male/vo_735_pc_-_highmountain_tauren_male_28_m.ogg",
-        ["Highmountain Tauren Female"] = "Sound/Character/pc_-_highmountain_tauren_female/vo_735_pc_-_highmountain_tauren_female_28_f.ogg",
-        ["Lightforged Draenei Male"] = "Sound/Character/pc_-_lightforged_draenei_male/vo_735_pc_-_lightforged_draenei_male_28_m.ogg",
-        ["Lightforged Draenei Female"] = "sound/character/pc_-_lightforged_draenei_female/vo_735_pc_-_lightforged_draenei_female_28_f.ogg",
-        ["Nightborne Male"] = "Sound/Character/pc_-_nightborne_elf_male/vo_735_pc_-_nightborne_elf_male_28_m.ogg",
-        ["Nightborne Female"] = "Sound/Character/pc_-_nightborne_elf_female/vo_735_pc_-_nightborne_elf_female_28_f.ogg",        
-        ["Dark Iron Dwarf Male"] = "Sound/Character/pc_dark_iron_dwarf_male/vo_801_pc_dark_iron_dwarf_male_284_m.ogg",
-        ["Dark Iron Dwarf Female"] = "Sound/Character/pc_dark_iron_dwarf_female/vo_801_pc_dark_iron_dwarf_female_284_f.ogg",
-        ["Mag'har Orc Male"] = "Sound/Character/pc_maghar_orc_male/vo_801_pc_maghar_orc_male_114_m.ogg",
-        ["Mag'har Orc Female"] = "Sound/Character/pc_maghar_orc_female/vo_801_pc_maghar_orc_female_114_f.ogg",
+        --["None"]                       = "None",
+        ["QuestDefault"]               = "Default",
+        ["Troll Male"]                 = "Troll Male",
+        ["Troll Female"]               = "Troll Female",
+        ["Tauren Male"]                = "Tauren Male",
+        ["Tauren Female"]              = "Tauren Female",
+        ["Undead Male"]                = "Undead Male",
+        ["Undead Female"]              = "Undead Female",
+        ["Orc Male"]                   = "Orc Male",
+        ["Orc Female"]                 = "Orc Female",
+        ["NightElf Female"]            = "NightElf Female",
+        ["NightElf Male"]              = "NightElf Male",
+        ["Human Female"]               = "Human Female",
+        ["Human Male"]                 = "Human Male",
+        ["Gnome Male"]                 = "Gnome Male",
+        ["Gnome Female"]               = "Gnome Female",
+        ["Dwarf Male"]                 = "Dwarf Male",
+        ["Dwarf Female"]               = "Dwarf Female",
+        ["Draenei Male"]               = "Draenei Male",
+        ["Draenei Female"]             = "Draenei Female",
+        ["BloodElf Female"]            = "BloodElf Female",
+        ["BloodElf Male"]              = "BloodElf Male",
+        ["Goblin Male"]                = "Goblin Male",
+        ["Goblin Female"]              = "Goblin Female",
     }
 end
 
 
 _GetQuestSoundChoicesSort = function()
     return {
-        "None",
-        "Default",
+        --"None",
+        "QuestDefault",
         "Troll Male",
         "Troll Female",
         "Tauren Male",
@@ -1066,48 +1053,47 @@ _GetQuestSoundChoicesSort = function()
         "Draenei Female",
         "BloodElf Female",
         "BloodElf Male",
-        "Worgen Male",
-        "Worgen Female",
         "Goblin Male",
         "Goblin Female",
-        "Pandaren Male",
-        "Pandaren Female",
-        "Void Elf Male",
-        "Void Elf Female",
-        "Highmountain Tauren Male",
-        "Highmountain Tauren Female",
-        "Lightforged Draenei Male",
-        "Lightforged Draenei Female",
-        "Nightborne Male",
-        "Nightborne Female",
-        "Dark Iron Dwarf Male",
-        "Dark Iron Dwarf Female",
-        "Mag'har Orc Male",
-        "Mag'har Orc Female",
     }
 end
 
 _GetObjectiveSoundChoices = function()
     return {
-		["None"] = nil ,
-        ["Map Ping"]           = "Sound/Interface/MapPing.ogg",
-        ["Window Close"]       = "Sound/Interface/AuctionWindowClose.ogg",
-        ["Window Open"]        = "Sound/Interface/AuctionWindowOpen.ogg",
-        ["Boat Docked"]        = "Sound/Doodad/BoatDockedWarning.ogg",
-        ["Bell Toll Alliance"] = "Sound/Doodad/BellTollAlliance.ogg",
-        ["Bell Toll Horde"]    = "Sound/Doodad/BellTollHorde.ogg",
-        ["Explosion"]          = "Sound/Doodad/Hellfire_Raid_FX_Explosion05.ogg",
-        ["Shing!"]             = "Sound/Doodad/PortcullisActive_Closed.ogg",
-        ["Wham!"]              = "Sound/Doodad/PVP_Lordaeron_Door_Open.ogg",
-        ["Simon Chime"]        = "Sound/Doodad/SimonGame_LargeBlueTree.ogg",
-        ["War Drums"]          = "Sound/Event Sounds/Event_wardrum_ogre.ogg",
-        ["Humm"]               = "Sound/Spells/SimonGame_Visual_GameStart.ogg",
-        ["Short Circuit"]      = "Sound/Spells/SimonGame_Visual_BadPress.ogg",
+		--["None"]               = "None",
+        ["ObjectiveDefault"]   = "Default",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["Explosion"]          = "Explosion",
+        ["Shing!"]             = "Shing!",
+        ["Wham!"]              = "Wham!",
+        ["Simon Chime"]        = "Simon Chime",
+        ["War Drums"]          = "War Drums",
+        ["Humm"]               = "Humm",
+        ["Short Circuit"]      = "Short Circuit",
     }
 end
 
 _GetObjectiveSoundChoicesSort = function()
     return {
-        "slayee",
+        --"None",
+        "ObjectiveDefault",
+        "Map Ping",
+        "Window Close",
+        "Window Open",
+        "Boat Docked",
+        "Bell Toll Alliance",
+        "Bell Toll Horde",
+        "Explosion",
+        "Shing!",
+        "Wham!",
+        "Simon Chime",
+        "War Drums",
+        "Humm",
+        "Short Circuit",
     }
 end
