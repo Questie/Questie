@@ -153,7 +153,11 @@ function QuestieOptionsDefaults:Load()
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true,
             soundOnQuestComplete = false,
+            questCompleteSoundChoiceName = "QuestDefault",
+            questCompleteSoundChoice = "Sound/Creature/Peon/PeonBuildingComplete1.ogg",
             soundOnObjectiveComplete = false,
+            objectiveCompleteSoundChoiceName = "ObjectiveDefault",
+            objectiveCompleteSoundChoice = "Sound/Interface/iquestupdate.ogg",
         },
         profile = { minimap = { hide = false } }
     }

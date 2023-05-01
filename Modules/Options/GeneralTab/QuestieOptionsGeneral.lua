@@ -645,7 +645,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    local soundFile = Questie.db.char.QuestCompleteSoundChoice ~= nil and Questie.db.char.QuestCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+                    local soundFile = Questie.db.char.questCompleteSoundChoice ~= nil and Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
                     PlaySoundFile(soundFile, "Master")
                 end
             },
@@ -657,12 +657,11 @@ function QuestieOptions.tabs.general:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Quest Complete Sound Selection') end,
                 desc = function() return l10n('The sound you hear when a quest is completed'); end,
-                get = function() return Questie.db.char.QuestCompleteSoundChoiceName or "None"; end,
+                get = function() return Questie.db.char.questCompleteSoundChoiceName or "None"; end,
                 disabled = function() return (not Questie.db.char.soundOnQuestComplete); end,
                 set = function(input, value)
-                    Questie.db.char.QuestCompleteSoundChoiceName = value
-                    Questie.db.char.QuestCompleteSoundChoice = Questie.sounds[value]
-                    --QuestieQuest:SmoothReset()
+                    Questie.db.char.questCompleteSoundChoiceName = value
+                    Questie.db.char.questCompleteSoundChoice = Questie.sounds[value]
                 end,
             },
             soundLineBreak = {
@@ -691,7 +690,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    local soundFile = Questie.db.char.ObjectiveCompleteSoundChoice ~= nil and Questie.db.char.ObjectiveCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+                    local soundFile = Questie.db.char.objectiveCompleteSoundChoice ~= nil and Questie.db.char.objectiveCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
                     PlaySoundFile(soundFile, "Master")
                 end
             },
@@ -703,12 +702,11 @@ function QuestieOptions.tabs.general:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Objective Complete Sound Selection') end,
                 desc = function() return l10n('The sound you hear when an objective is completed'); end,
-                get = function() return  Questie.db.char.ObjectiveCompleteSoundChoiceName; end,
+                get = function() return  Questie.db.char.objectiveCompleteSoundChoiceName; end,
                 disabled = function() return (not Questie.db.char.soundOnObjectiveComplete); end,
                 set = function(input, value)
-                    Questie.db.char.ObjectiveCompleteSoundChoiceName = value
-                    Questie.db.char.ObjectiveCompleteSoundChoice = Questie.sounds[value]
-                    --QuestieQuest:SmoothReset()
+                    Questie.db.char.objectiveCompleteSoundChoiceName = value
+                    Questie.db.char.objectiveCompleteSoundChoice = Questie.sounds[value]
                 end,
             },
             SoundBottomSpacer = {

@@ -15,7 +15,7 @@ function Sounds.PlayObjectiveComplete()
         shouldPlayObjectiveSound = true
         C_Timer.After(0.5, function ()
             if shouldPlayObjectiveSound then
-                local soundFile = Questie.db.char.ObjectiveCompleteSoundChoice ~= nil and Questie.db.char.ObjectiveCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+                local soundFile = Questie.db.char.objectiveCompleteSoundChoice ~= nil and Questie.db.char.objectiveCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
                 PlaySoundFile(soundFile, "Master")
                 shouldPlayObjectiveSound = false
             end
@@ -29,6 +29,6 @@ function Sounds.PlayQuestComplete()
     end
 
     shouldPlayObjectiveSound = false
-    local soundFile = Questie.db.char.QuestCompleteSoundChoice ~= nil and Questie.db.char.QuestCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+    local soundFile = Questie.db.char.questCompleteSoundChoice ~= nil and Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
     PlaySoundFile(soundFile, "Master")
 end
