@@ -424,7 +424,7 @@ local trackerOptionsLocales = {
     },
     ["This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).\n\nNOTE: This will not work with Achievements."] = {
         ["ptBR"] = "Atalho para abrir TomTom",
-        ["ruRU"] = "Сочетание клавиш для установки точки TomTom либо на NPC, либо на первую незавершенную цель задания (если имеются координаты).\n\nПРИМЕЧАНИЕ: Это не работает с достижениями",
+        ["ruRU"] = "Сочетание клавиш для установки точки TomTom либо на NPC, либо на первую невыполненную цель задания (если имеются координаты).\n\nПРИМЕЧАНИЕ: Это не работает с достижениями",
         ["deDE"] = "Der Tracker-Shortcut, um TomTom zu öffnen The tracker shortcut to open TomTom.",
         ["koKR"] = "추적기에서 TomTom 애드온을 여는 단축키를 설정합니다.",
         ["esMX"] = "El atajo del rastreador para abrir TomTom",
