@@ -40,7 +40,7 @@ local trackerOptionsLocales = {
     },
     ["This is the same as 'Enable Automatic Quest Tracking' in the Blizzard Interface Options. When enabled, the Questie Tracker will automatically track all Quests in your Quest Log. Disabling this option will untrack all Quests. You will have to manually select which Quests to track.\n\nNOTE: 'Show Complete Quests' is disabled while this option is not being used."] = {
         ["ptBR"] = "É o mesmo que 'Ativar rastreamento automático de missões' nas opções da interface. Quando ativado, o Questie Rastreador rastreia automaticamente todas as missões em seu registro. Isso evita o rastreamento manual com a tecla Shift pressionada.",
-        ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале. Это избавляет от ручного слежения за заданиями через Shift-клик",
+        ["ruRU"] = "Когда включено, трекер будет автоматически отслеживать все задания в вашем журнале (это то же самое, что и 'Отслеживание заданий' в настройках интерфейса игры). Отключение данной настройки приведет к отмене отслеживания всех заданий в вашем журнале, вам придется вручную выбрать задания для отслеживания.\n\nПРИМЕЧАНИЕ: Настройка 'Выполненные задания' будет отключена при отключении данной настройки",
         ["deDE"] = "Dies ist dasselbe wie 'Automatische Questverfolgung aktivieren' in den Schnittstellenoptionen. Wenn aktiviert, verfolgt der Questie Tracker automatisch alle Quests im Questlog. Dies verhindert die manuelle Verfolgung durch 'Umschalten + Linksklick'.",
         ["koKR"] = "인터페이스 옵션의 '자동 퀘스트 추적 사용 '과 동일합니다. 활성화하면 Questie Tracker가 로그의 모든 퀘스트를 자동으로 추적합니다. 이렇게하면 Shift- 클릭 수동 추적이 방지됩니다.",
         ["esMX"] = "Esto es lo mismo que 'Habilitar el seguimiento automático de misiones' en las opciones de la interfaz. Cuando está habilitado, el Rastreador de Questie rastreará automáticamente todas las misiones en tu registro. Esto evita el seguimiento manual de clic de cambio.",
@@ -148,7 +148,7 @@ local trackerOptionsLocales = {
     },
     ["Hide Completed Quest Objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Скрыть выполненные цели заданий",
+        ["ruRU"] = "Скрыть выполн. цели заданий",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -172,7 +172,7 @@ local trackerOptionsLocales = {
     },
     ["Hide Completed Achieve Objectives"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Скрыть выполненные цели достижений",
+        ["ruRU"] = "Скрыть выполн. цели достижений",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -340,7 +340,7 @@ local trackerOptionsLocales = {
     },
     ["How Objectives are sorted in the Questie Tracker.\n\nNOTE: This will not sort Achievements."] = {
         ["ptBR"] = "Como os objectivos são classificadas no Rastreador",
-        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере",
+        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере.\n\nПРИМЕЧАНИЕ: Эта настройка не сортирует достижения",
         ["deDE"] = "Wie Questziele im Tracker sortiert werden.",
         ["koKR"] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.",
         ["esMX"] = "La manera que se ordena los objetivos en el rastreador.",
@@ -424,7 +424,7 @@ local trackerOptionsLocales = {
     },
     ["This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available).\n\nNOTE: This will not work with Achievements."] = {
         ["ptBR"] = "Atalho para abrir TomTom",
-        ["ruRU"] = "Сочетание клавиш для установки точки TomTom",
+        ["ruRU"] = "Сочетание клавиш для установки точки TomTom либо на NPC, либо на первую незавершенную цель задания (если имеются координаты).\n\nПРИМЕЧАНИЕ: Это не работает с достижениями",
         ["deDE"] = "Der Tracker-Shortcut, um TomTom zu öffnen The tracker shortcut to open TomTom.",
         ["koKR"] = "추적기에서 TomTom 애드온을 여는 단축키를 설정합니다.",
         ["esMX"] = "El atajo del rastreador para abrir TomTom",
@@ -556,7 +556,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет всегда отображаться, даже если не отслеживается ни одно задание.\n\nВАЖНО: Если заголовок 'Активные задания' отключен, то включение данной настройки будет включать его, когда ничего не отслеживается, и выключать, когда что-нибудь отслеживается",
+        ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет всегда отображаться, даже если не отслеживается ни одно задание.\n\nПРИМЕЧАНИЕ: Если заголовок 'Активные задания' отключен, то включение данной настройки будет включать его, когда ничего не отслеживается, и выключать, когда что-нибудь отслеживается",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -856,7 +856,7 @@ local trackerOptionsLocales = {
     },
     ["The font size used for Quest Titles.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Размер шрифта, используемого в названиях заданий.\n\nВАЖНО: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
+        ["ruRU"] = "Размер шрифта, используемого в названиях заданий.\n\nПРИМЕЧАНИЕ: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1036,7 +1036,7 @@ local trackerOptionsLocales = {
     },
     ["The font size used for Objectives.\n\nNOTE: Objective font size will auto adjust to less than or equal to Quest font size. This is necessary to avoid any text collisions and formatting abnormalities."] = {
         ["ptBR"] = "O tamanho da fonte usada para os objetivos.",
-        ["ruRU"] = "Размер шрифта, используемого в наименованиях целей заданий.\n\nВАЖНО: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
+        ["ruRU"] = "Размер шрифта, используемого в наименованиях целей заданий.\n\nПРИМЕЧАНИЕ: Размер шрифта целей будет автоматически скорректирован до значения меньше или равно 'Размер шрифта названий заданий'. Это необходимо для того, чтобы избежать любых проблем с текстом и форматированием",
         ["deDE"] = "Die Schriftgröße die für Questziele verwendet wird.",
         ["koKR"] = "목표에 사용되는 글꼴 크기입니다.",
         ["esMX"] = "El tamaño de fuente utilizado para los objetivos.",
@@ -1084,7 +1084,7 @@ local trackerOptionsLocales = {
     },
     ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. This will also move the Active Quests Header to either the top of the Questie Tracker (when using either the 'Down & Right' or the 'Down & Left' setting) or the bottom of the Questie Tracker (when using the either the 'Up & Right' or the 'Down & Right' setting).\n\nNOTE: You can override the Active Quests Header movement behavior by disabling the 'Auto Move Header' option in Questie Tracker Options to force the Active Quests Header to remain at the top of the Questie Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Также это перемещает заголовок 'Активные задания' на верх трекера (при использовании настройки 'Вниз и вправо' или 'Вниз и влево') или в низ трекера (при использовании настройки 'Вверх и вправо' или 'Вверх и влево').\n\nВАЖНО: Вы можете переопределить поведение перемещения заголовка 'Активные задания' путем отключения настройки 'Автоперемещение заголовка' на этой вкладке. В таком случае заголовок 'Активные задания' всегда будет наверху трекера",
+        ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Также это перемещает заголовок 'Активные задания' на верх трекера (при использовании настройки 'Вниз и вправо' или 'Вниз и влево') или в низ трекера (при использовании настройки 'Вверх и вправо' или 'Вверх и влево').\n\nПРИМЕЧАНИЕ: Вы можете переопределить поведение перемещения заголовка 'Активные задания' путем отключения настройки 'Автоперемещение заголовка' на этой вкладке. В таком случае заголовок 'Активные задания' всегда будет наверху трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1180,7 +1180,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nВАЖНО: Эта работает только при включенной настройке 'Автоотслеживание'",
+        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nПРИМЕЧАНИЕ: Эта работает только при включенной настройке 'Автоотслеживание'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1228,7 +1228,7 @@ local trackerOptionsLocales = {
     },
     ["Disable Tracker"] = {
         ["ptBR"] = "Desativar o rastreador",
-        ["ruRU"] = "Отключить трекер",
+        ["ruRU"] = "Отключение",
         ["deDE"] = "Deaktiviere den Tracker",
         ["koKR"] = "트래커 비활성화",
         ["esMX"] = "Deshabilitar el rastreador",
@@ -1240,7 +1240,7 @@ local trackerOptionsLocales = {
     },
     ["Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "Desativar o Rastreador substituirá o Questie Rastreador pelo Blizzard Quest Rastreador padrão.",
-        ["ruRU"] = "После нажатия трекер Questie заменится трекером Blizzard",
+        ["ruRU"] = "После нажатия данной кнопки трекер Questie заменится трекером Blizzard.\n\nПРИМЕЧАНИЕ: Данная настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
         ["deDE"] = "Durch Deaktivieren des Trackers wird der Questie-Tracker durch den Standard-Blizzard-Quest-Tracker ersetzt.",
         ["koKR"] = "추적기를 비활성화하면 Questie 추적기가 기본 블리자드 퀘스트 추적기로 대체됩니다.",
         ["esMX"] = "Deshabilitar el Rastreador reemplazará el Rastreador de misiones con el Rastreador de misiones de Blizzard predeterminado.",
@@ -1264,7 +1264,7 @@ local trackerOptionsLocales = {
     },
     ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "A ativação do Rastreador substituirá o Blizzard Quest Rastreador padrão pelo Questie Rastreador.",
-        ["ruRU"] = "После нажатия трекер Blizzard заменится трекером Questie",
+        ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Данная настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
         ["deDE"] = "Durch Aktivieren des Trackers wird der Standard-Blizzard-Quest-Tracker durch den Questie-Tracker ersetzt.",
         ["koKR"] = "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.",
         ["esMX"] = "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
