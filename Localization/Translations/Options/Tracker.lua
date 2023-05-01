@@ -748,7 +748,7 @@ local trackerOptionsLocales = {
     },
     ["This shortcut removes a Quest or an Achievement from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest or an Achievement to chat."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания или достижения в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание или достижение",		
+        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания или достижения в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание или достижение",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
