@@ -474,6 +474,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {6466},
             [itemKeys.objectDrops] = {},
         },
+        [7228] = {
+            [itemKeys.name] = 'Tigule\'s Strawberry Ice Cream',
+        },
         [7268] = { -- #1097
             [itemKeys.relatedQuests] = {1944},
             [itemKeys.npcDrops] = {},

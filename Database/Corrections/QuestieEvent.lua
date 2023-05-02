@@ -520,7 +520,7 @@ tinsert(QuestieEvent.eventQuests, {"Children's Week", 10952})
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10953})
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10954})
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10956})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960})
+-- tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960}) -- Not in the game
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10962})
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10963})
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10966})
