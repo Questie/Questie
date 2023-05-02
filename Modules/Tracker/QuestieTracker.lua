@@ -159,6 +159,7 @@ function QuestieTracker.Initialize()
 
                 if (not QuestieTracker:HasQuest()) then
                     Questie.db.global.trackerHeaderEnabled = true
+                    trackerBaseFrame:SetWidth(trackerHeaderFrame:GetWidth())
                 else
                     if Questie.db.global.currentHeaderEnabledSetting == false then
                         Questie.db.global.trackerHeaderEnabled = false
