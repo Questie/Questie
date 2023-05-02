@@ -645,8 +645,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    local soundFile = Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
-                    PlaySoundFile(soundFile, "Master")
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.questCompleteSoundChoiceName), "Master")
                 end
             },
             questCompleteSoundChoice = {
@@ -661,7 +660,6 @@ function QuestieOptions.tabs.general:Initialize()
                 disabled = function() return (not Questie.db.char.soundOnQuestComplete); end,
                 set = function(_, value)
                     Questie.db.char.questCompleteSoundChoiceName = value
-                    Questie.db.char.questCompleteSoundChoice = Questie.sounds[value]
                 end,
             },
             soundLineBreak = {
@@ -690,8 +688,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    local soundFile = Questie.db.char.objectiveCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
-                    PlaySoundFile(soundFile, "Master")
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveCompleteSoundChoiceName), "Master")
                 end
             },
             objectiveCompleteSoundChoice = {
@@ -706,7 +703,6 @@ function QuestieOptions.tabs.general:Initialize()
                 disabled = function() return (not Questie.db.char.soundOnObjectiveComplete); end,
                 set = function(input, value)
                     Questie.db.char.objectiveCompleteSoundChoiceName = value
-                    Questie.db.char.objectiveCompleteSoundChoice = Questie.sounds[value]
                 end,
             },
             SoundBottomSpacer = {
@@ -999,7 +995,6 @@ end
 
 _GetQuestSoundChoices = function()
     return {
-        --["None"]                       = "None",
         ["QuestDefault"]               = "Default",
         ["Troll Male"]                 = "Troll Male",
         ["Troll Female"]               = "Troll Female",
@@ -1021,15 +1016,12 @@ _GetQuestSoundChoices = function()
         ["Draenei Female"]             = "Draenei Female",
         ["BloodElf Female"]            = "BloodElf Female",
         ["BloodElf Male"]              = "BloodElf Male",
-        ["Goblin Male"]                = "Goblin Male",
-        ["Goblin Female"]              = "Goblin Female",
     }
 end
 
 
 _GetQuestSoundChoicesSort = function()
     return {
-        --"None",
         "QuestDefault",
         "Troll Male",
         "Troll Female",
@@ -1051,14 +1043,11 @@ _GetQuestSoundChoicesSort = function()
         "Draenei Female",
         "BloodElf Female",
         "BloodElf Male",
-        "Goblin Male",
-        "Goblin Female",
     }
 end
 
 _GetObjectiveSoundChoices = function()
     return {
-		--["None"]               = "None",
         ["ObjectiveDefault"]   = "Default",
         ["Map Ping"]           = "Map Ping",
         ["Window Close"]       = "Window Close",
@@ -1078,7 +1067,6 @@ end
 
 _GetObjectiveSoundChoicesSort = function()
     return {
-        --"None",
         "ObjectiveDefault",
         "Map Ping",
         "Window Close",
