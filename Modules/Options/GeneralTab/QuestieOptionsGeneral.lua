@@ -645,7 +645,7 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    local soundFile = Questie.db.char.questCompleteSoundChoice ~= nil and Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+                    local soundFile = Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
                     PlaySoundFile(soundFile, "Master")
                 end
             },
