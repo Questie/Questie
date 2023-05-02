@@ -29,6 +29,6 @@ function Sounds.PlayQuestComplete()
     end
 
     shouldPlayObjectiveSound = false
-    local soundFile = Questie.db.char.questCompleteSoundChoice ~= nil and Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
+    local soundFile = Questie.db.char.questCompleteSoundChoice or Sounds.QUEST_COMPLETE_SOUND_FILE
     PlaySoundFile(soundFile, "Master")
 end
