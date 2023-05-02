@@ -659,7 +659,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('The sound you hear when a quest is completed'); end,
                 get = function() return Questie.db.char.questCompleteSoundChoiceName or "None"; end,
                 disabled = function() return (not Questie.db.char.soundOnQuestComplete); end,
-                set = function(input, value)
+                set = function(_, value)
                     Questie.db.char.questCompleteSoundChoiceName = value
                     Questie.db.char.questCompleteSoundChoice = Questie.sounds[value]
                 end,
