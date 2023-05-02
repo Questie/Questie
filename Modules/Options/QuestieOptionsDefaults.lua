@@ -69,7 +69,7 @@ function QuestieOptionsDefaults:Load()
             trackerShowCompleteQuests = true,
             collapseCompletedQuests = false,
             hideCompletedQuestObjectives = false,
-            hideCompletedAchieveObjectives = false,
+            hideCompletedAchieveObjectives = true,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
             hookTracking = true,
