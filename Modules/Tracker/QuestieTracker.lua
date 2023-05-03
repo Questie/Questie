@@ -601,7 +601,8 @@ function QuestieTracker:Update()
                 line:SetHeight(line.label:GetHeight() + 4)
 
                 -- Adds the primary Quest Item button
-                if (complete ~= 1 and (quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1)) then
+                -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
+                if (complete ~= 1 and GetItemSpell(quest.sourceItemId) ~= nil and (quest.sourceItemId or (quest.requiredSourceItems and #quest.requiredSourceItems == 1))) then
                     -- Get button from buttonPool
                     local button = TrackerLinePool.GetNextItemButton()
                     if not button then break end -- stop populating the tracker
