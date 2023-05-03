@@ -1288,6 +1288,12 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1275}, -- corruption abroad breadcrumb
             [questKeys.requiredLevel] = 18,
         },
+        [3787] = {
+            [questKeys.preQuestSingle] = {3781},
+        },
+        [3788] = {
+            [questKeys.preQuestSingle] = {3781},
+        },
         [3789] = {
             [questKeys.exclusiveTo] = {3763,3790,3764},
         },
