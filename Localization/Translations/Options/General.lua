@@ -1000,7 +1000,7 @@ local generalOptionsLocales = {
     },
     ["When this is enabled trivial (gray) quests will be auto accepted as well."] = {
         ["ptBR"] = "Quando isso estiver ativado, missões triviais (cinza) também serão aceitas automaticamente.",
-        ["ruRU"] = "Включить/отключить автоматическое принятие низкоуровневых (серых) заданий",
+        ["ruRU"] = "Включить/отключить автоматическое принятие заданий низкого уровня (серых)",
         ["deDE"] = "Aktiviert/Deaktiviert, ob Questie triviale (graune) Quests automatisch annimmt.",
         ["koKR"] = "이 옵션을 선택하면 저레벨(회색) 퀘스트도 자동으로 수락됩니다.",
         ["esMX"] = "Si está habilitado, las misiones triviales (grises) también se aceptarán automáticamente.",

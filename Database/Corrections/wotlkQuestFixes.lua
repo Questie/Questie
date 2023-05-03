@@ -403,6 +403,7 @@ function QuestieWotlkQuestFixes:Load()
         [11472] = {
             [questKeys.triggerEnd] = {"Reef Bull led to a Reef Cow",{[zoneIDs.HOWLING_FJORD]={{31.16,71.63,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
+            [questKeys.reputationReward] = {{1073,500}},
         },
         [11478] = {
             [questKeys.exclusiveTo] = {11448},
@@ -614,6 +615,9 @@ function QuestieWotlkQuestFixes:Load()
         [11938] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25378,25383,25386,25387,25393,25609},25378,"En'kilah Casualty"}}},
         },
+        [11945] = {
+            [questKeys.reputationReward] = {{1073,500}},
+        },
         [11956] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
         },
@@ -622,6 +626,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Keristrasza"),0,{{"monster", 26206}}},
                 {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
             },
+        },
+        [11960] = {
+            [questKeys.reputationReward] = {{1073,500}},
         },
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
@@ -3455,6 +3462,49 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13906] = {
             [questKeys.preQuestSingle] = {13887},
+        },
+        [13929] = {
+            [questKeys.triggerEnd] = {"Roo taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS]={{50.7,43.9}}}}, -- oracle orphan
+        },
+        [13930] = {
+            [questKeys.triggerEnd] = {"Keken taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS]={{50.7,43.9}}}}, -- wolvar orphan
+        },
+        [13933] = {
+            [questKeys.triggerEnd] = {"Roo taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT]={{72,39}}}}, -- oracle orphan
+        },
+        [13934] = {
+            [questKeys.triggerEnd] = {"Keken taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT]={{72,39}}}}, -- wolvar orphan
+        },
+        [13937] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Buy a Small Paper Zeppelin"), 0, {{"monster", 29478}}},
+                {{[zoneIDs.DALARAN]={{44.81,45.62}}}, Questie.ICON_TYPE_EVENT, l10n("Throw Small Paper Zeppelin to Roo")}, -- oracle orphan
+            },
+        },
+        [13938] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_LOOT, l10n("Buy a Small Paper Zeppelin"), 0, {{"monster", 29478}}},
+                {{[zoneIDs.DALARAN]={{44.81,45.62}}}, Questie.ICON_TYPE_EVENT, l10n("Throw Small Paper Zeppelin to Kekek")}, -- wolvar orphan
+            },
+        },
+        [13950] = {
+            [questKeys.triggerEnd] = {"Roo taken to visit Winterfin Retreat", {[zoneIDs.BOREAN_TUNDRA]={{43.5,13.6}}}}, -- oracle orphan
+        },
+        [13951] = {
+            [questKeys.triggerEnd] = {"Keken taken to visit Snowfall Glade", {[zoneIDs.DRAGONBLIGHT]={{46,61},{44,70}}}}, -- wolvar orphan
+        },
+        [13954] = {
+            [questKeys.triggerEnd] = {"Roo taken to visit Alexstrasza the Life-Binder", {[zoneIDs.DRAGONBLIGHT]={{59.8,54.5}}}}, -- oracle orphan
+        },
+        [13955] = {
+            [questKeys.triggerEnd] = {"Keken taken to visit Alexstrasza the Life-Binder", {[zoneIDs.DRAGONBLIGHT]={{59.8,54.5}}}}, -- wolvar orphan
+        },
+        [13956] = {
+            [questKeys.triggerEnd] = {"Roo taken to visit The Etymidian", {[zoneIDs.UN_GORO_CRATER]={{47.38,9.21}}}}, -- oracle orphan
+            [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{40.3,83.3}}}, Questie.ICON_TYPE_EVENT, l10n("Use the waygate to teleport to Un'goro Crater")}},
+        },
+        [13957] = {
+            [questKeys.triggerEnd] = {"Keken taken to visit Hemet Nesingwary", {[zoneIDs.SHOLAZAR_BASIN]={{27.1,58.8}}}}, -- wolvar orphan
         },
         [14023] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,

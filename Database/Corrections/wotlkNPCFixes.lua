@@ -25,6 +25,9 @@ function QuestieWotlkNpcFixes:Load()
         [11886] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{24.8,79.8}}},
         },
+        [14305] = {
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{56.1,54.3}}}, -- Human Orphan, only WOTLK
+        },
         [15278] = {
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{38.02,21.01}}},
         },
@@ -834,6 +837,12 @@ function QuestieWotlkNpcFixes:Load()
         [33519] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{77.8,21.6}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [33532] = {
+            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{49.5,62.6}}}, -- Wolvar Orphan
+        },
+        [33533] = {
+            [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{49.5,62.6}}}, -- Oracle Orphan
         },
         [33695] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.2,32.4},{44.2,32.6},{44.2,33.6},{44.4,31.4},{44.6,32},{44.6,34.2},{44.8,31.4},{45.6,32},{46.6,32.4},{46.8,32.6},{46.8,33.6}}},

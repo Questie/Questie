@@ -105,10 +105,10 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {148}, --#1173
         },
         [171] = {
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [172] = {
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [201] = {
             [questKeys.triggerEnd] = {"Locate the hunters' camp", {[zoneIDs.STRANGLETHORN_VALE]={{35.65,10.59}}}},
@@ -277,7 +277,7 @@ function QuestieQuestFixes:Load()
         [558] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.preQuestGroup] = {1687,1479,1558},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [566] = {
             [questKeys.preQuestSingle] = {549}, -- #1484
@@ -454,14 +454,15 @@ function QuestieQuestFixes:Load()
         },
         [910] = {
             [questKeys.triggerEnd] = {"Go to the docks of Ratchet in the Barrens.", {[zoneIDs.THE_BARRENS]={{62.96,38.04}}}},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [911] = {
             [questKeys.triggerEnd] = {"Go to the Mor'shan Rampart in the Barrens.", {[zoneIDs.THE_BARRENS]={{47.9,5.36}}}},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [915] = {
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- orc orphan
         },
         [918] = {
             [questKeys.preQuestSingle] = {},
@@ -471,7 +472,7 @@ function QuestieQuestFixes:Load()
         },
         [925] = {
             [questKeys.preQuestGroup] = {1800,910,911},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [926] = {
             [questKeys.parentQuest] = 924, -- #806
@@ -753,7 +754,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Defeat Dashel Stonefist", {[zoneIDs.STORMWIND_CITY]={{70.1,44.85}}}},
         },
         [1468] = {
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [1470] = {
             [questKeys.exclusiveTo] = {1485}, -- #999
@@ -778,7 +779,7 @@ function QuestieQuestFixes:Load()
         },
         [1479] = {
             [questKeys.triggerEnd] = {"Go to the bank in Darnassus, otherwise known as the Bough of the Eternals.", {[zoneIDs.DARNASSUS]={{41.31,43.54}}}},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [1483] = {
             [questKeys.exclusiveTo] = {1093},
@@ -821,7 +822,7 @@ function QuestieQuestFixes:Load()
         },
         [1558] = {
             [questKeys.triggerEnd] = {"Go to the top of the Stonewrought Dam in Loch Modan.", {[zoneIDs.LOCH_MODAN]={{47.63,14.33}}}},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [1559] = {
             [questKeys.preQuestSingle] = {705},
@@ -896,7 +897,7 @@ function QuestieQuestFixes:Load()
         },
         [1687] = {
             [questKeys.triggerEnd] = {"Go to the Westfall Lighthouse.", {[zoneIDs.WESTFALL]={{30.41,85.61}}}},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [1700] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
@@ -934,7 +935,7 @@ function QuestieQuestFixes:Load()
         },
         [1800] = {
             [questKeys.triggerEnd] = {"Go to the old Lordaeron Throne Room that lies just before descending into the Undercity.", {[zoneIDs.UNDERCITY]={{65.97,36.12}}}},
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [1823] = {
             [questKeys.startedBy] = {{3041,3354,4595},nil,nil},
@@ -1544,7 +1545,8 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [4822] = {
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.objectivesText] = {"Get some Strawberry Ice Cream for your ward. The lad seems to prefer Tigule's brand ice cream."}, -- human orphan
         },
         [4866] = {
             [questKeys.triggerEnd] = {"Milked", {[zoneIDs.BURNING_STEPPES]={{65.11,23.68}}}},
@@ -1722,7 +1724,7 @@ function QuestieQuestFixes:Load()
             [questKeys.questLevel] = 25,
         },
         [5502] = {
-            [questKeys.zoneOrSort] = sortKeys.SEASONAL,
+            [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
         [5503] = {
             [questKeys.requiredRaces] = raceIDs.NONE,

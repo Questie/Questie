@@ -211,6 +211,9 @@ local migrationFunctions = {
         if Questie.db.char.soundOnObjectiveComplete == nil then -- new option
             Questie.db.char.soundOnObjectiveComplete = false
         end
+    end,
+    [22] = function ()
+        Questie.db.global.hideCompletedAchieveObjectives = true
     end
 }
 
