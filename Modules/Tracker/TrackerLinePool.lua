@@ -42,7 +42,7 @@ local linePoolSize = 250
 local lineIndex = 0
 local buttonPoolSize = 25
 local buttonIndex = 0
-linePool = {}
+local linePool = {}
 local buttonPool = {}
 local lineMarginLeft = 10
 
