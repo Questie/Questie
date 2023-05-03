@@ -403,6 +403,7 @@ function QuestieWotlkQuestFixes:Load()
         [11472] = {
             [questKeys.triggerEnd] = {"Reef Bull led to a Reef Cow",{[zoneIDs.HOWLING_FJORD]={{31.16,71.63,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lure Reef Bull with Tasty Reef Fish"), 0, {{"monster", 24786}}}},
+            [questKeys.reputationReward] = {{1073,500}},
         },
         [11478] = {
             [questKeys.exclusiveTo] = {11448},
@@ -614,6 +615,9 @@ function QuestieWotlkQuestFixes:Load()
         [11938] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25378,25383,25386,25387,25393,25609},25378,"En'kilah Casualty"}}},
         },
+        [11945] = {
+            [questKeys.reputationReward] = {{1073,500}},
+        },
         [11956] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
         },
@@ -622,6 +626,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Keristrasza"),0,{{"monster", 26206}}},
                 {{[zoneIDs.BOREAN_TUNDRA]={{22,22.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Arcane Power Focus"),},
             },
+        },
+        [11960] = {
+            [questKeys.reputationReward] = {{1073,500}},
         },
         [11969] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Raelorasz' Spark"),0,{{"object", 194151}}}},
