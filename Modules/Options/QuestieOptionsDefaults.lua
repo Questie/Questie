@@ -153,7 +153,9 @@ function QuestieOptionsDefaults:Load()
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true,
             soundOnQuestComplete = false,
+            questCompleteSoundChoiceName = "QuestDefault",
             soundOnObjectiveComplete = false,
+            objectiveCompleteSoundChoiceName = "ObjectiveDefault",
         },
         profile = { minimap = { hide = false } }
     }
