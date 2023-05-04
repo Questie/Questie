@@ -90,6 +90,7 @@ local function GetNewObjectives(questId, oldObjectives)
         local newObj = objectives[objIndex]
         -- Check if objective.text is in game's cache
         if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
+            -- luacheck:ignore 542
             if objIndex == 2 and newObjectives[1].raw_text == newObj.text then
                 -- Nothing to do in this case.
                 -- This is a work around for Blizzard adding the exact same objective a second time.
