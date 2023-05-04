@@ -90,8 +90,13 @@ local function GetNewObjectives(questId, oldObjectives)
         local newObj = objectives[objIndex]
         -- Check if objective.text is in game's cache
         if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
+            if objIndex == 2 and newObjectives[1].raw_text == newObj.text then
+                -- Nothing to do in this case.
+                -- This is a work around for Blizzard adding the exact same objective a second time.
+                -- Examples in the past were the Children's Week quests 910, 911,1800
+
             -- Check if objective has changed
-            if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+            elseif oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                 -- Not changed
                 newObjectives[objIndex] = oldObj
             else
