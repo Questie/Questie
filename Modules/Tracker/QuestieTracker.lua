@@ -821,8 +821,11 @@ function QuestieTracker:Update()
 
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
+
                     -- gsub removes any blank lines
-                    completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
+                    if completionText ~= nil then
+                        completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
+                    end
 
                     -- Add incomplete Quest Objectives
                     if complete == 0 then
@@ -885,7 +888,7 @@ function QuestieTracker:Update()
                                     end
 
                                     -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
-                                elseif (objective.Completed == true and TrackerUtils:GetCompletionText(quest) ~= nil and #quest.Objectives == 1) then
+                                elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) then
                                     -- Set Blizzard Completion text for single objectives
                                     line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 
@@ -935,7 +938,7 @@ function QuestieTracker:Update()
                         line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
 
                         -- Set Objective label based on states
-                        if (complete == 1 and TrackerUtils:GetCompletionText(quest) and #quest.Objectives == 0) then
+                        if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) then
                             -- Set Blizzard Completion text for single objectives
                             line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 
