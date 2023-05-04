@@ -13,6 +13,9 @@ function QuestieWotlkNpcFixes:Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [2142] = {
+            [npcKeys.questStarts] = nil, -- corrected children's week quest
+        },
         [3189] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{47,53.6}}},
         },
@@ -840,9 +843,11 @@ function QuestieWotlkNpcFixes:Load()
         },
         [33532] = {
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{49.5,62.6}}}, -- Wolvar Orphan
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
         [33533] = {
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{49.5,62.6}}}, -- Oracle Orphan
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
         [33695] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.2,32.4},{44.2,32.6},{44.2,33.6},{44.4,31.4},{44.6,32},{44.6,34.2},{44.8,31.4},{45.6,32},{46.6,32.4},{46.8,32.6},{46.8,33.6}}},

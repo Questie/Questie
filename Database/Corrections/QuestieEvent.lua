@@ -513,20 +513,20 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10942}) -- Children's Week
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10943}) -- Children's Week
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10945})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10950})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10951})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10952})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10953})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10954})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10956})
--- tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960}) -- Not in the game
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10962})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10963})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10966})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10967})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10968})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 11975})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10945}) -- Hch'uu and the Mushroom People
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10950}) -- Auchindoun and the Ring of Observance
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10951}) -- A Trip to the Dark Portal
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10952}) -- A Trip to the Dark Portal
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10953}) -- Visit the Throne of the Elements
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10954}) -- Jheel is at Aeris Landing!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10956}) -- The Seat of the Naaru
+-- tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960}) -- When I Grow Up... -- Not in the game
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10962}) -- Time to Visit the Caverns
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10963}) -- Time to Visit the Caverns
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10966}) -- Back to the Orphanage
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10967}) -- Back to the Orphanage
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10968}) -- Call on the Farseer
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 11975}) -- Now, When I Grow Up...
 
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 9249}) -- 40 Tickets - Schematic: Steam Tonk Controller
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10938}) -- Darkmoon Blessings Deck
@@ -904,6 +904,20 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24658}) -- Crushing the
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13929}) -- The Biggest Tree Ever!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13930}) -- Home Of The Bear-Men
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13933}) -- The Bronze Dragonshrine
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13934}) -- The Bronze Dragonshrine
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13937}) -- A Trip To The Wonderworks
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13938}) -- A Visit To The Wonderworks
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13950}) -- Playmates!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13951}) -- Playmates!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13954}) -- The Dragon Queen
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13955}) -- The Dragon Queen
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13956}) -- Meeting a Great One
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13957}) -- The Mighty Hemet Nesingwary
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13959}) -- Back To The Orphanage
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13960}) -- Back To The Orphanage
 
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12940}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12941}) -- Candy Bucket

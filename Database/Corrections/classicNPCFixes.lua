@@ -1807,26 +1807,15 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{37.8,50.29},{49.06,57.33},{44.08,50.17},{42.35,55},{47.26,54.65}}},
         },
         [14305] = {
-            [npcKeys.zoneID] = zoneIDs.LOCH_MODAN,
-            [npcKeys.spawns] = {
-                [zoneIDs.DARNASSUS] = {{41.21,43.05}},
-                [zoneIDs.DUSTWALLOW_MARSH] = {{66.29,49.08}},
-                [zoneIDs.WESTFALL] = {{30.25,85.64}},
-                [zoneIDs.STORMWIND_CITY] = {{47.32,38.58}},
-                [zoneIDs.LOCH_MODAN] = {{47.71,14.26}},
-            },
+            [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY, -- default zone where you start the chain
+            [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{47.32,38.58}}}, -- only SW for consistency
         },
         [14373] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{74.4,44}}},
         },
         [14444] = {
-            [npcKeys.zoneID] = zoneIDs.UNDERCITY,
-            [npcKeys.spawns] = {
-                [zoneIDs.THUNDER_BLUFF] = {{59.32,51.65}},
-                [zoneIDs.THE_BARRENS] = {{47.91,5.49},{63.11,38.16}},
-                [zoneIDs.ORGRIMMAR] = {{70.92,25.62}},
-                [zoneIDs.UNDERCITY] = {{66.06,36.97}},
-            },
+            [npcKeys.zoneID] = zoneIDs.ORGRIMMAR, -- default zone where you start the chain
+            [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{70.92,25.62}}}, -- only OG for consistency
         },
         [14500] = {
             [npcKeys.spawns] = {[zoneIDs.SCHOLOMANCE]={{-1, -1}}}, -- #1506

@@ -2212,6 +2212,7 @@ function QuestieTBCQuestFixes:Load()
         [10942] = {
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
+            [questKeys.finishedBy] = {{22817}}, -- removed Draenei Orphan as turn in NPC
         },
         [10943] = {
             [questKeys.questLevel] = -1,
