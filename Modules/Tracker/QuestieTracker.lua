@@ -516,16 +516,14 @@ function QuestieTracker:Update()
                 trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
 
                 -- Setup Min/Max Button
-                line.expandZone:Show()
                 line.expandZone:ClearAllPoints()
-                line.expandZone:SetWidth(line:GetWidth())
-                line.expandZone:SetHeight(trackerFontSizeZone)
                 line.expandZone:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
+                line.expandZone:SetWidth(line.label:GetWidth())
+                line.expandZone:SetHeight(line.label:GetHeight())
+                line.expandZone:Show()
 
                 -- Adds 4 pixels between Zone and first Quest Title
                 line:SetHeight(line.label:GetHeight() + 4)
-                line.label:SetHeight(line:GetHeight())
-                line.expandZone:SetHeight(line:GetHeight())
 
                 -- Set Zone states
                 line:Show()
@@ -1072,16 +1070,14 @@ function QuestieTracker:Update()
                     trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + trackerMarginLeft)
 
                     -- Setup Min/Max Button
-                    line.expandZone:Show()
                     line.expandZone:ClearAllPoints()
-                    line.expandZone:SetWidth(line.label:GetWidth())
-                    line.expandZone:SetHeight(trackerFontSizeZone)
                     line.expandZone:SetPoint("TOPLEFT", line.label, "TOPLEFT", 0, 0)
+                    line.expandZone:SetWidth(line.label:GetWidth())
+                    line.expandZone:SetHeight(line.label:GetHeight())
+                    line.expandZone:Show()
 
                     -- Adds 4 pixels between Zone and first Achievement Title
                     line:SetHeight(line.label:GetHeight() + 4)
-                    line.label:SetHeight(line:GetHeight())
-                    line.expandZone:SetHeight(line:GetHeight())
 
                     -- Set Zone states
                     line:Show()
@@ -1462,7 +1458,12 @@ function QuestieTracker:UpdateFormatting()
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
 
-        trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 2))
+        if TrackerLinePool.GetCurrentLine().mode == "zone" then
+            trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
+        else
+            trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 2))
+        end
+
         trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
         trackerQuestFrame:SetHeight(trackerQuestFrame.ScrollChildFrame:GetHeight())
 
@@ -1481,6 +1482,7 @@ function QuestieTracker:UpdateFormatting()
             -- Manual height set by a player when using the Tracker Sizer limited by the trackers current maximum height
             if trackerBaseFrame:GetHeight() > trackerHeightByManual then
                 trackerBaseFrame:SetHeight(trackerHeightByManual)
+                trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
 
                 -- Resize the trackerQuestFrame to match the trackerbaseFrame after the player is done resizing it
                 if Questie.db.global.trackerHeaderEnabled then
@@ -1496,6 +1498,7 @@ function QuestieTracker:UpdateFormatting()
             if trackerBaseFrame:GetHeight() > trackerHeightByRatio then
                 -- Auto height based on the trackerHeightRatio setting in Questie Config --> Tracker
                 trackerBaseFrame:SetHeight(trackerHeightByRatio)
+                trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
 
                 -- Resize the trackerQuestFrame to match the trackerbaseFrame after the trackerHeightRatio is applied
                 if Questie.db.global.trackerHeaderEnabled then
