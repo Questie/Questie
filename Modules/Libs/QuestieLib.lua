@@ -1,4 +1,4 @@
-local GetAddOnMetadata = C_AddOns.GetAddOnMetadata or GetAddOnMetadata
+local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata
 
 ---@class QuestieLib
 local QuestieLib = QuestieLoader:CreateModule("QuestieLib")
