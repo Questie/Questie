@@ -3143,18 +3143,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13673] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
-            [questKeys.exclusiveTo] = {13680},
+            [questKeys.exclusiveTo] = {13674,13675},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
         },
         [13674] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
-            [questKeys.exclusiveTo] = {13680},
+            [questKeys.exclusiveTo] = {13673,13675},
             [questKeys.parentQuest] = 0,
         },
         [13675] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
-            [questKeys.exclusiveTo] = {13680},
+            [questKeys.exclusiveTo] = {13673,13674},
             [questKeys.parentQuest] = 0,
         },
         [13676] = {
