@@ -281,17 +281,6 @@ function QuestLogCache.TestGameCache()
             if HaveQuestData(questId) then
                 local objectives = C_QuestLog_GetQuestObjectives(questId)
 
-                if type(objectives) ~= "table" then
-                    -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
-                    -- I guess older code queried data before HaveQuestData() was true.
-                    -- This check is to catch if that is possible.
-                    -- TODO: Remove this if block once confirmed error never happens.
-                    -- I = Laume / Laumesis@Github
-                    Questie:Error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId =", questId)
-                    error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId = "..questId)
-                    -- execution ends here because of error ^
-                end
-
                 for objIndex=1, #objectives do
                     local text = objectives[objIndex].text
                     -- Check if objective.text is not in game's cache
