@@ -2292,8 +2292,9 @@ function QuestieTBCQuestFixes:Load()
         [10966] = {
             [questKeys.questLevel] = -1,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
-            [questKeys.preQuestGroup] = {10945,10951,10953},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.preQuestGroup] = {},
+            [questKeys.preQuestSingle] = {10968},
         },
         [10967] = {
             [questKeys.questLevel] = -1,
