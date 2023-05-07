@@ -1109,7 +1109,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BLACKROCK_DEPTHS] = {{-1,-1}}},
         },
         [9598] = {
-            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{49.4,31}}}, -- #1516
+            [npcKeys.spawns] = {[zoneIDs.FELWOOD]={{49.57,29.60}}}, -- #1516
             [npcKeys.zoneID] = zoneIDs.FELWOOD, -- #1516
         },
         [9621] = {
