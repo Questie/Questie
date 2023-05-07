@@ -902,7 +902,8 @@ function QuestieTracker:Update()
                                     trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
 
                                     -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
-                                    QuestieQuest:AddFinisher(quest)
+                                    --QuestieQuest:AddFinisher(quest)
+                                    --TODO: Find another way to show Quest Finisher
                                 end
 
                                 -- Adds 1 pixel between multiple Objectives
@@ -952,13 +953,15 @@ function QuestieTracker:Update()
                             trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
 
                             -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
-                            QuestieQuest:AddFinisher(quest)
+                            --QuestieQuest:AddFinisher(quest)
+                            --TODO: Find another way to show Quest Finisher
                         else
                             if complete == 1 then
                                 line.label:SetText(Questie:Colorize(l10n("Quest Complete") .. "!", "green"))
 
                                 -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
-                                QuestieQuest:AddFinisher(quest)
+                                --QuestieQuest:AddFinisher(quest)
+                                --TODO: Find another way to show Quest Finisher
                             elseif complete == -1 then
                                 line.label:SetText(Questie:Colorize(l10n("Quest Failed") .. "!", "red"))
                             end
