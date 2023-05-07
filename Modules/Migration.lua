@@ -140,7 +140,7 @@ local migrationFunctions = {
     [13] = function()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end,
-    [14] = function ()
+    [14] = function()
         -- Empty on purpose
     end,
     [15] = function()
@@ -172,7 +172,7 @@ local migrationFunctions = {
             Questie.db.char.enableQuestFrameIcons = true
         end
     end,
-    [19] = function ()
+    [19] = function()
         Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons["complete"]
         Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons["complete"]
         Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons["complete"]
@@ -201,10 +201,11 @@ local migrationFunctions = {
             Questie.db.global.hideCompletedAchieveObjectives = false    -- set default
         end
         if Questie.db.global.currentHeaderEnabledSetting == nil then    -- new option
-            Questie.db.global.currentHeaderEnabledSetting = false       -- set default
+            -- Tracker Header is enabled by default so this should be true
+            Questie.db.global.currentHeaderEnabledSetting = true        -- set default
         end
     end,
-    [21] = function ()
+    [21] = function()
         if Questie.db.char.soundOnQuestComplete == nil then -- new option
             Questie.db.char.soundOnQuestComplete = false
         end
@@ -212,7 +213,7 @@ local migrationFunctions = {
             Questie.db.char.soundOnObjectiveComplete = false
         end
     end,
-    [22] = function ()
+    [22] = function()
         Questie.db.global.hideCompletedAchieveObjectives = true
     end
 }

@@ -901,9 +901,8 @@ function QuestieTracker:Update()
                                     -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
                                     trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
 
-                                    -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
-                                    --QuestieQuest:AddFinisher(quest)
-                                    --TODO: Find another way to show Quest Finisher
+                                    -- Update Quest has a check for this edge case. Should reset the Quest Icons and show the Quest Finisher
+                                    QuestieQuest:UpdateQuest(quest.Id)
                                 end
 
                                 -- Adds 1 pixel between multiple Objectives
@@ -951,17 +950,9 @@ function QuestieTracker:Update()
 
                             -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
                             trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
-
-                            -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
-                            --QuestieQuest:AddFinisher(quest)
-                            --TODO: Find another way to show Quest Finisher
                         else
                             if complete == 1 then
                                 line.label:SetText(Questie:Colorize(l10n("Quest Complete") .. "!", "green"))
-
-                                -- Show the Quest turn in location on map - This needs to be called manually in certain edge cases. Doesn't hurt to call it twice.
-                                --QuestieQuest:AddFinisher(quest)
-                                --TODO: Find another way to show Quest Finisher
                             elseif complete == -1 then
                                 line.label:SetText(Questie:Colorize(l10n("Quest Failed") .. "!", "red"))
                             end

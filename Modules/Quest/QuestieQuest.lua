@@ -533,7 +533,9 @@ function QuestieQuest:UpdateQuest(questId)
                     end
                 end
             end
-        elseif isComplete == 0 and quest.WasComplete then -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest drops?
+
+            -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest drops?
+        elseif isComplete == 0 and quest.WasComplete then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has been reset to not complete?")
 
             -- Reset quest objectives

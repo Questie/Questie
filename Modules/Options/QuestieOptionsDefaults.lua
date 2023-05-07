@@ -85,7 +85,7 @@ function QuestieOptionsDefaults:Load()
             trackerBackgroundFader = false,
             sizerHidden = false,
             alwaysShowTracker = false,
-            currentHeaderEnabledSetting = false,
+            currentHeaderEnabledSetting = true,
             trackerColorObjectives = 'white',
             trackerSortObjectives = 'byZone',
             trackerbindSetTomTom = 'ctrlleft',
