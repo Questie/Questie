@@ -3712,6 +3712,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
         },
+        [14076] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
+        },
         [14079] = {
             [questKeys.requiredRaces] = raceIDs.HUMAN,
         },
@@ -3741,6 +3744,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14089] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
+        },
+        [14092] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
         },
         [14101] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{50.4,15.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Drottinn Hrothgar using the Kvaldir War Horn")}},
