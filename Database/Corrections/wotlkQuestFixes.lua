@@ -3742,6 +3742,9 @@ function QuestieWotlkQuestFixes:Load()
         [14089] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [14107] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed"}}},
+        },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
