@@ -2478,62 +2478,62 @@ function QuestieWotlkQuestFixes:Load()
         [13245] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199},
         },
         [13246] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199},
         },
         [13247] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13248,13249,13250,13251,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13248,13249,13250,13251,13252,13253,13254,13255,13256,14199},
         },
         [13248] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13249,13250,13251,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13249,13250,13251,13252,13253,13254,13255,13256,14199},
         },
         [13249] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13250,13251,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13250,13251,13252,13253,13254,13255,13256,14199},
         },
         [13250] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13251,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13251,13252,13253,13254,13255,13256,14199},
         },
         [13251] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13252,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13252,13253,13254,13255,13256,14199},
         },
         [13252] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13253,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13253,13254,13255,13256,14199},
         },
         [13253] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13254,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13254,13255,13256,14199},
         },
         [13254] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13255,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13255,13256,14199},
         },
         [13255] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13256},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13256,14199},
         },
         [13256] = {
             [questKeys.startedBy] = {{20735},nil,nil},
             [questKeys.finishedBy] = {{20735},nil,nil},
-            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,14199},
         },
         [13258] = {
             [questKeys.preQuestGroup] = {12938,13224},
@@ -3851,6 +3851,11 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.UNDERCITY]={{60.67,87.66}},
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
+        },
+        [14199] = {
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.exclusiveTo] = {13245,13246,13247,13248,13249,13250,13251,13252,13253,13254,13255,13256},
         },
         [14352] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
