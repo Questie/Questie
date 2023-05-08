@@ -2366,6 +2366,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Summon Drottinn Hrothgar using the Kvaldir War Horn"] = { -- 14101
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Provoke Ornolf the Scarred using the Captured Kvaldir Banner"] = { -- 14104
         ["ptBR"] = false,
         ["ruRU"] = false,

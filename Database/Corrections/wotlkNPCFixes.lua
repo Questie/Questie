@@ -855,6 +855,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.8,91}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
         },
+        [34980] = {
+            [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{50.4,15.6}}},
+            [npcKeys.zoneID] = zoneIDs.HROTHGARS_LANDING,
+        },
         [35012] = {
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}},
             [npcKeys.zoneID] = zoneIDs.HROTHGARS_LANDING,
