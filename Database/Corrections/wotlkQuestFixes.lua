@@ -3742,6 +3742,9 @@ function QuestieWotlkQuestFixes:Load()
         [14089] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [14104] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}}, Questie.ICON_TYPE_EVENT, l10n("Provoke Ornolf the Scarred using the Captured Kvaldir Banner")}},
+        },
         [14107] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed"}}},
         },
