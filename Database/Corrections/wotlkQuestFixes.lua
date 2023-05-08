@@ -3748,6 +3748,10 @@ function QuestieWotlkQuestFixes:Load()
         [14107] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{32149},32149,"Fallen Hero's Spirit blessed"}}},
         },
+        [14108] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 35117}}}},
+            [questKeys.objectives] = {{{34925,"Hurl Spears at North Sea Kraken"},{35092}}},
+        },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
                 [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
