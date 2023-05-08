@@ -3767,8 +3767,14 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 35117}}}},
             [questKeys.objectives] = {{{34925,"Hurl Spears at North Sea Kraken"},{35092}}},
         },
+        [14112] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Take chum"), 0, {{"object", 195352}}}},
+        },
         [14141] = {
             [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
+        },
+        [14145] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Take chum"), 0, {{"object", 195353}}}},
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
