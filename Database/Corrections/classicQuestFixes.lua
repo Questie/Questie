@@ -238,6 +238,9 @@ function QuestieQuestFixes:Load()
         [495] = {
             [questKeys.exclusiveTo] = {518},
         },
+        [504] = {
+            [questKeys.objectivesText] = {"Slay 15 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
+        },
         [510] = {
             [questKeys.startedBy] = {nil,{1740},nil}, -- #1512
         },
