@@ -3611,6 +3611,11 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13938},
             [questKeys.exclusiveTo] = {13926},
         },
+        [14016] = {
+            [questKeys.specialFlags] = nil,
+            [questKeys.questFlags] = 128,
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{35127},35127,"Investigate the Black Knight's Grave"}}},
+        },
         [14023] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
             [questKeys.zoneOrSort] = sortKeys.PILGRIMS_BOUNTY,
