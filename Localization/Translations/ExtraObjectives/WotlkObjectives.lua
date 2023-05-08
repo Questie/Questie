@@ -2378,6 +2378,18 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Summon Mistcaller Yngvar using the Mistcaller's Charm"] = { -- 14102
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Provoke Ornolf the Scarred using the Captured Kvaldir Banner"] = { -- 14104
         ["ptBR"] = false,
         ["ruRU"] = false,
