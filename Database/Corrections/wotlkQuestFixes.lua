@@ -3099,8 +3099,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 0,
         },
         [13627] = {
-            [questKeys.startedBy] = {{33434}},
-            [questKeys.finishedBy] = {{33434}},
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [13631] = {
             [questKeys.startedBy] = {{32871},nil,{46052}},
@@ -3186,8 +3186,8 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [13681] = {
-            [questKeys.startedBy] = {{33435}},
-            [questKeys.finishedBy] = {{33435}},
+            [questKeys.startedBy] = {},
+            [questKeys.finishedBy] = {},
         },
         [13682] = {
             [questKeys.preQuestSingle] = {13664},
