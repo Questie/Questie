@@ -3745,6 +3745,9 @@ function QuestieWotlkQuestFixes:Load()
         [14089] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
+        [14090] = {
+            [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
+        },
         [14092] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use your drum near a Mysterious Snow Mound"), 0, {{"object", 195309}}}},
         },
@@ -3763,6 +3766,9 @@ function QuestieWotlkQuestFixes:Load()
         [14108] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 35117}}}},
             [questKeys.objectives] = {{{34925,"Hurl Spears at North Sea Kraken"},{35092}}},
+        },
+        [14141] = {
+            [questKeys.objectives] = {{{29618,"Snowblind Follower captured"}}},
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
