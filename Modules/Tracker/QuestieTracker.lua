@@ -412,19 +412,11 @@ function QuestieTracker:Update()
         return
     end
 
-    -- Tracker not expanded, no need for an update
-    if not Questie.db.char.isTrackerExpanded then
-        return
-    else
-        QuestieCombatQueue:Queue(function()
-            TrackerHeaderFrame:Update()
-            TrackerQuestFrame:Update()
-            TrackerBaseFrame:Update()
-        end)
-    end
-
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Update")
 
+    TrackerHeaderFrame:Update()
+    TrackerQuestFrame:Update()
+    TrackerBaseFrame:Update()
     TrackerLinePool.ResetLinesForChange()
     TrackerLinePool.ResetButtonsForChange()
 
