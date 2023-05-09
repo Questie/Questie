@@ -69,7 +69,7 @@ function QuestieOptionsDefaults:Load()
             trackerShowCompleteQuests = true,
             collapseCompletedQuests = false,
             hideCompletedQuestObjectives = false,
-            hideCompletedAchieveObjectives = false,
+            hideCompletedAchieveObjectives = true,
             trackerShowQuestLevel = true,
             showBlizzardQuestTimer = false,
             hookTracking = true,
@@ -85,7 +85,7 @@ function QuestieOptionsDefaults:Load()
             trackerBackgroundFader = false,
             sizerHidden = false,
             alwaysShowTracker = false,
-            currentHeaderEnabledSetting = false,
+            currentHeaderEnabledSetting = true,
             trackerColorObjectives = 'white',
             trackerSortObjectives = 'byZone',
             trackerbindSetTomTom = 'ctrlleft',
@@ -153,7 +153,9 @@ function QuestieOptionsDefaults:Load()
             ldbDisplayText = "Questie",
             enableQuestFrameIcons = true,
             soundOnQuestComplete = false,
+            questCompleteSoundChoiceName = "QuestDefault",
             soundOnObjectiveComplete = false,
+            objectiveCompleteSoundChoiceName = "ObjectiveDefault",
         },
         profile = { minimap = { hide = false } }
     }

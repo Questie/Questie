@@ -90,8 +90,14 @@ local function GetNewObjectives(questId, oldObjectives)
         local newObj = objectives[objIndex]
         -- Check if objective.text is in game's cache
         if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
+            -- luacheck:ignore 542
+            if objIndex == 2 and newObjectives[1].raw_text == newObj.text then
+                -- Nothing to do in this case.
+                -- This is a work around for Blizzard adding the exact same objective a second time.
+                -- Examples in the past were the Children's Week quests 910, 911,1800
+
             -- Check if objective has changed
-            if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+            elseif oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                 -- Not changed
                 newObjectives[objIndex] = oldObj
             else
@@ -274,17 +280,6 @@ function QuestLogCache.TestGameCache()
         if (not isHeader) then
             if HaveQuestData(questId) then
                 local objectives = C_QuestLog_GetQuestObjectives(questId)
-
-                if type(objectives) ~= "table" then
-                    -- I couldn't find yet a quest returning nil like older code suggested for example for quest 2744, which isn't true.
-                    -- I guess older code queried data before HaveQuestData() was true.
-                    -- This check is to catch if that is possible.
-                    -- TODO: Remove this if block once confirmed error never happens.
-                    -- I = Laume / Laumesis@Github
-                    Questie:Error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId =", questId)
-                    error("Please report on Github or Discord! Quest objectives aren't a table at TestGameCache. questId = "..questId)
-                    -- execution ends here because of error ^
-                end
 
                 for objIndex=1, #objectives do
                     local text = objectives[objIndex].text

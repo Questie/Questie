@@ -529,7 +529,9 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.LEATHERWORKING] = {},
         [QuestieProfessions.professionKeys.ALCHEMY] = {},
         [QuestieProfessions.professionKeys.HERBALISM] = {},
-        [QuestieProfessions.professionKeys.COOKING] = {},
+        [QuestieProfessions.professionKeys.COOKING] = {
+            19186, -- Kylene <Barmaid> (this is an edge case)
+        },
         [QuestieProfessions.professionKeys.MINING] = {},
         [QuestieProfessions.professionKeys.TAILORING] = {},
         [QuestieProfessions.professionKeys.ENGINEERING] = {},

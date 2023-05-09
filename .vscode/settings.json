@@ -2814,7 +2814,8 @@
         "HIGHLIGHT_FONT_COLOR",
         "RED_FONT_COLOR",
         "QuestFrameCloseButton",
-        "TrackedQuestsScrollFrame"
+        "TrackedQuestsScrollFrame",
+        "C_AddOns"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**",

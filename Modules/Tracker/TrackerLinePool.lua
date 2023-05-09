@@ -196,8 +196,8 @@ function TrackerLinePool.Initialize(questFrame)
         criteriaMark:SetFrameLevel(100)
 
         criteriaMark.SetCriteria = function(self, criteria)
-            if criteria ~= self.criteria then
-                self.criteria = criteria
+            if criteria ~= self.mode then
+                self.mode = criteria
 
                 if criteria == true then
                     self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Checkmark")
@@ -647,7 +647,7 @@ function TrackerLinePool.ResetLinesForChange()
             line.expandZone.mode = nil
         end
         if line.criteriaMark then
-            line.criteriaMark:Hide()
+            line.criteriaMark.mode = nil
         end
     end
 
@@ -778,6 +778,7 @@ function TrackerLinePool.HideUnusedLines()
             line.trackTimedQuest = nil
             line.expandQuest.mode = nil
             line.expandZone.mode = nil
+            line.criteriaMark.mode = nil
         end
     end
 end

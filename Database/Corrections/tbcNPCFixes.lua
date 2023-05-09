@@ -533,10 +533,12 @@ function QuestieTBCNpcFixes:Load()
         [22817] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+            [npcKeys.questStarts] = {10945,10951,10953,10963,10967,11975}, -- removed the SWP quest
         },
         [22818] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+            [npcKeys.questEnds] = {10943,10950,10952,10962}, -- removed the horde starting quest
         },
         [22890] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{-1,-1}}},

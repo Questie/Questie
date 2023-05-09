@@ -272,8 +272,8 @@ function QuestieQuestBlacklist:Load()
         [8898] = true,
         [8899] = true,
         [9029] = true,
-        [8981] = QuestieCorrections.WOTLK_ONLY, --removed in wotlk
-        [8993] = QuestieCorrections.WOTLK_ONLY, --removed in wotlk
+        [8981] = true, --removed in wotlk
+        [8993] = true, --removed in wotlk
         [8900] = true,
         [8901] = true,
         [8902] = true,

@@ -26,6 +26,10 @@ local optionsDefaults = QuestieOptionsDefaults:Load()
 local _GetShortcuts
 local _GetIconTypes
 local _GetIconTypesSort
+local _GetQuestSoundChoices
+local _GetQuestSoundChoicesSort
+local _GetObjectiveSoundChoices
+local _GetObjectiveSoundChoicesSort
 
 local iconsHidden = true
 
@@ -625,7 +629,7 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "toggle",
                 order = 2.11,
                 name = function() return l10n('Quest completed'); end,
-                desc = function() return l10n('Play a short sound when completing a quest so it is ready to turn in.'); end,
+                desc = function() return l10n('Play a short sound when completing a quest when it is ready to turn in.'); end,
                 width = 1.2,
                 get = function () return Questie.db.char.soundOnQuestComplete; end,
                 set = function (_, value)
@@ -641,18 +645,32 @@ function QuestieOptions.tabs.general:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    PlaySoundFile(Sounds.QUEST_COMPLETE_SOUND_FILE)
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.questCompleteSoundChoiceName), "Master")
                 end
+            },
+            questCompleteSoundChoice = {
+                type = "select",
+                order = 2.13,
+                values = _GetQuestSoundChoices(),
+                sorting = _GetQuestSoundChoicesSort(),
+                style = 'dropdown',
+                name = function() return l10n('Quest Complete Sound Selection') end,
+                desc = function() return l10n('The sound you hear when a quest is completed'); end,
+                get = function() return Questie.db.char.questCompleteSoundChoiceName or "None"; end,
+                disabled = function() return (not Questie.db.char.soundOnQuestComplete); end,
+                set = function(_, value)
+                    Questie.db.char.questCompleteSoundChoiceName = value
+                end,
             },
             soundLineBreak = {
                 type = "description",
                 name = " ",
-                width = 1,
-                order = 2.125,
+                width = 0.1,
+                order = 2.135,
             },
             objectiveCompleteSound = {
                 type = "toggle",
-                order = 2.13,
+                order = 2.14,
                 name = function() return l10n('Quest objective completed'); end,
                 desc = function() return l10n('Play a short sound when completing a quest objective.'); end,
                 width = 1.2,
@@ -663,19 +681,33 @@ function QuestieOptions.tabs.general:Initialize()
             },
             objectiveCompleteSoundButton = {
                 type = "execute",
-                order = 2.14,
+                order = 2.15,
                 name = "",
                 width = 0.5,
                 image = function ()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function ()
-                    PlaySoundFile(Sounds.QUEST_OBJECTIVE_COMPLETE_SOUND_FILE)
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveCompleteSoundChoiceName), "Master")
                 end
+            },
+            objectiveCompleteSoundChoice = {
+                type = "select",
+                order = 2.16,
+                values = _GetObjectiveSoundChoices(),
+                sorting = _GetObjectiveSoundChoicesSort(),
+                style = 'dropdown',
+                name = function() return l10n('Objective Complete Sound Selection') end,
+                desc = function() return l10n('The sound you hear when an objective is completed'); end,
+                get = function() return  Questie.db.char.objectiveCompleteSoundChoiceName; end,
+                disabled = function() return (not Questie.db.char.soundOnObjectiveComplete); end,
+                set = function(input, value)
+                    Questie.db.char.objectiveCompleteSoundChoiceName = value
+                end,
             },
             SoundBottomSpacer = {
                 type = "header",
-                order = 2.15,
+                order = 2.17,
                 name = "",
             },
             minimapButtonEnabled = {
@@ -726,7 +758,7 @@ function QuestieOptions.tabs.general:Initialize()
                 type = "toggle",
                 order = 6,
                 name = function() return l10n('Auto Complete'); end,
-                desc = function() return l10n('Enable or disable Questie auto-complete quests.'); end,
+                desc = function() return l10n('Enable or disable Questie auto-completing quests.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autocomplete; end,
                 set = function (info, value)
@@ -958,5 +990,96 @@ _GetIconTypesSort = function()
         "tracker_quests",
         "tracker_search",
         "tracker_settings",
+    }
+end
+
+_GetQuestSoundChoices = function()
+    return {
+        ["QuestDefault"]               = "Default",
+        ["Troll Male"]                 = "Troll Male",
+        ["Troll Female"]               = "Troll Female",
+        ["Tauren Male"]                = "Tauren Male",
+        ["Tauren Female"]              = "Tauren Female",
+        ["Undead Male"]                = "Undead Male",
+        ["Undead Female"]              = "Undead Female",
+        ["Orc Male"]                   = "Orc Male",
+        ["Orc Female"]                 = "Orc Female",
+        ["Night Elf Female"]            = "Night Elf Female",
+        ["Night Elf Male"]              = "Night Elf Male",
+        ["Human Female"]               = "Human Female",
+        ["Human Male"]                 = "Human Male",
+        ["Gnome Male"]                 = "Gnome Male",
+        ["Gnome Female"]               = "Gnome Female",
+        ["Dwarf Male"]                 = "Dwarf Male",
+        ["Dwarf Female"]               = "Dwarf Female",
+        ["Draenei Male"]               = "Draenei Male",
+        ["Draenei Female"]             = "Draenei Female",
+        ["Blood Elf Female"]            = "Blood Elf Female",
+        ["Blood Elf Male"]              = "Blood Elf Male",
+    }
+end
+
+
+_GetQuestSoundChoicesSort = function()
+    return {
+        "QuestDefault",
+        "Troll Male",
+        "Troll Female",
+        "Tauren Male",
+        "Tauren Female",
+        "Undead Male",
+        "Undead Female",
+        "Orc Male",
+        "Orc Female",
+        "Night Elf Female",
+        "Night Elf Male",
+        "Human Female",
+        "Human Male",
+        "Gnome Male",
+        "Gnome Female",
+        "Dwarf Male",
+        "Dwarf Female",
+        "Draenei Male",
+        "Draenei Female",
+        "Blood Elf Female",
+        "Blood Elf Male",
+    }
+end
+
+_GetObjectiveSoundChoices = function()
+    return {
+        ["ObjectiveDefault"]   = "Default",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["Explosion"]          = "Explosion",
+        ["Shing!"]             = "Shing!",
+        ["Wham!"]              = "Wham!",
+        ["Simon Chime"]        = "Simon Chime",
+        ["War Drums"]          = "War Drums",
+        ["Humm"]               = "Humm",
+        ["Short Circuit"]      = "Short Circuit",
+    }
+end
+
+_GetObjectiveSoundChoicesSort = function()
+    return {
+        "ObjectiveDefault",
+        "Map Ping",
+        "Window Close",
+        "Window Open",
+        "Boat Docked",
+        "Bell Toll Alliance",
+        "Bell Toll Horde",
+        "Explosion",
+        "Shing!",
+        "Wham!",
+        "Simon Chime",
+        "War Drums",
+        "Humm",
+        "Short Circuit",
     }
 end
