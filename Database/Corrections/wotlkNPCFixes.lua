@@ -871,6 +871,18 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}},
             [npcKeys.zoneID] = zoneIDs.HROTHGARS_LANDING,
         },
+        [35060] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55},{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [35061] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55},{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [35071] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55},{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [35116] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{79.48,23.30}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
