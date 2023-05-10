@@ -1420,7 +1420,7 @@ local generalOptionsLocales = {
     },
     ["Quest Complete Sound Selection"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Выбор звука",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1432,7 +1432,7 @@ local generalOptionsLocales = {
     },
     ["The sound you hear when a quest is completed"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Звук по выполнении задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1444,7 +1444,7 @@ local generalOptionsLocales = {
     },
     ["Objective Complete Sound Selection"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Выбор звука",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1456,7 +1456,7 @@ local generalOptionsLocales = {
     },
     ["The sound you hear when an objective is completed"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Звук по выполнении цели задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
