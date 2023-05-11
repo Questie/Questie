@@ -1618,6 +1618,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12732] = {
             [questKeys.requiredMinRep] = {1104,9000},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Fill Rejek's Vial"), 0, {{"object", 191122}}}},
         },
         [12733] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28391,28394,28406},28391,"Death Knights defeated in a duel"}}},
