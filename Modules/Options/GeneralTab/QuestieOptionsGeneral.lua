@@ -30,6 +30,8 @@ local _GetQuestSoundChoices
 local _GetQuestSoundChoicesSort
 local _GetObjectiveSoundChoices
 local _GetObjectiveSoundChoicesSort
+local _GetObjectiveProgressSoundChoices
+local _GetObjectiveProgressSoundChoicesSort
 
 local iconsHidden = true
 
@@ -705,9 +707,46 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.char.objectiveCompleteSoundChoiceName = value
                 end,
             },
+            objectiveProgressSound = {
+                type = "toggle",
+                order = 2.17,
+                name = function() return l10n('Quest objective progress'); end,
+                desc = function() return l10n('Play a short sound when making progress on a quest objective.'); end,
+                width = 1.2,
+                get = function () return Questie.db.char.soundOnObjectiveProgress; end,
+                set = function (_, value)
+                    Questie.db.char.soundOnObjectiveProgress = value
+                end,
+            },
+            objectiveProgressSoundButton = {
+                type = "execute",
+                order = 2.18,
+                name = "",
+                width = 0.5,
+                image = function ()
+                    return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
+                end,
+                func = function ()
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveProgressSoundChoiceName), "Master")
+                end
+            },
+            objectiveProgressSoundChoice = {
+                type = "select",
+                order = 2.19,
+                values = _GetObjectiveProgressSoundChoices(),
+                sorting = _GetObjectiveProgressSoundChoicesSort(),
+                style = 'dropdown',
+                name = function() return l10n('Objective Progress Sound Selection') end,
+                desc = function() return l10n('The sound you hear when you make progress on a quest objective'); end,
+                get = function() return  Questie.db.char.objectiveProgressSoundChoiceName; end,
+                disabled = function() return (not Questie.db.char.soundOnObjectiveProgress); end,
+                set = function(input, value)
+                    Questie.db.char.objectiveProgressSoundChoiceName = value
+                end,
+            },
             SoundBottomSpacer = {
                 type = "header",
-                order = 2.17,
+                order = 2.20,
                 name = "",
             },
             minimapButtonEnabled = {
@@ -996,6 +1035,7 @@ end
 _GetQuestSoundChoices = function()
     return {
         ["QuestDefault"]               = "Default",
+        ["GameDefault"]                = "Game Default",
         ["Troll Male"]                 = "Troll Male",
         ["Troll Female"]               = "Troll Female",
         ["Tauren Male"]                = "Tauren Male",
@@ -1023,6 +1063,7 @@ end
 _GetQuestSoundChoicesSort = function()
     return {
         "QuestDefault",
+        "GameDefault",
         "Troll Male",
         "Troll Female",
         "Tauren Male",
@@ -1067,6 +1108,46 @@ end
 
 _GetObjectiveSoundChoicesSort = function()
     return {
+        "ObjectiveDefault",
+        "Map Ping",
+        "Window Close",
+        "Window Open",
+        "Boat Docked",
+        "Bell Toll Alliance",
+        "Bell Toll Horde",
+        "Explosion",
+        "Shing!",
+        "Wham!",
+        "Simon Chime",
+        "War Drums",
+        "Humm",
+        "Short Circuit",
+    }
+end
+
+_GetObjectiveProgressSoundChoices = function()
+    return {
+        ["ObjectiveProgress"]  = "Default",
+        ["ObjectiveDefault"]   = "Objective Complete",
+        ["Map Ping"]           = "Map Ping",
+        ["Window Close"]       = "Window Close",
+        ["Window Open"]        = "Window Open",
+        ["Boat Docked"]        = "Boat Docked",
+        ["Bell Toll Alliance"] = "Bell Toll Alliance",
+        ["Bell Toll Horde"]    = "Bell Toll Horde",
+        ["Explosion"]          = "Explosion",
+        ["Shing!"]             = "Shing!",
+        ["Wham!"]              = "Wham!",
+        ["Simon Chime"]        = "Simon Chime",
+        ["War Drums"]          = "War Drums",
+        ["Humm"]               = "Humm",
+        ["Short Circuit"]      = "Short Circuit",
+    }
+end
+
+_GetObjectiveProgressSoundChoicesSort = function()
+    return {
+        "ObjectiveProgress",
         "ObjectiveDefault",
         "Map Ping",
         "Window Close",
