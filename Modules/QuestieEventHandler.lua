@@ -314,6 +314,15 @@ function _EventHandler:ModifierStateChanged()
         GameTooltip:Show()
     end
 
+    if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
+        GameTooltip:Hide()
+        GameTooltip:ClearLines()
+        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip._SizerToolTip()
+        GameTooltip:SetFrameStrata("TOOLTIP")
+        GameTooltip:Show()
+    end
+
     if Questie.db.global.trackerLocked then
         if TrackerBaseFrame.IsInitialized then
             QuestieCombatQueue:Queue(function()
