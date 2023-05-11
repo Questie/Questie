@@ -110,18 +110,6 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Use Quetz'lun's Hexxing Stick and slay him/her"] = { -- 12674
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = "Benutze Quetz'luns Verhexungsstecken und töte ihn/sie",
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["frFR"] = false,
-        ["esES"] = false,
-        ["zhTW"] = false,
-        ["zhCN"] = "使用奎丝鲁恩的妖术棒杀死他/她",
-    },
     ["Use Quetz'lun's Ritual"] = { -- 12674
         ["ptBR"] = false,
         ["ruRU"] = false,
