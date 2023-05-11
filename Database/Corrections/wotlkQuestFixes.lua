@@ -3092,6 +3092,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13616] = {
             [questKeys.exclusiveTo] = {13600,13603},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13625] = {
             [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
@@ -3139,6 +3140,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13671] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -3160,6 +3162,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.exclusiveTo] = {13673,13674},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13676] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
@@ -3272,6 +3275,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13743] = {
             [questKeys.exclusiveTo] = {13741,13742},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13746] = {
             [questKeys.exclusiveTo] = {13747,13748},
@@ -3282,6 +3286,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13748] = {
             [questKeys.exclusiveTo] = {13746,13747},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13752] = {
             [questKeys.exclusiveTo] = {13753,13754},
@@ -3292,6 +3297,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13754] = {
             [questKeys.exclusiveTo] = {13752,13753},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13757] = {
             [questKeys.exclusiveTo] = {13758,13759},
@@ -3302,6 +3308,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13759] = {
             [questKeys.exclusiveTo] = {13757,13758},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13762] = {
             [questKeys.exclusiveTo] = {13763,13764},
@@ -3312,6 +3319,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13764] = {
             [questKeys.exclusiveTo] = {13762,13763},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13767] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33799}}}},
@@ -3325,6 +3333,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13770] = {
             [questKeys.exclusiveTo] = {13768,13769},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13772] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796}}}},
@@ -3338,6 +3347,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13775] = {
             [questKeys.exclusiveTo] = {13773,13774},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13777] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33792}}}},
@@ -3351,6 +3361,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13780] = {
             [questKeys.exclusiveTo] = {13778,13779},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13782] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33798}}}},
@@ -3364,6 +3375,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13785] = {
             [questKeys.exclusiveTo] = {13783,13784},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13787] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33791}}}},
