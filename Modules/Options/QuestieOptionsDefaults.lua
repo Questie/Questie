@@ -156,6 +156,8 @@ function QuestieOptionsDefaults:Load()
             questCompleteSoundChoiceName = "QuestDefault",
             soundOnObjectiveComplete = false,
             objectiveCompleteSoundChoiceName = "ObjectiveDefault",
+            soundOnObjectiveProgress = false,
+            objectiveProgressSoundChoiceName = "ObjectiveProgress"
         },
         profile = { minimap = { hide = false } }
     }

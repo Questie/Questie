@@ -112,6 +112,10 @@ local function GetNewObjectives(questId, oldObjectives)
                     Sounds.PlayObjectiveComplete()
                 end
 
+                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled then
+                    Sounds.PlayObjectiveProgress()
+                end
+
                 newObjectives[objIndex] = {
                     raw_text = newObj.text,
                     raw_finished = newObj.finished,
