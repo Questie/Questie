@@ -707,12 +707,6 @@ function QuestieOptions.tabs.general:Initialize()
                     Questie.db.char.objectiveCompleteSoundChoiceName = value
                 end,
             },
-            soundLineBreak = {
-                type = "description",
-                name = " ",
-                width = 0.1,
-                order = 2.135,
-            },
             objectiveProgressSound = {
                 type = "toggle",
                 order = 2.17,
