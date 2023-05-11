@@ -250,7 +250,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         TrackerLinePool.SetAllExpandQuestAlpha(1)
                     end
-                    QuestieTracker:UpdateFormatting()
+                    QuestieTracker:Update()
                 end
             },
             fadeQuestItemButtons = {
@@ -286,7 +286,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         TrackerLinePool.SetAllItemButtonAlpha(1)
                     end
-                    QuestieTracker:UpdateFormatting()
+                    QuestieTracker:Update()
                 end
             },
             enableBackground = {
