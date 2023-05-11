@@ -664,7 +664,6 @@ function TrackerLinePool.ResetButtonsForChange()
     buttonIndex = 0
 end
 
----Updates all the line.label widths in the linePool for wrapped text only
 ---@param trackerLineWidth number
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
@@ -673,24 +672,26 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local questMarginLeft = (trackerMarginLeft + trackerMarginRight + 4) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
+    local trackerMinLineWidth = 275
 
+    ---Updates all the line.label widths in the linePool for wrapped text only
     for _, line in pairs(linePool) do
-        if Questie.db[Questie.db.global.questieTLoc].TrackerWidth == 0 then
-            if line.mode == "objective" then
-                if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.global.trackerFontSizeObjective then
-                    line.label:SetText(line.label:GetText())
+        if line.mode == "objective" then
+            if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.global.trackerFontSizeObjective then
+                line.label:SetText(line.label:GetText())
 
-                    if line.altButton then
-                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - questItemButtonSize)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
-                    else
-                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
-                    end
-
-                    line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
-                    line.label:SetHeight(line:GetHeight())
+                if line.altButton then
+                    line.label:SetWidth(TrackerBaseFrame.baseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
+                    line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft + questItemButtonSize)
+                else
+                    line.label:SetWidth(TrackerBaseFrame.baseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                    line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
                 end
+
+                line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
+                line.label:SetHeight(line:GetHeight())
+
+                trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
             end
         end
     end

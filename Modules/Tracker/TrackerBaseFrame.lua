@@ -360,7 +360,7 @@ function TrackerBaseFrame.OnResizeStart(_, button)
                     baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
                     ------------------------------------------------------------------------------
 
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
 
                     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
                         baseFrame:StartSizing("TOPRIGHT")

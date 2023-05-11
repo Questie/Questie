@@ -150,7 +150,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.global.currentHeaderEnabledSetting = value
                     end
 
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             autoMoveHeader = {
@@ -168,7 +168,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.autoMoveHeader end,
                 set = function(_, value)
                     Questie.db.global.autoMoveHeader = value
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             stickyDurabilityFrame = {
@@ -250,7 +250,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         TrackerLinePool.SetAllExpandQuestAlpha(1)
                     end
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             fadeQuestItemButtons = {
@@ -286,7 +286,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         TrackerLinePool.SetAllItemButtonAlpha(1)
                     end
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             enableBackground = {
@@ -306,7 +306,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
                     end
 
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             enableBorder = {
@@ -324,7 +324,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     else
                         TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                     end
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             fadeTrackerBackdrop = {
@@ -361,7 +361,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                             end
                         end)
                     end
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             hideSizer = {
@@ -374,7 +374,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.sizerHidden end,
                 set = function(_, value)
                     Questie.db.global.sizerHidden = value
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             alwaysShowTracker = {
@@ -401,7 +401,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.global.trackerHeaderEnabled = Questie.db.global.currentHeaderEnabledSetting
                     end
 
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             lockTracker = {
@@ -741,7 +741,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "range",
                 order = 5.3,
                 name = function() return l10n('Padding Between Quests') end,
-                desc = function() return l10n('The amount of padding between Quests in the Questie Tracker.') end,
+                desc = function() return l10n('The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode') end,
                 width = "double",
                 min = 2,
                 max = 16,
@@ -750,7 +750,15 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerQuestPadding end,
                 set = function(_, value)
                     Questie.db.global.trackerQuestPadding = value
-                    QuestieTracker:Update()
+                    local trackerHeightByManual = Questie.db[Questie.db.global.questieTLoc].TrackerHeight
+                    local trackedObjects = GetNumQuestWatches(true) + GetNumTrackedAchievements(true) - 1
+                    if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
+                        QuestieTracker:UpdateFormatting()
+                    elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
+                        Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
+                        Questie.db[Questie.db.global.questieTLoc].TrackerHeight = 0
+                        QuestieTracker:Update()
+                    end
                 end
             },
             fontOutline = {
@@ -785,14 +793,14 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerBackdropAlpha * 100 end,
                 set = function(_, value)
                     Questie.db.global.trackerBackdropAlpha = value / 100
-                    QuestieTracker:Update()
+                    QuestieTracker:UpdateFormatting()
                 end
             },
             trackerHeightRatio = {
                 type = "range",
                 order = 5.6,
                 name = function() return l10n('Tracker Height Ratio') end,
-                desc = function() return l10n('The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.') end,
+                desc = function() return l10n('The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Auto Mode') end,
                 width = "double",
                 min = 20,
                 max = 100,
@@ -801,7 +809,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerHeightRatio * 100 end,
                 set = function(_, value)
                     Questie.db.global.trackerHeightRatio = value / 100
-                    QuestieTracker:Update()
+                    if IsMouseButtonDown("LeftButton") and Questie.db[Questie.db.global.questieTLoc].TrackerHeight == 0 then
+                        TrackerBaseFrame.isSizing = true
+                        QuestieTracker:UpdateFormatting()
+                    else
+                        TrackerBaseFrame.isSizing = false
+                        QuestieTracker:UpdateFormatting()
+                    end
                 end
             },
         }
