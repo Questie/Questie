@@ -619,8 +619,8 @@ function QuestieTracker:Update()
                             frame = parent
                         end
 
-                        -- If the buttons alpha is zero - hide the expand quest button
-                        if Questie.db.char.collapsedQuests[quest.Id] or button:GetAlpha() < 0.06 then
+                        -- If the Quest is minimized show the Expand Quest button
+                        if Questie.db.char.collapsedQuests[quest.Id] then
                             button.line.expandQuest:Show()
                         else
                             button.line.expandQuest:Hide()
