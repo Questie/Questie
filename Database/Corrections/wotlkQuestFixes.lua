@@ -3088,6 +3088,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13607] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}}}},
+            [questKeys.preQuestSingle] = {13604},
         },
         [13616] = {
             [questKeys.exclusiveTo] = {13600,13603},
@@ -3413,6 +3414,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13816] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}}}},
+            [questKeys.preQuestSingle] = {13817},
+        },
+        [13817] = {
+            [questKeys.preQuestSingle] = {},
         },
         [13819] = {
             [questKeys.startedBy] = {{32871},nil,{46053}},

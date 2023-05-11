@@ -82,6 +82,10 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.1,60.5},{43.5,54.9},{45,57},{41,54},{39,60},{46.1,61},{46.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
+        [194555] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}}},
+            [objectKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
+        },
 
         -- Below are fake objects
         [400015] = {

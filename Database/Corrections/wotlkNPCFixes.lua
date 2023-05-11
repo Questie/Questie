@@ -854,11 +854,11 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
         [33956] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.8,91}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,89.5}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
         },
         [33957] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.8,91}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,89.5}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
         },
         [37172] = {
