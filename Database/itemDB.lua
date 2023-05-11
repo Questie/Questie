@@ -85,6 +85,9 @@ end
 -- 13        1     Lockpick
 -- 15        0     Miscellaneous, Junk
 
+QuestieDB.itemClasses = {
+    QUEST = 12,
+}
 
 QuestieDB.itemCompilerTypes = {
     ["foodType"] = "u8",
