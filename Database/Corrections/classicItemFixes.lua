@@ -11,6 +11,7 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB");
 
 function QuestieItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
+    local itemClasses = QuestieDB.itemClasses
 
     return {
         [730] = {
@@ -334,6 +335,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {935},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [5411] = {
+            [itemKeys.class] = itemClasses.QUEST,
         },
         [5445] = {
             [itemKeys.npcDrops] = {3943,10559},
