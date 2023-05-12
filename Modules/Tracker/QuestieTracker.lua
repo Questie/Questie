@@ -199,6 +199,26 @@ function QuestieTracker.Initialize()
                 end
             end
 
+            -- Look for any QuestID's that don't belong in the Questie.db.char.TrackedQuests or
+            -- the Questie.db.char.AutoUntrackedQuests tables. They can get out of sync.
+            if Questie.db.global.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
+                for untrackedQuestId in pairs(Questie.db.char.AutoUntrackedQuests) do
+                    for questId in pairs(QuestiePlayer.currentQuestlog) do
+                        if untrackedQuestId ~= questId then
+                            Questie.db.char.AutoUntrackedQuests[untrackedQuestId] = nil
+                        end
+                    end
+                end
+            elseif Questie.db.char.TrackedQuests then
+                for trackedQuestId in pairs(Questie.db.char.TrackedQuests) do
+                    for questId in pairs(QuestiePlayer.currentQuestlog) do
+                        if trackedQuestId ~= questId then
+                            Questie.db.char.TrackedQuests[trackedQuestId] = nil
+                        end
+                    end
+                end
+            end                    
+                    
             -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
             -- is enabled, this will always return nil so we need to save it before we enable Questie.
             if Questie.IsWotlk then
@@ -1698,6 +1718,13 @@ function QuestieTracker:RemoveQuest(questId)
         Questie.db.char.collapsedQuests[questId] = nil
     end
 
+    -- Let's remove the Quest from the Tracker tables just in case...
+    if Questie.db.char.AutoUntrackedQuests[questId] then
+        Questie.db.char.AutoUntrackedQuests[questId] = nil
+    elseif Questie.db.char.TrackedQuests[questId] then
+        Questie.db.char.TrackedQuests[questId] = nil
+    end
+    
     if Questie.db.char.TrackerFocus then
         if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == questId)
             or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(questId)) == tostring(questId)) then
