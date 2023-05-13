@@ -72,6 +72,9 @@ function QuestieWotlkItemFixes:Load()
         [23750] = {
             [itemKeys.objectDrops] = {202275},
         },
+        [23792] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [24156] = {
             [itemKeys.npcDrops] = {17845},
         },
