@@ -848,8 +848,11 @@ function QuestieTracker:Update()
                     -- is completed I have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
                     if completionText ~= nil then
                         completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
-                        line.altButton:SetParent(UIParent)
-                        line.altButton:Hide()
+
+                        if secondaryButton and secondaryButtonAlpha ~= 0 then
+                            line.altButton:SetParent(UIParent)
+                            line.altButton:Hide()
+                        end
                     end
 
                     -- Add incomplete Quest Objectives
