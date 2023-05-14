@@ -2353,7 +2353,7 @@ function QuestieQuestFixes:Load()
             [questKeys.sourceItemId] = 18746,
             [questKeys.zoneOrSort] = 1637,
             [questKeys.exclusiveTo] = {8258}, -- 8258 after Phase 4
-            [questKeys.childQuests] = {7769},
+            [questKeys.childQuests] = {7669},
         },
         [7669] = { --#1449
             [questKeys.name] = "Again Into the Great Ossuary",
@@ -2538,7 +2538,7 @@ function QuestieQuestFixes:Load()
         },
         [8258] = {
             [questKeys.exclusiveTo] = {7668}, -- 7668 before Phase 4
-            [questKeys.childQuests] = {7769},
+            [questKeys.childQuests] = {7669},
         },
         [8262] = {
             [questKeys.requiredMinRep] = {509,3000},
