@@ -217,8 +217,8 @@ function QuestieTracker.Initialize()
                         end
                     end
                 end
-            end                    
-                    
+            end
+
             -- The trackedAchievements variable is populated by GetTrackedAchievements(). If Questie
             -- is enabled, this will always return nil so we need to save it before we enable Questie.
             if Questie.IsWotlk then
@@ -614,7 +614,7 @@ function QuestieTracker:Update()
 
                 -- Adds the primary Quest Item button
                 -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                if (complete ~= 1 and (quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and GetItemSpell(quest.requiredSourceItems[1]) ~= nil)) then
+                if (complete ~= 1 or (quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and GetItemSpell(quest.requiredSourceItems[1]) ~= nil)) then
                     -- Get button from buttonPool
                     local button = TrackerLinePool.GetNextItemButton()
                     if not button then break end -- stop populating the tracker
@@ -768,6 +768,18 @@ function QuestieTracker:Update()
                     end
                 end
 
+                -- Set Secondary Quest Item Button Margins (QBC - Quest Button Check)
+                local lineLabelWidthQBC, lineLabelBaseFrameQBC, lineWidthQBC
+                if secondaryButton and secondaryButtonAlpha ~= 0 then
+                    lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
+                    lineLabelBaseFrameQBC = objectiveMarginLeft - trackerMarginRight - questItemButtonSize
+                    lineWidthQBC = objectiveMarginLeft + questItemButtonSize
+                else
+                    lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight
+                    lineLabelBaseFrameQBC = objectiveMarginLeft - trackerMarginRight
+                    lineWidthQBC = objectiveMarginLeft
+                end
+
                 -- Set Quest Line states
                 line:Show()
                 line.label:Show()
@@ -815,14 +827,14 @@ function QuestieTracker:Update()
                         end
 
                         -- Check and measure Timer text width and update tracker width
-                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
+                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
 
                         -- Set Timer Label and Line widthsl
-                        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+                        line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC)
+                        line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
                         -- Compare largest text Label in the tracker with current Label, then save widest width
-                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
 
                         -- Set Timer states
                         line:Show()
@@ -832,9 +844,12 @@ function QuestieTracker:Update()
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
 
-                    -- gsub removes any blank lines
+                    -- This removes any blank lines and hides the Secondary Quest Item Button. There are some quests with usable items after a quest
+                    -- is completed I have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
                     if completionText ~= nil then
                         completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
+                        line.altButton:SetParent(UIParent)
+                        line.altButton:Hide()
                     end
 
                     -- Add incomplete Quest Objectives
@@ -856,14 +871,9 @@ function QuestieTracker:Update()
                                 line.expandQuest:Hide()
                                 line.criteriaMark:Hide()
 
-                                -- Setup Objective Label based on states. This CANNOT be combined in the secondaryButton
-                                -- check below. line.label SetPoint needs to be set BEFORE we SetText.
+                                -- Setup Objective Label based on states.
                                 line.label:ClearAllPoints()
-                                if secondaryButton and secondaryButtonAlpha ~= 0 then
-                                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft + questItemButtonSize, 0)
-                                else
-                                    line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
-                                end
+                                line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                                 -- Set Objective based on states
                                 local objDesc = objective.Description:gsub("%.", "")
@@ -875,27 +885,15 @@ function QuestieTracker:Update()
                                     -- Set Objective text
                                     line.label:SetText(QuestieLib:GetRGBForObjective(objective) .. objDesc .. ": " .. lineEnding)
 
-                                    if secondaryButton and secondaryButtonAlpha ~= 0 then
-                                        -- Check and measure Objective text with Secondary Button widths and update tracker width
-                                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight + questItemButtonSize)
+                                    -- Check and measure Objective text and update tracker width
+                                    QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
 
-                                        -- Set Objective with Secondary Quest Item button Label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
-                                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft + questItemButtonSize)
+                                    -- Set Objective label and Line widths
+                                    line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC)
+                                    line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
-                                        -- Compare current text label with Secondary button width and the largest text label in the Tracker, then save the widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft + questItemButtonSize)
-                                    else
-                                        -- Check and measure Objective text width and update tracker width
-                                        QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
-
-                                        -- Set Objective Label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                                        line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
-
-                                        -- Compare largest text Label in the tracker with current Label, then save widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
-                                    end
+                                    -- Compare current text label and the largest text label in the Tracker, then save the widest width
+                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
 
                                     -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
                                 elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) then
@@ -945,7 +943,7 @@ function QuestieTracker:Update()
 
                         -- Setup Objective Label
                         line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                         -- Set Objective label based on states
                         if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) then
@@ -970,14 +968,14 @@ function QuestieTracker:Update()
                             end
 
                             -- Check and measure Objective text width and update tracker width
-                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
+                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + lineLabelWidthQBC)
 
                             -- Set Objective Label and Line widths
-                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
+                            line.label:SetWidth(trackerBaseFrame:GetWidth() - lineLabelBaseFrameQBC)
+                            line:SetWidth(line.label:GetWidth() + lineWidthQBC)
 
                             -- Compare largest text Label in the tracker with current Label, then save widest width
-                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
                         end
 
                         -- Set Objective state
@@ -1724,7 +1722,7 @@ function QuestieTracker:RemoveQuest(questId)
     elseif Questie.db.char.TrackedQuests[questId] then
         Questie.db.char.TrackedQuests[questId] = nil
     end
-    
+
     if Questie.db.char.TrackerFocus then
         if (type(Questie.db.char.TrackerFocus) == "number" and Questie.db.char.TrackerFocus == questId)
             or (type(Questie.db.char.TrackerFocus) == "string" and Questie.db.char.TrackerFocus:sub(1, #tostring(questId)) == tostring(questId)) then
