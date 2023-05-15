@@ -128,13 +128,6 @@ function TrackerLinePool.Initialize(questFrame)
 
                         if timeRemaining == 1 then
                             TrackerQuestTimers:UpdateTimerFrame()
-
-                            C_Timer.After(1, function()
-                                Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: Quest Timer Expired!")
-
-                                -- Assume the timer ran out so we need to manually trigger a QuestLog Update
-                                _QuestEventHandler:UpdateAllQuests()
-                            end)
                         end
 
                         timeElapsed = 0
