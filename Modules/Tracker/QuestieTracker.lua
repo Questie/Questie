@@ -848,11 +848,6 @@ function QuestieTracker:Update()
                     -- is completed I have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
                     if completionText ~= nil then
                         completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
-
-                        if secondaryButton and secondaryButtonAlpha ~= 0 then
-                            line.altButton:SetParent(UIParent)
-                            line.altButton:Hide()
-                        end
                     end
 
                     -- Add incomplete Quest Objectives
@@ -916,6 +911,12 @@ function QuestieTracker:Update()
 
                                     -- Update Quest has a check for this edge case. Should reset the Quest Icons and show the Quest Finisher
                                     QuestieQuest:UpdateQuest(quest.Id)
+
+                                    -- Hide the Secondary Quest Item Button
+                                    if secondaryButton and secondaryButtonAlpha ~= 0 then
+                                        line.altButton:SetParent(UIParent)
+                                        line.altButton:Hide()
+                                    end
                                 end
 
                                 -- Adds 1 pixel between multiple Objectives
@@ -963,6 +964,12 @@ function QuestieTracker:Update()
 
                             -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
                             trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+
+                            -- Hide the Secondary Quest Item Button
+                            if secondaryButton and secondaryButtonAlpha ~= 0 then
+                                line.altButton:SetParent(UIParent)
+                                line.altButton:Hide()
+                            end
                         else
                             if complete == 1 then
                                 line.label:SetText(Questie:Colorize(l10n("Quest Complete") .. "!", "green"))
