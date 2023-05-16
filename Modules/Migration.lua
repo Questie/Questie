@@ -178,21 +178,19 @@ local migrationFunctions = {
         Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons["complete"]
     end,
     [20] = function()
-        Questie.db.char.isAchievementsExpanded = nil
-
-        if Questie.db.global.trackerEnabled then   -- old value
-            Questie.db.global.trackerEnabled = nil -- kill old value
-            Questie.db.char.trackerEnabled = true  -- create new value
+        if Questie.db.global.trackerEnabled then                                    -- old value
+            Questie.db.global.trackerEnabled = nil                                  -- kill old value
+            Questie.db.char.trackerEnabled = true                                   -- create new value
         end
         if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then -- old default value
             Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
         end
         if Questie.db.global.trackerHeaderAutoMove == false then
-            Questie.db.global.trackerHeaderAutoMove = nil -- kill old key
-            Questie.db.global.autoMoveHeader = false      -- migrate previous setting to new key
+            Questie.db.global.trackerHeaderAutoMove = nil               -- kill old key
+            Questie.db.global.autoMoveHeader = false                    -- migrate previous setting to new key
         end
-        if Questie.db.global.sizerHidden == nil then -- new option
-            Questie.db.global.sizerHidden = false    -- set default
+        if Questie.db.global.sizerHidden == nil then                    -- new option
+            Questie.db.global.sizerHidden = false                       -- set default
         end
         if Questie.db.global.hideCompletedQuestObjectives == nil then   -- new option
             Questie.db.global.hideCompletedQuestObjectives = false      -- set default
@@ -201,8 +199,16 @@ local migrationFunctions = {
             Questie.db.global.hideCompletedAchieveObjectives = false    -- set default
         end
         if Questie.db.global.currentHeaderEnabledSetting == nil then    -- new option
-            -- Tracker Header is enabled by default so this should be true
-            Questie.db.global.currentHeaderEnabledSetting = true        -- set default
+            Questie.db.global.currentHeaderEnabledSetting = true        -- set trackerHeaderEnabled default
+        end
+        if Questie.db.global.currentBackdropEnabled == nil then         -- new option
+            Questie.db.global.currentBackdropEnabled = false            -- set trackerBackdropEnabled default
+        end
+        if Questie.db.global.currentBorderEnabled == nil then           -- new option
+            Questie.db.global.currentBorderEnabled = false              -- set trackerBorderEnabled default
+        end
+        if Questie.db.global.currentBackdropFader == nil then           -- new option
+            Questie.db.global.currentBackdropFader = false              -- set trackerBackdropFader default
         end
     end,
     [21] = function()

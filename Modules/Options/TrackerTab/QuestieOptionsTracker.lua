@@ -115,6 +115,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
+            -- hideCompletedAchieveObjectives: order = 1.6 | Check WotLK over-writes below
             showQuestTimer = {
                 type = "toggle",
                 order = 1.7,
@@ -299,13 +300,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerBackdropEnabled end,
                 set = function(_, value)
                     Questie.db.global.trackerBackdropEnabled = value
+                    Questie.db.global.currentBackdropEnabled = value
 
                     if value == true and not Questie.db.global.trackerBackdropFader then
                         TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     else
                         TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
                     end
-
                     QuestieTracker:UpdateFormatting()
                 end
             },
@@ -319,6 +320,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerBorderEnabled end,
                 set = function(_, value)
                     Questie.db.global.trackerBorderEnabled = value
+                    Questie.db.global.currentBorderEnabled = value
+
                     if value == true and not Questie.db.global.trackerBackdropFader then
                         TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
                     else
@@ -337,6 +340,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.trackerBackdropFader end,
                 set = function(_, value)
                     Questie.db.global.trackerBackdropFader = value
+                    Questie.db.global.currentBackdropFader = value
+
                     if value == true then
                         local fadeTicker
                         local fadeTickerValue = 1
@@ -811,9 +816,29 @@ function QuestieOptions.tabs.tracker:Initialize()
                     Questie.db.global.trackerHeightRatio = value / 100
                     if IsMouseButtonDown("LeftButton") and Questie.db[Questie.db.global.questieTLoc].TrackerHeight == 0 then
                         TrackerBaseFrame.isSizing = true
+                        Questie.db.global.trackerBackdropEnabled = true
+                        Questie.db.global.trackerBorderEnabled = true
+                        Questie.db.global.trackerBackdropFader = false
                         QuestieTracker:UpdateFormatting()
                     else
                         TrackerBaseFrame.isSizing = false
+                        Questie.db.global.trackerBackdropEnabled = Questie.db.global.currentBackdropEnabled
+                        Questie.db.global.trackerBorderEnabled = Questie.db.global.currentBorderEnabled
+                        Questie.db.global.trackerBackdropFader = Questie.db.global.currentBackdropFader
+
+                        --[[
+                        if Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
+                            TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
+                        else
+                            TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                        end
+
+                        if Questie.db.global.trackerBorderEnabled and Questie.db.global.trackerBackdropFader then
+                            TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
+                        else
+                            TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                        end
+                        --]]
                         QuestieTracker:UpdateFormatting()
                     end
                 end
@@ -822,6 +847,7 @@ function QuestieOptions.tabs.tracker:Initialize()
     }
 
     if Questie.IsWotlk then
+        -- These "over-write" the above options with Wrath of the Lich King specific language
         trackerOptions.args.hideCompletedAchieveObjectives = {
             type = "toggle",
             order = 1.6,

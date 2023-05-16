@@ -164,9 +164,16 @@ function TrackerBaseFrame:Update()
                 if not Questie.db.global.trackerBackdropFader then
                     baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                else
+                    baseFrame:SetBackdropColor(0, 0, 0, 0)
+                    baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                 end
             else
-                baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                if not Questie.db.global.trackerBackdropFader then
+                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                else
+                    baseFrame:SetBackdropColor(0, 0, 0, 0)
+                end
                 baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
         else
