@@ -233,9 +233,16 @@ function TrackerBaseFrame:Update()
                 if not Questie.db.global.trackerBackdropFader then
                     baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                else
+                    baseFrame:SetBackdropColor(0, 0, 0, 0)
+                    baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                 end
             else
-                baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                if not Questie.db.global.trackerBackdropFader then
+                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                else
+                    baseFrame:SetBackdropColor(0, 0, 0, 0)
+                end
                 baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
         else
@@ -438,7 +445,14 @@ function TrackerBaseFrame.OnResizeStart(_, button)
                     baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
                     ------------------------------------------------------------------------------
 
-                    QuestieTracker:Update()
+                    -- This switches ON the Tracker Background and Border and switches OFF
+                    -- the Tracker Fader to make it easier to see the Trackers boundaries.
+                    Questie.db.global.trackerBackdropEnabled = true
+                    Questie.db.global.trackerBorderEnabled = true
+                    Questie.db.global.trackerBackdropFader = false
+                    ------------------------------------------------------------------------------
+
+                    QuestieTracker:UpdateFormatting()
 
                     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
                         baseFrame:StartSizing("TOPRIGHT")
@@ -466,6 +480,11 @@ function TrackerBaseFrame.OnResizeStop(_, button)
     end
 
     TrackerBaseFrame.isSizing = false
+    -- This returns the players desired Background, Border and Fader to the correct setting
+    Questie.db.global.trackerBackdropEnabled = Questie.db.global.currentBackdropEnabled
+    Questie.db.global.trackerBorderEnabled = Questie.db.global.currentBorderEnabled
+    Questie.db.global.trackerBackdropFader = Questie.db.global.currentBackdropFader
+
     baseFrame:StopMovingOrSizing()
     QuestieCombatQueue:Queue(_UpdateTrackerPosition)
     updateTimer:Cancel()

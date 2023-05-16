@@ -85,21 +85,33 @@ end
 function _QuestEventHandler:QuestAccepted(questLogIndex, questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED", questLogIndex, questId)
 
-    -- Prevents duplicate quest entries in the tracker while in combat
-    QuestieCombatQueue:Queue(function()
-        if questLog[questId] and questLog[questId].timer then
-            -- We had a QUEST_REMOVED event which started this timer and now it was accepted again.
-            -- So the quest was abandoned before, because QUEST_TURNED_IN would have run before QUEST_ACCEPTED.
-            questLog[questId].timer:Cancel()
-            questLog[questId].timer = nil
+    if questLog[questId] and questLog[questId].timer then
+        -- We had a QUEST_REMOVED event which started this timer and now it was accepted again.
+        -- So the quest was abandoned before, because QUEST_TURNED_IN would have run before QUEST_ACCEPTED.
+        questLog[questId].timer:Cancel()
+        questLog[questId].timer = nil
+        QuestieCombatQueue:Queue(function()
             _QuestEventHandler:MarkQuestAsAbandoned(questId)
-        end
+        end)
+    end
 
-        questLog[questId] = {}
+    questLog[questId] = {}
+
+    -- Timed quests do not need a full Quest Log Update.
+    -- TODO: Add achievement timers later.
+    local questTimers = GetQuestTimers(questId)
+    if type(questTimers) == "number" then
+        skipNextUQLCEvent = false
+    else
         skipNextUQLCEvent = true
+    end
+
+    QuestieCombatQueue:Queue(function()
         QuestieLib:CacheItemNames(questId)
         _QuestEventHandler:HandleQuestAccepted(questId)
     end)
+
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_ACCEPTED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
@@ -198,10 +210,12 @@ function _QuestEventHandler:QuestRemoved(questId)
         end, 1)
     }
     skipNextUQLCEvent = true
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QUEST_REMOVED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 end
 
 ---@param questId number
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
         Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
@@ -268,6 +282,7 @@ end
 ---@param unitTarget string
 function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED", unitTarget)
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] UNIT_QUEST_LOG_CHANGED - skipNextUQLCEvent - ", skipNextUQLCEvent)
 
     -- There seem to be quests which don't trigger a QUEST_WATCH_UPDATE.
     -- We don't add a full check to the queue if skipNextUQLCEvent == true (from QUEST_WATCH_UPDATE or QUEST_TURNED_IN)
@@ -305,7 +320,7 @@ function _QuestEventHandler:UpdateAllQuests()
             QuestieQuest:UpdateQuest(questId)
         end
         QuestieCombatQueue:Queue(function()
-            C_Timer.After(2.0, function()
+            C_Timer.After(1.0, function()
                 QuestieTracker:Update()
             end)
         end)
