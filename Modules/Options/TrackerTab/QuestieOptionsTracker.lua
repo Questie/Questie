@@ -825,20 +825,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                         Questie.db.global.trackerBackdropEnabled = Questie.db.global.currentBackdropEnabled
                         Questie.db.global.trackerBorderEnabled = Questie.db.global.currentBorderEnabled
                         Questie.db.global.trackerBackdropFader = Questie.db.global.currentBackdropFader
-
-                        --[[
-                        if Questie.db.global.trackerBackdropEnabled and Questie.db.global.trackerBackdropFader then
-                            TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, 0)
-                        else
-                            TrackerBaseFrame.baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
-                        end
-
-                        if Questie.db.global.trackerBorderEnabled and Questie.db.global.trackerBackdropFader then
-                            TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
-                        else
-                            TrackerBaseFrame.baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
-                        end
-                        --]]
                         QuestieTracker:UpdateFormatting()
                     end
                 end
