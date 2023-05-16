@@ -1960,8 +1960,14 @@ function QuestieTracker:TrackAchieve(achieveId)
 
     if achieveId > 0 then
         -- This handles the Track check box in the Achievement UI
-        local mouseFocus = GetMouseFocus():GetName()
-        local frameMatch = strmatch(mouseFocus, "(AchievementFrameAchievementsContainerButton%dTracked.*)")
+        local mouseFocus
+        local frameMatch
+
+        -- Krowi isn't using this check box for their Achievement frame
+        if not IsAddOnLoaded("Krowi_AchievementFilter") then
+            mouseFocus = GetMouseFocus():GetName()
+            frameMatch = strmatch(mouseFocus, "(AchievementFrameAchievementsContainerButton%dTracked.*)")
+        end
 
         -- Upon first login or reloadui, this frame isn't loaded
         if (not AchievementFrame) then
