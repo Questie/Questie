@@ -452,13 +452,13 @@ function TrackerBaseFrame.OnResizeStart(_, button)
                     Questie.db.global.trackerBackdropFader = false
                     ------------------------------------------------------------------------------
 
-                    QuestieTracker:UpdateFormatting()
-
                     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
                         baseFrame:StartSizing("TOPRIGHT")
                     else
                         baseFrame:StartSizing("BOTTOMRIGHT")
                     end
+
+                    QuestieTracker:Update()
                 end)
             end
         end
@@ -472,7 +472,7 @@ end
 function TrackerBaseFrame.OnResizeStop(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
 
-    if button == "RightButton" or TrackerBaseFrame.isSizing ~= true then
+    if button == "RightButton" and TrackerBaseFrame.isSizing ~= true then
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
@@ -488,4 +488,9 @@ function TrackerBaseFrame.OnResizeStop(_, button)
     baseFrame:StopMovingOrSizing()
     QuestieCombatQueue:Queue(_UpdateTrackerPosition)
     updateTimer:Cancel()
+    C_Timer.After(0.05, function()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end)
 end

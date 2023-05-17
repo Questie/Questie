@@ -42,7 +42,7 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
 local trackerLineWidth = 0
-local trackerMinLineWidth = 275
+local trackerMinLineWidth = 280
 local trackerMarginRight = 20
 local trackerMarginLeft = 10
 local lastAQW = GetTime()
@@ -519,10 +519,10 @@ function QuestieTracker:Update()
                 end
 
                 -- Check and measure Zone Label text width and update tracker width
-                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+                QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
 
                 -- Set Zone Label and Line widths
-                line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft)
+                line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
                 line:SetWidth(line.label:GetWidth())
 
                 -- Compare largest text Label in the tracker with current Label, then save widest width
@@ -773,11 +773,11 @@ function QuestieTracker:Update()
                 local lineLabelWidthQBC, lineLabelBaseFrameQBC, lineWidthQBC
                 if secondaryButton and secondaryButtonAlpha ~= 0 then
                     lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
-                    lineLabelBaseFrameQBC = objectiveMarginLeft - trackerMarginRight - questItemButtonSize
+                    lineLabelBaseFrameQBC = objectiveMarginLeft + trackerMarginRight + questItemButtonSize
                     lineWidthQBC = objectiveMarginLeft + questItemButtonSize
                 else
                     lineLabelWidthQBC = objectiveMarginLeft + trackerMarginRight
-                    lineLabelBaseFrameQBC = objectiveMarginLeft - trackerMarginRight
+                    lineLabelBaseFrameQBC = objectiveMarginLeft + trackerMarginRight
                     lineWidthQBC = objectiveMarginLeft
                 end
 
@@ -805,7 +805,7 @@ function QuestieTracker:Update()
 
                         -- Setup Timer Label
                         line.label:ClearAllPoints()
-                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", objectiveMarginLeft, 0)
+                        line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                         -- Set Timer font
                         line.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective), Questie.db.global.trackerFontSizeObjective, Questie.db.global.trackerFontOutline)
@@ -1003,6 +1003,7 @@ function QuestieTracker:Update()
                 -- Adds 2 pixels and "Padding Between Quests" setting in Tracker Options
                 line:SetHeight(line.label:GetHeight() + (Questie.db.global.trackerQuestPadding + 2))
             end
+
             primaryButton = false
             secondaryButton = false
         end
@@ -1075,10 +1076,10 @@ function QuestieTracker:Update()
                     end
 
                     -- Check and measure Zone Label text width and update tracker width
-                    QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft)
+                    QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + trackerMarginLeft + trackerMarginRight)
 
                     -- Set Zone Label and Line widths
-                    line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft)
+                    line.label:SetWidth(trackerBaseFrame:GetWidth() - trackerMarginLeft - trackerMarginRight)
                     line:SetWidth(line.label:GetWidth())
 
                     -- Compare largest text Label in the tracker with current Label, then save widest width
@@ -1383,9 +1384,6 @@ function QuestieTracker:Update()
         line = TrackerLinePool.GetLastLine()
     end
 
-    -- Removes any padding from the last line in the tracker
-    line:SetHeight(line.label:GetHeight())
-
     -- Update tracker formatting
     if line then
         QuestieTracker:UpdateFormatting()
@@ -1466,15 +1464,19 @@ function QuestieTracker:UpdateFormatting()
 
     TrackerHeaderFrame:Update()
 
-    if trackerLineWidth > 1 and TrackerLinePool.GetCurrentLine() then
+    local line = TrackerLinePool.GetCurrentLine()
+    if line and trackerLineWidth > 1 then
         local trackerVarsCombined = trackerLineWidth + trackerMarginRight
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
 
-        if TrackerLinePool.GetCurrentLine().mode == "zone" then
-            trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
+        -- Removes any padding from the last line in the tracker
+        line:SetHeight(line.label:GetStringHeight())
+
+        if line.mode == "zone" then
+            trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - line:GetBottom()))
         else
-            trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 2))
+            trackerQuestFrame.ScrollChildFrame:SetSize(trackerVarsCombined, (TrackerLinePool.GetFirstLine():GetTop() - line:GetBottom() + 2))
         end
 
         trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
