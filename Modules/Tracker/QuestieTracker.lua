@@ -208,18 +208,14 @@ function QuestieTracker.Initialize()
             -- the Questie.db.char.AutoUntrackedQuests tables. They can get out of sync.
             if Questie.db.global.autoTrackQuests and Questie.db.char.AutoUntrackedQuests then
                 for untrackedQuestId in pairs(Questie.db.char.AutoUntrackedQuests) do
-                    for questId in pairs(QuestiePlayer.currentQuestlog) do
-                        if untrackedQuestId ~= questId then
-                            Questie.db.char.AutoUntrackedQuests[untrackedQuestId] = nil
-                        end
+                    if not QuestiePlayer.currentQuestlog[untrackedQuestId] then
+                        Questie.db.char.AutoUntrackedQuests[untrackedQuestId] = nil
                     end
                 end
             elseif Questie.db.char.TrackedQuests then
                 for trackedQuestId in pairs(Questie.db.char.TrackedQuests) do
-                    for questId in pairs(QuestiePlayer.currentQuestlog) do
-                        if trackedQuestId ~= questId then
-                            Questie.db.char.TrackedQuests[trackedQuestId] = nil
-                        end
+                    if not QuestiePlayer.currentQuestlog[trackedQuestId] then
+                        Questie.db.char.TrackedQuests[trackedQuestId] = nil
                     end
                 end
             end
