@@ -214,14 +214,14 @@ local migrationFunctions = {
         Questie.db.global.hideCompletedAchieveObjectives = true
     end,
     [23] = function()
-        if Questie.db.global.currentBackdropEnabled == nil then -- new option
-            Questie.db.global.currentBackdropEnabled = false    -- set trackerBackdropEnabled default
+        if Questie.db.global.currentBackdropEnabled == nil then                                 -- new option
+            Questie.db.global.currentBackdropEnabled = Questie.db.global.trackerBackdropEnabled -- set trackerBackdropEnabled default
         end
-        if Questie.db.global.currentBorderEnabled == nil then   -- new option
-            Questie.db.global.currentBorderEnabled = false      -- set trackerBorderEnabled default
+        if Questie.db.global.currentBorderEnabled == nil then                                   -- new option
+            Questie.db.global.currentBorderEnabled = Questie.db.global.trackerBorderEnabled     -- set trackerBorderEnabled default
         end
-        if Questie.db.global.currentBackdropFader == nil then   -- new option
-            Questie.db.global.currentBackdropFader = false      -- set trackerBackdropFader default
+        if Questie.db.global.currentBackdropFader == nil then                                   -- new option
+            Questie.db.global.currentBackdropFader = Questie.db.global.trackerBackdropFader     -- set trackerBackdropFader default
         end
     end
 }
