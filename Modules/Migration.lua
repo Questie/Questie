@@ -201,15 +201,6 @@ local migrationFunctions = {
         if Questie.db.global.currentHeaderEnabledSetting == nil then    -- new option
             Questie.db.global.currentHeaderEnabledSetting = true        -- set trackerHeaderEnabled default
         end
-        if Questie.db.global.currentBackdropEnabled == nil then         -- new option
-            Questie.db.global.currentBackdropEnabled = false            -- set trackerBackdropEnabled default
-        end
-        if Questie.db.global.currentBorderEnabled == nil then           -- new option
-            Questie.db.global.currentBorderEnabled = false              -- set trackerBorderEnabled default
-        end
-        if Questie.db.global.currentBackdropFader == nil then           -- new option
-            Questie.db.global.currentBackdropFader = false              -- set trackerBackdropFader default
-        end
     end,
     [21] = function()
         if Questie.db.char.soundOnQuestComplete == nil then -- new option
@@ -221,6 +212,17 @@ local migrationFunctions = {
     end,
     [22] = function()
         Questie.db.global.hideCompletedAchieveObjectives = true
+    end,
+    [23] = function()
+        if Questie.db.global.currentBackdropEnabled == nil then -- new option
+            Questie.db.global.currentBackdropEnabled = false    -- set trackerBackdropEnabled default
+        end
+        if Questie.db.global.currentBorderEnabled == nil then   -- new option
+            Questie.db.global.currentBorderEnabled = false      -- set trackerBorderEnabled default
+        end
+        if Questie.db.global.currentBackdropFader == nil then   -- new option
+            Questie.db.global.currentBackdropFader = false      -- set trackerBackdropFader default
+        end
     end
 }
 

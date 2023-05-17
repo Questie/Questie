@@ -756,7 +756,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, value)
                     Questie.db.global.trackerQuestPadding = value
                     local trackerHeightByManual = Questie.db[Questie.db.global.questieTLoc].TrackerHeight
-                    local trackedObjects = GetNumQuestWatches(true) + GetNumTrackedAchievements(true) - 1
                     if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
                         QuestieTracker:UpdateFormatting()
                     elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
