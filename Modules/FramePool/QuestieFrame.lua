@@ -22,7 +22,7 @@ local _Qframe = {}
 ---@return IconFrame
 function QuestieFramePool.Qframe:New(frameId, OnEnter)
     ---@class IconFrame : Button
-    local newFrame = CreateFrame("Button", "QuestieFrame"..frameId)
+    local newFrame = CreateFrame("Button", "QuestieFrame" .. frameId)
     newFrame.frameId = frameId;
 
     -- Add the frames to the ignore list of the Minimap Button Bag (MBB) addon
@@ -35,14 +35,14 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieFramePool] Over 5000 frames... maybe there is a leak?", frameId)
     end
 
-    newFrame.glow = CreateFrame("Button", "QuestieFrame"..frameId.."Glow", newFrame) -- glow frame
+    newFrame.glow = CreateFrame("Button", "QuestieFrame" .. frameId .. "Glow", newFrame) -- glow frame
     newFrame.glow:SetFrameStrata("FULLSCREEN");
-    newFrame.glow:SetWidth(18) -- Set these to whatever height/width is needed
+    newFrame.glow:SetWidth(18)                                                       -- Set these to whatever height/width is needed
     newFrame.glow:SetHeight(18)
 
 
     newFrame:SetFrameStrata("FULLSCREEN");
-    newFrame:SetWidth(16) -- Set these to whatever height/width is needed
+    newFrame:SetWidth(16)  -- Set these to whatever height/width is needed
     newFrame:SetHeight(16) -- for your Texture
     newFrame:SetPoint("CENTER", -8, -8)
     newFrame:EnableMouse(true)
@@ -65,20 +65,21 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     newFrame.texture = newTexture;
     newFrame.texture.OLDSetVertexColor = newFrame.texture.SetVertexColor;
     function newFrame.texture:SetVertexColor(r, g, b, a)
-        self:OLDSetVertexColor(r,g,b,a);
+        self:OLDSetVertexColor(r, g, b, a);
         --We save the colors to the texture object, this way we don't need to use GetVertexColor
         self.r = r or 1;
         self.g = g or 1;
         self.b = b or 1;
         self.a = a or 1;
     end
+
     --We save the colors to the texture object, this way we don't need to use GetVertexColor
-    newFrame.texture:SetVertexColor(1,1,1,1);
+    newFrame.texture:SetVertexColor(1, 1, 1, 1);
 
     newFrame.glowTexture = glowt
     newFrame.glowTexture.OLDSetVertexColor = newFrame.glowTexture.SetVertexColor;
     function newFrame.glowTexture:SetVertexColor(r, g, b, a)
-        self:OLDSetVertexColor(r,g,b,a);
+        self:OLDSetVertexColor(r, g, b, a);
         --We save the colors to the texture object, this way we don't need to use GetVertexColor
         self.r = r or 1;
         self.g = g or 1;
@@ -87,14 +88,14 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
     end
 
     --We save the colors to the texture object, this way we don't need to use GetVertexColor
-    newFrame.glowTexture:SetVertexColor(1,1,1,1);
+    newFrame.glowTexture:SetVertexColor(1, 1, 1, 1);
 
     newFrame.glowTexture:SetTexture(Questie.icons["glow"])
     newFrame.glow:Hide()
     newFrame.glow:SetPoint("CENTER", -9, -9) -- 2 pixels bigger than normal icon
     newFrame.glow:EnableMouse(false)
 
-    newFrame:SetScript("OnEnter", OnEnter); --Script Toolip
+    newFrame:SetScript("OnEnter", OnEnter);        --Script Toolip
     newFrame:SetScript("OnLeave", _Qframe.OnLeave) --Script Exit Tooltip
     newFrame:RegisterForClicks("RightButtonUp", "LeftButtonUp")
     newFrame:SetScript("OnClick", _Qframe.OnClick);
@@ -141,7 +142,7 @@ function _Qframe:OnLeave()
     end
 
     if self.data.touchedPins then
-        for i=#self.data.touchedPins,1,-1 do
+        for i = #self.data.touchedPins, 1, -1 do
             local entry = self.data.touchedPins[i]
             local icon = entry.icon;
             icon.texture:SetVertexColor(unpack(entry.color));
@@ -164,7 +165,7 @@ function _Qframe:OnClick(button)
                 end
             end
         else
-            if self.UiMapID ~= WorldMapFrame:GetMapID() then
+            if self.UiMapID ~= WorldMapFrame:GetMapID() and not IsModifierKeyDown() then
                 WorldMapFrame:SetMapID(self.UiMapID);
             end
         end
@@ -218,14 +219,14 @@ function _Qframe:GlowUpdate()
     if self.glow and self.glow.IsShown and self.glow:IsShown() then
         --Due to this always being 1:1 we can assume that if one isn't correct, the other isn't either
         --We can also assume that both change at the same time so we only check one.
-        if(self.glow:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glow:GetHeight() ~= self:GetHeight() * 1.13
+        if (self.glow:GetWidth() ~= self:GetWidth() * 1.13) then ---self.glow:GetHeight() ~= self:GetHeight() * 1.13
             self.glow:SetSize(self:GetWidth() * 1.13, self:GetHeight() * 1.13)
             self.glow:SetPoint("CENTER", self, 0, 0)
         end
         if self.data and self.data.ObjectiveData and self.data.ObjectiveData.Color and self.glowTexture then
             --Due to us now saving the alpha inside of the texture we don't need to check the main texture anymore.
             --The question is is it faster to get and compare or just set straight up?
-            if(self.glowTexture.r ~= self.data.ObjectiveData.Color[1] or self.glowTexture.g ~= self.data.ObjectiveData.Color[2] or self.glowTexture.b ~= self.data.ObjectiveData.Color[3] or self.texture.a ~= self.glowTexture.a) then
+            if (self.glowTexture.r ~= self.data.ObjectiveData.Color[1] or self.glowTexture.g ~= self.data.ObjectiveData.Color[2] or self.glowTexture.b ~= self.data.ObjectiveData.Color[3] or self.texture.a ~= self.glowTexture.a) then
                 self.glowTexture:SetVertexColor(self.data.ObjectiveData.Color[1], self.data.ObjectiveData.Color[2], self.data.ObjectiveData.Color[3], self.texture.a or 1)
             end
         end
@@ -242,7 +243,7 @@ function _Qframe:BaseOnShow()
         data and data.ObjectiveData and
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
-    ) then
+        ) then
         self.glow:SetWidth(self:GetWidth() * 1.13)
         self.glow:SetHeight(self:GetHeight() * 1.13)
         self.glow:SetPoint("CENTER", self, 0, 0)
@@ -266,7 +267,7 @@ function _Qframe:UpdateTexture(texture)
     local objectiveColor
     local alpha
 
-    if(self.miniMapIcon) then
+    if (self.miniMapIcon) then
         globalScale = Questie.db.global.globalMiniMapScale;
         objectiveColor = Questie.db.global.questMinimapObjectiveColors;
         alpha = 0;
@@ -278,7 +279,7 @@ function _Qframe:UpdateTexture(texture)
 
     self.texture:SetTexture(texture)
     --self.data.Icon = texture;
-    local colors = {1, 1, 1}
+    local colors = { 1, 1, 1 }
 
     if self.data.IconColor ~= nil and objectiveColor then
         colors = self.data.IconColor
@@ -286,7 +287,7 @@ function _Qframe:UpdateTexture(texture)
     self.texture:SetVertexColor(colors[1], colors[2], colors[3], alpha);
 
     if self.data.IconScale then
-        local scale = 16 * ((self.data:GetIconScale() or 1)*(globalScale or 0.7));
+        local scale = 16 * ((self.data:GetIconScale() or 1) * (globalScale or 0.7));
         self:SetWidth(scale)
         self:SetHeight(scale)
     else
@@ -329,17 +330,17 @@ function _Qframe:Unload()
     HBDPins:RemoveWorldMapIcon(Questie, self)
     QuestieDBMIntegration:UnregisterHudQuestIcon(tostring(self))
 
-    if(self.texture) then
+    if (self.texture) then
         self.texture:SetVertexColor(1, 1, 1, 1)
     end
     self.miniMapIcon = nil;
     self:SetScript("OnUpdate", nil)
 
     if self.fadeLogicTimer then
-      self.fadeLogicTimer:Cancel();
+        self.fadeLogicTimer:Cancel();
     end
     if self.glowLogicTimer then
-      self.glowLogicTimer:Cancel();
+        self.glowLogicTimer:Cancel();
     end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
@@ -447,10 +448,10 @@ function _Qframe:ShouldBeHidden()
                 or ((not questieCharDB.showDungeonQuests) and QuestieDB.IsDungeonQuest(questId))
                 or ((not questieCharDB.showRaidQuests) and QuestieDB.IsRaidQuest(questId))
                 or ((not questieCharDB.showPvPQuests) and QuestieDB.IsPvPQuest(questId))
-                -- this quest group isn't loaded at all while disabled:
-                -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
-                )
+            -- this quest group isn't loaded at all while disabled:
+            -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
             )
+        )
     then
         return true
     end
