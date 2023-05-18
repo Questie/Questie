@@ -87,7 +87,8 @@ function TrackerBaseFrame.Initialize()
 
         -- Set initial tooltip
         if not Questie.db.global.sizerHidden then
-            GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+            GameTooltip._owner = self
+            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
             if IsShiftKeyDown() then
                 GameTooltip:ClearLines()
                 GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
