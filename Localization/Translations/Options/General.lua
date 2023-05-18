@@ -1384,7 +1384,7 @@ local generalOptionsLocales = {
     },
     ["Play a short sound when completing a quest when it is ready to turn in."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Воспроизводить короткий звук по выполнении задания, обозначая готовность его сдачи",
+        ["ruRU"] = "Воспроизводить короткий звук при выполнении задания, обозначая готовность его сдачи",
         ["deDE"] = "Spielt einen kurzen Ton, wenn eine Quest fertig ist und abgegeben werden kann.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1408,7 +1408,7 @@ local generalOptionsLocales = {
     },
     ["Play a short sound when completing a quest objective."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Воспроизводить короткий звук по выполнении цели задания",
+        ["ruRU"] = "Воспроизводить короткий звук при выполнении цели задания",
         ["deDE"] = "Spielt einen kurzen Ton, wenn ein Quest-Ziel abgeschlossen ist.",
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1432,7 +1432,7 @@ local generalOptionsLocales = {
     },
     ["The sound you hear when a quest is completed"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Звук по выполнении задания",
+        ["ruRU"] = "Звук при выполнении задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1456,7 +1456,7 @@ local generalOptionsLocales = {
     },
     ["The sound you hear when an objective is completed"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = "Звук по выполнении цели задания",
+        ["ruRU"] = "Звук при выполнении цели задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1468,7 +1468,7 @@ local generalOptionsLocales = {
     },
     ["Quest objective progress"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Прогресс цели задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1480,7 +1480,7 @@ local generalOptionsLocales = {
     },
     ["Play a short sound when making progress on a quest objective."] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Воспроизводить короткий звук при прогрессе цели задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1492,7 +1492,7 @@ local generalOptionsLocales = {
     },
     ["Objective Progress Sound Selection"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Выбор звука",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
@@ -1504,7 +1504,7 @@ local generalOptionsLocales = {
     },
     ["The sound you hear when you make progress on a quest objective"] = {
         ["ptBR"] = nil,
-        ["ruRU"] = nil,
+        ["ruRU"] = "Звук при прогрессе цели задания",
         ["deDE"] = nil,
         ["koKR"] = nil,
         ["esMX"] = nil,
