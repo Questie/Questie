@@ -766,7 +766,7 @@ local trackerOptionsLocales = {
         ["frFR"] = "Comment les objectifs sont triés dans le Traqueur",
     },
     ---------------------------------------------------------
-    ["By %% Completed"] = {
+    ["By %% Complete"] = {
         ["ptBR"] = "Por %% concluído",
         ["ruRU"] = "По %% выполнения",
         ["deDE"] = "Nach abgeschlossenen %%",
@@ -777,6 +777,18 @@ local trackerOptionsLocales = {
         ["zhTW"] = "根據進度百分比",
         ["esES"] = "Por %% Completado",
         ["frFR"] = "Par %% accompli",
+    },
+    ["By %% Complete (Reversed)"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
     ["By Level"] = {
         ["ptBR"] = "Por nivel",
@@ -814,6 +826,18 @@ local trackerOptionsLocales = {
         ["esES"] = "Por proximidad",
         ["frFR"] = "Par proximité",
     },
+    ["By Proximity (Reversed)"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["By Zone"] = {
         ["ptBR"] = "Por zona",
         ["ruRU"] = "По игровой зоне",
@@ -825,6 +849,30 @@ local trackerOptionsLocales = {
         ["zhTW"] = "依照地區",
         ["esES"] = "Por zona",
         ["frFR"] = "Par zone",
+    },
+    ["By Zone Prox"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["By Zone Prox (Reversed)"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
     ---------------------------------------------------------
     ["Set |cFF54e33bTomTom|r Target"] = {
