@@ -38,5 +38,5 @@ print('######### END CHANGELOG')
 
 subprocess.run(['git', 'add', 'README.md'])
 subprocess.run(['git', 'add', '*.toc'])
-subprocess.run(['git', 'commit', '-mBump version to ' + version])
+subprocess.run(['git', 'commit', '-mBump version to v' + version])
 subprocess.run(['git', 'tag', 'v' + version])
