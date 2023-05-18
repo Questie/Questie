@@ -9,7 +9,8 @@ jobs:
   release:
     runs-on: ubuntu-latest
 
-    #env:
+    env:
+      WAGO_API_TOKEN = ${{ secrets.WAGO_API_TOKEN}}
       #CF_API_KEY: ${{ secrets.CF_API_KEY }}
       #GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
@@ -21,14 +22,15 @@ jobs:
         id: changelog
         run: python changelog.py >> CHANGELOG.md
 
-      - name: Package and release Wrath
-        uses: BigWigsMods/packager@master
-        with:
-          args: -d -e -l -m .pkgmeta.yaml
+      - name: Build ZIP
+        run: python build.py -r
 
-      - name: Upload GitHub artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: Questie-${{github.sha}}
-          path: .release/Questie-*.zip
+      - name: Upload WAGO
+        run: sh upload.sh
+
+#      - name: Upload GitHub artifact
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: Questie-${{github.sha}}
+#          path: .release/Questie-*.zip
 

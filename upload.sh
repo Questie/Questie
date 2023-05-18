@@ -3,7 +3,7 @@
 LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
-WAGO_API_TOKEN=$(cat wago-token.txt)
+#WAGO_API_TOKEN=$(cat wago-token.txt)
 
 WAGO_METADATA=$(cat <<-EOF
 {
