@@ -56,7 +56,7 @@ local migrationFunctions = {
         Questie.db.char = {}
 
         if not hasRunAccountWide then
-            for k,v in pairs(optionsDefaults.global) do
+            for k, v in pairs(optionsDefaults.global) do
                 Questie.db.global[k] = v
             end
         end
@@ -66,7 +66,7 @@ local migrationFunctions = {
             Questie.db.char.enabled = true
         end
 
-        for k,v in pairs(optionsDefaults.char) do
+        for k, v in pairs(optionsDefaults.char) do
             Questie.db.char[k] = v
         end
 
@@ -104,10 +104,10 @@ local migrationFunctions = {
             Questie.db.char.questAnnounce = true
         end
     end,
-    [7] =  function()
+    [7] = function()
         Questie.db.global.hasSeenBetaMessage = nil
     end,
-    [8] =  function()
+    [8] = function()
         if not Questie.db.char.questAnnounceChannel then
             if (not Questie.db.char.questAnnounce) or Questie.db.char.questAnnounce == "disabled" then
                 Questie.db.char.questAnnounceChannel = "disabled"
@@ -129,7 +129,10 @@ local migrationFunctions = {
         end
     end,
     [11] = function()
-        Questie.db.global.trackerEnabled = true
+        if Questie.db.global.trackerEnabled then   -- old value
+            Questie.db.global.trackerEnabled = nil -- kill old value
+            Questie.db.char.trackerEnabled = true  -- create new value
+        end
     end,
     [12] = function()
         Questie.db.char.collapsedQuests = {}
@@ -138,9 +141,7 @@ local migrationFunctions = {
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = nil
     end,
     [14] = function()
-        if Questie.db.char.isAchievementsExpanded == nil then
-            Questie.db.char.isAchievementsExpanded = true
-        end
+        -- Empty on purpose
     end,
     [15] = function()
         if Questie.db.global.clusterLevelHotzone == 70 then -- old default value
@@ -166,10 +167,66 @@ local migrationFunctions = {
             Questie.db.global.isleOfQuelDanasPhase = 9 -- Last Isle Of Quel Danas Phase
         end
     end,
+    [18] = function()
+        if Questie.db.char.enableQuestFrameIcons == nil then
+            Questie.db.char.enableQuestFrameIcons = true
+        end
+    end,
+    [19] = function()
+        Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons["complete"]
+        Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons["complete"]
+        Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons["complete"]
+    end,
+    [20] = function()
+        if Questie.db.global.trackerEnabled then                                    -- old value
+            Questie.db.global.trackerEnabled = nil                                  -- kill old value
+            Questie.db.char.trackerEnabled = true                                   -- create new value
+        end
+        if Questie.db[Questie.db.global.questieTLoc].trackerSetpoint == "AUTO" then -- old default value
+            Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = "TOPLEFT"
+        end
+        if Questie.db.global.trackerHeaderAutoMove == false then
+            Questie.db.global.trackerHeaderAutoMove = nil               -- kill old key
+            Questie.db.global.autoMoveHeader = false                    -- migrate previous setting to new key
+        end
+        if Questie.db.global.sizerHidden == nil then                    -- new option
+            Questie.db.global.sizerHidden = false                       -- set default
+        end
+        if Questie.db.global.hideCompletedQuestObjectives == nil then   -- new option
+            Questie.db.global.hideCompletedQuestObjectives = false      -- set default
+        end
+        if Questie.db.global.hideCompletedAchieveObjectives == nil then -- new option
+            Questie.db.global.hideCompletedAchieveObjectives = false    -- set default
+        end
+        if Questie.db.global.currentHeaderEnabledSetting == nil then    -- new option
+            Questie.db.global.currentHeaderEnabledSetting = true        -- set trackerHeaderEnabled default
+        end
+    end,
+    [21] = function()
+        if Questie.db.char.soundOnQuestComplete == nil then -- new option
+            Questie.db.char.soundOnQuestComplete = false
+        end
+        if Questie.db.char.soundOnObjectiveComplete == nil then -- new option
+            Questie.db.char.soundOnObjectiveComplete = false
+        end
+    end,
+    [22] = function()
+        Questie.db.global.hideCompletedAchieveObjectives = true
+    end,
+    [23] = function()
+        if Questie.db.global.currentBackdropEnabled == nil then                                 -- new option
+            Questie.db.global.currentBackdropEnabled = Questie.db.global.trackerBackdropEnabled -- set trackerBackdropEnabled default
+        end
+        if Questie.db.global.currentBorderEnabled == nil then                                   -- new option
+            Questie.db.global.currentBorderEnabled = Questie.db.global.trackerBorderEnabled     -- set trackerBorderEnabled default
+        end
+        if Questie.db.global.currentBackdropFader == nil then                                   -- new option
+            Questie.db.global.currentBackdropFader = Questie.db.global.trackerBackdropFader     -- set trackerBackdropFader default
+        end
+    end
 }
 
 function Migration:Migrate()
-
     if not Questie.db.global.migrationVersion then
         Questie.db.global.migrationVersion = {}
     end
@@ -191,5 +248,4 @@ function Migration:Migrate()
     end
 
     Questie.db.global.migrationVersion[player] = currentVersion
-
 end

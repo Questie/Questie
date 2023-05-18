@@ -38,6 +38,18 @@ local minimapOptionsLocales = {
         ["esES"] = "Mostrar aura detrás de los iconos de minimapa",
         ["frFR"] = "Surbrillance des icônes sur la mini-carte",
     },
+    ["Different Minimap Icon Color for Each Quest"] = {
+            ["ptBR"] = false,
+            ["ruRU"] = "Различные цвета значков (миникарта)",
+            ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",
+            ["koKR"] = false,
+            ["esMX"] = false,
+            ["enUS"] = true,
+            ["zhCN"] = false,
+            ["zhTW"] = false,
+            ["esES"] = false,
+            ["frFR"] = false,
+    },
     ["Draw a glow texture behind minimap icons, colored unique to each quest."] = {
         ["ptBR"] = "Desenhe uma textura luminescente por trás dos ícones mínimos do mapa, com cores exclusivas para cada missão",
         ["ruRU"] = "Показать/скрыть цветной ореол вокруг значков на миникарте",

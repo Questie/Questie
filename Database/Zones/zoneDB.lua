@@ -277,7 +277,7 @@ end
 
 ---@return table
 function _ZoneDB:SplitSeasonalQuests()
-    if not zoneMap[QuestieDB.sortKeys.SPECIAL] then
+    if (not zoneMap[QuestieDB.sortKeys.SPECIAL]) or (not zoneMap[QuestieDB.sortKeys.SEASONAL]) then
         return zoneMap
     end
     local questsToSplit = zoneMap[QuestieDB.sortKeys.SEASONAL]

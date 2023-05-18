@@ -73,6 +73,17 @@ function QuestieOptions.tabs.advanced:Initialize()
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n('Setting icon limit value to %s : Redrawing!', value))
                 end,
             },
+            bugWorkarounds = {
+                type = "toggle",
+                order = 1.3,
+                name = function() return l10n('Enable bug workarounds'); end,
+                desc = function() return l10n('When enabled, Questie will hotfix vanilla UI bugs.'); end,
+                width = "full",
+                get = function() return Questie.db.global.bugWorkarounds; end,
+                set = function (_, value)
+                    Questie.db.global.bugWorkarounds = value
+                end
+            },
             seperatingHeader2 = {
                 type = "header",
                 order = 2,

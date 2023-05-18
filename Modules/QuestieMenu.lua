@@ -21,6 +21,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -288,8 +290,19 @@ function QuestieMenu:Show()
     tinsert(menuTable, div)
 
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("search"); QuestieJourney.ToggleJourneyWindow() end})
-    tinsert(menuTable, { text= l10n("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
-    tinsert(menuTable, { text= l10n('My Journey'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
+    tinsert(menuTable, { text= l10n("Questie Options"), func=function()
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:OpenConfigWindow()
+        end)
+    end})
+
+    tinsert(menuTable, { text= l10n('My Journey'), func=function()
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:HideFrame();
+            QuestieJourney.tabGroup:SelectTab("journey");
+            QuestieJourney.ToggleJourneyWindow()
+        end)
+    end})
 
     if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
         tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
@@ -516,7 +529,9 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.LEATHERWORKING] = {},
         [QuestieProfessions.professionKeys.ALCHEMY] = {},
         [QuestieProfessions.professionKeys.HERBALISM] = {},
-        [QuestieProfessions.professionKeys.COOKING] = {},
+        [QuestieProfessions.professionKeys.COOKING] = {
+            19186, -- Kylene <Barmaid> (this is an edge case)
+        },
         [QuestieProfessions.professionKeys.MINING] = {},
         [QuestieProfessions.professionKeys.TAILORING] = {},
         [QuestieProfessions.professionKeys.ENGINEERING] = {},
@@ -528,7 +543,7 @@ function QuestieMenu:PopulateTownsfolk()
     if Questie.IsTBC or Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
     end
-    
+
     if Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.INSCRIPTION] = {}
     end

@@ -180,11 +180,6 @@ function MapIconTooltip:Show()
     else
         for pin in HBDPins.worldmapProvider:GetMap():EnumeratePinsByTemplate("HereBeDragonsPinsTemplateQuestie") do
             handleMapIcon(pin.icon)
-            if pin.icon.data.lineFrames then
-                for _, line in pairs(pin.icon.data.lineFrames) do
-                    handleMapIcon(line)
-                end
-            end
         end
     end
 
@@ -224,7 +219,7 @@ function MapIconTooltip:Show()
                     if (quest and shift) then
                         local xpReward = QuestXP:GetQuestLogRewardXP(questData.questId, Questie.db.global.showQuestXpAtMaxLevel)
                         if xpReward > 0 then
-                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(quest.Id))
+                            rewardString = QuestieLib:PrintDifficultyColor(quest.level, "(".. FormatLargeNumber(xpReward) .. xpString .. ") ", QuestieDB.IsRepeatable(questData.questId), QuestieDB.IsActiveEventQuest(questData.questId), QuestieDB.IsPvPQuest(questData.questId))
                         end
 
                         local moneyReward = GetQuestLogRewardMoney(questData.questId)
@@ -443,13 +438,15 @@ function _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
 
         local questType, questTag = QuestieDB.GetQuestTagInfo(icon.data.Id)
 
-        if (QuestieDB.IsRepeatable(icon.data.Id)) then
+        if (QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
+            tip.type = "(" .. l10n("Event") .. ")";
+        elseif (questType == 41) then
+            tip.type = "(" .. l10n("PvP") .. ")";
+        elseif (QuestieDB.IsRepeatable(icon.data.Id)) then
             tip.type = "(" .. l10n("Repeatable") .. ")";
-        elseif (questType == 41 or questType == 81 or questType == 83 or questType == 62 or questType == 1) then
+        elseif (questType == 81 or questType == 83 or questType == 62 or questType == 1) then
             -- Dungeon or Legendary or Raid or Group(Elite)
             tip.type = "("..questTag..")";
-        elseif (QuestieEvent and QuestieEvent.activeQuests[icon.data.Id]) then
-            tip.type = "(" .. l10n("Event") .. ")";
         else
             tip.type = "(" .. l10n("Available") .. ")";
         end

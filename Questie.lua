@@ -1,4 +1,3 @@
-
 -- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
 -- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
 Questie.DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
@@ -19,7 +18,6 @@ local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
-
 function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
@@ -28,11 +26,19 @@ function Questie:OnInitialize()
 end
 
 function Questie:OnEnable()
-    -- Called when the addon is enabled
+    if Questie.IsWotlk then
+        -- Called when the addon is enabled
+        if (Questie.db.char.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
+            WatchFrame:Hide()
+        end
+    end
 end
 
 function Questie:OnDisable()
-    -- Called when the addon is disabled
+    if Questie.IsWotlk then
+        -- Called when the addon is disabled
+        WatchFrame:Show()
+    end
 end
 
 --- Colorize a string with a color code
@@ -41,7 +47,7 @@ end
 ---@param color "red"|"gray"|"purple"|"blue"|"lightBlue"|"reputationBlue"|"yellow"|"orange"|"green"|"white"|"gold"|string
 ---@return string
 function Questie:Colorize(str, color)
-    local c = "|cFF"..color;
+    local c = "|cFF" .. color;
 
     if color == "red" then
         c = "|cFFff0000";
@@ -116,15 +122,101 @@ function Questie:Debug(...)
         -- DEBUG_INFO = 2
         -- DEBUG_DEVELOP = 3
         -- DEBUG_SPAM = 4
-        if ((band(optionsDebugLevel, 2^4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
-        if ((band(optionsDebugLevel, 2^3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
-        if ((band(optionsDebugLevel, 2^2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
-        if ((band(optionsDebugLevel, 2^1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
-        if ((band(optionsDebugLevel, 2^0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
+        if ((band(optionsDebugLevel, 2 ^ 0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
         if Questie.db.global.debugEnabledPrint then
             Questie:Print(...)
         end
+    end
+end
+
+Questie.icons = {
+    ["slay"] = "Interface\\Addons\\Questie\\Icons\\slay.blp",
+    ["loot"] = "Interface\\Addons\\Questie\\Icons\\loot.blp",
+    ["event"] = "Interface\\Addons\\Questie\\Icons\\event.blp",
+    ["object"] = "Interface\\Addons\\Questie\\Icons\\object.blp",
+    ["talk"] = "Interface\\Addons\\Questie\\Icons\\chatbubblegossipicon.blp",
+    ["available"] = "Interface\\Addons\\Questie\\Icons\\available.blp",
+    ["available_gray"] = "Interface\\Addons\\Questie\\Icons\\available_gray.blp",
+    ["complete"] = "Interface\\Addons\\Questie\\Icons\\complete.blp",
+    ["incomplete"] = "Interface\\Addons\\Questie\\Icons\\incomplete.blp",
+    ["interact"] = "Interface\\Addons\\Questie\\Icons\\interact.blp",
+    ["glow"] = "Interface\\Addons\\Questie\\Icons\\glow.blp",
+    ["repeatable"] = "Interface\\Addons\\Questie\\Icons\\repeatable.blp",
+    ["repeatable_complete"] = "Interface\\Addons\\Questie\\Icons\\repeatable_complete.blp",
+    ["eventquest"] = "Interface\\Addons\\Questie\\Icons\\eventquest.blp",
+    ["eventquest_complete"] = "Interface\\Addons\\Questie\\Icons\\eventquest_complete.blp",
+    ["pvpquest"] = "Interface\\Addons\\Questie\\Icons\\pvpquest.blp",
+    ["pvpquest_complete"] = "Interface\\Addons\\Questie\\Icons\\pvpquest_complete.blp",
+    ["node"] = "Interface\\Addons\\Questie\\Icons\\node.tga",
+    ["player"] = "Interface\\WorldMap\\WorldMapPartyIcon",
+    ["fav"] = "Interface\\Addons\\Questie\\Icons\\fav.tga",
+    ["faction_alliance"] = "Interface\\Addons\\Questie\\Icons\\icon_alliance.tga",
+    ["faction_horde"] = "Interface\\Addons\\Questie\\Icons\\icon_horde.tga",
+    ["loot_mono"] = "Interface\\Addons\\Questie\\Icons\\loot_mono.tga",
+    ["node_cut"] = "Interface\\Addons\\Questie\\Icons\\node_cut.tga",
+    ["object_mono"] = "Interface\\Addons\\Questie\\Icons\\object_mono.tga",
+    ["route"] = "Interface\\Addons\\Questie\\Icons\\route.tga",
+    ["slay_mono"] = "Interface\\Addons\\Questie\\Icons\\slay_mono.tga",
+    ["startend"] = "Interface\\Addons\\Questie\\Icons\\startend.tga",
+    ["startendstart"] = "Interface\\Addons\\Questie\\Icons\\startendstart.tga",
+    ["tracker_clean"] = "Interface\\Addons\\Questie\\Icons\\tracker_clean.tga",
+    ["tracker_close"] = "Interface\\Addons\\Questie\\Icons\\tracker_close.tga",
+    ["tracker_database"] = "Interface\\Addons\\Questie\\Icons\\tracker_database.tga",
+    ["tracker_giver"] = "Interface\\Addons\\Questie\\Icons\\tracker_giver.tga",
+    ["tracker_quests"] = "Interface\\Addons\\Questie\\Icons\\tracker_quests.tga",
+    ["tracker_search"] = "Interface\\Addons\\Questie\\Icons\\tracker_search.tga",
+    ["tracker_settings"] = "Interface\\Addons\\Questie\\Icons\\tracker_settings.tga",
+}
+
+Questie.usedIcons = {}
+
+Questie.ICON_TYPE_SLAY = 1
+Questie.ICON_TYPE_LOOT = 2
+Questie.ICON_TYPE_EVENT = 3
+Questie.ICON_TYPE_OBJECT = 4
+Questie.ICON_TYPE_TALK = 5
+Questie.ICON_TYPE_AVAILABLE = 6
+Questie.ICON_TYPE_AVAILABLE_GRAY = 7
+Questie.ICON_TYPE_COMPLETE = 8
+Questie.ICON_TYPE_GLOW = 9
+Questie.ICON_TYPE_REPEATABLE = 10
+Questie.ICON_TYPE_REPEATABLE_COMPLETE = 11
+Questie.ICON_TYPE_INCOMPLETE = 12
+Questie.ICON_TYPE_EVENTQUEST = 13
+Questie.ICON_TYPE_EVENTQUEST_COMPLETE = 14
+Questie.ICON_TYPE_PVPQUEST = 15
+Questie.ICON_TYPE_PVPQUEST_COMPLETE = 16
+Questie.ICON_TYPE_INTERACT = 17
+
+-- Load icon pathes from SavedVariables or set the default ones
+function Questie:SetIcons()
+    Questie.usedIcons[Questie.ICON_TYPE_SLAY] = Questie.db.global.ICON_SLAY or Questie.icons["slay"]
+    Questie.usedIcons[Questie.ICON_TYPE_LOOT] = Questie.db.global.ICON_LOOT or Questie.icons["loot"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENT] = Questie.db.global.ICON_EVENT or Questie.icons["event"]
+    Questie.usedIcons[Questie.ICON_TYPE_OBJECT] = Questie.db.global.ICON_OBJECT or Questie.icons["object"]
+    Questie.usedIcons[Questie.ICON_TYPE_TALK] = Questie.db.global.ICON_TALK or Questie.icons["talk"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE] = Questie.db.global.ICON_AVAILABLE or Questie.icons["available"]
+    Questie.usedIcons[Questie.ICON_TYPE_AVAILABLE_GRAY] = Questie.db.global.ICON_AVAILABLE_GRAY or Questie.icons["available_gray"]
+    Questie.usedIcons[Questie.ICON_TYPE_COMPLETE] = Questie.db.global.ICON_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_INCOMPLETE] = Questie.db.global.ICON_INCOMPLETE or Questie.icons["incomplete"]
+    Questie.usedIcons[Questie.ICON_TYPE_GLOW] = Questie.db.global.ICON_GLOW or Questie.icons["glow"]
+    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE] = Questie.db.global.ICON_REPEATABLE or Questie.icons["repeatable"]
+    Questie.usedIcons[Questie.ICON_TYPE_REPEATABLE_COMPLETE] = Questie.db.global.ICON_REPEATABLE_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENTQUEST] = Questie.db.global.ICON_EVENTQUEST or Questie.icons["eventquest"]
+    Questie.usedIcons[Questie.ICON_TYPE_EVENTQUEST_COMPLETE] = Questie.db.global.ICON_EVENTQUEST_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST] = Questie.db.global.ICON_PVPQUEST or Questie.icons["pvpquest"]
+    Questie.usedIcons[Questie.ICON_TYPE_PVPQUEST_COMPLETE] = Questie.db.global.ICON_PVPQUEST_COMPLETE or Questie.icons["complete"]
+    Questie.usedIcons[Questie.ICON_TYPE_INTERACT] = Questie.db.global.ICON_TYPE_INTERACT or Questie.icons["interact"]
+end
+
+function Questie:GetIconNameFromPath(path)
+    for k, v in pairs(Questie.icons) do
+        if path == v then return k end
     end
 end
 

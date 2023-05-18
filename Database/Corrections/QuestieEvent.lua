@@ -228,28 +228,28 @@ end
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
     ["Lunar Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "23/1",
-        endDate = "10/2"
+        startDate = "3/2",
+        endDate = "24/2"
     },
     ["Love is in the Air"] = {startDate = "06/2", endDate = "20/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "13/5",
-        endDate = "19/5"
+        startDate = "31/3",
+        endDate = "6/4"
     },
     ["Children's Week"] = {startDate = "1/5", endDate = "7/5"},
-    ["Midsummer"] = {startDate = "21/6", endDate = "5/7"},
-    ["Brewfest"] = {startDate = "20/9", endDate = "6/10"}, -- TODO: This might be different (retail date)
+    ["Midsummer"] = {startDate = "21/6", endDate = "4/7"},
+    ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "17/9",
-        endDate = "24/9"
+        startDate = "26/9",
+        endDate = "2/10"
     },
     ["Pilgrim's Bounty"] = {
-        startDate = "22/11",
-        endDate = "28/11"
+        startDate = "21/11",
+        endDate = "27/11"
     },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
-    ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "2/1"}
+    ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
+    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"}
 }
 
 -- ["EventName"] = false -> event doesn't exists in expansion
@@ -513,20 +513,20 @@ tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 7936}) -- 50 Tickets - Last
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10942}) -- Children's Week
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 10943}) -- Children's Week
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10945})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10950})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10951})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10952})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10953})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10954})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10956})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10962})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10963})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10966})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10967})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 10968})
-tinsert(QuestieEvent.eventQuests, {"Children's Week", 11975})
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10945}) -- Hch'uu and the Mushroom People
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10950}) -- Auchindoun and the Ring of Observance
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10951}) -- A Trip to the Dark Portal
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10952}) -- A Trip to the Dark Portal
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10953}) -- Visit the Throne of the Elements
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10954}) -- Jheel is at Aeris Landing!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10956}) -- The Seat of the Naaru
+-- tinsert(QuestieEvent.eventQuests, {"Children's Week", 10960}) -- When I Grow Up... -- Not in the game
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10962}) -- Time to Visit the Caverns
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10963}) -- Time to Visit the Caverns
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10966}) -- Back to the Orphanage
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10967}) -- Back to the Orphanage
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 10968}) -- Call on the Farseer
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 11975}) -- Now, When I Grow Up...
 
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 9249}) -- 40 Tickets - Schematic: Steam Tonk Controller
 tinsert(QuestieEvent.eventQuests, {"Darkmoon Faire", 10938}) -- Darkmoon Blessings Deck
@@ -858,8 +858,12 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24615}) -- A Gift for t
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24629}) -- A Perfect Puff of Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24635}) -- A Cloudlet of Classy Cologne
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24636}) -- Bonbon Blitz
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24536}) -- Something Stinks
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24655}) -- Something Stinks
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24541}) -- Pilfering Perfume
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24656}) -- Pilfering Perfume
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24804}) -- Uncommon Scents
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24805}) -- Uncommon Scents
 
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24576}) -- A Friendly Chat...
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24657}) -- A Friendly Chat...
@@ -874,25 +878,46 @@ tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24849}) -- Hot On The T
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24850}) -- Snivel's Sweetheart
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24851}) -- Hot On The Trail
 
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24638}) -- Crushing the Crown (Orgrimmar)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24645}) -- Crushing the Crown (Ambermill)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24647}) -- Crushing the Crown (Hillsbrad H)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24648}) -- Crushing the Crown (Theramore H)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24649}) -- Crushing the Crown (Aerie Peak H)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24650}) -- Crushing the Crown (Everlook H)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24651}) -- Crushing the Crown (Shattrath H)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24652}) -- Crushing the Crown (Crystalsong H)
+-- These "Crushing the Crown" quests are dailies, handed out based on the player's current level.
+-- The Durotar + Elwynn quests are available at level 5, with each successive quest being available
+-- at 14, 23, 32, 41, 51, 61, and 71, respectively. They are exclusive to each other; once you hit 14,
+-- you can no longer pick up the level 5 quest. However, since we have no way of filtering quests based
+-- on a "maximum" level, we simply hide all of the higher level ones, which will be picked up automatically
+-- instead of the level 5 one. Users can only tell the difference if they're watching quest IDs.
+-- TODO: If we implement maxLevel, these hacky workarounds should be implemented properly.
+tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24638}) -- Crushing the Crown (Durotar)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24645}) -- Crushing the Crown (Ambermill)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24647}) -- Crushing the Crown (Hillsbrad H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24648}) -- Crushing the Crown (Theramore H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24649}) -- Crushing the Crown (Aerie Peak H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24650}) -- Crushing the Crown (Everlook H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24651}) -- Crushing the Crown (Shattrath H)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24652}) -- Crushing the Crown (Crystalsong H)
 tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24658}) -- Crushing the Crown (Elwynn)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24659}) -- Crushing the Crown (Darkshore)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24660}) -- Crushing the Crown (Hillsbrad A)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24662}) -- Crushing the Crown (Theramore A)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24663}) -- Crushing the Crown (Aerie Peak A)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24664}) -- Crushing the Crown (Everlook A)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24665}) -- Crushing the Crown (Shattrath A)
-tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24666}) -- Crushing the Crown (Crystalsong A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24659}) -- Crushing the Crown (Darkshore)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24660}) -- Crushing the Crown (Hillsbrad A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24662}) -- Crushing the Crown (Theramore A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24663}) -- Crushing the Crown (Aerie Peak A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24664}) -- Crushing the Crown (Everlook A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24665}) -- Crushing the Crown (Shattrath A)
+--tinsert(QuestieEvent.eventQuests, {"Love is in the Air", 24666}) -- Crushing the Crown (Crystalsong A)
 
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13926}) -- Little Orphan Roo Of The Oracles
 tinsert(QuestieEvent.eventQuests, {"Children's Week", 13927}) -- Little Orphan Kekek Of The Wolvar
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13929}) -- The Biggest Tree Ever!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13930}) -- Home Of The Bear-Men
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13933}) -- The Bronze Dragonshrine
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13934}) -- The Bronze Dragonshrine
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13937}) -- A Trip To The Wonderworks
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13938}) -- A Visit To The Wonderworks
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13950}) -- Playmates!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13951}) -- Playmates!
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13954}) -- The Dragon Queen
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13955}) -- The Dragon Queen
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13956}) -- Meeting a Great One
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13957}) -- The Mighty Hemet Nesingwary
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13959}) -- Back To The Orphanage
+tinsert(QuestieEvent.eventQuests, {"Children's Week", 13960}) -- Back To The Orphanage
 
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12940}) -- Candy Bucket
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12941}) -- Candy Bucket

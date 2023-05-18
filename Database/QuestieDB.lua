@@ -630,6 +630,27 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
+    local requiredSpecialization = QuestieDB.QueryQuestSingle(questId, "requiredSpecialization")
+    if (requiredSpecialization) and (requiredSpecialization > 0) then
+        local hasSpecialization = QuestieProfessions:HasSpecialization(requiredSpecialization)
+        if (not hasSpecialization) then
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
+            return false
+        end
+    end
+
+    local requiredSpell = QuestieDB.QueryQuestSingle(questId, "requiredSpell")
+    if (requiredSpell) and (requiredSpell ~= 0) then
+        local hasSpell = IsSpellKnownOrOverridesKnown(math.abs(requiredSpell))
+        if (requiredSpell > 0) and (not hasSpell) then --if requiredSpell is positive, we make the quest ineligible if the player does NOT have the spell
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
+            return false
+        elseif (requiredSpell < 0) and hasSpell then --if requiredSpell is negative, we make the quest ineligible if the player DOES  have the spell
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
+            return false
+        end
+    end
+
     return true
 end
 
@@ -929,7 +950,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
                 for _, ref in pairs(o[5]) do
                     for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], QO.SpecialObjectives[index])) do
-                        -- we want to be able to override the icon in the corrections (e.g. ICON_TYPE_OBJECT on objects instead of ICON_TYPE_LOOT)
+                        -- we want to be able to override the icon in the corrections (e.g. Questie.ICON_TYPE_OBJECT on objects instead of Questie.ICON_TYPE_LOOT)
                         v.Icon = o[2]
                         spawnList[k] = v
                     end
@@ -1121,3 +1142,52 @@ function _QuestieDB:HideClassAndRaceQuests()
     end
     Questie:Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
 end
+
+-- This function is intended for usage with Gossip and Greeting frames, where there's a list of quests but no QuestIDs are
+-- obtainable until entering the specific quest dialog.
+-- This is a bruteforce method for obtaining a QuestID with no input other than a quest name, and the ID of the questgiver.
+-- It compares the name of the quest entry with the names of every quest that questgiver can either start or end.
+---@param name string? @The name of the quest entry
+---@param questgiverGUID string? @Should be UnitGUID("questnpc")
+---@param questStarter boolean @Should be True if this is an available quest, False if this is an "active" quest (quest ender)
+---@return number
+function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
+    local questID = 0 -- worst case, we end up returning an ID of 0 if we can't find a match; any function relying on this one should handle 0 cleanly
+    if questgiverGUID then
+        local questgiverID = tonumber(questgiverGUID:match("-(%d+)-%x+$"), 10)
+        local unit_type = strsplit("-", questgiverGUID)
+        local questsStarted
+        local questsEnded
+        if unit_type == "Creature" then -- if questgiver is an NPC
+            questsStarted = QuestieDB.QueryNPCSingle(questgiverID, "questStarts")
+            questsEnded = QuestieDB.QueryNPCSingle(questgiverID, "questEnds")
+        elseif unit_type == "GameObject" then -- if questgiver is an object (it's rare for an object to have a gossip/greeting frame, but Wanted Boards exist; see object 2713)
+            questsStarted = QuestieDB.QueryObjectSingle(questgiverID, "questStarts")
+            questsEnded = QuestieDB.QueryObjectSingle(questgiverID, "questEnds")
+        else
+            return questID; -- If the questgiver is not an NPC or object, bail!
+        end
+        -- iterate through every questEnds entry in our questgiver's DB, and check if each quest name matches this greeting frame entry
+
+        if questStarter == true then
+            for _, id in pairs(questsStarted) do
+                if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                    -- the QuestieDB.IsDoable check is important to filter out identically named quests
+                    questID = id
+                end
+            end
+        else
+            for _, id in pairs(questsEnded) do
+                if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                    questID = id
+                end
+            end
+        end
+
+    end
+    return questID;
+end
+
+QuestieDB.waypointPresets = {
+    ORGRIMS_HAMMER = {[ZoneDB.zoneIDs.ICECROWN]={{{62.37,30.60},{61.93,30.93},{61.48,31.24},{61.08,31.55},{60.74,31.92},{60.46,32.44},{60.26,33.11},{60.14,33.85},{60.11,34.63},{60.17,35.35},{60.31,36.01},{60.56,36.66},{60.84,37.33},{61.15,38.00},{61.44,38.67},{61.71,39.28},{62.00,39.92},{62.31,40.55},{62.60,41.20},{62.90,41.83},{63.05,42.20},{63.33,42.85},{63.58,43.53},{63.85,44.19},{64.08,44.86},{64.33,45.50},{64.45,45.87},{64.69,46.56},{64.94,47.21},{65.16,47.87},{65.43,48.51},{65.71,49.15},{66.03,49.77},{66.36,50.46},{66.72,51.10},{67.07,51.67},{67.41,52.08},{67.82,52.37},{68.31,52.47},{68.80,52.38},{69.23,51.98},{69.45,51.56},{69.57,51.13},{69.67,50.59},{69.73,49.96},{69.77,49.26},{69.79,48.48},{69.80,47.62},{69.79,46.68},{69.79,45.68},{69.78,44.90},{69.78,44.25},{69.76,43.55},{69.75,42.80},{69.72,42.01},{69.70,41.20},{69.67,40.38},{69.64,39.54},{69.61,38.71},{69.58,37.88},{69.55,37.07},{69.52,36.28},{69.49,35.54},{69.46,34.83},{69.45,34.18},{69.42,33.50},{69.41,32.46},{69.42,31.52},{69.45,30.67},{69.47,29.92},{69.48,29.25},{69.46,28.65},{69.42,28.12},{69.35,27.83},{69.11,27.19},{68.71,26.77},{68.23,26.54},{67.71,26.51},{67.24,26.55},{66.81,26.76},{66.35,27.09},{65.90,27.52},{65.44,27.95},{65.01,28.39},{64.58,28.73},{64.16,29.10},{63.74,29.43},{63.34,29.79},{62.94,30.11},{62.65,30.37},{62.37,30.60}}}},
+}

@@ -11,6 +11,8 @@ local QuestieJourney = QuestieLoader:ImportModule("QuestieJourney");
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 QuestieOptions.tabs = {...}
 QuestieConfigFrame = nil
@@ -40,7 +42,7 @@ function QuestieOptions:Initialize()
     configFrame:Hide()
     coroutine.yield()
 
-    AceConfigDialog:SetDefaultSize("Questie", 625, 780)
+    AceConfigDialog:SetDefaultSize("Questie", 640, 780)
     AceConfigDialog:Open("Questie", configFrame) -- load the options into configFrame
     configFrame:SetLayout("Fill")
     QuestieCompat.SetResizeBounds(configFrame.frame, 550, 400)
@@ -53,8 +55,10 @@ function QuestieOptions:Initialize()
     journeyButton:SetPoint("TOPRIGHT", configFrame.frame, "TOPRIGHT", -50, -13)
     journeyButton:SetText(l10n('My Journey'))
     journeyButton:SetCallback("OnClick", function()
-        QuestieOptions:OpenConfigWindow()
-        QuestieJourney:ToggleJourneyWindow()
+        QuestieCombatQueue:Queue(function()
+            QuestieJourney:ToggleJourneyWindow()
+            QuestieOptions:OpenConfigWindow()
+        end)
     end)
 
     configFrame:Hide()

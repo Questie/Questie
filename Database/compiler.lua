@@ -75,6 +75,7 @@ QuestieDBCompiler.supportedTypes = {
         ["u16"] = true,
         ["s16"] = true,
         ["u24"] = true,
+        ["s24"] = true,
         ["u32"] = true
     },
     ["string"] = {
@@ -109,6 +110,9 @@ readers["s16"] = function(stream)
     return stream:ReadShort() - 32767
 end
 readers["u24"] = QuestieStream.ReadInt24
+readers["s24"] = function(stream)
+    return stream:ReadInt24() - 8388607
+end
 readers["u32"] = QuestieStream.ReadInt
 readers["u12pair"] = function(stream)
     local a,b = stream:ReadInt12Pair()
@@ -327,7 +331,7 @@ readers["extraobjectives"] = function(stream)
         for i=1,count do
             ret[i] = {
                 readers["spawnlist"](stream),
-                stream:ReadTinyString(),
+                stream:ReadInt24(),
                 stream:ReadShortString(),
                 stream:ReadInt24(),
                 readers["reflist"](stream)
@@ -381,6 +385,9 @@ QuestieDBCompiler.writers = {
     end,
     ["u24"] = function(stream, value)
         stream:WriteInt24(value or 0)
+    end,
+    ["s24"] = function(stream, value)
+        stream:WriteInt24(8388607 + (value or 0))
     end,
     ["u32"] = function(stream, value)
         stream:WriteInt(value or 0)
@@ -620,7 +627,7 @@ QuestieDBCompiler.writers = {
             stream:WriteByte(#value)
             for _, data in pairs(value) do
                 QuestieDBCompiler.writers["spawnlist"](stream, data[1])
-                stream:WriteTinyString(data[2]) -- icon
+                stream:WriteInt24(data[2]) -- icon
                 stream:WriteShortString(data[3]) -- description
                 stream:WriteInt24(data[4] or 0) -- objective index (or 0)
                 QuestieDBCompiler.writers["reflist"](stream, data[5] or {})
@@ -661,6 +668,7 @@ skippers["u8"] = function(stream) stream._pointer = stream._pointer + 1 end
 skippers["u16"] = function(stream) stream._pointer = stream._pointer + 2 end
 skippers["s16"] = function(stream) stream._pointer = stream._pointer + 2 end
 skippers["u24"] = function(stream) stream._pointer = stream._pointer + 3 end
+skippers["s24"] = function(stream) stream._pointer = stream._pointer + 3 end
 skippers["u32"] = function(stream) stream._pointer = stream._pointer + 4 end
 skippers["u12pair"] = function(stream) stream._pointer = stream._pointer + 3 end
 skippers["u24pair"] = function(stream) stream._pointer = stream._pointer + 6 end
@@ -738,7 +746,7 @@ skippers["extraobjectives"] = function(stream)
     local count = stream:ReadByte()
     for _=1,count do
         spawnlistSkipper(stream)
-        stream._pointer = stream:ReadByte() + stream._pointer
+        stream._pointer = stream._pointer + 3
         stream._pointer = stream:ReadShort() + stream._pointer
         stream._pointer = stream._pointer + 3
         reflistSkipper(stream)
@@ -773,6 +781,7 @@ QuestieDBCompiler.statics = {
     ["u16"] = 2,
     ["s16"] = 2,
     ["u24"] = 3,
+    ["s24"] = 3,
     ["u32"] = 4,
     ["faction"] = 1,
     ["u12pair"] = 3,

@@ -10,6 +10,7 @@ function QuestieTBCNpcFixes:Load()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
     local npcFlags = QuestieDB.npcFlags
+    local waypointPresets = QuestieDB.waypointPresets
 
     return {
         [2552] = {
@@ -131,6 +132,11 @@ function QuestieTBCNpcFixes:Load()
         [15669] = {
             [npcKeys.waypoints] = {},
         },
+        [15895] = {
+            [npcKeys.spawns] = {[1657]={{33.89,13.87}},[1497]={{65.62,36.0}},[1637]={{41.66,31.98}},[1638]={{71.12,28.2}},[1537]={{28.85,16.23}},[1519]={{23.22,53.24}}, -- original data
+                               [zoneIDs.THE_EXODAR]={{74,57.5}}, -- correction
+                               [zoneIDs.SILVERMOON_CITY]={{73.1,82.6}}},
+        },
         [15920] = {
             [npcKeys.waypoints] = {[zoneIDs.EVERSONG_WOODS]={{{30,58.6}}}},
         },
@@ -250,11 +256,14 @@ function QuestieTBCNpcFixes:Load()
         [17413] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{26.9,37.46}}},
         },
-        [17496] = {
-            [npcKeys.waypoints] = {},
+        [17527] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{28.06,62.73},{24.3,63.8},{26.4,57.9},{36.25,55.46},{30.41,61.4},{25.73,60.87},{25.8,47.18},{31.96,59.48},{33.61,60.7},{31.77,52.59},{36.32,48.56},{27.22,48.75},{23.34,48.27},{27.8,43.92},{24.86,43.0},{25.45,45.19},{32.67,54.68},{29.72,55.59},{26.27,55.7},{24.23,46.11},{26.62,46.33},{27.43,47.8},{28.21,50.03},{34.67,57.85},{33.42,57.18},{30.91,54.27},{31.14,56.93},{34.8,52.67},{33.4,51.94},{32.37,64.86},{30.73,59.36},{28.96,61.8},{28.78,58.66},{27.69,58.03},{30.14,69.42},{29.3,69.88},{30.88,71.57}}},
         },
         [17550] = {
             [npcKeys.waypoints] = {},
+        },
+        [17587] = {
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{42.86,57.14},{37.84,18.12},{39.6,37.8},{56.83,59.81},{40.27,71.21},{46.6,31.9},{55.2,28.6},{53.6,42.6},{58.6,41.6},{55.2,47.4}}},
         },
         [17610] = {
             [npcKeys.waypoints] = {},
@@ -524,10 +533,12 @@ function QuestieTBCNpcFixes:Load()
         [22817] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+            [npcKeys.questStarts] = {10945,10951,10953,10963,10967,11975}, -- removed the SWP quest
         },
         [22818] = {
             [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{75.23,48.0},},},
             [npcKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
+            [npcKeys.questEnds] = {10943,10950,10952,10962}, -- removed the horde starting quest
         },
         [22890] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOW_LABYRINTH] = {{-1,-1}}},
@@ -559,6 +570,9 @@ function QuestieTBCNpcFixes:Load()
         },
         [23068] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{70.1,74.4},},},
+        },
+        [23100] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{44.2,41.0},},},
         },
         [23338] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{46.5,45.1},{60.6,60.1},},},

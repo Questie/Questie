@@ -76,7 +76,7 @@ local minimapIconLocales = {
     },
     ["Trivial Quest"] = {
         ["ptBR"] = "Missões Triviais",
-        ["ruRU"] = "Простые задания",
+        ["ruRU"] = "Задания низкого уровня",
         ["deDE"] = "Niedrigstufige Quests",
         ["koKR"] = "기타 퀘스트",
         ["esMX"] = "Misión trivial",

@@ -146,6 +146,18 @@ local genericsLocales = {
         ["esES"] = "Automático",
         ["frFR"] = "Automatique",
     },
+    ["Manual"] = {
+        ["ptBR"] = "Manual",
+        ["ruRU"] = "Руководство",
+        ["deDE"] = "Handbuch",
+        ["koKR"] = "수동",
+        ["esMX"] = "Manual",
+        ["enUS"] = true,
+        ["zhCN"] = "手动的",
+        ["zhTW"] = "手动的",
+        ["esES"] = "Manual",
+        ["frFR"] = "Manual",
+    },
     ["Enabled"] = {
         ["ptBR"] = "Ativado",
         ["ruRU"] = "Включено",

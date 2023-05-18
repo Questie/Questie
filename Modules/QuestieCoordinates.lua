@@ -1,6 +1,9 @@
 ---@class QuestieCoords
 local QuestieCoords = QuestieLoader:CreateModule("QuestieCoords");
 
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
+
 local posX = 0;
 local posY = 0;
 
@@ -47,7 +50,7 @@ function QuestieCoords:WriteCoords()
             if position.x ~= 0 and position.y ~= 0 and (position.x ~= QuestieCoords._lastX or position.y ~= QuestieCoords._lastY) then
                 QuestieCoords._lastX = position.x
                 QuestieCoords._lastY = position.y
-                
+
                 posX = position.x * 100;
                 posY = position.y * 100;
 
@@ -92,7 +95,7 @@ function QuestieCoords:Initialize()
 
     -- Do not fight with Coordinates addon
     if IsAddOnLoaded("Coordinates") and ((Questie.db.global.minimapCoordinatesEnabled) or (Questie.db.global.mapCoordinatesEnabled)) then
-        Questie:Print("|cFFFF0000WARNING!|r", "Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings")
+        Questie:Print("|cFFFF0000", l10n("WARNING!"), "|r", l10n("Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"))
         Questie.db.global.minimapCoordinatesEnabled = false
         Questie.db.global.mapCoordinatesEnabled = false
     end
