@@ -83,7 +83,7 @@ local eventsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Fête des Brasseurs",
         ["esES"] = "Fiesta de la Cerveza",
-        ["zhTW"] = nil,
+        ["zhTW"] = false,
         ["zhCN"] = "美酒节",
     },
     ["Harvest Festival"] = {
