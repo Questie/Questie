@@ -1082,7 +1082,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5}}}},
         },
         [9666] = {
-            [questKeys.triggerEnd] = {"Declaration of Power", {[zoneIDs.BLOODMYST_ISLE]={{68.52,67.88}}}},
+            [questKeys.objectives] = {{{17701}},nil,nil,nil,{{{17701},17701,"Declaration of Power"}}},
         },
         [9667] = {
             [questKeys.objectives] = {{{17682,"Princess Stillpine Saved"}},nil,nil,nil},
