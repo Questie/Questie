@@ -957,6 +957,7 @@ function QuestieTBCQuestFixes:Load()
         [9467] = {
             [questKeys.sourceItemId] = 24335,
             [questKeys.requiredSourceItems] = {23682,24335},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Hauteur using the Ritual Torch"), 0, {{"object", 181672}}}},
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},

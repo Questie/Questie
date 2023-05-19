@@ -110,6 +110,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "从哨兵队长身上偷取一张花边手帕",
     },
+    ["Summon Hauteur using the Ritual Torch"] = { -- 9467
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Light the brazier"] = { -- 9678
         ["ptBR"] = false,
         ["ruRU"] = false,
