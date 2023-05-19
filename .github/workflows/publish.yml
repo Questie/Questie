@@ -1,4 +1,4 @@
-name: Package Addon
+name: Publish Addon
 
 on:
   push:
