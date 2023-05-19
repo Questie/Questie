@@ -9,7 +9,7 @@ CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 WAGO_METADATA=$(cat <<-EOF
 {
    "label": "$LATEST_GIT_TAG",
-   "stability": "alpha",
+   "stability": "stable",
    "changelog": $CHANGELOG,
    "supported_wotlk_patch": "3.4.2",
    "supported_classic_patch": "1.14.4"

@@ -73,7 +73,6 @@ jobs:
         run: >
           gh release create ${{github.ref_name}}
           --verify-tag
-          --draft
           -F CHANGELOG.md
           releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip
           releases/${{github.ref_name}}/release.json

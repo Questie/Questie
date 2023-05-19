@@ -13,7 +13,7 @@ CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 CF_METADATA=$(cat <<-EOF
 {
     "displayName": "$LATEST_GIT_TAG",
-    "releaseType": "alpha",
+    "releaseType": "release",
     "changelog": $CHANGELOG,
     "changelogType": "markdown",
     "gameVersions": [9894, 9895],
