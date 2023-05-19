@@ -33,5 +33,4 @@ curl -sS \
     -H "X-API-TOKEN: $CF_API_TOKEN" \
     -F "metadata=$CF_METADATA" \
     -F "file=@releases/$LATEST_GIT_TAG/Questie-$LATEST_GIT_TAG.zip" \
-    "http://localhost:3000"
-#    "https://wow.curseforge.com/api/projects/334372/upload-file"
+    "https://wow.curseforge.com/api/projects/334372/upload-file"

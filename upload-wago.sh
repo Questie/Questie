@@ -21,5 +21,4 @@ curl -sS \
     -H "accept: application/json" \
     -F "metadata=$WAGO_METADATA" \
     -F "file=@releases/$LATEST_GIT_TAG/Questie-$LATEST_GIT_TAG.zip" \
-    "http://localhost:3000"
-#    "https://addons.wago.io/api/projects/qv634BKb/version"
+    "https://addons.wago.io/api/projects/qv634BKb/version"
