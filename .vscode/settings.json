@@ -2712,7 +2712,10 @@
         "Questie_Toggle",
         "Questie_SpecialNPCs",
         "TEMP_Questie2Events",
-        "LQuestie_Create_UIDropDownMenu"
+        "LQuestie_Create_UIDropDownMenu",
+        "GossipAvailableQuestButtonMixin",
+        "GossipActiveQuestButtonMixin",
+        "ChatFontNormal"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**", //Because they do not actually differ from classic in structure, load the smallest

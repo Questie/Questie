@@ -69,6 +69,7 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 QuestieCorrections.TBC_ONLY = 1
 QuestieCorrections.CLASSIC_ONLY = 2
 QuestieCorrections.WOTLK_ONLY = 3
+QuestieCorrections.TBC_AND_WOTLK = 4
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
@@ -101,6 +102,12 @@ local function filterExpansion(values)
                 values[k] = nil
             else
                 values[k] = true
+            end
+        elseif v == QuestieCorrections.TBC_AND_WOTLK then
+            if isTBC or isWotlk then
+                values[k] = true
+            else
+                values[k] = nil
             end
         end
     end

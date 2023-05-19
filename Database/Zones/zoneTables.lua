@@ -155,6 +155,7 @@ ZoneDB.private.areaIdToUiMapId = {
     [4500] = 141, -- The Eye of Eternity - Raid
     [4560] = 126, -- The Underbelly - Sub zone of Dalaran
     [4603] = 156, -- Vault of Archavon - Raid
+    [4657] = 148, -- Ulduar - The Antechamber of Ulduar
     [4710] = 169, -- Isle of Conquest - Battleground
     [4722] = 172, -- Trial of the Crusader - Raid
     [4723] = 171, -- Trial of the Champion - Dungeon
@@ -2632,4 +2633,5 @@ ZoneDB.private.zoneIDs = {
     HALLS_OF_STONE = 4264,
     HALLS_OF_LIGHTNING = 4272,
     PLAGUELANDS_THE_SCARLET_ENCLAVE = 4298,
+    THE_ARCHIVUM = 4657,
 }

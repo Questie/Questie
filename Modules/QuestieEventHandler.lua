@@ -47,8 +47,8 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type AchievementTracker
 local AchievementTracker = QuestieLoader:ImportModule("AchievementTracker")
----@type GossipFrameDailyMarker
-local GossipFrameDailyMarker = QuestieLoader:ImportModule("GossipFrameDailyMarker")
+---@type QuestgiverFrame
+local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
 
 local questAcceptedMessage  = string.gsub(ERR_QUEST_ACCEPTED_S , "(%%s)", "(.+)")
 local questCompletedMessage  = string.gsub(ERR_QUEST_COMPLETE_S , "(%%s)", "(.+)")
@@ -78,13 +78,18 @@ function QuestieEventHandler:RegisterLateEvents()
     -- UI Quest Events
     Questie:RegisterEvent("UI_INFO_MESSAGE", _EventHandler.UiInfoMessage)
     Questie:RegisterEvent("QUEST_FINISHED", QuestieAuto.QUEST_FINISHED)
+    Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
     Questie:RegisterEvent("GOSSIP_SHOW", function (...)
         QuestieAuto.GOSSIP_SHOW(...)
-        GossipFrameDailyMarker.Mark(...)
+        QuestgiverFrame.GossipMark(...)
     end)
-    Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
+    Questie:RegisterEvent("QUEST_GREETING", function (...)
+        QuestieAuto.QUEST_GREETING(...)
+        QuestgiverFrame.GreetingMark(...)
+    end)
+    --Questie:RegisterEvent("QUEST_GREETING", QuestieAuto.QUEST_GREETING) -- The window when multiple quest from a NPC
     Questie:RegisterEvent("QUEST_ACCEPT_CONFIRM", QuestieAuto.QUEST_ACCEPT_CONFIRM) -- If an escort quest is taken by people close by
     Questie:RegisterEvent("GOSSIP_CLOSED", QuestieAuto.GOSSIP_CLOSED) -- Called twice when the stopping to talk to an NPC
     Questie:RegisterEvent("QUEST_COMPLETE", QuestieAuto.QUEST_COMPLETE) -- When complete window shows

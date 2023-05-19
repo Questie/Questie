@@ -255,6 +255,30 @@ local socialOptionsLocales = {
         ["esES"] = "El progreso de tu misión se enviará periódicamente a los jugadores cercanos.",
         ["frFR"] = "La progression de vos quêtes sera régulièrement partagée avec les joueurs proches.",
     },
+    ["Display announcements locally when outside of a group"] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = "Оповещения вне группы",
+        ["deDE"] = nil,
+        ["koKR"] = nil,
+        ["esMX"] = nil,
+        ["enUS"] = true,
+        ["zhCN"] = nil,
+        ["zhTW"] = nil,
+        ["esES"] = nil,
+        ["frFR"] = nil,
+    },
+    ["Questie will print your progress messages to chat when not in a group. Other players will NOT be able to see this."] = {
+        ["ptBR"] = nil,
+        ["ruRU"] = "Questie будет отображать в чате оповещения о прогрессе ваших заданий, когда вы вне группы. Другие игроки НЕ БУДУТ видеть эти оповещения",
+        ["deDE"] = nil,
+        ["koKR"] = nil,
+        ["esMX"] = nil,
+        ["enUS"] = true,
+        ["zhCN"] = nil,
+        ["zhTW"] = nil,
+        ["esES"] = nil,
+        ["frFR"] = nil,
+    },
 }
 
 for k, v in pairs(socialOptionsLocales) do

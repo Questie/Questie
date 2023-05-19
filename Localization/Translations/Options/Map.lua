@@ -76,7 +76,7 @@ local mapOptionsLocales = {
     },
     ["Different Map Icon Color for Each Quest"] = {
         ["ptBR"] = "Cor diferente do ícone do mapa para cada missão",
-        ["ruRU"] = "Различные цветa значков",
+        ["ruRU"] = "Различные цветa значков (карта мира)",
         ["deDE"] = "Karten-Icons für jede Quest unterschiedlich färben",
         ["koKR"] = "각 퀘스트별 다른 아이콘 색상 사용",
         ["esMX"] = "Color de icono de mapa diferente para cada misión",

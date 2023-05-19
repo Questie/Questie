@@ -20,7 +20,7 @@ function QuestieQuestBlacklist:Load()
         [960] = true, -- Duplicate of 961
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
-        [7704] = true, -- Not in the game
+        [7704] = QuestieCorrections.CLASSIC_ONLY, -- Not implemented in Era, added in Wrath
         [7668] = true, -- Not in the game (yet) Replaced with 8258 in Ph 4-- #1805
         [636] = true, -- Not in the game - #1900
         [6066] = true, -- Not in the game - #1957
@@ -615,8 +615,10 @@ function QuestieQuestBlacklist:Load()
         [24629] = true,
         [24635] = true,
         [24636] = true,
+        [24536] = true,
         [24655] = true,
         [24804] = true,
+        [24805] = true,
 
         --- Children's Week
         [13926] = true,
@@ -991,8 +993,8 @@ function QuestieQuestBlacklist:Load()
         [8547] = true, -- Welcome!
         [9065] = true, -- Unavailable quest "The "Chow" Quest (123)aa"
         [9278] = true, -- Welcome!
-        [9681] = true, -- Replaced with [A Study in Power (64319)]
-        [9684] = true, -- Replaced with [Claiming the Light (63866)]
+        --[9681] = true, -- Replaced with [A Study in Power (64319)] changed in wotlk again. 64319+63866 only present in SWP patch
+        --[9684] = true, -- Replaced with [Claiming the Light (63866)] changed in wotlk again. 64319+63866 only present in SWP patch
         [9721] = true, -- Replaced with [A Summons from Lady Liadrin (64139)]
         [9722] = true, -- Replaced with [The Master's Path (64140)]
         [9723] = true, -- Replaced with [A Gesture of Commitment (64141)]
@@ -1024,6 +1026,10 @@ function QuestieQuestBlacklist:Load()
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
         [64217] = true, -- Boosted character quest
+		
+		-- Paladin class quests with SWP patch
+        [64319] = true, -- removed in wotlk
+        [63866] = true, -- removed in wotlk
 
         -- Revered Among X quests
         [10459] = true,
@@ -1039,7 +1045,7 @@ function QuestieQuestBlacklist:Load()
         [708] = true,
         [909] = true,
         [1288] = true,
-        [1661] = true,
+        [1661] = QuestieCorrections.TBC_AND_WOTLK,
         [3366] = true,
         [3381] = true,
         [5627] = true,

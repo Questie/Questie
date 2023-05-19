@@ -605,6 +605,13 @@ function QuestieQuest:AddFinisher(quest)
                             Name = finisher.name,
                             IsObjectiveNote = false,
                         }
+                        if QuestieDB.IsActiveEventQuest(quest.Id) then
+                            data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
+                        elseif QuestieDB.IsPvPQuest(quest.Id) then
+                            data.Icon = Questie.ICON_TYPE_PVPQUEST_COMPLETE
+                        elseif quest.IsRepeatable then
+                            data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
+                        end
                         if(coords[1] == -1 or coords[2] == -1) then
                             local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
                             if dungeonLocation ~= nil then
@@ -644,6 +651,13 @@ function QuestieQuest:AddFinisher(quest)
                                 Name = finisher.name,
                                 IsObjectiveNote = false,
                             }
+                            if QuestieDB.IsActiveEventQuest(quest.Id) then
+                                data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
+                            elseif QuestieDB.IsPvPQuest(quest.Id) then
+                                data.Icon = Questie.ICON_TYPE_PVPQUEST_COMPLETE
+                            elseif quest.IsRepeatable then
+                                data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
+                            end
                             finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                             finisherLocs[zone] = {waypoints[1][1][1], waypoints[1][1][2]}
                         end
@@ -1276,7 +1290,11 @@ end
 ---@param quest Quest
 function _QuestieQuest:GetQuestIcon(quest)
     local icon
-    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+    if QuestieDB.IsActiveEventQuest(quest.Id) then
+        icon = Questie.ICON_TYPE_EVENTQUEST
+    elseif QuestieDB.IsPvPQuest(quest.Id) then
+        icon = Questie.ICON_TYPE_PVPQUEST
+    elseif quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
         icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     elseif quest.IsRepeatable then
         icon = Questie.ICON_TYPE_REPEATABLE
