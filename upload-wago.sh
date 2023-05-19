@@ -4,6 +4,7 @@ LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 ### WAGO Upload
+# Docs: https://docs.wago.io/#introduction
 
 WAGO_METADATA=$(cat <<-EOF
 {

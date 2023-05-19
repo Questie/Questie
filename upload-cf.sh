@@ -4,6 +4,11 @@ LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 #### CurseForge Upload
+# Docs: https://support.curseforge.com/en/support/solutions/articles/9000197321-curseforge-upload-api
+
+# We get the "gameVersions" by doing an authenticated GET to https://wow.curseforge.com/api/game/versions
+# You can do so by opening the API in your browser and manually add the X-API-TOKEN Header with an API-Token to the request.
+# Check the answer for the required version (e.g. name = "1.14.4") and take the "id" field for the gameVersions.
 
 CF_METADATA=$(cat <<-EOF
 {
