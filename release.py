@@ -8,6 +8,10 @@ if not len(sys.argv) > 1:
 
 version = sys.argv[1]
 
+if version[0] == "v":
+    print('Please omit the "v" prefix. The script will add it')
+    exit()
+
 import subprocess
 import fileinput
 
