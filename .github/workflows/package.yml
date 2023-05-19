@@ -2,7 +2,6 @@ name: Package Addon
 
 on:
   push:
-    branches: [ bigwigs ]
     tags: [ "*" ]
 
 jobs:
@@ -25,11 +24,20 @@ jobs:
       - name: Build ZIP
         run: python build.py -r
 
-      - name: Upload CurseForge
-        run: sh upload-cf.sh
+      - name: Create GitHub release
+        run: >
+          gh release create ${{github.ref_name}}
+          --verify-tag
+          --draft
+          -F CHANGELOG.md
+          releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip
+          releases/${{github.ref_name}}/release.json
 
-      - name: Upload WAGO
-        run: sh upload-wago.sh
+#      - name: Upload CurseForge
+#        run: sh upload-cf.sh
+#
+#      - name: Upload WAGO
+#        run: sh upload-wago.sh
 
 #      - name: Upload GitHub artifact
 #        uses: actions/upload-artifact@v3
