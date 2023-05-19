@@ -1,6 +1,6 @@
 #!/bin/sh
 
-LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
+LATEST_GIT_TAG="$1"
 CHANGELOG=$(jq --slurp --raw-input '.' < "CHANGELOG.md")
 
 #### CurseForge Upload

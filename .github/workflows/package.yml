@@ -34,11 +34,11 @@ jobs:
           releases/${{github.ref_name}}/Questie-${{github.ref_name}}.zip
           releases/${{github.ref_name}}/release.json
 
-#      - name: Upload CurseForge
-#        run: sh upload-cf.sh
-#
-#      - name: Upload WAGO
-#        run: sh upload-wago.sh
+      - name: Upload CurseForge
+        run: sh upload-cf.sh ${{github.ref_name}}
+
+      - name: Upload WAGO
+        run: sh upload-wago.sh ${{github.ref_name}}
 
 #      - name: Upload GitHub artifact
 #        uses: actions/upload-artifact@v3
