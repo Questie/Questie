@@ -220,7 +220,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Quest Level"), "yellow") .. ": " .. questLevel)
     QuestieJourneyUtils:AddLine(details,  Questie:Colorize(l10n("Required Level"), "yellow") .. ": " .. requiredLevel)
     local reqRaces = QuestieLib:GetRaceString(requiredRaces)
-    if (reqRaces ~= "None") then
+    if (reqRaces ~= "") then
         QuestieJourneyUtils:AddLine(details, Questie:Colorize(l10n("Required Race"), "yellow") .. ": " .. reqRaces)
     end
 
@@ -611,7 +611,6 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
     resultFrame:AddChild(resultTree)
     container:AddChild(resultFrame);
     if _selected ~= 0 then
-        local selectedId = _selected
         resultTree:SelectByValue(_selected)
         _selected = 0
     end

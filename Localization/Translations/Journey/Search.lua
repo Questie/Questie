@@ -542,18 +542,6 @@ local searchLocales = {
         ["esES"] = false,
         ["frFR"] = "Requiert qu'une de ces quêtes soient terminées",
     },
-    ["None"] = {
-        ["ptBR"] = false,
-        ["ruRU"] = false,
-        ["deDE"] = false,
-        ["koKR"] = false,
-        ["esMX"] = false,
-        ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
-        ["esES"] = false,
-        ["frFR"] = false,
-    },
 }
 
 for k, v in pairs(searchLocales) do

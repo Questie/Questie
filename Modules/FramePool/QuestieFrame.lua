@@ -37,7 +37,7 @@ function QuestieFramePool.Qframe:New(frameId, OnEnter)
 
     newFrame.glow = CreateFrame("Button", "QuestieFrame" .. frameId .. "Glow", newFrame) -- glow frame
     newFrame.glow:SetFrameStrata("FULLSCREEN");
-    newFrame.glow:SetWidth(18)                                                       -- Set these to whatever height/width is needed
+    newFrame.glow:SetWidth(18)                                                           -- Set these to whatever height/width is needed
     newFrame.glow:SetHeight(18)
 
 
@@ -152,9 +152,8 @@ function _Qframe:OnLeave()
 end
 
 function _Qframe:OnClick(button)
-    if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() then
-        -- We don't want to zoom out if we're not over the WorldMap Frame
-        if button == "RightButton" and GetMouseFocus():GetParent() == WorldMapFrame then
+    if self and self.UiMapID and WorldMapFrame and WorldMapFrame:IsShown() and not IsModifierKeyDown() and not self.miniMapIcon then
+        if button == "RightButton" then
             local currentMapParent = WorldMapFrame:GetMapID()
             if currentMapParent then
                 local mapInfo = C_Map.GetMapInfo(currentMapParent)
@@ -165,26 +164,26 @@ function _Qframe:OnClick(button)
                 end
             end
         else
-            if self.UiMapID ~= WorldMapFrame:GetMapID() and not IsModifierKeyDown() then
+            if self.UiMapID ~= WorldMapFrame:GetMapID() then
                 WorldMapFrame:SetMapID(self.UiMapID);
             end
         end
-    end
-
-    -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
-    if self and self.UiMapID and button == "LeftButton" then
-        if (not ChatEdit_GetActiveWindow()) then
-            if self.data.Type == "available" and IsShiftKeyDown() then
-                StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
-                StaticPopup_Show("QUESTIE_CONFIRMHIDE")
-            elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
-                QuestieMap:UnloadManualFrames(self.data.id)
-            end
-        else
-            if Questie.db.global.trackerShowQuestLevel then
-                ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.QuestData.Id))
+    else
+        -- This will work in either the WorldMapFrame or the MiniMapFrame as long as there is an icon
+        if self and self.UiMapID and button == "LeftButton" then
+            if (not ChatEdit_GetActiveWindow()) then
+                if self.data.Type == "available" and IsShiftKeyDown() then
+                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
+                    StaticPopup_Show("QUESTIE_CONFIRMHIDE")
+                elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
+                    QuestieMap:UnloadManualFrames(self.data.id)
+                end
             else
-                ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.QuestData.Id .. ")]")
+                if Questie.db.global.trackerShowQuestLevel then
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.QuestData.Id))
+                else
+                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.QuestData.Id .. ")]")
+                end
             end
         end
     end

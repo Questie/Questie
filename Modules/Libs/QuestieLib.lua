@@ -317,13 +317,11 @@ function QuestieLib:GetLevelString(questId, _, level, blizzLike)
 end
 
 function QuestieLib:GetRaceString(raceMask)
-    if not raceMask then
+    if not raceMask or raceMask == QuestieDB.raceKeys.NONE then
         return ""
     end
 
-    if (raceMask == QuestieDB.raceKeys.NONE) then
-        return l10n("None")
-    elseif raceMask == QuestieDB.raceKeys.ALL_ALLIANCE then
+    if raceMask == QuestieDB.raceKeys.ALL_ALLIANCE then
         return l10n("Alliance")
     elseif raceMask == QuestieDB.raceKeys.ALL_HORDE then
         return l10n("Horde")

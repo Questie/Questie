@@ -98,7 +98,8 @@ function TrackerHeaderFrame.Initialize(baseFrame)
                 return
             end
         end
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip._owner = self
+        GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
         GameTooltip:AddLine("Questie " .. QuestieLib:GetAddonVersionString(), 1, 1, 1)
         GameTooltip:AddLine(Questie:Colorize(l10n("Left Click") .. ": ", "gray") .. l10n("Toggle Options"))
         GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Toggle My Journey"))

@@ -317,7 +317,7 @@ function _EventHandler:ModifierStateChanged()
     if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
         GameTooltip:Hide()
         GameTooltip:ClearLines()
-        GameTooltip:SetOwner(UIParent, "ANCHOR_CURSOR")
+        GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
         GameTooltip._SizerToolTip()
         GameTooltip:SetFrameStrata("TOOLTIP")
         GameTooltip:Show()
