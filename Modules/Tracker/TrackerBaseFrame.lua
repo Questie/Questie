@@ -424,7 +424,7 @@ function TrackerBaseFrame.OnResizeStart(_, button)
         GameTooltip:Hide()
     end
 
-    if InCombatLockdown() or (not baseFrame:IsResizable()) then
+    if InCombatLockdown() or (not baseFrame:IsResizable()) or IsShiftKeyDown() or IsAltKeyDown() then
         return
     end
 
