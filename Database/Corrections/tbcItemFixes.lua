@@ -112,6 +112,9 @@ function QuestieTBCItemFixes:Load()
         [24084] = {
             [itemKeys.class] = 12,
         },
+        [24099] = {
+            [itemKeys.class] = 12,
+        },
         [24156] = {
             [itemKeys.npcDrops] = {17544},
         },
@@ -313,12 +316,6 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.name] = "Speak with Wing Commander Brack",
             [itemKeys.relatedQuests] = {10129},
             [itemKeys.npcDrops] = {19401},
-            [itemKeys.objectDrops] = {},
-        },
-        [40001] = {
-            [itemKeys.name] = "Kill Bristlelimb Furbolgs to lure 'High Chief Bristlelimb'",
-            [itemKeys.relatedQuests] = {9667},
-            [itemKeys.npcDrops] = {40002},
             [itemKeys.objectDrops] = {},
         },
         [40002] = {

@@ -1085,9 +1085,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{17701}},nil,nil,nil,{{{17701},17701,"Declaration of Power"}}},
         },
         [9667] = {
-            [questKeys.objectives] = {{{17682,"Princess Stillpine Saved"}},nil,nil,nil},
-            [questKeys.requiredSourceItems] = {24099,40001},
             [questKeys.preQuestSingle] = {9559},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}}},
         },
         [9669] = {
             [questKeys.requiredLevel] = 16,

@@ -272,6 +272,9 @@ function QuestieTBCNpcFixes:Load()
         [17610] = {
             [npcKeys.waypoints] = {},
         },
+        [17682] = {
+            [npcKeys.waypoints] = {},
+        },
         [17702] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{64.2,76.4}}},
         },
@@ -764,22 +767,6 @@ function QuestieTBCNpcFixes:Load()
         -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
         -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
 
-        [40000] = {
-            [npcKeys.name] = "Exarch Menelaous",
-            [npcKeys.minLevel] = 14,
-            [npcKeys.maxLevel] = 14,
-            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.11,50.6}}},
-            [npcKeys.friendlyToFaction] = "A",
-        },
-        [40001] = {
-            [npcKeys.name] = "Admiral Odesyus",
-            [npcKeys.minLevel] = 60,
-            [npcKeys.maxLevel] = 60,
-            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.04,70.21}}},
-            [npcKeys.friendlyToFaction] = "A",
-        },
         [40002] = {
             [npcKeys.name] = "Bristlelimb Furbolgs",
             [npcKeys.minLevel] = 10,
