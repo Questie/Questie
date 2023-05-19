@@ -357,7 +357,7 @@ local trackerUILocales = {
         ["esMX"] = "No se puede abrir el registro de misiones durante el combate. Ábrelo manualmente.",
         ["enUS"] = true,
         ["zhCN"] = "战斗中无法打开任务日志，需要手动打开.",
-        ["zhTW"] = nil,
+        ["zhTW"] = false,
         ["esES"] = "No se puede abrir el registro de misiones durante el combate. Ábrelo manualmente.",
         ["frFR"] = "Impossible d'ouvrir le journal des quêtes en combat. Ouvrez-le manuellement.",
     },
