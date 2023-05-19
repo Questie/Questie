@@ -25,8 +25,11 @@ jobs:
       - name: Build ZIP
         run: python build.py -r
 
+      - name: Upload CurseForge
+        run: sh upload-cf.sh
+
       - name: Upload WAGO
-        run: sh upload.sh
+        run: sh upload-wago.sh
 
 #      - name: Upload GitHub artifact
 #        uses: actions/upload-artifact@v3
