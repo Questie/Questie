@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import changelog  # Our own changelog.py
 
 if not len(sys.argv) > 1:
     print('Needs new version number provided as argument')
@@ -34,10 +35,10 @@ with fileinput.FileInput('README.md', inplace=True) as file:
         else:
             print(line, end='')
 
-changelog = subprocess.check_output(['./changelog.py'], stderr=subprocess.STDOUT).decode()
+changelogString = changelog.get_commit_changelog()
 
 print('######### START CHANGELOG')
-print('# Questie v' + version + '\n\n' + changelog)
+print('# Questie v' + version + '\n\n' + changelogString)
 print('######### END CHANGELOG')
 
 subprocess.run(['git', 'add', 'README.md'])
