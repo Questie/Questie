@@ -40,16 +40,6 @@ jobs:
           luarocks install bit32
           lua cli.lua
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        if: ${{ github.event_name != 'pull_request' }}
-        with:
-          python-version: 3.8
-
-      - name: Build changelog and project
-        if: ${{ github.event_name != 'pull_request' }}
-        run: python changelog.py && python build.py
-
       - name: Send CI failure to Discord
         uses: nebularg/actions-discord-webhook@v1
         with:
