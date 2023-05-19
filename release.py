@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
-import sys
 import changelog  # Our own changelog.py
+import fileinput
+import subprocess
+import sys
 
 if not len(sys.argv) > 1:
     print('Needs new version number provided as argument')
@@ -12,9 +14,6 @@ version = sys.argv[1]
 if version[0] == "v":
     print('Please omit the "v" prefix. The script will add it')
     exit()
-
-import subprocess
-import fileinput
 
 tocs = ['Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc']
 
