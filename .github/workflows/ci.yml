@@ -9,7 +9,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -58,7 +58,7 @@ jobs:
         if: ${{ failure() }}
 
   publish:
-    needs: build
+    needs: check
     if: startsWith(github.ref, 'refs/tags/v')
 
     runs-on: ubuntu-latest
