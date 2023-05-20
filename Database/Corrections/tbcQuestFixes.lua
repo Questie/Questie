@@ -1103,6 +1103,9 @@ function QuestieTBCQuestFixes:Load()
         [9678] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the brazier"), 0, {{"object", 181956}}}},
         },
+        [9683] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Defile the Statue of Queen Azshara"), 0, {{"object", 181964}}}},
+        },
         [9685] = {
             [questKeys.preQuestSingle] = {9684,63866},
         },
