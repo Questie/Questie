@@ -122,6 +122,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Destroy the barrel using the Skin of Purest Water"] = { -- 9508
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"] = { -- 9667
         ["ptBR"] = false,
         ["ruRU"] = false,

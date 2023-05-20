@@ -989,6 +989,19 @@ function QuestieTBCQuestFixes:Load()
         [9501] = {
             [questKeys.questLevel] = -1,
         },
+        [9503] = {
+            [questKeys.questLevel] = -1,
+        },
+        [9504] = {
+            [questKeys.questLevel] = -1,
+        },
+        [9508] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Destroy the barrel using the Skin of Purest Water"), 0, {{"object", 181699}}}},
+        },
+        [9509] = {
+            [questKeys.questLevel] = -1,
+        },
         [9514] = {
             [questKeys.preQuestSingle] = {9506},
         },
