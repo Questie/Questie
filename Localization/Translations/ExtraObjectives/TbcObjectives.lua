@@ -158,6 +158,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Place the Bundle of Dragon Bones at the Ever-burning Pyre"] = { -- 9689
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Call for help from Trackers of the Hand"] = { -- 9711
         ["ptBR"] = false,
         ["ruRU"] = false,

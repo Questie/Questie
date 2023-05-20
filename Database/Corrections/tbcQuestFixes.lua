@@ -1112,6 +1112,9 @@ function QuestieTBCQuestFixes:Load()
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7}}}},
         },
+        [9689] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
+        },
         [9697] = {
             [questKeys.requiredMinRep] = {942,3000},
         },
