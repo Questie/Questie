@@ -473,11 +473,18 @@ end
 function TrackerBaseFrame.OnResizeStop(_, button)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
 
-    if button == "RightButton" and TrackerBaseFrame.isSizing ~= true then
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-        return
+
+    if TrackerBaseFrame.isSizing ~= true then
+        if button == "RightButton" then
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+            return
+        end
+
+        if button == "LeftButton" then
+            return
+        end
     end
 
     TrackerBaseFrame.isSizing = false
