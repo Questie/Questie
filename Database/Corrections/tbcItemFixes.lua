@@ -118,6 +118,9 @@ function QuestieTBCItemFixes:Load()
         [24156] = {
             [itemKeys.npcDrops] = {17544},
         },
+        [24278] = {
+            [itemKeys.class] = 12,
+        },
         [24285] = {
             [itemKeys.npcDrops] = {16683},
         },
@@ -316,12 +319,6 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.name] = "Speak with Wing Commander Brack",
             [itemKeys.relatedQuests] = {10129},
             [itemKeys.npcDrops] = {19401},
-            [itemKeys.objectDrops] = {},
-        },
-        [40002] = {
-            [itemKeys.name] = "Matis the Cruel Captured",
-            [itemKeys.relatedQuests] = {9711},
-            [itemKeys.npcDrops] = {17664},
             [itemKeys.objectDrops] = {},
         },
     }

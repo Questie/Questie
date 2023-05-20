@@ -1124,8 +1124,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [9711] = {
-            [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{-1,-1}}}}, -- We don't want to use the objective data, since the fake item has waypoints
-            [questKeys.requiredSourceItems] = {40002},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17664},17664,"Matis the Cruel Captured"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Call for help from Trackers of the Hand"), 0, {{"monster", 17664}}}},
         },
         [9716] = {
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51}}}},

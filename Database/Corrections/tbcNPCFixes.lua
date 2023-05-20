@@ -762,17 +762,5 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5}}},
             [npcKeys.friendlyToFaction] = "H",
         },
-
-        -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
-        -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
-        -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
-
-        [40002] = {
-            [npcKeys.name] = "Bristlelimb Furbolgs",
-            [npcKeys.minLevel] = 10,
-            [npcKeys.maxLevel] = 12,
-            [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{68,81},{64.9,81.6},{64.2,76.4}}},
-        },
     }
 end
