@@ -352,7 +352,25 @@ function QuestieTracker:HasQuest()
             hasQuest = false
         end
     else
-        hasQuest = true
+        if not Questie.db.global.trackerShowCompleteQuests then
+            local completedQuests = 0
+            -- Keep track of the number of completed quests
+            for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
+                if not quest then break end
+                if quest:IsComplete() == 1 then
+                    completedQuests = completedQuests + 1
+                end
+            end
+
+            -- This hides the Tracker when all tracked Quests are complete
+            if completedQuests == GetNumQuestWatches(true) then
+                hasQuest = false
+            else
+                hasQuest = true
+            end
+        else
+            hasQuest = true
+        end
     end
 
     return hasQuest
@@ -847,7 +865,11 @@ function QuestieTracker:Update()
 
                     -- This removes any blank lines
                     if completionText ~= nil then
-                        completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
+                        if strfind(completionText, "\r\n") then
+                            completionText = completionText:gsub("\r\n", "")
+                        else
+                            completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
+                        end
                     end
 
                     -- Add incomplete Quest Objectives
@@ -1495,23 +1517,29 @@ function QuestieTracker:UpdateFormatting()
 
     QuestieTracker:CheckDurabilityAlertStatus()
     TrackerBaseFrame:Update()
+
+    if Questie.db.global.trackerHeaderEnabled then
+        QuestieCompat.SetResizeBounds(trackerBaseFrame, trackerHeaderFrame:GetWidth() + Questie.db.global.trackerFontSizeHeader + 10, trackerHeaderFrame:GetHeight() + Questie.db.global.trackerFontSizeZone + 23)
+    else
+        QuestieCompat.SetResizeBounds(trackerBaseFrame, (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30), Questie.db.global.trackerFontSizeZone + 22)
+    end
 end
 
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
-    local trackerHeaderFrameWidth = trackerHeaderFrame:GetWidth() + Questie.db.global.trackerFontSizeHeader + 10
     local trackerBaseFrameWidth = trackerBaseFrame:GetWidth()
     local trackerWidthByManual = Questie.db[Questie.db.global.questieTLoc].TrackerWidth
+    local trackerHeaderFrameWidth = (trackerHeaderFrame:GetWidth() + Questie.db.global.trackerFontSizeHeader + 10)
+    local trackerHeaderlessWidth = (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30)
 
     if trackerWidthByManual > 0 then
         -- Tracker Sizer is in Manual Mode
         if (not TrackerBaseFrame.isSizing) then
             -- Tracker is not being Sized | Manual width based on the width set by the Tracker Sizer
-            if trackerWidthByManual < trackerHeaderFrameWidth then
-                -- Apply headerFrameWidth
+            if trackerWidthByManual < trackerHeaderFrameWidth and Questie.db.global.trackerHeaderEnabled then
                 trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
-                Questie.db[Questie.db.global.questieTLoc].TrackerWidth = trackerHeaderFrameWidth
-            elseif trackerWidthByManual ~= trackerBaseFrameWidth then
-                -- Apply trackerWidthByManual
+            elseif trackerWidthByManual < trackerHeaderlessWidth then
+                trackerBaseFrame:SetWidth(trackerHeaderlessWidth)
+            else
                 trackerBaseFrame:SetWidth(trackerWidthByManual)
             end
         else
@@ -1531,10 +1559,11 @@ function QuestieTracker:UpdateWidth(trackerVarsCombined)
 end
 
 function QuestieTracker:UpdateHeight()
+    local trackerHeaderFrameHeight = trackerHeaderFrame:GetHeight() + Questie.db.global.trackerFontSizeZone + 23
     local trackerHeightByRatio = GetScreenHeight() * Questie.db.global.trackerHeightRatio
     local trackerHeightByManual = Questie.db[Questie.db.global.questieTLoc].TrackerHeight
-    -- trackerHeightByManual > 0 and trackerHeightByManual = [Sizer Manual Mode] | trackerHeightByRatio = [Sizer Auto Mode]
     local trackerHeightCheck = trackerHeightByManual > 0 and trackerHeightByManual or trackerHeightByRatio
+    local trackerHeaderlessHeight = Questie.db.global.trackerFontSizeZone + 22
 
     -- Set the baseFrame to full height so we can measure it
     if Questie.db.global.trackerHeaderEnabled then
@@ -1547,11 +1576,19 @@ function QuestieTracker:UpdateHeight()
     if (not TrackerBaseFrame.isSizing) then
         -- Tracker is not being re-sized
         if trackerBaseFrame:GetHeight() > trackerHeightCheck then
-            trackerBaseFrame:SetHeight(trackerHeightCheck)
+            if trackerHeightCheck < trackerHeaderFrameHeight + 10 and Questie.db.global.trackerHeaderEnabled then
+                trackerBaseFrame:SetHeight(trackerHeaderFrameHeight)
+            elseif trackerHeightCheck < trackerHeaderlessHeight then
+                trackerBaseFrame:SetHeight(trackerHeaderlessHeight)
+            else
+                trackerBaseFrame:SetHeight(trackerHeightCheck)
+            end
         end
+
+        trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
     else
-        -- Tracker is being re-sized
         trackerBaseFrame:SetHeight(trackerHeightCheck)
+        trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
     end
 
     -- Resize the questFrame to match the baseFrame after the trackerHeightCheck is applied
