@@ -1057,8 +1057,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Offer the sacrifice at the fountain", {[zoneIDs.DARNASSUS]={{38.63,85.99}}}},
         },
         [2561] = {
-            [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"Release Oben Rageclaw's spirit", {[zoneIDs.TELDRASSIL]={{45.52,58.71}}}},
+            [questKeys.objectives] = {{{7318,"Release Oben Rageclaw's spirit"}}},
         },
         [2608] = {
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY]={{78.04,59}}}},
