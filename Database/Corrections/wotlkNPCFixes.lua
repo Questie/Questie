@@ -13,6 +13,9 @@ function QuestieWotlkNpcFixes:Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [2079] = {
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL] = {{58.62,44.71}}},
+        },
         [2142] = {
             [npcKeys.questStarts] = nil, -- corrected children's week quest
         },
