@@ -8,6 +8,7 @@
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
+## X-Wago-ID: qv634BKb
 
 Modules\WorldMapTaintWorkaround.lua
 
