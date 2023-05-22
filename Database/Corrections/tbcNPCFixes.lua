@@ -209,6 +209,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {[zoneIDs.THE_EXODAR] = {{{29.8,32.8},{30.3,33.2},{31,32.4},{31,28.9},{31.3,27.7},{31,28.9},{31,32.4},{30.3,33.2},{29.8,32.8}}}},
             [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
         },
+        [17206] = {
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}}, 
+            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+        },
         [17214] = {
             [npcKeys.waypoints] = {},
         },
@@ -239,10 +243,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
         },
         [17311] = {
-            [npcKeys.spawns] = {
-                [zoneIDs.BLOODMYST_ISLE]={{54.08,55.1}},
-                [zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}},
-            },
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}}},
         },
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35}}},
@@ -252,6 +253,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [17352] = {
             [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{36,75.6},{36.4,74},{36.4,74.6},{36.8,71.6},{36.8,74.4},{37.4,75.8},{43.8,91},{45.6,53.4},{45.8,55},{46.8,54.4},{47.2,54.8},{47.4,53.2},{48,53.4},{48,61.2},{48,68.4},{48.4,58.4},{48.4,73.2},{48.4,73.8},{48.4,86.6},{48.6,56.8},{48.6,73},{49,71.4},{49,72.4},{49,83.6},{49.2,74.2},{49.4,55.8},{49.6,51.6},{49.6,72.4},{49.8,74.4},{49.8,74.6},{49.8,76.6},{50,44},{50,54},{50,75.8},{50.2,49.6},{50.2,51.2},{50.2,53},{50.4,72.8},{50.6,71},{50.6,71.8},{50.6,73},{51,48.4},{51.2,48.6},{51.2,74.2},{51.2,79.4},{51.4,74.6},{51.6,51.2},{51.6,74},{51.6,74.6},{51.8,48.6},{51.8,73.4},{52.2,48},{52.8,80.8},{53.4,63.8},{53.4,79.6},{53.6,65.4},{53.6,82},{54,72.6},{55.4,47},{55.4,72.8},{56,47},{56,63.6},{56.2,45.2},{56.2,49.2},{56.4,48.4},{56.4,50.6},{56.4,60.6},{57,50.8},{57.4,68},{57.8,49.2},{57.8,60.8},{58,49.6},{58.2,68},{58.4,64},{58.6,50.4},{59.6,53},{59.6,59.2},{60,60},{61.2,57.4},{62.8,52.8},{63.2,59.8}}},
+        },
+        [17359] = {
+            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE]={{25.94,40.96}}},
+            [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
         },
         [17413] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{26.9,37.46}}},
@@ -266,6 +271,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{42.86,57.14},{37.84,18.12},{39.6,37.8},{56.83,59.81},{40.27,71.21},{46.6,31.9},{55.2,28.6},{53.6,42.6},{58.6,41.6},{55.2,47.4}}},
         },
         [17610] = {
+            [npcKeys.waypoints] = {},
+        },
+        [17682] = {
             [npcKeys.waypoints] = {},
         },
         [17702] = {
@@ -754,34 +762,6 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.SILVERMOON_CITY,
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.3,36.5}}},
             [npcKeys.friendlyToFaction] = "H",
-        },
-
-        -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
-        -- corresponding real NPC has multiple spawns (e.g. "The Kessel Run" requires you to run to Azure Watch even
-        -- though "Exarch Menelaous" also spawns at Bloodmyst Isle)
-
-        [40000] = {
-            [npcKeys.name] = "Exarch Menelaous",
-            [npcKeys.minLevel] = 14,
-            [npcKeys.maxLevel] = 14,
-            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.11,50.6}}},
-            [npcKeys.friendlyToFaction] = "A",
-        },
-        [40001] = {
-            [npcKeys.name] = "Admiral Odesyus",
-            [npcKeys.minLevel] = 60,
-            [npcKeys.maxLevel] = 60,
-            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{47.04,70.21}}},
-            [npcKeys.friendlyToFaction] = "A",
-        },
-        [40002] = {
-            [npcKeys.name] = "Bristlelimb Furbolgs",
-            [npcKeys.minLevel] = 10,
-            [npcKeys.maxLevel] = 12,
-            [npcKeys.zoneID] = zoneIDs.BLOODMYST_ISLE,
-            [npcKeys.spawns] = {[zoneIDs.BLOODMYST_ISLE] = {{68,81},{64.9,81.6},{64.2,76.4}}},
         },
     }
 end

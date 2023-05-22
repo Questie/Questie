@@ -957,6 +957,7 @@ function QuestieTBCQuestFixes:Load()
         [9467] = {
             [questKeys.sourceItemId] = 24335,
             [questKeys.requiredSourceItems] = {23682,24335},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Hauteur using the Ritual Torch"), 0, {{"object", 181672}}}},
         },
         [9472] = {
             [questKeys.requiredSourceItems] = {29112},
@@ -986,6 +987,19 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
         },
         [9501] = {
+            [questKeys.questLevel] = -1,
+        },
+        [9503] = {
+            [questKeys.questLevel] = -1,
+        },
+        [9504] = {
+            [questKeys.questLevel] = -1,
+        },
+        [9508] = {
+            [questKeys.questLevel] = -1,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Destroy the barrel using the Skin of Purest Water"), 0, {{"object", 181699}}}},
+        },
+        [9509] = {
             [questKeys.questLevel] = -1,
         },
         [9514] = {
@@ -1080,16 +1094,12 @@ function QuestieTBCQuestFixes:Load()
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5}}}},
         },
-        [9663] = {
-            [questKeys.objectives] = {{{17440,"High Chief Stillpine Warned"},{40000,"Exarch Menelaous Warned"},{40001,"Admiral Odesyus Warned"}},nil,nil,nil},
-        },
         [9666] = {
-            [questKeys.triggerEnd] = {"Declaration of Power", {[zoneIDs.BLOODMYST_ISLE]={{68.52,67.88}}}},
+            [questKeys.objectives] = {{{17701}},nil,nil,nil,{{{17701},17701,"Declaration of Power"}}},
         },
         [9667] = {
-            [questKeys.objectives] = {{{17682,"Princess Stillpine Saved"}},nil,nil,nil},
-            [questKeys.requiredSourceItems] = {24099,40001},
             [questKeys.preQuestSingle] = {9559},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Bristlelimb Furbolgs to lure High Chief Bristlelimb"), 0, {{"monster", 17320}, {"monster", 17321}}}},
         },
         [9669] = {
             [questKeys.requiredLevel] = 16,
@@ -1106,11 +1116,17 @@ function QuestieTBCQuestFixes:Load()
         [9678] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the brazier"), 0, {{"object", 181956}}}},
         },
+        [9683] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Defile the Statue of Queen Azshara"), 0, {{"object", 181964}}}},
+        },
         [9685] = {
             [questKeys.preQuestSingle] = {9684,63866},
         },
         [9686] = {
             [questKeys.triggerEnd] = {"Complete the Second Trial", {[zoneIDs.EVERSONG_WOODS]={{43.34,28.7}}}},
+        },
+        [9689] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Place the Bundle of Dragon Bones at the Ever-burning Pyre"), 0, {{"object", 181988}}}},
         },
         [9697] = {
             [questKeys.requiredMinRep] = {942,3000},
@@ -1127,8 +1143,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [9711] = {
-            [questKeys.triggerEnd] = {"Matis the Cruel Captured", {[zoneIDs.BLOODMYST_ISLE]={{-1,-1}}}}, -- We don't want to use the objective data, since the fake item has waypoints
-            [questKeys.requiredSourceItems] = {40002},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{17664},17664,"Matis the Cruel Captured"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Call for help from Trackers of the Hand"), 0, {{"monster", 17664}}}},
         },
         [9716] = {
             [questKeys.triggerEnd] = {"Umbrafen Lake Investigated", {[zoneIDs.ZANGARMARSH]={{70.89,80.51}}}},
