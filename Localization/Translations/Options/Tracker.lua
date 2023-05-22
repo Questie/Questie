@@ -66,7 +66,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, completed Quests will show in the Questie Tracker.\n\nNOTE: This setting only works when 'Auto Track Quests' is enabled."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nПРИМЕЧАНИЕ: Эта работает только при включенной настройке 'Автоотслеживание'",
+        ["ruRU"] = "Показать/скрыть выполненные задания в трекере.\n\nПРИМЕЧАНИЕ: Эта настройка работает только при включенной настройке 'Автоотслеживание'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -242,7 +242,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Active Quests Header will automatically move to the top or bottom of the Questie Tracker depending on which 'Tracker Grows' setting is used.\n\nNOTE: This setting only works while the 'Tracker Grows' setting is set to 'Up & Right' or 'Up & Left'."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет автоматически перемещаться на верх или в низ трекера в зависимости от значения 'Изменение размера трекера'.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда 'Изменение размера трекера' имеет значение 'Вверх и вправо' или 'Вверх и влево'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -455,7 +455,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Hide Tracker Sizer"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Скрыть изменитель размера трекера",
+        ["ruRU"] = "Скрыть сайзер трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -467,7 +467,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Tracker Sizer that appears in the bottom or top right hand corner will be hidden."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Когда включено, скрывается изменитель размера трекера, который отображается в правом нижнем или в правом верхнем углу",
+        ["ruRU"] = "Когда включено, скрывается сайзер (изменитель размера трекера), который отображается в правом нижнем или в правом верхнем углу",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -542,7 +542,7 @@ local trackerOptionsLocales = {
     },
     ["Disabling the Tracker will replace the Questie Tracker with the default Blizzard Quest Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "Desativar o Rastreador substituirá o Questie Rastreador pelo Blizzard Quest Rastreador padrão.",
-        ["ruRU"] = "После нажатия данной кнопки трекер Questie заменится трекером Blizzard.\n\nПРИМЕЧАНИЕ: Данная настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
+        ["ruRU"] = "После нажатия данной кнопки трекер Questie заменится трекером Blizzard.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
         ["deDE"] = "Durch Deaktivieren des Trackers wird der Questie-Tracker durch den Standard-Blizzard-Quest-Tracker ersetzt.",
         ["koKR"] = "추적기를 비활성화하면 Questie 추적기가 기본 블리자드 퀘스트 추적기로 대체됩니다.",
         ["esMX"] = "Deshabilitar el Rastreador reemplazará el Rastreador de misiones con el Rastreador de misiones de Blizzard predeterminado.",
@@ -567,7 +567,7 @@ local trackerOptionsLocales = {
     },
     ["Enabling the Tracker will replace the default Blizzard Quest Tracker with the Questie Tracker.\n\nNOTE: This setting is saved Per Character and will reload the UI."] = {
         ["ptBR"] = "A ativação do Rastreador substituirá o Blizzard Quest Rastreador padrão pelo Questie Rastreador.",
-        ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Данная настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
+        ["ruRU"] = "После нажатия данной кнопки трекер Blizzard заменится трекером Questie.\n\nПРИМЕЧАНИЕ: Эта настройка действует для каждого персонажа отдельно и перезапускает пользовательский интерфейс",
         ["deDE"] = "Durch Aktivieren des Trackers wird der Standard-Blizzard-Quest-Tracker durch den Questie-Tracker ersetzt.",
         ["koKR"] = "추적기를 활성화하면 기본 블리자드 퀘스트 추적기가 Questie 추적기로 대체됩니다.",
         ["esMX"] = "Habilitar el Rastreador reemplazará el Rastreador de misiones de Blizzard predeterminado con el Rastreador de misiones.",
@@ -617,7 +617,7 @@ local trackerOptionsLocales = {
     },
     ["The Questie Trackers Location and Set Point is currently being saved Per Character. This allows you to cusomize each character's Tracker location.\n\nNOTE: Upon enabling Per Character, the Questie Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings."] = {
         ["ptBR"] = "No momento, você está salvando o local do Questie Rastreador e o tamanho por personagem. Isso permite que você personalize a localização do rastreador de cada personagem.\n\nNOTA: Ao ativar o Per Character, o rastreador será redefinido no centro do seu Mova o Rastreador para o local desejado e defina o tamanho. Quando estiver pronto, digite '/recarregar' para finalizar suas configurações.",
-        ["ruRU"] = "В данный момент положение и размер трекера сохраняются для каждого персонажа отдельно.\n\nПРИМЕЧАНИЕ: при изменении параметра положение трекера будет сброшено в центр экрана. После этого нужно переместить трекер в необходимое место и установить его размер. Для завершения настройки нужно перезагрузить пользовательский интерфейс командой '/reload'",
+        ["ruRU"] = "В данный момент положение и размер трекера сохраняются для каждого персонажа отдельно.\n\nПРИМЕЧАНИЕ: При изменении этой настройки положение трекера будет сброшено в центр экрана. После этого нужно переместить трекер в необходимое место и установить его размер. Для завершения настройки нужно перезагрузить пользовательский интерфейс командой '/reload'",
         ["deDE"] = "Die Position und Größe des Questie-Trackers wird aktuell pro Charakter gespeichert. Auf diese Weise kann der Tracker-Standort auf jeden Charakters unterschiedlich eingestellt werden.\n\nHINWEIS: Wenn 'Pro Charakter' aktiviert wird, wird die Position des Trackers zurückgesetzt. Anschließend sollte der Tracker an den gewünschten Ort verschoeben und die Größe passen eingestellt werden. Das Einstellen wird mit einem '/reload' abgeschlossen.",
         ["koKR"] = "현재 Questie Tracker 위치 및 문자 당 크기를 저장하고 있습니다. 이렇게하면 각 문자의 추적기 위치를 조절할 수 있습니다.\n\n참고 : 문자 별을 활성화하면 추적기가 중앙으로 재설정됩니다. 추적기를 원하는 위치로 이동하고 크기를 설정하십시오. 준비가되면 '/reload'를 입력하여 설정을 완료하십시오.",
         ["esMX"] = "Actualmente está guardando la ubicación y el tamaño del Rastreador de Questie por personaje. Esto le permite personalizar la ubicación del rastreador de cada personaje.\n\nNOTA: Al habilitar Por personaje, el Tracker se reiniciará en el centro de su pantalla. Mueva el Rastreador a su ubicación deseada y configure el tamaño. Cuando esté listo, escriba '/reload' para finalizar su configuración.",
@@ -642,7 +642,7 @@ local trackerOptionsLocales = {
     },
     ["The Questie Trackers Location and Set Point is currently being saved Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Questie Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings."] = {
         ["ptBR"] = "No momento, você está salvando o local e o tamanho do Questie Rastreador globalmente. Isso permite que você tenha uma configuração para todos os caracteres.\n\nNOTA: Ao ativar Global, o Rastreador será redefinido para o centro da tela Mova o Rastreador para o local desejado e defina o tamanho. Quando estiver pronto, digite '/recarregar' para finalizar suas configurações.",
-        ["ruRU"] = "В данный момент положение и размер трекера сохраняются одинаково для всех персонажей.\n\nПРИМЕЧАНИЕ: при изменении параметра положение трекера будет сброшено в центр экрана. После этого нужно переместить трекер в необходимое место и установить его размер. Для завершения настройки нужно перезагрузить пользовательский интерфейс командой '/reload'",
+        ["ruRU"] = "В данный момент положение и размер трекера сохраняются одинаково для всех персонажей.\n\nПРИМЕЧАНИЕ: При изменении этой настройки положение трекера будет сброшено в центр экрана. После этого нужно переместить трекер в необходимое место и установить его размер. Для завершения настройки нужно перезагрузить пользовательский интерфейс командой '/reload'",
         ["deDE"] = "Die Position und Größe des Questie-Trackers wird aktuell global gespeichert. Auf diese Weise kann der Tracker-Standort für alle Charakter gleichermaßen eingestellt werden.\n\nHINWEIS: Wenn 'Pro Charakter' aktiviert wird, wird die Position des Trackers zurückgesetzt. Anschließend sollte der Tracker an den gewünschten Ort verschoeben und die Größe passen eingestellt werden. Das Einstellen wird mit einem '/reload' abgeschlossen.",
         ["koKR"] = "현재 Questie 추적기 위치 및 크기를 전역으로 저장하고 있습니다. 모든 문자에 대해 하나의 설정을 지정할 수 있습니다.\n\n참고 : 전역을 활성화하면 추적기가 화면 중앙으로 재설정됩니다. 추적기를 원하는 위치로 이동하고 크기를 설정하십시오. 준비가되면 '/reload'를 입력하여 설정을 완료하십시오.",
         ["esMX"] = "Actualmente está guardando la ubicación y el tamaño del Rastreador de Questie a nivel mundial. Esto le permite tener una configuración para todos los caracteres.\n\nNOTA: Al habilitar Global, el Tracker se restablecerá en el centro de su pantalla . Mueva el Rastreador a su ubicación deseada y establezca el tamaño. Cuando esté listo, escriba '/reload' para finalizar su configuración.",
@@ -742,7 +742,7 @@ local trackerOptionsLocales = {
     -- Classic and TBC only --
     ["How Objectives are sorted in the Questie Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -755,7 +755,7 @@ local trackerOptionsLocales = {
     -- Wrath of the Lich King only --
     ["How Objectives are sorted in the Questie Tracker.\n\nNOTE: This will not sort Achievements."] = {
         ["ptBR"] = "Como os objectivos são classificadas no Rastreador",
-        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере.\n\nПРИМЕЧАНИЕ: Эта настройка не сортирует достижения",
+        ["ruRU"] = "Выбор типа сортировки целей заданий в трекере.\n\nПРИМЕЧАНИЕ: Это не сортирует достижения",
         ["deDE"] = "Wie Questziele im Tracker sortiert werden.",
         ["koKR"] = "추적기에서 퀘스트 목표를 어떻게 정렬해서 보여줄지 설정합니다.",
         ["esMX"] = "La manera que se ordena los objetivos en el rastreador.",
@@ -842,7 +842,7 @@ local trackerOptionsLocales = {
     -- Classic and TBC only --
     ["This shortcut will set the TomTom arrow to point to either an NPC or the first incomplete Quest Objective (if location data is available)."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Сочетание клавиш для установки точки TomTom либо на NPC, либо на первую невыполненную цель задания (если имеются координаты)",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -869,7 +869,7 @@ local trackerOptionsLocales = {
     -- Classic and TBC only --
     ["Show in Quest Log"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать в журнале заданий",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -882,7 +882,7 @@ local trackerOptionsLocales = {
     -- Classic and TBC only --
     ["This shortcut will open the Quest Log with the clicked Quest selected."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Сочетание клавиш для открытия задания в журнале заданий",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -923,7 +923,7 @@ local trackerOptionsLocales = {
     -- Classic and TBC only --
     ["Untrack / Link Quest"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Отмена / Ссылка",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -936,7 +936,7 @@ local trackerOptionsLocales = {
     -- Classic and TBC only --
     ["This shortcut removes a Quest from the Questie Tracker when the chat input box is NOT visible, otherwise this will link a Quest to chat."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Сочетание клавиш для отмены отслеживания задания в трекере. Если активно поле ввода чата, то вместо отмены отслеживания в чат отправится ссылка на задание",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1262,7 +1262,7 @@ local trackerOptionsLocales = {
     },
     ["The amount of padding between Quests in the Questie Tracker.\n\nNOTE: Changing this setting while in Sizer Manual Mode will reset the Sizer back to Auto Mode"] = {
         ["ptBR"] = "A quantidade de preenchimento entre missões no Questie Tracker.\n\nOBSERVAÇÃO: Alterar esta configuração no modo Manual do Medidor irá redefinir o Medidor de volta para o Modo Automático",
-        ["ruRU"] = "Количество отступов между квестами в Questie Tracker.\n\nПРИМЕЧАНИЕ. Изменение этого параметра в ручном режиме калибратора вернет калибратор обратно в автоматический режим.",
+        ["ruRU"] = "Установка отступа между заданиями в трекере.\n\nПРИМЕЧАНИЕ: Если сайзер (изменитель размера трекера) в ручном режиме, то изменение этой настройки сбросит режим сайзера на автоматический",
         ["deDE"] = "Der Abstand zwischen Quests im Questie-Tracker.\n\nHINWEIS: Wenn Sie diese Einstellung im manuellen Sizer-Modus ändern, wird der Sizer wieder in den automatischen Modus zurückgesetzt",
         ["koKR"] = "Questie Tracker에서 퀘스트 사이의 패딩 양입니다.\n\n참고: Sizer 수동 모드에서 이 설정을 변경하면 Sizer가 다시 자동 모드로 재설정됩니다.",
         ["esMX"] = "La cantidad de relleno entre Quests en Questie Tracker.\n\nNOTA: Cambiar esta configuración mientras está en el modo manual de Sizer restablecerá el Sizer nuevamente al modo automático",
@@ -1337,7 +1337,7 @@ local trackerOptionsLocales = {
     },
     ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Auto Mode"] = {
         ["ptBR"] = "A altura do Questie Tracker com base na porcentagem de altura utilizável da tela. Uma configuração de 100 por cento faria o Rastreador preencher toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica no Modo Automático do Medidor",
-        ["ruRU"] = "Высота Questie Tracker в процентах от полезной высоты экрана. Если установить значение 100 процентов, трекер заполнит всю высоту экрана игроков.\n\nПРИМЕЧАНИЕ. Эта настройка применяется только в автоматическом режиме Sizer.",
+        ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
         ["deDE"] = "Die Höhe des Questie Tracker basiert auf dem Prozentsatz der nutzbaren Bildschirmhöhe. Eine Einstellung von 100 Prozent würde dazu führen, dass der Tracker die gesamte Bildschirmhöhe des Spielers ausfüllt.\n\nHINWEIS: Diese Einstellung gilt nur im automatischen Sizer-Modus",
         ["koKR"] = "사용 가능한 화면 높이의 백분율을 기준으로 한 Questie Tracker의 높이입니다. 100%로 설정하면 추적기가 플레이어의 전체 화면 높이를 채웁니다.\n\n참고: 이 설정은 Sizer 자동 모드에서만 적용됩니다.",
         ["esMX"] = "La altura del Questie Tracker basada en el porcentaje de altura de pantalla utilizable. Una configuración del 100 por ciento haría que el Rastreador llenara toda la altura de la pantalla de los jugadores.\n\nNOTA: Esta configuración solo se aplica en el modo automático de Sizer",

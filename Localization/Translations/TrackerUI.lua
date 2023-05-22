@@ -30,7 +30,7 @@ local trackerUILocales = {
     },
     ["Resize Tracker (Manual)"] = {
         ["ptBR"] = "Redimensionar rastreador (manual)",
-        ["ruRU"] = "Трекер изменения размера (вручную)",
+        ["ruRU"] = "Изменить размера трекера (режим 'Вручную')",
         ["deDE"] = "Größe des Trackers ändern (manuell)",
         ["koKR"] = "트래커 크기 조정(수동)",
         ["esMX"] = "Cambiar el tamaño del rastreador (Manual)",
@@ -42,7 +42,7 @@ local trackerUILocales = {
     },
     ["Reset Sizer (Auto)"] = {
         ["ptBR"] = "Redefinir dimensionador (automático)",
-        ["ruRU"] = "Сбросить размер (авто)",
+        ["ruRU"] = "Сбросить сайзер (режим 'Авто')",
         ["deDE"] = "Sizer zurücksetzen (Auto)",
         ["koKR"] = "Sizer 재설정(자동)",
         ["esMX"] = "Restablecer calibrador (automático)",
@@ -54,7 +54,7 @@ local trackerUILocales = {
     },
     ["Resize while Locked"] = {
         ["ptBR"] = "Redimensionar enquanto bloqueado",
-        ["ruRU"] = "Изменение размера при блокировке",
+        ["ruRU"] = "Изменение размера при заблокированном трекере",
         ["deDE"] = "Größe im gesperrten Zustand ändern",
         ["koKR"] = "잠겨 있는 동안 크기 조정",
         ["esMX"] = "Cambiar el tamaño mientras está bloqueado",
@@ -66,7 +66,7 @@ local trackerUILocales = {
     },
     ["Reset while Locked"] = {
         ["ptBR"] = "Redefinir enquanto bloqueado",
-        ["ruRU"] = "Сброс при блокировке",
+        ["ruRU"] = "Сброс при заблокированном трекере",
         ["deDE"] = "Im gesperrten Zustand zurücksetzen",
         ["koKR"] = "잠겨 있는 동안 재설정",
         ["esMX"] = "Restablecer mientras está bloqueado",
@@ -90,7 +90,7 @@ local trackerUILocales = {
     },
     ["The Tracker Height Ratio\nis ignored while in Manual mode"] = {
         ["ptBR"] = "A relação de altura do\nrastreador é ignorada no modo manual",
-        ["ruRU"] = "Соотношение высот трекера\nигнорируется в ручном режиме.",
+        ["ruRU"] = "Соотношение высоты трекера игнорируется в ручном режиме",
         ["deDE"] = "Das Tracker-Höhenverhältnis\nwird im manuellen Modus ignoriert",
         ["koKR"] = "수동 모드에서는 추적기 높이 비율이 무시됩니다.",
         ["esMX"] = "La relación de altura del rastreador\nse ignora mientras está en modo manual",
@@ -180,7 +180,7 @@ local trackerUILocales = {
     -- "Set TomTom Target" is in the Tracker.lua inside the Translations/Options directory
     ["Minimize Quest"] = {
         ["ptBR"] = "Minimizar missão",
-        ["ruRU"] = "Свернуть квест",
+        ["ruRU"] = "Свернуть задание",
         ["deDE"] = "Suche minimieren",
         ["koKR"] = "퀘스트 최소화",
         ["esMX"] = "Minimizar misión",
@@ -228,7 +228,7 @@ local trackerUILocales = {
     },
     ["Show in Quest Log"] = {
         ["ptBR"] = "Mostrar no registro de missões",
-        ["ruRU"] = "Показать в журнале",
+        ["ruRU"] = "Показать в журнале заданий",
         ["deDE"] = "In Questlog anzeigen",
         ["koKR"] = "퀘스트 목록에서 열기",
         ["esMX"] = "Mostrar en registro de misiones",
@@ -264,7 +264,7 @@ local trackerUILocales = {
     },
     ["Link Achievement to chat"] = {
         ["ptBR"] = "Conquista de link para bate-papo",
-        ["ruRU"] = "Связать достижение с чатом",
+        ["ruRU"] = "Ссылка на достижение в чат",
         ["deDE"] = "Verknüpfen Sie den Erfolg mit dem Chat",
         ["koKR"] = "업적을 채팅에 연결",
         ["esMX"] = "Vincular logro para chatear",
@@ -288,7 +288,7 @@ local trackerUILocales = {
     },
     ["Untrack Achievement"] = {
         ["ptBR"] = "Descompactar conquista",
-        ["ruRU"] = "Разблокировать достижение",
+        ["ruRU"] = "Не отслеживать достижение",
         ["deDE"] = "Erfolg aufheben",
         ["koKR"] = "업적 추적 해제",
         ["esMX"] = "Logro sin seguimiento",
@@ -300,7 +300,7 @@ local trackerUILocales = {
     },
     ["Abandon Quest"] = {
         ["ptBR"] = "Abandonar Missão",
-        ["ruRU"] = "Отказаться от квеста",
+        ["ruRU"] = "Отменить задание",
         ["deDE"] = "Suche aufgeben",
         ["koKR"] = "퀘스트 포기",
         ["esMX"] = "Abandonar misión",

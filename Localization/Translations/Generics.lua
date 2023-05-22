@@ -148,7 +148,7 @@ local genericsLocales = {
     },
     ["Manual"] = {
         ["ptBR"] = "Manual",
-        ["ruRU"] = "Руководство",
+        ["ruRU"] = "Вручную",
         ["deDE"] = "Handbuch",
         ["koKR"] = "수동",
         ["esMX"] = "Manual",
