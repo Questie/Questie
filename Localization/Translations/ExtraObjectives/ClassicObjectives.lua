@@ -14,6 +14,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Fish for Darkshore Groupers"] = { -- 1141
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Slay Gelkis centaur to increase your reputation with the Magram Clan"] = { -- 1367
         ["ptBR"] = false,
         ["ruRU"] = "Убейте кентавра из племени Гелкис, чтобы поднять свою репутацию с племенем Маграм",

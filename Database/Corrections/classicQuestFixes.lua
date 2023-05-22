@@ -617,6 +617,9 @@ function QuestieQuestFixes:Load()
         [1136] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use a Fresh Carcass at the Flame of Uzel"), 0, {{"object", 1770}}}},
         },
+        [1141] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{35.71,44.68}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Darkshore Groupers"),}},
+        },
         [1144] = {
             [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.THE_BARRENS]={{42.27,89.88}}}},
         },
