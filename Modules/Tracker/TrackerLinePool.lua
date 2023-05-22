@@ -407,7 +407,7 @@ function TrackerLinePool.Initialize(questFrame)
         btn.SetItem = function(self, quest, buttonType, size)
             local validTexture
 
-            for bag = 0, 4 do
+            for bag = -2, 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
                     local texture, _, _, _, _, _, _, _, _, itemId = QuestieCompat.GetContainerItemInfo(bag, slot)
                     -- These type of quest items can never be secondary buttons
