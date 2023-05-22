@@ -1864,7 +1864,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10557] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Test Tally's Experiment", {}},
+            [questKeys.triggerEnd] = {"Test Tally's Experiment", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber and use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
         },
         [10563] = {
@@ -2001,19 +2001,19 @@ function QuestieTBCQuestFixes:Load()
         },
         [10710] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Throw caution to the wind.", {}},
+            [questKeys.triggerEnd] = {"Throw caution to the wind.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Sign Tally's Waiver, then speak with Rally Zapnabber to use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
         },
         [10711] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {}},
+            [questKeys.triggerEnd] = {"Reach the Sky's Limit.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10710, 10657},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber to use the Zephyrium Capacitorium"), 0, {{"monster", 21461}}}},
         },
         [10712] = {
             -- Since you don't just have to reach the position this triggerEnd does not make much sense as is empty on purpose!
-            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {}},
+            [questKeys.triggerEnd] = {"Launch to Ruuan Weald.", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{-1,-1}}}},
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {10711, 10675},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Rally Zapnabber to use the Zephyrium Capacitorium and spin the Nether-weather Vane while flying"), 0, {{"monster", 21461}}}},
@@ -2842,8 +2842,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {934,3000},
         },
         [11496] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Energize a Crystal Ward"), 0, {{"object", 187078}}}},
-            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
+            [questKeys.objectives] = {nil,{{187078, "Energize a Crystal Ward"}}},
         },
         [11502] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -2881,8 +2880,7 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [11523] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Energize a Crystal Ward"), 0, {{"object", 187078}}}},
-            [questKeys.triggerEnd] = {"Energize a Crystal Ward", {}}, -- Dummy to not tirgger objective missing error
+            [questKeys.objectives] = {nil,{{187078, "Energize a Crystal Ward"}}},
         },
         [11524] = {
             [questKeys.objectives] = {{{24972, "Converted Sentry Deployed"}}},
