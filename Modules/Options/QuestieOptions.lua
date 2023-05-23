@@ -132,6 +132,8 @@ _CreateOptionsTable = function()
     coroutine.yield()
     local tooltip_tab = QuestieOptions.tabs.tooltip:Initialize()
     coroutine.yield()
+    local sounds_tab = QuestieOptions.tabs.sounds:Initialize()
+    coroutine.yield()
     local advanced_tab = QuestieOptions.tabs.advanced:Initialize()
     coroutine.yield()
     return {
@@ -148,6 +150,7 @@ _CreateOptionsTable = function()
             tracker_tab = tracker_tab,
             nameplate_tab = nameplate_tab,
             tooltip_tab = tooltip_tab,
+            sounds_tab = sounds_tab,
             advanced_tab = advanced_tab,
         }
     }

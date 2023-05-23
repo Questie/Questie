@@ -38,7 +38,7 @@ function QuestieOptions.tabs.advanced:Initialize()
     return {
         name = function() return l10n('Advanced'); end,
         type = "group",
-        order = 17,
+        order = 18,
         args = {
             map_options = {
                 type = "header",
