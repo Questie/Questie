@@ -538,6 +538,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                         ['byProximity'] = l10n('By Proximity'),
                         ['byProximityReversed'] = l10n('By Proximity (Reversed)'),
                         ['byZone'] = l10n('By Zone'),
+                        ['byZonePlayerProximity'] = l10n('By Zone Prox'),
+                        ['byZonePlayerProximityReversed'] = l10n('By Zone Prox (Reversed)'),
                     }
                 end,
                 style = 'dropdown',
