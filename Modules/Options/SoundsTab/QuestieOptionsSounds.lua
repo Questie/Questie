@@ -23,13 +23,6 @@ function QuestieOptions.tabs.sounds:Initialize()
         type = "group",
         order = 17,
         args = {
-            sounds_header = {
-                type = "header",
-                order = 1,
-                name = function()
-                    return l10n('Advanced Settings');
-                end,
-            },
             questCompleteSound = {
                 type = "toggle",
                 order = 2.11,
