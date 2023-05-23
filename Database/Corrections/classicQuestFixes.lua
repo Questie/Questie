@@ -835,6 +835,7 @@ function QuestieQuestFixes:Load()
         },
         [1580] = {
             [questKeys.requiredSkill] = {356,30},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{50.7,23.8},{40,73.6},{44.3,74.4},{53.3,32.4},{43.3,80.6}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Electropellers"),}},
         },
         [1581] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
