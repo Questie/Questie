@@ -13,8 +13,6 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils");
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type Sounds
 local Sounds = QuestieLoader:ImportModule("Sounds");
 ---@type l10n
@@ -53,7 +51,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Enable or disable Questie icons.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.enabled; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.enabled = value
                     QuestieQuest:ToggleNotes(value);
                 end,
@@ -64,7 +62,7 @@ function QuestieOptions.tabs.general:Initialize()
                 name = function() return l10n('Config Tracking Icons'); end,
                 desc = function() return l10n('Allows to select which the tracking icons (like Mailbox, Repair-NPCs) to show on the map and minimap.'); end,
                 width = 1.5,
-                func = function (info, value)
+                func = function ()
                     QuestieMenu:Show()
                 end,
             },
@@ -82,7 +80,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableMapIcons; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.global.enableMapIcons = value
                             QuestieQuest:ToggleNotes(value);
                         end,
@@ -95,7 +93,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableMiniMapIcons; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.global.enableMiniMapIcons = value
                             QuestieQuest:ToggleNotes(value);
                         end,
@@ -108,7 +106,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function() return Questie.db.char.hideUnexploredMapIcons; end,
-                        set = function(info, value)
+                        set = function(_, value)
                             Questie.db.char.hideUnexploredMapIcons = value
                             QuestieQuest:ToggleNotes(not value);
                             QuestieQuest:SmoothReset()
@@ -122,7 +120,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function() return Questie.db.char.hideUntrackedQuestsMapIcons; end,
-                        set = function(info, value)
+                        set = function(_, value)
                             Questie.db.char.hideUntrackedQuestsMapIcons = value
                             QuestieQuest:ToggleNotes(not value);
                             QuestieQuest:SmoothReset()
@@ -136,7 +134,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function() return Questie.db.char.enableQuestFrameIcons; end,
-                        set = function(info, value)
+                        set = function(_, value)
                             Questie.db.char.enableQuestFrameIcons = value
                         end,
                     },
@@ -153,7 +151,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableObjectives; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.global.enableObjectives = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -167,7 +165,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableTurnins; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.global.enableTurnins = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -181,7 +179,7 @@ function QuestieOptions.tabs.general:Initialize()
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
                         get = function () return Questie.db.global.enableAvailable; end,
-                        set = function (info, value)
+                        set = function (_, value)
                             Questie.db.global.enableAvailable = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -194,8 +192,8 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('When this is enabled, the locations of repeatable quests will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showRepeatableQuests end,
-                        set = function (info, value)
+                        get = function() return Questie.db.char.showRepeatableQuests end,
+                        set = function (_, value)
                             Questie.db.char.showRepeatableQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -208,8 +206,8 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('When this is enabled, the locations of active event quests will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showEventQuests end,
-                        set = function (info, value)
+                        get = function() return Questie.db.char.showEventQuests end,
+                        set = function (_, value)
                             Questie.db.char.showEventQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -222,8 +220,8 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('When this is enabled, the locations of dungeon quests will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showDungeonQuests end,
-                        set = function (info, value)
+                        get = function() return Questie.db.char.showDungeonQuests end,
+                        set = function (_, value)
                             Questie.db.char.showDungeonQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -236,8 +234,8 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('When this is enabled, the locations of raid quests will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showRaidQuests end,
-                        set = function (info, value)
+                        get = function() return Questie.db.char.showRaidQuests end,
+                        set = function (_, value)
                             Questie.db.char.showRaidQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -250,8 +248,8 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('When this is enabled, the locations of PvP quests will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showPvPQuests end,
-                        set = function (info, value)
+                        get = function() return Questie.db.char.showPvPQuests end,
+                        set = function (_, value)
                             Questie.db.char.showPvPQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -265,8 +263,8 @@ function QuestieOptions.tabs.general:Initialize()
                         desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quests will be shown on the map/minimap.'); end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.char.showAQWarEffortQuests end,
-                        set = function (info, value)
+                        get = function() return Questie.db.char.showAQWarEffortQuests end,
+                        set = function (_, value)
                             Questie.db.char.showAQWarEffortQuests = value
                             QuestieQuest:ToggleNotes(value)
                             QuestieQuest:SmoothReset()
@@ -285,8 +283,8 @@ function QuestieOptions.tabs.general:Initialize()
                         end,
                         width = 1.5,
                         disabled = function() return (not Questie.db.char.enabled); end,
-                        get = function(info) return Questie.db.global.usePfQuestIcons end,
-                        set = function(info, value)
+                        get = function() return Questie.db.global.usePfQuestIcons end,
+                        set = function(_, value)
                             Questie.db.global.usePfQuestIcons = value
                             if value then
                                 Questie.db.global.ICON_SLAY = Questie.icons["node"]
@@ -327,7 +325,7 @@ function QuestieOptions.tabs.general:Initialize()
                         order = 15.5,
                         name = function() return l10n('Icon Overrides (show/hide)'); end,
                         width = 1.2,
-                        func = function (info, value)
+                        func = function ()
                             iconsHidden = not iconsHidden
                         end,
                     },
@@ -353,7 +351,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to kill an NPC'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_SLAY) or "slay"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_SLAY = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -369,7 +367,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to loot an item'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_LOOT) or "loot"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_LOOT = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -385,7 +383,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to interact with an object'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_OBJECT) or "object"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_OBJECT = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -401,7 +399,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENT) or "event"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_EVENT = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -417,7 +415,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to talk to an NPC'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_TALK) or "talk"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_TALK = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -438,7 +436,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for available quests'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_AVAILABLE) or "available"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_AVAILABLE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -454,7 +452,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don\'t reward experience'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_AVAILABLE_GRAY) or "available_gray"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_AVAILABLE_GRAY = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -470,7 +468,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for completed quests that can be handed in'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_COMPLETE) or "complete"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -491,7 +489,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for available repeatable quests like dailies'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_REPEATABLE) or "repeatable"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_REPEATABLE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -507,7 +505,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for repeatable quests that can be handed in'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_REPEATABLE_COMPLETE) or "repeatable_complete"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -528,7 +526,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for available event quests during holidays'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENTQUEST) or "eventquest"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_EVENTQUEST = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -544,7 +542,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for event quests that can be handed in'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENTQUEST_COMPLETE) or "eventquest_complete"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -565,7 +563,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for available PvP quests'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_PVPQUEST) or "pvpquest"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_PVPQUEST = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -581,7 +579,7 @@ function QuestieOptions.tabs.general:Initialize()
                                 desc = function() return l10n('The icon that is displayed for PvP quests that can be handed in'); end,
                                 get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_PVPQUEST_COMPLETE) or "pvpquest_complete"; end,
                                 disabled = function() return (not Questie.db.char.enabled); end,
-                                set = function(input, key)
+                                set = function(_, key)
                                     Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
@@ -703,7 +701,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('The sound you hear when an objective is completed'); end,
                 get = function() return  Questie.db.char.objectiveCompleteSoundChoiceName; end,
                 disabled = function() return (not Questie.db.char.soundOnObjectiveComplete); end,
-                set = function(input, value)
+                set = function(_, value)
                     Questie.db.char.objectiveCompleteSoundChoiceName = value
                 end,
             },
@@ -740,7 +738,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('The sound you hear when you make progress on a quest objective'); end,
                 get = function() return  Questie.db.char.objectiveProgressSoundChoiceName; end,
                 disabled = function() return (not Questie.db.char.soundOnObjectiveProgress); end,
-                set = function(input, value)
+                set = function(_, value)
                     Questie.db.char.objectiveProgressSoundChoiceName = value
                 end,
             },
@@ -756,7 +754,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Enable or disable the Questie minimap button. You can still access the options menu with /questie.'); end,
                 width = 1.5,
                 get = function () return not Questie.db.profile.minimap.hide; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.profile.minimap.hide = not value;
 
                     if value then
@@ -773,7 +771,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
                 width = 1.5,
                 get = function () if GetCVar("instantQuestText") == '1' then return true; else return false; end; end,
-                set = function (info, value)
+                set = function (_, value)
                     if value then
                         SetCVar("instantQuestText", 1);
                     else
@@ -788,7 +786,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Enable or disable Questie auto-accepting quests.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autoaccept; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.autoaccept = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
                 end,
@@ -800,7 +798,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Enable or disable Questie auto-completing quests.'); end,
                 width = 1.5,
                 get = function () return Questie.db.char.autocomplete; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.autocomplete = value
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
                 end,
@@ -814,7 +812,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.'); end,
                 disabled = function() return (not Questie.db.char.autocomplete) and (not Questie.db.char.autoaccept) end,
                 get = function() return Questie.db.char.autoModifier; end,
-                set = function(input, key)
+                set = function(_, key)
                     Questie.db.char.autoModifier = key
                 end,
             },
@@ -827,7 +825,7 @@ function QuestieOptions.tabs.general:Initialize()
                 disabled = function() return (not Questie.db.char.autoaccept) end,
                 width = 1.5,
                 get = function () return Questie.db.char.acceptTrivial; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.acceptTrivial = value
                 end,
             },
@@ -844,7 +842,7 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Enable or disable showing of showing low level quests on the map.'); end,
                 width = "full",
                 get = function () return Questie.db.char.lowlevel; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.lowlevel = value
                     QuestieOptions.AvailableQuestRedraw();
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Gray Quests toggled to:", value)
@@ -858,7 +856,7 @@ function QuestieOptions.tabs.general:Initialize()
                 width = 1.5,
                 disabled = function() return Questie.db.char.lowlevel or Questie.db.char.absoluteLevelOffset; end,
                 get = function () return Questie.db.char.manualMinLevelOffset; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.manualMinLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
                     Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
@@ -872,7 +870,7 @@ function QuestieOptions.tabs.general:Initialize()
                 width = 1.5,
                 disabled = function() return Questie.db.char.lowlevel or Questie.db.char.manualMinLevelOffset; end,
                 get = function () return Questie.db.char.absoluteLevelOffset; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.absoluteLevelOffset = value
                     QuestieOptions.AvailableQuestRedraw();
                     Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
@@ -901,7 +899,7 @@ function QuestieOptions.tabs.general:Initialize()
                 step = 1,
                 disabled = function() return (not Questie.db.char.manualMinLevelOffset) and (not Questie.db.char.absoluteLevelOffset); end,
                 get = function() return Questie.db.char.minLevelFilter; end,
-                set = function (info, value)
+                set = function (_, value)
                     Questie.db.char.minLevelFilter = value;
                     QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw,"minLevelFilter set to " .. value)
                 end,
@@ -920,8 +918,8 @@ function QuestieOptions.tabs.general:Initialize()
                 max = 60 + 10 * GetExpansionLevel(),
                 step = 1,
                 disabled = function() return (not Questie.db.char.absoluteLevelOffset); end,
-                get = function(info) return Questie.db.char.maxLevelFilter; end,
-                set = function (info, value)
+                get = function() return Questie.db.char.maxLevelFilter; end,
+                set = function (_, value)
                     Questie.db.char.maxLevelFilter = value;
                     QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
                 end,
