@@ -336,6 +336,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [5251] = {
+            [itemKeys.questRewards] = {960,961},
+        },
         [5411] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
