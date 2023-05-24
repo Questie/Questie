@@ -347,7 +347,7 @@ function _ZoneDB:RunTests()
         if map.mapType ~= Enum.UIMapType.World and map.mapType ~= Enum.UIMapType.Continent and map.mapType ~= Enum.UIMapType.Cosmic then
             local success, result = pcall(ZoneDB.GetAreaIdByUiMapId, ZoneDB, map.mapID)
             if not success and not buggedMaps[map.mapID] then
-                Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId should fail for " .. map.name .. " (" .. map.mapID .. ")")
+                Questie:Error("[ZoneDBTests] ZoneDB.GetAreaIdByUiMapId fails for " .. map.name .. " (" .. map.mapID .. "). Result: " .. result)
             end
 
         end
