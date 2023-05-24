@@ -19,7 +19,6 @@ local l10n = QuestieLoader:ImportModule("l10n")
 QuestieOptions.tabs.general = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
 
-local _GetShortcuts
 local _GetIconTypes
 local _GetIconTypesSort
 
@@ -644,56 +643,6 @@ function QuestieOptions.tabs.general:Initialize()
                     end
                 end,
             },
-            autoaccept = {
-                type = "toggle",
-                order = 5,
-                name = function() return l10n('Auto Accept Quests'); end,
-                desc = function() return l10n('Enable or disable Questie auto-accepting quests.'); end,
-                width = 1.5,
-                get = function() return Questie.db.char.autoaccept; end,
-                set = function(_, value)
-                    Questie.db.char.autoaccept = value
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Accept toggled to:", value)
-                end,
-            },
-            autocomplete = {
-                type = "toggle",
-                order = 6,
-                name = function() return l10n('Auto Complete'); end,
-                desc = function() return l10n('Enable or disable Questie auto-completing quests.'); end,
-                width = 1.5,
-                get = function() return Questie.db.char.autocomplete; end,
-                set = function(_, value)
-                    Questie.db.char.autocomplete = value
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "Auto Complete toggled to:", value)
-                end,
-            },
-            autoModifier = {
-                type = "select",
-                order = 7,
-                values = _GetShortcuts(),
-                style = 'dropdown',
-                name = function() return l10n('Auto Modifier') end,
-                desc = function() return l10n('The modifier to NOT auto-accept/-complete quests when either option is enabled and you interact with a quest NPC.'); end,
-                disabled = function() return (not Questie.db.char.autocomplete) and (not Questie.db.char.autoaccept) end,
-                get = function() return Questie.db.char.autoModifier; end,
-                set = function(_, key)
-                    Questie.db.char.autoModifier = key
-                end,
-            },
-            Spacer_H = QuestieOptionsUtils:HorizontalSpacer(1.71, 0.5),
-            acceptTrivial = {
-                type = "toggle",
-                order = 8,
-                name = function() return l10n('Accept trivial (low level) quests'); end,
-                desc = function() return l10n('When this is enabled trivial (gray) quests will be auto accepted as well.'); end,
-                disabled = function() return (not Questie.db.char.autoaccept) end,
-                width = 1.5,
-                get = function() return Questie.db.char.acceptTrivial; end,
-                set = function(_, value)
-                    Questie.db.char.acceptTrivial = value
-                end,
-            },
             --Spacer_B = QuestieOptionsUtils:Spacer(1.73),
             quest_options = {
                 type = "header",
@@ -805,15 +754,6 @@ function QuestieOptions.tabs.general:Initialize()
                 end,
             },
         },
-    }
-end
-
-_GetShortcuts = function()
-    return {
-        ['shift'] = l10n('Shift'),
-        ['ctrl'] = l10n('Control'),
-        ['alt'] = l10n('Alt'),
-        ['disabled'] = l10n('Disabled'),
     }
 end
 
