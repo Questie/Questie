@@ -768,7 +768,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["By %% Complete"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "По %% выполнения",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -780,7 +780,7 @@ local trackerOptionsLocales = {
     },
     ["By %% Complete (Reversed)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "По %% выполнения (убыв.)",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -792,7 +792,7 @@ local trackerOptionsLocales = {
     },
     ["By Level"] = {
         ["ptBR"] = "Por nivel",
-        ["ruRU"] = "По уровню (возр.)",
+        ["ruRU"] = "По уровню",
         ["deDE"] = "Nach Level",
         ["koKR"] = "레벨 순서",
         ["esMX"] = "Por Nivel",
@@ -828,7 +828,7 @@ local trackerOptionsLocales = {
     },
     ["By Proximity (Reversed)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "По близости (убыв.)",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -852,7 +852,7 @@ local trackerOptionsLocales = {
     },
     ["By Zone Prox"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "По дальности зоны",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -864,7 +864,7 @@ local trackerOptionsLocales = {
     },
     ["By Zone Prox (Reversed)"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "По дальности зоны (убыв.)",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
