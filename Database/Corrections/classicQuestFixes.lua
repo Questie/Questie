@@ -1112,6 +1112,9 @@ function QuestieQuestFixes:Load()
         [2873] = {
             [questKeys.preQuestSingle] = {}, -- #1566
         },
+        [2875] = {
+            [questKeys.startedBy] = {nil,{142122,150075},nil},
+        },
         [2882] = {
             [questKeys.zoneOrSort] = 440, -- #1780
         },
