@@ -8,9 +8,6 @@ local _G = _G
 local tinsert = tinsert
 local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 
-local titleLines = {}
-local questIconTextures = {}
-
 -- This is the logic used for determining which icon we should show for a quest
 -- This just determines the "type" of icon shown, not the exact icon file - see Questie.icons
 ---@param questID number
@@ -82,6 +79,8 @@ end
 
 -- GREETING FRAMES (API independent)
 local function updateGreetingFrame()
+    local titleLines = {}
+    local questIconTextures = {}
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
         tinsert(titleLines, titleLine)

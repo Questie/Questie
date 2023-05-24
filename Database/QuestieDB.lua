@@ -1168,22 +1168,32 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
             return questID; -- If the questgiver is not an NPC or object, bail!
         end
         -- iterate through every questEnds entry in our questgiver's DB, and check if each quest name matches this greeting frame entry
-
         if questStarter == true then
-            for _, id in pairs(questsStarted) do
-                if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
-                    -- the QuestieDB.IsDoable check is important to filter out identically named quests
-                    questID = id
+            if questsStarted then
+                for _, id in pairs(questsStarted) do
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                        -- the QuestieDB.IsDoable check is important to filter out identically named quests
+                        questID = id
+                    end
                 end
+            else
+                Questie:Error("Database mismatch! No entries found that match quest name. Please report this on Github or Discord!")
+                Questie:Error("Queststarter is: " .. unit_type .. " " .. questgiverID)
+                Questie:Error("Quest name is: " .. name)
             end
         else
-            for _, id in pairs(questsEnded) do
-                if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
-                    questID = id
+            if questsEnded then
+                for _, id in pairs(questsEnded) do
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                        questID = id
+                    end
                 end
+            else
+                Questie:Error("Database mismatch! No entries found that match quest name. Please report this on Github or Discord!")
+                Questie:Error("Questender is: " .. unit_type .. " " .. questgiverID)
+                Questie:Error("Quest name is: " .. name)
             end
         end
-
     end
     return questID;
 end
