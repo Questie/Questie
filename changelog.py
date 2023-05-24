@@ -25,7 +25,7 @@ def get_commit_changelog():
 
 def get_last_git_tag():
     return subprocess.run(
-        ["git", "describe", "--abbrev=0", "--tags"],
+        ["git", "describe", "--tags", "--abbrev=0", "HEAD^"],
         **({"stdout": subprocess.PIPE, "stderr": subprocess.PIPE} if is_python_36() else {"capture_output": True, })
     ).stdout.decode().strip('\n')
 

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import changelog  # Our own changelog.py
+import fileinput
+import subprocess
 import sys
 
 if not len(sys.argv) > 1:
@@ -8,8 +11,9 @@ if not len(sys.argv) > 1:
 
 version = sys.argv[1]
 
-import subprocess
-import fileinput
+if version[0] == "v":
+    print('Please omit the "v" prefix. The script will add it')
+    exit()
 
 tocs = ['Questie-Classic.toc', 'Questie-BCC.toc', 'Questie-WOTLKC.toc']
 
@@ -30,13 +34,13 @@ with fileinput.FileInput('README.md', inplace=True) as file:
         else:
             print(line, end='')
 
-changelog = subprocess.check_output(['./changelog.py'], stderr=subprocess.STDOUT).decode()
+changelogString = changelog.get_commit_changelog()
 
 print('######### START CHANGELOG')
-print('# Questie v' + version + '\n\n' + changelog)
+print('# Questie v' + version + '\n\n' + changelogString)
 print('######### END CHANGELOG')
 
 subprocess.run(['git', 'add', 'README.md'])
 subprocess.run(['git', 'add', '*.toc'])
-subprocess.run(['git', 'commit', '-mBump version to ' + version])
+subprocess.run(['git', 'commit', '-mBump version to v' + version])
 subprocess.run(['git', 'tag', 'v' + version])

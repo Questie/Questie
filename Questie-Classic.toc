@@ -1,13 +1,14 @@
 ## Interface: 11403
-## Title: Questie|cFF00FF00 v8.3.0|r
+## Title: Questie|cFF00FF00 v8.4.0|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
-## Version: 8.3.0
+## Version: 8.4.0
 ## RequiredDeps:
 ## OptionalDeps: Ace3, CallbackHandler-1.0, HereBeDragons, LibDataBroker-1.1, LibDBIcon-1.0, LibSharedMedia-3.0, LibStub, LibUIDropDownMenu
 ## SavedVariables: QuestieConfig
 ## SavedVariablesPerCharacter: QuestieConfigCharacter
 ## X-Curse-Project-ID: 334372
+## X-Wago-ID: qv634BKb
 
 Modules\WorldMapTaintWorkaround.lua
 

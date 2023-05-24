@@ -139,6 +139,9 @@ function QuestieWotlkQuestFixes:Load()
         [2767] = {
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{54.3,51.2}}}},
         },
+        [4362] = {
+            [questKeys.preQuestSingle] = {4361},
+        },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
@@ -1175,7 +1178,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{27680},nil,{37833}},
         },
         [12423] = {
-            [questKeys.startedBy] = {{27546,27547},nil,{37830}},
+            [questKeys.startedBy] = {{27547},nil,{37830}},
         },
         [12427] = {
             [questKeys.preQuestSingle] = {12413},

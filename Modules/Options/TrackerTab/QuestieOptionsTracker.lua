@@ -531,11 +531,15 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 3.9,
                 values = function()
                     return {
-                        ['byComplete'] = l10n('By %% Completed'),
+                        ['byComplete'] = l10n('By %% Complete'),
+                        ['byCompleteReversed'] = l10n('By %% Complete (Reversed)'),
                         ['byLevel'] = l10n('By Level'),
                         ['byLevelReversed'] = l10n('By Level (Reversed)'),
                         ['byProximity'] = l10n('By Proximity'),
+                        ['byProximityReversed'] = l10n('By Proximity (Reversed)'),
                         ['byZone'] = l10n('By Zone'),
+                        ['byZonePlayerProximity'] = l10n('By Zone Prox'),
+                        ['byZonePlayerProximityReversed'] = l10n('By Zone Prox (Reversed)'),
                     }
                 end,
                 style = 'dropdown',
@@ -851,11 +855,15 @@ function QuestieOptions.tabs.tracker:Initialize()
             order = 3.9,
             values = function()
                 return {
-                    ['byComplete'] = l10n('By %% Completed'),
+                    ['byComplete'] = l10n('By %% Complete'),
+                    ['byCompleteReversed'] = l10n('By %% Complete (Reversed)'),
                     ['byLevel'] = l10n('By Level'),
                     ['byLevelReversed'] = l10n('By Level (Reversed)'),
                     ['byProximity'] = l10n('By Proximity'),
+                    ['byProximityReversed'] = l10n('By Proximity (Reversed)'),
                     ['byZone'] = l10n('By Zone'),
+                    ['byZonePlayerProximity'] = l10n('By Zone Prox'),
+                    ['byZonePlayerProximityReversed'] = l10n('By Zone Prox (Reversed)'),
                 }
             end,
             style = 'dropdown',

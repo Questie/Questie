@@ -184,6 +184,8 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
     headerFrame:Hide()
 
+    TrackerHeaderFrame.headerFrame = headerFrame
+
     return headerFrame
 end
 

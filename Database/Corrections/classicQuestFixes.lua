@@ -627,6 +627,12 @@ function QuestieQuestFixes:Load()
         [1173] = {
             [questKeys.triggerEnd] = {"Drive Overlord Mok'Morokk from Brackenwall Village", {[zoneIDs.DUSTWALLOW_MARSH]={{36.41,31.43}}}},
         },
+        [1190] = {
+            [questKeys.childQuests] = {1191},
+        },
+        [1191] = {
+            [questKeys.parentQuest] = 1190,
+        },
         [1193] = {
             [questKeys.specialFlags] = 1, -- #1348
         },
@@ -1105,6 +1111,9 @@ function QuestieQuestFixes:Load()
         },
         [2873] = {
             [questKeys.preQuestSingle] = {}, -- #1566
+        },
+        [2875] = {
+            [questKeys.startedBy] = {nil,{142122,150075},nil},
         },
         [2882] = {
             [questKeys.zoneOrSort] = 440, -- #1780
@@ -2037,6 +2046,9 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{1996, nil}}},
             [questKeys.questFlags] = 0,
             [questKeys.specialFlags] = 0,
+        },
+        [6132] = {
+            [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{38.64,60.86}}}},
         },
         [6136] = {
             [questKeys.preQuestSingle] = {6133}, -- #1572

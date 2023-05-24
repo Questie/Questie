@@ -98,6 +98,18 @@ local eventsLocales = {
         ["zhTW"] = "收穫節",
         ["zhCN"] = "收获节",
     },
+    ["Pilgrim's Bounty"] = {
+        ["ptBR"] = "Festa da Fartura",
+        ["ruRU"] = "Пиршество странников",
+        ["deDE"] = "Pilgerfreudenfest",
+        ["koKR"] = "순례자의 감사절",
+        ["esMX"] = "Generosidad del Peregrino",
+        ["enUS"] = true,
+        ["frFR"] = "Les Bienfaits du pèlerin",
+        ["esES"] = "Generosidad del Peregrino",
+        ["zhTW"] = false,
+        ["zhCN"] = "感恩节",
+    },
     ["Hallow's End"] = {
         ["ptBR"] = "Noturnália",
         ["ruRU"] = "Тыквовин",
