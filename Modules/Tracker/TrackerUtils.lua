@@ -788,12 +788,12 @@ function TrackerUtils:GetSortedQuestIds()
 
         if not questZoneProximityTimer and not IsInInstance() then
             -- Check location often and update if you've moved
-            Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Zone Proximity Timer Started!")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Zone Proximity Timer Started!")
 
             local playerPosition
             questZoneProximityTimer = C_Timer.NewTicker(5.0, function()
                 if IsInInstance() and questZoneProximityTimer then
-                    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Zone Proximity Timer Stoped!")
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Zone Proximity Timer Stoped!")
                     questZoneProximityTimer:Cancel()
                     questZoneProximityTimer = nil
                 else
@@ -821,6 +821,7 @@ function TrackerUtils:GetSortedQuestIds()
                                 end
                             end
                             QuestieCombatQueue:Queue(function()
+                                TrackerUtils.ProximityTimer = true
                                 QuestieTracker:Update()
                             end)
                         end
@@ -896,12 +897,12 @@ function TrackerUtils:GetSortedQuestIds()
 
         if not questProximityTimer and not IsInInstance() then
             -- Check location often and update if you've moved
-            Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Started!")
 
             local playerPosition
             questProximityTimer = C_Timer.NewTicker(5.0, function()
                 if IsInInstance() and questProximityTimer then
-                    Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
                     questProximityTimer:Cancel()
                     questProximityTimer = nil
                 else
@@ -929,6 +930,7 @@ function TrackerUtils:GetSortedQuestIds()
                                 end
                             end
                             QuestieCombatQueue:Queue(function()
+                                TrackerUtils.ProximityTimer = true
                                 QuestieTracker:Update()
                             end)
                         end
@@ -940,14 +942,16 @@ function TrackerUtils:GetSortedQuestIds()
 
 
     if (sortObj ~= strmatch(sortObj, "byProximity.*")) and questProximityTimer and questProximityTimer ~= nil then
-        Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Proximity Timer Stoped!")
         questProximityTimer:Cancel()
+        TrackerUtils.ProximityTimer = nil
         questProximityTimer = nil
     end
 
     if (sortObj ~= strmatch(sortObj, "byZonePlayerProximity.*")) and questZoneProximityTimer and questZoneProximityTimer ~= nil then
-        Questie:Debug(Questie.DEBUG_SPAM, "TrackerUtils:GetSortedQuestIds - Zone Proximity Timer Stoped!")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerUtils:GetSortedQuestIds - Zone Proximity Timer Stoped!")
         questZoneProximityTimer:Cancel()
+        TrackerUtils.ProximityTimer = nil
         questZoneProximityTimer = nil
     end
 

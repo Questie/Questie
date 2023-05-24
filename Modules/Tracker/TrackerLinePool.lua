@@ -194,10 +194,14 @@ function TrackerLinePool.Initialize(questFrame)
 
                 if criteria == true then
                     self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Checkmark")
+                    ---------------------------------------------------------------------
+                    -- Just in case we decide to show the minus sign for incompletes
+                    ---------------------------------------------------------------------
                     --self.texture:SetAlpha(1)
                     --else
                     --self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Minus")
                     --self.texture:SetAlpha(0.5)
+                    ---------------------------------------------------------------------
                 end
 
                 self:SetWidth(Questie.db.global.trackerFontSizeObjective)

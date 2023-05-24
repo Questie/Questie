@@ -154,9 +154,11 @@ function TrackerHeaderFrame.Initialize(baseFrame)
         if self.mode == 1 then
             self:SetMode(0)
             Questie.db.char.isTrackerExpanded = false
+            Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerHeaderFrame:OnClick - Tracker Minimized")
         else
             self:SetMode(1)
             Questie.db.char.isTrackerExpanded = true
+            Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerHeaderFrame:OnClick - Tracker Maximized")
             TrackerBaseFrame:Update()
         end
 

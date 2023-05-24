@@ -198,8 +198,6 @@ function QuestieTracker.Initialize()
                     local questIndex = GetQuestLogIndexByID(questId)
                     if questIndex then
                         QuestieTracker:AQW_Insert(questIndex, QUEST_WATCH_NO_EXPIRE)
-
-                        if QuestLogFrame:IsShown() then QuestLog_Update() end
                     end
                 end
             end
@@ -256,6 +254,7 @@ function QuestieTracker.Initialize()
                 QuestWatch_Update()
             end
 
+            if QuestLogFrame:IsShown() then QuestLog_Update() end
             QuestieTracker:Update()
             trackerBaseFrame:Hide()
         end)
@@ -263,6 +262,7 @@ function QuestieTracker.Initialize()
 end
 
 function QuestieTracker:ResetLocation()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:ResetLocation")
     trackerHeaderFrame.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
@@ -279,6 +279,12 @@ function QuestieTracker:ResetLocation()
 end
 
 function QuestieTracker:ResetDurabilityFrame()
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true or TrackerUtils.ProximityTimer then
+        Questie:Debug(Questie.DEBUG_SPAM, "QuestieTracker:ResetDurabilityFrame")
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:ResetDurabilityFrame")
+    end
+
     DurabilityFrame:ClearAllPoints()
     if durabilityInitialPosition then
         DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
@@ -286,6 +292,12 @@ function QuestieTracker:ResetDurabilityFrame()
 end
 
 function QuestieTracker:MoveDurabilityFrame()
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true or TrackerUtils.ProximityTimer then
+        Questie:Debug(Questie.DEBUG_SPAM, "QuestieTracker:MoveDurabilityFrame")
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:MoveDurabilityFrame")
+    end
+
     local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
     if Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsShown() and QuestieTracker.started and QuestieTrackerLoc ~= nil then
@@ -315,6 +327,7 @@ function QuestieTracker:CheckDurabilityAlertStatus()
     else
         DurabilityFrame:Hide()
     end
+    Questie:Debug(Questie.DEBUG_INFO, "QuestieTracker:CheckDurabilityAlertStatus - numAlerts = ", numAlerts)
 end
 
 -- If the player loots a "Quest Item" then this triggers a Tracker Update so the
@@ -373,6 +386,7 @@ function QuestieTracker:HasQuest()
         end
     end
 
+    Questie:Debug(Questie.DEBUG_INFO, "QuestieTracker:HasQuest - ", hasQuest)
     return hasQuest
 end
 
@@ -407,9 +421,11 @@ end
 -- Function for the Slash handler
 function QuestieTracker:Toggle()
     if Questie.db.char.trackerEnabled then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Toggle - Tracker Disabled.")
         Questie.db.char.trackerEnabled = false
         QuestieTracker:Update()
     else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Toggle - Tracker Enabled.")
         Questie.db.char.trackerEnabled = true
         QuestieTracker:Update()
     end
@@ -417,6 +433,7 @@ end
 
 -- Minimizes the QuestieTracker
 function QuestieTracker:Collapse()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Collapse")
     if trackerHeaderFrame and trackerHeaderFrame.trackedQuests and Questie.db.char.isTrackerExpanded then
         trackerHeaderFrame.trackedQuests:Click()
         QuestieTracker:Update()
@@ -425,6 +442,7 @@ end
 
 -- Maximizes the QuestieTracker
 function QuestieTracker:Expand()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Expand")
     if trackerHeaderFrame and trackerHeaderFrame.trackedQuests and (not Questie.db.char.isTrackerExpanded) then
         trackerHeaderFrame.trackedQuests:Click()
         QuestieTracker:Update()
@@ -451,7 +469,11 @@ function QuestieTracker:Update()
         return
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Update")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true or TrackerUtils.ProximityTimer then
+        Questie:Debug(Questie.DEBUG_SPAM, "QuestieTracker:Update")
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:Update")
+    end
 
     TrackerHeaderFrame:Update()
     TrackerQuestFrame:Update()
@@ -1461,7 +1483,11 @@ function QuestieTracker:UpdateFormatting()
         return
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UpdateFormatting")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true or TrackerUtils.ProximityTimer then
+        Questie:Debug(Questie.DEBUG_SPAM, "QuestieTracker:UpdateFormatting")
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UpdateFormatting")
+    end
 
     -- Hide unused lines
     TrackerLinePool.HideUnusedLines()
@@ -1760,7 +1786,7 @@ function QuestieTracker:HookBaseTracker()
 end
 
 function QuestieTracker:RemoveQuest(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:RemoveQuest")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:RemoveQuest - ", questId)
     if Questie.db.char.collapsedQuests then
         Questie.db.char.collapsedQuests[questId] = nil
     end
@@ -1806,7 +1832,7 @@ function QuestieTracker.RemoveQuestWatch(index, isQuestie)
 end
 
 function QuestieTracker:UntrackQuestId(questId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UntrackQuestId")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UntrackQuestId - ", questId)
     if not Questie.db.global.autoTrackQuests then
         Questie.db.char.TrackedQuests[questId] = nil
     else
@@ -1953,14 +1979,14 @@ function QuestieTracker:UpdateAchieveTrackerCache(achieveId)
 end
 
 function QuestieTracker:UntrackAchieveId(achieveId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UntrackAchieve")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:UntrackAchieve - ", achieveId)
     if Questie.db.char.trackedAchievementIds[achieveId] then
         Questie.db.char.trackedAchievementIds[achieveId] = nil
     end
 end
 
 function QuestieTracker:TrackAchieve(achieveId)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:TrackAchieve")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:TrackAchieve - ", achieveId)
     if (not Questie.db.char.trackerEnabled) or (achieveId == 0) then
         return
     end
