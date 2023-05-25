@@ -87,6 +87,15 @@ function QuestieWotlkItemFixes:Load()
         [24355] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [24467] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [24501] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [24502] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
         [25465] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
@@ -96,6 +105,13 @@ function QuestieWotlkItemFixes:Load()
         [25552] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
+        [25555] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+        [25658] = {
+            [itemKeys.class] = itemClasses.QUEST,
+        },
+
         [32379] = {
             [itemKeys.npcDrops] = {20216},
         },
