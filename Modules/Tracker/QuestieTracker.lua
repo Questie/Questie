@@ -279,12 +279,6 @@ function QuestieTracker:ResetLocation()
 end
 
 function QuestieTracker:ResetDurabilityFrame()
-    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true or TrackerUtils.ProximityTimer then
-        Questie:Debug(Questie.DEBUG_SPAM, "QuestieTracker:ResetDurabilityFrame")
-    else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:ResetDurabilityFrame")
-    end
-
     DurabilityFrame:ClearAllPoints()
     if durabilityInitialPosition then
         DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
@@ -292,12 +286,6 @@ function QuestieTracker:ResetDurabilityFrame()
 end
 
 function QuestieTracker:MoveDurabilityFrame()
-    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true or TrackerUtils.ProximityTimer then
-        Questie:Debug(Questie.DEBUG_SPAM, "QuestieTracker:MoveDurabilityFrame")
-    else
-        Questie:Debug(Questie.DEBUG_DEVELOP, "QuestieTracker:MoveDurabilityFrame")
-    end
-
     local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
     if Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsShown() and QuestieTracker.started and QuestieTrackerLoc ~= nil then
