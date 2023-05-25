@@ -4,6 +4,9 @@ local QuestgiverFrame = QuestieLoader:CreateModule("QuestgiverFrame")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
+---@type QuestieLib
+local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
+
 local _G = _G
 local tinsert = tinsert
 local MAX_NUM_QUESTS = MAX_NUM_QUESTS
@@ -14,6 +17,13 @@ local MAX_NUM_QUESTS = MAX_NUM_QUESTS
 ---@param isActive boolean
 ---@return string
 local function determineAppropriateQuestIcon(questID, isActive)
+    if questID == 0 then -- if we were fed a questID of 0, the ID bruteforce failed, abort
+        if isActive == true then
+            return Questie.icons["complete"]
+        else
+            return Questie.icons["available"]
+        end
+    end
     local icon = Questie.icons["available"] -- fallback icon in case any of the logic below fails
     if isActive == true then
         icon = Questie.icons["incomplete"] -- fallback icon in case any of the logic below fails
@@ -81,12 +91,19 @@ end
 local function updateGreetingFrame()
     local titleLines = {}
     local questIconTextures = {}
+    local questgiver = UnitGUID("npc")
     for i = 1, MAX_NUM_QUESTS do
         local titleLine = _G["QuestTitleButton" .. i]
-        tinsert(titleLines, titleLine)
-        tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
+        if titleLine then
+            tinsert(titleLines, titleLine)
+            tinsert(questIconTextures, _G[titleLine:GetName() .. "QuestIcon"])
+        else
+            Questie:Error("Frame error! Could not obtain Greeting's QuestTitleButton object. Please report this on Github or Discord!")
+            Questie:Error("Questgiver is: " .. questgiver)
+            Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+            return
+        end
     end
-    local questgiver = UnitGUID("npc")
     for i, titleLine in ipairs(titleLines) do
         if (titleLine:IsVisible()) then
             local lineIcon = questIconTextures[i]
@@ -134,7 +151,14 @@ if GossipAvailableQuestButtonMixin then
         oldAvailableSetup(self, ...)
         if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
             local id = self.GetElementData().info.questID
-            self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
+            if id then
+                self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
+            else
+                Questie:Error("Frame error! Missing Gossip line item quest ID. Please report this on Github or Discord!")
+                Questie:Error("Questgiver for available quest is: " .. UnitGUID("npc"))
+                Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+                return
+            end
         end
     end
 
@@ -143,7 +167,14 @@ if GossipAvailableQuestButtonMixin then
         oldActiveSetup(self, ...)
         if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
             local id = self.GetElementData().info.questID
-            self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
+            if id then
+                self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))
+            else
+                Questie:Error("Frame error! Missing Gossip line item quest ID. Please report this on Github or Discord!")
+                Questie:Error("Questgiver for active quest is: " .. UnitGUID("npc"))
+                Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+                return
+            end
         end
     end
 end
