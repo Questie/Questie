@@ -182,11 +182,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.stickyDurabilityFrame end,
                 set = function(_, value)
                     Questie.db.global.stickyDurabilityFrame = value
-                    if value then
-                        QuestieTracker:MoveDurabilityFrame()
-                    else
-                        QuestieTracker:ResetDurabilityFrame()
-                    end
+                    QuestieTracker:Update()
                 end
             },
             minimizeInCombat = {
@@ -610,7 +606,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                 set = function(_, key)
                     Questie.db[Questie.db.global.questieTLoc].trackerSetpoint = key
                     QuestieTracker:ResetLocation()
-                    QuestieTracker:MoveDurabilityFrame()
                     QuestieTracker:Update()
                 end
             },

@@ -27,7 +27,7 @@ TrackerBaseFrame.isMoving = false
 function TrackerBaseFrame.Initialize()
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-    baseFrame:SetFrameStrata("LOW")
+    baseFrame:SetFrameStrata("HIGH")
     baseFrame:SetFrameLevel(0)
     baseFrame:SetSize(25, 25)
 
@@ -253,7 +253,9 @@ function TrackerBaseFrame:Update()
 
         local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
-        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+
+        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.global.autoMoveHeader then
+            -- Move Sizer to Top Right corner
             sizer:ClearAllPoints()
             sizer:SetPoint("TOPRIGHT", 0, 0)
 
@@ -272,6 +274,7 @@ function TrackerBaseFrame:Update()
             x = 0.1 * 8 / 17
             sizerLine3:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
         else
+            -- Move Sizer to Bottom Right corner
             sizer:ClearAllPoints()
             sizer:SetPoint("BOTTOMRIGHT", 0, 0)
 
@@ -293,10 +296,6 @@ function TrackerBaseFrame:Update()
 
         if Questie.db.global.sizerHidden then
             baseFrame.sizer:SetAlpha(0)
-        end
-
-        if Questie.db.global.stickyDurabilityFrame then
-            QuestieTracker:MoveDurabilityFrame()
         end
     else
         baseFrame.sizer:SetAlpha(0)
@@ -327,6 +326,8 @@ function TrackerBaseFrame:Update()
             baseFrame:SetResizable(false)
         end)
     end
+
+    QuestieTracker:CheckDurabilityAlertStatus()
 end
 
 function TrackerBaseFrame:SetSafePoint()
@@ -347,7 +348,6 @@ function TrackerBaseFrame:SetSafePoint()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y }
     end
 
-    QuestieTracker:MoveDurabilityFrame()
     QuestieTracker:Update()
 end
 
@@ -434,7 +434,6 @@ local function _UpdateTrackerPosition()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { "TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop) }
     end
 
-    QuestieTracker:MoveDurabilityFrame()
     C_Timer.After(0.12, function()
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()

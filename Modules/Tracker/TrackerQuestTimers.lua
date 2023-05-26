@@ -25,7 +25,7 @@ if not Questie.IsWotlk then
 end
 
 function TrackerQuestTimers:Initialize()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerQuestTimers:Initialize")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerQuestTimers:Initialize]")
 
     if QuestieTracker.started or (not Questie.db.char.trackerEnabled) then
         return
@@ -159,12 +159,12 @@ function TrackerQuestTimers:UpdateTimerFrame()
     if timer and (Questie.db.char.trackerEnabled and Questie.db.char.isTrackerExpanded and (QuestieTracker.disableHooks ~= true)) then
         local timeRemainingString, timeRemaining = TrackerQuestTimers:GetRemainingTimeByQuestId(timer.questId)
         if timeRemainingString ~= nil then
-            Questie:Debug(Questie.DEBUG_SPAM, "TrackerQuestTimers:UpdateTimerFrame - ", timeRemainingString)
+            Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers:UpdateTimerFrame] - ", timeRemainingString)
             timer.frame.label:SetFont(LSM30:Fetch("font", Questie.db.global.trackerFontObjective), Questie.db.global.trackerFontSizeObjective, Questie.db.global.trackerFontOutline)
             timer.frame.label:SetText(Questie:Colorize(timeRemainingString, "blue"))
             timer.frame:SetWidth(timer.frame.label:GetWidth() + ((34) - (18 - Questie.db.global.trackerFontSizeQuest)) + Questie.db.global.trackerFontSizeQuest)
         else
-            Questie:Debug(Questie.DEBUG_SPAM, "TrackerQuestTimers: Quest Timer Expired!")
+            Questie:Debug(Questie.DEBUG_SPAM, "[TrackerQuestTimers] Quest Timer Expired!")
             return
         end
     end
