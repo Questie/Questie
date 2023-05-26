@@ -140,6 +140,9 @@ function QuestieTBCQuestFixes:Load()
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [990] = {
+            [questKeys.exclusiveTo] = {}, -- starting with tbc only, exclusivity is present in classic
+        },
         [1001] = {
             [questKeys.requiredLevel] = 7,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
