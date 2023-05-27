@@ -22,6 +22,7 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local areaIdToUiMapId = ZoneDB.private.areaIdToUiMapId or {}
+local uiMapIdToAreaId = ZoneDB.private.uiMapIdToAreaId or {}
 local dungeons = ZoneDB.private.dungeons or {}
 local dungeonLocations = ZoneDB.private.dungeonLocations or {}
 local dungeonParentZones = ZoneDB.private.dungeonParentZones or {}
@@ -75,9 +76,10 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
 
     local foundId
     -- First we look for a direct match
-    for lAreaId, AreaUiMapId in pairs(areaIdToUiMapId) do
+    for AreaUiMapId, lAreaId in pairs(uiMapIdToAreaId) do
         local areaId = lAreaId
         if (AreaUiMapId == uiMapId and not foundId) then
+            --Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", " AreaUiMapId: ", AreaUiMapId, " ==  uiMapId: ", uiMapId, " and areaId = ", areaId, " foundID is nil")
             foundId = areaId
         elseif AreaUiMapId == uiMapId and foundId ~= AreaUiMapId then
             -- If we find a second match that does not match the first
@@ -85,19 +87,26 @@ function ZoneDB:GetAreaIdByUiMapId(uiMapId)
 
             -- Only print if debug is enabled.
             if Questie.db.global.debugEnabled then
-                Questie:Error("UiMapId", uiMapId, "has multiple AreaIds:", foundId, areaId)
+                Questie:Error("[ZoneDB:GetAreaIdByUiMapId] : ", "UiMapId", uiMapId, "has multiple AreaIds:", foundId, areaId)
             end
         end
     end
-    if foundId then
+    if foundId then -- debug --TechnoHunter adding debug print to report found AreaId
+        --if Questie.db.global.debugEnabled then
+            --local uiMapInfo = C_Map.GetMapInfo(uiMapId)
+            --local foundName = C_Map.GetAreaInfo(foundId)
+            --Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", foundName, ":", foundId, " for UiMapId", uiMapInfo.name, ":", uiMapId, "direct match")
+        --end
         return foundId
     else
         -- As a last resort we try to match AreaId and UiMapId by name
+        -- uses the original table in zoneTables as the area id's are
+        -- all in that and we dont care if the uiMapId is there or not
         for areaId in pairs(areaIdToUiMapId) do
             local mapInfo = C_Map.GetMapInfo(uiMapId)
             local areaName = C_Map.GetAreaInfo(areaId)
-            if mapInfo.name == areaName then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
+            if mapInfo and mapInfo.name == areaName then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[ZoneDB:GetAreaIdByUiMapId] : ", "Found AreaId", areaName, ":", areaId, "for UiMapId", mapInfo.name, ":", uiMapId, "by name")
                 return areaId
             end
         end
