@@ -2,6 +2,9 @@
 ---@class QuestieCompat
 QuestieCompat = {}
 
+---@type QuestieDB
+local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
+
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
 
 ---[SetMinResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
@@ -77,7 +80,7 @@ function QuestieCompat.GetActiveQuests()
             activeQuests[index] = activeQuest.title
             activeQuests[index + 1] = activeQuest.questLevel
             activeQuests[index + 2] = activeQuest.isTrivial
-            activeQuests[index + 3] = activeQuest.isComplete
+            activeQuests[index + 3] = activeQuest.isComplete or QuestieDB.IsComplete(activeQuest.questID) == 1
             activeQuests[index + 4] = activeQuest.isLegendary
             activeQuests[index + 5] = activeQuest.isIgnored
             index = index + 6

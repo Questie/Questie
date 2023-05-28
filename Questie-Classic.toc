@@ -15,6 +15,9 @@ Modules\WorldMapTaintWorkaround.lua
 embeds.xml
 
 Modules\VersionCheck.lua
+
+# Loader module
+Modules\Libs\QuestieLoader.lua
 Modules\QuestieCompat.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml

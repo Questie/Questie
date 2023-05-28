@@ -552,6 +552,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{187674},{34777}},
         },
         [11652] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25332,25333,25469,},25333,"Scourge Unit obliterated"},{{27106,27107,27108,27110},27106,"Injured Warsong Soldier rescued"}}},
             [questKeys.triggerEnd] = {"Scourge Leader identified",{[zoneIDs.BOREAN_TUNDRA]={{36.41,63.52,},},},},
         },
         [11653] = {

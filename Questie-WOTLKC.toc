@@ -15,15 +15,15 @@ Modules\WorldMapTaintWorkaround.lua
 embeds.xml
 
 Modules\VersionCheck.lua
+
+# Loader module
+Modules\Libs\QuestieLoader.lua
 Modules\QuestieCompat.lua
 
 Libs\LibUIDropDownMenu\LibUIDropDownMenu.xml
 Libs\HereBeDragons\HereBeDragons-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Pins-2.0.lua
 Libs\HereBeDragons\HereBeDragons-Migrate.lua
-
-# Loader module
-Modules\Libs\QuestieLoader.lua
 
 # Thread Manager
 Modules\Libs\ThreadLib.lua

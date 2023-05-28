@@ -499,9 +499,44 @@ function QuestieQuestFixes:Load()
         [945] = {
             [questKeys.triggerEnd] = {"Escort Therylune away from the Master's Glaive", {[zoneIDs.DARKSHORE]={{40.51,87.08}}}},
         },
+        [949] = {
+            [questKeys.childQuests] = {960}, -- workaround, can't mimic ingame 100%
+        },
+        [950] = {
+            [questKeys.childQuests] = {961}, -- workaround, can't mimic ingame 100%
+        },
+        [960] = {
+            [questKeys.name] = "Onu is meditating",
+            [questKeys.startedBy] = {{3616}},
+            [questKeys.finishedBy] = {{3616}},
+            [questKeys.requiredLevel] = 1,
+            [questKeys.questLevel] = 1,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.requiredClasses] = nil,
+            [questKeys.objectivesText] = nil,
+            [questKeys.triggerEnd] = nil,
+            [questKeys.objectives] = nil,
+            [questKeys.sourceItemId] = nil,
+            [questKeys.preQuestGroup] = nil,
+            [questKeys.preQuestSingle] = nil,
+            [questKeys.childQuests] = nil,
+            [questKeys.inGroupWith] = nil,
+            [questKeys.exclusiveTo] = nil,
+            [questKeys.zoneOrSort] = 148,
+            [questKeys.requiredSkill] = nil,
+            [questKeys.requiredMinRep] = nil,
+            [questKeys.requiredMaxRep] = nil,
+            [questKeys.requiredSourceItems] = nil,
+            [questKeys.nextQuestInChain] = nil,
+            [questKeys.questFlags] = 8,
+            [questKeys.specialFlags] = 1,
+            [questKeys.parentQuest] = 949, -- workaround, can't mimic ingame 100%
+        },
         [961] = {
-            [questKeys.preQuestSingle] = {944}, -- #1517
-            [questKeys.exclusiveTo] = {950}, -- #1517
+            [questKeys.preQuestSingle] = nil,
+            [questKeys.exclusiveTo] = nil,
+            [questKeys.specialFlags] = 1,
+            [questKeys.parentQuest] = 950, -- workaround, can't mimic ingame 100%
         },
         [968] = {
             [questKeys.startedBy] = {{2338,2339},nil,{5352}}, -- temp correction for item start
@@ -510,7 +545,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Protect Feero Ironhand", {[zoneIDs.DARKSHORE]={{43.54,94.39}}}},
         },
         [984] = {
-            [questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[zoneIDs.DARKSHORE]={{39.34,53.51},{39.86,53.89},{42.68,86.53}}}},
+            [questKeys.triggerEnd] = {"Find a corrupt furbolg camp",{[zoneIDs.DARKSHORE]={{50.91,34.74},{39.86,53.89},{42.68,86.53},{39.95,78.41}}}},
         },
         [994] = {
             [questKeys.triggerEnd] = {"Help Volcor to the road", {[zoneIDs.DARKSHORE]={{41.92,81.76}}}},
@@ -616,6 +651,9 @@ function QuestieQuestFixes:Load()
         },
         [1136] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use a Fresh Carcass at the Flame of Uzel"), 0, {{"object", 1770}}}},
+        },
+        [1141] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{35.71,44.68}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Darkshore Groupers"),}},
         },
         [1144] = {
             [questKeys.triggerEnd] = {"Help Willix the Importer escape from Razorfen Kraul", {[zoneIDs.THE_BARRENS]={{42.27,89.88}}}},
@@ -827,8 +865,12 @@ function QuestieQuestFixes:Load()
         [1560] = {
             [questKeys.triggerEnd] = {"Lead Tooga to Torta", {[zoneIDs.TANARIS]={{66.56,25.65}}}},
         },
+        [1579] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{35.71,44.68}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Gaffer Jacks"),}},
+        },
         [1580] = {
             [questKeys.requiredSkill] = {356,30},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DARKSHORE]={{50.7,23.8},{40,73.6},{44.3,74.4},{53.3,32.4},{43.3,80.6}}}, Questie.ICON_TYPE_EVENT, l10n("Fish for Electropellers"),}},
         },
         [1581] = { -- bad race data
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -997,6 +1039,9 @@ function QuestieQuestFixes:Load()
         [2041] = {
             [questKeys.exclusiveTo] = {2040}, --#2068
         },
+        [2118] = {
+            [questKeys.objectives] = {{{2164,"Rabid Thistle Bear Captured"}}},
+        },
         [2198] = {
             [questKeys.startedBy] = {{4852},nil,{7666}},
         },
@@ -1057,8 +1102,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Offer the sacrifice at the fountain", {[zoneIDs.DARNASSUS]={{38.63,85.99}}}},
         },
         [2561] = {
-            [questKeys.objectives] = {},
-            [questKeys.triggerEnd] = {"Release Oben Rageclaw's spirit", {[zoneIDs.TELDRASSIL]={{45.52,58.71}}}},
+            [questKeys.objectives] = {{{7318,"Release Oben Rageclaw's spirit"}}},
         },
         [2608] = {
             [questKeys.triggerEnd] = {"Diagnosis Complete", {[zoneIDs.STORMWIND_CITY]={{78.04,59}}}},
@@ -1514,7 +1558,8 @@ function QuestieQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}}},
         },
         [4763] = {
-            [questKeys.requiredSourceItems] = {12347,12341,12342,12343}, -- #798
+            [questKeys.requiredSourceItems] = {12341,12342,12343,12347}, -- #798
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Xabraxxis once you have the required items from the Blackwood Stores."), 0, {{"object", 175338}}}},
         },
         [4764] = {
             [questKeys.preQuestSingle] = {}, -- #1916

@@ -198,6 +198,9 @@ function QuestieTBCNpcFixes:Load()
         [17087] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2}}},
         },
+        [17101] = {
+            [npcKeys.waypoints] = {},
+        },
         [17110] = {
             [npcKeys.waypoints] = {},
         },
@@ -244,6 +247,8 @@ function QuestieTBCNpcFixes:Load()
         },
         [17311] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}}},
+            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+            [npcKeys.waypoints] = {},
         },
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35}}},
