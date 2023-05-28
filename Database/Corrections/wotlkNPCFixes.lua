@@ -284,6 +284,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [25790] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{46.04,62.01}}},
+            [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
         [25794] = {
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
