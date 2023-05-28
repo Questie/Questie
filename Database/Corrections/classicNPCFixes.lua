@@ -397,6 +397,10 @@ function QuestieNPCFixes:Load()
         [3560] = {
             [npcKeys.spawns] = {[zoneIDs.BADLANDS] = {{35.23,10.33}}},
         },
+        [3616] = {
+            [npcKeys.questStarts] = {944,951,960,961},
+            [npcKeys.questEnds] = {948,950,951,952},
+        },
         [3619] = {
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{59.11,22.4},{60.19,16.36},{57.6,18.13}}},
