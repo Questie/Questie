@@ -23,7 +23,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{47,53.6}}},
         },
         [3190] = {
-            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{41.6,18.6}}},
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR] = {{42.1,15.0}}},
         },
         [3996] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
