@@ -670,7 +670,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11895},
         },
         [11905] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS]={{64.9,21.6},{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS]={{64.9,21.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
         },
         [11906] = {
             [questKeys.preQuestSingle] = {11895},
