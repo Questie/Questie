@@ -312,6 +312,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [26105] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
+        },
         [26156] = { --"Wartook Iceborn"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
