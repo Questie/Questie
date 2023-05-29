@@ -407,6 +407,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [26792] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
+        },
         [26810] = { --"Roanauk Icemist", "High Chieftain of the Taunka"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
