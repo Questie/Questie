@@ -86,7 +86,7 @@ function _QuestieTooltips:AddObjectDataToTooltip(name)
             if type(gameObjectId) == "number" and tooltipData then
                 for _, v in pairs (tooltipData) do
                     if tooltipData[2] then
-                    local _, _, acquired, needed = string.find(tooltipData[2], "(%d+)/(%d+)")
+                        local _, _, acquired, needed = string.find(tooltipData[2], "(%d+)/(%d+)")
                         if acquired and acquired == needed then
                             -- We don't want to show completed objectives on game objects
                             break;
