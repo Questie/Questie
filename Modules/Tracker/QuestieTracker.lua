@@ -292,19 +292,18 @@ function QuestieTracker:ResetDurabilityFrame()
 end
 
 function QuestieTracker:UpdateDurabilityFrame()
-    local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+    -- screen width accounting for scale
+    local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
+    -- middle of the frame, first return is x value, second return is the y value
+    local trackerFrameX = trackerBaseFrame:GetCenter()
 
-    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "TOPLEFT" or QuestieTrackerLoc[1] == "BOTTOMLEFT") then
-        DurabilityFrame:ClearAllPoints()
-        DurabilityFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-        DurabilityFrame:SetFrameStrata("HIGH")
-        DurabilityFrame:SetFrameLevel(0)
+    DurabilityFrame:ClearAllPoints()
+    DurabilityFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
+    DurabilityFrame:SetFrameStrata("HIGH")
+    DurabilityFrame:SetFrameLevel(0)
+    if trackerFrameX <= (screenWidth / 2) then
         DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -40)
     else
-        DurabilityFrame:ClearAllPoints()
-        DurabilityFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-        DurabilityFrame:SetFrameStrata("HIGH")
-        DurabilityFrame:SetFrameLevel(0)
         DurabilityFrame:SetPoint("RIGHT", trackerBaseFrame, "TOPLEFT", 0, -40)
     end
 
