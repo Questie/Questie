@@ -54,7 +54,9 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+    eventFrame:RegisterEvent("MAIL_CLOSED")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+    eventFrame:RegisterEvent("GUILDBANKFRAME_CLOSED")
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
@@ -332,6 +334,21 @@ function _QuestEventHandler:UpdateAllQuests()
     doFullQuestLogScan = doFullQuestLogScan or cacheMiss
 end
 
+local lastTimeMailBoxFrameClosedEvent = -1
+--- Blizzard does not fire any event when quest items are recieved via mail or retrieved from it.
+--- So we hook the MAIL_CLOSED event which fires once or twice after closing the mail box frame and do a full quest log check.
+function _QuestEventHandler:MailBoxFrameClosed()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] MAIL_CLOSED")
+
+    local now = GetTime()
+    -- Don't do update if event fired twice
+    if lastTimeMailBoxFrameClosedEvent ~= now then
+        lastTimeMailBoxFrameClosedEvent = now
+        _QuestEventHandler:UpdateAllQuests()
+        QuestieTracker:Update()
+    end
+end
+
 local lastTimeBankFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
 --- So we hook the BANKFRAME_CLOSED event which fires once or twice after closing the bank frame and do a full quest log check.
@@ -342,6 +359,21 @@ function _QuestEventHandler:BankFrameClosed()
     -- Don't do update if event fired twice
     if lastTimeBankFrameClosedEvent ~= now then
         lastTimeBankFrameClosedEvent = now
+        _QuestEventHandler:UpdateAllQuests()
+        QuestieTracker:Update()
+    end
+end
+
+local lastTimeGuildBankFrameClosedEvent = -1
+--- Blizzard does not fire any event when quest items are stored in the guild bank or retrieved from it.
+--- So we hook the GUILDBANKFRAME_CLOSED event which fires once or twice after closing the guild bank frame and do a full quest log check.
+function _QuestEventHandler:GuildBankFrameClosed()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] GUILDBANKFRAME_CLOSED")
+
+    local now = GetTime()
+    -- Don't do update if event fired twice
+    if lastTimeGuildBankFrameClosedEvent ~= now then
+        lastTimeGuildBankFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
         QuestieTracker:Update()
     end
@@ -382,8 +414,12 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
+    elseif event == "MAIL_CLOSED" then
+        _QuestEventHandler:MailBoxFrameClosed()
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
+    elseif event == "GUILDBANKFRAME_CLOSED" then
+        _QuestEventHandler:GuildBankFrameClosed()
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()
     end
