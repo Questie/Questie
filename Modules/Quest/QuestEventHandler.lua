@@ -54,11 +54,22 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+
+    -- Quest Related Frames
+    -- Quest Items that are purchased - Era and Wrath
+    eventFrame:RegisterEvent("MERCHANT_CLOSED")
+
+    -- Quest Items obtained through the Mail Box and Player Trades - Era and Wrath
     eventFrame:RegisterEvent("SECURE_TRANSFER_CANCEL")
+
+    -- Quest Items from a players bank - Era and Wrath
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+
+    -- Quest Items from a players guild bank - Wrath only
     if Questie.IsWotlk then
         eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
     end
+
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
@@ -336,46 +347,16 @@ function _QuestEventHandler:UpdateAllQuests()
     doFullQuestLogScan = doFullQuestLogScan or cacheMiss
 end
 
-local lastTimeMailBoxFrameClosedEvent = -1
---- Blizzard does not fire any event when quest items are recieved via mail or retrieved from it.
---- So we hook the MAIL_CLOSED event which fires once or twice after closing the mail box frame and do a full quest log check.
-function _QuestEventHandler:MailBoxFrameClosed()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] MAIL_CLOSED")
-
+local lastTimeQuestRelatedFrameClosedEvent = -1
+--- Blizzard does not fire any event when quest items are recieved or retrieved from sources other than looting.
+--- So we hook events which fires once or twice after closing certain frames and do a full quest log check.
+function _QuestEventHandler:QuestRelatedFrameClosed()
     local now = GetTime()
     -- Don't do update if event fired twice
-    if lastTimeMailBoxFrameClosedEvent ~= now then
-        lastTimeMailBoxFrameClosedEvent = now
-        _QuestEventHandler:UpdateAllQuests()
-        QuestieTracker:Update()
-    end
-end
+    if lastTimeQuestRelatedFrameClosedEvent ~= now then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QuestRelatedFrameClosed")
 
-local lastTimeBankFrameClosedEvent = -1
---- Blizzard does not fire any event when quest items are stored in the bank or retrieved from it.
---- So we hook the BANKFRAME_CLOSED event which fires once or twice after closing the bank frame and do a full quest log check.
-function _QuestEventHandler:BankFrameClosed()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] BANKFRAME_CLOSED")
-
-    local now = GetTime()
-    -- Don't do update if event fired twice
-    if lastTimeBankFrameClosedEvent ~= now then
-        lastTimeBankFrameClosedEvent = now
-        _QuestEventHandler:UpdateAllQuests()
-        QuestieTracker:Update()
-    end
-end
-
-local lastTimeGuildBankFrameClosedEvent = -1
---- Blizzard does not fire any event when quest items are stored in the guild bank or retrieved from it.
---- So we hook the GUILDBANKFRAME_CLOSED event which fires once or twice after closing the guild bank frame and do a full quest log check.
-function _QuestEventHandler:GuildBankFrameClosed()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] GUILDBANKFRAME_CLOSED")
-
-    local now = GetTime()
-    -- Don't do update if event fired twice
-    if lastTimeGuildBankFrameClosedEvent ~= now then
-        lastTimeGuildBankFrameClosedEvent = now
+        lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
         QuestieTracker:Update()
     end
@@ -416,12 +397,8 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-    elseif event == "SECURE_TRANSFER_CANCEL" then
-        _QuestEventHandler:MailBoxFrameClosed()
-    elseif event == "BANKFRAME_CLOSED" then
-        _QuestEventHandler:BankFrameClosed()
-    elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" and select(1, ...) == 10 then
-        _QuestEventHandler:GuildBankFrameClosed()
+    elseif event == "MERCHANT_CLOSED" or "SECURE_TRANSFER_CANCEL" or "BANKFRAME_CLOSED" or ("PLAYER_INTERACTION_MANAGER_FRAME_HIDE" and select(1, ...) == 10) then
+        _QuestEventHandler:QuestRelatedFrameClosed()
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()
     end
