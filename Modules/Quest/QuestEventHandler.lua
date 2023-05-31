@@ -54,9 +54,11 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
-    eventFrame:RegisterEvent("MAIL_CLOSED")
+    eventFrame:RegisterEvent("SECURE_TRANSFER_CANCEL")
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
-    eventFrame:RegisterEvent("GUILDBANKFRAME_CLOSED")
+    if Questie.IsWotlk then
+        eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
+    end
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
 
@@ -414,11 +416,11 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-    elseif event == "MAIL_CLOSED" then
+    elseif event == "SECURE_TRANSFER_CANCEL" then
         _QuestEventHandler:MailBoxFrameClosed()
     elseif event == "BANKFRAME_CLOSED" then
         _QuestEventHandler:BankFrameClosed()
-    elseif event == "GUILDBANKFRAME_CLOSED" then
+    elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" and select(1, ...) == 10 then
         _QuestEventHandler:GuildBankFrameClosed()
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()
