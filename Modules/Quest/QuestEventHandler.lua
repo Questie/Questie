@@ -350,11 +350,11 @@ end
 local lastTimeQuestRelatedFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are recieved or retrieved from sources other than looting.
 --- So we hook events which fires once or twice after closing certain frames and do a full quest log check.
-function _QuestEventHandler:QuestRelatedFrameClosed()
+function _QuestEventHandler:QuestRelatedFrameClosed(event)
     local now = GetTime()
     -- Don't do update if event fired twice
     if lastTimeQuestRelatedFrameClosedEvent ~= now then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] QuestRelatedFrameClosed")
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] ", event)
 
         lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
@@ -398,7 +398,7 @@ function _QuestEventHandler:OnEvent(event, ...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
     elseif event == "MERCHANT_CLOSED" or "SECURE_TRANSFER_CANCEL" or "BANKFRAME_CLOSED" or ("PLAYER_INTERACTION_MANAGER_FRAME_HIDE" and select(1, ...) == 10) then
-        _QuestEventHandler:QuestRelatedFrameClosed()
+        _QuestEventHandler:QuestRelatedFrameClosed(event)
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()
     end
