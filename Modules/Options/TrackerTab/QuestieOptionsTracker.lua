@@ -159,7 +159,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 2.0,
                 width = 1.5,
                 name = function() return l10n('Auto Move Active Quests Header') end,
-                desc = function() return l10n("When this is checked, the Active Quests Header will automatically move to the top or bottom of the Questie Tracker depending on which 'Tracker Grows' setting is used.\n\nNOTE: This setting only works while the 'Tracker Grows' setting is set to 'Up & Right' or 'Up & Left'.") end,
+                desc = function() return l10n("When this is checked, the Active Quests Header will automatically move to the bottom of the Questie Tracker.\n\nNOTE: This setting only works while the 'Tracker Growth Direction' setting is set to 'Up & Right' or 'Up & Left'.") end,
                 disabled = function()
                     return (not Questie.db.char.trackerEnabled)
                         or (not Questie.db.global.trackerHeaderEnabled)
@@ -600,7 +600,10 @@ function QuestieOptions.tabs.tracker:Initialize()
                 end,
                 style = 'dropdown',
                 name = function() return l10n('Tracker Growth Direction') end,
-                desc = function() return l10n("This determines the direction in which the Questie Tracker grows when you add or remove Quests. This will also move the Active Quests Header to either the top of the Questie Tracker (when using either the 'Down & Right' or the 'Down & Left' setting) or the bottom of the Questie Tracker (when using the either the 'Up & Right' or the 'Down & Right' setting).\n\nNOTE: You can override the Active Quests Header movement behavior by disabling the 'Auto Move Header' option in Questie Tracker Options to force the Active Quests Header to remain at the top of the Questie Tracker.") end,
+                desc = function()
+                    return l10n(
+                        "This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI.\n\nNOTE: This will also move the Active Quests Header (if enabled) to the bottom of the Questie Tracker when using the options 'Up & Right' or the 'Up & Left' setting. You can override this behavior by disabling the 'Auto Move Active Quests Header' option to force the Active Quests Header to remain at the top of the Questie Tracker. The 'Auto Move Active Quests Header' option is disabled when the options 'Down & Right' or 'Down & Left' are used.")
+                end,
                 disabled = function() return not Questie.db.char.trackerEnabled end,
                 get = function() return Questie.db[Questie.db.global.questieTLoc].trackerSetpoint end,
                 set = function(_, key)
@@ -803,7 +806,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 type = "range",
                 order = 5.6,
                 name = function() return l10n('Tracker Height Ratio') end,
-                desc = function() return l10n('The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Auto Mode') end,
+                desc = function() return l10n('The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto') end,
                 width = "double",
                 min = 20,
                 max = 100,

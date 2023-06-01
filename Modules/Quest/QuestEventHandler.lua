@@ -55,17 +55,13 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
 
-    -- Quest Related Frames
-    -- Quest Items that are purchased - Era and Wrath
+    -- Quest Related Frames - Era Only
+    eventFrame:RegisterEvent("TRADE_CLOSED")
     eventFrame:RegisterEvent("MERCHANT_CLOSED")
-
-    -- Quest Items obtained through the Mail Box and Player Trades - Era and Wrath
-    eventFrame:RegisterEvent("SECURE_TRANSFER_CANCEL")
-
-    -- Quest Items from a players bank - Era and Wrath
     eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+    eventFrame:RegisterEvent("MAIL_CLOSED")
 
-    -- Quest Items from a players guild bank - Wrath only
+    -- Quest Related Frames - Wrath Only
     if Questie.IsWotlk then
         eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
     end
@@ -351,10 +347,14 @@ local lastTimeQuestRelatedFrameClosedEvent = -1
 --- Blizzard does not fire any event when quest items are recieved or retrieved from sources other than looting.
 --- So we hook events which fires once or twice after closing certain frames and do a full quest log check.
 function _QuestEventHandler:QuestRelatedFrameClosed(event)
+    if event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
+        return
+    end
+
     local now = GetTime()
     -- Don't do update if event fired twice
     if lastTimeQuestRelatedFrameClosedEvent ~= now then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event] ", event)
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[Quest Event]", event)
 
         lastTimeQuestRelatedFrameClosedEvent = now
         _QuestEventHandler:UpdateAllQuests()
@@ -397,7 +397,25 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-    elseif event == "MERCHANT_CLOSED" or "SECURE_TRANSFER_CANCEL" or "BANKFRAME_CLOSED" or ("PLAYER_INTERACTION_MANAGER_FRAME_HIDE" and select(1, ...) == 10) then
+
+        -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE needs to be first because some of the Era events still fire
+    elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
+        local eventType = select(1, ...)
+        if eventType == 1 then
+            event = "TRADE_CLOSED"
+        elseif eventType == 5 then
+            event = "MERCHANT_CLOSED"
+        elseif eventType == 8 then
+            event = "BANKFRAME_CLOSED"
+        elseif eventType == 10 then
+            event = "GUILDBANKFRAME_CLOSED"
+        elseif eventType == 17 then
+            event = "MAIL_CLOSED"
+        end
+        _QuestEventHandler:QuestRelatedFrameClosed(event)
+
+        -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE doesn't exsist in Era so the Wrath stuff won't conflict
+    elseif event == "TRADE_CLOSED" or "MERCHANT_CLOSED" or "BANKFRAME_CLOSED" or "MAIL_CLOSED" then
         _QuestEventHandler:QuestRelatedFrameClosed(event)
     elseif event == "CHAT_MSG_COMBAT_FACTION_CHANGE" then
         _QuestEventHandler:ReputationChange()

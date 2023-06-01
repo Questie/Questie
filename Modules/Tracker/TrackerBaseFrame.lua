@@ -492,9 +492,9 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Sizing Started.")
                         TrackerBaseFrame.isSizing = true
 
-                        local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
-
                         updateTimer = C_Timer.NewTicker(0.12, function()
+                            local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+
                             Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
                             Questie.db[Questie.db.global.questieTLoc].TrackerHeight = baseFrame:GetHeight()
 
