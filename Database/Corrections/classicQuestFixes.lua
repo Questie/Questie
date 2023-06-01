@@ -95,6 +95,9 @@ function QuestieQuestFixes:Load()
         [148] = {
             [questKeys.preQuestSingle] = {}, -- #1173
         },
+        [155] = {
+            [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
+        },
         [163] = {
             [questKeys.exclusiveTo] = {5}, -- Raven Hill breadcrumb
         },

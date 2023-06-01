@@ -39,9 +39,6 @@ function QuestieTBCQuestFixes:Load()
         [77] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [155] = {
-            [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
-        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
