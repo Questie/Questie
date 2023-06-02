@@ -53,7 +53,6 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
-    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", _EventHandler.ZoneChangedNewArea)
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
@@ -450,36 +449,4 @@ function _EventHandler:PlayerRegenEnabled()
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
-end
-
-local trackerMinimizedByDungeon = false
-function _EventHandler:ZoneChangedNewArea()
-    if (not Questie.db.global.hideTrackerInDungeons) then
-        return
-    end
-
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-    if IsInInstance() then
-        QuestieTracker:Collapse()
-        trackerMinimizedByDungeon = true
-        -- By my tests it takes a full 6-7 seconds for the instance to load. There are a lot of
-        -- backend Questie updates that occur when a player zones into an instance. This is
-        -- necessary to get the tracker back into it's "normal" state after all the updates.
-        C_Timer.After(8, function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
-    elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
-        QuestieTracker:Expand()
-        trackerMinimizedByDungeon = false
-        -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
-        -- backend Questie updates that occur when a player zones out of an instance. This is
-        -- necessary to get the tracker back into it's "normal" state after all the updates.
-        C_Timer.After(8, function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
-    end
 end

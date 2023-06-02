@@ -56,6 +56,7 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("QUEST_LOG_UPDATE")
     eventFrame:RegisterEvent("QUEST_WATCH_UPDATE")
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
+    eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
     -- Quest Related Frames - Era Only
     eventFrame:RegisterEvent("TRADE_CLOSED")
@@ -458,6 +459,49 @@ function _QuestLogUpdateQueue:GetFirst()
     return tableRemove(questLogUpdateQueue, 1)
 end
 
+local trackerMinimizedByDungeon = false
+function _QuestEventHandler:ZoneChangedNewArea()
+    -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
+    -- backend Questie updates that occur when a player zones in/out of an instance. This
+    -- is necessary to get everything back into it's "normal" state after all the updates.
+
+    if IsInInstance() then
+        C_Timer.After(8, function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+
+            QuestieQuest:GetAllQuestIds()
+
+            if Questie.db.global.hideTrackerInDungeons then
+                QuestieTracker:Collapse()
+                trackerMinimizedByDungeon = true
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
+            end
+        end)
+    elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
+        C_Timer.After(8, function()
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
+
+            QuestieQuest:GetAllQuestIds()
+
+            if Questie.db.global.hideTrackerInDungeons then
+                QuestieTracker:Expand()
+                trackerMinimizedByDungeon = false
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
+            end
+        end)
+    else
+        C_Timer.After(8, function()
+            QuestieQuest:GetAllQuestIds()
+        end)
+    end
+end
+
 --- Is executed whenever an event is fired and triggers relevant event handling.
 ---@param event string
 function _QuestEventHandler:OnEvent(event, ...)
@@ -473,8 +517,10 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-        -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE needs to be first because some of the Era events still fire
+    elseif event == "ZONE_CHANGED_NEW_AREA" then
+        _QuestEventHandler:ZoneChangedNewArea()
     elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
+        -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE needs to be first because some of the Era events still fire
         local eventType = select(1, ...)
         if eventType == 1 then
             event = "TRADE_CLOSED"
@@ -484,6 +530,8 @@ function _QuestEventHandler:OnEvent(event, ...)
             event = "BANKFRAME_CLOSED"
         elseif eventType == 10 then
             event = "GUILDBANKFRAME_CLOSED"
+        elseif eventType == 12 then
+            event = "VENDOR_CLOSED"
         elseif eventType == 17 then
             event = "MAIL_CLOSED"
         end
