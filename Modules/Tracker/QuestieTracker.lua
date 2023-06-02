@@ -118,7 +118,7 @@ function QuestieTracker.Initialize()
     -- Insures all other data we're getting from other addons and WoW is loaded. There are edge
     -- cases where Questie loads too fast before everything else is available.
     C_Timer.After(1.0, function()
-        -- Attach DurabilityFrame to tracker
+        -- Hide frames during startup
         if QuestieTracker.alreadyHooked then
             DurabilityFrame:Hide()
         end
@@ -299,8 +299,9 @@ function QuestieTracker:UpdateDurabilityFrame()
 
     DurabilityFrame:ClearAllPoints()
     DurabilityFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-    DurabilityFrame:SetFrameStrata("HIGH")
+    DurabilityFrame:SetFrameStrata("MEDIUM")
     DurabilityFrame:SetFrameLevel(0)
+
     if trackerFrameX <= (screenWidth / 2) then
         DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -40)
     else
@@ -339,7 +340,7 @@ end
 ---@param text string
 function QuestieTracker:QuestItemLooted(text)
     local itemId = tonumber(string.match(text, "item:(%d+)"))
-    if select(6, GetItemInfo(itemId)) == "Quest" then
+    if select(6, GetItemInfo(itemId)) == "Quest" or select(12, GetItemInfo(itemId)) == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
 
         C_Timer.After(0.25, function()
@@ -1439,8 +1440,7 @@ function QuestieTracker:Update()
     -- First run clean up
     if isFirstRun then
         trackerBaseFrame:Hide()
-        for questId in pairs(QuestiePlayer.currentQuestlog) do
-            local quest = QuestieDB:GetQuest(questId)
+        for questId, quest in pairs(QuestiePlayer.currentQuestlog) do
             if quest then
                 if Questie.db.char.TrackerHiddenQuests[questId] then
                     quest.HideIcons = true

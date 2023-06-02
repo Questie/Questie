@@ -168,12 +168,12 @@ function TrackerLinePool.Initialize(questFrame)
 
         line:SetScript("OnEnter", function(self)
             TrackerLinePool.OnHighlightEnter(self)
-            TrackerFadeTicker.OnEnter()
+            TrackerFadeTicker.Unfade()
         end)
 
         line:SetScript("OnLeave", function(self)
             TrackerLinePool.OnHighlightLeave(self)
-            TrackerFadeTicker.OnLeave()
+            TrackerFadeTicker.Fade()
         end)
 
         -- create objective complete criteria marks
@@ -306,12 +306,12 @@ function TrackerLinePool.Initialize(questFrame)
 
         expandZone:SetScript("OnEnter", function(self)
             TrackerLinePool.OnHighlightEnter(self)
-            TrackerFadeTicker.OnEnter()
+            TrackerFadeTicker.Unfade()
         end)
 
         expandZone:SetScript("OnLeave", function(self)
             TrackerLinePool.OnHighlightLeave(self)
-            TrackerFadeTicker.OnLeave()
+            TrackerFadeTicker.Fade()
         end)
 
         expandZone:Hide()
@@ -385,12 +385,12 @@ function TrackerLinePool.Initialize(questFrame)
 
         expandQuest:SetScript("OnEnter", function(self)
             TrackerLinePool.OnHighlightEnter(self)
-            TrackerFadeTicker.OnEnter()
+            TrackerFadeTicker.Unfade()
         end)
 
         expandQuest:SetScript("OnLeave", function(self)
             TrackerLinePool.OnHighlightLeave(self)
-            TrackerFadeTicker.OnLeave()
+            TrackerFadeTicker.Fade()
         end)
 
         expandQuest:Hide()
@@ -610,13 +610,13 @@ function TrackerLinePool.Initialize(questFrame)
             GameTooltip:SetHyperlink("item:" .. tostring(self.itemId) .. ":0:0:0:0:0:0:0")
             GameTooltip:Show()
 
-            TrackerFadeTicker.OnEnter(self)
+            TrackerFadeTicker.Unfade(self)
         end
 
         btn.OnLeave = function(self)
             GameTooltip:Hide()
 
-            TrackerFadeTicker.OnLeave(self)
+            TrackerFadeTicker.Fade(self)
         end
 
         btn.FakeHide = function(self)
@@ -635,7 +635,12 @@ function TrackerLinePool.Initialize(questFrame)
 end
 
 function TrackerLinePool.ResetLinesForChange()
-    Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetLinesForChange]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
+    end
+
     if InCombatLockdown() or not Questie.db.char.trackerEnabled then
         return
     end
@@ -658,7 +663,11 @@ function TrackerLinePool.ResetLinesForChange()
 end
 
 function TrackerLinePool.ResetButtonsForChange()
-    Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetButtonsForChange]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
+    end
 
     if InCombatLockdown() or not Questie.db.char.trackerEnabled then
         return
@@ -764,7 +773,11 @@ function TrackerLinePool.GetLastLine()
 end
 
 function TrackerLinePool.HideUnusedLines()
-    Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedLines]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
+    end
     local startUnusedLines = 0
 
     if Questie.db.char.isTrackerExpanded then
@@ -790,7 +803,11 @@ function TrackerLinePool.HideUnusedLines()
 end
 
 function TrackerLinePool.HideUnusedButtons()
-    Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedButtons]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
+    end
     local startUnusedButtons = 0
 
     if Questie.db.char.isTrackerExpanded then
@@ -820,7 +837,6 @@ end
 ---@param alpha number
 function TrackerLinePool.SetAllExpandQuestAlpha(alpha)
     local highestIndex = TrackerLinePool.GetHighestIndex()
-
     for i = 1, highestIndex do
         linePool[i].expandQuest:SetAlpha(alpha)
     end

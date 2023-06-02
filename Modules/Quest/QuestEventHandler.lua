@@ -28,6 +28,8 @@ local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 local tableRemove = table.remove
 
@@ -43,7 +45,7 @@ local questLog = {}
 local questLogUpdateQueueSize = 1
 local skipNextUQLCEvent = false
 local doFullQuestLogScan = false
-
+local deletedQuestItem = false
 
 --- Registers all events that are required for questing (accepting, removing, objective updates, ...)
 function QuestEventHandler:RegisterEvents()
@@ -68,6 +70,68 @@ function QuestEventHandler:RegisterEvents()
 
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
     eventFrame:SetScript("OnEvent", _QuestEventHandler.OnEvent)
+
+    -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
+    hooksecurefunc("StaticPopup_Show", function(...)
+        -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
+        local which, itemName = ...
+        if which == "DELETE_ITEM" then
+            if deletedQuestItem == true then
+                deletedQuestItem = false
+            end
+
+            for questLogIndex = 1, 75 do
+                local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(questLogIndex)
+
+                if (not title) then
+                    break
+                end
+
+                if (not isHeader) then
+                    local quest = QuestieDB:GetQuest(questId)
+
+                    if quest then
+                        for _, objective in pairs(quest.Objectives) do
+                            local info = StaticPopupDialogs[which]
+
+                            if itemName == objective.Description then
+                                local frame, text
+
+                                for i = 1, STATICPOPUP_NUMDIALOGS do
+                                    frame = _G["StaticPopup" .. i]
+                                    if (frame:IsShown()) and frame.text.text_arg1 == itemName then
+                                        text = _G[frame:GetName() .. "Text"]
+                                        break
+                                    end
+                                end
+
+                                if frame ~= nil and text ~= nil then
+                                    local updateText = l10n("Quest Item %%s is needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                                    text:SetFormattedText(updateText, itemName, quest.name)
+                                    text.text_arg1 = updateText
+
+                                    StaticPopup_Resize(frame, which)
+                                    deletedQuestItem = true
+
+                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updateing Static Popup.")
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    hooksecurefunc("DeleteCursorItem", function()
+        -- Hook DeleteCursorItem so we know when the player clicks the Accept button
+        if deletedQuestItem then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] DeleteCursorItem: Quest Item deleted. Update all quests.")
+
+            _QuestEventHandler:UpdateAllQuests()
+            deletedQuestItem = false
+        end
+    end)
 
     _QuestEventHandler:InitQuestLog()
 end
@@ -170,6 +234,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in and is completed")
+
     if questLog[questId] then
         -- There are quests which you just turn in so there is no preceding QUEST_ACCEPTED event and questLog[questId]
         -- is empty
@@ -177,13 +242,24 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
     end
 
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
-    if parentQuest then
+
+    if parentQuest and parentQuest > 0 then
         -- Quests like "The Warsong Reports" have child quests which are just turned in. These child quests only
         -- fire QUEST_TURNED_IN + QUEST_LOG_UPDATE
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Has a Parent Quest - do a full Quest Log check")
         doFullQuestLogScan = true
     end
 
-    skipNextUQLCEvent = true
+    local _, _, _, quality, _, itemID = GetQuestLogRewardInfo(GetNumQuestLogRewards(questId), questId)
+
+    if itemID ~= nil and quality == 1 then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "Quest:", questId, "Recieved a possible Quest Item - do a full Quest Log check")
+        doFullQuestLogScan = true
+        skipNextUQLCEvent = false
+    else
+        skipNextUQLCEvent = true
+    end
+
     QuestLogCache.RemoveQuest(questId)
     QuestieQuest:SetObjectivesDirty(questId) -- is this necessary? should whole quest.Objectives be cleared at some point of quest removal?
 
@@ -323,7 +399,7 @@ function _QuestEventHandler:UpdateAllQuests()
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
-            --Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "objectives:", table.concat(objIds, ",") , "will be updated")
+            --Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
             Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
 
@@ -344,7 +420,7 @@ function _QuestEventHandler:UpdateAllQuests()
 end
 
 local lastTimeQuestRelatedFrameClosedEvent = -1
---- Blizzard does not fire any event when quest items are recieved or retrieved from sources other than looting.
+--- Blizzard does not fire any event when quest items are received or retrieved from sources other than looting.
 --- So we hook events which fires once or twice after closing certain frames and do a full quest log check.
 function _QuestEventHandler:QuestRelatedFrameClosed(event)
     if event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
@@ -397,7 +473,6 @@ function _QuestEventHandler:OnEvent(event, ...)
         _QuestEventHandler:QuestWatchUpdate(...)
     elseif event == "UNIT_QUEST_LOG_CHANGED" and select(1, ...) == "player" then
         _QuestEventHandler:UnitQuestLogChanged(...)
-
         -- PLAYER_INTERACTION_MANAGER_FRAME_HIDE needs to be first because some of the Era events still fire
     elseif event == "PLAYER_INTERACTION_MANAGER_FRAME_HIDE" then
         local eventType = select(1, ...)

@@ -108,7 +108,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
         GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Drag while Locked"))
         GameTooltip:Show()
 
-        TrackerFadeTicker.OnEnter(self)
+        TrackerFadeTicker.Unfade(self)
     end)
 
     questieIcon:SetScript("OnLeave", function(self)
@@ -116,7 +116,7 @@ function TrackerHeaderFrame.Initialize(baseFrame)
             GameTooltip:Hide()
         end
 
-        TrackerFadeTicker.OnLeave(self)
+        TrackerFadeTicker.Fade(self)
     end)
 
     questieIcon:Hide()
@@ -170,8 +170,8 @@ function TrackerHeaderFrame.Initialize(baseFrame)
 
     trackedQuests:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
     trackedQuests:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
-    trackedQuests:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
-    trackedQuests:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
+    trackedQuests:SetScript("OnEnter", TrackerFadeTicker.Unfade)
+    trackedQuests:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     trackedQuests:Hide()
 

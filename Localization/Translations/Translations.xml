@@ -39,6 +39,7 @@
     <Script file="Professions.lua"/>
     <Script file="QuestStates.lua"/>
     <Script file="Races.lua"/>
+    <Script file="StaticPopup.lua"/>
     <Script file="TooltipsUI.lua"/>
     <Script file="TrackerUI.lua"/>
 </Ui>

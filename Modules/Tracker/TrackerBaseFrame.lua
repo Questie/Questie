@@ -27,7 +27,7 @@ TrackerBaseFrame.isMoving = false
 function TrackerBaseFrame.Initialize()
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-    baseFrame:SetFrameStrata("HIGH")
+    baseFrame:SetFrameStrata("MEDIUM")
     baseFrame:SetFrameLevel(0)
     baseFrame:SetSize(25, 25)
 
@@ -37,8 +37,9 @@ function TrackerBaseFrame.Initialize()
 
     baseFrame:SetScript("OnMouseDown", TrackerBaseFrame.OnDragStart)
     baseFrame:SetScript("OnMouseUp", TrackerBaseFrame.OnDragStop)
-    baseFrame:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
-    baseFrame:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
+    baseFrame:SetScript("OnEnter", TrackerFadeTicker.Unfade)
+
+    baseFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     baseFrame:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -129,7 +130,7 @@ function TrackerBaseFrame.Initialize()
             end
         end
 
-        TrackerFadeTicker.OnEnter(self)
+        TrackerFadeTicker.Unfade(self)
     end)
 
     sizer:SetScript("OnLeave", function(self)
@@ -138,7 +139,7 @@ function TrackerBaseFrame.Initialize()
             GameTooltip._SizerToolTip = nil
         end
 
-        TrackerFadeTicker.OnLeave(self)
+        TrackerFadeTicker.Fade(self)
     end)
 
     baseFrame.sizer = sizer
@@ -220,6 +221,8 @@ function TrackerBaseFrame.Initialize()
     end
 
     baseFrame:Hide()
+    baseFrame.isSizing = false
+    baseFrame.isMoving = false
 
     TrackerBaseFrame.IsInitialized = true
     TrackerBaseFrame.baseFrame = baseFrame
@@ -383,23 +386,10 @@ function TrackerBaseFrame.OnDragStart(frame, button)
                 if baseFrame:IsMovable() then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Dragging Started.")
                     TrackerBaseFrame.isMoving = true
+                    TrackerBaseFrame.baseFrame.isMoving = true
 
                     baseFrame:StartMoving()
                     TrackerBaseFrame:Update()
-                    --[[
-                    -- If we're filtering the Middle Button then theoretically we don't need this.
-                    else
-                        -- Turns off mouse looking to prevent frame from becoming stuck to the pointer
-                        if not IsMouselooking() then
-                            MouselookStart()
-                            mouseLookTicker = C_Timer.NewTicker(0.1, function()
-                                if not IsMouseButtonDown(button) then
-                                    MouselookStop()
-                                    mouseLookTicker:Cancel()
-                                end
-                            end)
-                        end
-                    --]]
                 else
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is not movable!")
                 end
@@ -456,6 +446,7 @@ function TrackerBaseFrame.OnDragStop(frame, button)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Dragging Stopped.")
 
         TrackerBaseFrame.isMoving = false
+        TrackerBaseFrame.baseFrame.isMoving = false
 
         baseFrame:StopMovingOrSizing()
         QuestieCombatQueue:Queue(_UpdateTrackerPosition)
@@ -491,6 +482,7 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
                     if button == "LeftButton" then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Sizing Started.")
                         TrackerBaseFrame.isSizing = true
+                        TrackerBaseFrame.baseFrame.isSizing = true
 
                         updateTimer = C_Timer.NewTicker(0.12, function()
                             local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
@@ -562,6 +554,7 @@ function TrackerBaseFrame.OnResizeStop(frame, button)
         Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizing Stopped.")
 
         TrackerBaseFrame.isSizing = false
+        TrackerBaseFrame.baseFrame.isSizing = false
 
         -- This returns the players desired Background, Border and Fader to the correct setting
         Questie.db.global.trackerBackdropEnabled = Questie.db.global.currentBackdropEnabled

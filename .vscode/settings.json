@@ -2815,7 +2815,12 @@
         "RED_FONT_COLOR",
         "QuestFrameCloseButton",
         "TrackedQuestsScrollFrame",
-        "C_AddOns"
+        "C_AddOns",
+        "Questie_BaseFrame",
+        "MouseIsOver",
+        "STATICPOPUP_NUMDIALOGS",
+        "DELETE_ITEM",
+        "StaticPopup_Resize"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**",

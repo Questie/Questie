@@ -27,8 +27,8 @@ function TrackerQuestFrame.Initialize(baseFrame, headerFrame)
     questFrame:RegisterForDrag("LeftButton")
     questFrame:SetScript("OnDragStart", TrackerBaseFrame.OnDragStart)
     questFrame:SetScript("OnDragStop", TrackerBaseFrame.OnDragStop)
-    questFrame:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
-    questFrame:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
+    questFrame:SetScript("OnEnter", TrackerFadeTicker.Unfade)
+    questFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     -- ScrollFrame
     questFrame.ScrollFrame = CreateFrame("ScrollFrame", "TrackedQuestsScrollFrame", questFrame, "UIPanelScrollFrameTemplate")
