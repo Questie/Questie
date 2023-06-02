@@ -4,7 +4,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local staticPopup = {
     -------------------------------------------------------------------------------------------
     -- QuestEventHandler - StaticPopup_Show hook - "DELETE_ITEM" Static Popup
-    ["Quest Item %%s is needed for the quest %%s. \n\nAre you sure you want to delete this?"] = {
+    ["Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,

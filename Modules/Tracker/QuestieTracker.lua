@@ -340,7 +340,9 @@ end
 ---@param text string
 function QuestieTracker:QuestItemLooted(text)
     local itemId = tonumber(string.match(text, "item:(%d+)"))
-    if select(6, GetItemInfo(itemId)) == "Quest" or select(12, GetItemInfo(itemId)) == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
+    local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
+
+    if itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
 
         C_Timer.After(0.25, function()

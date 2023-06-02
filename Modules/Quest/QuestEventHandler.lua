@@ -75,7 +75,7 @@ function QuestEventHandler:RegisterEvents()
     -- StaticPopup dialog hooks. Deleteing Quest items do not always trigger a Quest Log Update.
     hooksecurefunc("StaticPopup_Show", function(...)
         -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
-        local which, itemName = ...
+        local which, text_arg1 = ...
         if which == "DELETE_ITEM" then
             if deletedQuestItem == true then
                 deletedQuestItem = false
@@ -92,30 +92,43 @@ function QuestEventHandler:RegisterEvents()
                     local quest = QuestieDB:GetQuest(questId)
 
                     if quest then
-                        for _, objective in pairs(quest.Objectives) do
-                            local info = StaticPopupDialogs[which]
+                        local foundQuestItem = false
+                        local info = StaticPopupDialogs[which]
+                        local itemId = quest.sourceItemId
+                        local itemName, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
 
-                            if itemName == objective.Description then
-                                local frame, text
-
-                                for i = 1, STATICPOPUP_NUMDIALOGS do
-                                    frame = _G["StaticPopup" .. i]
-                                    if (frame:IsShown()) and frame.text.text_arg1 == itemName then
-                                        text = _G[frame:GetName() .. "Text"]
-                                        break
-                                    end
+                        if itemId and (itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12) then
+                            if text_arg1 == itemName then
+                                foundQuestItem = true
+                            end
+                        else
+                            for _, objective in pairs(quest.Objectives) do
+                                if text_arg1 == objective.Description then
+                                    foundQuestItem = true
                                 end
+                            end
+                        end
 
-                                if frame ~= nil and text ~= nil then
-                                    local updateText = l10n("Quest Item %%s is needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                                    text:SetFormattedText(updateText, itemName, quest.name)
-                                    text.text_arg1 = updateText
+                        if foundQuestItem then
+                            local frame, text
 
-                                    StaticPopup_Resize(frame, which)
-                                    deletedQuestItem = true
-
-                                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updateing Static Popup.")
+                            for i = 1, STATICPOPUP_NUMDIALOGS do
+                                frame = _G["StaticPopup" .. i]
+                                if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
+                                    text = _G[frame:GetName() .. "Text"]
+                                    break
                                 end
+                            end
+
+                            if frame ~= nil and text ~= nil then
+                                local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                                text:SetFormattedText(updateText, text_arg1, quest.name)
+                                text.text_arg1 = updateText
+
+                                StaticPopup_Resize(frame, which)
+                                deletedQuestItem = true
+
+                                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updateing Static Popup.")
                             end
                         end
                     end
