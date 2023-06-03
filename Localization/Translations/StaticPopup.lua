@@ -78,7 +78,7 @@ local staticPopup = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-    ["WoW Classic (TBC/Era/SoM)!"] = {
+    ["WoW Classic (Era/Wrath/SoM)!"] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
