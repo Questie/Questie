@@ -53,7 +53,6 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("PLAYER_LEVEL_UP", _EventHandler.PlayerLevelUp)
     Questie:RegisterEvent("PLAYER_REGEN_DISABLED", _EventHandler.PlayerRegenDisabled)
     Questie:RegisterEvent("PLAYER_REGEN_ENABLED", _EventHandler.PlayerRegenEnabled)
-    Questie:RegisterEvent("ZONE_CHANGED_NEW_AREA", _EventHandler.ZoneChangedNewArea)
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
@@ -73,11 +72,11 @@ function QuestieEventHandler:RegisterLateEvents()
     Questie:RegisterEvent("QUEST_ACCEPTED", QuestieAuto.QUEST_ACCEPTED)
     Questie:RegisterEvent("QUEST_DETAIL", QuestieAuto.QUEST_DETAIL) -- When the quest is presented!
     Questie:RegisterEvent("QUEST_PROGRESS", QuestieAuto.QUEST_PROGRESS)
-    Questie:RegisterEvent("GOSSIP_SHOW", function (...)
+    Questie:RegisterEvent("GOSSIP_SHOW", function(...)
         QuestieAuto.GOSSIP_SHOW(...)
         QuestgiverFrame.GossipMark(...)
     end)
-    Questie:RegisterEvent("QUEST_GREETING", function (...)
+    Questie:RegisterEvent("QUEST_GREETING", function(...)
         QuestieAuto.QUEST_GREETING(...)
         QuestgiverFrame.GreetingMark(...)
     end)
@@ -336,7 +335,7 @@ end
 
 --- Fires when some chat messages about skills are displayed
 function _EventHandler:ChatMsgSkill()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_SKILL")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_SKILL")
 
     -- This needs to be done to draw new quests that just came available
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
@@ -354,7 +353,7 @@ end
 
 --- Fires when some chat messages about reputations are displayed
 function _EventHandler:ChatMsgCompatFactionChange()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "CHAT_MSG_COMBAT_FACTION_CHANGE")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] CHAT_MSG_COMBAT_FACTION_CHANGE")
     local factionChanged, newFaction = QuestieReputation:Update(false)
     if factionChanged or newFaction then
         QuestieCombatQueue:Queue(function()
@@ -379,7 +378,7 @@ function _EventHandler.GroupRosterUpdate()
 end
 
 function _EventHandler:GroupJoined()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "GROUP_JOINED")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] GROUP_JOINED")
     local checkTimer
     --We want this to be fairly quick.
     checkTimer = C_Timer.NewTicker(0.2, function()
@@ -447,44 +446,7 @@ function _EventHandler:PlayerRegenEnabled()
         journeyHiddenByCombat = false
     end
 
-    QuestieTracker:CheckDurabilityAlertStatus()
-
-    -- Mob kill based Achievement updates
-    if Questie.IsWotlk and GetNumTrackedAchievements(true) > 0 then
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-    end
-end
-
-local trackerMinimizedByDungeon = false
-function _EventHandler:ZoneChangedNewArea()
-    if (not Questie.db.global.hideTrackerInDungeons) then
-        return
-    end
-
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-    if IsInInstance() then
-        QuestieTracker:Collapse()
-        trackerMinimizedByDungeon = true
-        -- By my tests it takes a full 6-7 seconds for the instance to load. There are a lot of
-        -- backend Questie updates that occur when a player zones into an instance. This is
-        -- necessary to get the tracker back into it's "normal" state after all the updates.
-        C_Timer.After(8, function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
-    elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
-        QuestieTracker:Expand()
-        trackerMinimizedByDungeon = false
-        -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
-        -- backend Questie updates that occur when a player zones out of an instance. This is
-        -- necessary to get the tracker back into it's "normal" state after all the updates.
-        C_Timer.After(8, function()
-            QuestieCombatQueue:Queue(function()
-                QuestieTracker:Update()
-            end)
-        end)
-    end
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
 end

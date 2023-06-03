@@ -371,7 +371,7 @@ function QuestieInit:Init()
             -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
             -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.
             WatchFrame:ClearAllPoints()
-            WatchFrame:SetPoint("TOP", -10000, -10000)
+            WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
         end
 
         -- Need to hook this ASAP otherwise the scroll bars show up

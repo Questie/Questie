@@ -168,12 +168,12 @@ function TrackerLinePool.Initialize(questFrame)
 
         line:SetScript("OnEnter", function(self)
             TrackerLinePool.OnHighlightEnter(self)
-            TrackerFadeTicker.OnEnter()
+            TrackerFadeTicker.Unfade()
         end)
 
         line:SetScript("OnLeave", function(self)
             TrackerLinePool.OnHighlightLeave(self)
-            TrackerFadeTicker.OnLeave()
+            TrackerFadeTicker.Fade()
         end)
 
         -- create objective complete criteria marks
@@ -194,10 +194,14 @@ function TrackerLinePool.Initialize(questFrame)
 
                 if criteria == true then
                     self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Checkmark")
+                    ---------------------------------------------------------------------
+                    -- Just in case we decide to show the minus sign for incompletes
+                    ---------------------------------------------------------------------
                     --self.texture:SetAlpha(1)
                     --else
                     --self.texture:SetTexture("Interface\\Addons\\Questie\\Icons\\Minus")
                     --self.texture:SetAlpha(0.5)
+                    ---------------------------------------------------------------------
                 end
 
                 self:SetWidth(Questie.db.global.trackerFontSizeObjective)
@@ -253,6 +257,7 @@ function TrackerLinePool.Initialize(questFrame)
                         C_Timer.After(0.1, function()
                             if Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue then
                                 -- Places all QuestID's into the collapsedQuests table and keeps the Min/Max buttons in sync.
+                                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool:minAllQuestsInZone] - Minimize")
                                 for questId, _ in pairs(Questie.db.char.minAllQuestsInZone[self.zoneId]) do
                                     if type(questId) == "number" then
                                         Questie.db.char.collapsedQuests[questId] = true
@@ -262,6 +267,7 @@ function TrackerLinePool.Initialize(questFrame)
                                 Questie.db.char.minAllQuestsInZone[self.zoneId].isTrue = nil
                             else
                                 -- Removes all QuestID's from the collapsedQuests table.
+                                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool:minAllQuestsInZone] - Maximize")
                                 for questId, _ in pairs(Questie.db.char.minAllQuestsInZone[self.zoneId]) do
                                     if type(questId) == "number" then
                                         Questie.db.char.collapsedQuests[questId] = nil
@@ -279,8 +285,10 @@ function TrackerLinePool.Initialize(questFrame)
                 else
                     if self.mode == 1 then
                         self:SetMode(0)
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool:expandZone] - Minimize")
                     else
                         self:SetMode(1)
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool:expandZone] - Maximize")
                     end
 
                     if Questie.db.char.collapsedZones[self.zoneId] == true then
@@ -298,12 +306,12 @@ function TrackerLinePool.Initialize(questFrame)
 
         expandZone:SetScript("OnEnter", function(self)
             TrackerLinePool.OnHighlightEnter(self)
-            TrackerFadeTicker.OnEnter()
+            TrackerFadeTicker.Unfade()
         end)
 
         expandZone:SetScript("OnLeave", function(self)
             TrackerLinePool.OnHighlightLeave(self)
-            TrackerFadeTicker.OnLeave()
+            TrackerFadeTicker.Fade()
         end)
 
         expandZone:Hide()
@@ -342,8 +350,10 @@ function TrackerLinePool.Initialize(questFrame)
         expandQuest:SetScript("OnClick", function(self)
             if self.mode == 1 then
                 self:SetMode(0)
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool:expandQuest] - Minimize")
             else
                 self:SetMode(1)
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool:expandQuest] - Maximize")
             end
             if Questie.db.char.collapsedQuests[self.questId] then
                 Questie.db.char.collapsedQuests[self.questId] = nil
@@ -375,12 +385,12 @@ function TrackerLinePool.Initialize(questFrame)
 
         expandQuest:SetScript("OnEnter", function(self)
             TrackerLinePool.OnHighlightEnter(self)
-            TrackerFadeTicker.OnEnter()
+            TrackerFadeTicker.Unfade()
         end)
 
         expandQuest:SetScript("OnLeave", function(self)
             TrackerLinePool.OnHighlightLeave(self)
-            TrackerFadeTicker.OnLeave()
+            TrackerFadeTicker.Fade()
         end)
 
         expandQuest:Hide()
@@ -551,7 +561,7 @@ function TrackerLinePool.Initialize(questFrame)
                     self.count:Show()
                 end
                 if self.charges == 0 then
-                    Questie:Debug(Questie.DEBUG_DEVELOP, "TrackerLinePool: Button.OnUpdate")
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerLinePool: Button.OnUpdate]")
                     QuestieCombatQueue:Queue(function()
                         C_Timer.After(0.2, function()
                             QuestieTracker:Update()
@@ -600,13 +610,13 @@ function TrackerLinePool.Initialize(questFrame)
             GameTooltip:SetHyperlink("item:" .. tostring(self.itemId) .. ":0:0:0:0:0:0:0")
             GameTooltip:Show()
 
-            TrackerFadeTicker.OnEnter(self)
+            TrackerFadeTicker.Unfade(self)
         end
 
         btn.OnLeave = function(self)
             GameTooltip:Hide()
 
-            TrackerFadeTicker.OnLeave(self)
+            TrackerFadeTicker.Fade(self)
         end
 
         btn.FakeHide = function(self)
@@ -625,7 +635,12 @@ function TrackerLinePool.Initialize(questFrame)
 end
 
 function TrackerLinePool.ResetLinesForChange()
-    Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: ResetLinesForChange")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetLinesForChange]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetLinesForChange]")
+    end
+
     if InCombatLockdown() or not Questie.db.char.trackerEnabled then
         return
     end
@@ -648,7 +663,11 @@ function TrackerLinePool.ResetLinesForChange()
 end
 
 function TrackerLinePool.ResetButtonsForChange()
-    Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: ResetButtonsForChange")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:ResetButtonsForChange]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:ResetButtonsForChange]")
+    end
 
     if InCombatLockdown() or not Questie.db.char.trackerEnabled then
         return
@@ -754,7 +773,11 @@ function TrackerLinePool.GetLastLine()
 end
 
 function TrackerLinePool.HideUnusedLines()
-    Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: HideUnusedLines")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedLines]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedLines]")
+    end
     local startUnusedLines = 0
 
     if Questie.db.char.isTrackerExpanded then
@@ -780,7 +803,11 @@ function TrackerLinePool.HideUnusedLines()
 end
 
 function TrackerLinePool.HideUnusedButtons()
-    Questie:Debug(Questie.DEBUG_INFO, "TrackerLinePool: HideUnusedButtons")
+    if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+        Questie:Debug(Questie.DEBUG_SPAM, "[TrackerLinePool:HideUnusedButtons]")
+    else
+        Questie:Debug(Questie.DEBUG_INFO, "[TrackerLinePool:HideUnusedButtons]")
+    end
     local startUnusedButtons = 0
 
     if Questie.db.char.isTrackerExpanded then
@@ -810,7 +837,6 @@ end
 ---@param alpha number
 function TrackerLinePool.SetAllExpandQuestAlpha(alpha)
     local highestIndex = TrackerLinePool.GetHighestIndex()
-
     for i = 1, highestIndex do
         linePool[i].expandQuest:SetAlpha(alpha)
     end

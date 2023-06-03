@@ -98,14 +98,14 @@ function TrackerFadeTicker.Start()
     end
 end
 
-function TrackerFadeTicker.OnEnter()
+function TrackerFadeTicker.Unfade()
     if QuestieTracker:HasQuest() then
         fadeTickerDirection = true
         TrackerFadeTicker.Start()
     end
 end
 
-function TrackerFadeTicker.OnLeave()
+function TrackerFadeTicker.Fade()
     if QuestieTracker:HasQuest() then
         fadeTickerDirection = false
         TrackerFadeTicker.Start()
