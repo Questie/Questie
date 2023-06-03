@@ -17,6 +17,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -353,6 +355,9 @@ function _EventHandler:ModifierStateChanged(key, down)
             end
         end
     end
+
+    -- Show/Hide the AI_VoiceOver PlayButtons
+    TrackerUtils:ShowVoiceOverPlayButtons()
 
     if Questie.db.global.trackerLocked then
         if TrackerBaseFrame.IsInitialized then

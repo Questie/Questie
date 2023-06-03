@@ -330,6 +330,7 @@ function TrackerBaseFrame:Update()
         end)
     end
 
+    QuestieTracker:UpdateVoiceOverFrame()
     QuestieTracker:CheckDurabilityAlertStatus()
 end
 
