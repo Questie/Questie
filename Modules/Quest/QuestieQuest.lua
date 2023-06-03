@@ -549,6 +549,7 @@ function QuestieQuest:UpdateQuest(questId)
             -- Quest is complete
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
             QuestieMap:UnloadQuestFrames(questId)
+            _UpdateSpecials(questId)
             QuestieQuest:AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
@@ -607,6 +608,7 @@ function QuestieQuest:UpdateQuest(questId)
                     if numCompleteObjectives == #quest.Objectives then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are complete")
                         QuestieMap:UnloadQuestFrames(questId)
+                        _UpdateSpecials(questId)
                         QuestieQuest:AddFinisher(quest)
                         quest.WasComplete = true
                     end
