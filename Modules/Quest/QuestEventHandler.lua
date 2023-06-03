@@ -128,7 +128,7 @@ function QuestEventHandler:RegisterEvents()
                                 StaticPopup_Resize(frame, which)
                                 deletedQuestItem = true
 
-                                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updateing Static Popup.")
+                                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
                             end
                         end
                     end
@@ -496,13 +496,12 @@ function _QuestEventHandler:ZoneChangedNewArea()
         C_Timer.After(8, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
 
-            QuestieQuest:GetAllQuestIds()
-
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = false
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Expand()
+                    QuestieQuest:GetAllQuestIds()
                 end)
             end
         end)
