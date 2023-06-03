@@ -58,15 +58,15 @@ function QuestEventHandler:RegisterEvents()
     eventFrame:RegisterEvent("UNIT_QUEST_LOG_CHANGED")
     eventFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 
-    -- Quest Related Frames - Era Only
-    eventFrame:RegisterEvent("TRADE_CLOSED")
-    eventFrame:RegisterEvent("MERCHANT_CLOSED")
-    eventFrame:RegisterEvent("BANKFRAME_CLOSED")
-    eventFrame:RegisterEvent("MAIL_CLOSED")
-
-    -- Quest Related Frames - Wrath Only
     if Questie.IsWotlk then
+        -- Quest Related Frames - Wrath Only
         eventFrame:RegisterEvent("PLAYER_INTERACTION_MANAGER_FRAME_HIDE")
+    else
+        -- Quest Related Frames - Era Only
+        eventFrame:RegisterEvent("TRADE_CLOSED")
+        eventFrame:RegisterEvent("MERCHANT_CLOSED")
+        eventFrame:RegisterEvent("BANKFRAME_CLOSED")
+        eventFrame:RegisterEvent("MAIL_CLOSED")
     end
 
     eventFrame:RegisterEvent("CHAT_MSG_COMBAT_FACTION_CHANGE")
@@ -485,11 +485,10 @@ function _QuestEventHandler:ZoneChangedNewArea()
             QuestieQuest:GetAllQuestIds()
 
             if Questie.db.global.hideTrackerInDungeons then
-                QuestieTracker:Collapse()
                 trackerMinimizedByDungeon = true
 
                 QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
+                    QuestieTracker:Collapse()
                 end)
             end
         end)
@@ -500,11 +499,10 @@ function _QuestEventHandler:ZoneChangedNewArea()
             QuestieQuest:GetAllQuestIds()
 
             if Questie.db.global.hideTrackerInDungeons then
-                QuestieTracker:Expand()
                 trackerMinimizedByDungeon = false
 
                 QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
+                    QuestieTracker:Expand()
                 end)
             end
         end)
