@@ -545,15 +545,17 @@ function QuestieQuest:UpdateQuest(questId)
 
         local isComplete = quest:IsComplete()
 
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] QuestDB:IsComplete() flag is: " .. isComplete)
+
         if isComplete == 1 then
             -- Quest is complete
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is complete")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
             QuestieMap:UnloadQuestFrames(questId)
             QuestieQuest:AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest failed")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has: Failed!")
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
@@ -561,11 +563,9 @@ function QuestieQuest:UpdateQuest(questId)
             -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
             -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
             -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest Objective Status is: " .. isComplete)
-
             if quest and quest.WasComplete then
-                -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest drops?
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has been reset to not complete?")
+                -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest items?
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete. Resetting quest.")
 
                 -- Reset quest objectives
                 quest.Objectives = {}
@@ -605,10 +605,12 @@ function QuestieQuest:UpdateQuest(questId)
                     end
 
                     if numCompleteObjectives == #quest.Objectives then
-                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are complete")
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] All Quest Objective(s) are Complete! Manually setting quest to Complete!")
                         QuestieMap:UnloadQuestFrames(questId)
                         QuestieQuest:AddFinisher(quest)
                         quest.WasComplete = true
+                    else
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest Objective Status is: " .. numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
                     end
                 end
             end
