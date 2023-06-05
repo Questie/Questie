@@ -29,7 +29,9 @@ function QuestieItemFixes:Load()
         },
         [1262] = {
             [itemKeys.relatedQuests] = {116,117},
-            [itemKeys.npcDrops] = {239},
+            [itemKeys.vendors] = {239},
+            [itemKeys.class] = 12,
+            [itemKeys.name] = 'Keg of Thunderbrew',
         },
         [1524] = {
             [itemKeys.npcDrops] = {667,669,670,672,696,780,781,782,783,784,1059,1061,1062},
