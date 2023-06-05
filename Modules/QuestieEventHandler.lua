@@ -56,9 +56,12 @@ function QuestieEventHandler:RegisterLateEvents()
 
     -- Miscellaneous Events
     Questie:RegisterEvent("MAP_EXPLORATION_UPDATED", _EventHandler.MapExplorationUpdated)
-    Questie:RegisterEvent("MODIFIER_STATE_CHANGED", _EventHandler.ModifierStateChanged)
+    Questie:RegisterEvent("MODIFIER_STATE_CHANGED", function(...)
+        _EventHandler.ModifierStateChanged(...)
+    end)
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
         QuestieTracker:CheckDurabilityAlertStatus()
+        QuestieTracker:UpdateVoiceOverFrame()
     end)
 
     -- Events to update a players professions and reputations
@@ -305,23 +308,51 @@ function _EventHandler:PlayerLevelUp(level)
 end
 
 --- Fires when a modifier key changed
-function _EventHandler:ModifierStateChanged()
-    if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
-        GameTooltip:Hide()
-        GameTooltip:ClearLines()
-        GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
-        GameTooltip:_Rebuild() -- rebuild the tooltip
-        GameTooltip:SetFrameStrata("TOOLTIP")
-        GameTooltip:Show()
-    end
+function _EventHandler:ModifierStateChanged(key, down)
+    if key == "LSHIFT" or key == "RSHIFT" then
+        -- Unless the Shift Key is down, don't run this code. We've recieved reports that our tooltips
+        -- are apperearing when using the Shift Modifier for other areas of the UI and other addons.
+        -- Since we're hooking into Blizzards GameTooltip, it's possible that certain edge cases would
+        -- cause our Tooltips to appear instead and since the mouse isn't over "our" frame, it's not
+        -- getting reset properly and getting stuck to the Mouse Cursor.
 
-    if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
-        GameTooltip:Hide()
-        GameTooltip:ClearLines()
-        GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
-        GameTooltip._SizerToolTip()
-        GameTooltip:SetFrameStrata("TOOLTIP")
-        GameTooltip:Show()
+        -- Questie Map Icons
+        if MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or MouseIsOver(Minimap) then
+            if down == 1 then
+                if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
+                    GameTooltip:Hide()
+                    GameTooltip:ClearLines()
+                    GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
+                    GameTooltip:_Rebuild() -- rebuild the tooltip
+                    GameTooltip:SetFrameStrata("TOOLTIP")
+                    GameTooltip:Show()
+                end
+            else
+                if GameTooltip:IsShown() then
+                    GameTooltip:Hide()
+                    GameTooltip._Rebuild = nil
+                end
+            end
+        end
+
+        -- Questie Tracker Sizer
+        if MouseIsOver(Questie_BaseFrame.sizer) then
+            if down == 1 then
+                if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
+                    GameTooltip:Hide()
+                    GameTooltip:ClearLines()
+                    GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
+                    GameTooltip._SizerToolTip()
+                    GameTooltip:SetFrameStrata("TOOLTIP")
+                    GameTooltip:Show()
+                end
+            else
+                if GameTooltip:IsShown() then
+                    GameTooltip:Hide()
+                    GameTooltip._SizerToolTip = nil
+                end
+            end
+        end
     end
 
     if Questie.db.global.trackerLocked then
