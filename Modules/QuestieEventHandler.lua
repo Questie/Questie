@@ -61,7 +61,6 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
         QuestieTracker:CheckDurabilityAlertStatus()
-        QuestieTracker:UpdateVoiceOverFrame()
     end)
 
     -- Events to update a players professions and reputations
