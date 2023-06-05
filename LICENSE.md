@@ -14,7 +14,11 @@ The libraries in the `Libs` directory are third-party-software and their individ
 
 ## Other licensing
 
-If any subdirectory contains a `LICENSE.md` file it takes priority for the licensing of files in that directory.
+The priority of licensing information is as follows:
+
+1. License information inside an individual file
+2. LICENSE.md file inside a subdirectory
+3. This LICENSE.md file in the root directory
 
 ## Questie's licensing
 
