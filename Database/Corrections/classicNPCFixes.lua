@@ -918,6 +918,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.TANARIS]={{37.6,81.4}}},
             [npcKeys.zoneID] = zoneIDs.TANARIS,
         },
+        [7937] = {
+            [npcKeys.waypoints] = {}, -- the waypoints in the wotlkDB file are valid only during BREWFEST event
+        },
         [7952] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
