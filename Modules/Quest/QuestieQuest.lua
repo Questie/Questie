@@ -721,12 +721,14 @@ function QuestieQuest:AddFinisher(quest)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding finisher for quest", questId)
 
     if (QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1 or quest:IsComplete() == 0) and (not Questie.db.char.complete[questId])) then
-        local finisher
+        local finisher, key
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
                 finisher = QuestieDB:GetNPC(quest.Finisher.Id)
+                key = "m_" .. quest.Finisher.Id
             elseif quest.Finisher.Type == "object" then
                 finisher = QuestieDB:GetObject(quest.Finisher.Id)
+                key = "o_" .. quest.Finisher.Id
             else
                 Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Unhandled finisher type:", quest.Finisher.Type, questId, quest.name)
             end
@@ -734,7 +736,14 @@ function QuestieQuest:AddFinisher(quest)
             Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
         end
         if (finisher ~= nil and finisher.spawns ~= nil) then
-            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
+            -- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
+            -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
+            -- registered this NPC/Object so, the appropiate tooltip lines are already present. If an NPC/Object
+            -- isn't startedBy and finishedBy the same ID or the entry is not already present, then create it.
+
+            if quest.startedBy ~= quest.finishedBy or (not QuestieTooltips.lookupByKey[key]) then
+                QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
+            end
 
             local finisherIcons = {}
             local finisherLocs = {}
