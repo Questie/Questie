@@ -29,6 +29,12 @@ function QuestieObjectFixes:Load()
         [334] = {
             [objectKeys.spawns] = {[zoneIDs.WETLANDS]={{32.2,50.8},{32.3,48.4},{32.3,48.6},{32.7,51},{33.2,46.4},{33.3,49},{33.4,47.4},{33.4,47.6},{33.4,51.5},{33.8,48.6},{33.9,46.6},{34.1,49.7},{34.2,47.6},{34.2,50.8},{34.3,45.7},{34.4,44.4},{34.4,44.5},{34.7,52.5},{34.8,50.3},{34.9,47},{35,47.9},{35.1,51.5},{35.2,44.3},{35.2,44.5},{35.2,48.9},{35.2,51.4},{35.4,46.3},{35.5,45},{35.5,46},{35.6,47.9},{36.1,48.8},{36.1,50},{36.4,42.1},{36.6,42.2}}},
         },
+        [1738] = {
+            [objectKeys.questStarts] = {510,511},
+        },
+        [1739] = {
+            [objectKeys.questStarts] = {510,511},
+        },
         [2560] = {
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{36.26,70.56},{39.73,77.42},{37.41,64.5},{33.79,77.68},{36.11,80.47},{36.56,77.09},{34.29,73.78}}},
         },
@@ -219,7 +225,7 @@ function QuestieObjectFixes:Load()
         },
         [187260] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
-        }, 
+        },
         [188123] = {
             [objectKeys.spawns] = {}, -- Mailbox possibly added in TBC/BC. Not there in Classic
         },
