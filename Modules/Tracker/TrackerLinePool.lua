@@ -1076,14 +1076,13 @@ TrackerLinePool.OnClickAchieve = function(self, button)
 end
 
 TrackerLinePool.OnHighlightEnter = function(self)
-    if (self.mode == "quest" or self:GetParent().mode == "quest") or self.mode == "achieve" or self.mode == "objective" or self.mode == "zone" or self:GetParent().mode == "zone" then
-        local highestIndex = TrackerLinePool.GetHighestIndex()
-        for i = 1, highestIndex do
-            local line = linePool[i]
-            line:SetAlpha(0.5)
-            if line.Quest == self.Quest or (self:GetParent().mode == "quest" and line.Quest == self:GetParent().Quest) or line.mode == "zone" then
-                line:SetAlpha(1)
-            end
+    local highestIndex = TrackerLinePool.GetHighestIndex()
+    for i = 1, highestIndex do
+        local line = linePool[i]
+        line:SetAlpha(0.5)
+
+        if (line.Quest ~= nil and line.Quest == self.Quest) or (line.expandZone ~= nil and self:GetParent().expandZone ~= nil and line.expandZone.zoneId == self:GetParent().expandZone.zoneId) then
+            line:SetAlpha(1)
         end
     end
 end
