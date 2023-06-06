@@ -704,6 +704,9 @@ function QuestieQuestFixes:Load()
         [1260] = {
             [questKeys.exclusiveTo] = {1204},
         },
+        [1264] = {
+            [questKeys.preQuestSingle] = {1250}, -- wotlkDB is wrong
+        },
         [1265] = {
             [questKeys.triggerEnd] = {"Sentry Point explored",{[zoneIDs.DUSTWALLOW_MARSH]={{59.92,40.9}}}},
         },
