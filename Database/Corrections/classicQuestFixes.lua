@@ -693,7 +693,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Help Stinky find Bogbean Leaves", {[zoneIDs.DUSTWALLOW_MARSH]={{48.87,24.58}}}},
         },
         [1249] = {
-            [questKeys.triggerEnd] = {"Defeat Tapoke Jahn", {[zoneIDs.WETLANDS]={{10.87,59.35}}}},
+            [questKeys.objectives] = {{{4962,"Defeat Tapoke Jahn"}}},
         },
         [1252] = {
             [questKeys.preQuestSingle] = {1302,1282}, -- #1845
