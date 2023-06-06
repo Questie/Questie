@@ -9,6 +9,8 @@ local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerFadeTicker
 local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 --Import Questie modules.
 -------------------------
@@ -30,7 +32,7 @@ local headerFrame, trackerBaseFrame
 
 function TrackerHeaderFrame.Initialize(baseFrame)
     trackerBaseFrame = baseFrame
-    headerFrame = CreateFrame("Button", nil, trackerBaseFrame)
+    headerFrame = CreateFrame("Button", "Questie_HeaderFrame", trackerBaseFrame)
 
     TrackerHeaderFrame.PositionTrackerHeaderFrame()
 
@@ -106,6 +108,17 @@ function TrackerHeaderFrame.Initialize(baseFrame)
         GameTooltip:AddLine(" ")
         GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Drag while Unlocked"))
         GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Drag while Locked"))
+        GameTooltip:AddLine(" ")
+        GameTooltip:AddLine(Questie:Colorize(l10n("Questie Tracker Integrations") .. ": ", "gray"))
+
+        if TrackerUtils:IsVoiceOverLoaded() then
+            GameTooltip:AddLine(Questie:Colorize(l10n("VoiceOver") .. ": ", "white") .. l10n("Hold shift to see PlayButtons"))
+        end
+
+        if TomTom and IsAddOnLoaded("TomTom") then
+            GameTooltip:AddLine(Questie:Colorize(l10n("TomTom") .. ": ", "white") .. l10n("Ctrl + Left Click or Right Click a Quest Title"))
+        end
+
         GameTooltip:Show()
 
         TrackerFadeTicker.Unfade(self)
