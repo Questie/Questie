@@ -300,6 +300,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},
         },
+        [11137] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11140] = {
             [questKeys.requiredSourceItems] = {33040,33044},
         },
