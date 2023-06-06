@@ -1183,6 +1183,9 @@ function QuestieQuestFixes:Load()
         [2926] = {
             [questKeys.preQuestSingle] = {}, -- #2389
         },
+        [2927] = {
+            [questKeys.nextQuestInChain] = 2926,
+        },
         [2931] = {
             [questKeys.exclusiveTo] = {2930},
         },
