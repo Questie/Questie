@@ -742,7 +742,8 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {}, -- #889
         },
         [1324] = {
-            [questKeys.triggerEnd] = {"Subdue Private Hendel", {[zoneIDs.DUSTWALLOW_MARSH]={{45.21,24.49}}}},
+            [questKeys.objectives] = {{{4966,"Subdue Private Hendel"}}},
+            [questKeys.nextQuestInChain] = 1267, -- wotlkDB is wrong, classicGB is right
         },
         [1339] = {
             [questKeys.exclusiveTo] = {1338}, -- mountaineer stormpike's task cant be done if you have finished stormpike's order
