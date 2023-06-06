@@ -800,7 +800,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 1654,
         },
         [1447] = {
-            [questKeys.triggerEnd] = {"Defeat Dashel Stonefist", {[zoneIDs.STORMWIND_CITY]={{70.1,44.85}}}},
+            [questKeys.objectives] = {{{4961,"Defeat Dashel Stonefist"}}},
         },
         [1470] = {
             [questKeys.exclusiveTo] = {1485}, -- #999
