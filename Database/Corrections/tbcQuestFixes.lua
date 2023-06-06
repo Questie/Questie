@@ -78,6 +78,12 @@ function QuestieTBCQuestFixes:Load()
         [504] = {
             [questKeys.objectivesText] = {"Slay 10 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
         },
+        [510] = {
+            [questKeys.startedBy] = {nil,{1740,186420},nil}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
+        },
+        [511] = {
+            [questKeys.startedBy] = {nil,{1740,186420},nil}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
+        },
         [558] = {
             [questKeys.questLevel] = -1,
         },
