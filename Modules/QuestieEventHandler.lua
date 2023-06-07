@@ -63,6 +63,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
         QuestieTracker:CheckDurabilityAlertStatus()
+        QuestieTracker:UpdateVoiceOverFrame()
     end)
 
     -- Events to update a players professions and reputations
@@ -356,7 +357,7 @@ function _EventHandler:ModifierStateChanged(key, down)
         end
     end
 
-    -- Show/Hide the AI_VoiceOver PlayButtons
+    -- AI_VoiceOver PlayButtons
     TrackerUtils:ShowVoiceOverPlayButtons()
 
     if Questie.db.global.trackerLocked then
