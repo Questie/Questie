@@ -346,9 +346,7 @@ function _QuestEventHandler:QuestLogUpdate()
         doFullQuestLogScan = false
         -- Function call updates doFullQuestLogScan. Order matters.
         _QuestEventHandler:UpdateAllQuests()
-    end
-
-    if Questie.db.global.alwaysShowTracker and GetNumQuestLogEntries() == 0 then
+    else
         QuestieCombatQueue:Queue(function()
             QuestieTracker:Update()
         end)
