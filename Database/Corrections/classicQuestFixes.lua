@@ -80,6 +80,9 @@ function QuestieQuestFixes:Load()
         [46] = {
             [questKeys.preQuestSingle] = {39},
         },
+        [75] = {
+            [questKeys.specialFlags] = 0, -- wotlkDB wrong
+        },
         [90] = {
             [questKeys.requiredSkill] = {185, 50},
         },
