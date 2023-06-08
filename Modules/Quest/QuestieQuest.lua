@@ -741,9 +741,12 @@ function QuestieQuest:AddFinisher(quest)
             -- registered this NPC/Object so, the appropiate tooltip lines are already present. If an NPC/Object
             -- isn't startedBy and finishedBy the same ID or the entry is not already present, then create it.
 
-            if quest.startedBy ~= quest.finishedBy or (not QuestieTooltips.lookupByKey[key]) then
-                QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
+            -- Clear the key if it exsists
+            if QuestieTooltips.lookupByKey[key] then
+                QuestieTooltips.lookupByKey[key] = {}
             end
+
+            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
 
             local finisherIcons = {}
             local finisherLocs = {}
