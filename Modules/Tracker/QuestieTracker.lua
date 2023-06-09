@@ -2069,7 +2069,9 @@ function QuestieTracker:UpdateAchieveTrackerCache(achieveId)
                     trackedAchievementIds[achieveId] = Questie.db.char.trackedAchievementIds[achieveId]
 
                     QuestieCombatQueue:Queue(function()
-                        QuestieTracker:Update()
+                        C_Timer.After(0.1, function()
+                            QuestieTracker:Update()
+                        end)
                     end)
                 else
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UpdateAchieveTrackerCache] - No Change Detected!")

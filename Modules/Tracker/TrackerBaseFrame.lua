@@ -256,7 +256,6 @@ function TrackerBaseFrame:Update()
 
         local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
-
         if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.global.autoMoveHeader then
             -- Move Sizer to Top Right corner
             sizer:ClearAllPoints()
