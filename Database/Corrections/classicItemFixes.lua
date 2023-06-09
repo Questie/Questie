@@ -344,6 +344,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
         },
+        [5233] = {
+            [itemKeys.npcDrops] = {1020,1021,1022,1023}, -- wotlkDB is wrong
+        },
         [5251] = {
             [itemKeys.questRewards] = {960,961},
         },
