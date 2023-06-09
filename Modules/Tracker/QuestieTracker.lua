@@ -661,7 +661,7 @@ function QuestieTracker:Update()
 
                 -- Adds the primary Quest Item button
                 -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                if (complete ~= 1 and (quest.sourceItemId and GetItemSpell(quest.sourceItemId) ~= nil) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and GetItemSpell(quest.requiredSourceItems[1]) ~= nil)) then
+                if (complete ~= 1 and (quest.sourceItemId and (GetItemSpell(quest.sourceItemId) ~= nil or IsEquippableItem(quest.sourceItemId) ~= nil)) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and (GetItemSpell(quest.requiredSourceItems[1]) ~= nil or IsEquippableItem(quest.requiredSourceItems[1]) ~= nil))) then
                     -- Get button from buttonPool
                     local button = TrackerLinePool.GetNextItemButton()
                     if not button then break end -- stop populating the tracker
@@ -732,7 +732,7 @@ function QuestieTracker:Update()
                         -- Make sure it's a "secondary" button and if a quest item is "usable".
                         for _, itemId in pairs(quest.requiredSourceItems) do
                             -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                            if itemId and itemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and (GetItemSpell(itemId) ~= nil) then
+                            if itemId and itemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and (GetItemSpell(itemId) ~= nil or IsEquippableItem(itemId) ~= nil) then
                                 -- Get button from buttonPool
                                 local altButton = TrackerLinePool.GetNextItemButton()
                                 if not altButton then break end -- stop populating the tracker
