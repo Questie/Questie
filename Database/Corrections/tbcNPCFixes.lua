@@ -13,6 +13,9 @@ function QuestieTBCNpcFixes:Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [331] = {
+            [npcKeys.questStarts] = {8250,64038},
+        },
         [2552] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{32.04,46.29},{35.61,49.41},{37.5,40.95},{35.1,46.16}}},
         },
@@ -213,7 +216,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
         },
         [17206] = {
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}}, 
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}},
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
         },
         [17214] = {

@@ -25,6 +25,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.DUSKWOOD,
             [npcKeys.spawns] = {[zoneIDs.DUSKWOOD] = {{28.82,30.91}}},
         },
+        [331] = {
+            [npcKeys.questStarts] = {8250},
+        },
         [384] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
@@ -327,6 +330,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.RAZORFEN_KRAUL,
             [npcKeys.spawns] = {[zoneIDs.RAZORFEN_KRAUL] = {{-1,-1}}},
         },
+        [3039] = {
+            [npcKeys.questStarts] = {8151},
+        },
         [3111] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{43.2,50.6},{43.4,50.2},{44.2,49.4},{44.4,49.8},{44.6,48.8},{44.6,50.2},{46.4,48.8},{47.2,47.4},{47.4,48},{47.4,48.6},{47.4,49.6},{47.6,48},{47.6,48.6},{47.8,47.4},{49.2,48.4},{49.4,49.2},{49.6,48},{49.6,49.2},{50.2,49.6},{50.2,50.6},{50.8,48.8},{51,48.2}}},
         },
@@ -352,6 +358,9 @@ function QuestieNPCFixes:Load()
         },
         [3257] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BARRENS]={{59.8,30.6}}},
+        },
+        [3352] = {
+            [npcKeys.questStarts] = {8151},
         },
         [3362] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
@@ -493,6 +502,9 @@ function QuestieNPCFixes:Load()
         },
         [4132] = {
             [npcKeys.spawns] = {[zoneIDs.THOUSAND_NEEDLES]={{70.03,86.22},{68.38,82.32},{67.26,86.1}}},
+        },
+        [4163] = {
+            [npcKeys.questStarts] = {2242,8233},
         },
         [4263] = {
             [npcKeys.zoneID] = zoneIDs.STONETALON_MOUNTAINS,
@@ -649,6 +661,12 @@ function QuestieNPCFixes:Load()
         },
         [5082] = {
             [npcKeys.spawns] = {[zoneIDs.WETLANDS]={{10.8,60.4}}},
+        },
+        [5149] = {
+            [npcKeys.questStarts] = {2999,3681,4486,7670,8415},
+        },
+        [5165] = {
+            [npcKeys.questStarts] = {2238,2298,8233},
         },
         [5299] = {
             [npcKeys.spawns] = {[zoneIDs.FERALAS]={{53,32}}},
@@ -827,6 +845,12 @@ function QuestieNPCFixes:Load()
         [7286] = {
             [npcKeys.zoneID] = zoneIDs.ZUL_FARRAK,
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1}}},
+        },
+        [7311] = {
+            [npcKeys.questStarts] = {1883,1953,1959,7068,8250},
+        },
+        [7312] = {
+            [npcKeys.questStarts] = {1919,8250},
         },
         [7319] = {
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{39.4,25.4},{39.4,25.6},{39.6,25.4},{39.6,25.6},{41,25.6},{41.4,25.2},{42,25.4},{42,25.6},{46.2,24.4},{47.8,26.6},{48,25.2},{48,25.6},{48.6,24.6}}},
