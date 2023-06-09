@@ -215,17 +215,17 @@ local trackerOptionsLocales = {
         ["esES"] = "Habilitar encabezado",
         ["frFR"] = "Activer l'en-tête",
     },
-    ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown."] = {
-        ["ptBR"] = "Quando isso estiver marcado, o Cabeçalho do Rastreador de Missões ficará visível e o número total de missões que você possui no seu registro será mostrado.",
-        ["ruRU"] = "Показать/скрыть заголовок 'Активные задания'. В нем показано текущее количество заданий в вашем журнале заданий",
-        ["deDE"] = "Wenn dies aktiviert ist, wird der 'Aktive Quests'-Header, sowie die Gesamtzahl der Quests im Questlog angezeigt.",
-        ["koKR"] = "이 옵션을 선택하면 Questie 추적기 헤더가 표시되고 로그에있는 총 퀘스트 수가 표시됩니다.",
-        ["esMX"] = "Cuando esto esté marcado, el Encabezado del Rastreador de Questie se hará visible y se mostrará el número total de misiones que tienes en tu registro",
+    ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.\n\nNOTE: When this is disabled, the Questie Icon will fade in while your mouse is over the Tracker."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = "选中后，“ Questie 追踪标题”将变为可见，并且将显示您在日志中拥有的任务总数。",
-        ["zhTW"] = "顯示Questie標題列並包含目前的任務總數",
-        ["esES"] = "Cuando esto esté marcado, el Encabezado del Rastreador de Questie se hará visible y se mostrará el número total de misiones que tienes en tu registro",
-        ["frFR"] = "Active l'affichage de l'en-tête du suivi des quêtes. Le nombre total de quêtes que vous avez dans votre journal y sera affiché.",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
     ---------------------------------------------------------
     ["Auto Move Active Quests Header"] = {

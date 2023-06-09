@@ -141,7 +141,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 order = 1.9,
                 width = 1.5,
                 name = function() return l10n("Enable Active Quests Header") end,
-                desc = function() return l10n("When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.") end,
+                desc = function() return l10n("When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.\n\nNOTE: When this is disabled, the Questie Icon will fade in while your mouse is over the Tracker.") end,
                 disabled = function() return not Questie.db.char.trackerEnabled or Questie.db.global.alwaysShowTracker end,
                 get = function() return Questie.db.global.trackerHeaderEnabled end,
                 set = function(_, value)
