@@ -115,7 +115,7 @@ function QuestieTracker.Initialize()
 
     -- Initialize tracker functions
     TrackerLinePool.Initialize(trackerQuestFrame)
-    TrackerFadeTicker.Initialize(trackerBaseFrame)
+    TrackerFadeTicker.Initialize(trackerBaseFrame, trackerHeaderFrame)
     QuestieTracker.started = true
 
     -- Initialize hooks
