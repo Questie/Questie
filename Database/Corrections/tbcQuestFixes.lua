@@ -497,9 +497,6 @@ function QuestieTBCQuestFixes:Load()
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
         },
-        [8151] = {
-            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
-        },
         [8259] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
