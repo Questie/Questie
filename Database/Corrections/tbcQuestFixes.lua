@@ -1871,6 +1871,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber"), 0, {{"object", 184701}}}},
         },
         [10518] = {
+            [questKeys.requiredSourceItems] = {30416},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bladespire Banner atop the Northmaul Tower"), 0, {{"object", 184704}}}},
         },
         [10519] = {
