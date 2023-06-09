@@ -12,10 +12,11 @@ local fadeTicker
 local fadeTickerDirection
 local fadeTickerValue = 0
 local fadeTickerStarted = false
-local trackerBaseFrame
+local trackerBaseFrame, trackerHeaderFrame
 
-function TrackerFadeTicker.Initialize(baseFrame)
+function TrackerFadeTicker.Initialize(baseFrame, headerFrame)
     trackerBaseFrame = baseFrame
+    trackerHeaderFrame = headerFrame
     fadeTickerStarted = true
     TrackerFadeTicker.Start()
 end
@@ -34,6 +35,11 @@ function TrackerFadeTicker.Start()
                         if Questie.db.global.trackerBorderEnabled then
                             trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue * 3.3))
                         end
+                    end
+
+                    -- Un-fade the Questie Icon
+                    if (Questie.db.char.isTrackerExpanded and not Questie.db.global.trackerHeaderEnabled) then
+                        trackerHeaderFrame.questieIcon:SetAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Un-fade the re-sizer
@@ -71,6 +77,11 @@ function TrackerFadeTicker.Start()
                         if Questie.db.global.trackerBorderEnabled then
                             trackerBaseFrame:SetBackdropBorderColor(1, 1, 1, math.min(Questie.db.global.trackerBackdropAlpha, fadeTickerValue * 3.3))
                         end
+                    end
+
+                    -- Fade the Questie Icon
+                    if (Questie.db.char.isTrackerExpanded and not Questie.db.global.trackerHeaderEnabled) then
+                        trackerHeaderFrame.questieIcon:SetAlpha(fadeTickerValue * 3.3)
                     end
 
                     -- Fade the re-sizer
