@@ -18,7 +18,7 @@ QuestieOptions.tabs = { ... }
 QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
-AceConfigDialog = LibStub("AceConfigDialog-3.0")
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 -- Forward declaration
 local _CreateOptionsTable
