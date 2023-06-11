@@ -1171,19 +1171,6 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     end
 end
 
-
----@param quest Quest
-local function _CallPopulateObjective(quest)
-    for objectiveIndex, questObjective in pairs(quest.Objectives) do
-        local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, questObjective, false);
-        if not result then
-            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
-            local version = "v" .. (major or "") .. "." .. (minor or "") .. "." .. (patch or ""); --Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", objectiveIndex or "No objective", err or "No error"));
-        end
-    end
-end
-
 local function _AddSourceItemObjective(quest)
     if quest.sourceItemId then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
@@ -1218,7 +1205,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
 
         _AddSourceItemObjective(quest)
-        _CallPopulateObjective(quest)
+        QuestieQuest:UpdateObjectiveNotes(quest)
         QuestieQuest:AddFinisher(quest)
         return
     end
@@ -1229,21 +1216,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Populating objectives for:", quest.Id)
 
-    _CallPopulateObjective(quest)
     _AddSourceItemObjective(quest)
-
-    -- check for special (unlisted) DB objectives
-    if next(quest.SpecialObjectives) then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Adding special objectives")
-        local index = 0 -- SpecialObjectives is a string table, but we need a number
-        for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, index, objective, true)
-            if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
-            end
-            index = index + 1
-        end
-    end
+    QuestieQuest:UpdateObjectiveNotes(quest)
 end
 
 ---@param quest Quest
