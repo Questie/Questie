@@ -880,7 +880,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
-    if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+    if (not objective.spawnList) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
         objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
     end
 
@@ -978,7 +978,6 @@ _UnloadAlreadySpawnedIcons = function(objective)
             end
         end
         objective.AlreadySpawned = {}
-        objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
     end
 end
 
@@ -1323,7 +1322,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                 specialObjective.Update = NOP_FUNCTION
             end
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
-            specialObjective.spawnList = specialObjective.spawnList or {}
             specialObjective.AlreadySpawned = specialObjective.AlreadySpawned or {}
         end
     end
