@@ -700,7 +700,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
         end
     end
 
-    if quest and next(quest.SpecialObjectives) then
+    if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
             if not result then
