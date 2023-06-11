@@ -880,7 +880,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
-    if (not objective.spawnList) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+    if (not objective.spawnList or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
         objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
     end
 
