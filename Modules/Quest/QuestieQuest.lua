@@ -72,7 +72,7 @@ end
 
 -- forward declaration
 local _UnloadAlreadySpawnedIcons
-local _RegisterObjectiveTooltips, _RegisterAllObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
+local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
@@ -929,13 +929,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
         local iconsToDraw, _ = _DetermineIconsToDraw(quest, objective, objectiveIndex, objectiveCenter)
         local icon, iconPerZone = _DrawObjectiveIcons(quest.Id, iconsToDraw, objective, maxPerType)
         _DrawObjectiveWaypoints(objective, icon, iconPerZone)
-    end
-end
-
----@param quest Quest
-_RegisterAllObjectiveTooltips = function(quest)
-    for _, objective in pairs(quest.Objectives) do
-        _RegisterObjectiveTooltips(objective, quest.Id, false)
     end
 end
 
