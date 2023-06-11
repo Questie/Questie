@@ -1312,7 +1312,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             end
 
             specialObjective.questId = quest.Id
-            if specialObjective.RealObjectiveIndex then
+            if specialObjective.RealObjectiveIndex and quest.Objectives[specialObjective.RealObjectiveIndex] then
                 -- This specialObjective is an extraObjective and has a RealObjectiveIndex set
                 specialObjective.Completed = quest.Objectives[specialObjective.RealObjectiveIndex].Completed
                 specialObjective.Update = function(self)
