@@ -1196,7 +1196,22 @@ local function _AddSourceItemObjective(quest)
     if quest.sourceItemId then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
 
+        -- Save the itemObjective table from the quests objectives table
+        local objectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[3]
+
+        -- Look for an itemObjective Id that matches sourceItemId - if found exit
+        if objectives then
+            for _, itemObjectiveIndex in pairs(objectives) do
+                for _, itemObjectiveId in pairs(itemObjectiveIndex) do
+                    if itemObjectiveId == quest.sourceItemId then
+                        return
+                    end
+                end
+            end
+        end
+
         local item = QuestieDB.QueryItemSingle(quest.sourceItemId, "name") --local item = QuestieDB:GetItem(quest.sourceItemId);
+
         if item then
             -- We fake an objective for the sourceItems because this allows us
             -- to simply reuse "QuestieTooltips:GetTooltip".
@@ -1225,8 +1240,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     if quest:IsComplete() == 1 then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
 
-        _AddSourceItemObjective(quest)
         _CallPopulateObjective(quest)
+        _AddSourceItemObjective(quest)
         QuestieQuest:AddFinisher(quest)
         return
     end
