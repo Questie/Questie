@@ -933,6 +933,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             QO.SpecialObjectives[index] = {
                 Icon = o[2],
                 Description = o[3],
+                RealObjectiveIndex = o[4],
             }
             if o[1] then -- custom spawn
                 QO.SpecialObjectives[index].spawnList = {{
