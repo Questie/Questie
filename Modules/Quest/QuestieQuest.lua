@@ -1313,10 +1313,18 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             end
 
             specialObjective.questId = quest.Id
-            specialObjective.Update = NOP_FUNCTION
+            if specialObjective.RealObjectiveIndex then
+                -- This specialObjective is an extraObjective and has a RealObjectiveIndex set
+                specialObjective.Completed = quest.Objectives[specialObjective.RealObjectiveIndex].Completed
+                specialObjective.Update = function(self)
+                    self.Completed = quest.Objectives[self.RealObjectiveIndex].Completed
+                end
+            else
+                specialObjective.Update = NOP_FUNCTION
+            end
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
             specialObjective.spawnList = specialObjective.spawnList or {}
-            specialObjective.AlreadySpawned = {}
+            specialObjective.AlreadySpawned = specialObjective.AlreadySpawned or {}
         end
     end
     return true
