@@ -158,7 +158,7 @@ local easternKingdomsLocales = {
         ["zhTW"] = "燃燒平原",
         ["zhCN"] = "燃烧平原",
     },
-    ["Tirisfal Glade"] = {
+    ["Tirisfal Glades"] = {
         ["ptBR"] = "Clareiras de Tirisfal",
         ["ruRU"] = "Тирисфальские леса",
         ["deDE"] = "Tirisfal",
