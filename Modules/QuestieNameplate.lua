@@ -229,6 +229,9 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
         strata = "LOW"
     elseif PitBull4_Frames_Target then
         targetFrame = PitBull4_Frames_Target
+    elseif AzeriteUnitFrameTarget then
+        targetFrame = AzeriteUnitFrameTarget
+        strata = "LOW"
     elseif SUFUnittarget then
         targetFrame = SUFUnittarget
         frame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)
