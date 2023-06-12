@@ -43,7 +43,7 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 -- Local Vars
 local trackerLineWidth = 0
 local trackerMinLineWidth = 280
-local trackerMarginRight = 20
+local trackerMarginRight = 30
 local trackerMarginLeft = 10
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
@@ -1716,10 +1716,10 @@ function QuestieTracker:UpdateHeight(trackerVarsCombined)
         -- Resize the questFrame to match the baseFrame after the trackerHeightCheck is applied
         if Questie.db.global.trackerHeaderEnabled then
             -- With Header Frame
-            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 20)
+            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 16)
         else
             -- Without Header Frame
-            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
+            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 16)
         end
     else
         trackerBaseFrame:SetHeight(trackerHeaderFrameHeight)
