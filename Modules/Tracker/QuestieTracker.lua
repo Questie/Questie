@@ -49,6 +49,12 @@ local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
 local lastAchieveId = GetTime()
 local durabilityInitialPosition = { DurabilityFrame:GetPoint() }
+
+local voiceOverInitialPosition
+if VoiceOverFrame then
+    voiceOverInitialPosition = { VoiceOverFrame:GetPoint() }
+end
+
 local questsWatched = GetNumQuestWatches()
 
 local trackedAchievements
@@ -121,6 +127,7 @@ function QuestieTracker.Initialize()
         -- Hide frames during startup
         if QuestieTracker.alreadyHooked then
             DurabilityFrame:Hide()
+            if TrackerUtils:IsVoiceOverLoaded() then VoiceOverFrame:Hide() end
         end
 
         -- Flip some Dugi Guides options to prevent weird behavior
@@ -335,6 +342,77 @@ function QuestieTracker:CheckDurabilityAlertStatus()
     end
 end
 
+function QuestieTracker:ResetVoiceOverFrame()
+    if voiceOverInitialPosition then
+        if voiceOverInitialPosition ~= { VoiceOverFrame:GetPoint() } then
+            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ResetVoiceOverFrame]")
+            else
+                Questie:Debug(Questie.DEBUG_INFO, "[TrackerUtils:ResetVoiceOverFrame]")
+            end
+
+            VoiceOverFrame:ClearAllPoints()
+            VoiceOverFrame:SetPoint(unpack(voiceOverInitialPosition))
+
+            if VoiceOverFrame:IsShown() then
+                VoiceOverFrame:Hide()
+            end
+        end
+    end
+end
+
+function QuestieTracker:UpdateVoiceOverFrame()
+    if TrackerUtils:IsVoiceOverLoaded() then
+        -- screen width accounting for scale
+        local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
+        -- middle of the frame, first return is x value, second return is the y value
+        local trackerFrameX = trackerBaseFrame:GetCenter()
+
+        if QuestieTracker.started and Questie.db.char.trackerEnabled then
+            if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
+                VoiceOverFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
+                VoiceOverFrame:SetFrameStrata("MEDIUM")
+                VoiceOverFrame:SetFrameLevel(0)
+
+                local verticalOffSet
+
+                if DurabilityFrame:IsVisible() then
+                    verticalOffSet = -125
+                else
+                    verticalOffSet = -7
+                end
+
+                if trackerFrameX <= (screenWidth / 2) then
+                    VoiceOverFrame:ClearAllPoints()
+                    VoiceOverFrame:SetPoint("TOPLEFT", trackerBaseFrame, "TOPRIGHT", 15, verticalOffSet)
+                else
+                    VoiceOverFrame:ClearAllPoints()
+                    VoiceOverFrame:SetPoint("TOPRIGHT", trackerBaseFrame, "TOPLEFT", -15, verticalOffSet)
+                end
+
+                VoiceOverFrame:SetWidth(500)
+                VoiceOverFrame:SetHeight(120)
+                VoiceOver.Addon.db.profile.SoundQueueUI.LockFrame = true
+                VoiceOver.SoundQueueUI:RefreshConfig()
+                VoiceOver.SoundQueueUI:UpdateSoundQueueDisplay()
+            else
+                if VoiceOverFrame:IsShown() then
+                    VoiceOverFrame:Hide()
+                    VoiceOver.SoundQueue:RemoveAllSoundsFromQueue()
+                end
+            end
+
+            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:UpdateVoiceOverFrame]")
+            else
+                Questie:Debug(Questie.DEBUG_INFO, "[TrackerUtils:UpdateVoiceOverFrame]")
+            end
+        else
+            QuestieTracker:ResetVoiceOverFrame()
+        end
+    end
+end
+
 -- If the player loots a "Quest Item" then this triggers a Tracker Update so the
 -- Quest Item Button can be switched on and appear in the tracker.
 ---@param text string
@@ -412,6 +490,7 @@ end
 function QuestieTracker:Disable()
     Questie.db.char.trackerEnabled = false
     QuestieTracker:CheckDurabilityAlertStatus()
+    QuestieTracker:UpdateVoiceOverFrame()
     Questie.db.char.TrackedQuests = {}
     Questie.db.char.AutoUntrackedQuests = {}
 
@@ -536,6 +615,7 @@ function QuestieTracker:Update()
                 line:SetZone(zoneName)
                 line.expandQuest:Hide()
                 line.criteriaMark:Hide()
+                line.playButton:Hide()
 
                 -- Setup Zone Label
                 line.label:ClearAllPoints()
@@ -658,6 +738,9 @@ function QuestieTracker:Update()
 
                 -- Adds 4 pixels between Quest Title and first Objective
                 line:SetHeight(line.label:GetHeight() + 4)
+
+                -- Adds the AI_VoiceOver Play Buttons
+                line.playButton:SetPlayButton(questId)
 
                 -- Adds the primary Quest Item button
                 -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
@@ -848,6 +931,7 @@ function QuestieTracker:Update()
                         line.expandZone:Hide()
                         line.expandQuest:Hide()
                         line.criteriaMark:Hide()
+                        line.playButton:Hide()
 
                         -- Setup Timer Label
                         line.label:ClearAllPoints()
@@ -918,6 +1002,7 @@ function QuestieTracker:Update()
                                 line.expandZone:Hide()
                                 line.expandQuest:Hide()
                                 line.criteriaMark:Hide()
+                                line.playButton:Hide()
 
                                 -- Setup Objective Label based on states.
                                 line.label:ClearAllPoints()
@@ -994,6 +1079,7 @@ function QuestieTracker:Update()
                         line.expandZone:Hide()
                         line.expandQuest:Hide()
                         line.criteriaMark:Hide()
+                        line.playButton:Hide()
 
                         -- Setup Objective Label
                         line.label:ClearAllPoints()
@@ -1097,6 +1183,7 @@ function QuestieTracker:Update()
                     line:SetZone(zoneName)
                     line.expandQuest:Hide()
                     line.criteriaMark:Hide()
+                    line.playButton:Hide()
 
                     -- Setup Zone Label
                     line.label:ClearAllPoints()
@@ -1169,6 +1256,7 @@ function QuestieTracker:Update()
                     line:SetObjective(nil)
                     line.expandZone:Hide()
                     line.criteriaMark:Hide()
+                    line.playButton:Hide()
 
                     -- Set Min/Max Button and default states
                     line.expandQuest:Show()
@@ -1234,6 +1322,7 @@ function QuestieTracker:Update()
                             line.expandZone:Hide()
                             line.expandQuest:Hide()
                             line.criteriaMark:Hide()
+                            line.playButton:Hide()
 
                             -- Setup Objective Label
                             line.label:ClearAllPoints()
@@ -1287,6 +1376,7 @@ function QuestieTracker:Update()
                                 line.expandZone:Hide()
                                 line.expandQuest:Hide()
                                 line.criteriaMark:Hide()
+                                line.playButton:Hide()
 
                                 -- Setup Objective Label
                                 line.label:ClearAllPoints()
@@ -1354,6 +1444,7 @@ function QuestieTracker:Update()
                                         line.expandZone:Hide()
                                         line.expandQuest:Hide()
                                         line.criteriaMark:Hide()
+                                        line.playButton:Hide()
 
                                         -- Set Objective Label
                                         line.label:ClearAllPoints()
@@ -1538,6 +1629,8 @@ function QuestieTracker:UpdateFormatting()
     else
         QuestieCompat.SetResizeBounds(trackerBaseFrame, (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30), Questie.db.global.trackerFontSizeZone + 22)
     end
+
+    TrackerUtils:UpdateVoiceOverPlayButtons()
 end
 
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
@@ -1976,7 +2069,9 @@ function QuestieTracker:UpdateAchieveTrackerCache(achieveId)
                     trackedAchievementIds[achieveId] = Questie.db.char.trackedAchievementIds[achieveId]
 
                     QuestieCombatQueue:Queue(function()
-                        QuestieTracker:Update()
+                        C_Timer.After(0.1, function()
+                            QuestieTracker:Update()
+                        end)
                     end)
                 else
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UpdateAchieveTrackerCache] - No Change Detected!")
