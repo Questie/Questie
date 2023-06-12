@@ -503,6 +503,32 @@ local trackerOptionsLocales = {
         ["frFR"] = false,
     },
     ---------------------------------------------------------
+    -- Wrath of the Lich King only
+    ["List Achievements First"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["When this is checked, the Questie Tracker will list Achievements first then Quests."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ---------------------------------------------------------
     ["Lock Tracker"] = {
         ["ptBR"] = "Bloqueado o rastreador",
         ["ruRU"] = "Заблокировать трекер",
