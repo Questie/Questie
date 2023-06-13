@@ -166,7 +166,7 @@ local trackerUILocales = {
     },
     ["Hold shift to see PlayButtons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Зажмите Shift? чтобы увидеть PlayButtons",
+        ["ruRU"] = "Зажмите Shift, чтобы увидеть PlayButtons",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
