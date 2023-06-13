@@ -338,20 +338,22 @@ function _EventHandler:ModifierStateChanged(key, down)
         end
 
         -- Questie Tracker Sizer
-        if MouseIsOver(Questie_BaseFrame.sizer) then
-            if down == 1 then
-                if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
-                    GameTooltip:Hide()
-                    GameTooltip:ClearLines()
-                    GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
-                    GameTooltip._SizerToolTip()
-                    GameTooltip:SetFrameStrata("TOOLTIP")
-                    GameTooltip:Show()
-                end
-            else
-                if GameTooltip:IsShown() then
-                    GameTooltip:Hide()
-                    GameTooltip._SizerToolTip = nil
+        if Questie_BaseFrame then
+            if MouseIsOver(Questie_BaseFrame.sizer) then
+                if down == 1 then
+                    if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
+                        GameTooltip:Hide()
+                        GameTooltip:ClearLines()
+                        GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
+                        GameTooltip._SizerToolTip()
+                        GameTooltip:SetFrameStrata("TOOLTIP")
+                        GameTooltip:Show()
+                    end
+                else
+                    if GameTooltip:IsShown() then
+                        GameTooltip:Hide()
+                        GameTooltip._SizerToolTip = nil
+                    end
                 end
             end
         end
