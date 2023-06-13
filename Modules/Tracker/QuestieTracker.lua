@@ -42,7 +42,7 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 
 -- Local Vars
 local trackerLineWidth = 0
-local trackerMinLineWidth = 280
+local trackerMinLineWidth = 260
 local trackerMarginRight = 30
 local trackerMarginLeft = 10
 local lastAQW = GetTime()
@@ -1035,16 +1035,29 @@ function QuestieTracker:Update()
                                         -- Set Blizzard Completion text for single objectives
                                         line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 
-                                        -- Set Blizzard Completion Label and Line widths
-                                        line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                                        line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                        -- If the line width is less than the minimum Tracker width then don't wrap text
+                                        if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
+                                            -- Check and measure Blizzard Completion text and update tracker width
+                                            QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
 
-                                        -- Blizzard Completion Text tends to be rather verbose. Allow text wrapping.
-                                        line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
-                                        line:SetHeight(line.label:GetHeight())
+                                            -- Set Blizzard Completion label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                            line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
-                                        -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
-                                        trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                            -- Compare current text label and the largest text label in the Tracker, then save the widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                        else
+                                            -- Set Blizzard Completion Label and Line widths
+                                            line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                            line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+
+                                            -- Blizzard Completion Text tends to be rather verbose. Allow text wrapping.
+                                            line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+                                            line:SetHeight(line.label:GetHeight())
+
+                                            -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                            trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                        end
 
                                         -- Update Quest has a check for this edge case. Should reset the Quest Icons and show the Quest Finisher
                                         QuestieQuest:UpdateQuest(quest.Id)
@@ -1092,16 +1105,29 @@ function QuestieTracker:Update()
                                 -- Set Blizzard Completion text for single objectives
                                 line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 
-                                -- Set Line and Label widths
-                                line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                                line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                -- If the line width is less than the minimum Tracker width then don't wrap text
+                                if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
+                                    -- Check and measure Blizzard Completion text and update tracker width
+                                    QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
 
-                                -- Allow text wrapping and set Line and Label heights.
-                                line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
-                                line:SetHeight(line.label:GetHeight())
+                                    -- Set Blizzard Completion label and Line widths
+                                    line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                    line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
-                                -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
-                                trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                    -- Compare current text label and the largest text label in the Tracker, then save the widest width
+                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                else
+                                    -- Set Blizzard Completion Label and Line widths
+                                    line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                    line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+
+                                    -- Blizzard Completion Text tends to be rather verbose. Allow text wrapping.
+                                    line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+                                    line:SetHeight(line.label:GetHeight())
+
+                                    -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                    trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                end
 
                                 -- Hide the Secondary Quest Item Button. There are some quests with usable items after a quest is completed I
                                 -- have yet to encounter a completed quest where both a Primary and Secondary "usable" Quest Item was needed.
@@ -1337,16 +1363,29 @@ function QuestieTracker:Update()
                                 local objDesc = achieve.Description:gsub("%.", "")
                                 line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 0, Needed = 1 }) .. objDesc)
 
-                                -- Set Label and Line widths
-                                line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                                line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                -- If the line width is less than the minimum Tracker width then don't wrap text
+                                if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
+                                    -- Check and measure Objective text width and update tracker width
+                                    QuestieTracker:UpdateWidth(line.label:GetUnboundedStringWidth() + objectiveMarginLeft + trackerMarginRight)
 
-                                -- TextWrap Objective and set height
-                                line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
-                                line:SetHeight(line.label:GetHeight())
+                                    -- Set Objective Label and Line widths
+                                    line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                    line:SetWidth(line.label:GetWidth() + objectiveMarginLeft)
 
-                                -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
-                                trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                    -- Compare largest text Label in the tracker with current Label, then save widest width
+                                    trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + objectiveMarginLeft)
+                                else
+                                    -- Set Label and Line widths
+                                    line.label:SetWidth(trackerBaseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
+                                    line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+
+                                    -- TextWrap Objective and set height
+                                    line.label:SetHeight(line.label:GetStringHeight() * line.label:GetNumLines())
+                                    line:SetHeight(line.label:GetHeight())
+
+                                    -- Compare trackerLineWidth, trackerMinLineWidth and the current label, then save the widest width
+                                    trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
+                                end
 
                                 -- Set Objective state
                                 line:Show()
@@ -1630,7 +1669,8 @@ function QuestieTracker:UpdateFormatting()
     TrackerHeaderFrame:Update()
 
     if TrackerLinePool.GetCurrentLine() and trackerLineWidth > 1 then
-        local trackerVarsCombined = TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth) + trackerMarginRight
+        local trackerVarsCombined = trackerLineWidth + trackerMarginRight
+        TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         QuestieTracker:UpdateWidth(trackerVarsCombined)
         QuestieTracker:UpdateHeight(trackerVarsCombined)
         TrackerQuestFrame:Update()

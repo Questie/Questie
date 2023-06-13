@@ -764,22 +764,13 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local questMarginLeft = (trackerMarginLeft + trackerMarginRight + 4) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
-    local trackerMinLineWidth = 280
 
-    ---Updates all the line.label widths in the linePool for wrapped text only
+    -- Updates all the line.label widths in the linePool for wrapped text only
     for _, line in pairs(linePool) do
         if Questie.db[Questie.db.global.questieTLoc].TrackerWidth == 0 then
             if line.mode == "objective" then
                 if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.global.trackerFontSizeObjective then
                     line.label:SetText(line.label:GetText())
-
-                    local lineWidth = line.label:GetWrappedWidth()
-
-                    if trackerLineWidth < trackerMinLineWidth and lineWidth < trackerMinLineWidth then
-                        trackerLineWidth = lineWidth
-                    else
-                        trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, lineWidth)
-                    end
 
                     if line.altButton then
                         line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - questItemButtonSize)
@@ -795,7 +786,6 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
             end
         end
     end
-    return trackerLineWidth
 end
 
 ---@return table|nil lineIndex linePool[lineIndex + 1]
