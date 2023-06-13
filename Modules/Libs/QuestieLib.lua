@@ -686,7 +686,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
             until (#indexes > 1) --Until more than one row
 
             --Get the line we calculated
-            --First to Dot, then space and lastly endIndex(chinese)
+            --First to space then endIndex(chinese)
             local newLine = string.sub(useLine, startIndex, lastSpaceIndex or endIndex)
 
             --This combines a trailing word to the previous line if it is the only word of the line
