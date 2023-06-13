@@ -154,7 +154,7 @@ local trackerUILocales = {
     -- VoiceOver Integration
     ["VoiceOver"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "VoiceOver",
+        ["ruRU"] = true,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
