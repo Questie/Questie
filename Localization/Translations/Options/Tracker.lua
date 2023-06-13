@@ -215,17 +215,17 @@ local trackerOptionsLocales = {
         ["esES"] = "Habilitar encabezado",
         ["frFR"] = "Activer l'en-tête",
     },
-    ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown."] = {
-        ["ptBR"] = "Quando isso estiver marcado, o Cabeçalho do Rastreador de Missões ficará visível e o número total de missões que você possui no seu registro será mostrado.",
-        ["ruRU"] = "Показать/скрыть заголовок 'Активные задания'. В нем показано текущее количество заданий в вашем журнале заданий",
-        ["deDE"] = "Wenn dies aktiviert ist, wird der 'Aktive Quests'-Header, sowie die Gesamtzahl der Quests im Questlog angezeigt.",
-        ["koKR"] = "이 옵션을 선택하면 Questie 추적기 헤더가 표시되고 로그에있는 총 퀘스트 수가 표시됩니다.",
-        ["esMX"] = "Cuando esto esté marcado, el Encabezado del Rastreador de Questie se hará visible y se mostrará el número total de misiones que tienes en tu registro",
+    ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.\n\nNOTE: When this is disabled, the Questie Icon will fade in while your mouse is over the Tracker."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = "选中后，“ Questie 追踪标题”将变为可见，并且将显示您在日志中拥有的任务总数。",
-        ["zhTW"] = "顯示Questie標題列並包含目前的任務總數",
-        ["esES"] = "Cuando esto esté marcado, el Encabezado del Rastreador de Questie se hará visible y se mostrará el número total de misiones que tienes en tu registro",
-        ["frFR"] = "Active l'affichage de l'en-tête du suivi des quêtes. Le nombre total de quêtes que vous avez dans votre journal y sera affiché.",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
     ---------------------------------------------------------
     ["Auto Move Active Quests Header"] = {
@@ -240,9 +240,9 @@ local trackerOptionsLocales = {
         ["esES"] = "Encabezado de movimiento automático",
         ["frFR"] = "Ajustement auto",
     },
-    ["When this is checked, the Active Quests Header will automatically move to the top or bottom of the Questie Tracker depending on which 'Tracker Grows' setting is used.\n\nNOTE: This setting only works while the 'Tracker Grows' setting is set to 'Up & Right' or 'Up & Left'."] = {
+    ["When this is checked, the Active Quests Header will automatically move to the bottom of the Questie Tracker.\n\nNOTE: This setting only works while the 'Tracker Growth Direction' setting is set to 'Up & Right' or 'Up & Left'."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет автоматически перемещаться на верх или в низ трекера в зависимости от значения 'Изменение размера трекера'.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда 'Изменение размера трекера' имеет значение 'Вверх и вправо' или 'Вверх и влево'",
+        ["ruRU"] = false,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -493,6 +493,32 @@ local trackerOptionsLocales = {
     ["When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something."] = {
         ["ptBR"] = false,
         ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет всегда отображаться, даже если не отслеживается ни одно задание.\n\nПРИМЕЧАНИЕ: Если заголовок 'Активные задания' отключен, то включение данной настройки будет включать его, когда ничего не отслеживается, и выключать, когда что-нибудь отслеживается",
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ---------------------------------------------------------
+    -- Wrath of the Lich King only
+    ["List Achievements First"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["When this is checked, the Questie Tracker will list Achievements first then Quests."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1034,9 +1060,9 @@ local trackerOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-    ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. This will also move the Active Quests Header to either the top of the Questie Tracker (when using either the 'Down & Right' or the 'Down & Left' setting) or the bottom of the Questie Tracker (when using the either the 'Up & Right' or the 'Down & Right' setting).\n\nNOTE: You can override the Active Quests Header movement behavior by disabling the 'Auto Move Header' option in Questie Tracker Options to force the Active Quests Header to remain at the top of the Questie Tracker."] = {
+    ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI.\n\nNOTE: This will also move the Active Quests Header (if enabled) to the bottom of the Questie Tracker when using the options 'Up & Right' or the 'Up & Left' setting. You can override this behavior by disabling the 'Auto Move Active Quests Header' option to force the Active Quests Header to remain at the top of the Questie Tracker. The 'Auto Move Active Quests Header' option is disabled when the options 'Down & Right' or 'Down & Left' are used."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Также это перемещает заголовок 'Активные задания' на верх трекера (при использовании настройки 'Вниз и вправо' или 'Вниз и влево') или в низ трекера (при использовании настройки 'Вверх и вправо' или 'Вверх и влево').\n\nПРИМЕЧАНИЕ: Вы можете переопределить поведение перемещения заголовка 'Активные задания' путем отключения настройки 'Автоперемещение заголовка' на этой вкладке. В таком случае заголовок 'Активные задания' всегда будет наверху трекера",
+        ["ruRU"] = false,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1383,17 +1409,17 @@ local trackerOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-    ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Auto Mode"] = {
-        ["ptBR"] = "A altura do Questie Tracker com base na porcentagem de altura utilizável da tela. Uma configuração de 100 por cento faria o Rastreador preencher toda a altura da tela do jogador.\n\nNOTA: Esta configuração só se aplica no Modo Automático do Medidor",
-        ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
-        ["deDE"] = "Die Höhe des Questie Tracker basiert auf dem Prozentsatz der nutzbaren Bildschirmhöhe. Eine Einstellung von 100 Prozent würde dazu führen, dass der Tracker die gesamte Bildschirmhöhe des Spielers ausfüllt.\n\nHINWEIS: Diese Einstellung gilt nur im automatischen Sizer-Modus",
-        ["koKR"] = "사용 가능한 화면 높이의 백분율을 기준으로 한 Questie Tracker의 높이입니다. 100%로 설정하면 추적기가 플레이어의 전체 화면 높이를 채웁니다.\n\n참고: 이 설정은 Sizer 자동 모드에서만 적용됩니다.",
-        ["esMX"] = "La altura del Questie Tracker basada en el porcentaje de altura de pantalla utilizable. Una configuración del 100 por ciento haría que el Rastreador llenara toda la altura de la pantalla de los jugadores.\n\nNOTA: Esta configuración solo se aplica en el modo automático de Sizer",
+    ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = "Questie Tracker 的高度基于可用屏幕高度的百分比。 设置为 100% 将使 Tracker 填满玩家的整个屏幕高度。\n\n注意：此设置仅适用于 Sizer 自动模式",
-        ["zhTW"] = "Questie Tracker 的高度基于可用屏幕高度的百分比。 设置为 100% 将使 Tracker 填满玩家的整个屏幕高度。\n\n注意：此设置仅适用于 Sizer 自动模式",
-        ["esES"] = "La altura del Questie Tracker basada en el porcentaje de altura de pantalla utilizable. Una configuración del 100 por ciento haría que el Rastreador llenara toda la altura de la pantalla de los jugadores.\n\nNOTA: Esta configuración solo se aplica en el modo automático de Sizer",
-        ["frFR"] = "La hauteur du Questie Tracker basée sur le pourcentage de hauteur d'écran utilisable. Un réglage de 100% ferait en sorte que le Tracker remplisse toute la hauteur de l'écran des joueurs.\n\nREMARQUE : ce paramètre ne s'applique qu'en mode Sizer Auto",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
 }
 

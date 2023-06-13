@@ -32,6 +32,12 @@ function QuestieWotlkQuestFixes:Load()
     local specKeys = QuestieProfessions.specializationKeys
 
     return {
+        [55] = {
+            [questKeys.objectives] = {{{1200}}},
+        },
+        [75] = {
+            [questKeys.specialFlags] = 0,
+        },
         [171] = {
             [questKeys.startedBy] = {{14305},nil,nil},
             [questKeys.questLevel] = -1,
@@ -300,6 +306,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},
         },
+        [11137] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [11140] = {
             [questKeys.requiredSourceItems] = {33040,33044},
         },
@@ -552,6 +561,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{187674},{34777}},
         },
         [11652] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25332,25333,25469,},25333,"Scourge Unit obliterated"},{{27106,27107,27108,27110},27106,"Injured Warsong Soldier rescued"}}},
             [questKeys.triggerEnd] = {"Scourge Leader identified",{[zoneIDs.BOREAN_TUNDRA]={{36.41,63.52,},},},},
         },
         [11653] = {
@@ -668,6 +678,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{25814,"Gnome soul captured"},},nil,nil,nil,},
             [questKeys.preQuestSingle] = {11895},
         },
+        [11905] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS]={{64.9,21.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
+        },
         [11906] = {
             [questKeys.preQuestSingle] = {11895},
         },
@@ -693,6 +706,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11938] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25378,25383,25386,25387,25393,25609},25378,"En'kilah Casualty"}}},
+        },
+        [11940] = {
+            [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
         [11945] = {
             [questKeys.reputationReward] = {{1073,500}},
@@ -1067,6 +1083,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{26633,}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tur Ragepaw to summon Ursoc"),0,{{"monster", 27328}}}},
         },
+        [12255] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ride Flamebringer"),0,{{"monster", 27292}}}},
+        },
         [12256] = {
             [questKeys.preQuestSingle] = {12468},
         },
@@ -1237,6 +1256,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12473] = {
             [questKeys.triggerEnd] = {"Thel'zan the Duskbringer Defeated",{[zoneIDs.DRAGONBLIGHT]={{81.11,50.64,},},},},
+        },
+        [12478] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Zelig's Scrying Orb"),0,{{"object", 190191}}},},
         },
         [12481] = {
             [questKeys.objectives] = {{{24238,"Bjorn Halgurdsson insulted"},{24238,"Bjorn Halgurdsson defeated"}}},
@@ -2877,6 +2899,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13406] = {
             [questKeys.preQuestSingle] = {13373},
+            [questKeys.objectives] = {{{32769},{32771}},nil,nil,nil,{{{32770,32772},32770}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Rizzy Ratchwiggle"), 1, {{"monster", 31839}}}},
         },
         [13407] = {
             [questKeys.triggerEnd] = {"Victory in Strand of the Ancients", {

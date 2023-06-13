@@ -13,6 +13,12 @@ function QuestieTBCNpcFixes:Load()
     local waypointPresets = QuestieDB.waypointPresets
 
     return {
+        [331] = {
+            [npcKeys.questStarts] = {8250,64038},
+        },
+        [2385] = {
+            [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{63.59,67.96},{58.52,55.59},{60.98,50.92},{70.35,67.98},{61.14,66.86},{57.56,49.97},{66.26,74.09},{60.16,58.47},{56.7,60.08},{58.98,56.53},{57.68,59.31},{67.97,80.87},{61.79,69.02},{66.33,75.32},{64.98,66.4},{64.87,69.26},{65.09,72.99},{62.62,71.43}}},
+        },
         [2552] = {
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{32.04,46.29},{35.61,49.41},{37.5,40.95},{35.1,46.16}}},
         },
@@ -198,6 +204,9 @@ function QuestieTBCNpcFixes:Load()
         [17087] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{71.8,40.2}}},
         },
+        [17101] = {
+            [npcKeys.waypoints] = {},
+        },
         [17110] = {
             [npcKeys.waypoints] = {},
         },
@@ -210,7 +219,7 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.THE_EXODAR,
         },
         [17206] = {
-            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}}, 
+            [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE]={{11.36,82.34}}},
             [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
         },
         [17214] = {
@@ -244,6 +253,8 @@ function QuestieTBCNpcFixes:Load()
         },
         [17311] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{16.6,94.4}}},
+            [npcKeys.zoneID] = zoneIDs.AZUREMYST_ISLE,
+            [npcKeys.waypoints] = {},
         },
         [17318] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{18.48,84.35}}},
@@ -291,6 +302,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [17336] = {
             [npcKeys.waypoints] = {},
+        },
+        [17537] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
         },
         [17544] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERMOON_CITY] = {{92.6,37.5}}},

@@ -260,7 +260,7 @@ function QuestieOptions.tabs.general:Initialize()
                     showAQWarEffortQuests = {
                         type = "toggle",
                         order = 14,
-                        hidden = (not Questie.IsEra),
+                        hidden = (not Questie.IsClassic),
                         name = function() return l10n('Enable AQ War Effort Quest Icons'); end,
                         desc = function() return l10n('When this is enabled, the locations of the AQ War Effort quests will be shown on the map/minimap.'); end,
                         width = 1.5,

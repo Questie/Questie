@@ -39,9 +39,6 @@ function QuestieTBCQuestFixes:Load()
         [77] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
-        [155] = {
-            [questKeys.triggerEnd] = {"Escort The Defias Traitor to discover where VanCleef is hiding", {[zoneIDs.WESTFALL]={{42.55,71.53}}}},
-        },
         [171] = {
             [questKeys.questLevel] = -1,
         },
@@ -80,6 +77,12 @@ function QuestieTBCQuestFixes:Load()
         },
         [504] = {
             [questKeys.objectivesText] = {"Slay 10 Crushridge Warmongers, then return to Marshal Redpath in Southshore."},
+        },
+        [510] = {
+            [questKeys.startedBy] = {nil,{1740,186420},nil}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
+        },
+        [511] = {
+            [questKeys.startedBy] = {nil,{1740,186420},nil}, -- in TBC, 1738 and 1739 are removed, but 186420 is added to a nearby camp
         },
         [558] = {
             [questKeys.questLevel] = -1,
@@ -139,6 +142,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [968] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [990] = {
+            [questKeys.exclusiveTo] = {}, -- starting with tbc only, exclusivity is present in classic
         },
         [1001] = {
             [questKeys.requiredLevel] = 7,
@@ -490,9 +496,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [8122] = {
             [questKeys.triggerEnd] = {"Hold Five Bases in Arathi Basin", {[zoneIDs.ARATHI_HIGHLANDS]={{73.2,30}}}},
-        },
-        [8151] = {
-            [questKeys.requiredRaces] = raceIDs.NIGHT_ELF,
         },
         [8259] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
@@ -1865,6 +1868,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Oronok's Boar Whistle to dig up a Shadowmoon Tuber"), 0, {{"object", 184701}}}},
         },
         [10518] = {
+            [questKeys.requiredSourceItems] = {30416},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bladespire Banner atop the Northmaul Tower"), 0, {{"object", 184704}}}},
         },
         [10519] = {
@@ -2595,30 +2599,39 @@ function QuestieTBCQuestFixes:Load()
         },
         [11094] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10211,11092},
             [questKeys.requiredMaxRep]= {932,0},
         },
         [11095] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10211,11094},
             [questKeys.requiredMaxRep]= {932,0},
         },
         [11097] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10211,11095},
             [questKeys.requiredMaxRep]= {932,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },
         [11099] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10211,11092},
             [questKeys.requiredMaxRep]= {934,0},
         },
         [11100] = {
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10211,11099},
             [questKeys.requiredMaxRep]= {934,0},
         },
         [11101] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.preQuestSingle] = {10211},
+            [questKeys.preQuestSingle] = {},
+            [questKeys.preQuestGroup] = {10211,11100},
             [questKeys.requiredMaxRep]= {934,0},
             [questKeys.triggerEnd] = {"Dragonmaw Forces Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{56.87,58.18},{64.27,31.01}}}},
         },

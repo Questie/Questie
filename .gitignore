@@ -28,3 +28,4 @@ releases/
 
 #Log files
 *.log
+*.bak
