@@ -629,10 +629,9 @@ local textWrapObjectiveFontString
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
 ---@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
----@param splitOnDot boolean @Should we add a linebreak if a dot appears thats not at the end of a line TRUE=NEW ROW, FALSE=NO NEW ROW, default: true
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
 ---@return table[] @A table of wrapped lines
-function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth)
+function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
     if not textWrapObjectiveFontString then
         textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
         textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
