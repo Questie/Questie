@@ -32,6 +32,9 @@ function QuestieWotlkQuestFixes:Load()
     local specKeys = QuestieProfessions.specializationKeys
 
     return {
+	    [75] = {
+            [questKeys.specialFlags] = 0,
+        },
         [171] = {
             [questKeys.startedBy] = {{14305},nil,nil},
             [questKeys.questLevel] = -1,
