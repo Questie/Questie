@@ -2788,9 +2788,12 @@ globals = {
     "LibStub",
     "SUFUnittarget",
     "ElvUF_Target",
+    "AzeriteUnitFrameTarget",
     "PitBull4_Frames_Target",
     "UIDROPDOWNMENU_MAXLEVELS",
     "L_UIDROPDOWNMENU_MAXLEVELS",
+    "VoiceOver",
+    "VoiceOverFrame",
     -----------------------------------------------------> Project Specific
     "Questie",
     "QuestieLoader",

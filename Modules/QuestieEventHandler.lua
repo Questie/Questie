@@ -17,6 +17,8 @@ local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
+---@type TrackerUtils
+local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 ---@type QuestieReputation
 local QuestieReputation = QuestieLoader:ImportModule("QuestieReputation")
 ---@type QuestieNameplate
@@ -61,6 +63,7 @@ function QuestieEventHandler:RegisterLateEvents()
     end)
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
         QuestieTracker:CheckDurabilityAlertStatus()
+        QuestieTracker:UpdateVoiceOverFrame()
     end)
 
     -- Events to update a players professions and reputations
@@ -353,6 +356,9 @@ function _EventHandler:ModifierStateChanged(key, down)
             end
         end
     end
+
+    -- AI_VoiceOver PlayButtons
+    TrackerUtils:ShowVoiceOverPlayButtons()
 
     if Questie.db.global.trackerLocked then
         if TrackerBaseFrame.IsInitialized then

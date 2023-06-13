@@ -5,6 +5,10 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 -------------------------
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerLinePool
+local TrackerLinePool = QuestieLoader:ImportModule("TrackerLinePool")
+---@type TrackerFadeTicker
+local TrackerFadeTicker = QuestieLoader:ImportModule("TrackerFadeTicker")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 -------------------------
@@ -958,4 +962,95 @@ function TrackerUtils:GetSortedQuestIds()
     end
 
     return sortedQuestIds, questDetails
+end
+
+function TrackerUtils:IsVoiceOverLoaded()
+    if (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla")) then
+        return true
+    end
+
+    return false
+end
+
+function TrackerUtils:ShowVoiceOverPlayButtons()
+    if self:IsVoiceOverLoaded() then
+        if Questie.db.char.isTrackerExpanded then
+            if IsShiftKeyDown() and MouseIsOver(Questie_BaseFrame) then
+                if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
+                    Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ShowVoiceOverPlayButtons]")
+                else
+                    Questie:Debug(Questie.DEBUG_INFO, "[TrackerUtils:ShowVoiceOverPlayButtons]")
+                end
+            end
+
+            if IsShiftKeyDown() then
+                if MouseIsOver(Questie_BaseFrame) then
+                    TrackerLinePool.SetAllPlayButtonAlpha(1)
+                    TrackerFadeTicker.Fade()
+
+                    if not Questie.db.global.trackerFadeMinMaxButtons then
+                        TrackerLinePool.SetAllExpandQuestAlpha(0)
+                    end
+
+                    if not Questie.db.global.trackerFadeQuestItemButtons then
+                        TrackerLinePool.SetAllItemButtonAlpha(0)
+                    end
+                end
+            else
+                if MouseIsOver(Questie_BaseFrame) then
+                    TrackerLinePool.SetAllPlayButtonAlpha(0)
+                    TrackerFadeTicker.Unfade()
+                else
+                    TrackerLinePool.SetAllPlayButtonAlpha(0)
+                    TrackerFadeTicker.Fade()
+                end
+
+                if not Questie.db.global.trackerFadeMinMaxButtons then
+                    TrackerLinePool.SetAllExpandQuestAlpha(1)
+                end
+
+                if not Questie.db.global.trackerFadeQuestItemButtons then
+                    TrackerLinePool.SetAllItemButtonAlpha(1)
+                end
+            end
+        end
+    end
+end
+
+function TrackerUtils:UpdateVoiceOverPlayButtons()
+    if self:IsVoiceOverLoaded() then
+        if Questie_BaseFrame.isSizing == true or Questie_BaseFrame.isMoving == true then
+            Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:UpdateVoiceOverPlayButtons]")
+        else
+            Questie:Debug(Questie.DEBUG_INFO, "[TrackerUtils:UpdateVoiceOverPlayButtons]")
+        end
+
+        for i = 1, 75 do
+            local questLogTitleFrame = VoiceOver.Utils:GetQuestLogTitleFrame(i)
+            local normalText = VoiceOver.Utils:GetQuestLogTitleNormalText(i)
+            local questCheck = VoiceOver.Utils:GetQuestLogTitleCheck(i)
+            local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
+
+            if not (questLogTitleFrame and normalText and questCheck and title and questId) then
+                break
+            end
+
+            if not isHeader then
+                if not VoiceOver.QuestOverlayUI.questPlayButtons[questId] then
+                    VoiceOver.QuestOverlayUI:CreatePlayButton(questId)
+
+                    if VoiceOver.DataModules:PrepareSound({ event = 1, questId = questId }) then
+                        VoiceOver.QuestOverlayUI:UpdatePlayButton(title, questId, questLogTitleFrame, normalText, questCheck)
+                        VoiceOver.QuestOverlayUI.questPlayButtons[questId]:Enable()
+                    else
+                        VoiceOver.QuestOverlayUI:UpdateQuestTitle(questLogTitleFrame, VoiceOver.QuestOverlayUI.questPlayButtons[questId], normalText, questCheck)
+                        VoiceOver.QuestOverlayUI.questPlayButtons[questId]:Disable()
+                    end
+
+                    VoiceOver.QuestOverlayUI:UpdatePlayButtonTexture(questId)
+                    table.insert(VoiceOver.QuestOverlayUI.displayedButtons, VoiceOver.QuestOverlayUI.questPlayButtons[questId])
+                end
+            end
+        end
+    end
 end

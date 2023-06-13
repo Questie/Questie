@@ -14,7 +14,7 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
-QuestieOptions.tabs = {...}
+QuestieOptions.tabs = { ... }
 QuestieConfigFrame = nil
 
 local AceGUI = LibStub("AceGUI-3.0")
@@ -73,9 +73,9 @@ end
 
 -- Generic function to hide the config frame.
 function QuestieOptions:HideFrame()
-  if QuestieConfigFrame and QuestieConfigFrame:IsShown() then
-    QuestieConfigFrame:Hide();
-  end
+    if QuestieConfigFrame and QuestieConfigFrame:IsShown() then
+        QuestieConfigFrame:Hide();
+    end
 end
 
 -- Open the configuration window
@@ -97,7 +97,7 @@ end
 -- set option value
 function QuestieOptions:SetGlobalOptionValue(info, value)
     if debug and Questie.db.global[info[#info]] ~= value then
-        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '"..tostring(Questie.db.global[info[#info]]).."' to '"..tostring(value).."'")
+        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.global[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
     Questie.db.global[info[#info]] = value
 end
@@ -111,8 +111,6 @@ function QuestieOptions:ClusterRedraw()
     --Redraw clusters here
     QuestieQuest:SmoothReset();
 end
-
-
 
 ---@return table
 _CreateOptionsTable = function()

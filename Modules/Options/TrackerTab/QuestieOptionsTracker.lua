@@ -115,7 +115,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            -- hideCompletedAchieveObjectives: order = 1.6 | Check WotLK over-writes below
+            -- hideCompletedAchieveObjectives: order = 1.6 | Check WotLK section below
             showQuestTimer = {
                 type = "toggle",
                 order = 1.7,
@@ -405,6 +405,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:UpdateFormatting()
                 end
             },
+            -- listAchievementsFirst: order = 2.98 | Check WotLK section below
             lockTracker = {
                 type = "toggle",
                 order = 3.0,
@@ -834,7 +835,7 @@ function QuestieOptions.tabs.tracker:Initialize()
     }
 
     if Questie.IsWotlk then
-        -- These "over-write" the above options with Wrath of the Lich King specific language
+        -- These "over-write" the above options with Wrath of the Lich King specific language or options that are only found in Wrath.
         trackerOptions.args.hideCompletedAchieveObjectives = {
             type = "toggle",
             order = 1.6,
@@ -845,6 +846,19 @@ function QuestieOptions.tabs.tracker:Initialize()
             get = function() return Questie.db.global.hideCompletedAchieveObjectives end,
             set = function(_, value)
                 Questie.db.global.hideCompletedAchieveObjectives = value
+                QuestieTracker:Update()
+            end
+        }
+        trackerOptions.args.listAchievementsFirst = {
+            type = "toggle",
+            order = 2.98,
+            width = 1.5,
+            name = function() return l10n("List Achievements First") end,
+            desc = function() return l10n("When this is checked, the Questie Tracker will list Achievements first then Quests.") end,
+            disabled = function() return not Questie.db.char.trackerEnabled end,
+            get = function() return Questie.db.char.listAchievementsFirst end,
+            set = function(_, value)
+                Questie.db.char.listAchievementsFirst = value
                 QuestieTracker:Update()
             end
         }
