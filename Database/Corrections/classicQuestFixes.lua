@@ -1818,6 +1818,10 @@ function QuestieQuestFixes:Load()
         [5526] = {
             [questKeys.zoneOrSort] = zoneIDs.DIRE_MAUL,
         },
+        [5561] = {
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4700,4701,4702},4700,"Kodos Tamed"}}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{60.58,62}}}, Questie.ICON_TYPE_EVENT, l10n("Lure the Kodos to Smeed Scrabblescrew."),}},
+        },
         [5582] = {
             [questKeys.startedBy] = {{10678},nil,{13920}},
         },
