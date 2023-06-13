@@ -612,7 +612,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Place the Toxic Fogger", {[zoneIDs.STONETALON_MOUNTAINS]={{66.44,45.46}}}},
         },
         [1090] = {
-            [questKeys.triggerEnd] = {"Keep Piznik safe while he mines the mysterious ore", {[zoneIDs.STONETALON_MOUNTAINS]={{71.76, 60.22}}}},
+            [questKeys.objectives] = {{{4276,"Keep Piznik safe while he mines the mysterious ore"}}},
         },
         [1097] = {
             [questKeys.startedBy] = {{415,514},nil,nil},
