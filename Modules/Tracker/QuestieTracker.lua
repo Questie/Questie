@@ -1630,9 +1630,8 @@ function QuestieTracker:UpdateFormatting()
     TrackerHeaderFrame:Update()
 
     if TrackerLinePool.GetCurrentLine() and trackerLineWidth > 1 then
-        local trackerVarsCombined = trackerLineWidth + trackerMarginRight
+        local trackerVarsCombined = TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth) + trackerMarginRight
         QuestieTracker:UpdateWidth(trackerVarsCombined)
-        TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         QuestieTracker:UpdateHeight(trackerVarsCombined)
         TrackerQuestFrame:Update()
     end

@@ -55,7 +55,7 @@ function TrackerLinePool.Initialize(questFrame)
     local nextFrame
     for i = 1, linePoolSize do
         local timeElapsed = 0
-        local line = CreateFrame("Button", nil, trackerQuestFrame.ScrollChildFrame)
+        local line = CreateFrame("Button", "linePool" .. i, trackerQuestFrame.ScrollChildFrame)
         line:SetWidth(1)
         line:SetHeight(1)
         line.label = line:CreateFontString(nil, "ARTWORK", "GameFontNormal")
@@ -177,7 +177,7 @@ function TrackerLinePool.Initialize(questFrame)
         end)
 
         -- create objective complete criteria marks
-        local criteriaMark = CreateFrame("Button", nil, line)
+        local criteriaMark = CreateFrame("Button", "linePool.criteriaMark" .. i, line)
         criteriaMark.texture = criteriaMark:CreateTexture(nil, "OVERLAY", nil, 0)
         criteriaMark.texture:SetWidth(Questie.db.global.trackerFontSizeObjective)
         criteriaMark.texture:SetHeight(Questie.db.global.trackerFontSizeObjective)
@@ -215,7 +215,7 @@ function TrackerLinePool.Initialize(questFrame)
         line.criteriaMark = criteriaMark
 
         -- create expanding zone headers for quests sorted by zones
-        local expandZone = CreateFrame("Button", nil, line)
+        local expandZone = CreateFrame("Button", "linePool.expandZone" .. i, line)
         expandZone:SetWidth(1)
         expandZone:SetHeight(1)
         expandZone:SetPoint("TOPLEFT", line, "TOPLEFT", 0, 0)
@@ -319,7 +319,7 @@ function TrackerLinePool.Initialize(questFrame)
         line.expandZone = expandZone
 
         -- create play buttons for AI_VoiceOver
-        local playButton = CreateFrame("Button", nil, line)
+        local playButton = CreateFrame("Button", "linePool.playButton" .. i, line)
         playButton:SetWidth(20)
         playButton:SetHeight(20)
         playButton:SetHitRectInsets(2, 2, 2, 2)
@@ -397,7 +397,7 @@ function TrackerLinePool.Initialize(questFrame)
         line.playButton = playButton
 
         -- create expanding buttons for quests with objectives
-        local expandQuest = CreateFrame("Button", nil, line)
+        local expandQuest = CreateFrame("Button", "linePool.expandQuest" .. i, line)
         expandQuest.texture = expandQuest:CreateTexture(nil, "OVERLAY", nil, 0)
         expandQuest.texture:SetWidth(trackerFontSizeQuest)
         expandQuest.texture:SetHeight(trackerFontSizeQuest)
@@ -757,7 +757,6 @@ function TrackerLinePool.ResetButtonsForChange()
     buttonIndex = 0
 end
 
----@param trackerLineWidth number
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
     local trackerMarginLeft = 10
@@ -774,22 +773,29 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
                 if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.global.trackerFontSizeObjective then
                     line.label:SetText(line.label:GetText())
 
-                    if line.altButton then
-                        line.label:SetWidth(TrackerBaseFrame.baseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight - questItemButtonSize)
-                        line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft + questItemButtonSize)
+                    local lineWidth = line.label:GetWrappedWidth()
+
+                    if trackerLineWidth < trackerMinLineWidth and lineWidth < trackerMinLineWidth then
+                        trackerLineWidth = lineWidth
                     else
-                        line.label:SetWidth(TrackerBaseFrame.baseFrame:GetWidth() - objectiveMarginLeft - trackerMarginRight)
-                        line:SetWidth(line.label:GetWrappedWidth() + objectiveMarginLeft)
+                        trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, lineWidth)
+                    end
+
+                    if line.altButton then
+                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft - questItemButtonSize)
+                        line:SetWidth(trackerLineWidth + questItemButtonSize)
+                    else
+                        line.label:SetWidth(trackerLineWidth - objectiveMarginLeft)
+                        line:SetWidth(trackerLineWidth)
                     end
 
                     line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
                     line.label:SetHeight(line:GetHeight())
-
-                    trackerLineWidth = math.max(trackerLineWidth, trackerMinLineWidth, line.label:GetWrappedWidth() + objectiveMarginLeft)
                 end
             end
         end
     end
+    return trackerLineWidth
 end
 
 ---@return table|nil lineIndex linePool[lineIndex + 1]
