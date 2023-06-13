@@ -656,7 +656,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
-    --Make a linebreak on each "dot" character if there is a space after (don't want it on end of line)
     local useLine = line
 
     textWrapObjectiveFontString:SetText(useLine)
