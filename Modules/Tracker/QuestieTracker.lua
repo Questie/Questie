@@ -363,13 +363,13 @@ end
 
 function QuestieTracker:UpdateVoiceOverFrame()
     if TrackerUtils:IsVoiceOverLoaded() then
-        -- screen width accounting for scale
-        local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
-        -- middle of the frame, first return is x value, second return is the y value
-        local trackerFrameX = trackerBaseFrame:GetCenter()
-
         if QuestieTracker.started and Questie.db.char.trackerEnabled then
             if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
+                -- screen width accounting for scale
+                local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
+                -- middle of the frame, first return is x value, second return is the y value
+                local trackerFrameX = trackerBaseFrame:GetCenter()
+
                 VoiceOverFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
                 VoiceOverFrame:SetFrameStrata("MEDIUM")
                 VoiceOverFrame:SetFrameLevel(0)
