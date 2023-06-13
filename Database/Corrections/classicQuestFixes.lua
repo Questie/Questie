@@ -2023,6 +2023,9 @@ function QuestieQuestFixes:Load()
                 [zoneIDs.THE_BARRENS]={{41.96,60.81}}},
             },
         },
+        [6027] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Lord Kragaru"), 0, {{"object", 400060}}}},
+        },
         [6061] = {
             [questKeys.objectives] = {{{2956, nil}}},
             [questKeys.questFlags] = 0,
