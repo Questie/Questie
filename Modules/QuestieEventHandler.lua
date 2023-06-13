@@ -338,7 +338,7 @@ function _EventHandler:ModifierStateChanged(key, down)
         end
 
         -- Questie Tracker Sizer
-        if Questie_BaseFrame then
+        if QuestieTracker.started then
             if MouseIsOver(Questie_BaseFrame.sizer) then
                 if down == 1 then
                     if GameTooltip and GameTooltip:IsShown() and GameTooltip._SizerToolTip then
@@ -359,11 +359,13 @@ function _EventHandler:ModifierStateChanged(key, down)
         end
     end
 
-    -- AI_VoiceOver PlayButtons
-    TrackerUtils:ShowVoiceOverPlayButtons()
+    if QuestieTracker.started then
+        -- AI_VoiceOver PlayButtons
+        TrackerUtils:ShowVoiceOverPlayButtons()
+    end
 
     if Questie.db.global.trackerLocked then
-        if TrackerBaseFrame.IsInitialized then
+        if QuestieTracker.started then
             QuestieCombatQueue:Queue(function()
                 TrackerBaseFrame:Update()
             end)
