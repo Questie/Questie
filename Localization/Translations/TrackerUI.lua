@@ -179,7 +179,7 @@ local trackerUILocales = {
     -- TomTom Integration
     ["TomTom"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "TomTom",
+        ["ruRU"] = true,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
