@@ -141,7 +141,7 @@ local trackerUILocales = {
     },
     ["Questie Tracker Integrations"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Интеграции трекера",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -154,7 +154,7 @@ local trackerUILocales = {
     -- VoiceOver Integration
     ["VoiceOver"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = true,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -166,7 +166,7 @@ local trackerUILocales = {
     },
     ["Hold shift to see PlayButtons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Зажмите Shift, чтобы увидеть PlayButtons",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -179,7 +179,7 @@ local trackerUILocales = {
     -- TomTom Integration
     ["TomTom"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = true,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -191,7 +191,7 @@ local trackerUILocales = {
     },
     ["Ctrl + Left Click or Right Click a Quest Title"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Ctrl + ЛКМ или ПКМ на названии задания",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,

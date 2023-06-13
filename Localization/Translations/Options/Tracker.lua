@@ -217,7 +217,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Active Quests Header will become visible and the total number of Quests you have in your Quest Log will be shown.\n\nNOTE: When this is disabled, the Questie Icon will fade in while your mouse is over the Tracker."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Показать/скрыть заголовок 'Активные задания'. В нем показано текущее количество заданий в вашем журнале заданий\n\nПРИМЕЧАНИЕ: Когда отключено, при наведении на трекер в правом верхнем углу появится значок Questie",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -242,7 +242,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Active Quests Header will automatically move to the bottom of the Questie Tracker.\n\nNOTE: This setting only works while the 'Tracker Growth Direction' setting is set to 'Up & Right' or 'Up & Left'."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, заголовок 'Активные задания' будет автоматически перемещаться в низ трекера.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда 'Изменение размера трекера' имеет значение 'Вверх и вправо' или 'Вверх и влево'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -506,7 +506,7 @@ local trackerOptionsLocales = {
     -- Wrath of the Lich King only
     ["List Achievements First"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Достижения вверху",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -518,7 +518,7 @@ local trackerOptionsLocales = {
     },
     ["When this is checked, the Questie Tracker will list Achievements first then Quests."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, достижения в трекере будут отображаться сверху заданий",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1062,7 +1062,7 @@ local trackerOptionsLocales = {
     },
     ["This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI.\n\nNOTE: This will also move the Active Quests Header (if enabled) to the bottom of the Questie Tracker when using the options 'Up & Right' or the 'Up & Left' setting. You can override this behavior by disabling the 'Auto Move Active Quests Header' option to force the Active Quests Header to remain at the top of the Questie Tracker. The 'Auto Move Active Quests Header' option is disabled when the options 'Down & Right' or 'Down & Left' are used."] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Определяет направление, в котором изменяется размер трекера при добавлении или удалении заданий. Например, при использовании значения 'Вверх и вправо' идеальным расположением для трекера будет нижний левый угол вашего экрана. Это позволяет сайзеру (изменитель размера трекера) в режиме 'Авто' выставлять высоту и ширину трекера 'Вверх и вправо' так, чтобы трекер случайно не скрыл элементы вашего интерфейса.\n\nПРИМЕЧАНИЕ: Эта настройка также передвинет заголовок 'Активные задания' (если включено) в низ трекера при использовании значения 'Вверх и вправо' или 'Вниз и влево'. Вы можете переопределить данное поведение путем отключения настройки 'Автоперемещение заголовка' для того, чтобы заголовок 'Активные задания' оставался наверху трекера. Настройка 'Автоперемещение заголовка' отключается при использовании значения 'Вниз и вправо' или 'Вниз и влево'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -1411,7 +1411,7 @@ local trackerOptionsLocales = {
     },
     ["The height of the Questie Tracker based on percentage of usable screen height. A setting of 100 percent would make the Tracker fill the players entire screen height.\n\nNOTE: This setting only applies while in Sizer Mode: Auto"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Высота трекера, основанная на процентах от высоты экрана. Значение 100 заставит трекер заполнять всю высоту экрана.\n\nПРИМЕЧАНИЕ: Эта настройка работает только тогда, когда сайзер (изменитель размера трекера) в автоматическом режиме",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
