@@ -2127,7 +2127,7 @@ function QuestieQuestFixes:Load()
             [questKeys.specialFlags] = 0,
         },
         [6132] = {
-            [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{38.64,60.86}}}},
+            [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{40.15,61.58}}}},
         },
         [6136] = {
             [questKeys.preQuestSingle] = {6133}, -- #1572
