@@ -659,7 +659,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
     textWrapObjectiveFontString:Show()
 
     --Make a linebreak on each "dot" character if there is a space after (don't want it on end of line)
-    local useLine = string.gsub(line, "%. ", "%.%\n")
+    local useLine = line --string.gsub(line, "%. ", "%.%\n")
 
     textWrapObjectiveFontString:SetText(useLine)
     --Is the line wrapped?
@@ -680,8 +680,8 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
                 if (string.sub(useLine, endIndex, endIndex) == " ") then
                     lastSpaceIndex = endIndex
                     --Track the dot at the end of a line
-                elseif (string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
-                    dotIndex = endIndex
+                --elseif (string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
+                --    dotIndex = endIndex
                 end
                 endIndex = endIndex + 1
                 --If we are at the end of characters break and set endIndex to strlen
@@ -722,7 +722,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
     else
         --Line was not wrapped, return the string as is.
         textWrapObjectiveFontString:Hide()
-        useLine = prefix .. string.gsub(line, "%. ", "%.%\n" .. prefix)
+        useLine = prefix .. line --string.gsub(line, "%. ", "%.%\n" .. prefix)
         return { useLine }
     end
 end
