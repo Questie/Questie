@@ -2318,6 +2318,9 @@ function QuestieQuestFixes:Load()
         [7062] = {
             [questKeys.startedBy] = {{1365},nil,nil},
         },
+        [7067] = {
+            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765},
+        },
         [7068] = {
             [questKeys.requiredLevel] = 39,
         },
