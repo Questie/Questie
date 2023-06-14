@@ -1696,39 +1696,46 @@ function QuestieTracker:UpdateFormatting()
 end
 
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
-    local trackerBaseFrameWidth = trackerBaseFrame:GetWidth()
     local trackerWidthByManual = Questie.db[Questie.db.global.questieTLoc].TrackerWidth
     local trackerHeaderFrameWidth = (trackerHeaderFrame:GetWidth() + Questie.db.global.trackerFontSizeHeader + 10)
     local trackerHeaderlessWidth = (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30)
 
-    if trackerWidthByManual > 0 then
-        -- Tracker Sizer is in Manual Mode
-        if (not TrackerBaseFrame.isSizing) then
-            -- Tracker is not being Sized | Manual width based on the width set by the Tracker Sizer
-            if trackerWidthByManual < trackerHeaderFrameWidth and Questie.db.global.trackerHeaderEnabled then
-                trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
-            elseif trackerWidthByManual < trackerHeaderlessWidth then
-                trackerBaseFrame:SetWidth(trackerHeaderlessWidth)
+    if Questie.db.char.isTrackerExpanded then
+        if trackerWidthByManual > 0 then
+            -- Tracker Sizer is in Manual Mode
+            if (not TrackerBaseFrame.isSizing) then
+                -- Tracker is not being Sized | Manual width based on the width set by the Tracker Sizer
+                if trackerWidthByManual < trackerHeaderFrameWidth and Questie.db.global.trackerHeaderEnabled then
+                    trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
+                elseif trackerWidthByManual < trackerHeaderlessWidth then
+                    trackerBaseFrame:SetWidth(trackerHeaderlessWidth)
+                else
+                    trackerBaseFrame:SetWidth(trackerWidthByManual)
+                end
             else
+                -- Tracker is being Sized | This will update the Tracker width while the Sizer is being used
                 trackerBaseFrame:SetWidth(trackerWidthByManual)
             end
         else
-            -- Tracker is being Sized | This will update the Tracker width while the Sizer is being used
-            trackerBaseFrame:SetWidth(trackerWidthByManual)
+            -- Tracker Sizer is in Auto Mode
+            if (trackerVarsCombined < trackerHeaderFrameWidth and Questie.db.global.trackerHeaderEnabled) then
+                -- Apply headerFrameWidth
+                trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
+            else
+                -- Apply trackerVarsCombined width based on the maximum size of the largest line in the Tracker
+                trackerBaseFrame:SetWidth(trackerVarsCombined)
+            end
         end
+
+        trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
+        trackerQuestFrame.ScrollChildFrame:SetWidth(trackerBaseFrame:GetWidth())
     else
-        -- Tracker Sizer is in Auto Mode
-        if (trackerVarsCombined < trackerHeaderFrameWidth and Questie.db.global.trackerHeaderEnabled) then
-            -- Apply headerFrameWidth
+        if Questie.db.global.trackerHeaderEnabled then
             trackerBaseFrame:SetWidth(trackerHeaderFrameWidth)
-        else
-            -- Apply trackerVarsCombined width based on the maximum size of the largest line in the Tracker
-            trackerBaseFrame:SetWidth(trackerVarsCombined)
+            trackerQuestFrame:SetWidth(trackerHeaderFrameWidth)
+            trackerQuestFrame.ScrollChildFrame:SetWidth(trackerHeaderFrameWidth)
         end
     end
-
-    trackerQuestFrame:SetWidth(trackerBaseFrame:GetWidth())
-    trackerQuestFrame.ScrollChildFrame:SetWidth(trackerBaseFrame:GetWidth())
 end
 
 function QuestieTracker:UpdateHeight(trackerVarsCombined)
@@ -1784,9 +1791,9 @@ function QuestieTracker:UpdateHeight(trackerVarsCombined)
             trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
         end
     else
-        trackerBaseFrame:SetHeight(trackerHeaderFrameHeight)
-        trackerQuestFrame:SetHeight(trackerHeaderFrameHeight)
-        trackerQuestFrame.ScrollChildFrame:SetHeight(trackerHeaderFrameHeight)
+        trackerBaseFrame:SetHeight(trackerHeaderFrameHeight - 20)
+        trackerQuestFrame:SetHeight(trackerHeaderFrameHeight - 20)
+        trackerQuestFrame.ScrollChildFrame:SetHeight(trackerHeaderFrameHeight - 20)
     end
 end
 
