@@ -1689,7 +1689,7 @@ function QuestieTracker:UpdateFormatting()
     if Questie.db.global.trackerHeaderEnabled then
         QuestieCompat.SetResizeBounds(trackerBaseFrame, trackerHeaderFrame:GetWidth() + Questie.db.global.trackerFontSizeHeader + 10, trackerHeaderFrame:GetHeight() + Questie.db.global.trackerFontSizeZone + 23)
     else
-        QuestieCompat.SetResizeBounds(trackerBaseFrame, (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30), Questie.db.global.trackerFontSizeZone + 22)
+        QuestieCompat.SetResizeBounds(trackerBaseFrame, (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 40), Questie.db.global.trackerFontSizeZone + 22)
     end
 
     TrackerUtils:UpdateVoiceOverPlayButtons()
@@ -1778,10 +1778,10 @@ function QuestieTracker:UpdateHeight(trackerVarsCombined)
         -- Resize the questFrame to match the baseFrame after the trackerHeightCheck is applied
         if Questie.db.global.trackerHeaderEnabled then
             -- With Header Frame
-            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 16)
+            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - trackerHeaderFrame:GetHeight() - 20)
         else
             -- Without Header Frame
-            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 16)
+            trackerQuestFrame:SetHeight(trackerBaseFrame:GetHeight() - 20)
         end
     else
         trackerBaseFrame:SetHeight(trackerHeaderFrameHeight)
