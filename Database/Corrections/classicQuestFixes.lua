@@ -2138,6 +2138,9 @@ function QuestieQuestFixes:Load()
         [6132] = {
             [questKeys.triggerEnd] = {"Melizza Brimbuzzle escorted to safety", {[zoneIDs.DESOLACE]={{40.15,61.58}}}},
         },
+        [6134] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.DESOLACE]={{63.71,91.9}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Crate of Ghost Magnets"),}},
+        },
         [6136] = {
             [questKeys.preQuestSingle] = {6133}, -- #1572
         },

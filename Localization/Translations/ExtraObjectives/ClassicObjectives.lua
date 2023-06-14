@@ -206,6 +206,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Place the Crate of Ghost Magnets"] = { -- 6134
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use the Lovers' Hearts to summon an Incubus and slay it."] = { -- 65597
         ["ptBR"] = false,
         ["ruRU"] = "Используйте Сердца влюбленных, чтобы призвать Суккуба и убить его.",
