@@ -3,6 +3,8 @@ local TrackerQuestFrame = QuestieLoader:CreateModule("TrackerQuestFrame")
 -------------------------
 --Import QuestieTracker modules.
 -------------------------
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 ---@type TrackerBaseFrame
 local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type TrackerFadeTicker
@@ -78,6 +80,21 @@ function TrackerQuestFrame:Update()
         TrackerQuestFrame.PositionTrackedQuestsFrame()
 
         questFrame:Show()
+
+        -- Enables Click-Through when the tracker is locked
+        if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
+            QuestieCombatQueue:Queue(function()
+                questFrame:EnableMouse(true)
+                questFrame:SetMovable(true)
+                questFrame:SetResizable(true)
+            end)
+        else
+            QuestieCombatQueue:Queue(function()
+                questFrame:EnableMouse(false)
+                questFrame:SetMovable(false)
+                questFrame:SetResizable(false)
+            end)
+        end
     else
         questFrame:Hide()
     end

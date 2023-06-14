@@ -334,7 +334,9 @@ function QuestieTracker:CheckDurabilityAlertStatus()
             if numAlerts > 0 then
                 QuestieTracker:UpdateDurabilityFrame()
             else
-                QuestieTracker:ResetDurabilityFrame()
+                if DurabilityFrame:IsShown() then
+                    DurabilityFrame:Hide()
+                end
             end
 
             if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
