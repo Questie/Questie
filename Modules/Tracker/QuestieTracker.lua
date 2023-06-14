@@ -286,7 +286,7 @@ end
 function QuestieTracker:ResetDurabilityFrame()
     if durabilityInitialPosition then
         if durabilityInitialPosition ~= { DurabilityFrame:GetPoint() } then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:ResetDurabilityFrame]")
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:ResetDurabilityFrame]")
 
             DurabilityFrame:ClearAllPoints()
             DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
@@ -305,7 +305,7 @@ function QuestieTracker:UpdateDurabilityFrame()
     local trackerFrameX = trackerBaseFrame:GetCenter()
 
     DurabilityFrame:ClearAllPoints()
-    DurabilityFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
+    DurabilityFrame:SetClampedToScreen(true)
     DurabilityFrame:SetFrameStrata("MEDIUM")
     DurabilityFrame:SetFrameLevel(0)
 
@@ -321,40 +321,48 @@ function QuestieTracker:UpdateDurabilityFrame()
 end
 
 function QuestieTracker:CheckDurabilityAlertStatus()
-    if QuestieTracker.started and Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame and Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
-        Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:CheckDurabilityAlertStatus]")
+    if QuestieTracker.started and Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame then
+        if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
+            local numAlerts = 0
 
-        local numAlerts = 0
+            for i = 1, #INVENTORY_ALERT_STATUS_SLOTS do
+                if GetInventoryAlertStatus(i) > 0 then
+                    numAlerts = numAlerts + 1
+                end
+            end
 
-        for i = 1, #INVENTORY_ALERT_STATUS_SLOTS do
-            if GetInventoryAlertStatus(i) > 0 then
-                numAlerts = numAlerts + 1
+            if numAlerts > 0 then
+                QuestieTracker:UpdateDurabilityFrame()
+            else
+                QuestieTracker:ResetDurabilityFrame()
+            end
+
+            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:CheckDurabilityAlertStatus]")
+            else
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:CheckDurabilityAlertStatus]")
             end
         end
-
-        if numAlerts > 0 then
-            QuestieTracker:UpdateDurabilityFrame()
-        else
-            QuestieTracker:ResetDurabilityFrame()
-        end
-    else
-        QuestieTracker:ResetDurabilityFrame()
     end
 end
 
 function QuestieTracker:ResetVoiceOverFrame()
     if voiceOverInitialPosition then
         if voiceOverInitialPosition ~= { VoiceOverFrame:GetPoint() } then
-            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:ResetVoiceOverFrame]")
-            else
-                Questie:Debug(Questie.DEBUG_INFO, "[TrackerUtils:ResetVoiceOverFrame]")
-            end
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:ResetVoiceOverFrame]")
 
             VoiceOverFrame:ClearAllPoints()
             VoiceOverFrame:SetPoint(unpack(voiceOverInitialPosition))
 
+            VoiceOverFrame:SetClampedToScreen(true)
+            VoiceOverFrame:SetFrameStrata("MEDIUM")
+            VoiceOverFrame:SetFrameLevel(0)
+            VoiceOver.Addon.db.profile.SoundQueueUI.LockFrame = false
+            VoiceOver.SoundQueueUI:RefreshConfig()
+
             if VoiceOverFrame:IsShown() then
+                VoiceOver.SoundQueueUI:UpdateSoundQueueDisplay()
+            else
                 VoiceOverFrame:Hide()
             end
         end
@@ -363,14 +371,14 @@ end
 
 function QuestieTracker:UpdateVoiceOverFrame()
     if TrackerUtils:IsVoiceOverLoaded() then
-        if QuestieTracker.started and Questie.db.char.trackerEnabled then
+        if QuestieTracker.started and Questie.db.char.trackerEnabled and Questie.db.char.stickyVoiceOverFrame then
             if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
                 -- screen width accounting for scale
                 local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
                 -- middle of the frame, first return is x value, second return is the y value
                 local trackerFrameX = trackerBaseFrame:GetCenter()
 
-                VoiceOverFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
+                VoiceOverFrame:SetClampedToScreen(true)
                 VoiceOverFrame:SetFrameStrata("MEDIUM")
                 VoiceOverFrame:SetFrameLevel(0)
 
@@ -403,12 +411,10 @@ function QuestieTracker:UpdateVoiceOverFrame()
             end
 
             if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                Questie:Debug(Questie.DEBUG_SPAM, "[TrackerUtils:UpdateVoiceOverFrame]")
+                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateVoiceOverFrame]")
             else
-                Questie:Debug(Questie.DEBUG_INFO, "[TrackerUtils:UpdateVoiceOverFrame]")
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateVoiceOverFrame]")
             end
-        else
-            QuestieTracker:ResetVoiceOverFrame()
         end
     end
 end

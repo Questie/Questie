@@ -529,6 +529,32 @@ local trackerOptionsLocales = {
         ["frFR"] = false,
     },
     ---------------------------------------------------------
+    -- VoiceOver Tracker Integration
+    ["Sticky VoiceOver Frame"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ["When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
+    ---------------------------------------------------------
     ["Lock Tracker"] = {
         ["ptBR"] = "Bloqueado o rastreador",
         ["ruRU"] = "Заблокировать трекер",

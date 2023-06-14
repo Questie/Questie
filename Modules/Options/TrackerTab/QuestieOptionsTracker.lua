@@ -182,6 +182,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.stickyDurabilityFrame end,
                 set = function(_, value)
                     Questie.db.global.stickyDurabilityFrame = value
+                    if value == false then
+                        QuestieTracker:ResetDurabilityFrame()
+                    end
                     QuestieTracker:Update()
                 end
             },
@@ -380,7 +383,7 @@ function QuestieOptions.tabs.tracker:Initialize()
             },
             alwaysShowTracker = {
                 type = "toggle",
-                order = 2.95,
+                order = 2.92,
                 width = 1.5,
                 name = function() return l10n("Always Show Tracker") end,
                 desc = function() return l10n("When this is checked, the Questie Trackers 'Active Quests Header' will always be visible when nothing is being tracked versus being hidden completely.\n\nNOTE: If the 'Active Quests Header' is in a disabled state, enabling this option will toggle it on when nothing is being tracked then toggle back off when you track something.") end,
@@ -405,7 +408,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:UpdateFormatting()
                 end
             },
-            -- listAchievementsFirst: order = 2.98 | Check WotLK section below
+            -- listAchievementsFirst: order = 2.94 | Check WotLK section below
+            -- stickyVoiceOverFrame: order = 2.96 | Check Tracker Integrations section below
             lockTracker = {
                 type = "toggle",
                 order = 3.0,
@@ -851,7 +855,7 @@ function QuestieOptions.tabs.tracker:Initialize()
         }
         trackerOptions.args.listAchievementsFirst = {
             type = "toggle",
-            order = 2.98,
+            order = 2.94,
             width = 1.5,
             name = function() return l10n("List Achievements First") end,
             desc = function() return l10n("When this is checked, the Questie Tracker will list Achievements first then Quests.") end,
@@ -928,6 +932,34 @@ function QuestieOptions.tabs.tracker:Initialize()
             end
         }
     end
+
+    -- Questie Tracker Integrations Options
+    local VoiceOver = (IsAddOnLoaded("AI_VoiceOver") and IsAddOnLoaded("AI_VoiceOverData_Vanilla"))
+    --local TomTom = IsAddOnLoaded("TomTom")
+
+    if VoiceOver then
+        trackerOptions.args.stickyVoiceOverFrame = {
+            type = "toggle",
+            order = 2.96,
+            width = 1.5,
+            name = function() return l10n("Sticky VoiceOver Frame") end,
+            desc = function() return l10n("When this is checked, the VoiceOver talking head / sound queue frame will be placed on the left or right side of the Questie Tracker depending on where the Tracker is placed on your screen.") end,
+            disabled = function() return not Questie.db.char.trackerEnabled end,
+            get = function() return Questie.db.char.stickyVoiceOverFrame end,
+            set = function(_, value)
+                Questie.db.char.stickyVoiceOverFrame = value
+                if value == false then
+                    QuestieTracker:ResetVoiceOverFrame()
+                end
+                QuestieTracker:Update()
+            end
+        }
+    end
+
+    --if TomTom then
+    --trackerOptions.args.%optionname% = {
+    --}
+    --end
 
     return trackerOptions
 end
