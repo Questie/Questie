@@ -1793,6 +1793,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},
         },
+        [13697] = {
+            [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{31.9,63.8}}},
+        },
         [13716] = {
             [npcKeys.zoneID] = zoneIDs.MARAUDON,
             [npcKeys.spawns] = {[zoneIDs.MARAUDON] = {{-1,-1}}},
