@@ -1434,6 +1434,9 @@ function QuestieNPCFixes:Load()
         [11687] = {
             [npcKeys.spawns] = {[zoneIDs.DESOLACE] = {{28.5,63.05}}},
         },
+        [11688] = {
+            [npcKeys.waypoints] = {},
+        },
         [11714] = {
             [npcKeys.zoneID] = zoneIDs.DARKSHORE,
             [npcKeys.spawns] = {[zoneIDs.DARKSHORE] = {{45.84,90.41}}},
