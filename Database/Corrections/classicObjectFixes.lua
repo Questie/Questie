@@ -258,6 +258,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{28.24,6.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
+        [400061] = {
+            [objectKeys.name] = "Maraudon Orange Crystal Pool", -- Desolace for quest 7041
+            [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{33.22,65.67}}},
+            [objectKeys.zoneID] = zoneIDs.DESOLACE,
+        },
         [500000] = {
             [objectKeys.name] = "Feralas Ahi Fishing Location",
             [objectKeys.questStarts] = {},
