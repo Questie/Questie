@@ -311,6 +311,9 @@ function QuestieNPCFixes:Load()
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{36.16,57.91}}},
         },
+        [2783] = {
+            [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{29.62,62.97},{29.47,64.14}}},
+        },
         [2794] = {
             [npcKeys.zoneID] = zoneIDs.ARATHI_HIGHLANDS,
             [npcKeys.spawns] = {[zoneIDs.ARATHI_HIGHLANDS] = {{18.62,67.99}}},
