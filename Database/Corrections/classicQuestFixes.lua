@@ -1689,6 +1689,7 @@ function QuestieQuestFixes:Load()
         },
         [5088] = {
             [questKeys.triggerEnd] = {"Light the Sacred Fire of Life", {[zoneIDs.THOUSAND_NEEDLES]={{38.08,35.35}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Light the Sacred Fire of Life"),2,{{"object", 175944}}}},
         },
         [5089] = {
             [questKeys.startedBy] = {{9568},nil,{12780}},
