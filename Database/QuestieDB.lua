@@ -1185,7 +1185,7 @@ function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
         else
             if questsEnded then
                 for _, id in pairs(questsEnded) do
-                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) and QuestiePlayer.currentQuestlog[id] then
                         questID = id
                     end
                 end
