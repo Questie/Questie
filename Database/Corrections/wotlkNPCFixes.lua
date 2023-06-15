@@ -37,6 +37,12 @@ function QuestieWotlkNpcFixes:Load()
         [3996] = {
             [npcKeys.spawns] = {[zoneIDs.ASHENVALE] = {{35.77,49.1}}},
         },
+        [5111] = {
+            [npcKeys.questStarts] = {3790,8353},
+        },
+        [6740] = {
+            [npcKeys.questStarts] = {3789,8356},
+        },
         [11886] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{24.8,79.8}}},
         },

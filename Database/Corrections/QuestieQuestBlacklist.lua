@@ -2152,6 +2152,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         -- Dungeons -> The Slave Pens (2 -> 3717)
         [13431] = true, --* The Cudgel of Kar'desh (https://www.wowhead.com/wotlk/quest=13431)
 
+        -- Darnassus WOTLK
+        [10520] = QuestieCorrections.WOTLK_ONLY, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
 
         --! 8.0.1
         -- Raids -> Sunwell Plateau (3 -> 4075)
