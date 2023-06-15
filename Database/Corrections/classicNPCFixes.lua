@@ -239,7 +239,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{32.66,35.55}}},
         },
         [2306] = {
-            [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS]={{47.83,17.11},{56.28,26.7},{57.8,29.8},{61,43}}},
+            [npcKeys.spawns] = {[zoneIDs.ALTERAC_MOUNTAINS]={{47.83,17.11},{56.28,26.7},{57.8,29.8},{60.33,43.12},{53.67,20.4}}},
         },
         [2403] = {
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{35,38.6},{35.2,38},{35.2,40.4},{36.4,39.4},{36.4,39.6},{36.6,39.4}}},
