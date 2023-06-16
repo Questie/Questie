@@ -208,6 +208,12 @@ function QuestieWotlkQuestFixes:Load()
         [8552] = {
             [questKeys.specialFlags] = 0,
         },
+        [8553] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [8554] = {
+            [questKeys.requiredRaces] = raceIDs.NONE,
+        },
         [8746] = {
             [questKeys.objectives] = {{{15664,"Find Metzen the Reindeer and rescue him"}},nil,{{21211}}},
         },
