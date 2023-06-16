@@ -2,6 +2,18 @@
 local l10n = QuestieLoader:ImportModule("l10n")
 
 local classicObjectiveLocales = {
+    ["Summon Dagun the Ravenous using an Enchanted Sea Kelp"] = { -- 735 736
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use a Fresh Carcass at the Flame of Uzel"] = { -- 1136
         ["ptBR"] = false,
         ["ruRU"] = "Используйте Свежую Тушу в Пламени Узеля",
