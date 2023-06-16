@@ -365,8 +365,13 @@ function QuestieQuestFixes:Load()
         [731] = {
             [questKeys.triggerEnd] = {"Escort Prospector Remtravel", {[zoneIDs.DARKSHORE]={{35.67,84.03}}}},
         },
+        [735] = {
+            [questKeys.requiredSourceItems] = {4639},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Dagun the Ravenous using an Enchanted Sea Kelp"), 2, {{"object", 2871}}}},
+        },
         [736] = {
             [questKeys.requiredSourceItems] = {4639},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Summon Dagun the Ravenous using an Enchanted Sea Kelp"), 2, {{"object", 2871}}}},
         },
         [738] = {
             [questKeys.preQuestSingle] = {}, -- #1289
