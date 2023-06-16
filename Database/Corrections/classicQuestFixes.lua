@@ -1086,7 +1086,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {2281}, -- #1825
         },
         [2278] = {
-            [questKeys.triggerEnd] = {"Learn what lore that the stone watcher has to offer", {[zoneIDs.BADLANDS]={{35.21,10.33}}}},
+            [questKeys.objectives] = {{{7172,"Learn what lore that the stone watcher has to offer"}}},
         },
         [2281] = {
             [questKeys.exclusiveTo] = {2299}, -- #1817
