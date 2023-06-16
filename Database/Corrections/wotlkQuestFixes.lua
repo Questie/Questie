@@ -142,6 +142,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [2279] = {
+            [questKeys.preQuestSingle] = {2278},
+        },
         [2767] = {
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{54.3,51.2}}}},
         },
