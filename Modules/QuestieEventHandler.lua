@@ -374,11 +374,18 @@ function _EventHandler:ModifierStateChanged(key, down)
             if (key == "LCTRL" or key == "RCTRL") and down == 0 then
                 if IsMouseButtonDown("LeftButton") then
                     if TrackerBaseFrame.isSizing ~= false and TrackerBaseFrame.isMoving ~= true then
+                    -- Tracker is being sized
+                    if TrackerBaseFrame.isSizing ~= false and TrackerBaseFrame.isMoving ~= true then
                         TrackerBaseFrame.OnResizeStop(self, "LeftButton")
                         return
                     end
+                    -- Tracker is being moved
+                    if TrackerBaseFrame.isMoving ~= false and TrackerBaseFrame.isSizing ~= true then
+                        TrackerBaseFrame.OnDragStop(self, "LeftButton")
+                        return
+                    end
                 end
-            end            
+            end
             QuestieCombatQueue:Queue(function()
                 TrackerBaseFrame:Update()
                 TrackerQuestFrame:Update()
