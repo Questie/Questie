@@ -373,7 +373,6 @@ function _EventHandler:ModifierStateChanged(key, down)
             -- CTRL key first before releasing the Left Mouse Button.
             if (key == "LCTRL" or key == "RCTRL") and down == 0 then
                 if IsMouseButtonDown("LeftButton") then
-                    if TrackerBaseFrame.isSizing ~= false and TrackerBaseFrame.isMoving ~= true then
                     -- Tracker is being sized
                     if TrackerBaseFrame.isSizing ~= false and TrackerBaseFrame.isMoving ~= true then
                         TrackerBaseFrame.OnResizeStop(self, "LeftButton")
