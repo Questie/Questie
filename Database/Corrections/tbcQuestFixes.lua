@@ -179,6 +179,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{4456},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
         },
+        [1220] = {
+            [questKeys.startedBy] = {{23951}},
+        },
         [1437] = {
             [questKeys.triggerEnd] = {"Find and search Tyranis and Dalinda Malem's wagon", {[zoneIDs.DESOLACE]={{56.52,17.84}}}},
         },
