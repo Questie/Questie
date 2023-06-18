@@ -2667,7 +2667,7 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [11146] = {
-            [questKeys.objectives] = {{{4351,"Raptors Captured"}},nil,nil,nil},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{4351,4352},4351,"Raptors Captured"}}},
         },
         [11152] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Lay the Wreath at the Hyal Family Monument"), 0, {{"object", 186322}}}},
