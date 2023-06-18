@@ -616,6 +616,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SCARLET_MONASTERY] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.SCARLET_MONASTERY,
         },
+        [23905] = {
+            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH] = {{69.61,51.77}}},
+        },
         [24202] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR] = {{52,66.6}},[zoneIDs.IRONFORGE]={{30.2,66.5}}},
         },
