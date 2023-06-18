@@ -1178,6 +1178,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "在海厄尔系列墓碑前放上一个花圈",
     },
+    ["Redeem Remains"] = { -- 11159
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Plant the Stonemaul Banner"] = { -- 11162
         ["ptBR"] = false,
         ["ruRU"] = false,
