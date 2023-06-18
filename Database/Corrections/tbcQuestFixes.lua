@@ -2716,7 +2716,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {11158},
         },
         [11209] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{57,62}}}, Questie.ICON_TYPE_EVENT, l10n("Smear the Fish Paste on yourself and swim to the ship wreck")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.DUSTWALLOW_MARSH]={{56.38,62.42}}}, Questie.ICON_TYPE_EVENT, l10n("Smear the Fish Paste on yourself and swim to the ship wreck")}},
         },
         [11211] = {
             [questKeys.exclusiveTo] = {11158,11214,11215},
