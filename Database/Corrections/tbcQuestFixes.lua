@@ -2674,6 +2674,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11159] = {
             [questKeys.preQuestSingle] = {11161},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Redeem Remains"), 0, {{"object", 186332}}}},
         },
         [11162] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Plant the Stonemaul Banner"), 0, {{"object", 186336}}}},
