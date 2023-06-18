@@ -640,12 +640,6 @@ function QuestieNPCFixes:Load()
         [4947] = {
             [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{65.0,47.0},{67.2,51.0},{68.0,48.0}}},
         },
-        [4967] = {
-            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{45.2,24.4},{59.6,41.2},{66.4,49.2}}},
-        },
-        [4968] = {
-            [npcKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{66.27,49.04},{45.22,24.22}}},
-        },
         [4969] = {
             [npcKeys.zoneID] = zoneIDs.STORMWIND_CITY,
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY] = {{69.89,44.9}}},
