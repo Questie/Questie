@@ -35,6 +35,9 @@ function QuestieObjectFixes:Load()
         [1739] = {
             [objectKeys.questStarts] = {510,511},
         },
+        [2555] = {
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{31.11,66.14}}},
+        },
         [2560] = {
             [objectKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE]={{36.26,70.56},{39.73,77.42},{37.41,64.5},{33.79,77.68},{36.11,80.47},{36.56,77.09},{34.29,73.78}}},
         },
