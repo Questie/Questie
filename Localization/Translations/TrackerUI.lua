@@ -372,6 +372,20 @@ local trackerUILocales = {
         ["esES"] = "Abandonar misión",
         ["frFR"] = "Abandonner la quête",
     },
+    -- This message appears on screen after the player holds CTRL + C
+    -- (Keyboard shortcut for Copy) - WoWHead URL StaticPopUp.
+    ["Copied URL to clipboard"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     -- "Lock Tracker" is in the Tracker.lua inside the Translations/Options directory
     ["Unlock Tracker"] = {
         ["ptBR"] = "Desbloquear rastreador",
