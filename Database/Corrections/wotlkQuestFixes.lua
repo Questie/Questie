@@ -397,6 +397,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{23876,"Spores frozen"}}},
         },
         [11332] = {
+            [questKeys.sourceItemId] = 33634,
             [questKeys.preQuestSingle] = {11331},
         },
         [11343] = {
