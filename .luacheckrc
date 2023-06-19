@@ -2451,6 +2451,7 @@ globals = {
     "ActionBarButtonEventsFrame",
     "ActionBarController",
     "ActionStatus",
+    "ActionStatus_DisplayMessage",
     "AddFriendFrame",
     "AddonList",
     "AlertFrame",

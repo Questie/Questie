@@ -2823,7 +2823,8 @@
         "VoiceOverFrame",
         "STATICPOPUP_NUMDIALOGS",
         "DELETE_ITEM",
-        "StaticPopup_Resize"
+        "StaticPopup_Resize",
+        "ActionStatus_DisplayMessage"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**",
