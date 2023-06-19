@@ -376,7 +376,7 @@ local trackerUILocales = {
     -- (Keyboard shortcut for Copy) - WoWHead URL StaticPopUp.
     ["Copied URL to clipboard"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "URL скопирован в буфер обмена",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
