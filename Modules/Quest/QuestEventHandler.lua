@@ -209,7 +209,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
     -- We first check the quest objectives and retry in the next QLU event if they are not correct yet
     local cacheMiss, changes = QuestLogCache.CheckForChanges({ [questId] = true }) -- if cacheMiss, no need to check changes as only 1 questId
     if cacheMiss then
-        Questie:Debug(Questie.DEBUG_SPAM, "Objectives are not cached yet")
+        Questie:Debug(Questie.DEBUG_INFO, "Objectives are not cached yet")
         _QuestLogUpdateQueue:Insert(function()
             return _QuestEventHandler:HandleQuestAccepted(questId)
         end)
@@ -217,7 +217,7 @@ function _QuestEventHandler:HandleQuestAccepted(questId)
         return false
     end
 
-    Questie:Debug(Questie.DEBUG_SPAM, "Objectives are correct. Calling accept logic. quest:", questId)
+    Questie:Debug(Questie.DEBUG_INFO, "Objectives are correct. Calling accept logic. quest:", questId)
     questLog[questId].state = QUEST_LOG_STATES.QUEST_ACCEPTED
     QuestieQuest:SetObjectivesDirty(questId)
 
@@ -247,7 +247,7 @@ function _QuestEventHandler:QuestTurnedIn(questId, xpReward, moneyReward)
         questLog[questId].timer = nil
     end
 
-    Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in and is completed")
+    Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was turned in and is completed")
 
     if questLog[questId] then
         -- There are quests which you just turn in so there is no preceding QUEST_ACCEPTED event and questLog[questId]
@@ -297,7 +297,7 @@ function _QuestEventHandler:QuestRemoved(questId)
 
     -- QUEST_TURNED_IN was called before QUEST_REMOVED --> quest was turned in
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_TURNED_IN then
-        Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was turned in before. Nothing do to.")
+        Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was turned in before. Nothing do to.")
         questLog[questId] = nil
         return
     end
@@ -318,7 +318,7 @@ end
 function _QuestEventHandler:MarkQuestAsAbandoned(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "QuestEventHandler:MarkQuestAsAbandoned")
     if questLog[questId].state == QUEST_LOG_STATES.QUEST_REMOVED then
-        Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "was abandoned")
+        Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "was abandoned")
         questLog[questId].state = QUEST_LOG_STATES.QUEST_ABANDONED
 
         QuestLogCache.RemoveQuest(questId)
@@ -372,7 +372,7 @@ local _UnitQuestLogChangedCallback = function()
     else
         doFullQuestLogScan = false
         skipNextUQLCEvent = false
-        Questie:Debug(Questie.DEBUG_SPAM, "Skipping UnitQuestLogChanged")
+        Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
     end
     return true
 end
@@ -389,7 +389,7 @@ function _QuestEventHandler:UnitQuestLogChanged(unitTarget)
         doFullQuestLogScan = true
         _QuestLogUpdateQueue:Insert(_UnitQuestLogChangedCallback)
     else
-        Questie:Debug(Questie.DEBUG_SPAM, "Skipping UnitQuestLogChanged")
+        Questie:Debug(Questie.DEBUG_INFO, "Skipping UnitQuestLogChanged")
     end
     skipNextUQLCEvent = false
 end
@@ -397,7 +397,7 @@ end
 --- Does a full scan of the quest log and updates every quest that is in the QUEST_ACCEPTED state and which hash changed
 --- since the last check
 function _QuestEventHandler:UpdateAllQuests()
-    Questie:Debug(Questie.DEBUG_SPAM, "Running full questlog check")
+    Questie:Debug(Questie.DEBUG_INFO, "Running full questlog check")
     local questIdsToCheck = {}
 
     -- TODO replace with a ready table so no need to generate at each call
@@ -411,8 +411,8 @@ function _QuestEventHandler:UpdateAllQuests()
 
     if next(changes) then
         for questId, objIds in pairs(changes) do
-            --Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
-            Questie:Debug(Questie.DEBUG_SPAM, "Quest:", questId, "will be updated")
+            --Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "objectives:", table.concat(objIds, ","), "will be updated")
+            Questie:Debug(Questie.DEBUG_INFO, "Quest:", questId, "will be updated")
             QuestieQuest:SetObjectivesDirty(questId)
 
             QuestieNameplate:UpdateNameplate()
@@ -424,7 +424,7 @@ function _QuestEventHandler:UpdateAllQuests()
             end)
         end)
     else
-        Questie:Debug(Questie.DEBUG_SPAM, "Nothing to update")
+        Questie:Debug(Questie.DEBUG_INFO, "Nothing to update")
     end
 
     -- Do UpdateAllQuests() again at next QUEST_LOG_UPDATE if there was "cacheMiss" (game's cache and addon's cache didn't have all required data yet)

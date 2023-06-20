@@ -373,12 +373,5 @@ function QuestieInit:Init()
             WatchFrame:ClearAllPoints()
             WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
         end
-
-        -- Need to hook this ASAP otherwise the scroll bars show up
-        hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
-            if TrackedQuestsScrollFrame then
-                TrackedQuestsScrollFrame.ScrollBar:Hide()
-            end
-        end)
     end
 end
