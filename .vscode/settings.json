@@ -2815,6 +2815,7 @@
         "RED_FONT_COLOR",
         "QuestFrameCloseButton",
         "TrackedQuestsScrollFrame",
+        "QuestieProfilerScrollFrame",
         "C_AddOns",
         "VoiceOver",
         "Questie_BaseFrame",

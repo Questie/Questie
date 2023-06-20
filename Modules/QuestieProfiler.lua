@@ -140,7 +140,14 @@ function QuestieProfiler:CreateUI()
         insets = { left = 4, right = 4, top = 4, bottom = 4 },
     })
 
-    base.scrollFrame = CreateFrame("ScrollFrame", nil, base, "ScrollFrameTemplate")
+    local scrollFrameTemplete
+    if Questie.IsWotlk then
+        scrollFrameTemplete = "ScrollFrameTemplate"
+    else
+        scrollFrameTemplete = "UIPanelScrollFrameTemplate"
+    end
+
+    base.scrollFrame = CreateFrame("ScrollFrame", "QuestieProfilerScrollFrame", base, scrollFrameTemplete)
     base.scrollFrame:SetFrameStrata("TOOLTIP")
     base.scrollFrame:SetPoint("TOPLEFT", base, 0, -40)
     base.scrollFrame:SetPoint("BOTTOMRIGHT", base, 0, 30)
