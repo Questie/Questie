@@ -658,7 +658,7 @@ function QuestieQuest:GetAllQuestIds()
             else
                 QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
             end
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
         end
     end
     QuestieCombatQueue:Queue(function()
@@ -684,7 +684,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
         end
     end
 end
@@ -692,7 +692,7 @@ end
 -- iterate all notes, update / remove as needed
 ---@param quest Quest
 function QuestieQuest:UpdateObjectiveNotes(quest)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] UpdateObjectiveNotes:", quest.Id)
     for objectiveIndex, objective in pairs(quest.Objectives) do
         local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, objective, false)
         if (not result) then
@@ -987,7 +987,7 @@ end
 ---@param objectiveIndex ObjectiveIndex
 ---@param objectiveCenter {x:X, y:Y}
 _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCenter)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:_DetermineIconsToDraw]")
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DetermineIconsToDraw]")
 
     local iconsToDraw = {}
     local spawnItemId
@@ -1066,7 +1066,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
 end
 
 _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveIcons] Adding Icons for quest:", questId)
 
     local spawnedIconCount = 0
     local icon
@@ -1174,7 +1174,7 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
                     QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and { 1, 0.2, 0, 0.7 } or nil)
                 end
             end
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:_DrawObjectiveWaypoints]")
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveWaypoints]")
         end
     end
 end
@@ -1276,7 +1276,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         return nil
     end
 
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
 
     local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
     if (not questLogEngtry) then return end
@@ -1367,7 +1367,7 @@ end
 ---@param questId number
 ---@return table<ObjectiveIndex, QuestLogCacheObjectiveData>|nil @DO NOT EDIT RETURNED TABLE
 function QuestieQuest:GetAllLeaderBoardDetails(questId)
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:GetAllLeaderBoardDetails] for questId", questId)
 
     local questObjectives = QuestLogCache.GetQuestObjectives(questId) -- DO NOT MODIFY THE RETURNED TABLE
     if (not questObjectives) then return end
@@ -1581,7 +1581,7 @@ do
                                 ---@type Quest
                                 local quest = QuestieDB:GetQuest(questId)
                                 if (not quest.tagInfoWasCached) then
-                                    --Questie:Debug(Questie.DEBUG_SPAM, "Caching tag info for quest", questId)
+                                    --Questie:Debug(Questie.DEBUG_INFO, "Caching tag info for quest", questId)
                                     QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
                                     quest.tagInfoWasCached = true
                                 end

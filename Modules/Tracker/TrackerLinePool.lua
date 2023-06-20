@@ -759,9 +759,9 @@ end
 
 function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-    local trackerMarginLeft = 10
+    local trackerMarginLeft = 14
     local trackerMarginRight = 30
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight + 4) - (18 - trackerFontSizeQuest)
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -781,7 +781,7 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
                     end
 
                     line:SetHeight(line.label:GetStringHeight() + 2 + Questie.db.global.trackerQuestPadding)
-                    line.label:SetHeight(line:GetHeight())
+                    line.label:SetHeight(line:GetHeight() - 2 - Questie.db.global.trackerQuestPadding)
                 end
             end
         end

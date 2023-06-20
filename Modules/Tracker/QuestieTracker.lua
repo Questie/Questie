@@ -44,7 +44,7 @@ local LSM30 = LibStub("LibSharedMedia-3.0")
 local trackerLineWidth = 0
 local trackerMinLineWidth = 260
 local trackerMarginRight = 30
-local trackerMarginLeft = 10
+local trackerMarginLeft = 14
 local lastAQW = GetTime()
 local lastTrackerUpdate = GetTime()
 local lastAchieveId = GetTime()
@@ -332,17 +332,17 @@ function QuestieTracker:CheckDurabilityAlertStatus()
             end
 
             if numAlerts > 0 then
+                if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:CheckDurabilityAlertStatus]")
+                else
+                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:CheckDurabilityAlertStatus]")
+                end
+
                 QuestieTracker:UpdateDurabilityFrame()
             else
                 if DurabilityFrame:IsShown() then
                     DurabilityFrame:Hide()
                 end
-            end
-
-            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:CheckDurabilityAlertStatus]")
-            else
-                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:CheckDurabilityAlertStatus]")
             end
         end
     end
@@ -580,7 +580,7 @@ function QuestieTracker:Update()
     -- Setup local QuestieTracker:Update vars
     local trackerFontSizeZone = Questie.db.global.trackerFontSizeZone
     local trackerFontSizeQuest = Questie.db.global.trackerFontSizeQuest
-    local questMarginLeft = (trackerMarginLeft + trackerMarginRight + 4) - (18 - trackerFontSizeQuest)
+    local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
 
@@ -1680,7 +1680,7 @@ function QuestieTracker:UpdateFormatting()
         local trackerVarsCombined = trackerLineWidth + trackerMarginRight
         TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
         QuestieTracker:UpdateWidth(trackerVarsCombined)
-        QuestieTracker:UpdateHeight(trackerVarsCombined)
+        QuestieTracker:UpdateHeight()
         TrackerQuestFrame:Update()
     end
 
@@ -1738,7 +1738,7 @@ function QuestieTracker:UpdateWidth(trackerVarsCombined)
     end
 end
 
-function QuestieTracker:UpdateHeight(trackerVarsCombined)
+function QuestieTracker:UpdateHeight()
     local trackerHeaderFrameHeight = trackerHeaderFrame:GetHeight() + Questie.db.global.trackerFontSizeZone + 23
     local trackerHeightByRatio = GetScreenHeight() * Questie.db.global.trackerHeightRatio
     local trackerHeightByManual = Questie.db[Questie.db.global.questieTLoc].TrackerHeight
@@ -1753,8 +1753,8 @@ function QuestieTracker:UpdateHeight(trackerVarsCombined)
             -- If a single zone is the only line in the tracker then don't add pixel padding
             trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom()))
         else
-            -- Add 2 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
-            trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 2))
+            -- Add 3 pixels to bottom of tracker to account for text that traverses beyond the GetStringHeight() function such as lower case "g".
+            trackerQuestFrame.ScrollChildFrame:SetHeight((TrackerLinePool.GetFirstLine():GetTop() - TrackerLinePool.GetCurrentLine():GetBottom() + 3))
         end
 
         -- Set the baseFrame to full height so we can measure it
@@ -1808,9 +1808,6 @@ function QuestieTracker:Unhook()
 
     TrackerQuestTimers:ShowBlizzardTimer()
 
-    -- ScrollFrame Hooks
-    UIPanelScrollBar_OnValueChanged = QuestieTracker.UIPanelScrollBar_OnValueChanged
-
     -- Quest Hooks
     if QuestieTracker.IsQuestWatched then
         IsQuestWatched = QuestieTracker.IsQuestWatched
@@ -1859,17 +1856,6 @@ function QuestieTracker:HookBaseTracker()
     end
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:HookBaseTracker] - Non-secure hooks")
-
-    -- ScrollFrame Hooks
-    QuestieTracker.UIPanelScrollBar_OnValueChanged = UIPanelScrollBar_OnValueChanged
-    UIPanelScrollBar_OnValueChanged = function(self, value)
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:UIPanelScrollBar_OnValueChanged]")
-        if InCombatLockdown() then
-            return
-        else
-            self:GetParent():SetVerticalScroll(value)
-        end
-    end
 
     -- Quest Hooks
     if not QuestieTracker.IsQuestWatched then
