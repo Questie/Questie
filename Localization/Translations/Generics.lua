@@ -410,6 +410,18 @@ local genericsLocales = {
         ["esES"] = "Grupo",
         ["frFR"] = "Groupe",
     },
+    ["PvP"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["Raid"] = {
         ["ptBR"] = "Raide",
         ["ruRU"] = "Рейд",
