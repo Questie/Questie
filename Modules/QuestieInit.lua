@@ -9,8 +9,6 @@ local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 local QuestEventHandler = QuestieLoader:ImportModule("QuestEventHandler")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type Migration
@@ -19,8 +17,6 @@ local Migration = QuestieLoader:ImportModule("Migration")
 local QuestieProfessions = QuestieLoader:ImportModule("QuestieProfessions")
 ---@type QuestieTracker
 local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
----@type QuestieNameplate
-local QuestieNameplate = QuestieLoader:ImportModule("QuestieNameplate")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 ---@type QuestieLib
@@ -313,7 +309,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     Questie.started = true
 
-    if Questie.IsWotlk and QuestiePlayer.GetPlayerLevel() == 70 then
+    if (Questie.IsWotlk or Questie.IsTBC) and QuestiePlayer.IsMaxLevel() then
         local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
         local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
 
@@ -375,14 +371,19 @@ function QuestieInit:Init()
             -- Classic WoW: This moves the QuestTimerFrame off screen. A faux Hide().
             -- Otherwise, if the frame is hidden then the OnUpdate doesn't work.
             WatchFrame:ClearAllPoints()
-            WatchFrame:SetPoint("TOP", -10000, -10000)
+            WatchFrame:SetPoint("TOP", "UIParent", -10000, -10000)
         end
+        if not Questie.IsWotlk then
+            -- Need to hook this ASAP otherwise the scroll bars show up
+            hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
+                if TrackedQuestsScrollFrame then
+                    TrackedQuestsScrollFrame.ScrollBar:Hide()
+                end
 
-        -- Need to hook this ASAP otherwise the scroll bars show up
-        hooksecurefunc("ScrollFrame_OnScrollRangeChanged", function()
-            if TrackedQuestsScrollFrame then
-                TrackedQuestsScrollFrame.ScrollBar:Hide()
-            end
-        end)
+                if QuestieProfilerScrollFrame then
+                    QuestieProfilerScrollFrame.ScrollBar:Hide()
+                end
+            end)
+        end
     end
 end

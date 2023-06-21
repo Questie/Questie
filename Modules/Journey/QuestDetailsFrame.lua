@@ -123,7 +123,7 @@ function _QuestieJourney:DrawQuestDetailsFrame(container, quest)
             local startQuests = {}
             local counter = 1
             for _, v in pairs(startNpc.questStarts) do
-                if (not v == quest.Id) then
+                if v ~= quest.Id then
                     startQuests[counter] = {}
                     local startQuest = QuestieDB:GetQuest(v)
                     local label = _QuestieJourney:GetInteractiveQuestLabel(startQuest)

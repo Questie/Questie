@@ -3,6 +3,23 @@ local Sounds = QuestieLoader:CreateModule("Sounds")
 
 local soundTable
 local shouldPlayObjectiveSound = false
+local shouldPlayObjectiveProgress = false
+
+function Sounds.PlayObjectiveProgress()
+    if (not Questie.db.char.soundOnObjectiveProgress) then
+        return
+    end
+
+    if (not shouldPlayObjectiveProgress) then
+        shouldPlayObjectiveProgress = true
+        C_Timer.After(0.5, function ()
+            if shouldPlayObjectiveProgress then
+                PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveProgressSoundChoiceName), "Master")
+                shouldPlayObjectiveProgress = false
+            end
+        end)
+    end
+end
 
 function Sounds.PlayObjectiveComplete()
     if (not Questie.db.char.soundOnObjectiveComplete) then
@@ -26,6 +43,7 @@ function Sounds.PlayQuestComplete()
     end
 
     shouldPlayObjectiveSound = false
+    shouldPlayObjectiveProgress = false
     PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.questCompleteSoundChoiceName), "Master")
 end
 
@@ -35,6 +53,7 @@ end
 
 soundTable = {
     ["QuestDefault"]       = "Sound/Creature/Peon/PeonBuildingComplete1.ogg",
+    ["GameDefault"]        = "Sound/Interface/iquestcomplete.ogg",
     ["Troll Male"]         = "Sound/Character/Troll/TrollVocalMale/TrollMaleCongratulations01.ogg",
     ["Troll Female"]       = "Sound/Character/Troll/TrollVocalFemale/TrollFemaleCongratulations01.ogg",
     ["Tauren Male"]        = "Sound/Creature/Tauren/TaurenYes3.ogg",
@@ -69,4 +88,5 @@ soundTable = {
     ["War Drums"]          = "Sound/Event Sounds/Event_wardrum_ogre.ogg",
     ["Humm"]               = "Sound/Spells/SimonGame_Visual_GameStart.ogg",
     ["Short Circuit"]      = "Sound/Spells/SimonGame_Visual_BadPress.ogg",
+    ["ObjectiveProgress"]  = "Sound/Interface/AuctionWindowOpen.ogg",
 }

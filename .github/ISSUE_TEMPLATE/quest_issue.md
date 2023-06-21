@@ -24,7 +24,7 @@ You can also help as a tester, developer or translator. To do so please join the
 
 
 ## Wowhead link
-<!-- If this issue is about a quest/npc/item/... then please include a link to it from Wowhead: https://classic.wowhead.com or https://tbc.wowhead.com -->
+<!-- If this issue is about a quest/npc/item/... then please include a link to it from Wowhead: https://wowhead.com/classic or https://wowhead.com/wotlk -->
 
 
 ## Screenshots
@@ -38,5 +38,5 @@ Which version of Questie are you using? You can find it by:
 - 2. looking at your Questie.toc file (open it with any text editor).
 It looks something like this: "v5.9.0" or "## Version: 5.9.0".
 
-Please also state if your quest issue is about Classic Era/SoM or TBC.
+Please also state if your quest issue is about Classic Era/SoM or Wotlk.
 -->

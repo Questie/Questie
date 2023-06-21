@@ -228,28 +228,28 @@ end
 -- EUROPEAN FORMAT! NO FUCKING AMERICAN SHIDAZZLE FORMAT!
 QuestieEvent.eventDates = {
     ["Lunar Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "23/1",
-        endDate = "10/2"
+        startDate = "3/2",
+        endDate = "24/2"
     },
     ["Love is in the Air"] = {startDate = "06/2", endDate = "20/2"},
     ["Noblegarden"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "13/5",
-        endDate = "19/5"
+        startDate = "31/3",
+        endDate = "6/4"
     },
     ["Children's Week"] = {startDate = "1/5", endDate = "7/5"},
-    ["Midsummer"] = {startDate = "21/6", endDate = "5/7"},
-    ["Brewfest"] = {startDate = "20/9", endDate = "6/10"}, -- TODO: This might be different (retail date)
+    ["Midsummer"] = {startDate = "21/6", endDate = "4/7"},
+    ["Brewfest"] = {startDate = "20/9", endDate = "5/10"}, -- TODO: This might be different (retail date)
     ["Harvest Festival"] = { -- WARNING THIS DATE VARIES!!!!
-        startDate = "17/9",
-        endDate = "24/9"
+        startDate = "26/9",
+        endDate = "2/10"
     },
     ["Pilgrim's Bounty"] = {
-        startDate = "22/11",
-        endDate = "28/11"
+        startDate = "21/11",
+        endDate = "27/11"
     },
     ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
-    ["Hallow's End"] = {startDate = "18/10", endDate = "1/11"},
-    ["Winter Veil"] = {startDate = "15/12", endDate = "2/1"}
+    ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
+    ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"}
 }
 
 -- ["EventName"] = false -> event doesn't exists in expansion

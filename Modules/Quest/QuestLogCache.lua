@@ -90,14 +90,8 @@ local function GetNewObjectives(questId, oldObjectives)
         local newObj = objectives[objIndex]
         -- Check if objective.text is in game's cache
         if (newObj.text) and (stringByte(newObj.text, 1) ~= 32) then
-            -- luacheck:ignore 542
-            if objIndex == 2 and newObjectives[1].raw_text == newObj.text then
-                -- Nothing to do in this case.
-                -- This is a work around for Blizzard adding the exact same objective a second time.
-                -- Examples in the past were the Children's Week quests 910, 911,1800
-
             -- Check if objective has changed
-            elseif oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
+            if oldObj and oldObj.raw_numFulfilled == newObj.numFulfilled and oldObj.raw_text == newObj.text and oldObj.raw_finished == newObj.finished and oldObj.numRequired == newObj.numRequired and oldObj.type == newObj.type then
                 -- Not changed
                 newObjectives[objIndex] = oldObj
             else
@@ -110,6 +104,10 @@ local function GetNewObjectives(questId, oldObjectives)
 
                 if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired == newObj.numFulfilled then
                     Sounds.PlayObjectiveComplete()
+                end
+
+                if oldObj and newObj and oldObj.numRequired ~= oldObj.numFulfilled and newObj.numRequired ~= newObj.numFulfilled then
+                    Sounds.PlayObjectiveProgress()
                 end
 
                 newObjectives[objIndex] = {
@@ -239,7 +237,8 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
     if questIdsToCheck then
         for questId in pairs(questIdsToCheck) do
             if (not questIdsChecked[questId]) then
-                Questie:Error("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
+                -- TODO: This actually happens and need to be fixed
+                Questie:Warning("Please report on Github or Discord. QuestId doesn't exist in Game's quest log:", questId)
             end
         end
     end

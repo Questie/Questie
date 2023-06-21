@@ -4910,6 +4910,18 @@ local northrendLocales = {
         ["zhTW"] = "安卡罕特:古王國",
         ["zhCN"] = "安卡赫特：古代王国",
     },
+    ["Ahn'kahet"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Fjorn's Anvil"] = {
         ["ptBR"] = "Bigorna de Fjorn",
         ["ruRU"] = "Наковальня Фьорна",

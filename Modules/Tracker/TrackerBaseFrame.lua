@@ -18,16 +18,16 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local WatchFrame = QuestWatchFrame or WatchFrame
 local baseFrame, sizer, sizerSetPoint, sizerSetPointY, sizerLine1, sizerLine2, sizerLine3
 local mouseLookTicker
-local dragButton
 local updateTimer
 
 TrackerBaseFrame.IsInitialized = false
 TrackerBaseFrame.isSizing = false
+TrackerBaseFrame.isMoving = false
 
 function TrackerBaseFrame.Initialize()
     baseFrame = CreateFrame("Frame", "Questie_BaseFrame", UIParent, BackdropTemplateMixin and "BackdropTemplate")
     baseFrame:SetClampedToScreen(true) -- We don't want this frame to be able to move off screen at all!
-    baseFrame:SetFrameStrata("LOW")
+    baseFrame:SetFrameStrata("MEDIUM")
     baseFrame:SetFrameLevel(0)
     baseFrame:SetSize(25, 25)
 
@@ -37,8 +37,9 @@ function TrackerBaseFrame.Initialize()
 
     baseFrame:SetScript("OnMouseDown", TrackerBaseFrame.OnDragStart)
     baseFrame:SetScript("OnMouseUp", TrackerBaseFrame.OnDragStop)
-    baseFrame:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
-    baseFrame:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
+    baseFrame:SetScript("OnEnter", TrackerFadeTicker.Unfade)
+
+    baseFrame:SetScript("OnLeave", TrackerFadeTicker.Fade)
 
     baseFrame:SetBackdrop({
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -68,8 +69,78 @@ function TrackerBaseFrame.Initialize()
     sizer:EnableMouse(true)
     sizer:SetScript("OnMouseDown", TrackerBaseFrame.OnResizeStart)
     sizer:SetScript("OnMouseUp", TrackerBaseFrame.OnResizeStop)
-    sizer:SetScript("OnEnter", TrackerFadeTicker.OnEnter)
-    sizer:SetScript("OnLeave", TrackerFadeTicker.OnLeave)
+
+    sizer:SetScript("OnEnter", function(self)
+        if InCombatLockdown() then
+            if GameTooltip:IsShown() then
+                GameTooltip:Hide()
+                return
+            end
+        end
+
+        -- Set Sizer mode
+        local trackerSizeMode
+        if Questie.db[Questie.db.global.questieTLoc].TrackerHeight == 0 then
+            trackerSizeMode = Questie:Colorize(l10n("Auto"), "green")
+        else
+            trackerSizeMode = Questie:Colorize(l10n("Manual"), "orange")
+        end
+
+        -- Set initial tooltip
+        if not Questie.db.global.sizerHidden then
+            GameTooltip._owner = self
+            GameTooltip:SetOwner(self, "ANCHOR_CURSOR")
+            if IsShiftKeyDown() then
+                GameTooltip:ClearLines()
+                GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+                GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker (Manual)"))
+                GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer (Auto)"))
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize while Locked"))
+                GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset while Locked"))
+                GameTooltip:AddLine(" ")
+                GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
+                GameTooltip:Show()
+            else
+                GameTooltip:ClearLines()
+                GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+                GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
+                GameTooltip:Show()
+            end
+
+            -- Update tooltip
+            GameTooltip._SizerToolTip = function()
+                if IsShiftKeyDown() then
+                    GameTooltip:ClearLines()
+                    GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+                    GameTooltip:AddLine(Questie:Colorize(l10n("Left Click + Hold") .. ": ", "gray") .. l10n("Resize Tracker (Manual)"))
+                    GameTooltip:AddLine(Questie:Colorize(l10n("Right Click") .. ": ", "gray") .. l10n("Reset Sizer (Auto)"))
+                    GameTooltip:AddLine(" ")
+                    GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Left Click + Hold") .. ": ", "gray") .. l10n("Resize while Locked"))
+                    GameTooltip:AddLine(Questie:Colorize(l10n("Ctrl + Right Click") .. ": ", "gray") .. l10n("Reset while Locked"))
+                    GameTooltip:AddLine(" ")
+                    GameTooltip:AddLine(Questie:Colorize(l10n("NOTE") .. ": ", "red") .. l10n("The Tracker Height Ratio\nis ignored while in Manual mode"))
+                    GameTooltip:Show()
+                else
+                    GameTooltip:ClearLines()
+                    GameTooltip:AddLine(Questie:Colorize(l10n("Sizer Mode") .. ": ", "white") .. trackerSizeMode)
+                    GameTooltip:AddLine(Questie:Colorize("(" .. l10n("Hold Shift") .. ")", "gray"))
+                    GameTooltip:Show()
+                end
+            end
+        end
+
+        TrackerFadeTicker.Unfade(self)
+    end)
+
+    sizer:SetScript("OnLeave", function(self)
+        if GameTooltip:IsShown() then
+            GameTooltip:Hide()
+            GameTooltip._SizerToolTip = nil
+        end
+
+        TrackerFadeTicker.Fade(self)
+    end)
 
     baseFrame.sizer = sizer
 
@@ -150,6 +221,8 @@ function TrackerBaseFrame.Initialize()
     end
 
     baseFrame:Hide()
+    baseFrame.isSizing = false
+    baseFrame.isMoving = false
 
     TrackerBaseFrame.IsInitialized = true
     TrackerBaseFrame.baseFrame = baseFrame
@@ -164,9 +237,16 @@ function TrackerBaseFrame:Update()
                 if not Questie.db.global.trackerBackdropFader then
                     baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
                     baseFrame:SetBackdropBorderColor(1, 1, 1, Questie.db.global.trackerBackdropAlpha)
+                else
+                    baseFrame:SetBackdropColor(0, 0, 0, 0)
+                    baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
                 end
             else
-                baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                if not Questie.db.global.trackerBackdropFader then
+                    baseFrame:SetBackdropColor(0, 0, 0, Questie.db.global.trackerBackdropAlpha)
+                else
+                    baseFrame:SetBackdropColor(0, 0, 0, 0)
+                end
                 baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
             end
         else
@@ -176,7 +256,8 @@ function TrackerBaseFrame:Update()
 
         local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
-        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+        if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.global.autoMoveHeader then
+            -- Move Sizer to Top Right corner
             sizer:ClearAllPoints()
             sizer:SetPoint("TOPRIGHT", 0, 0)
 
@@ -195,6 +276,7 @@ function TrackerBaseFrame:Update()
             x = 0.1 * 8 / 17
             sizerLine3:SetTexCoord(1 / 32, 0.5 + x, 1 / 32 - x, 0.5, 1 / 32 + x, 0.5, 1 / 32, 0.5 - x)
         else
+            -- Move Sizer to Bottom Right corner
             sizer:ClearAllPoints()
             sizer:SetPoint("BOTTOMRIGHT", 0, 0)
 
@@ -217,10 +299,6 @@ function TrackerBaseFrame:Update()
         if Questie.db.global.sizerHidden then
             baseFrame.sizer:SetAlpha(0)
         end
-
-        if Questie.db.global.stickyDurabilityFrame then
-            QuestieTracker:MoveDurabilityFrame()
-        end
     else
         baseFrame.sizer:SetAlpha(0)
         DurabilityFrame:Hide()
@@ -230,29 +308,31 @@ function TrackerBaseFrame:Update()
 
     -- Enables Click-Through when the tracker is locked
     if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
-        baseFrame:SetMovable(true)
         QuestieCombatQueue:Queue(function()
-            if IsMouseButtonDown() then
-                return
-            end
-
             baseFrame:EnableMouse(true)
+            baseFrame:SetMovable(true)
             baseFrame:SetResizable(true)
         end)
     else
-        baseFrame:SetMovable(false)
         QuestieCombatQueue:Queue(function()
-            if IsMouseButtonDown() then
-                return
-            end
-
             baseFrame:EnableMouse(false)
+            baseFrame:SetMovable(false)
             baseFrame:SetResizable(false)
         end)
     end
+
+    QuestieTracker:UpdateVoiceOverFrame()
+    QuestieTracker:CheckDurabilityAlertStatus()
 end
 
 function TrackerBaseFrame:SetSafePoint()
+    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isResizing ~= true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint]")
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:SetSafePoint] - Frame is moving or resizing! --> Exiting.")
+        return
+    end
+
     local xOff, yOff = baseFrame:GetWidth() / 2, baseFrame:GetHeight() / 2
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
     local resetCords = { ["BOTTOMLEFT"] = { x = -xOff, y = -yOff }, ["BOTTOMRIGHT"] = { x = xOff, y = -yOff }, ["TOPLEFT"] = { x = -xOff, y = yOff }, ["TOPRIGHT"] = { x = xOff, y = yOff } }
@@ -263,7 +343,6 @@ function TrackerBaseFrame:SetSafePoint()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y }
     end
 
-    QuestieTracker:MoveDurabilityFrame()
     QuestieTracker:Update()
 end
 
@@ -272,34 +351,53 @@ function TrackerBaseFrame.ShrinkToMinSize(minSize)
 end
 
 ---@param button string @The mouse button that is pressed when dragging starts
-function TrackerBaseFrame.OnDragStart(button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart]", button)
-
-    if InCombatLockdown() then
-        return
+function TrackerBaseFrame.OnDragStart(frame, button)
+    if GameTooltip:IsShown() then
+        GameTooltip:Hide()
+        GameTooltip._SizerToolTip = nil
     end
 
-    if IsMouseButtonDown(button) then
+    if InCombatLockdown() or IsShiftKeyDown() or IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - In Combat or shift key or alt key detected! --> Exiting.")
+        return
+    else
         if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
-            dragButton = button
-            baseFrame:StartMoving()
-            TrackerBaseFrame:Update()
+            if TrackerBaseFrame.isMoving ~= false or TrackerBaseFrame.isSizing == true then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is already moving or frame is already resizing! --> Exiting.")
+                return
+            end
         else
-            -- Turns off mouse looking to prevent frame from becoming stuck to the pointer
-            if not IsMouselooking() then
-                MouselookStart()
-                mouseLookTicker = C_Timer.NewTicker(0.1, function()
-                    if not IsMouseButtonDown(button) then
-                        MouselookStop()
-                        mouseLookTicker:Cancel()
-                    end
-                end)
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Tracker is Locked. Use CTRL Key. --> Exiting.")
+            return
+        end
+    end
+
+    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isSizing ~= true then
+        if IsMouseButtonDown(button) and button ~= "MiddleButton" then
+            if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
+                if baseFrame:IsMovable() then
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Dragging Started.")
+                    TrackerBaseFrame.isMoving = true
+                    TrackerBaseFrame.baseFrame.isMoving = true
+
+                    baseFrame:StartMoving()
+                    TrackerBaseFrame:Update()
+                else
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStart] - Frame is not movable!")
+                end
             end
         end
     end
 end
 
 local function _UpdateTrackerPosition()
+    if TrackerBaseFrame.isMoving ~= true and TrackerBaseFrame.isResizing ~= true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition]")
+    else
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:UpdateTrackerPosition] - Frame is moving or resizing! --> Exiting.")
+        return
+    end
+
     local xLeft, yTop, xRight, yBottom = baseFrame:GetLeft(), baseFrame:GetTop(), baseFrame:GetRight(), baseFrame:GetBottom()
     local trackerSetPoint = Questie.db[Questie.db.global.questieTLoc].trackerSetpoint
     baseFrame:ClearAllPoints()
@@ -318,77 +416,145 @@ local function _UpdateTrackerPosition()
         Questie.db[Questie.db.global.questieTLoc].TrackerLocation = { "TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop) }
     end
 
-    QuestieTracker:MoveDurabilityFrame()
-    QuestieTracker:Update()
+    C_Timer.After(0.12, function()
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
+    end)
 end
 
-function TrackerBaseFrame.OnDragStop()
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop]")
-
-    if (not dragButton) or IsMouseButtonDown(dragButton) then
+function TrackerBaseFrame.OnDragStop(frame, button)
+    if IsShiftKeyDown() or IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Shift key or alt key detected! --> Exiting.")
         return
+    else
+        if TrackerBaseFrame.isMoving ~= true or TrackerBaseFrame.isSizing == true then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Frame isn't moving or frame is resizing! --> Exiting.")
+            return
+        end
     end
 
-    dragButton = nil
-    baseFrame:StopMovingOrSizing()
-    QuestieCombatQueue:Queue(_UpdateTrackerPosition)
+    if TrackerBaseFrame.isMoving ~= false and TrackerBaseFrame.isSizing ~= true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnDragStop] - Dragging Stopped.")
+
+        TrackerBaseFrame.isMoving = false
+        TrackerBaseFrame.baseFrame.isMoving = false
+
+        baseFrame:StopMovingOrSizing()
+        QuestieCombatQueue:Queue(_UpdateTrackerPosition)
+    end
 end
 
 ---@param button string @The mouse button that is pressed when resize starts
-function TrackerBaseFrame.OnResizeStart(_, button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart]", button)
-
-    if InCombatLockdown() or (not baseFrame:IsResizable()) then
-        return
+function TrackerBaseFrame.OnResizeStart(frame, button)
+    if GameTooltip:IsShown() then
+        GameTooltip:Hide()
+        GameTooltip._SizerToolTip = nil
     end
 
-    if button == "LeftButton" then
-        if IsMouseButtonDown(button) then
-            if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
-                TrackerBaseFrame.isSizing = true
+    if InCombatLockdown() or IsShiftKeyDown() or IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - In Combat or shift key or alt key detected! --> Exiting.")
+        return
+    else
+        if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
+            if TrackerBaseFrame.isSizing ~= false or TrackerBaseFrame.isMoving == true then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Frame is already resizing or frame is moving! --> Exiting.")
+                return
+            end
+        else
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Tracker is Locked. Use CTRL Key. --> Exiting.")
+            return
+        end
+    end
 
-                local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+    if TrackerBaseFrame.isSizing ~= true and TrackerBaseFrame.isMoving ~= true then
+        if IsMouseButtonDown(button) and button ~= "MiddleButton" then
+            if (IsControlKeyDown() and Questie.db.global.trackerLocked and not ChatEdit_GetActiveWindow()) or not Questie.db.global.trackerLocked then
+                if baseFrame:IsResizable() then
+                    if button == "LeftButton" then
+                        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Sizing Started.")
+                        TrackerBaseFrame.isSizing = true
+                        TrackerBaseFrame.baseFrame.isSizing = true
 
-                updateTimer = C_Timer.NewTicker(0.1, function()
-                    Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
-                    Questie.db[Questie.db.global.questieTLoc].TrackerHeight = baseFrame:GetHeight()
+                        updateTimer = C_Timer.NewTicker(0.12, function()
+                            local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
-                    -- This keeps the trackers SetPoint "clamped" to the players desired location
-                    -- while the tracker lines expand and shrink due to Text Wrapping.
-                    baseFrame:StopMovingOrSizing()
-                    baseFrame:ClearAllPoints()
-                    baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
-                    ------------------------------------------------------------------------------
+                            Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
+                            Questie.db[Questie.db.global.questieTLoc].TrackerHeight = baseFrame:GetHeight()
 
-                    QuestieTracker:Update()
+                            -- This keeps the trackers SetPoint "clamped" to the players desired location
+                            -- while the tracker lines expand and shrink due to Text Wrapping.
+                            baseFrame:StopMovingOrSizing()
+                            baseFrame:ClearAllPoints()
+                            baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
+                            ------------------------------------------------------------------------------
 
-                    if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
-                        baseFrame:StartSizing("TOPRIGHT")
-                    else
-                        baseFrame:StartSizing("BOTTOMRIGHT")
+                            -- This switches ON the Tracker Background and Border and switches OFF
+                            -- the Tracker Fader to make it easier to see the Trackers boundaries.
+                            Questie.db.global.trackerBackdropEnabled = true
+                            Questie.db.global.trackerBorderEnabled = true
+                            Questie.db.global.trackerBackdropFader = false
+                            ------------------------------------------------------------------------------
+
+                            if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
+                                baseFrame:StartSizing("TOPRIGHT")
+                            else
+                                baseFrame:StartSizing("BOTTOMRIGHT")
+                            end
+
+                            QuestieTracker:Update()
+                        end)
                     end
-                end)
+                else
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Frame is not resizable!")
+                end
+
+                if button == "RightButton" then
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Resetting Sizer mode.")
+                    Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
+                    Questie.db[Questie.db.global.questieTLoc].TrackerHeight = 0
+                end
             end
         end
-    elseif button == "RightButton" then
-        Questie.db[Questie.db.global.questieTLoc].TrackerWidth = 0
-        Questie.db[Questie.db.global.questieTLoc].TrackerHeight = 0
     end
 end
 
 ---@param button string @The mouse button that is pressed when resize stops
-function TrackerBaseFrame.OnResizeStop(_, button)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop]", button)
-
-    if button == "RightButton" or TrackerBaseFrame.isSizing ~= true then
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
+function TrackerBaseFrame.OnResizeStop(frame, button)
+    if IsShiftKeyDown() or IsAltKeyDown() then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Shift key or alt key detected! --> Exiting.")
         return
+    else
+        if TrackerBaseFrame.isSizing ~= true or TrackerBaseFrame.isMoving == true then
+            if button == "LeftButton" or button == "MiddleButton" then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Frame isn't resizing or frame is moving! --> Exiting.")
+                return
+            end
+
+            if button == "RightButton" then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizer mode reset. Updating Tracker.")
+
+                QuestieCombatQueue:Queue(function()
+                    QuestieTracker:Update()
+                end)
+                return
+            end
+        end
     end
 
-    TrackerBaseFrame.isSizing = false
-    baseFrame:StopMovingOrSizing()
-    QuestieCombatQueue:Queue(_UpdateTrackerPosition)
-    updateTimer:Cancel()
+    if TrackerBaseFrame.isSizing ~= false and TrackerBaseFrame.isMoving ~= true then
+        Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStop] - Sizing Stopped.")
+
+        TrackerBaseFrame.isSizing = false
+        TrackerBaseFrame.baseFrame.isSizing = false
+
+        -- This returns the players desired Background, Border and Fader to the correct setting
+        Questie.db.global.trackerBackdropEnabled = Questie.db.global.currentBackdropEnabled
+        Questie.db.global.trackerBorderEnabled = Questie.db.global.currentBorderEnabled
+        Questie.db.global.trackerBackdropFader = Questie.db.global.currentBackdropFader
+
+        baseFrame:StopMovingOrSizing()
+        updateTimer:Cancel()
+        QuestieCombatQueue:Queue(_UpdateTrackerPosition)
+    end
 end

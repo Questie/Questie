@@ -2119,7 +2119,6 @@
         "TurnOrActionStop",
         "TurnRightStart",
         "TurnRightStop",
-        "UIPanelScrollBar_OnValueChanged",
         "UninviteUnit",
         "UnitAffectingCombat",
         "UnitArmor",
@@ -2753,6 +2752,7 @@
         "LibStub",
         "SUFUnittarget",
         "ElvUF_Target",
+        "AzeriteUnitFrameTarget",
         "PitBull4_Frames_Target",
         "UIDROPDOWNMENU_MAXLEVELS",
         "L_UIDROPDOWNMENU_MAXLEVELS",
@@ -2815,7 +2815,16 @@
         "RED_FONT_COLOR",
         "QuestFrameCloseButton",
         "TrackedQuestsScrollFrame",
-        "C_AddOns"
+        "QuestieProfilerScrollFrame",
+        "C_AddOns",
+        "VoiceOver",
+        "Questie_BaseFrame",
+        "MouseIsOver",
+        "VoiceOverFrame",
+        "STATICPOPUP_NUMDIALOGS",
+        "DELETE_ITEM",
+        "StaticPopup_Resize",
+        "ActionStatus_DisplayMessage"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**",

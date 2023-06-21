@@ -17,7 +17,7 @@ function QuestieQuestBlacklist:Load()
         [615] = true, -- Duplicate of 8553. See #2215
         [618] = true, -- Duplicate of 8554
         [934] = true, -- Duplicate of 7383. See #2386
-        [960] = true, -- Duplicate of 961
+        --[960] = true, -- Duplicate of 961 -- different quests, not duplicate
         [9378] = true, -- Naxxramas quest which doesn't seem to be in the game
         [1318] = true, -- Duplicate of 7703 and not in the game
         [7704] = QuestieCorrections.CLASSIC_ONLY, -- Not implemented in Era, added in Wrath
@@ -1134,6 +1134,8 @@ function QuestieQuestBlacklist:Load()
         [6823] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
         [6824] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
         [7486] = QuestieCorrections.WOTLK_ONLY, -- Not in the game
+        [14351] = true, -- Not in the game
+        [14353] = true, -- Not in the game
         [11621] = true, -- Not in the game
         [11179] = true, -- Not in the game
         [11622] = true, -- Not in the game
@@ -1879,9 +1881,9 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
 --         [13864] = true, --* Battle Before The Citadel (https://www.wowhead.com/wotlk/quest=13864) (Retail Data)
 --         [14016] = true, --* The Black Knight's Curse (https://www.wowhead.com/wotlk/quest=14016) (Retail Data)
 --         [14017] = true, --* The Black Knight's Fate (https://www.wowhead.com/wotlk/quest=14017) (Retail Data)
---         [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
---         [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
---         [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
+        [14076] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14076) (Retail Data)
+        [14090] = true, --* Gormok Wants His Snobolds (https://www.wowhead.com/wotlk/quest=14090) (Retail Data)
+        [14092] = true, --* Breakfast Of Champions (https://www.wowhead.com/wotlk/quest=14092) (Retail Data)
 --         [14095] = true, --* Identifying the Remains (https://www.wowhead.com/wotlk/quest=14095) (Retail Data)
 --         [14101] = true, --* Drottinn Hrothgar (https://www.wowhead.com/wotlk/quest=14101) (Retail Data)
 --         [14102] = true, --* Mistcaller Yngvar (https://www.wowhead.com/wotlk/quest=14102) (Retail Data)
@@ -2077,7 +2079,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [24656] = true, --* Pilfering Perfume (https://www.wowhead.com/wotlk/quest=24656) (Retail Data)
 
         -- Northrend -> Tournament (10 -> -241)
---         [14112] = true, --* What Do You Feed a Yeti, Anyway? (https://www.wowhead.com/wotlk/quest=14112) (Retail Data)
+        [14112] = true, --* What Do You Feed a Yeti, Anyway? (https://www.wowhead.com/wotlk/quest=14112) (Retail Data)
 
 
         --! 3.3.3
@@ -2153,6 +2155,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         -- Dungeons -> The Slave Pens (2 -> 3717)
         [13431] = true, --* The Cudgel of Kar'desh (https://www.wowhead.com/wotlk/quest=13431)
 
+        -- Darnassus WOTLK
+        [10520] = QuestieCorrections.WOTLK_ONLY, --*Assisting Arch Druid Staghelm (https://www.wowhead.com/wotlk/quest=10520) not present anymore in wotlk
 
         --! 8.0.1
         -- Raids -> Sunwell Plateau (3 -> 4075)

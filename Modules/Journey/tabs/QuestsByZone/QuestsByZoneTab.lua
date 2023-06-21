@@ -66,6 +66,14 @@ _CreateContinentDropdown = function()
     dropdown:SetCallback("OnValueChanged", _HandleContinentSelection)
 
     currentContinentId = QuestiePlayer:GetCurrentContinentId()
+
+    if currentContinentId == 530 then -- Outland from l10n.continentLookup
+        currentContinentId = 3
+    end
+    if currentContinentId == 571 then -- Northrend from l10n.continentLookup
+        currentContinentId = 4
+    end
+
     if _QuestieJourney.lastZoneSelection[1] then
         currentContinentId = _QuestieJourney.lastZoneSelection[1]
     end
