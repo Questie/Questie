@@ -316,6 +316,21 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [25889] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.57,65.92}}},
+        },
+        [25912] = {
+            [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{68.79,51.95}}},
+        },
+        [25918] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{32.11,68.31}}},
+        },
+        [25926] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.92,58.66}}},
+        },
+        [25938] = {
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{33.4,30.53},},},
+        },
         [25978] = { --"Ambassador Talonga"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
