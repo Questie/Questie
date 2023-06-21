@@ -995,7 +995,7 @@ function QuestieTracker:Update()
                         end
 
                         -- Add incomplete Quest Objectives
-                        if complete == 0 then
+                        if complete == 0 and quest.isComplete ~= true then
                             for _, objective in pairs(quest.Objectives) do
                                 if (not Questie.db.global.hideCompletedQuestObjectives or (Questie.db.global.hideCompletedQuestObjectives and objective.Needed ~= objective.Collected)) then
                                     -- Get next line in linePool
@@ -1088,7 +1088,7 @@ function QuestieTracker:Update()
 
                             -- Add complete/failed Quest Objectives and tag them as either complete or failed so as to always have at least one objective.
                             -- Some quests have "Blizzard Completion Text" that is displayed to show where to go next or where to turn in the quest.
-                        elseif complete == 1 or complete == -1 or quest.Completed == true then
+                        elseif complete == 1 or complete == -1 or quest.isComplete == true then
                             -- Get next line in linePool
                             line = TrackerLinePool.GetNextLine()
 
@@ -1109,7 +1109,7 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                             -- Set Objective label based on states
-                            if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) then
+                            if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil) then
                                 -- Set Blizzard Completion text for single objectives
                                 line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 

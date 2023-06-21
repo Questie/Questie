@@ -371,7 +371,6 @@ function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB:GetQuest(questId)
     local complete = quest:IsComplete()
 
-    -- Sometimes failed quests are flagged as (complete = 0) vs (complete = -1).
     if not QuestiePlayer.currentQuestlog[questId] then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
@@ -405,6 +404,7 @@ function QuestieQuest:AcceptQuest(questId)
             QuestieQuest.CalculateAndDrawAvailableQuestsIterative
         )
     elseif complete == 0 or complete == -1 then
+        -- Sometimes failed quests are flagged as (complete = 0) vs (complete = -1).
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest was once accepted. IsComplete = ", complete)
 
         TaskQueue:Queue(
@@ -596,7 +596,7 @@ function QuestieQuest:UpdateQuest(questId)
 
                 quest.WasComplete = false
             else
-                if quest.Objectives then
+                if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
                     for i = 1, #quest.Objectives do
                         if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
@@ -863,6 +863,7 @@ end
 ---@param objectiveIndex ObjectiveIndex
 ---@param objective QuestObjective
 ---@param blockItemTooltips any
+
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be p-called
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
 
@@ -1334,6 +1335,16 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             specialObjective.AlreadySpawned = {}
         end
     end
+
+    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and (quest.triggerEnd and #quest.triggerEnd > 0) and (quest.Finisher and quest.Finisher.Id ~= nil) then
+        -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil.
+        -- This check assumes the Quest should have been flagged isComplete == 1. We're specifically looking for a quest.triggerEnd and
+        -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestieQuest:AddFinisher().
+        QuestieMap:UnloadQuestFrames(quest.Id)
+        QuestieQuest:AddFinisher(quest)
+        quest.isComplete = true
+    end
+
     return true
 end
 
