@@ -541,6 +541,8 @@ function QuestieQuest:UpdateQuest(questId)
 
         if QuestieQuest:ShouldShowQuestNotes(questId) then
             QuestieQuest:UpdateObjectiveNotes(quest)
+        else
+            QuestieTooltips:RemoveQuest(questId)
         end
 
         local isComplete = quest:IsComplete()
@@ -654,6 +656,8 @@ function QuestieQuest:GetAllQuestIds()
 
                 if QuestieQuest:ShouldShowQuestNotes(questId) then
                     QuestieQuest:PopulateObjectiveNotes(quest)
+                else
+                    QuestieTooltips:RemoveQuest(questId)
                 end
             else
                 QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
@@ -863,7 +867,6 @@ end
 ---@param objectiveIndex ObjectiveIndex
 ---@param objective QuestObjective
 ---@param blockItemTooltips any
-
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be p-called
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
 

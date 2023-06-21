@@ -1999,6 +1999,7 @@ function QuestieTracker:UntrackQuestId(questId)
         -- Remove quest Icons from map when un-tracking quest.
         -- Also reset caches of spawned Icons so re-tracking works.
         QuestieMap:UnloadQuestFrames(questId)
+        QuestieQuest:UpdateQuest(questId)
         local quest = QuestieDB:GetQuest(questId)
         if quest then
             for _, objective in pairs(quest.Objectives) do
