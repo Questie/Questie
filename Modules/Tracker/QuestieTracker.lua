@@ -2004,10 +2004,12 @@ function QuestieTracker:UntrackQuestId(questId)
         if quest then
             for _, objective in pairs(quest.Objectives) do
                 objective.AlreadySpawned = {}
+                objective.hasRegisteredTooltips = false
             end
 
             for _, objective in pairs(quest.SpecialObjectives) do
                 objective.AlreadySpawned = {}
+                objective.hasRegisteredTooltips = false
             end
         end
     end

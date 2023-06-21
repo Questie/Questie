@@ -401,7 +401,7 @@ function QuestieQuest:AcceptQuest(questId)
                     QuestieTracker:Update()
                 end)
             end,
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
         )
     elseif complete == 0 or complete == -1 then
         -- Sometimes failed quests are flagged as (complete = 0) vs (complete = -1).
@@ -452,7 +452,7 @@ function QuestieQuest:AcceptQuest(questId)
                     QuestieTracker:Update()
                 end)
             end,
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
         )
     elseif complete == 1 then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This Quest is currently flagged Complete. Possible Blizzard bug. Report this please! - IsComplete = ", complete)
