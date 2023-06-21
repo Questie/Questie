@@ -204,6 +204,9 @@ function QuestieItemFixes:Load()
         [3864] = {
             [itemKeys.npcDrops] = {},
         },
+        [3898] = {
+            [itemKeys.class] = 15,
+        },
         [3913] = {
             [itemKeys.relatedQuests] = {592,593},
             [itemKeys.npcDrops] = {2530},
