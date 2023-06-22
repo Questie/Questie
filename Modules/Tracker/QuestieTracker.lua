@@ -752,9 +752,18 @@ function QuestieTracker:Update()
                     -- Adds the AI_VoiceOver Play Buttons
                     line.playButton:SetPlayButton(questId)
 
+                    -- Occasionally a quest will be in a complete state and still have a usable Quest Item. Sometimes these usable
+                    -- items spawn an NPC that is needed to finish the quest. Or an item that teleports you to the quest finisher.
+                    local usableQIB = false
+                    if complete == 1 and quest.isComplete ~= true and #quest.Objectives == 0 and ((quest.sourceItemId and (GetItemSpell(quest.sourceItemId) ~= nil or IsEquippableItem(quest.sourceItemId) ~= nil)) or
+                            (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and (GetItemSpell(quest.requiredSourceItems[1]) ~= nil or IsEquippableItem(quest.requiredSourceItems[1]) ~= nil))) then
+                        usableQIB = true
+                    end
+
                     -- Adds the primary Quest Item button
                     -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                    if (complete ~= 1 and (quest.sourceItemId and (GetItemSpell(quest.sourceItemId) ~= nil or IsEquippableItem(quest.sourceItemId) ~= nil)) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and (GetItemSpell(quest.requiredSourceItems[1]) ~= nil or IsEquippableItem(quest.requiredSourceItems[1]) ~= nil))) then
+                    if complete ~= 1 and ((quest.sourceItemId and (GetItemSpell(quest.sourceItemId) ~= nil or IsEquippableItem(quest.sourceItemId) ~= nil)) or
+                            (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and (GetItemSpell(quest.requiredSourceItems[1]) ~= nil or IsEquippableItem(quest.requiredSourceItems[1]) ~= nil))) or usableQIB then
                         -- Get button from buttonPool
                         local button = TrackerLinePool.GetNextItemButton()
                         if not button then break end -- stop populating the tracker
