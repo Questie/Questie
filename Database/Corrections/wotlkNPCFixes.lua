@@ -1618,3 +1618,27 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
     },
   }
   end
+
+-- some NPCs don't play nice, and are hostile or friendly depending on where they are. This should allow manual fix for NPC availability
+function QuestieWotlkNpcFixes:LoadFactionFixes()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local npcFixesHorde = {
+        [26221] = {
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{66.9,13.53}},[zoneIDs.ORGRIMMAR]={{46.44,38.69}},[zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.SILVERMOON_CITY]={{68.67,42.94}}},
+        },
+    }
+
+    local npcFixesAlliance = {
+        [26221] = {
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{38.31,61.84}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return npcFixesHorde
+    else
+        return npcFixesAlliance
+    end
+end
