@@ -3831,6 +3831,11 @@ function QuestieWotlkQuestFixes:Load()
         [14102] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{43.8,24.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Mistcaller Yngvar using the Mistcaller's Charm")}},
         },
+        [14103] = {
+            [questKeys.specialFlags] = 1,
+            [questKeys.startedBy] = {{28701}},
+            [questKeys.finishedBy] = {{28701}},
+        },
         [14104] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}}, Questie.ICON_TYPE_EVENT, l10n("Provoke Ornolf the Scarred using the Captured Kvaldir Banner")}},
         },
