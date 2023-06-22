@@ -498,12 +498,17 @@ function _QuestEventHandler:ZoneChangedNewArea()
     -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
     -- backend Questie updates that occur when a player zones in/out of an instance. This
     -- is necessary to get everything back into it's "normal" state after all the updates.
+    local isInInstance, instanceType = IsInInstance()
+    local skipInstance = instanceType == "raid" or instanceType == "pvp" or instanceType == "arena"
 
-    if IsInInstance() then
+    if isInInstance then
         C_Timer.After(8, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
 
-            QuestieQuest:GetAllQuestIds()
+            -- We don't want this firing in Battlegrounds or Raids. (Fix for mouse over tooltips)
+            if not skipInstance then
+                QuestieQuest:GetAllQuestIds()
+            end
 
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = true
@@ -522,13 +527,20 @@ function _QuestEventHandler:ZoneChangedNewArea()
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Expand()
-                    QuestieQuest:GetAllQuestIds()
+
+                    -- We don't want this firing in Battlegrounds or Raids. (Fix for mouse over tooltips)
+                    if not skipInstance then
+                        QuestieQuest:GetAllQuestIds()
+                    end
                 end)
             end
         end)
     else
         C_Timer.After(8, function()
-            QuestieQuest:GetAllQuestIds()
+            -- We don't want this firing in Battlegrounds or Raids. (Fix for mouse over tooltips)
+            if not skipInstance then
+                QuestieQuest:GetAllQuestIds()
+            end
         end)
     end
 end
