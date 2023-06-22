@@ -462,12 +462,10 @@ function TrackerLinePool.Initialize(questFrame)
         end
 
         expandQuest:SetScript("OnEnter", function(self)
-            TrackerLinePool.OnHighlightEnter(self)
             TrackerFadeTicker.Unfade()
         end)
 
         expandQuest:SetScript("OnLeave", function(self)
-            TrackerLinePool.OnHighlightLeave(self)
             TrackerFadeTicker.Fade()
         end)
 
