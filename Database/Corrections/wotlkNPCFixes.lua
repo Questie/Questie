@@ -885,6 +885,70 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.2,73.2}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [32801] = {
+            [npcKeys.questStarts] = {13485},
+            [npcKeys.questEnds] = {13485},
+        },
+        [32802] = {
+            [npcKeys.questStarts] = {13486},
+            [npcKeys.questEnds] = {13486},
+        },
+        [32803] = {
+            [npcKeys.questStarts] = {13487},
+            [npcKeys.questEnds] = {13487},
+        },
+        [32804] = {
+            [npcKeys.questStarts] = {13488},
+            [npcKeys.questEnds] = {13488},
+        },
+        [32805] = {
+            [npcKeys.questStarts] = {13489},
+            [npcKeys.questEnds] = {13489},
+        },
+        [32806] = {
+            [npcKeys.questStarts] = {13490},
+            [npcKeys.questEnds] = {13490},
+        },
+        [32807] = {
+            [npcKeys.questStarts] = {13491},
+            [npcKeys.questEnds] = {13491},
+        },
+        [32808] = {
+            [npcKeys.questStarts] = {13492},
+            [npcKeys.questEnds] = {13492},
+        },
+        [32809] = {
+            [npcKeys.questStarts] = {13493},
+            [npcKeys.questEnds] = {13493},
+        },
+        [32810] = {
+            [npcKeys.questStarts] = {13495},
+            [npcKeys.questEnds] = {13495},
+        },
+        [32811] = {
+            [npcKeys.questStarts] = {13494},
+            [npcKeys.questEnds] = {13494},
+        },
+        [32812] = {
+            [npcKeys.questStarts] = {13496},
+            [npcKeys.questEnds] = {13496},
+        },
+        [32813] = {
+            [npcKeys.questStarts] = {13497},
+            [npcKeys.questEnds] = {13497},
+        },
+        [32814] = {
+            [npcKeys.questStarts] = {13498},
+            [npcKeys.questEnds] = {13498},
+        },
+        [32815] = {
+            [npcKeys.questStarts] = {13499},
+            [npcKeys.questEnds] = {13499},
+        },
+        [32816] = {
+            [npcKeys.questStarts] = {13500},
+            [npcKeys.questEnds] = {13500},
+        },
         [33308] = {
             [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST]={{10.4,35},{11.6,37},{11.6,39.8},{11.8,40.6},{12.4,29.2},{12.4,39.4},{12.8,25},{12.8,39.2},{14.2,27.8},{14.4,38.4},{15,37},{15.2,31.4},{15.2,31.8},{15.4,34},{15.4,34.8},{17.6,28.4},{18.2,35.6},{19.8,30.6},{20.4,38}}},
             [npcKeys.zoneID] = zoneIDs.CRYSTALSONG_FOREST,

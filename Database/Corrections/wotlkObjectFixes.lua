@@ -78,6 +78,70 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ICECROWN] = {{48.3,72.8}}},
             [objectKeys.zoneID] = zoneIDs.ICECROWN,
         },
+        [194032] = {
+            [objectKeys.questStarts] = {13440},
+            [objectKeys.questEnds] = {13440},
+        },
+        [194033] = {
+            [objectKeys.questStarts] = {13441},
+            [objectKeys.questEnds] = {13441},
+        },
+        [194034] = {
+            [objectKeys.questStarts] = {13450},
+            [objectKeys.questEnds] = {13450},
+        },
+        [194035] = {
+            [objectKeys.questStarts] = {13442},
+            [objectKeys.questEnds] = {13442},
+        },
+        [194036] = {
+            [objectKeys.questStarts] = {13443},
+            [objectKeys.questEnds] = {13443},
+        },
+        [194037] = {
+            [objectKeys.questStarts] = {13451},
+            [objectKeys.questEnds] = {13451},
+        },
+        [194038] = {
+            [objectKeys.questStarts] = {13444},
+            [objectKeys.questEnds] = {13444},
+        },
+        [194039] = {
+            [objectKeys.questStarts] = {13453},
+            [objectKeys.questEnds] = {13453},
+        },
+        [194040] = {
+            [objectKeys.questStarts] = {13445},
+            [objectKeys.questEnds] = {13445},
+        },
+        [194042] = {
+            [objectKeys.questStarts] = {13454},
+            [objectKeys.questEnds] = {13454},
+        },
+        [194043] = {
+            [objectKeys.questStarts] = {13455},
+            [objectKeys.questEnds] = {13455},
+        },
+        [194044] = {
+            [objectKeys.questStarts] = {13446},
+            [objectKeys.questEnds] = {13446},
+        },
+        [194045] = {
+            [objectKeys.questStarts] = {13447},
+            [objectKeys.questEnds] = {13447},
+        },
+        [194046] = {
+            [objectKeys.questStarts] = {13457},
+            [objectKeys.questEnds] = {13457},
+        },
+        [194048] = {
+            [objectKeys.questStarts] = {13458},
+            [objectKeys.questEnds] = {13458},
+        },
+        [194049] = {
+            [objectKeys.questStarts] = {13449},
+            [objectKeys.questEnds] = {13449},
+        },
         [194123] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}},},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
