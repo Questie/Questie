@@ -358,7 +358,8 @@ end
 
 function QuestieQuest:HideQuest(id)
     Questie.db.char.hidden[id] = true
-    QuestieMap:UnloadQuestFrames(id);
+    QuestieMap:UnloadQuestFrames(id)
+    QuestieTooltips:RemoveQuest(id)
 end
 
 function QuestieQuest:UnhideQuest(id)
