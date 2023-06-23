@@ -492,6 +492,7 @@ function TrackerLinePool.Initialize(questFrame)
 
         btn.SetItem = function(self, quest, buttonType, size)
             local validTexture
+            local complete = quest:IsComplete()
 
             for bag = -2, 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
@@ -503,7 +504,7 @@ function TrackerLinePool.Initialize(questFrame)
                         break
                     end
                     -- These type of quest items are technically secondary buttons but are assigned primary button slots
-                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+                    if (not quest.sourceItemId or quest.sourceItemId == 0) and type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         local questItemId = quest.requiredSourceItems[1]
                         if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId then
                             validTexture = texture
