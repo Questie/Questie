@@ -316,6 +316,21 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [25889] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.57,65.92}}},
+        },
+        [25912] = {
+            [npcKeys.spawns] = {[zoneIDs.ZANGARMARSH] = {{68.79,51.95}}},
+        },
+        [25918] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{32.11,68.31}}},
+        },
+        [25926] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{49.92,58.66}}},
+        },
+        [25938] = {
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{33.4,30.53},},},
+        },
         [25978] = { --"Ambassador Talonga"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
@@ -363,9 +378,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [26401] = { -- Summer Scorchling
+            [npcKeys.spawns] = {[3518]={{49.57,69.4}},[3521]={{68.73,51.95}},[3522]={{41.52,65.87}},[3519]={{54.01,55.57}},[3520]={{39.63,54.56}},[3523]={{31.16,62.65}},[141]={{55.0,60.41}},[405]={{66.19,17.1}},[15]={{61.87,40.5}},[45]={{49.94,44.79}},[33]={{33.94,73.56}},[267]={{50.45,47.45}},[11]={{13.5,46.97}},[12]={{43.48,62.5}},[44]={{26.08,59.25}},[47]={{14.41,50.01}},[40]={{55.86,53.39}},[1]={{46.69,46.85}},[38]={{32.59,41.1}},[10]={{73.77,54.5}},[4]={{59.3,16.88}},[1377]={{57.56,35.23}},[618]={{62.52,35.47}},[440]={{52.79,29.32}},[331]={{37.79,54.81}},[148]={{36.95,46.23}},[3483]={{62.2,58.25}},[67]={{41.42,86.75}},[2817]={{78.07,74.91}},[66]={{40.37,61.4}},[495]={{57.84,16.18}},[394]={{33.94,60.52}},[65]={{75.24,43.77}},[3537]={{55.15,19.92}},[3711]={{48.12,65.93}},},
+        },
         [26488] = { --"Taunka Pack Kodo"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
+        },
+        [26520] = { -- Festival Scorchling
+            [npcKeys.spawns] = {[3518]={{49.57,69.4}},[3521]={{68.73,51.95}},[3522]={{41.52,65.87}},[3519]={{54.01,55.57}},[3520]={{39.63,54.56}},[3523]={{31.16,62.65}},[141]={{55.0,60.41}},[405]={{66.19,17.1}},[15]={{61.87,40.5}},[45]={{49.94,44.79}},[33]={{33.94,73.56}},[267]={{50.45,47.45}},[11]={{13.5,46.97}},[12]={{43.48,62.5}},[44]={{26.08,59.25}},[47]={{14.41,50.01}},[40]={{55.86,53.39}},[1]={{46.69,46.85}},[38]={{32.59,41.1}},[10]={{73.77,54.5}},[4]={{59.3,16.88}},[1377]={{57.56,35.23}},[618]={{62.52,35.47}},[440]={{52.79,29.32}},[331]={{37.79,54.81}},[148]={{36.95,46.23}},[3483]={{62.2,58.25}},[67]={{40.27,85.41}},[2817]={{80.08,53.21}},[66]={{43.42,71.81}},[495]={{48.64,13.09}},[394]={{19.26,61.17}},[65]={{38.31,48.45}},[3537]={{51.16,11.47}},[3711]={{46.74,61.65}},},
         },
         [26584] = { --"Sage Paluna"
             [npcKeys.friendlyToFaction] = "H",
@@ -869,6 +890,70 @@ function QuestieWotlkNpcFixes:Load()
         [32497] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{49.2,73.2}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [32801] = {
+            [npcKeys.questStarts] = {13485},
+            [npcKeys.questEnds] = {13485},
+        },
+        [32802] = {
+            [npcKeys.questStarts] = {13486},
+            [npcKeys.questEnds] = {13486},
+        },
+        [32803] = {
+            [npcKeys.questStarts] = {13487},
+            [npcKeys.questEnds] = {13487},
+        },
+        [32804] = {
+            [npcKeys.questStarts] = {13488},
+            [npcKeys.questEnds] = {13488},
+        },
+        [32805] = {
+            [npcKeys.questStarts] = {13489},
+            [npcKeys.questEnds] = {13489},
+        },
+        [32806] = {
+            [npcKeys.questStarts] = {13490},
+            [npcKeys.questEnds] = {13490},
+        },
+        [32807] = {
+            [npcKeys.questStarts] = {13491},
+            [npcKeys.questEnds] = {13491},
+        },
+        [32808] = {
+            [npcKeys.questStarts] = {13492},
+            [npcKeys.questEnds] = {13492},
+        },
+        [32809] = {
+            [npcKeys.questStarts] = {13493},
+            [npcKeys.questEnds] = {13493},
+        },
+        [32810] = {
+            [npcKeys.questStarts] = {13495},
+            [npcKeys.questEnds] = {13495},
+        },
+        [32811] = {
+            [npcKeys.questStarts] = {13494},
+            [npcKeys.questEnds] = {13494},
+        },
+        [32812] = {
+            [npcKeys.questStarts] = {13496},
+            [npcKeys.questEnds] = {13496},
+        },
+        [32813] = {
+            [npcKeys.questStarts] = {13497},
+            [npcKeys.questEnds] = {13497},
+        },
+        [32814] = {
+            [npcKeys.questStarts] = {13498},
+            [npcKeys.questEnds] = {13498},
+        },
+        [32815] = {
+            [npcKeys.questStarts] = {13499},
+            [npcKeys.questEnds] = {13499},
+        },
+        [32816] = {
+            [npcKeys.questStarts] = {13500},
+            [npcKeys.questEnds] = {13500},
         },
         [33308] = {
             [npcKeys.spawns] = {[zoneIDs.CRYSTALSONG_FOREST]={{10.4,35},{11.6,37},{11.6,39.8},{11.8,40.6},{12.4,29.2},{12.4,39.4},{12.8,25},{12.8,39.2},{14.2,27.8},{14.4,38.4},{15,37},{15.2,31.4},{15.2,31.8},{15.4,34},{15.4,34.8},{17.6,28.4},{18.2,35.6},{19.8,30.6},{20.4,38}}},
@@ -1539,3 +1624,27 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
     },
   }
   end
+
+-- some NPCs don't play nice, and are hostile or friendly depending on where they are. This should allow manual fix for NPC availability
+function QuestieWotlkNpcFixes:LoadFactionFixes()
+    local npcKeys = QuestieDB.npcKeys
+    local zoneIDs = ZoneDB.zoneIDs
+
+    local npcFixesHorde = {
+        [26221] = {
+            [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{66.9,13.53}},[zoneIDs.ORGRIMMAR]={{46.44,38.69}},[zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.SILVERMOON_CITY]={{68.67,42.94}}},
+        },
+    }
+
+    local npcFixesAlliance = {
+        [26221] = {
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{38.31,61.84}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
+        },
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return npcFixesHorde
+    else
+        return npcFixesAlliance
+    end
+end
