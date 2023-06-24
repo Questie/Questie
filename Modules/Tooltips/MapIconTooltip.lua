@@ -307,14 +307,20 @@ function MapIconTooltip:Show()
             ---@type Quest
             local quest = QuestieDB:GetQuest(questId);
             local questTitle = QuestieLib:GetColoredQuestName(questId, Questie.db.global.enableTooltipsQuestLevel, true, true);
+            local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel);
+            r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
             if haveGiver then
-                self:AddLine(" ");
-                self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
-                haveGiver = false -- looks better when only the first one shows (active)
+                if shift and xpReward then
+                    self:AddLine(" ");
+                    self:AddDoubleLine(questTitle, "(" .. FormatLargeNumber(xpReward) .. xpString .. ") (" .. l10n("Active") .. ")", 0.2, 1, 0.2, 1, 1, 0);
+                    haveGiver = false -- looks better when only the first one shows (active)
+                else
+                    self:AddLine(" ");
+                    self:AddDoubleLine(questTitle, "(" .. l10n("Active") .. ")", 1, 1, 1, 1, 1, 0);
+                    haveGiver = false -- looks better when only the first one shows (active)
+                end
             else
-                local xpReward = QuestXP:GetQuestLogRewardXP(questId, Questie.db.global.showQuestXpAtMaxLevel)
                 if (quest and shift and xpReward > 0) then
-                    r, g, b = QuestieLib:GetDifficultyColorPercent(quest.level);
                     self:AddDoubleLine(questTitle, "(" .. FormatLargeNumber(xpReward) .. xpString .. ")", 0.2, 1, 0.2, r, g, b);
                     firstLine = false;
                 elseif (firstLine and not shift) then
