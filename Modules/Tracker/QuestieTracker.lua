@@ -762,12 +762,14 @@ function QuestieTracker:Update()
                     -- Occasionally a quest will be in a complete state and still have a usable Quest Item. Sometimes these usable
                     -- items spawn an NPC that is needed to finish the quest. Or an item that teleports you to the quest finisher.
                     if complete == 1 and isComplete and (sourceItem or requiredItem) then
-                        if sourceItemId > 1 and requiredItem then
+                        -- This shows QIB's for Quest Itmes that are needed after a quest is complete with objectives
+                        if sourceItemId > 1 and requiredItem and sourceItemId ~= requiredItems[1] then
                             quest.sourceItemId = 0
                             usableQIB = true
                         end
 
-                        if sourceItemId > 1 and not requiredItem then
+                        -- This shows QIB's for Quest Items that are needed after a quest is complete without objectives
+                        if sourceItemId > 1 and not requiredItem and quest.isComplete ~= true then
                             usableQIB = true
                         end
                     end
