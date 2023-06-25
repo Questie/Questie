@@ -352,8 +352,15 @@ function QuestieWotlkQuestFixes:Load()
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
+        [11245] = {
+            [questKeys.requiredSourceItems] = {33311},
+        },
         [11246] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
+            [questKeys.requiredSourceItems] = {33311},
+        },
+        [11247] = {
+            [questKeys.requiredSourceItems] = {33311},
         },
         [11249] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension"), 0, {{"object", 186586}}}},
@@ -1090,6 +1097,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
+        },
+        [12238] = {
+            [questKeys.sourceItemId] = 35797,
+            [questKeys.requiredSourceItems] = {},
         },
         [12241] = {
             [questKeys.preQuestGroup] = {12229,12231},

@@ -358,7 +358,8 @@ end
 
 function QuestieQuest:HideQuest(id)
     Questie.db.char.hidden[id] = true
-    QuestieMap:UnloadQuestFrames(id);
+    QuestieMap:UnloadQuestFrames(id)
+    QuestieTooltips:RemoveQuest(id)
 end
 
 function QuestieQuest:UnhideQuest(id)
@@ -371,7 +372,6 @@ function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB:GetQuest(questId)
     local complete = quest:IsComplete()
 
-    -- Sometimes failed quests are flagged as (complete = 0) vs (complete = -1).
     if not QuestiePlayer.currentQuestlog[questId] then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
@@ -402,9 +402,10 @@ function QuestieQuest:AcceptQuest(questId)
                     QuestieTracker:Update()
                 end)
             end,
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
         )
     elseif complete == 0 or complete == -1 then
+        -- Sometimes failed quests are flagged as (complete = 0) vs (complete = -1).
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest was once accepted. IsComplete = ", complete)
 
         TaskQueue:Queue(
@@ -452,7 +453,7 @@ function QuestieQuest:AcceptQuest(questId)
                     QuestieTracker:Update()
                 end)
             end,
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative
+            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
         )
     elseif complete == 1 then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This Quest is currently flagged Complete. Possible Blizzard bug. Report this please! - IsComplete = ", complete)
@@ -541,6 +542,8 @@ function QuestieQuest:UpdateQuest(questId)
 
         if QuestieQuest:ShouldShowQuestNotes(questId) then
             QuestieQuest:UpdateObjectiveNotes(quest)
+        else
+            QuestieTooltips:RemoveQuest(questId)
         end
 
         local isComplete = quest:IsComplete()
@@ -596,7 +599,7 @@ function QuestieQuest:UpdateQuest(questId)
 
                 quest.WasComplete = false
             else
-                if quest.Objectives then
+                if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
                     for i = 1, #quest.Objectives do
                         if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
@@ -654,6 +657,8 @@ function QuestieQuest:GetAllQuestIds()
 
                 if QuestieQuest:ShouldShowQuestNotes(questId) then
                     QuestieQuest:PopulateObjectiveNotes(quest)
+                else
+                    QuestieTooltips:RemoveQuest(questId)
                 end
             else
                 QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
@@ -743,7 +748,7 @@ function QuestieQuest:AddFinisher(quest)
 
             -- Clear duplicate keys if they exsist
             if QuestieTooltips.lookupByKey[key] then
-                if #QuestieTooltips:GetTooltip(key) > 1 then
+                if QuestieTooltips:GetTooltip(key)[1] ~= nil and #QuestieTooltips:GetTooltip(key) > 1 then
                     for ttline = 1, #QuestieTooltips:GetTooltip(key) do
                         for index, line in pairs(QuestieTooltips:GetTooltip(key)) do
                             if (ttline == index) then
@@ -1334,6 +1339,16 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             specialObjective.AlreadySpawned = {}
         end
     end
+
+    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and (quest.triggerEnd and #quest.triggerEnd > 0) and (quest.Finisher and quest.Finisher.Id ~= nil) then
+        -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil.
+        -- This check assumes the Quest should have been flagged isComplete == 1. We're specifically looking for a quest.triggerEnd and
+        -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestieQuest:AddFinisher().
+        QuestieMap:UnloadQuestFrames(quest.Id)
+        QuestieQuest:AddFinisher(quest)
+        quest.isComplete = true
+    end
+
     return true
 end
 

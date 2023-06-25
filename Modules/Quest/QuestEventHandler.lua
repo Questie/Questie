@@ -77,6 +77,11 @@ function QuestEventHandler:RegisterEvents()
         -- Hook StaticPopup_Show. If we find the "DELETE_ITEM" dialog, check for Quest Items and notify the player.
         local which, text_arg1 = ...
         if which == "DELETE_ITEM" then
+            local quest
+            local foundQuestItem = false
+
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Item Name: ", text_arg1)
+
             if deletedQuestItem == true then
                 deletedQuestItem = false
             end
@@ -89,49 +94,67 @@ function QuestEventHandler:RegisterEvents()
                 end
 
                 if (not isHeader) then
-                    local quest = QuestieDB:GetQuest(questId)
+                    quest = QuestieDB:GetQuest(questId)
 
                     if quest then
-                        local foundQuestItem = false
                         local info = StaticPopupDialogs[which]
-                        local itemId = quest.sourceItemId
-                        local itemName, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
+                        local sourceItemId, soureItemName, sourceItemType, soureClassID
+                        local reqSourceItemId, reqSoureItemName, reqSourceItemType, reqSoureClassID
 
-                        if itemId and (itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12) then
-                            if text_arg1 == itemName then
-                                foundQuestItem = true
+                        if quest.sourceItemId then
+                            sourceItemId = quest.sourceItemId
+
+                            if sourceItemId then
+                                soureItemName, _, _, _, _, sourceItemType, _, _, _, _, _, soureClassID = GetItemInfo(sourceItemId)
                             end
+                        end
+
+                        if quest.requiredSourceItems then
+                            reqSourceItemId = quest.requiredSourceItems[1]
+
+                            if reqSourceItemId then
+                                reqSoureItemName, _, _, _, _, reqSourceItemType, _, _, _, _, _, reqSoureClassID = GetItemInfo(reqSourceItemId)
+                            end
+                        end
+
+                        if sourceItemId and soureItemName and sourceItemType and soureClassID and (sourceItemType == "Quest" or soureClassID == 12) and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == soureItemName then
+                            foundQuestItem = true
+                            break
+                        elseif reqSourceItemId and reqSoureItemName and reqSourceItemType and reqSoureClassID and (reqSourceItemType == "Quest" or reqSoureClassID == 12) and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                            foundQuestItem = true
+                            break
                         else
                             for _, objective in pairs(quest.Objectives) do
                                 if text_arg1 == objective.Description then
                                     foundQuestItem = true
-                                end
-                            end
-                        end
-
-                        if foundQuestItem then
-                            local frame, text
-
-                            for i = 1, STATICPOPUP_NUMDIALOGS do
-                                frame = _G["StaticPopup" .. i]
-                                if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
-                                    text = _G[frame:GetName() .. "Text"]
                                     break
                                 end
                             end
-
-                            if frame ~= nil and text ~= nil then
-                                local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                                text:SetFormattedText(updateText, text_arg1, quest.name)
-                                text.text_arg1 = updateText
-
-                                StaticPopup_Resize(frame, which)
-                                deletedQuestItem = true
-
-                                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
-                            end
                         end
                     end
+                end
+            end
+
+            if foundQuestItem and quest then
+                local frame, text
+
+                for i = 1, STATICPOPUP_NUMDIALOGS do
+                    frame = _G["StaticPopup" .. i]
+                    if (frame:IsShown()) and frame.text.text_arg1 == text_arg1 then
+                        text = _G[frame:GetName() .. "Text"]
+                        break
+                    end
+                end
+
+                if frame ~= nil and text ~= nil then
+                    local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
+                    text:SetFormattedText(updateText, text_arg1, quest.name)
+                    text.text_arg1 = updateText
+
+                    StaticPopup_Resize(frame, which)
+                    deletedQuestItem = true
+
+                    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Quest Item Detected. Updating Static Popup.")
                 end
             end
         end
@@ -475,12 +498,17 @@ function _QuestEventHandler:ZoneChangedNewArea()
     -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
     -- backend Questie updates that occur when a player zones in/out of an instance. This
     -- is necessary to get everything back into it's "normal" state after all the updates.
+    local isInInstance, instanceType = IsInInstance()
+    local skipInstance = instanceType == "raid" or instanceType == "pvp" or instanceType == "arena"
 
-    if IsInInstance() then
+    if isInInstance then
         C_Timer.After(8, function()
             Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
 
-            QuestieQuest:GetAllQuestIds()
+            -- We don't want this firing in Battlegrounds or Raids. (Fix for mouse over tooltips)
+            if not skipInstance then
+                QuestieQuest:GetAllQuestIds()
+            end
 
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = true
@@ -499,13 +527,20 @@ function _QuestEventHandler:ZoneChangedNewArea()
 
                 QuestieCombatQueue:Queue(function()
                     QuestieTracker:Expand()
-                    QuestieQuest:GetAllQuestIds()
+
+                    -- We don't want this firing in Battlegrounds or Raids. (Fix for mouse over tooltips)
+                    if not skipInstance then
+                        QuestieQuest:GetAllQuestIds()
+                    end
                 end)
             end
         end)
     else
         C_Timer.After(8, function()
-            QuestieQuest:GetAllQuestIds()
+            -- We don't want this firing in Battlegrounds or Raids. (Fix for mouse over tooltips)
+            if not skipInstance then
+                QuestieQuest:GetAllQuestIds()
+            end
         end)
     end
 end
