@@ -727,15 +727,21 @@ function TrackerLinePool.ResetLinesForChange()
         line.trackTimedQuest = nil
         if line.expandQuest then
             line.expandQuest.mode = nil
+            line.expandQuest.questId = nil
         end
         if line.expandZone then
             line.expandZone.mode = nil
+            line.expandZone.zoneId = nil
         end
         if line.criteriaMark then
             line.criteriaMark.mode = nil
+            line.criteriaMark:SetCriteria(false)
+            line.criteriaMark:Hide()
         end
         if line.playButton then
             line.playButton.mode = nil
+            line.playButton:SetAlpha(0)
+            line.playButton:Hide()
         end
     end
 
@@ -872,7 +878,9 @@ function TrackerLinePool.HideUnusedLines()
             line.altButton = nil
             line.trackTimedQuest = nil
             line.expandQuest.mode = nil
+            line.expandQuest.questId = nil
             line.expandZone.mode = nil
+            line.expandZone.zoneId = nil
             line.criteriaMark.mode = nil
             line.playButton.mode = nil
         end
