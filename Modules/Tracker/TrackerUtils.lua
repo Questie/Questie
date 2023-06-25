@@ -299,6 +299,17 @@ function TrackerUtils:IsBindTrue(bind, button)
     return bind and button and bindTruthTable[bind] and bindTruthTable[bind](button)
 end
 
+---@param itemId number
+---@return boolean
+function TrackerUtils:IsQuestItemUsable(itemId)
+    if itemId and (GetItemSpell(itemId) or IsEquippableItem(itemId)) then
+        return true
+    end
+
+    return false
+end
+
+
 ---@param quest table Quest Table
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
