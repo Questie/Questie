@@ -652,7 +652,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     end
 
     -- Check and see if the Quest requires an achievement before showing as available
-    if _QuestieDB:CheckAchievementRequirements(questId) then
+    if not _QuestieDB:CheckAchievementRequirements(questId) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet achievement requirements for", questId) end
         return false
     end
