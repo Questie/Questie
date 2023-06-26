@@ -94,6 +94,15 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.TELDRASSIL]={{38.17,57.75},{38.38,57.18},{38.7,57.17},{38.13,56.67},{38.36,56.66},{37.76,56.29},{36.44,56.19},{36.78,56.13},{38.78,56.12},{38.09,55.73},{38.41,55.66},{37.48,55.22},{38.12,55.16},{37.11,54.81},{36.77,54.75},{36.77,54.66},{36.76,54.66}}
             },
         },
+        [16817] = { 
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.5,92.3}},
+                [zoneIDs.STORMWIND_CITY]={{49.53,72.27}},
+                [zoneIDs.IRONFORGE]={{63.81,25.31}},
+                [zoneIDs.SHATTRATH_CITY]={{61.39,31.91}},
+                [zoneIDs.THE_EXODAR]={{41.62,25.28}},
+            },
+        },
         [16475] = {
             [npcKeys.spawns] = {[zoneIDs.AZUREMYST_ISLE] = {{84.19,43.03}}},
         },
@@ -331,6 +340,14 @@ function QuestieWotlkNpcFixes:Load()
         [25938] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{33.4,30.53},},},
         },
+        [25975] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.TELDRASSIL]={{56.56,92.09}},
+                [zoneIDs.IRONFORGE]={{65.36,25.06}},
+                [zoneIDs.STORMWIND_CITY]={{50.13,72.56}},
+                [zoneIDs.THE_EXODAR]={{40.90,25.59}},
+            },
+        },
         [25978] = { --"Ambassador Talonga"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
@@ -350,6 +367,14 @@ function QuestieWotlkNpcFixes:Load()
         [26105] = {
             [npcKeys.spawns] = {[zoneIDs.THE_NEXUS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_NEXUS,
+        },
+        [26123] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.IRONFORGE]={{64.82,26.28}},
+                [zoneIDs.TELDRASSIL]={{56.02,92.22}},
+                [zoneIDs.THE_EXODAR]={{42.51,25.97}},
+                [zoneIDs.STORMWIND_CITY]={{49.03,71.95}},
+            },
         },
         [26156] = { --"Wartook Iceborn"
             [npcKeys.friendlyToFaction] = "H",
@@ -1625,7 +1650,7 @@ function QuestieWotlkNpcFixes:LoadAutomatics()
   }
   end
 
--- some NPCs don't play nice, and are hostile or friendly depending on where they are. This should allow manual fix for NPC availability
+-- This should allow manual fix for NPC availability
 function QuestieWotlkNpcFixes:LoadFactionFixes()
     local npcKeys = QuestieDB.npcKeys
     local zoneIDs = ZoneDB.zoneIDs
@@ -1656,7 +1681,7 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
 
     local npcFixesAlliance = {
         [26221] = {
-            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{38.31,61.84}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
+            [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{49.32,72.3}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
         },
         [34907] = {
             [npcKeys.spawns] = {[zoneIDs.HROTHGARS_LANDING]={{50.21,49.08},{50.14,49.47},{49.75,49.51},{50.06,49.08},{50.63,48.98},{51.18,48.81},{50.43,49.05},{49.9,49.59},{50.3,49.61},{51,48.53}}},
