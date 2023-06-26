@@ -462,12 +462,10 @@ function TrackerLinePool.Initialize(questFrame)
         end
 
         expandQuest:SetScript("OnEnter", function(self)
-            TrackerLinePool.OnHighlightEnter(self)
             TrackerFadeTicker.Unfade()
         end)
 
         expandQuest:SetScript("OnLeave", function(self)
-            TrackerLinePool.OnHighlightLeave(self)
             TrackerFadeTicker.Fade()
         end)
 
@@ -494,6 +492,7 @@ function TrackerLinePool.Initialize(questFrame)
 
         btn.SetItem = function(self, quest, buttonType, size)
             local validTexture
+            local complete = quest:IsComplete()
 
             for bag = -2, 4 do
                 for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
@@ -505,7 +504,7 @@ function TrackerLinePool.Initialize(questFrame)
                         break
                     end
                     -- These type of quest items are technically secondary buttons but are assigned primary button slots
-                    if type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
+                    if (not quest.sourceItemId or quest.sourceItemId == 0) and type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
                         local questItemId = quest.requiredSourceItems[1]
                         if questItemId and questItemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(questItemId, "class") == 12 and questItemId == itemId then
                             validTexture = texture
@@ -728,15 +727,21 @@ function TrackerLinePool.ResetLinesForChange()
         line.trackTimedQuest = nil
         if line.expandQuest then
             line.expandQuest.mode = nil
+            line.expandQuest.questId = nil
         end
         if line.expandZone then
             line.expandZone.mode = nil
+            line.expandZone.zoneId = nil
         end
         if line.criteriaMark then
             line.criteriaMark.mode = nil
+            line.criteriaMark:SetCriteria(false)
+            line.criteriaMark:Hide()
         end
         if line.playButton then
             line.playButton.mode = nil
+            line.playButton:SetAlpha(0)
+            line.playButton:Hide()
         end
     end
 
@@ -873,7 +878,9 @@ function TrackerLinePool.HideUnusedLines()
             line.altButton = nil
             line.trackTimedQuest = nil
             line.expandQuest.mode = nil
+            line.expandQuest.questId = nil
             line.expandZone.mode = nil
+            line.expandZone.zoneId = nil
             line.criteriaMark.mode = nil
             line.playButton.mode = nil
         end

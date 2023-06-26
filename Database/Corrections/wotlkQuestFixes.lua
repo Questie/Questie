@@ -355,8 +355,15 @@ function QuestieWotlkQuestFixes:Load()
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
+        [11245] = {
+            [questKeys.requiredSourceItems] = {33311},
+        },
         [11246] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{23661,23662,23663,23664,23665,23666,23667,23668,23669,23670},23661,"Winterskorn Vrykul Dismembered"}}},
+            [questKeys.requiredSourceItems] = {33311},
+        },
+        [11247] = {
+            [questKeys.requiredSourceItems] = {33311},
         },
         [11249] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Present the Vrykul Scroll of Ascension"), 0, {{"object", 186586}}}},
@@ -651,6 +658,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11798] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use The Gearmaster's Manual"),0,{{"object", 190334}}}},
+        },
+        [11855] = {
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11865] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place fake fur near Caribou Traps"),0,{{"object", 187995},{"object", 187996},{"object", 187997},{"object", 187998},{"object", 187999},{"object", 188000},{"object", 188001},{"object", 188002},{"object", 188003},{"object", 188004},{"object", 188005},{"object", 188006},{"object", 188007},{"object", 188008}}},
@@ -1090,6 +1100,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12237] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{27315,27336,27345,27341},27315,"Helpless Villager Rescued"}}},
+        },
+        [12238] = {
+            [questKeys.sourceItemId] = 35797,
+            [questKeys.requiredSourceItems] = {},
         },
         [12241] = {
             [questKeys.preQuestGroup] = {12229,12231},
@@ -3037,9 +3051,64 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{400044}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [13440] = {
+            [questKeys.startedBy] = {nil,{194032}},
+            [questKeys.finishedBy] = {nil,{194032}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13441] = {
+            [questKeys.startedBy] = {nil,{194033}},
+            [questKeys.finishedBy] = {nil,{194033}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13442] = {
+            [questKeys.startedBy] = {nil,{194035}},
+            [questKeys.finishedBy] = {nil,{194035}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13443] = {
+            [questKeys.startedBy] = {nil,{194036}},
+            [questKeys.finishedBy] = {nil,{194036}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13444] = {
+            [questKeys.startedBy] = {nil,{194038}},
+            [questKeys.finishedBy] = {nil,{194038}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13445] = {
+            [questKeys.startedBy] = {nil,{194040}},
+            [questKeys.finishedBy] = {nil,{194040}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13446] = {
+            [questKeys.startedBy] = {nil,{194044}},
+            [questKeys.finishedBy] = {nil,{194044}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13447] = {
+            [questKeys.startedBy] = {nil,{194045}},
+            [questKeys.finishedBy] = {nil,{194045}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
         [13448] = {
             [questKeys.startedBy] = {nil,{400037}},
             [questKeys.finishedBy] = {nil,{400037}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13449] = {
+            [questKeys.startedBy] = {nil,{194049}},
+            [questKeys.finishedBy] = {nil,{194049}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13450] = {
+            [questKeys.startedBy] = {nil,{194034}},
+            [questKeys.finishedBy] = {nil,{194034}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13451] = {
+            [questKeys.startedBy] = {nil,{194037}},
+            [questKeys.finishedBy] = {nil,{194037}},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13452] = {
@@ -3047,10 +3116,35 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.finishedBy] = {nil,{400023}},
             [questKeys.requiredRaces] = raceIDs.NONE,
         },
+        [13453] = {
+            [questKeys.startedBy] = {nil,{194039}},
+            [questKeys.finishedBy] = {nil,{194039}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13454] = {
+            [questKeys.startedBy] = {nil,{194042}},
+            [questKeys.finishedBy] = {nil,{194042}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13455] = {
+            [questKeys.startedBy] = {nil,{194043}},
+            [questKeys.finishedBy] = {nil,{194043}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
         [13456] = {
             [questKeys.startedBy] = {nil,{400025}},
             [questKeys.finishedBy] = {nil,{400025}},
             [questKeys.requiredRaces] = raceIDs.NONE,
+        },
+        [13457] = {
+            [questKeys.startedBy] = {nil,{194046}},
+            [questKeys.finishedBy] = {nil,{194046}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13458] = {
+            [questKeys.startedBy] = {nil,{194048}},
+            [questKeys.finishedBy] = {nil,{194048}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13459] = {
             [questKeys.startedBy] = {nil,{400026}},
@@ -3118,6 +3212,86 @@ function QuestieWotlkQuestFixes:Load()
         [13474] = {
             [questKeys.startedBy] = {nil,{194081}},
             [questKeys.finishedBy] = {nil,{194081}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13485] = {
+            [questKeys.startedBy] = {{32801}},
+            [questKeys.finishedBy] = {{32801}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13486] = {
+            [questKeys.startedBy] = {{32802}},
+            [questKeys.finishedBy] = {{32802}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13487] = {
+            [questKeys.startedBy] = {{32803}},
+            [questKeys.finishedBy] = {{32803}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13488] = {
+            [questKeys.startedBy] = {{32804}},
+            [questKeys.finishedBy] = {{32804}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13489] = {
+            [questKeys.startedBy] = {{32805}},
+            [questKeys.finishedBy] = {{32805}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13490] = {
+            [questKeys.startedBy] = {{32806}},
+            [questKeys.finishedBy] = {{32806}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13491] = {
+            [questKeys.startedBy] = {{32807}},
+            [questKeys.finishedBy] = {{32807}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13492] = {
+            [questKeys.startedBy] = {{32808}},
+            [questKeys.finishedBy] = {{32808}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13493] = {
+            [questKeys.startedBy] = {{32809}},
+            [questKeys.finishedBy] = {{32809}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13494] = {
+            [questKeys.startedBy] = {{32810}},
+            [questKeys.finishedBy] = {{32810}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13495] = {
+            [questKeys.startedBy] = {{32811}},
+            [questKeys.finishedBy] = {{32811}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13496] = {
+            [questKeys.startedBy] = {{32812}},
+            [questKeys.finishedBy] = {{32812}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13497] = {
+            [questKeys.startedBy] = {{32813}},
+            [questKeys.finishedBy] = {{32813}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13498] = {
+            [questKeys.startedBy] = {{32814}},
+            [questKeys.finishedBy] = {{32814}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13499] = {
+            [questKeys.startedBy] = {{32815}},
+            [questKeys.finishedBy] = {{32815}},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [13500] = {
+            [questKeys.startedBy] = {{32816}},
+            [questKeys.finishedBy] = {{32816}},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13501] = {

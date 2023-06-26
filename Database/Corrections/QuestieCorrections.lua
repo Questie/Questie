@@ -151,6 +151,17 @@ function QuestieCorrections:MinimalInit() -- db already compiled
         end
     end
 
+    if (Questie.IsWotlk) then
+        for id, data in pairs(QuestieWotlkNpcFixes:LoadFactionFixes()) do
+            for key, value in pairs(data) do
+                if not QuestieDB.npcDataOverrides[id] then
+                    QuestieDB.npcDataOverrides[id] = {}
+                end
+                QuestieDB.npcDataOverrides[id][key] = value
+            end
+        end
+    end
+
     QuestieCorrections.questItemBlacklist = filterExpansion(QuestieItemBlacklist:Load())
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
     QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())

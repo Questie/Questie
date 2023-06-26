@@ -301,6 +301,9 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {596,629},
         },
+        [611]  = {
+            [questKeys.requiredSourceItems] = {4034, 4027},
+        },
         [619] = {
             [questKeys.parentQuest] = 8554, -- #1691
         },

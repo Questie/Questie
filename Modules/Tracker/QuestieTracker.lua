@@ -752,19 +752,34 @@ function QuestieTracker:Update()
                     -- Adds the AI_VoiceOver Play Buttons
                     line.playButton:SetPlayButton(questId)
 
+                    local usableQIB = false
+                    local sourceItemId = QuestieDB.QueryQuestSingle(quest.Id, "sourceItemId")
+                    local sourceItem = sourceItemId and TrackerUtils:IsQuestItemUsable(sourceItemId)
+                    local requiredItems = quest.requiredSourceItems
+                    local requiredItem = requiredItems and TrackerUtils:IsQuestItemUsable(requiredItems[1])
+                    local isComplete = (quest.isComplete ~= true and #quest.Objectives == 0) or quest.isComplete == true
+
+                    -- Occasionally a quest will be in a complete state and still have a usable Quest Item. Sometimes these usable
+                    -- items spawn an NPC that is needed to finish the quest. Or an item that teleports you to the quest finisher.
+                    if complete == 1 and isComplete and (sourceItem or requiredItem) then
+                        -- This shows QIB's for Quest Itmes that are needed after a quest is complete with objectives
+                        if sourceItemId > 1 and requiredItem and sourceItemId ~= requiredItems[1] then
+                            quest.sourceItemId = 0
+                            usableQIB = true
+                        end
+
+                        -- This shows QIB's for Quest Items that are needed after a quest is complete without objectives
+                        if sourceItemId > 1 and not requiredItem and quest.isComplete ~= true then
+                            usableQIB = true
+                        end
+                    end
+
                     -- Adds the primary Quest Item button
                     -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                    if (complete ~= 1 and (quest.sourceItemId and (GetItemSpell(quest.sourceItemId) ~= nil or IsEquippableItem(quest.sourceItemId) ~= nil)) or (quest.requiredSourceItems and #quest.requiredSourceItems == 1 and (GetItemSpell(quest.requiredSourceItems[1]) ~= nil or IsEquippableItem(quest.requiredSourceItems[1]) ~= nil))) then
+                    if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and requiredItem)) or usableQIB then
                         -- Get button from buttonPool
                         local button = TrackerLinePool.GetNextItemButton()
                         if not button then break end -- stop populating the tracker
-
-                        -- Check and set itemID
-                        if quest.sourceItemId then
-                            button.itemID = quest.sourceItemId
-                        elseif type(quest.requiredSourceItems) == "table" and #quest.requiredSourceItems == 1 then
-                            button.itemID = quest.requiredSourceItems[1]
-                        end
 
                         -- Get and save Quest Title linePool to buttonPool
                         button.line = line
@@ -820,12 +835,12 @@ function QuestieTracker:Update()
                     end
 
                     -- Adds the Secondary Quest Item Button (only if Primary is present)
-                    if (primaryButton and quest.requiredSourceItems and #quest.requiredSourceItems > 1 and next(quest.Objectives)) then
-                        if type(quest.requiredSourceItems) == "table" then
+                    if (complete ~= 1 and primaryButton and requiredItems and #requiredItems > 1 and next(quest.Objectives)) then
+                        if type(requiredItems) == "table" then
                             -- Make sure it's a "secondary" button and if a quest item is "usable".
-                            for _, itemId in pairs(quest.requiredSourceItems) do
+                            for _, itemId in pairs(requiredItems) do
                                 -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
-                                if itemId and itemId ~= quest.sourceItemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and (GetItemSpell(itemId) ~= nil or IsEquippableItem(itemId) ~= nil) then
+                                if itemId and itemId ~= sourceItemId and QuestieDB.QueryItemSingle(itemId, "class") == 12 and TrackerUtils:IsQuestItemUsable(itemId) then
                                     -- Get button from buttonPool
                                     local altButton = TrackerLinePool.GetNextItemButton()
                                     if not altButton then break end -- stop populating the tracker
@@ -995,7 +1010,7 @@ function QuestieTracker:Update()
                         end
 
                         -- Add incomplete Quest Objectives
-                        if complete == 0 then
+                        if complete == 0 and quest.isComplete ~= true then
                             for _, objective in pairs(quest.Objectives) do
                                 if (not Questie.db.global.hideCompletedQuestObjectives or (Questie.db.global.hideCompletedQuestObjectives and objective.Needed ~= objective.Collected)) then
                                     -- Get next line in linePool
@@ -1088,7 +1103,7 @@ function QuestieTracker:Update()
 
                             -- Add complete/failed Quest Objectives and tag them as either complete or failed so as to always have at least one objective.
                             -- Some quests have "Blizzard Completion Text" that is displayed to show where to go next or where to turn in the quest.
-                        elseif complete == 1 or complete == -1 or quest.Completed == true then
+                        elseif complete == 1 or complete == -1 or quest.isComplete == true then
                             -- Get next line in linePool
                             line = TrackerLinePool.GetNextLine()
 
@@ -1109,7 +1124,7 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                             -- Set Objective label based on states
-                            if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) then
+                            if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil) then
                                 -- Set Blizzard Completion text for single objectives
                                 line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
 
@@ -1999,14 +2014,17 @@ function QuestieTracker:UntrackQuestId(questId)
         -- Remove quest Icons from map when un-tracking quest.
         -- Also reset caches of spawned Icons so re-tracking works.
         QuestieMap:UnloadQuestFrames(questId)
+        QuestieQuest:UpdateQuest(questId)
         local quest = QuestieDB:GetQuest(questId)
         if quest then
             for _, objective in pairs(quest.Objectives) do
                 objective.AlreadySpawned = {}
+                objective.hasRegisteredTooltips = false
             end
 
             for _, objective in pairs(quest.SpecialObjectives) do
                 objective.AlreadySpawned = {}
+                objective.hasRegisteredTooltips = false
             end
         end
     end
