@@ -1634,11 +1634,35 @@ function QuestieWotlkNpcFixes:LoadFactionFixes()
         [26221] = {
             [npcKeys.spawns] = {[zoneIDs.UNDERCITY]={{66.9,13.53}},[zoneIDs.ORGRIMMAR]={{46.44,38.69}},[zoneIDs.THUNDER_BLUFF]={{22.16,23.98}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.SILVERMOON_CITY]={{68.67,42.94}}},
         },
+        [35060] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [35061] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [35071] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{74.14,10.52},{74.7,9.72},{74.15,9.14},{73.76,9.69}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
     }
 
     local npcFixesAlliance = {
         [26221] = {
             [npcKeys.spawns] = {[zoneIDs.TELDRASSIL]={{56.1,92.16}},[zoneIDs.SHATTRATH_CITY]={{60.68,30.62}},[zoneIDs.IRONFORGE]={{65.14,27.71}},[zoneIDs.STORMWIND_CITY]={{38.31,61.84}},[zoneIDs.THE_EXODAR]={{43.27,26.26}}},
+        },
+        [35060] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [35061] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
+        [35071] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{66.87,8.97},{66.36,8.08},{67.31,8.2},{66.92,7.55}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
         },
     }
 
