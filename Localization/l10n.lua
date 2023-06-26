@@ -112,13 +112,13 @@ function _l10n:translate(key, ...)
 
     local translationEntry = l10n.translations[key]
     if not translationEntry then
-        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing completely!") end
+        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' are missing completely!") end
         return format(key, unpack(args))
     end
 
     local translationValue = translationEntry[locale]
     if (not translationValue) then
-        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' is missing the entry for language" , locale, "!") end
+        if (Questie.db.global.debugEnabled) then Questie:Debug(Questie.DEBUG_ELEVATED, "ERROR: Translations for '" .. tostring(key) .. "' are missing the entry for language" , locale, "!") end
         return format(key, unpack(args))
     end
 

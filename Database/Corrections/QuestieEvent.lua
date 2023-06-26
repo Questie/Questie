@@ -818,7 +818,9 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11862}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11863}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11882}) -- Playing with Fire
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11886}) -- Unusual Activity
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11891}) -- An Innocent Disguise
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11917}) -- Striking Back (level 22)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11921}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11922}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11923}) -- Torch Catching
@@ -827,6 +829,10 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11925}) -- More Torch Catching
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11926}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11933}) -- Stealing the Exodar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11947}) -- Striking Back (level 32)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11948}) -- Striking Back (level 43)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11952}) -- Striking Back (level 51)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11953}) -- Striking Back (level 60)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11954}) -- Striking Back (level 67)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11955}) -- Ahune, the Frost Lord
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11972}) -- Shards of Ahune
@@ -834,6 +840,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11964}) -- Incense for the Summe
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 12012}) -- Inform the Elder
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A Winter Veil Gift
 

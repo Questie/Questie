@@ -142,6 +142,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
         },
+        [2204] = {
+            [questKeys.startedBy] = {nil,{112877}},
+        },
         [2279] = {
             [questKeys.preQuestSingle] = {2278},
         },
@@ -3612,7 +3615,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13664},
         },
         [13789] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{29717,31145,31731,31738,32236,32238,32250,32259,32262,32263,32268,32276,32279,32285,32289,32290,32291,32297,32300,32349,33537,35127,35297},35297,"Cult of the Damned member slain"}}},
             [questKeys.preQuestSingle] = {13700},
         },
         [13790] = {
@@ -3620,7 +3622,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794},{"monster", 33800},{"monster", 33793},{"monster", 33795},{"monster", 33790}}}},
         },
         [13791] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{29717,31145,31731,31738,32236,32238,32250,32259,32262,32263,32268,32276,32279,32285,32289,32290,32291,32297,32300,32349,33537,35127,35297},35297,"Cult of the Damned member slain"}}},
             [questKeys.preQuestSingle] = {13700},
         },
         [13793] = {
@@ -4002,6 +4003,11 @@ function QuestieWotlkQuestFixes:Load()
         [14102] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{43.8,24.6}}}, Questie.ICON_TYPE_EVENT, l10n("Summon Mistcaller Yngvar using the Mistcaller's Charm")}},
         },
+        [14103] = {
+            [questKeys.specialFlags] = 1,
+            [questKeys.startedBy] = {{28701}},
+            [questKeys.finishedBy] = {{28701}},
+        },
         [14104] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.HROTHGARS_LANDING]={{58.59,31.72}}}, Questie.ICON_TYPE_EVENT, l10n("Provoke Ornolf the Scarred using the Captured Kvaldir Banner")}},
         },
@@ -4020,6 +4026,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14145] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Take chum"), 0, {{"object", 195353}}}},
+        },
+        [14151] = {
+            [questKeys.objectives] = {},
+            [questKeys.triggerEnd] = {"Epic Gem Transmutes", {[zoneIDs.DALARAN]={{42.25,32.06}}}},
         },
         [14163] = {
             [questKeys.triggerEnd] = {"Victory in the Isle of Conquest", {
