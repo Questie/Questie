@@ -652,7 +652,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     end
 
     -- Check and see if the Quest requires an achievement before showing as available
-    if not _QuestieDB:CheckAchievementRequirements(questId) then
+    if _QuestieDB:CheckAchievementRequirements(questId) == false then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet achievement requirements for", questId) end
         return false
     end
@@ -1137,12 +1137,12 @@ function _QuestieDB:CheckAchievementRequirements(questId)
     -- This NPC requires these earned Achievements baseed on a Players home faction:
     -- https://www.wowhead.com/wotlk/achievement=2817/exalted-argent-champion-of-the-alliance
     -- https://www.wowhead.com/wotlk/achievement=2816/exalted-argent-champion-of-the-horde
-    if questId == 14108 or questId == 14107 then
+    if questId == 14101 or questId == 14102 or questId == 14104 or questId == 14105 or questId == 14107 or questId == 14108 then
         if select(13, GetAchievementInfo(2817)) or select(13, GetAchievementInfo(2816)) then
             return true
-        else
-            return false
         end
+
+        return false
     end
 end
 
