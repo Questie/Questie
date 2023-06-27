@@ -54,6 +54,9 @@ function QuestieTBCQuestFixes:Load()
         [254] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [275] = {
+            [questKeys.objectivesText] = {"Kill 8 Fen Creepers, then return to Rethiel the Greenwarden in the Wetlands."}, -- override classic correction
+        },
         [287] = {
             [questKeys.triggerEnd] = {"Fully explore Frostmane Hold", {[zoneIDs.DUN_MOROGH]={{21.47,52.2}}}},
         },
