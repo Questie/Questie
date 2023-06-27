@@ -1140,10 +1140,10 @@ function _QuestieDB:CheckAchievementRequirements(questId)
     if questId == 14108 or questId == 14107 then
         if select(13, GetAchievementInfo(2817)) or select(13, GetAchievementInfo(2816)) then
             return true
+        else
+            return false
         end
     end
-
-    return false
 end
 
 function _QuestieDB:HideClassAndRaceQuests()
