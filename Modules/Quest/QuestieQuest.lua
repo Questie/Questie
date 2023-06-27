@@ -72,7 +72,7 @@ end
 
 -- forward declaration
 local _UnloadAlreadySpawnedIcons
-local _RegisterObjectiveTooltips, _RegisterAllObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
+local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistance
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
@@ -705,7 +705,7 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
         end
     end
 
-    if quest and next(quest.SpecialObjectives) then
+    if next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
             if not result then
@@ -885,7 +885,7 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
-    if (not next(objective.spawnList)) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
+    if (not objective.spawnList or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
         objective.spawnList = _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type](objective.Id, objective, objectiveData);
     end
 
@@ -937,13 +937,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     end
 end
 
----@param quest Quest
-_RegisterAllObjectiveTooltips = function(quest)
-    for _, objective in pairs(quest.Objectives) do
-        _RegisterObjectiveTooltips(objective, quest.Id, false)
-    end
-end
-
 _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
     Questie:Debug(Questie.DEBUG_INFO, "Registering objective tooltips for", objective.Description)
 
@@ -983,7 +976,6 @@ _UnloadAlreadySpawnedIcons = function(objective)
             end
         end
         objective.AlreadySpawned = {}
-        objective.spawnList = {} -- Remove the spawns for this objective, since we don't need to show them
     end
 end
 
@@ -1184,19 +1176,6 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     end
 end
 
-
----@param quest Quest
-local function _CallPopulateObjective(quest)
-    for objectiveIndex, questObjective in pairs(quest.Objectives) do
-        local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, objectiveIndex, questObjective, false);
-        if not result then
-            local major, minor, patch = QuestieLib:GetAddonVersionInfo();
-            local version = "v" .. (major or "") .. "." .. (minor or "") .. "." .. (patch or ""); --Doing it this way to keep it 100% safe.
-            Questie:Error("[QuestieQuest]: " .. version .. " - " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", objectiveIndex or "No objective", err or "No error"));
-        end
-    end
-end
-
 local function _AddSourceItemObjective(quest)
     if quest.sourceItemId then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
@@ -1245,7 +1224,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     if quest:IsComplete() == 1 then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
 
-        _CallPopulateObjective(quest)
+        QuestieQuest:UpdateObjectiveNotes(quest)
         _AddSourceItemObjective(quest)
         QuestieQuest:AddFinisher(quest)
         return
@@ -1257,21 +1236,8 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Populating objectives for:", quest.Id)
 
-    _CallPopulateObjective(quest)
+    QuestieQuest:UpdateObjectiveNotes(quest)
     _AddSourceItemObjective(quest)
-
-    -- check for special (unlisted) DB objectives
-    if next(quest.SpecialObjectives) then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Adding special objectives")
-        local index = 0 -- SpecialObjectives is a string table, but we need a number
-        for _, objective in pairs(quest.SpecialObjectives) do
-            local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, index, objective, true)
-            if not result then
-                Questie:Error("[QuestieQuest]: [SpecialObjectives] " .. l10n("There was an error populating objectives for %s %s %s %s", quest.name or "No quest name", quest.Id or "No quest id", 0 or "No objective", err or "No error"));
-            end
-            index = index + 1
-        end
-    end
 end
 
 ---@param quest Quest
@@ -1333,10 +1299,17 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             end
 
             specialObjective.questId = quest.Id
-            specialObjective.Update = NOP_FUNCTION
+            if specialObjective.RealObjectiveIndex and quest.Objectives[specialObjective.RealObjectiveIndex] then
+                -- This specialObjective is an extraObjective and has a RealObjectiveIndex set
+                specialObjective.Completed = quest.Objectives[specialObjective.RealObjectiveIndex].Completed
+                specialObjective.Update = function(self)
+                    self.Completed = quest.Objectives[self.RealObjectiveIndex].Completed
+                end
+            else
+                specialObjective.Update = NOP_FUNCTION
+            end
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
-            specialObjective.spawnList = specialObjective.spawnList or {}
-            specialObjective.AlreadySpawned = {}
+            specialObjective.AlreadySpawned = specialObjective.AlreadySpawned or {}
         end
     end
 
