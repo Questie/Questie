@@ -748,7 +748,7 @@ function QuestieQuest:AddFinisher(quest)
 
             -- Clear duplicate keys if they exsist
             if QuestieTooltips.lookupByKey[key] then
-                if QuestieTooltips:GetTooltip(key)[1] ~= nil and #QuestieTooltips:GetTooltip(key) > 1 then
+                if QuestieTooltips:GetTooltip(key) ~= nil and #QuestieTooltips:GetTooltip(key) > 1 then
                     for ttline = 1, #QuestieTooltips:GetTooltip(key) do
                         for index, line in pairs(QuestieTooltips:GetTooltip(key)) do
                             if (ttline == index) then

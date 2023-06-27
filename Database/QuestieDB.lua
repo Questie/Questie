@@ -651,6 +651,12 @@ function QuestieDB.IsDoable(questId, debugPrint)
         end
     end
 
+    -- Check and see if the Quest requires an achievement before showing as available
+    if _QuestieDB:CheckAchievementRequirements(questId) == false then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet achievement requirements for", questId) end
+        return false
+    end
+
     return true
 end
 
@@ -1123,6 +1129,23 @@ end
 
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
+
+function _QuestieDB:CheckAchievementRequirements(questId)
+    -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
+    -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
+    -- Get Kraken (14108)
+    -- The Fate Of The Fallen (14107)
+    -- This NPC requires these earned Achievements baseed on a Players home faction:
+    -- https://www.wowhead.com/wotlk/achievement=2817/exalted-argent-champion-of-the-alliance
+    -- https://www.wowhead.com/wotlk/achievement=2816/exalted-argent-champion-of-the-horde
+    if questId == 14101 or questId == 14102 or questId == 14104 or questId == 14105 or questId == 14107 or questId == 14108 then
+        if select(13, GetAchievementInfo(2817)) or select(13, GetAchievementInfo(2816)) then
+            return true
+        end
+
+        return false
+    end
+end
 
 function _QuestieDB:HideClassAndRaceQuests()
     local questKeys = QuestieDB.questKeys
