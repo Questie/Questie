@@ -717,17 +717,17 @@ local trackerOptionsLocales = {
         ["esES"] = "Color de objectivo",
         ["frFR"] = "Couleur des objectifs :",
     },
-    ["Change the color of Objectives in the Questie Tracker by how complete they are."] = {
-        ["ptBR"] = "Altere a cor dos objetivos no Rastreador de acordo com a integridade",
-        ["ruRU"] = "Изменение цвета целей заданий в трекере в зависимости от прогресса выполнения",
-        ["deDE"] = "Verändert die Farbe von Questzielen in Abhängigkeit zum Fortschritt.",
-        ["koKR"] = "퀘스트 추적기에서 퀘스트 진행도에 따라 퀘스트 목표 색상을 변경합니다.",
-        ["esMX"] = "Cambia el color de objetivos en el rastreador por lo completos que estén.",
+    ['Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just lable the Quest as either "Quest Complete!" or "Quest Failed!".'] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = "按照任务目标的进度，对追踪框的任务目标文字染色。",
-        ["zhTW"] = "根據任務目標的進度，著色追蹤框的任務目標文字",
-        ["esES"] = "Cambia el color de objetivos en el rastreador por lo completos que estén.",
-        ["frFR"] = "Change la couleur des objectifs dans le suivi en fonction de leur progression.",
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
     ---------------------------------------------------------
     ["Red to Green"] = {
@@ -777,6 +777,18 @@ local trackerOptionsLocales = {
         ["zhTW"] = "由白至綠",
         ["esES"] = "Blanco a Verde",
         ["frFR"] = "Blanc à vert",
+    },
+    ["Minimalistic"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
     },
     ---------------------------------------------------------
     ["Objective Sorting"] = {

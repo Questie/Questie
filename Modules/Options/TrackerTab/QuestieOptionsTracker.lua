@@ -514,12 +514,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                         ['white'] = l10n('White'),
                         ['whiteToGreen'] = l10n('White to Green'),
                         ['whiteAndGreen'] = l10n('White and Green'),
-                        ['redToGreen'] = l10n('Red to Green')
+                        ['redToGreen'] = l10n('Red to Green'),
+                        ['minimal'] = l10n('Minimalistic')
                     }
                 end,
                 style = 'dropdown',
                 name = function() return l10n('Objective Color') end,
-                desc = function() return l10n('Change the color of Objectives in the Questie Tracker by how complete they are.') end,
+                desc = function() return l10n('Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just lable the Quest as either "Quest Complete!" or "Quest Failed!".') end,
                 disabled = function() return not Questie.db.char.trackerEnabled end,
                 get = function() return Questie.db.global.trackerColorObjectives end,
                 set = function(_, key)

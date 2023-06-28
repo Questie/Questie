@@ -92,7 +92,7 @@ function QuestieOptionsDefaults:Load()
             stickyVoiceOverFrame = false,
             alwaysShowTracker = false,
             globalTrackerLocation = true,
-            trackerColorObjectives = 'white',
+            trackerColorObjectives = 'minimal',
             trackerSortObjectives = 'byZone',
             trackerbindSetTomTom = 'ctrlleft',
             trackerbindOpenQuestLog = 'left',
