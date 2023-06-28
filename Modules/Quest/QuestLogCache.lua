@@ -10,7 +10,6 @@ local Sounds = QuestieLoader:ImportModule("Sounds")
 
 local stringByte = string.byte
 local GetQuestLogTitle, C_QuestLog_GetQuestObjectives = GetQuestLogTitle, C_QuestLog.GetQuestObjectives
-local type = type
 
 -- 3 * (Max possible number of quests in game quest log)
 -- This is a safe value, even smaller would be enough. Too large won't effect performance
@@ -170,7 +169,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
 
                 if newObjectives then
                     if cachedQuest and (#cachedObjectives ~= #newObjectives) then
-                        Questie:Error("Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
+                        Questie:Debug(Questie.DEBUG_CRITICAL, "Please report on Github or Discord! Number of the objectives of the quest changed. questId, oldNum, newNum", questId, #cachedObjectives, #newObjectives)
                         -- Number of the objectives changed?! Shouldn't be possible.
                         -- For now go as nothing in the quest changed.
                         cacheMiss = true
