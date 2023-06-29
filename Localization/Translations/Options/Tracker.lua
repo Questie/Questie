@@ -717,7 +717,7 @@ local trackerOptionsLocales = {
         ["esES"] = "Color de objectivo",
         ["frFR"] = "Couleur des objectifs :",
     },
-    ['Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just lable the Quest as either "Quest Complete!" or "Quest Failed!".'] = {
+    ['Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just label the Quest as either "Quest Complete!" or "Quest Failed!".'] = {
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
