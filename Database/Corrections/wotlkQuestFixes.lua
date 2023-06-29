@@ -2869,6 +2869,9 @@ function QuestieWotlkQuestFixes:Load()
         [13363] = {
             [questKeys.preQuestSingle] = {13362},
         },
+        [13364] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tirion while wearing a Cultist Acolyte's Hood"), 0, {{"monster", 32239}}}},
+        },
         [13365] = {
             [questKeys.objectives] = {{{32316}}},
             [questKeys.preQuestSingle] = {13358},
@@ -2922,6 +2925,9 @@ function QuestieWotlkQuestFixes:Load()
         [13400] = {
             [questKeys.objectives] = {{{32588,"The Prince's Destiny"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Pick it up"), 0, {{"object", 193980},{"object", 194023},{"object", 194024}}}},
+        },
+        [13403] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to Tirion while wearing a Cultist Acolyte's Hood"), 0, {{"monster", 32239}}}},
         },
         [13404] = {
             [questKeys.preQuestSingle] = {13380},
