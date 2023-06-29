@@ -115,6 +115,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
+            hideBlizzardCompletionText = {
+                type = "toggle",
+                order = 1.55,
+                width = 1.5,
+                name = function() return l10n('Hide Blizzard Completion Text') end,
+                desc = function() return l10n('When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: "Quest Complete!" or "Quest Failed!"') end,
+                disabled = function() return not Questie.db.char.trackerEnabled or Questie.db.global.trackerColorObjectives == "minimal" end,
+                get = function() return Questie.db.global.hideBlizzardCompletionText end,
+                set = function(_, value)
+                    Questie.db.global.hideBlizzardCompletionText = value
+                    QuestieTracker:Update()
+                end
+            },
             -- hideCompletedAchieveObjectives: order = 1.6 | Check WotLK section below
             showQuestTimer = {
                 type = "toggle",

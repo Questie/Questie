@@ -1000,6 +1000,11 @@ function QuestieTracker:Update()
                         -- Set Completion Text
                         local completionText = TrackerUtils:GetCompletionText(quest)
 
+                        -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
+                        if Questie.db.global.hideBlizzardCompletionText then
+                            completionText = nil
+                        end
+
                         -- This removes any blank lines
                         if completionText ~= nil then
                             if strfind(completionText, "\r\n") then
