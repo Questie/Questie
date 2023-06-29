@@ -178,6 +178,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 22,
             [questKeys.questLevel] = 26,
         },
+        [1133] = {
+            [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,
+        },
         [1135] = {
             [questKeys.startedBy] = {{4456},nil,nil},
             [questKeys.zoneOrSort] = zoneIDs.DARKSHORE,

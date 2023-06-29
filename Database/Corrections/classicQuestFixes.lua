@@ -666,6 +666,7 @@ function QuestieQuestFixes:Load()
         },
         [1133] = {
             [questKeys.preQuestSingle] = {}, -- #1738
+            [questKeys.zoneOrSort] = zoneIDs.DUSTWALLOW_MARSH,
         },
         [1136] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use a Fresh Carcass at the Flame of Uzel"), 0, {{"object", 1770}}}},
