@@ -107,7 +107,7 @@ function QuestieLib:GetRGBForObjective(objective)
 
     local float = objective.Collected / objective.Needed
     local trackerColor = Questie.db.global.trackerColorObjectives
-    if not trackerColor or trackerColor == "white" then
+    if not trackerColor or trackerColor == "white" or trackerColor == "minimal" then
         -- White
         return "|cFFEEEEEE"
     elseif trackerColor == "whiteAndGreen" then

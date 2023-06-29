@@ -115,6 +115,19 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
+            hideBlizzardCompletionText = {
+                type = "toggle",
+                order = 1.55,
+                width = 1.5,
+                name = function() return l10n('Hide Blizzard Completion Text') end,
+                desc = function() return l10n('When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: "Quest Complete!" or "Quest Failed!"') end,
+                disabled = function() return not Questie.db.char.trackerEnabled or Questie.db.global.trackerColorObjectives == "minimal" end,
+                get = function() return Questie.db.global.hideBlizzardCompletionText end,
+                set = function(_, value)
+                    Questie.db.global.hideBlizzardCompletionText = value
+                    QuestieTracker:Update()
+                end
+            },
             -- hideCompletedAchieveObjectives: order = 1.6 | Check WotLK section below
             showQuestTimer = {
                 type = "toggle",
@@ -514,12 +527,13 @@ function QuestieOptions.tabs.tracker:Initialize()
                         ['white'] = l10n('White'),
                         ['whiteToGreen'] = l10n('White to Green'),
                         ['whiteAndGreen'] = l10n('White and Green'),
-                        ['redToGreen'] = l10n('Red to Green')
+                        ['redToGreen'] = l10n('Red to Green'),
+                        ['minimal'] = l10n('Minimalistic')
                     }
                 end,
                 style = 'dropdown',
                 name = function() return l10n('Objective Color') end,
-                desc = function() return l10n('Change the color of Objectives in the Questie Tracker by how complete they are.') end,
+                desc = function() return l10n('Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just label the Quest as either "Quest Complete!" or "Quest Failed!".') end,
                 disabled = function() return not Questie.db.char.trackerEnabled end,
                 get = function() return Questie.db.global.trackerColorObjectives end,
                 set = function(_, key)

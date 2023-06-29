@@ -1000,6 +1000,11 @@ function QuestieTracker:Update()
                         -- Set Completion Text
                         local completionText = TrackerUtils:GetCompletionText(quest)
 
+                        -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
+                        if Questie.db.global.hideBlizzardCompletionText then
+                            completionText = nil
+                        end
+
                         -- This removes any blank lines
                         if completionText ~= nil then
                             if strfind(completionText, "\r\n") then
@@ -1007,6 +1012,9 @@ function QuestieTracker:Update()
                             else
                                 completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
                             end
+
+                            -- Blizzard Completion Text should always be green
+                            completionText = "|cFF4CFF4C" .. completionText
                         end
 
                         -- Add incomplete Quest Objectives
@@ -1054,9 +1062,9 @@ function QuestieTracker:Update()
                                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
 
                                         -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
-                                    elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) then
+                                    elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) and Questie.db.global.trackerColorObjectives ~= "minimal" then
                                         -- Set Blizzard Completion text for single objectives
-                                        line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
+                                        line.label:SetText(completionText)
 
                                         -- If the line width is less than the minimum Tracker width then don't wrap text
                                         if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
@@ -1124,9 +1132,9 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                             -- Set Objective label based on states
-                            if (complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil) then
+                            if ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and Questie.db.global.trackerColorObjectives ~= "minimal" then
                                 -- Set Blizzard Completion text for single objectives
-                                line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. completionText)
+                                line.label:SetText(completionText)
 
                                 -- If the line width is less than the minimum Tracker width then don't wrap text
                                 if line.label:GetUnboundedStringWidth() + objectiveMarginLeft < trackerMinLineWidth then
