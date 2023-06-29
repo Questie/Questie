@@ -583,6 +583,7 @@ function QuestieTracker:Update()
     local questMarginLeft = (trackerMarginLeft + trackerMarginRight) - (18 - trackerFontSizeQuest)
     local objectiveMarginLeft = questMarginLeft + trackerFontSizeQuest
     local questItemButtonSize = 12 + trackerFontSizeQuest
+    local objectiveColor = Questie.db.global.trackerColorObjectives
 
     local line
 
@@ -604,8 +605,9 @@ function QuestieTracker:Update()
             local complete = quest:IsComplete()
             local zoneName = questDetails[questId].zoneName
             local remainingSeconds = TrackerQuestTimers:GetRemainingTime(quest, nil, true)
+            local timedQuest = (quest.trackTimedQuest or quest.timedBlizzardQuest)
 
-            if (complete ~= 1 or Questie.db.global.trackerShowCompleteQuests or quest.trackTimedQuest or quest.timedBlizzardQuest)
+            if (complete ~= 1 or Questie.db.global.trackerShowCompleteQuests or timedQuest)
                 and (Questie.db.global.autoTrackQuests and not Questie.db.char.AutoUntrackedQuests[questId])
                 or (not Questie.db.global.autoTrackQuests and Questie.db.char.TrackedQuests[questId]) then
                 -- Add Quest Zones
@@ -685,6 +687,8 @@ function QuestieTracker:Update()
 
                 -- Add quest
                 if (not Questie.db.char.collapsedZones[zoneName]) then
+                    local shouldCollapse = #quest.Objectives ~= 0 or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
+
                     -- Get next line in linePool
                     line = TrackerLinePool.GetNextLine()
 
@@ -704,7 +708,7 @@ function QuestieTracker:Update()
                     line.expandQuest.zoneId = zoneName
 
                     -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
-                    if Questie.db.global.collapseCompletedQuests and complete == 1 and #quest.Objectives ~= 0 and not (quest.trackTimedQuest or quest.timedBlizzardQuest) then
+                    if Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest then
                         if not Questie.db.char.collapsedQuests[quest.Id] then
                             Questie.db.char.collapsedQuests[quest.Id] = true
                         end
@@ -729,10 +733,10 @@ function QuestieTracker:Update()
 
                     -- Set Quest Title
                     local coloredQuestName
-                    if quest.trackTimedQuest or quest.timedBlizzardQuest then
+                    if timedQuest then
                         coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
                     else
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and complete == 1 and #quest.Objectives ~= 0), false)
+                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse), false)
                     end
                     line.label:SetText(coloredQuestName)
 
@@ -828,7 +832,7 @@ function QuestieTracker:Update()
                         line.button = button
 
                         -- Hide button if quest complete or failed
-                    elseif (Questie.db.global.collapseCompletedQuests and complete == 1 and #quest.Objectives ~= 0 and not (quest.trackTimedQuest or quest.timedBlizzardQuest)) then
+                    elseif (Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest) then
                         line.expandQuest:Hide()
                     else
                         line.expandQuest:Show()
@@ -942,7 +946,7 @@ function QuestieTracker:Update()
                     -- Add quest Objectives (if applicable)
                     if (not Questie.db.char.collapsedQuests[quest.Id]) then
                         -- Add Quest Timers (if applicable)
-                        if (quest.trackTimedQuest or quest.timedBlizzardQuest) then
+                        if timedQuest then
                             -- Get next line in linePool
                             line = TrackerLinePool.GetNextLine()
 
@@ -1062,7 +1066,7 @@ function QuestieTracker:Update()
                                         trackerLineWidth = math.max(trackerLineWidth, line.label:GetUnboundedStringWidth() + lineWidthQBC)
 
                                         -- Edge case where the quest is still flagged incomplete for single objectives and yet the objective itself is flagged complete
-                                    elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) and Questie.db.global.trackerColorObjectives ~= "minimal" then
+                                    elseif (objective.Completed == true and completionText ~= nil and #quest.Objectives == 1) and objectiveColor ~= "minimal" then
                                         -- Set Blizzard Completion text for single objectives
                                         line.label:SetText(completionText)
 
@@ -1132,7 +1136,7 @@ function QuestieTracker:Update()
                             line.label:SetPoint("TOPLEFT", line, "TOPLEFT", lineWidthQBC, 0)
 
                             -- Set Objective label based on states
-                            if ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and Questie.db.global.trackerColorObjectives ~= "minimal" then
+                            if ((complete == 1 and completionText ~= nil and #quest.Objectives == 0) or (quest.isComplete == true and completionText ~= nil)) and objectiveColor ~= "minimal" then
                                 -- Set Blizzard Completion text for single objectives
                                 line.label:SetText(completionText)
 
@@ -1545,8 +1549,6 @@ function QuestieTracker:Update()
                                         -- Set Objectives with a single Objective number criteria
                                     else
                                         -- Set Objective text
-                                        local trackerColor = Questie.db.global.trackerColorObjectives
-
                                         if completed then
                                             line.label:SetText(QuestieLib:GetRGBForObjective({ Collected = 1, Needed = 1 }) .. objDesc)
                                         else
@@ -1554,7 +1556,7 @@ function QuestieTracker:Update()
                                         end
 
                                         -- Set Objective criteria mark
-                                        if not Questie.db.global.hideCompletedAchieveObjectives and (not trackerColor or trackerColor == "white") then
+                                        if not Questie.db.global.hideCompletedAchieveObjectives and (not objectiveColor or objectiveColor == "white") then
                                             line.criteriaMark:SetCriteria(completed)
 
                                             if line.criteriaMark.mode == true then
