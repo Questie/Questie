@@ -125,6 +125,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.global.hideBlizzardCompletionText end,
                 set = function(_, value)
                     Questie.db.global.hideBlizzardCompletionText = value
+                    if Questie.db.global.hideBlizzardCompletionText == false then
+                        Questie.db.char.collapsedQuests = {}
+                    end
                     QuestieTracker:Update()
                 end
             },

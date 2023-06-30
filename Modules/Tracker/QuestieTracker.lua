@@ -687,8 +687,6 @@ function QuestieTracker:Update()
 
                 -- Add quest
                 if (not Questie.db.char.collapsedZones[zoneName]) then
-                    local shouldCollapse = #quest.Objectives ~= 0 or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
-
                     -- Get next line in linePool
                     line = TrackerLinePool.GetNextLine()
 
@@ -706,6 +704,30 @@ function QuestieTracker:Update()
                     -- Set Min/Max Button and default states
                     line.expandQuest:SetPoint("TOPRIGHT", line, "TOPLEFT", questMarginLeft - 8, 1)
                     line.expandQuest.zoneId = zoneName
+
+
+                    -- Set Completion Text
+                    local completionText = TrackerUtils:GetCompletionText(quest)
+
+                    -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
+                    if Questie.db.global.hideBlizzardCompletionText then
+                        completionText = nil
+                    end
+
+                    -- This removes any blank lines from Completion Text
+                    if completionText ~= nil then
+                        if strfind(completionText, "\r\n") then
+                            completionText = completionText:gsub("\r\n", "")
+                        else
+                            completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
+                        end
+
+                        -- Completion Text should always be green
+                        completionText = "|cFF4CFF4C" .. completionText
+                    end
+
+                    -- Completion Text should never be allowed to Auto Collapse
+                    local shouldCollapse = (#quest.Objectives ~= 0 and completionText == nil) or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
 
                     -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
                     if Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest then
@@ -999,26 +1021,6 @@ function QuestieTracker:Update()
                             -- Set Timer states
                             line:Show()
                             line.label:Show()
-                        end
-
-                        -- Set Completion Text
-                        local completionText = TrackerUtils:GetCompletionText(quest)
-
-                        -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
-                        if Questie.db.global.hideBlizzardCompletionText then
-                            completionText = nil
-                        end
-
-                        -- This removes any blank lines
-                        if completionText ~= nil then
-                            if strfind(completionText, "\r\n") then
-                                completionText = completionText:gsub("\r\n", "")
-                            else
-                                completionText = completionText:gsub("(.\r?\n?)\r?\n?", "%1")
-                            end
-
-                            -- Blizzard Completion Text should always be green
-                            completionText = "|cFF4CFF4C" .. completionText
                         end
 
                         -- Add incomplete Quest Objectives
