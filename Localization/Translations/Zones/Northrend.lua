@@ -4912,7 +4912,7 @@ local northrendLocales = {
     },
     ["Ahn'kahet"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Ан'кахет",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,

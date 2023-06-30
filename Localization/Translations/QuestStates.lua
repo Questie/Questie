@@ -76,7 +76,7 @@ local questStateLocales = {
     },
     ["PvP"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = true,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
