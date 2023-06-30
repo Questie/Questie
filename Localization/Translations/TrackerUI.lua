@@ -415,7 +415,7 @@ local trackerUILocales = {
     },
     ["Quest Failed"] = {
         ["ptBR"] = "A missão falhou",
-        ["ruRU"] = "Выполнить задание не удалось",
+        ["ruRU"] = "Задание провалено",
         ["deDE"] = "Quest fehlgeschlagen",
         ["koKR"] = "퀘스트 실패",
         ["esMX"] = "¡La misión ha fracasado",

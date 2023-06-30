@@ -154,7 +154,7 @@ local trackerOptionsLocales = {
     ---------------------------------------------------------
     ["Hide Blizzard Completion Text"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Скрыть текст Blizzard",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -166,7 +166,7 @@ local trackerOptionsLocales = {
     },
     ['When this is checked, Blizzard Completion Text will be hidden for completed Quests and instead show the old Questie tags: "Quest Complete!" or "Quest Failed!"'] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Когда включено, Blizzard-ский текст об окончании задания будет скрыт, а вместо него будет отображен текст Questie: 'Задание выполнено!' или 'Задание провалено!'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -744,7 +744,7 @@ local trackerOptionsLocales = {
     },
     ['Change the color of Objectives in the Questie Tracker by how complete they are.\n\nNOTE: The Minimalistic option will not display the "Blizzard Completion Text" and just label the Quest as either "Quest Complete!" or "Quest Failed!".'] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Изменение цвета целей заданий в трекере в зависимости от прогресса выполнения.\n\nПРИМЕЧАНИЕ: Настройка 'Минимализм' не будет отображать Blizzard-ский текст об окончании задания, вместо этого будут отображаться или 'Задание выполнено!', или 'Задание провалено!'",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
@@ -805,7 +805,7 @@ local trackerOptionsLocales = {
     },
     ["Minimalistic"] = {
         ["ptBR"] = false,
-        ["ruRU"] = false,
+        ["ruRU"] = "Минимализм",
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
