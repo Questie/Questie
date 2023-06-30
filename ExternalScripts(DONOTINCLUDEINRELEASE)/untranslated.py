@@ -32,6 +32,8 @@ missingTranslations = {}
 langMissingTranslations = {}
 
 for filePath in translations:
+    if 'ObjectiveLocales' in filePath:
+        continue
     for option in translations[filePath]:
         numOptions += 1
         for lang in translations[filePath][option]:
