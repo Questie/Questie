@@ -784,8 +784,11 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n('Toggles the default Instant Quest Text option. This is just a shortcut for the WoW option in Interface.'); end,
                 width = 1.5,
                 get = function()
-                    if GetCVar("instantQuestText") == '1' then return true; else return false; end
-                    ;
+                    if GetCVar("instantQuestText") == '1' then
+                        return true;
+                    else
+                        return false;
+                    end
                 end,
                 set = function(info, value)
                     if value then
