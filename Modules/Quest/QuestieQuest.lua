@@ -562,11 +562,8 @@ function QuestieQuest:UpdateQuest(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
         elseif isComplete == 0 then
-            -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
-            -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
-            -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
+            -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true). Player destroyed quest items?
             if quest and quest.WasComplete then
-                -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest items?
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete. Resetting quest.")
 
                 -- Reset quest objectives
@@ -575,12 +572,14 @@ function QuestieQuest:UpdateQuest(questId)
                 if quest.ObjectiveData then
                     for _, objective in pairs(quest.ObjectiveData) do
                         objective.AlreadySpawned = {}
+                        objective.hasRegisteredTooltips = false
                     end
                 end
 
                 if next(quest.SpecialObjectives) then
                     for _, objective in pairs(quest.SpecialObjectives) do
                         objective.AlreadySpawned = {}
+                        objective.hasRegisteredTooltips = false
                     end
                 end
 
@@ -598,6 +597,9 @@ function QuestieQuest:UpdateQuest(questId)
 
                 quest.WasComplete = false
             else
+                -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
+                -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
+                -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
                 if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
                     for i = 1, #quest.Objectives do
@@ -1218,10 +1220,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     if quest:IsComplete() == 1 then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
-
-        QuestieQuest:UpdateObjectiveNotes(quest)
-        _AddSourceItemObjective(quest)
-        QuestieQuest:AddFinisher(quest)
+        QuestieQuest:UpdateQuest(quest.Id)
         return
     end
 
