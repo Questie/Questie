@@ -172,15 +172,7 @@ function _QuestieQuest:HideQuestIcons()
                 icon:FakeHide()
 
                 -- Hides Objective Tooltips
-                for _, objective in pairs(icon.data.QuestData.Objectives) do
-                    objective.AlreadySpawned = {}
-                    objective.hasRegisteredTooltips = false
-                end
-
-                for _, objective in pairs(icon.data.QuestData.SpecialObjectives) do
-                    objective.AlreadySpawned = {}
-                    objective.hasRegisteredTooltips = false
-                end
+                QuestieTooltips:RemoveQuest(icon.data.Id)
 
                 if icon.data.lineFrames then
                     for _, lineIcon in pairs(icon.data.lineFrames) do
