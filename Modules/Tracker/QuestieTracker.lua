@@ -24,6 +24,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
@@ -2024,22 +2026,11 @@ function QuestieTracker:UntrackQuestId(questId)
     end
 
     if Questie.db.char.hideUntrackedQuestsMapIcons then
-        -- Remove quest Icons from map when un-tracking quest.
-        -- Also reset caches of spawned Icons so re-tracking works.
-        QuestieMap:UnloadQuestFrames(questId)
-        QuestieQuest:UpdateQuest(questId)
-        local quest = QuestieDB:GetQuest(questId)
-        if quest then
-            for _, objective in pairs(quest.Objectives) do
-                objective.AlreadySpawned = {}
-                objective.hasRegisteredTooltips = false
-            end
+        -- Hides objective icons for untracked quests.
+        QuestieQuest:ToggleNotes(false)
 
-            for _, objective in pairs(quest.SpecialObjectives) do
-                objective.AlreadySpawned = {}
-                objective.hasRegisteredTooltips = false
-            end
-        end
+        -- Removes objective tooltips for untracked quests.
+        QuestieTooltips:RemoveQuest(questId)
     end
 
     QuestieCombatQueue:Queue(function()
@@ -2093,9 +2084,10 @@ function QuestieTracker:AQW_Insert(index, expire)
             end
         end
 
-        -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
         local quest = QuestieDB:GetQuest(questId)
+
         if quest then
+            -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
             local zoneId = quest.zoneOrSort
             if Questie.db.char.collapsedQuests[questId] == true then
                 Questie.db.char.collapsedQuests[questId] = nil
@@ -2104,13 +2096,17 @@ function QuestieTracker:AQW_Insert(index, expire)
             if Questie.db.char.collapsedZones[zoneId] == true then
                 Questie.db.char.collapsedZones[zoneId] = nil
             end
+
+            -- Unhide quest icons when retracking quests.
+            if Questie.db.char.hideUntrackedQuestsMapIcons then
+                -- Shows objective icons for tracked quests.
+                QuestieQuest:ToggleNotes(true)
+
+                -- Readd objective tooltips for tracked quests.
+                QuestieQuest:PopulateObjectiveNotes(quest)
+            end
         else
             Questie:Error("Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
-        end
-
-        if Questie.db.char.hideUntrackedQuestsMapIcons then
-            -- Quest had its Icons removed, paint them again
-            QuestieQuest:PopulateObjectiveNotes(quest)
         end
     end
     QuestieCombatQueue:Queue(function()

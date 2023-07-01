@@ -168,7 +168,19 @@ function _QuestieQuest:HideQuestIcons()
         for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
+                -- Hides Objective Icons
                 icon:FakeHide()
+
+                -- Hides Objective Tooltips
+                for _, objective in pairs(icon.data.QuestData.Objectives) do
+                    objective.AlreadySpawned = {}
+                    objective.hasRegisteredTooltips = false
+                end
+
+                for _, objective in pairs(icon.data.QuestData.SpecialObjectives) do
+                    objective.AlreadySpawned = {}
+                    objective.hasRegisteredTooltips = false
+                end
 
                 if icon.data.lineFrames then
                     for _, lineIcon in pairs(icon.data.lineFrames) do
@@ -345,11 +357,6 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
-    if not Questie.db.char.hideUntrackedQuestsMapIcons then
-        -- Always show quest notes (map icons) unless option is enabled
-        return true
-    end
-
     local autoWatch = Questie.db.global.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
@@ -873,10 +880,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     if (not objective.Update) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] - Quest is already updated. --> Exiting!")
-
-        -- TODO: This is a dirty band aid, to hide Lua errors to the users.
-        -- Some reports suggest there might be a race condition for SpecialObjectives so they don't get the fields used in here
-        -- before PopulateObjective is called.
         return
     end
 

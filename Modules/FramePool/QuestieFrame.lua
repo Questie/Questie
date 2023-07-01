@@ -12,6 +12,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -436,6 +438,8 @@ function _Qframe:ShouldBeHidden()
         or ((not questieGlobalDB.enableTurnins) and iconType == "complete")
         or ((not questieGlobalDB.enableAvailable) and iconType == "available")
         or ((not questieGlobalDB.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
+        or (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
+        or (Questie.db.char.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
