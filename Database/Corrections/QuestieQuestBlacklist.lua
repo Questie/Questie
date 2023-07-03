@@ -1719,7 +1719,7 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [24429] = true, --* A Most Puzzling Circumstance (https://www.wowhead.com/wotlk/quest=24429) (Retail Data)
 
         -- Kalimdor -> Darnassus (1 -> 1657)
-        [14409] = true, --* A Cautious Return (https://www.wowhead.com/wotlk/quest=14409) (Retail Data)
+        --[14409] = true, --* A Cautious Return (https://www.wowhead.com/wotlk/quest=14409) (Retail Data)
 
         --  ->  (0 -> 0)
         [12103] = true, --* Before the Storm (https://www.wowhead.com/wotlk/quest=12103) (Retail Data)
