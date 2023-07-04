@@ -429,21 +429,24 @@ end
 function QuestieTracker:QuestItemLooted(text)
     local playerLoot = strmatch(text, "You receive loot")
     local itemId = tonumber(string.match(text, "item:(%d+)"))
-    local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
 
-    if playerLoot and itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
+    if playerLoot and itemId then
+        local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
 
-        C_Timer.After(0.25, function()
-            _QuestEventHandler:UpdateAllQuests()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
-        end)
+        if itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
 
-        QuestieCombatQueue:Queue(function()
-            C_Timer.After(0.5, function()
-                QuestieTracker:Update()
+            C_Timer.After(0.25, function()
+                _QuestEventHandler:UpdateAllQuests()
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
             end)
-        end)
+
+            QuestieCombatQueue:Queue(function()
+                C_Timer.After(0.5, function()
+                    QuestieTracker:Update()
+                end)
+            end)
+        end
     end
 end
 
