@@ -467,23 +467,33 @@ end
 local trackerHiddenByCombat, optionsHiddenByCombat, journeyHiddenByCombat = false, false, false
 function _EventHandler:PlayerRegenDisabled()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] PLAYER_REGEN_DISABLED")
-    if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
-        trackerHiddenByCombat = true
-        QuestieTracker:Collapse()
+
+    -- Let's make sure the frame exists - might be nil if player is in combat upon login
+    if QuestieTracker then
+        if Questie.db.global.hideTrackerInCombat and Questie.db.char.isTrackerExpanded and (not trackerHiddenByCombat) then
+            trackerHiddenByCombat = true
+            QuestieTracker:Collapse()
+        end
+
+        if IsInInstance() and Questie.db.global.hideTrackerInDungeons then
+            QuestieTracker:Collapse()
+        end
     end
 
-    if IsInInstance() and Questie.db.global.hideTrackerInDungeons then
-        QuestieTracker:Collapse()
+    -- Let's make sure the frame exists - might be nil if player is in combat upon login
+    if QuestieConfigFrame then
+        if QuestieConfigFrame:IsShown() then
+            optionsHiddenByCombat = true
+            QuestieConfigFrame:Hide()
+        end
     end
 
-    if QuestieConfigFrame:IsShown() then
-        optionsHiddenByCombat = true
-        QuestieConfigFrame:Hide()
-    end
-
-    if QuestieJourney:IsShown() then
-        journeyHiddenByCombat = true
-        QuestieJourney.ToggleJourneyWindow()
+    -- Let's make sure the frame exists - might be nil if player is in combat upon login
+    if QuestieJourney then
+        if QuestieJourney:IsShown() then
+            journeyHiddenByCombat = true
+            QuestieJourney.ToggleJourneyWindow()
+        end
     end
 end
 
@@ -494,6 +504,10 @@ function _EventHandler:PlayerRegenEnabled()
             trackerHiddenByCombat = false
             QuestieTracker:Expand()
         end
+
+        QuestieCombatQueue:Queue(function()
+            QuestieTracker:Update()
+        end)
     end
 
     if optionsHiddenByCombat then
@@ -505,8 +519,4 @@ function _EventHandler:PlayerRegenEnabled()
         QuestieJourney.ToggleJourneyWindow()
         journeyHiddenByCombat = false
     end
-
-    QuestieCombatQueue:Queue(function()
-        QuestieTracker:Update()
-    end)
 end
