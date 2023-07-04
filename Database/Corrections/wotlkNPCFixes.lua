@@ -985,7 +985,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {13500},
         },
         [33288] = {
-            [npcKeys.spawns] = {[zoneIDs.ULDUAR]={{-1,-1}},[zoneIDs.THE_PRISON_OF_YOGG_SARON]={{68,40.2}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_PRISON_OF_YOGG_SARON]={{68,40.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [33308] = {
