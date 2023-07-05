@@ -642,11 +642,10 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local requiredSpell = QuestieDB.QueryQuestSingle(questId, "requiredSpell")
     if (requiredSpell) and (requiredSpell ~= 0) then
         local hasSpell = IsSpellKnownOrOverridesKnown(math.abs(requiredSpell))
-        local hasProfSpell = IsPlayerSpell(math.abs(requiredSpell))
-        if (requiredSpell > 0) and (not hasSpell) and (not hasProfSpell) then --if requiredSpell is positive, we make the quest ineligible if the player does NOT have the spell
+        if (requiredSpell > 0) and (not hasSpell) then --if requiredSpell is positive, we make the quest ineligible if the player does NOT have the spell
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
             return false
-        elseif (requiredSpell < 0) and (hasSpell or hasProfSpell) then --if requiredSpell is negative, we make the quest ineligible if the player DOES  have the spell
+        elseif (requiredSpell < 0) and hasSpell then --if requiredSpell is negative, we make the quest ineligible if the player DOES  have the spell
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
             return false
         end
