@@ -166,6 +166,12 @@ function QuestieWotlkQuestFixes:Load()
         [4362] = {
             [questKeys.preQuestSingle] = {4361},
         },
+        [4485] = {
+            [questKeys.startedBy] = {{6179}},
+        },
+        [4486] = {
+            [questKeys.startedBy] = {{5149}},
+        },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
