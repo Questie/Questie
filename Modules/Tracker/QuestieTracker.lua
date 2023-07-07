@@ -738,7 +738,7 @@ function QuestieTracker:Update()
                     local completionText = TrackerUtils:GetCompletionText(quest)
 
                     -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
-                    if Questie.db.global.hideBlizzardCompletionText then
+                    if (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal") then
                         completionText = nil
                     end
 
@@ -755,7 +755,8 @@ function QuestieTracker:Update()
                     end
 
                     -- Completion Text should never be allowed to Auto Collapse
-                    local shouldCollapse = (#quest.Objectives ~= 0 and completionText == nil) or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
+                    --local shouldCollapse = (#quest.Objectives ~= 0 and completionText == nil) or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
+                    local shouldCollapse = completionText == nil or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
 
                     -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
                     if Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest then
@@ -850,7 +851,11 @@ function QuestieTracker:Update()
 
                             -- If the Quest is minimized show the Expand Quest button
                             if Questie.db.char.collapsedQuests[quest.Id] then
-                                button.line.expandQuest:Show()
+                                if Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest then
+                                    button.line.expandQuest:Hide()
+                                else
+                                    button.line.expandQuest:Show()
+                                end
                             else
                                 button.line.expandQuest:Hide()
                             end
@@ -873,8 +878,14 @@ function QuestieTracker:Update()
                         else
                             -- Button failed to get setup for some reason or the quest item is now gone. Hide it and enable the Quest Min/Max button.
                             -- See previous comment for details on why we're setting this button to UIParent.
-                            button.line.expandQuest:Show()
                             button:SetParent(UIParent)
+
+                            if (Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest) then
+                                line.expandQuest:Hide()
+                            else
+                                line.expandQuest:Show()
+                            end
+
                             button:Hide()
                         end
 
@@ -962,10 +973,8 @@ function QuestieTracker:Update()
                                             altButton:SetParent(UIParent)
                                             altButton:Hide()
                                         end
-
-                                        -- Button failed to get setup for some reason or the quest item is now gone. Hide it and enable the Quest Min/Max button.
-                                        -- See previous comment for details on why we're setting this button to UIParent.
                                     else
+                                        -- See previous comment for details on why we're setting this button to UIParent.
                                         altButton:SetParent(UIParent)
                                         altButton:Hide()
                                     end
