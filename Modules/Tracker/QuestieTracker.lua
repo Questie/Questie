@@ -128,7 +128,10 @@ function QuestieTracker.Initialize()
     C_Timer.After(1.0, function()
         -- Hide frames during startup
         if QuestieTracker.alreadyHooked then
-            DurabilityFrame:Hide()
+            if Questie.db.global.stickyDurabilityFrame then
+                DurabilityFrame:Hide()
+            end
+
             if TrackerUtils:IsVoiceOverLoaded() then VoiceOverFrame:Hide() end
         end
 
@@ -287,14 +290,29 @@ end
 
 function QuestieTracker:ResetDurabilityFrame()
     if durabilityInitialPosition then
+        -- Only reset if it's been moved from it's default position set by Blizzard
         if durabilityInitialPosition ~= { DurabilityFrame:GetPoint() } then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:ResetDurabilityFrame]")
 
+            -- Resets Durability Frame back to it's default position
             DurabilityFrame:ClearAllPoints()
             DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
 
-            if DurabilityFrame:IsShown() then
-                DurabilityFrame:Hide()
+            local numAlerts = 0
+
+            for i = 1, #INVENTORY_ALERT_STATUS_SLOTS do
+                if GetInventoryAlertStatus(i) > 0 then
+                    numAlerts = numAlerts + 1
+                end
+            end
+
+            -- Check the alert status before we set visibility
+            if numAlerts > 0 then
+                DurabilityFrame:Show()
+            else
+                if DurabilityFrame:IsShown() then
+                    DurabilityFrame:Hide()
+                end
             end
         end
     end
@@ -388,10 +406,12 @@ function QuestieTracker:UpdateVoiceOverFrame()
 
                 local verticalOffSet
 
-                if DurabilityFrame:IsVisible() then
-                    verticalOffSet = -125
-                else
-                    verticalOffSet = -7
+                if Questie.db.global.stickyDurabilityFrame then
+                    if DurabilityFrame:IsVisible() then
+                        verticalOffSet = -125
+                    else
+                        verticalOffSet = -7
+                    end
                 end
 
                 if trackerFrameX <= (screenWidth / 2) then
@@ -562,7 +582,9 @@ function QuestieTracker:Update()
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
                 trackerBaseFrame:Hide()
-                DurabilityFrame:Hide()
+                if Questie.db.global.stickyDurabilityFrame then
+                    DurabilityFrame:Hide()
+                end
             end)
         end
         return

@@ -301,7 +301,10 @@ function TrackerBaseFrame:Update()
         end
     else
         baseFrame.sizer:SetAlpha(0)
-        DurabilityFrame:Hide()
+        if Questie.db.global.stickyDurabilityFrame then
+            DurabilityFrame:Hide()
+        end
+
         baseFrame:SetBackdropColor(0, 0, 0, 0)
         baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
     end

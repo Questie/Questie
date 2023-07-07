@@ -383,7 +383,7 @@ function TrackerLinePool.Initialize(questFrame)
                         self:SetNormalTexture(texturePath)
 
                         -- Move the VoiceOverFrame below the DurabilityFrame if it's present and not already moved
-                        if DurabilityFrame:IsVisible() and select(5, VoiceOverFrame:GetPoint()) < -125 then
+                        if (Questie.db.global.stickyDurabilityFrame and DurabilityFrame:IsVisible()) and select(5, VoiceOverFrame:GetPoint()) < -125 then
                             QuestieTracker:UpdateVoiceOverFrame()
                         end
                     end
