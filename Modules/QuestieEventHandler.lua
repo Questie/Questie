@@ -64,7 +64,7 @@ function QuestieEventHandler:RegisterLateEvents()
         _EventHandler.ModifierStateChanged(...)
     end)
     Questie:RegisterEvent("PLAYER_ALIVE", function(...)
-        QuestieTracker:CheckDurabilityAlertStatus()
+        QuestieTracker:UpdateDurabilityFrame()
         QuestieTracker:UpdateVoiceOverFrame()
     end)
 

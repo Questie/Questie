@@ -301,9 +301,6 @@ function TrackerBaseFrame:Update()
         end
     else
         baseFrame.sizer:SetAlpha(0)
-        if Questie.db.global.stickyDurabilityFrame then
-            DurabilityFrame:Hide()
-        end
 
         baseFrame:SetBackdropColor(0, 0, 0, 0)
         baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
@@ -324,8 +321,8 @@ function TrackerBaseFrame:Update()
         end)
     end
 
+    QuestieTracker:UpdateDurabilityFrame()
     QuestieTracker:UpdateVoiceOverFrame()
-    QuestieTracker:CheckDurabilityAlertStatus()
 end
 
 function TrackerBaseFrame:SetSafePoint()

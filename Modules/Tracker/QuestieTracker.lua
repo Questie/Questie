@@ -128,10 +128,7 @@ function QuestieTracker.Initialize()
     C_Timer.After(1.0, function()
         -- Hide frames during startup
         if QuestieTracker.alreadyHooked then
-            if Questie.db.global.stickyDurabilityFrame then
-                DurabilityFrame:Hide()
-            end
-
+            if Questie.db.global.stickyDurabilityFrame then DurabilityFrame:Hide() end
             if TrackerUtils:IsVoiceOverLoaded() then VoiceOverFrame:Hide() end
         end
 
@@ -306,7 +303,7 @@ function QuestieTracker:ResetDurabilityFrame()
                 end
             end
 
-            -- Check the alert status before we set visibility
+            -- Check the alert status and reset visibility
             if numAlerts > 0 then
                 DurabilityFrame:Show()
             else
@@ -319,28 +316,6 @@ function QuestieTracker:ResetDurabilityFrame()
 end
 
 function QuestieTracker:UpdateDurabilityFrame()
-    -- screen width accounting for scale
-    local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
-    -- middle of the frame, first return is x value, second return is the y value
-    local trackerFrameX = trackerBaseFrame:GetCenter()
-
-    DurabilityFrame:ClearAllPoints()
-    DurabilityFrame:SetClampedToScreen(true)
-    DurabilityFrame:SetFrameStrata("MEDIUM")
-    DurabilityFrame:SetFrameLevel(0)
-
-    if trackerFrameX <= (screenWidth / 2) then
-        DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -40)
-    else
-        DurabilityFrame:SetPoint("RIGHT", trackerBaseFrame, "TOPLEFT", 0, -40)
-    end
-
-    DurabilityFrame:Show()
-
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateDurabilityFrame]")
-end
-
-function QuestieTracker:CheckDurabilityAlertStatus()
     if QuestieTracker.started and Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame then
         if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
             local numAlerts = 0
@@ -352,18 +327,36 @@ function QuestieTracker:CheckDurabilityAlertStatus()
             end
 
             if numAlerts > 0 then
-                if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:CheckDurabilityAlertStatus]")
+                -- screen width accounting for scale
+                local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
+                -- middle of the frame, first return is x value, second return is the y value
+                local trackerFrameX = trackerBaseFrame:GetCenter()
+
+                DurabilityFrame:ClearAllPoints()
+                DurabilityFrame:SetClampedToScreen(true)
+                DurabilityFrame:SetFrameStrata("MEDIUM")
+                DurabilityFrame:SetFrameLevel(0)
+
+                if trackerFrameX <= (screenWidth / 2) then
+                    DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -40)
                 else
-                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:CheckDurabilityAlertStatus]")
+                    DurabilityFrame:SetPoint("RIGHT", trackerBaseFrame, "TOPLEFT", 0, -40)
                 end
 
-                QuestieTracker:UpdateDurabilityFrame()
+                DurabilityFrame:Show()
             else
                 if DurabilityFrame:IsShown() then
                     DurabilityFrame:Hide()
                 end
             end
+
+            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateDurabilityFrame]")
+            else
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateDurabilityFrame]")
+            end
+        else
+            QuestieTracker:ResetDurabilityFrame()
         end
     end
 end
@@ -427,17 +420,14 @@ function QuestieTracker:UpdateVoiceOverFrame()
                 VoiceOver.Addon.db.profile.SoundQueueUI.LockFrame = true
                 VoiceOver.SoundQueueUI:RefreshConfig()
                 VoiceOver.SoundQueueUI:UpdateSoundQueueDisplay()
-            else
-                if VoiceOverFrame:IsShown() then
-                    VoiceOverFrame:Hide()
-                    VoiceOver.SoundQueue:RemoveAllSoundsFromQueue()
-                end
-            end
 
-            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateVoiceOverFrame]")
+                if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateVoiceOverFrame]")
+                else
+                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateVoiceOverFrame]")
+                end
             else
-                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateVoiceOverFrame]")
+                QuestieTracker:ResetVoiceOverFrame()
             end
         end
     end
@@ -523,8 +513,8 @@ end
 
 function QuestieTracker:Disable()
     Questie.db.char.trackerEnabled = false
-    QuestieTracker:CheckDurabilityAlertStatus()
-    QuestieTracker:UpdateVoiceOverFrame()
+    QuestieTracker:ResetDurabilityFrame()
+    QuestieTracker:ResetVoiceOverFrame()
     Questie.db.char.TrackedQuests = {}
     Questie.db.char.AutoUntrackedQuests = {}
 
@@ -581,10 +571,15 @@ function QuestieTracker:Update()
     if (not Questie.db.char.trackerEnabled or QuestieTracker.disableHooks == true) then
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
-                trackerBaseFrame:Hide()
                 if Questie.db.global.stickyDurabilityFrame then
-                    DurabilityFrame:Hide()
+                    QuestieTracker:ResetDurabilityFrame()
                 end
+
+                if Questie.db.char.stickyVoiceOverFrame then
+                    QuestieTracker:ResetVoiceOverFrame()
+                end
+
+                trackerBaseFrame:Hide()
             end)
         end
         return
