@@ -1895,7 +1895,7 @@ function QuestieTracker:HookBaseTracker()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:HookBaseTracker] - Secure hooks")
 
         -- Durability Frame hook
-        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.CheckDurabilityAlertStatus)
+        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
 
         -- QuestWatch secure hook
         if AutoQuestWatch_Insert then
