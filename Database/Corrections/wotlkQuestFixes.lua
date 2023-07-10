@@ -4038,6 +4038,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14151] = {
             [questKeys.objectives] = {},
+            [questKeys.requiredSpell] = -66659,
+            [questKeys.requiredSkill] = {171,440},
             [questKeys.triggerEnd] = {"Epic Gem Transmutes", {[zoneIDs.DALARAN]={{42.25,32.06}}}},
         },
         [14163] = {
