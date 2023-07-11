@@ -963,30 +963,32 @@ end
 ---@param alpha number
 function TrackerLinePool.SetAllItemButtonAlpha(alpha)
     local highestIndex = TrackerLinePool.GetHighestIndex()
-    local hasButton = false
+    -- TODO: I don't remember why I coded this hasButton variable. Going to leave it here for now.
+    --local hasButton = false
 
     for i = 1, highestIndex do
         local line = linePool[i]
 
         if line.button then
             line.button:SetAlpha(alpha)
-            if line.button:GetAlpha() < 0.07 then
-                hasButton = true
-            end
+            --if line.button:GetAlpha() < 0.07 then
+            --    hasButton = true
+            --end
         end
 
         if line.altButton then
             line.altButton:SetAlpha(alpha)
-            if line.altButton:GetAlpha() < 0.07 then
-                hasButton = true
-            end
+            --if line.altButton:GetAlpha() < 0.07 then
+            --    hasButton = true
+            --end
         end
     end
 
+    --[[
     if hasButton then
-        -- TODO: I don't remember why I coded this update. Going to leave it here for now.
-        --QuestieTracker:Update()
+        QuestieTracker:Update()
     end
+    --]]
 end
 
 ---@param button string
