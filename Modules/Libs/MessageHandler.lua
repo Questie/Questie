@@ -303,7 +303,9 @@ do
     end
 
     -- Run it after all files has been loaded
-    C_Timer.After(2, RunMessageHandlerTests)
+    if Questie.Colorize then
+        C_Timer.After(2, RunMessageHandlerTests)
+    end
 
 end
 -----------------
