@@ -376,8 +376,7 @@ function QuestieTracker:ResetVoiceOverFrame()
             VoiceOver.SoundQueueUI:RefreshConfig()
 
             if VoiceOverFrame:IsShown() then
-                VoiceOver.SoundQueueUI:UpdateSoundQueueDisplay()
-            else
+                VoiceOver.SoundQueue:RemoveAllSoundsFromQueue()
                 VoiceOverFrame:Hide()
             end
         end
@@ -1751,6 +1750,7 @@ function QuestieTracker:UpdateFormatting()
         QuestieCompat.SetResizeBounds(trackerBaseFrame, (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 40), Questie.db.global.trackerFontSizeZone + 22)
     end
 
+    TrackerUtils:ShowVoiceOverPlayButtons()
     TrackerUtils:UpdateVoiceOverPlayButtons()
 end
 

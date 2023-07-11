@@ -984,7 +984,8 @@ function TrackerLinePool.SetAllItemButtonAlpha(alpha)
     end
 
     if hasButton then
-        QuestieTracker:Update()
+        -- TODO: I don't remember why I coded this update. Going to leave it here for now.
+        --QuestieTracker:Update()
     end
 end
 
