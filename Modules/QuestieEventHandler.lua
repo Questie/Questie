@@ -322,20 +322,13 @@ function _EventHandler:ModifierStateChanged(key, down)
 
         -- Questie Map Icons
         if MouseIsOver(WorldMapFrame) and WorldMapFrame:IsShown() or MouseIsOver(Minimap) then
-            if down == 1 then
-                if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
-                    GameTooltip:Hide()
-                    GameTooltip:ClearLines()
-                    GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
-                    GameTooltip:_Rebuild() -- rebuild the tooltip
-                    GameTooltip:SetFrameStrata("TOOLTIP")
-                    GameTooltip:Show()
-                end
-            else
-                if GameTooltip:IsShown() then
-                    GameTooltip:Hide()
-                    GameTooltip._Rebuild = nil
-                end
+            if GameTooltip and GameTooltip:IsShown() and GameTooltip._Rebuild then
+                GameTooltip:Hide()
+                GameTooltip:ClearLines()
+                GameTooltip:SetOwner(GameTooltip._owner, "ANCHOR_CURSOR")
+                GameTooltip:_Rebuild() -- rebuild the tooltip
+                GameTooltip:SetFrameStrata("TOOLTIP")
+                GameTooltip:Show()
             end
         end
 
