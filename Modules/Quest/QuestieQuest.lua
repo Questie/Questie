@@ -1221,6 +1221,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     if quest:IsComplete() == 1 then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
         QuestieQuest:UpdateQuest(quest.Id)
+        _AddSourceItemObjective(quest)
         return
     end
 
