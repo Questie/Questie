@@ -561,9 +561,14 @@ function QuestieQuest:UpdateQuest(questId)
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
+
+            -- Reset any collapsed quest flags
+            if Questie.db.char.collapsedQuests then
+                Questie.db.char.collapsedQuests[questId] = nil
+            end
         elseif isComplete == 0 then
             -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true). Player destroyed quest items?
-            if quest and quest.WasComplete then
+            if quest and (quest.WasComplete or quest.sourceItemId > 0) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete. Resetting quest.")
 
                 -- Reset quest objectives
@@ -582,6 +587,9 @@ function QuestieQuest:UpdateQuest(questId)
                         objective.hasRegisteredTooltips = false
                     end
                 end
+
+                -- This is triggered after a player deletes a quest item
+                QuestieQuest:CheckQuestSourceItem(questId, true)
 
                 QuestieMap:UnloadQuestFrames(questId)
 
@@ -652,6 +660,10 @@ function QuestieQuest:GetAllQuestIds()
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
+
+                -- Calling this here allows the modified quest to survive a reloadUI and a relog
+                QuestieQuest:CheckQuestSourceItem(questId, true)
+
                 QuestieQuest:PopulateQuestLogInfo(quest)
 
                 quest.LocalizedName = data.title
@@ -714,6 +726,47 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
             end
         end
     end
+end
+
+-- This function is used to check the players bags for an item that matches quest.sourceItemId.
+-- A good example for this edge case is [18] The Price of Shoes (118) where upon acceptance, Verner's Note (1283) is given
+-- to the player and the Quest is immediately flagged as Complete. If the note is destroyed then a slightly modified version
+-- of QuestieDB.IsComplete() that uses this function, returns zero allowing the quest updates to properly set the quests state.
+---@param questId Number @QuestID
+---@param makeObjective boolean @If set to true, then this will create an incomplete objective for the missing quest item
+---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
+function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
+    local quest = QuestieDB:GetQuest(questId)
+    local sourceItem = true
+    if quest.sourceItemId > 0 then
+        for bag = -2, 4 do
+            for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
+                local itemId = select(10, QuestieCompat.GetContainerItemInfo(bag, slot))
+                if itemId == quest.sourceItemId then
+                    return true
+                end
+            end
+
+            sourceItem = false
+        end
+
+        if (not sourceItem) and makeObjective then
+            local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
+            quest.Objectives = {
+                [1] = {
+                    Description = itemName,
+                    Type = "item",
+                    Needed = 1,
+                    Collected = 0,
+                    Completed = false,
+                    Id = quest.sourceItemId,
+                    questId = quest.Id
+                }
+            }
+        end
+    end
+
+    return false
 end
 
 local function _GetIconScaleForAvailable()

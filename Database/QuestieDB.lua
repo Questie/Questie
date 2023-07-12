@@ -664,13 +664,17 @@ end
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB.IsComplete(questId)
     local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
+    local noQuestItem = not QuestieQuest:CheckQuestSourceItem(questId)
+
     --[[ pseudo:
     if no questLogEntry then return 0
     if has questLogEntry.isComplete then return questLogEntry.isComplete
+    if no objectives and an item is needed but not obtained then return 0
     if no objectives then return 1
     return 0
-    ]]--
-    return questLogEntry and (questLogEntry.isComplete or (questLogEntry.objectives[1] and 0) or 1) or 0
+    --]]
+
+    return questLogEntry and (questLogEntry.isComplete or (questLogEntry.objectives[1] and 0) or (#questLogEntry.objectives == 0 and noQuestItem and 0) or 1) or 0
 end
 
 ---@param self Quest
