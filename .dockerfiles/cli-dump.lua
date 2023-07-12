@@ -137,7 +137,7 @@ C_Map = {}
 local addonName = "Questie"
 local addonTable = {}
 
-local function printL(text)
+function printL(text)
     io.stderr:write(tostring(text) .. "\n")
 end
 

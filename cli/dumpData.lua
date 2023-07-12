@@ -3,16 +3,9 @@ local format = string.format
 local type = type
 local tostring = tostring
 
-local function countTable(table)
-    local count = 0
-    for _ in pairs(table) do
-        count = count + 1
-    end
-    return count
-end
 
-local serializeTable = nil
-function SerializeTable(val, name, skipnewlines)
+local exportTable = nil
+function ExportTable(val, name, skipnewlines)
     skipnewlines = skipnewlines or false
 
     local tmp = ""
@@ -21,10 +14,15 @@ function SerializeTable(val, name, skipnewlines)
 
     if type(val) == "table" then
         tmp = tmp .. "{"
-        local maxIndex = countTable(val)
+        local maxIndex = 0
+        for k, v in pairs(val) do
+            if type(k) == "number" and k > maxIndex then
+                maxIndex = k
+            end
+        end
         for i = 1, maxIndex do
             if val[i] then
-                tmp = tmp .. serializeTable(val[i], nil, skipnewlines) .. ","
+                tmp = tmp .. exportTable(val[i], nil, skipnewlines) .. ","
             else
                 tmp = tmp .. "nil,"
             end
@@ -50,7 +48,7 @@ function SerializeTable(val, name, skipnewlines)
 
     return tmp
 end
-serializeTable = SerializeTable
+exportTable = ExportTable
 
 function DumpQuests(questsData, output)
     -- Sort ids on a table and loop through them
@@ -106,7 +104,7 @@ function DumpQuests(questsData, output)
     -- }
     for _, questId in ipairs(sortedQuestIds) do
         local questData = questsData[questId]
-        file:write(SerializeTable(questData, questId, true, 0) .. ",\n")
+        file:write(ExportTable(questData, questId, true, 0) .. ",\n")
     end
     file:write("}")
     file:close()
@@ -142,7 +140,7 @@ function DumpNpcs(npcsData, output)
     -- }
     for _, npcId in ipairs(sortedNpcIds) do
         local npcData = npcsData[npcId]
-        file:write(SerializeTable(npcData, npcId, true, 0) .. ",\n")
+        file:write(ExportTable(npcData, npcId, true, 0) .. ",\n")
     end
     file:write("}")
     file:close()
@@ -169,7 +167,7 @@ function DumpObjects(objectsData, output)
     -- }
     for _, objectId in ipairs(sortedObjectIds) do
         local objectData = objectsData[objectId]
-        file:write(SerializeTable(objectData, objectId, true, 0) .. ",\n")
+        file:write(ExportTable(objectData, objectId, true, 0) .. ",\n")
     end
     file:write("}")
     file:close()
@@ -203,7 +201,7 @@ function DumpItems(itemsData, output)
     file:write("{\n")
     for _, itemId in ipairs(sortedItemIds) do
         local itemData = itemsData[itemId]
-        file:write(SerializeTable(itemData, itemId, true, 0) .. ",\n")
+        file:write(ExportTable(itemData, itemId, true, 0) .. ",\n")
     end
     file:write("}")
     file:close()
