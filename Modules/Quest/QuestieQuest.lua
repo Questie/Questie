@@ -750,7 +750,10 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
             sourceItem = false
         end
 
-        if (not sourceItem) and makeObjective then
+        -- If we are missing the sourceItem for zero objective quests then make an objective for it so the
+        -- player has a visual indication as to what item is missing and so the quest has a "tag" of some kind.
+        -- Also double check the quests leaderboard and make sure an objective doesn't already exsist.
+        if (not sourceItem) and makeObjective and (not QuestieQuest:GetAllLeaderBoardDetails(quest.Id)[1]) then
             local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
             quest.Objectives = {
                 [1] = {
@@ -764,6 +767,8 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
                 }
             }
         end
+    else
+        return true
     end
 
     return false
