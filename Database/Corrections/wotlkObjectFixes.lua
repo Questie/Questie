@@ -14,6 +14,9 @@ function QuestieWotlkObjectFixes:Load()
         [185200] = {
             [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
         },
+        [186419] = {
+            [objectKeys.questStarts] = {4127},
+        },
         [187674] = {
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{43,56.3},{43.1,56.8},{43.6,57.3},},},
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
@@ -146,13 +149,45 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{64.5,46.9}},},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
+        [194200] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{64.1,60.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+        },
+        [194201] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{64.1,60.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+        },
+        [194313] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{70.7,48.5}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+        },
+        [194314] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{70.7,48.5}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+        },
+        [194327] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{53,25.4}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+        },
+        [194331] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR]={{53,25.4}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_INNER_SANCTUM_OF_ULDUAR,
+        },
         [194463] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{40.1,60.5},{43.5,54.9},{45,57},{41,54},{39,60},{46.1,61},{46.2,59.2}}},
             [objectKeys.zoneID] = zoneIDs.STORM_PEAKS,
         },
         [194555] = {
-            [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}}},
+            [objectKeys.spawns] = {[zoneIDs.THE_ARCHIVUM]={{15.6,90.3}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_ARCHIVUM,
+        },
+        [194957] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_SPARK_OF_IMAGINATION]={{43.7,40.9}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_SPARK_OF_IMAGINATION,
+        },
+        [194958] = {
+            [objectKeys.spawns] = {[zoneIDs.THE_SPARK_OF_IMAGINATION]={{43.7,40.9}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.THE_SPARK_OF_IMAGINATION,
         },
         [195309] = {
             [objectKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{42.65,58.43},{42.25,60.1},{43.36,60.69},{43.4,57.84},{42.94,56.95},{43.22,55.94},{42.52,55.01},{43.09,54.6},{41.51,53.56},{41.19,52.62},{40.67,53.31},{40.06,52.53},{39.38,53.79},{38.55,53.96},{38.46,55.05},{37.61,56.07},{38.38,58.33},{37.73,59.86},{38.57,61.28},{38.87,60.57},{39.23,61.41},{40.61,60.33},{41.53,60.01},{42.24,60.09},{43.36,60.69},{44.68,59.4},{45.55,59.06},{45.47,60.13},{45.06,60.94},{45.15,61.93},{44.54,61.9},{46,61.18},{46.5,62.41},{46.08,63.36},{46.7,64.01},{47.35,62.49},{47.72,61.55},{46.88,59.91},{46.29,58.52},{45.85,57.6},{45.92,57.02},{45.77,55.82},{42.4,53.88},{43.38,59.28},{43.82,61.93},{46.69,60.7},{45.03,56.98},{45.15,55.61},{45.03,56.96},{43.9,56.55},{43.38,59.28},{44.27,61.01},{46.82,63.05},{44.34,58.48},{46.56,62.92},{38.21,62.04},{38.03,58.85},{37.67,57.9},{38.13,57.05},{39.95,61.25},{38.84,59.57},{40.56,62.92}}},

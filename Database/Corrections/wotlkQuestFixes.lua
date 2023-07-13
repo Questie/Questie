@@ -163,8 +163,17 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{5111}},
             [questKeys.exclusiveTo] = {3763,3789},
         },
+        [4127] = {
+            [questKeys.startedBy] = {nil,{164909,186419}},
+        },
         [4362] = {
             [questKeys.preQuestSingle] = {4361},
+        },
+        [4485] = {
+            [questKeys.startedBy] = {{6179}},
+        },
+        [4486] = {
+            [questKeys.startedBy] = {{5149}},
         },
         [4740] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
@@ -2285,6 +2294,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30202}}},
             [questKeys.preQuestSingle] = {13104},
         },
+        [13117] = {
+            [questKeys.preQuestSingle] = {},
+        },
         [13118] = {
             [questKeys.preQuestSingle] = {13104},
         },
@@ -3324,7 +3336,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
         },
         [13607] = {
-            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}}}},
+            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
             [questKeys.preQuestSingle] = {13604},
         },
         [13616] = {
@@ -3660,7 +3672,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33796},{"monster", 33798},{"monster", 33799},{"monster", 33791},{"monster", 33792}}}},
         },
         [13816] = {
-            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}}}},
+            [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
             [questKeys.preQuestSingle] = {13817},
         },
         [13817] = {
@@ -4035,6 +4047,8 @@ function QuestieWotlkQuestFixes:Load()
         },
         [14151] = {
             [questKeys.objectives] = {},
+            [questKeys.requiredSpell] = -66659,
+            [questKeys.requiredSkill] = {171,440},
             [questKeys.triggerEnd] = {"Epic Gem Transmutes", {[zoneIDs.DALARAN]={{42.25,32.06}}}},
         },
         [14163] = {
