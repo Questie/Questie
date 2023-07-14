@@ -479,6 +479,11 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
                         updateTimer = C_Timer.NewTicker(0.12, function()
                             local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
 
+                            if QuestieTrackerLoc == nil then
+                                updateTimer:Cancel()
+                                return
+                            end
+
                             Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
                             Questie.db[Questie.db.global.questieTLoc].TrackerHeight = baseFrame:GetHeight()
 
