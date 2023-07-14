@@ -181,8 +181,10 @@ function QuestieEventHandler:RegisterLateEvents()
         if Questie.started then
             QuestieMap:InitializeQueue()
             local isInInstance, instanceType = IsInInstance()
+            local skipInstance = isInInstance and (instanceType == "raid" or instanceType == "pvp" or instanceType == "arena")
 
-            if (not isInInstance) or instanceType ~= "raid" then -- only run map updates when not in a raid
+            -- Only run map updates when not in a raid or battleground
+            if not skipInstance then
                 QuestieQuest:SmoothReset()
             end
         end
