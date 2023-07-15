@@ -1,4 +1,3 @@
-local deflate = require("cli.LibDeflate")
 local format = string.format
 local type = type
 local tostring = tostring

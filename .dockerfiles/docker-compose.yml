@@ -4,6 +4,6 @@ services:
   lua:
     #image: nickblah/lua:5.1-luarocks
     build: .
-    command: sh /code/.dockerfiles/setup.sh
+    command: sh /code/.dockerfiles/dumpDB.sh
     volumes:
       - '../:/code'
