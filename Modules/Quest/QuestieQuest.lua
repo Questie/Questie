@@ -89,7 +89,7 @@ end
 
 ---@param category AutoBlacklistString
 function QuestieQuest.ResetAutoblacklistCategory(category)
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest]: Resetting autoblacklist category", category)
+    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: Resetting autoblacklist category", category)
     for questId, questCategory in pairs(QuestieQuest.autoBlacklist) do
         if questCategory == category then
             QuestieQuest.autoBlacklist[questId] = nil
@@ -168,7 +168,11 @@ function _QuestieQuest:HideQuestIcons()
         for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked
             local icon = _G[frameName];
             if icon ~= nil and (not icon.hidden) and icon:ShouldBeHidden() then -- check for function to make sure its a frame
+                -- Hides Objective Icons
                 icon:FakeHide()
+
+                -- Hides Objective Tooltips
+                QuestieTooltips:RemoveQuest(icon.data.Id)
 
                 if icon.data.lineFrames then
                     for _, lineIcon in pairs(icon.data.lineFrames) do
@@ -345,11 +349,6 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
-    if not Questie.db.char.hideUntrackedQuestsMapIcons then
-        -- Always show quest notes (map icons) unless option is enabled
-        return true
-    end
-
     local autoWatch = Questie.db.global.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
@@ -562,12 +561,14 @@ function QuestieQuest:UpdateQuest(questId)
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
+
+            -- Reset any collapsed quest flags
+            if Questie.db.char.collapsedQuests then
+                Questie.db.char.collapsedQuests[questId] = nil
+            end
         elseif isComplete == 0 then
-            -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
-            -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
-            -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
-            if quest and quest.WasComplete then
-                -- Quest was somehow reset back to incomplete after being completed. Player destroyed quest items?
+            -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true). Player destroyed quest items?
+            if quest and (quest.WasComplete or quest.sourceItemId > 0) then
                 Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete. Resetting quest.")
 
                 -- Reset quest objectives
@@ -576,14 +577,19 @@ function QuestieQuest:UpdateQuest(questId)
                 if quest.ObjectiveData then
                     for _, objective in pairs(quest.ObjectiveData) do
                         objective.AlreadySpawned = {}
+                        objective.hasRegisteredTooltips = false
                     end
                 end
 
                 if next(quest.SpecialObjectives) then
                     for _, objective in pairs(quest.SpecialObjectives) do
                         objective.AlreadySpawned = {}
+                        objective.hasRegisteredTooltips = false
                     end
                 end
+
+                -- This is triggered after a player deletes a quest item
+                QuestieQuest:CheckQuestSourceItem(questId, true)
 
                 QuestieMap:UnloadQuestFrames(questId)
 
@@ -599,6 +605,9 @@ function QuestieQuest:UpdateQuest(questId)
 
                 quest.WasComplete = false
             else
+                -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
+                -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
+                -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
                 if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
                     for i = 1, #quest.Objectives do
@@ -635,7 +644,8 @@ end
 
 --Run this if you want to update the entire table
 function QuestieQuest:GetAllQuestIds()
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Getting all quests")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests")
+
     QuestiePlayer.currentQuestlog = {}
 
     for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
@@ -651,9 +661,12 @@ function QuestieQuest:GetAllQuestIds()
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
-                QuestieQuest:PopulateQuestLogInfo(quest)
-
                 quest.LocalizedName = data.title
+
+                -- Calling this here allows the modified quest to survive a reloadUI and a relog
+                QuestieQuest:CheckQuestSourceItem(questId, true)
+
+                QuestieQuest:PopulateQuestLogInfo(quest)
 
                 if QuestieQuest:ShouldShowQuestNotes(questId) then
                     QuestieQuest:PopulateObjectiveNotes(quest)
@@ -671,11 +684,50 @@ function QuestieQuest:GetAllQuestIds()
     end)
 end
 
+local function _AddSourceItemObjective(quest)
+    if quest.sourceItemId then
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
+
+        -- Save the itemObjective table from the quests objectives table
+        local objectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[3]
+
+        -- Look for an itemObjective Id that matches sourceItemId - if found exit
+        if objectives then
+            for _, itemObjectiveIndex in pairs(objectives) do
+                for _, itemObjectiveId in pairs(itemObjectiveIndex) do
+                    if itemObjectiveId == quest.sourceItemId then
+                        return
+                    end
+                end
+            end
+        end
+
+        local item = QuestieDB.QueryItemSingle(quest.sourceItemId, "name") --local item = QuestieDB:GetItem(quest.sourceItemId);
+
+        if item then
+            -- We fake an objective for the sourceItems because this allows us
+            -- to simply reuse "QuestieTooltips:GetTooltip".
+            -- This should be all the data required for the tooltip
+            local fakeObjective = {
+                IsSourceItem = true,
+                QuestData = quest,
+                Index = 1,
+                Needed = 1,
+                Collected = 1,
+                text = item,
+                Description = item
+            }
+
+            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.sourceItemId, fakeObjective);
+        end
+    end
+end
+
 function QuestieQuest:GetAllQuestIdsNoObjectives()
-    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Getting all quests without objectives")
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests without objectives")
     QuestiePlayer.currentQuestlog = {}
 
-    for questId in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
+    for questId, data in pairs(QuestLogCache.questLog_DO_NOT_MODIFY) do -- DO NOT MODIFY THE RETURNED TABLE
         if (not QuestieDB.QuestPointers[questId]) then
             if not Questie._sessionWarnings[questId] then
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
@@ -686,6 +738,10 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             local quest = QuestieDB:GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
+                quest.LocalizedName = data.title
+
+                -- This manually adds quest item tooltips for sourceItems
+                _AddSourceItemObjective(quest)
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
@@ -713,6 +769,52 @@ function QuestieQuest:UpdateObjectiveNotes(quest)
             end
         end
     end
+end
+
+-- This function is used to check the players bags for an item that matches quest.sourceItemId.
+-- A good example for this edge case is [18] The Price of Shoes (118) where upon acceptance, Verner's Note (1283) is given
+-- to the player and the Quest is immediately flagged as Complete. If the note is destroyed then a slightly modified version
+-- of QuestieDB.IsComplete() that uses this function, returns zero allowing the quest updates to properly set the quests state.
+---@param questId Number @QuestID
+---@param makeObjective boolean @If set to true, then this will create an incomplete objective for the missing quest item
+---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
+function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
+    local quest = QuestieDB:GetQuest(questId)
+    local sourceItem = true
+    if quest.sourceItemId > 0 then
+        for bag = -2, 4 do
+            for slot = 1, QuestieCompat.GetContainerNumSlots(bag) do
+                local itemId = select(10, QuestieCompat.GetContainerItemInfo(bag, slot))
+                if itemId == quest.sourceItemId then
+                    return true
+                end
+            end
+
+            sourceItem = false
+        end
+
+        -- If we are missing the sourceItem for zero objective quests then make an objective for it so the
+        -- player has a visual indication as to what item is missing and so the quest has a "tag" of some kind.
+        -- Also double check the quests leaderboard and make sure an objective doesn't already exist.
+        if (not sourceItem) and makeObjective and (not QuestieQuest:GetAllLeaderBoardDetails(quest.Id)[1]) then
+            local itemName = QuestieDB.QueryItemSingle(quest.sourceItemId, "name")
+            quest.Objectives = {
+                [1] = {
+                    Description = itemName,
+                    Type = "item",
+                    Needed = 1,
+                    Collected = 0,
+                    Completed = false,
+                    Id = quest.sourceItemId,
+                    questId = quest.Id
+                }
+            }
+        end
+    else
+        return true
+    end
+
+    return false
 end
 
 local function _GetIconScaleForAvailable()
@@ -869,14 +971,10 @@ end
 ---@param objective QuestObjective
 ---@param blockItemTooltips any
 function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockItemTooltips) -- must be p-called
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective]", objective.Description)
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjective]", objective.Description)
 
     if (not objective.Update) then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjective] - Quest is already updated. --> Exiting!")
-
-        -- TODO: This is a dirty band aid, to hide Lua errors to the users.
-        -- Some reports suggest there might be a race condition for SpecialObjectives so they don't get the fields used in here
-        -- before PopulateObjective is called.
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjective] - Quest is already updated. --> Exiting!")
         return
     end
 
@@ -1176,45 +1274,6 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
     end
 end
 
-local function _AddSourceItemObjective(quest)
-    if quest.sourceItemId then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
-
-        -- Save the itemObjective table from the quests objectives table
-        local objectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[3]
-
-        -- Look for an itemObjective Id that matches sourceItemId - if found exit
-        if objectives then
-            for _, itemObjectiveIndex in pairs(objectives) do
-                for _, itemObjectiveId in pairs(itemObjectiveIndex) do
-                    if itemObjectiveId == quest.sourceItemId then
-                        return
-                    end
-                end
-            end
-        end
-
-        local item = QuestieDB.QueryItemSingle(quest.sourceItemId, "name") --local item = QuestieDB:GetItem(quest.sourceItemId);
-
-        if item then
-            -- We fake an objective for the sourceItems because this allows us
-            -- to simply reuse "QuestieTooltips:GetTooltip".
-            -- This should be all the data required for the tooltip
-            local fakeObjective = {
-                IsSourceItem = true,
-                QuestData = quest,
-                Index = 1,
-                Needed = 1,
-                Collected = 1,
-                text = item,
-                Description = item
-            }
-
-            QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. quest.sourceItemId, fakeObjective);
-        end
-    end
-end
-
 ---@param quest Quest
 function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to PopulateNotes as it also handles finishers now
     if (not quest) then
@@ -1222,11 +1281,9 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
     end
 
     if quest:IsComplete() == 1 then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
-
-        QuestieQuest:UpdateObjectiveNotes(quest)
+        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
+        QuestieQuest:UpdateQuest(quest.Id)
         _AddSourceItemObjective(quest)
-        QuestieQuest:AddFinisher(quest)
         return
     end
 
@@ -1234,7 +1291,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
         quest.Color = QuestieLib:ColorWheel()
     end
 
-    Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:PopulateObjectiveNotes] Populating objectives for:", quest.Id)
+    Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjectiveNotes] Populating objectives for:", quest.Id)
 
     QuestieQuest:UpdateObjectiveNotes(quest)
     _AddSourceItemObjective(quest)

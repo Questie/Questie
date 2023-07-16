@@ -301,7 +301,7 @@ function TrackerBaseFrame:Update()
         end
     else
         baseFrame.sizer:SetAlpha(0)
-        DurabilityFrame:Hide()
+
         baseFrame:SetBackdropColor(0, 0, 0, 0)
         baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
     end
@@ -321,8 +321,8 @@ function TrackerBaseFrame:Update()
         end)
     end
 
+    QuestieTracker:UpdateDurabilityFrame()
     QuestieTracker:UpdateVoiceOverFrame()
-    QuestieTracker:CheckDurabilityAlertStatus()
 end
 
 function TrackerBaseFrame:SetSafePoint()
@@ -478,6 +478,11 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
 
                         updateTimer = C_Timer.NewTicker(0.12, function()
                             local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
+
+                            if QuestieTrackerLoc == nil then
+                                updateTimer:Cancel()
+                                return
+                            end
 
                             Questie.db[Questie.db.global.questieTLoc].TrackerWidth = baseFrame:GetWidth()
                             Questie.db[Questie.db.global.questieTLoc].TrackerHeight = baseFrame:GetHeight()

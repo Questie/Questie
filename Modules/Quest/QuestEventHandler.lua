@@ -494,24 +494,16 @@ function _QuestLogUpdateQueue:GetFirst()
 end
 
 local trackerMinimizedByDungeon = false
-local wasInInstance = false
 function _QuestEventHandler:ZoneChangedNewArea()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
     -- backend Questie updates that occur when a player zones in/out of an instance. This
     -- is necessary to get everything back into it's "normal" state after all the updates.
     local isInInstance, instanceType = IsInInstance()
-    local skipInstance = instanceType == "raid" or instanceType == "pvp" or instanceType == "arena"
 
     if isInInstance then
         C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-
-            -- We don't want this firing in Battlegrounds or Raids.
-            if not skipInstance then
-                -- This refreshes tooltips because "Zoneing" into a new area breaks them.
-                QuestieQuest:GetAllQuestIds()
-            end
-
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = true
 
@@ -521,13 +513,10 @@ function _QuestEventHandler:ZoneChangedNewArea()
             end
         end)
 
-        wasInInstance = true
-
     -- We only want this to fire outside of an instance if the player isn't dead and we need to reset the Tracker
     elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
         C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = false
 
@@ -536,20 +525,6 @@ function _QuestEventHandler:ZoneChangedNewArea()
                 end)
             end
         end)
-    end
-
-    -- This causes issues if we allow this to fire upon login, reloadUI, hearthing, accepting a summon,
-    -- or moving to a new area. This should only fire when a player exits an instance.
-    if wasInInstance then
-        C_Timer.After(8, function()
-            -- We don't want this firing in Battlegrounds or Raids.
-            if not skipInstance then
-                -- This refreshes tooltips because "Zoneing" into a new area breaks them.
-                QuestieQuest:GetAllQuestIds()
-            end
-        end)
-
-        wasInInstance = false
     end
 end
 

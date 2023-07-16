@@ -2895,7 +2895,8 @@
         "return-type-mismatch",
         "undefined-doc-class",
         "undefined-doc-name",
-        "unused-local"
+        "unused-local",
+        "cast-local-type"
     ],
     "Lua.diagnostics.severity": {
         "unused-local": "Warning"
