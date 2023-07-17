@@ -245,8 +245,8 @@ local function _CheckClassicDatabase(dataType)
 
     QuestieCorrections:Initialize()
 
-    printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
-    QuestieDB.private:DeleteGatheringNodes()
+    -- printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
+    -- QuestieDB.private:DeleteGatheringNodes()
 
     printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
     QuestieCorrections:PreCompile()
@@ -331,8 +331,8 @@ local function _CheckTBCDatabase(dataType)
 
     QuestieCorrections:Initialize()
 
-    printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
-    QuestieDB.private:DeleteGatheringNodes()
+    -- printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
+    -- QuestieDB.private:DeleteGatheringNodes()
 
     printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
     QuestieCorrections:PreCompile()
@@ -418,8 +418,8 @@ local function _CheckWotlkDatabase(dataType)
 
     QuestieCorrections:Initialize()
 
-    printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
-    QuestieDB.private:DeleteGatheringNodes()
+    -- printL("\27[33m  [3/4] " .. l10n("Deleting Gathering Nodes") .. "...\27[0m")
+    -- QuestieDB.private:DeleteGatheringNodes()
 
     printL("\27[33m  [4/4] " .. l10n("Optimizing waypoints") .. "...\27[0m")
     QuestieCorrections:PreCompile()
