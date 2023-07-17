@@ -201,7 +201,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
                     quest = QuestieDB:GetQuest(questId)
                     if not quest then
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] retry failed. Quest", questId, "might not be in the DB!")
-                    elseif (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+                    elseif (not QuestieDB.IsTrivial(quest.level)) or Questie.db.char.acceptTrivial then
                         Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
                         AcceptQuest()
                     end
@@ -211,7 +211,7 @@ function QuestieAuto:QUEST_DETAIL(event, ...)
             return
         end
 
-        if (not quest:IsTrivial()) or Questie.db.char.acceptTrivial then
+        if (not QuestieDB.IsTrivial(quest.level)) or Questie.db.char.acceptTrivial then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieAuto] Questie Auto-Acceping quest")
             AcceptQuest()
         end

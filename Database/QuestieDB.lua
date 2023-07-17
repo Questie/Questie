@@ -684,9 +684,10 @@ function _QuestieDB._QO_IsComplete(self)
     return QuestieDB.IsComplete(self.Id)
 end
 
+---@param questLevel number the level of the quest
 ---@return boolean @Returns true if the quest should be grey, false otherwise
-local function _IsTrivial(self)
-    local levelDiff = self.level - QuestiePlayer.GetPlayerLevel();
+function QuestieDB.IsTrivial(questLevel)
+    local levelDiff = questLevel - QuestiePlayer.GetPlayerLevel();
     if (levelDiff >= 5) then
         return false -- Red
     elseif (levelDiff >= 3) then
@@ -950,8 +951,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             QO.Sort = -zoneOrSort
         end
     end
-
-    QO.IsTrivial = _IsTrivial
 
     ---@type ExtraObjective[]
     local extraObjectives = rawdata[questKeys.extraObjectives]

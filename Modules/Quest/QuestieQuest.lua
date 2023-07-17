@@ -717,7 +717,6 @@ local function _AddSourceItemObjective(quest)
                     level = quest.level,
                     requiredLevel = quest.requiredLevel,
                     IsRepeatable = quest.IsRepeatable,
-                    IsTrivial = quest.IsTrivial,
                     name = quest.name,
                     Description = quest.Description,
                 },
@@ -912,7 +911,6 @@ function QuestieQuest:AddFinisher(quest)
                                 level = quest.level,
                                 requiredLevel = quest.requiredLevel,
                                 IsRepeatable = quest.IsRepeatable,
-                                IsTrivial = quest.IsTrivial,
                                 name = quest.name,
                                 Description = quest.Description,
                             },
@@ -967,7 +965,6 @@ function QuestieQuest:AddFinisher(quest)
                                     level = quest.level,
                                     requiredLevel = quest.requiredLevel,
                                     IsRepeatable = quest.IsRepeatable,
-                                    IsTrivial = quest.IsTrivial,
                                     name = quest.name,
                                     Description = quest.Description,
                                 },
@@ -1133,7 +1130,6 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                     level = quest.level,
                     requiredLevel = quest.requiredLevel,
                     IsRepeatable = quest.IsRepeatable,
-                    IsTrivial = quest.IsTrivial,
                     name = quest.name,
                     Description = quest.Description,
                 },
@@ -1371,7 +1367,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                             level = quest.level,
                             requiredLevel = quest.requiredLevel,
                             IsRepeatable = quest.IsRepeatable,
-                            IsTrivial = quest.IsTrivial,
                             name = quest.name,
                             Description = quest.Description,
                         },
@@ -1499,7 +1494,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                     level = quest.level,
                                     requiredLevel = quest.requiredLevel,
                                     IsRepeatable = quest.IsRepeatable,
-                                    IsTrivial = quest.IsTrivial,
                                     name = quest.name,
                                     Description = quest.Description,
                                 },
@@ -1551,7 +1545,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                     level = quest.level,
                                     requiredLevel = quest.requiredLevel,
                                     IsRepeatable = quest.IsRepeatable,
-                                    IsTrivial = quest.IsTrivial,
                                     name = quest.name,
                                     Description = quest.Description,
                                 },
@@ -1597,7 +1590,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                         level = quest.level,
                                         requiredLevel = quest.requiredLevel,
                                         IsRepeatable = quest.IsRepeatable,
-                                        IsTrivial = quest.IsTrivial,
                                         name = quest.name,
                                         Description = quest.Description,
                                     },
@@ -1627,7 +1619,7 @@ function _QuestieQuest:GetQuestIcon(quest)
         icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     elseif quest.IsRepeatable then
         icon = Questie.ICON_TYPE_REPEATABLE
-    elseif (quest:IsTrivial()) then
+    elseif (QuestieDB.IsTrivial(quest.level)) then
         icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     else
         icon = Questie.ICON_TYPE_AVAILABLE
