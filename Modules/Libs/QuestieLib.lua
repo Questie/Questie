@@ -143,9 +143,9 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
-            name = name .. " (" .. Questie:Colorize(l10n("Failed"), "red") .. ")"
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Failed") .. ")", "red")
         elseif isComplete == 1 then
-            name = name .. " (" .. Questie:Colorize(l10n("Complete"), "green") .. ")"
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
     end
 
