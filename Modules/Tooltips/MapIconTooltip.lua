@@ -109,7 +109,7 @@ function MapIconTooltip:Show()
         end
 
         -- Do not recolor MiniMap, Available and Completed Quest Icons.
-        if (not icon.miniMapIcon) and (not iconData.Type == "available" or not iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
+        if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = { icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a };
             entry.icon = icon;
