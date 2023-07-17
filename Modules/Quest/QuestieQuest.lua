@@ -709,11 +709,11 @@ local function _AddSourceItemObjective(quest)
             -- to simply reuse "QuestieTooltips:GetTooltip".
             -- This should be all the data required for the tooltip
             local fakeObjective = {
+                Id = quest.Id,
                 IsSourceItem = true,
                 QuestData = {
                     FadeIcons = quest.FadeIcons,
                     HideIcons = quest.HideIcons,
-                    Id = quest.Id,
                     level = quest.level,
                     requiredLevel = quest.requiredLevel,
                     IsRepeatable = quest.IsRepeatable,
@@ -909,7 +909,6 @@ function QuestieQuest:AddFinisher(quest)
                             QuestData = {
                                 FadeIcons = quest.FadeIcons,
                                 HideIcons = quest.HideIcons,
-                                Id = quest.Id,
                                 level = quest.level,
                                 requiredLevel = quest.requiredLevel,
                                 IsRepeatable = quest.IsRepeatable,
@@ -965,7 +964,6 @@ function QuestieQuest:AddFinisher(quest)
                                 QuestData = {
                                     FadeIcons = quest.FadeIcons,
                                     HideIcons = quest.HideIcons,
-                                    Id = quest.Id,
                                     level = quest.level,
                                     requiredLevel = quest.requiredLevel,
                                     IsRepeatable = quest.IsRepeatable,
@@ -1132,7 +1130,6 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
                 QuestData = {
                     FadeIcons = quest.FadeIcons,
                     HideIcons = quest.HideIcons,
-                    Id = quest.Id,
                     level = quest.level,
                     requiredLevel = quest.requiredLevel,
                     IsRepeatable = quest.IsRepeatable,
@@ -1371,7 +1368,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         QuestData = {
                             FadeIcons = quest.FadeIcons,
                             HideIcons = quest.HideIcons,
-                            Id = quest.Id,
                             level = quest.level,
                             requiredLevel = quest.requiredLevel,
                             IsRepeatable = quest.IsRepeatable,
@@ -1500,7 +1496,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 QuestData = {
                                     FadeIcons = quest.FadeIcons,
                                     HideIcons = quest.HideIcons,
-                                    Id = quest.Id,
                                     level = quest.level,
                                     requiredLevel = quest.requiredLevel,
                                     IsRepeatable = quest.IsRepeatable,
@@ -1553,7 +1548,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 QuestData = {
                                     FadeIcons = quest.FadeIcons,
                                     HideIcons = quest.HideIcons,
-                                    Id = quest.Id,
                                     level = quest.level,
                                     requiredLevel = quest.requiredLevel,
                                     IsRepeatable = quest.IsRepeatable,
@@ -1600,7 +1594,6 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                     QuestData = {
                                         FadeIcons = quest.FadeIcons,
                                         HideIcons = quest.HideIcons,
-                                        Id = quest.Id,
                                         level = quest.level,
                                         requiredLevel = quest.requiredLevel,
                                         IsRepeatable = quest.IsRepeatable,
