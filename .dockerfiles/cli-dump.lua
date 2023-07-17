@@ -33,10 +33,10 @@ parser:option("-d --data", "Type of data All, Quest, Item, Object or Item")
 local args = parser:parse()
 
 -- We don't want to print anything from within the addon really, so we override print
-local printL = print
-print = function(...)
-    return
-end
+-- PrintL = print
+-- print = function(...)
+--     return
+-- end
 
 
 WOW_PROJECT_ID = 2
@@ -75,7 +75,7 @@ GetTime = function()
 end
 IsAddOnLoaded = function() return false, true end
 UnitFactionGroup = function()
-    return arg[1] or "Horde"
+    return "Horde"
 end
 UnitClass = function()
     return "Druid", "DRUID", 11

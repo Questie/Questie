@@ -447,16 +447,32 @@ function DumpNpcs(npcsData, output)
         npcData[1] = npcData[1]:gsub("'", "\\'")
         npcData[1] = npcData[1]:gsub('"', '\\"')
         data = data .. format("'%s',", npcData[1] or "nil")
-        -- minLevelHealth
-        data = data .. format("%s,", npcData[2] or "nil")
-        -- maxLevelHealth
-        data = data .. format("%s,", npcData[3] or "nil")
-        -- minLevel
-        data = data .. format("%s,", npcData[4] or "nil")
-        -- maxLevel
-        data = data .. format("%s,", npcData[5] or "nil")
-        -- rank
-        data = data .. format("%s,", npcData[6] or "nil")
+        -- do -- Default
+        --     -- minLevelHealth, We will stop supporting this value
+        --     -- data = data .. format("%s,", npcData[2] or "nil")
+        --     data = data .. "nil,"
+        --     -- maxLevelHealth, We will stop supporting this value
+        --     -- data = data .. format("%s,", npcData[3] or "nil")
+        --     data = data .. "nil,"
+        --     -- minLevel, Only write the data if it is greater than 1
+        --     data = data .. format("%s,", npcData[4] and npcData[4] > 1 and npcData[4] or "nil")
+        --     -- maxLevel, Only write the data if it is greater than 1
+        --     data = data .. format("%s,", npcData[5] and npcData[5] > 1 and npcData[5] or "nil")
+        --     -- rank, Only write the data if it is not 0
+        --     data = data .. format("%s,", npcData[6] and npcData[6] ~= 0 and npcData[6] or "nil")
+        -- end
+        do -- Improved
+            -- minLevelHealth, We will stop supporting this value
+            data = data .. format("'%s;", npcData[2] or "0")
+            -- maxLevelHealth, We will stop supporting this value
+            data = data .. format("%s;", npcData[3] or "0")
+            -- minLevel, Only write the data if it is greater than 1
+            data = data .. format("%s;", npcData[4] or "0")
+            -- maxLevel, Only write the data if it is greater than 1
+            data = data .. format("%s;", npcData[5] or "0")
+            -- rank, Only write the data if it is not 0
+            data = data .. format("%s',", npcData[6] or "0")
+        end
         -- spawns
         if npcData[7] and countTable(npcData[7]) > 0 then
             data = data .. "{"
@@ -495,8 +511,8 @@ function DumpNpcs(npcsData, output)
         else
             data = data .. "nil,"
         end
-        -- zoneID
-        data = data .. format("%s,", npcData[9] or "nil")
+        -- zoneID, Only write the data if it is not 0
+        data = data .. format("%s,", npcData[9] and npcData[9] ~= 0 and npcData[9] or "nil")
         -- questStarts
         if npcData[10] and countTable(npcData[10]) > 0 then
             data = data .. "{"
@@ -531,7 +547,7 @@ function DumpNpcs(npcsData, output)
             data = data .. "nil,"
         end
         -- npcFlags
-        data = data .. format("%s,", npcData[15] or "nil")
+        data = data .. format("%s,", npcData[15] ~= 0 and npcData[15] or "nil")
 
         count = count + 1
 
@@ -617,8 +633,8 @@ function DumpObjects(objectsData, output)
         else
             data = data .. "nil,"
         end
-        -- zoneID
-        data = data .. format("%s,", objectData[5] or "nil")
+        -- zoneID, Only write the data if it is not 0
+        data = data .. format("%s,", objectData[5] and objectData[5] ~= 0 and objectData[5] or "nil")
         -- factionID
         data = data .. format("%s,", objectData[6] or "nil")
 
@@ -711,20 +727,38 @@ function DumpItems(itemsData, output)
         else
             data = data .. "nil,"
         end
-        -- flags
-        data = data .. format("%s,", itemData[7] or "nil")
-        -- foodType
-        data = data .. format("%s,", itemData[8] or "nil")
-        -- itemLevel
-        data = data .. format("%s,", itemData[9] or "nil")
-        -- requiredLevel
-        data = data .. format("%s,", itemData[10] or "nil")
-        -- ammoType
-        data = data .. format("%s,", itemData[11] or "nil")
-        -- class
-        data = data .. format("%s,", itemData[12] or "nil")
-        -- subClass
-        data = data .. format("%s,", itemData[13] or "nil")
+        -- do -- default
+        --     -- flags
+        --     data = data .. format("%s,", itemData[7] or "nil")
+        --     -- foodType
+        --     data = data .. format("%s,", itemData[8] or "nil")
+        --     -- itemLevel
+        --     data = data .. format("%s,", itemData[9] or "nil")
+        --     -- requiredLevel
+        --     data = data .. format("%s,", itemData[10] or "nil")
+        --     -- ammoType, 0 = no ammo
+        --     data = data .. format("%s,", itemData[11] and itemData[11] ~= 0 and itemData[11] or "nil")
+        --     -- class
+        --     data = data .. format("%s,", itemData[12] or "nil")
+        --     -- subClass
+        --     data = data .. format("%s,", itemData[13] or "nil")
+        -- end
+        do -- improved
+            -- flags
+            data = data .. format("'%s;", itemData[7] or "0")
+            -- foodType
+            data = data .. format("%s;", itemData[8] or "0")
+            -- itemLevel
+            data = data .. format("%s;", itemData[9] or "0")
+            -- requiredLevel
+            data = data .. format("%s;", itemData[10] or "0")
+            -- ammoType, 0 = no ammo
+            data = data .. format("%s;", itemData[11] or "0")
+            -- class
+            data = data .. format("%s;", itemData[12] or "nil")
+            -- subClass
+            data = data .. format("%s',", itemData[13] or "nil")
+        end
         -- vendors
         if itemData[14] and countTable(itemData[14]) > 0 then
             data = data .. "{"
@@ -774,7 +808,6 @@ function DumpItems2(itemsData, output)
     end
     file:write("}")
     file:close()
-
 end
 
 -- function SerializeTable(val, name, skipnewlines)
