@@ -349,6 +349,10 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
+    if not Questie.db.char.hideUntrackedQuestsMapIcons then
+        return true
+    end
+
     local autoWatch = Questie.db.global.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
