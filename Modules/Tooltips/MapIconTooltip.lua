@@ -467,8 +467,7 @@ function _MapIconTooltip:GetEventObjectiveTooltip(icon)
         [icon.data.ObjectiveData.Description] = {},
     }
     if (icon.data.ObjectiveData.Index) then
-        local objectiveDesc = icon.data.QuestData.Objectives[icon.data.ObjectiveData.Index].Description;
-        tip[icon.data.ObjectiveData.Description][objectiveDesc] = true;
+        tip[icon.data.ObjectiveData.Description][icon.data.ObjectiveData.Description] = true;
     end
     return tip
 end
