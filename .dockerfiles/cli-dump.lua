@@ -1,3 +1,28 @@
+#!/usr/bin/lua5.1
+
+--[[
+This script dumps the files from Database directory including their corrections
+into a single file per datatype and expansion in the .dockerfiles/Database
+directory.
+
+To run this script locally bit32 and argparse libraries are required:
+
+luarocks install --lua-version 5.1 --local bit32
+luarocks install --lua-version 5.1 --local argparse
+
+You might need to point Lua to the correct libraries for 5.1:
+
+eval "$(luarocks --lua-version=5.1 path)"
+
+Then you can run the script from the repository root:
+
+lua5.1 .dockerfiles/cli-dump.lua
+
+Run this to reset your dependencies to the default Lua version after:
+
+eval "$(luarocks path)"
+--]]
+
 require("cli.dump")
 require("cli.dumpData")
 local argparse = require("argparse")
