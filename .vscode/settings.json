@@ -2835,7 +2835,8 @@
         ".types/.SubModules/BlizzardInterfaceCode/**",
         ".types/.SubModules/EmmyLua/**",
         ".vscode",
-        "!wow-ui-source-classic"
+        "!wow-ui-source-classic",
+        ".dockerfiles"
     ],
 
     "Lua.workspace.library": [
@@ -2881,33 +2882,10 @@
 
     // Default end of line
     "files.eol": "\n",
-    "Lua.diagnostics.disable": [
-        "undefined-field",
-        "need-check-nil",
-        "deprecated",
-        "missing-parameter",
-        "invisible",
-        "redundant-parameter",
-        "missing-return-value",
-        "assign-type-mismatch",
-        "duplicate-doc-param",
-        "param-type-mismatch",
-        "return-type-mismatch",
-        "undefined-doc-class",
-        "undefined-doc-name",
-        "unused-local"
-    ],
+
     "Lua.diagnostics.severity": {
         "unused-local": "Warning"
     },
     "Lua.diagnostics.enable": true,
-    "Lua.diagnostics.ignoredFiles": "Enable",
-    "Lua.diagnostics.libraryFiles": "Enable",
     "Lua.runtime.version": "Lua 5.1",
-    "explorer.fileNesting.enabled": true,
-    "Lua.format.defaultConfig": {
-        "max_line_length": "800",
-        "align_continuous_assign_statement": "false"
-    }
-
 }
