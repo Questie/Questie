@@ -175,16 +175,16 @@ function _Qframe:OnClick(button)
         if self and self.UiMapID and button == "LeftButton" then
             if (not ChatEdit_GetActiveWindow()) then
                 if self.data.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
+                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.Id)
                     StaticPopup_Show("QUESTIE_CONFIRMHIDE")
                 elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
                     QuestieMap:UnloadManualFrames(self.data.id)
                 end
             else
                 if Questie.db.global.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.QuestData.Id))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
                 else
-                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.QuestData.Id .. ")]")
+                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
                 end
             end
         end
