@@ -713,8 +713,17 @@ local function _AddSourceItemObjective(quest)
             -- to simply reuse "QuestieTooltips:GetTooltip".
             -- This should be all the data required for the tooltip
             local fakeObjective = {
+                Id = quest.Id,
                 IsSourceItem = true,
-                QuestData = quest,
+                QuestData = {
+                    FadeIcons = quest.FadeIcons,
+                    HideIcons = quest.HideIcons,
+                    level = quest.level,
+                    requiredLevel = quest.requiredLevel,
+                    IsRepeatable = quest.IsRepeatable,
+                    name = quest.name,
+                    Description = quest.Description,
+                },
                 Index = 1,
                 Needed = 1,
                 Collected = 1,
@@ -900,7 +909,15 @@ function QuestieQuest:AddFinisher(quest)
                             GetIconScale = _GetIconScaleForAvailable,
                             IconScale = _GetIconScaleForAvailable(),
                             Type = "complete",
-                            QuestData = quest,
+                            QuestData = {
+                                FadeIcons = quest.FadeIcons,
+                                HideIcons = quest.HideIcons,
+                                level = quest.level,
+                                requiredLevel = quest.requiredLevel,
+                                IsRepeatable = quest.IsRepeatable,
+                                name = quest.name,
+                                Description = quest.Description,
+                            },
                             Name = finisher.name,
                             IsObjectiveNote = false,
                         }
@@ -946,7 +963,15 @@ function QuestieQuest:AddFinisher(quest)
                                 GetIconScale = _GetIconScaleForAvailable,
                                 IconScale = _GetIconScaleForAvailable(),
                                 Type = "complete",
-                                QuestData = quest,
+                                QuestData = {
+                                    FadeIcons = quest.FadeIcons,
+                                    HideIcons = quest.HideIcons,
+                                    level = quest.level,
+                                    requiredLevel = quest.requiredLevel,
+                                    IsRepeatable = quest.IsRepeatable,
+                                    name = quest.name,
+                                    Description = quest.Description,
+                                },
                                 Name = finisher.name,
                                 IsObjectiveNote = false,
                             }
@@ -1103,7 +1128,15 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
             local data = {
                 Id = quest.Id,
                 ObjectiveIndex = objectiveIndex,
-                QuestData = quest,
+                QuestData = {
+                    FadeIcons = quest.FadeIcons,
+                    HideIcons = quest.HideIcons,
+                    level = quest.level,
+                    requiredLevel = quest.requiredLevel,
+                    IsRepeatable = quest.IsRepeatable,
+                    name = quest.name,
+                    Description = quest.Description,
+                },
                 ObjectiveData = objective,
                 Icon = spawnData.Icon,
                 IconColor = quest.Color,
@@ -1332,7 +1365,6 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
                         Id = quest.ObjectiveData[objectiveIndex].Id,
                         Index = objectiveIndex,
                         questId = quest.Id,
-                        QuestData = quest,
                         _lastUpdate = 0,
                         Description = objective.text,
                         spawnList = {},
@@ -1451,7 +1483,15 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 GetIconScale = _GetIconScaleForAvailable,
                                 IconScale = _GetIconScaleForAvailable(),
                                 Type = "available",
-                                QuestData = quest,
+                                QuestData = {
+                                    FadeIcons = quest.FadeIcons,
+                                    HideIcons = quest.HideIcons,
+                                    level = quest.level,
+                                    requiredLevel = quest.requiredLevel,
+                                    IsRepeatable = quest.IsRepeatable,
+                                    name = quest.name,
+                                    Description = quest.Description,
+                                },
                                 Name = obj.name,
                                 IsObjectiveNote = false,
                             }
@@ -1494,7 +1534,15 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                 GetIconScale = _GetIconScaleForAvailable,
                                 IconScale = _GetIconScaleForAvailable(),
                                 Type = "available",
-                                QuestData = quest,
+                                QuestData = {
+                                    FadeIcons = quest.FadeIcons,
+                                    HideIcons = quest.HideIcons,
+                                    level = quest.level,
+                                    requiredLevel = quest.requiredLevel,
+                                    IsRepeatable = quest.IsRepeatable,
+                                    name = quest.name,
+                                    Description = quest.Description,
+                                },
                                 Name = npc.name,
                                 IsObjectiveNote = false,
                             }
@@ -1531,7 +1579,15 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
                                     GetIconScale = _GetIconScaleForAvailable,
                                     IconScale = _GetIconScaleForAvailable(),
                                     Type = "available",
-                                    QuestData = quest,
+                                    QuestData = {
+                                        FadeIcons = quest.FadeIcons,
+                                        HideIcons = quest.HideIcons,
+                                        level = quest.level,
+                                        requiredLevel = quest.requiredLevel,
+                                        IsRepeatable = quest.IsRepeatable,
+                                        name = quest.name,
+                                        Description = quest.Description,
+                                    },
                                     Name = npc.name,
                                     IsObjectiveNote = false,
                                 }
@@ -1558,7 +1614,7 @@ function _QuestieQuest:GetQuestIcon(quest)
         icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     elseif quest.IsRepeatable then
         icon = Questie.ICON_TYPE_REPEATABLE
-    elseif (quest:IsTrivial()) then
+    elseif (QuestieDB.IsTrivial(quest.level)) then
         icon = Questie.ICON_TYPE_AVAILABLE_GRAY
     else
         icon = Questie.ICON_TYPE_AVAILABLE
