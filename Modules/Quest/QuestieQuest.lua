@@ -571,9 +571,11 @@ function QuestieQuest:UpdateQuest(questId)
                 Questie.db.char.collapsedQuests[questId] = nil
             end
         elseif isComplete == 0 then
-            -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true). Player destroyed quest items?
-            if quest and (quest.WasComplete or quest.sourceItemId > 0) then
-                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete. Resetting quest.")
+            -- Quest was somehow reset back to incomplete after being completed (quest.WasComplete == true).
+            -- The "or" check looks for a sourceItemId then checks to see if it's NOT in the players bag.
+            -- Player destroyed quest items? Or some other quest mechanic removed the needed quest item.
+            if quest and (quest.WasComplete or (quest.sourceItemId > 0 and QuestieQuest:CheckQuestSourceItem(questId) == false)) then
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest was once complete or Quest Item(s) were removed. Resetting quest.")
 
                 -- Reset quest objectives
                 quest.Objectives = {}
@@ -592,7 +594,7 @@ function QuestieQuest:UpdateQuest(questId)
                     end
                 end
 
-                -- This is triggered after a player deletes a quest item
+                -- Make a fake objective - see code comments in CheckQuestSourceItem() function.
                 QuestieQuest:CheckQuestSourceItem(questId, true)
 
                 QuestieMap:UnloadQuestFrames(questId)
@@ -663,19 +665,26 @@ function QuestieQuest:GetAllQuestIds()
         else
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
+
             if quest then
+                local complete = quest:IsComplete()
+
                 QuestiePlayer.currentQuestlog[questId] = quest
                 quest.LocalizedName = data.title
 
-                -- Calling this here allows the modified quest to survive a reloadUI and a relog
-                QuestieQuest:CheckQuestSourceItem(questId, true)
-
-                QuestieQuest:PopulateQuestLogInfo(quest)
-
-                if QuestieQuest:ShouldShowQuestNotes(questId) then
-                    QuestieQuest:PopulateObjectiveNotes(quest)
+                if complete == -1 then
+                    QuestieQuest:UpdateQuest(questId)
                 else
-                    QuestieTooltips:RemoveQuest(questId)
+                    -- Calling this here allows the modified quest to survive a reloadUI and a relog
+                    QuestieQuest:CheckQuestSourceItem(questId, true)
+
+                    QuestieQuest:PopulateQuestLogInfo(quest)
+
+                    if QuestieQuest:ShouldShowQuestNotes(questId) then
+                        QuestieQuest:PopulateObjectiveNotes(quest)
+                    else
+                        QuestieTooltips:RemoveQuest(questId)
+                    end
                 end
             else
                 QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
@@ -1031,7 +1040,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     if next(objective.spawnList) then
         local maxPerType = 300
-        if Questie.db.global.enableIconLimit then
+
+        if Questie.db.global.enableIconLimit and Questie.db.global.iconLimit < maxPerType then
             maxPerType = Questie.db.global.iconLimit
         end
 
@@ -1124,6 +1134,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
         if (not objective.Icon) and spawnData.Icon then
             objective.Icon = spawnData.Icon
         end
+
         if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.global.enableObjectives then
             local data = {
                 Id = quest.Id,
