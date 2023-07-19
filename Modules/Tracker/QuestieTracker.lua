@@ -441,8 +441,9 @@ function QuestieTracker:QuestItemLooted(text)
 
     if playerLoot and itemId then
         local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
+        local usableItem = TrackerUtils:IsQuestItemUsable(itemId)
 
-        if itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
+        if (itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12) and usableItem then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
 
             C_Timer.After(0.25, function()
