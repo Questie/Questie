@@ -732,8 +732,8 @@ function QuestieTracker:Update()
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
 
-                    -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
-                    if (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal") then
+                    -- Clear Blizzard Completion Text
+                    if ((Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal") and not timedQuest) or complete == -1 then
                         completionText = nil
                     end
 
@@ -749,14 +749,11 @@ function QuestieTracker:Update()
                         completionText = "|cFF4CFF4C" .. completionText
                     end
 
-                    -- Completion Text should never be allowed to Auto Collapse
-                    local shouldCollapse = completionText == nil or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
-
-                    -- We need to redifine a completed quest here so we can auto-minimize completed quests properly
-                    local questCompleted = complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil)
+                    -- Set minimizable quest flag
+                    local isMinimizable = (complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true)) and completionText == nil
 
                     -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
-                    if Questie.db.global.collapseCompletedQuests and questCompleted and shouldCollapse and not timedQuest then
+                    if Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest then
                         if not Questie.db.char.collapsedQuests[quest.Id] then
                             Questie.db.char.collapsedQuests[quest.Id] = true
                         end
@@ -785,7 +782,7 @@ function QuestieTracker:Update()
                     if timedQuest then
                         coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
                     else
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and questCompleted and shouldCollapse), false)
+                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and isMinimizable), false)
                     end
 
                     line.label:SetText(coloredQuestName)
@@ -850,7 +847,7 @@ function QuestieTracker:Update()
 
                             -- If the Quest is minimized show the Expand Quest button
                             if Questie.db.char.collapsedQuests[quest.Id] then
-                                if Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest then
+                                if Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest then
                                     button.line.expandQuest:Hide()
                                 else
                                     button.line.expandQuest:Show()
@@ -879,7 +876,7 @@ function QuestieTracker:Update()
                             -- See previous comment for details on why we're setting this button to UIParent.
                             button:SetParent(UIParent)
 
-                            if (Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest) then
+                            if (Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest) then
                                 line.expandQuest:Hide()
                             else
                                 line.expandQuest:Show()
@@ -892,7 +889,7 @@ function QuestieTracker:Update()
                         line.button = button
 
                         -- Hide button if quest complete or failed
-                    elseif (Questie.db.global.collapseCompletedQuests and questCompleted and shouldCollapse and not timedQuest) then
+                    elseif (Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest) then
                         line.expandQuest:Hide()
                     else
                         line.expandQuest:Show()
@@ -1209,7 +1206,7 @@ function QuestieTracker:Update()
                                     line.altButton:Hide()
                                 end
                             else
-                                if complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil) then
+                                if complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil and complete ~= -1) then
                                     line.label:SetText(Questie:Colorize(l10n("Quest Complete") .. "!", "green"))
                                 elseif complete == -1 then
                                     line.label:SetText(Questie:Colorize(l10n("Quest Failed") .. "!", "red"))

@@ -129,8 +129,7 @@ end
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
-    local quest = QuestieDB:GetQuest(questId)
-    local name = quest.name
+    local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
@@ -142,15 +141,15 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
     end
 
     if showState then
-        local isComplete = quest:IsComplete()
+        local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Failed") .. ")", "red")
         elseif isComplete == 1 then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
 
-            -- There are a number of quests that are flagged incomplete but they have a "synthetic" objective that is complete
-        elseif isComplete == 0 and #quest.Objectives == 0 and quest.isComplete == true then
+        -- Quests treated as complete - zero objectives or synthetic objectives
+        elseif isComplete == 0 and QuestieDB:GetQuest(questId).isComplete == true then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
     end

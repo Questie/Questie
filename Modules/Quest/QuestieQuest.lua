@@ -375,97 +375,67 @@ function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB:GetQuest(questId)
     local complete = quest:IsComplete()
 
-    if not QuestiePlayer.currentQuestlog[questId] then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
+    if quest then
+        -- If any of these flags exsist then this quest has already once been accepted and is probobly in a failed state
+        if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This quest was once accepted and needs to be reset.")
 
-        QuestiePlayer.currentQuestlog[questId] = quest
+            QuestiePlayer.currentQuestlog[questId] = nil
 
-        TaskQueue:Queue(
-        --Get all the Frames for the quest and unload them, the available quest icon for example.
-            function() QuestieMap:UnloadQuestFrames(questId) end,
-            function() QuestieTooltips:RemoveQuest(questId) end,
-            function()
-                -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
-                if Questie.db.char.collapsedQuests then
-                    Questie.db.char.collapsedQuests[questId] = nil
+            quest.Objectives = {}
+            quest.isComplete = nil
+            quest.WasComplete = nil
+
+            if quest.ObjectiveData then
+                for _, objective in pairs(quest.ObjectiveData) do
+                    objective.AlreadySpawned = {}
+                    objective.hasRegisteredTooltips = false
                 end
-                -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
-                if Questie.db.char.AutoUntrackedQuests[questId] then
-                    Questie.db.char.AutoUntrackedQuests[questId] = nil
+            end
+
+            if next(quest.SpecialObjectives) then
+                for _, objective in pairs(quest.SpecialObjectives) do
+                    objective.AlreadySpawned = {}
+                    objective.hasRegisteredTooltips = false
                 end
-            end,
-            function() QuestieQuest:PopulateQuestLogInfo(quest) end,
-            function()
-                -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-            end,
-            function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function()
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
-                end)
-            end,
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
-        )
-    elseif complete == 0 or complete == -1 then
-        -- Sometimes failed quests are flagged as (complete = 0) vs (complete = -1).
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest was once accepted. IsComplete = ", complete)
+            end
+        end
 
-        TaskQueue:Queue(
-        --Get all the Frames for the quest and unload them, the available quest icon for example.
-            function()
-                if complete == 0 or complete == -1 then
-                    -- Reset quest objectives
-                    if quest then
-                        quest.Objectives = {}
+        if not QuestiePlayer.currentQuestlog[questId] then
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
-                        if quest.ObjectiveData then
-                            for _, objective in pairs(quest.ObjectiveData) do
-                                objective.AlreadySpawned = {}
-                            end
-                        end
+            QuestiePlayer.currentQuestlog[questId] = quest
 
-                        if next(quest.SpecialObjectives) then
-                            for _, objective in pairs(quest.SpecialObjectives) do
-                                objective.AlreadySpawned = {}
-                            end
-                        end
+            TaskQueue:Queue(
+            --Get all the Frames for the quest and unload them, the available quest icon for example.
+                function() QuestieMap:UnloadQuestFrames(questId) end,
+                function() QuestieTooltips:RemoveQuest(questId) end,
+                function()
+                    -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
+                    if Questie.db.char.collapsedQuests then
+                        Questie.db.char.collapsedQuests[questId] = nil
                     end
-                end
-            end,
-            function() QuestieMap:UnloadQuestFrames(questId) end,
-            function() QuestieTooltips:RemoveQuest(questId) end,
-            function()
-                -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
-                if Questie.db.char.collapsedQuests then
-                    Questie.db.char.collapsedQuests[questId] = nil
-                end
-                -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
-                if Questie.db.char.AutoUntrackedQuests[questId] then
-                    Questie.db.char.AutoUntrackedQuests[questId] = nil
-                end
-            end,
-            function() QuestieQuest:PopulateQuestLogInfo(quest) end,
-            function()
-                -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
-                Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
-            end,
-            function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-            function()
-                QuestieCombatQueue:Queue(function()
-                    QuestieTracker:Update()
-                end)
-            end,
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
-        )
-    elseif complete == 1 then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This Quest is currently flagged Complete. Possible Blizzard bug. Report this please! - IsComplete = ", complete)
-
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-    else
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already exists, not adding")
+                    -- Re-accepted quest can be untracked. Clear it. Especially timed quests.
+                    if Questie.db.char.AutoUntrackedQuests[questId] then
+                        Questie.db.char.AutoUntrackedQuests[questId] = nil
+                    end
+                end,
+                function() QuestieQuest:PopulateQuestLogInfo(quest) end,
+                function()
+                    -- This needs to happen after QuestieQuest:PopulateQuestLogInfo because that is the place where quest.Objectives is generated
+                    Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
+                end,
+                function() QuestieQuest:PopulateObjectiveNotes(quest) end,
+                function()
+                    QuestieCombatQueue:Queue(function()
+                        QuestieTracker:Update()
+                    end)
+                end,
+                QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+            )
+        else
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already exists, not adding")
+        end
     end
 end
 
@@ -495,7 +465,6 @@ end
 
 ---@param questId number
 function QuestieQuest:AbandonedQuest(questId)
-    QuestieTooltips:RemoveQuest(questId)
     if (QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
 
@@ -504,15 +473,19 @@ function QuestieQuest:AbandonedQuest(questId)
         local quest = QuestieDB:GetQuest(questId);
         if quest then
             quest.Objectives = {}
+            quest.isComplete = nil
+            quest.WasComplete = nil
 
             if quest.ObjectiveData then
                 for _, objective in pairs(quest.ObjectiveData) do
                     objective.AlreadySpawned = {}
+                    objective.hasRegisteredTooltips = false
                 end
             end
             if next(quest.SpecialObjectives) then
                 for _, objective in pairs(quest.SpecialObjectives) do
                     objective.AlreadySpawned = {}
+                    objective.hasRegisteredTooltips = false
                 end
             end
         end
@@ -609,7 +582,8 @@ function QuestieQuest:UpdateQuest(questId)
 
                 QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
-                quest.WasComplete = false
+                quest.WasComplete = nil
+                quest.isComplete = nil
             else
                 -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
                 -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
@@ -627,6 +601,7 @@ function QuestieQuest:UpdateQuest(questId)
                         QuestieMap:UnloadQuestFrames(questId)
                         QuestieQuest:AddFinisher(quest)
                         quest.WasComplete = true
+                        quest.isComplete = true
                     else
                         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest Objective Status is: " .. numCompleteObjectives .. ", out of: " .. #quest.Objectives .. ". No updates required.")
                     end
@@ -1357,8 +1332,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
     if (not questLogEngtry) then return end
 
-    quest.isComplete = questLogEngtry.isComplete
-    if quest.isComplete ~= nil and quest.isComplete == 1 then
+    if questLogEngtry.isComplete ~= nil and questLogEngtry.isComplete == 1 then
         quest.isComplete = true
     end
 
@@ -1417,9 +1391,9 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
         end
     end
 
-    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and (quest.triggerEnd and #quest.triggerEnd > 0) and (quest.Finisher and quest.Finisher.Id ~= nil) then
-        -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil.
-        -- This check assumes the Quest should have been flagged isComplete == 1. We're specifically looking for a quest.triggerEnd and
+    if #quest.Objectives == 0 and #quest.SpecialObjectives == 0 and ((quest.triggerEnd and #quest.triggerEnd > 0) or (quest.Finisher and quest.Finisher.Id ~= nil)) then
+        -- Some quests when picked up will be flagged isComplete == 0 but the quest.Objective table or quest.SpecialObjectives table is nil. This
+        -- check assumes the Quest should have been flagged questLogEngtry.isComplete == 1. We're specifically looking for a quest.triggerEnd or
         -- a quest.Finisher.Id because this might throw an error if there is nothing to populate when we call QuestieQuest:AddFinisher().
         QuestieMap:UnloadQuestFrames(quest.Id)
         QuestieQuest:AddFinisher(quest)
