@@ -389,14 +389,28 @@ function QuestieQuest:AcceptQuest(questId)
             if quest.ObjectiveData then
                 for _, objective in pairs(quest.ObjectiveData) do
                     objective.AlreadySpawned = {}
-                    objective.hasRegisteredTooltips = false
+
+                    if objective.hasRegisteredTooltips then
+                        objective.hasRegisteredTooltips = false
+                    end
+
+                    if objective.registeredItemTooltips then
+                        objective.registeredItemTooltips = false
+                    end
                 end
             end
 
             if next(quest.SpecialObjectives) then
                 for _, objective in pairs(quest.SpecialObjectives) do
                     objective.AlreadySpawned = {}
-                    objective.hasRegisteredTooltips = false
+
+                    if objective.hasRegisteredTooltips then
+                        objective.hasRegisteredTooltips = false
+                    end
+
+                    if objective.registeredItemTooltips then
+                        objective.registeredItemTooltips = false
+                    end
                 end
             end
         end
@@ -479,13 +493,27 @@ function QuestieQuest:AbandonedQuest(questId)
             if quest.ObjectiveData then
                 for _, objective in pairs(quest.ObjectiveData) do
                     objective.AlreadySpawned = {}
-                    objective.hasRegisteredTooltips = false
+
+                    if objective.hasRegisteredTooltips then
+                        objective.hasRegisteredTooltips = false
+                    end
+
+                    if objective.registeredItemTooltips then
+                        objective.registeredItemTooltips = false
+                    end
                 end
             end
             if next(quest.SpecialObjectives) then
                 for _, objective in pairs(quest.SpecialObjectives) do
                     objective.AlreadySpawned = {}
-                    objective.hasRegisteredTooltips = false
+
+                    if objective.hasRegisteredTooltips then
+                        objective.hasRegisteredTooltips = false
+                    end
+
+                    if objective.registeredItemTooltips then
+                        objective.registeredItemTooltips = false
+                    end
                 end
             end
         end
@@ -556,14 +584,28 @@ function QuestieQuest:UpdateQuest(questId)
                 if quest.ObjectiveData then
                     for _, objective in pairs(quest.ObjectiveData) do
                         objective.AlreadySpawned = {}
-                        objective.hasRegisteredTooltips = false
+
+                        if objective.hasRegisteredTooltips then
+                            objective.hasRegisteredTooltips = false
+                        end
+
+                        if objective.registeredItemTooltips then
+                            objective.registeredItemTooltips = false
+                        end
                     end
                 end
 
                 if next(quest.SpecialObjectives) then
                     for _, objective in pairs(quest.SpecialObjectives) do
                         objective.AlreadySpawned = {}
-                        objective.hasRegisteredTooltips = false
+
+                        if objective.hasRegisteredTooltips then
+                            objective.hasRegisteredTooltips = false
+                        end
+
+                        if objective.registeredItemTooltips then
+                            objective.registeredItemTooltips = false
+                        end
                     end
                 end
 
