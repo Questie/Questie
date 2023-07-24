@@ -78,6 +78,7 @@ function QuestEventHandler:RegisterEvents()
         local which, text_arg1 = ...
         if which == "DELETE_ITEM" then
             local quest
+            local questName
             local foundQuestItem = false
 
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Item Name: ", text_arg1)
@@ -118,16 +119,21 @@ function QuestEventHandler:RegisterEvents()
                         end
 
                         if sourceItemId and soureItemName and sourceItemType and soureClassID and (sourceItemType == "Quest" or soureClassID == 12) and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == soureItemName then
+                            questName = quest.name
                             foundQuestItem = true
                             break
                         elseif reqSourceItemId and reqSoureItemName and reqSourceItemType and reqSoureClassID and (reqSourceItemType == "Quest" or reqSoureClassID == 12) and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                            questName = quest.name
                             foundQuestItem = true
                             break
                         else
-                            for _, objective in pairs(quest.Objectives) do
-                                if text_arg1 == objective.Description then
-                                    foundQuestItem = true
-                                    break
+                            if quest.Objectives and #quest.Objectives > 0 then
+                                for _, objective in pairs(quest.Objectives) do
+                                    if text_arg1 == objective.Description then
+                                        questName = quest.name
+                                        foundQuestItem = true
+                                        break
+                                    end
                                 end
                             end
                         end
@@ -135,7 +141,7 @@ function QuestEventHandler:RegisterEvents()
                 end
             end
 
-            if foundQuestItem and quest then
+            if foundQuestItem and quest and questName then
                 local frame, text
 
                 for i = 1, STATICPOPUP_NUMDIALOGS do
@@ -148,7 +154,7 @@ function QuestEventHandler:RegisterEvents()
 
                 if frame ~= nil and text ~= nil then
                     local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                    text:SetFormattedText(updateText, text_arg1, quest.name)
+                    text:SetFormattedText(updateText, text_arg1, questName)
                     text.text_arg1 = updateText
 
                     StaticPopup_Resize(frame, which)
