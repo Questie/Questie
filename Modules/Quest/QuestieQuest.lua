@@ -203,6 +203,7 @@ end
 function QuestieQuest:ClearAllNotes()
     for questId in pairs(QuestiePlayer.currentQuestlog) do
         local quest = QuestieDB:GetQuest(questId)
+
         if not quest then
             return
         end
@@ -224,10 +225,60 @@ function QuestieQuest:ClearAllNotes()
             end
         end
     end
+
     QuestieMap.questIdFrames = {}
 end
 
--- this is only needed for reset, normally special objectives don't need to update
+function QuestieQuest:ClearAllToolTips()
+    for questId in pairs(QuestiePlayer.currentQuestlog) do
+        local quest = QuestieDB:GetQuest(questId)
+
+        if not quest then
+            return
+        end
+
+        if quest.Objectives then
+            for _, objective in pairs(quest.Objectives) do
+                if objective.hasRegisteredTooltips then
+                    objective.hasRegisteredTooltips = false
+                end
+
+                if objective.registeredItemTooltips then
+                    objective.registeredItemTooltips = false
+                end
+            end
+        end
+
+        if quest.ObjectiveData then
+            for _, objective in pairs(quest.ObjectiveData) do
+                if objective.hasRegisteredTooltips then
+                    objective.hasRegisteredTooltips = false
+                end
+
+                if objective.registeredItemTooltips then
+                    objective.registeredItemTooltips = false
+                end
+            end
+        end
+
+        if next(quest.SpecialObjectives) then
+            for _, objective in pairs(quest.SpecialObjectives) do
+                if objective.hasRegisteredTooltips then
+                    objective.hasRegisteredTooltips = false
+                end
+
+                if objective.registeredItemTooltips then
+                    objective.registeredItemTooltips = false
+                end
+            end
+        end
+    end
+
+    QuestieTooltips.lookupByKey = {}
+    QuestieTooltips.lookupKeyByQuestId = {}
+end
+
+-- This is only needed for SmoothReset(), normally special objectives don't need to update
 ---@param questId number
 local function _UpdateSpecials(questId)
     local quest = QuestieDB:GetQuest(questId)
@@ -262,6 +313,7 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             QuestieQuest:ClearAllNotes()
+            QuestieQuest:ClearAllToolTips()
             return true
         end,
         function()
@@ -272,10 +324,8 @@ function QuestieQuest:SmoothReset()
             return #QuestieMap._mapDrawQueue == 0 and #QuestieMap._minimapDrawQueue == 0 -- wait until draw queue is finished
         end,
         function()
-            -- reset quest log and tooltips
+            -- reset quest log
             QuestiePlayer.currentQuestlog = {}
-            QuestieTooltips.lookupByKey = {}
-            QuestieTooltips.lookupKeyByQuestId = {}
 
             --- reset the blacklist
             QuestieQuest.autoBlacklist = {}
@@ -380,49 +430,28 @@ function QuestieQuest:AcceptQuest(questId)
         if (quest.WasComplete or quest.isComplete or complete == 0 or complete == -1) and (QuestiePlayer.currentQuestlog[questId]) then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: This quest was once accepted and needs to be reset.")
 
+            -- Reset quest log
             QuestiePlayer.currentQuestlog[questId] = nil
 
+            -- Reset quest objectives
             quest.Objectives = {}
-            quest.isComplete = nil
+
+            -- Reset quest flags
             quest.WasComplete = nil
+            quest.isComplete = nil
 
-            if quest.ObjectiveData then
-                for _, objective in pairs(quest.ObjectiveData) do
-                    objective.AlreadySpawned = {}
-
-                    if objective.hasRegisteredTooltips then
-                        objective.hasRegisteredTooltips = false
-                    end
-
-                    if objective.registeredItemTooltips then
-                        objective.registeredItemTooltips = false
-                    end
-                end
-            end
-
-            if next(quest.SpecialObjectives) then
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    objective.AlreadySpawned = {}
-
-                    if objective.hasRegisteredTooltips then
-                        objective.hasRegisteredTooltips = false
-                    end
-
-                    if objective.registeredItemTooltips then
-                        objective.registeredItemTooltips = false
-                    end
-                end
-            end
+            -- Reset tooltips
+            QuestieTooltips:RemoveQuest(questId)
         end
 
         if not QuestiePlayer.currentQuestlog[questId] then
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
             QuestiePlayer.currentQuestlog[questId] = quest
-
             TaskQueue:Queue(
-            --Get all the Frames for the quest and unload them, the available quest icon for example.
+            -- Get all the Frames for the quest and unload them, the available quest icon for example.
                 function() QuestieMap:UnloadQuestFrames(questId) end,
+                -- Make sure there isn't any lingering tooltip data hanging around in the quest table.
                 function() QuestieTooltips:RemoveQuest(questId) end,
                 function()
                     -- Re-accepted quest can be collapsed. Expand it. Especially dailies.
@@ -440,12 +469,12 @@ function QuestieQuest:AcceptQuest(questId)
                     Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                 end,
                 function() QuestieQuest:PopulateObjectiveNotes(quest) end,
+                function() QuestieQuest.CalculateAndDrawAvailableQuestsIterative() end,
                 function()
                     QuestieCombatQueue:Queue(function()
                         QuestieTracker:Update()
                     end)
-                end,
-                QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+                end
             )
         else
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId, " Warning: Quest already exists, not adding")
@@ -459,8 +488,8 @@ function QuestieQuest:CompleteQuest(questId)
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
-
     QuestieMap:UnloadQuestFrames(questId)
+
     if (QuestieMap.questIdFrames[questId]) then
         Questie:Error("Just removed all frames but the framelist seems to still be there!", questId)
     end
@@ -481,46 +510,21 @@ end
 function QuestieQuest:AbandonedQuest(questId)
     if (QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
+        QuestieMap:UnloadQuestFrames(questId)
+        local quest = QuestieDB:GetQuest(questId)
 
-        QuestieMap:UnloadQuestFrames(questId);
-
-        local quest = QuestieDB:GetQuest(questId);
         if quest then
+            -- Reset quest objectives
             quest.Objectives = {}
-            quest.isComplete = nil
+
+            -- Reset quest flags
             quest.WasComplete = nil
-
-            if quest.ObjectiveData then
-                for _, objective in pairs(quest.ObjectiveData) do
-                    objective.AlreadySpawned = {}
-
-                    if objective.hasRegisteredTooltips then
-                        objective.hasRegisteredTooltips = false
-                    end
-
-                    if objective.registeredItemTooltips then
-                        objective.registeredItemTooltips = false
-                    end
-                end
-            end
-            if next(quest.SpecialObjectives) then
-                for _, objective in pairs(quest.SpecialObjectives) do
-                    objective.AlreadySpawned = {}
-
-                    if objective.hasRegisteredTooltips then
-                        objective.hasRegisteredTooltips = false
-                    end
-
-                    if objective.registeredItemTooltips then
-                        objective.registeredItemTooltips = false
-                    end
-                end
-            end
+            quest.isComplete = nil
         end
 
         for questIdAvailable, _ in pairs(QuestieQuest.availableQuests) do
             if (not QuestieDB.IsDoable(questIdAvailable)) then
-                QuestieMap:UnloadQuestFrames(questIdAvailable);
+                QuestieMap:UnloadQuestFrames(questIdAvailable)
             end
         end
 
@@ -539,8 +543,10 @@ end
 ---@param questId number
 function QuestieQuest:UpdateQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
+
     ---@type Quest
     local quest = QuestieDB:GetQuest(questId)
+
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
 
@@ -557,12 +563,14 @@ function QuestieQuest:UpdateQuest(questId)
         if isComplete == 1 then
             -- Quest is complete
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest is: Complete!")
+
             QuestieMap:UnloadQuestFrames(questId)
             QuestieQuest:AddFinisher(quest)
             quest.WasComplete = true
         elseif isComplete == -1 then
             -- Failed quests should be shown as available again
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest] Quest has: Failed!")
+
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
             _QuestieQuest:DrawAvailableQuest(quest)
@@ -581,37 +589,14 @@ function QuestieQuest:UpdateQuest(questId)
                 -- Reset quest objectives
                 quest.Objectives = {}
 
-                if quest.ObjectiveData then
-                    for _, objective in pairs(quest.ObjectiveData) do
-                        objective.AlreadySpawned = {}
+                -- Reset quest flags
+                quest.WasComplete = nil
+                quest.isComplete = nil
 
-                        if objective.hasRegisteredTooltips then
-                            objective.hasRegisteredTooltips = false
-                        end
+                -- Reset tooltips
+                QuestieTooltips:RemoveQuest(questId)
 
-                        if objective.registeredItemTooltips then
-                            objective.registeredItemTooltips = false
-                        end
-                    end
-                end
-
-                if next(quest.SpecialObjectives) then
-                    for _, objective in pairs(quest.SpecialObjectives) do
-                        objective.AlreadySpawned = {}
-
-                        if objective.hasRegisteredTooltips then
-                            objective.hasRegisteredTooltips = false
-                        end
-
-                        if objective.registeredItemTooltips then
-                            objective.registeredItemTooltips = false
-                        end
-                    end
-                end
-
-                -- Make a fake objective - see code comments in CheckQuestSourceItem() function.
                 QuestieQuest:CheckQuestSourceItem(questId, true)
-
                 QuestieMap:UnloadQuestFrames(questId)
 
                 -- Reset any collapsed quest flags
@@ -621,17 +606,14 @@ function QuestieQuest:UpdateQuest(questId)
 
                 QuestieQuest:PopulateQuestLogInfo(quest)
                 QuestieQuest:PopulateObjectiveNotes(quest)
-
                 QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
-
-                quest.WasComplete = nil
-                quest.isComplete = nil
             else
                 -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
                 -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
                 -- are all complete, simulate a "Complete Quest" so the quest finisher appears on the map.
                 if quest.Objectives and #quest.Objectives > 0 then
                     local numCompleteObjectives = 0
+
                     for i = 1, #quest.Objectives do
                         if quest.Objectives[i] and quest.Objectives[i].Completed and quest.Objectives[i].Completed == true then
                             numCompleteObjectives = numCompleteObjectives + 1
@@ -658,6 +640,7 @@ end
 ---@param questId number
 function QuestieQuest:SetObjectivesDirty(questId)
     local quest = QuestieDB:GetQuest(questId)
+
     if quest then
         for _, objective in pairs(quest.Objectives) do
             objective.isUpdated = false
@@ -677,8 +660,6 @@ function QuestieQuest:GetAllQuestIds()
                 Questie:Error(l10n("The quest %s is missing from Questie's database, Please report this on GitHub or Discord!", tostring(questId)))
                 Questie._sessionWarnings[questId] = true
             end
-            --This prevents us from adding Failed Quests to the tracker - we want the ability to track all quests.
-            --elseif data.isComplete ~= -1 then -- TODO FIX LATER. Now currentQuestLog may have part of failed quests. Check what is needed? All or none of those?
         else
             --Keep the object in the questlog to save searching
             local quest = QuestieDB:GetQuest(questId)
@@ -692,9 +673,7 @@ function QuestieQuest:GetAllQuestIds()
                 if complete == -1 then
                     QuestieQuest:UpdateQuest(questId)
                 else
-                    -- Calling this here allows the modified quest to survive a reloadUI and a relog
                     QuestieQuest:CheckQuestSourceItem(questId, true)
-
                     QuestieQuest:PopulateQuestLogInfo(quest)
 
                     if QuestieQuest:ShouldShowQuestNotes(questId) then
@@ -706,18 +685,19 @@ function QuestieQuest:GetAllQuestIds()
             else
                 QuestiePlayer.currentQuestlog[questId] = questId -- TODO FIX LATER. codebase is expecting this to be "quest" not "questId"
             end
+
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
         end
     end
+
     QuestieCombatQueue:Queue(function()
         QuestieTracker:Update()
     end)
 end
 
+-- This checks and manually adds quest item tooltips for sourceItems
 local function _AddSourceItemObjective(quest)
     if quest.sourceItemId then
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
-
         -- Save the itemObjective table from the quests objectives table
         local objectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[3]
 
@@ -726,6 +706,7 @@ local function _AddSourceItemObjective(quest)
             for _, itemObjectiveIndex in pairs(objectives) do
                 for _, itemObjectiveId in pairs(itemObjectiveIndex) do
                     if itemObjectiveId == quest.sourceItemId then
+                        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddSourceItemObjective] This item is already part of a quest objective.")
                         return
                     end
                 end
@@ -735,6 +716,8 @@ local function _AddSourceItemObjective(quest)
         local item = QuestieDB.QueryItemSingle(quest.sourceItemId, "name") --local item = QuestieDB:GetItem(quest.sourceItemId);
 
         if item then
+            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddSourceItemObjective] Adding Source Item Id for:", quest.sourceItemId)
+
             -- We fake an objective for the sourceItems because this allows us
             -- to simply reuse "QuestieTooltips:GetTooltip".
             -- This should be all the data required for the tooltip
@@ -762,6 +745,56 @@ local function _AddSourceItemObjective(quest)
     end
 end
 
+-- This checks and manually adds quest item tooltips for requiredSourceItems
+local function _AddRequiredSourceItemObjective(quest)
+    if quest.requiredSourceItems then
+        for index, requiredSourceItemId in pairs(quest.requiredSourceItems) do
+            -- Save the itemObjective table from the quests objectives table
+            local objectives = QuestieDB.QueryQuestSingle(quest.Id, "objectives")[3]
+
+            -- Look for an itemObjective Id that matches a requiredSourceItem Id - if found exit
+            if objectives then
+                for _, itemObjectiveIndex in pairs(objectives) do
+                    for _, itemObjectiveId in pairs(itemObjectiveIndex) do
+                        if itemObjectiveId == requiredSourceItemId or quest.sourceItemId == requiredSourceItemId then
+                            Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddRequiredSourceItemObjective] This item is already part of a quest objective.")
+                            return
+                        end
+                    end
+                end
+            end
+
+            local item = QuestieDB.QueryItemSingle(requiredSourceItemId, "name")
+
+            if item then
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_AddRequiredSourceItemObjective] Adding Source Item Id for:", requiredSourceItemId)
+
+                -- We fake an objective for the requiredSourceItem because this allows us
+                -- to simply reuse "QuestieTooltips:GetTooltip".
+                -- This should be all the data required for the tooltip
+                local fakeObjective = {
+                    Id = quest.Id,
+                    IsRequiredSourceItem = true,
+                    QuestData = {
+                        FadeIcons = quest.FadeIcons,
+                        HideIcons = quest.HideIcons,
+                        level = quest.level,
+                        requiredLevel = quest.requiredLevel,
+                        IsRepeatable = quest.IsRepeatable,
+                        name = quest.name,
+                        Description = quest.Description,
+                    },
+                    Index = index,
+                    text = item,
+                    Description = item
+                }
+
+                QuestieTooltips:RegisterObjectiveTooltip(quest.Id, "i_" .. requiredSourceItemId, fakeObjective);
+            end
+        end
+    end
+end
+
 function QuestieQuest:GetAllQuestIdsNoObjectives()
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Getting all quests without objectives")
     QuestiePlayer.currentQuestlog = {}
@@ -778,12 +811,12 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
                 quest.LocalizedName = data.title
-
-                -- This manually adds quest item tooltips for sourceItems
                 _AddSourceItemObjective(quest)
+                _AddRequiredSourceItemObjective(quest)
             else
                 QuestiePlayer.currentQuestlog[questId] = questId
             end
+
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Adding the quest", questId, QuestiePlayer.currentQuestlog[questId])
         end
     end
@@ -868,6 +901,7 @@ function QuestieQuest:AddFinisher(quest)
 
     if (QuestiePlayer.currentQuestlog[questId] and (IsQuestFlaggedCompleted(questId) == false) and (quest:IsComplete() == 1 or quest:IsComplete() == 0) and (not Questie.db.char.complete[questId])) then
         local finisher, key
+
         if quest.Finisher ~= nil then
             if quest.Finisher.Type == "monster" then
                 finisher = QuestieDB:GetNPC(quest.Finisher.Id)
@@ -881,6 +915,7 @@ function QuestieQuest:AddFinisher(quest)
         else
             Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] Quest has no finisher:", questId, quest.name)
         end
+
         if (finisher ~= nil and finisher.spawns ~= nil) then
             -- Certain race conditions can occur when the NPC/Objects are both the Quest Starter and Quest Finisher
             -- which can result in duplicate Quest Title tooltips appearing. DrawAvailableQuest() would have already
@@ -926,6 +961,7 @@ function QuestieQuest:AddFinisher(quest)
 
             local finisherIcons = {}
             local finisherLocs = {}
+
             for finisherZone, spawns in pairs(finisher.spawns) do
                 if (finisherZone ~= nil and spawns ~= nil) then
                     for _, coords in ipairs(spawns) do
@@ -947,6 +983,7 @@ function QuestieQuest:AddFinisher(quest)
                             Name = finisher.name,
                             IsObjectiveNote = false,
                         }
+
                         if QuestieDB.IsActiveEventQuest(quest.Id) then
                             data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
                         elseif QuestieDB.IsPvPQuest(quest.Id) then
@@ -954,6 +991,7 @@ function QuestieQuest:AddFinisher(quest)
                         elseif quest.IsRepeatable then
                             data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
                         end
+
                         if (coords[1] == -1 or coords[2] == -1) then
                             local dungeonLocation = ZoneDB:GetDungeonLocation(finisherZone)
                             if dungeonLocation ~= nil then
@@ -971,6 +1009,7 @@ function QuestieQuest:AddFinisher(quest)
 
                             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] Adding world icon as finisher:", finisherZone, x, y)
                             finisherIcons[finisherZone] = QuestieMap:DrawWorldIcon(data, finisherZone, x, y)
+
                             if not finisherLocs[finisherZone] then
                                 finisherLocs[finisherZone] = { x, y }
                             end
@@ -1001,6 +1040,7 @@ function QuestieQuest:AddFinisher(quest)
                                 Name = finisher.name,
                                 IsObjectiveNote = false,
                             }
+
                             if QuestieDB.IsActiveEventQuest(quest.Id) then
                                 data.Icon = Questie.ICON_TYPE_EVENTQUEST_COMPLETE
                             elseif QuestieDB.IsPvPQuest(quest.Id) then
@@ -1008,9 +1048,11 @@ function QuestieQuest:AddFinisher(quest)
                             elseif quest.IsRepeatable then
                                 data.Icon = Questie.ICON_TYPE_REPEATABLE_COMPLETE
                             end
+
                             finisherIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
                             finisherLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
                         end
+
                         QuestieMap:DrawWaypoints(finisherIcons[zone], waypoints, zone)
                     end
                 end
@@ -1035,7 +1077,6 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
 
     objective:Update()
     local completed = objective.Completed
-
     local objectiveData = quest.ObjectiveData[objective.Index] or objective -- the reason for "or objective" is to handle "SpecialObjectives" aka non-listed objectives (demonic runestones for closing the portal)
 
     if (not objective.spawnList or (not next(objective.spawnList))) and _QuestieQuest.objectiveSpawnListCallTable[objectiveData.Type] then
@@ -1100,16 +1141,19 @@ _RegisterObjectiveTooltips = function(objective, questId, blockItemTooltips)
                 QuestieTooltips:RegisterObjectiveTooltip(questId, spawnData.TooltipKey, objective)
             end
         end
+
+        objective.hasRegisteredTooltips = true
     else
         Questie:Error("[QuestieQuest]: [Tooltips] " .. l10n("There was an error populating objectives for %s %s %s %s", objective.Description or "No objective text", questId or "No quest id", 0 or "No objective", "No error"));
     end
-    objective.hasRegisteredTooltips = true
 
     if (not objective.registeredItemTooltips) and objective.Type == "item" and (not blockItemTooltips) and objective.Id then
         local item = QuestieDB.QueryItemSingle(objective.Id, "name")
+
         if item then
-            QuestieTooltips:RegisterObjectiveTooltip(questId, "i_" .. objective.Id, objective);
+            QuestieTooltips:RegisterObjectiveTooltip(questId, "i_" .. objective.Id, objective)
         end
+
         objective.registeredItemTooltips = true
     end
 end
@@ -1262,18 +1306,22 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         if dungeonLocation and centerX == -1 and centerY == -1 then
             if dungeonLocation[2] then -- We have more than 1 instance entrance (e.g. Blackrock dungeons)
                 local secondDungeonLocation = dungeonLocation[2]
+
                 icon.zone = secondDungeonLocation[1]
                 centerX = secondDungeonLocation[2]
                 centerY = secondDungeonLocation[3]
 
                 local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
+
                 if iconMap and iconMini then
                     iconPerZone[icon.zone] = { iconMap, centerX, centerY }
                     spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
                     spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
                 end
+
                 spawnedIconCount = spawnedIconCount + 1;
             end
+
             local firstDungeonLocation = dungeonLocation[1]
             icon.zone = firstDungeonLocation[1]
             centerX = firstDungeonLocation[2]
@@ -1281,11 +1329,13 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
         end
 
         local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, icon.zone, centerX, centerY) -- clustering code takes care of duplicates as long as min-dist is more than 0
+
         if iconMap and iconMini then
             iconPerZone[icon.zone] = { iconMap, centerX, centerY }
             spawnsMapRefs[#spawnsMapRefs + 1] = iconMap
             spawnsMinimapRefs[#spawnsMinimapRefs + 1] = iconMini
         end
+
         spawnedIconCount = spawnedIconCount + 1;
     end
 
@@ -1298,21 +1348,26 @@ _GetIconsSortedByDistance = function(icons)
     local distances = {}
 
     local i = 0
+
     for distance in pairs(icons) do
         i = i + 1
         distances[i] = distance
     end
+
     table.sort(distances)
 
     -- use the keys to retrieve the values in the sorted order
     for distIndex = 1, #distances do
         local iconsAtDisntace = icons[distances[distIndex]]
+
         for iconIndex = 1, #iconsAtDisntace do
             local icon = iconsAtDisntace[iconIndex]
+
             iconCount = iconCount + 1
             orderedList[iconCount] = icon
         end
     end
+
     return iconCount, orderedList
 end
 
@@ -1321,19 +1376,24 @@ _DrawObjectiveWaypoints = function(objective, icon, iconPerZone)
         if spawnData.Waypoints then
             for zone, waypoints in pairs(spawnData.Waypoints) do
                 local firstWaypoint = waypoints[1][1]
+
                 if (not iconPerZone[zone]) and icon and firstWaypoint[1] ~= -1 and firstWaypoint[2] ~= -1 then              -- spawn an icon in this zone for the mob
                     local iconMap, iconMini = QuestieMap:DrawWorldIcon(icon.data, zone, firstWaypoint[1], firstWaypoint[2]) -- clustering code takes care of duplicates as long as min-dist is more than 0
+
                     if iconMap and iconMini then
                         iconPerZone[zone] = { iconMap, firstWaypoint[1], firstWaypoint[2] }
                         tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].mapRefs, iconMap);
                         tinsert(objective.AlreadySpawned[icon.AlreadySpawnedId].minimapRefs, iconMini);
                     end
                 end
+
                 local ipz = iconPerZone[zone]
+
                 if ipz then
                     QuestieMap:DrawWaypoints(ipz[1], waypoints, zone, spawnData.Hostile and { 1, 0.2, 0, 0.7 } or nil)
                 end
             end
+
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:_DrawObjectiveWaypoints]")
         end
     end
@@ -1347,8 +1407,11 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     if quest:IsComplete() == 1 then
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateObjectiveNotes] Quest Complete! Adding Finisher for:", quest.Id)
+
         QuestieQuest:UpdateQuest(quest.Id)
         _AddSourceItemObjective(quest)
+        _AddRequiredSourceItemObjective(quest)
+
         return
     end
 
@@ -1360,6 +1423,7 @@ function QuestieQuest:PopulateObjectiveNotes(quest) -- this should be renamed to
 
     QuestieQuest:UpdateObjectiveNotes(quest)
     _AddSourceItemObjective(quest)
+    _AddRequiredSourceItemObjective(quest)
 end
 
 ---@param quest Quest
@@ -1372,6 +1436,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest:PopulateQuestLogInfo] ", quest.Id)
 
     local questLogEngtry = QuestLogCache.GetQuest(quest.Id) -- DO NOT MODIFY THE RETURNED TABLE
+
     if (not questLogEngtry) then return end
 
     if questLogEngtry.isComplete ~= nil and questLogEngtry.isComplete == 1 then
@@ -1419,6 +1484,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             end
 
             specialObjective.questId = quest.Id
+
             if specialObjective.RealObjectiveIndex and quest.Objectives[specialObjective.RealObjectiveIndex] then
                 -- This specialObjective is an extraObjective and has a RealObjectiveIndex set
                 specialObjective.Completed = quest.Objectives[specialObjective.RealObjectiveIndex].Completed
@@ -1428,6 +1494,7 @@ function QuestieQuest:PopulateQuestLogInfo(quest)
             else
                 specialObjective.Update = NOP_FUNCTION
             end
+
             specialObjective.Index = 64 + index -- offset to not conflict with real objectives
             specialObjective.AlreadySpawned = specialObjective.AlreadySpawned or {}
         end
@@ -1715,8 +1782,10 @@ do
                                 if (not quest.tagInfoWasCached) then
                                     --Questie:Debug(Questie.DEBUG_INFO, "Caching tag info for quest", questId)
                                     QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
+
                                     quest.tagInfoWasCached = true
                                 end
+
                                 --Draw a specific quest through the function
                                 _QuestieQuest:DrawAvailableQuest(quest)
                             end, 0)
@@ -1726,6 +1795,7 @@ do
                             for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
                                 if frame and frame.data and frame.data.QuestData then
                                     local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
+
                                     if newIcon ~= frame.data.Icon then
                                         frame:UpdateTexture(Questie.usedIcons[newIcon])
                                     end
@@ -1736,6 +1806,7 @@ do
                         --If the quests are not within level range we want to unload them
                         --(This is for when people level up or change settings etc)
                         QuestieMap:UnloadQuestFrames(questId)
+
                         if QuestieQuest.availableQuests[questId] then
                             QuestieTooltips:RemoveQuest(questId)
                         end

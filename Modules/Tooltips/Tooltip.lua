@@ -235,8 +235,8 @@ function QuestieTooltips:GetTooltip(key)
                 end
             else
                 local objective = tooltip.objective
-                if (not objective.IsSourceItem) then
-                    -- Tooltip was registered for a sourceItem and not a real "objective"
+                if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
+                    -- Tooltip was registered for a sourceItem or requiredSourceItem and not a real "objective"
                     objective:Update()
                 end
 
