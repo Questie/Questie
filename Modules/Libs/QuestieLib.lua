@@ -129,12 +129,13 @@ end
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
-    local name = QuestieDB.QueryQuestSingle(questId, "name");
+    local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
     end
+
     if Questie.db.global.enableTooltipsQuestID then
         name = name .. " (" .. questId .. ")"
     end
@@ -143,9 +144,13 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
-            name = name .. " (" .. Questie:Colorize(l10n("Failed"), "red") .. ")"
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Failed") .. ")", "red")
         elseif isComplete == 1 then
-            name = name .. " (" .. Questie:Colorize(l10n("Complete"), "green") .. ")"
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
+
+        -- Quests treated as complete - zero objectives or synthetic objectives
+        elseif isComplete == 0 and QuestieDB:GetQuest(questId).isComplete == true then
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
     end
 

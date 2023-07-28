@@ -82,12 +82,26 @@ function QuestieTooltips:RemoveQuest(questId)
         if quest then
             for _, objective in pairs(quest.Objectives) do
                 objective.AlreadySpawned = {}
-                objective.hasRegisteredTooltips = false
+
+                if objective.hasRegisteredTooltips then
+                    objective.hasRegisteredTooltips = false
+                end
+
+                if objective.registeredItemTooltips then
+                    objective.registeredItemTooltips = false
+                end
             end
 
             for _, objective in pairs(quest.SpecialObjectives) do
                 objective.AlreadySpawned = {}
-                objective.hasRegisteredTooltips = false
+
+                if objective.hasRegisteredTooltips then
+                    objective.hasRegisteredTooltips = false
+                end
+
+                if objective.registeredItemTooltips then
+                    objective.registeredItemTooltips = false
+                end
             end
         end
     else
@@ -221,8 +235,8 @@ function QuestieTooltips:GetTooltip(key)
                 end
             else
                 local objective = tooltip.objective
-                if (not objective.IsSourceItem) then
-                    -- Tooltip was registered for a sourceItem and not a real "objective"
+                if not (objective.IsSourceItem or objective.IsRequiredSourceItem) then
+                    -- Tooltip was registered for a sourceItem or requiredSourceItem and not a real "objective"
                     objective:Update()
                 end
 

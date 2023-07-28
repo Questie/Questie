@@ -196,7 +196,7 @@ function QuestLogCache.CheckForChanges(questIdsToCheck)
                             end
                         end
 
-                        if cachedQuest and (not cachedQuest.isComplete) and isComplete then
+                        if cachedQuest and (not cachedQuest.isComplete) and isComplete == 1 then
                             Sounds.PlayQuestComplete()
                         end
 
