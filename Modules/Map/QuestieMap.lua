@@ -614,8 +614,6 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
     iconMinimap.miniMapIcon = true;
     iconMinimap:UpdateTexture(Questie.usedIcons[data.Icon]);
 
-    local questieGlobalDB = Questie.db.profile -- TODO: Improve naming
-
     if (not iconMinimap.FadeLogic) then
         function iconMinimap:SetFade(value)
             if self.lastGlowFade ~= value then
@@ -629,6 +627,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
         end
 
         function iconMinimap:FadeLogic()
+            local profile = Questie.db.profile
             if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.profile and Questie.db.profile.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
                 if (QuestieMap.playerX and QuestieMap.playerY) then
                     local x, y
@@ -644,19 +643,19 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                         --Very small value before, hard to work with.
                         local distance = QuestieLib:Euclid(QuestieMap.playerX, QuestieMap.playerY, x, y) / 10;
 
-                        if (distance > questieGlobalDB.fadeLevel) then
-                            local fade = 1 - (math.min(10, (distance - questieGlobalDB.fadeLevel)) * normalizedValue);
+                        if (distance > profile.fadeLevel) then
+                            local fade = 1 - (math.min(10, (distance - profile.fadeLevel)) * normalizedValue);
                             self:SetFade(fade)
-                        elseif (distance < questieGlobalDB.fadeOverPlayerDistance) and questieGlobalDB.fadeOverPlayer then
-                            local fadeAmount = questieGlobalDB.fadeOverPlayerLevel + distance * (1 - questieGlobalDB.fadeOverPlayerLevel) / questieGlobalDB.fadeOverPlayerDistance
+                        elseif (distance < profile.fadeOverPlayerDistance) and profile.fadeOverPlayer then
+                            local fadeAmount = profile.fadeOverPlayerLevel + distance * (1 - profile.fadeOverPlayerLevel) / profile.fadeOverPlayerDistance
                             -- local fadeAmount = math.max(fadeAmount, 0.5);
-                            if self.faded and fadeAmount > questieGlobalDB.iconFadeLevel then
-                                fadeAmount = questieGlobalDB.iconFadeLevel
+                            if self.faded and fadeAmount > profile.iconFadeLevel then
+                                fadeAmount = profile.iconFadeLevel
                             end
                             self:SetFade(fadeAmount)
                         else
                             if self.faded then
-                                self:SetFade(questieGlobalDB.iconFadeLevel)
+                                self:SetFade(profile.iconFadeLevel)
                             else
                                 self:SetFade(1)
                             end
@@ -664,7 +663,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
                     end
                 else
                     if self.faded then
-                        self:SetFade(questieGlobalDB.iconFadeLevel)
+                        self:SetFade(profile.iconFadeLevel)
                     else
                         self:SetFade(1)
                     end
