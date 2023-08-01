@@ -22,6 +22,11 @@ function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
+    -- These events basically all mean the same: The active profile changed.
+    Questie.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
+    Questie.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
+    Questie.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+
     QuestieEventHandler:RegisterEarlyEvents()
 end
 
@@ -39,6 +44,11 @@ function Questie:OnDisable()
         -- Called when the addon is disabled
         WatchFrame:Show()
     end
+end
+
+function Questie:RefreshConfig(db, newProfileName)
+    db = self.db.profile
+    QuestieQuest:SmoothReset()
 end
 
 --- Colorize a string with a color code
