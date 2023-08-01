@@ -14,7 +14,9 @@ local band = bit.band
 ---@type QuestieOptionsDefaults
 local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults")
 ---@type QuestieEventHandler
-local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler");
+local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
@@ -47,6 +49,7 @@ function Questie:OnDisable()
 end
 
 function Questie:RefreshConfig(db, newProfileName)
+    print("Switched Profile!")
     db = self.db.profile
     QuestieQuest:SmoothReset()
 end
