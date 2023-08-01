@@ -3,7 +3,7 @@ local QuestieOptionsDefaults = QuestieLoader:CreateModule("QuestieOptionsDefault
 
 function QuestieOptionsDefaults:Load()
     return {
-        global = {
+        profile = {
             clusterLevelHotzone = 50,
             enableIconLimit = false,
             iconLimit = 200,
@@ -112,26 +112,15 @@ function QuestieOptionsDefaults:Load()
             trackerBackdropAlpha = 1,
             trackerHeightRatio = 0.50,
             questieTLoc = "char",
-        },
-        char = {
+
             minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
             maxLevelFilter = 7,
-            complete = {},
-            hidden = {},
-            hiddenDailies = {
-                nhc = {},
-                hc = {},
-                cooking = {},
-                fishing = {},
-                pvp = {},
-            },
             lastDailyRequestResetTime = 0,
             lastDailySetDate = "",
             enabled = true,
             lowlevel = false,
             manualMinLevelOffset = false,
             absoluteLevelOffset = false,
-            journey = {},
             searchType = 1,
             autoaccept = false,
             autocomplete = false,
@@ -144,7 +133,6 @@ function QuestieOptionsDefaults:Load()
             questAnnounceObjectives = true,
             questAnnounceCompleted = false,
             questAnnounceLocally = false,
-            isTrackerExpanded = true,
             hideUnexploredMapIcons = false,
             hideUntrackedQuestsMapIcons = false,
             showRepeatableQuests = true,
@@ -162,8 +150,24 @@ function QuestieOptionsDefaults:Load()
             soundOnObjectiveComplete = false,
             objectiveCompleteSoundChoiceName = "ObjectiveDefault",
             soundOnObjectiveProgress = false,
-            objectiveProgressSoundChoiceName = "ObjectiveProgress"
+            objectiveProgressSoundChoiceName = "ObjectiveProgress",
+
+            -- Migration
+            migrationVersion = {},
+            globalMigrationSteps = {},
         },
-        profile = { minimap = { hide = false } }
+        char = {
+            complete = {},
+            hidden = {},
+            hiddenDailies = {
+                nhc = {},
+                hc = {},
+                cooking = {},
+                fishing = {},
+                pvp = {},
+            },
+            journey = {},
+            isTrackerExpanded = true,
+        },
     }
 end
