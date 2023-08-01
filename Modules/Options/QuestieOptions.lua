@@ -147,6 +147,7 @@ _CreateOptionsTable = function()
             nameplate_tab = nameplate_tab,
             tooltip_tab = tooltip_tab,
             advanced_tab = advanced_tab,
+            profiles_tab = LibStub("AceDBOptions-3.0"):GetOptionsTable(Questie.db)
         }
     }
 end
