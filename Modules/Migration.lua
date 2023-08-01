@@ -24,15 +24,14 @@ local migrationFunctions = {
 
 function Migration:Migrate()
     if not Questie.db.profile.migrationVersion then
-        Questie.db.profile.migrationVersion = {}
+        Questie.db.profile.migrationVersion = 0
     end
 
     if not Questie.db.profile.globalMigrationSteps then
         Questie.db.profile.globalMigrationSteps = {}
     end
 
-    local player = UnitName("Player") .. GetRealmName()
-    local currentVersion = Questie.db.profile.migrationVersion[player] or 0
+    local currentVersion = Questie.db.profile.migrationVersion
     local targetVersion = table.getn(migrationFunctions)
 
     if currentVersion == targetVersion then
@@ -48,5 +47,5 @@ function Migration:Migrate()
         Questie.db.profile.globalMigrationSteps[currentVersion] = true
     end
 
-    Questie.db.profile.migrationVersion[player] = currentVersion
+    Questie.db.profile.migrationVersion = currentVersion
 end

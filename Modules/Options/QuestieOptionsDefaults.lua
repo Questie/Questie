@@ -162,7 +162,7 @@ function QuestieOptionsDefaults:Load()
             townsfolkConfig = {},
 
             -- Migration
-            migrationVersion = {},
+            migrationVersion = 0,
             globalMigrationSteps = {},
         },
         char = {
