@@ -204,13 +204,13 @@ TrackerMenu.addLinkToChatOption = function(menu, quest)
             LibDropDown:CloseDropDownMenus()
 
             if (not ChatFrame1EditBox:IsVisible()) then
-                if Questie.db.global.trackerShowQuestLevel then
+                if Questie.db.profile.trackerShowQuestLevel then
                     ChatFrame_OpenChat(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
                 else
                     ChatFrame_OpenChat("[" .. quest.name .. " (" .. quest.Id .. ")]")
                 end
             else
-                if Questie.db.global.trackerShowQuestLevel then
+                if Questie.db.profile.trackerShowQuestLevel then
                     ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(quest.level, quest.name, quest.Id))
                 else
                     ChatEdit_InsertLink("[" .. quest.name .. " (" .. quest.Id .. ")]")
@@ -296,12 +296,12 @@ TrackerMenu.addFocusUnfocusOption = function(menu, quest)
 end
 
 TrackerMenu.addLockUnlockOption = function(menu)
-    if Questie.db.global.trackerLocked then
+    if Questie.db.profile.trackerLocked then
         tinsert(menu, {
             text = l10n('Unlock Tracker'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
-                Questie.db.global.trackerLocked = false
+                Questie.db.profile.trackerLocked = false
                 TrackerBaseFrame:Update()
             end
         })
@@ -310,7 +310,7 @@ TrackerMenu.addLockUnlockOption = function(menu)
             text = l10n('Lock Tracker'),
             func = function()
                 LibDropDown:CloseDropDownMenus()
-                Questie.db.global.trackerLocked = true
+                Questie.db.profile.trackerLocked = true
                 TrackerBaseFrame:Update()
             end
         })
@@ -402,7 +402,7 @@ function TrackerMenu:GetMenuForQuest(quest)
         end
     end
 
-    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.enableTooltipsQuestLevel, true, true)
+    local coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.profile.enableTooltipsQuestLevel, true, true)
 
     tinsert(menu, { text = coloredQuestName, isTitle = true })
 

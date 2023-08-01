@@ -268,22 +268,22 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
-        local value = not Questie.db.global.enableAvailable
-        Questie.db.global.enableAvailable = value
+        local value = not Questie.db.profile.enableAvailable
+        Questie.db.profile.enableAvailable = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.global.enableAvailable, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.enableAvailable, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
-        local value = not Questie.db.char.lowlevel
-        Questie.db.char.lowlevel = value
+        local value = not Questie.db.profile.lowlevel
+        Questie.db.profile.lowlevel = value
         QuestieOptions.AvailableQuestRedraw()
-    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowlevel, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()
-        local value = not Questie.db.global.enableObjectives
-        Questie.db.global.enableObjectives = value
+        local value = not Questie.db.profile.enableObjectives
+        Questie.db.profile.enableObjectives = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.profile.enableObjectives, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu(), notCheckable=true})
     tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu(), notCheckable=true})
 

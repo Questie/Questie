@@ -29,7 +29,7 @@ local function GetMapTitleText()
 end
 
 function QuestieCoords:WriteCoords()
-    if not ((Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible())) then
+    if not ((Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible()) or (Questie.db.profile.minimapCoordinatesEnabled and Minimap:IsVisible())) then
         return -- no need to write coords
     end
     local isInInstance, instanceType = IsInInstance()
@@ -55,14 +55,14 @@ function QuestieCoords:WriteCoords()
                 posY = position.y * 100;
 
                 -- if minimap
-                if Questie.db.global.minimapCoordinatesEnabled and Minimap:IsVisible() then
+                if Questie.db.profile.minimapCoordinatesEnabled and Minimap:IsVisible() then
                     MinimapZoneText:SetText(
                                 format("(%d, %d) ", posX, posY) .. GetMinimapZoneText()
                             );
                 end
             end
             -- if main map
-            if Questie.db.global.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
+            if Questie.db.profile.mapCoordinatesEnabled and WorldMapFrame:IsVisible() then
                 -- get cursor position
                 local curX, curY = GetCursorPosition();
 
@@ -77,7 +77,7 @@ function QuestieCoords:WriteCoords()
 
                 curX = (curX - left) / width * 100;
                 curY = (top - curY) / height * 100;
-                local precision = "%.".. Questie.db.global.mapCoordinatePrecision .."f";
+                local precision = "%.".. Questie.db.profile.mapCoordinatePrecision .."f";
 
                 local worldmapCoordsText = "Cursor: "..format(precision.. " X, ".. precision .." Y  ", curX, curY);
 
@@ -94,18 +94,18 @@ function QuestieCoords:Initialize()
     --QuestieCoords.coordFrame:SetScript("OnUpdate", QuestieCoords.Update);
 
     -- Do not fight with Coordinates addon
-    if IsAddOnLoaded("Coordinates") and ((Questie.db.global.minimapCoordinatesEnabled) or (Questie.db.global.mapCoordinatesEnabled)) then
+    if IsAddOnLoaded("Coordinates") and ((Questie.db.profile.minimapCoordinatesEnabled) or (Questie.db.profile.mapCoordinatesEnabled)) then
         Questie:Print("|cFFFF0000", l10n("WARNING!"), "|r", l10n("Coordinates addon is enabled and will cause buggy behavior. Disabling global map and mini map coordinates. These can be re-enabled in settings"))
-        Questie.db.global.minimapCoordinatesEnabled = false
-        Questie.db.global.mapCoordinatesEnabled = false
+        Questie.db.profile.minimapCoordinatesEnabled = false
+        Questie.db.profile.mapCoordinatesEnabled = false
     end
 
     C_Timer.NewTicker(QuestieCoords.updateInterval, QuestieCoords.Update)
 end
 
 function QuestieCoords:Update(elapsed)
-    if (Questie.db.global.minimapCoordinatesEnabled) or
-        (Questie.db.global.mapCoordinatesEnabled) then
+    if (Questie.db.profile.minimapCoordinatesEnabled) or
+        (Questie.db.profile.mapCoordinatesEnabled) then
 
         --totalTime = totalTime + elapsed;
         --if(totalTime > QuestieCoords.updateInterval) then

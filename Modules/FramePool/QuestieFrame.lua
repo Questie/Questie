@@ -181,7 +181,7 @@ function _Qframe:OnClick(button)
                     QuestieMap:UnloadManualFrames(self.data.id)
                 end
             else
-                if Questie.db.global.trackerShowQuestLevel then
+                if Questie.db.profile.trackerShowQuestLevel then
                     ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
                 else
                     ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
@@ -240,7 +240,7 @@ function _Qframe:BaseOnShow()
     if data and data.Type and data.Type == "complete" then
         self:SetFrameLevel(self:GetFrameLevel() + 1)
     end
-    if ((self.miniMapIcon and Questie.db.global.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.global.alwaysGlowMap)) and
+    if ((self.miniMapIcon and Questie.db.profile.alwaysGlowMinimap) or ((not self.miniMapIcon) and Questie.db.profile.alwaysGlowMap)) and
         data and data.ObjectiveData and
         data.ObjectiveData.Color and
         (data.Type and (data.Type ~= "available" and data.Type ~= "complete")
@@ -269,12 +269,12 @@ function _Qframe:UpdateTexture(texture)
     local alpha
 
     if (self.miniMapIcon) then
-        globalScale = Questie.db.global.globalMiniMapScale;
-        objectiveColor = Questie.db.global.questMinimapObjectiveColors;
+        globalScale = Questie.db.profile.globalMiniMapScale;
+        objectiveColor = Questie.db.profile.questMinimapObjectiveColors;
         alpha = 0;
     else
-        globalScale = Questie.db.global.globalScale;
-        objectiveColor = Questie.db.global.questObjectiveColors;
+        globalScale = Questie.db.profile.globalScale;
+        objectiveColor = Questie.db.profile.questObjectiveColors;
         alpha = 1;
     end
 
@@ -369,11 +369,11 @@ function _Qframe:FadeOut()
         self.faded = true
         if self.texture then
             local r, g, b = self.texture:GetVertexColor()
-            self.texture:SetVertexColor(r, g, b, Questie.db.global.iconFadeLevel)
+            self.texture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         end
         if self.glowTexture then
             local r, g, b = self.glowTexture:GetVertexColor()
-            self.glowTexture:SetVertexColor(r, g, b, Questie.db.global.iconFadeLevel)
+            self.glowTexture:SetVertexColor(r, g, b, Questie.db.profile.iconFadeLevel)
         end
     end
 end
@@ -426,8 +426,8 @@ end
 ---Checks wheather the frame/icon should be hidden or not. Only for quest icons/frames.
 ---@return boolean @True if the frame/icon should be hidden and :FakeHide() should be called, false otherwise
 function _Qframe:ShouldBeHidden()
-    local questieGlobalDB = Questie.db.global
-    local questieCharDB = Questie.db.char
+    local questieGlobalDB = Questie.db.profile -- TODO: Replace questieGlobalDB and questieCharDB
+    local questieCharDB = Questie.db.profile
     local data = self.data
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
@@ -438,8 +438,8 @@ function _Qframe:ShouldBeHidden()
         or ((not questieGlobalDB.enableTurnins) and iconType == "complete")
         or ((not questieGlobalDB.enableAvailable) and iconType == "available")
         or ((not questieGlobalDB.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
-        or (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (Questie.db.char.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+        or (Questie.db.profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
+        or (Questie.db.profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).

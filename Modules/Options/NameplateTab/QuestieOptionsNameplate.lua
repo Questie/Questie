@@ -53,7 +53,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 min = -200,
                 max = 200,
                 step = 1,
-                disabled = function() return not Questie.db.global.nameplateEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieNameplate:RedrawIcons()
@@ -69,7 +69,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 min = -200,
                 max = 200,
                 step = 1,
-                disabled = function() return not Questie.db.global.nameplateEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieNameplate:RedrawIcons()
@@ -85,7 +85,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                disabled = function() return not Questie.db.global.nameplateEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
@@ -99,11 +99,11 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 order = 1.7,
                 name = function() return l10n('Reset Nameplates'); end,
                 desc = function() return l10n('Reset to default nameplate position and scale.'); end,
-                disabled = function() return not Questie.db.global.nameplateEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateEnabled; end,
                 func = function (info, value)
-                    Questie.db.global.nameplateX = optionsDefaults.global.nameplateX;
-                    Questie.db.global.nameplateY = optionsDefaults.global.nameplateY;
-                    Questie.db.global.nameplateScale = optionsDefaults.global.nameplateScale;
+                    Questie.db.profile.nameplateX = optionsDefaults.global.nameplateX;
+                    Questie.db.profile.nameplateY = optionsDefaults.global.nameplateY;
+                    Questie.db.profile.nameplateScale = optionsDefaults.global.nameplateScale;
                     QuestieNameplate:RedrawIcons();
                 end,
             },
@@ -141,7 +141,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 min = -200,
                 max = 200,
                 step = 1,
-                disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieNameplate:RedrawFrameIcon()
@@ -157,7 +157,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 min = -200,
                 max = 200,
                 step = 1,
-                disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieNameplate:RedrawFrameIcon()
@@ -173,7 +173,7 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
@@ -187,11 +187,11 @@ function QuestieOptions.tabs.nameplate:Initialize()
                 order = 2.7,
                 name = function() return l10n('Reset Target Frame'); end,
                 desc = function() return l10n('Reset to default target frame position and scale.'); end,
-                disabled = function() return not Questie.db.global.nameplateTargetFrameEnabled; end,
+                disabled = function() return not Questie.db.profile.nameplateTargetFrameEnabled; end,
                 func = function (info, value)
-                    Questie.db.global.nameplateTargetFrameX = optionsDefaults.global.nameplateTargetFrameX;
-                    Questie.db.global.nameplateTargetFrameY = optionsDefaults.global.nameplateTargetFrameY;
-                    Questie.db.global.nameplateTargetFrameScale = optionsDefaults.global.nameplateTargetFrameScale;
+                    Questie.db.profile.nameplateTargetFrameX = optionsDefaults.global.nameplateTargetFrameX;
+                    Questie.db.profile.nameplateTargetFrameY = optionsDefaults.global.nameplateTargetFrameY;
+                    Questie.db.profile.nameplateTargetFrameScale = optionsDefaults.global.nameplateTargetFrameScale;
                     QuestieNameplate:RedrawFrameIcon();
                 end,
             },

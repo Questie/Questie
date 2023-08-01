@@ -587,7 +587,7 @@ function QuestieSearchResults:DrawResultTab(container, resultType)
             end
             -- TODO rename option to "enabledIDs" or create separate ones for npcs/objects/items
             local id = ''
-            if Questie.db.global.enableTooltipsQuestID then
+            if Questie.db.profile.enableTooltipsQuestID then
                 id = ' (' .. k .. ')'
             end
             table.insert(results, {
@@ -623,7 +623,7 @@ _HandleOnGroupSelected = function (resultType)
         local questName = QuestieDB.QueryQuestSingle(selectedId, "name")
         local questLevel, _ = QuestieLib.GetTbcLevel(selectedId);
 
-        if Questie.db.global.trackerShowQuestLevel then
+        if Questie.db.profile.trackerShowQuestLevel then
             ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(questLevel, questName, selectedId))
         else
             ChatEdit_InsertLink("[" .. questName .. " (" .. selectedId .. ")]")
@@ -666,7 +666,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             if stringsub(searchText, 1, 4) == "|cff" and itemName then
                 -- An itemLink was added to the searchBox
                 searchBox:SetText(itemName)
-                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, itemName, false)
+                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.profile.searchType, itemName, false)
             elseif stringsub(searchText, 1, 4) == "|cff" then
                 -- This should be impossible to reach, since when you see an item link in the game the item should
                 -- be cached already which would be caught by the condition above
@@ -674,7 +674,7 @@ local function _GetSearchFunction(searchBox, searchGroup)
             else
                 -- Normal search
                 local text = string.trim(searchText, " \n\r\t[]");
-                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, false)
+                QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.profile.searchType, text, false)
             end
             searchBox:ClearFocus()
         end
@@ -777,9 +777,9 @@ function QuestieSearchResults:DrawSearchTab(container)
         [1] = l10n("Search By Name"),
         [2] = l10n("Search By ID"),
     });
-    typeDropdown:SetValue(Questie.db.char.searchType);
+    typeDropdown:SetValue(Questie.db.profile.searchType);
     typeDropdown:SetCallback("OnValueChanged", function(key, _)
-        Questie.db.char.searchType = key.value;
+        Questie.db.profile.searchType = key.value;
         searchGroup:ReleaseChildren();
         searchBox:HighlightText();
         searchBox:SetFocus();
@@ -817,7 +817,7 @@ function QuestieSearchResults:DrawSearchTab(container)
     if QuestieSearch.LastResult.query ~= "" then
         searchButton:SetDisabled(false)
         local text = string.trim(searchBox:GetText(), " \n\r\t[]")
-        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.char.searchType, text, true)
+        QuestieSearchResults:DrawSearchResultTab(searchGroup, Questie.db.profile.searchType, text, true)
     end
 end
 
@@ -853,7 +853,7 @@ end
 function QuestieSearchResults:SetSearch(detailType, id)
     _selected = id
     searchBox:SetText(tostring(id))
-    Questie.db.char.searchType = BY_ID
+    Questie.db.profile.searchType = BY_ID
     typeDropdown:SetValue(BY_ID)
     QuestieSearchResults:DrawSearchResultTab(searchGroup, BY_ID, id, false)
     searchResultTabs:SelectTab(detailType)

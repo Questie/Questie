@@ -127,7 +127,7 @@ local function updateGreetingFrame()
 end
 
 function QuestgiverFrame.GossipMark()
-    if Questie.db.char.enableQuestFrameIcons == true then
+    if Questie.db.profile.enableQuestFrameIcons == true then
         if GossipAvailableQuestButtonMixin then -- This call is added with Dragonflight (10.0.0) API, use if available
             return -- This call is automatically hooked, no need to run a function
         else -- If DF API not available, use Shadowlands (9.0.0) method
@@ -137,7 +137,7 @@ function QuestgiverFrame.GossipMark()
 end
 
 function QuestgiverFrame.GreetingMark()
-    if Questie.db.char.enableQuestFrameIcons == true then
+    if Questie.db.profile.enableQuestFrameIcons == true then
         updateGreetingFrame()
     end
 end
@@ -149,7 +149,7 @@ if GossipAvailableQuestButtonMixin then
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
         oldAvailableSetup(self, ...)
-        if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
+        if self.GetElementData ~= nil and Questie.db.profile.enableQuestFrameIcons == true then
             local id = self.GetElementData().info.questID
             if id then
                 self.Icon:SetTexture(determineAppropriateQuestIcon(id, false))
@@ -165,7 +165,7 @@ if GossipAvailableQuestButtonMixin then
     local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
     function GossipActiveQuestButtonMixin:Setup(...)
         oldActiveSetup(self, ...)
-        if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
+        if self.GetElementData ~= nil and Questie.db.profile.enableQuestFrameIcons == true then
             local id = self.GetElementData().info.questID
             if id then
                 self.Icon:SetTexture(determineAppropriateQuestIcon(id, true))

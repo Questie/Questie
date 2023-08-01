@@ -66,7 +66,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 min = 10,
                 max = 500,
                 step = 10,
-                disabled = function() return (not Questie.db.global.enableIconLimit); end,
+                disabled = function() return (not Questie.db.profile.enableIconLimit); end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
@@ -79,9 +79,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Enable bug workarounds'); end,
                 desc = function() return l10n('When enabled, Questie will hotfix vanilla UI bugs.'); end,
                 width = "full",
-                get = function() return Questie.db.global.bugWorkarounds; end,
+                get = function() return Questie.db.profile.bugWorkarounds; end,
                 set = function (_, value)
-                    Questie.db.global.bugWorkarounds = value
+                    Questie.db.profile.bugWorkarounds = value
                 end
             },
             seperatingHeader2 = {
@@ -95,9 +95,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Show Quest IDs'); end,
                 desc = function() return l10n('When this is checked, the ID of quests will show in the tooltips and the tracker.'); end,
                 width = "full",
-                get = function() return Questie.db.global.enableTooltipsQuestID; end,
+                get = function() return Questie.db.profile.enableTooltipsQuestID; end,
                 set = function (_, value)
-                    Questie.db.global.enableTooltipsQuestID = value
+                    Questie.db.profile.enableTooltipsQuestID = value
                     QuestieTracker:Update()
                 end
             },
@@ -228,26 +228,26 @@ function QuestieOptions.tabs.advanced:Initialize()
                 func = function (_, _)
                     -- update all values to default
                     for k,v in pairs(optionsDefaults.global) do
-                       Questie.db.global[k] = v
+                       Questie.db.profile[k] = v
                     end
 
                     -- only toggle questie if it's off (must be called before resetting the value)
-                    if (not Questie.db.char.enabled) then
-                        Questie.db.char.enabled = true
+                    if (not Questie.db.profile.enabled) then
+                        Questie.db.profile.enabled = true
                         --QuestieQuest:ToggleNotes(true);
                     end
 
-                    Questie.db.char.enabled = optionsDefaults.char.enabled;
-                    Questie.db.char.lowlevel = optionsDefaults.char.lowlevel;
+                    Questie.db.profile.enabled = optionsDefaults.char.enabled;
+                    Questie.db.profile.lowlevel = optionsDefaults.char.lowlevel;
 
-                    Questie.db.global.migrationVersion = nil
+                    Questie.db.profile.migrationVersion = nil
 
                     Questie.db.profile.minimap.hide = optionsDefaults.profile.minimap.hide;
 
                     Questie.db.global.dbIsCompiled = false
 
                     Questie.db.char.hidden = nil
-                    Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
+                    Questie.db.profile.hiddenDailies = optionsDefaults.char.hiddenDailies;
 
                     ReloadUI()
 

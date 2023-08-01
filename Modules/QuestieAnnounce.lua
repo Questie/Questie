@@ -25,7 +25,7 @@ _GetAnnounceMarker = function()
 end
 
 function QuestieAnnounce:AnnounceObjectiveToChannel(questId, itemId, objectiveText, objectiveProgress)
-    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.char.questAnnounceObjectives then
+    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceObjectives then
         -- no hyperlink required here
         local questLink = QuestieLink:GetQuestLinkStringById(questId);
 
@@ -58,7 +58,7 @@ end
 
 
 function QuestieAnnounce:AnnounceQuestItemLootedToChannel(questId, itemId)
-    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.char.questAnnounceItems then
+    if _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel() and Questie.db.profile.questAnnounceItems then
         local questHyperLink = QuestieLink:GetQuestLinkStringById(questId);
         local itemLink = select(2, GetItemInfo(itemId))
 
@@ -79,13 +79,13 @@ end
 
 ---@return boolean
 function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
-    if Questie.db.char.questAnnounceLocally == true then
+    if Questie.db.profile.questAnnounceLocally == true then
         return true -- we always want to print if this option is enabled
-    elseif Questie.db.char.questAnnounceChannel == "both" then
+    elseif Questie.db.profile.questAnnounceChannel == "both" then
         return IsInRaid() or IsInGroup()
-    elseif Questie.db.char.questAnnounceChannel == "raid" then
+    elseif Questie.db.profile.questAnnounceChannel == "raid" then
         return IsInRaid()
-    elseif Questie.db.char.questAnnounceChannel == "party" then
+    elseif Questie.db.profile.questAnnounceChannel == "party" then
         return IsInGroup() and not IsInRaid()
     else
         return false
@@ -94,7 +94,7 @@ end
 
 function _QuestieAnnounce:AnnounceToChannel(message)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
-    if (not message) or alreadySentBandaid[message] or Questie.db.global.questieShutUp then
+    if (not message) or alreadySentBandaid[message] or Questie.db.profile.questieShutUp then
         return
     end
 
@@ -102,7 +102,7 @@ function _QuestieAnnounce:AnnounceToChannel(message)
 
     if IsInRaid() or IsInGroup() then
         SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup() and "PARTY"))
-    elseif Questie.db.char.questAnnounceLocally == true then
+    elseif Questie.db.profile.questAnnounceLocally == true then
         Questie:Print(message)
     end
 end
@@ -138,7 +138,7 @@ function QuestieAnnounce:ItemLooted(text, notPlayerName, _, _, playerName)
 end
 
 function QuestieAnnounce:AcceptedQuest(questId)
-    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceAccepted then
+    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAccepted then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
 
         local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Accepted'), questLink or "no quest name")
@@ -147,7 +147,7 @@ function QuestieAnnounce:AcceptedQuest(questId)
 end
 
 function QuestieAnnounce:AbandonedQuest(questId)
-    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceAbandoned then
+    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceAbandoned then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
 
         local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Abandoned'), questLink or "no quest name")
@@ -156,7 +156,7 @@ function QuestieAnnounce:AbandonedQuest(questId)
 end
 
 function QuestieAnnounce:CompletedQuest(questId)
-    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.char.questAnnounceCompleted then
+    if (_QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()) and Questie.db.profile.questAnnounceCompleted then
         local questLink = QuestieLink:GetQuestLinkStringById(questId)
 
         local message = _GetAnnounceMarker() .. l10n("Quest %s: %s", l10n('Completed'), questLink or "no quest name")

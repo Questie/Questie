@@ -28,7 +28,7 @@ end
 function Questie:OnEnable()
     if Questie.IsWotlk then
         -- Called when the addon is enabled
-        if (Questie.db.char.trackerEnabled and not Questie.db.global.showBlizzardQuestTimer) then
+        if (Questie.db.profile.trackerEnabled and not Questie.db.profile.showBlizzardQuestTimer) then
             WatchFrame:Hide()
         end
     end

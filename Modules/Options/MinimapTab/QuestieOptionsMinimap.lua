@@ -113,7 +113,7 @@ function QuestieOptions.tabs.minimap:Initialize()
                 max = 20,
                 step = 0.5,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
-                disabled = function() return (not Questie.db.global.fadeOverPlayer); end,
+                disabled = function() return (not Questie.db.profile.fadeOverPlayer); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
                 end,
@@ -127,7 +127,7 @@ function QuestieOptions.tabs.minimap:Initialize()
                 min = 0.1,
                 max = 1,
                 step = 0.1,
-                disabled = function() return (not Questie.db.global.fadeOverPlayer); end,
+                disabled = function() return (not Questie.db.profile.fadeOverPlayer); end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)

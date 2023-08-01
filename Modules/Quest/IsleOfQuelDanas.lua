@@ -25,7 +25,7 @@ end
 ---@return boolean
 function IsleOfQuelDanas.CheckForActivePhase(questId)
     local isleQuests = IsleOfQuelDanas.quests
-    if isleQuests[1][questId] and isleQuests[Questie.db.global.isleOfQuelDanasPhase][questId] then
+    if isleQuests[1][questId] and isleQuests[Questie.db.profile.isleOfQuelDanasPhase][questId] then
         -- The accepted quest is one from the Isle Of Quel'Danas
         local phaseToSwitchTo = 2
         for i = 2, IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES do
@@ -37,7 +37,7 @@ function IsleOfQuelDanas.CheckForActivePhase(questId)
         end
 
         Questie:Print(l10n("You picked up a quest from '%s'. Automatically switching to this phase...", IsleOfQuelDanas.localizedPhaseNames[phaseToSwitchTo]))
-        Questie.db.global.isleOfQuelDanasPhase = phaseToSwitchTo
+        Questie.db.profile.isleOfQuelDanasPhase = phaseToSwitchTo
         return true
     end
     return false

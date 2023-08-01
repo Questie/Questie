@@ -166,8 +166,8 @@ function QuestieCorrections:MinimalInit() -- db already compiled
     QuestieCorrections.questNPCBlacklist = filterExpansion(QuestieNPCBlacklist:Load())
     QuestieCorrections.hiddenQuests = filterExpansion(QuestieQuestBlacklist:Load())
 
-    if Questie.db.global.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
-        for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]) do
+    if Questie.db.profile.isleOfQuelDanasPhase == IsleOfQuelDanas.MAX_ISLE_OF_QUEL_DANAS_PHASES then
+        for id, hide in pairs(IsleOfQuelDanas.quests[Questie.db.profile.isleOfQuelDanasPhase]) do
             -- This has to be a nil-check, because the value could be false
             if (QuestieCorrections.hiddenQuests[id] == nil) then
                 QuestieCorrections.hiddenQuests[id] = hide
@@ -185,7 +185,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
         end
     end
 
-    if Questie.db.char.showEventQuests then
+    if Questie.db.profile.showEventQuests then
         C_Timer.After(1, function()
              -- This is done with a delay because on startup the Blizzard API seems to be
              -- very slow and therefore the date calculation in QuestieEvents isn't done

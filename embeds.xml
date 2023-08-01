@@ -37,8 +37,8 @@
                 self:SetFrameLevel(10);
             </OnLoad>
             <OnClick>
-                Questie.db.char.enabled = (not Questie.db.char.enabled);
-                QuestieLoader:ImportModule("QuestieQuest"):ToggleNotes(Questie.db.char.enabled)
+                Questie.db.profile.enabled = (not Questie.db.profile.enabled);
+                QuestieLoader:ImportModule("QuestieQuest"):ToggleNotes(Questie.db.profile.enabled)
             </OnClick>
         </Scripts>
     </Button>

@@ -90,16 +90,16 @@ function QuestieOptions:OpenConfigWindow()
 end
 
 -- get option value
-function QuestieOptions:GetGlobalOptionValue(info)
-    return Questie.db.global[info[#info]]
+function QuestieOptions:GetGlobalOptionValue(info) -- TODO: Remove this?
+    return Questie.db.profile[info[#info]]
 end
 
 -- set option value
-function QuestieOptions:SetGlobalOptionValue(info, value)
-    if debug and Questie.db.global[info[#info]] ~= value then
-        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.global[info[#info]]) .. "' to '" .. tostring(value) .. "'")
+function QuestieOptions:SetGlobalOptionValue(info, value) -- TODO: Remove this?
+    if debug and Questie.db.profile[info[#info]] ~= value then
+        Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.profile[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end
-    Questie.db.global[info[#info]] = value
+    Questie.db.profile[info[#info]] = value
 end
 
 function QuestieOptions:AvailableQuestRedraw()

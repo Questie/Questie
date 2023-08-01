@@ -95,7 +95,7 @@ function TrackerQuestFrame:Update()
         questFrame:Show()
 
         -- Enables Click-Through when the tracker is locked
-        if IsControlKeyDown() or (not Questie.db.global.trackerLocked) then
+        if IsControlKeyDown() or (not Questie.db.profile.trackerLocked) then
             QuestieCombatQueue:Queue(function()
                 questFrame:EnableMouse(true)
                 questFrame:SetMovable(true)
@@ -114,9 +114,9 @@ function TrackerQuestFrame:Update()
 end
 
 function TrackerQuestFrame.PositionTrackedQuestsFrame()
-    local QuestieTrackerLoc = Questie.db[Questie.db.global.questieTLoc].TrackerLocation
-    if Questie.db.global.trackerHeaderEnabled then
-        if Questie.db.global.autoMoveHeader then
+    local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+    if Questie.db.profile.trackerHeaderEnabled then
+        if Questie.db.profile.autoMoveHeader then
             if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
                 -- Auto move tracker header to the bottom
                 questFrame:SetPoint("BOTTOMLEFT", trackerHeaderFrame, "TOPLEFT", 0, 4)
