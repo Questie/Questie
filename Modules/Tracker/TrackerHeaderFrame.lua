@@ -241,7 +241,7 @@ function TrackerHeaderFrame:Update()
         headerFrame.questieIcon:SetHeight(trackerFontSizeZone)
         headerFrame.questieIcon:SetAlpha(0)
 
-        local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+        local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
         if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.autoMoveHeader then
             headerFrame.questieIcon:SetPoint("BOTTOMRIGHT", trackerBaseFrame, "BOTTOMRIGHT", -4, 8)
@@ -256,7 +256,7 @@ function TrackerHeaderFrame:Update()
 end
 
 function TrackerHeaderFrame.PositionTrackerHeaderFrame()
-    local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+    local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
     if Questie.db.profile.autoMoveHeader then
         if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
             -- Auto move tracker header to the bottom

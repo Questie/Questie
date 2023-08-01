@@ -156,6 +156,9 @@ function QuestieOptionsDefaults:Load()
                 hide = false
             },
 
+            TrackerWidth = 0,
+            TrackerHeight = 0,
+
             townsfolkConfig = {},
 
             -- Migration

@@ -179,8 +179,8 @@ function QuestieOptions.tabs.tracker:Initialize()
                 disabled = function()
                     return (not Questie.db.profile.trackerEnabled)
                         or (not Questie.db.profile.trackerHeaderEnabled)
-                        or Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint == "TOPLEFT"
-                        or Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint == "TOPRIGHT"
+                        or Questie.db.profile.trackerSetpoint == "TOPLEFT"
+                        or Questie.db.profile.trackerSetpoint == "TOPRIGHT"
                 end,
                 get = function() return Questie.db.profile.autoMoveHeader end,
                 set = function(_, value)
@@ -627,9 +627,9 @@ function QuestieOptions.tabs.tracker:Initialize()
                         "This determines the direction in which the Questie Tracker grows when you add or remove Quests. For example, if you use the 'Up & Right' option then the ideal place for the Tracker should be in the lower left-hand corner of your screen. This allows the 'Sizer Mode: Auto' to push the Tracker Height and Width 'Up & Right' so the Tracker doesn't inadvertently cover up elements of your UI.\n\nNOTE: This will also move the Active Quests Header (if enabled) to the bottom of the Questie Tracker when using the options 'Up & Right' or the 'Up & Left' setting. You can override this behavior by disabling the 'Auto Move Active Quests Header' option to force the Active Quests Header to remain at the top of the Questie Tracker. The 'Auto Move Active Quests Header' option is disabled when the options 'Down & Right' or 'Down & Left' are used.")
                 end,
                 disabled = function() return not Questie.db.profile.trackerEnabled end,
-                get = function() return Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint end,
+                get = function() return Questie.db.profile.trackerSetpoint end,
                 set = function(_, key)
-                    Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint = key
+                    Questie.db.profile.trackerSetpoint = key
                     QuestieTracker:ResetLocation()
                     QuestieTracker:Update()
                 end
@@ -779,12 +779,12 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.profile.trackerQuestPadding end,
                 set = function(_, value)
                     Questie.db.profile.trackerQuestPadding = value
-                    local trackerHeightByManual = Questie.db[Questie.db.profile.questieTLoc].TrackerHeight
+                    local trackerHeightByManual = Questie.db.profile.TrackerHeight
                     if IsMouseButtonDown("LeftButton") and trackerHeightByManual == 0 then
                         QuestieTracker:Update()
                     elseif IsMouseButtonDown("LeftButton") and trackerHeightByManual > 0 then
-                        Questie.db[Questie.db.profile.questieTLoc].TrackerWidth = 0
-                        Questie.db[Questie.db.profile.questieTLoc].TrackerHeight = 0
+                        Questie.db.profile.TrackerWidth = 0
+                        Questie.db.profile.TrackerHeight = 0
                         QuestieTracker:Update()
                     end
                 end
@@ -837,7 +837,7 @@ function QuestieOptions.tabs.tracker:Initialize()
                 get = function() return Questie.db.profile.trackerHeightRatio * 100 end,
                 set = function(_, value)
                     Questie.db.profile.trackerHeightRatio = value / 100
-                    if IsMouseButtonDown("LeftButton") and Questie.db[Questie.db.profile.questieTLoc].TrackerHeight == 0 then
+                    if IsMouseButtonDown("LeftButton") and Questie.db.profile.TrackerHeight == 0 then
                         TrackerBaseFrame.isSizing = true
                         Questie.db.profile.trackerBackdropEnabled = true
                         Questie.db.profile.trackerBorderEnabled = true

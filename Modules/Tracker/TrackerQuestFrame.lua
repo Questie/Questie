@@ -114,7 +114,7 @@ function TrackerQuestFrame:Update()
 end
 
 function TrackerQuestFrame.PositionTrackedQuestsFrame()
-    local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+    local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
     if Questie.db.profile.trackerHeaderEnabled then
         if Questie.db.profile.autoMoveHeader then
             if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then

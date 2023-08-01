@@ -100,14 +100,14 @@ function QuestieTracker.Initialize()
     if (not Questie.db.char.trackedAchievementIds) then
         Questie.db.char.trackedAchievementIds = {}
     end
-    if (not Questie.db[Questie.db.profile.questieTLoc].TrackerWidth) then
-        Questie.db[Questie.db.profile.questieTLoc].TrackerWidth = 0
+    if (not Questie.db.profile.TrackerWidth) then
+        Questie.db.profile.TrackerWidth = 0
     end
-    if (not Questie.db[Questie.db.profile.questieTLoc].TrackerHeight) then
-        Questie.db[Questie.db.profile.questieTLoc].TrackerHeight = 0
+    if (not Questie.db.profile.TrackerHeight) then
+        Questie.db.profile.TrackerHeight = 0
     end
-    if (not Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint) then
-        Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint = "TOPLEFT"
+    if (not Questie.db.profile.trackerSetpoint) then
+        Questie.db.profile.trackerSetpoint = "TOPLEFT"
     end
 
     -- Initialize tracker frames
@@ -273,11 +273,11 @@ function QuestieTracker:ResetLocation()
     trackerHeaderFrame.trackedQuests:SetMode(1) -- maximized
     Questie.db.char.isTrackerExpanded = true
     Questie.db.char.AutoUntrackedQuests = {}
-    Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = nil
+    Questie.db.profile.TrackerLocation = nil
     Questie.db.char.collapsedQuests = {}
     Questie.db.char.collapsedZones = {}
-    Questie.db[Questie.db.profile.questieTLoc].TrackerWidth = 0
-    Questie.db[Questie.db.profile.questieTLoc].TrackerHeight = 0
+    Questie.db.profile.TrackerWidth = 0
+    Questie.db.profile.TrackerHeight = 0
 
     trackerBaseFrame:SetSize(25, 25)
     TrackerBaseFrame:SetSafePoint()
@@ -1756,7 +1756,7 @@ function QuestieTracker:UpdateFormatting()
 end
 
 function QuestieTracker:UpdateWidth(trackerVarsCombined)
-    local trackerWidthByManual = Questie.db[Questie.db.profile.questieTLoc].TrackerWidth
+    local trackerWidthByManual = Questie.db.profile.TrackerWidth
     local trackerHeaderFrameWidth = (trackerHeaderFrame:GetWidth() + Questie.db.profile.trackerFontSizeHeader + 10)
     local trackerHeaderlessWidth = (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 30)
 
@@ -1801,7 +1801,7 @@ end
 function QuestieTracker:UpdateHeight()
     local trackerHeaderFrameHeight = trackerHeaderFrame:GetHeight() + Questie.db.profile.trackerFontSizeZone + 23
     local trackerHeightByRatio = GetScreenHeight() * Questie.db.profile.trackerHeightRatio
-    local trackerHeightByManual = Questie.db[Questie.db.profile.questieTLoc].TrackerHeight
+    local trackerHeightByManual = Questie.db.profile.TrackerHeight
     local trackerHeightCheck = trackerHeightByManual > 0 and trackerHeightByManual or trackerHeightByRatio
     local trackerHeaderlessHeight = Questie.db.profile.trackerFontSizeZone + 22
 

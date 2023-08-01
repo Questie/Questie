@@ -772,7 +772,7 @@ function TrackerLinePool.UpdateWrappedLineWidths(trackerLineWidth)
 
     -- Updates all the line.label widths in the linePool for wrapped text only
     for _, line in pairs(linePool) do
-        if Questie.db[Questie.db.profile.questieTLoc].TrackerWidth == 0 then
+        if Questie.db.profile.TrackerWidth == 0 then
             if line.mode == "objective" then
                 if line.label:GetNumLines() > 1 and line:GetHeight() > Questie.db.profile.trackerFontSizeObjective then
                     line.label:SetText(line.label:GetText())

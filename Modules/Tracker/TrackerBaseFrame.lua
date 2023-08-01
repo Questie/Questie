@@ -52,7 +52,7 @@ function TrackerBaseFrame.Initialize()
     baseFrame:SetBackdropColor(0, 0, 0, 0)
     baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
 
-    local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+    local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
     if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") then
         sizerSetPoint = "TOPRIGHT"
         sizerSetPointY = -4
@@ -80,7 +80,7 @@ function TrackerBaseFrame.Initialize()
 
         -- Set Sizer mode
         local trackerSizeMode
-        if Questie.db[Questie.db.profile.questieTLoc].TrackerHeight == 0 then
+        if Questie.db.profile.TrackerHeight == 0 then
             trackerSizeMode = Questie:Colorize(l10n("Auto"), "green")
         else
             trackerSizeMode = Questie:Colorize(l10n("Manual"), "orange")
@@ -183,21 +183,21 @@ function TrackerBaseFrame.Initialize()
         sizerLine3:SetTexCoord(1 / 32 - x, 0.5, 1 / 32, 0.5 + x, 1 / 32, 0.5 - x, 1 / 32 + x, 0.5)
     end
 
-    if Questie.db[Questie.db.profile.questieTLoc].TrackerLocation then
+    if Questie.db.profile.TrackerLocation then
         -- we need to pcall this because it can error if something like MoveAnything is used to move the tracker
-        local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack(Questie.db[Questie.db.profile.questieTLoc].TrackerLocation))
+        local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack(Questie.db.profile.TrackerLocation))
 
         if (not result) then
-            Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = nil
+            Questie.db.profile.TrackerLocation = nil
             print(l10n("Error: Questie tracker in invalid location, resetting..."))
             Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
 
             if WatchFrame then
                 local result2, _ = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
-                Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint = "TOPLEFT"
+                Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
                 if (not result2) then
-                    Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = nil
+                    Questie.db.profile.TrackerLocation = nil
                     TrackerBaseFrame:SetSafePoint()
                 end
             else
@@ -207,10 +207,10 @@ function TrackerBaseFrame.Initialize()
     else
         if WatchFrame then
             local result, reason = pcall(baseFrame.SetPoint, baseFrame, unpack({ WatchFrame:GetPoint() }))
-            Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint = "TOPLEFT"
+            Questie.db.profile.trackerSetpoint = "TOPLEFT"
 
             if not result then
-                Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = nil
+                Questie.db.profile.TrackerLocation = nil
                 print(l10n("Error: Questie tracker in invalid location, resetting..."))
                 Questie:Debug(Questie.DEBUG_CRITICAL, "Resetting reason:", reason)
                 TrackerBaseFrame:SetSafePoint()
@@ -254,7 +254,7 @@ function TrackerBaseFrame:Update()
             baseFrame:SetBackdropBorderColor(1, 1, 1, 0)
         end
 
-        local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+        local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
         if QuestieTrackerLoc and (QuestieTrackerLoc[1] == "BOTTOMLEFT" or QuestieTrackerLoc[1] == "BOTTOMRIGHT") and Questie.db.profile.autoMoveHeader then
             -- Move Sizer to Top Right corner
@@ -334,13 +334,13 @@ function TrackerBaseFrame:SetSafePoint()
     end
 
     local xOff, yOff = baseFrame:GetWidth() / 2, baseFrame:GetHeight() / 2
-    local trackerSetPoint = Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint
+    local trackerSetPoint = Questie.db.profile.trackerSetpoint
     local resetCords = { ["BOTTOMLEFT"] = { x = -xOff, y = -yOff }, ["BOTTOMRIGHT"] = { x = xOff, y = -yOff }, ["TOPLEFT"] = { x = -xOff, y = yOff }, ["TOPRIGHT"] = { x = xOff, y = yOff } }
     baseFrame:ClearAllPoints()
 
     if trackerSetPoint then
         baseFrame:SetPoint(trackerSetPoint, UIParent, "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y)
-        Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = { trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y }
+        Questie.db.profile.TrackerLocation = { trackerSetPoint, "UIParent", "CENTER", resetCords[trackerSetPoint].x, resetCords[trackerSetPoint].y }
     end
 
     QuestieTracker:Update()
@@ -399,21 +399,21 @@ local function _UpdateTrackerPosition()
     end
 
     local xLeft, yTop, xRight, yBottom = baseFrame:GetLeft(), baseFrame:GetTop(), baseFrame:GetRight(), baseFrame:GetBottom()
-    local trackerSetPoint = Questie.db[Questie.db.profile.questieTLoc].trackerSetpoint
+    local trackerSetPoint = Questie.db.profile.trackerSetpoint
     baseFrame:ClearAllPoints()
 
     if trackerSetPoint == "BOTTOMLEFT" then
         baseFrame:SetPoint("BOTTOMLEFT", UIParent, xLeft, yBottom)
-        Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xLeft, yBottom }
+        Questie.db.profile.TrackerLocation = { "BOTTOMLEFT", "UIParent", "BOTTOMLEFT", xLeft, yBottom }
     elseif trackerSetPoint == "BOTTOMRIGHT" then
         baseFrame:SetPoint("BOTTOMRIGHT", UIParent, -(GetScreenWidth() - xRight), yBottom)
-        Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = { "BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -(GetScreenWidth() - xRight), yBottom }
+        Questie.db.profile.TrackerLocation = { "BOTTOMRIGHT", "UIParent", "BOTTOMRIGHT", -(GetScreenWidth() - xRight), yBottom }
     elseif trackerSetPoint == "TOPRIGHT" then
         baseFrame:SetPoint("TOPRIGHT", UIParent, -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop))
-        Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = { "TOPRIGHT", "UIParent", "TOPRIGHT", -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop) }
+        Questie.db.profile.TrackerLocation = { "TOPRIGHT", "UIParent", "TOPRIGHT", -(GetScreenWidth() - xRight), -(GetScreenHeight() - yTop) }
     else
         baseFrame:SetPoint("TOPLEFT", UIParent, xLeft, -(GetScreenHeight() - yTop))
-        Questie.db[Questie.db.profile.questieTLoc].TrackerLocation = { "TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop) }
+        Questie.db.profile.TrackerLocation = { "TOPLEFT", "UIParent", "TOPLEFT", xLeft, -(GetScreenHeight() - yTop) }
     end
 
     C_Timer.After(0.12, function()
@@ -477,15 +477,15 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
                         TrackerBaseFrame.baseFrame.isSizing = true
 
                         updateTimer = C_Timer.NewTicker(0.12, function()
-                            local QuestieTrackerLoc = Questie.db[Questie.db.profile.questieTLoc].TrackerLocation
+                            local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
 
                             if QuestieTrackerLoc == nil then
                                 updateTimer:Cancel()
                                 return
                             end
 
-                            Questie.db[Questie.db.profile.questieTLoc].TrackerWidth = baseFrame:GetWidth()
-                            Questie.db[Questie.db.profile.questieTLoc].TrackerHeight = baseFrame:GetHeight()
+                            Questie.db.profile.TrackerWidth = baseFrame:GetWidth()
+                            Questie.db.profile.TrackerHeight = baseFrame:GetHeight()
 
                             -- This keeps the trackers SetPoint "clamped" to the players desired location
                             -- while the tracker lines expand and shrink due to Text Wrapping.
@@ -516,8 +516,8 @@ function TrackerBaseFrame.OnResizeStart(frame, button)
 
                 if button == "RightButton" then
                     Questie:Debug(Questie.DEBUG_DEVELOP, "[TrackerBaseFrame:OnResizeStart] - Resetting Sizer mode.")
-                    Questie.db[Questie.db.profile.questieTLoc].TrackerWidth = 0
-                    Questie.db[Questie.db.profile.questieTLoc].TrackerHeight = 0
+                    Questie.db.profile.TrackerWidth = 0
+                    Questie.db.profile.TrackerHeight = 0
                 end
             end
         end
