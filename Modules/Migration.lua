@@ -14,10 +14,9 @@ local migrationFunctions = {
         end
 
         Questie.db.profile = optionsDefaults.profile
-        Questie.db.global = nil
-        Questie.db.char = {
-            journey = journey
-        }
+        Questie.db.global = optionsDefaults.global
+        Questie.db.char = optionsDefaults.char
+        Questie.db.char.journey = journey
 
         Questie:Print("[Migration] Migrated Questie to v8.9.0")
     end

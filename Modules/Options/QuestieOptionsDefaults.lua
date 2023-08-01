@@ -152,6 +152,10 @@ function QuestieOptionsDefaults:Load()
             soundOnObjectiveProgress = false,
             objectiveProgressSoundChoiceName = "ObjectiveProgress",
 
+            minimap = {
+                hide = false
+            },
+
             -- Migration
             migrationVersion = {},
             globalMigrationSteps = {},

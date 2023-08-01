@@ -46,7 +46,7 @@ function DailyQuests:FilterDailies(message, _, _)
 end
 
 -- /run DailyQuests:FilterDailies("0:0:11364:0:11354:0:11377:0:11667:0:11340:0")
--- /run Questie.db.profile.hiddenDailies = {nhc={},hc={},cooking={},fishing={},pvp={}}
+-- /run Questie.db.char.hiddenDailies = {nhc={},hc={},cooking={},fishing={},pvp={}}
 
 ---@param message string
 ---@return number, number, number, number, number
@@ -69,24 +69,24 @@ end
 ---@return boolean
 function _DailyQuests:ResetIfRequired(nhcQuestId, hcQuestId, cookingQuestId, fishingQuestId, pvpQuestId)
     local somethingChanged = false
-    if nhcQuestId > 0 and (Questie.db.profile.hiddenDailies.nhc[nhcQuestId] or (not next(Questie.db.profile.hiddenDailies.nhc))) and (not IsQuestFlaggedCompleted(nhcQuestId)) then
-        Questie.db.profile.hiddenDailies.nhc = {};
+    if nhcQuestId > 0 and (Questie.db.char.hiddenDailies.nhc[nhcQuestId] or (not next(Questie.db.char.hiddenDailies.nhc))) and (not IsQuestFlaggedCompleted(nhcQuestId)) then
+        Questie.db.char.hiddenDailies.nhc = {};
         somethingChanged = true;
     end
-    if hcQuestId > 0 and (Questie.db.profile.hiddenDailies.hc[hcQuestId] or (not next(Questie.db.profile.hiddenDailies.hc))) and (not IsQuestFlaggedCompleted(hcQuestId)) then
-        Questie.db.profile.hiddenDailies.hc = {};
+    if hcQuestId > 0 and (Questie.db.char.hiddenDailies.hc[hcQuestId] or (not next(Questie.db.char.hiddenDailies.hc))) and (not IsQuestFlaggedCompleted(hcQuestId)) then
+        Questie.db.char.hiddenDailies.hc = {};
         somethingChanged = true;
     end
-    if cookingQuestId > 0 and (Questie.db.profile.hiddenDailies.cooking[cookingQuestId] or (not next(Questie.db.profile.hiddenDailies.cooking))) and (not IsQuestFlaggedCompleted(cookingQuestId)) then
-        Questie.db.profile.hiddenDailies.cooking = {};
+    if cookingQuestId > 0 and (Questie.db.char.hiddenDailies.cooking[cookingQuestId] or (not next(Questie.db.char.hiddenDailies.cooking))) and (not IsQuestFlaggedCompleted(cookingQuestId)) then
+        Questie.db.char.hiddenDailies.cooking = {};
         somethingChanged = true;
     end
-    if fishingQuestId > 0 and (Questie.db.profile.hiddenDailies.fishing[fishingQuestId] or (not next(Questie.db.profile.hiddenDailies.fishing))) and (not IsQuestFlaggedCompleted(fishingQuestId)) then
-        Questie.db.profile.hiddenDailies.fishing = {};
+    if fishingQuestId > 0 and (Questie.db.char.hiddenDailies.fishing[fishingQuestId] or (not next(Questie.db.char.hiddenDailies.fishing))) and (not IsQuestFlaggedCompleted(fishingQuestId)) then
+        Questie.db.char.hiddenDailies.fishing = {};
         somethingChanged = true;
     end
-    if pvpQuestId > 0 and (Questie.db.profile.hiddenDailies.pvp[pvpQuestId] or (not next(Questie.db.profile.hiddenDailies.pvp))) and (not IsQuestFlaggedCompleted(pvpQuestId)) then
-        Questie.db.profile.hiddenDailies.pvp = {};
+    if pvpQuestId > 0 and (Questie.db.char.hiddenDailies.pvp[pvpQuestId] or (not next(Questie.db.char.hiddenDailies.pvp))) and (not IsQuestFlaggedCompleted(pvpQuestId)) then
+        Questie.db.char.hiddenDailies.pvp = {};
         somethingChanged = true;
     end
 
@@ -105,13 +105,13 @@ function _DailyQuests:HandleDailyQuests(possibleQuestIds, currentQuestId, type)
     for questId, _ in pairs(possibleQuestIds) do
         if questId == currentQuestId then
             _DailyQuests.ShowDailyQuest(questId);
-            Questie.db.profile.hiddenDailies[type][questId] = nil;
+            Questie.db.char.hiddenDailies[type][questId] = nil;
         else
             -- If the quest is not in the questlog remove all frames
             if (GetQuestLogIndexByID(questId) == 0) then
                 _DailyQuests:HideDailyQuest(questId);
             end
-            Questie.db.profile.hiddenDailies[type][questId] = true;
+            Questie.db.char.hiddenDailies[type][questId] = true;
         end
     end
 end
@@ -134,7 +134,7 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests:IsActiveDailyQuest(questId)
-    local hiddenQuests = Questie.db.profile.hiddenDailies
+    local hiddenQuests = Questie.db.char.hiddenDailies
     return not (hiddenQuests.nhc[questId] or
         hiddenQuests.hc[questId] or
         hiddenQuests.cooking[questId] or

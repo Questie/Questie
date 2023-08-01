@@ -247,7 +247,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                     Questie.db.global.dbIsCompiled = false
 
                     Questie.db.char.hidden = nil
-                    Questie.db.profile.hiddenDailies = optionsDefaults.char.hiddenDailies;
+                    Questie.db.char.hiddenDailies = optionsDefaults.char.hiddenDailies;
 
                     ReloadUI()
 
