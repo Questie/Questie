@@ -164,7 +164,8 @@ local function _CheckClassicDatabase()
         char = {
             showEventQuests = false
         },
-        global = {}
+        global = {},
+        profile = {}
     }
     QuestieConfig = {}
 
