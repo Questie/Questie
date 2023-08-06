@@ -23,13 +23,12 @@ local migrationFunctions = {
 }
 
 function Migration:Migrate()
+    print("1 Questie.db.profile.migrationVersion", Questie.db.profile.migrationVersion)
     if not Questie.db.profile.migrationVersion then
         Questie.db.profile.migrationVersion = 0
     end
 
-    if not Questie.db.profile.globalMigrationSteps then
-        Questie.db.profile.globalMigrationSteps = {}
-    end
+    print("2 Questie.db.profile.migrationVersion", Questie.db.profile.migrationVersion)
 
     local currentVersion = Questie.db.profile.migrationVersion
     local targetVersion = table.getn(migrationFunctions)
@@ -44,8 +43,10 @@ function Migration:Migrate()
     while currentVersion < targetVersion do
         currentVersion = currentVersion + 1
         migrationFunctions[currentVersion]()
-        Questie.db.profile.globalMigrationSteps[currentVersion] = true
     end
 
+    print("currentVersion", currentVersion)
+
     Questie.db.profile.migrationVersion = currentVersion
+    print("3 Questie.db.profile.migrationVersion", Questie.db.profile.migrationVersion)
 end

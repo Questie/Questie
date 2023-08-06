@@ -17,6 +17,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
+---@type QuestieTracker
+local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
@@ -24,10 +26,13 @@ function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
+    print("Questie.db.profile.__TEST", Questie.db.profile.__TEST)
+    print("Questie.db.profile.migrationVersion", Questie.db.profile.migrationVersion)
+
     -- These events basically all mean the same: The active profile changed.
-    Questie.db.RegisterCallback(self, "OnProfileChanged", "RefreshConfig")
-    Questie.db.RegisterCallback(self, "OnProfileCopied", "RefreshConfig")
-    Questie.db.RegisterCallback(self, "OnProfileReset", "RefreshConfig")
+    Questie.db.RegisterCallback(Questie, "OnProfileChanged", "RefreshConfig")
+    Questie.db.RegisterCallback(Questie, "OnProfileCopied", "RefreshConfig")
+    Questie.db.RegisterCallback(Questie, "OnProfileReset", "RefreshConfig")
 
     QuestieEventHandler:RegisterEarlyEvents()
 end
@@ -48,10 +53,11 @@ function Questie:OnDisable()
     end
 end
 
-function Questie:RefreshConfig(db, newProfileName)
+function Questie:RefreshConfig(db, profile)
     print("Switched Profile!")
-    db = self.db.profile
+    -- TODO: Migration here?
     QuestieQuest:SmoothReset()
+    QuestieTracker:Update()
 end
 
 --- Colorize a string with a color code
