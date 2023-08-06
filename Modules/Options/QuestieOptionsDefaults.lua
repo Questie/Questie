@@ -60,10 +60,6 @@ function QuestieOptionsDefaults:Load()
             enableMiniMapIcons = true,
             questieShutUp = false,
             bugWorkarounds = true,
-            -- TBC Isle of Quel'Danas
-            isleOfQuelDanasPhase = 1,
-            isIsleOfQuelDanasPhaseReminderDisabled = false,
-            --
 
             -- Tracker Settings Tab
             autoTrackQuests = true,
@@ -178,5 +174,11 @@ function QuestieOptionsDefaults:Load()
             journey = {},
             isTrackerExpanded = true,
         },
+        global = {
+            -- TBC Isle of Quel'Danas
+            isleOfQuelDanasPhase = 1,
+            isIsleOfQuelDanasPhaseReminderDisabled = false,
+            --
+        }
     }
 end

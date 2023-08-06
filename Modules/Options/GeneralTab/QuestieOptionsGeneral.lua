@@ -613,9 +613,9 @@ function QuestieOptions.tabs.general:Initialize()
                 name = function() return l10n("Isle of Quel'Danas Phase") end,
                 desc = function() return l10n("Select the phase fitting your realm progress on the Isle of Quel'Danas"); end,
                 disabled = function() return (not Questie.IsWotlk) end,
-                get = function() return Questie.db.profile.isleOfQuelDanasPhase; end,
+                get = function() return Questie.db.global.isleOfQuelDanasPhase; end,
                 set = function(_, key)
-                    Questie.db.profile.isleOfQuelDanasPhase = key
+                    Questie.db.global.isleOfQuelDanasPhase = key
                     QuestieQuest:SmoothReset()
                 end,
             },
@@ -627,9 +627,9 @@ function QuestieOptions.tabs.general:Initialize()
                 desc = function() return l10n("Enable or disable the reminder on login to set the Isle of Quel'Danas phase"); end,
                 disabled = function() return (not Questie.IsWotlk) end,
                 width = 1,
-                get = function() return Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled; end,
+                get = function() return Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled; end,
                 set = function(_, value)
-                    Questie.db.profile.isIsleOfQuelDanasPhaseReminderDisabled = value
+                    Questie.db.global.isIsleOfQuelDanasPhaseReminderDisabled = value
                 end,
             },
             Spacer_A = QuestieOptionsUtils:Spacer(2.9, (not Questie.IsTBC)),
