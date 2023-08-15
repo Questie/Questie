@@ -26,9 +26,6 @@ function Questie:OnInitialize()
     -- This has to happen OnInitialize to be available asap
     Questie.db = LibStub("AceDB-3.0"):New("QuestieConfig", QuestieOptionsDefaults:Load(), true)
 
-    print("Questie.db.profile.__TEST", Questie.db.profile.__TEST)
-    print("Questie.db.profile.migrationVersion", Questie.db.profile.migrationVersion)
-
     -- These events basically all mean the same: The active profile changed.
     Questie.db.RegisterCallback(Questie, "OnProfileChanged", "RefreshConfig")
     Questie.db.RegisterCallback(Questie, "OnProfileCopied", "RefreshConfig")
