@@ -13,8 +13,8 @@ local migrationFunctions = {
             journey = Questie.db.char.journey
         end
 
-        Questie.db.profile = optionsDefaults.profile
-        Questie.db.global = optionsDefaults.global
+        --Questie.db.profile = optionsDefaults.profile
+        --Questie.db.global = optionsDefaults.global
         Questie.db.char = optionsDefaults.char
         Questie.db.char.journey = journey
 
