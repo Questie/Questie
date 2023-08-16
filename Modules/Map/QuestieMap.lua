@@ -628,7 +628,7 @@ function QuestieMap:DrawWorldIcon(data, areaID, x, y, showFlag)
 
         function iconMinimap:FadeLogic()
             local profile = Questie.db.profile
-            if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and Questie and Questie.db and Questie.db.profile and Questie.db.profile.fadeLevel and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
+            if self.miniMapIcon and self.x and self.y and self.texture and self.UiMapID and self.texture.SetVertexColor and HBD and HBD.GetPlayerZonePosition and QuestieLib and QuestieLib.Euclid then
                 if (QuestieMap.playerX and QuestieMap.playerY) then
                     local x, y
                     if not self.worldX then
