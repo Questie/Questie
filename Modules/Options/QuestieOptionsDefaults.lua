@@ -106,8 +106,6 @@ function QuestieOptionsDefaults:Load()
 
             minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
             maxLevelFilter = 7,
-            lastDailyRequestResetTime = 0,
-            lastDailySetDate = "",
             enabled = true,
             lowlevel = false,
             manualMinLevelOffset = false,
@@ -178,6 +176,9 @@ function QuestieOptionsDefaults:Load()
             debugEnabledPrint = false,
             debugLevel = 0,
             skipValidation = false,
+            --
+            lastDailyRequestResetTime = 0,
+            lastDailyRequestDate = "",
         }
     }
 end
