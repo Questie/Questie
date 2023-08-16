@@ -20,9 +20,6 @@ function QuestieOptionsDefaults:Load()
             fadeOverPlayer = true,
             fadeOverPlayerLevel = 0.5,
             fadeOverPlayerDistance = 5,
-            debugEnabled = false,
-            debugEnabledPrint = false,
-            debugLevel = 0,
             nameplateX = -17,
             nameplateY = -7,
             nameplateScale = 1,
@@ -179,6 +176,9 @@ function QuestieOptionsDefaults:Load()
             isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,
             --
+            debugEnabled = false,
+            debugEnabledPrint = false,
+            debugLevel = 0,
         }
     }
 end
