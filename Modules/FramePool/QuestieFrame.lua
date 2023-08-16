@@ -6,8 +6,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieQuestBlacklist
-local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type DailyQuests
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLink
@@ -137,7 +135,7 @@ function _Qframe:OnLeave()
 
     --Reset highlighting if it exists.
     if self.data.lineFrames then
-        for k, lineFrame in pairs(self.data.lineFrames) do
+        for _, lineFrame in pairs(self.data.lineFrames) do
             local line = lineFrame.line
             line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
         end
@@ -345,7 +343,7 @@ function _Qframe:Unload()
     end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
-        for index, lineFrame in pairs(self.data.lineFrames) do
+        for _, lineFrame in pairs(self.data.lineFrames) do
             lineFrame:Unload();
         end
     end
@@ -426,31 +424,30 @@ end
 ---Checks wheather the frame/icon should be hidden or not. Only for quest icons/frames.
 ---@return boolean @True if the frame/icon should be hidden and :FakeHide() should be called, false otherwise
 function _Qframe:ShouldBeHidden()
-    local questieGlobalDB = Questie.db.profile -- TODO: Replace questieGlobalDB and questieCharDB
-    local questieCharDB = Questie.db.profile
+    local profile = Questie.db.profile
     local data = self.data
     local iconType = data.Type -- v6.5.1 values: available, complete, manual, monster, object, item, event. This function is not called with manual.
     local questId = data.Id
 
-    if (not questieCharDB.enabled) -- all quest icons disabled
-        or ((not questieGlobalDB.enableMapIcons) and (not self.miniMapIcon))
-        or ((not questieGlobalDB.enableMiniMapIcons) and (self.miniMapIcon))
-        or ((not questieGlobalDB.enableTurnins) and iconType == "complete")
-        or ((not questieGlobalDB.enableAvailable) and iconType == "available")
-        or ((not questieGlobalDB.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
-        or (Questie.db.profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
-        or (Questie.db.profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
+    if (not profile.enabled) -- all quest icons disabled
+        or ((not profile.enableMapIcons) and (not self.miniMapIcon))
+        or ((not profile.enableMiniMapIcons) and (self.miniMapIcon))
+        or ((not profile.enableTurnins) and iconType == "complete")
+        or ((not profile.enableAvailable) and iconType == "available")
+        or ((not profile.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
+        or (profile.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
+        or (profile.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
         -- i.e. (iconType == "available")  ==  (iconType ~= "monster" and iconType ~= "object" and iconType ~= "event" and iconType ~= "item" and iconType ~= "complete"):
         or (iconType == "available"
             and ((not DailyQuests:IsActiveDailyQuest(questId)) -- hide not-today-dailies
-                or ((not questieCharDB.showRepeatableQuests) and QuestieDB.IsRepeatable(questId))
-                or ((not questieCharDB.showEventQuests) and QuestieDB.IsActiveEventQuest(questId))
-                or ((not questieCharDB.showDungeonQuests) and QuestieDB.IsDungeonQuest(questId))
-                or ((not questieCharDB.showRaidQuests) and QuestieDB.IsRaidQuest(questId))
-                or ((not questieCharDB.showPvPQuests) and QuestieDB.IsPvPQuest(questId))
+                or ((not profile.showRepeatableQuests) and QuestieDB.IsRepeatable(questId))
+                or ((not profile.showEventQuests) and QuestieDB.IsActiveEventQuest(questId))
+                or ((not profile.showDungeonQuests) and QuestieDB.IsDungeonQuest(questId))
+                or ((not profile.showRaidQuests) and QuestieDB.IsRaidQuest(questId))
+                or ((not profile.showPvPQuests) and QuestieDB.IsPvPQuest(questId))
             -- this quest group isn't loaded at all while disabled:
             -- or ((not questieCharDB.showAQWarEffortQuests) and QuestieQuestBlacklist.AQWarEffortQuests[questId])
             )
