@@ -51,9 +51,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Enable Icon Limit'); end,
                 desc = function() return l10n('Enable the limit of icons drawn per type.'); end,
                 width = "full",
-                get = function (info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function (info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n('Setting icon limit value to %s : Redrawing!', value))
                 end,
             },
@@ -67,9 +67,9 @@ function QuestieOptions.tabs.advanced:Initialize()
                 max = 500,
                 step = 10,
                 disabled = function() return (not Questie.db.profile.enableIconLimit); end,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieOptionsUtils:Delay(0.5, QuestieQuest.SmoothReset, l10n('Setting icon limit value to %s : Redrawing!', value))
                 end,
             },

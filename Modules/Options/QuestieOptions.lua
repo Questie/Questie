@@ -90,12 +90,12 @@ function QuestieOptions:OpenConfigWindow()
 end
 
 -- get option value
-function QuestieOptions:GetGlobalOptionValue(info) -- TODO: Remove this?
+function QuestieOptions:GetProfileValue(info)
     return Questie.db.profile[info[#info]]
 end
 
 -- set option value
-function QuestieOptions:SetGlobalOptionValue(info, value) -- TODO: Remove this?
+function QuestieOptions:SetProfileValue(info, value)
     if debug and Questie.db.profile[info[#info]] ~= value then
         Questie:Debug(Questie.DEBUG_SPAM, "DEBUG: global option", info[#info], "changed from '" .. tostring(Questie.db.profile[info[#info]]) .. "' to '" .. tostring(value) .. "'")
     end

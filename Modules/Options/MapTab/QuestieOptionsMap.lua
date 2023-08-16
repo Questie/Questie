@@ -34,9 +34,9 @@ function QuestieOptions.tabs.map:Initialize()
                 name = function() return l10n('Show Questie Map Button'); end,
                 desc = function() return l10n('Enable or disable the Show/Hide Questie Button on Map (May fix some Map Addon interactions).'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
 
                     if value then
                         Questie_Toggle:Show();
@@ -51,9 +51,9 @@ function QuestieOptions.tabs.map:Initialize()
                 name = function() return l10n('Always Glow Behind Map Icons'); end,
                 desc = function() return l10n('Draw a glow texture behind map icons, colored unique to each quest.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieFramePool:UpdateGlowConfig(false, value)
                 end,
             },
@@ -63,9 +63,9 @@ function QuestieOptions.tabs.map:Initialize()
                 name = function() return l10n('Different Map Icon Color for Each Quest'); end,
                 desc = function() return l10n('Show map icons with colors that are randomly generated based on quest ID.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieFramePool:UpdateColorConfig(false, value)
                 end,
             },
@@ -85,10 +85,10 @@ function QuestieOptions.tabs.map:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             availableScale = {
@@ -100,10 +100,10 @@ function QuestieOptions.tabs.map:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             eventScale = {
@@ -115,10 +115,10 @@ function QuestieOptions.tabs.map:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             lootScale = {
@@ -130,10 +130,10 @@ function QuestieOptions.tabs.map:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             monsterScale = {
@@ -145,10 +145,10 @@ function QuestieOptions.tabs.map:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             objectScale = {
@@ -160,10 +160,10 @@ function QuestieOptions.tabs.map:Initialize()
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             Spacer_C = QuestieOptionsUtils:Spacer(2.9),
@@ -178,9 +178,9 @@ function QuestieOptions.tabs.map:Initialize()
                 name = function() return l10n('Player and Cursor Coordinates'); end,
                 desc = function() return l10n("Place the Player's coordinates and Cursor's coordinates on the Map's title."); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
 
                     if not value then
                         QuestieCoords.ResetMapText();
@@ -197,9 +197,9 @@ function QuestieOptions.tabs.map:Initialize()
                 max = 5,
                 step = 1,
                 disabled = function() return not Questie.db.profile.mapCoordinatesEnabled end,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             }
         },

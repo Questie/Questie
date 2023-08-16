@@ -38,9 +38,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 name = function() return l10n('Show DBM HUD'); end,
                 desc = function() return l10n('Enable or disable the DBM Heads Up Display (HUD) overlay for showing map objects.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
 
                     if value then
                         QuestieDBMIntegration:EnableHUD()
@@ -58,9 +58,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 name = function() return l10n('Enable proximity visual for HUD icons'); end,
                 desc = function() return l10n('Changes the color of a HUD icon to red when you are near it.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
@@ -74,9 +74,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 min = 0.01,
                 max = 0.05,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:ChangeRefreshRate(value)
                 end,
             },
@@ -96,9 +96,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 min = 40,
                 max = 200,
                 step = 20,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:ChangeZoomLevel(value)
                 end,
             },
@@ -111,9 +111,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 min = 1,
                 max = 5,
                 step = 0.5,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
@@ -129,9 +129,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 name = function() return l10n('Show quest giver icons'); end,
                 desc = function() return l10n('Toggles whether or not available/complete quest icons appear on HUD. ( Default: %s )', optionsDefaults.global.dbmHUDShowQuest); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
@@ -141,9 +141,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 name = function() return l10n('Show quest slay icons'); end,
                 desc = function() return l10n('Toggles whether or not slay icons appear on HUD. ( Default: %s )', optionsDefaults.global.dbmHUDShowSlay); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
@@ -153,9 +153,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 name = function() return l10n('Show quest loot icons'); end,
                 desc = function() return l10n('Toggles whether or not loot icons appear on HUD. ( Default: %s )', optionsDefaults.global.dbmHUDShowLoot); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
@@ -165,9 +165,9 @@ function QuestieOptions.tabs.dbm:Initialize()
                 name = function() return l10n('Show quest objective icons'); end,
                 desc = function() return l10n('Toggles whether or not objective icons appear on HUD ( Default: %s )', optionsDefaults.global.dbmHUDShowInteract); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieDBMIntegration:SoftReset()
                 end,
             },
