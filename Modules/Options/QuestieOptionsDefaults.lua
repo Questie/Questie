@@ -85,7 +85,6 @@ function QuestieOptionsDefaults:Load()
             listAchievementsFirst = false,
             stickyVoiceOverFrame = false,
             alwaysShowTracker = false,
-            globalTrackerLocation = true,
             trackerColorObjectives = 'minimal',
             trackerSortObjectives = 'byZone',
             trackerbindSetTomTom = 'ctrlleft',
@@ -104,7 +103,6 @@ function QuestieOptionsDefaults:Load()
             trackerFontOutline = "None",
             trackerBackdropAlpha = 1,
             trackerHeightRatio = 0.50,
-            questieTLoc = "char",
 
             minLevelFilter = GetQuestGreenRange("player"), -- Raised the default to allow more quests to be shown
             maxLevelFilter = 7,

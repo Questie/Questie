@@ -484,43 +484,6 @@ function QuestieOptions.tabs.tracker:Initialize()
                     QuestieTracker:Update()
                 end
             },
-            Space_Y = QuestieOptionsUtils:HorizontalSpacer(3.5, 0.1),
-            globalTrackerLocation = {
-                type = "execute",
-                order = 3.6,
-                width = 1.2,
-                name = function()
-                    local buttonName
-                    if Questie.db.profile.globalTrackerLocation then
-                        buttonName = l10n('Save Tracker (Character)')
-                    elseif not
-                        Questie.db.profile.globalTrackerLocation then
-                        buttonName = l10n('Save Tracker (Global)')
-                    end
-                    return buttonName
-                end,
-                desc = function()
-                    local buttonName
-                    if Questie.db.profile.globalTrackerLocation then
-                        buttonName = l10n("The Questie Trackers Location and Set Point is currently being saved Per Character. This allows you to cusomize each character's Tracker location.\n\nNOTE: Upon enabling Per Character, the Questie Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.")
-                    elseif not
-                        Questie.db.profile.globalTrackerLocation then
-                        buttonName = l10n("The Questie Trackers Location and Set Point is currently being saved Globally. This allows you to have one setting for all characters.\n\nNOTE: Upon enabling Global, the Questie Tracker will be reset to the center of your screen. Move the Tracker to your desired location and set the size. When you are ready, type '/reload' to finalize your settings.")
-                    end
-                    return buttonName
-                end,
-                disabled = function() return not Questie.db.profile.trackerEnabled or InCombatLockdown() end,
-                func = function()
-                    if Questie.db.profile.globalTrackerLocation then
-                        Questie.db.profile.questieTLoc = "global"
-                        Questie.db.profile.globalTrackerLocation = false
-                    else
-                        Questie.db.profile.questieTLoc = "char"
-                        Questie.db.profile.globalTrackerLocation = true
-                    end
-                    QuestieTracker:ResetLocation()
-                end
-            },
             Spacer_S = QuestieOptionsUtils:Spacer(3.7),
             colorObjectives = {
                 type = "select",
