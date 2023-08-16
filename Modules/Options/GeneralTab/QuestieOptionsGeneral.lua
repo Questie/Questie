@@ -17,8 +17,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type QuestieTooltips
 local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
----@type QuestieFramePool
-local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 ---@type Sounds
 local Sounds = QuestieLoader:ImportModule("Sounds");
 ---@type l10n
