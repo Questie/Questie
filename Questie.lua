@@ -17,8 +17,8 @@ local QuestieOptionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefault
 local QuestieEventHandler = QuestieLoader:ImportModule("QuestieEventHandler")
 ---@type QuestieQuest
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
----@type QuestieTracker
-local QuestieTracker = QuestieLoader:ImportModule("QuestieTracker")
+---@type TrackerBaseFrame
+local TrackerBaseFrame = QuestieLoader:ImportModule("TrackerBaseFrame")
 ---@type QuestieValidateGameCache
 local QuestieValidateGameCache = QuestieLoader:ImportModule("QuestieValidateGameCache")
 
@@ -54,7 +54,7 @@ function Questie:RefreshConfig(db, profile)
     print("Switched Profile!")
     -- TODO: Migration here?
     QuestieQuest:SmoothReset()
-    QuestieTracker:Update()
+    TrackerBaseFrame:OnProfileChange()
 end
 
 --- Colorize a string with a color code

@@ -563,3 +563,20 @@ function TrackerBaseFrame.OnResizeStop(frame, button)
         QuestieCombatQueue:Queue(_UpdateTrackerPosition)
     end
 end
+
+function TrackerBaseFrame:OnProfileChange()
+    local QuestieTrackerLoc = Questie.db.profile.TrackerLocation
+
+    if QuestieTrackerLoc then
+        baseFrame:ClearAllPoints()
+        baseFrame:SetPoint(QuestieTrackerLoc[1], QuestieTrackerLoc[2], QuestieTrackerLoc[3], QuestieTrackerLoc[4], QuestieTrackerLoc[5])
+
+        C_Timer.After(0.12, function()
+            QuestieCombatQueue:Queue(function()
+                QuestieTracker:Update()
+            end)
+        end)
+    else
+        _UpdateTrackerPosition()
+    end
+end
