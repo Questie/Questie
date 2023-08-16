@@ -177,6 +177,7 @@ function QuestieOptionsDefaults:Load()
             debugEnabled = false,
             debugEnabledPrint = false,
             debugLevel = 0,
+            skipValidation = false,
         }
     }
 end

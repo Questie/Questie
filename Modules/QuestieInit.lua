@@ -100,7 +100,7 @@ end
 
 ---Run the validator
 local function runValidator()
-    if Questie.db.profile.skipValidation then
+    if Questie.db.global.skipValidation then
         -- TODO: We need a checkbox for this setting
         return
     end
