@@ -216,7 +216,7 @@ item = function(itemId, objective)
                         if (not ret[id]) then
                             local icon, GetIconScale
                             if source.Type == "object" then
-                                icon = ICON_TYPE_OBJECT
+                                icon = Questie.ICON_TYPE_OBJECT
                                 GetIconScale = _GetIconScaleForObject
                             else
                                 icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and Questie.ICON_TYPE_LOOT or Questie.ICON_TYPE_EVENT
