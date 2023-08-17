@@ -227,6 +227,8 @@ local migrationFunctions = {
 }
 
 function Migration:Migrate()
+    print("|cff30fc96Questie|r: |cffff0000Please note:|r One of the next Questie releases will reset your settings. We advice you to backup your Questie related Saved Variables as precaution.")
+
     if not Questie.db.global.migrationVersion then
         Questie.db.global.migrationVersion = {}
     end
