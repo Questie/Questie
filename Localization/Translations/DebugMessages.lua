@@ -422,6 +422,18 @@ local debugMessagesLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as precaution."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "Обратите внимание: один из следующих релизов Questie сбросит ваши настройки. Мы советуем вам сделать резервную копию настроек Questie, находящихся в папке Saved Variables вашего аккаунта.",
+        ["deDE"] = "Hinweis: Mit einem der nächsten Questie-Releases werden deine Einstellungen zurückgesetzt. Zur Sicherheit solltest du ein Backup deiner Questie-SavedVariables erstellen.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(debugMessagesLocales) do
