@@ -298,11 +298,11 @@ function QuestieOptions.tabs.general:Initialize()
                         set = function(info, value)
                             Questie.db.profile.usePfQuestIcons = value
                             if value then
-                                Questie.db.global.ICON_SLAY = Questie.icons["node"]
-                                Questie.db.global.ICON_LOOT = Questie.icons["node"]
-                                Questie.db.global.ICON_EVENT = Questie.icons["node"]
-                                Questie.db.global.ICON_OBJECT = Questie.icons["node"]
-                                Questie.db.global.ICON_TALK = Questie.icons["node"]
+                                Questie.db.profile.ICON_SLAY = Questie.icons["node"]
+                                Questie.db.profile.ICON_LOOT = Questie.icons["node"]
+                                Questie.db.profile.ICON_EVENT = Questie.icons["node"]
+                                Questie.db.profile.ICON_OBJECT = Questie.icons["node"]
+                                Questie.db.profile.ICON_TALK = Questie.icons["node"]
                                 -- TODO remove these setting changes once we have a style selection window/frame
                                 Questie.db.profile.questObjectiveColors = true
                                 Questie.db.profile.alwaysGlowMap = false
@@ -310,11 +310,11 @@ function QuestieOptions.tabs.general:Initialize()
                                 Questie.db.profile.alwaysGlowMinimap = false
                                 Questie.db.profile.clusterLevelHotzone = 1
                             else
-                                Questie.db.global.ICON_SLAY = Questie.icons["slay"]
-                                Questie.db.global.ICON_LOOT = Questie.icons["loot"]
-                                Questie.db.global.ICON_EVENT = Questie.icons["event"]
-                                Questie.db.global.ICON_OBJECT = Questie.icons["object"]
-                                Questie.db.global.ICON_TALK = Questie.icons["talk"]
+                                Questie.db.profile.ICON_SLAY = Questie.icons["slay"]
+                                Questie.db.profile.ICON_LOOT = Questie.icons["loot"]
+                                Questie.db.profile.ICON_EVENT = Questie.icons["event"]
+                                Questie.db.profile.ICON_OBJECT = Questie.icons["object"]
+                                Questie.db.profile.ICON_TALK = Questie.icons["talk"]
                                 -- TODO remove these setting changes once we have a style selection window/frame
                                 Questie.db.profile.questObjectiveColors = false
                                 Questie.db.profile.alwaysGlowMap = true
@@ -360,10 +360,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Slay objectives') end,
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to kill an NPC'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_SLAY) or "slay"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_SLAY) or "slay"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_SLAY = Questie.icons[key]
+                                    Questie.db.profile.ICON_SLAY = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -376,10 +376,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Loot objectives') end,
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to loot an item'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_LOOT) or "loot"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_LOOT) or "loot"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_LOOT = Questie.icons[key]
+                                    Questie.db.profile.ICON_LOOT = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -392,10 +392,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Object objectives') end,
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to interact with an object'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_OBJECT) or "object"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_OBJECT) or "object"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_OBJECT = Questie.icons[key]
+                                    Questie.db.profile.ICON_OBJECT = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -408,10 +408,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Event objectives') end,
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to do something in a certain area, like exploring it or casting a spell there'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENT) or "event"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENT) or "event"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_EVENT = Questie.icons[key]
+                                    Questie.db.profile.ICON_EVENT = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -424,10 +424,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Talk objectives') end,
                                 desc = function() return l10n('The icon that is displayed for quest objectives where you need to talk to an NPC'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_TALK) or "talk"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_TALK) or "talk"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_TALK = Questie.icons[key]
+                                    Questie.db.profile.ICON_TALK = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -445,10 +445,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Available quests') end,
                                 desc = function() return l10n('The icon that is displayed for available quests'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_AVAILABLE) or "available"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_AVAILABLE) or "available"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_AVAILABLE = Questie.icons[key]
+                                    Questie.db.profile.ICON_AVAILABLE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -461,10 +461,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Unavailable and trivial quests') end,
                                 desc = function() return l10n('The icon that is displayed for quests that require additional conditions to be met before they can be accepted, or are so low level they don\'t reward experience'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_AVAILABLE_GRAY) or "available_gray"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_AVAILABLE_GRAY) or "available_gray"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_AVAILABLE_GRAY = Questie.icons[key]
+                                    Questie.db.profile.ICON_AVAILABLE_GRAY = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -477,10 +477,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Complete quests') end,
                                 desc = function() return l10n('The icon that is displayed for completed quests that can be handed in'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_COMPLETE) or "complete"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_COMPLETE) or "complete"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_COMPLETE = Questie.icons[key]
+                                    Questie.db.profile.ICON_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -498,10 +498,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Available repeatable quests') end,
                                 desc = function() return l10n('The icon that is displayed for available repeatable quests like dailies'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_REPEATABLE) or "repeatable"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE) or "repeatable"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_REPEATABLE = Questie.icons[key]
+                                    Questie.db.profile.ICON_REPEATABLE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -514,10 +514,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Complete repeatable quests') end,
                                 desc = function() return l10n('The icon that is displayed for repeatable quests that can be handed in'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_REPEATABLE_COMPLETE) or "repeatable_complete"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_REPEATABLE_COMPLETE) or "repeatable_complete"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_REPEATABLE_COMPLETE = Questie.icons[key]
+                                    Questie.db.profile.ICON_REPEATABLE_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -535,10 +535,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Available event quests') end,
                                 desc = function() return l10n('The icon that is displayed for available event quests during holidays'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENTQUEST) or "eventquest"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST) or "eventquest"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_EVENTQUEST = Questie.icons[key]
+                                    Questie.db.profile.ICON_EVENTQUEST = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -551,10 +551,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Complete event quests') end,
                                 desc = function() return l10n('The icon that is displayed for event quests that can be handed in'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_EVENTQUEST_COMPLETE) or "eventquest_complete"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_EVENTQUEST_COMPLETE) or "eventquest_complete"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_EVENTQUEST_COMPLETE = Questie.icons[key]
+                                    Questie.db.profile.ICON_EVENTQUEST_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -572,10 +572,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Available PvP quests') end,
                                 desc = function() return l10n('The icon that is displayed for available PvP quests'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_PVPQUEST) or "pvpquest"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST) or "pvpquest"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_PVPQUEST = Questie.icons[key]
+                                    Questie.db.profile.ICON_PVPQUEST = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
@@ -588,10 +588,10 @@ function QuestieOptions.tabs.general:Initialize()
                                 style = 'dropdown',
                                 name = function() return l10n('Complete PvP quests') end,
                                 desc = function() return l10n('The icon that is displayed for PvP quests that can be handed in'); end,
-                                get = function() return Questie:GetIconNameFromPath(Questie.db.global.ICON_PVPQUEST_COMPLETE) or "pvpquest_complete"; end,
+                                get = function() return Questie:GetIconNameFromPath(Questie.db.profile.ICON_PVPQUEST_COMPLETE) or "pvpquest_complete"; end,
                                 disabled = function() return (not Questie.db.profile.enabled); end,
                                 set = function(input, key)
-                                    Questie.db.global.ICON_PVPQUEST_COMPLETE = Questie.icons[key]
+                                    Questie.db.profile.ICON_PVPQUEST_COMPLETE = Questie.icons[key]
                                     Questie:SetIcons()
                                     QuestieQuest:SmoothReset()
                                 end,
