@@ -229,7 +229,7 @@ local migrationFunctions = {
 }
 
 function Migration:Migrate()
-    print("|cff30fc96Questie|r: " .. l10n("|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as precaution."))
+    print("|cff30fc96Questie|r: " .. l10n("|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."))
 
     if not Questie.db.global.migrationVersion then
         Questie.db.global.migrationVersion = {}
