@@ -2527,6 +2527,9 @@ function QuestieQuestFixes:Load()
         [7787] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
         },
+        [7795] = {
+            [questKeys.preQuestSingle] = {7794},
+        },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
         },
