@@ -3384,6 +3384,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
         },
+        [13663] = {
+            [questKeys.objectives] = {{{33513,"Black Knight's Gryphon taken"}},nil,{{45121},{45122}}},
+        },
         [13664] = {
             [questKeys.preQuestSingle] = {13700,13701},
             [questKeys.extraObjectives] = {
