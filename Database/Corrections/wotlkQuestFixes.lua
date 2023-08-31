@@ -3394,6 +3394,9 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Cavin"), 0, {{"monster", 33522}}},
             },
         },
+        [13665] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33800}}}},
+        },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679,13669,13670},
@@ -3546,6 +3549,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13741,13742},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
+        [13745] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}}},
+        },
         [13746] = {
             [questKeys.exclusiveTo] = {13747,13748},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
@@ -3556,6 +3562,9 @@ function QuestieWotlkQuestFixes:Load()
         [13748] = {
             [questKeys.exclusiveTo] = {13746,13747},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+        },
+        [13750] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33793}}}},
         },
         [13752] = {
             [questKeys.exclusiveTo] = {13753,13754},
@@ -3568,6 +3577,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13752,13753},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
+        [13756] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33790}}}},
+        },
         [13757] = {
             [questKeys.exclusiveTo] = {13758,13759},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
@@ -3578,6 +3590,9 @@ function QuestieWotlkQuestFixes:Load()
         [13759] = {
             [questKeys.exclusiveTo] = {13757,13758},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+        },
+        [13761] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794}}}},
         },
         [13762] = {
             [questKeys.exclusiveTo] = {13763,13764},
