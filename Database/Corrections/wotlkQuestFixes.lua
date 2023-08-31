@@ -3361,7 +3361,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
         [13625] = {
-            [questKeys.objectives] = {{{33973,"Use Thrust on Melee Target"},{33974,"Use Shield-Breaker on vulnerable Ranged Target"},{33972,"Use Charge on vulnerable Charge Target"}}},
+            [questKeys.objectives] = {{{33229,"Use Thrust on Melee Target"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"},{33272,"Use Charge on vulnerable Charge Target"}}},
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
@@ -3374,7 +3374,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{32871},nil,{46052}},
         },
         [13633] = {
-            [questKeys.preQuestSingle] = {13668},
+            [questKeys.preQuestSingle] = {13667},
         },
         [13634] = {
             [questKeys.preQuestSingle] = {13668},
@@ -3383,6 +3383,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {7722},
             [questKeys.requiredMinRep] = {59,3000},
             [questKeys.requiredMaxRep] = {59,9000},
+        },
+        [13663] = {
+            [questKeys.objectives] = {{{33513,"Black Knight's Gryphon taken"}},nil,{{45121},{45122}}},
         },
         [13664] = {
             [questKeys.preQuestSingle] = {13700,13701},
@@ -3393,18 +3396,18 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
-            [questKeys.exclusiveTo] = {13679},
+            [questKeys.exclusiveTo] = {13679,13669,13670},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
         },
         [13669] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
-            [questKeys.exclusiveTo] = {13679},
+            [questKeys.exclusiveTo] = {13679,13666,13670},
             [questKeys.parentQuest] = 0,
         },
         [13670] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
-            [questKeys.exclusiveTo] = {13679},
+            [questKeys.exclusiveTo] = {13679,13666,13669},
             [questKeys.parentQuest] = 0,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
         },
