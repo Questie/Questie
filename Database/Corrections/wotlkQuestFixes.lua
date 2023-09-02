@@ -70,7 +70,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSkill] = {393,1},
         },
         [836] = {
-            [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS]={{49.8,43.8}}}},
+            [questKeys.triggerEnd] = {"Escort OOX-09/HL to safety", {[zoneIDs.THE_HINTERLANDS]={{57.81,50.2}}}},
         },
         [910] = {
             [questKeys.questLevel] = -1,
