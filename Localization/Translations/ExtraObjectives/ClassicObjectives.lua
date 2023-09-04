@@ -158,7 +158,7 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse."] = { -- 3520
+    ["Slay Vale Screechers and use Veh'kinya's Bramble on their corpse."] = { -- 3520
         ["ptBR"] = false,
         ["ruRU"] = "Убейте Норовистого дольного крикуна, а затем используйте Колючку Йе'киньи на его трупе.",
         ["deDE"] = "Erschlagt Wilde Talkreischer und benutzt dann Veh'kinya's Stab auf ihren Körpern.",
