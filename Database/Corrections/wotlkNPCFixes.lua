@@ -86,6 +86,10 @@ function QuestieWotlkNpcFixes:Load()
             [zoneIDs.DALARAN]={{48.96,44.53},{49.35,43.57},{49.78,44.62}},
             [zoneIDs.SHATTRATH_CITY]={{53.51,34.4},{53.32,35.34},{52.88,34.63}}},
         },
+        [16226] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{74.46,52.15}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [16281] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.39}}},
         },
