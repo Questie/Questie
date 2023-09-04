@@ -170,6 +170,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use the Gorishi Queen Lure."] = { -- 4507
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Summon Xabraxxis once you have the required items from the Blackwood Stores."] = { -- 4763
         ["ptBR"] = false,
         ["ruRU"] = false,
