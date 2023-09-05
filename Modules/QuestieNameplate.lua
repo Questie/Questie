@@ -41,8 +41,8 @@ function QuestieNameplate:NameplateCreated(token)
     end
 
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
-    if unitType ~= "Creature" then
-        -- We only draw name plates on NPCs/creatures and skip players, pets, etc
+    if unitType ~= "Creature" and unitType ~= "Vehicle" then
+        -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
@@ -143,8 +143,8 @@ function QuestieNameplate:DrawTargetFrame()
     end
 
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
-    if unitType ~= "Creature" then
-        -- We only draw name plates on NPCs/creatures and skip players, pets, etc
+    if unitType ~= "Creature" and unitType ~= "Vehicle" then
+        -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
