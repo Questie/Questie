@@ -1414,6 +1414,10 @@ function QuestieQuestFixes:Load()
         [3903] = {
             [questKeys.preQuestSingle] = {18},
         },
+        [3909] = {
+            [questKeys.requiredSourceItems] = {11141,11242},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bait in front of Miblon Snarltooth."), 0, {{"monster", 9467}}}},
+        },
         [3982] = {
             [questKeys.triggerEnd] = {"Survive the Onslaught", {[zoneIDs.SEARING_GORGE]={{27.11,72.56}}}},
         },
