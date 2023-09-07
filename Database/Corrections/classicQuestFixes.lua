@@ -1171,10 +1171,10 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {nil,{142122,150075},nil}, -- #1081
         },
         [2784] = {
-            [questKeys.triggerEnd] = {"The Tale of Sorrow", {[zoneIDs.SWAMP_OF_SORROWS]={{34.28,65.96}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{7572},7572,"The Tale of Sorrow"}}},
         },
         [2801] = {
-            [questKeys.triggerEnd] = {"A Tale of Sorrow", {[zoneIDs.SWAMP_OF_SORROWS]={{34.24,66.02}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{7572},7572,"A Tale of Sorrow"}}},
         },
         [2843] = {
             [questKeys.triggerEnd] = {"Goblin Transponder", {[zoneIDs.STRANGLETHORN_VALE]={{27.56,77.42}}}},
@@ -1330,7 +1330,7 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{5797},nil,{10621}},
         },
         [3520] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Rogue Vale Screecher and use Veh'kinya's Bramble on their corpse."), 0, {{"monster", 5308}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Vale Screechers and use Veh'kinya's Bramble on their corpse."), 0, {{"monster", 5307},{"monster", 5308}}}},
         },
         [3525] = {
             [questKeys.triggerEnd] = {"Protect Belnistrasz while he performs the ritual to shut down the idol", {[zoneIDs.THE_BARRENS]={{50.86,92.87}}}},
@@ -1569,6 +1569,9 @@ function QuestieQuestFixes:Load()
         [4506] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Release the kitten near the Jadefire Satyrs' corrupted moonwell."), 0, {{"object", 148501}}}},
             [questKeys.triggerEnd] = {"Return the corrupted cat to Winna Hazzard", {[zoneIDs.FELWOOD]={{34.26,52.32}}}},
+        },
+        [4507] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Gorishi Queen Lure."), 0, {{"object", 174792}}}},
         },
         [4542] = {
             [questKeys.exclusiveTo] = {4841},
@@ -2342,7 +2345,8 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{1365},nil,nil},
         },
         [7067] = {
-            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765},
+            [questKeys.requiredSourceItems] = {17757,17761,17762,17763,17764,17765,17781},
+            [questKeys.sourceItemId] = 17757,
         },
         [7068] = {
             [questKeys.requiredLevel] = 39,
@@ -2526,6 +2530,9 @@ function QuestieQuestFixes:Load()
         },
         [7787] = {
             [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
+        },
+        [7795] = {
+            [questKeys.preQuestSingle] = {7794},
         },
         [7816] = {
             [questKeys.preQuestSingle] = {}, -- #2247
