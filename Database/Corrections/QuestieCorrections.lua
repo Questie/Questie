@@ -75,10 +75,6 @@ QuestieCorrections.TBC_AND_WOTLK = 4
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 
--- used during Precompile, how fast to run operations (lower = slower but less lag)
-local TICKS_PER_YIELD_DEBUG = 4000
-local TICKS_PER_YIELD = 72
-
 -- this function filters a table of values, if the value is TBC_ONLY or CLASSIC_ONLY, set it to true or nil if that case is met
 ---@generic T
 ---@param values T
