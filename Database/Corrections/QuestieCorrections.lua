@@ -17,6 +17,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local QuestieNPCBlacklist = QuestieLoader:ImportModule("QuestieNPCBlacklist")
 ---@type QuestieItemBlacklist
 local QuestieItemBlacklist = QuestieLoader:ImportModule("QuestieItemBlacklist")
+---@type HardcoreBlacklist
+local HardcoreBlacklist = QuestieLoader:ImportModule("HardcoreBlacklist")
 
 ---@type QuestieQuestFixes
 local QuestieQuestFixes = QuestieLoader:ImportModule("QuestieQuestFixes")
@@ -182,6 +184,12 @@ function QuestieCorrections:MinimalInit() -- db already compiled
             if (QuestieCorrections.hiddenQuests[id] == nil) then
                 QuestieCorrections.hiddenQuests[id] = hide
             end
+        end
+    end
+
+    if (Questie.IsHardcore) then
+        for id, _ in pairs(HardcoreBlacklist:Load()) do
+            QuestieCorrections.hiddenQuests[id] = true
         end
     end
 
