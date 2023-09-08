@@ -1305,7 +1305,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 2201,
         },
         [3377] = {
-            [questKeys.triggerEnd] = {"Zamael Story",{[zoneIDs.SEARING_GORGE]={{29.59, 26.38}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8436},8436,"Zamael Story"}}},
         },
         [3382] = {
             [questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[zoneIDs.AZSHARA]={{52.86,87.77}}}},
