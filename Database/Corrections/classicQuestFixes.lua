@@ -1502,9 +1502,6 @@ function QuestieQuestFixes:Load()
         [4136] = {
             [questKeys.preQuestSingle] = {}, -- #4459
         },
-        [4143] = {
-            [questKeys.zoneOrSort] = 1477,
-        },
         [4144] = {
             [questKeys.specialFlags] = 1, -- #1590
         },
