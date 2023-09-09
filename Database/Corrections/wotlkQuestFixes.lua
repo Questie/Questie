@@ -1934,7 +1934,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{29746}}},
         },
         [12930] = {
-            [questKeys.exclusiveTo] = {{{12929}}},
+            [questKeys.exclusiveTo] = {12929},
         },
         [12932] = {
             [questKeys.objectives] = {{{30014}}},
