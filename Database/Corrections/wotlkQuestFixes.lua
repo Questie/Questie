@@ -148,6 +148,9 @@ function QuestieWotlkQuestFixes:Load()
         [2279] = {
             [questKeys.preQuestSingle] = {2278},
         },
+        [2701] = {
+            [questKeys.finishedBy] = {nil,{141980}},
+        },
         [2767] = {
             [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{55.63,51.35}}}},
         },
@@ -168,6 +171,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [4127] = {
             [questKeys.startedBy] = {nil,{164909,186419}},
+        },
+        [4144] = {
+            [questKeys.specialFlags] = nil,
         },
         [4362] = {
             [questKeys.preQuestSingle] = {4361},
@@ -209,6 +215,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [7024] = {
             [questKeys.exclusiveTo] = {6962},
+        },
+        [7641] = {
+            [questKeys.preQuestSingle] = {7638,7670},
         },
         [7800] = {
             [questKeys.preQuestSingle] = {},
@@ -284,6 +293,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
+        },
+        [9248] = {
+            [questKeys.requiredMinRep] = {609,0},
         },
         [9358] = {
             [questKeys.exclusiveTo] = {9252},

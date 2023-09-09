@@ -391,6 +391,8 @@ globals = {
     "C_FriendList.SetWhoToUi",
     "C_FriendList.ShowFriends",
     "C_FriendList.SortWho",
+    "C_GameRules",
+    "C_GameRules.IsHardcoreActive",
     "C_GossipInfo",
     "C_GossipInfo.GetActiveQuests",
     "C_GossipInfo.GetAvailableQuests",
