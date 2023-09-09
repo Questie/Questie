@@ -3641,6 +3641,9 @@ function QuestieQuestFixes:Load()
         [9246] = {
             [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
         },
+        [9248] = {
+            [questKeys.requiredMinRep] = {609,0},
+        },
         [9260] = {
             [questKeys.triggerEnd] = {"Investigate a circle", {[zoneIDs.ELWYNN_FOREST] = {{34.72,50.95},{34.18,48.47},{32.24,53.77},{35.05,55.22}}}},
         },
