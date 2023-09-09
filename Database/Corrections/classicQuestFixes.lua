@@ -1314,7 +1314,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
         },
         [3441] = {
-            [questKeys.triggerEnd] = {"Kalaran Story", {[zoneIDs.SEARING_GORGE]={{39.03,38.94}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8479},8479,"Kalaran Story"}}},
         },
         [3449] = {
             [questKeys.childQuests] = {3483}, -- #1008
