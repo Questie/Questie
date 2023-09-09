@@ -298,9 +298,6 @@ function QuestieWotlkQuestFixes:Load()
         [9247] = {
             [questKeys.finishedBy] = {{16281}},
         },
-        [9248] = {
-            [questKeys.requiredMinRep] = {609,0},
-        },
         [9358] = {
             [questKeys.exclusiveTo] = {9252},
         },
