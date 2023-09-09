@@ -2483,6 +2483,9 @@ function QuestieQuestFixes:Load()
         [7633] = {
             [questKeys.preQuestSingle] = {7632},
         },
+        [7640] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Exorcise the spirits"), 0, {{"object", 179747}}}},
+        },
         [7668] = { -- #1344
             [questKeys.name] = "The Darkreaver Menace",
             [questKeys.startedBy] = {{13417},nil,nil},
