@@ -1305,7 +1305,7 @@ function QuestieQuestFixes:Load()
             [questKeys.parentQuest] = 2201,
         },
         [3377] = {
-            [questKeys.triggerEnd] = {"Zamael Story",{[zoneIDs.SEARING_GORGE]={{29.59, 26.38}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8436},8436,"Zamael Story"}}},
         },
         [3382] = {
             [questKeys.triggerEnd] = {"Protect Captain Vanessa Beltis from the naga attack", {[zoneIDs.AZSHARA]={{52.86,87.77}}}},
@@ -1314,7 +1314,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {197,226}, -- You need to be an Artisan for this quest
         },
         [3441] = {
-            [questKeys.triggerEnd] = {"Kalaran Story", {[zoneIDs.SEARING_GORGE]={{39.03,38.94}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{8479},8479,"Kalaran Story"}}},
         },
         [3449] = {
             [questKeys.childQuests] = {3483}, -- #1008
@@ -1414,6 +1414,10 @@ function QuestieQuestFixes:Load()
         [3903] = {
             [questKeys.preQuestSingle] = {18},
         },
+        [3909] = {
+            [questKeys.requiredSourceItems] = {11141,11242},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bait in front of Miblon Snarltooth."), 0, {{"monster", 9467}}}},
+        },
         [3982] = {
             [questKeys.triggerEnd] = {"Survive the Onslaught", {[zoneIDs.SEARING_GORGE]={{27.11,72.56}}}},
         },
@@ -1421,7 +1425,16 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Information Gathered from Kharan", {[zoneIDs.SEARING_GORGE]={{27.12,72.56}}}},
         },
         [4022] = {
-            [questKeys.triggerEnd] = {"Proof Presented", {[zoneIDs.BURNING_STEPPES]={{95,31.61}}}},
+            [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,"Proof Presented"}}},
+            [questKeys.objectivesText] = {"Show Cyrus Therepentous the Black Dragonflight Molt you received from Kalaran Windblade."},
+        },
+        [4023] = {
+            [questKeys.exclusiveTo] = {3481,4022},
+        },
+        [4024] = {
+            [questKeys.preQuestGroup] = {4022,4023}, -- it has to be preQuestGroup or it shows prematurely
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectivesText] = {"Travel to Blackrock Depths and slay Bael'Gar.","","You only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.","","Return the Encased Fiery Essence to Cyrus Therepentous."},
         },
         [4083] = {
             [questKeys.requiredSkill] = {186,230}, -- #1293
@@ -1497,9 +1510,6 @@ function QuestieQuestFixes:Load()
         },
         [4136] = {
             [questKeys.preQuestSingle] = {}, -- #4459
-        },
-        [4143] = {
-            [questKeys.zoneOrSort] = 1477,
         },
         [4144] = {
             [questKeys.specialFlags] = 1, -- #1590
