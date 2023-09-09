@@ -1933,6 +1933,9 @@ function QuestieWotlkQuestFixes:Load()
         [12927] = {
             [questKeys.objectives] = {{{29746}}},
         },
+        [12930] = {
+            [questKeys.exclusiveTo] = {{{12929}}},
+        },
         [12932] = {
             [questKeys.objectives] = {{{30014}}},
             [questKeys.exclusiveTo] = {12954},
