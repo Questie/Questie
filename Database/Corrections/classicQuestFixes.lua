@@ -1425,7 +1425,15 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Information Gathered from Kharan", {[zoneIDs.SEARING_GORGE]={{27.12,72.56}}}},
         },
         [4022] = {
-            [questKeys.triggerEnd] = {"Proof Presented", {[zoneIDs.BURNING_STEPPES]={{95,31.61}}}},
+            [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,"Proof Presented"}}},
+            [questKeys.objectivesText] = {"Show Cyrus Therepentous the Black Dragonflight Molt you received from Kalaran Windblade."},
+        },
+        [4023] = {
+            [questKeys.exclusiveTo] = {3481,4022},
+        },
+        [4024] = {
+            [questKeys.preQuestGroup] = {4022,4023}, -- it has to be preQuestGroup or it shows prematurely
+            [questKeys.preQuestSingle] = {},
         },
         [4083] = {
             [questKeys.requiredSkill] = {186,230}, -- #1293
