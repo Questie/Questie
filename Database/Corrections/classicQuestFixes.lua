@@ -1427,7 +1427,7 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{9020,"Survive the Onslaught"}}},
         },
         [4001] = {
-            [questKeys.triggerEnd] = {"Information Gathered from Kharan", {[zoneIDs.SEARING_GORGE]={{27.12,72.56}}}},
+            [questKeys.objectives] = {{{9021,"Information Gathered from Kharan"}}},
         },
         [4022] = {
             [questKeys.objectives] = {nil,nil,{{10575}},nil,{{{9459},9459,"Proof Presented"}}},
