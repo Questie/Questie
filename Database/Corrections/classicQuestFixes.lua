@@ -1341,6 +1341,11 @@ function QuestieQuestFixes:Load()
         [3625] = {
             [questKeys.objectives] = {{{7802,"Weaponry Creation"}}},
         },
+        [3628] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Teleport to the top of the mountain."), 0, {{"object", 153203},{"monster", 8816}}},
+                                          {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Ward of the Defiler to summon Razelikh."), 0, {{"object", 153205}}},
+			},
+        },
         [3629] = {
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
