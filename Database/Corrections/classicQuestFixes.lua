@@ -1153,7 +1153,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Escort Rin'ji to safety", {[zoneIDs.THE_HINTERLANDS]={{34.58,56.33}}}},
         },
         [2744] = {
-            [questKeys.triggerEnd] = {"Conversation with Loramus", {[zoneIDs.AZSHARA]={{60.8,66.4}}}},
+            [questKeys.objectives] = {{{7783,"Conversation with Loramus"}}},
         },
         [2755] = {
             [questKeys.triggerEnd] = {"Omosh Dance of Joy Learned", {[zoneIDs.ORGRIMMAR]={{79.28,22.3}}}},
