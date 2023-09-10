@@ -1320,7 +1320,7 @@ function QuestieQuestFixes:Load()
             [questKeys.childQuests] = {3483}, -- #1008
         },
         [3453] = {
-            [questKeys.triggerEnd] = {"Torch Creation", {[zoneIDs.SEARING_GORGE]={{39.02,38.97}}}},
+            [questKeys.objectives] = {{{8479,"Torch Creation"}}},
         },
         [3483] = {
             [questKeys.parentQuest] = 3449, -- #1008
