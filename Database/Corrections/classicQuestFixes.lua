@@ -1339,7 +1339,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
         [3625] = {
-            [questKeys.triggerEnd] = {"Weaponry Creation", {[zoneIDs.STRANGLETHORN_VALE]={{50.62,20.49}}}},
+            [questKeys.objectives] = {{{7802,"Weaponry Creation"}}},
         },
         [3629] = {
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
