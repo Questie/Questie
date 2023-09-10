@@ -1674,7 +1674,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {1479,1558,1687},
         },
         [4866] = {
-            [questKeys.triggerEnd] = {"Milked", {[zoneIDs.BURNING_STEPPES]={{65.11,23.68}}}},
+            [questKeys.objectives] = {{{9563,"Milked"}}},
         },
         [4881] = {
             [questKeys.startedBy] = {{10617},nil,{12564}},
