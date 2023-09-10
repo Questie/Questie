@@ -1523,7 +1523,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSpecialization] = specKeys.ENGINEERING,
         },
         [4185] = {
-            [questKeys.triggerEnd] = {"Advice from Lady Prestor", {[zoneIDs.STORMWIND_CITY]={{78.04,17.96}}}},
+            [questKeys.objectives] = {{{1749,"Advice from Lady Prestor"}}},
         },
         [4224] = {
             [questKeys.objectives] = {{{9563,"Ragged John's Story"}}},
