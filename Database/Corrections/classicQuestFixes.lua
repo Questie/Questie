@@ -1556,7 +1556,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Jail Break!", {[zoneIDs.BLACKROCK_DEPTHS]={{-1,-1}}}},
         },
         [4342] = {
-            [questKeys.triggerEnd] = {"Kharan's Tale", {[zoneIDs.SEARING_GORGE]={{27.1,72.54}}}},
+            [questKeys.objectives] = {{{9021,"Kharan's Tale"}}},
             [questKeys.preQuestSingle] = {4341},
         },
         [4485] = {
