@@ -1380,7 +1380,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {1642,1646,2997,2998,2999,3000},
         },
         [3702] = {
-            [questKeys.triggerEnd] = {"Story of Thaurissan", {[zoneIDs.IRONFORGE]={{38.62,55.44}}}},
+            [questKeys.objectives] = {{{8879,"Story of Thaurissan"}}},
         },
         [3763] = {
             [questKeys.exclusiveTo] = {3789,3790,3764},
