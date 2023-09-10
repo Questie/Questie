@@ -1440,6 +1440,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestGroup] = {4022,4023}, -- it has to be preQuestGroup or it shows prematurely
             [questKeys.preQuestSingle] = {},
             [questKeys.objectivesText] = {"Travel to Blackrock Depths and slay Bael'Gar.","","You only know that the giant resides inside Blackrock Depths. Remember to use the Altered Black Dragonflight Molt on Bael'Gar's remains to capture the Fiery Essence.","","Return the Encased Fiery Essence to Cyrus Therepentous."},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Altered Black Dragonflight Molt on Bael'gar's corpse."), 0, {{"monster", 9016}}}},
         },
         [4083] = {
             [questKeys.requiredSkill] = {186,230}, -- #1293
