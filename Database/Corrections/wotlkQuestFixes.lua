@@ -157,6 +157,9 @@ function QuestieWotlkQuestFixes:Load()
         [2879] = {
             [questKeys.requiredSourceItems] = {9255,9256,9257,9258},
         },
+        [3602] = {
+            [questKeys.requiredSourceItems] = {},
+        },
         [3763] = {
             [questKeys.startedBy] = {{6735}},
             [questKeys.exclusiveTo] = {3789,3790},
