@@ -1559,6 +1559,9 @@ function QuestieQuestFixes:Load()
             [questKeys.objectives] = {{{9021,"Kharan's Tale"}}},
             [questKeys.preQuestSingle] = {4341},
         },
+        [4361] = {
+            [questKeys.preQuestSingle] = {4342},
+        },
         [4485] = {
             [questKeys.startedBy] = {{6179},nil,nil},
             [questKeys.exclusiveTo] = {1661,4486},
