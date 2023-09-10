@@ -1287,7 +1287,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {3122},
         },
         [3141] = {
-            [questKeys.triggerEnd] = {"Loramus' Story", {[zoneIDs.AZSHARA]={{60.8,66.36}}}},
+            [questKeys.objectives] = {{{7783,"Loramus' Story"}}},
         },
         [3181] = {
             [questKeys.startedBy] = {{5833},nil,{10000}},
