@@ -27,7 +27,7 @@ end
 ---@param xp XP
 ---@param qLevel Level
 ---@param ignorePlayerLevel boolean
----@return XP experiance
+---@return XP experience
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
     local expansionLevel = GetExpansionLevel()
