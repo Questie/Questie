@@ -356,15 +356,20 @@ function MapIconTooltip:Show()
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
                 local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
+                local addedCreatureNames = {}
                 for _, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
                         local dataType = type(nameData)
                         if dataType == "table" then
                             for name in pairs(nameData) do
-                                name = _GetLevelString(creatureLevels, name)
-                                self:AddLine("   |cFFDDDDDD" .. name);
+                                if (not addedCreatureNames[name]) then
+                                    addedCreatureNames[name] = true
+                                    name = _GetLevelString(creatureLevels, name)
+                                    self:AddLine("   |cFFDDDDDD" .. name);
+                                end
                             end
-                        elseif dataType == "string" then
+                        elseif dataType == "string" and (not addedCreatureNames[nameData]) then
+                            addedCreatureNames[nameData] = true
                             nameData = _GetLevelString(creatureLevels, nameData)
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
