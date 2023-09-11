@@ -1622,7 +1622,7 @@ function QuestieQuestFixes:Load()
             [questKeys.exclusiveTo] = {788}, -- #1956
         },
         [4734] = {
-            [questKeys.triggerEnd] = {"Test the Eggscilliscope Prototype", {[zoneIDs.SEARING_GORGE]={{40.78,95.66}}}},
+            [questKeys.objectives] = {nil,{{400062,"Test the Eggscilliscope Prototype"}}},
         },
         [4736] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
