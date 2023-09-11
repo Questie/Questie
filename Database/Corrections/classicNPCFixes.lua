@@ -2077,48 +2077,56 @@ function QuestieNPCFixes:Load()
         [15114] = {
             [npcKeys.spawns] = {[zoneIDs.ZUL_FARRAK] = {{-1,-1}}},
         },
+        [15203] = {
+            [npcKeys.zoneID] = zoneIDs.SILITHUS,
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.6,45.08},{25.56,34.04},{18.55,83.52}}},
+        },
+        [15204] = {
+            [npcKeys.zoneID] = zoneIDs.SILITHUS,
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.6,45.08},{25.56,34.04},{18.55,83.52}}},
+        },
         [15205] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{40.11,45.21},{20.07,82.9}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.6,45.08},{25.56,34.04},{18.55,83.52}}},
         },
         [15206] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.43,45},{24.65,32.98}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.63,44.8},{24.7,32.65},{17.21,84.81}}},
         },
         [15207] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.38,45.1},{17.17,84.51}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.63,44.8},{24.7,32.65},{17.21,84.81}}},
         },
         [15208] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.39,45.13},{24.26,32.36}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.63,44.8},{24.7,32.65},{17.21,84.81}}},
         },
         [15209] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.59,44.18},{24.85,35.43}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{20.46,86.16},{18.23,81.12},{38.96,42.44},{38.29,46.46},{27.94,30.62},{24.44,36.0}}},
         },
         [15211] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.42,45.61},{38.89,42.5},{24.84,35.24},{18.54,81.98}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{20.46,86.16},{18.23,81.12},{38.96,42.44},{38.29,46.46},{27.94,30.62},{24.44,36.0}}},
         },
         [15212] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.5,44.6},{18.63,82.14},{25.21,34.83}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{20.46,86.16},{18.23,81.12},{38.96,42.44},{38.29,46.46},{27.94,30.62},{24.44,36.0}}},
         },
         [15215] = {
             [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{50.5,99}}},
         },
         [15220] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.47,45.02}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{37.63,44.8},{24.7,32.65},{17.21,84.81}}},
         },
         [15305] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.8,45.3},{18.49,82.82}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{39.6,45.08},{25.56,34.04},{18.55,83.52}}},
         },
         [15307] = {
             [npcKeys.zoneID] = zoneIDs.SILITHUS,
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{38.48,44.4},{25.44,34.16},{18.32,81.48}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS] = {{20.46,86.16},{18.23,81.12},{38.96,42.44},{38.29,46.46},{27.94,30.62},{24.44,36.0}}},
         },
         [15350] = {
             [npcKeys.spawns] = {
