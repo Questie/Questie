@@ -2881,6 +2881,9 @@ function QuestieQuestFixes:Load()
         [8506] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
+        [8507] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Ask to see the Captain."),0,{{"monster", 15443}}}},
+        },
         [8509] = {
             [questKeys.requiredLevel] = 1,
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
