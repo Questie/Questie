@@ -206,6 +206,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Use the Altered Black Dragonflight Molt on Bael'gar's corpse."] = { -- 4024
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use the Gorishi Queen Lure."] = { -- 4507
         ["ptBR"] = false,
         ["ruRU"] = false,
