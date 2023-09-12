@@ -851,7 +851,7 @@ end
 -- A good example for this edge case is [18] The Price of Shoes (118) where upon acceptance, Verner's Note (1283) is given
 -- to the player and the Quest is immediately flagged as Complete. If the note is destroyed then a slightly modified version
 -- of QuestieDB.IsComplete() that uses this function, returns zero allowing the quest updates to properly set the quests state.
----@param questId Number @QuestID
+---@param questId number @QuestID
 ---@param makeObjective boolean @If set to true, then this will create an incomplete objective for the missing quest item
 ---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
