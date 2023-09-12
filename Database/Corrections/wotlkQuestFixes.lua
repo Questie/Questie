@@ -1753,6 +1753,12 @@ function QuestieWotlkQuestFixes:Load()
         [12741] = {
             [questKeys.requiredMinRep] = {1104,9000},
         },
+        [12752] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+        },
+        [12753] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        },
         [12754] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{60.9,75.5}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Makeshift Cover"),}},
         },
@@ -1774,8 +1780,26 @@ function QuestieWotlkQuestFixes:Load()
             ---[questKeys.objectives] = {nil,nil,{{39748}},nil,{{{28079,28078},28078,"Frenzyheart Attacker"}}},
             [questKeys.extraObjectives] = {{{[zoneIDs.SHOLAZAR_BASIN]={{65.60,59.48}}}, Questie.ICON_TYPE_EVENT, l10n("Charge the Dormant Polished Crystal at the exposed Lifeblood Pillar"),}},
         },
+        [12772] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        },
+        [12775] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        },
+        [12777] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        },
         [12779] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.PLAGUELANDS_THE_SCARLET_ENCLAVE]={{53.5,36.7}}}, Questie.ICON_TYPE_EVENT, l10n("Use the Horn of the Frostbrood"),}},
+        },
+        [12782] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+        },
+        [12783] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
+        },
+        [12784] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
         },
         [12797] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.UN_GORO_CRATER]={{50.54,7.74,}}}, Questie.ICON_TYPE_EVENT, l10n("Travel through the Waygate"),}},
@@ -1798,8 +1822,14 @@ function QuestieWotlkQuestFixes:Load()
         [12807] = {
             [questKeys.objectives] = {{{29344,}}},
         },
+        [12808] = {
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102}},
+        },
         [12810] = {
             [questKeys.objectives] = {{{29392,}}},
+        },
+        [12811] = {
+            [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102}},
         },
         [12813] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{29329,29330,29333,29338},29398}}},

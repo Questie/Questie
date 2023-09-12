@@ -1310,16 +1310,16 @@ function QuestieQuestBlacklist:Load()
 
         -- Scourge invasion
         [12616] = true,
-        [12752] = true,
-        [12753] = true,
-        [12772] = true,
-        [12775] = true,
-        [12777] = true,
-        [12782] = true,
-        [12783] = true,
-        [12784] = true,
-        [12808] = true,
-        [12811] = true,
+        [12752] = QuestieCorrections.CLASSIC_ONLY,
+        [12753] = QuestieCorrections.CLASSIC_ONLY,
+        [12772] = QuestieCorrections.CLASSIC_ONLY,
+        [12775] = QuestieCorrections.CLASSIC_ONLY,
+        [12777] = QuestieCorrections.CLASSIC_ONLY,
+        [12782] = QuestieCorrections.CLASSIC_ONLY,
+        [12783] = QuestieCorrections.CLASSIC_ONLY,
+        [12784] = QuestieCorrections.CLASSIC_ONLY,
+        [12808] = QuestieCorrections.CLASSIC_ONLY,
+        [12811] = QuestieCorrections.CLASSIC_ONLY,
 
         --- Phase 2 Secrets of Ulduar
         [13372] = true, -- 10man EoE keys become unavailable with P2
