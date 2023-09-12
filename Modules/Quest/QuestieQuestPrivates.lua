@@ -214,44 +214,51 @@ item = function(itemId, objective)
                 else
                     for id, sourceData in pairs(sourceList) do
                         if (not ret[id]) then
+                            local icon, GetIconScale
+                            if source.Type == "object" then
+                                icon = Questie.ICON_TYPE_OBJECT
+                                GetIconScale = _GetIconScaleForObject
+                            else
+                                icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and Questie.ICON_TYPE_LOOT or Questie.ICON_TYPE_EVENT
+                                GetIconScale = _GetIconScaleForLoot
+                            end
+
                             ret[id] = {
                                 Id = id,
                                 Name = sourceData.Name,
                                 Hostile = true,
                                 ItemId = item.Id,
                                 TooltipKey = sourceData.TooltipKey,
+                                Spawns = {},
+                                Waypoints = {},
+                                Icon = icon,
+                                GetIconScale = GetIconScale,
+                                IconScale = GetIconScale(),
                             }
-                            ret[id].Spawns = {}
-                            ret[id].Waypoints = {}
-                            if source.Type == "object" then
-                                ret[id].Icon = Questie.ICON_TYPE_OBJECT
-                                ret[id].GetIconScale = _GetIconScaleForObject
-                                ret[id].IconScale = _GetIconScaleForObject()
-                            else
-                                ret[id].Icon = (
-                                    (not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and
-                                    Questie.ICON_TYPE_LOOT or Questie.ICON_TYPE_EVENT
-                                ret[id].GetIconScale = _GetIconScaleForLoot
-                                ret[id].IconScale = _GetIconScaleForLoot()
-                            end
                         end
                         if sourceData.Spawns then
+                            local itemSpawns = ret[id].Spawns
                             for zone, spawns in pairs(sourceData.Spawns) do
-                                if (not ret[id].Spawns[zone]) then
-                                    ret[id].Spawns[zone] = {}
+                                if (not itemSpawns[zone]) then
+                                    itemSpawns[zone] = {}
                                 end
+
+                                local itemSpawnsInZone = itemSpawns[zone]
                                 for _, spawn in pairs(spawns) do
-                                    tinsert(ret[id].Spawns[zone], spawn)
+                                    itemSpawnsInZone[#itemSpawnsInZone+1] = spawn
                                 end
                             end
                         end
                         if sourceData.Waypoints then
+                            local itemWaypoints = ret[id].Waypoints
                             for zone, spawns in pairs(sourceData.Waypoints) do
-                                if (not ret[id].Waypoints[zone]) then
-                                    ret[id].Waypoints[zone] = {}
+                                if (not itemWaypoints[zone]) then
+                                    itemWaypoints[zone] = {}
                                 end
+
+                                local itemWaypointsInZone = itemWaypoints[zone]
                                 for _, spawn in pairs(spawns) do
-                                    tinsert(ret[id].Waypoints[zone], spawn)
+                                    itemWaypointsInZone[#itemWaypointsInZone+1] = spawn
                                 end
                             end
                         end

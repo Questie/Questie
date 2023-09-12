@@ -78,6 +78,7 @@ function QuestEventHandler:RegisterEvents()
         local which, text_arg1 = ...
         if which == "DELETE_ITEM" then
             local quest
+            local questName
             local foundQuestItem = false
 
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest] StaticPopup_Show: Item Name: ", text_arg1)
@@ -118,16 +119,21 @@ function QuestEventHandler:RegisterEvents()
                         end
 
                         if sourceItemId and soureItemName and sourceItemType and soureClassID and (sourceItemType == "Quest" or soureClassID == 12) and QuestieDB.QueryItemSingle(sourceItemId, "class") == 12 and text_arg1 == soureItemName then
+                            questName = quest.name
                             foundQuestItem = true
                             break
                         elseif reqSourceItemId and reqSoureItemName and reqSourceItemType and reqSoureClassID and (reqSourceItemType == "Quest" or reqSoureClassID == 12) and QuestieDB.QueryItemSingle(reqSourceItemId, "class") == 12 and text_arg1 == reqSoureItemName then
+                            questName = quest.name
                             foundQuestItem = true
                             break
                         else
-                            for _, objective in pairs(quest.Objectives) do
-                                if text_arg1 == objective.Description then
-                                    foundQuestItem = true
-                                    break
+                            if quest.Objectives and #quest.Objectives > 0 then
+                                for _, objective in pairs(quest.Objectives) do
+                                    if text_arg1 == objective.Description then
+                                        questName = quest.name
+                                        foundQuestItem = true
+                                        break
+                                    end
                                 end
                             end
                         end
@@ -135,7 +141,7 @@ function QuestEventHandler:RegisterEvents()
                 end
             end
 
-            if foundQuestItem and quest then
+            if foundQuestItem and quest and questName then
                 local frame, text
 
                 for i = 1, STATICPOPUP_NUMDIALOGS do
@@ -148,7 +154,7 @@ function QuestEventHandler:RegisterEvents()
 
                 if frame ~= nil and text ~= nil then
                     local updateText = l10n("Quest Item %%s might be needed for the quest %%s. \n\nAre you sure you want to delete this?")
-                    text:SetFormattedText(updateText, text_arg1, quest.name)
+                    text:SetFormattedText(updateText, text_arg1, questName)
                     text.text_arg1 = updateText
 
                     StaticPopup_Resize(frame, which)
@@ -494,24 +500,16 @@ function _QuestLogUpdateQueue:GetFirst()
 end
 
 local trackerMinimizedByDungeon = false
-local wasInInstance = false
 function _QuestEventHandler:ZoneChangedNewArea()
+    Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
     -- By my tests it takes a full 6-7 seconds for the world to load. There are a lot of
     -- backend Questie updates that occur when a player zones in/out of an instance. This
     -- is necessary to get everything back into it's "normal" state after all the updates.
     local isInInstance, instanceType = IsInInstance()
-    local skipInstance = instanceType == "raid" or instanceType == "pvp" or instanceType == "arena"
 
     if isInInstance then
         C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-
-            -- We don't want this firing in Battlegrounds or Raids.
-            if not skipInstance then
-                -- This refreshes tooltips because "Zoneing" into a new area breaks them.
-                QuestieQuest:GetAllQuestIds()
-            end
-
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Entering Instance")
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = true
 
@@ -521,13 +519,10 @@ function _QuestEventHandler:ZoneChangedNewArea()
             end
         end)
 
-        wasInInstance = true
-
     -- We only want this to fire outside of an instance if the player isn't dead and we need to reset the Tracker
     elseif (not Questie.db.char.isTrackerExpanded and not UnitIsGhost("player")) and trackerMinimizedByDungeon == true then
         C_Timer.After(8, function()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA")
-
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[EVENT] ZONE_CHANGED_NEW_AREA: Exiting Instance")
             if Questie.db.global.hideTrackerInDungeons then
                 trackerMinimizedByDungeon = false
 
@@ -536,20 +531,6 @@ function _QuestEventHandler:ZoneChangedNewArea()
                 end)
             end
         end)
-    end
-
-    -- This causes issues if we allow this to fire upon login, reloadUI, hearthing, accepting a summon,
-    -- or moving to a new area. This should only fire when a player exits an instance.
-    if wasInInstance then
-        C_Timer.After(8, function()
-            -- We don't want this firing in Battlegrounds or Raids.
-            if not skipInstance then
-                -- This refreshes tooltips because "Zoneing" into a new area breaks them.
-                QuestieQuest:GetAllQuestIds()
-            end
-        end)
-
-        wasInInstance = false
     end
 end
 

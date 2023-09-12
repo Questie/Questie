@@ -108,7 +108,8 @@ function MapIconTooltip:Show()
             return
         end
 
-        if (not icon.miniMapIcon) and self.data.Id == iconData.Id then -- Recolor hovered icons
+        -- Do not recolor MiniMap, Available and Completed Quest Icons.
+        if (not icon.miniMapIcon) and not (iconData.Type == "available" or iconData.Type == "complete") and self.data.Id == iconData.Id then -- Recolor hovered icons
             local entry = {}
             entry.color = { icon.texture.r, icon.texture.g, icon.texture.b, icon.texture.a };
             entry.icon = icon;
@@ -467,8 +468,7 @@ function _MapIconTooltip:GetEventObjectiveTooltip(icon)
         [icon.data.ObjectiveData.Description] = {},
     }
     if (icon.data.ObjectiveData.Index) then
-        local objectiveDesc = icon.data.QuestData.Objectives[icon.data.ObjectiveData.Index].Description;
-        tip[icon.data.ObjectiveData.Description][objectiveDesc] = true;
+        tip[icon.data.ObjectiveData.Description][icon.data.ObjectiveData.Description] = true;
     end
     return tip
 end

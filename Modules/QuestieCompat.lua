@@ -2,9 +2,6 @@
 ---@class QuestieCompat
 QuestieCompat = {}
 
----@type QuestieDB
-local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
-
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
 
 ---[SetMinResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
@@ -73,6 +70,8 @@ end
 ---@return GossipQuestUIInfo[] info
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
+        -- QuestieDB needs to be loaded locally, otherwise it will be an empty module
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         local info = C_GossipInfo.GetActiveQuests()
         local activeQuests = {}
         local index = 1

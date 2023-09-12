@@ -2882,7 +2882,23 @@
 
     // Default end of line
     "files.eol": "\n",
-
+    "Lua.diagnostics.disable": [
+        "undefined-field",
+        "need-check-nil",
+        "deprecated",
+        "missing-parameter",
+        "invisible",
+        "redundant-parameter",
+        "missing-return-value",
+        "assign-type-mismatch",
+        "duplicate-doc-param",
+        "param-type-mismatch",
+        "return-type-mismatch",
+        "undefined-doc-class",
+        "undefined-doc-name",
+        "unused-local",
+        "cast-local-type"
+    ],
     "Lua.diagnostics.severity": {
         "unused-local": "Warning"
     },

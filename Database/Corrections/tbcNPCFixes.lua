@@ -331,6 +331,10 @@ function QuestieTBCNpcFixes:Load()
         [17923] = {
             [npcKeys.waypoints] = {[zoneIDs.ZANGARMARSH] = {{{19,62.4},{19,63.5},{19.2,64.6}}}},
         },
+        [17975] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+        },
         [17976] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,

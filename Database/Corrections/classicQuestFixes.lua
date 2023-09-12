@@ -187,6 +187,9 @@ function QuestieQuestFixes:Load()
         [415] = {
             [questKeys.exclusiveTo] = {413}, -- cant complete rejolds new brew if you do shimmer stout (see issue 567)
         },
+        [420] = {
+            [questKeys.exclusiveTo] = {287}, -- senir's observations part 2 becomes unavailable if you have completed frostmane hold
+        },
         [428] = {
             [questKeys.exclusiveTo] = {429}, -- lost deathstalkers breadcrumb
         },
@@ -1178,6 +1181,7 @@ function QuestieQuestFixes:Load()
         },
         [2845] = {
             [questKeys.triggerEnd] = {"Take Shay Leafrunner to Rockbiter's camp", {[zoneIDs.FERALAS]={{42.33,21.85}}}},
+            [questKeys.requiredSourceItems] = {9189},
         },
         [2861] = {
             [questKeys.startedBy] = {{4568,5144,5497,5885},nil,nil}, -- #1152
@@ -1795,6 +1799,7 @@ function QuestieQuestFixes:Load()
         },
         [5321] = {
             [questKeys.triggerEnd] = {"Escort Kerlonian Evershade to Maestra's Post", {[zoneIDs.ASHENVALE]={{26.77,36.91}}}},
+            [questKeys.requiredSourceItems] = {13536},
         },
         [5402] = {
             [questKeys.preQuestSingle] = {5401,5503,5405},

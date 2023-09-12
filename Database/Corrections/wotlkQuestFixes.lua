@@ -149,7 +149,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {2278},
         },
         [2767] = {
-            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{54.3,51.2}}}},
+            [questKeys.triggerEnd] = {"Escort OOX-22/FE to safety", {[zoneIDs.FERALAS]={{55.63,51.35}}}},
         },
         [3763] = {
             [questKeys.startedBy] = {{6735}},
@@ -723,7 +723,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {11895},
         },
         [11905] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS]={{64.9,21.6}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.THE_NEXUS_MAP]={{64.9,21.6}},[zoneIDs.THE_NEXUS]={{-1,-1}}}, Questie.ICON_TYPE_EVENT, l10n("Use Interdimensional Refabricator")}},
         },
         [11906] = {
             [questKeys.preQuestSingle] = {11895},
@@ -825,6 +825,9 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12036] = {
             [questKeys.triggerEnd] = {"Pit of Narjun Explored",{[zoneIDs.DRAGONBLIGHT]={{26.26,50.01,},},},},
+        },
+        [12037] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Search for Kurzel"),0,{{"monster", 27909}}}}, -- to use -1 instead of 0 when questie supports showing extraobjectives when quest complete
         },
         [12038] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26458,26570,26582,26583},26612,}}},
@@ -2309,6 +2312,9 @@ function QuestieWotlkQuestFixes:Load()
         [13125] = {
             [questKeys.preQuestGroup] = {13122,13118},
         },
+        [13129] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Dip Kurzel's Blouse Scrap on the remains of Novos the Summoner"), 0, {{"monster", 26631}}}},
+        },
         [13130] = {
             [questKeys.preQuestSingle] = {13104},
         },
@@ -2379,6 +2385,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {{{30922}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Seize Control of a Lithe Stalker"), 0, {{"object", 193424}}}},
         },
+        [13149] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plagued Grain Crates Dispelled: 0/1"), 0, {{"object", 190094}}}},
+        },
+        [13151] = {
+            [questKeys.objectives] = {{{26533,"Mal'Ganis Defeated"}}},
+        },
         [13152] = {
             [questKeys.preQuestSingle]= {},
             [questKeys.preQuestGroup] = {13134,13138,13140},
@@ -2434,6 +2446,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13186] = {
             [questKeys.exclusiveTo] = {13222},
+        },
+        [13190] = {
+            [questKeys.requiredSourceItems] = {43494},
+            [questKeys.objectives] = {nil,{{193057,"Ahn'kahar Watcher Corpse Burned"}}},
         },
         [13191] = {
             [questKeys.finishedBy] = {{31106}},
@@ -2550,6 +2566,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{31439},nil,nil},
             [questKeys.finishedBy] = {{31439},nil,nil},
             [questKeys.exclusiveTo] = {13240,13241,13244},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{27744,28341},27744}}},
         },
         [13244] = {
             [questKeys.startedBy] = {{31439},nil,nil},
@@ -4048,7 +4065,7 @@ function QuestieWotlkQuestFixes:Load()
         [14151] = {
             [questKeys.objectives] = {},
             [questKeys.requiredSpell] = -66659,
-            [questKeys.requiredSkill] = {171,440},
+            [questKeys.requiredSkill] = {171,450},
             [questKeys.triggerEnd] = {"Epic Gem Transmutes", {[zoneIDs.DALARAN]={{42.25,32.06}}}},
         },
         [14163] = {

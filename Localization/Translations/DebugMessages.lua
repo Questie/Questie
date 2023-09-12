@@ -422,6 +422,18 @@ local debugMessagesLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."] = {
+        ["ptBR"] = false,
+        ["ruRU"] = "|cffff0000Обратите внимание:|r Один из следующих релизов Questie сбросит ваши настройки. Мы советуем вам сделать резервную копию настроек Questie, находящихся в папке Saved Variables вашего аккаунта. Это можно сделать путем создания копии папки WTF в папке установки WoW.",
+        ["deDE"] = "|cffff0000Hinweis:|r Mit einem der nächsten Questie-Releases werden deine Einstellungen zurückgesetzt. Zur Sicherheit solltest du ein Backup deiner Questie-SavedVariables erstellen. Dies kannst du machen indem du eine Kopie des WTF-Ordners deiner WoW-Installtion erstellst.",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
 }
 
 for k, v in pairs(debugMessagesLocales) do

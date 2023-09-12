@@ -309,7 +309,6 @@ function TrackerUtils:IsQuestItemUsable(itemId)
     return false
 end
 
-
 ---@param quest table Quest Table
 ---@return string|nil completionText Quest Completion text string or nil
 function TrackerUtils:GetCompletionText(quest)
@@ -1037,28 +1036,15 @@ function TrackerUtils:UpdateVoiceOverPlayButtons()
         end
 
         for i = 1, 75 do
-            local questLogTitleFrame = VoiceOver.Utils:GetQuestLogTitleFrame(i)
-            local normalText = VoiceOver.Utils:GetQuestLogTitleNormalText(i)
-            local questCheck = VoiceOver.Utils:GetQuestLogTitleCheck(i)
             local title, _, _, isHeader, _, _, _, questId = GetQuestLogTitle(i)
 
-            if not (questLogTitleFrame and normalText and questCheck and title and questId) then
+            if not (title and questId) then
                 break
             end
 
             if not isHeader then
                 if not VoiceOver.QuestOverlayUI.questPlayButtons[questId] then
                     VoiceOver.QuestOverlayUI:CreatePlayButton(questId)
-
-                    if VoiceOver.DataModules:PrepareSound({ event = 1, questId = questId }) then
-                        VoiceOver.QuestOverlayUI:UpdatePlayButton(title, questId, questLogTitleFrame, normalText, questCheck)
-                        VoiceOver.QuestOverlayUI.questPlayButtons[questId]:Enable()
-                    else
-                        VoiceOver.QuestOverlayUI:UpdateQuestTitle(questLogTitleFrame, VoiceOver.QuestOverlayUI.questPlayButtons[questId], normalText, questCheck)
-                        VoiceOver.QuestOverlayUI.questPlayButtons[questId]:Disable()
-                    end
-
-                    VoiceOver.QuestOverlayUI:UpdatePlayButtonTexture(questId)
                     table.insert(VoiceOver.QuestOverlayUI.displayedButtons, VoiceOver.QuestOverlayUI.questPlayButtons[questId])
                 end
             end

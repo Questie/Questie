@@ -24,6 +24,8 @@ local TrackerUtils = QuestieLoader:ImportModule("TrackerUtils")
 local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips")
 ---@type QuestieLib
 local QuestieLib = QuestieLoader:ImportModule("QuestieLib")
 ---@type QuestiePlayer
@@ -126,7 +128,7 @@ function QuestieTracker.Initialize()
     C_Timer.After(1.0, function()
         -- Hide frames during startup
         if QuestieTracker.alreadyHooked then
-            DurabilityFrame:Hide()
+            if Questie.db.global.stickyDurabilityFrame then DurabilityFrame:Hide() end
             if TrackerUtils:IsVoiceOverLoaded() then VoiceOverFrame:Hide() end
         end
 
@@ -285,42 +287,35 @@ end
 
 function QuestieTracker:ResetDurabilityFrame()
     if durabilityInitialPosition then
+        -- Only reset if it's been moved from it's default position set by Blizzard
         if durabilityInitialPosition ~= { DurabilityFrame:GetPoint() } then
             Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:ResetDurabilityFrame]")
 
+            -- Resets Durability Frame back to it's default position
             DurabilityFrame:ClearAllPoints()
             DurabilityFrame:SetPoint(unpack(durabilityInitialPosition))
 
-            if DurabilityFrame:IsShown() then
-                DurabilityFrame:Hide()
+            local numAlerts = 0
+
+            for i = 1, #INVENTORY_ALERT_STATUS_SLOTS do
+                if GetInventoryAlertStatus(i) > 0 then
+                    numAlerts = numAlerts + 1
+                end
+            end
+
+            -- Check the alert status and reset visibility
+            if numAlerts > 0 then
+                DurabilityFrame:Show()
+            else
+                if DurabilityFrame:IsShown() then
+                    DurabilityFrame:Hide()
+                end
             end
         end
     end
 end
 
 function QuestieTracker:UpdateDurabilityFrame()
-    -- screen width accounting for scale
-    local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
-    -- middle of the frame, first return is x value, second return is the y value
-    local trackerFrameX = trackerBaseFrame:GetCenter()
-
-    DurabilityFrame:ClearAllPoints()
-    DurabilityFrame:SetClampedToScreen(true)
-    DurabilityFrame:SetFrameStrata("MEDIUM")
-    DurabilityFrame:SetFrameLevel(0)
-
-    if trackerFrameX <= (screenWidth / 2) then
-        DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -40)
-    else
-        DurabilityFrame:SetPoint("RIGHT", trackerBaseFrame, "TOPLEFT", 0, -40)
-    end
-
-    DurabilityFrame:Show()
-
-    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateDurabilityFrame]")
-end
-
-function QuestieTracker:CheckDurabilityAlertStatus()
     if QuestieTracker.started and Questie.db.char.trackerEnabled and Questie.db.global.stickyDurabilityFrame then
         if Questie.db.char.isTrackerExpanded and QuestieTracker:HasQuest() then
             local numAlerts = 0
@@ -332,18 +327,36 @@ function QuestieTracker:CheckDurabilityAlertStatus()
             end
 
             if numAlerts > 0 then
-                if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:CheckDurabilityAlertStatus]")
+                -- screen width accounting for scale
+                local screenWidth = GetScreenWidth() * UIParent:GetEffectiveScale()
+                -- middle of the frame, first return is x value, second return is the y value
+                local trackerFrameX = trackerBaseFrame:GetCenter()
+
+                DurabilityFrame:ClearAllPoints()
+                DurabilityFrame:SetClampedToScreen(true)
+                DurabilityFrame:SetFrameStrata("MEDIUM")
+                DurabilityFrame:SetFrameLevel(0)
+
+                if trackerFrameX <= (screenWidth / 2) then
+                    DurabilityFrame:SetPoint("LEFT", trackerBaseFrame, "TOPRIGHT", 0, -40)
                 else
-                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:CheckDurabilityAlertStatus]")
+                    DurabilityFrame:SetPoint("RIGHT", trackerBaseFrame, "TOPLEFT", 0, -40)
                 end
 
-                QuestieTracker:UpdateDurabilityFrame()
+                DurabilityFrame:Show()
             else
                 if DurabilityFrame:IsShown() then
                     DurabilityFrame:Hide()
                 end
             end
+
+            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateDurabilityFrame]")
+            else
+                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateDurabilityFrame]")
+            end
+        else
+            QuestieTracker:ResetDurabilityFrame()
         end
     end
 end
@@ -363,8 +376,7 @@ function QuestieTracker:ResetVoiceOverFrame()
             VoiceOver.SoundQueueUI:RefreshConfig()
 
             if VoiceOverFrame:IsShown() then
-                VoiceOver.SoundQueueUI:UpdateSoundQueueDisplay()
-            else
+                VoiceOver.SoundQueue:RemoveAllSoundsFromQueue()
                 VoiceOverFrame:Hide()
             end
         end
@@ -386,10 +398,12 @@ function QuestieTracker:UpdateVoiceOverFrame()
 
                 local verticalOffSet
 
-                if DurabilityFrame:IsVisible() then
-                    verticalOffSet = -125
-                else
-                    verticalOffSet = -7
+                if Questie.db.global.stickyDurabilityFrame then
+                    if DurabilityFrame:IsVisible() then
+                        verticalOffSet = -125
+                    else
+                        verticalOffSet = -7
+                    end
                 end
 
                 if trackerFrameX <= (screenWidth / 2) then
@@ -405,17 +419,14 @@ function QuestieTracker:UpdateVoiceOverFrame()
                 VoiceOver.Addon.db.profile.SoundQueueUI.LockFrame = true
                 VoiceOver.SoundQueueUI:RefreshConfig()
                 VoiceOver.SoundQueueUI:UpdateSoundQueueDisplay()
-            else
-                if VoiceOverFrame:IsShown() then
-                    VoiceOverFrame:Hide()
-                    VoiceOver.SoundQueue:RemoveAllSoundsFromQueue()
-                end
-            end
 
-            if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
-                Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateVoiceOverFrame]")
+                if TrackerBaseFrame.isSizing == true or TrackerBaseFrame.isMoving == true then
+                    Questie:Debug(Questie.DEBUG_SPAM, "[QuestieTracker:UpdateVoiceOverFrame]")
+                else
+                    Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateVoiceOverFrame]")
+                end
             else
-                Questie:Debug(Questie.DEBUG_INFO, "[QuestieTracker:UpdateVoiceOverFrame]")
+                QuestieTracker:ResetVoiceOverFrame()
             end
         end
     end
@@ -425,22 +436,27 @@ end
 -- Quest Item Button can be switched on and appear in the tracker.
 ---@param text string
 function QuestieTracker:QuestItemLooted(text)
+    local playerLoot = strmatch(text, "You receive ")
     local itemId = tonumber(string.match(text, "item:(%d+)"))
-    local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
 
-    if itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12 then
-        Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
+    if playerLoot and itemId then
+        local _, _, _, _, _, itemType, _, _, _, _, _, classID = GetItemInfo(itemId)
+        local usableItem = TrackerUtils:IsQuestItemUsable(itemId)
 
-        C_Timer.After(0.25, function()
-            _QuestEventHandler:UpdateAllQuests()
-            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
-        end)
+        if (itemType == "Quest" or classID == 12 or QuestieDB.QueryItemSingle(itemId, "class") == 12) and usableItem then
+            Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Quest Item Detected (itemId) - ", itemId)
 
-        QuestieCombatQueue:Queue(function()
-            C_Timer.After(0.5, function()
-                QuestieTracker:Update()
+            C_Timer.After(0.25, function()
+                _QuestEventHandler:UpdateAllQuests()
+                Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker] - Callback --> QuestEventHandler:UpdateAllQuests()")
             end)
-        end)
+
+            QuestieCombatQueue:Queue(function()
+                C_Timer.After(0.5, function()
+                    QuestieTracker:Update()
+                end)
+            end)
+        end
     end
 end
 
@@ -497,8 +513,8 @@ end
 
 function QuestieTracker:Disable()
     Questie.db.char.trackerEnabled = false
-    QuestieTracker:CheckDurabilityAlertStatus()
-    QuestieTracker:UpdateVoiceOverFrame()
+    QuestieTracker:ResetDurabilityFrame()
+    QuestieTracker:ResetVoiceOverFrame()
     Questie.db.char.TrackedQuests = {}
     Questie.db.char.AutoUntrackedQuests = {}
 
@@ -555,8 +571,15 @@ function QuestieTracker:Update()
     if (not Questie.db.char.trackerEnabled or QuestieTracker.disableHooks == true) then
         if trackerBaseFrame and trackerBaseFrame:IsShown() then
             QuestieCombatQueue:Queue(function()
+                if Questie.db.global.stickyDurabilityFrame then
+                    QuestieTracker:ResetDurabilityFrame()
+                end
+
+                if Questie.db.char.stickyVoiceOverFrame then
+                    QuestieTracker:ResetVoiceOverFrame()
+                end
+
                 trackerBaseFrame:Hide()
-                DurabilityFrame:Hide()
             end)
         end
         return
@@ -709,8 +732,8 @@ function QuestieTracker:Update()
                     -- Set Completion Text
                     local completionText = TrackerUtils:GetCompletionText(quest)
 
-                    -- Questie Config Options --> Tracker "Hide Blizzard Completion Text" option
-                    if Questie.db.global.hideBlizzardCompletionText then
+                    -- Clear Blizzard Completion Text
+                    if ((Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal") and not timedQuest) or complete == -1 then
                         completionText = nil
                     end
 
@@ -726,11 +749,11 @@ function QuestieTracker:Update()
                         completionText = "|cFF4CFF4C" .. completionText
                     end
 
-                    -- Completion Text should never be allowed to Auto Collapse
-                    local shouldCollapse = (#quest.Objectives ~= 0 and completionText == nil) or (Questie.db.global.hideBlizzardCompletionText or objectiveColor == "minimal")
+                    -- Set minimizable quest flag
+                    local isMinimizable = (complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true)) and completionText == nil
 
                     -- Handles the collapseCompletedQuests option from the Questie Config --> Tracker options.
-                    if Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest then
+                    if Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest then
                         if not Questie.db.char.collapsedQuests[quest.Id] then
                             Questie.db.char.collapsedQuests[quest.Id] = true
                         end
@@ -753,13 +776,15 @@ function QuestieTracker:Update()
                     line.label:ClearAllPoints()
                     line.label:SetPoint("TOPLEFT", line, "TOPLEFT", questMarginLeft, 0)
 
-                    -- Set Quest Title
+                    -- Set Quest Title - This handles the "Auto Minimize Completed Quests" option but we don't auto-minimize timed quests.
                     local coloredQuestName
+
                     if timedQuest then
                         coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, false, false)
                     else
-                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse), false)
+                        coloredQuestName = QuestieLib:GetColoredQuestName(quest.Id, Questie.db.global.trackerShowQuestLevel, (Questie.db.global.collapseCompletedQuests and isMinimizable), false)
                     end
+
                     line.label:SetText(coloredQuestName)
 
                     -- Check and measure Quest Label text width and update tracker width
@@ -801,7 +826,6 @@ function QuestieTracker:Update()
                     end
 
                     -- Adds the primary Quest Item button
-                    -- GetItemSpell(itemId) is a bit of a work around for not having a Blizzard API for checking an items IsUsable state.
                     if complete ~= 1 and (sourceItem or (requiredItems and #requiredItems == 1 and requiredItem)) or usableQIB then
                         -- Get button from buttonPool
                         local button = TrackerLinePool.GetNextItemButton()
@@ -822,7 +846,11 @@ function QuestieTracker:Update()
 
                             -- If the Quest is minimized show the Expand Quest button
                             if Questie.db.char.collapsedQuests[quest.Id] then
-                                button.line.expandQuest:Show()
+                                if Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest then
+                                    button.line.expandQuest:Hide()
+                                else
+                                    button.line.expandQuest:Show()
+                                end
                             else
                                 button.line.expandQuest:Hide()
                             end
@@ -845,8 +873,14 @@ function QuestieTracker:Update()
                         else
                             -- Button failed to get setup for some reason or the quest item is now gone. Hide it and enable the Quest Min/Max button.
                             -- See previous comment for details on why we're setting this button to UIParent.
-                            button.line.expandQuest:Show()
                             button:SetParent(UIParent)
+
+                            if (Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest) then
+                                line.expandQuest:Hide()
+                            else
+                                line.expandQuest:Show()
+                            end
+
                             button:Hide()
                         end
 
@@ -854,7 +888,7 @@ function QuestieTracker:Update()
                         line.button = button
 
                         -- Hide button if quest complete or failed
-                    elseif (Questie.db.global.collapseCompletedQuests and complete == 1 and shouldCollapse and not timedQuest) then
+                    elseif (Questie.db.global.collapseCompletedQuests and isMinimizable and not timedQuest) then
                         line.expandQuest:Hide()
                     else
                         line.expandQuest:Show()
@@ -934,10 +968,8 @@ function QuestieTracker:Update()
                                             altButton:SetParent(UIParent)
                                             altButton:Hide()
                                         end
-
-                                        -- Button failed to get setup for some reason or the quest item is now gone. Hide it and enable the Quest Min/Max button.
-                                        -- See previous comment for details on why we're setting this button to UIParent.
                                     else
+                                        -- See previous comment for details on why we're setting this button to UIParent.
                                         altButton:SetParent(UIParent)
                                         altButton:Hide()
                                     end
@@ -1173,7 +1205,7 @@ function QuestieTracker:Update()
                                     line.altButton:Hide()
                                 end
                             else
-                                if complete == 1 then
+                                if complete == 1 or (#quest.Objectives == 0 and quest.isComplete == true and completionText == nil and complete ~= -1) then
                                     line.label:SetText(Questie:Colorize(l10n("Quest Complete") .. "!", "green"))
                                 elseif complete == -1 then
                                     line.label:SetText(Questie:Colorize(l10n("Quest Failed") .. "!", "red"))
@@ -1719,6 +1751,7 @@ function QuestieTracker:UpdateFormatting()
         QuestieCompat.SetResizeBounds(trackerBaseFrame, (TrackerLinePool.GetFirstLine().label:GetUnboundedStringWidth() + 40), Questie.db.global.trackerFontSizeZone + 22)
     end
 
+    TrackerUtils:ShowVoiceOverPlayButtons()
     TrackerUtils:UpdateVoiceOverPlayButtons()
 end
 
@@ -1863,7 +1896,7 @@ function QuestieTracker:HookBaseTracker()
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieTracker:HookBaseTracker] - Secure hooks")
 
         -- Durability Frame hook
-        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.CheckDurabilityAlertStatus)
+        hooksecurefunc("UIParent_ManageFramePositions", QuestieTracker.UpdateDurabilityFrame)
 
         -- QuestWatch secure hook
         if AutoQuestWatch_Insert then
@@ -2023,22 +2056,11 @@ function QuestieTracker:UntrackQuestId(questId)
     end
 
     if Questie.db.char.hideUntrackedQuestsMapIcons then
-        -- Remove quest Icons from map when un-tracking quest.
-        -- Also reset caches of spawned Icons so re-tracking works.
-        QuestieMap:UnloadQuestFrames(questId)
-        QuestieQuest:UpdateQuest(questId)
-        local quest = QuestieDB:GetQuest(questId)
-        if quest then
-            for _, objective in pairs(quest.Objectives) do
-                objective.AlreadySpawned = {}
-                objective.hasRegisteredTooltips = false
-            end
+        -- Hides objective icons for untracked quests.
+        QuestieQuest:ToggleNotes(false)
 
-            for _, objective in pairs(quest.SpecialObjectives) do
-                objective.AlreadySpawned = {}
-                objective.hasRegisteredTooltips = false
-            end
-        end
+        -- Removes objective tooltips for untracked quests.
+        QuestieTooltips:RemoveQuest(questId)
     end
 
     QuestieCombatQueue:Queue(function()
@@ -2092,9 +2114,10 @@ function QuestieTracker:AQW_Insert(index, expire)
             end
         end
 
-        -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
         local quest = QuestieDB:GetQuest(questId)
+
         if quest then
+            -- Make sure quests or zones (re)added to the tracker isn't in a minimized state
             local zoneId = quest.zoneOrSort
             if Questie.db.char.collapsedQuests[questId] == true then
                 Questie.db.char.collapsedQuests[questId] = nil
@@ -2103,13 +2126,17 @@ function QuestieTracker:AQW_Insert(index, expire)
             if Questie.db.char.collapsedZones[zoneId] == true then
                 Questie.db.char.collapsedZones[zoneId] = nil
             end
+
+            -- Unhide quest icons when retracking quests.
+            if Questie.db.char.hideUntrackedQuestsMapIcons then
+                -- Shows objective icons for tracked quests.
+                QuestieQuest:ToggleNotes(true)
+
+                -- Readd objective tooltips for tracked quests.
+                QuestieQuest:PopulateObjectiveNotes(quest)
+            end
         else
             Questie:Error("Missing quest " .. tostring(questId) .. "," .. tostring(expire) .. " during tracker update")
-        end
-
-        if Questie.db.char.hideUntrackedQuestsMapIcons then
-            -- Quest had its Icons removed, paint them again
-            QuestieQuest:PopulateObjectiveNotes(quest)
         end
     end
     QuestieCombatQueue:Queue(function()

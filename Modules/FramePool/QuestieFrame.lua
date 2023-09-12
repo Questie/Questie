@@ -12,6 +12,8 @@ local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist"
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLink
 local QuestieLink = QuestieLoader:ImportModule("QuestieLink")
+---@type QuestieQuest
+local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 
 local HBDPins = LibStub("HereBeDragonsQuestie-Pins-2.0")
 
@@ -173,16 +175,16 @@ function _Qframe:OnClick(button)
         if self and self.UiMapID and button == "LeftButton" then
             if (not ChatEdit_GetActiveWindow()) then
                 if self.data.Type == "available" and IsShiftKeyDown() then
-                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.QuestData.Id)
+                    StaticPopupDialogs["QUESTIE_CONFIRMHIDE"]:SetQuest(self.data.Id)
                     StaticPopup_Show("QUESTIE_CONFIRMHIDE")
                 elseif self.data.Type == "manual" and IsShiftKeyDown() and not self.data.ManualTooltipData.disableShiftToRemove then
                     QuestieMap:UnloadManualFrames(self.data.id)
                 end
             else
                 if Questie.db.global.trackerShowQuestLevel then
-                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.QuestData.Id))
+                    ChatEdit_InsertLink(QuestieLink:GetQuestLinkString(self.data.QuestData.level, self.data.QuestData.name, self.data.Id))
                 else
-                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.QuestData.Id .. ")]")
+                    ChatEdit_InsertLink("[" .. self.data.QuestData.name .. " (" .. self.data.Id .. ")]")
                 end
             end
         end
@@ -436,6 +438,8 @@ function _Qframe:ShouldBeHidden()
         or ((not questieGlobalDB.enableTurnins) and iconType == "complete")
         or ((not questieGlobalDB.enableAvailable) and iconType == "available")
         or ((not questieGlobalDB.enableObjectives) and (iconType == "monster" or iconType == "object" or iconType == "event" or iconType == "item"))
+        or (Questie.db.char.hideUnexploredMapIcons and not QuestieMap.utils:IsExplored(self.UiMapID, self.x, self.y)) -- Hides unexplored map icons
+        or (Questie.db.char.hideUntrackedQuestsMapIcons and not QuestieQuest:ShouldShowQuestNotes(questId))           -- Hides untracked map icons
         or (data.ObjectiveData and data.ObjectiveData.HideIcons)
         or (data.QuestData and data.QuestData.HideIcons and iconType ~= "complete")
         -- Hide only available quest icons of following quests. I.e. show objectives and complete icons always (when they are in questlog).
