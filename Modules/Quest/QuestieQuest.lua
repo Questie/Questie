@@ -961,7 +961,7 @@ function QuestieQuest:AddFinisher(quest)
                 end
             end
 
-            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
+            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher, key)
 
             local finisherIcons = {}
             local finisherLocs = {}
@@ -1570,6 +1570,8 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
         for i = 1, #gameObjects do
             local obj = QuestieDB:GetObject(gameObjects[i])
             if (obj ~= nil and obj.spawns ~= nil) then
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj, "o_" .. obj.id)
+
                 for zone, spawns in pairs(obj.spawns) do
                     if (zone ~= nil and spawns ~= nil) then
                         local coords
@@ -1616,7 +1618,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
             local npc = QuestieDB:GetNPC(npcs[i])
 
             if (npc ~= nil and npc.spawns ~= nil) then
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc, "m_" .. npc.id)
 
                 --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 local starterIcons = {}
