@@ -777,6 +777,9 @@ function QuestieTBCNpcFixes:Load()
         [26760] = {
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
+        [29087] = {
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.93,34.3}}},
+        },
         [178420] = {
             [npcKeys.name] = "Magister Astalor Bloodsworn",
             [npcKeys.minLevel] = 60,
