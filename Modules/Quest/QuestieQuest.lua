@@ -484,7 +484,11 @@ end
 
 ---@param questId number
 function QuestieQuest:CompleteQuest(questId)
+    -- Reset quest flags
+    QuestiePlayer.currentQuestlog[questId].WasComplete = nil
+    QuestiePlayer.currentQuestlog[questId].isComplete = nil
     QuestiePlayer.currentQuestlog[questId] = nil;
+
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
