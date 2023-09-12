@@ -4188,6 +4188,9 @@ function QuestieWotlkQuestFixes:Load()
         [14352] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [14349] = {
+            [questKeys.preQuestGroup] = {6022,6042,6133,6135,6136},
+        },
         [14418] = {
             [questKeys.requiredRaces] = raceIDs.UNDEAD,
         },
