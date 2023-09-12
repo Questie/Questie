@@ -2729,6 +2729,9 @@ function QuestieQuestFixes:Load()
         [8314] = {
             [questKeys.specialFlags] = 0, -- #1870
         },
+        [8315] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.SILITHUS]={{47.50,54.50}}}, Questie.ICON_TYPE_EVENT, l10n("Draw the glyphs into the sand to summon the Qiraji Emissary."),}},
+        },
         [8331]  ={
             [questKeys.exclusiveTo] = {8332},
         },

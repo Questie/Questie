@@ -2013,7 +2013,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.npcFlags] = npcFlags.NONE,
         },
         [14862] = {
-            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{47.50,54.50}}},
+            [npcKeys.spawns] = {[zoneIDs.SILITHUS]={{48.77,58.14}}},
         },
         [14887] = {
             [npcKeys.spawns] = {
