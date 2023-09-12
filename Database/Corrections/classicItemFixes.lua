@@ -701,6 +701,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {152606},
         },
+        [10757] = {
+            [itemKeys.class] = 12,
+        },
         [11018] = {
             [itemKeys.npcDrops] = {},
         },
@@ -1143,6 +1146,9 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {180453},
             [itemKeys.npcDrops] = {},
         },
+        [20464] = {
+            [itemKeys.class] = 12,
+        },
         [20708] = {
             [itemKeys.objectDrops] = {},
         },
@@ -1293,6 +1299,9 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.npcDrops] = {2397,8307},
             [itemKeys.objectDrops] = {},
         },
+        [20810] = {
+            [itemKeys.npcDrops] = {15612},
+        },
         -- TBC
         [25911] = {
             [itemKeys.objectDrops] = {182936},
@@ -1314,6 +1323,9 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.relatedQuests] = {555,1218},
             [itemKeys.npcDrops] = {2381,4897},
             [itemKeys.objectDrops] = {},
+        },
+        [20810] = {
+            [itemKeys.npcDrops] = {15440},
         },
         -- TBC
         [25911] = {

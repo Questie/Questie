@@ -272,6 +272,11 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.DESOLACE]={{33.22,65.67}}},
             [objectKeys.zoneID] = zoneIDs.DESOLACE,
         },
+        [400062] = {
+            [objectKeys.name] = "Rookery Egg", -- Rookery Egg in UBRS
+            [objectKeys.spawns] = {[zoneIDs.LOWER_BLACKROCK_SPIRE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.LOWER_BLACKROCK_SPIRE,
+        },
         [500000] = {
             [objectKeys.name] = "Feralas Ahi Fishing Location",
             [objectKeys.questStarts] = {},
