@@ -210,6 +210,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.SPECIAL,
             [questKeys.preQuestGroup] = {915,925},
         },
+        [5505] = {
+            [questKeys.startedBy] = {{11056}},
+            [questKeys.finishedBy] = {{11056}},
+        },
         [6185] = {
             [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{23.4,67.8}}}},
         },
