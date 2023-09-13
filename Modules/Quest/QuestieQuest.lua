@@ -854,7 +854,7 @@ end
 -- A good example for this edge case is [18] The Price of Shoes (118) where upon acceptance, Verner's Note (1283) is given
 -- to the player and the Quest is immediately flagged as Complete. If the note is destroyed then a slightly modified version
 -- of QuestieDB.IsComplete() that uses this function, returns zero allowing the quest updates to properly set the quests state.
----@param questId Number @QuestID
+---@param questId number @QuestID
 ---@param makeObjective boolean @If set to true, then this will create an incomplete objective for the missing quest item
 ---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
@@ -964,7 +964,7 @@ function QuestieQuest:AddFinisher(quest)
                 end
             end
 
-            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher)
+            QuestieTooltips:RegisterQuestStartTooltip(questId, finisher, key)
 
             local finisherIcons = {}
             local finisherLocs = {}
@@ -1573,6 +1573,8 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
         for i = 1, #gameObjects do
             local obj = QuestieDB:GetObject(gameObjects[i])
             if (obj ~= nil and obj.spawns ~= nil) then
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj, "o_" .. obj.id)
+
                 for zone, spawns in pairs(obj.spawns) do
                     if (zone ~= nil and spawns ~= nil) then
                         local coords
@@ -1619,7 +1621,7 @@ function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
             local npc = QuestieDB:GetNPC(npcs[i])
 
             if (npc ~= nil and npc.spawns ~= nil) then
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc)
+                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc, "m_" .. npc.id)
 
                 --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 local starterIcons = {}
