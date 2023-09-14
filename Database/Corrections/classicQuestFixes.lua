@@ -1948,7 +1948,7 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Gauge Neeru Fireblade's reaction to you being a member of the Burning Blade", {[zoneIDs.ORGRIMMAR]={{49.6,50.46}}}},
         },
         [5742] = {
-            [questKeys.triggerEnd] = {"Tirion's Tale", {[zoneIDs.EASTERN_PLAGUELANDS]={{7.51,43.69}}}},
+            [questKeys.objectives] = {{{1855,"Tirion's Tale"}}},
         },
         [8519] = {
             [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
