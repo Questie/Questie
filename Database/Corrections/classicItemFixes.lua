@@ -883,6 +883,9 @@ function QuestieItemFixes:Load()
             [itemKeys.objectDrops] = {},
             [itemKeys.class] = 12,
         },
+        [13156] = {
+            [itemKeys.class] = 12,
+        },
         [13422] = {
             [itemKeys.objectDrops] = {},
         },
