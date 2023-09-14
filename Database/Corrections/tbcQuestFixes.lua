@@ -4540,6 +4540,36 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {12513},
             [questKeys.finishedBy] = {{28126},nil},
         },
+        [12771] = {
+            [questKeys.preQuestSingle] = {12753},
+        },
+        [12773] = {
+            [questKeys.preQuestSingle] = {12772},
+        },
+        [12774] = {
+            [questKeys.preQuestSingle] = {12775},
+        },
+        [12776] = {
+            [questKeys.preQuestSingle] = {12777},
+        },
+        [12785] = {
+            [questKeys.preQuestSingle] = {12783},
+        },
+        [12786] = {
+            [questKeys.preQuestSingle] = {12784},
+        },
+        [12787] = {
+            [questKeys.preQuestSingle] = {12752},
+        },
+        [12788] = {
+            [questKeys.preQuestSingle] = {12782},
+        },
+        [12809] = {
+            [questKeys.preQuestSingle] = {12808},
+        },
+        [12812] = {
+            [questKeys.preQuestSingle] = {12811},
+        },
 
         -- Below are quests that were not originally in TBC or in a different form
 
