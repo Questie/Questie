@@ -1950,6 +1950,9 @@ function QuestieQuestFixes:Load()
         [5742] = {
             [questKeys.objectives] = {{{1855,"Tirion's Tale"}}},
         },
+        [5781] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the false grave for the Taelan's Hammer."), 0, {{"object", 177240}}}},
+        },
         [8519] = {
             [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
         },
