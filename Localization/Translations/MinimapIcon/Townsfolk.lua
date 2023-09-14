@@ -242,6 +242,18 @@ local townsfolkLocales = {
         ["esES"] = "Instructor de portal",
         ["frFR"] = "Maître des portails",
     },
+    ["Healing Potions"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Heiltränke",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = false,
+        ["zhTW"] = false,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
     ["Trade Goods"] = {
         ["ptBR"] = "Mercadorias",
         ["ruRU"] = "Хозяйственные товары",
