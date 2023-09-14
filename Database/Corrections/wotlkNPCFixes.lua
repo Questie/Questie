@@ -46,6 +46,9 @@ function QuestieWotlkNpcFixes:Load()
         [6740] = {
             [npcKeys.questStarts] = {3789,8356},
         },
+        [10936] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS]={{35.07,84.07}}},
+        },
         [11886] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{24.8,79.8}}},
         },

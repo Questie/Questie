@@ -214,6 +214,9 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {{11056}},
             [questKeys.finishedBy] = {{11056}},
         },
+        [5721] = {
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
+        },
         [6185] = {
             [questKeys.triggerEnd] = {"The Blightcaller Uncovered", {[zoneIDs.EASTERN_PLAGUELANDS]={{23.4,67.8}}}},
         },

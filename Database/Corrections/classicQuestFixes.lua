@@ -1940,6 +1940,7 @@ function QuestieQuestFixes:Load()
         },
         [5721] = {
             [questKeys.requiredSourceItems] = {15209}, -- #857
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
