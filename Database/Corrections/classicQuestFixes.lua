@@ -2447,10 +2447,12 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [7481] = {
-            [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71}}}},
+            [questKeys.objectives] = {nil,{{179544,"Master Telmius Dreamseeker Found"}}},
+            [questKeys.objectivesText] = {"Search Dire Maul for Telmius Dreamseeker. Report back to Sage Korolusk at Camp Mojache with whatever information that you may find."},
         },
         [7482] = {
-            [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71}}}},
+            [questKeys.objectives] = {nil,{{179544,"Master Telmius Dreamseeker Found"}}},
+            [questKeys.objectivesText] = {"Search Dire Maul for Telmius Dreamseeker. Report back to Scholar Runethorn at Feathermoon with whatever information that you may find."},
         },
         [7483] = {
             [questKeys.preQuestSingle] = {7481,7482},
