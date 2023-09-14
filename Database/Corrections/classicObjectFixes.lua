@@ -213,6 +213,9 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{56,63}}},
             [objectKeys.zoneID] = zoneIDs.ASHENVALE,
         },
+        [179544] = {
+            [objectKeys.name] = "Skeletal Remains of Telmius Dreamseeker",
+        },
         [179908] = {
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9}}},
         },
