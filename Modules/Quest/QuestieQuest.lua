@@ -490,25 +490,25 @@ function QuestieQuest:CompleteQuest(questId)
         QuestiePlayer.currentQuestlog[questId].WasComplete = nil
         QuestiePlayer.currentQuestlog[questId].isComplete = nil
         QuestiePlayer.currentQuestlog[questId] = nil;
-
-        -- Only quests that are daily quests or aren't repeatable should be marked complete,
-        -- otherwise objectives for repeatable quests won't track correctly - #1433
-        Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
-        QuestieMap:UnloadQuestFrames(questId)
-
-        if (QuestieMap.questIdFrames[questId]) then
-            Questie:Error("Just removed all frames but the framelist seems to still be there!", questId)
-        end
-
-        QuestieTooltips:RemoveQuest(questId)
-        QuestieTracker:RemoveQuest(questId)
-        QuestieCombatQueue:Queue(function()
-            QuestieTracker:Update()
-        end)
-
-        -- TODO: Should this be done first? Because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
     end
+
+    -- Only quests that are daily quests or aren't repeatable should be marked complete,
+    -- otherwise objectives for repeatable quests won't track correctly - #1433
+    Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
+    QuestieMap:UnloadQuestFrames(questId)
+
+    if (QuestieMap.questIdFrames[questId]) then
+        Questie:Error("Just removed all frames but the framelist seems to still be there!", questId)
+    end
+
+    QuestieTooltips:RemoveQuest(questId)
+    QuestieTracker:RemoveQuest(questId)
+    QuestieCombatQueue:Queue(function()
+        QuestieTracker:Update()
+    end)
+
+    -- TODO: Should this be done first? Because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
+    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Completed Quest:", questId)
 end
