@@ -1723,7 +1723,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {5058}, -- #922
         },
         [5060] = {
-            [questKeys.preQuestSingle] = {5059}, -- #922
+            [questKeys.preQuestSingle] = {5058}, -- #922
         },
         [5063] = {
             [questKeys.specialFlags] = 1, -- #1335
