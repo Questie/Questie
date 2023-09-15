@@ -308,7 +308,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
         local zoneName = QuestieJourneyUtils:GetZoneName(startindex)
 
-        spawnZone:SetText(zoneName);
+        spawnZone:SetText(l10n(zoneName));
         spawnZone:SetFullWidth(true);
         f:AddChild(spawnZone);
 
