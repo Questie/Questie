@@ -42,9 +42,10 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId;
-    tooltip.objective = objective
+    local tooltip = {
+        questId = questId,
+        objective = objective,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
     table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
@@ -59,9 +60,10 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId
-    tooltip.npc = npc
+    local tooltip = {
+        questId = questId,
+        npc = npc,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. npc.name] = tooltip
     table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
