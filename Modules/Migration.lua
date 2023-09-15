@@ -225,7 +225,12 @@ local migrationFunctions = {
         if Questie.db.global.currentBackdropFader == nil then                                   -- new option
             Questie.db.global.currentBackdropFader = Questie.db.global.trackerBackdropFader     -- set trackerBackdropFader default
         end
-    end
+    end,
+    [24] = function()
+        if Questie.IsHardcore then
+            Questie.db.char.townsfolkConfig["Potions"] = true
+        end
+    end,
 }
 
 function Migration:Migrate()
