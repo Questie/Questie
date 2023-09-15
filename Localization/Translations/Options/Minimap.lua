@@ -28,7 +28,7 @@ local minimapOptionsLocales = {
     },
     ["Always Glow Behind Minimap Icons"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mini-mapa",
-        ["ruRU"] = "Подсветка значков",
+        ["ruRU"] = "Подсветка значков (миникарта)",
         ["deDE"] = "Minimap-Icons immer leuchten lassen",
         ["koKR"] = "미니맵 아이콘 반짝임 사용",
         ["esMX"] = "Mostrar aura detrás de los iconos de minimapa",
