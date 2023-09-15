@@ -52,7 +52,7 @@ local mapOptionsLocales = {
     },
     ["Always Glow Behind Map Icons"] = {
         ["ptBR"] = "Sempre visível atrás dos ícones do mapa",
-        ["ruRU"] = "Подсветка значков",
+        ["ruRU"] = "Подсветка значков (карта мира)",
         ["deDE"] = "Weltkarten-Icons immer leuchten lassen",
         ["koKR"] = "지도 아이콘 반짝임 사용",
         ["esMX"] = "Mostrar aura detrás de los iconos de mapa",
