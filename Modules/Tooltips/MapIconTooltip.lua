@@ -93,7 +93,7 @@ function MapIconTooltip:Show()
     --end
 
     local usedText = {}
-    local npcOrder = {};
+    local npcAndObjectOrder = {};
     local questOrder = {};
     local manualOrder = {}
 
@@ -123,12 +123,12 @@ function MapIconTooltip:Show()
             local dist = QuestieLib:Maxdist(icon.x, icon.y, self.x, self.y);
             if dist < maxDistCluster then
                 if iconData.Type == "available" or iconData.Type == "complete" then
-                    if not npcOrder[iconData.Name] then
-                        npcOrder[iconData.Name] = {};
+                    if not npcAndObjectOrder[iconData.Name] then
+                        npcAndObjectOrder[iconData.Name] = {};
                     end
 
                     local tip = _MapIconTooltip:GetAvailableOrCompleteTooltip(icon)
-                    npcOrder[iconData.Name][tip.title] = tip
+                    npcAndObjectOrder[iconData.Name][tip.title] = tip
                 elseif iconData.ObjectiveData and iconData.ObjectiveData.Description then
                     local key = iconData.Id
                     if not questOrder[key] then
@@ -183,7 +183,7 @@ function MapIconTooltip:Show()
         end
     end
 
-    Tooltip.npcOrder = npcOrder
+    Tooltip.npcAndObjectOrder = npcAndObjectOrder
     Tooltip.questOrder = questOrder
     Tooltip.manualOrder = manualOrder
     Tooltip.miniMapIcon = self.miniMapIcon
@@ -194,7 +194,7 @@ function MapIconTooltip:Show()
         local firstLine = true;
         local playerIsHuman = QuestiePlayer:GetRaceId() == 1
         local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
-        for npcOrObjectName, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
+        for npcOrObjectName, quests in pairs(self.npcAndObjectOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
@@ -385,7 +385,7 @@ function MapIconTooltip:Show()
             end
         end
 
-        if next(self.npcOrder) and next(self.manualOrder) then
+        if next(self.npcAndObjectOrder) and next(self.manualOrder) then
             -- Spacer before townsfolk
             self:AddLine("             ")
         end
