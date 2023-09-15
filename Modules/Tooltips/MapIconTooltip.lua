@@ -194,20 +194,20 @@ function MapIconTooltip:Show()
         local firstLine = true;
         local playerIsHuman = QuestiePlayer:GetRaceId() == 1
         local playerIsHonoredWithShaTar = (not QuestieReputation:HasReputation(nil, { 935, 8999 }))
-        for questTitle, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
+        for npcOrObjectName, quests in pairs(self.npcOrder) do -- this logic really needs to be improved
             haveGiver = true
             if shift and (not firstLine) then
                 -- Spacer between NPCs
                 self:AddLine("             ")
             end
             if (firstLine and not shift) then
-                self:AddDoubleLine(questTitle, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
+                self:AddDoubleLine(npcOrObjectName, "(" .. l10n('Hold Shift') .. ")", 0.2, 1, 0.2, 0.43, 0.43, 0.43);
                 firstLine = false;
             elseif (firstLine and shift) then
-                self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
                 firstLine = false;
             else
-                self:AddLine(questTitle, 0.2, 1, 0.2);
+                self:AddLine(npcOrObjectName, 0.2, 1, 0.2);
             end
 
             for _, questData in pairs(quests) do
