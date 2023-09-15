@@ -230,6 +230,18 @@ local classicObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Collect eggs using the Collectronic Module."] = { -- 4735
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Summon Xabraxxis once you have the required items from the Blackwood Stores."] = { -- 4763
         ["ptBR"] = false,
         ["ruRU"] = false,

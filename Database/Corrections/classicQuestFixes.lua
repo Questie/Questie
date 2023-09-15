@@ -1627,6 +1627,9 @@ function QuestieQuestFixes:Load()
         [4734] = {
             [questKeys.objectives] = {nil,{{400062,"Test the Eggscilliscope Prototype"}}},
         },
+        [4735] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect eggs using the Collectronic Module."), 0, {{"object", 400062}}}},
+        },
         [4736] = {
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
