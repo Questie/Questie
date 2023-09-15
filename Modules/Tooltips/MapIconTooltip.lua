@@ -408,6 +408,7 @@ function MapIconTooltip:Show()
     end
     Tooltip:_Rebuild() -- we separate this so things like MODIFIER_STATE_CHANGED can redraw the tooltip
     Tooltip:SetFrameStrata("TOOLTIP");
+    Tooltip.ShownAsMapIcon = true
     Tooltip:Show();
 end
 
