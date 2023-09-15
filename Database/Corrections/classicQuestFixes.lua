@@ -1621,6 +1621,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
             [questKeys.exclusiveTo] = {788}, -- #1956
         },
+        [4729] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Empty Worg Pup Cage to capture it."), 0, {{"monster", 10221}}}},
+        },
         [4734] = {
             [questKeys.objectives] = {nil,{{400062,"Test the Eggscilliscope Prototype"}}},
         },
@@ -1630,8 +1633,16 @@ function QuestieQuestFixes:Load()
         [4737] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+        [4742] = {
+            [questKeys.startedBy] = {{10299}},
+            [questKeys.finishedBy] = {{10299}},
+        },
         [4743] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}}},
+            [questKeys.startedBy] = {{10299}},
+            [questKeys.finishedBy] = {{10299}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Beat Emberstrife till his will is broken, then place the Unforged Seal of Ascension before him and use the Orb of Draconic Energy."), 0, {{"monster", 10321}}},
+			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use the Flames of the Black Flight over it to create the Seal."), 0, {{"object", 175321}}},
+			},
         },
         [4763] = {
             [questKeys.requiredSourceItems] = {12341,12342,12343,12347}, -- #798
@@ -1680,6 +1691,12 @@ function QuestieQuestFixes:Load()
         [4866] = {
             [questKeys.objectives] = {{{9563,"Milked"}}},
         },
+        [4867] = {
+            [questKeys.requiredSourceItems] = {12533,12534},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshot Pike."),0,{{"object", 175621}}},
+			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 400063}}},
+			},
+        },
         [4881] = {
             [questKeys.startedBy] = {{10617},nil,{12564}},
         },
@@ -1723,7 +1740,7 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {5058}, -- #922
         },
         [5060] = {
-            [questKeys.preQuestSingle] = {5059}, -- #922
+            [questKeys.preQuestSingle] = {5058}, -- #922
         },
         [5063] = {
             [questKeys.specialFlags] = 1, -- #1335
@@ -1940,6 +1957,7 @@ function QuestieQuestFixes:Load()
         },
         [5721] = {
             [questKeys.requiredSourceItems] = {15209}, -- #857
+            [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{38.8,91.2}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
         },
         -- Salve via Hunting/Mining/Gathering/Skinning/Disenchanting non repeatable quests
         -- Alliance
@@ -1947,7 +1965,10 @@ function QuestieQuestFixes:Load()
             [questKeys.triggerEnd] = {"Gauge Neeru Fireblade's reaction to you being a member of the Burning Blade", {[zoneIDs.ORGRIMMAR]={{49.6,50.46}}}},
         },
         [5742] = {
-            [questKeys.triggerEnd] = {"Tirion's Tale", {[zoneIDs.EASTERN_PLAGUELANDS]={{7.51,43.69}}}},
+            [questKeys.objectives] = {{{1855,"Tirion's Tale"}}},
+        },
+        [5781] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Search the false grave for the Taelan's Hammer."), 0, {{"object", 177240}}}},
         },
         [8519] = {
             [questKeys.triggerEnd] = {"The War of the Shifting Sands", {[zoneIDs.SILITHUS]={{29.04,92.09}}}},
@@ -2073,6 +2094,9 @@ function QuestieQuestFixes:Load()
         },
         [6027] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Lord Kragaru"), 0, {{"object", 400060}}}},
+        },
+        [6041] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the bomb!"), 0, {{"object", 177668}}}},
         },
         [6061] = {
             [questKeys.objectives] = {{{2956, nil}}},
@@ -2447,10 +2471,12 @@ function QuestieQuestFixes:Load()
             [questKeys.zoneOrSort] = sortKeys.MAGE,
         },
         [7481] = {
-            [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71}}}},
+            [questKeys.objectives] = {nil,{{179544,"Master Telmius Dreamseeker Found"}}},
+            [questKeys.objectivesText] = {"Search Dire Maul for Telmius Dreamseeker. Report back to Sage Korolusk at Camp Mojache with whatever information that you may find."},
         },
         [7482] = {
-            [questKeys.triggerEnd] = {"Master Kariel Winthalus Found", {[zoneIDs.FERALAS]={{62.86,24.88},{60.34,30.71}}}},
+            [questKeys.objectives] = {nil,{{179544,"Master Telmius Dreamseeker Found"}}},
+            [questKeys.objectivesText] = {"Search Dire Maul for Telmius Dreamseeker. Report back to Scholar Runethorn at Feathermoon with whatever information that you may find."},
         },
         [7483] = {
             [questKeys.preQuestSingle] = {7481,7482},
