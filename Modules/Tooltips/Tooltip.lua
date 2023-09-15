@@ -32,8 +32,6 @@ local MAX_GROUP_MEMBER_COUNT = 6
 
 local _InitObjectiveTexts
 
-local lastTooltipUpdate = GetTime()
-
 ---@param questId number
 ---@param key string monster: m_, items: i_, objects: o_ + string name of the objective
 ---@param objective table
@@ -53,8 +51,8 @@ end
 
 ---@param questId number
 ---@param npc table
-function QuestieTooltips:RegisterQuestStartTooltip(questId, npc)
-    local key = "m_" .. npc.id
+---@param key string @Either m_<npcId> or o_<objectId>
+function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
     if not QuestieTooltips.lookupByKey[key] then
         QuestieTooltips.lookupByKey[key] = {};
     end

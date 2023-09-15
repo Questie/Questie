@@ -31,7 +31,6 @@ local REPUTATION_ICON_TEXTURE = "|T" .. REPUTATION_ICON_PATH .. ":14:14:2:0|t"
 local TRANSPARENT_ICON_PATH = "Interface\\Minimap\\UI-bonusobjectiveblob-inside.blp"
 local TRANSPARENT_ICON_TEXTURE = "|T" .. TRANSPARENT_ICON_PATH .. ":14:14:2:0|t"
 
-local WRAP_TEXT = 1;
 local DEFAULT_WAYPOINT_HOVER_COLOR = { 0.93, 0.46, 0.13, 0.8 }
 
 local lastTooltipShowTimestamp = GetTime()
@@ -357,15 +356,20 @@ function MapIconTooltip:Show()
             local defaultQuestColor = QuestieLib:GetRGBForObjective({})
             if shift then
                 local creatureLevels = QuestieDB:GetCreatureLevels(quest) -- Data for min and max level
+                local addedCreatureNames = {}
                 for _, textData in pairs(textList) do
                     for textLine, nameData in pairs(textData) do
                         local dataType = type(nameData)
                         if dataType == "table" then
                             for name in pairs(nameData) do
-                                name = _GetLevelString(creatureLevels, name)
-                                self:AddLine("   |cFFDDDDDD" .. name);
+                                if (not addedCreatureNames[name]) then
+                                    addedCreatureNames[name] = true
+                                    name = _GetLevelString(creatureLevels, name)
+                                    self:AddLine("   |cFFDDDDDD" .. name);
+                                end
                             end
-                        elseif dataType == "string" then
+                        elseif dataType == "string" and (not addedCreatureNames[nameData]) then
+                            addedCreatureNames[nameData] = true
                             nameData = _GetLevelString(creatureLevels, nameData)
                             self:AddLine("   |cFFDDDDDD" .. nameData);
                         end
@@ -549,14 +553,16 @@ function _MapIconTooltip:AddTooltipsForQuest(icon, tip, quest, usedText)
     for text, nameTable in pairs(tip) do
         local data = {}
         data[text] = nameTable
-        --Add the data for the first time
+        -- Add the data for the first time
         if not usedText[icon.data.Id] then
-            usedText[icon.data.Id] = {}
-
-            if not usedText[icon.data.Id][text] then
-                tinsert(quest, data)
-                usedText[icon.data.Id][text] = true
-            end
+            usedText[icon.data.Id] = {
+                [text] = true
+            }
+            tinsert(quest, data)
+            -- add another line to an existing entry
+        elseif not usedText[icon.data.Id][text] then
+            tinsert(quest, data)
+            usedText[icon.data.Id][text] = true
         else
             --We want to add more NPCs as possible candidates when shift is pressed.
             if icon.data.Name then
