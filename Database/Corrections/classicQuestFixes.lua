@@ -1621,6 +1621,9 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE, -- #877
             [questKeys.exclusiveTo] = {788}, -- #1956
         },
+        [4729] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Empty Worg Pup Cage to capture it."), 0, {{"monster", 10221}}}},
+        },
         [4734] = {
             [questKeys.objectives] = {nil,{{400062,"Test the Eggscilliscope Prototype"}}},
         },
