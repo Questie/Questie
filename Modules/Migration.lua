@@ -228,6 +228,9 @@ local migrationFunctions = {
     end,
     [24] = function()
         if Questie.IsHardcore then
+            if (not Questie.db.char.townsfolkConfig) then
+                Questie.db.char.townsfolkConfig = {}
+            end
             Questie.db.char.townsfolkConfig["Potions"] = true
         end
     end,
