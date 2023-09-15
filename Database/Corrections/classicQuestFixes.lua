@@ -1683,6 +1683,12 @@ function QuestieQuestFixes:Load()
         [4866] = {
             [questKeys.objectives] = {{{9563,"Milked"}}},
         },
+        [4867] = {
+            [questKeys.requiredSourceItems] = {12533,12534},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Combine Omokk's Head with the Roughshot Pike."),0,{{"object", 175621}}},
+			                               {nil, Questie.ICON_TYPE_OBJECT, l10n("Use it to instantly kill one nearby ogre."),0,{{"object", 400063}}},
+			},
+        },
         [4881] = {
             [questKeys.startedBy] = {{10617},nil,{12564}},
         },
