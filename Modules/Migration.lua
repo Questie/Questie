@@ -227,7 +227,7 @@ local migrationFunctions = {
         end
     end,
     [24] = function()
-        if Questie.isHardcore then
+        if Questie.IsHardcore then
             Questie.db.char.townsfolkConfig["Potions"] = true
         end
     end,
@@ -245,7 +245,7 @@ function Migration:Migrate()
     end
 
     local player = UnitName("Player") .. GetRealmName()
-    local currentVersion = Questie.db.global.migrationVersion[player] or 0
+    local currentVersion = Questie.db.global.migrationVersion[UnitName("Player") .. GetRealmName()] or 0
     local targetVersion = table.getn(migrationFunctions)
 
     if currentVersion == targetVersion then
