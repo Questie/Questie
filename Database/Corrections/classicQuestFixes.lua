@@ -2078,6 +2078,9 @@ function QuestieQuestFixes:Load()
         [6027] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Summon Lord Kragaru"), 0, {{"object", 400060}}}},
         },
+        [6041] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the bomb!"), 0, {{"object", 177668}}}},
+        },
         [6061] = {
             [questKeys.objectives] = {{{2956, nil}}},
             [questKeys.questFlags] = 0,
