@@ -6,8 +6,6 @@ local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
 local QuestieDBMIntegration = QuestieLoader:ImportModule("QuestieDBMIntegration")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieQuestBlacklist
-local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
 ---@type DailyQuests
 local DailyQuests = QuestieLoader:ImportModule("DailyQuests")
 ---@type QuestieLink
@@ -137,7 +135,7 @@ function _Qframe:OnLeave()
 
     --Reset highlighting if it exists.
     if self.data.lineFrames then
-        for k, lineFrame in pairs(self.data.lineFrames) do
+        for _, lineFrame in pairs(self.data.lineFrames) do
             local line = lineFrame.line
             line:SetColorTexture(line.dR, line.dG, line.dB, line.dA)
         end
@@ -151,6 +149,7 @@ function _Qframe:OnLeave()
         end
         self.data.touchedPins = nil;
     end
+    GameTooltip.ShownAsMapIcon = false
 end
 
 function _Qframe:OnClick(button)
@@ -345,7 +344,7 @@ function _Qframe:Unload()
     end
     --Unload potential waypoint frames that are used for pathing.
     if self.data and self.data.lineFrames then
-        for index, lineFrame in pairs(self.data.lineFrames) do
+        for _, lineFrame in pairs(self.data.lineFrames) do
             lineFrame:Unload();
         end
     end
