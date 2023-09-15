@@ -47,7 +47,7 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
         objective = objective,
     };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
@@ -65,7 +65,7 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
         npc = npc,
     };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. npc.name] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
@@ -231,7 +231,7 @@ function QuestieTooltips:GetTooltip(key)
             if tooltip.npc then
                 if Questie.db.char.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                    table.insert(tooltipLines, questString)
+                    tinsert(tooltipLines, questString)
                 end
             else
                 local objective = tooltip.objective
