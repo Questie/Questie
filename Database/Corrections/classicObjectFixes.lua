@@ -170,6 +170,14 @@ function QuestieObjectFixes:Load()
         [175265] = {
             [objectKeys.spawns] = {[zoneIDs.UNDERCITY]={{47.74,73.57}}}, -- #1520
         },
+        [175321] = {
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{56.37,87.83}}},
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+        },
+        [175322] = {
+            [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{56.37,87.83}}},
+            [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
+        },
         [176150] = {
             [objectKeys.spawns] = {
                 [zoneIDs.WESTERN_PLAGUELANDS]={{43.60,69.97},{43.46,70.11},{43.38,69.97},{43.39,69.69},{43.37,69.51},{43.41,69.22},{43.59,69.30},{43.54,69.12},{43.42,68.78},{43.59,68.82}},
