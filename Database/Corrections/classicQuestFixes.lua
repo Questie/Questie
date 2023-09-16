@@ -1733,6 +1733,9 @@ function QuestieQuestFixes:Load()
         [5041] = {
             [questKeys.preQuestSingle] = {},
         },
+        [5047] = {
+            [questKeys.name] = "Pip Quickwit, At Your Service!",
+        },
         [5056] = {
             [questKeys.requiredSourceItems] = {12733},
         },

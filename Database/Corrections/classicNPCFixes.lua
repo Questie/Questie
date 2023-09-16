@@ -1274,6 +1274,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10776] = {
+            [npcKeys.name] = "Pip Quickwit",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
