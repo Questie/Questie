@@ -48,8 +48,11 @@ function QuestieItemBlacklist:Load()
         [8845] = true, -- ghost mushroom
         [8846] = true, -- gromsblood
         [8932] = true, -- Alterac Swiss
+        [8956] = true, -- Oil of Immolation
+        [9061] = true, -- Goblin Rocket Fuel
         [10561] = true, -- Mithril Casing
         [10593] = true, -- imperfect-draenethyst-fragment
+        [11178] = true, -- Large Radiant Shard
         [12207] = true, -- giant egg
         [12361] = true, -- blue sapphire
         [12363] = true, -- arcane crystal
@@ -69,8 +72,13 @@ function QuestieItemBlacklist:Load()
         [13757] = true, -- Lightning Eel
         [14047] = true, -- runecloth
         [14048] = true, -- bolt of runecloth
+        [14227] = true, -- Ironweb Spider Silk
         [14344] = true, -- large brilliant shard
+        [14530] = true, -- Heavy Runecloth Bandage
+        [15992] = true, -- Dense Blasting Powder
         [18335] = true, -- Pristine Black Diamond
+        [19440] = true, -- Powerful Anti-Venom
+        [20452] = true, -- Smoked Desert Dumplings
 
         -- stranglethorn pages
         [2725] = true,
