@@ -196,6 +196,9 @@ function QuestieWotlkQuestFixes:Load()
         [4763] = {
             [questKeys.objectives] = {nil,nil,{{12355}}},
         },
+        [4771] = {
+            [questKeys.preQuestSingle] = {5522},
+        },
         [4822] = {
             [questKeys.questLevel] = -1,
             [questKeys.parentQuest] = 0,
@@ -213,6 +216,9 @@ function QuestieWotlkQuestFixes:Load()
         [5505] = {
             [questKeys.startedBy] = {{11056}},
             [questKeys.finishedBy] = {{11056}},
+        },
+        [5531] = {
+            [questKeys.nextQuestInChain] = nil,
         },
         [5721] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.EASTERN_PLAGUELANDS]={{35.01,84.05}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Relic Bundle in the Town Square."),}},
