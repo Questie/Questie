@@ -106,7 +106,7 @@ local tooltipsUILocales = {
         ["esMX"] = "Empezada por",
         ["enUS"] = true,
         ["zhCN"] = "任务开始于",
-        ["zhTW"] = "任務始於",
+        ["zhTW"] = "任務開始於",
         ["esES"] = "Empezada por",
         ["frFR"] = "Début",
     },
@@ -130,7 +130,7 @@ local tooltipsUILocales = {
         ["esMX"] = "Terminada el:",
         ["enUS"] = true,
         ["zhCN"] = "完成于:",
-        ["zhTW"] = "完成於:",
+        ["zhTW"] = "已完成:",
         ["esES"] = "Terminada el:",
         ["frFR"] = "Complété le:",
     }

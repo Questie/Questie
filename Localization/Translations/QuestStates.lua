@@ -74,15 +74,15 @@ local questStateLocales = {
         ["esES"] = "Repetible",
         ["frFR"] = "Répétable",
     },
-    ["PvP"] = {
+	["PvP"] = {
         ["ptBR"] = false,
         ["ruRU"] = true,
         ["deDE"] = false,
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = false,
-        ["zhTW"] = false,
+        ["zhCN"] = "PvP",
+        ["zhTW"] = "PvP",
         ["esES"] = false,
         ["frFR"] = false,
     },
