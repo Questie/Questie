@@ -110,6 +110,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{74.46,52.15}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [16254] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{42.65,37.3}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [16281] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{75.16,54.39}}},
         },

@@ -2446,6 +2446,10 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,57.8}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
+        [16254] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47.2,42.6}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
         [16255] = {
             [npcKeys.spawns] = {
                 [zoneIDs.ORGRIMMAR] = {{52.5,73.7}},
