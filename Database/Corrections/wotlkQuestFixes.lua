@@ -3062,6 +3062,9 @@ function QuestieWotlkQuestFixes:Load()
                 [zoneIDs.DALARAN]={{58.3,20.5}},
             }},
         },
+        [13408] = { 
+            [questKeys.preQuestSingle] = {10143,10483},
+        },
         [13409] = {
             [questKeys.preQuestSingle] = {10124},
         },

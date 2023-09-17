@@ -1548,7 +1548,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10106] = {
             [questKeys.questLevel] = -1,
-            [questKeys.preQuestSingle] = {10143,10483},
             [questKeys.requiredMaxRep] = {},
         },
         [10107] = {
@@ -1559,7 +1558,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10110] = {
             [questKeys.questLevel] = -1,
-            [questKeys.preQuestSingle] = {10124},
             [questKeys.requiredMaxRep] = {},
         },
         [10113] = {
