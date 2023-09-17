@@ -1033,6 +1033,23 @@ function QuestieQuestBlacklist:Load()
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
         [64217] = true, -- Boosted character quest
+        [70395] = true, -- First quest for boosted characters. Blocked to not show for others
+        [70396] = true, -- First quest for boosted characters. Blocked to not show for others
+        [70397] = true, -- Boosted character quest
+        [70398] = true, -- Boosted character quest
+        [70401] = true, -- Boosted character quest
+        [70411] = true, -- Boosted character quest
+        [70734] = true, -- Boosted character quest
+        [70735] = true, -- Boosted character quest
+        [70736] = true, -- Boosted character quest
+        [70737] = true, -- Boosted character quest
+        [70761] = true, -- Boosted character quest
+        [70762] = true, -- First quest for boosted characters. Blocked to not show for others
+        [70764] = true, -- Boosted character quest
+        [70765] = true, -- Boosted character quest
+        [70865] = true, -- Boosted character quest
+        [70869] = true, -- Boosted character quest
+        [70870] = true, -- Boosted character quest
 
 		-- Paladin class quests with SWP patch
         [64319] = true, -- removed in wotlk

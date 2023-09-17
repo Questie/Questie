@@ -1,5 +1,6 @@
 ---@class QuestieWotlkItemFixes
 local QuestieWotlkItemFixes = QuestieLoader:CreateModule("QuestieWotlkItemFixes")
+local _QuestieWotlkItemFixes = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -8,6 +9,8 @@ local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 -- https://github.com/Questie/Questie/wiki/Corrections
 
 function QuestieWotlkItemFixes:Load()
+    _QuestieWotlkItemFixes:InsertMissingItemIds()
+
     local itemKeys = QuestieDB.itemKeys
     local itemClasses = QuestieDB.itemClasses
 
@@ -524,5 +527,46 @@ function QuestieWotlkItemFixes:Load()
         [49915] = {
             [itemKeys.npcDrops] = {37715},
         },
+
+        -- Boost quest items
+        [199335] = {
+            [itemKeys.name] = 'Teleport Scroll: Menethil Harbor',
+            [itemKeys.relatedQuests] = {70411},
+            [itemKeys.class] = 12,
+            [itemKeys.flags] = 64,
+        },
+        [199336] = {
+            [itemKeys.name] = 'Teleport Scroll: Stormwind Harbor',
+            [itemKeys.relatedQuests] = {70411},
+            [itemKeys.class] = 12,
+            [itemKeys.flags] = 64,
+        },
+        [199777] = {
+            [itemKeys.name] = 'Teleport Scroll: Orgrimmar Zeppelin Tower',
+            [itemKeys.relatedQuests] = {70737},
+            [itemKeys.class] = 12,
+            [itemKeys.flags] = 64,
+        },
+        [199778] = {
+            [itemKeys.name] = 'Teleport Scroll: Undercity Zeppelin Tower',
+            [itemKeys.relatedQuests] = {70737},
+            [itemKeys.class] = 12,
+            [itemKeys.flags] = 64,
+        },
+        [200068] = {
+            [itemKeys.name] = 'Teleport Scroll: Shattrath City',
+            [itemKeys.relatedQuests] = {70865},
+            [itemKeys.class] = 12,
+            [itemKeys.flags] = 64,
+        },
     }
+end
+
+function _QuestieWotlkItemFixes:InsertMissingItemIds()
+    -- Boost quest items
+    QuestieDB.itemData[199335] = {} -- Teleport Scroll: Menethil Harbor
+    QuestieDB.itemData[199336] = {} -- Teleport Scroll: Stormwind Harbor
+    QuestieDB.itemData[199777] = {} -- Teleport Scroll: Orgrimmar Zeppelin Tower
+    QuestieDB.itemData[199778] = {} -- Teleport Scroll: Undercity Zeppelin Tower
+    QuestieDB.itemData[200068] = {} -- Teleport Scroll: Shattrath City
 end

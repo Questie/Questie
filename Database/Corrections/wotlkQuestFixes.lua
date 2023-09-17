@@ -1,5 +1,6 @@
 ---@class QuestieWotlkQuestFixes
 local QuestieWotlkQuestFixes = QuestieLoader:CreateModule("QuestieWotlkQuestFixes")
+local _QuestieWotlkQuestFixes = {}
 
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
@@ -23,6 +24,8 @@ QuestieCorrections.killCreditObjectiveFirst[13373] = true
 QuestieCorrections.killCreditObjectiveFirst[13380] = true
 
 function QuestieWotlkQuestFixes:Load()
+    _QuestieWotlkQuestFixes:InsertMissingQuestIds()
+	
     local questKeys = QuestieDB.questKeys
     local raceIDs = QuestieDB.raceKeys
     local classIDs = QuestieDB.classKeys
@@ -4539,5 +4542,221 @@ function QuestieWotlkQuestFixes:Load()
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
+
+        ----- Boosted character quests -----
+        [70395] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Meet with your class trainer in Stormwind."},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [70396] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Meet with your class trainer in Orgrimmar."},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [70397] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400009, "Open the Survival Kit"}, {400010, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [70398] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400011, "Train a Spell"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [70401] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
+        [70411] = {
+            [questKeys.name] = "To the Dockmaster",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{26546,26548},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Use a scroll of teleportation from your inventory to reach the harbor and speak to the dock master."},
+            [questKeys.requiredSourceItems] = {199335,199336},
+            [questKeys.zoneOrSort] = 150,
+        },
+        [70734] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400001, "Open the Survival Kit"}, {400002, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [70735] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400005, "Train a Spell"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [70736] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400007, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [70737] = {
+            [questKeys.name] = "To the Zeppelin Master",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.finishedBy] = {{26537,26539},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Use a scroll of teleportation from your inventory to reach the zeppelin tower and speak to the zeppelin master."},
+            [questKeys.requiredSourceItems] = {199777,199778},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [70761] = {
+            [questKeys.name] = "Tools for Survival",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Open the survival kit and equip a weapon."},
+            [questKeys.objectives] = {nil,{{400003, "Open the Survival Kit"}, {400004, "Equip a Weapon"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1638,
+        },
+        [70762] = {
+            [questKeys.name] = "A New Beginning",
+            [questKeys.startedBy] = {}, -- This quest is auto accept
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Meet with your Druid trainer in Thunder Bluff."},
+            [questKeys.zoneOrSort] = 1638,
+        },
+        [70764] = {
+            [questKeys.name] = "Combat Training",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Train a spell by speaking to your class trainer."},
+            [questKeys.objectives] = {nil,{{400006, "Train a Spell"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1638,
+        },
+        [70765] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{3036},nil,nil},
+            [questKeys.finishedBy] = {{3036},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.TAUREN,
+            [questKeys.requiredClasses] = classIDs.DRUID,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400008, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1638,
+        },
+        [70865] = {
+            [questKeys.name] = "To Shattrath City",
+            [questKeys.startedBy] = {{376,914,928,3036,3324,3328,3344,3406,5495,5497,5505,5515,5885,5994,13283,20407,23128},nil,nil},
+            [questKeys.finishedBy] = {{19684},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"Use the scroll of teleportation from your inventory to reach Shattrath City and speak to the mysterious Haggard War Veteran."},
+            [questKeys.requiredSourceItems] = {200068},
+            [questKeys.zoneOrSort] = 3897,
+        },
+        [70869] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.finishedBy] = {{3324,3328,3344,3353,3406,5885,5994,23128},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400007, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1637,
+        },
+        [70870] = {
+            [questKeys.name] = "Talented",
+            [questKeys.startedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil,nil},
+            [questKeys.finishedBy] = {{376,914,928,5495,5497,5505,5515,13283,20407},nil},
+            [questKeys.requiredLevel] = 70,
+            [questKeys.questLevel] = 70,
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.objectivesText] = {"Activate the Talents interface and allocate 5 Talent Points."},
+            [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
+            [questKeys.zoneOrSort] = 1519,
+        },
     }
+end
+
+function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
+
+    -- Alliance boosted quests
+    QuestieDB.questData[70395] = {} -- A New Beginning
+    QuestieDB.questData[70397] = {} -- Tools for Survival
+    QuestieDB.questData[70398] = {} -- Combat Training
+    QuestieDB.questData[70401] = {} -- Talented
+    QuestieDB.questData[70411] = {} -- To the Dockmaster
+    QuestieDB.questData[70870] = {} -- Talented
+	
+    -- Horde boosted quests
+    QuestieDB.questData[70396] = {} -- A New Beginning
+    QuestieDB.questData[70734] = {} -- Tools for Survival
+    QuestieDB.questData[70735] = {} -- Combat Training
+    QuestieDB.questData[70736] = {} -- Talented
+    QuestieDB.questData[70737] = {} -- To the Zeppelin Master
+    QuestieDB.questData[70761] = {} -- Tools for Survival
+    QuestieDB.questData[70762] = {} -- A New Beginning
+    QuestieDB.questData[70764] = {} -- Combat Training
+    QuestieDB.questData[70765] = {} -- Talented
+    QuestieDB.questData[70869] = {} -- Talented
+
+    -- Neutral boosted quests
+    QuestieDB.questData[70865] = {} -- To Shattrath City
 end
