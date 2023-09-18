@@ -20,6 +20,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 ---@type QuestieMap
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap")
+---@type QuestieCoords
+local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type l10n
@@ -486,15 +488,10 @@ function TrackerUtils:ReportErrorMessage(zoneOrSort)
     Questie:Error("|cff00bfffhttps://github.com/Questie/Questie/issues|r")
 end
 
----@return table|nil position Retuns Players current X/Y coordinates or nil if a Players postion can't be determined
+---@return table|nil position Returns Players current X/Y coordinates or nil if a Players postion can't be determined
 local function _GetWorldPlayerPosition()
     -- Turns coords into 'world' coords so it can be compared with any coords in another zone
-    local uiMapId = C_Map.GetBestMapForUnit("player")
-    if (not uiMapId) then
-        return nil
-    end
-
-    local mapPosition = C_Map.GetPlayerMapPosition(uiMapId, "player")
+    local mapPosition, mapID = QuestieCoords.GetPlayerMapPosition()
     if (not mapPosition) or (not mapPosition.x) then
         return nil
     end
