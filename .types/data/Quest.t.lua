@@ -117,6 +117,8 @@
 ---@field public parentQuest QuestId
 ---@field public reputationReward ReputationPair[]
 ---@field public extraObjectives ExtraObjective[]
+---@field public requiredSpell number
+---@field public requiredSpecialization number
 ---@field public requiredMaxLevel Level
 
 -- table: {{spawnlist, iconFile, text, objectiveIndex (optional), {{dbReferenceType, id}, ...} (optional)},...}, a list of hidden special objectives for a quest. Similar to requiredSourceItems
