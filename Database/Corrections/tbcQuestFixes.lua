@@ -1674,7 +1674,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Blow the Unyielding Battle Horn near the Alliance Banner"), 0, {{"object", 184002 }}}},
         },
         [10255] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar and observe the results"), 0, {{"monster", 16880}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar"), 0, {{"monster", 16880}}}},
+            [questKeys.objectives] = {{{16880,"Administer Antidote"}}},
         },
         [10256] = {
             [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"}},nil,nil,nil,nil},

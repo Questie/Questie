@@ -326,17 +326,17 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "在联盟战旗附近吹响顽强战斗号角",
     },
-    ["Use the Cenarion Antidote on a Hulking Helboar and observe the results"] = { -- 10255
+    ["Use the Cenarion Antidote on a Hulking Helboar"] = { -- 10255
         ["ptBR"] = false,
         ["ruRU"] = false,
-        ["deDE"] = "Benutzt das Cenarische Gegengift an einem Hölleneber und beobachtet das Ergebnis.",
+        ["deDE"] = "Benutzt das Cenarische Gegengift an einem Hölleneber.",
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = false,
-        ["zhCN"] = "对笨拙的地狱野猪使用塞纳里奥解毒剂，并观察解毒剂的效果",
+        ["zhCN"] = "对笨拙的地狱野猪使用塞纳里奥解毒剂",
     },
     ["Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"] = { -- 10299 & 10329
         ["ptBR"] = false,
