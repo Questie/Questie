@@ -80,7 +80,7 @@ QuestieDB.questCompilerTypes = {
     ['extraObjectives'] = "extraobjectives",
     ['requiredSpell'] = "s24",
     ['requiredSpecialization'] = "u24",
-    ['requiredMaxLevel'] = "s16",
+    ['requiredMaxLevel'] = "u8",
 }
 
 QuestieDB.questCompilerOrder = { -- order easily skipable data first for efficiency
