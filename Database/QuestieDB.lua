@@ -403,12 +403,12 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
 end
 
 ---@param questId QuestId
----@param minLevel Level
----@param maxLevel Level
+---@param minLevel Level @The level a quest must have at least to be shown
+---@param maxLevel Level @The level a quest can have at most to be shown
 ---@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
 function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
-    local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
+    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
     --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
@@ -425,15 +425,23 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
 
     if maxLevel >= level then
         if (not Questie.db.char.lowlevel) and minLevel > level then
+            -- The quest level is too low and trivial quests are not shown
             return false
         end
     else
         if Questie.db.char.absoluteLevelOffset or maxLevel < requiredLevel then
+            -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
             return false
         end
     end
 
     if maxLevel < requiredLevel then
+        -- Either the players level is not high enough or the maxLevel is manually set to a lower value
+        return false
+    end
+
+    if requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
+        -- The players level exceeds the requiredMaxLevel of a quest
         return false
     end
 
