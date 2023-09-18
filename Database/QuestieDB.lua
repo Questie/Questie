@@ -135,33 +135,6 @@ QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
-local function _shutdown_db() -- prevent catastrophic error
-    QuestieDB.QueryNPC = nil
-    QuestieDB.QueryQuest = nil
-    QuestieDB.QueryObject = nil
-    QuestieDB.QueryItem = nil
-
-    QuestieDB.QueryQuestSingle = nil
-    QuestieDB.QueryNPCSingle = nil
-    QuestieDB.QueryObjectSingle = nil
-    QuestieDB.QueryItemSingle = nil
-end
-
-local function trycatch(func)
-    return function(...)
-        local result, ret = pcall(func, ...)
-        if (not result) then
-            print(ret)
-            _shutdown_db()
-            if not Questie.db.global.disableDatabaseWarnings then
-                StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-            else
-                print(l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."))
-            end
-        end
-        return ret
-    end
-end
 
 function QuestieDB:Initialize()
 
