@@ -998,6 +998,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "杀死裂蹄牛在尸体身边敲打这只鼓",
     },
+    ["Perform the exorcism"] = { -- 10935
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use the Sparrowhawk Net to capture a Wild Sparrowhawk"] = { -- 10987
         ["ptBR"] = false,
         ["ruRU"] = false,
