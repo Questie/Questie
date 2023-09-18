@@ -753,6 +753,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public parentQuest QuestId
     ---@field public reputationReward ReputationPair[]
     ---@field public extraObjectives ExtraObjective[]
+    ---@field public requiredMaxLevel Level
     local QO = {
         Id = questId
     }
