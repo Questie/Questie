@@ -255,7 +255,7 @@ local socialOptionsLocales = {
         ["esES"] = "El progreso de tu misión se enviará periódicamente a los jugadores cercanos.",
         ["frFR"] = "La progression de vos quêtes sera régulièrement partagée avec les joueurs proches.",
     },
-	["Display announcements locally when outside of a group"] = {
+    ["Display announcements locally when outside of a group"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Оповещения вне группы",
         ["deDE"] = false,

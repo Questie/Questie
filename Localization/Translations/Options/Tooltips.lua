@@ -122,7 +122,7 @@ local tooltipOptionsLocales = {
         ["esES"] = "Muestra misiones (disponibles/completadas) en el tooltip del PNJ.",
         ["frFR"] = "Affiche les quêtes (disponibles / terminées) dans les info-bulles des PNJ.",
     },
-	["Show quest XP at max level"] = {
+    ["Show quest XP at max level"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Опыт на макс. уровне",
         ["deDE"] = "Zeige XP auf Max-Level",

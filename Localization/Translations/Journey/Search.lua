@@ -434,7 +434,7 @@ local searchLocales = {
         ["esES"] = "Objetos que inician esta misión:",
         ["frFR"] = "Objets qui démarrent cette quête",
     },
-	["This item is blacklisted because it has too many sources"] = {
+    ["This item is blacklisted because it has too many sources"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Этот предмет находится в черном списке, т.к. у него слишком много источников получения",
         ["deDE"] = "Dieser Gegenstand ist blockiert, da es zu viele Quellen für ihn gibt",
@@ -518,7 +518,7 @@ local searchLocales = {
         ["esES"] = "%d vendedores venden este objeto",
         ["frFR"] = "%d Vendeurs vendent cet item ",
     },
-	["Requires all of these quests to be finished:"] = {
+    ["Requires all of these quests to be finished:"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Требуется выполнение всех этих заданий:",
         ["deDE"] = false,

@@ -158,7 +158,7 @@ local genericsLocales = {
         ["esES"] = "Manual",
         ["frFR"] = "Manual",
     },
-	["Enabled"] = {
+    ["Enabled"] = {
         ["ptBR"] = "Ativado",
         ["ruRU"] = "Включено",
         ["frFR"] = "Activé",
@@ -398,7 +398,7 @@ local genericsLocales = {
         ["esES"] = "Grupo",
         ["frFR"] = "Groupe",
     },
-	["Party"] = {
+    ["Party"] = {
         ["ptBR"] = nil,
         ["ruRU"] = "Группа",
         ["deDE"] = nil,
@@ -410,7 +410,7 @@ local genericsLocales = {
         ["esES"] = "Grupo",
         ["frFR"] = "Groupe",
     },
-	["PvP"] = {
+    ["PvP"] = {
         ["ptBR"] = "JxJ",
         ["ruRU"] = "PvP",
         ["deDE"] = "PvP",
@@ -446,7 +446,7 @@ local genericsLocales = {
         ["esES"] = "Vendedores",
         ["frFR"] = "Vendeurs",
     },
-	["Achievements"] = {
+    ["Achievements"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Достижения",
         ["deDE"] = "Erfolge",

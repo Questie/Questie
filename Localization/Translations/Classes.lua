@@ -110,7 +110,7 @@ local classLocales = {
         ["zhTW"] = "術士",
         ["zhCN"] = "术士",
     },
-	["Death Knight"] = {
+    ["Death Knight"] = {
         ["ptBR"] = "Cavaleiro da Morte",
         ["ruRU"] = "Рыцарь смерти",
         ["deDE"] = "Todesritter",

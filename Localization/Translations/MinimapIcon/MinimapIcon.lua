@@ -12,7 +12,7 @@ local minimapIconLocales = {
         ["zhTW"] = "顯示/隱藏選單",
         ["deDE"] = "Menü zeigen/verstecken",
         ["esES"] = "Mostrar menú",
-		["frFR"] = "Afficher le menu",
+        ["frFR"] = "Afficher le menu",
     },
     ["Toggle Questie"] = {
         ["ptBR"] = "Mostrar Questie",

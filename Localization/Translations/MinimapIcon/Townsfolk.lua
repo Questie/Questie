@@ -254,7 +254,7 @@ local townsfolkLocales = {
         ["esES"] = "Pociones",
         ["frFR"] = true,
     },
-	["Trade Goods"] = {
+    ["Trade Goods"] = {
         ["ptBR"] = "Mercadorias",
         ["ruRU"] = "Хозяйственные товары",
         ["deDE"] = "Handwerkswaren",

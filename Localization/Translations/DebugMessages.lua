@@ -86,7 +86,7 @@ local debugMessagesLocales = {
         ["esES"] = "ha completado un total de %d misiones",
         ["frFR"] = "a complété un total de %d quêtes",
     },
-	["Toggles the Minimap Button for Questie"] = {
+    ["Toggles the Minimap Button for Questie"] = {
         ["ptBR"] = "Mostrar / Ocultar o botão do Questie no minimapa",
         ["ruRU"] = "показать/скрыть кнопку у миникарты.",
         ["deDE"] = "Zeigen/Verstecken des Minimap-Buttons für Questie",
@@ -278,7 +278,7 @@ local debugMessagesLocales = {
         ["esES"] = "Inicializando la localización",
         ["frFR"] = "Initialisation de la langue",
     },
-	["Initializing townfolks"] = {
+    ["Initializing townfolks"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Инициализация полезных объектов и NPC (ремонт, почтовый ящик и т.п.)",
         ["deDE"] = false,
@@ -422,7 +422,7 @@ local debugMessagesLocales = {
         ["zhTW"] = "缺少任務目標資料: ",
         ["zhCN"] = false,
     },
-	["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."] = {
+    ["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."] = {
         ["ptBR"] = false,
         ["ruRU"] = "|cffff0000Обратите внимание:|r Один из следующих релизов Questie сбросит ваши настройки. Мы советуем вам сделать резервную копию настроек Questie, находящихся в папке Saved Variables вашего аккаунта. Это можно сделать путем создания копии папки WTF в папке установки WoW.",
         ["deDE"] = "|cffff0000Hinweis:|r Mit einem der nächsten Questie-Releases werden deine Einstellungen zurückgesetzt. Zur Sicherheit solltest du ein Backup deiner Questie-SavedVariables erstellen. Dies kannst du machen indem du eine Kopie des WTF-Ordners deiner WoW-Installtion erstellst.",

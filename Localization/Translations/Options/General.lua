@@ -169,7 +169,7 @@ local generalOptionsLocales = {
         ["zhTW"] = "隱藏在尚未探索的區域內的圖示。",
         ["esES"] = "Esconder iconos en áreas inexploradas.",
         ["frFR"] = "Désactive l'affichage des icônes dans les zones inexplorées.",
-    },	  
+    },
     ["Hide icons of untracked quests"] = {
         ["ptBR"] = "Ocultar ícones de missões não rastreadas",
         ["ruRU"] = "Скрыть значки неотслеживаемых заданий",
@@ -194,7 +194,7 @@ local generalOptionsLocales = {
         ["esES"] = "Oculta los iconos de las misiones que no se rastrean.",
         ["frFR"] = "Masquez les icônes pour les quêtes qui ne sont pas suivies.",
     },
-	["Show custom quest frame icons"] = {
+    ["Show custom quest frame icons"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Пользовательские значки в диалогах",
         ["deDE"] = "Zeige angepasste Icons in Quest-Fenster",
@@ -218,7 +218,7 @@ local generalOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-	["Enable Available Quest Icons"] = {
+    ["Enable Available Quest Icons"] = {
         ["ptBR"] = "Ativar ícones de missões disponíveis",
         ["ruRU"] = "Значки доступных заданий",
         ["deDE"] = "Icons zu verfügbaren Quests anzeigen",
@@ -842,7 +842,7 @@ local generalOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-	["Enable Minimap Button"] = {
+    ["Enable Minimap Button"] = {
         ["ptBR"] = "Ative o botão da mini-carta",
         ["ruRU"] = "Кнопка у миникарты",
         ["deDE"] = "Minimap-Button aktivieren",
@@ -1190,7 +1190,7 @@ local generalOptionsLocales = {
         ["esES"] = "Cuántos iconos de objetivo deberian agruparse.",
         ["frFR"] = "Définis le nombre d'icônes des objectifs proches les unes des autres à fusionner.",
     },
-	["Isle of Quel'Danas Phase"] = {
+    ["Isle of Quel'Danas Phase"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Фаза Острова Кель'Данас",
         ["deDE"] = "Insel von Quel'Danas Phase",
@@ -1370,7 +1370,7 @@ local generalOptionsLocales = {
         ["esES"] = "Fase 5",
         ["frFR"] = true,
     },
-	["Sounds"] = {
+    ["Sounds"] = {
         ["ptBR"] = false,
         ["ruRU"] = "Звуки",
         ["deDE"] = true,

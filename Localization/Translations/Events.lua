@@ -110,7 +110,7 @@ local eventsLocales = {
         ["zhTW"] = "旅人豐年祭",
         ["zhCN"] = "感恩节",
     },
-	["Hallow's End"] = {
+    ["Hallow's End"] = {
         ["ptBR"] = "Noturnália",
         ["ruRU"] = "Тыквовин",
         ["deDE"] = "Schlotternächte",

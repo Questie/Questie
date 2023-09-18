@@ -38,7 +38,7 @@ local minimapOptionsLocales = {
         ["esES"] = "Mostrar aura detrás de los iconos de minimapa",
         ["frFR"] = "Surbrillance des icônes sur la mini-carte",
     },
-	["Different Minimap Icon Color for Each Quest"] = {
+    ["Different Minimap Icon Color for Each Quest"] = {
             ["ptBR"] = false,
             ["ruRU"] = "Различные цвета значков (миникарта)",
             ["deDE"] = "Minimap-Icons für jede Quest unterschiedlich färben",

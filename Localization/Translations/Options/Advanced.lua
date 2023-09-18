@@ -98,7 +98,7 @@ local advancedOptionsLocales = {
         ["esES"] = false,
         ["frFR"] = false,
     },
-	["Developer Options"] = {
+    ["Developer Options"] = {
         ["ptBR"] = "Opções do desenvolvedor",
         ["ruRU"] = "Настройки разработчика",
         ["deDE"] = "Entwickler-Einstellungen",
