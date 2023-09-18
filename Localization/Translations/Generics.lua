@@ -458,30 +458,6 @@ local genericsLocales = {
         ["esES"] = "Logros",
         ["frFR"] = "Hauts faits",
     },
-	["Questie"] = {
-        ["ptBR"] = true,
-        ["ruRU"] = true,
-        ["deDE"] = true,
-        ["koKR"] = true,
-        ["esMX"] = true,
-        ["enUS"] = true,
-        ["zhCN"] = true,
-        ["zhTW"] = "任務-位置",
-        ["esES"] = true,
-        ["frFR"] = true,
-    },
-	["Questie Title"] = {
-        ["ptBR"] = "Questie",
-        ["ruRU"] = "Questie",
-        ["deDE"] = "Questie",
-        ["koKR"] = "Questie",
-        ["esMX"] = "Questie",
-        ["enUS"] = "Questie",
-        ["zhCN"] = "Questie",
-        ["zhTW"] = "任務位置提示",
-        ["esES"] = "Questie",
-        ["frFR"] = "Questie",
-    }
 }
 
 for k, v in pairs(genericsLocales) do
