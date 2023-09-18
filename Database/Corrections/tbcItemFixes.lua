@@ -188,6 +188,9 @@ function QuestieTBCItemFixes:Load()
         [28106] = {
             [itemKeys.class] = 12,
         },
+        [28132] = {
+            [itemKeys.class] = 12,
+        },
         [28478] = {
             [itemKeys.class] = 12,
         },
@@ -337,14 +340,5 @@ function QuestieTBCItemFixes:Load()
         },
 
         -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
-        -- For example this is used for quest 10129 to show the NPC you have to talk with to start the flight
-
-        -- TODO: Transform these items to extraObjectives. These fakeIds were introduced before extraObjectives were a thing
-        [40000] = {
-            [itemKeys.name] = "Speak with Wing Commander Brack",
-            [itemKeys.relatedQuests] = {10129},
-            [itemKeys.npcDrops] = {19401},
-            [itemKeys.objectDrops] = {},
-        },
     }
 end
