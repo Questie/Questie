@@ -235,9 +235,11 @@ local migrationFunctions = {
         end
     end,
     [25] = function()
-        if Questie.IsWotlk then
+        if Questie.IsWotlk and GetCVar("questPOI") ~= nil then
             SetCVar("questPOI", "0") -- Disable the the new Blizzard quest objectives
-            WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox added for it
+            if WorldMapQuestShowObjectives then
+                WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox added for it
+            end
         end
     end
 }
