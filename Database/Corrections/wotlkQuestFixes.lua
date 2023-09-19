@@ -255,6 +255,24 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSourceItems] = {}, -- Overriding Classic correction
             [questKeys.triggerEnd] = {"Place a tribute at Grom's Monument",{[zoneIDs.ASHENVALE]={{83,78,},},},},
         },
+        [8166] = {
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8167] = {
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8168] = {
+            [questKeys.requiredMaxLevel] = 29,
+        },
+        [8169] = {
+            [questKeys.requiredMaxLevel] = 49,
+        },
+        [8170] = {
+            [questKeys.requiredMaxLevel] = 39,
+        },
+        [8171] = {
+            [questKeys.requiredMaxLevel] = 29,
+        },
         [8346] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{15274},15274,"Mana Tap creature"}}},
         },
