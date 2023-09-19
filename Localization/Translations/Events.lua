@@ -83,7 +83,7 @@ local eventsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Fête des Brasseurs",
         ["esES"] = "Fiesta de la Cerveza",
-        ["zhTW"] = false,
+        ["zhTW"] = "啤酒節",
         ["zhCN"] = "美酒节",
     },
     ["Harvest Festival"] = {
@@ -107,7 +107,7 @@ local eventsLocales = {
         ["enUS"] = true,
         ["frFR"] = "Les Bienfaits du pèlerin",
         ["esES"] = "Generosidad del Peregrino",
-        ["zhTW"] = false,
+        ["zhTW"] = "旅人豐年祭",
         ["zhCN"] = "感恩节",
     },
     ["Hallow's End"] = {

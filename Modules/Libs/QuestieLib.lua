@@ -256,7 +256,9 @@ end
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId QuestId
 ---@param playerLevel Level? ---@ PlayerLevel, if nil we fetch current level
----@return Level questLevel, Level requiredLevel @questLevel & requiredLevel
+---@return Level questLevel
+---@return Level requiredLevel
+---@return Level requiredMaxLevel
 function QuestieLib.GetTbcLevel(questId, playerLevel)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
@@ -269,7 +271,7 @@ function QuestieLib.GetTbcLevel(questId, playerLevel)
             requiredLevel = level;
         end
     end
-    return questLevel, requiredLevel;
+    return questLevel, requiredLevel, QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel");
 end
 
 ---@param questId QuestId

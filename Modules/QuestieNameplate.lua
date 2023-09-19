@@ -91,9 +91,8 @@ function QuestieNameplate:UpdateNameplate()
         if icon then
             local frame = _QuestieNameplate.GetFrame(guid)
             -- check if the texture needs to be changed
-            if (not frame.lastIcon) or icon ~= frame.lastIcon then
+            if frame.lastIcon ~= icon then
                 frame.lastIcon = icon
-                frame.Icon:SetTexture(nil)
                 frame.Icon:SetTexture(icon)
             end
         else

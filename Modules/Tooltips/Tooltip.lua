@@ -42,11 +42,12 @@ function QuestieTooltips:RegisterObjectiveTooltip(questId, key, objective)
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId;
-    tooltip.objective = objective
+    local tooltip = {
+        questId = questId,
+        objective = objective,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. objective.Index] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
@@ -59,11 +60,12 @@ function QuestieTooltips:RegisterQuestStartTooltip(questId, npc, key)
     if not QuestieTooltips.lookupKeysByQuestId[questId] then
         QuestieTooltips.lookupKeysByQuestId[questId] = {}
     end
-    local tooltip = {};
-    tooltip.questId = questId
-    tooltip.npc = npc
+    local tooltip = {
+        questId = questId,
+        npc = npc,
+    };
     QuestieTooltips.lookupByKey[key][tostring(questId) .. " " .. npc.name] = tooltip
-    table.insert(QuestieTooltips.lookupKeysByQuestId[questId], key)
+    tinsert(QuestieTooltips.lookupKeysByQuestId[questId], key)
 end
 
 ---@param questId number
@@ -229,7 +231,7 @@ function QuestieTooltips:GetTooltip(key)
             if tooltip.npc then
                 if Questie.db.char.showQuestsInNpcTooltip then
                     local questString = QuestieLib:GetColoredQuestName(tooltip.questId, Questie.db.global.enableTooltipsQuestLevel, true, true)
-                    table.insert(tooltipLines, questString)
+                    tinsert(tooltipLines, questString)
                 end
             else
                 local objective = tooltip.objective
@@ -399,7 +401,7 @@ function QuestieTooltips:Initialize()
                     (not QuestieTooltips.lastGametooltipCount) or
                     _QuestieTooltips:CountTooltip() < QuestieTooltips.lastGametooltipCount
                     or QuestieTooltips.lastGametooltipType ~= "object"
-                ) then
+                ) and (not self.ShownAsMapIcon) then -- We are hovering over a Questie map icon which adds it's own tooltip
                 _QuestieTooltips:AddObjectDataToTooltip(GameTooltipTextLeft1:GetText())
                 QuestieTooltips.lastGametooltipCount = _QuestieTooltips:CountTooltip()
             end
