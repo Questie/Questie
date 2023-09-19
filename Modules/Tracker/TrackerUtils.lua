@@ -496,7 +496,7 @@ local function _GetWorldPlayerPosition()
         return nil
     end
 
-    local worldPosition = select(2, C_Map.GetWorldPosFromMapPos(uiMapId, mapPosition))
+    local worldPosition = select(2, C_Map.GetWorldPosFromMapPos(mapID, mapPosition))
     local position = {
         x = worldPosition.x,
         y = worldPosition.y
