@@ -370,6 +370,9 @@ function QuestieWotlkQuestFixes:Load()
         [10776] = {
             [questKeys.objectives] = {{{19823}},nil,{{31310}}},
         },
+        [10900] = {
+            [questKeys.requiredMaxLevel] = 70,
+        },
         [11120] = {
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},

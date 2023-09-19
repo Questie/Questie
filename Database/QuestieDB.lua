@@ -135,33 +135,6 @@ QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
-local function _shutdown_db() -- prevent catastrophic error
-    QuestieDB.QueryNPC = nil
-    QuestieDB.QueryQuest = nil
-    QuestieDB.QueryObject = nil
-    QuestieDB.QueryItem = nil
-
-    QuestieDB.QueryQuestSingle = nil
-    QuestieDB.QueryNPCSingle = nil
-    QuestieDB.QueryObjectSingle = nil
-    QuestieDB.QueryItemSingle = nil
-end
-
-local function trycatch(func)
-    return function(...)
-        local result, ret = pcall(func, ...)
-        if (not result) then
-            print(ret)
-            _shutdown_db()
-            if not Questie.db.global.disableDatabaseWarnings then
-                StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-            else
-                print(l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."))
-            end
-        end
-        return ret
-    end
-end
 
 function QuestieDB:Initialize()
 
@@ -403,12 +376,12 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
 end
 
 ---@param questId QuestId
----@param minLevel Level
----@param maxLevel Level
+---@param minLevel Level @The level a quest must have at least to be shown
+---@param maxLevel Level @The level a quest can have at most to be shown
 ---@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
 function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
-    local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
+    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
     --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
@@ -425,15 +398,23 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
 
     if maxLevel >= level then
         if (not Questie.db.char.lowlevel) and minLevel > level then
+            -- The quest level is too low and trivial quests are not shown
             return false
         end
     else
         if Questie.db.char.absoluteLevelOffset or maxLevel < requiredLevel then
+            -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
             return false
         end
     end
 
     if maxLevel < requiredLevel then
+        -- Either the players level is not high enough or the maxLevel is manually set to a lower value
+        return false
+    end
+
+    if requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
+        -- The players level exceeds the requiredMaxLevel of a quest
         return false
     end
 
@@ -753,6 +734,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public parentQuest QuestId
     ---@field public reputationReward ReputationPair[]
     ---@field public extraObjectives ExtraObjective[]
+    ---@field public requiredMaxLevel Level
     local QO = {
         Id = questId
     }
