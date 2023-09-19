@@ -86,6 +86,16 @@ function QuestieWotlkNpcFixes:Load()
         [15278] = {
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{38.02,21.01}}},
         },
+        [15350] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51}},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
+                [zoneIDs.UNDERCITY]={{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
+                [zoneIDs.DALARAN]={{58.19,20.59}},
+            },
+        },
         [15351] = {
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE]={{70.41,91.10}},
@@ -93,6 +103,7 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{24.55,55.42}},
                 [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
             },
         },
         [15576] = {
