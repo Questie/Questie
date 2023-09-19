@@ -161,6 +161,8 @@ function HardcoreBlacklist:Load()
         [8371] = true, -- Concerted Efforts
         [8372] = true, -- Fight for Warsong Gulch
         [8374] = true, -- Claiming Arathi Basin
+        [8375] = true, -- Remember Alterac Valley
+        [8383] = true, -- Remember Alterac Valley
         [8386] = true, -- Fight for Warsong Gulch
         [8389] = true, -- Battle of Warsong Gulch
         [8390] = true, -- Conquering Arathi Basin
