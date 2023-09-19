@@ -1033,6 +1033,7 @@ function QuestieQuestBlacklist:Load()
         [64064] = true, -- Boosted character quest
         [64128] = true, -- Boosted character quest
         [64217] = true, -- Boosted character quest
+        [64845] = QuestieCorrections.TBC_AND_WOTLK, -- Alliance War Effort
         [70395] = true, -- First quest for boosted characters. Blocked to not show for others
         [70396] = true, -- First quest for boosted characters. Blocked to not show for others
         [70397] = true, -- Boosted character quest
