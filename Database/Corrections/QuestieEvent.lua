@@ -639,6 +639,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11242, nil, nil, QuestieCorre
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11122}) -- There and Back Again
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
@@ -973,8 +974,8 @@ tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14041}) -- Cranberry Chut
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14043}) -- Candied Sweet Potatoes
 tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14047}) -- Slow-roasted Turkey
 
-tinsert(QuestieEvent.eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
-tinsert(QuestieEvent.eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
 
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 13440}) -- Desecrate this Fire!
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 13441}) -- Desecrate this Fire!

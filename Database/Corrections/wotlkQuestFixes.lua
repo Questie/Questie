@@ -400,9 +400,21 @@ function QuestieWotlkQuestFixes:Load()
         [10900] = {
             [questKeys.requiredMaxLevel] = 70,
         },
+        [11117] = {
+            [questKeys.startedBy] = {{23486}},
+            [questKeys.finishedBy] = {{23486}},
+        },
+        [11118] = {
+            [questKeys.startedBy] = {{23486}},
+            [questKeys.finishedBy] = {{23486}},
+        },
         [11120] = {
             [questKeys.startedBy] = {{24657}},
             [questKeys.finishedBy] = {{24657}},
+        },
+        [11122] = {
+            [questKeys.objectives] = {{{24468,"Kegs Delivered"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab a keg"), 0, {{"monster", 24364}}}},
         },
         [11137] = {
             [questKeys.preQuestSingle] = {},
@@ -498,6 +510,10 @@ function QuestieWotlkQuestFixes:Load()
         [11314] = {
             [questKeys.objectives] = {{{23678,"Chill Nymphs Freed"}}},
         },
+        [11318] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{80001},{80002},{80003}}},
+        },
         [11319] = {
             [questKeys.objectives] = {{{23876,"Spores frozen"}}},
         },
@@ -578,6 +594,11 @@ function QuestieWotlkQuestFixes:Load()
         [11436] = {
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
+        },
+        [11442] = {
+            [questKeys.startedBy] = {{24710}},
+            [questKeys.finishedBy] = {{24710}},
+            [questKeys.objectivesText] = {},
         },
         [11452] = {
             [questKeys.startedBy] = {{24018},nil,{34090}},
@@ -865,6 +886,12 @@ function QuestieWotlkQuestFixes:Load()
                 {{[zoneIDs.BOREAN_TUNDRA]={{86.6,28.6}}}, Questie.ICON_TYPE_EVENT, l10n("Teleport to the top of Naxxanar"),},
                 {{[zoneIDs.BOREAN_TUNDRA]={{86.6,31.4}}}, Questie.ICON_TYPE_TALK, l10n("Talk to Thassarian"),},
             },
+        },
+        [12020] = {
+            [questKeys.inGroupWith] = {},
+        },
+        [12022] = {
+            [questKeys.preQuestSingle] = {},
         },
         [12027] = {
             [questKeys.triggerEnd] = {"Help Emily and Mr. Floppy return to the camp",{[zoneIDs.GRIZZLY_HILLS]={{53.81,33.33,},},},},

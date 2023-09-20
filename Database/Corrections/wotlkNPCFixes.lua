@@ -313,6 +313,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [24364] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{45.91,52.77}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
         [24390] = { --"Sage Edan"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
@@ -1449,6 +1453,21 @@ function QuestieWotlkNpcFixes:Load()
         [80000] = {
             [npcKeys.name] = "Lorehammer attuned",
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [80001] = {
+            [npcKeys.name] = "Maintain a Trot for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+        },
+        [80002] = {
+            [npcKeys.name] = "Maintain a Canter for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+        },
+        [80003] = {
+            [npcKeys.name] = "Maintain a Gallop for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
         }
     }
 end
