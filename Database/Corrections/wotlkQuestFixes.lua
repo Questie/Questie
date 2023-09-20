@@ -892,7 +892,7 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [12020] = {
-            [questKeys.inGroupWith] = {},
+            [questKeys.preQuestSingle] = {},
         },
         [12022] = {
             [questKeys.preQuestSingle] = {},
