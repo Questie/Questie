@@ -2895,10 +2895,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{23973},nil},
         },
         [11441] = {
-            [questKeys.startedBy] = {{18927,19148,19171,19172,19173},nil,nil},
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102},nil,nil},
+            [questKeys.exclusiveTo] = {11442},
         },
         [11446] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil},
+            [questKeys.exclusiveTo] = {11447},
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,3000},
