@@ -4358,13 +4358,17 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24219] = {
             [questKeys.triggerEnd] = {"Victory in Warsong Gulch", {
-                [zoneIDs.SHATTRATH_CITY]={{67.38,33.8}},
-                [zoneIDs.STORMWIND_CITY]={{82.45,12.92}},
-                [zoneIDs.IRONFORGE]={{70.12,89.41}},
+                [zoneIDs.IRONFORGE]={{70.41,91.10}},
+                [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
-                [zoneIDs.THE_EXODAR]={{26.58,50.04}},
-                [zoneIDs.DALARAN]={{29.8,75.7}},
+                [zoneIDs.THE_EXODAR]={{24.55,55.42}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
             }},
+            [questKeys.startedBy] = {{15351}},
+            [questKeys.finishedBy] = {{15351}},
+            [questKeys.requiredMaxLevel] = 20,
         },
         [24220] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
