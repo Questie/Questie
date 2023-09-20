@@ -134,7 +134,7 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests:IsActiveDailyQuest(questId)
-    return false;
+    return true
     -- TODO: This might be reusable when reworking this module
     --local hiddenQuests = Questie.db.char.hiddenDailies
     --return not (hiddenQuests.nhc[questId] or
