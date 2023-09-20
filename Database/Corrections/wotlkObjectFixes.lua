@@ -256,6 +256,66 @@ function QuestieWotlkObjectFixes:Load()
         },
 
         -- Below are fake objects
+        [400001] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.98,45.93},{43.9,54.63},{38.8,36.37},{79.79,31.42},{67.24,20.2},{38.45,86.13},{35.72,86.9},{32.28,35.73}}},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400002] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.98,45.93},{43.9,54.63},{38.8,36.37},{79.79,31.42},{67.24,20.2},{38.45,86.13},{35.72,86.9},{32.28,35.73}}},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400003] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400004] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400005] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.98,45.93},{43.9,54.63},{38.8,36.37},{79.79,31.42},{67.24,20.2},{38.45,86.13},{35.72,86.9},{32.28,35.73}}},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400006] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400007] = {
+            [objectKeys.name] = "Spend 5 Talent Points",
+            [objectKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{47.98,45.93},{43.9,54.63},{38.8,36.37},{79.79,31.42},{67.24,20.2},{38.45,86.13},{35.72,86.9},{32.28,35.73}}},
+            [objectKeys.zoneID] = zoneIDs.ORGRIMMAR,
+        },
+        [400008] = {
+            [objectKeys.name] = "Spend 5 Talent Points",
+            [objectKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{77.15,29.82}}},
+            [objectKeys.zoneID] = zoneIDs.THUNDER_BLUFF,
+        },
+        [400009] = {
+            [objectKeys.name] = "Open the Survival Kit",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{49.53,44.6},{80.19,61.26},{48.43,50.22},{39.89,84.19},{49.56,85.8},{36.12,64.42},{67.35,36.25},{80.28,68.58},{67.52,89.42}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [400010] = {
+            [objectKeys.name] = "Equip a Weapon",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{49.53,44.6},{80.19,61.26},{48.43,50.22},{39.89,84.19},{49.56,85.8},{36.12,64.42},{67.35,36.25},{80.28,68.58},{67.52,89.42}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [400011] = {
+            [objectKeys.name] = "Train a Spell at your class trainer",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{49.53,44.6},{80.19,61.26},{48.43,50.22},{39.89,84.19},{49.56,85.8},{36.12,64.42},{67.35,36.25},{80.28,68.58},{67.52,89.42}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
+        [400012] = {
+            [objectKeys.name] = "Spend 5 Talent Points",
+            [objectKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{49.53,44.6},{80.19,61.26},{48.43,50.22},{39.89,84.19},{49.56,85.8},{36.12,64.42},{67.35,36.25},{80.28,68.58},{67.52,89.42}}},
+            [objectKeys.zoneID] = zoneIDs.STORMWIND_CITY,
+        },
         [400015] = {
             [objectKeys.name] = "Summoning Stone",
             [objectKeys.spawns] = {[zoneIDs.ICECROWN]={{53.77,33.60}}},

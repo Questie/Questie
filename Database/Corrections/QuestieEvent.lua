@@ -639,6 +639,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11242, nil, nil, QuestieCorre
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11122}) -- There and Back Again
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
@@ -662,6 +663,7 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11441}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11446}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12062}) -- Insult Coren Direbrew
 --tinsert(QuestieEvent.eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 12193}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11293}) -- Bark for the Barleybrews!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11294}) -- Bark for the Thunderbrews!

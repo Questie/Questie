@@ -1078,6 +1078,12 @@ function QuestieTBCQuestFixes:Load()
         [9576] = {
             [questKeys.startedBy] = {{17496},nil,{23870}},
         },
+        [9587] = {
+            [questKeys.startedBy] = {{17537},nil,{23890}},
+        },
+        [9588] = {
+            [questKeys.startedBy] = {{17537},nil,{23892}},
+        },
         [9591] = {
             [questKeys.triggerEnd] = {"Tame a Barbed Crawler", {[zoneIDs.AZUREMYST_ISLE]={{20.29,64.87},{22.04,72.29},{20.57,68.9}}}},
         },
@@ -1548,7 +1554,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10106] = {
             [questKeys.questLevel] = -1,
-            [questKeys.preQuestSingle] = {10143,10483},
             [questKeys.requiredMaxRep] = {},
         },
         [10107] = {
@@ -1559,7 +1564,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10110] = {
             [questKeys.questLevel] = -1,
-            [questKeys.preQuestSingle] = {10124},
             [questKeys.requiredMaxRep] = {},
         },
         [10113] = {
@@ -1576,16 +1580,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [10129] = {
-            [questKeys.requiredSourceItems] = {40000},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
         },
         [10146] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
         },
         [10162] = {
-            [questKeys.requiredSourceItems] = {40000},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Brack"), 0, {{"monster", 19401}}}},
         },
         [10163] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
             [questKeys.preQuestSingle] = {10146},
         },
         [10164] = {
@@ -1670,7 +1674,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Blow the Unyielding Battle Horn near the Alliance Banner"), 0, {{"object", 184002 }}}},
         },
         [10255] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar and observe the results"), 0, {{"monster", 16880}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Cenarion Antidote on a Hulking Helboar"), 0, {{"monster", 16880}}}},
+            [questKeys.objectives] = {{{16880,"Administer Antidote"}}},
         },
         [10256] = {
             [questKeys.objectives] = {{{19938, "Use the Apex's Crystal Focus near Archmage Vargoth's Orb"}},nil,nil,nil,nil},
@@ -1753,7 +1758,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"), 0, {{"object", 184311}}}},
         },
         [10340] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
         },
         [10344] = {
             [questKeys.exclusiveTo] = {10163},
@@ -1779,6 +1784,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10367] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [10369] = {
+            [questKeys.objectives] = {{{19354}}},
         },
         [10373] = {
             [questKeys.startedBy] = {{20722},nil,nil},
@@ -1968,7 +1976,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{21499},nil,nil},
         },
         [10629] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Felhound Whistle and kill some Deranged Helboars"), 0, {{"monster", 16863}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill some Deranged Helboars"), 0, {{"monster", 16863}}},
+                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Use the Felhound Whistle"), 0, {{"monster", 16915}}},
+            },
         },
         [10634] = {
             [questKeys.preQuestSingle] = {10633,10644},
@@ -2233,7 +2243,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.exclusiveTo] = {10862,10863},
         },
         [10909] = {
-            [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Achorite Relic and slay Shattered Hand Berserkers near it")}},
+            [questKeys.extraObjectives] = {{{[zoneIDs.HELLFIRE_PENINSULA]={{45,74.4}}}, Questie.ICON_TYPE_EVENT, l10n("Place the Achorite Relic")},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Slay Shattered Hand Berserkers near it"), 0, {{"object", 185298}}},
+            },
         },
         [10911] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Naturalized Ammunition to take control of the Death's Door Fel Cannon"), 0, {{"object", 185306}}}},
@@ -2255,6 +2267,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [10930] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Decrepit Clefthoofs and use the Fumper on their corpses"), 0, {{"monster", 22105}}}},
+        },
+        [10935] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Perform the exorcism"), 0, {{"monster", 22431}}}},
         },
         [10942] = {
             [questKeys.questLevel] = -1,
@@ -2880,10 +2895,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{23973},nil},
         },
         [11441] = {
-            [questKeys.startedBy] = {{18927,19148,19171,19172,19173},nil,nil},
+            [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102},nil,nil},
+            [questKeys.exclusiveTo] = {11442},
         },
         [11446] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil},
+            [questKeys.exclusiveTo] = {11447},
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,3000},
@@ -3790,7 +3807,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [12192] = {
             [questKeys.name] = "This One Time, When I Was Drunk...",
-            [questKeys.startedBy] = {nil,{189989,},nil,},
+            [questKeys.startedBy] = {nil,{189990,},nil,},
             [questKeys.finishedBy] = {{27216,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
