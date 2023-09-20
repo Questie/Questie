@@ -3805,7 +3805,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [12192] = {
             [questKeys.name] = "This One Time, When I Was Drunk...",
-            [questKeys.startedBy] = {nil,{189989,},nil,},
+            [questKeys.startedBy] = {nil,{189990,},nil,},
             [questKeys.finishedBy] = {{27216,},nil,},
             [questKeys.requiredLevel] = 1,
             [questKeys.questLevel] = -1,
