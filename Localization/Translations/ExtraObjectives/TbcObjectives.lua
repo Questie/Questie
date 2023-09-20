@@ -266,6 +266,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "与空军指挥官达比利谈谈",
     },
+    ["Speak with Wing Commander Brack"] = { -- 10129 & 10162
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Speak with Gryphoneer Windbellow"] = { -- 10163 & 10382
         ["ptBR"] = false,
         ["ruRU"] = false,
