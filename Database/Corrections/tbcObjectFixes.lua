@@ -210,13 +210,12 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [189989] = {
-            [objectKeys.questStarts] = {12192},
-            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
-            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.81}}},
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [189990] = {
-            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.82}}},
-            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [190034] = {
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL]={{55.61,59.85}}},

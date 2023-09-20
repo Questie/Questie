@@ -563,6 +563,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.startedBy] = {nil,{186267}},
             [questKeys.finishedBy] = {nil,{186314}},
         },
+        [11409] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{80004},{80005},{80006}}},
+        },
         [11410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
         },
@@ -892,6 +896,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12022] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.requiredSourceItems] = {33096},
         },
         [12027] = {
             [questKeys.triggerEnd] = {"Help Emily and Mr. Floppy return to the camp",{[zoneIDs.GRIZZLY_HILLS]={{53.81,33.33,},},},},
@@ -1133,6 +1138,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12188] = {
             [questKeys.preQuestSingle] = {},
+        },
+        [12191] = {
+            [questKeys.preQuestSingle] = {},
+            [questKeys.requiredSourceItems] = {33096},
         },
         [12198] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{26407,27017},26407,}}},
@@ -3974,6 +3983,12 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Keken taken to visit Grizzlemaw", {[zoneIDs.GRIZZLY_HILLS]={{50.7,43.9}}}}, -- wolvar orphan
             [questKeys.preQuestSingle] = {13927},
             [questKeys.exclusiveTo] = {13926},
+        },
+        [13931] = {
+            [questKeys.preQuestSingle] = {11409},
+        },
+        [13932] = {
+            [questKeys.preQuestSingle] = {11318},
         },
         [13933] = {
             [questKeys.triggerEnd] = {"Roo taken to visit Bronze Dragonshrine", {[zoneIDs.DRAGONBLIGHT]={{72,39}}}}, -- oracle orphan

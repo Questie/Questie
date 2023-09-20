@@ -1468,6 +1468,21 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.name] = "Maintain a Gallop for 8 seconds",
             [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
             [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+        },
+        [80004] = {
+            [npcKeys.name] = "Maintain a Trot for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+        },
+        [80005] = {
+            [npcKeys.name] = "Maintain a Canter for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+        },
+        [80006] = {
+            [npcKeys.name] = "Maintain a Gallop for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
         }
     }
 end

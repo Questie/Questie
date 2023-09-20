@@ -675,6 +675,8 @@ function QuestieQuestBlacklist:Load()
         [14022] = true,
 
         --- Brewfest
+        [12193] = true,
+        [12194] = true,
         [13931] = true,
         [13932] = true,
 
