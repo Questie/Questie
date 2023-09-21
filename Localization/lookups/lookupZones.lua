@@ -1310,6 +1310,9 @@ l10n.zoneLookup = {
     [230]={
         [1584]="Blackrock Depths",
     },
+    [242] = {
+        [1585]="Blackrock Depths",
+    },
     [289]={
         [2057]="Scholomance",
     },

@@ -335,12 +335,18 @@ local function GetZoneNameByIDFallback(zoneId)
         return zoneCache[zoneId]
     end
 
+    if zoneId <= 0 or type(zoneId) ~= "number" then
+        return "Unknown Zone"
+    end
+
     for _, zone in pairs(l10n.zoneLookup) do
-        if zone and type(zoneId) == "number" and zoneId > 0 and (l10n.zoneLookup[zone][zoneId]) == "string" then
-            zoneCache[zoneId] = l10n.zoneLookup[zone][zoneId]
+        if zone[zoneId] then
+            zoneCache[zoneId] = zone[zoneId]
             return zoneCache[zoneId]
         end
     end
+
+    Questie:Debug(Questie.DEBUG_CRITICAL, "[GetZoneNameByIDFallback]: Unable to find a zone name for zoneId", zoneId)
 
     return "Unknown Zone"
 end
