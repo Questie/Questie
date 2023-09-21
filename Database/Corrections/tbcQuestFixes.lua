@@ -4549,13 +4549,16 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 37737,
             [questKeys.zoneOrSort] = -370,
         },
-        [12513] = { --* tbc? Weird one... https://www.wowhead.com/wotlk/quest=12513/nice-hat races that are not changed visually in the dungeon
+        [12513] = {
             [questKeys.exclusiveTo] = {12515},
             [questKeys.finishedBy] = {{28126},nil},
+            [questKeys.requiredRaces] = 69, -- gnome, human, dwarf
         },
-        [12515] = {  --* wotlk? looks more correct https://www.wowhead.com/wotlk/quest=12515/nice-hat races that are changed visually in the dungeon
+        [12515] = {
             [questKeys.exclusiveTo] = {12513},
+            [questKeys.startedBy] = {{28126},nil},
             [questKeys.finishedBy] = {{28126},nil},
+            [questKeys.requiredRaces] = 1722, -- night elf, draenei, orc, troll, tauren, blood elf, undead
         },
         [12771] = {
             [questKeys.preQuestSingle] = {12753},
