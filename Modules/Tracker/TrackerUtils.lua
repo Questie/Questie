@@ -29,8 +29,8 @@ local tinsert = table.insert
 
 local objectiveFlashTicker
 local zoneCache = {}
-local questProximityTimer = nil
-local questZoneProximityTimer = nil
+local questProximityTimer
+local questZoneProximityTimer
 local bindTruthTable = {
     ['left'] = function(button)
         return "LeftButton" == button
@@ -725,8 +725,6 @@ function TrackerUtils:GetSortedQuestIds()
         end
 
         local sorter = function(a, b)
-            local qA = questDetails[a].quest
-            local qB = questDetails[b].quest
             local qAZone = questDetails[a].zoneName
             local qBZone = questDetails[b].zoneName
 
@@ -763,8 +761,6 @@ function TrackerUtils:GetSortedQuestIds()
         end
 
         local sorterReversed = function(a, b)
-            local qA = questDetails[a].quest
-            local qB = questDetails[b].quest
             local qAZone = questDetails[a].zoneName
             local qBZone = questDetails[b].zoneName
 
