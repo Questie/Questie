@@ -675,6 +675,10 @@ function QuestieWotlkQuestFixes:Load()
         [11410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
         },
+        [11412] = {
+            [questKeys.objectives] = {{{24510,"Kegs Delivered"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab a keg"), 0, {{"monster", 24527}}}},
+        },
         [11416] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Touch Talonshrike's Egg"), 0, {{"object", 186814},{"object", 190283},{"object", 190284}}}},
         },
@@ -1528,6 +1532,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
+        },
+        [12491] = {
+            [questKeys.startedBy] = {{23872},nil,{38280}},
+        },
+        [12492] = {
+            [questKeys.startedBy] = {{23872},nil,{38281}},
         },
         [12498] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Antiok's mount to make him vulnerable"),0,{{"monster", 28018}}},},
