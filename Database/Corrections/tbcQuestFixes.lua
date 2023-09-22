@@ -2915,10 +2915,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.finishedBy] = {{24711}},
         },
         [11481] = {
-            [questKeys.requiredMinRep] = {932,3000},
+            [questKeys.requiredMinRep] = {932,0},
+            [questKeys.exclusiveTo] = {11482},
         },
         [11482] = {
-            [questKeys.requiredMinRep] = {934,3000},
+            [questKeys.requiredMinRep] = {934,0},
+            [questKeys.exclusiveTo] = {11481},
         },
         [11496] = {
             [questKeys.objectives] = {nil,{{187078, "Energize a Crystal Ward"}}},
