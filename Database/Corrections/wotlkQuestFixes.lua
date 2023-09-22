@@ -708,14 +708,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
         },
-        [11442] = {
-            [questKeys.startedBy] = {{24710}},
-            [questKeys.finishedBy] = {{24710}},
-            [questKeys.objectivesText] = {},
-        },
-        [11447] = {
-            [questKeys.objectivesText] = {},
-        },
         [11452] = {
             [questKeys.startedBy] = {{24018},nil,{34090}},
         },

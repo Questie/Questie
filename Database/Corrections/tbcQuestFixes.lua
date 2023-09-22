@@ -2900,6 +2900,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11442] = {
             [questKeys.exclusiveTo] = {11441},
+            [questKeys.objectivesText] = {},
+            [questKeys.startedBy] = {{24710}},
+            [questKeys.finishedBy] = {{24710}},
         },
         [11446] = {
             [questKeys.startedBy] = {{19169,19175,19176,19177,19178,20102},nil,nil},
@@ -2907,6 +2910,9 @@ function QuestieTBCQuestFixes:Load()
         },
         [11447] = {
             [questKeys.exclusiveTo] = {11446},
+            [questKeys.objectivesText] = {},
+            [questKeys.startedBy] = {{24711}},
+            [questKeys.finishedBy] = {{24711}},
         },
         [11481] = {
             [questKeys.requiredMinRep] = {932,3000},
