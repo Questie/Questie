@@ -1192,7 +1192,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9738] = {
             [questKeys.preQuestSingle] = {},
-            [questKeys.zoneOrSort] = zoneIDs.THE_SLAVE_PENS,
         },
         [9739] = {
             [questKeys.requiredMinRep] = {},
