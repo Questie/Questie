@@ -21,9 +21,6 @@ function QuestieWotlkObjectFixes:Load()
         [180669] = {
             [objectKeys.spawns] = {[zoneIDs.AZSHARA] = {{65.82,54.77}}},
         },
-        [185200] = {
-            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
-        },
         [186419] = {
             [objectKeys.questStarts] = {4127},
         },
