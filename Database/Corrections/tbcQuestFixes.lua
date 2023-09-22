@@ -1192,6 +1192,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9738] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{17885,"Earthbinder Rayge Discovered"},{17893,"Naturalist Bite Discovered"},{17890,"Weeder Greenthumb Discovered"},{17827,"Windcaller Claw Discovered"}}},
         },
         [9739] = {
             [questKeys.requiredMinRep] = {},
