@@ -1446,6 +1446,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10211,10017},
             [questKeys.requiredMaxRep]= {932,0},
         },
+        [10020] = {
+            [questKeys.preQuestSingle] = {10554},
+        },
+        [10021] = {
+            [questKeys.preQuestSingle] = {10554},
+        },
         [10024] = {
             [questKeys.preQuestSingle] = {10211},
             [questKeys.requiredMaxRep]= {934,0},
