@@ -2490,6 +2490,7 @@ function QuestieTBCQuestFixes:Load()
         [11038] = {
             [questKeys.startedBy] = {{23270,23271},nil,nil},
             [questKeys.exclusiveTo] = {10183,11036,11037,11039,11040,11042},
+            [questKeys.preQuestSingle] = {10551},
         },
         [11039] = {
             [questKeys.preQuestSingle] = {10551,10552},
