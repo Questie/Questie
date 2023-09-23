@@ -607,6 +607,9 @@ function QuestieTBCNpcFixes:Load()
         [23100] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{44.2,41.0},},},
         },
+        [23271] = {
+            [npcKeys.spawns] = {[zoneIDs.SHATTRATH_CITY] = {{35.05,32.39}}},
+        },
         [23338] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{46.5,45.1},{60.6,60.1},},},
         },
