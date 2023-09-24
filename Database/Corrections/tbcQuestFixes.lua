@@ -1671,7 +1671,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{28548,"Zap Sundered Rumblers and Warp Aberrations before killing them"}},nil},
         },
         [10231] = {
-            [questKeys.triggerEnd] = {"Beat Down \"Dirty\" Larry and Get Information", {[zoneIDs.SHATTRATH_CITY]={{43.86,27.97}}}},
+            [questKeys.objectives] = {{{19720,"Beat Down \"Dirty\" Larry and Get Information"}}},
         },
         [10243] = {
             [questKeys.preQuestSingle] = {10241},
