@@ -1010,7 +1010,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "利用自然能量炮弹控制死亡之门邪能火炮",
     },
-    ["Use the coffin and kill its content"] = { -- 10915
+    ["Open the coffin and kill its contents"] = { -- 10915
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Benutzt die Särge und tötet ihren Inhalt.",
