@@ -1461,6 +1461,12 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10211,10024},
             [questKeys.requiredMaxRep]= {934,0},
         },
+        [10035] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the carcass"), 0, {{"object", 184842}}}},
+        },
+        [10036] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the carcass"), 0, {{"object", 184842}}}},
+        },
         [10039] = {
             [questKeys.requiredLevel] = 62,
         },
