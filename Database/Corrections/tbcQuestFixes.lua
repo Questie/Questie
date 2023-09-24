@@ -2195,7 +2195,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20635,"Razaani Light Orb collected"}},nil,nil,nil},
         },
         [10861] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect Cursed Eggs to spawn Malevolent Hatchling"), 0, {{"object", 185210}}}},
+            [questKeys.objectives] = {nil,{{185210,"Hatchlings Redeemed"}},nil,nil,{{{22337},22337}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Collect Cursed Eggs to spawn a Hatchling"), 0, {{"object", 185210}}}},
         },
         [10862] = {
             [questKeys.exclusiveTo] = {10908},

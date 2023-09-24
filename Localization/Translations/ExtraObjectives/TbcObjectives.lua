@@ -914,7 +914,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "对莫尔葛恶魔使用魔杖。它的控制时间不会太长，你必须利用这段时间对传送装置使用莫尔葛的爆破能力",
     },
-    ["Collect Cursed Eggs to spawn Malevolent Hatchling"] = { -- 10861
+    ["Collect Cursed Eggs to spawn a Hatchling"] = { -- 10861
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Sammelt verfluchte Eier um bösartige Jungtiere anzulocken.", -- Hat jemand was besseres als spawnen? "Anzulocken" passt hier nicht so wirklich.
