@@ -434,7 +434,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "在苏瑟伦生态圆顶发生器旁使用诊断设备",
     },
-    ["Protecotrate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"] = { -- 10438
+    ["Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"] = { -- 10438
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Ein Netherdrache des Protektorats wird euch nahe genug an Ultris heranfliegen, damit ihr den Disruptor auf das Leerenrohr abwerfen könnt.",
