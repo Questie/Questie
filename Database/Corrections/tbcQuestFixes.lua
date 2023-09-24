@@ -1856,6 +1856,9 @@ function QuestieTBCQuestFixes:Load()
         [10438] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Protectorate Nether Drake will fly you close enough to Ultris so that you can drop the disruptor on top of the Void Conduit"), 0, {{"monster", 20903}}}},
         },
+        [10446] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Mana Bomb Activated"), 0, {{"object", 184725}}}},
+        },
         [10451] = {
             [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18}}}},
         },
