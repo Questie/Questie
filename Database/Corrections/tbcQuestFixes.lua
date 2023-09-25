@@ -1333,6 +1333,9 @@ function QuestieTBCQuestFixes:Load()
         [9913] = {
             [questKeys.exclusiveTo] = {9882},
         },
+        [9918] = {
+            [questKeys.objectives] = {{{18351,"Lump Interrogated"}}},
+        },
         [9923] = {
             [questKeys.requiredMinRep] = {978,0},
             [questKeys.requiredSourceItems] = {25490},
