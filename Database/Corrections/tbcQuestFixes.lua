@@ -1578,6 +1578,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.questLevel] = -1,
             [questKeys.requiredMaxRep] = {},
         },
+        [10111] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Jump!"), 0, {{"object", 183146}}}},
+        },
         [10113] = {
             [questKeys.exclusiveTo] = {9854,9857,9789},
             [questKeys.requiredLevel] = 64,

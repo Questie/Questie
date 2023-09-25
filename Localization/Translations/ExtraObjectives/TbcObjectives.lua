@@ -254,6 +254,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Jump!"] = { -- 10111
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Beat Down \"Dirty\" Larry and Get Information"] = { -- 10231
         ["ptBR"] = false,
         ["ruRU"] = false,
