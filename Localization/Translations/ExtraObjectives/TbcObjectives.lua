@@ -1370,6 +1370,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "激活东边的阳湾圣殿周围的水晶结界",
     },
+    ["Defeat enemy players"] = { -- 11502 & 11503
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Fel Siphon and then kill the weakened Felblood Initiate"] = { -- 11515
         ["ptBR"] = false,
         ["ruRU"] = false,

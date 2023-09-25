@@ -2946,9 +2946,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [11502] = {
             [questKeys.requiredMinRep] = {978,0},
+            [questKeys.extraObjectives] = {{{[zoneIDs.NAGRAND]={{42.3,45.5}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat enemy players")}},
         },
         [11503] = {
             [questKeys.requiredMinRep] = {941,0},
+            [questKeys.extraObjectives] = {{{[zoneIDs.NAGRAND]={{42.3,45.5}}}, Questie.ICON_TYPE_EVENT, l10n("Defeat enemy players")}},
         },
         [11505] = {
             [questKeys.triggerEnd] = {"Secure a Spirit Tower", {[zoneIDs.TEROKKAR_FOREST]={{42.49,54},{32.47,57.86},{48.98,60.29},{47.2,72.29},{40.48,77.99}}}},
