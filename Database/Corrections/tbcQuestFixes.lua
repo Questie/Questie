@@ -1429,7 +1429,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 62,
         },
         [10004] = {
-            [questKeys.triggerEnd] = {"Sal'salabim Persuaded", {[zoneIDs.SHATTRATH_CITY]={{76.68,33.96}}}},
+            [questKeys.objectives] = {{{18584,"Sal'salabim Persuaded"}}},
         },
         [10008] = {
             [questKeys.preQuestSingle] = {},
