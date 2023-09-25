@@ -1355,6 +1355,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9932] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Make smoke signals"), 0, {{"object", 182369}}}},
             [questKeys.preQuestGroup] = {9927,9928},
         },
         [9933] = {

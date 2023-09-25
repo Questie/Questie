@@ -242,6 +242,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "收集7枚徽记，摆放在战槌山的大地印记上。召唤出戈隆克。",
     },
+    ["Make smoke signals"] = { -- 9932
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Place the carcass"] = { -- 10035
         ["ptBR"] = false,
         ["ruRU"] = false,
