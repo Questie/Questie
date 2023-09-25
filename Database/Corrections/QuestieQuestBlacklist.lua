@@ -991,7 +991,6 @@ function QuestieQuestBlacklist:Load()
         [9599] = true, -- <UNUSED>
         [9750] = true, -- UNUSED Urgent Delivery
         [9767] = true, -- Know Your Enemy
-        [9955] = true, -- A Show of Good Faith
         [10090] = true, -- BETA The Legion's Plans
         [11027] = true, -- NOT IN GAME: Yous Have Da Darkrune? , "replaced" by 11060 (A Crystalforged Darkrune)
 
