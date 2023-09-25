@@ -1313,7 +1313,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [9879] = {
             [questKeys.requiredMinRep] = {978,0},
-            [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.59,38.78}}}},
+            [questKeys.triggerEnd] = {"Free the Kurenai Captive", {[zoneIDs.NAGRAND]={{31.57,38.78}}}},
         },
         [9889] = {
             [questKeys.triggerEnd] = {"Unkor Submits", {[zoneIDs.TEROKKAR_FOREST]={{20.02,63.05}}}},
