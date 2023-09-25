@@ -1387,7 +1387,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {941,0},
         },
         [9955] = {
-            [questKeys.requiredSourceItems] = {25648},
+            [questKeys.objectives] = {{{18445,"Corki Freed"}}},
         },
         [9956] = {
             [questKeys.requiredMinRep] = {978,0},
