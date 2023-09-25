@@ -1572,10 +1572,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMaxRep] = {},
         },
         [10107] = {
-            [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59}}}},
+            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster"}}},
         },
         [10108] = {
-            [questKeys.triggerEnd] = {"Hear the Tale of the Blademaster", {[zoneIDs.NAGRAND]={{73.82,62.59}}}},
+            [questKeys.objectives] = {{{18261,"Hear the Tale of the Blademaster"}}},
         },
         [10110] = {
             [questKeys.questLevel] = -1,
