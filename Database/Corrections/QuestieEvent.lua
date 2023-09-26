@@ -76,7 +76,15 @@ function QuestieEvent:Load()
     QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
     local activeEvents = {}
 
-    local eventCorrections = (Questie.IsTBC or Questie.IsWotlk) and QuestieEvent.eventDateCorrections["TBC"] or QuestieEvent.eventDateCorrections["CLASSIC"]
+    local eventCorrections
+    if Questie.IsTBC then
+        eventCorrections = QuestieEvent.eventDateCorrections["TBC"]
+    elseif Questie.IsClassic then
+        eventCorrections = QuestieEvent.eventDateCorrections["CLASSIC"]
+    else
+        eventCorrections = {}
+    end
+
     for eventName,dates in pairs(eventCorrections) do
         if dates then
             QuestieEvent.eventDates[eventName] = dates
