@@ -2669,13 +2669,12 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredMinRep] = {510,42000},
         },
         [8149] = {
-            [questKeys.requiredSourceItems] = {19850},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Uther's Tomb"),0,{{"object", 180204},}}},
         },
         [8150] = {
-            [questKeys.requiredSourceItems] = {19851},
-            [questKeys.exclusiveTo] = {2851},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place a tribute at Grom's Monument"),0,{{"object", 180205},}}},
         },
         [8166] = {
             [questKeys.specialFlags] = 0,
