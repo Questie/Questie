@@ -1118,12 +1118,6 @@ function QuestieItemFixes:Load()
         [19808] = {
             [itemKeys.objectDrops] = {},
         },
-        [19850] = {
-            [itemKeys.objectDrops] = {180204},
-        },
-        [19851] = {
-            [itemKeys.objectDrops] = {180205},
-        },
         [19975] = {
             [itemKeys.objectDrops] = {},
         },

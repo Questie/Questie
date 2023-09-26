@@ -228,10 +228,12 @@ function QuestieObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.THE_HINTERLANDS]={{53.3,38.8},{57.4,42.6},{57.5,42.6},{66.4,44.8},{71,48.6},{72.6,52.9}}},
         },
         [180204] = {
-            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{52,83}}},
+            [objectKeys.name] = "Uther the Lightbringer",
+            [objectKeys.spawns] = {[zoneIDs.WESTERN_PLAGUELANDS]={{52.08,83.28}}},
         },
         [180205] = {
-            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{83,78}}},
+            [objectKeys.name] = "Monument to Grom Hellscream",
+            [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{82.8,79.09}}},
         },
         [180453] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51,99}}},
