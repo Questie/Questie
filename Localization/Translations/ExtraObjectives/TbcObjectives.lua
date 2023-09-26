@@ -830,6 +830,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
+    ["Talk to him while disguised"] = { -- 10722
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Sablemane's Trap at Gorgrom's Altar"] = { -- 10723 & 10802
         ["ptBR"] = false,
         ["ruRU"] = false,

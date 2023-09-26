@@ -2103,8 +2103,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Blow the whistle and have Grulloc run after the boar"), 0, {{"monster", 20216}}}},
         },
         [10722] = {
-            [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45}}}},
-            [questKeys.requiredSourceItems] = {31121},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Talk to him while disguised"), 0, {{"monster", 22019}}}},
+            [questKeys.objectives] = {{{22019,"Meeting with Kolphis Darkscale attended"}}},
+            [questKeys.requiredSourceItems] = {31121,31122},
+            [questKeys.sourceItemId] = 31121,
         },
         [10723] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
@@ -2183,7 +2185,8 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10551},
         },
         [10830] = {
-            [questKeys.requiredSourceItems] = {31517,31495},
+            [questKeys.requiredSourceItems] = {31517,31495,31518},
+            [questKeys.sourceItemId] = 31517,
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Exorcism Feathers to summon Koi-Koi Spirits"), 0, {{"monster", 21326}}}},
         },
         [10831] = {
