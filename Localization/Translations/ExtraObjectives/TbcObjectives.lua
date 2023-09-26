@@ -866,6 +866,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "上未完成的杖头，传送至诅咒祭坛，在古尔丹附近使用未完成的杖头",
     },
+    ["Put Grulloc to sleep using Sablemane's Sleeping Powder"] = { -- 10800
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Kill flayers and take their carcasses. Place a carcass in the field"] = { -- 10804
         ["ptBR"] = false,
         ["ruRU"] = false,
