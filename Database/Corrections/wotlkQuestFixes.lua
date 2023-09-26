@@ -675,6 +675,10 @@ function QuestieWotlkQuestFixes:Load()
         [11410] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Fresh Barbfish Bait"), 0, {{"object", 186770},}}},
         },
+        [11412] = {
+            [questKeys.objectives] = {{{24510,"Kegs Delivered"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Grab a keg"), 0, {{"monster", 24527}}}},
+        },
         [11416] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Touch Talonshrike's Egg"), 0, {{"object", 186814},{"object", 190283},{"object", 190284}}}},
         },
@@ -703,14 +707,6 @@ function QuestieWotlkQuestFixes:Load()
         [11436] = {
             [questKeys.triggerEnd] = {"Go Harpoon Surfing",{[zoneIDs.HOWLING_FJORD]={{60.08,62.06,},},},},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Go Harpoon Surfing"),0,{{"object",186894}}}},
-        },
-        [11442] = {
-            [questKeys.startedBy] = {{24710}},
-            [questKeys.finishedBy] = {{24710}},
-            [questKeys.objectivesText] = {},
-        },
-        [11447] = {
-            [questKeys.objectivesText] = {},
         },
         [11452] = {
             [questKeys.startedBy] = {{24018},nil,{34090}},
@@ -1528,6 +1524,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12486] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
+        },
+        [12491] = {
+            [questKeys.startedBy] = {{23872},nil,{38280}},
+        },
+        [12492] = {
+            [questKeys.startedBy] = {{23872},nil,{38281}},
         },
         [12498] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Slay Antiok's mount to make him vulnerable"),0,{{"monster", 28018}}},},
