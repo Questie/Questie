@@ -1979,8 +1979,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil}},nil},
         },
         [10609] = {
-            -- TODO: Change the Questie.ICON_TYPE_OBJECT in the database references, once that is supported. {"monster", 20021} -> {"monster", 20021, Questie.ICON_TYPE_SLAY}
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches"), 0, {{"object", 184867}, {"monster", 20021}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open Nether Drake Eggs and use the Temporal Phase Modulator on whatever hatches"), 0, {{"object", 184867}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Use the Temporal Phase Modulator"), 0, {{"monster", 20021}}},
+            },
         },
         [10611] = {
             [questKeys.objectives] = {nil,nil,{{30713,nil},{30712,nil}},nil},

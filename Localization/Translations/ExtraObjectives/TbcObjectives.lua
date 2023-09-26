@@ -674,6 +674,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "对着从虚空龙蛋中孵化出的虚空幼龙使用时间定相调节器就行",
     },
+    ["Use the Temporal Phase Modulator"] = { -- 10609
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = "Benutzt den Temporaler Phasenstrahler",
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"] = { -- 10612 & 10613
         ["ptBR"] = false,
         ["ruRU"] = false,
