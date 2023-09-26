@@ -4590,14 +4590,13 @@ function QuestieTBCQuestFixes:Load()
         },
         [12513] = {
             [questKeys.exclusiveTo] = {12515},
-            [questKeys.finishedBy] = {{28126},nil},
-            [questKeys.requiredRaces] = 69, -- gnome, human, dwarf
+            [questKeys.requiredRaces] = raceIDs.GNOME + raceIDs.HUMAN + raceIDs.DWARF,
         },
         [12515] = {
             [questKeys.exclusiveTo] = {12513},
             [questKeys.startedBy] = {{28126},nil},
             [questKeys.finishedBy] = {{28126},nil},
-            [questKeys.requiredRaces] = 1722, -- night elf, draenei, orc, troll, tauren, blood elf, undead
+            [questKeys.requiredRaces] = raceIDs.ORC + raceIDs.NIGHT_ELF + raceIDs.DRAENEI + raceIDs.TROLL + raceIDs.TAUREN + raceIDs.UNDEAD + raceIDs.BLOOD_ELF,
         },
         [12771] = {
             [questKeys.preQuestSingle] = {12753},
