@@ -818,6 +818,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "寻找正在交谈的血槌工头和血槌占卜师，使用雷克萨的哨子召唤斯比雷偷听他们的谈话",
     },
+    ["Blow the whistle and have Grulloc run after the boar"] = { -- 10714
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse"] = { -- 10723 & 10802
         ["ptBR"] = false,
         ["ruRU"] = false,

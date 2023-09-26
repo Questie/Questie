@@ -2099,6 +2099,9 @@ function QuestieTBCQuestFixes:Load()
         [10714] = {
             [questKeys.extraObjectives] = {{{[zoneIDs.BLADES_EDGE_MOUNTAINS]={{58,30}}}, Questie.ICON_TYPE_EVENT, l10n("Find a Bloodmaul Taskmaster and a Bloodmaul Soothsayer engaged in conversation, then use Rexxar's Whistle to summon Spirit to spy on them."), 0}},
         },
+        [10721] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Blow the whistle and have Grulloc run after the boar"), 0, {{"monster", 20216}}}},
+        },
         [10722] = {
             [questKeys.triggerEnd] = {"Meeting with Kolphis Darkscale attended", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{32.61,37.45}}}},
             [questKeys.requiredSourceItems] = {31121},
