@@ -2066,7 +2066,7 @@ function QuestieTBCQuestFixes:Load()
             },
         },
         [10682] = {
-            [questKeys.triggerEnd] = {"Negotiations with Overseer Nuaar complete", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{62.22,31.78},{59.86,40.22},{59.46,35.84}}}},
+            [questKeys.objectives] = {{{21981,"Negotiations with Overseer Nuaar complete"}}},
         },
         [10683] = {
             [questKeys.preQuestSingle] = {10552},
