@@ -2107,7 +2107,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredSourceItems] = {31121},
         },
         [10723] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"object", 185234}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
+            },
         },
         [10742] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Rexxar's Battle Horn at the Altar of Goc"), 0, {{"object", 185309}}}},
@@ -2150,7 +2152,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Put Grulloc to sleep using Sablemane's Sleeping Powder"), 0, {{"monster", 20216}}}},
         },
         [10802] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Use Sablemane's Trap at Gorgrom's Altar. Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"object", 185234}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sablemane's Trap at Gorgrom's Altar"), 0, {{"object", 185234}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Place the 3 Grisly Totems near Gorgrom's corpse"), 0, {{"monster", 21514}}},
+            },
         },
         [10804] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill flayers and take their carcasses. Place a carcass in the field"), 0, {{"monster", 21477}, {"monster", 21478}}}},
