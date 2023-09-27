@@ -1682,6 +1682,9 @@ function QuestieTBCQuestFixes:Load()
         [10231] = {
             [questKeys.objectives] = {{{19720,"Beat Down \"Dirty\" Larry and Get Information"}}},
         },
+        [10240] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Activate the rune"), 0, {{"object", 183947}}}},
+        },
         [10243] = {
             [questKeys.preQuestSingle] = {10241},
         },
