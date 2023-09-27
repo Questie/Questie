@@ -1747,6 +1747,9 @@ function QuestieTBCQuestFixes:Load()
         [10307] = {
             [questKeys.startedBy] = {{19545},nil,nil},
         },
+        [10308] = {
+            [questKeys.requiredMinRep] = {933,0},
+        },
         [10310] = {
             [questKeys.preQuestSingle] = {},
             [questKeys.triggerEnd] = {"Burning Legion warp-gate sabotaged", {[zoneIDs.NETHERSTORM]={{48.14,63.38}}}},
