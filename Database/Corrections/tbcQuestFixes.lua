@@ -1647,6 +1647,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10190] = {
             [questKeys.objectives] = {{{18879,"Battery Charge Level"}},nil,nil,nil},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Battery Recharging Blaster when it's weakened"), 0, {{"monster", 18879}}}},
         },
         [10191] = {
             [questKeys.triggerEnd] = {"Escort the Maxx A. Million Mk. V safely through the Ruins of Enkaat", {[zoneIDs.NETHERSTORM]={{31.54,56.47}}}},
