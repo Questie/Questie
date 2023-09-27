@@ -2516,6 +2516,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {11010},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
+        [11025] = {
+            [questKeys.preQuestSingle] = {11000},
+        },
         [11026] = {
             [questKeys.preQuestSingle] = {11009},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Banishing Crystal and slay demons near the summoned portal"), 0, {{"monster", 20557},{"monster", 22195},{"monster", 22291},{"monster", 19973},{"monster", 22204}}}}
