@@ -1634,6 +1634,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10182] = {
             [questKeys.startedBy] = {{19543},nil,nil},
+            [questKeys.objectives] = {nil,{{183269,"Put Dathric's Spirit to Rest"}}},
         },
         [10183] = {
             [questKeys.exclusiveTo] = {11036,11037,11038,11039,11040,11042},
@@ -1741,12 +1742,15 @@ function QuestieTBCQuestFixes:Load()
         },
         [10305] = {
             [questKeys.startedBy] = {{19546},nil,nil},
+            [questKeys.objectives] = {nil,{{183268,"Put Belmara's Spirit to Rest"}}},
         },
         [10306] = {
             [questKeys.startedBy] = {{19544},nil,nil},
+            [questKeys.objectives] = {nil,{{183267,"Put Luminrath's Spirit to Rest"}}},
         },
         [10307] = {
             [questKeys.startedBy] = {{19545},nil,nil},
+            [questKeys.objectives] = {nil,{{183266,"Put Cohlien's Spirit to Rest"}}},
         },
         [10308] = {
             [questKeys.requiredMinRep] = {933,0},
