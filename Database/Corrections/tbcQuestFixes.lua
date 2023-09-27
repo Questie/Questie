@@ -1675,7 +1675,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10188},
         },
         [10226] = {
-            [questKeys.objectives] = {nil,nil,{{28548,"Zap Sundered Rumblers and Warp Aberrations before killing them"}},nil},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Elemental Power Extractor before killing it"), 0, {{"monster", 18865},{"monster", 18881}}}},
         },
         [10231] = {
             [questKeys.objectives] = {{{19720,"Beat Down \"Dirty\" Larry and Get Information"}}},
