@@ -2450,17 +2450,26 @@ function QuestieTBCQuestFixes:Load()
         [10992] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat the Guardian of the Hawk and obtain the Essence of the Hawk"), 0, {{"object", 185551}}}},
         },
+        [10995] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Grulloc's Dragon Skull"), 0, {{"monster", 20216}}}},
+        },
         [10996] = {
             [questKeys.preQuestSingle] = {10983,10989,11057},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Maggoc's Treasure Chest"), 0, {{"monster", 20600}}}},
         },
         [10997] = {
             [questKeys.preQuestSingle] = {10983,10989,11057},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Slaag's Standard"), 0, {{"monster", 22199}}}},
         },
         [10998] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_LOOT, l10n("Vim'gol must be summoned by yourself, and four others, each standing within a different fire ring at his circle."), 0, {{"monster", 22911}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Step into fire rings to summon Vim'gol"), 0, {{"monster", 22911}}},
+                                           {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat him so he spawns Vim'gol's Vile Grimoire"), 0, {{"monster", 22911}}},
+            },
         },
         [11000] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Vim'gol's Grimoire at Soulgrinder's Altar"), 0, {{"object", 185880}}},
+                                           {nil, Questie.ICON_TYPE_EVENT, l10n("Defeat him so he spawns Skulloc's Soul"), 0, {{"monster", 22910}}},
+            },
         },
         [11002] = {
             [questKeys.startedBy] = {{17257},nil,{33102,},},

@@ -80,8 +80,20 @@ function QuestieTBCObjectFixes:Load()
         [185460] = {
             [objectKeys.name] = "Ethereum Prison",
         },
+        [185562] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{77.53,31.2}}},
+        },
+        [185567] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.92,47.61}}},
+        },
+        [185569] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{58.59,60.8}}},
+        },
         [185574] = {
-            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{20.5,17.8}}},
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{20.17,18.1}}},
+        },
+        [185577] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{60.7,25.46}}},
         },
         [186273] = {
             [objectKeys.spawns] = {[zoneIDs.DUSTWALLOW_MARSH]={{61.7,18.2}}},

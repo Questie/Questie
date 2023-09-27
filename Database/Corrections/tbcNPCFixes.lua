@@ -491,6 +491,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{71.2,38.8}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
+        [20600] = {
+            [npcKeys.waypoints] = {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{{58.08,64.77},{58.59,60.8},{59.37,57.56},{59.88,56.51},{60.85,55.47},{61.49,55.45},{62.31,55.97},{63.47,55.79},{64.11,55.01},{64.87,54.74},{65.45,54.8},{66.23,56.32},{66.73,57.29},{67.71,58.45},{67.92,59.64},{67.96,61.14},{68.2,62.06},{68.33,63.37},{67.94,64.46},{68.15,66.08},{68.22,67.54},{68.02,69.14},{68.06,70.5},{68.17,71.93},{68.17,73.35},{67.99,75.05},}}},
+        },
         [20680] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_PENINSULA]={{14.32,62.18}}},
             [npcKeys.waypoints] = {[zoneIDs.HELLFIRE_PENINSULA] = {{{14.34,61.07},{14.32,59.92},{14.32,58.88},{14.32,57.9},{14.32,56.98},{14.33,58.76},{14.31,59.58},{14.31,60.21},{14.31,60.95},{14.32,62.16},{14.32,62.16}}}},
@@ -596,8 +599,11 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },
+        [22910] = {
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{60.7,25.46}}},
+        },
         [22911] = {
-            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{77.5,31.1}}},
+            [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{77.53,31.2}}},
         },
         [22920] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{51.1,11.6}}},
