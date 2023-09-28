@@ -2533,7 +2533,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11023] = {
             [questKeys.requiredLevel] = 70,
-            [questKeys.preQuestSingle] = {11010},
+            [questKeys.preQuestSingle] = {11010,11102},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
         },
         [11025] = {
