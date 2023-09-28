@@ -2613,7 +2613,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredLevel] = 70,
         },
         [11058] = {
-            [questKeys.triggerEnd] = {"Apexis Vibrations attained", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{33.46,51.84},{28.79,46.68},{31.82,64.05},{27.39,68.4}}}},
+            [questKeys.objectives] = {nil,{{185890,"Apexis Vibrations attained"}}},
         },
         [11059] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Apexis Monument. Apexis Guardian will spawn after six rounds"), 0, {{"object", 185944}}}},
@@ -2666,7 +2666,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use 35 Apexis Shards to activate Fel Crystal Prism"), 0, {{"object", 185927}}}},
         },
         [11080] = {
-            [questKeys.triggerEnd] = {"Apexis Emanations attained", {[zoneIDs.BLADES_EDGE_MOUNTAINS]={{28.7,46.64},{27.3,68.39},{31.82,63.62},{33.42,51.9}}}},
+            [questKeys.objectives] = {nil,{{185890,"Apexis Emanations attained"}}},
         },
         [11081] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
