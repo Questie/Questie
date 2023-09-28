@@ -102,7 +102,8 @@ QuestieDB.classKeys = {
     HUNTER = 4,
     ROGUE = 8,
     PRIEST = 16,
-    SHAMAN = 32,
+    DEATH_KNIGHT = 32,
+    SHAMAN = 64,
     MAGE = 128,
     WARLOCK = 256,
     DRUID = 1024
@@ -996,7 +997,6 @@ function QuestieDB:GetCreatureLevels(quest)
         if quest.objectives[1] then -- Killing creatures
             for _, creatureObjective in pairs(quest.objectives[1]) do
                 local npcId = creatureObjective[1]
-                local npcIdff = creatureObjective[2]
                 _CollectCreatureLevels({npcId})
             end
         end
