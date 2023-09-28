@@ -1783,7 +1783,7 @@ function QuestieQuestFixes:Load()
             [questKeys.requiredSkill] = {164,275},
         },
         [5126] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.SHAMAN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.SHAMAN,
             [questKeys.triggerEnd] = {"Listen to Lorax's Tale", {[zoneIDs.WINTERSPRING]={{63.82,73.79}}}},
             [questKeys.zoneOrSort] = sortKeys.BLACKSMITHING,
         },
@@ -2506,13 +2506,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{2198,10877,10878},nil,nil}, -- #2489
         },
         [7507] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [7508] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [7509] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [7541] = {
             [questKeys.questLevel] = 40, -- #1320
@@ -2576,13 +2576,13 @@ function QuestieQuestFixes:Load()
             [questKeys.startedBy] = {{9046},nil,{18987}},
         },
         [7785] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
         },
         [7786] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
         },
         [7787] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN and classIDs.HUNTER and classIDs.ROGUE,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.ROGUE,
         },
         [7795] = {
             [questKeys.preQuestSingle] = {7794},
@@ -3677,40 +3677,40 @@ function QuestieQuestFixes:Load()
             [questKeys.preQuestSingle] = {9033},
         },
         [9234] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [9235] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [9236] = {
-            [questKeys.requiredClasses] = classIDs.WARRIOR and classIDs.PALADIN,
+            [questKeys.requiredClasses] = classIDs.WARRIOR + classIDs.PALADIN,
         },
         [9238] = {
-            [questKeys.requiredClasses] = classIDs.PRIEST and classIDs.MAGE and classIDs.WARLOCK,
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
         },
         [9239] = {
-            [questKeys.requiredClasses] = classIDs.PRIEST and classIDs.MAGE and classIDs.WARLOCK,
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
         },
         [9240] = {
-            [questKeys.requiredClasses] = classIDs.PRIEST and classIDs.MAGE and classIDs.WARLOCK,
+            [questKeys.requiredClasses] = classIDs.PRIEST + classIDs.MAGE + classIDs.WARLOCK,
         },
         [9241] = {
-            [questKeys.requiredClasses] = classIDs.ROGUE and classIDs.DRUID,
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
         },
         [9242] = {
-            [questKeys.requiredClasses] = classIDs.ROGUE and classIDs.DRUID,
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
         },
         [9243] = {
-            [questKeys.requiredClasses] = classIDs.ROGUE and classIDs.DRUID,
+            [questKeys.requiredClasses] = classIDs.ROGUE + classIDs.DRUID,
         },
         [9244] = {
-            [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
         },
         [9245] = {
-            [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
         },
         [9246] = {
-            [questKeys.requiredClasses] = classIDs.HUNTER and classIDs.SHAMAN,
+            [questKeys.requiredClasses] = classIDs.HUNTER + classIDs.SHAMAN,
         },
         [9248] = {
             [questKeys.requiredMinRep] = {609,0},
