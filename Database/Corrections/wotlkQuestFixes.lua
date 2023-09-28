@@ -404,6 +404,9 @@ function QuestieWotlkQuestFixes:Load()
         [10900] = {
             [questKeys.requiredMaxLevel] = 70,
         },
+        [11010] = {
+            [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
+        },
         [11117] = {
             [questKeys.startedBy] = {{23486}},
             [questKeys.finishedBy] = {{23486}},
