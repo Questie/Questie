@@ -634,6 +634,16 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{40,30}}},
             [objectKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
         },
+        [400058] = {
+            [objectKeys.name] = "Portal to Socrethar's Seat",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [400059] = {
+            [objectKeys.name] = "Portal to Netherstorm",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{30.56,17.69}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [500007] = {
             [objectKeys.name] = "Alcaz Survey Credit", -- 4391
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,

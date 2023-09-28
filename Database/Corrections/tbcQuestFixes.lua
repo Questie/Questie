@@ -1849,8 +1849,13 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {[zoneIDs.NETHERSTORM]={{56.42,42.66}}}},
         },
         [10409] = {
-            [questKeys.triggerEnd] = {"Deathblow to the Legion", {[zoneIDs.NETHERSTORM]={{29.56,14.29}}}},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat"), 0, {{"object", 184606}}}},
+            [questKeys.objectives] = {{{20132,"Deathblow to the Legion"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Take the portal to Socrethar's Seat"), 0, {{"object", 400058}}},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Take the portal back to Invasion Point: Overlord"), 0, {{"object", 400059}}},
+                                           {nil, Questie.ICON_TYPE_TALK, l10n("When at Socrethar's Seat, ask for his help against Socrethar"), 0, {{"monster", 18537}}},
+                                           {{[zoneIDs.NETHERSTORM]={{36.44,18.35}}}, Questie.ICON_TYPE_EVENT, l10n("Open a portal to Socrethar's Seat with Socrethar's Teleporting Stone")},
+                                           {{[zoneIDs.NETHERSTORM]={{30.56,17.69}}}, Questie.ICON_TYPE_EVENT, l10n("After defeating Socrethar, you can open a portal back")},
+            },
         },
         [10411] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Navuud's Concoction before attacking Void Wastes or Seeping Sludge"), 0, {{"monster", 20501}, {"monster", 20778}}}},
@@ -1909,7 +1914,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{20058,"Apply the Diminution Powder on the Bloodmaul Dire Wolves"}},nil,nil,nil,nil},
         },
         [10507] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Socrethar's Teleportation Stone creates a portal, teleporting group members that use it to Socrethar's Seat"), 0, {{"object", 184606}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Take the portal to Socrethar's Seat"), 0, {{"object", 400058}}},
+                                           {nil, Questie.ICON_TYPE_OBJECT, l10n("Take the portal back to Invasion Point: Overlord"), 0, {{"object", 400059}}},
+                                           {{[zoneIDs.NETHERSTORM]={{36.44,18.35}}}, Questie.ICON_TYPE_EVENT, l10n("Open a portal to Socrethar's Seat with Socrethar's Teleporting Stone")},
+                                           {{[zoneIDs.NETHERSTORM]={{30.56,17.69}}}, Questie.ICON_TYPE_EVENT, l10n("After defeating Socrethar, you can open a portal back")},
+            },
         },
         [10512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19998,20334,20723,20726,20730,20731,20732,21296,21975,19995},19995,"Bladespire Ogres drunken"}}},
