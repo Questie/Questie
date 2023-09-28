@@ -1046,6 +1046,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "打破雷希鸦巢中被诅咒的鸟蛋。解救雏鸟，并杀死邪恶的雏鸟",
     },
+    ["Kill Nexus-Prince Razaan to spawn the Collection of Souls"] = { -- 10876 10675
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Kill Force Commander Gorax and place the Challenge From the Horde upon his corpse"] = { -- 10876
         ["ptBR"] = false,
         ["ruRU"] = false,
