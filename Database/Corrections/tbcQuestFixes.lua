@@ -1670,7 +1670,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
         },
         [10218] = {
-            [questKeys.triggerEnd] = {"Escort Cryo-Engineer Sha'heen", {[zoneIDs.TEROKKAR_FOREST]={{39.62,57.57}}}},
+            [questKeys.triggerEnd] = {"Escort Cryo-Engineer Sha'heen", {[zoneIDs.MANA_TOMBS]={{-1,-1}}}},
             [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
         },
         [10222] = {
