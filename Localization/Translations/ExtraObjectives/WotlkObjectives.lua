@@ -866,7 +866,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Escort Budd to the Drak' Zin Ruins"] = { -- 11984
+    ["Escort Budd to the Drak'Zin Ruins"] = { -- 11984
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
