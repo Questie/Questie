@@ -1914,6 +1914,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [10458] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.objectives] = {{{21050,"Earthen Soul Captured"},{21061,"Fiery Soul Captured"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Earth and Fiery Spirits"), 0, {{"monster", 21050}, {"monster", 21061}}}},
         },
         [10476] = {
