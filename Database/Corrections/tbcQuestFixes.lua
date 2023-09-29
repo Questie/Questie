@@ -2453,6 +2453,10 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10956,10962},
             [questKeys.preQuestSingle] = {},
         },
+        [10971] = {
+            [questKeys.requiredSourceItems] = {29460},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184998}}}},
+        },
         [10974] = {
             [questKeys.requiredMinRep] = {933,21000},
         },

@@ -211,6 +211,7 @@ function QuestieItemBlacklist:Load()
         [26043] = true, -- Oshu'gun Crystal Powder Sample
         [29425] = true, -- Mark of Kiljaeden
         [29426] = true, -- Firewing Signet
+        [29460] = true, -- Ethereum Prison Key
         [29739] = true, -- Arcane Tome
         [29740] = true, -- Fel Armament
         [30809] = true, -- Mark of Sargeras
