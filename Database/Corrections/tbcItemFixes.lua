@@ -411,3 +411,20 @@ function QuestieTBCItemFixes:Load()
         -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
     }
 end
+
+-- This should allow manual fix for item availability
+function QuestieTBCItemFixes:LoadFactionFixes()
+    local itemKeys = QuestieDB.itemKeys
+
+    local itemFixesHorde = {
+    }
+
+    local itemFixesAlliance = {
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return itemFixesHorde
+    else
+        return itemFixesAlliance
+    end
+end
