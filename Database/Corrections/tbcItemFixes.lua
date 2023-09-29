@@ -248,6 +248,9 @@ function QuestieTBCItemFixes:Load()
         [30672] = {
             [itemKeys.class] = 12,
         },
+        [30712] = {
+            [itemKeys.class] = 12,
+        },
         [30719] = {
             [itemKeys.class] = 12,
         },
@@ -417,9 +420,21 @@ function QuestieTBCItemFixes:LoadFactionFixes()
     local itemKeys = QuestieDB.itemKeys
 
     local itemFixesHorde = {
+        [30712] = {
+            [itemKeys.npcDrops] = {21779},
+        },
+        [30713] = {
+            [itemKeys.objectDrops] = {185233},
+        },
     }
 
     local itemFixesAlliance = {
+        [30712] = {
+            [itemKeys.npcDrops] = {21778},
+        },
+        [30713] = {
+            [itemKeys.objectDrops] = {184947},
+        },
     }
 
     if UnitFactionGroup("Player") == "Horde" then
