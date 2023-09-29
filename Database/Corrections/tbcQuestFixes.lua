@@ -2177,6 +2177,9 @@ function QuestieTBCQuestFixes:Load()
         [10772] = {
             [questKeys.triggerEnd] = {"The Path of Conquest Discovered", {[zoneIDs.SHADOWMOON_VALLEY]={{51.23,62.75},{52.45,59.19}}}},
         },
+        [10778] = {
+            [questKeys.sourceItemId] = 31316,
+        },
         [10781] = {
             [questKeys.triggerEnd] = {"Crimson Sigil Forces Annihilated", {[zoneIDs.SHADOWMOON_VALLEY]={{51.75,72.79}}}},
         },
