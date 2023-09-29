@@ -2030,9 +2030,11 @@ function QuestieTBCQuestFixes:Load()
         },
         [10612] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185057}}}},
+            [questKeys.objectives] = {nil,{{184979,"Deathforged Infernal Destroyed"}}},
         },
         [10613] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Fel Reaver Control Console to take control of a Fel Reaver Sentinel"), 0, {{"object", 185059}}}},
+            [questKeys.objectives] = {nil,{{184979,"Deathforged Infernal Destroyed"}}},
         },
         [10621] = {
             [questKeys.startedBy] = {{21499},nil,nil},
