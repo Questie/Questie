@@ -1787,6 +1787,9 @@ function QuestieTBCQuestFixes:Load()
         [10338] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the Duro Access Crystal from Overseer Athanel. Use it at the Manaforge Duro Console to shut it down"), 0, {{"object", 184311}}}},
         },
+        [10339] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 400060}}}},
+        },
         [10340] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Wing Commander Dabir'ee"), 0, {{"monster", 19409}}}},
         },
@@ -1829,6 +1832,12 @@ function QuestieTBCQuestFixes:Load()
         [10382] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
         },
+        [10384] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 400060}}}},
+        },
+        [10385] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 400060}}}},
+        },
         [10388] = {
             [questKeys.startedBy] = {{16576,19273},nil,nil},
             [questKeys.preQuestSingle] = {10129},
@@ -1845,8 +1854,15 @@ function QuestieTBCQuestFixes:Load()
         [10403] = {
             [questKeys.startedBy] = {{20677,20678,20679},nil,nil},
         },
+        [10405] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 400060}}}},
+        },
         [10406] = {
             [questKeys.triggerEnd] = {"Ethereum Conduit Sabotaged", {[zoneIDs.NETHERSTORM]={{56.42,42.66}}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 400060}}}},
+        },
+        [10408] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Commander Ameer"), 0, {{"object", 400060}}}},
         },
         [10409] = {
             [questKeys.objectives] = {{{20132,"Deathblow to the Legion"}}},

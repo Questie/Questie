@@ -470,6 +470,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "从工头阿扎拉德手中夺得艾拉控制水晶。对法力熔炉：艾拉的控制台使用水晶关闭法力熔炉",
     },
+    ["Communicate with Commander Ameer"] = { -- 10384
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Take the portal to Socrethar's Seat"] = { -- 10409 10507
         ["ptBR"] = false,
         ["ruRU"] = false,

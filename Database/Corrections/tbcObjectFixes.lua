@@ -650,6 +650,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{30.56,17.69}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
+        [400060] = {
+            [objectKeys.name] = "Ethereum Transponder Zeta",
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{56.81,38.7}}},
+            [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [500007] = {
             [objectKeys.name] = "Alcaz Survey Credit", -- 4391
             [objectKeys.zoneID] = zoneIDs.DUSTWALLOW_MARSH,
