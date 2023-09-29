@@ -1719,6 +1719,9 @@ function QuestieTBCQuestFixes:Load()
         [10269] = {
             [questKeys.triggerEnd] = {"First triangulation point discovered", {[zoneIDs.NETHERSTORM]={{66.67,33.85}}}},
         },
+        [10270] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Communicate with Wind Trader Marid"), 0, {{"object", 184073}}}},
+        },
         [10274] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Challenge of the Blue Fight to challenge Veraku"), 0, {{"object", 184108}}}},
         },

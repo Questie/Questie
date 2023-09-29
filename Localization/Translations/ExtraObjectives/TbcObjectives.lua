@@ -422,6 +422,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "对笨拙的地狱野猪使用塞纳里奥解毒剂",
     },
+    ["Communicate with Wind Trader Marid"] = { -- 10270
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"] = { -- 10299 & 10329
         ["ptBR"] = false,
         ["ruRU"] = false,
