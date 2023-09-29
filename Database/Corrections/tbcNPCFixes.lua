@@ -502,6 +502,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.SETHEKK_HALLS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.SETHEKK_HALLS,
         },
+        [20787] = {
+            [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
+            [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
         [21181] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{43.2,46.2}}},
         },

@@ -1885,6 +1885,8 @@ function QuestieTBCQuestFixes:Load()
         },
         [10422] = {
             [questKeys.requiredSourceItems] = {29742},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Open the prison"), 0, {{"object", 184588}}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{20787,20825},20787,"Captain Tyralius Freed"}}},
         },
         [10424] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator"), 0, {{"object", 184609}}}},

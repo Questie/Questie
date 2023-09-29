@@ -554,6 +554,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "利用药剂强化你的电流攻击能力吧，如此一来，那些软泥怪就会衰变成原始的形态。消灭那些水珠！",
     },
+    ["Open the prison"] = { -- 10422
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use the Diagnostic Device while standing near the Eco-Dome Sutheron Generator"] = { -- 10424
         ["ptBR"] = false,
         ["ruRU"] = false,

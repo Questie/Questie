@@ -206,6 +206,9 @@ function QuestieTBCItemFixes:Load()
         [29482] = {
             [itemKeys.class] = 12,
         },
+        [29742] = {
+            [itemKeys.class] = 12,
+        },
         [29778] = {
             [itemKeys.class] = 12,
         },

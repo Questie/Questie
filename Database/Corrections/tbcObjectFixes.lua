@@ -58,7 +58,7 @@ function QuestieTBCObjectFixes:Load()
         },
         [184588] = {
             [objectKeys.name] = "Captain Tyralius's Prison",
-            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.4}}},
+            [objectKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [objectKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
         [184980] = {
