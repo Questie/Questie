@@ -1955,7 +1955,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the Bladespire Banner atop the Northmaul Tower"), 0, {{"object", 184704}}}},
         },
         [10519] = {
-            [questKeys.triggerEnd] = {"The Cipher of Damnation - History and Truth", {[zoneIDs.SHADOWMOON_VALLEY]={{53.9,23.48}}}},
+            [questKeys.objectives] = {{{21183,"The Cipher of Damnation - History and Truth"}}},
         },
         [10520] = {
             [questKeys.startedBy] = {{16739},nil,nil},
