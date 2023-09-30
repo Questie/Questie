@@ -2220,7 +2220,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {nil,nil,nil,nil,{{{19440,22177},22177,"Eye of Grillok Returned"}}},
         },
         [10814] = {
-            [questKeys.triggerEnd] = {"The Tale of Neltharaku", {[zoneIDs.SHADOWMOON_VALLEY]={{63.48,60.71},{59.4,58.67},{66.89,59.79},{63.21,55.88},{59.88,54.21}}}},
+            [questKeys.objectives] = {{{21657,"The Tale of Neltharaku"}}},
         },
         [10821] = {
             [questKeys.requiredSourceItems] = {31536},
