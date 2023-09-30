@@ -1910,7 +1910,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Mana Bomb Activated"), 0, {{"object", 184725}}}},
         },
         [10451] = {
-            [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.18}}}},
+            [questKeys.triggerEnd] = {"Earthmender Wilda Escorted to Safety", {[zoneIDs.SHADOWMOON_VALLEY]={{53.14,25.17}}}},
         },
         [10458] = {
             [questKeys.preQuestSingle] = {},
