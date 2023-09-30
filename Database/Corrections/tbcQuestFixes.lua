@@ -2260,6 +2260,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {10915,10852},
         },
         [10854] = {
+            [questKeys.objectives] = {{{21722,"Enslaved Netherwing Drake freed"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Enchanted Nethervine Crystal on Enslaved Netherwing Drake"), 0, {{"monster", 21722}}}},
         },
         [10857] = {
