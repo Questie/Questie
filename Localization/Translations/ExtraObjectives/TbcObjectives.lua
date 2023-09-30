@@ -746,6 +746,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "把一捆血蓟放在石桥的另一端",
     },
+    ["Use the Blood Elf Disguise before talking to him"] = { -- 10577
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Open the Power Converters and encase what is inside with the Protovoltaic Magneto Collector"] = { -- 10584
         ["ptBR"] = false,
         ["ruRU"] = false,
