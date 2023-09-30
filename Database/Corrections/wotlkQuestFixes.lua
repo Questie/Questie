@@ -808,6 +808,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11654] = {
             [questKeys.startedBy] = {{26115},nil,{34815}},
+            [questKeys.preQuestSingle] = {11633},
         },
         [11664] = {
             [questKeys.triggerEnd] = {"Mootoo Saved",{[zoneIDs.BOREAN_TUNDRA]={{31.19,54.44,},},},},
