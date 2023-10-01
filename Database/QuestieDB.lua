@@ -669,6 +669,10 @@ end
 ---@param questLevel number the level of the quest
 ---@return boolean @Returns true if the quest should be grey, false otherwise
 function QuestieDB.IsTrivial(questLevel)
+    if questLevel == -1 then
+        return false -- Scaling quests are never trivial
+    end
+
     local levelDiff = questLevel - QuestiePlayer.GetPlayerLevel();
     if (levelDiff >= 5) then
         return false -- Red
