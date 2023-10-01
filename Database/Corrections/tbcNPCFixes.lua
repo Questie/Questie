@@ -663,6 +663,9 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.waypoints] = {},
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{33.99,54.79}}},
         },
+        [23324] = {
+            [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{73.99,88.44},{74.35,88.95},{72.78,90.02},{74.36,88.01},{73.08,89.32},{72.97,90.0},{72.77,89.23},{73.65,88.13},{73.94,88.65}}},
+        },
         [23338] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{46.5,45.1},{60.6,60.1},},},
         },
