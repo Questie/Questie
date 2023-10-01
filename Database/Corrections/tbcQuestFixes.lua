@@ -2279,6 +2279,9 @@ function QuestieTBCQuestFixes:Load()
         [10863] = {
             [questKeys.exclusiveTo] = {10908},
         },
+        [10866] = {
+            [questKeys.objectives] = {nil,{{185156,"Karynaku freed"}},nil,nil,{{{11980},11980}}},
+        },
         [10867] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Kill Razaani ethereals to lure Nexus-Prince Razaan out"), 0, {{"monster", 20601}, {"monster", 20609}, {"monster", 20614}}},
                                            {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Nexus-Prince Razaan to spawn the Collection of Souls"), 0, {{"monster", 21057}}},
