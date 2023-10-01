@@ -2059,6 +2059,9 @@ function QuestieTBCQuestFixes:Load()
         [10636] = {
             [questKeys.preQuestSingle] = {10633,10644},
         },
+        [10637] = {
+            [questKeys.objectives] = {{{21506,"Azaloth Freed"}}},
+        },
         [10639] = {
             [questKeys.preQuestGroup] = {10634,10635,10636},
         },
