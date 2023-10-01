@@ -971,6 +971,10 @@ function QuestieWotlkNpcFixes:Load()
         [30222] = {
             [npcKeys.spawns] = {},
         },
+        [30053] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{41.8,65.8},{42,63.4},{42,65},{42.4,63.8},{42.4,66.8},{42.6,63.8},{42.6,66.4},{42.8,65},{43,67.4},{43.2,67.6},{43.6,67.6},{43.8,67},{44,66.4}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
         [30082] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
         },
