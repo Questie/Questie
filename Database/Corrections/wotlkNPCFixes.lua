@@ -1241,6 +1241,9 @@ function QuestieWotlkNpcFixes:Load()
         [32593] = {
             [npcKeys.spawns] = {[zoneIDs.THE_GILDED_GATE]={{-1,-1}},[4277]={{-1,-1}}},
         },
+        [32663] = {
+            [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{16.37,48.26}}},
+        },
         [32801] = {
             [npcKeys.questStarts] = {13485},
             [npcKeys.questEnds] = {13485},
