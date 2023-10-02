@@ -74,7 +74,7 @@
 ---@field Id FactionId|ItemId|NpcId|ObjectId The relevant ID for the objective
 ---@field Index ObjectiveIndex The index of the objective in the quest
 ---@field questId QuestId The QuestId for the quest
----@field QuestData Quest Basically contains the data from QuestieDB:GetQuest
+---@field QuestData Quest Basically contains the data from QuestieDB.GetQuest
 ---@field _lastUpdate number UNKNOWN
 ---@field Description string Objective description
 ---@field spawnList table<NpcId, SpawnListNPC>[]|table<ObjectId, SpawnListObject>|table<NpcId, SpawnListNPC>|{ [1]: SpawnListBase }|table<ItemId, SpawnListItem> UNKOWN

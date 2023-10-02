@@ -694,9 +694,9 @@ end
 
 ---@param questId QuestId
 ---@return Quest|nil @The quest object or nil if the quest is missing
-function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
+function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     if not questId then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] No questId.")
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB.GetQuest] No questId.")
         return nil
     end
     if _QuestieDB.questCache[questId] ~= nil then
@@ -706,7 +706,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     local rawdata = QuestieDB.QueryQuest(questId, QuestieDB._questAdapterQueryOrder)
 
     if (not rawdata) then
-        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB:GetQuest] rawdata is nil for questID:", questId)
+        Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB.GetQuest] rawdata is nil for questID:", questId)
         return nil
     end
 
@@ -1087,7 +1087,7 @@ function QuestieDB:GetQuestsByZoneId(zoneId)
     local alternativeZoneID = ZoneDB:GetAlternativeZoneId(zoneId)
     -- loop over all quests to populate a zone
     for qid, _ in pairs(QuestieDB.QuestPointers or QuestieDB.questData) do
-        local quest = QuestieDB:GetQuest(qid);
+        local quest = QuestieDB.GetQuest(qid);
         if quest then
             if quest.zoneOrSort > 0 then
                 if (quest.zoneOrSort == zoneId or (alternativeZoneID and quest.zoneOrSort == alternativeZoneID)) then

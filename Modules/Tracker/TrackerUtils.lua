@@ -61,7 +61,7 @@ local bindTruthTable = {
 
 local _QuestLogScrollBar = QuestLogListScrollFrame.ScrollBar or QuestLogListScrollFrameScrollBar
 
----@param quest table The table provided by QuestieDB:GetQuest(questId)
+---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowQuestLog(quest)
     -- Priority order first check if addon exist otherwise default to original
     local questFrame = QuestLogExFrame or ClassicQuestLog or QuestLogFrame
@@ -104,7 +104,7 @@ function TrackerUtils:SetTomTomTarget(title, zone, x, y)
     end
 end
 
----@param objective table The table provided by QuestieDB:GetQuest(questId).Objectives[objective]
+---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
 function TrackerUtils:ShowObjectiveOnMap(objective)
     local spawn, zone = QuestieMap:GetNearestSpawn(objective)
     if spawn then
@@ -115,7 +115,7 @@ function TrackerUtils:ShowObjectiveOnMap(objective)
     end
 end
 
----@param quest table The table provided by QuestieDB:GetQuest(questId)
+---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:ShowFinisherOnMap(quest)
     local spawn, zone = QuestieMap:GetNearestQuestSpawn(quest)
     if spawn then
@@ -126,7 +126,7 @@ function TrackerUtils:ShowFinisherOnMap(quest)
     end
 end
 
----@param objective table The table provided by QuestieDB:GetQuest(questId).Objectives[objective]
+---@param objective table The table provided by QuestieDB.GetQuest(questId).Objectives[objective]
 function TrackerUtils:FlashObjective(objective)
     if next(objective.AlreadySpawned) then
         local toFlash = {}
@@ -211,7 +211,7 @@ function TrackerUtils:FlashObjective(objective)
     end
 end
 
----@param quest table The table provided by QuestieDB:GetQuest(questId)
+---@param quest table The table provided by QuestieDB.GetQuest(questId)
 function TrackerUtils:FlashFinisher(quest)
     local toFlash = {}
     -- ugly code
@@ -388,7 +388,7 @@ function TrackerUtils:UnFocus()
         return
     end
     for questId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if quest then
             quest.FadeIcons = nil
@@ -436,7 +436,7 @@ function TrackerUtils:FocusObjective(questId, objectiveIndex)
 
     Questie.db.char.TrackerFocus = tostring(questId) .. " " .. tostring(objectiveIndex)
     for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questLogQuestId)
+        local quest = QuestieDB.GetQuest(questLogQuestId)
         if quest and next(quest.Objectives) then
             if questLogQuestId == questId then
                 quest.HideIcons = nil
@@ -474,7 +474,7 @@ function TrackerUtils:FocusQuest(questId)
 
     Questie.db.char.TrackerFocus = questId
     for questLogQuestId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questLogQuestId)
+        local quest = QuestieDB.GetQuest(questLogQuestId)
         if quest then
             if questLogQuestId == questId then
                 quest.HideIcons = nil
@@ -534,7 +534,7 @@ local function _GetDistanceToClosestObjective(questId)
     end
 
     local coordinates = {}
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
 
     if (not quest) then
         return nil
