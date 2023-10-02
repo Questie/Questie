@@ -2577,6 +2577,10 @@ function QuestieTBCQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_EVENT, l10n("Use Yarzill's Mutton together with the Fel Gland to poison Dragonmaw Peons"), 0, {{"monster", 22252}}},
             },
         },
+        [11021] = {
+            [questKeys.preQuestSingle] = {11004},
+            [questKeys.startedBy] = {{23066},nil,{32523}},
+        },
         [11023] = {
             [questKeys.requiredLevel] = 70,
             [questKeys.preQuestSingle] = {11010,11102},
