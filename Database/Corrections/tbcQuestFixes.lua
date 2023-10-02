@@ -1117,9 +1117,6 @@ function QuestieTBCQuestFixes:Load()
         [9636] = {
             [questKeys.requiredSkill] = {202,305},
         },
-        [9637] = {
-            [questKeys.zoneOrSort] = zoneIDs.SETHEKK_HALLS,
-        },
         [9645] = {
             [questKeys.triggerEnd] = {"Journal Entry Read", {[zoneIDs.DEADWIND_PASS]={{46.57,70.49},{46.77,74.5}}}},
         },
@@ -1225,18 +1222,6 @@ function QuestieTBCQuestFixes:Load()
         [9760] = {
             [questKeys.exclusiveTo] = {9759},
         },
-        [9763] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
-        },
-        [9764] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
-        },
-        [9765] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
-        },
-        [9766] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
-        },
         [9786] = {
             [questKeys.triggerEnd] = {"Explore the Boha'mu Ruins", {[zoneIDs.ZANGARMARSH]={{44.13,68.97}}}},
         },
@@ -1255,12 +1240,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [9830] = {
             [questKeys.requiredMinRep] = {978,0},
-        },
-        [9831] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [9832] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
         },
         [9833] = {
             [questKeys.requiredMinRep] = {978,0},
@@ -1550,21 +1529,6 @@ function QuestieTBCQuestFixes:Load()
         [10079] = {
             [questKeys.preQuestSingle] = {10143,10483},
         },
-        [10091] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [10094] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [10095] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [10097] = {
-            [questKeys.zoneOrSort] = zoneIDs.SETHEKK_HALLS,
-        },
-        [10098] = {
-            [questKeys.zoneOrSort] = zoneIDs.SETHEKK_HALLS,
-        },
         [10105] = {
             [questKeys.exclusiveTo] = {9796},
         },
@@ -1611,26 +1575,11 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gryphoneer Windbellow"), 0, {{"monster", 20235}}}},
             [questKeys.preQuestSingle] = {10146},
         },
-        [10164] = {
-            [questKeys.zoneOrSort] = zoneIDs.AUCHENAI_CRYPTS,
-        },
-        [10165] = {
-            [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
-        },
-        [10167] = {
-            [questKeys.zoneOrSort] = zoneIDs.AUCHENAI_CRYPTS,
-        },
         [10168] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Soul Mirror near Ancient Orc Ancestors to summon Darkened Spirits."), 0, {{"monster", 18688}}}},
         },
         [10172] = {
             [questKeys.triggerEnd] = {"Speak to Greatmother Geyah", {[zoneIDs.NAGRAND]={{56.66,34.31}}}},
-        },
-        [10177] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [10178] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
         },
         [10182] = {
             [questKeys.startedBy] = {{19543},nil,nil},
@@ -1666,12 +1615,8 @@ function QuestieTBCQuestFixes:Load()
         [10211] = {
             [questKeys.triggerEnd] = {"City of Light", {[zoneIDs.SHATTRATH_CITY]={{50.45,42.93}}}},
         },
-        [10216] = {
-            [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
-        },
         [10218] = {
             [questKeys.triggerEnd] = {"Escort Cryo-Engineer Sha'heen", {[zoneIDs.MANA_TOMBS]={{-1,-1}}}},
-            [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
         },
         [10222] = {
             [questKeys.preQuestSingle] = {10188},
@@ -2080,9 +2025,6 @@ function QuestieTBCQuestFixes:Load()
         [10646] = {
             [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07}}}},
         },
-        [10649] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
         [10653] = {
             [questKeys.requiredMaxRep] = {},
             [questKeys.preQuestSingle] = {10551,10552},
@@ -2093,12 +2035,6 @@ function QuestieTBCQuestFixes:Load()
         },
         [10657] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Repolarized Magneto Sphere to absorb 25 lightning strikes from the Scalewing Serpents"), 0, {{"monster", 20749}}}},
-        },
-        [10666] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [10667] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
         },
         [10668] = {
             [questKeys.preQuestSingle] = {10640,10689},
@@ -2326,12 +2262,6 @@ function QuestieTBCQuestFixes:Load()
         [10899] = {
             [questKeys.preQuestSingle] = {},
         },
-        [10900] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_SLAVE_PENS,
-        },
-        [10901] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_SLAVE_PENS,
-        },
         [10902] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -2493,10 +2423,6 @@ function QuestieTBCQuestFixes:Load()
         [10977] = {
             [questKeys.triggerEnd] = {"Mana-Tombs Stasis Chamber Investigated", {[zoneIDs.TEROKKAR_FOREST]={{39.63,57.54}}}},
             [questKeys.requiredMinRep] = {933,21000},
-            [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
-        },
-        [10981] = {
-            [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
         },
         [10984] = {
             [questKeys.exclusiveTo] = {10983,10989,11057},
@@ -2946,9 +2872,6 @@ function QuestieTBCQuestFixes:Load()
                 [zoneIDs.ORGRIMMAR]={{79.03,30.65}},
             }},
         },
-        [11354] = {
-            [questKeys.zoneOrSort] = zoneIDs.HELLFIRE_RAMPARTS,
-        },
         [11356] = {
             [questKeys.exclusiveTo] = {11360},
         },
@@ -2958,75 +2881,14 @@ function QuestieTBCQuestFixes:Load()
         [11361] = {
             [questKeys.questLevel] = -1,
         },
-        [11362] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_BLOOD_FURNACE,
-        },
-        [11363] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_SHATTERED_HALLS,
-        },
-        [11364] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_SHATTERED_HALLS,
-        },
-        [11368] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_SLAVE_PENS,
-        },
-        [11369] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_UNDERBOG,
-        },
-        [11370] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
-        },
-        [11371] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_STEAMVAULT,
-        },
-        [11372] = {
-            [questKeys.zoneOrSort] = zoneIDs.SETHEKK_HALLS,
-        },
-        [11373] = {
-            [questKeys.zoneOrSort] = zoneIDs.MANA_TOMBS,
-        },
-        [11374] = {
-            [questKeys.zoneOrSort] = zoneIDs.AUCHENAI_CRYPTS,
-        },
-        [11375] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [11376] = {
-            [questKeys.zoneOrSort] = zoneIDs.SHADOW_LABYRINTH,
-        },
-        [11378] = {
-            [questKeys.zoneOrSort] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
-        },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains"), 0, {{"monster", 19973}}}},
         },
         [11381] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Spiritual Soup at the Ancestral Grounds in Nagrand"), 0, {{"object", 184317}}}},
         },
-        [11382] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_BLACK_MORASS,
-        },
         [11383] = {
             [questKeys.objectives] = {{{17839}},nil,nil,nil,nil},
-            [questKeys.zoneOrSort] = zoneIDs.THE_BLACK_MORASS,
-        },
-        [11384] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_BOTANICA,
-        },
-        [11385] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_BOTANICA,
-        },
-        [11386] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_MECHANAR,
-        },
-        [11387] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_MECHANAR,
-        },
-        [11388] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_ARCATRAZ,
-        },
-        [11389] = {
-            [questKeys.zoneOrSort] = zoneIDs.THE_ARCATRAZ,
         },
         [11403] = {
             [questKeys.startedBy] = {{23904},nil,nil},
