@@ -1740,6 +1740,9 @@ function QuestieTBCQuestFixes:Load()
         [10291] = {
             [questKeys.preQuestSingle] = {},
         },
+        [10296] = {
+            [questKeys.startedBy] = {{20130}},
+        },
         [10297] = {
             [questKeys.triggerEnd] = {"The Dark Portal Opened", {[zoneIDs.TANARIS]={{57.21,62.92}}}},
         },
