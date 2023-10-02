@@ -1744,7 +1744,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.startedBy] = {{20130}},
         },
         [10297] = {
-            [questKeys.triggerEnd] = {"The Dark Portal Opened", {[zoneIDs.TANARIS]={{57.21,62.92}}}},
+            [questKeys.objectives] = {{{15608,"The Dark Portal Opened"}}},
         },
         [10299] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Obtain the B'naar Access Crystal from Overseer Theredis. Use it at the B'naar Control Console to shut it down"), 0, {{"object", 183770}}}},
