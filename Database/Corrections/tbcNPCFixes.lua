@@ -296,6 +296,9 @@ function QuestieTBCNpcFixes:Load()
         [17610] = {
             [npcKeys.waypoints] = {},
         },
+        [17613] = {
+            [npcKeys.spawns] = {[zoneIDs.DEADWIND_PASS]={{46.93,75.64}}},
+        },
         [17671] = {
             [npcKeys.spawns] = {[zoneIDs.THE_SHATTERED_HALLS]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_SHATTERED_HALLS,
