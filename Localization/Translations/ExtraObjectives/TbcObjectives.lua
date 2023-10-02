@@ -1826,7 +1826,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "在影月谷或地狱火半岛上的水域钓巨型魔血鲷鱼",
     },
-    ["Summon and defeat each of the descendants by using 10 Time-Lost Scrolls at the Skull Piles"] = { -- 11885
+    ["Summon and defeat each of the descendants by using 10 Time-Lost Scrolls"] = { -- 11885
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Beschwöre und besiege jeden der Nachfahren, indem du 10 verlorene Schriftrollen an den Schädelhaufen benutzt.",

@@ -648,6 +648,22 @@ function QuestieTBCNpcFixes:Load()
         [23100] = {
             [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{44.2,41.0},},},
         },
+        [23161] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{70.23,83.35},{70.06,79.45},{73.5,80.7},{69.67,74.72},{75.24,81.2},{72.23,88.18},{74.79,87.51},{61.99,74.66},{61.38,78.07}}},
+            [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [23162] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{70.23,83.35},{70.06,79.45},{73.5,80.7},{69.67,74.72},{75.24,81.2},{72.23,88.18},{74.79,87.51},{61.99,74.66},{61.38,78.07}}},
+            [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [23163] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{70.23,83.35},{70.06,79.45},{73.5,80.7},{69.67,74.72},{75.24,81.2},{72.23,88.18},{74.79,87.51},{61.99,74.66},{61.38,78.07}}},
+            [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
+        [23165] = {
+            [npcKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST]={{70.23,83.35},{70.06,79.45},{73.5,80.7},{69.67,74.72},{75.24,81.2},{72.23,88.18},{74.79,87.51},{61.99,74.66},{61.38,78.07}}},
+            [npcKeys.zoneID] = zoneIDs.TEROKKAR_FOREST,
+        },
         [23149] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY]={{65.43,90.13},{63.05,87.74}}},
         },
