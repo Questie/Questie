@@ -1731,6 +1731,9 @@ function QuestieTBCQuestFixes:Load()
         [10277] = {
             [questKeys.triggerEnd] = {"Caverns of Time Explained", {[zoneIDs.TANARIS]={{58.87,54.3}}}},
         },
+        [10283] = {
+            [questKeys.objectives] = {nil,{{182589,"Internment Lodges Set Ablaze"}}},
+        },
         [10288] = {
             [questKeys.preQuestSingle] = {},
         },
