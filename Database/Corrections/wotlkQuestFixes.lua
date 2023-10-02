@@ -3313,7 +3313,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13430] = {
             [questKeys.exclusiveTo] = {10888},
-            [questKeys.preQuestSingle] = {10588},
+            [questKeys.preQuestGroup] = {10884,10885,10886},
         },
         [13431] = {
             [questKeys.exclusiveTo] = {10901},
