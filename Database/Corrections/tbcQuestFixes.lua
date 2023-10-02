@@ -2023,7 +2023,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestGroup] = {10634,10635,10636},
         },
         [10646] = {
-            [questKeys.triggerEnd] = {"Illidan's Pupil", {[zoneIDs.NAGRAND]={{27.36,43.07}}}},
+            [questKeys.objectives] = {{{18417,"Illidan's Pupil"}}},
         },
         [10653] = {
             [questKeys.requiredMaxRep] = {},
