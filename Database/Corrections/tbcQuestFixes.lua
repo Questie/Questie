@@ -2710,6 +2710,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredRaces] = raceIDs.NONE,
             [questKeys.triggerEnd] = {"Captain Skyshatter Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.71,85.05}}}},
         },
+        [11073] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Time-Lost offering to summon Terokk"), 0, {{"object", 185928}}}},
+        },
         [11077] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
         },

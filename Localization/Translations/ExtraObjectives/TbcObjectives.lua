@@ -1514,6 +1514,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "用牧绳捕捉以太鳐",
     },
+    ["Use a Time-Lost offering to summon Terokk"] = { -- 11073
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Use 35 Apexis Shards to open Furywing's Egg"] = { -- 11078
         ["ptBR"] = false,
         ["ruRU"] = false,
