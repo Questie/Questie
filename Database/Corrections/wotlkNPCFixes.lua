@@ -86,14 +86,29 @@ function QuestieWotlkNpcFixes:Load()
         [15278] = {
             [npcKeys.spawns] = {[zoneIDs.EVERSONG_WOODS] = {{38.02,21.01}}},
         },
+        [15350] = {
+            [npcKeys.spawns] = {
+                [zoneIDs.ORGRIMMAR]={{80.68,30.51},{36.94,65.36}},
+                [zoneIDs.THUNDER_BLUFF]={{57.8,76.4}},
+                [zoneIDs.UNDERCITY]={{58.27,97.9}},
+                [zoneIDs.SILVERMOON_CITY]={{97,38.3}},
+                [zoneIDs.SHATTRATH_CITY]={{66.96,56.6}},
+                [zoneIDs.DALARAN]={{58.19,20.59}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
+            },
+            [npcKeys.waypoints] = {[zoneIDs.WINTERGRASP] = {{{50.64,13.08},{50.58,13.00},{50.51,12.93},{50.44,12.86},{50.37,12.79},{50.30,12.71},{50.23,12.64},{50.16,12.60},{50.07,12.59},{50.00,12.58},{49.97,12.58},{49.88,12.57},{49.80,12.59},{49.73,12.66},{49.67,12.74},{49.60,12.83},{49.54,12.91},{49.48,13.00},{49.42,13.09},{49.36,13.18},{49.32,13.29},{49.29,13.40},{49.25,13.52},{49.22,13.63},{49.20,13.76},{49.20,13.88},{49.19,14.01},{49.19,14.13},{49.21,14.26},{49.25,14.36},{49.30,14.46},{49.35,14.56},{49.40,14.67},{49.45,14.77},{49.51,14.86},{49.57,14.94},{49.64,15.01},{49.71,15.07},{49.79,15.13},{49.87,15.16},{49.95,15.17},{50.04,15.17},{50.12,15.17},{50.21,15.17},{50.28,15.13},{50.36,15.06},{50.42,14.99},{50.49,14.92},{50.57,14.85},{50.63,14.77},{50.67,14.66},{50.71,14.55},{50.75,14.44},{50.79,14.33},{50.82,14.21},{50.84,14.09},{50.84,13.96},{50.84,13.84},{50.84,13.71},{50.82,13.59},{50.78,13.48},{50.73,13.37},{50.70,13.29},{50.66,13.19},{50.62,13.08},{50.57,12.98},{50.50,12.91},{50.42,12.85},{50.35,12.78},{50.28,12.72},{50.21,12.66},{50.13,12.60},{50.05,12.58},{50.02,12.58},}}},
+        },
         [15351] = {
             [npcKeys.spawns] = {
                 [zoneIDs.IRONFORGE]={{70.41,91.10}},
                 [zoneIDs.SHATTRATH_CITY]={{67.41,33.86}},
                 [zoneIDs.DARNASSUS]={{58.02,34.52}},
                 [zoneIDs.THE_EXODAR]={{24.55,55.42}},
-                [zoneIDs.STORMWIND_CITY]={{83.47,33.66}},
+                [zoneIDs.STORMWIND_CITY]={{83.47,33.66},{75.67,66.54}},
+                [zoneIDs.DALARAN]={{29.79,75.78}},
+                [zoneIDs.WINTERGRASP]={{50.02,15.16}},
             },
+            [npcKeys.waypoints] = {[zoneIDs.WINTERGRASP] = {{{50.64,13.08},{50.58,13.00},{50.51,12.93},{50.44,12.86},{50.37,12.79},{50.30,12.71},{50.23,12.64},{50.16,12.60},{50.07,12.59},{50.00,12.58},{49.97,12.58},{49.88,12.57},{49.80,12.59},{49.73,12.66},{49.67,12.74},{49.60,12.83},{49.54,12.91},{49.48,13.00},{49.42,13.09},{49.36,13.18},{49.32,13.29},{49.29,13.40},{49.25,13.52},{49.22,13.63},{49.20,13.76},{49.20,13.88},{49.19,14.01},{49.19,14.13},{49.21,14.26},{49.25,14.36},{49.30,14.46},{49.35,14.56},{49.40,14.67},{49.45,14.77},{49.51,14.86},{49.57,14.94},{49.64,15.01},{49.71,15.07},{49.79,15.13},{49.87,15.16},{49.95,15.17},{50.04,15.17},{50.12,15.17},{50.21,15.17},{50.28,15.13},{50.36,15.06},{50.42,14.99},{50.49,14.92},{50.57,14.85},{50.63,14.77},{50.67,14.66},{50.71,14.55},{50.75,14.44},{50.79,14.33},{50.82,14.21},{50.84,14.09},{50.84,13.96},{50.84,13.84},{50.84,13.71},{50.82,13.59},{50.78,13.48},{50.73,13.37},{50.70,13.29},{50.66,13.19},{50.62,13.08},{50.57,12.98},{50.50,12.91},{50.42,12.85},{50.35,12.78},{50.28,12.72},{50.21,12.66},{50.13,12.60},{50.05,12.58},{50.02,12.58},}}},
         },
         [15576] = {
             [npcKeys.spawns] = {[zoneIDs.STRANGLETHORN_VALE] = {{26.5,76.5}}},
@@ -108,6 +123,10 @@ function QuestieWotlkNpcFixes:Load()
         },
         [16226] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{74.46,52.15}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [16254] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{42.65,37.3}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [16281] = {
@@ -298,6 +317,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
         },
+        [24364] = {
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH] = {{45.91,52.77}}},
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+        },
         [24390] = { --"Sage Edan"
             [npcKeys.friendlyToFaction] = "H",
             [npcKeys.factionID] = 1064,
@@ -307,6 +330,14 @@ function QuestieWotlkNpcFixes:Load()
                 [zoneIDs.HOWLING_FJORD] = {{30.2,26.4},{30.4,27},{30.6,24},{30.8,23.4},{30.8,26.6},{30.8,28.2},{30.8,28.6},{31,24.6},{31,26.4},{31.2,31},{31.6,27.2},{31.6,27.6},{31.8,26},},
             },
             [npcKeys.zoneID] = zoneIDs.HOWLING_FJORD,
+        },
+        [24495] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{44.07,17.98}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+        },
+        [24527] = {
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{48.16,27.53}}},
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [24657] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{45.01,17.41}}},
@@ -940,6 +971,10 @@ function QuestieWotlkNpcFixes:Load()
         [30222] = {
             [npcKeys.spawns] = {},
         },
+        [30053] = {
+            [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{41.8,65.8},{42,63.4},{42,65},{42.4,63.8},{42.4,66.8},{42.6,63.8},{42.6,66.4},{42.8,65},{43,67.4},{43.2,67.6},{43.6,67.6},{43.8,67},{44,66.4}}},
+            [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
         [30082] = {
             [npcKeys.spawns] = {[zoneIDs.STORM_PEAKS] = {{38.2,61.6},},},
         },
@@ -1275,7 +1310,7 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.questEnds] = {13500},
         },
         [33288] = {
-            [npcKeys.spawns] = {[zoneIDs.THE_PRISON_OF_YOGG_SARON]={{68,40.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
+            [npcKeys.spawns] = {[zoneIDs.THE_DESCENT_OF_MADNESS]={{68,40.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.ULDUAR,
         },
         [33308] = {
@@ -1434,6 +1469,36 @@ function QuestieWotlkNpcFixes:Load()
         [80000] = {
             [npcKeys.name] = "Lorehammer attuned",
             [npcKeys.zoneID] = zoneIDs.STORM_PEAKS,
+        },
+        [80001] = {
+            [npcKeys.name] = "Maintain a Trot for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+        },
+        [80002] = {
+            [npcKeys.name] = "Maintain a Canter for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+        },
+        [80003] = {
+            [npcKeys.name] = "Maintain a Gallop for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [npcKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{47,43.9}}}
+        },
+        [80004] = {
+            [npcKeys.name] = "Maintain a Trot for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+        },
+        [80005] = {
+            [npcKeys.name] = "Maintain a Canter for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
+        },
+        [80006] = {
+            [npcKeys.name] = "Maintain a Gallop for 8 seconds",
+            [npcKeys.zoneID] = zoneIDs.DUROTAR,
+            [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{46.34,17.13}}}
         }
     }
 end

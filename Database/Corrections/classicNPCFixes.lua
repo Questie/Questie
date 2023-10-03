@@ -1274,6 +1274,7 @@ function QuestieNPCFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
         [10776] = {
+            [npcKeys.name] = "Pip Quickwit",
             [npcKeys.zoneID] = zoneIDs.UPPER_BLACKROCK_SPIRE,
             [npcKeys.spawns] = {[zoneIDs.UPPER_BLACKROCK_SPIRE] = {{-1,-1}}},
         },
@@ -2443,6 +2444,10 @@ function QuestieNPCFixes:Load()
         },
         [16226] = {
             [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{80.3,57.8}}},
+            [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
+        },
+        [16254] = {
+            [npcKeys.spawns] = {[zoneIDs.EASTERN_PLAGUELANDS] = {{47.2,42.6}}},
             [npcKeys.zoneID] = zoneIDs.EASTERN_PLAGUELANDS,
         },
         [16255] = {

@@ -68,10 +68,10 @@ local QuestieItemStartFixes = QuestieLoader:ImportModule("QuestieItemStartFixes"
 --]]
 
 -- flags that can be used in corrections (currently only blacklists)
-QuestieCorrections.TBC_ONLY = 1
-QuestieCorrections.CLASSIC_ONLY = 2
-QuestieCorrections.WOTLK_ONLY = 3
-QuestieCorrections.TBC_AND_WOTLK = 4
+QuestieCorrections.TBC_ONLY = 1 -- Hide only in TBC
+QuestieCorrections.CLASSIC_ONLY = 2 -- Hide only in Classic
+QuestieCorrections.WOTLK_ONLY = 3 -- Hide only in Wotlk
+QuestieCorrections.TBC_AND_WOTLK = 4 -- Hide in TBC and Wotlk
 
 QuestieCorrections.killCreditObjectiveFirst = {} -- Only used for TBC quests
 

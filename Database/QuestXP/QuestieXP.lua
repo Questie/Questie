@@ -55,7 +55,7 @@ local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
         xp = 50 * floor((xp + 25) / 50)
     end
 
-    return xp * globalXPMultiplier
+    return floor(xp * globalXPMultiplier)
 end
 
 
