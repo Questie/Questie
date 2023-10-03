@@ -208,7 +208,7 @@ function QuestieDB:GetObject(objectId)
     if not objectId then
         return nil
     end
-    if _QuestieDB.objectCache[objectId] ~= nil then
+    if _QuestieDB.objectCache[objectId] then
         return _QuestieDB.objectCache[objectId];
     end
 
@@ -236,7 +236,7 @@ function QuestieDB:GetItem(itemId)
     if (not itemId) or (itemId == 0) then
         return nil
     end
-    if _QuestieDB.itemCache[itemId] ~= nil then
+    if _QuestieDB.itemCache[itemId] then
         return _QuestieDB.itemCache[itemId];
     end
 
@@ -514,7 +514,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     -- Check the preQuestSingle field where just one of the required quests has to be complete for a quest to show up
     local preQuestSingle = QuestieDB.QueryQuestSingle(questId, "preQuestSingle")
-    if preQuestSingle ~= nil then
+    if preQuestSingle then
         local isPreQuestSingleFulfilled = QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
         if not isPreQuestSingleFulfilled then
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] preQuestSingle requirement not fulfilled for questId:", questId) end
@@ -564,7 +564,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     if not preQuestSingle then
         -- Check the preQuestGroup field where every required quest has to be complete for a quest to show up
         local preQuestGroup = QuestieDB.QueryQuestSingle(questId, "preQuestGroup")
-        if preQuestGroup ~= nil then
+        if preQuestGroup then
             local isPreQuestGroupFulfilled = QuestieDB:IsPreQuestGroupFulfilled(preQuestGroup)
             if not isPreQuestGroupFulfilled then
                 if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] preQuestGroup requirement not fulfilled for questId:", questId) end
@@ -697,7 +697,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieDB.GetQuest] No questId.")
         return nil
     end
-    if _QuestieDB.questCache[questId] ~= nil then
+    if _QuestieDB.questCache[questId] then
         return _QuestieDB.questCache[questId];
     end
 
@@ -770,8 +770,9 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@type FinishedBy
     local finishedBy = rawdata[questKeys.finishedBy]
     if finishedBy[1] ~= nil then
+    if finishedBy[1] then
         for _, id in pairs(finishedBy[1]) do
-            if id ~= nil then
+            if id then
                 QO.Finisher = {
                     Type = "monster",
                     Id = id,
@@ -781,9 +782,9 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             end
         end
     end
-    if finishedBy[2] ~= nil then
+    if finishedBy[2] then
         for _, id in pairs(finishedBy[2]) do
-            if id ~= nil then
+            if id then
                 QO.Finisher = {
                     Type = "object",
                     Id = id,
@@ -804,8 +805,10 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     local objectives = rawdata[questKeys.objectives]
     if objectives ~= nil then
         if objectives[1] ~= nil then
+    if objectives then
+        if objectives[1] then
             for _, creatureObjective in pairs(objectives[1]) do
-                if creatureObjective ~= nil then
+                if creatureObjective then
                     ---@type NpcObjective
                     local obj = {
                         Type = "monster",
@@ -816,9 +819,9 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 end
             end
         end
-        if objectives[2] ~= nil then
+        if objectives[2] then
             for _, objectObjective in pairs(objectives[2]) do
-                if objectObjective ~= nil then
+                if objectObjective then
                     ---@type ObjectObjective
                     local obj = {
                         Type = "object",
@@ -829,9 +832,9 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 end
             end
         end
-        if objectives[3] ~= nil then
+        if objectives[3] then
             for _, itemObjective in pairs(objectives[3]) do
-                if itemObjective ~= nil then
+                if itemObjective then
                     ---@type ItemObjective
                     local obj = {
                         Type = "item",
@@ -842,7 +845,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 end
             end
         end
-        if objectives[4] ~= nil then
+        if objectives[4] then
             ---@type ReputationObjective
             local reputationObjective = {
                 Type = "reputation",
@@ -851,7 +854,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             }
             tinsert(QO.ObjectiveData, reputationObjective);
         end
-        if objectives[5] ~= nil and type(objectives[5]) == "table" and #objectives[5] > 0 then
+        if objectives[5] and type(objectives[5]) == "table" and #objectives[5] > 0 then
             for _, creditObjective in pairs(objectives[5]) do
                 ---@type KillObjective
                 local killCreditObjective = {
@@ -887,6 +890,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     local preQuestGroup = rawdata[questKeys.preQuestGroup]
     local preQuestSingle = rawdata[questKeys.preQuestSingle]
     if(preQuestGroup ~= nil and next(preQuestGroup) ~= nil and preQuestSingle ~= nil and next(preQuestSingle) ~= nil) then
+    if preQuestGroup and preQuestSingle and next(preQuestGroup) and next(preQuestSingle) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
     end
 
@@ -900,13 +904,14 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     ---@type ItemId[]
     local requiredSourceItems = rawdata[questKeys.requiredSourceItems]
     if requiredSourceItems ~= nil then
+    if requiredSourceItems then
         for _, itemId in pairs(requiredSourceItems) do
-            if itemId ~= nil then
+            if itemId then
                 -- Make sure requiredSourceItems aren't already an objective
                 local itemObjPresent = false
-                if objectives[3] ~= nil then
+                if objectives[3] then
                     for _, itemObjective in pairs(objectives[3]) do
-                        if itemObjective ~= nil then
+                        if itemObjective then
                             if itemId == itemObjective[1] then
                                 itemObjPresent = true
                                 break
