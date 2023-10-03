@@ -164,8 +164,10 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     coYield()
     Migration:Migrate()
 
-    Tutorial.Initialize()
-    coYield()
+    if Questie.IsWotlk then
+        Tutorial.Initialize()
+        coYield()
+    end
 
     IsleOfQuelDanas.Initialize() -- This has to happen before option init
 

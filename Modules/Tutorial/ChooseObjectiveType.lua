@@ -46,7 +46,12 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     acceptOnlyQuestieButton:SetSize(140, 24)
     acceptOnlyQuestieButton:SetPoint("BOTTOMLEFT", 85, 20)
     acceptOnlyQuestieButton:SetScript("OnClick", function()
-        -- TODO: Hide Blizzard objective markers
+        if GetCVar("questPOI") ~= nil then
+            SetCVar("questPOI", "0") -- Disable the the new Blizzard quest objectives
+            if WorldMapQuestShowObjectives then
+                WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox added for it
+            end
+        end
         baseFrame:Hide()
     end)
 

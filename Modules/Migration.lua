@@ -234,14 +234,6 @@ local migrationFunctions = {
             Questie.db.char.townsfolkConfig["Potions"] = true
         end
     end,
-    [25] = function()
-        if Questie.IsWotlk and GetCVar("questPOI") ~= nil then
-            SetCVar("questPOI", "0") -- Disable the the new Blizzard quest objectives
-            if WorldMapQuestShowObjectives then
-                WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox added for it
-            end
-        end
-    end
 }
 
 function Migration:Migrate()
