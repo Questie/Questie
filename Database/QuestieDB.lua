@@ -179,8 +179,6 @@ function QuestieDB:Initialize()
     QuestieDB._QueryObject = QuestieDB.QueryObject.Query
     QuestieDB._QueryItem = QuestieDB.QueryItem.Query
 
-    -- wrap in pcall and hope it doesnt cause too much overhead
-    -- lua needs try-catch
     QuestieDB.QueryNPC = QuestieDB._QueryNPC
     QuestieDB.QueryQuest = QuestieDB._QueryQuest
     QuestieDB.QueryObject = QuestieDB._QueryObject
