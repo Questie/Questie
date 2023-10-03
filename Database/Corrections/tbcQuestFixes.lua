@@ -2963,6 +2963,12 @@ function QuestieTBCQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Expose Razorthorn Root of your tamed Razorthorn Ravager to expose Razorthorn Root"), 0, {{"object", 187073}}},
             },
         },
+        [11521] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Use Razorthorn Flayer Gland on Razorthorn Ravager to tame it"), 0, {{"monster", 24922}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Expose Razorthorn Root of your tamed Razorthorn Ravager to expose Razorthorn Root"), 0, {{"object", 187073}}},
+            },
+        },
         [11523] = {
             [questKeys.objectives] = {nil,{{187078, "Energize a Crystal Ward"}}},
         },
