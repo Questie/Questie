@@ -636,11 +636,6 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.9,44.8}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
-        [400014] = {
-            [objectKeys.name] = "Gather Bloodberries all around the Isle of Quel'Danas",
-            [objectKeys.spawns] = {[zoneIDs.ISLE_OF_QUEL_DANAS]={{40,30}}},
-            [objectKeys.zoneID] = zoneIDs.ISLE_OF_QUEL_DANAS,
-        },
         [400058] = {
             [objectKeys.name] = "Portal to Socrethar's Seat",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},
