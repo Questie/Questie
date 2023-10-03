@@ -71,6 +71,8 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type Tutorial
+local Tutorial = QuestieLoader:ImportModule("Tutorial")
 
 local coYield = coroutine.yield
 
@@ -161,6 +163,9 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
 
     coYield()
     Migration:Migrate()
+
+    Tutorial.Initialize()
+    coYield()
 
     IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
