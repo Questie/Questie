@@ -69,4 +69,6 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
         Questie.db.global.enableObjectives = false
         baseFrame:Hide()
     end)
+
+    return baseFrame
 end
