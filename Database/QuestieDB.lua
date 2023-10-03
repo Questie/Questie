@@ -753,14 +753,14 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     QO.requiredLevel = requiredLevel
 
     ---@type StartedBy
-    local startedBy = rawdata[questKeys.startedBy]
+    local startedBy = QO.startedBy
     QO.Starts = {
         NPC = startedBy[1],
         GameObject = startedBy[2],
         Item = startedBy[3],
     }
     QO.isHidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questId]
-    QO.Description = rawdata[questKeys.objectivesText]
+    QO.Description = QO.objectivesText
     if QO.specialFlags then
         QO.IsRepeatable = (QO.specialFlags % 2) == 1
     end
@@ -807,12 +807,11 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             for _, creatureObjective in pairs(objectives[1]) do
                 if creatureObjective then
                     ---@type NpcObjective
-                    local obj = {
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "monster",
                         Id = creatureObjective[1],
                         Text = creatureObjective[2]
                     }
-                    tinsert(QO.ObjectiveData, obj);
                 end
             end
         end
@@ -820,12 +819,11 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             for _, objectObjective in pairs(objectives[2]) do
                 if objectObjective then
                     ---@type ObjectObjective
-                    local obj = {
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "object",
                         Id = objectObjective[1],
                         Text = objectObjective[2]
                     }
-                    tinsert(QO.ObjectiveData, obj);
                 end
             end
         end
@@ -833,23 +831,21 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
             for _, itemObjective in pairs(objectives[3]) do
                 if itemObjective then
                     ---@type ItemObjective
-                    local obj = {
+                    QO.ObjectiveData[#QO.ObjectiveData+1] = {
                         Type = "item",
                         Id = itemObjective[1],
                         Text = itemObjective[2]
                     }
-                    tinsert(QO.ObjectiveData, obj);
                 end
             end
         end
         if objectives[4] then
             ---@type ReputationObjective
-            local reputationObjective = {
+            QO.ObjectiveData[#QO.ObjectiveData+1] = {
                 Type = "reputation",
                 Id = objectives[4][1],
                 RequiredRepValue = objectives[4][2]
             }
-            tinsert(QO.ObjectiveData, reputationObjective);
         end
         if objectives[5] and type(objectives[5]) == "table" and #objectives[5] > 0 then
             for _, creditObjective in pairs(objectives[5]) do
@@ -873,15 +869,14 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     end
 
     -- Events need to be added at the end of ObjectiveData
-    local triggerEnd = rawdata[questKeys.triggerEnd]
+    local triggerEnd = QO.triggerEnd
     if triggerEnd then
         ---@type TriggerEndObjective
-        local obj = {
+        QO.ObjectiveData[#QO.ObjectiveData+1] = {
             Type = "event",
             Text = triggerEnd[1],
             Coordinates = triggerEnd[2]
         }
-        tinsert(QO.ObjectiveData, obj);
     end
 
     local preQuestGroup = QO.preQuestGroup
@@ -929,16 +924,16 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     end
 
     ---@type ExtraObjective[]
-    local extraObjectives = rawdata[questKeys.extraObjectives]
+    local extraObjectives = QO.extraObjectives
     if extraObjectives then
         for index, o in pairs(extraObjectives) do
-            QO.SpecialObjectives[index] = {
+            local specialObjective = {
                 Icon = o[2],
                 Description = o[3],
                 RealObjectiveIndex = o[4],
             }
             if o[1] then -- custom spawn
-                QO.SpecialObjectives[index].spawnList = {{
+                specialObjective.spawnList = {{
                     Name = o[3],
                     Spawns = o[1],
                     Icon = o[2],
@@ -947,20 +942,21 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                 }}
             end
             if o[5] then -- db ref
-                QO.SpecialObjectives[index].Type = o[5][1][1]
-                QO.SpecialObjectives[index].Id = o[5][1][2]
+                specialObjective.Type = o[5][1][1]
+                specialObjective.Id = o[5][1][2]
                 local spawnList = {}
 
                 for _, ref in pairs(o[5]) do
-                    for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], QO.SpecialObjectives[index])) do
+                    for k, v in pairs(_QuestieQuest.objectiveSpawnListCallTable[ref[1]](ref[2], specialObjective)) do
                         -- we want to be able to override the icon in the corrections (e.g. Questie.ICON_TYPE_OBJECT on objects instead of Questie.ICON_TYPE_LOOT)
                         v.Icon = o[2]
                         spawnList[k] = v
                     end
                 end
 
-                QO.SpecialObjectives[index].spawnList = spawnList
+                specialObjective.spawnList = spawnList
             end
+            QO.SpecialObjectives[index] = specialObjective
         end
     end
 
@@ -972,7 +968,7 @@ QuestieDB._CreatureLevelCache = {}
 ---@param quest Quest
 ---@return table<string, table> @List of creature names with their min-max level and rank
 function QuestieDB:GetCreatureLevels(quest)
-    if quest and quest.Id and QuestieDB._CreatureLevelCache[quest.Id] then
+    if quest and QuestieDB._CreatureLevelCache[quest.Id] then
         return QuestieDB._CreatureLevelCache[quest.Id]
     end
     local creatureLevels = {}
@@ -1010,6 +1006,11 @@ function QuestieDB:GetCreatureLevels(quest)
 end
 
 local playerFaction = UnitFactionGroup("player")
+local factionReactions = {
+    A = (playerFaction == "Alliance") or nil,
+    H = (playerFaction == "Horde") or nil,
+    AH = true,
+}
 
 ---@param npcId number
 ---@return table
@@ -1017,7 +1018,7 @@ function QuestieDB:GetNPC(npcId)
     if not npcId then
         return nil
     end
-    if(_QuestieDB.npcCache[npcId]) then
+    if _QuestieDB.npcCache[npcId] then
         return _QuestieDB.npcCache[npcId]
     end
 
@@ -1037,20 +1038,9 @@ function QuestieDB:GetNPC(npcId)
     end
 
     local friendlyToFaction = rawdata[npcKeys.friendlyToFaction]
-    if friendlyToFaction then
-        if friendlyToFaction == "AH" then
-            npc.friendly = true
-        else
-            if playerFaction == "Horde" and friendlyToFaction == "H" then
-                npc.friendly = true
-            elseif playerFaction == "Alliance" and friendlyToFaction == "A" then
-                npc.friendly = true
-            end
-        end
-    else
-        npc.friendly = true
-    end
+    npc.friendly = (not friendlyToFaction) and true or factionReactions[friendlyToFaction]
 
+    _QuestieDB.npcCache[npcId] = npc
     return npc
 end
 
