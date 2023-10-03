@@ -60,7 +60,13 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     acceptOnlyBlizzardButton:SetSize(140, 24)
     acceptOnlyBlizzardButton:SetPoint("BOTTOMRIGHT", -85, 20)
     acceptOnlyBlizzardButton:SetScript("OnClick", function()
-        -- TODO: Disable Questies objectives marker
+        if GetCVar("questPOI") ~= nil then
+            SetCVar("questPOI", "1") -- Enable the the new Blizzard quest objectives
+            if WorldMapQuestShowObjectives then
+                WorldMapQuestShowObjectives:SetChecked(true) -- Enable the checkbox added for it
+            end
+        end
+        Questie.db.global.enableObjectives = false
         baseFrame:Hide()
     end)
 end
