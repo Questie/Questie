@@ -293,7 +293,7 @@ end
 ---@return boolean
 function QuestieDB.IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
-    return flags and mod(flags, 2) == 1
+    return flags and (flags % 2) == 1
 end
 
 ---@param questId number
@@ -762,7 +762,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     QO.isHidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questId]
     QO.Description = rawdata[questKeys.objectivesText]
     if QO.specialFlags then
-        QO.IsRepeatable = mod(QO.specialFlags, 2) == 1
+        QO.IsRepeatable = (QO.specialFlags % 2) == 1
     end
 
     QO.IsComplete = _IsComplete
