@@ -439,6 +439,10 @@ function QuestieTBCNpcFixes:Load()
         [19493] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM]={{40.8,72.6}}},
         },
+        [19505] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA]={{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+        },
         [19543] = {
             [npcKeys.waypoints] = {[zoneIDs.NETHERSTORM] = {{{60.4,88.01},{60.4,88.01}},{{56.74,86.64},{56.83,86.81},{56.85,86.83}}}},
         },
@@ -471,6 +475,10 @@ function QuestieTBCNpcFixes:Load()
         },
         [19715] = {
             [npcKeys.waypoints] = {[3703]={{{50.45,34.4},{54.63,32.79},{58.13,34.57},{61.15,39.01},{61.98,45.28},{60.86,51.22},{57.72,55.32},{53.67,57.02},{49.6,54.96},{46.63,50.49},{45.98,44.33},{47.04,38.76},{50.45,34.4}}}},
+        },
+        [19735] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_MECHANAR] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_MECHANAR,
         },
         [19909] = {
             [npcKeys.friendlyToFaction] = "H",
@@ -527,6 +535,10 @@ function QuestieTBCNpcFixes:Load()
         [20787] = {
             [npcKeys.spawns] = {[zoneIDs.NETHERSTORM] = {{53.3,41.43}}},
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
+        },
+        [20869] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },
         [21181] = {
             [npcKeys.spawns] = {[zoneIDs.SHADOWMOON_VALLEY] = {{43.2,46.2}}},
