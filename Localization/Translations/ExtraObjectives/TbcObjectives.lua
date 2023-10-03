@@ -1778,6 +1778,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "和艾雷·碎云谈一谈",
     },
+    ["Take a ride back to the isle"] = { -- 11532 & 11533 & 11542 & 11543
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Break down Ata'mal Metal on the anvil to cleanse it"] = { -- 11544
         ["ptBR"] = false,
         ["ruRU"] = false,
