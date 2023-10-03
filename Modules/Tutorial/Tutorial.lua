@@ -2,18 +2,8 @@
 ---@field Initialize function
 local Tutorial = QuestieLoader:CreateModule("Tutorial")
 
-local chooseObjectiveTypeFrame
-
 function Tutorial.Initialize()
-    chooseObjectiveTypeFrame = Tutorial.CreateChooseObjectiveTypeFrame()
-end
-
--- /run Tutorial.ShowObjectiveTypeChooser()
-function Tutorial.ShowObjectiveTypeChooser()
-    chooseObjectiveTypeFrame:Show()
-end
-
--- /run Tutorial.HideObjectiveTypeChooser()
-function Tutorial.HideObjectiveTypeChooser()
-    chooseObjectiveTypeFrame:Hide()
+    if Questie.IsWotlk and (not Questie.db.char.tutorialObjectiveTypeChosen) then
+        Tutorial.CreateChooseObjectiveTypeFrame()
+    end
 end
