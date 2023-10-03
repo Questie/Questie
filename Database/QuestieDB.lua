@@ -662,7 +662,7 @@ end
 
 ---@param self Quest
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
-function _QuestieDB._QO_IsComplete(self)
+local function _IsComplete(self)
     return QuestieDB.IsComplete(self.Id)
 end
 
@@ -767,7 +767,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         QO.IsRepeatable = mod(QO.specialFlags, 2) == 1
     end
 
-    QO.IsComplete = _QuestieDB._QO_IsComplete
+    QO.IsComplete = _IsComplete
 
     ---@type FinishedBy
     local finishedBy = rawdata[questKeys.finishedBy]
