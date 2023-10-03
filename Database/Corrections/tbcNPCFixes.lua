@@ -322,6 +322,10 @@ function QuestieTBCNpcFixes:Load()
         [17336] = {
             [npcKeys.waypoints] = {},
         },
+        [17536] = {
+            [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
+        },
         [17537] = {
             [npcKeys.spawns] = {[zoneIDs.HELLFIRE_RAMPARTS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.HELLFIRE_RAMPARTS,
@@ -347,6 +351,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
         },
+        [17881] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_BLACK_MORASS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_BLACK_MORASS,
+        },
         [17923] = {
             [npcKeys.waypoints] = {[zoneIDs.ZANGARMARSH] = {{{19,62.4},{19,63.5},{19.2,64.6}}}},
         },
@@ -357,6 +365,10 @@ function QuestieTBCNpcFixes:Load()
         [17976] = {
             [npcKeys.spawns] = {[zoneIDs.THE_BOTANICA] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_BOTANICA,
+        },
+        [18096] = {
+            [npcKeys.spawns] = {[zoneIDs.OLD_HILLSBRAD_FOOTHILLS] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.OLD_HILLSBRAD_FOOTHILLS,
         },
         [18099] = {
             [npcKeys.spawns] = {[zoneIDs.NAGRAND] = {{62.02,23.95}}},
@@ -537,6 +549,10 @@ function QuestieTBCNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.NETHERSTORM,
         },
         [20869] = {
+            [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
+            [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
+        },
+        [20912] = {
             [npcKeys.spawns] = {[zoneIDs.THE_ARCATRAZ] = {{-1,-1}}},
             [npcKeys.zoneID] = zoneIDs.THE_ARCATRAZ,
         },

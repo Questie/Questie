@@ -391,8 +391,53 @@ function QuestieTBCItemFixes:Load()
         [33175] = {
             [itemKeys.npcDrops] = {},
         },
+        [33814] = {
+            [itemKeys.npcDrops] = {17377},
+        },
+        [33815] = {
+            [itemKeys.npcDrops] = {16808},
+        },
+        [33821] = {
+            [itemKeys.npcDrops] = {17942},
+        },
+        [33826] = {
+            [itemKeys.npcDrops] = {17882},
+        },
+        [33827] = {
+            [itemKeys.npcDrops] = {17798},
+        },
+        [33833] = {
+            [itemKeys.npcDrops] = {17536},
+        },
+        [33834] = {
+            [itemKeys.npcDrops] = {18473},
+        },
+        [33835] = {
+            [itemKeys.npcDrops] = {18344},
+        },
         [33836] = {
             [itemKeys.npcDrops] = {18373},
+        },
+        [33837] = {
+            [itemKeys.npcDrops] = {18096},
+        },
+        [33840] = {
+            [itemKeys.npcDrops] = {18708},
+        },
+        [33858] = {
+            [itemKeys.npcDrops] = {17881},
+        },
+        [33859] = {
+            [itemKeys.npcDrops] = {17977},
+        },
+        [33860] = {
+            [itemKeys.npcDrops] = {19220},
+        },
+        [33861] = {
+            [itemKeys.npcDrops] = {20912},
+        },
+        [34160] = {
+            [itemKeys.npcDrops] = {24664},
         },
         [34502] = {
             [itemKeys.objectDrops] = {400014},
