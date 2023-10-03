@@ -2946,6 +2946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
         },
         [11515] = {
+            [questKeys.objectives] = {{{24918}}},
             [questKeys.requiredSourceItems] = {34259},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use Fel Siphon and then kill the weakened Felblood Initiate"), 0, {{"monster", 24918}}}},
         },
