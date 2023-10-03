@@ -383,6 +383,92 @@ function QuestieWotlkQuestFixes:Load()
         [10445] = {
             [questKeys.exclusiveTo] = {13432},
         },
+        [10460] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10467,
+        },
+        [10461] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10465,
+        },
+        [10462] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10466,
+        },
+        [10463] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10464,
+        },
+        [10464] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [10465] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,3000},
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [10466] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,3000},
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [10467] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,3000},
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
+        },
+        [10468] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [10469] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [10470] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,9000},
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [10471] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,9000},
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
+        },
+        [10472] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+            [questKeys.nextQuestInChain] = 11103,
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [10473] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+            [questKeys.nextQuestInChain] = 11104,
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [10474] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,21000},
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+            [questKeys.nextQuestInChain] = 11105,
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [10475] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+            [questKeys.nextQuestInChain] = 11106,
+            [questKeys.exclusiveTo] = {10461,10462,10463},
+        },
         [10667] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -406,6 +492,30 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
+        },
+        [11103] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10472},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [11104] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10473},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [11105] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10474},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [11106] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10475},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
         },
         [11117] = {
             [questKeys.startedBy] = {{23486}},
