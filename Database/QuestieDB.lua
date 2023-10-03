@@ -768,8 +768,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     QO.IsComplete = _IsComplete
 
     ---@type FinishedBy
-    local finishedBy = rawdata[questKeys.finishedBy]
-    if finishedBy[1] ~= nil then
+    local finishedBy = QO.finishedBy
     if finishedBy[1] then
         for _, id in pairs(finishedBy[1]) do
             if id then
@@ -802,9 +801,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     QO.ObjectiveData = {}
 
     ---@type RawObjectives
-    local objectives = rawdata[questKeys.objectives]
-    if objectives ~= nil then
-        if objectives[1] ~= nil then
+    local objectives = QO.objectives
     if objectives then
         if objectives[1] then
             for _, creatureObjective in pairs(objectives[1]) do
@@ -887,9 +884,8 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
         tinsert(QO.ObjectiveData, obj);
     end
 
-    local preQuestGroup = rawdata[questKeys.preQuestGroup]
-    local preQuestSingle = rawdata[questKeys.preQuestSingle]
-    if(preQuestGroup ~= nil and next(preQuestGroup) ~= nil and preQuestSingle ~= nil and next(preQuestSingle) ~= nil) then
+    local preQuestGroup = QO.preQuestGroup
+    local preQuestSingle = QO.preQuestSingle
     if preQuestGroup and preQuestSingle and next(preQuestGroup) and next(preQuestSingle) then
         Questie:Debug(Questie.DEBUG_CRITICAL, "ERRRRORRRRRRR not mutually exclusive for questID:", questId)
     end
@@ -902,8 +898,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     QO.SpecialObjectives = {}
 
     ---@type ItemId[]
-    local requiredSourceItems = rawdata[questKeys.requiredSourceItems]
-    if requiredSourceItems ~= nil then
+    local requiredSourceItems = QO.requiredSourceItems
     if requiredSourceItems then
         for _, itemId in pairs(requiredSourceItems) do
             if itemId then
@@ -930,15 +925,6 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
                     }
                 end
             end
-        end
-    end
-
-    local zoneOrSort = rawdata[questKeys.zoneOrSort]
-    if zoneOrSort and zoneOrSort ~= 0 then
-        if zoneOrSort > 0 then
-            QO.Zone = zoneOrSort
-        else
-            QO.Sort = -zoneOrSort
         end
     end
 
