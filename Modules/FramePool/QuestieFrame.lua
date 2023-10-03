@@ -149,6 +149,7 @@ function _Qframe:OnLeave()
         end
         self.data.touchedPins = nil;
     end
+    GameTooltip.ShownAsMapIcon = false
 end
 
 function _Qframe:OnClick(button)

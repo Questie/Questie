@@ -17,8 +17,11 @@ function QuestieItemFixes:Load()
         [730] = {
             [itemKeys.npcDrops] = {1418,127,2206,2207,517,2203,456,1958,2202,2205,1027,513,2208,2204,2201,126,515,458,1028,171,1767,1025,3739,1024,3737,1026,3742,3740,422,578,545,548,1083,544},
         },
+        [858] = {
+            [itemKeys.vendors] = {844,958,1257,1453,2140,2380,2480,2481,2812,3548,3658,3956,4226,5178,8157,8177,8178,14847},
+        },
         [929] = {
-            [itemKeys.vendors] = {1307,1453,1457,2481,2805,3134,3534,3956,4878,8305,13476,4083},
+            [itemKeys.vendors] = {1307,1453,1457,2481,2805,3134,3534,3956,4083,4878,8305,13476},
             [itemKeys.relatedQuests] = {715},
         },
         [1013] = {
@@ -701,6 +704,9 @@ function QuestieItemFixes:Load()
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {152606},
         },
+        [10757] = {
+            [itemKeys.class] = 12,
+        },
         [11018] = {
             [itemKeys.npcDrops] = {},
         },
@@ -797,10 +803,6 @@ function QuestieItemFixes:Load()
         [12291] = {
             [itemKeys.npcDrops] = {6557,9621},
         },
-        [12324] = {
-            [itemKeys.npcDrops] = {10321}, -- #1175
-            [itemKeys.objectDrops] = {},
-        },
         [12347] = {
             [itemKeys.relatedQuests] = {4763},
             [itemKeys.npcDrops] = {},
@@ -826,6 +828,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {4771},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+        },
+        [12533] = {
+            [itemKeys.npcDrops] = {},
         },
         [12562] = {
             [itemKeys.npcDrops] = {},
@@ -878,6 +883,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {5157},
             [itemKeys.npcDrops] = {},
             [itemKeys.objectDrops] = {},
+            [itemKeys.class] = 12,
+        },
+        [13156] = {
             [itemKeys.class] = 12,
         },
         [13422] = {
@@ -1110,12 +1118,6 @@ function QuestieItemFixes:Load()
         [19808] = {
             [itemKeys.objectDrops] = {},
         },
-        [19850] = {
-            [itemKeys.objectDrops] = {180204},
-        },
-        [19851] = {
-            [itemKeys.objectDrops] = {180205},
-        },
         [19975] = {
             [itemKeys.objectDrops] = {},
         },
@@ -1142,6 +1144,9 @@ function QuestieItemFixes:Load()
             [itemKeys.relatedQuests] = {8309},
             [itemKeys.objectDrops] = {180453},
             [itemKeys.npcDrops] = {},
+        },
+        [20464] = {
+            [itemKeys.class] = 12,
         },
         [20708] = {
             [itemKeys.objectDrops] = {},
@@ -1293,6 +1298,9 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.npcDrops] = {2397,8307},
             [itemKeys.objectDrops] = {},
         },
+        [20810] = {
+            [itemKeys.npcDrops] = {15612},
+        },
         -- TBC
         [25911] = {
             [itemKeys.objectDrops] = {182936},
@@ -1314,6 +1322,9 @@ function QuestieItemFixes:LoadFactionFixes()
             [itemKeys.relatedQuests] = {555,1218},
             [itemKeys.npcDrops] = {2381,4897},
             [itemKeys.objectDrops] = {},
+        },
+        [20810] = {
+            [itemKeys.npcDrops] = {15440},
         },
         -- TBC
         [25911] = {

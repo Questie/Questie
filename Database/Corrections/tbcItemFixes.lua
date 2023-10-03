@@ -103,6 +103,9 @@ function QuestieTBCItemFixes:Load()
         [23880] = {
             [itemKeys.objectDrops] = {181781},
         },
+        [23894] = {
+            [itemKeys.npcDrops] = {17370,17371,17377,17381,17395,17397,17398,17414,17429,17491,17624,17626,},
+        },
         [23984] = {
             [itemKeys.npcDrops] = {17324,17327,17339,17342,17343,17344,17346,17347,17348,17350,17352,17353,17522,17523,17527,17588,17589,17661,17683,17322,17323,17325,17326,17328,17329,17330,17334,17336,17337,17338,17340,17341,17358,17494,17550,17604,17606,17607,17608,17609,17610,17713,17714,17715},
         },
@@ -173,13 +176,25 @@ function QuestieTBCItemFixes:Load()
         [25555] = {
             [itemKeys.class] = 12,
         },
+        [25642] = {
+            [itemKeys.objectDrops] = {185201},
+        },
         [25807] = {
             [itemKeys.npcDrops] = {18476,18477},
         },
-        [25852] = {
-            [itemKeys.objectDrops] = {184842},
-        },
         [25658] = {
+            [itemKeys.class] = 12,
+        },
+        [28038] = {
+            [itemKeys.class] = 12,
+        },
+        [28106] = {
+            [itemKeys.class] = 12,
+        },
+        [28132] = {
+            [itemKeys.class] = 12,
+        },
+        [28478] = {
             [itemKeys.class] = 12,
         },
         [28548] = {
@@ -203,17 +218,26 @@ function QuestieTBCItemFixes:Load()
         [30451] = {
             [itemKeys.npcDrops] = {19799,19800,19802,21337,21656},
         },
+        [30540] = {
+            [itemKeys.class] = 12,
+        },
         [30658] = {
             [itemKeys.npcDrops] = {21727},
         },
         [30659] = {
             [itemKeys.npcDrops] = {21725},
         },
+        [30743] = {
+            [itemKeys.npcDrops] = {21821,20021},
+        },
+        [30782] = {
+            [itemKeys.npcDrops] = {21817,20021},
+        },
+        [30783] = {
+            [itemKeys.npcDrops] = {21820,20021},
+        },
         [30823] = {
             [itemKeys.npcDrops] = {19678},
-        },
-        [30890] = {
-            [itemKeys.npcDrops] = {21057},
         },
         [31130] = {
             [itemKeys.npcDrops] = {21387},
@@ -223,6 +247,18 @@ function QuestieTBCItemFixes:Load()
         },
         [31530] = {
             [itemKeys.objectDrops] = {177281},
+        },
+        [31655] = {
+            [itemKeys.class] = 12,
+        },
+        [31708] = {
+            [itemKeys.objectDrops] = {185224},
+        },
+        [31709] = {
+            [itemKeys.objectDrops] = {185226},
+        },
+        [31710] = {
+            [itemKeys.objectDrops] = {185225},
         },
         [31716] = {
             [itemKeys.npcDrops] = {17301},
@@ -328,14 +364,5 @@ function QuestieTBCItemFixes:Load()
         },
 
         -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
-        -- For example this is used for quest 10129 to show the NPC you have to talk with to start the flight
-
-        -- TODO: Transform these items to extraObjectives. These fakeIds were introduced before extraObjectives were a thing
-        [40000] = {
-            [itemKeys.name] = "Speak with Wing Commander Brack",
-            [itemKeys.relatedQuests] = {10129},
-            [itemKeys.npcDrops] = {19401},
-            [itemKeys.objectDrops] = {},
-        },
     }
 end

@@ -10,7 +10,7 @@ local mapLocales = {
         ["esMX"] = "¿Seguro que quieres ocultar la misión '%s'?\nSi la misión no está disponible, ¡por favor informanos de ello!",
         ["enUS"] = true,
         ["zhCN"] = "你确定要隐藏任务： %s吗？",
-        ["zhTW"] = "你確定要隱藏任務： %s嗎？如果實際上這個任務並不存在，請回報給開發團隊！",
+        ["zhTW"] = "是否確定要隱藏任務 '%s'? \n如果實際上這個任務並不存在，請回報給開發團隊!",
         ["esES"] = "¿Seguro que quieres ocultar la misión '%s'?\nSi la misión no está disponible, por favor informanos de ello!",
         ["frFR"] = "Êtes-vous sûr de vouloir masquer la quête '%s'?\n Si cette quête n'est pas réellement disponible, merci de nous la signaler !",
     },

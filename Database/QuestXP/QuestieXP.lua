@@ -8,10 +8,26 @@ QuestXP.db = {}
 local floor = floor
 local UnitLevel, GetExpansionLevel = UnitLevel, GetExpansionLevel
 
+local globalXPMultiplier = 1
+
+function QuestXP.Init()
+    if Questie.IsWotlk and globalXPMultiplier == 1 then
+        for i = 1, 40 do
+            local _, _, _, _, _, _, _, _, _, buffSpellId = UnitBuff("player", i)
+
+            if buffSpellId == 377749 then
+                -- Joyous Journeys is active - 50% bonus XP
+                globalXPMultiplier = 1.5
+                break
+            end
+        end
+    end
+end
+
 ---@param xp XP
 ---@param qLevel Level
 ---@param ignorePlayerLevel boolean
----@return XP experiance
+---@return XP experience
 local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
     local charLevel = UnitLevel("player")
     local expansionLevel = GetExpansionLevel()
@@ -39,7 +55,7 @@ local function getAdjustedXP(xp, qLevel, ignorePlayerLevel)
         xp = 50 * floor((xp + 25) / 50)
     end
 
-    return xp
+    return floor(xp * globalXPMultiplier)
 end
 
 
