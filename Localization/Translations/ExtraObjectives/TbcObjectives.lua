@@ -1766,7 +1766,7 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "使用荆刺剥石者的腺体控制一头掠食者帮你挖出来荆刺根须",
     },
-    ["Speak to Ayren Cloudbreaker"] = { -- 11532 & 11533
+    ["Speak to Ayren Cloudbreaker"] = { -- 11532 & 11533 & 11542 & 11543
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = "Sprich mit Ayren Wolkenbrecher.",
