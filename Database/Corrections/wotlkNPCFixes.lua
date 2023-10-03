@@ -1449,6 +1449,9 @@ function QuestieWotlkNpcFixes:Load()
         [38295] = {
             [npcKeys.spawns] = {[zoneIDs.THUNDER_BLUFF]={{44.2,55.8}},[zoneIDs.UNDERCITY]={{64.3,37.5}},[zoneIDs.SILVERMOON_CITY]={{64.4,70.3}}}
         },
+        [38316] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL]={{34.19,73.65},{-1,-1}}},
+        },
         [38328] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{58.96,53.12}}}
         },
