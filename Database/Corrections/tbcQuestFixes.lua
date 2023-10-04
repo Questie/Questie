@@ -2925,6 +2925,9 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.requiredMinRep] = {934,0},
             [questKeys.exclusiveTo] = {11481},
         },
+        [11490] = {
+            [questKeys.objectives] = {nil,{{400014, "Scrying Orb Activated"}}},
+        },
         [11496] = {
             [questKeys.objectives] = {nil,{{187078, "Energize a Crystal Ward"}}},
         },

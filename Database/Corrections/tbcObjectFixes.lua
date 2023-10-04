@@ -643,6 +643,11 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.SHATTRATH_CITY]={{53.9,44.8}}},
             [objectKeys.zoneID] = zoneIDs.SHATTRATH_CITY,
         },
+        [400014] = {
+            [objectKeys.name] = "Scrying Orb",
+            [objectKeys.spawns] = {[zoneIDs.MAGISTERS_TERRACE]={{-1,-1}}},
+            [objectKeys.zoneID] = zoneIDs.MAGISTERS_TERRACE,
+        },
         [400058] = {
             [objectKeys.name] = "Portal to Socrethar's Seat",
             [objectKeys.spawns] = {[zoneIDs.NETHERSTORM]={{36.44,18.35}}},
