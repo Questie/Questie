@@ -52,6 +52,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
                 WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox added for it
             end
         end
+        Questie.db.global.enableObjectives = true
         baseFrame:Hide()
         Questie.db.char.tutorialObjectiveTypeChosen = true
     end)
