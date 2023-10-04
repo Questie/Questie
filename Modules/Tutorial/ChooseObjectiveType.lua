@@ -37,7 +37,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     onlyQuestieImage:SetPoint("TOPLEFT", 30, -90)
 
     local onlyBlizzardImage = baseFrame:CreateTexture(nil, "OVERLAY")
-    onlyBlizzardImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyQuestie.blp")
+    onlyBlizzardImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyBlizzard.blp")
     onlyBlizzardImage:SetSize(256, 256)
     onlyBlizzardImage:SetPoint("TOPRIGHT", -30, -90)
 
