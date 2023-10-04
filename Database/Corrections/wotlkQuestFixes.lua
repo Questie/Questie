@@ -1053,6 +1053,9 @@ function QuestieWotlkQuestFixes:Load()
         [11909] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Research the Gearmaster's Manual"),0,{{"object", 190334},{"object", 190335}}}},
         },
+        [11913] = {
+            [questKeys.objectives] = {nil,{{188112,"Farshire Grain burnt"}}},
+        },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
