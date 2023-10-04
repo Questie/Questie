@@ -54,7 +54,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
         end
         Questie.db.global.enableObjectives = true
         baseFrame:Hide()
-        Questie.db.char.tutorialObjectiveTypeChosen = true
+        Questie.db.global.tutorialObjectiveTypeChosen = true
     end)
 
     local acceptOnlyBlizzardButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
@@ -70,6 +70,6 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
         end
         Questie.db.global.enableObjectives = false
         baseFrame:Hide()
-        Questie.db.char.tutorialObjectiveTypeChosen = true
+        Questie.db.global.tutorialObjectiveTypeChosen = true
     end)
 end
