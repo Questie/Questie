@@ -2066,6 +2066,9 @@ function QuestieTBCQuestFixes:Load()
         [10687] = {
             [questKeys.preQuestSingle] = {10552},
         },
+        [10707] = {
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"), 0, {{"object", 185125}}}},
+        },
         [10708] = {
             [questKeys.exclusiveTo] = {11052},
         },
