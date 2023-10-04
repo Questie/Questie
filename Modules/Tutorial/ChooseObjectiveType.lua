@@ -1,10 +1,12 @@
 ---@type Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
+---@type QuestieOptionsUtils
+local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 
 ---@return Frame
 function Tutorial.CreateChooseObjectiveTypeFrame()
     local baseFrame = CreateFrame("Frame", "QuestieTutorialChooseObjectiveType", UIParent, BackdropTemplateMixin and "BackdropTemplate")
-    baseFrame:SetSize(600, 400)
+    baseFrame:SetSize(900, 400)
     baseFrame:SetPoint("CENTER", 0, 50)
     baseFrame:SetFrameStrata("HIGH")
     baseFrame:EnableMouse(true)
@@ -36,6 +38,11 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     onlyQuestieImage:SetSize(256, 256)
     onlyQuestieImage:SetPoint("TOPLEFT", 30, -90)
 
+    local pdfQuestImage = baseFrame:CreateTexture(nil, "OVERLAY")
+    pdfQuestImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\pfQuest.blp")
+    pdfQuestImage:SetSize(256, 256)
+    pdfQuestImage:SetPoint("TOP", 0, -90)
+
     local onlyBlizzardImage = baseFrame:CreateTexture(nil, "OVERLAY")
     onlyBlizzardImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyBlizzard.blp")
     onlyBlizzardImage:SetSize(256, 256)
@@ -53,8 +60,26 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
             end
         end
         Questie.db.global.enableObjectives = true
-        baseFrame:Hide()
         Questie.db.global.tutorialObjectiveTypeChosen = true
+        QuestieOptionsUtils.SetPfQuestIcons(nil, false)
+        baseFrame:Hide()
+    end)
+
+    local acceptPfQuestButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
+    acceptPfQuestButton:SetText("pfQuest Objectives")
+    acceptPfQuestButton:SetSize(140, 24)
+    acceptPfQuestButton:SetPoint("BOTTOM", 0, 20)
+    acceptPfQuestButton:SetScript("OnClick", function()
+        if GetCVar("questPOI") ~= nil then
+            SetCVar("questPOI", "0") -- Disable the the new Blizzard quest objectives
+            if WorldMapQuestShowObjectives then
+                WorldMapQuestShowObjectives:SetChecked(false) -- Disable the checkbox added for it
+            end
+        end
+        Questie.db.global.enableObjectives = true
+        Questie.db.global.tutorialObjectiveTypeChosen = true
+        QuestieOptionsUtils.SetPfQuestIcons(nil, true)
+        baseFrame:Hide()
     end)
 
     local acceptOnlyBlizzardButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
@@ -69,7 +94,8 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
             end
         end
         Questie.db.global.enableObjectives = false
-        baseFrame:Hide()
         Questie.db.global.tutorialObjectiveTypeChosen = true
+        QuestieOptionsUtils.SetPfQuestIcons(nil, false)
+        baseFrame:Hide()
     end)
 end
