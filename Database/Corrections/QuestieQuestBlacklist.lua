@@ -1364,53 +1364,55 @@ function QuestieQuestBlacklist:Load()
         --[14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
 
         --- Phase 4 Icecrown Citadel
-        [24506] = true, -- Inside the Frozen Citadel (H)
-        [24510] = true, -- Inside the Frozen Citadel (A)
-        [26012] = true, -- Trouble at Wyrmrest
-        [26013] = true, -- Assault on the Sanctum
-        [24554] = true, -- The Battered Hilt (H)
-        [14443] = true, -- The Battered Hilt (A)
-        [24555] = true, -- What The Dragons Know (H)
-        [14444] = true, -- What The Dragons Know (A)
-        [24557] = true, -- The Silver Covenant's Scheme (H)
-        [14457] = true, -- The Sunreaver Plan (A)
-        [24556] = true, -- A Suitable Disguise (H)
-        [20438] = true, -- A Suitable Disguise (A)
-        [24451] = true, -- An Audience With The Arcanist (H)
-        [20439] = true, -- A Meeting With The Magister (A)
-        [24558] = true, -- Return To Myralion Sunblaze (H)
-        [24454] = true, -- Return To Caladis Brightspear (A)
-        [24559] = true, -- Reforging The Sword (H)
-        [24461] = true, -- Reforging The Sword (A)
-        [24560] = true, -- Tempering The Blade (H)
-        [24476] = true, -- Tempering The Blade (A)
-        [24561] = true, -- The Halls Of Reflection (H)
-        [24480] = true, -- The Halls Of Reflection (A)
-        [24562] = true, -- Journey To The Sunwell (H)
-        [24522] = true, -- Journey To The Sunwell (A)
-        [24563] = true, -- Thalorien Dawnseeker (H)
-        [24535] = true, -- Thalorien Dawnseeker (A)
-        [24564] = true, -- The Purification of Quel'Delar (H)
-        [24553] = true, -- The Purification of Quel'Delar (A)
-        [24594] = true, -- The Purification of Quel'Delar (H Belf)
-        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
-        [24598] = true, -- The Purification of Quel'Delar (H ?)
-        [24801] = true, -- A Victory For The Sunreavers (H)
-        [24796] = true, -- A Victory For The Silver Covenant (A)
+        --[24506] = true, -- Inside the Frozen Citadel (H)
+        --[24510] = true, -- Inside the Frozen Citadel (A)
+        --[24554] = true, -- The Battered Hilt (H)
+        --[14443] = true, -- The Battered Hilt (A)
+        --[24555] = true, -- What The Dragons Know (H)
+        --[14444] = true, -- What The Dragons Know (A)
+        --[24557] = true, -- The Silver Covenant's Scheme (H)
+        --[14457] = true, -- The Sunreaver Plan (A)
+        --[24556] = true, -- A Suitable Disguise (H)
+        --[20438] = true, -- A Suitable Disguise (A)
+        --[24451] = true, -- An Audience With The Arcanist (H)
+        --[20439] = true, -- A Meeting With The Magister (A)
+        --[24558] = true, -- Return To Myralion Sunblaze (H)
+        --[24454] = true, -- Return To Caladis Brightspear (A)
+        --[24559] = true, -- Reforging The Sword (H)
+        --[24461] = true, -- Reforging The Sword (A)
+        --[24560] = true, -- Tempering The Blade (H)
+        --[24476] = true, -- Tempering The Blade (A)
+        --[24561] = true, -- The Halls Of Reflection (H)
+        --[24480] = true, -- The Halls Of Reflection (A)
+        --[24562] = true, -- Journey To The Sunwell (H)
+        --[24522] = true, -- Journey To The Sunwell (A)
+        --[24563] = true, -- Thalorien Dawnseeker (H)
+        --[24535] = true, -- Thalorien Dawnseeker (A)
+        --[24564] = true, -- The Purification of Quel'Delar (H)
+        --[24553] = true, -- The Purification of Quel'Delar (A)
+        --[24594] = true, -- The Purification of Quel'Delar (H Belf)
+        --[24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        --[24598] = true, -- The Purification of Quel'Delar (H ?)
+        --[24801] = true, -- A Victory For The Sunreavers (H)
+        --[24796] = true, -- A Victory For The Silver Covenant (A)
 
         -- new raid weekly quests
-        [24579] = true,
-        [24580] = true,
-        [24581] = true,
-        [24582] = true,
-        [24583] = true,
-        [24584] = true,
-        [24585] = true,
-        [24586] = true,
-        [24587] = true,
-        [24588] = true,
-        [24589] = true,
-        [24590] = true,
+        --[24579] = true,
+        --[24580] = true,
+        --[24581] = true,
+        --[24582] = true,
+        --[24583] = true,
+        --[24584] = true,
+        --[24585] = true,
+        --[24586] = true,
+        --[24587] = true,
+        --[24588] = true,
+        --[24589] = true,
+        --[24590] = true,
+
+        --- Phase 5 Ruby Sanctum
+        [26012] = true, -- Trouble at Wyrmrest
+        [26013] = true, -- Assault on the Sanctum
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
