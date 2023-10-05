@@ -2630,7 +2630,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Search for Kurzel"] = { --12037
+    ["Search for Kurzel"] = { -- 12037
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -2642,7 +2642,7 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Dip Kurzel's Blouse Scrap on the remains of Novos the Summoner"] = { --13129
+    ["Dip Kurzel's Blouse Scrap on the remains of Novos the Summoner"] = { -- 13129
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
@@ -2654,7 +2654,19 @@ local wotlkObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = false,
     },
-    ["Grab a keg"] = { --11122
+    ["Grab a keg"] = { -- 11122
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
+    ["Place the flower offering"] = { -- 13669
         ["ptBR"] = false,
         ["ruRU"] = false,
         ["deDE"] = false,
