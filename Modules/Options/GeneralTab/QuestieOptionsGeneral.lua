@@ -23,6 +23,8 @@ local QuestieFramePool = QuestieLoader:ImportModule("QuestieFramePool");
 local Sounds = QuestieLoader:ImportModule("Sounds");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -863,7 +865,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function() return Questie.db.char.lowlevel; end,
                 set = function(info, value)
                     Questie.db.char.lowlevel = value
-                    QuestieOptions.AvailableQuestRedraw();
+                    AvailableQuests.CalculateAndDrawAll()
                     Questie:Debug(Questie.DEBUG_DEVELOP, "Gray Quests toggled to:", value)
                 end,
             },
@@ -877,7 +879,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function() return Questie.db.char.manualMinLevelOffset; end,
                 set = function(info, value)
                     Questie.db.char.manualMinLevelOffset = value
-                    QuestieOptions.AvailableQuestRedraw();
+                    AvailableQuests.CalculateAndDrawAll()
                     Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable manual minimum level offset'), value)
                 end,
             },
@@ -891,7 +893,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function() return Questie.db.char.absoluteLevelOffset; end,
                 set = function(info, value)
                     Questie.db.char.absoluteLevelOffset = value
-                    QuestieOptions.AvailableQuestRedraw();
+                    AvailableQuests.CalculateAndDrawAll()
                     Questie:Debug(Questie.DEBUG_DEVELOP, l10n('Enable absolute level range'), value)
                 end,
             },
@@ -920,7 +922,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function() return Questie.db.char.minLevelFilter; end,
                 set = function(info, value)
                     Questie.db.char.minLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "minLevelFilter set to " .. value)
+                    QuestieOptionsUtils:Delay(0.3, AvailableQuests.CalculateAndDrawAll, "minLevelFilter set to " .. value)
                 end,
             },
             maxLevelFilter = {
@@ -940,7 +942,7 @@ function QuestieOptions.tabs.general:Initialize()
                 get = function(info) return Questie.db.char.maxLevelFilter; end,
                 set = function(info, value)
                     Questie.db.char.maxLevelFilter = value;
-                    QuestieOptionsUtils:Delay(0.3, QuestieOptions.AvailableQuestRedraw, "maxLevelFilter set to " .. value)
+                    QuestieOptionsUtils:Delay(0.3, AvailableQuests.CalculateAndDrawAll, "maxLevelFilter set to " .. value)
                 end,
             },
             clusterLevelHotzone = {

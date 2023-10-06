@@ -23,6 +23,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type QuestieCombatQueue
 local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -277,7 +279,7 @@ function QuestieMenu:Show()
     tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
         local value = not Questie.db.char.lowlevel
         Questie.db.char.lowlevel = value
-        QuestieOptions.AvailableQuestRedraw()
+        AvailableQuests.CalculateAndDrawAll()
     end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()
         local value = not Questie.db.global.enableObjectives

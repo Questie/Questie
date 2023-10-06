@@ -49,6 +49,8 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
 ---@type ThreadLib
 local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 --We should really try and squeeze out all the performance we can, especially in this.
 local tostring = tostring;
@@ -348,7 +350,7 @@ function QuestieQuest:SmoothReset()
         end,
         function()
             QuestieQuest._resetNeedsAvailables = true
-            QuestieQuest.CalculateAndDrawAvailableQuestsIterative(function() QuestieQuest._resetNeedsAvailables = false end)
+            AvailableQuests.CalculateAndDrawAll(function() QuestieQuest._resetNeedsAvailables = false end)
             return true
         end,
         function()
@@ -419,7 +421,7 @@ end
 
 function QuestieQuest:UnhideQuest(id)
     Questie.db.char.hidden[id] = nil
-    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    AvailableQuests.CalculateAndDrawAll()
 end
 
 ---@param questId number
@@ -471,7 +473,7 @@ function QuestieQuest:AcceptQuest(questId)
                     Questie:SendMessage("QC_ID_BROADCAST_QUEST_UPDATE", questId)
                 end,
                 function() QuestieQuest:PopulateObjectiveNotes(quest) end,
-                function() QuestieQuest.CalculateAndDrawAvailableQuestsIterative() end,
+                function() AvailableQuests.CalculateAndDrawAll() end,
                 function()
                     QuestieCombatQueue:Queue(function()
                         QuestieTracker:Update()
@@ -510,7 +512,7 @@ function QuestieQuest:CompleteQuest(questId)
     end)
 
     -- TODO: Should this be done first? Because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
-    QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+    AvailableQuests.CalculateAndDrawAll()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Completed Quest:", questId)
 end
@@ -543,7 +545,7 @@ function QuestieQuest:AbandonedQuest(questId)
             QuestieTracker:Update()
         end)
 
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
 
         Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Abandoned Quest:", questId)
     end
@@ -615,7 +617,7 @@ function QuestieQuest:UpdateQuest(questId)
 
                 QuestieQuest:PopulateQuestLogInfo(quest)
                 QuestieQuest:PopulateObjectiveNotes(quest)
-                QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+                AvailableQuests.CalculateAndDrawAll()
             else
                 -- Sometimes objective(s) are all complete but the quest doesn't get flagged as "1". So far the only
                 -- quests I've found that does this are quests involving an item(s). Checks all objective(s) and if they
@@ -1682,7 +1684,7 @@ end
 --? Creates a localized space where the local variables and functions are stored
 do
     --- Used to keep track of the active timer for CalculateAvailableQuests
-    --- Is used by the QuestieQuest.CalculateAndDrawAvailableQuestsIterative func
+    --- Is used by the AvailableQuests.CalculateAndDrawAll func
     ---@type Ticker|nil
     local timer
 
@@ -1785,18 +1787,6 @@ do
                 yield()
             end
         end
-    end
-
-    -- Starts a thread to calculate available quests to avoid lag spikes
-    ---@param callback fun()?
-    function QuestieQuest.CalculateAndDrawAvailableQuestsIterative(callback)
-        Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest.CalculateAndDrawAvailableQuestsIterative] PlayerLevel =", QuestiePlayer.GetPlayerLevel())
-
-        --? Cancel the previously running timer to not have multiple running at the same time
-        if timer then
-            timer:Cancel()
-        end
-        timer = ThreadLib.Thread(CalculateAvailableQuests, 0, "Error in CalculateAvailableQuests", callback)
     end
 end
 

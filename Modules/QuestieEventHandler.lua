@@ -41,6 +41,8 @@ local QuestieInit = QuestieLoader:ImportModule("QuestieInit")
 local MinimapIcon = QuestieLoader:ImportModule("MinimapIcon")
 ---@type QuestgiverFrame
 local QuestgiverFrame = QuestieLoader:ImportModule("QuestgiverFrame")
+---@type AvailableQuests
+local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
 local questAcceptedMessage = string.gsub(ERR_QUEST_ACCEPTED_S, "(%%s)", "(.+)")
 local questCompletedMessage = string.gsub(ERR_QUEST_COMPLETE_S, "(%%s)", "(.+)")
@@ -307,7 +309,7 @@ function _EventHandler:PlayerLevelUp(level)
     C_Timer.After(3, function()
         QuestiePlayer:SetPlayerLevel(level)
 
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end)
 
     QuestieJourney:PlayerLevelUp(level)
@@ -395,7 +397,7 @@ function _EventHandler:ChatMsgSkill()
     -- This needs to be done to draw new quests that just came available
     local isProfUpdate, isNewProfession = QuestieProfessions:Update()
     if isProfUpdate or isNewProfession then
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end
 
     -- Skill based Achievement updates
@@ -415,7 +417,7 @@ function _EventHandler:ChatMsgCompatFactionChange()
             QuestieTracker:Update()
         end)
 
-        QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
+        AvailableQuests.CalculateAndDrawAll()
     end
 end
 
