@@ -1,5 +1,7 @@
 ---@type Tutorial
 local Tutorial = QuestieLoader:ImportModule("Tutorial")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieOptionsUtils
 local QuestieOptionsUtils = QuestieLoader:ImportModule("QuestieOptionsUtils")
 
@@ -49,7 +51,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     onlyBlizzardImage:SetPoint("TOPRIGHT", -20, -90)
 
     local acceptOnlyQuestieButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptOnlyQuestieButton:SetText("Questie Objectives")
+    acceptOnlyQuestieButton:SetText("Questie " .. l10n("Objectives"))
     acceptOnlyQuestieButton:SetSize(140, 24)
     acceptOnlyQuestieButton:SetPoint("BOTTOMLEFT", 60, 15)
     acceptOnlyQuestieButton:SetScript("OnClick", function()
@@ -66,7 +68,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     end)
 
     local acceptPfQuestButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptPfQuestButton:SetText("pfQuest Objectives")
+    acceptPfQuestButton:SetText("pfQuest " .. l10n("Objectives"))
     acceptPfQuestButton:SetSize(140, 24)
     acceptPfQuestButton:SetPoint("BOTTOM", 0, 15)
     acceptPfQuestButton:SetScript("OnClick", function()
@@ -83,7 +85,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     end)
 
     local acceptOnlyBlizzardButton = CreateFrame("Button", nil, baseFrame, "UIPanelButtonTemplate")
-    acceptOnlyBlizzardButton:SetText("Blizzard Objectives")
+    acceptOnlyBlizzardButton:SetText("Blizzard " .. l10n("Objectives"))
     acceptOnlyBlizzardButton:SetSize(140, 24)
     acceptOnlyBlizzardButton:SetPoint("BOTTOMRIGHT", -60, 15)
     acceptOnlyBlizzardButton:SetScript("OnClick", function()
