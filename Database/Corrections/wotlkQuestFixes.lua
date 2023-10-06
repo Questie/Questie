@@ -1072,7 +1072,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{1073,500}},
         },
         [11956] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the phylactery"),0,{{"object", 188141}}},
+            },
         },
         [11957] = {
             [questKeys.extraObjectives] = {
