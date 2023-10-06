@@ -104,67 +104,87 @@ local function _CalculateAvailableQuests()
 
     local currentQuestlog = QuestiePlayer.currentQuestlog
     local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]
+    local aqWarEffortQuests = QuestieQuestBlacklist.AQWarEffortQuests
 
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
+    local activeChildQuests = QuestieDB.activeChildQuests
 
-    local questCount = 0
-    for questId in pairs(questData) do
-        --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
-        if (not autoBlacklist[questId]) then
+    -- We create a local function here to improve readability but use the localized variables above.
+    -- The order of checks is important here to bring the speed to a max
+    local function _DrawQuestIfAvailable(questId)
+        if (autoBlacklist[questId] or       -- Don't show autoBlacklist quests marked as such by IsDoable
+            completedQuests[questId] or     -- Don't show completed quests
+            hiddenQuests[questId] or        -- Don't show blacklisted quests
+            hidden[questId] or              -- Don't show quests hidden by the player
+            activeChildQuests[questId]      -- We already drew this quest in a previous loop iteration
+        ) then
+            return
+        end
 
-            if currentQuestlog[questId] then
-                -- Mark all child quests as active when the parent quest is in the quest log
-                local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
-                if childQuests then
-                    for _, childQuestId in pairs(childQuests) do
-                        QuestieDB.activeChildQuests[childQuestId] = true
-                        availableQuests[childQuestId] = true
-                        -- Draw them right away and skip all other irrelevant checks
-                        _DrawAvailableQuest(childQuestId)
-                    end
+        if currentQuestlog[questId] then
+            -- Mark all child quests as active when the parent quest is in the quest log
+            local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+            if childQuests then
+                for _, childQuestId in pairs(childQuests) do
+                    QuestieDB.activeChildQuests[childQuestId] = true
+                    availableQuests[childQuestId] = true
+                    -- Draw them right away and skip all other irrelevant checks
+                    _DrawAvailableQuest(childQuestId)
                 end
-            elseif (
-                (not completedQuests[questId]) and                                                            -- Don't show completed quests
-                (not QuestieDB.activeChildQuests[questId]) and                                            -- Don't show child quests again. We already did that above
-                ((not currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and               -- Don't show quests if they're already in the quest log
-                (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
-                (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled
-                (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and                        -- Show dungeon quests only with the option enabled
-                (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                              -- Show Raid quests only with the option enabled
-                (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                                -- Show PvP quests only with the option enabled
-                (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and     -- Don't show AQ War Effort quests with the option enabled
-                ((not Questie.IsWotlk) or (not currentIsleOfQuelDanasQuests[questId]))
-            ) then
-                if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
-                    availableQuests[questId] = true
-                    --If the quest is not drawn draw the quest, otherwise skip.
-                    if (not QuestieMap.questIdFrames[questId]) then
-                        --? This looks expensive, and it kind of is but it offloads the work to a thread, which happens "next frame"
-                        _DrawAvailableQuest(questId)
-                    else
-                        --* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
-                        --We might have to update the icon in this situation (config changed/level up)
-                        for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                            if frame and frame.data and frame.data.QuestData then
-                                local newIcon = _GetQuestIcon(frame.data.QuestData)
+            end
+            if QuestieDB.IsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available
+                return
+            end
+        end
 
-                                if newIcon ~= frame.data.Icon then
-                                    frame:UpdateTexture(Questie.usedIcons[newIcon])
-                                end
-                            end
-                        end
-                    end
-                else
-                    --If the quests are not within level range we want to unload them
-                    --(This is for when people level up or change settings etc)
-                    QuestieMap:UnloadQuestFrames(questId)
+        if (
+            ((not showRepeatableQuests) and QuestieDB.IsRepeatable(questId)) or   -- Don't show repeatable quests if option is disabled
+            ((not showPvPQuests) and QuestieDB.IsPvPQuest(questId)) or            -- Don't show PvP quests if option is disabled
+            ((not showDungeonQuests) and QuestieDB.IsDungeonQuest(questId)) or    -- Don't show dungeon quests if option is disabled
+            ((not showRaidQuests) and QuestieDB.IsRaidQuest(questId)) or          -- Don't show raid quests if option is disabled
+            ((not showAQWarEffortQuests) and aqWarEffortQuests[questId]) or       -- Don't show AQ War Effort quests if the option disabled
+            (Questie.IsClassic and currentIsleOfQuelDanasQuests[questId])         -- Don't show Isle quests for Classic
+        ) then
+            return
+        end
 
-                    if availableQuests[questId] then
-                        QuestieTooltips:RemoveQuest(questId)
+        if (
+            (not QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)) or
+            (not QuestieDB.IsDoable(questId, debugEnabled))
+        ) then
+            --If the quests are not within level range we want to unload them
+            --(This is for when people level up or change settings etc)
+            -- TODO: Is still necessary?
+            QuestieMap:UnloadQuestFrames(questId)
+
+            if availableQuests[questId] then
+                QuestieTooltips:RemoveQuest(questId)
+            end
+            return
+        end
+
+        availableQuests[questId] = true
+
+        if QuestieMap.questIdFrames[questId] then
+            -- We already drew this quest so we might need to update the icon (config changed/level up)
+            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
+                if frame and frame.data and frame.data.QuestData then
+                    local newIcon = _GetQuestIcon(frame.data.QuestData)
+
+                    if newIcon ~= frame.data.Icon then
+                        frame:UpdateTexture(Questie.usedIcons[newIcon])
                     end
                 end
             end
+            return
         end
+
+        _DrawAvailableQuest(questId)
+    end
+
+    local questCount = 0
+    for questId in pairs(questData) do
+        _DrawQuestIfAvailable(questId)
 
         -- Reset the questCount
         questCount = questCount + 1

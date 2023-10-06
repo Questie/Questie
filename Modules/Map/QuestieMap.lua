@@ -65,6 +65,7 @@ local fadeLogicCoroutine
 local isDrawQueueDisabled = false
 
 
+--* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
 --Get the frames for a quest, this returns all of the frames
 function QuestieMap:GetFramesForQuest(questId)
     local frames = {}
