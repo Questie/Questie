@@ -10,6 +10,9 @@
 ## X-Curse-Project-ID: 334372
 ## X-Wago-ID: qv634BKb
 
+# Compatibility module for older clients that may still be in use
+Modules\Compatibility.lua
+
 Modules\WorldMapTaintWorkaround.lua
 
 embeds.xml
