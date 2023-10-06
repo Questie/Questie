@@ -78,7 +78,7 @@ local function _CalculateAvailableQuests()
     -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.global.debugEnabled
 
-    local data = QuestieDB.QuestPointers or QuestieDB.questData
+    local questData = QuestieDB.QuestPointers or QuestieDB.questData
 
     local playerLevel = QuestiePlayer.GetPlayerLevel()
     local minLevel = playerLevel - GetQuestGreenRange("player")
@@ -91,25 +91,28 @@ local function _CalculateAvailableQuests()
         minLevel = playerLevel - Questie.db.char.minLevelFilter
     end
 
+    local completedQuests = Questie.db.char.complete
     local showRepeatableQuests = Questie.db.char.showRepeatableQuests
     local showDungeonQuests = Questie.db.char.showDungeonQuests
     local showRaidQuests = Questie.db.char.showRaidQuests
     local showPvPQuests = Questie.db.char.showPvPQuests
     local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
 
-    --- Fast Localizations
     local autoBlacklist = QuestieDB.autoBlacklist
     local hiddenQuests = QuestieCorrections.hiddenQuests
     local hidden = Questie.db.char.hidden
 
+    local currentQuestlog = QuestiePlayer.currentQuestlog
+    local currentIsleOfQuelDanasQuests = IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase]
+
     QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
 
     local questCount = 0
-    for questId in pairs(data) do
+    for questId in pairs(questData) do
         --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
         if (not autoBlacklist[questId]) then
 
-            if QuestiePlayer.currentQuestlog[questId] then
+            if currentQuestlog[questId] then
                 -- Mark all child quests as active when the parent quest is in the quest log
                 local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
                 if childQuests then
@@ -120,18 +123,17 @@ local function _CalculateAvailableQuests()
                         _DrawAvailableQuest(childQuestId)
                     end
                 end
-                --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
             elseif (
-                (not Questie.db.char.complete[questId]) and                                               -- Don't show completed quests
-                    (not QuestieDB.activeChildQuests[questId]) and                                            -- Don't show child quests again. We already did that above
-                    ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-                    (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
-                    (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled
-                    (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and                        -- Show dungeon quests only with the option enabled
-                    (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                              -- Show Raid quests only with the option enabled
-                    (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                                -- Show PvP quests only with the option enabled
-                    (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and     -- Don't show AQ War Effort quests with the option enabled
-                    ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
+                (not completedQuests[questId]) and                                                            -- Don't show completed quests
+                (not QuestieDB.activeChildQuests[questId]) and                                            -- Don't show child quests again. We already did that above
+                ((not currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and               -- Don't show quests if they're already in the quest log
+                (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
+                (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled
+                (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and                        -- Show dungeon quests only with the option enabled
+                (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                              -- Show Raid quests only with the option enabled
+                (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                                -- Show PvP quests only with the option enabled
+                (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and     -- Don't show AQ War Effort quests with the option enabled
+                ((not Questie.IsWotlk) or (not currentIsleOfQuelDanasQuests[questId]))
             ) then
                 if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
                     availableQuests[questId] = true
