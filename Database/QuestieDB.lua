@@ -136,6 +136,8 @@ QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
+QuestieDB.activeChildQuests = {}
+
 
 function QuestieDB:Initialize()
 
@@ -507,6 +509,12 @@ function QuestieDB.IsDoable(questId, debugPrint)
         return false
     end
 
+    if QuestieDB.activeChildQuests[questId] then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest is a child quest and the parent is active!") end
+        -- The parent quest is active, so this quest is doable
+        return true
+    end
+
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId) end
@@ -578,11 +586,8 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
     local parentQuest = QuestieDB.QueryQuestSingle(questId, "parentQuest")
     if parentQuest and parentQuest ~= 0 then
-        local isParentQuestActive = QuestieDB.IsParentQuestActive(parentQuest)
-        -- If the quest has a parent quest then only show it if the
-        -- parent quest is in the quest log
-        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] isParentQuestActive:", isParentQuestActive) end
-        return isParentQuestActive
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] quest has an inactive parent quest") end
+        return false
     end
 
     local nextQuestInChain = QuestieDB.QueryQuestSingle(questId, "nextQuestInChain")

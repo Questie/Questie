@@ -1702,13 +1702,36 @@ do
         local yield = coroutine.yield
         local NewThread = ThreadLib.ThreadSimple
 
+        QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
+
         local questCount = 0
         for questId in pairs(data) do
             --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
             if (not autoBlacklist[questId]) then
+
+                if QuestiePlayer.currentQuestlog[questId] then
+                    -- Mark all child quests as active when the parent quest is in the quest log
+                    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+                    if childQuests then
+                        for _, childQuestId in pairs(childQuests) do
+                            QuestieDB.activeChildQuests[childQuestId] = true
+                            -- Draw them right away and skip all other irrelevant checks
+                            NewThread(function()
+                                local quest = QuestieDB:GetQuest(childQuestId)
+                                if (not quest.tagInfoWasCached) then
+                                    QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
+
+                                    quest.tagInfoWasCached = true
+                                end
+
+                                _QuestieQuest:DrawAvailableQuest(quest)
+                            end, 0)
+                        end
+                    end
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-                if (
+                elseif (
                         (not Questie.db.char.complete[questId]) and                                               -- Don't show completed quests
+                        (not QuestieDB.activeChildQuests[questId]) and                                            -- Don't show child quests again. We already did that above
                         ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
                         (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
                         (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled
