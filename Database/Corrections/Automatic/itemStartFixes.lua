@@ -1822,6 +1822,11 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       [46884] = {
         [itemKeys.startQuest] = 14087,
       },
+      --* Item 46955 https://wotlk.wowhead.com/wotlk/item=46955
+      --* Starts: Identifying the Remains(14095)(https://wotlk.wowhead.com/wotlk/quest=14095)
+      [46955] = {
+        [itemKeys.startQuest] = 14095,
+      },
       --* Item 47246 https://wotlk.wowhead.com/wotlk/item=47246
       --* Starts: Writ of Merit(14160)(https://wotlk.wowhead.com/wotlk/quest=14160)
       [47246] = {
@@ -1846,6 +1851,11 @@ function QuestieItemStartFixes:LoadAutomaticQuestStarts()
       --* Starts: Waterlogged Recipe(24431)(https://wotlk.wowhead.com/wotlk/quest=24431)
       [49667] = {
         [itemKeys.startQuest] = 24431,
+      },
+      --* Item 49676 https://wotlk.wowhead.com/wotlk/item=49676
+      --* Starts: Battle Plans Of The Kvaldir(24442)(https://wotlk.wowhead.com/wotlk/quest=24442)
+      [49676] = {
+        [itemKeys.startQuest] = 24442,
       },
       --* Item 50320 https://wotlk.wowhead.com/wotlk/item=50320
       --* Starts: Something is in the Air (and it Ain't Love)(24745)(https://wotlk.wowhead.com/wotlk/quest=24745)
