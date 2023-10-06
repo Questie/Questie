@@ -55,6 +55,8 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
+local yield = coroutine.yield
+local NewThread = ThreadLib.ThreadSimple
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -1663,6 +1665,20 @@ function _QuestieQuest:GetQuestIcon(quest)
     return icon
 end
 
+---@param questId number
+local function _DrawAvailableQuest(questId)
+    NewThread(function()
+        local quest = QuestieDB:GetQuest(questId)
+        if (not quest.tagInfoWasCached) then
+            QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
+
+            quest.tagInfoWasCached = true
+        end
+
+        _QuestieQuest:DrawAvailableQuest(quest)
+    end, 0)
+end
+
 --? Creates a localized space where the local variables and functions are stored
 do
     --- Used to keep track of the active timer for CalculateAvailableQuests
@@ -1699,8 +1715,6 @@ do
         local autoBlacklist = QuestieQuest.autoBlacklist
         local hiddenQuests = QuestieCorrections.hiddenQuests
         local hidden = Questie.db.char.hidden
-        local yield = coroutine.yield
-        local NewThread = ThreadLib.ThreadSimple
 
         QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
 
@@ -1715,17 +1729,9 @@ do
                     if childQuests then
                         for _, childQuestId in pairs(childQuests) do
                             QuestieDB.activeChildQuests[childQuestId] = true
+                            QuestieQuest.availableQuests[childQuestId] = true
                             -- Draw them right away and skip all other irrelevant checks
-                            NewThread(function()
-                                local quest = QuestieDB:GetQuest(childQuestId)
-                                if (not quest.tagInfoWasCached) then
-                                    QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
-
-                                    quest.tagInfoWasCached = true
-                                end
-
-                                _QuestieQuest:DrawAvailableQuest(quest)
-                            end, 0)
+                            _DrawAvailableQuest(childQuestId)
                         end
                     end
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
@@ -1746,19 +1752,7 @@ do
                         --If the quest is not drawn draw the quest, otherwise skip.
                         if (not QuestieMap.questIdFrames[questId]) then
                             --? This looks expensive, and it kind of is but it offloads the work to a thread, which happens "next frame"
-                            NewThread(function()
-                                ---@type Quest
-                                local quest = QuestieDB:GetQuest(questId)
-                                if (not quest.tagInfoWasCached) then
-                                    --Questie:Debug(Questie.DEBUG_INFO, "Caching tag info for quest", questId)
-                                    QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
-
-                                    quest.tagInfoWasCached = true
-                                end
-
-                                --Draw a specific quest through the function
-                                _QuestieQuest:DrawAvailableQuest(quest)
-                            end, 0)
+                            _DrawAvailableQuest(questId)
                         else
                             --* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
                             --We might have to update the icon in this situation (config changed/level up)
