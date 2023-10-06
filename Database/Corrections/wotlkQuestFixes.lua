@@ -1113,9 +1113,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
         [12019] = {
+            [questKeys.finishedBy] = {{26170,198875}},
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.BOREAN_TUNDRA]={{86.6,28.6}}}, Questie.ICON_TYPE_EVENT, l10n("Teleport to the top of Naxxanar"),},
-                {{[zoneIDs.BOREAN_TUNDRA]={{86.6,31.4}}}, Questie.ICON_TYPE_TALK, l10n("Talk to Thassarian"),},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Thassarian"), 0, {{"monster", 198875}}},
             },
         },
         [12020] = {
