@@ -50,8 +50,6 @@ local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
 
-QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
-
 --- A list of quests that will never be available, used to quickly skip quests.
 ---@alias AutoBlacklistString "rep"|"skill"|"race"|"class"
 ---@type table<number, AutoBlacklistString>
@@ -521,11 +519,7 @@ function QuestieQuest:AbandonedQuest(questId)
             quest.isComplete = nil
         end
 
-        for questIdAvailable, _ in pairs(QuestieQuest.availableQuests) do
-            if (not QuestieDB.IsDoable(questIdAvailable)) then
-                QuestieMap:UnloadQuestFrames(questIdAvailable)
-            end
-        end
+        AvailableQuests.UnloadUndoable()
 
         QuestieTracker:RemoveQuest(questId)
         QuestieTooltips:RemoveQuest(questId)

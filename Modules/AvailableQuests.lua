@@ -24,9 +24,14 @@ local GetQuestGreenRange = GetQuestGreenRange
 local yield = coroutine.yield
 local NewThread = ThreadLib.ThreadSimple
 
+local QUESTS_PER_YIELD = 24
+
 --- Used to keep track of the active timer for CalculateAndDrawAll
 ---@type Ticker|nil
 local timer
+
+-- Keep track of all available quests to unload undoable when abandoning a quest
+local availableQuests = {}
 
 local dungeons = ZoneDB:GetDungeons()
 
@@ -70,8 +75,6 @@ local function _GetIconScaleForAvailable()
 end
 
 local function CalculateAvailableQuests()
-    local questsPerYield = 24
-
     -- Localize the variable for speeeeed
     local debugEnabled = Questie.db.global.debugEnabled
 
@@ -112,7 +115,7 @@ local function CalculateAvailableQuests()
                 if childQuests then
                     for _, childQuestId in pairs(childQuests) do
                         QuestieDB.activeChildQuests[childQuestId] = true
-                        QuestieQuest.availableQuests[childQuestId] = true
+                        availableQuests[childQuestId] = true
                         -- Draw them right away and skip all other irrelevant checks
                         _DrawAvailableQuest(childQuestId)
                     end
@@ -131,7 +134,7 @@ local function CalculateAvailableQuests()
                     ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
             ) then
                 if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
-                    QuestieQuest.availableQuests[questId] = true
+                    availableQuests[questId] = true
                     --If the quest is not drawn draw the quest, otherwise skip.
                     if (not QuestieMap.questIdFrames[questId]) then
                         --? This looks expensive, and it kind of is but it offloads the work to a thread, which happens "next frame"
@@ -154,7 +157,7 @@ local function CalculateAvailableQuests()
                     --(This is for when people level up or change settings etc)
                     QuestieMap:UnloadQuestFrames(questId)
 
-                    if QuestieQuest.availableQuests[questId] then
+                    if availableQuests[questId] then
                         QuestieTooltips:RemoveQuest(questId)
                     end
                 end
@@ -163,7 +166,7 @@ local function CalculateAvailableQuests()
 
         -- Reset the questCount
         questCount = questCount + 1
-        if questCount > questsPerYield then
+        if questCount > QUESTS_PER_YIELD then
             questCount = 0
             yield()
         end
@@ -299,3 +302,11 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
         end
     end
 end
+
+function AvailableQuests.UnloadUndoable()
+    for questIdAvailable, _ in pairs(availableQuests) do
+        if (not QuestieDB.IsDoable(questIdAvailable)) then
+            QuestieMap:UnloadQuestFrames(questIdAvailable)
+        end
+    end
+end 
