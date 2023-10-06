@@ -29,8 +29,6 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer")
 local TaskQueue = QuestieLoader:ImportModule("TaskQueue")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
----@type QuestieCorrections
-local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
 ---@type ZoneDB
 local ZoneDB = QuestieLoader:ImportModule("ZoneDB")
 ---@type QuestieCombatQueue
@@ -39,16 +37,10 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieAnnounce = QuestieLoader:ImportModule("QuestieAnnounce")
 ---@type QuestieMenu
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
----@type QuestieQuestBlacklist
-local QuestieQuestBlacklist = QuestieLoader:ImportModule("QuestieQuestBlacklist")
----@type IsleOfQuelDanas
-local IsleOfQuelDanas = QuestieLoader:ImportModule("IsleOfQuelDanas")
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
----@type ThreadLib
-local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
@@ -57,8 +49,6 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
-local yield = coroutine.yield
-local NewThread = ThreadLib.ThreadSimple
 
 QuestieQuest.availableQuests = {} --Gets populated at PLAYER_ENTERED_WORLD
 
@@ -80,8 +70,6 @@ local _RegisterObjectiveTooltips, _DetermineIconsToDraw, _GetIconsSortedByDistan
 local _DrawObjectiveIcons, _DrawObjectiveWaypoints
 
 local HBD = LibStub("HereBeDragonsQuestie-2.0")
-
-local dungeons = ZoneDB:GetDungeons()
 
 function QuestieQuest:Initialize()
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest]: Getting all completed quests")
@@ -584,7 +572,7 @@ function QuestieQuest:UpdateQuest(questId)
 
             QuestieMap:UnloadQuestFrames(questId)
             QuestieTooltips:RemoveQuest(questId)
-            _QuestieQuest:DrawAvailableQuest(quest)
+            AvailableQuests.DrawAvailableQuest(quest)
 
             -- Reset any collapsed quest flags
             if Questie.db.char.collapsedQuests then
@@ -1529,270 +1517,9 @@ function QuestieQuest:GetAllLeaderBoardDetails(questId)
     return questObjectives
 end
 
---Draw a single available quest, it is used by the DrawAllAvailableQuests function.
----@param quest Quest
-function _QuestieQuest:DrawAvailableQuest(quest) -- prevent recursion
-    --? Some quests can be started by both an NPC and a GameObject
-
-    if quest.Starts["GameObject"] ~= nil then
-        local gameObjects = quest.Starts["GameObject"]
-        for i = 1, #gameObjects do
-            local obj = QuestieDB:GetObject(gameObjects[i])
-            if (obj ~= nil and obj.spawns ~= nil) then
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj, "o_" .. obj.id)
-
-                for zone, spawns in pairs(obj.spawns) do
-                    if (zone ~= nil and spawns ~= nil) then
-                        local coords
-                        for spawnIndex = 1, #spawns do
-                            coords = spawns[spawnIndex]
-                            local data = {
-                                Id = quest.Id,
-                                Icon = _QuestieQuest:GetQuestIcon(quest),
-                                GetIconScale = _GetIconScaleForAvailable,
-                                IconScale = _GetIconScaleForAvailable(),
-                                Type = "available",
-                                QuestData = quest,
-                                Name = obj.name,
-                                IsObjectiveNote = false,
-                            }
-
-                            if (coords[1] == -1 or coords[2] == -1) then
-                                local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
-                                if dungeonLocation ~= nil then
-                                    for _, value in ipairs(dungeonLocation) do
-                                        QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
-                                    end
-                                end
-                            else
-                                QuestieMap:DrawWorldIcon(data, zone, coords[1], coords[2])
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-    if (quest.Starts["NPC"] ~= nil) then
-        local npcs = quest.Starts["NPC"]
-        for i = 1, #npcs do
-            local npc = QuestieDB:GetNPC(npcs[i])
-
-            if (npc ~= nil and npc.spawns ~= nil) then
-                QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc, "m_" .. npc.id)
-
-                --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
-                local starterIcons = {}
-                local starterLocs = {}
-                for npcZone, spawns in pairs(npc.spawns) do
-                    if (npcZone ~= nil and spawns ~= nil) then
-                        local coords
-                        for spawnIndex = 1, #spawns do
-                            coords = spawns[spawnIndex]
-                            local data = {
-                                Id = quest.Id,
-                                Icon = _QuestieQuest:GetQuestIcon(quest),
-                                GetIconScale = _GetIconScaleForAvailable,
-                                IconScale = _GetIconScaleForAvailable(),
-                                Type = "available",
-                                QuestData = quest,
-                                Name = npc.name,
-                                IsObjectiveNote = false,
-                            }
-                            if (coords[1] == -1 or coords[2] == -1) then
-                                local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
-                                if dungeonLocation ~= nil then
-                                    for _, value in ipairs(dungeonLocation) do
-                                        local zone = value[1];
-                                        local x = value[2];
-                                        local y = value[3];
-
-                                        QuestieMap:DrawWorldIcon(data, zone, x, y)
-                                    end
-                                end
-                            else
-                                local x = coords[1];
-                                local y = coords[2];
-                                starterIcons[npcZone] = QuestieMap:DrawWorldIcon(data, npcZone, x, y)
-                                if not starterLocs[npcZone] then
-                                    starterLocs[npcZone] = { x, y }
-                                end
-                            end
-                        end
-                    end
-                end
-
-                if npc.waypoints then
-                    for zone, waypoints in pairs(npc.waypoints) do
-                        if not dungeons[zone] and waypoints[1] and waypoints[1][1] and waypoints[1][1][1] then
-                            if not starterIcons[zone] then
-                                local data = {
-                                    Id = quest.Id,
-                                    Icon = _QuestieQuest:GetQuestIcon(quest),
-                                    GetIconScale = _GetIconScaleForAvailable,
-                                    IconScale = _GetIconScaleForAvailable(),
-                                    Type = "available",
-                                    QuestData = quest,
-                                    Name = npc.name,
-                                    IsObjectiveNote = false,
-                                }
-                                starterIcons[zone] = QuestieMap:DrawWorldIcon(data, zone, waypoints[1][1][1], waypoints[1][1][2])
-                                starterLocs[zone] = { waypoints[1][1][1], waypoints[1][1][2] }
-                            end
-                            QuestieMap:DrawWaypoints(starterIcons[zone], waypoints, zone)
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
-
----@param quest Quest
-function _QuestieQuest:GetQuestIcon(quest)
-    local icon
-    if QuestieDB.IsActiveEventQuest(quest.Id) then
-        icon = Questie.ICON_TYPE_EVENTQUEST
-    elseif QuestieDB.IsPvPQuest(quest.Id) then
-        icon = Questie.ICON_TYPE_PVPQUEST
-    elseif quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-        icon = Questie.ICON_TYPE_AVAILABLE_GRAY
-    elseif quest.IsRepeatable then
-        icon = Questie.ICON_TYPE_REPEATABLE
-    elseif (QuestieDB.IsTrivial(quest.level)) then
-        icon = Questie.ICON_TYPE_AVAILABLE_GRAY
-    else
-        icon = Questie.ICON_TYPE_AVAILABLE
-    end
-    return icon
-end
-
----@param questId number
-local function _DrawAvailableQuest(questId)
-    NewThread(function()
-        local quest = QuestieDB:GetQuest(questId)
-        if (not quest.tagInfoWasCached) then
-            QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
-
-            quest.tagInfoWasCached = true
-        end
-
-        _QuestieQuest:DrawAvailableQuest(quest)
-    end, 0)
-end
-
---? Creates a localized space where the local variables and functions are stored
-do
-    --- Used to keep track of the active timer for CalculateAvailableQuests
-    --- Is used by the AvailableQuests.CalculateAndDrawAll func
-    ---@type Ticker|nil
-    local timer
-
-    local function CalculateAvailableQuests()
-        local questsPerYield = 24
-
-        -- Localize the variable for speeeeed
-        local debugEnabled = Questie.db.global.debugEnabled
-
-        local data = QuestieDB.QuestPointers or QuestieDB.questData
-
-        local playerLevel = QuestiePlayer.GetPlayerLevel()
-        local minLevel = playerLevel - GetQuestGreenRange("player")
-        local maxLevel = playerLevel
-
-        if Questie.db.char.absoluteLevelOffset then
-            minLevel = Questie.db.char.minLevelFilter
-            maxLevel = Questie.db.char.maxLevelFilter
-        elseif Questie.db.char.manualMinLevelOffset then
-            minLevel = playerLevel - Questie.db.char.minLevelFilter
-        end
-
-        local showRepeatableQuests = Questie.db.char.showRepeatableQuests
-        local showDungeonQuests = Questie.db.char.showDungeonQuests
-        local showRaidQuests = Questie.db.char.showRaidQuests
-        local showPvPQuests = Questie.db.char.showPvPQuests
-        local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
-
-        --- Fast Localizations
-        local autoBlacklist = QuestieQuest.autoBlacklist
-        local hiddenQuests = QuestieCorrections.hiddenQuests
-        local hidden = Questie.db.char.hidden
-
-        QuestieDB.activeChildQuests = {} -- Reset here so we don't need to keep track in the quest event system
-
-        local questCount = 0
-        for questId in pairs(data) do
-            --? Quick exit through autoBlacklist if IsDoable has blacklisted it.
-            if (not autoBlacklist[questId]) then
-
-                if QuestiePlayer.currentQuestlog[questId] then
-                    -- Mark all child quests as active when the parent quest is in the quest log
-                    local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
-                    if childQuests then
-                        for _, childQuestId in pairs(childQuests) do
-                            QuestieDB.activeChildQuests[childQuestId] = true
-                            QuestieQuest.availableQuests[childQuestId] = true
-                            -- Draw them right away and skip all other irrelevant checks
-                            _DrawAvailableQuest(childQuestId)
-                        end
-                    end
-                --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
-                elseif (
-                        (not Questie.db.char.complete[questId]) and                                               -- Don't show completed quests
-                        (not QuestieDB.activeChildQuests[questId]) and                                            -- Don't show child quests again. We already did that above
-                        ((not QuestiePlayer.currentQuestlog[questId]) or QuestieDB.IsComplete(questId) == -1) and -- Don't show quests if they're already in the quest log
-                        (not hiddenQuests[questId] and not hidden[questId]) and                                   -- Don't show blacklisted or player hidden quests
-                        (showRepeatableQuests or (not QuestieDB.IsRepeatable(questId))) and                       -- Show repeatable quests if the quest is repeatable and the option is enabled
-                        (showDungeonQuests or (not QuestieDB.IsDungeonQuest(questId))) and                        -- Show dungeon quests only with the option enabled
-                        (showRaidQuests or (not QuestieDB.IsRaidQuest(questId))) and                              -- Show Raid quests only with the option enabled
-                        (showPvPQuests or (not QuestieDB.IsPvPQuest(questId))) and                                -- Show PvP quests only with the option enabled
-                        (showAQWarEffortQuests or (not QuestieQuestBlacklist.AQWarEffortQuests[questId])) and     -- Don't show AQ War Effort quests with the option enabled
-                        ((not Questie.IsWotlk) or (not IsleOfQuelDanas.quests[Questie.db.global.isleOfQuelDanasPhase][questId]))
-                    ) then
-                    if QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel) and QuestieDB.IsDoable(questId, debugEnabled) then
-                        QuestieQuest.availableQuests[questId] = true
-                        --If the quest is not drawn draw the quest, otherwise skip.
-                        if (not QuestieMap.questIdFrames[questId]) then
-                            --? This looks expensive, and it kind of is but it offloads the work to a thread, which happens "next frame"
-                            _DrawAvailableQuest(questId)
-                        else
-                            --* TODO: How the frames are handled needs to be reworked, why are we getting them from _G
-                            --We might have to update the icon in this situation (config changed/level up)
-                            for _, frame in ipairs(QuestieMap:GetFramesForQuest(questId)) do
-                                if frame and frame.data and frame.data.QuestData then
-                                    local newIcon = _QuestieQuest:GetQuestIcon(frame.data.QuestData)
-
-                                    if newIcon ~= frame.data.Icon then
-                                        frame:UpdateTexture(Questie.usedIcons[newIcon])
-                                    end
-                                end
-                            end
-                        end
-                    else
-                        --If the quests are not within level range we want to unload them
-                        --(This is for when people level up or change settings etc)
-                        QuestieMap:UnloadQuestFrames(questId)
-
-                        if QuestieQuest.availableQuests[questId] then
-                            QuestieTooltips:RemoveQuest(questId)
-                        end
-                    end
-                end
-            end
-
-            -- Reset the questCount
-            questCount = questCount + 1
-            if questCount > questsPerYield then
-                questCount = 0
-                yield()
-            end
-        end
-    end
-end
-
 function QuestieQuest.DrawDailyQuest(questId)
     if QuestieDB.IsDoable(questId) then
         local quest = QuestieDB:GetQuest(questId)
-        _QuestieQuest:DrawAvailableQuest(quest)
+        AvailableQuests.DrawAvailableQuest(quest)
     end
 end

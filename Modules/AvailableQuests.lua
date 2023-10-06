@@ -28,6 +28,8 @@ local NewThread = ThreadLib.ThreadSimple
 ---@type Ticker|nil
 local timer
 
+local dungeons = ZoneDB:GetDungeons()
+
 
 ---@param questId number
 local function _DrawAvailableQuest(questId)
