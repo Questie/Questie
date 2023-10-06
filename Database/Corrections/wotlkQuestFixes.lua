@@ -884,6 +884,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11587] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the prison"),0,{{"object", 187561}}}},
         },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
