@@ -56,7 +56,7 @@ local function _GetQuestIcon(quest)
         return Questie.ICON_TYPE_EVENTQUEST
     end
     if QuestieDB.IsPvPQuest(quest.Id) then
-            return Questie.ICON_TYPE_PVPQUEST
+        return Questie.ICON_TYPE_PVPQUEST
     end
     if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
         return Questie.ICON_TYPE_AVAILABLE_GRAY
@@ -74,8 +74,8 @@ local function _GetIconScaleForAvailable()
     return Questie.db.global.availableScale or 1.3
 end
 
-local function CalculateAvailableQuests()
-    -- Localize the variable for speeeeed
+local function _CalculateAvailableQuests()
+    -- Localize the variables for speeeeed
     local debugEnabled = Questie.db.global.debugEnabled
 
     local data = QuestieDB.QuestPointers or QuestieDB.questData
@@ -98,7 +98,7 @@ local function CalculateAvailableQuests()
     local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
 
     --- Fast Localizations
-    local autoBlacklist = QuestieQuest.autoBlacklist
+    local autoBlacklist = QuestieDB.autoBlacklist
     local hiddenQuests = QuestieCorrections.hiddenQuests
     local hidden = Questie.db.char.hidden
 
@@ -181,23 +181,23 @@ function AvailableQuests.CalculateAndDrawAll(callback)
     if timer then
         timer:Cancel()
     end
-    timer = ThreadLib.Thread(CalculateAvailableQuests, 0, "Error in CalculateAvailableQuests", callback)
+    timer = ThreadLib.Thread(_CalculateAvailableQuests, 0, "Error in CalculateAndDrawAll", callback)
 end
 
---Draw a single available quest, it is used by the DrawAllAvailableQuests function.
+--Draw a single available quest, it is used by the CalculateAndDrawAll function.
 ---@param quest Quest
 function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
     --? Some quests can be started by both an NPC and a GameObject
 
-    if quest.Starts["GameObject"] ~= nil then
+    if quest.Starts["GameObject"] then
         local gameObjects = quest.Starts["GameObject"]
         for i = 1, #gameObjects do
             local obj = QuestieDB:GetObject(gameObjects[i])
-            if (obj ~= nil and obj.spawns ~= nil) then
+            if (obj and obj.spawns) then
                 QuestieTooltips:RegisterQuestStartTooltip(quest.Id, obj, "o_" .. obj.id)
 
                 for zone, spawns in pairs(obj.spawns) do
-                    if (zone ~= nil and spawns ~= nil) then
+                    if (zone and spawns) then
                         local coords
                         for spawnIndex = 1, #spawns do
                             coords = spawns[spawnIndex]
@@ -214,7 +214,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 
                             if (coords[1] == -1 or coords[2] == -1) then
                                 local dungeonLocation = ZoneDB:GetDungeonLocation(zone)
-                                if dungeonLocation ~= nil then
+                                if dungeonLocation then
                                     for _, value in ipairs(dungeonLocation) do
                                         QuestieMap:DrawWorldIcon(data, value[1], value[2], value[3])
                                     end
@@ -228,19 +228,18 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
             end
         end
     end
-    if (quest.Starts["NPC"] ~= nil) then
+    if (quest.Starts["NPC"]) then
         local npcs = quest.Starts["NPC"]
         for i = 1, #npcs do
             local npc = QuestieDB:GetNPC(npcs[i])
 
-            if (npc ~= nil and npc.spawns ~= nil) then
+            if (npc and npc.spawns) then
                 QuestieTooltips:RegisterQuestStartTooltip(quest.Id, npc, "m_" .. npc.id)
 
-                --Questie:Debug(Questie.DEBUG_DEVELOP, "Adding Quest:", questObject.Id, "StarterNPC:", NPC.Id)
                 local starterIcons = {}
                 local starterLocs = {}
                 for npcZone, spawns in pairs(npc.spawns) do
-                    if (npcZone ~= nil and spawns ~= nil) then
+                    if (npcZone and spawns) then
                         local coords
                         for spawnIndex = 1, #spawns do
                             coords = spawns[spawnIndex]
@@ -256,7 +255,7 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
                             }
                             if (coords[1] == -1 or coords[2] == -1) then
                                 local dungeonLocation = ZoneDB:GetDungeonLocation(npcZone)
-                                if dungeonLocation ~= nil then
+                                if dungeonLocation then
                                     for _, value in ipairs(dungeonLocation) do
                                         local zone = value[1];
                                         local x = value[2];
@@ -304,9 +303,9 @@ function AvailableQuests.DrawAvailableQuest(quest) -- prevent recursion
 end
 
 function AvailableQuests.UnloadUndoable()
-    for questIdAvailable, _ in pairs(availableQuests) do
-        if (not QuestieDB.IsDoable(questIdAvailable)) then
-            QuestieMap:UnloadQuestFrames(questIdAvailable)
+    for questId, _ in pairs(availableQuests) do
+        if (not QuestieDB.IsDoable(questId)) then
+            QuestieMap:UnloadQuestFrames(questId)
         end
     end
 end 

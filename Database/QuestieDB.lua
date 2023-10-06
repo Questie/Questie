@@ -38,6 +38,11 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 ---@type QuestieQuestPrivate
 local _QuestieQuest = QuestieQuest.private
 
+--- A list of quests that will never be available, used to quickly skip quests.
+---@alias AutoBlacklistString "rep"|"skill"|"race"|"class"
+---@type table<number, AutoBlacklistString>
+QuestieDB.autoBlacklist = {}
+
 local tinsert = table.insert
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
@@ -518,7 +523,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local requiredRaces = QuestieDB.QueryQuestSingle(questId, "requiredRaces")
     if (requiredRaces and not checkRace[requiredRaces]) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] race requirement not fulfilled for questId:", questId) end
-        QuestieQuest.autoBlacklist[questId] = "race"
+        QuestieDB.autoBlacklist[questId] = "race"
         return false
     end
 
@@ -535,7 +540,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     local requiredClasses = QuestieDB.QueryQuestSingle(questId, "requiredClasses")
     if (requiredClasses and not checkClass[requiredClasses]) then
         if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] class requirement not fulfilled for questId:", questId) end
-        QuestieQuest.autoBlacklist[questId] = "class"
+        QuestieDB.autoBlacklist[questId] = "class"
         return false
     end
 
@@ -548,7 +553,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
 
             --- If we haven't got the faction for min or max we blacklist it
             if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
-                QuestieQuest.autoBlacklist[questId] = "rep"
+                QuestieDB.autoBlacklist[questId] = "rep"
             end
 
             return false
@@ -562,7 +567,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet profession requirements for", questId) end
             --? We haven't got the profession so we blacklist it.
             if(not hasProfession) then
-                QuestieQuest.autoBlacklist[questId] = "skill"
+                QuestieDB.autoBlacklist[questId] = "skill"
             end
 
             return false

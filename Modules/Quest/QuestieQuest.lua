@@ -50,11 +50,6 @@ local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
 
---- A list of quests that will never be available, used to quickly skip quests.
----@alias AutoBlacklistString "rep"|"skill"|"race"|"class"
----@type table<number, AutoBlacklistString>
-QuestieQuest.autoBlacklist = {}
-
 local NOP_FUNCTION = function()
 end
 local ERR_FUNCTION = function(err)
@@ -80,9 +75,9 @@ end
 ---@param category AutoBlacklistString
 function QuestieQuest.ResetAutoblacklistCategory(category)
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieQuest]: Resetting autoblacklist category", category)
-    for questId, questCategory in pairs(QuestieQuest.autoBlacklist) do
+    for questId, questCategory in pairs(QuestieDB.autoBlacklist) do
         if questCategory == category then
-            QuestieQuest.autoBlacklist[questId] = nil
+            QuestieDB.autoBlacklist[questId] = nil
         end
     end
 end
@@ -318,7 +313,7 @@ function QuestieQuest:SmoothReset()
             QuestiePlayer.currentQuestlog = {}
 
             --- reset the blacklist
-            QuestieQuest.autoBlacklist = {}
+            QuestieDB.autoBlacklist = {}
 
             -- make sure complete db is correct
             Questie.db.char.complete = GetQuestsCompleted()
@@ -497,7 +492,7 @@ function QuestieQuest:CompleteQuest(questId)
         QuestieTracker:Update()
     end)
 
-    -- TODO: Should this be done first? Because DrawAllAvailableQuests looks at QuestieMap.questIdFrames[QuestId] to add available
+    -- TODO: Should this be done first? Because CalculateAndDrawAll looks at QuestieMap.questIdFrames[QuestId] to add available
     AvailableQuests.CalculateAndDrawAll()
 
     Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Completed Quest:", questId)
