@@ -70,6 +70,8 @@ end
 ---@return GossipQuestUIInfo[] info
 function QuestieCompat.GetActiveQuests()
     if C_GossipInfo and C_GossipInfo.GetActiveQuests then
+        -- QuestieDB needs to be loaded locally, otherwise it will be an empty module
+        local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
         local info = C_GossipInfo.GetActiveQuests()
         local activeQuests = {}
         local index = 1
@@ -77,7 +79,7 @@ function QuestieCompat.GetActiveQuests()
             activeQuests[index] = activeQuest.title
             activeQuests[index + 1] = activeQuest.questLevel
             activeQuests[index + 2] = activeQuest.isTrivial
-            activeQuests[index + 3] = activeQuest.isComplete
+            activeQuests[index + 3] = activeQuest.isComplete or QuestieDB.IsComplete(activeQuest.questID) == 1
             activeQuests[index + 4] = activeQuest.isLegendary
             activeQuests[index + 5] = activeQuest.isIgnored
             index = index + 6

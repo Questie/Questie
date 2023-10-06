@@ -74,6 +74,18 @@ local questStateLocales = {
         ["esES"] = "Repetible",
         ["frFR"] = "Répétable",
     },
+    ["PvP"] = {
+        ["ptBR"] = false,
+        ["ruRU"] = true,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["zhCN"] = true,
+        ["zhTW"] = true,
+        ["esES"] = false,
+        ["frFR"] = false,
+    },
 }
 
 for k, v in pairs(questStateLocales) do

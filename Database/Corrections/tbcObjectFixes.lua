@@ -11,6 +11,9 @@ function QuestieTBCObjectFixes:Load()
     local zoneIDs = ZoneDB.zoneIDs
 
     return {
+        [142122] = {
+            [objectKeys.questStarts] = {2781,2875},
+        },
         [177281] = {
             [objectKeys.spawns] = {[zoneIDs.ZANGARMARSH]={{80.32,65.06}}},
         },
@@ -64,6 +67,12 @@ function QuestieTBCObjectFixes:Load()
         [185015] = {
             [objectKeys.spawns] = {[zoneIDs.THE_MECHANAR]={{-1,-1}}},
             [objectKeys.zoneID] = zoneIDs.THE_MECHANAR,
+        },
+        [185033] = {
+            [objectKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{66.39,44.08}}},
+        },
+        [185200] = {
+            [objectKeys.spawns] = {[zoneIDs.TEROKKAR_FOREST] = {{50.12,19.37}}},
         },
         [185322] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{28.7,98.7}}},
@@ -207,13 +216,12 @@ function QuestieTBCObjectFixes:Load()
             [objectKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
         [189989] = {
-            [objectKeys.questStarts] = {12192},
-            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
-            [objectKeys.zoneID] = zoneIDs.DUROTAR,
+            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.81}}},
+            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
         },
         [189990] = {
-            [objectKeys.spawns] = {[zoneIDs.DUN_MOROGH]={{48.89,38.82}}},
-            [objectKeys.zoneID] = zoneIDs.DUN_MOROGH,
+            [objectKeys.spawns] = {[zoneIDs.DUROTAR]={{44.1,17.2}}},
+            [objectKeys.zoneID] = zoneIDs.DUROTAR,
         },
         [190034] = {
             [objectKeys.spawns] = {[zoneIDs.TELDRASSIL]={{55.61,59.85}}},

@@ -41,8 +41,8 @@ function QuestieNameplate:NameplateCreated(token)
     end
 
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
-    if unitType ~= "Creature" then
-        -- We only draw name plates on NPCs/creatures and skip players, pets, etc
+    if unitType ~= "Creature" and unitType ~= "Vehicle" then
+        -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
@@ -91,9 +91,8 @@ function QuestieNameplate:UpdateNameplate()
         if icon then
             local frame = _QuestieNameplate.GetFrame(guid)
             -- check if the texture needs to be changed
-            if (not frame.lastIcon) or icon ~= frame.lastIcon then
+            if frame.lastIcon ~= icon then
                 frame.lastIcon = icon
-                frame.Icon:SetTexture(nil)
                 frame.Icon:SetTexture(icon)
             end
         else
@@ -124,7 +123,7 @@ end
 function QuestieNameplate:DrawTargetFrame()
     Questie:Debug(Questie.DEBUG_SPAM, "[QuestieNameplate:DrawTargetFrame]")
 
-    if (not Questie.db.global.nameplateEnabled) or (not Questie.db.global.nameplateTargetFrameEnabled) then
+    if (not Questie.db.global.nameplateTargetFrameEnabled) then
         return
     end
 
@@ -143,8 +142,8 @@ function QuestieNameplate:DrawTargetFrame()
     end
 
     local unitType, _, _, _, _, npcId, _ = strsplit("-", unitGUID)
-    if unitType ~= "Creature" then
-        -- We only draw name plates on NPCs/creatures and skip players, pets, etc
+    if unitType ~= "Creature" and unitType ~= "Vehicle" then
+        -- We only draw name plates on NPCs/creatures and Vehicles (oddness with Chillmaw being a Vehicle?!?!) and skip players, pets, etc
         return
     end
 
@@ -229,6 +228,9 @@ function _QuestieNameplate.GetTargetFrameIconFrame()
         strata = "LOW"
     elseif PitBull4_Frames_Target then
         targetFrame = PitBull4_Frames_Target
+    elseif AzeriteUnitFrameTarget then
+        targetFrame = AzeriteUnitFrameTarget
+        strata = "LOW"
     elseif SUFUnittarget then
         targetFrame = SUFUnittarget
         frame:SetFrameLevel(SUFUnittarget:GetFrameLevel() + 1)

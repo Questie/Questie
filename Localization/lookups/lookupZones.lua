@@ -1310,6 +1310,9 @@ l10n.zoneLookup = {
     [230]={
         [1584]="Blackrock Depths",
     },
+    [242] = {
+        [1585]="Blackrock Depths",
+    },
     [289]={
         [2057]="Scholomance",
     },
@@ -2587,7 +2590,7 @@ l10n.zoneCategoryLookup = {
         [2557] = "Dire Maul",
         [3429]="Ruins of Ahn'Qiraj",
         [3456] = "Naxxramas",
-        [3457] = "Kharazan",
+        [3457] = "Karazhan",
         [3477] = "Azjol-Nerub",
         [3535] = "Hellfire Citadel",
         [3562] = "Hellfire Ramparts",

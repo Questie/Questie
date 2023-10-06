@@ -21,6 +21,8 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestieCorrections
 local QuestieCorrections = QuestieLoader:ImportModule("QuestieCorrections")
+---@type QuestieCombatQueue
+local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 
 local LibDropDown = LibStub:GetLibrary("LibUIDropDownMenuQuestie-4.0")
 
@@ -39,6 +41,7 @@ local _townsfolk_texturemap = {
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
+    ["Potions"] = 134831,--select(10, GetItemInfo(929)) -- Healing Potion
     ["Trade Goods"] = 132912,--select(10, GetItemInfo(2321)) -- thread
     ["Drink"] = 134712,--select(10, GetItemInfo(8766)) -- morning glory dew
     ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
@@ -288,8 +291,19 @@ function QuestieMenu:Show()
     tinsert(menuTable, div)
 
     tinsert(menuTable, { text= l10n('Advanced Search'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("search"); QuestieJourney.ToggleJourneyWindow() end})
-    tinsert(menuTable, { text= l10n("Questie Options"), func=function() QuestieOptions:OpenConfigWindow() end})
-    tinsert(menuTable, { text= l10n('My Journey'), func=function() QuestieOptions:HideFrame(); QuestieJourney.tabGroup:SelectTab("journey"); QuestieJourney.ToggleJourneyWindow() end})
+    tinsert(menuTable, { text= l10n("Questie Options"), func=function()
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:OpenConfigWindow()
+        end)
+    end})
+
+    tinsert(menuTable, { text= l10n('My Journey'), func=function()
+        QuestieCombatQueue:Queue(function()
+            QuestieOptions:HideFrame();
+            QuestieJourney.tabGroup:SelectTab("journey");
+            QuestieJourney.ToggleJourneyWindow()
+        end)
+    end})
 
     if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
         tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
@@ -516,7 +530,9 @@ function QuestieMenu:PopulateTownsfolk()
         [QuestieProfessions.professionKeys.LEATHERWORKING] = {},
         [QuestieProfessions.professionKeys.ALCHEMY] = {},
         [QuestieProfessions.professionKeys.HERBALISM] = {},
-        [QuestieProfessions.professionKeys.COOKING] = {},
+        [QuestieProfessions.professionKeys.COOKING] = {
+            19186, -- Kylene <Barmaid> (this is an edge case)
+        },
         [QuestieProfessions.professionKeys.MINING] = {},
         [QuestieProfessions.professionKeys.TAILORING] = {},
         [QuestieProfessions.professionKeys.ENGINEERING] = {},
@@ -528,7 +544,7 @@ function QuestieMenu:PopulateTownsfolk()
     if Questie.IsTBC or Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.JEWELCRAFTING] = {}
     end
-    
+
     if Questie.IsWotlk then
         professionTrainers[QuestieProfessions.professionKeys.INSCRIPTION] = {}
     end
@@ -717,7 +733,8 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         ["HUNTER"] = {},
         ["DEATHKNIGHT"] = {37201},
         ["WARLOCK"] = {5565,16583},
-        ["ROGUE"] = {5140,2928,8924,5173,2930,8923},
+        ["ROGUE"] = Questie.IsWotlk and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
+            or {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
     }
     reagents = reagents[playerClass]
@@ -734,6 +751,10 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         6261,8923,2324,2604,6260,4378,10290,17194,4341
     }))
     Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieMenu:PopulateVendors({4496, 4497, 4498, 4499, (Questie.IsTBC or Questie.IsWotlk) and 30744 or nil}))
+    Questie.db.char.vendorList["Potions"] = _reformatVendors(QuestieMenu:PopulateVendors({
+        118, 858, 929, 1710, 3928, 13446, 18839, (Questie.IsTBC or Questie.IsWotlk) and 22829 or nil, (Questie.IsTBC or Questie.IsWotlk) and 32947 or nil, (Questie.IsWotlk) and 33447 or nil, -- Healing Potions
+        2455, 3385, 3827, 6149, 13443, 13444, 18841, (Questie.IsTBC or Questie.IsWotlk) and 22832 or nil, (Questie.IsTBC or Questie.IsWotlk) and 32948 or nil, (Questie.IsWotlk) and 33448 or nil, -- Mana Potions
+    }))
     QuestieMenu:UpdatePlayerVendors()
 end
 

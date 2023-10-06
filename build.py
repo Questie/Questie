@@ -142,7 +142,7 @@ def get_version_dir(is_release_build, versionOverride):
     print("Number of commits since tag: " + nr_of_commits)
     print("Most Recent commit: " + recent_commit)
     branch = get_branch()
-    if branch != "master":
+    if branch != "master" and branch != "HEAD":
         release_dir += "-%s" % branch
     print("Current branch: " + branch)
 

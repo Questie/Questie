@@ -11,7 +11,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "任務位置提示插件 Questie 已有重要的更新版本!",
         ["zhCN"] = false,
     },
     ["Please update as soon as possible!"] = {
@@ -23,7 +23,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "請盡快更新!",
         ["zhCN"] = false,
     },
     ["You have an outdated version of Questie!"] = {
@@ -35,7 +35,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "你的任務位置提示插件 Questie 已經過期! ",
         ["zhCN"] = false,
     },
     ["Please consider updating!"] = {
@@ -47,7 +47,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "請考慮更新插件!",
         ["zhCN"] = false,
     },
     ["You have an incompatible QuestieComms message! Please update!"] = {
@@ -59,7 +59,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "你有不相容版本的 QuestieComms 訊息! 請更新插件!",
         ["zhCN"] = false,
     },
     ["  Yours: v"] = {
@@ -71,7 +71,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "  你的: v",
         ["zhCN"] = false,
     },
     ["has an incompatible Questie version, QuestieComms won't work!"] = {
@@ -83,7 +83,7 @@ local commsLocales = {
         ["enUS"] = true,
         ["frFR"] = false,
         ["esES"] = false,
-        ["zhTW"] = false,
+        ["zhTW"] = "是不相容版本的任務位置提示插件 Questie，QuestieComms 無法使用!",
         ["zhCN"] = false,
     },
 }

@@ -76,6 +76,8 @@ _QuestieAuto.disallowedQuests = {
     [994] = true, -- Volcor (Escape Through Force)
     [995] = true, -- Volcor (Escape Through Stealth)
     [1144] = true, -- Willix the Importer (Willix the Importer)
+    [1120] = true, -- Get the Gnomes Drunk
+    [1121] = true, -- Get the Goblins Drunk
     [1222] = true, -- Stinky Ignatz (Stinky's Escape)
     [1270] = true, -- Stinky Ignatz (Stinky's Escape)
     [1273] = true, -- Ogron (Questioning Reethe)
@@ -201,4 +203,7 @@ _QuestieAuto.disallowedQuests = {
     [11705] = true, -- Foolish Endeavors
     [11733] = true, -- Traversing the Rift
     [12671] = true, -- Reconnaissance Flight
+
+    [13926] = true, -- Little Orphan Roo of the Oracles
+    [13927] = true, -- Little Orphan Kekek of the Wolvar
 }

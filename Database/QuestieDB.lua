@@ -102,7 +102,8 @@ QuestieDB.classKeys = {
     HUNTER = 4,
     ROGUE = 8,
     PRIEST = 16,
-    SHAMAN = 32,
+    DEATH_KNIGHT = 32,
+    SHAMAN = 64,
     MAGE = 128,
     WARLOCK = 256,
     DRUID = 1024
@@ -135,33 +136,6 @@ QuestieDB.npcDataOverrides = {}
 QuestieDB.objectDataOverrides = {}
 QuestieDB.questDataOverrides = {}
 
-local function _shutdown_db() -- prevent catastrophic error
-    QuestieDB.QueryNPC = nil
-    QuestieDB.QueryQuest = nil
-    QuestieDB.QueryObject = nil
-    QuestieDB.QueryItem = nil
-
-    QuestieDB.QueryQuestSingle = nil
-    QuestieDB.QueryNPCSingle = nil
-    QuestieDB.QueryObjectSingle = nil
-    QuestieDB.QueryItemSingle = nil
-end
-
-local function trycatch(func)
-    return function(...)
-        local result, ret = pcall(func, ...)
-        if (not result) then
-            print(ret)
-            _shutdown_db()
-            if not Questie.db.global.disableDatabaseWarnings then
-                StaticPopup_Show ("QUESTIE_DATABASE_ERROR")
-            else
-                print(l10n("There was a problem initializing Questie's database. This can usually be fixed by recompiling the database."))
-            end
-        end
-        return ret
-    end
-end
 
 function QuestieDB:Initialize()
 
@@ -403,12 +377,12 @@ function QuestieDB:IsExclusiveQuestInQuestLogOrComplete(exclusiveTo)
 end
 
 ---@param questId QuestId
----@param minLevel Level
----@param maxLevel Level
+---@param minLevel Level @The level a quest must have at least to be shown
+---@param maxLevel Level @The level a quest can have at most to be shown
 ---@param playerLevel Level? @Pass player level to avoid calling UnitLevel or to use custom level
 ---@return boolean
 function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, playerLevel)
-    local level, requiredLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
+    local level, requiredLevel, requiredMaxLevel = QuestieLib.GetTbcLevel(questId, playerLevel)
 
     --* QuestiePlayer.currentQuestlog[parentQuestId] logic is from QuestieDB.IsParentQuestActive, if you edit here, also edit there
     local parentQuestId = QuestieDB.QueryQuestSingle(questId, "parentQuest")
@@ -425,15 +399,23 @@ function QuestieDB.IsLevelRequirementsFulfilled(questId, minLevel, maxLevel, pla
 
     if maxLevel >= level then
         if (not Questie.db.char.lowlevel) and minLevel > level then
+            -- The quest level is too low and trivial quests are not shown
             return false
         end
     else
         if Questie.db.char.absoluteLevelOffset or maxLevel < requiredLevel then
+            -- Either an absolute level range is set and maxLevel < level OR the maxLevel is manually set to a lower value
             return false
         end
     end
 
     if maxLevel < requiredLevel then
+        -- Either the players level is not high enough or the maxLevel is manually set to a lower value
+        return false
+    end
+
+    if requiredMaxLevel ~= 0 and playerLevel > requiredMaxLevel then
+        -- The players level exceeds the requiredMaxLevel of a quest
         return false
     end
 
@@ -554,7 +536,7 @@ function QuestieDB.IsDoable(questId, debugPrint)
     if (requiredMinRep or requiredMaxRep) then
         local aboveMinRep, hasMinFaction, belowMaxRep, hasMaxFaction = QuestieReputation:HasFactionAndReputationLevel(requiredMinRep, requiredMaxRep)
         if (not ((aboveMinRep and hasMinFaction) and (belowMaxRep and hasMaxFaction))) then
-            Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId)
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet reputation requirements for", questId) end
 
             --- If we haven't got the faction for min or max we blacklist it
             if not hasMinFaction or not hasMaxFaction then -- or not belowMaxRep -- This is something we could have done, but would break if you rep downwards
@@ -640,12 +622,22 @@ function QuestieDB.IsDoable(questId, debugPrint)
     end
 
     local requiredSpell = QuestieDB.QueryQuestSingle(questId, "requiredSpell")
-    if (requiredSpell) and (requiredSpell > 0) then
-        local hasSpell = IsSpellKnownOrOverridesKnown(requiredSpell)
-        if (not hasSpell) then
+    if (requiredSpell) and (requiredSpell ~= 0) then
+        local hasSpell = IsSpellKnownOrOverridesKnown(math.abs(requiredSpell))
+        local hasProfSpell = IsPlayerSpell(math.abs(requiredSpell))
+        if (requiredSpell > 0) and (not hasSpell) and (not hasProfSpell) then --if requiredSpell is positive, we make the quest ineligible if the player does NOT have the spell
+            if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
+            return false
+        elseif (requiredSpell < 0) and (hasSpell or hasProfSpell) then --if requiredSpell is negative, we make the quest ineligible if the player DOES  have the spell
             if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet spell requirements for", questId) end
             return false
         end
+    end
+
+    -- Check and see if the Quest requires an achievement before showing as available
+    if _QuestieDB:CheckAchievementRequirements(questId) == false then
+        if debugPrint then Questie:Debug(Questie.DEBUG_SPAM, "[QuestieDB.IsDoable] Player does not meet achievement requirements for", questId) end
+        return false
     end
 
     return true
@@ -655,13 +647,17 @@ end
 ---@return number @Complete = 1, Failed = -1, Incomplete = 0
 function QuestieDB.IsComplete(questId)
     local questLogEntry = QuestLogCache.questLog_DO_NOT_MODIFY[questId] -- DO NOT MODIFY THE RETURNED TABLE
+    local noQuestItem = not QuestieQuest:CheckQuestSourceItem(questId)
+
     --[[ pseudo:
     if no questLogEntry then return 0
     if has questLogEntry.isComplete then return questLogEntry.isComplete
+    if no objectives and an item is needed but not obtained then return 0
     if no objectives then return 1
     return 0
-    ]]--
-    return questLogEntry and (questLogEntry.isComplete or (questLogEntry.objectives[1] and 0) or 1) or 0
+    --]]
+
+    return questLogEntry and (questLogEntry.isComplete or (questLogEntry.objectives[1] and 0) or (#questLogEntry.objectives == 0 and noQuestItem and 0) or 1) or 0
 end
 
 ---@param self Quest
@@ -670,9 +666,14 @@ function _QuestieDB._QO_IsComplete(self)
     return QuestieDB.IsComplete(self.Id)
 end
 
+---@param questLevel number the level of the quest
 ---@return boolean @Returns true if the quest should be grey, false otherwise
-local function _IsTrivial(self)
-    local levelDiff = self.level - QuestiePlayer.GetPlayerLevel();
+function QuestieDB.IsTrivial(questLevel)
+    if questLevel == -1 then
+        return false -- Scaling quests are never trivial
+    end
+
+    local levelDiff = questLevel - QuestiePlayer.GetPlayerLevel();
     if (levelDiff >= 5) then
         return false -- Red
     elseif (levelDiff >= 3) then
@@ -738,6 +739,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
     ---@field public parentQuest QuestId
     ---@field public reputationReward ReputationPair[]
     ---@field public extraObjectives ExtraObjective[]
+    ---@field public requiredMaxLevel Level
     local QO = {
         Id = questId
     }
@@ -899,15 +901,31 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
 
     ---@type ItemId[]
     local requiredSourceItems = rawdata[questKeys.requiredSourceItems]
-    if requiredSourceItems ~= nil then --required source items
+    if requiredSourceItems ~= nil then
         for _, itemId in pairs(requiredSourceItems) do
             if itemId ~= nil then
-                QO.SpecialObjectives[itemId] = {
-                    Type = "item",
-                    Id = itemId,
-                    ---@type string @We have to hard-type it here because of the function
-                    Description = QuestieDB.QueryItemSingle(itemId, "name")
-                }
+                -- Make sure requiredSourceItems aren't already an objective
+                local itemObjPresent = false
+                if objectives[3] ~= nil then
+                    for _, itemObjective in pairs(objectives[3]) do
+                        if itemObjective ~= nil then
+                            if itemId == itemObjective[1] then
+                                itemObjPresent = true
+                                break
+                            end
+                        end
+                    end
+                end
+
+                -- Make an objective for requiredSourceItem
+                if not itemObjPresent then
+                    QO.SpecialObjectives[itemId] = {
+                        Type = "item",
+                        Id = itemId,
+                        ---@type string @We have to hard-type it here because of the function
+                        Description = QuestieDB.QueryItemSingle(itemId, "name")
+                    }
+                end
             end
         end
     end
@@ -921,8 +939,6 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
         end
     end
 
-    QO.IsTrivial = _IsTrivial
-
     ---@type ExtraObjective[]
     local extraObjectives = rawdata[questKeys.extraObjectives]
     if extraObjectives then
@@ -930,6 +946,7 @@ function QuestieDB:GetQuest(questId) -- /dump QuestieDB:GetQuest(867)
             QO.SpecialObjectives[index] = {
                 Icon = o[2],
                 Description = o[3],
+                RealObjectiveIndex = o[4],
             }
             if o[1] then -- custom spawn
                 QO.SpecialObjectives[index].spawnList = {{
@@ -984,7 +1001,6 @@ function QuestieDB:GetCreatureLevels(quest)
         if quest.objectives[1] then -- Killing creatures
             for _, creatureObjective in pairs(quest.objectives[1]) do
                 local npcId = creatureObjective[1]
-                local npcIdff = creatureObjective[2]
                 _CollectCreatureLevels({npcId})
             end
         end
@@ -1120,6 +1136,23 @@ end
 ---------------------------------------------------------------------------------------------------
 -- Modifications to questDB
 
+function _QuestieDB:CheckAchievementRequirements(questId)
+    -- So far the only Quests that we know of that requires an earned Achievement are the ones offered by:
+    -- https://www.wowhead.com/wotlk/npc=35094/crusader-silverdawn
+    -- Get Kraken (14108)
+    -- The Fate Of The Fallen (14107)
+    -- This NPC requires these earned Achievements baseed on a Players home faction:
+    -- https://www.wowhead.com/wotlk/achievement=2817/exalted-argent-champion-of-the-alliance
+    -- https://www.wowhead.com/wotlk/achievement=2816/exalted-argent-champion-of-the-horde
+    if questId == 14101 or questId == 14102 or questId == 14104 or questId == 14105 or questId == 14107 or questId == 14108 then
+        if select(13, GetAchievementInfo(2817)) or select(13, GetAchievementInfo(2816)) then
+            return true
+        end
+
+        return false
+    end
+end
+
 function _QuestieDB:HideClassAndRaceQuests()
     local questKeys = QuestieDB.questKeys
     for _, entry in pairs(QuestieDB.questData) do
@@ -1139,3 +1172,64 @@ function _QuestieDB:HideClassAndRaceQuests()
     end
     Questie:Debug(Questie.DEBUG_DEVELOP, "Other class and race quests hidden");
 end
+
+-- This function is intended for usage with Gossip and Greeting frames, where there's a list of quests but no QuestIDs are
+-- obtainable until entering the specific quest dialog.
+-- This is a bruteforce method for obtaining a QuestID with no input other than a quest name, and the ID of the questgiver.
+-- It compares the name of the quest entry with the names of every quest that questgiver can either start or end.
+---@param name string? @The name of the quest entry
+---@param questgiverGUID string? @Should be UnitGUID("questnpc")
+---@param questStarter boolean @Should be True if this is an available quest, False if this is an "active" quest (quest ender)
+---@return number
+function QuestieDB.GetQuestIDFromName(name, questgiverGUID, questStarter)
+    local questID = 0 -- worst case, we end up returning an ID of 0 if we can't find a match; any function relying on this one should handle 0 cleanly
+    if questgiverGUID then
+        local questgiverID = tonumber(questgiverGUID:match("-(%d+)-%x+$"), 10)
+        local unit_type = strsplit("-", questgiverGUID)
+        local questsStarted
+        local questsEnded
+        if unit_type == "Creature" then -- if questgiver is an NPC
+            questsStarted = QuestieDB.QueryNPCSingle(questgiverID, "questStarts")
+            questsEnded = QuestieDB.QueryNPCSingle(questgiverID, "questEnds")
+        elseif unit_type == "GameObject" then -- if questgiver is an object (it's rare for an object to have a gossip/greeting frame, but Wanted Boards exist; see object 2713)
+            questsStarted = QuestieDB.QueryObjectSingle(questgiverID, "questStarts")
+            questsEnded = QuestieDB.QueryObjectSingle(questgiverID, "questEnds")
+        else
+            return questID; -- If the questgiver is not an NPC or object, bail!
+        end
+        -- iterate through every questEnds entry in our questgiver's DB, and check if each quest name matches this greeting frame entry
+        if questStarter == true then
+            if questsStarted then
+                for _, id in pairs(questsStarted) do
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) then
+                        -- the QuestieDB.IsDoable check is important to filter out identically named quests
+                        questID = id
+                    end
+                end
+            else
+                Questie:Error("Database mismatch! No entries found that match quest name. Please report this on Github or Discord!")
+                Questie:Error("Queststarter is: " .. unit_type .. " " .. questgiverID)
+                Questie:Error("Quest name is: " .. name)
+                Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+            end
+        else
+            if questsEnded then
+                for _, id in pairs(questsEnded) do
+                    if (name == QuestieDB.QueryQuestSingle(id, "name")) and (QuestieDB.IsDoable(id)) and QuestiePlayer.currentQuestlog[id] then
+                        questID = id
+                    end
+                end
+            else
+                Questie:Error("Database mismatch! No entries found that match quest name. Please report this on Github or Discord!")
+                Questie:Error("Questender is: " .. unit_type .. " " .. questgiverID)
+                Questie:Error("Quest name is: " .. name)
+                Questie:Error("Client info is: " .. GetBuildInfo() .. "; " .. QuestieLib:GetAddonVersionString())
+            end
+        end
+    end
+    return questID;
+end
+
+QuestieDB.waypointPresets = {
+    ORGRIMS_HAMMER = {[ZoneDB.zoneIDs.ICECROWN]={{{62.37,30.60},{61.93,30.93},{61.48,31.24},{61.08,31.55},{60.74,31.92},{60.46,32.44},{60.26,33.11},{60.14,33.85},{60.11,34.63},{60.17,35.35},{60.31,36.01},{60.56,36.66},{60.84,37.33},{61.15,38.00},{61.44,38.67},{61.71,39.28},{62.00,39.92},{62.31,40.55},{62.60,41.20},{62.90,41.83},{63.05,42.20},{63.33,42.85},{63.58,43.53},{63.85,44.19},{64.08,44.86},{64.33,45.50},{64.45,45.87},{64.69,46.56},{64.94,47.21},{65.16,47.87},{65.43,48.51},{65.71,49.15},{66.03,49.77},{66.36,50.46},{66.72,51.10},{67.07,51.67},{67.41,52.08},{67.82,52.37},{68.31,52.47},{68.80,52.38},{69.23,51.98},{69.45,51.56},{69.57,51.13},{69.67,50.59},{69.73,49.96},{69.77,49.26},{69.79,48.48},{69.80,47.62},{69.79,46.68},{69.79,45.68},{69.78,44.90},{69.78,44.25},{69.76,43.55},{69.75,42.80},{69.72,42.01},{69.70,41.20},{69.67,40.38},{69.64,39.54},{69.61,38.71},{69.58,37.88},{69.55,37.07},{69.52,36.28},{69.49,35.54},{69.46,34.83},{69.45,34.18},{69.42,33.50},{69.41,32.46},{69.42,31.52},{69.45,30.67},{69.47,29.92},{69.48,29.25},{69.46,28.65},{69.42,28.12},{69.35,27.83},{69.11,27.19},{68.71,26.77},{68.23,26.54},{67.71,26.51},{67.24,26.55},{66.81,26.76},{66.35,27.09},{65.90,27.52},{65.44,27.95},{65.01,28.39},{64.58,28.73},{64.16,29.10},{63.74,29.43},{63.34,29.79},{62.94,30.11},{62.65,30.37},{62.37,30.60}}}},
+}
