@@ -47,21 +47,22 @@ end
 
 ---@param quest Quest
 local function _GetQuestIcon(quest)
-    local icon
     if QuestieDB.IsActiveEventQuest(quest.Id) then
-        icon = Questie.ICON_TYPE_EVENTQUEST
-    elseif QuestieDB.IsPvPQuest(quest.Id) then
-        icon = Questie.ICON_TYPE_PVPQUEST
-    elseif quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
-        icon = Questie.ICON_TYPE_AVAILABLE_GRAY
-    elseif quest.IsRepeatable then
-        icon = Questie.ICON_TYPE_REPEATABLE
-    elseif (QuestieDB.IsTrivial(quest.level)) then
-        icon = Questie.ICON_TYPE_AVAILABLE_GRAY
-    else
-        icon = Questie.ICON_TYPE_AVAILABLE
+        return Questie.ICON_TYPE_EVENTQUEST
     end
-    return icon
+    if QuestieDB.IsPvPQuest(quest.Id) then
+            return Questie.ICON_TYPE_PVPQUEST
+    end
+    if quest.requiredLevel > QuestiePlayer.GetPlayerLevel() then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    if quest.IsRepeatable then
+        return Questie.ICON_TYPE_REPEATABLE
+    end
+    if (QuestieDB.IsTrivial(quest.level)) then
+        return Questie.ICON_TYPE_AVAILABLE_GRAY
+    end
+    return Questie.ICON_TYPE_AVAILABLE
 end
 
 local function _GetIconScaleForAvailable()
