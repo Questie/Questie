@@ -383,6 +383,42 @@ function QuestieWotlkQuestFixes:Load()
         [10445] = {
             [questKeys.exclusiveTo] = {13432},
         },
+        [10464] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+        },
+        [10465] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+        },
+        [10466] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+        },
+        [10467] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,9000}},
+        },
+        [10468] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+        },
+        [10469] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+        },
+        [10470] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+        },
+        [10471] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,21000}},
+        },
+        [10472] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+        },
+        [10473] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+        },
+        [10474] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+        },
+        [10475] = {
+            [questKeys.objectives] = {nil,nil,nil,{990,42000}},
+        },
         [10667] = {
             [questKeys.preQuestSingle] = {},
         },
@@ -403,6 +439,33 @@ function QuestieWotlkQuestFixes:Load()
         },
         [10900] = {
             [questKeys.requiredMaxLevel] = 70,
+        },
+        [11010] = {
+            [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
+        },
+        [11103] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10472},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [11104] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10473},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [11105] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10474},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [11106] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10475},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
         },
         [11117] = {
             [questKeys.startedBy] = {{23486}},
@@ -771,6 +834,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11587] = {
             [questKeys.preQuestSingle] = {},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Open the prison"),0,{{"object", 187561}}}},
         },
         [11590] = {
             [questKeys.objectives] = {{{25316,"Captured Beryl Sorcerer"},},nil,nil,nil,},
@@ -875,7 +939,8 @@ function QuestieWotlkQuestFixes:Load()
             },
         },
         [11878] = {
-            [questKeys.triggerEnd] = {"Orphaned Mammoth Calf Delivered to Khu'nok",{[zoneIDs.BOREAN_TUNDRA]={{59.35,30.55,},},},},
+            [questKeys.objectives] = {{{25862,"Orphaned Mammoth Calf Delivered to Khu'nok"}}},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Deliver the orphan to Khu'nok"),0,{{"monster", 25861}}}},
         },
         [11879] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Wooly Mammoth Bull to assist in killing Kaw the Mammoth Destroyer"),0,{{"monster", 25743}}}},
@@ -941,6 +1006,9 @@ function QuestieWotlkQuestFixes:Load()
         [11909] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Research the Gearmaster's Manual"),0,{{"object", 190334},{"object", 190335}}}},
         },
+        [11913] = {
+            [questKeys.objectives] = {nil,{{188112,"Farshire Grain burnt"}}},
+        },
         [11919] = {
             [questKeys.objectives] = {{{26127,"Captured Nexus Drake"},},nil,nil,nil,},
         },
@@ -957,7 +1025,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.reputationReward] = {{1073,500}},
         },
         [11956] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Ride Dusk"),0,{{"monster", 26191}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Open the phylactery"),0,{{"object", 188141}}},
+            },
         },
         [11957] = {
             [questKeys.extraObjectives] = {
@@ -978,7 +1049,7 @@ function QuestieWotlkQuestFixes:Load()
         [11984] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Enlist Budd's help"), 0, {{"monster", 26422}}},
-                {nil, Questie.ICON_TYPE_EVENT, l10n("Escort Budd to the Drak' Zin Ruins"), 0, {{"monster", 32663}}},
+                {nil, Questie.ICON_TYPE_EVENT, l10n("Escort Budd to the Drak'Zin Ruins"), 0, {{"monster", 32663}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Budd's Tag Troll spell to stun Drakkari trolls"), 0, {{"monster", 26425}, {"monster", 26447}}},
                 {nil, Questie.ICON_TYPE_OBJECT, l10n("Capture stunned Drakkari trolls with Bounty Hunter's Cage"), 0, {{"monster", 26425}, {"monster", 26447}}},
             },
@@ -995,9 +1066,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Tu'u'gwar's Bait"),0,{{"object", 188370}}}},
         },
         [12019] = {
+            [questKeys.finishedBy] = {{26170,198875}},
             [questKeys.extraObjectives] = {
                 {{[zoneIDs.BOREAN_TUNDRA]={{86.6,28.6}}}, Questie.ICON_TYPE_EVENT, l10n("Teleport to the top of Naxxanar"),},
-                {{[zoneIDs.BOREAN_TUNDRA]={{86.6,31.4}}}, Questie.ICON_TYPE_TALK, l10n("Talk to Thassarian"),},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Talk to Thassarian"), 0, {{"monster", 198875}}},
             },
         },
         [12020] = {
@@ -3312,7 +3384,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13430] = {
             [questKeys.exclusiveTo] = {10888},
-            [questKeys.preQuestSingle] = {10588},
+            [questKeys.preQuestGroup] = {10884,10885,10886},
         },
         [13431] = {
             [questKeys.exclusiveTo] = {10901},
@@ -3634,6 +3706,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}}},
         },
         [13627] = {
             [questKeys.startedBy] = {},
@@ -3676,6 +3749,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13828,13835,13837},
             [questKeys.exclusiveTo] = {13679,13666,13670},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13670] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -3715,6 +3789,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.exclusiveTo] = {13680},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}}},
         },
         [13679] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
@@ -3726,7 +3801,7 @@ function QuestieWotlkQuestFixes:Load()
         [13680] = {
             [questKeys.objectives] = {{{33448,"Argent Valiant defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33843}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33842}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire David"), 0, {{"monster", 33447}}},
             },
         },
