@@ -2758,7 +2758,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11090] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Subdue Reth'hedron the Subduer", {[zoneIDs.NAGRAND]={{8.7,42.79}}}},
+            [questKeys.objectives] = {{{22357,"Subdue Reth'hedron the Subduer"}}},
         },
         [11093] = {
             [questKeys.objectives] = {{{23219,"Nether Ray Meal"}}},
