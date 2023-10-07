@@ -61,7 +61,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 type = "range",
                 order = 1.2,
                 name = function() return l10n('Icon Limit'); end,
-                desc = function() return l10n('Limits the amount of icons drawn per type. ( Default: %s )', optionsDefaults.global.iconLimit); end,
+                desc = function() return l10n('Limits the amount of icons drawn per type. ( Default: %s )', optionsDefaults.profile.iconLimit); end,
                 width = "double",
                 min = 10,
                 max = 500,
@@ -227,7 +227,7 @@ function QuestieOptions.tabs.advanced:Initialize()
                 desc = function() return l10n('Reset Questie to the default values for all settings.'); end,
                 func = function (_, _)
                     -- update all values to default
-                    for k,v in pairs(optionsDefaults.global) do
+                    for k,v in pairs(optionsDefaults.profile) do
                        Questie.db.profile[k] = v
                     end
 
@@ -237,8 +237,8 @@ function QuestieOptions.tabs.advanced:Initialize()
                         --QuestieQuest:ToggleNotes(true);
                     end
 
-                    Questie.db.profile.enabled = optionsDefaults.char.enabled;
-                    Questie.db.profile.lowlevel = optionsDefaults.char.lowlevel;
+                    Questie.db.profile.enabled = optionsDefaults.profile.enabled;
+                    Questie.db.profile.lowlevel = optionsDefaults.profile.lowlevel;
 
                     Questie.db.profile.migrationVersion = nil
 

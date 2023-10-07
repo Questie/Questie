@@ -41,8 +41,6 @@ function QuestieOptionsDefaults:Load()
             nameplateTargetFrameX = -30,
             nameplateTargetFrameY = 25,
             nameplateTargetFrameScale = 1.7,
-            questieLocale = 'enUS',
-            questieLocaleDiff = false,
             alwaysGlowMap = true,
             alwaysGlowMinimap = false,
             questObjectiveColors = false,
@@ -179,6 +177,8 @@ function QuestieOptionsDefaults:Load()
             --
             lastDailyRequestResetTime = 0,
             lastDailyRequestDate = "",
+            questieLocale = 'enUS',
+            questieLocaleDiff = false,
         }
     }
 end

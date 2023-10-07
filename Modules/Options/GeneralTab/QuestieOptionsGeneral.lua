@@ -907,7 +907,7 @@ function QuestieOptions.tabs.general:Initialize()
                     if Questie.db.profile.absoluteLevelOffset then
                         return l10n('Minimum quest level to show.');
                     else
-                        return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.char.minLevelFilter);
+                        return l10n('How many levels below your character to show. ( Default: %s )', optionsDefaults.profile.minLevelFilter);
                     end
                 end,
                 width = "normal",
