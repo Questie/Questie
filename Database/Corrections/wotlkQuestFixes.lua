@@ -443,30 +443,6 @@ function QuestieWotlkQuestFixes:Load()
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
         },
-        [11103] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10472},
-            [questKeys.exclusiveTo] = {10460,10461,10462},
-        },
-        [11104] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10473},
-            [questKeys.exclusiveTo] = {10460,10462,10463},
-        },
-        [11105] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10474},
-            [questKeys.exclusiveTo] = {10460,10461,10463},
-        },
-        [11106] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10475},
-            [questKeys.exclusiveTo] = {10461,10462,10463},
-        },
         [11117] = {
             [questKeys.startedBy] = {{23486}},
             [questKeys.finishedBy] = {{23486}},
