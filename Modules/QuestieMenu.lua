@@ -305,7 +305,7 @@ function QuestieMenu:Show()
         end)
     end})
 
-    if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
+    if Questie.db.profile.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
         tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end

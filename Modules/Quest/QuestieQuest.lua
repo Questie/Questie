@@ -1674,7 +1674,7 @@ do
         local questsPerYield = 24
 
         -- Localize the variable for speeeeed
-        local debugEnabled = Questie.db.global.debugEnabled
+        local debugEnabled = Questie.db.profile.debugEnabled
 
         local data = QuestieDB.QuestPointers or QuestieDB.questData
 

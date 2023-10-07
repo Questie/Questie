@@ -107,10 +107,10 @@ function QuestieOptions.tabs.advanced:Initialize()
                 name = function() return l10n('Enable Debug'); end,
                 desc = function() return l10n('Enable or disable debug functionality.'); end,
                 width = "full",
-                get = function () return Questie.db.global.debugEnabled; end,
+                get = function () return Questie.db.profile.debugEnabled; end,
                 set = function (_, value)
-                    Questie.db.global.debugEnabled = value
-                    if Questie.db.global.debugEnabled then
+                    Questie.db.profile.debugEnabled = value
+                    if Questie.db.profile.debugEnabled then
                         QuestieLoader:PopulateGlobals()
                     end
                 end,
@@ -118,13 +118,13 @@ function QuestieOptions.tabs.advanced:Initialize()
             debugEnabledPrint = {
                 type = "toggle",
                 order = 2.3,
-                disabled = function() return not Questie.db.global.debugEnabled; end,
+                disabled = function() return not Questie.db.profile.debugEnabled; end,
                 name = function() return l10n('Enable Debug').."-PRINT" end,
                 desc = function() return l10n('Enable or disable debug functionality.').."-PRINT" end,
                 width = "full",
-                get = function () return Questie.db.global.debugEnabledPrint; end,
+                get = function () return Questie.db.profile.debugEnabledPrint; end,
                 set = function (_, value)
-                    Questie.db.global.debugEnabledPrint = value
+                    Questie.db.profile.debugEnabledPrint = value
                 end,
             },
             debugLevel = {
@@ -139,22 +139,22 @@ function QuestieOptions.tabs.advanced:Initialize()
                 order = 2.4,
                 name = function() return l10n('Debug level to print'); end,
                 width = "normal",
-                disabled = function() return not Questie.db.global.debugEnabled; end,
+                disabled = function() return not Questie.db.profile.debugEnabled; end,
                 get = function(_, key)
                     --Questie:Debug(Questie.DEBUG_SPAM, "Debug Key:", key, math.pow(2, key), state.option.values[key])
-                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Level:", Questie.db.global.debugLevel, bit.band(Questie.db.global.debugLevel, math.pow(2, key)))
-                    return bit.band(Questie.db.global.debugLevel, math.pow(2, key)) > 0
+                    --Questie:Debug(Questie.DEBUG_SPAM, "Debug Level:", Questie.db.profile.debugLevel, bit.band(Questie.db.profile.debugLevel, math.pow(2, key)))
+                    return bit.band(Questie.db.profile.debugLevel, math.pow(2, key)) > 0
                 end,
                 set = function (_, value)
-                    local currentValue = Questie.db.global.debugLevel
+                    local currentValue = Questie.db.profile.debugLevel
                     local flag = math.pow(2, value)
                     --Questie:Debug(Questie.DEBUG_SPAM, "Setting Debug:", currentValue, flag, bit.band(currentValue, flag)>0)
                     -- When current debug level is active, remove it
                     if (bit.band(currentValue, flag) > 0) then
-                        Questie.db.global.debugLevel = bit.bxor(flag, currentValue)
+                        Questie.db.profile.debugLevel = bit.bxor(flag, currentValue)
                     -- When current debug level is inactive, add it
                     else
-                        Questie.db.global.debugLevel = bit.bor(flag, currentValue)
+                        Questie.db.profile.debugLevel = bit.bor(flag, currentValue)
                     end
                 end,
             },

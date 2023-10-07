@@ -153,6 +153,11 @@ function QuestieOptionsDefaults:Load()
             -- Migration
             migrationVersion = 0,
             globalMigrationSteps = {},
+
+            debugEnabled = false,
+            debugEnabledPrint = false,
+            debugLevel = 0,
+            skipValidation = false,
         },
         char = {
             complete = {},
@@ -171,11 +176,6 @@ function QuestieOptionsDefaults:Load()
             -- TBC Isle of Quel'Danas
             isleOfQuelDanasPhase = 1,
             isIsleOfQuelDanasPhaseReminderDisabled = false,
-            --
-            debugEnabled = false,
-            debugEnabledPrint = false,
-            debugLevel = 0,
-            skipValidation = false,
             --
             lastDailyRequestResetTime = 0,
             lastDailyRequestDate = "",

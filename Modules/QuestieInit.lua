@@ -112,7 +112,7 @@ local function runValidator()
         return
     end
     -- Run validator
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         coYield()
         print("Validating NPCs...")
         QuestieDBCompiler:ValidateNPCs()
@@ -192,7 +192,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     QuestieDB:Initialize()
 
     --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
-    if Questie.db.global.debugEnabled and dbCompiled then
+    if Questie.db.profile.debugEnabled and dbCompiled then
         runValidator()
         print("\124cFF4DDBFF Load and Validation complete...")
     end
@@ -306,7 +306,7 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieMenu:OnLogin()
 
     coYield()
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         QuestieLoader:PopulateGlobals()
     end
 

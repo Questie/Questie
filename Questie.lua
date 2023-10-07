@@ -124,14 +124,14 @@ function Questie:Error(...)
 end
 
 function Questie:Warning(...)
-    if Questie.db.global.debugEnabled then -- prints regardless of "debugPrint" toggle
+    if Questie.db.profile.debugEnabled then -- prints regardless of "debugPrint" toggle
         Questie:Print("|cffffff00[WARNING]|r", ...)
     end
 end
 
 function Questie:Debug(...)
-    if (Questie.db.global.debugEnabled) then
-        local optionsDebugLevel = Questie.db.global.debugLevel
+    if (Questie.db.profile.debugEnabled) then
+        local optionsDebugLevel = Questie.db.profile.debugLevel
         local msgDebugLevel = select(1, ...)
         -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
         -- DEBUG_CRITICAL = 0
@@ -145,7 +145,7 @@ function Questie:Debug(...)
         if ((band(optionsDebugLevel, 2 ^ 1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
         if ((band(optionsDebugLevel, 2 ^ 0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
-        if Questie.db.global.debugEnabledPrint then
+        if Questie.db.profile.debugEnabledPrint then
             Questie:Print(...)
         end
     end

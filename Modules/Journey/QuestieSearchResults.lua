@@ -259,7 +259,7 @@ function QuestieSearchResults:QuestDetailsFrame(details, id)
     end
     QuestieJourneyUtils:AddLine(details, "")
 
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         QuestieJourneyUtils:AddLine(details, recurseTable(QuestieDB:GetQuest(id), QuestieDB.questKeys))
     end
 end
@@ -407,7 +407,7 @@ function QuestieSearchResults:SpawnDetailsFrame(f, spawn, spawnType)
 
     QuestieJourneyUtils:Spacer(f);
 
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         if spawnType == "npc" then
             QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetNPC(spawn), QuestieDB.npcKeys))
         elseif spawnType == "object" then
@@ -553,7 +553,7 @@ function QuestieSearchResults:ItemDetailsFrame(f, itemId)
         end
     end
 
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         QuestieJourneyUtils:AddLine(f, recurseTable(QuestieDB:GetItem(itemId), QuestieDB.itemKeys))
     end
     -- Fix for sometimes the scroll content will max out and not show everything until window is resized

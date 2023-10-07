@@ -895,7 +895,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
     local index = 0
 
     local pointerMap = {}
-    local stream = Questie.db.global.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
+    local stream = Questie.db.profile.debugEnabled and QuestieStream:GetStream("raw_assert") or QuestieStream:GetStream("raw")
 
     -- Localize functions
     local pcall, type = pcall, type
@@ -904,7 +904,7 @@ function QuestieDBCompiler:CompileTableCoroutine(tbl, types, order, lookup, data
 
     while true do
         coroutine.yield()
-        for _=0,Questie.db.global.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
+        for _=0,Questie.db.profile.debugEnabled and TICKS_PER_YIELD_DEBUG or (entriesPerTick or TICKS_PER_YIELD) do
             index = index + 1
             if index == count then
                 Questie.db.global[databaseKey.."Bin"] = stream:Save()
