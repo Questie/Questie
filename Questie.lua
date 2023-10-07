@@ -1,11 +1,3 @@
--- Global debug levels, see bottom of this file and `debugLevel` in QuestieOptionsAdvanced.lua for relevant code
--- When adding a new level here it MUST be assigned a number and name in `debugLevel.values` as well added to Questie:Debug below
-Questie.DEBUG_CRITICAL = "|cff00f2e6[CRITICAL]|r"
-Questie.DEBUG_ELEVATED = "|cffebf441[ELEVATED]|r"
-Questie.DEBUG_INFO = "|cff00bc32[INFO]|r"
-Questie.DEBUG_DEVELOP = "|cff7c83ff[DEVELOP]|r"
-Questie.DEBUG_SPAM = "|cffff8484[SPAM]|r"
-
 local band = bit.band
 
 -------------------------
@@ -129,25 +121,31 @@ function Questie:Warning(...)
     end
 end
 
-function Questie:Debug(...)
+-- Global debug levels
+-- When adding a new level here it MUST be assigned a corresponding number and name in
+-- `debugLevel.values` of QuestieOptionsAdvanced.lua as well as text in Questie:Debug below
+Questie.DEBUG_CRITICAL = 2 ^ 0
+Questie.DEBUG_ELEVATED = 2 ^ 1
+Questie.DEBUG_INFO = 2 ^ 2
+Questie.DEBUG_DEVELOP = 2 ^ 3
+Questie.DEBUG_SPAM = 2 ^ 4
+
+function Questie:Debug(msgDebugLevel, ...)
     if (Questie.db.profile.debugEnabled) then
         local optionsDebugLevel = Questie.db.profile.debugLevel
-        local msgDebugLevel = select(1, ...)
-        -- Exponents are defined by `debugLevel.values` in QuestieOptionsAdvanced.lua
-        -- DEBUG_CRITICAL = 0
-        -- DEBUG_ELEVATED = 1
-        -- DEBUG_INFO = 2
-        -- DEBUG_DEVELOP = 3
-        -- DEBUG_SPAM = 4
-        if ((band(optionsDebugLevel, 2 ^ 4) == 0) and (msgDebugLevel == Questie.DEBUG_SPAM)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 3) == 0) and (msgDebugLevel == Questie.DEBUG_DEVELOP)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 2) == 0) and (msgDebugLevel == Questie.DEBUG_INFO)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 1) == 0) and (msgDebugLevel == Questie.DEBUG_ELEVATED)) then return; end
-        if ((band(optionsDebugLevel, 2 ^ 0) == 0) and (msgDebugLevel == Questie.DEBUG_CRITICAL)) then return; end
 
-        if Questie.db.profile.debugEnabledPrint then
-            Questie:Print(...)
+        if (band(optionsDebugLevel, msgDebugLevel) == 0) or (not Questie.db.profile.debugEnabledPrint) then
+            return
         end
+
+        local prefix = ""
+        if (band(msgDebugLevel, Questie.DEBUG_CRITICAL) ~= 0) then prefix = prefix.."|cff00f2e6[CRITICAL]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_ELEVATED) ~= 0) then prefix = prefix.."|cffebf441[ELEVATED]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_INFO) ~= 0) then prefix = prefix.."|cff00bc32[INFO]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_DEVELOP) ~= 0) then prefix = prefix.."|cff7c83ff[DEVELOP]|r" end
+        if (band(msgDebugLevel, Questie.DEBUG_SPAM) ~= 0) then prefix = prefix.."|cffff8484[SPAM]|r" end
+
+        Questie:Print(prefix, ...)
     end
 end
 
