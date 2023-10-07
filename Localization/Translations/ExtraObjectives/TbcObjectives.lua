@@ -926,6 +926,18 @@ local tbcObjectiveLocales = {
         ["zhTW"] = false,
         ["zhCN"] = "先击杀大量的拉扎安虚灵来引出来节点亲王拉扎安",
     },
+    ["Kill the 3 Shadowmoon Soulstealers to force Shadowlord Deathwail to land"] = { -- 10707
+        ["ptBR"] = false,
+        ["ruRU"] = false,
+        ["deDE"] = false,
+        ["koKR"] = false,
+        ["esMX"] = false,
+        ["enUS"] = true,
+        ["frFR"] = false,
+        ["esES"] = false,
+        ["zhTW"] = false,
+        ["zhCN"] = false,
+    },
     ["Sign Tally's Waiver, then speak with Rally Zapnabber to use the Zephyrium Capacitorium"] = { -- 10710
         ["ptBR"] = false,
         ["ruRU"] = false,
