@@ -1871,6 +1871,80 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.objectives] = {{{21050,"Earthen Soul Captured"},{21061,"Fiery Soul Captured"}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use the Totem of Spirits on Enraged Earth and Fiery Spirits"), 0, {{"monster", 21050}, {"monster", 21061}}}},
         },
+        [10460] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10467,
+        },
+        [10461] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10465,
+        },
+        [10462] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10466,
+        },
+        [10463] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 10464,
+        },
+        [10464] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [10465] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,3000},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [10466] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,3000},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [10467] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,3000},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
+        },
+        [10468] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [10469] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [10470] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,9000},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [10471] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,9000},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
+        },
+        [10472] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 11103,
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [10473] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 11104,
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [10474] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.requiredMinRep] = {990,21000},
+            [questKeys.nextQuestInChain] = 11105,
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [10475] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.nextQuestInChain] = 11106,
+            [questKeys.exclusiveTo] = {10461,10462,10463},
+        },
         [10476] = {
             [questKeys.requiredMinRep] = {978,0},
         },
@@ -2731,6 +2805,30 @@ function QuestieTBCQuestFixes:Load()
         },
         [11102] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_SLAY, l10n("Use the Skyguard Bombs to destroy 15 Fel Cannonball Stacks"), 0, {{"object", 185861}}}},
+        },
+        [11103] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10472},
+            [questKeys.exclusiveTo] = {10460,10461,10462},
+        },
+        [11104] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10473},
+            [questKeys.exclusiveTo] = {10460,10462,10463},
+        },
+        [11105] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10474},
+            [questKeys.exclusiveTo] = {10460,10461,10463},
+        },
+        [11106] = {
+            [questKeys.startedBy] = {{19935,19936}},
+            [questKeys.finishedBy] = {{19935,19936}},
+            [questKeys.preQuestSingle] = {10475},
+            [questKeys.exclusiveTo] = {10461,10462,10463},
         },
         [11108] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
