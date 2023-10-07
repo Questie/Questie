@@ -28,6 +28,10 @@ function QuestieWotlkObjectFixes:Load()
             [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{43,56.3},{43.1,56.8},{43.6,57.3},},},
             [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
+        [188066] = {
+            [objectKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{53.64,24.53}}},
+            [objectKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
         [188474] = {
             [objectKeys.spawns] = {[zoneIDs.DRAGONBLIGHT] = {{32.29,71.72}}},
         },
