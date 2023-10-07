@@ -39,6 +39,7 @@ local QuestieQuest = QuestieLoader:ImportModule("QuestieQuest")
 local _QuestieQuest = QuestieQuest.private
 
 local tinsert = table.insert
+local bitband = bit.band
 
 -- questFlags https://github.com/cmangos/issues/wiki/Quest_template#questflags
 local QUEST_FLAGS_DAILY = 4096
@@ -293,7 +294,7 @@ end
 ---@return boolean
 function QuestieDB.IsRepeatable(questId)
     local flags = QuestieDB.QueryQuestSingle(questId, "specialFlags")
-    return flags and (flags % 2) == 1
+    return flags and bitband(flags, 1) ~= 0
 end
 
 ---@param questId number
@@ -762,7 +763,7 @@ function QuestieDB.GetQuest(questId) -- /dump QuestieDB.GetQuest(867)
     QO.isHidden = rawdata.hidden or QuestieCorrections.hiddenQuests[questId]
     QO.Description = QO.objectivesText
     if QO.specialFlags then
-        QO.IsRepeatable = (QO.specialFlags % 2) == 1
+        QO.IsRepeatable = bitband(QO.specialFlags, 1) ~= 0
     end
 
     QO.IsComplete = _IsComplete
