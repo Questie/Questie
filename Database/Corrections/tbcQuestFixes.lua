@@ -2686,7 +2686,7 @@ function QuestieTBCQuestFixes:Load()
         },
         [11064] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Murg \"Oldie\" Muckjaw Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.76,85.05}}}},
+            [questKeys.objectives] = {{{23340,"Murg \"Oldie\" Muckjaw Defeated"}}},
         },
         [11065] = {
             [questKeys.requiredLevel] = 70,
@@ -2698,23 +2698,23 @@ function QuestieTBCQuestFixes:Load()
         },
         [11067] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Trope the Filth-Belcher Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.75,85}}}},
+            [questKeys.objectives] = {{{23342,"Trope the Filth-Belcher Defeated"}}},
         },
         [11068] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Corlok the Vet Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.72,84.75}}}},
+            [questKeys.objectives] = {{{23344,"Corlok the Vet Defeated"}}},
         },
         [11069] = {
             [questKeys.startedBy] = {{23345},nil,nil},
-            [questKeys.triggerEnd] = {"Wing Commander Ichman Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,85.09}}}},
+            [questKeys.objectives] = {{{23345,"Wing Commander Ichman Defeated"}}},
         },
         [11070] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Wing Commander Mulverick Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.77,84.36}}}},
+            [questKeys.objectives] = {{{23346,"Wing Commander Mulverick Defeated"}}},
         },
         [11071] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.triggerEnd] = {"Captain Skyshatter Defeated", {[zoneIDs.SHADOWMOON_VALLEY]={{64.71,85.05}}}},
+            [questKeys.objectives] = {{{23348,"Captain Skyshatter Defeated"}}},
         },
         [11073] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use a Time-Lost offering to summon Terokk"), 0, {{"object", 185928}}}},
