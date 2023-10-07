@@ -1615,12 +1615,21 @@ function QuestieWotlkQuestFixes:Load()
         [12500] = {
             [questKeys.preQuestSingle] = {12498},
         },
+        [12501] = {
+            [questKeys.childQuests] = {12502,12509,12519,12541},
+        },
+        [12502] = {
+            [questKeys.parentQuest] = 12501,
+        },
         [12503] = {
             [questKeys.preQuestSingle] = {12795},
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28023,28026,28246,28669,28022},28022,"Scourge at The Argent Stand destroyed"}}},
         },
         [12506] = {
             [questKeys.triggerEnd] = {"Main building at the Altar of Sseratus investigated.",{[zoneIDs.ZUL_DRAK]={{40.32,39.46,},},},},
+        },
+        [12509] = {
+            [questKeys.parentQuest] = 12501,
         },
         [12512] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{28133,28136},28133},{{28141,28142},28141},{{28143,28148},28143}}},
@@ -1630,6 +1639,9 @@ function QuestieWotlkQuestFixes:Load()
         [12516] = {
             [questKeys.objectives] = {{{28068}}},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Muddled Mojo on Prophet of Sseratus before killing it"), 0, {{"monster", 28068}}}},
+        },
+        [12519] = {
+            [questKeys.parentQuest] = 12501,
         },
         [12520] = {
             [questKeys.preQuestSingle] = {},
@@ -1683,6 +1695,15 @@ function QuestieWotlkQuestFixes:Load()
         [12561] = {
             [questKeys.requiredSpell] = 54197,
         },
+        [12563] = {
+            [questKeys.childQuests] = {12541,12564,12568,12585},
+        },
+        [12564] = {
+            [questKeys.parentQuest] = 12563,
+        },
+        [12568] = {
+            [questKeys.parentQuest] = 12563,
+        },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
         },
@@ -1704,6 +1725,12 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12584] = {
             [questKeys.preQuestGroup] = {12552},
+        },
+        [12585] = {
+            [questKeys.parentQuest] = 12563,
+        },
+        [12587] = {
+            [questKeys.childQuests] = {12541,12588,12591,12594},
         },
         [12589] = {
             [questKeys.preQuestSingle] = {},
