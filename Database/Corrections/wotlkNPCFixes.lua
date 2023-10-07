@@ -1351,6 +1351,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.DALARAN] = {{49.5,62.6}}}, -- Oracle Orphan
             [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
+        [33537] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{52.8,9},{53.6,8.6},{53.8,8.4}}},
+            [npcKeys.zoneID] = zoneIDs.ICECROWN,
+        },
         [33695] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN]={{44.2,32.4},{44.2,32.6},{44.2,33.6},{44.4,31.4},{44.6,32},{44.6,34.2},{44.8,31.4},{45.6,32},{46.6,32.4},{46.8,32.6},{46.8,33.6}}},
             [npcKeys.zoneID] = zoneIDs.ICECROWN,
