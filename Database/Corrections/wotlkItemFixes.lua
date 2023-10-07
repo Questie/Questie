@@ -123,9 +123,6 @@ function QuestieWotlkItemFixes:Load()
         [25658] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [32379] = {
-            [itemKeys.npcDrops] = {20216},
-        },
         [32906] = {
             [itemKeys.npcDrops] = {23487},
         },
@@ -246,9 +243,6 @@ function QuestieWotlkItemFixes:Load()
         },
         [35685] = {
             [itemKeys.npcDrops] = {},
-        },
-        [35687] = {
-            [itemKeys.objectDrops] = {188141},
         },
         [35692] = {
             [itemKeys.npcDrops] = {26200},
@@ -395,6 +389,9 @@ function QuestieWotlkItemFixes:Load()
         [41399] = {
             [itemKeys.npcDrops] = {},
         },
+        [42107] = {
+            [itemKeys.npcDrops] = {16570,21223,24228,24229,24271,24316,24601,25415,25707,25709,25715,26045,26283,26284,26316,26347,26407,26421,27254,27382,28069,28118,28323,28546,28584,28784,28826,28858,28862,28877,29013,29124,29313,29436,29504,29624,29844,30040,30053,30160,30184,30387,30872,30873,30875,30876,30877},
+        },
         [42203] = {
             [itemKeys.npcDrops] = {29380},
             [itemKeys.startQuest] = 12979,
@@ -428,6 +425,9 @@ function QuestieWotlkItemFixes:Load()
         },
         [43494] = {
             [itemKeys.npcDrops] = {31104},
+        },
+        [43511] = {
+            [itemKeys.npcDrops] = {30329},
         },
         [43512] = {
             [itemKeys.npcDrops] = {30329},

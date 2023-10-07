@@ -95,7 +95,7 @@ function QuestEventHandler:RegisterEvents()
                 end
 
                 if (not isHeader) then
-                    quest = QuestieDB:GetQuest(questId)
+                    quest = QuestieDB.GetQuest(questId)
 
                     if quest then
                         local info = StaticPopupDialogs[which]
