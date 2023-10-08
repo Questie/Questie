@@ -901,10 +901,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11788] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),0,{{"object", 187984}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),1,{{"object", 187985}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),2,{{"object", 187986}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),3,{{"object", 187987}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),1,{{"object", 187984}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),2,{{"object", 187985}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),3,{{"object", 187986}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),4,{{"object", 187987}}},
             },
         },
         [11798] = {
