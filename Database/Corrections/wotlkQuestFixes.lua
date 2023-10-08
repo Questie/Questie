@@ -871,6 +871,9 @@ function QuestieWotlkQuestFixes:Load()
         [11688] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11694] = {
+            [questKeys.objectives] = {nil,{{187879,"Plague Cauldron Neutralized"}}},
+        },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
         },
