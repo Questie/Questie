@@ -894,6 +894,9 @@ function QuestieWotlkQuestFixes:Load()
         [11712] = {
             [questKeys.objectives] = {nil,nil,nil,nil,{{{25814},25814,"Fizzcrank Gnome cursed & ported"}}},
         },
+        [11713] = {
+            [questKeys.preQuestSingle] = {11796},
+        },
         [11719] = {
             [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA]={{52.07,52.46,},},},},
         },
