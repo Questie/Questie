@@ -830,6 +830,9 @@ function QuestieWotlkQuestFixes:Load()
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [11610] = {
+            [questKeys.objectives] = {nil,{{191088,"Elder Kesuk's ceremony completed"},{191089,"Elder Sagani's ceremony completed"},{191090,"Elder Takret's ceremony completed"}}},
+        },
         [11611] = {
             [questKeys.objectives] = {{{25284,"Warsong Peon Freed"}}},
         },
