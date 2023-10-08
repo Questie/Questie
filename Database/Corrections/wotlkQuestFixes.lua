@@ -900,6 +900,9 @@ function QuestieWotlkQuestFixes:Load()
         [11719] = {
             [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA]={{52.07,52.46,},},},},
         },
+        [11723] = {
+            [questKeys.objectives] = {{{25768},{25794,"Deploy the Shake-n-Quake 5000"}}},
+        },
         [11728] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Throw Wolf Bait"),0,{{"monster", 25791}}}},
         },
