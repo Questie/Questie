@@ -3670,6 +3670,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13600] = {
             [questKeys.exclusiveTo] = {13603,13616},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13603] = {
             [questKeys.exclusiveTo] = {13600,13616},
@@ -3754,6 +3755,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.exclusiveTo] = {13673,13675},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13675] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
@@ -3870,6 +3872,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13742] = {
             [questKeys.exclusiveTo] = {13741,13743},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13743] = {
             [questKeys.exclusiveTo] = {13741,13742},
@@ -3884,6 +3887,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13747] = {
             [questKeys.exclusiveTo] = {13746,13748},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13748] = {
             [questKeys.exclusiveTo] = {13746,13747},
@@ -3898,6 +3902,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13753] = {
             [questKeys.exclusiveTo] = {13752,13754},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13754] = {
             [questKeys.exclusiveTo] = {13752,13753},
@@ -3912,6 +3917,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13758] = {
             [questKeys.exclusiveTo] = {13757,13759},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13759] = {
             [questKeys.exclusiveTo] = {13757,13758},
@@ -3926,6 +3932,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13763] = {
             [questKeys.exclusiveTo] = {13762,13764},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13764] = {
             [questKeys.exclusiveTo] = {13762,13763},
@@ -3940,6 +3947,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13769] = {
             [questKeys.exclusiveTo] = {13768,13770},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13770] = {
             [questKeys.exclusiveTo] = {13768,13769},
@@ -3954,6 +3962,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13774] = {
             [questKeys.exclusiveTo] = {13773,13775},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13775] = {
             [questKeys.exclusiveTo] = {13773,13774},
@@ -3968,6 +3977,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13779] = {
             [questKeys.exclusiveTo] = {13778,13780},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13780] = {
             [questKeys.exclusiveTo] = {13778,13779},
@@ -3982,6 +3992,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13784] = {
             [questKeys.exclusiveTo] = {13783,13785},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13785] = {
             [questKeys.exclusiveTo] = {13783,13784},
