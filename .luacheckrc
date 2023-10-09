@@ -2734,6 +2734,7 @@ globals = {
     "WorldMapTooltip",
     "WorldMapFrameCloseButton",
     "WorldMapContinentDropDown",
+    "WorldMapQuestShowObjectives",
     "WorldStateScoreFrame",
     "ZoneTextFrame",
     "GameFontHighlightLarge",
