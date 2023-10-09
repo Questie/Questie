@@ -4,8 +4,6 @@ local QuestieTBCItemFixes = QuestieLoader:CreateModule("QuestieTBCItemFixes")
 ---@type QuestieDB
 local QuestieDB = QuestieLoader:ImportModule("QuestieDB")
 
-QuestieDB.fakeTbcItemStartId = 60000
-
 function QuestieTBCItemFixes:Load()
     local itemKeys = QuestieDB.itemKeys
 
@@ -483,8 +481,6 @@ function QuestieTBCItemFixes:Load()
             [itemKeys.subClass] = 0,
             [itemKeys.vendors] = {24495,27489},
         },
-
-        -- Below are fake items which can be used to show special quest "objectives" as requiredSourceItem.
     }
 end
 
