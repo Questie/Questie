@@ -5137,6 +5137,28 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectives] = {nil,{{400012, "Spend 5 Talent Points"}},nil,nil,nil},
             [questKeys.zoneOrSort] = 1519,
         },
+        [78752] = {
+            [questKeys.name] = "Proof of Demise: Titan Rune Protocol Gamma",
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"The Lich King's presence mustn't extend any further!","","The Council of Six has decreed that any strong enough fighter should take up arms and aid in keeping Azeroth safe"},
+            [questKeys.objectives] = {nil,nil,{{211206}}},
+            [questKeys.zoneOrSort] = 4395,
+        },
+        [78753] = {
+            [questKeys.name] = "Proof of Demise: Threats to Azeroth",
+            [questKeys.startedBy] = {{20735},nil,nil},
+            [questKeys.finishedBy] = {{20735},nil,nil},
+            [questKeys.requiredLevel] = 80,
+            [questKeys.questLevel] = 80,
+            [questKeys.requiredRaces] = raceIDs.NONE,
+            [questKeys.objectivesText] = {"We must continue putting pressure on all fronts!","","The Council of Six has decreed that any willing fighter should take up arms and aid in keeping Azeroth safe!"},
+            [questKeys.objectives] = {nil,nil,{{211207}}},
+            [questKeys.zoneOrSort] = 4395,
+        },
     }
 end
 
@@ -5164,4 +5186,8 @@ function _QuestieWotlkQuestFixes:InsertMissingQuestIds()
 
     -- Neutral boosted quests
     QuestieDB.questData[70865] = {} -- To Shattrath City
+    
+    -- P4 quests
+    QuestieDB.questData[78752] = {} -- Proof of Demise: Titan Rune Protocol Gamma
+    QuestieDB.questData[78753] = {} -- Proof of Demise: Threats to Azeroth
 end
