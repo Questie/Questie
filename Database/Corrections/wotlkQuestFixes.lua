@@ -3722,7 +3722,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13593] = { -- HUMAN Valiant Of Stormwind
             [questKeys.preQuestSingle] = {13725,13713,13723,13724},
-            [questKeys.exclusiveTo] = {13684,13686},
+            [questKeys.exclusiveTo] = {13684},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13600] = { -- HUMAN A Worthy Weapon
@@ -3872,22 +3872,22 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13703] = { -- DWARF Valiant Of Ironforge
             [questKeys.preQuestSingle] = {13699,13725,13724,13723},
-            [questKeys.exclusiveTo] = {13685,13686},
+            [questKeys.exclusiveTo] = {13685},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13704] = { -- GNOME Valiant Of Gnomeregan
             [questKeys.preQuestSingle] = {13699,13725,13713,13724},
-            [questKeys.exclusiveTo] = {13688,13686},
+            [questKeys.exclusiveTo] = {13688},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13705] = { -- DRAENEI Valiant Of The Exodar
             [questKeys.preQuestSingle] = {13699,13725,13713,13723},
-            [questKeys.exclusiveTo] = {13690,13686},
+            [questKeys.exclusiveTo] = {13690},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13706] = { -- NIGHT ELF Valiant Of Darnassus
             [questKeys.preQuestSingle] = {13699,13724,13713,13723},
-            [questKeys.exclusiveTo] = {13689,13686},
+            [questKeys.exclusiveTo] = {13689},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13713] = { -- DWARF The Valiant's Challenge
