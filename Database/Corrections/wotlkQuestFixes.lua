@@ -5183,6 +5183,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectivesText] = {"The Lich King's presence mustn't extend any further!","","The Council of Six has decreed that any strong enough fighter should take up arms and aid in keeping Azeroth safe"},
             [questKeys.objectives] = {nil,nil,{{211206}}},
             [questKeys.zoneOrSort] = 4395,
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
         },
         [78753] = {
             [questKeys.name] = "Proof of Demise: Threats to Azeroth",
@@ -5194,6 +5196,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.objectivesText] = {"We must continue putting pressure on all fronts!","","The Council of Six has decreed that any willing fighter should take up arms and aid in keeping Azeroth safe!"},
             [questKeys.objectives] = {nil,nil,{{211207}}},
             [questKeys.zoneOrSort] = 4395,
+            [questKeys.questFlags] = 4232,
+            [questKeys.specialFlags] = 1,
         },
     }
 end
