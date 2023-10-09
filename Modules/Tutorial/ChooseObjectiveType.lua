@@ -27,12 +27,13 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     baseFrame:SetBackdropBorderColor(1, 1, 1, 1)
 
     local titleText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-    titleText:SetText("Welcome to Questie")
+    titleText:SetText(l10n("Welcome to Questie"))
     titleText:SetFont("Fonts\\FRIZQT__.TTF", 16)
     titleText:SetPoint("TOP", 0, -10)
 
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-    customText:SetText("With Wotlk Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective type you want to use:")
+    -- TODO: l10n of this text
+    customText:SetText("With Wotlk Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:")
     customText:SetPoint("TOP", 0, -35)
 
     local onlyQuestieImage = baseFrame:CreateTexture(nil, "OVERLAY")
