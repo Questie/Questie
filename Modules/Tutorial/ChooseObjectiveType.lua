@@ -33,7 +33,7 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
 
     local customText = baseFrame:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     -- TODO: l10n of this text
-    customText:SetText("With Wotlk Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:")
+    customText:SetText("With WotLK Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:")
     customText:SetPoint("TOP", 0, -35)
 
     local onlyQuestieImage = baseFrame:CreateTexture(nil, "OVERLAY")
