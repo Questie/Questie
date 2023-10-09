@@ -5180,7 +5180,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredLevel] = 80,
             [questKeys.questLevel] = 80,
             [questKeys.requiredRaces] = raceIDs.NONE,
-            [questKeys.objectivesText] = {"The Lich King's presence mustn't extend any further!","","The Council of Six has decreed that any strong enough fighter should take up arms and aid in keeping Azeroth safe"},
+            [questKeys.objectivesText] = {"The Lich King's presence mustn't extend any further!","","The Council of Six has decreed that any strong enough fighter should take up arms and aid in keeping Azeroth safe!"},
             [questKeys.objectives] = {nil,nil,{{211206}}},
             [questKeys.zoneOrSort] = 4395,
             [questKeys.questFlags] = 4232,
