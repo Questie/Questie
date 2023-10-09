@@ -3715,17 +3715,37 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.exclusiveTo] = {13603,13616},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
-        [13603] = {
-            [questKeys.exclusiveTo] = {13600,13616},
+        [13592] = { -- HUMAN A Valiant's Field Training
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.exclusiveTo] = {13699},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13593] = { -- HUMAN Valiant Of Stormwind
+            [questKeys.preQuestSingle] = {13725,13713,13723,13724},
+            [questKeys.exclusiveTo] = {13684,13686},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13600] = { -- HUMAN A Worthy Weapon
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.exclusiveTo] = {13603,13616,13699},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13603] = { -- HUMAN A Blade Fit For A Champion
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.exclusiveTo] = {13600,13616,13699},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13607] = {
             [questKeys.triggerEnd] = {"Entrance to Celestial Planetarium located",{[zoneIDs.THE_ARCHIVUM]={{60,46.3}},[zoneIDs.ULDUAR]={{-1,-1}}}},
             [questKeys.preQuestSingle] = {13604},
         },
-        [13616] = {
-            [questKeys.exclusiveTo] = {13600,13603},
+        [13616] = { -- HUMAN The Edge Of Winter
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.exclusiveTo] = {13600,13603,13699},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13625] = {
             [questKeys.objectives] = {{{33229,"Use Thrust on Melee Target"},{33243,"Use Shield-Breaker on vulnerable Ranged Target"},{33272,"Use Charge on vulnerable Charge Target"}}},
@@ -3762,8 +3782,11 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Cavin"), 0, {{"monster", 33522}}},
             },
         },
-        [13665] = {
+        [13665] = { -- HUMAN The Grand Melee
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.exclusiveTo] = {13699},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33800}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13666] = {
             [questKeys.preQuestGroup] = {13828,13835,13837},
@@ -3839,40 +3862,85 @@ function QuestieWotlkQuestFixes:Load()
         [13682] = {
             [questKeys.preQuestSingle] = {13664},
         },
-        [13699] = {
+        [13699] = { -- HUMAN The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33800}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13713] = {
+        [13703] = { -- DWARF Valiant Of Ironforge
+            [questKeys.preQuestSingle] = {13699,13725,13724,13723},
+            [questKeys.exclusiveTo] = {13685,13686},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13704] = { -- GNOME Valiant Of Gnomeregan
+            [questKeys.preQuestSingle] = {13699,13725,13713,13724},
+            [questKeys.exclusiveTo] = {13688,13686},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13705] = { -- DRAENEI Valiant Of The Exodar
+            [questKeys.preQuestSingle] = {13699,13725,13713,13723},
+            [questKeys.exclusiveTo] = {13690,13686},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13706] = { -- NIGHT ELF Valiant Of Darnassus
+            [questKeys.preQuestSingle] = {13699,13724,13713,13723},
+            [questKeys.exclusiveTo] = {13689,13686},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13713] = { -- DWARF The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
+                {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}},
             },
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13723] = {
+        [13714] = { -- DWARF The Valiant's Charge
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13715] = { -- GNOME The Valiant's Charge
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13716] = { -- DRAENEI The Valiant's Charge
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13717] = { -- NIGHT ELF The Valiant's Charge
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13718] = { -- HUMAN The Valiant's Charge
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13723] = { -- GNOME The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33793}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13724] = {
+        [13724] = { -- DRAENEI The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33790}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13725] = {
+        [13725] = { -- NIGHT ELF The Valiant's Challenge
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794}}},
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13726] = {
             [questKeys.objectives] = {{{33707,"Argent Champion defeated"}}},
@@ -3909,65 +3977,137 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak to Squire Danny"), 0, {{"monster", 33518}}},
             },
         },
-        [13741] = {
-            [questKeys.exclusiveTo] = {13742,13743},
+        [13741] = { -- DWARF A Blade Fit For A Champion
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.exclusiveTo] = {13713,13742,13743},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13742] = {
             [questKeys.exclusiveTo] = {13741,13743},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
-        [13743] = {
-            [questKeys.exclusiveTo] = {13741,13742},
+        [13742] = { -- DWARF A Worthy Weapon
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.exclusiveTo] = {13713,13741,13743},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13743] = { -- DWARF The Edge Of Winter
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.exclusiveTo] = {13713,13741,13742},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13745] = {
+        [13744] = { -- DWARF A Valiant's Field Training
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.exclusiveTo] = {13713},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13745] = { -- DWARF The Grand Melee
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.exclusiveTo] = {13713},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33795}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13746] = {
-            [questKeys.exclusiveTo] = {13747,13748},
+        [13746] = { -- GNOME A Blade Fit For A Champion
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.exclusiveTo] = {13723,13747,13748},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13747] = {
             [questKeys.exclusiveTo] = {13746,13748},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
-        [13748] = {
-            [questKeys.exclusiveTo] = {13746,13747},
+        [13747] = { -- GNOME A Worthy Weapon
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.exclusiveTo] = {13723,13746,13748},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13748] = { -- GNOME The Edge Of Winter
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.exclusiveTo] = {13723,13746,13747},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13750] = {
+        [13749] = { -- GNOME A Valiant's Field Training
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.exclusiveTo] = {13723},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13750] = { -- GNOME The Grand Melee
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.exclusiveTo] = {13723},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33793}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13752] = {
-            [questKeys.exclusiveTo] = {13753,13754},
+        [13752] = { -- DRAENEI A Blade Fit For A Champion
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.exclusiveTo] = {13724,13753,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13753] = {
             [questKeys.exclusiveTo] = {13752,13754},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
-        [13754] = {
-            [questKeys.exclusiveTo] = {13752,13753},
+        [13753] = { -- DRAENEI A Worthy Weapon
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.exclusiveTo] = {13724,13752,13754},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13754] = { -- DRAENEI The Edge Of Winter
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.exclusiveTo] = {13724,13752,13753},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13756] = {
+        [13755] = { -- DRAENEI A Valiant's Field Training
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.exclusiveTo] = {13724},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13756] = { -- DRAENEI The Grand Melee
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.exclusiveTo] = {13724},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33790}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13757] = {
-            [questKeys.exclusiveTo] = {13758,13759},
+        [13757] = { -- NIGHT ELF A Blade Fit For A Champion
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.exclusiveTo] = {13725,13758,13759},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Use Warts-B-Gone Lip Balm and /kiss a Lake Frog"), 0, {{"monster", 33224}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13758] = {
             [questKeys.exclusiveTo] = {13757,13759},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
-        [13759] = {
-            [questKeys.exclusiveTo] = {13757,13758},
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+        [13758] = { -- NIGHT ELF A Worthy Weapon
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.exclusiveTo] = {13725,13757,13759},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13761] = {
+        [13759] = { -- NIGHT ELF The Edge Of Winter
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.exclusiveTo] = {13725,13757,13758},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Everburning Ember"), 0, {{"monster", 33303}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13760] = { -- NIGHT ELF A Valiant's Field Training
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.exclusiveTo] = {13725},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
+        },
+        [13761] = { -- NIGHT ELF The Grand Melee
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.exclusiveTo] = {13725},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 33794}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13762] = {
             [questKeys.exclusiveTo] = {13763,13764},
@@ -4160,23 +4300,38 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {13700,13701},
             [questKeys.requiredMaxRep] = {1106,42000},
         },
-        [13847] = {
+        [13847] = { -- HUMAN At The Enemy's Gates
+            [questKeys.preQuestSingle] = {13684,13593},
+            [questKeys.exclusiveTo] = {13699},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13850] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Melee attack Venomhide Ravasaur"), 0, {{"monster", 6508}}}},
         },
-        [13851] = {
+        [13851] = { -- DWARF At The Enemy's Gates
+            [questKeys.preQuestSingle] = {13685,13703},
+            [questKeys.exclusiveTo] = {13713},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13852] = {
+        [13852] = { -- GNOME At The Enemy's Gates
+            [questKeys.preQuestSingle] = {13688,13704},
+            [questKeys.exclusiveTo] = {13723},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13854] = {
+        [13854] = { -- DRAENEI At The Enemy's Gates
+            [questKeys.preQuestSingle] = {13690,13705},
+            [questKeys.exclusiveTo] = {13724},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
-        [13855] = {
+        [13855] = { -- NIGHT ELF At The Enemy's Gates
+            [questKeys.preQuestSingle] = {13689,13706},
+            [questKeys.exclusiveTo] = {13725},
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13856] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_TALK, l10n("Mount up"), 0, {{"monster", 34125}}}},
