@@ -149,7 +149,7 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
 
         -- Quests treated as complete - zero objectives or synthetic objectives
-        elseif isComplete == 0 and QuestieDB:GetQuest(questId).isComplete == true then
+        elseif isComplete == 0 and QuestieDB.GetQuest(questId).isComplete == true then
             name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
     end
@@ -364,7 +364,7 @@ function QuestieLib:GetRaceString(raceMask)
 end
 
 function QuestieLib:CacheItemNames(questId)
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
     if (quest and quest.ObjectiveData) then
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then

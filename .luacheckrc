@@ -2698,6 +2698,7 @@ globals = {
     "TicketStatusFrame",
     "TimeAlertFrame",
     "TimeManagerFrame",
+    "TooltipBackdropTemplateMixin",
     "TradeFrame",
     "TradeSkillFrame",
     "TutorialFrame",

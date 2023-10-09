@@ -331,7 +331,7 @@ StaticPopupDialogs["QUESTIE_WOWHEAD_URL"] = {
     end,
     OnShow = function(self)
         local questID = self.text.text_arg1
-        local quest_wow = QuestieDB:GetQuest(questID)
+        local quest_wow = QuestieDB.GetQuest(questID)
         local name = quest_wow.name
 
         -- self.text:SetText(self.text:GetText() .. "\n\n|cffff7f00" .. name .. "|r")

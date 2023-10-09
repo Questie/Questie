@@ -77,7 +77,7 @@ function QuestieTooltips:RemoveQuest(questId)
     if QuestieTooltips.lookupKeysByQuestId[questId] then
         -- Remove tooltip related keys from quest table so that
         -- it can be readded/registered by other quest functions.
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if quest then
             for _, objective in pairs(quest.Objectives) do
