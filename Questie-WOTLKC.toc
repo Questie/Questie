@@ -1,4 +1,4 @@
-## Interface: 30402
+## Interface: 30403
 ## Title: Questie|cFF00FF00 v8.10.4|r
 ## Author: Aero/Logon/Muehe/TheCrux(BreakBB)/Drejjmit/Dyaxler/Schaka/Zoey/Everyone else
 ## Notes: A standalone Classic QuestHelper
