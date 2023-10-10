@@ -481,6 +481,9 @@ function QuestieQuest:AcceptQuest(questId)
     end
 end
 
+local questsForAllianceChampionMarker = {13699,13713,13723,13724,13725}
+local questsForHordeChampionMarker = {13726,13727,13728,13729,13731}
+
 ---@param questId number
 function QuestieQuest:CompleteQuest(questId)
     -- Skip quests which are turn in only and are not added to the quest log in the first place
@@ -494,6 +497,15 @@ function QuestieQuest:CompleteQuest(questId)
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
     Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
+
+    if questsForAllianceChampionMarker[questId] then
+        Questie.db.char.complete[13700] = true -- Alliance Champion Marker
+        Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+    elseif questsForHordeChampionMarker[questId] then
+        Questie.db.char.complete[13701] = true -- Horde Champion Marker
+        Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+    end
+
     QuestieMap:UnloadQuestFrames(questId)
 
     if (QuestieMap.questIdFrames[questId]) then
