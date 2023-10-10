@@ -566,6 +566,20 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.class] = 12,
             [itemKeys.flags] = 64,
         },
+        [211206] = {
+            [itemKeys.name] = 'Defiler\'s Medallion',
+            [itemKeys.relatedQuests] = {78752},
+            [itemKeys.class] = 12,
+            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658,36954},
+            [itemKeys.objectDrops] = {193597,193603},
+        },
+        [211207] = {
+            [itemKeys.name] = 'Mysterious Artifact',
+            [itemKeys.relatedQuests] = {78753},
+            [itemKeys.class] = 12,
+            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658,36954},
+            [itemKeys.objectDrops] = {193597,193603},
+        },
     }
 end
 
@@ -576,4 +590,6 @@ function _QuestieWotlkItemFixes:InsertMissingItemIds()
     QuestieDB.itemData[199777] = {} -- Teleport Scroll: Orgrimmar Zeppelin Tower
     QuestieDB.itemData[199778] = {} -- Teleport Scroll: Undercity Zeppelin Tower
     QuestieDB.itemData[200068] = {} -- Teleport Scroll: Shattrath City
+    QuestieDB.itemData[211206] = {} -- Defiler's Medallion
+    QuestieDB.itemData[211207] = {} -- Mysterious Artifact
 end
