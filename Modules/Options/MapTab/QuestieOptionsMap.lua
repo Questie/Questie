@@ -12,6 +12,8 @@ local QuestieCoords = QuestieLoader:ImportModule("QuestieCoords");
 local QuestieMap = QuestieLoader:ImportModule("QuestieMap");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 
 QuestieOptions.tabs.map = {...}
 local optionsDefaults = QuestieOptionsDefaults:Load()
@@ -38,11 +40,7 @@ function QuestieOptions.tabs.map:Initialize()
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)
 
-                    if value then
-                        Questie_Toggle:Show();
-                    else
-                        Questie_Toggle:Hide();
-                    end
+                    WorldMapButton.Toggle(value)
                 end,
             },
             alwaysGlowMap = {

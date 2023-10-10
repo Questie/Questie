@@ -2734,6 +2734,7 @@ globals = {
     "WorldMapTooltip",
     "WorldMapFrameCloseButton",
     "WorldMapContinentDropDown",
+    "WorldMapQuestShowObjectives",
     "WorldStateScoreFrame",
     "ZoneTextFrame",
     "GameFontHighlightLarge",
@@ -2776,6 +2777,7 @@ globals = {
     "FACTION_STANDING_CHANGED",
     -----------------------------------------------------> External Addons
     "AtlasToggleFromWorldMap",
+    "Krowi_WorldMapButtons1",
     "EasyMenu",
     "QuestLogEx",
     "QuestLogExFrame",
