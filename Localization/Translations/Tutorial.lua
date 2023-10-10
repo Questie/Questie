@@ -12,7 +12,7 @@ local tutorialLocals = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Bienvenue sur Questie",
     },
     ["With WotLK Phase 4 Blizzard introduced their own quest objective system.\n\nPlease choose the objective style you want to use:"] = {
         ["ptBR"] = nil,
@@ -24,7 +24,7 @@ local tutorialLocals = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Avec WotLK Phase 4, Blizzard a introduit son propre système d'objectifs de quête.\n\nVeuillez choisir le style d'objectif que vous souhaitez utiliser :",
     },
     ["Questie Objectives"] = {
         ["ptBR"] = nil,
@@ -36,7 +36,7 @@ local tutorialLocals = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objectifs de Questie",
     },
     ["pfQuest Objectives"] = {
         ["ptBR"] = nil,
@@ -48,7 +48,7 @@ local tutorialLocals = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objectifs de pfQuest",
     },
     ["Blizzard Objectives"] = {
         ["ptBR"] = nil,
@@ -60,7 +60,7 @@ local tutorialLocals = {
         ["zhCN"] = nil,
         ["zhTW"] = nil,
         ["esES"] = nil,
-        ["frFR"] = nil,
+        ["frFR"] = "Objectifs de Blizzard",
     }
 }
 
