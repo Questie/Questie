@@ -419,6 +419,9 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 end
 
+local allianceTournamentMarkerQuests = {13684,13685,13688,13689,13690,13593,13703,13704,13705,13706}
+local hordeTournamentMarkerQuests = {13691,13693,13694,13695,13696,13707,13708,13709,13710,13711}
+
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
     local quest = QuestieDB.GetQuest(questId)
@@ -447,6 +450,13 @@ function QuestieQuest:AcceptQuest(questId)
             Questie:Debug(Questie.DEBUG_INFO, "[QuestieQuest] Accepted Quest:", questId)
 
             QuestiePlayer.currentQuestlog[questId] = quest
+
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = true -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = true -- Horde Tournament Eligibility Marker
+            end
+
             TaskQueue:Queue(
             -- Get all the Frames for the quest and unload them, the available quest icon for example.
                 function() QuestieMap:UnloadQuestFrames(questId) end,
