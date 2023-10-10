@@ -37,17 +37,17 @@ function Tutorial.CreateChooseObjectiveTypeFrame()
     customText:SetPoint("TOP", 0, -35)
 
     local onlyQuestieImage = baseFrame:CreateTexture(nil, "OVERLAY")
-    onlyQuestieImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyQuestieV2.blp")
+    onlyQuestieImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyQuestie.blp")
     onlyQuestieImage:SetSize(220, 220)
     onlyQuestieImage:SetPoint("TOPLEFT", 20, -90)
 
     local pdfQuestImage = baseFrame:CreateTexture(nil, "OVERLAY")
-    pdfQuestImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\pfQuestV2.blp")
+    pdfQuestImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\pfQuest.blp")
     pdfQuestImage:SetSize(220, 220)
     pdfQuestImage:SetPoint("TOP", 0, -90)
 
     local onlyBlizzardImage = baseFrame:CreateTexture(nil, "OVERLAY")
-    onlyBlizzardImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyBlizzardV2.blp")
+    onlyBlizzardImage:SetTexture("Interface\\Addons\\Questie\\Modules\\Tutorial\\onlyBlizzard.blp")
     onlyBlizzardImage:SetSize(220, 220)
     onlyBlizzardImage:SetPoint("TOPRIGHT", -20, -90)
 
