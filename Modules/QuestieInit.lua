@@ -166,11 +166,6 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     coYield()
     Migration:Migrate()
 
-    if Questie.IsWotlk then
-        Tutorial.Initialize()
-        coYield()
-    end
-
     IsleOfQuelDanas.Initialize() -- This has to happen before option init
 
     QuestieProfessions:Init()
@@ -189,6 +184,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         l10n:Initialize()
         coYield()
         QuestieCorrections:MinimalInit()
+    end
+
+    if Questie.IsWotlk then
+        Tutorial.Initialize()
+        coYield()
     end
 
     if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
