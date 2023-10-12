@@ -247,7 +247,7 @@ end
 
 
 function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest, offset)
-    local questObject = QuestieDB:GetQuest(questId);
+    local questObject = QuestieDB.GetQuest(questId);
 
     local count = 0
 
@@ -278,7 +278,7 @@ function QuestieComms:PopulateQuestDataPacketV2_noclass_renameme(questId, quest,
 end
 
 function QuestieComms:PopulateQuestDataPacketV2(questId, quest, offset)
-    local questObject = QuestieDB:GetQuest(questId);
+    local questObject = QuestieDB.GetQuest(questId);
 
     local count = 0
 
@@ -756,7 +756,7 @@ end
 ---@param questId number
 ---@return QuestPacket
 function QuestieComms:CreateQuestDataPacket(questId)
-    local questObject = QuestieDB:GetQuest(questId);
+    local questObject = QuestieDB.GetQuest(questId);
 
     ---@class QuestPacket
     local quest = {

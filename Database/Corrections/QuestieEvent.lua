@@ -255,7 +255,6 @@ QuestieEvent.eventDates = {
         startDate = "21/11",
         endDate = "27/11"
     },
-    ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
     ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"}
 }

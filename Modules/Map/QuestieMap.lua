@@ -709,7 +709,7 @@ function QuestieMap:FindClosestStarter()
     local playerZone = HBD:GetPlayerWorldPosition();
     for questId in pairs(QuestiePlayer.currentQuestlog) do
         if (not closestStarter[questId]) then
-            local quest = QuestieDB:GetQuest(questId);
+            local quest = QuestieDB.GetQuest(questId);
             if quest then
                 closestStarter[questId] = {
                     distance = 999999,

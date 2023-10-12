@@ -71,6 +71,10 @@ local QuestieCombatQueue = QuestieLoader:ImportModule("QuestieCombatQueue")
 local QuestieSlash = QuestieLoader:ImportModule("QuestieSlash")
 ---@type QuestXP
 local QuestXP = QuestieLoader:ImportModule("QuestXP")
+---@type Tutorial
+local Tutorial = QuestieLoader:ImportModule("Tutorial")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 
 local coYield = coroutine.yield
 
@@ -182,6 +186,11 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         QuestieCorrections:MinimalInit()
     end
 
+    if Questie.IsWotlk then
+        Tutorial.Initialize()
+        coYield()
+    end
+
     if (not Questie.db.char.townsfolk) or Questie.db.global.dbCompiledCount ~= Questie.db.char.townsfolkVersion then
         Questie.db.char.townsfolkVersion = Questie.db.global.dbCompiledCount
         coYield()
@@ -230,39 +239,10 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     coYield()
 
-    -- Update the default text on the map show/hide button for localization
-    if Questie.db.char.enabled then
-        Questie_Toggle:SetText(l10n("Hide Questie"));
-    else
-        Questie_Toggle:SetText(l10n("Show Questie"));
-    end
-
-    -- Update status of Map button on hide between play sessions
-    if Questie.db.global.mapShowHideEnabled then
-        Questie_Toggle:Show();
-    else
-        Questie_Toggle:Hide();
-    end
-
-    -- Change position of Map button when continent dropdown is hidden
-    C_Timer.After(1, function()
-        if not WorldMapContinentDropDown:IsShown() then
-            Questie_Toggle:ClearAllPoints();
-            if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
-                AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
-                AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
-                Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
-            else
-                Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
-            end
-        end
-    end)
-
     if Questie.db.global.dbmHUDEnable then
         QuestieDBMIntegration:EnableHUD()
     end
     -- ** OLD ** Questie:ContinueInit() ** END **
-
 
     coYield()
     QuestEventHandler:RegisterEvents()
@@ -272,6 +252,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     coYield()
     QuestieQuest:Initialize()
+    coYield()
+    WorldMapButton.Initialize()
     coYield()
     QuestieQuest:GetAllQuestIdsNoObjectives()
     coYield()

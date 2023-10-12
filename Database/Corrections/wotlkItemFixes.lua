@@ -123,9 +123,6 @@ function QuestieWotlkItemFixes:Load()
         [25658] = {
             [itemKeys.class] = itemClasses.QUEST,
         },
-        [32379] = {
-            [itemKeys.npcDrops] = {20216},
-        },
         [32906] = {
             [itemKeys.npcDrops] = {23487},
         },
@@ -187,6 +184,9 @@ function QuestieWotlkItemFixes:Load()
         [34123] = {
             [itemKeys.objectDrops] = {186946},
         },
+        [34127] = {
+            [itemKeys.objectDrops] = {186949},
+        },
         [34133] = {
             [itemKeys.npcDrops] = {},
         },
@@ -208,14 +208,17 @@ function QuestieWotlkItemFixes:Load()
         [34714] = {
             [itemKeys.npcDrops] = {},
         },
-        [34786] = { -- #4681
-            [itemKeys.npcDrops] = {},
-        },
         [34774] = {
             [itemKeys.npcDrops] = {},
         },
+        [34786] = { -- #4681
+            [itemKeys.npcDrops] = {},
+        },
+        [34787] = {
+            [itemKeys.npcDrops] = {},
+        },
         [34842] = {
-            [itemKeys.npcDrops] = {25342},
+            [itemKeys.npcDrops] = {25342,25343},
         },
         [34909] = {
             [itemKeys.npcDrops] = {},
@@ -232,6 +235,9 @@ function QuestieWotlkItemFixes:Load()
         [35126] = {
             [itemKeys.npcDrops] = {25841},
         },
+        [35234] = {
+            [itemKeys.npcDrops] = {},
+        },
         [35276] = {
             [itemKeys.npcDrops] = {25841},
         },
@@ -246,9 +252,6 @@ function QuestieWotlkItemFixes:Load()
         },
         [35685] = {
             [itemKeys.npcDrops] = {},
-        },
-        [35687] = {
-            [itemKeys.objectDrops] = {188141},
         },
         [35692] = {
             [itemKeys.npcDrops] = {26200},
@@ -481,7 +484,7 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.npcDrops] = {32260},
         },
         [44981] = {
-            [itemKeys.npcDrops] = {33220},
+            [itemKeys.npcDrops] = {33224},
         },
         [45003] = {
             [itemKeys.npcDrops] = {33303},
@@ -569,6 +572,20 @@ function QuestieWotlkItemFixes:Load()
             [itemKeys.class] = 12,
             [itemKeys.flags] = 64,
         },
+        [211206] = {
+            [itemKeys.name] = 'Defiler\'s Medallion',
+            [itemKeys.relatedQuests] = {78752},
+            [itemKeys.class] = 12,
+            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658,36954},
+            [itemKeys.objectDrops] = {193597,193603},
+        },
+        [211207] = {
+            [itemKeys.name] = 'Mysterious Artifact',
+            [itemKeys.relatedQuests] = {78753},
+            [itemKeys.class] = 12,
+            [itemKeys.npcDrops] = {23954,26723,26861,26632,29306,27978,28923,29120,29311,31134,35451,36502,36658,36954},
+            [itemKeys.objectDrops] = {193597,193603},
+        },
     }
 end
 
@@ -579,4 +596,6 @@ function _QuestieWotlkItemFixes:InsertMissingItemIds()
     QuestieDB.itemData[199777] = {} -- Teleport Scroll: Orgrimmar Zeppelin Tower
     QuestieDB.itemData[199778] = {} -- Teleport Scroll: Undercity Zeppelin Tower
     QuestieDB.itemData[200068] = {} -- Teleport Scroll: Shattrath City
+    QuestieDB.itemData[211206] = {} -- Defiler's Medallion
+    QuestieDB.itemData[211207] = {} -- Mysterious Artifact
 end
