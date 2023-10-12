@@ -414,8 +414,15 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
         },
         [25794] = {
-            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7},},},
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{70.3,36.7}}},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [25834] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{64.57,23.2}}},
+            [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [25847] = {
+            [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA] = {{63.38,37.0}}},
         },
         [25889] = {
             [npcKeys.spawns] = {[zoneIDs.BLADES_EDGE_MOUNTAINS] = {{41.57,65.92}}},
@@ -1326,6 +1333,10 @@ function QuestieWotlkNpcFixes:Load()
         [33220] = {
             [npcKeys.spawns] = {[zoneIDs.GRIZZLY_HILLS]={{61.76,48.88}}},
             [npcKeys.zoneID] = zoneIDs.GRIZZLY_HILLS,
+        },
+        [33273] = {
+            [npcKeys.spawns] = {[zoneIDs.DRAGONBLIGHT]={{93.20,25.99}}},
+            [npcKeys.zoneID] = zoneIDs.DRAGONBLIGHT,
         },
         [33288] = {
             [npcKeys.spawns] = {[zoneIDs.THE_DESCENT_OF_MADNESS]={{68,40.2}},[zoneIDs.ULDUAR]={{-1,-1}}},
