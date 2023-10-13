@@ -4983,6 +4983,21 @@ function QuestieWotlkQuestFixes:Load()
         [24803] = {
             [questKeys.specialFlags] = 1,
         },
+        [24815] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24819] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24820] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24821] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24822] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
