@@ -12,7 +12,7 @@ local commsLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "任務位置提示插件 Questie 已有重要的更新版本!",
-        ["zhCN"] = "任务提示插件<Questie> 已发布重要的更新版本！",
+        ["zhCN"] = "任务提示插件 Questie 已发布重要的更新版本！",
     },
     ["Please update as soon as possible!"] = {
         ["ptBR"] = false,
@@ -36,7 +36,7 @@ local commsLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "你的任務位置提示插件 Questie 已經過期! ",
-        ["zhCN"] = "你的任务提示插件<Questie>已经过期！",
+        ["zhCN"] = "你的任务提示插件 Questie 已经过期！",
     },
     ["Please consider updating!"] = {
         ["ptBR"] = false,
@@ -60,7 +60,7 @@ local commsLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "你有不相容版本的 QuestieComms 訊息! 請更新插件!",
-        ["zhCN"] = "你有不兼容版本的<QuestieComms> 信息！请更新插件！",
+        ["zhCN"] = "你有不兼容版本的 QuestieComms 信息！请更新插件！",
     },
     ["  Yours: v"] = {
         ["ptBR"] = false,
@@ -84,7 +84,7 @@ local commsLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "是不相容版本的任務位置提示插件 Questie，QuestieComms 無法使用!",
-        ["zhCN"] = "是不兼容版本的任务提示插件<Questie>，<QuestieComms> 无法使用！",
+        ["zhCN"] = "是不兼容版本的任务提示插件 Questie和 QuestieComms 无法使用！",
     },
 }
 
