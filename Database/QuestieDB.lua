@@ -466,24 +466,13 @@ end
 ---@param preQuestSingle number[]
 ---@return boolean
 function QuestieDB:IsPreQuestSingleFulfilled(preQuestSingle)
-    if not preQuestSingle then
+    if (not preQuestSingle) then
         return true
     end
     for preQuestIndex=1, #preQuestSingle do
-    -- for _, preQuestId in pairs(preQuestSingle) do
         -- If a quest is complete the requirement is fulfilled
         if Questie.db.char.complete[preQuestSingle[preQuestIndex]] then
             return true
-        -- If one of the quests in the exclusive group is complete the requirement is fulfilled
-        else
-            local preQuestExclusiveQuestGroup = QuestieDB.QueryQuestSingle(preQuestSingle[preQuestIndex], "exclusiveTo")
-            if preQuestExclusiveQuestGroup then
-                for i=1, #preQuestExclusiveQuestGroup do
-                    if Questie.db.char.complete[preQuestExclusiveQuestGroup[i]] then
-                        return true
-                    end
-                end
-            end
         end
     end
     -- No preQuest is complete
