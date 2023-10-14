@@ -1714,7 +1714,7 @@ do
                             QuestieDB.activeChildQuests[childQuestId] = true
                             -- Draw them right away and skip all other irrelevant checks
                             NewThread(function()
-                                local quest = QuestieDB:GetQuest(childQuestId)
+                                local quest = QuestieDB.GetQuest(childQuestId)
                                 if (not quest.tagInfoWasCached) then
                                     QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
 
