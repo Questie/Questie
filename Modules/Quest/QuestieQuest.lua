@@ -1711,18 +1711,20 @@ do
                     local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
                     if childQuests then
                         for _, childQuestId in pairs(childQuests) do
-                            QuestieDB.activeChildQuests[childQuestId] = true
-                            -- Draw them right away and skip all other irrelevant checks
-                            NewThread(function()
-                                local quest = QuestieDB.GetQuest(childQuestId)
-                                if (not quest.tagInfoWasCached) then
-                                    QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
+                            if (not Questie.db.char.complete[childQuestId]) and (not QuestiePlayer.currentQuestlog[childQuestId]) then
+                                QuestieDB.activeChildQuests[childQuestId] = true
+                                -- Draw them right away and skip all other irrelevant checks
+                                NewThread(function()
+                                    local quest = QuestieDB.GetQuest(childQuestId)
+                                    if (not quest.tagInfoWasCached) then
+                                        QuestieDB.GetQuestTagInfo(childQuestId) -- cache to load in the tooltip
 
-                                    quest.tagInfoWasCached = true
-                                end
+                                        quest.tagInfoWasCached = true
+                                    end
 
-                                _QuestieQuest:DrawAvailableQuest(quest)
-                            end, 0)
+                                    _QuestieQuest:DrawAvailableQuest(quest)
+                                end, 0)
+                            end
                         end
                     end
                 --Check if we've already completed the quest and that it is not "manually" hidden and that the quest is not currently in the questlog.
