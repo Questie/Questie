@@ -48,6 +48,7 @@ local _DoYell
 --Channel types
 _QuestieComms.QC_WRITE_ALLGUILD = "GUILD"
 _QuestieComms.QC_WRITE_ALLGROUP = "PARTY"
+_QuestieComms.QC_WRITE_ALLINSTANCE = "INSTANCE_CHAT"
 _QuestieComms.QC_WRITE_ALLRAID = "RAID"
 _QuestieComms.QC_WRITE_WHISPER = "WHISPER"
 _QuestieComms.QC_WRITE_CHANNEL = "CHANNEL"
@@ -199,6 +200,8 @@ function _QuestieComms:BroadcastQuestUpdate(questId) -- broadcast quest update t
             questPacket.data.priority = "NORMAL";
             if partyType == "raid" then
                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
+            elseif partyType == "instance" then
+                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLINSTANCE
             else
                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
             end
@@ -223,6 +226,8 @@ function _QuestieComms:BroadcastQuestRemove(questId) -- broadcast quest update t
         questPacket.data.priority = "ALERT";
         if partyType == "raid" then
             questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
+        elseif partyType == "instance" then
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLINSTANCE
         else
             questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
         end
@@ -597,6 +602,9 @@ function _QuestieComms:BroadcastQuestLog(eventName, sendMode, targetPlayer) -- b
                             if partyType == "raid" then
                                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
                                 questPacket.data.priority = "BULK"
+                            elseif partyType == "instance" then
+                                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLINSTANCE
+                                questPacket.data.priority = "BULK" -- in case of battlegrounds
                             else
                                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
                                 questPacket.data.priority = "NORMAL"
@@ -715,6 +723,9 @@ function _QuestieComms:BroadcastQuestLogV2(eventName, sendMode, targetPlayer) --
                             if partyType == "raid" then
                                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID
                                 questPacket.data.priority = "BULK"
+                            elseif partyType == "instance" then
+                                questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLINSTANCE
+                                questPacket.data.priority = "BULK" -- in case of battlegrounds
                             else
                                 questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP
                                 questPacket.data.priority = "NORMAL"
@@ -742,12 +753,13 @@ function _QuestieComms:RequestQuestLog(eventName) -- broadcast quest update to g
         --Do we really need to make this?
         local questPacket = _QuestieComms:CreatePacket(_QuestieComms.QC_ID_REQUEST_FULL_QUESTLIST);
 
+        questPacket.data.priority = "NORMAL";
         if partyType == "raid" then
             questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLRAID;
-            questPacket.data.priority = "NORMAL";
+        elseif partyType == "instance" then
+            questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLINSTANCE
         else
             questPacket.data.writeMode = _QuestieComms.QC_WRITE_ALLGROUP;
-            questPacket.data.priority = "NORMAL";
         end
         questPacket:write();
     end

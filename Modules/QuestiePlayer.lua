@@ -72,6 +72,8 @@ end
 function QuestiePlayer:GetGroupType()
     if(UnitInRaid("player")) then
         return "raid";
+    elseif(IsInGroup(Enum.ChatChannelType.PublicParty)) then
+        return "instance";
     elseif(UnitInParty("player")) then
         return "party";
     else
