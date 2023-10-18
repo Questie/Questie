@@ -101,7 +101,7 @@ function _QuestieAnnounce:AnnounceToChannel(message)
     alreadySentBandaid[message] = true
 
     if IsInRaid() or IsInGroup() then
-        SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup() and "PARTY"))
+        SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and "INSTANCE_CHAT") or (IsInGroup() and "PARTY"))
     elseif Questie.db.char.questAnnounceLocally == true then
         Questie:Print(message)
     end
