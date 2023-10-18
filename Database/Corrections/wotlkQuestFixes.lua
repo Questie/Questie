@@ -5018,7 +5018,7 @@ function QuestieWotlkQuestFixes:Load()
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Festergut after getting hit by Gaseous Blight"), 0, {{"monster", 36626}}},
             },
         },
-        [24872] = {
+        [24880] = {
             [questKeys.startedBy] = {{38589}},
             [questKeys.finishedBy] = {{38017}},
         },
