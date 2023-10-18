@@ -92,6 +92,16 @@ function _QuestieAnnounce:AnnounceEnabledAndPlayerInChannel()
     end
 end
 
+function _QuestieAnnounce.GetChatMessageChannel()
+    if IsInRaid() then
+        return "RAID"
+    elseif IsInGroup() then
+        return Questie.IsWotlk and "INSTANCE_CHAT" or "PARTY"
+    else
+        return "PARTY"
+    end
+end
+
 function _QuestieAnnounce:AnnounceToChannel(message)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAnnounce] raw msg: ", message)
     if (not message) or alreadySentBandaid[message] or Questie.db.global.questieShutUp then
@@ -101,7 +111,7 @@ function _QuestieAnnounce:AnnounceToChannel(message)
     alreadySentBandaid[message] = true
 
     if IsInRaid() or IsInGroup() then
-        SendChatMessage(message, (IsInRaid() and "RAID") or (IsInGroup(LE_PARTY_CATEGORY_INSTANCE) and "INSTANCE_CHAT") or (IsInGroup() and "PARTY"))
+        SendChatMessage(message, _QuestieAnnounce.GetChatMessageChannel())
     elseif Questie.db.char.questAnnounceLocally == true then
         Questie:Print(message)
     end
