@@ -95,8 +95,8 @@ end
 function _QuestieAnnounce.GetChatMessageChannel()
     if IsInRaid() then
         return "RAID"
-    elseif IsInGroup() then
-        return Questie.IsWotlk and "INSTANCE_CHAT" or "PARTY"
+    elseif IsInGroup(LE_PARTY_CATEGORY_INSTANCE) then
+        return "INSTANCE_CHAT"
     else
         return "PARTY"
     end
