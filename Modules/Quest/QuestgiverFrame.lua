@@ -149,6 +149,10 @@ if GossipAvailableQuestButtonMixin then
     local oldAvailableSetup = GossipAvailableQuestButtonMixin.Setup
     function GossipAvailableQuestButtonMixin:Setup(...)
         oldAvailableSetup(self, ...)
+        if (not Questie.started) then
+            return
+        end
+
         if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
             local id = self.GetElementData().info.questID
             if id then
@@ -165,6 +169,10 @@ if GossipAvailableQuestButtonMixin then
     local oldActiveSetup = GossipActiveQuestButtonMixin.Setup
     function GossipActiveQuestButtonMixin:Setup(...)
         oldActiveSetup(self, ...)
+        if (not Questie.started) then
+            return
+        end
+
         if self.GetElementData ~= nil and Questie.db.char.enableQuestFrameIcons == true then
             local id = self.GetElementData().info.questID
             if id then
