@@ -180,6 +180,7 @@ ZoneDB.private.areaIdToUiMapId = {
     [4819] = 134, -- Utgarde Keep - Middle Level (fake ID for Utgarde Keep)
     [4820] = 185, -- Halls of Reflection - Dungeon
     [4821] = 135, -- Utgarde Keep - Upper Level (fake ID for Utgarde Keep)
+    [4830] = 190, -- Icecrown Citadel - Upper Spire (fake ID for ICC)
     [4987] = 200, -- The Ruby Sanctum - Raid
     --- These should not be needed from my limited testing
     -- [14284] = 114, -- Borean Tundra - Battleground
@@ -432,7 +433,7 @@ ZoneDB.private.uiMapIdToAreaId = {
     [187] = 4812, -- Icecrown Citadel - Raid
     [188] = 4812, -- Icecrown Citadel - Raid
     [189] = 4812, -- Icecrown Citadel - Raid
-    [190] = 4812, -- Icecrown Citadel - Raid
+    [190] = 4830, -- Icecrown Citadel - Uppe Spire (fake ID for ICC)
     [191] = 4812, -- Icecrown Citadel - Raid
     [192] = 4812, -- Icecrown Citadel - Raid
     [193] = 4812, -- Icecrown Citadel - Raid
@@ -2721,6 +2722,7 @@ ZoneDB.private.subZoneToParentZone = {
   [4823] = 4196, -- Drak'Tharon Keep - Upper Level (fake ID for Drak'Tharon Keep)
   [4824] = 4416, -- Gundrak - Upper Level (fake ID for Gundrak)
   [4825] = 4416, -- Gundrak - Lower Level (fake ID for Gundrak)
+  [4830] = 4812, -- Upper Spire -> Icecrown Citadel (fake ID for ICC)
   [4859] = 4896, -- The Frozen Throne -> The Frozen Throne
   [4862] = 210, -- The Frozen Halls -> Icecrown
   [4889] = 4893, -- The Frost Queen's Lair -> The Frost Queen's Lair
@@ -2936,6 +2938,8 @@ ZoneDB.private.zoneIDs = {
     TRIAL_OF_THE_CHAMPION = 4723,
     HROTHGARS_LANDING = 4742,
     ICECROWN_CITADEL = 4812,
+    -- Fake IDS for ICC
+    ICECROWN_CITADEL_UPPER_SPIRE = 4830, -- UiMapID 190
     -- Fake IDs for Ulduar
     THE_DESCENT_OF_MADNESS = 4659,
     THE_SPARK_OF_IMAGINATION = 4660,

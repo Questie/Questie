@@ -1608,6 +1608,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12498},
         },
         [12501] = {
+            [questKeys.finishedBy] = {{28039}},
+            [questKeys.exclusiveTo] = {12563,12587},
             [questKeys.childQuests] = {12502,12509,12519,12541},
         },
         [12502] = {
@@ -1688,6 +1690,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSpell] = 54197,
         },
         [12563] = {
+            [questKeys.finishedBy] = {{28039}},
+            [questKeys.exclusiveTo] = {12501,12587},
             [questKeys.childQuests] = {12541,12564,12568,12585},
         },
         [12564] = {
@@ -1695,6 +1699,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12568] = {
             [questKeys.parentQuest] = 12563,
+            [questKeys.objectives] = {{{28260,"Argent Footman Corpse Incinerated"}}},
         },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
@@ -1722,6 +1727,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 12563,
         },
         [12587] = {
+            [questKeys.exclusiveTo] = {12501,12563},
             [questKeys.childQuests] = {12541,12588,12591,12594},
         },
         [12589] = {
@@ -5000,6 +5006,21 @@ function QuestieWotlkQuestFixes:Load()
         },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24872] = {
+            [questKeys.startedBy] = {{38589}},
+            [questKeys.finishedBy] = {{38017}},
+        },
+        [24873] = {
+            [questKeys.triggerEnd] = {"Return with two strains of Blight", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{54,67.4}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Rotface after getting hit by Slime Spray"), 0, {{"monster", 36627}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Festergut after getting hit by Gaseous Blight"), 0, {{"monster", 36626}}},
+            },
+        },
+        [24880] = {
+            [questKeys.startedBy] = {{38589}},
+            [questKeys.finishedBy] = {{38017}},
         },
 
         ----- Boosted character quests -----

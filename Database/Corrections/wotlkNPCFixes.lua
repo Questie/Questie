@@ -1420,6 +1420,12 @@ function QuestieWotlkNpcFixes:Load()
         [35451] = {
             [npcKeys.spawns] = {[zoneIDs.TRIAL_OF_THE_CHAMPION]={{51,52.4},{-1,-1}}},
         },
+        [36626] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,65.4}}},
+        },
+        [36627] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,41.8}}},
+        },
         [37172] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
