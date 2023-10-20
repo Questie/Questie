@@ -42,4 +42,5 @@
     <Script file="StaticPopup.lua"/>
     <Script file="TooltipsUI.lua"/>
     <Script file="TrackerUI.lua"/>
+    <Script file="Tutorial.lua"/>
 </Ui>

@@ -443,30 +443,6 @@ function QuestieWotlkQuestFixes:Load()
         [11010] = {
             [questKeys.requiredClasses] = classIDs.WARLOCK + classIDs.ROGUE + classIDs.MAGE + classIDs.PRIEST + classIDs.WARRIOR + classIDs.PALADIN + classIDs.HUNTER + classIDs.SHAMAN + classIDs.DEATH_KNIGHT,
         },
-        [11103] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10472},
-            [questKeys.exclusiveTo] = {10460,10461,10462},
-        },
-        [11104] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10473},
-            [questKeys.exclusiveTo] = {10460,10462,10463},
-        },
-        [11105] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10474},
-            [questKeys.exclusiveTo] = {10460,10461,10463},
-        },
-        [11106] = {
-            [questKeys.startedBy] = {{19935,19936}},
-            [questKeys.finishedBy] = {{19935,19936}},
-            [questKeys.preQuestSingle] = {10475},
-            [questKeys.exclusiveTo] = {10461,10462,10463},
-        },
         [11117] = {
             [questKeys.startedBy] = {{23486}},
             [questKeys.finishedBy] = {{23486}},
@@ -854,6 +830,9 @@ function QuestieWotlkQuestFixes:Load()
         [11606] = {
             [questKeys.preQuestSingle] = {11595,11596,11597},
         },
+        [11610] = {
+            [questKeys.objectives] = {nil,{{191088,"Elder Kesuk's ceremony completed"},{191089,"Elder Sagani's ceremony completed"},{191090,"Elder Takret's ceremony completed"}}},
+        },
         [11611] = {
             [questKeys.objectives] = {{{25284,"Warsong Peon Freed"}}},
         },
@@ -879,6 +858,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11670] = {
             [questKeys.objectives] = {{{25430,"Warsong Banner Planted in Magmothregar"},},nil,{{34870,nil},},nil,},
+            [questKeys.requiredSourceItems] = {34869},
         },
         [11671] = {
             [questKeys.extraObjectives] = {
@@ -892,6 +872,9 @@ function QuestieWotlkQuestFixes:Load()
         [11688] = {
             [questKeys.preQuestSingle] = {},
         },
+        [11694] = {
+            [questKeys.objectives] = {nil,{{187879,"Plague Cauldron Neutralized"}}},
+        },
         [11704] = {
             [questKeys.preQuestSingle] = {11708},
         },
@@ -903,16 +886,22 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use The Horn of Elemental Fury near the southern sinkhole"),0,{{"monster", 25664}}}},
         },
         [11708] = {
-            [questKeys.triggerEnd] = {"Fizzcrank's tale listened to.",{[zoneIDs.BOREAN_TUNDRA]={{57.01,18.69,},},},},
+            [questKeys.objectives] = {{{25590,"Fizzcrank's tale listened to."}}},
         },
         [11711] = {
             [questKeys.triggerEnd] = {"Alliance Deserter Delivered",{[zoneIDs.BOREAN_TUNDRA]={{55.28,50.86,},},},},
         },
         [11712] = {
-            [questKeys.objectives] = {nil,nil,nil,nil,{{{25765,25767,25783,25814,26601,26619},25814,"Fizzcrank Gnome cursed & ported"}}},
+            [questKeys.objectives] = {nil,nil,nil,nil,{{{25814},25814,"Fizzcrank Gnome cursed & ported"}}},
+        },
+        [11713] = {
+            [questKeys.preQuestSingle] = {11796},
         },
         [11719] = {
             [questKeys.triggerEnd] = {"Bloodspore Flower Used",{[zoneIDs.BOREAN_TUNDRA]={{52.07,52.46,},},},},
+        },
+        [11723] = {
+            [questKeys.objectives] = {{{25768},{25794,"Deploy the Shake-n-Quake 5000"}}},
         },
         [11728] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Throw Wolf Bait"),0,{{"monster", 25791}}}},
@@ -922,10 +911,10 @@ function QuestieWotlkQuestFixes:Load()
         },
         [11788] = {
             [questKeys.extraObjectives] = {
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),0,{{"object", 187984}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),1,{{"object", 187985}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),2,{{"object", 187986}}},
-                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),3,{{"object", 187987}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),1,{{"object", 187984}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),2,{{"object", 187985}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),3,{{"object", 187986}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Use Valve"),4,{{"object", 187987}}},
             },
         },
         [11798] = {
@@ -943,7 +932,10 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Deliver the orphan to Khu'nok"),0,{{"monster", 25861}}}},
         },
         [11879] = {
-            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Wooly Mammoth Bull to assist in killing Kaw the Mammoth Destroyer"),0,{{"monster", 25743}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Mount Wooly Mammoth Bull to assist in killing Kaw the Mammoth Destroyer"),0,{{"monster", 25743}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Kill Kaw the Mammoth Destroyer"), 0, {{"monster", 25802}}},
+            },
         },
         [11880] = {
             [questKeys.requiredRaces] = raceIDs.NONE,
@@ -1616,6 +1608,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {12498},
         },
         [12501] = {
+            [questKeys.finishedBy] = {{28039}},
+            [questKeys.exclusiveTo] = {12563,12587},
             [questKeys.childQuests] = {12502,12509,12519,12541},
         },
         [12502] = {
@@ -1696,6 +1690,8 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.requiredSpell] = 54197,
         },
         [12563] = {
+            [questKeys.finishedBy] = {{28039}},
+            [questKeys.exclusiveTo] = {12501,12587},
             [questKeys.childQuests] = {12541,12564,12568,12585},
         },
         [12564] = {
@@ -1703,6 +1699,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12568] = {
             [questKeys.parentQuest] = 12563,
+            [questKeys.objectives] = {{{28260,"Argent Footman Corpse Incinerated"}}},
         },
         [12569] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Use Sandfern Disguise near the fallen log"), 0, {{"object", 190545}}}},
@@ -1730,6 +1727,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.parentQuest] = 12563,
         },
         [12587] = {
+            [questKeys.exclusiveTo] = {12501,12563},
             [questKeys.childQuests] = {12541,12588,12591,12594},
         },
         [12589] = {
@@ -3715,6 +3713,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13600] = {
             [questKeys.exclusiveTo] = {13603,13616},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13603] = {
             [questKeys.exclusiveTo] = {13600,13616},
@@ -3799,6 +3798,7 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestGroup] = {13829,13838,13839},
             [questKeys.exclusiveTo] = {13673,13675},
             [questKeys.parentQuest] = 0,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13675] = {
             [questKeys.preQuestGroup] = {13829,13838,13839},
@@ -3915,6 +3915,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13742] = {
             [questKeys.exclusiveTo] = {13741,13743},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13743] = {
             [questKeys.exclusiveTo] = {13741,13742},
@@ -3929,6 +3930,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13747] = {
             [questKeys.exclusiveTo] = {13746,13748},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13748] = {
             [questKeys.exclusiveTo] = {13746,13747},
@@ -3943,6 +3945,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13753] = {
             [questKeys.exclusiveTo] = {13752,13754},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13754] = {
             [questKeys.exclusiveTo] = {13752,13753},
@@ -3957,6 +3960,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13758] = {
             [questKeys.exclusiveTo] = {13757,13759},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13759] = {
             [questKeys.exclusiveTo] = {13757,13758},
@@ -3971,6 +3975,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13763] = {
             [questKeys.exclusiveTo] = {13762,13764},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13764] = {
             [questKeys.exclusiveTo] = {13762,13763},
@@ -3985,6 +3990,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13769] = {
             [questKeys.exclusiveTo] = {13768,13770},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13770] = {
             [questKeys.exclusiveTo] = {13768,13769},
@@ -3999,6 +4005,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13774] = {
             [questKeys.exclusiveTo] = {13773,13775},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13775] = {
             [questKeys.exclusiveTo] = {13773,13774},
@@ -4013,6 +4020,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13779] = {
             [questKeys.exclusiveTo] = {13778,13780},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13780] = {
             [questKeys.exclusiveTo] = {13778,13779},
@@ -4027,6 +4035,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13784] = {
             [questKeys.exclusiveTo] = {13783,13785},
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Place the flower offering"), 0, {{"monster", 33273}}}},
         },
         [13785] = {
             [questKeys.exclusiveTo] = {13783,13784},
@@ -4980,8 +4989,38 @@ function QuestieWotlkQuestFixes:Load()
         [24803] = {
             [questKeys.specialFlags] = 1,
         },
+        [24815] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24819] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24820] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24821] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
+        [24822] = {
+            [questKeys.requiredMinRep] = {1156,3000},
+        },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
+        },
+        [24872] = {
+            [questKeys.startedBy] = {{38589}},
+            [questKeys.finishedBy] = {{38017}},
+        },
+        [24873] = {
+            [questKeys.triggerEnd] = {"Return with two strains of Blight", {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{54,67.4}}}},
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Rotface after getting hit by Slime Spray"), 0, {{"monster", 36627}}},
+                {nil, Questie.ICON_TYPE_SLAY, l10n("Defeat Festergut after getting hit by Gaseous Blight"), 0, {{"monster", 36626}}},
+            },
+        },
+        [24880] = {
+            [questKeys.startedBy] = {{38589}},
+            [questKeys.finishedBy] = {{38017}},
         },
 
         ----- Boosted character quests -----
