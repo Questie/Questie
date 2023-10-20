@@ -41,6 +41,10 @@ local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu")
 local l10n = QuestieLoader:ImportModule("l10n")
 ---@type QuestLogCache
 local QuestLogCache = QuestieLoader:ImportModule("QuestLogCache")
+---@type ThreadLib
+local ThreadLib = QuestieLoader:ImportModule("ThreadLib")
+---@type WorldMapButton
+local WorldMapButton = QuestieLoader:ImportModule("WorldMapButton")
 ---@type AvailableQuests
 local AvailableQuests = QuestieLoader:ImportModule("AvailableQuests")
 
@@ -49,6 +53,8 @@ local tostring = tostring;
 local tinsert = table.insert;
 local pairs = pairs;
 local ipairs = ipairs;
+local yield = coroutine.yield
+local NewThread = ThreadLib.ThreadSimple
 
 local NOP_FUNCTION = function()
 end
@@ -96,10 +102,7 @@ function QuestieQuest:ToggleNotes(showIcons)
 end
 
 function _QuestieQuest:ShowQuestIcons()
-    -- change map button
-    if Questie.db.char.enabled then
-        Questie_Toggle:SetText(l10n("Hide Questie"));
-    end
+    WorldMapButton.UpdateText()
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
@@ -145,9 +148,7 @@ function _QuestieQuest:ShowManualIcons()
 end
 
 function _QuestieQuest:HideQuestIcons()
-    if (not Questie.db.char.enabled) then
-        Questie_Toggle:SetText(l10n("Show Questie"));
-    end
+    WorldMapButton.UpdateText()
 
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked
@@ -187,7 +188,7 @@ end
 
 function QuestieQuest:ClearAllNotes()
     for questId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if not quest then
             return
@@ -216,7 +217,7 @@ end
 
 function QuestieQuest:ClearAllToolTips()
     for questId in pairs(QuestiePlayer.currentQuestlog) do
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if not quest then
             return
@@ -266,7 +267,7 @@ end
 -- This is only needed for SmoothReset(), normally special objectives don't need to update
 ---@param questId number
 local function _UpdateSpecials(questId)
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
     if quest and next(quest.SpecialObjectives) then
         for _, objective in pairs(quest.SpecialObjectives) do
             local result, err = xpcall(QuestieQuest.PopulateObjective, ERR_FUNCTION, QuestieQuest, quest, 0, objective, true)
@@ -407,7 +408,7 @@ end
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
     local complete = quest:IsComplete()
 
     if quest then
@@ -479,7 +480,7 @@ function QuestieQuest:CompleteQuest(questId)
 
     -- Only quests that are daily quests or aren't repeatable should be marked complete,
     -- otherwise objectives for repeatable quests won't track correctly - #1433
-    Questie.db.char.complete[questId] = QuestieDB.IsDailyQuest(questId) or (not QuestieDB.IsRepeatable(questId));
+    Questie.db.char.complete[questId] = (not QuestieDB.IsRepeatable(questId)) or QuestieDB.IsDailyQuest(questId) or QuestieDB.IsWeeklyQuest(questId);
     QuestieMap:UnloadQuestFrames(questId)
 
     if (QuestieMap.questIdFrames[questId]) then
@@ -503,7 +504,7 @@ function QuestieQuest:AbandonedQuest(questId)
     if (QuestiePlayer.currentQuestlog[questId]) then
         QuestiePlayer.currentQuestlog[questId] = nil
         QuestieMap:UnloadQuestFrames(questId)
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
 
         if quest then
             -- Reset quest objectives
@@ -512,6 +513,14 @@ function QuestieQuest:AbandonedQuest(questId)
             -- Reset quest flags
             quest.WasComplete = nil
             quest.isComplete = nil
+
+            local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
+            if childQuests then
+                for _, childQuestId in pairs(childQuests) do
+                    Questie.db.char.complete[childQuestId] = nil
+                    QuestLogCache.RemoveQuest(childQuestId)
+                end
+            end
         end
 
         AvailableQuests.UnloadUndoable()
@@ -533,7 +542,7 @@ function QuestieQuest:UpdateQuest(questId)
     Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieQuest:UpdateQuest]", questId)
 
     ---@type Quest
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
 
     if quest and (not Questie.db.char.complete[questId]) then
         QuestieQuest:PopulateQuestLogInfo(quest)
@@ -627,7 +636,7 @@ end
 
 ---@param questId number
 function QuestieQuest:SetObjectivesDirty(questId)
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
 
     if quest then
         for _, objective in pairs(quest.Objectives) do
@@ -650,7 +659,7 @@ function QuestieQuest:GetAllQuestIds()
             end
         else
             --Keep the object in the questlog to save searching
-            local quest = QuestieDB:GetQuest(questId)
+            local quest = QuestieDB.GetQuest(questId)
 
             if quest then
                 local complete = quest:IsComplete()
@@ -779,7 +788,7 @@ function QuestieQuest:GetAllQuestIdsNoObjectives()
             end
         else
             --Keep the object in the questlog to save searching
-            local quest = QuestieDB:GetQuest(questId)
+            local quest = QuestieDB.GetQuest(questId)
             if quest then
                 QuestiePlayer.currentQuestlog[questId] = quest
                 quest.LocalizedName = data.title
@@ -823,7 +832,7 @@ end
 ---@param makeObjective boolean @If set to true, then this will create an incomplete objective for the missing quest item
 ---@return boolean @Returns true if quest.sourceItemId matches an item in a players bag
 function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
     local sourceItem = true
     if quest.sourceItemId > 0 then
         for bag = -2, 4 do
@@ -1508,7 +1517,7 @@ end
 
 function QuestieQuest.DrawDailyQuest(questId)
     if QuestieDB.IsDoable(questId) then
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
         AvailableQuests.DrawAvailableQuest(quest)
     end
 end

@@ -4,6 +4,35 @@ QuestieCompat = {}
 
 local errorMsg = "Questie tried to call a blizzard API function that does not exist..."
 
+------------------------------------------
+-- Older client compatibility (pre 1.14.1)
+------------------------------------------
+
+-- Add missing Seasons object, if not available (e.g. 1.14.0 and below is missing it)
+if not C_Seasons then
+    C_Seasons = {
+        ---[C_Seasons.HasActiveSeason Documentation](https://wowpedia.fandom.com/wiki/API_C_Seasons.HasActiveSeason)
+        ---Returns true if the player is on a seasonal realm.
+        HasActiveSeason = function()
+            return false
+        end,
+        ---[C_Seasons.GetActiveSeason Documentation](https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason)
+        ---Returns the ID of the season that is active on the current realm.
+        GetActiveSeason = function()
+            return 0
+        end
+    }
+end
+
+-- Specific subclass of this mixin was added in a minor version and is missing in earlier patches, functionality this makes next to no visual difference
+if not TooltipBackdropTemplateMixin then
+    TooltipBackdropTemplateMixin = BackdropTemplateMixin
+end
+
+-------------------------------------------
+-- API difference compatibility (Era/Wotlk)
+-------------------------------------------
+
 ---[SetMinResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)
 ---[SetMaxResize Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMaxResize)
 ---[SetResizeBounds Documentation](https://wowpedia.fandom.com/wiki/API_Frame_SetMinResize)

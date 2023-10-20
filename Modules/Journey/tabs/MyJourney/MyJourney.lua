@@ -94,7 +94,7 @@ function _QuestieJourney.myJourney:ManageTree(container)
                         state = "ERROR!!";
                     end
 
-                    local quest = QuestieDB:GetQuest(entry.Quest)
+                    local quest = QuestieDB.GetQuest(entry.Quest)
                     if quest then
                         local qName = quest.name;
                         header:SetText(l10n('Quest %s: %s', state, qName));

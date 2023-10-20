@@ -219,7 +219,7 @@ item = function(itemId, objective)
                                 icon = Questie.ICON_TYPE_OBJECT
                                 GetIconScale = _GetIconScaleForObject
                             else
-                                icon = ((not QuestieDB.fakeTbcItemStartId) or itemId < QuestieDB.fakeTbcItemStartId) and Questie.ICON_TYPE_LOOT or Questie.ICON_TYPE_EVENT
+                                icon = Questie.ICON_TYPE_LOOT
                                 GetIconScale = _GetIconScaleForLoot
                             end
 

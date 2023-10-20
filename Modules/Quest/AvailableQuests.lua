@@ -39,7 +39,7 @@ local dungeons = ZoneDB:GetDungeons()
 ---@param questId number
 local function _DrawAvailableQuest(questId)
     NewThread(function()
-        local quest = QuestieDB:GetQuest(questId)
+        local quest = QuestieDB.GetQuest(questId)
         if (not quest.tagInfoWasCached) then
             QuestieDB.GetQuestTagInfo(questId) -- cache to load in the tooltip
 
@@ -126,10 +126,12 @@ local function _CalculateAvailableQuests()
             local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
-                    QuestieDB.activeChildQuests[childQuestId] = true
-                    availableQuests[childQuestId] = true
-                    -- Draw them right away and skip all other irrelevant checks
-                    _DrawAvailableQuest(childQuestId)
+                    if (not completedQuests[childQuestId]) and (not currentQuestlog[childQuestId]) then
+                        QuestieDB.activeChildQuests[childQuestId] = true
+                        availableQuests[childQuestId] = true
+                        -- Draw them right away and skip all other irrelevant checks
+                        _DrawAvailableQuest(childQuestId)
+                    end
                 end
             end
             if QuestieDB.IsComplete(questId) ~= -1 then -- The quest in the quest log is not failed, so we don't show it as available

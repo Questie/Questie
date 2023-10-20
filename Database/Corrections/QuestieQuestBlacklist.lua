@@ -1150,8 +1150,6 @@ function QuestieQuestBlacklist:Load()
         ----- Wotlk -------------- Wotlk quests --------------- Wotlk -----
         ----- Wotlk ------------- starting here -------------- Wotlk -----
 
-        [10884] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
-        [10885] = QuestieCorrections.WOTLK_ONLY, -- no longer exists in wotlk
         [10888] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13430
         [10901] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 13431
         [6144] = QuestieCorrections.WOTLK_ONLY, -- Got replaced by 14349
@@ -1364,53 +1362,55 @@ function QuestieQuestBlacklist:Load()
         --[14140] = true, --* Stop The Aggressors (https://www.wowhead.com/wotlk/quest=14140) (Retail Data)
 
         --- Phase 4 Icecrown Citadel
-        [24506] = true, -- Inside the Frozen Citadel (H)
-        [24510] = true, -- Inside the Frozen Citadel (A)
-        [26012] = true, -- Trouble at Wyrmrest
-        [26013] = true, -- Assault on the Sanctum
-        [24554] = true, -- The Battered Hilt (H)
-        [14443] = true, -- The Battered Hilt (A)
-        [24555] = true, -- What The Dragons Know (H)
-        [14444] = true, -- What The Dragons Know (A)
-        [24557] = true, -- The Silver Covenant's Scheme (H)
-        [14457] = true, -- The Sunreaver Plan (A)
-        [24556] = true, -- A Suitable Disguise (H)
-        [20438] = true, -- A Suitable Disguise (A)
-        [24451] = true, -- An Audience With The Arcanist (H)
-        [20439] = true, -- A Meeting With The Magister (A)
-        [24558] = true, -- Return To Myralion Sunblaze (H)
-        [24454] = true, -- Return To Caladis Brightspear (A)
-        [24559] = true, -- Reforging The Sword (H)
-        [24461] = true, -- Reforging The Sword (A)
-        [24560] = true, -- Tempering The Blade (H)
-        [24476] = true, -- Tempering The Blade (A)
-        [24561] = true, -- The Halls Of Reflection (H)
-        [24480] = true, -- The Halls Of Reflection (A)
-        [24562] = true, -- Journey To The Sunwell (H)
-        [24522] = true, -- Journey To The Sunwell (A)
-        [24563] = true, -- Thalorien Dawnseeker (H)
-        [24535] = true, -- Thalorien Dawnseeker (A)
-        [24564] = true, -- The Purification of Quel'Delar (H)
-        [24553] = true, -- The Purification of Quel'Delar (A)
-        [24594] = true, -- The Purification of Quel'Delar (H Belf)
-        [24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
-        [24598] = true, -- The Purification of Quel'Delar (H ?)
-        [24801] = true, -- A Victory For The Sunreavers (H)
-        [24796] = true, -- A Victory For The Silver Covenant (A)
+        --[24506] = true, -- Inside the Frozen Citadel (H)
+        --[24510] = true, -- Inside the Frozen Citadel (A)
+        --[24554] = true, -- The Battered Hilt (H)
+        --[14443] = true, -- The Battered Hilt (A)
+        --[24555] = true, -- What The Dragons Know (H)
+        --[14444] = true, -- What The Dragons Know (A)
+        --[24557] = true, -- The Silver Covenant's Scheme (H)
+        --[14457] = true, -- The Sunreaver Plan (A)
+        --[24556] = true, -- A Suitable Disguise (H)
+        --[20438] = true, -- A Suitable Disguise (A)
+        --[24451] = true, -- An Audience With The Arcanist (H)
+        --[20439] = true, -- A Meeting With The Magister (A)
+        --[24558] = true, -- Return To Myralion Sunblaze (H)
+        --[24454] = true, -- Return To Caladis Brightspear (A)
+        --[24559] = true, -- Reforging The Sword (H)
+        --[24461] = true, -- Reforging The Sword (A)
+        --[24560] = true, -- Tempering The Blade (H)
+        --[24476] = true, -- Tempering The Blade (A)
+        --[24561] = true, -- The Halls Of Reflection (H)
+        --[24480] = true, -- The Halls Of Reflection (A)
+        --[24562] = true, -- Journey To The Sunwell (H)
+        --[24522] = true, -- Journey To The Sunwell (A)
+        --[24563] = true, -- Thalorien Dawnseeker (H)
+        --[24535] = true, -- Thalorien Dawnseeker (A)
+        --[24564] = true, -- The Purification of Quel'Delar (H)
+        --[24553] = true, -- The Purification of Quel'Delar (A)
+        --[24594] = true, -- The Purification of Quel'Delar (H Belf)
+        --[24595] = true, -- The Purification of Quel'Delar (A Druid/Priest/Shaman)
+        --[24598] = true, -- The Purification of Quel'Delar (H ?)
+        --[24801] = true, -- A Victory For The Sunreavers (H)
+        --[24796] = true, -- A Victory For The Silver Covenant (A)
 
         -- new raid weekly quests
-        [24579] = true,
-        [24580] = true,
-        [24581] = true,
-        [24582] = true,
-        [24583] = true,
-        [24584] = true,
-        [24585] = true,
-        [24586] = true,
-        [24587] = true,
-        [24588] = true,
-        [24589] = true,
-        [24590] = true,
+        --[24579] = true,
+        --[24580] = true,
+        --[24581] = true,
+        --[24582] = true,
+        --[24583] = true,
+        --[24584] = true,
+        --[24585] = true,
+        --[24586] = true,
+        --[24587] = true,
+        --[24588] = true,
+        --[24589] = true,
+        --[24590] = true,
+
+        --- Phase 5 Ruby Sanctum
+        [26012] = true, -- Trouble at Wyrmrest
+        [26013] = true, -- Assault on the Sanctum
 
         --- Automatic Overrides (for when Wowhead data is wrong)
         [13134] = false, -- Spill Their Blood
@@ -2049,6 +2049,8 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         [11116] = true, --* Trial of the Naaru: (QUEST FLAG) (https://www.wowhead.com/wotlk/quest=11116)
 
         -- Eastern Kingdoms -> Isle Of Queldanas (0 -> 4080)
+        [11517] = true, --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11517) (Retail Data)
+        [11534] = true, --* Report to Nasuun (https://www.wowhead.com/wotlk/quest=11534) (Retail Data)
         [11552] = true, --* Rohendor, the Second Gate (https://www.wowhead.com/wotlk/quest=11552) (Retail Data)
         [11553] = true, --* Archonisus, the Final Gate (https://www.wowhead.com/wotlk/quest=11553) (Retail Data)
         [24522] = true, --* Journey To The Sunwell (https://www.wowhead.com/wotlk/quest=24522) (Retail Data)
@@ -2231,6 +2233,25 @@ function QuestieQuestBlacklist.LoadAutoBlacklistWotlk()
         -- Raids -> Sunwell Plateau (3 -> 4075)
         [24594] = true, --* The Purification of Quel'Delar (https://www.wowhead.com/wotlk/quest=24594) (Retail Data)
 
+        -- 3.4.3
+        -- ICC
+        [13240] = true, --* Timear Foresees Centrifuge Constructs in your Future! (https://www.wowhead.com/wotlk/quest=13240) (Retail Data)
+        [13241] = true, --* Timear Foresees Ymirjar Berserkers in your Future! (https://www.wowhead.com/wotlk/quest=13241) (Retail Data)
+        [13243] = true, --* Timear Foresees Infinite Agents in your Future! (https://www.wowhead.com/wotlk/quest=13243) (Retail Data)
+        [13244] = true, --* Timear Foresees Titanium Vanguards in your Future! (https://www.wowhead.com/wotlk/quest=13244) (Retail Data)
+        [13245] = true, --* Proof of Demise: Ingvar the Plunderer (https://www.wowhead.com/wotlk/quest=13245) (Retail Data)
+        [13246] = true, --* Proof of Demise: Keristrasza (https://www.wowhead.com/wotlk/quest=13246) (Retail Data)
+        [13247] = true, --* Proof of Demise: Ley-Guardian Eregos (https://www.wowhead.com/wotlk/quest=13247) (Retail Data)
+        [13248] = true, --* Proof of Demise: King Ymiron (https://www.wowhead.com/wotlk/quest=13248) (Retail Data)
+        [13249] = true, --* Proof of Demise: The Prophet Tharon'ja (https://www.wowhead.com/wotlk/quest=13249) (Retail Data)
+        [13250] = true, --* Proof of Demise: Gal'darah (https://www.wowhead.com/wotlk/quest=13250) (Retail Data)
+        [13251] = true, --* Proof of Demise: Mal'Ganis (https://www.wowhead.com/wotlk/quest=13251) (Retail Data)
+        [13252] = true, --* Proof of Demise: Sjonnir The Ironshaper (https://www.wowhead.com/wotlk/quest=13252) (Retail Data)
+        [13253] = true, --* Proof of Demise: Loken (https://www.wowhead.com/wotlk/quest=13253) (Retail Data)
+        [13254] = true, --* Proof of Demise: Anub'arak (https://www.wowhead.com/wotlk/quest=13254) (Retail Data)
+        [13255] = true, --* Proof of Demise: Herald Volazj (https://www.wowhead.com/wotlk/quest=13255) (Retail Data)
+        [13256] = true, --* Proof of Demise: Cyanigosa (https://www.wowhead.com/wotlk/quest=13256) (Retail Data)
+        [14199] = true, --* Proof of Demise: The Black Knight (https://www.wowhead.com/wotlk/quest=14199) (Retail Data)
 
     }
 end
