@@ -5285,6 +5285,66 @@ function QuestieWotlkQuestFixes:Load()
         [24822] = {
             [questKeys.requiredMinRep] = {1156,3000},
         },
+        [24819] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24820] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24821] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24822] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24836] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24837] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24838] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24839] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24840] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24841] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24842] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24843] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24844] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24845] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24846] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [24847] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [25246] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [25247] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [25248] = {
+            [questKeys.startedBy] = {{38316}},
+        },
+        [25249] = {
+            [questKeys.startedBy] = {{38316}},
+        },
         [24857] = {
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
