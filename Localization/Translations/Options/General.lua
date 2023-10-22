@@ -424,7 +424,7 @@ local generalOptionsLocales = {
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Стиль значков pfQuest/ClassicCodex",
+        ["ruRU"] = "Значки pfQuest/ClassicCodex",
         ["deDE"] = "pfQuest/ClassicCodex Iconstil umschalten",
         ["koKR"] = false,
         ["esMX"] = false,
