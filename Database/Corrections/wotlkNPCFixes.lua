@@ -1430,6 +1430,9 @@ function QuestieWotlkNpcFixes:Load()
         [36627] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,41.8}}},
         },
+        [36678] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{13.4,53.4}}},
+        },
         [37172] = {
             [npcKeys.spawns] = {[zoneIDs.ORGRIMMAR]={{50.7,65.8}}},
             [npcKeys.zoneID] = zoneIDs.ORGRIMMAR,
@@ -1456,6 +1459,9 @@ function QuestieWotlkNpcFixes:Load()
         },
         [37917] = {
             [npcKeys.spawns] = {[zoneIDs.SILVERPINE_FOREST]={{55.2,61.0},{55.3,62.0},{54.9,63.1},{54.6,62.3}},[zoneIDs.DARKSHORE]={{43.3,79.9},{43.2,79.9},{43.2,79.5},{42.7,79.5},{43.0,79.4}}}
+        },
+        [37970] = {
+            [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{51.8,14.1}}},
         },
         [37984] = {
             [npcKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS] = {{28.3,38.5},{28.6,38.2},{27.9,37.8},{28.6,37.4},{28.3,36.7}}},
@@ -1523,6 +1529,20 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.maxLevel] = 72,
             [npcKeys.spawns] = {[zoneIDs.BOREAN_TUNDRA]={{86.64,31.38}}},
             [npcKeys.zoneID] = zoneIDs.BOREAN_TUNDRA,
+        },
+        [211332] = {
+            [npcKeys.name] = "Korralin Hoperender",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{38,55.8}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
+        },
+        [211340] = {
+            [npcKeys.name] = "Kolara Dreamsmasher",
+            [npcKeys.minLevel] = 80,
+            [npcKeys.maxLevel] = 80,
+            [npcKeys.spawns] = {[zoneIDs.DALARAN]={{65.5,24.8}}},
+            [npcKeys.zoneID] = zoneIDs.DALARAN,
         },
 
         -- Below are fake IDs to show specific quest starts/ends only at one specific location even though the
