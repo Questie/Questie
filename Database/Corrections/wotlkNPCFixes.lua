@@ -1501,6 +1501,10 @@ function QuestieWotlkNpcFixes:Load()
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{33.92,47.27},{34.07,47.27}}},
             [npcKeys.zoneID] = zoneIDs.ELWYNN_FOREST,
         },
+        [38161] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6}}},
+            [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
+        },
         [38293] = {
             [npcKeys.spawns] = {[1657]={{42.0,50.05}},[1537]={{35.37,69.01}}, -- original data
                                [zoneIDs.THE_EXODAR]={{76,57.5}}}, -- correction
