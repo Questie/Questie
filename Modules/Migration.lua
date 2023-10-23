@@ -7,25 +7,30 @@ local l10n = QuestieLoader:ImportModule("l10n")
 -- make sure to always add to the end of the table as it runs first to last
 local migrationFunctions = {
     [1] = function()
+        -- this is the big Questie v9.0 settings refactor, implementing profiles; this wipes all existing settings
         local optionsDefaults = QuestieLoader:ImportModule("QuestieOptionsDefaults"):Load()
-        Questie:Print("[Migration] Migrating Questie for v8.9.0")
+        Questie:Print("[Migration] Migrating Questie for v9.0. This will reset all Questie settings to default. Journey history will be preserved.")
 
+        -- preserve journey history by backing it up prior to settings wipe
         local journey
         if Questie.db.char then
             journey = Questie.db.char.journey
         end
 
+        -- wipe settings
         Questie.db.profile = nil
         Questie.db.global = nil
         Questie.db.char = optionsDefaults.char
+
+        -- restore journey history
         Questie.db.char.journey = journey
 
-        Questie:Print("[Migration] Migrated Questie to v8.9.0")
+        Questie:Print("[Migration] Migrated Questie to v9.0.")
     end
 }
 
 function Migration:Migrate()
-    print("|cff30fc96Questie|r: " .. l10n("|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."))
+    -- print("|cff30fc96Questie|r: " .. l10n("|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."))
 
     if not Questie.db.profile.migrationVersion then
         Questie.db.profile.migrationVersion = 0
