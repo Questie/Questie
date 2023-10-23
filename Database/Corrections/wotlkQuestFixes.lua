@@ -1666,6 +1666,13 @@ function QuestieWotlkQuestFixes:Load()
         [12537] = {
             [questKeys.triggerEnd] = {"Sabotage the Mistwhisper Weather Shrine",{[zoneIDs.SHOLAZAR_BASIN]={{45.23,37.1,},},},},
         },
+        [12541] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Start the procedure"), 0, {{"monster", 28205}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Toss ingredients into the cauldron"), 0, {{"object", 190499}}},
+            },
+            [questKeys.objectives] = {nil,{{190499,"Truth Serum Created"}}},
+        },
         [12544] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Use Soo-rahm's Incense"), 0, {{"object", 190507}}}},
         },
@@ -1741,6 +1748,20 @@ function QuestieWotlkQuestFixes:Load()
         [12596] = {
             [questKeys.preQuestSingle] = {12740},
             [questKeys.preQuestGroup] = {},
+        },
+        [12601] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Start the procedure"), 0, {{"monster", 28205}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Toss ingredients into the cauldron"), 0, {{"object", 190499}}},
+            },
+            [questKeys.objectives] = {nil,{{190499,"Truth Serum Created"}}},
+        },
+        [12602] = {
+            [questKeys.extraObjectives] = {
+                {nil, Questie.ICON_TYPE_TALK, l10n("Start the procedure"), 0, {{"monster", 28205}}},
+                {nil, Questie.ICON_TYPE_OBJECT, l10n("Toss ingredients into the cauldron"), 0, {{"object", 190499}}},
+            },
+            [questKeys.objectives] = {nil,{{190499,"Truth Serum Created"}}},
         },
         [12603] = {
             [questKeys.preQuestSingle] = {},
