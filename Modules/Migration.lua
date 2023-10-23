@@ -1,5 +1,7 @@
 ---@class Migration
 local Migration = QuestieLoader:CreateModule("Migration")
+---@type l10n
+local l10n = QuestieLoader:ImportModule("l10n")
 
 -- add functions to this table to migrate users who have not yet run said function.
 -- make sure to always add to the end of the table as it runs first to last
@@ -223,10 +225,20 @@ local migrationFunctions = {
         if Questie.db.global.currentBackdropFader == nil then                                   -- new option
             Questie.db.global.currentBackdropFader = Questie.db.global.trackerBackdropFader     -- set trackerBackdropFader default
         end
-    end
+    end,
+    [24] = function()
+        if Questie.IsHardcore then
+            if (not Questie.db.char.townsfolkConfig) then
+                Questie.db.char.townsfolkConfig = {}
+            end
+            Questie.db.char.townsfolkConfig["Potions"] = true
+        end
+    end,
 }
 
 function Migration:Migrate()
+    print("|cff30fc96Questie|r: " .. l10n("|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."))
+
     if not Questie.db.global.migrationVersion then
         Questie.db.global.migrationVersion = {}
     end

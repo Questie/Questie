@@ -76,7 +76,15 @@ function QuestieEvent:Load()
     QuestieEvent.eventDates["Lunar Festival"] = QuestieEvent.lunarFestival[year]
     local activeEvents = {}
 
-    local eventCorrections = (Questie.IsTBC or Questie.IsWotlk) and QuestieEvent.eventDateCorrections["TBC"] or QuestieEvent.eventDateCorrections["CLASSIC"]
+    local eventCorrections
+    if Questie.IsTBC then
+        eventCorrections = QuestieEvent.eventDateCorrections["TBC"]
+    elseif Questie.IsClassic then
+        eventCorrections = QuestieEvent.eventDateCorrections["CLASSIC"]
+    else
+        eventCorrections = {}
+    end
+
     for eventName,dates in pairs(eventCorrections) do
         if dates then
             QuestieEvent.eventDates[eventName] = dates
@@ -247,7 +255,6 @@ QuestieEvent.eventDates = {
         startDate = "21/11",
         endDate = "27/11"
     },
-    ["Peon Day"] = {startDate = "30/9", endDate = "30/9"},
     ["Hallow's End"] = {startDate = "18/10", endDate = "31/10"},
     ["Winter Veil"] = {startDate = "15/12", endDate = "1/1"}
 }
@@ -632,13 +639,15 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12409}) -- Candy Bucket
 --tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12410}) -- Candy Bucket -- doesn't exist
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11392}) -- Call the Headless Horseman
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11401}) -- Call the Headless Horseman
-tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11403, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Free at Last!
-tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11242, nil, nil, QuestieCorrections.CLASSIC_ONLY}) -- Free at Last!
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11403}) -- Free at Last!
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11242}) -- Free at Last!
 --tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11404}) -- Call the Headless Horseman
 --tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11405}) -- Call the Headless Horseman
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11127}) -- <NYI>Thunderbrew Secrets
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12022}) -- Chug and Chuck!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11122}) -- There and Back Again
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 11412}) -- There and Back Again
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11117}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11431}) -- Catch the Wild Wolpertinger!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11318}) -- Now This is Ram Racing... Almost.
@@ -662,11 +671,15 @@ tinsert(QuestieEvent.eventQuests, {"Brewfest", 11441}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11446}) -- Brewfest!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12062}) -- Insult Coren Direbrew
 --tinsert(QuestieEvent.eventQuests, {"Brewfest", 12194}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
+--tinsert(QuestieEvent.eventQuests, {"Brewfest", 12193}) -- Say, There Wouldn't Happen to be a Souvenir This Year, Would There?
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 12191}) -- Chug and Chuck!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11293}) -- Bark for the Barleybrews!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11294}) -- Bark for the Thunderbrews!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11407}) -- Bark for Drohn's Distillery!
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 11408}) -- Bark for T'chali's Voodoo Brewery!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12318}) -- Save Brewfest!
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12491}) -- Direbrew's Dire Brew
+tinsert(QuestieEvent.eventQuests, {"Brewfest", 12492}) -- Direbrew's Dire Brew
 
 
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 9324}) -- Stealing Orgrimmar's Flame
@@ -818,7 +831,9 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11862}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11863}) -- Honor the Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11882}) -- Playing with Fire
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11886}) -- Unusual Activity
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11891}) -- An Innocent Disguise
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11915}) -- Playing with Fire
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11917}) -- Striking Back (level 22)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11921}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11922}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11923}) -- Torch Catching
@@ -827,6 +842,10 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11925}) -- More Torch Catching
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11926}) -- Midsummer
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11933}) -- Stealing the Exodar's Flame
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11935}) -- Stealing Silvermoon's Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11947}) -- Striking Back (level 32)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11948}) -- Striking Back (level 43)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11952}) -- Striking Back (level 51)
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 11953}) -- Striking Back (level 60)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11954}) -- Striking Back (level 67)
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11955}) -- Ahune, the Frost Lord
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11972}) -- Shards of Ahune
@@ -834,6 +853,7 @@ tinsert(QuestieEvent.eventQuests, {"Midsummer", 11964}) -- Incense for the Summe
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11966}) -- Incense for the Festival Scorchlings
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11970}) -- The Master of Summer Lore
 tinsert(QuestieEvent.eventQuests, {"Midsummer", 11971}) -- The Spinner of Summer Tales
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 12012}) -- Inform the Elder
 
 tinsert(QuestieEvent.eventQuests, {"Winter Veil", 11528, "25/12", "2/1"}) -- A Winter Veil Gift
 
@@ -968,3 +988,36 @@ tinsert(QuestieEvent.eventQuests, {"Pilgrim's Bounty", 14047}) -- Slow-roasted T
 
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 13931}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
 tinsert(QuestieEvent.eventQuests, {"Brewfest", 13932}) -- Another Year, Another Souvenir. -- Doesn't seem to be in the game
+
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13440}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13441}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13442}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13443}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13444}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13445}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13446}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13447}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13449}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13450}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13451}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13453}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13454}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13455}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13457}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13458}) -- Desecrate this Fire!
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13485}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13486}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13487}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13488}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13489}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13490}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13491}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13492}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13493}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13494}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13495}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13496}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13497}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13498}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13499}) -- Honor the Flame
+tinsert(QuestieEvent.eventQuests, {"Midsummer", 13500}) -- Honor the Flame

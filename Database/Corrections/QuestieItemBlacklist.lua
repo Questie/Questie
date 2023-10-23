@@ -48,8 +48,11 @@ function QuestieItemBlacklist:Load()
         [8845] = true, -- ghost mushroom
         [8846] = true, -- gromsblood
         [8932] = true, -- Alterac Swiss
+        [8956] = true, -- Oil of Immolation
+        [9061] = true, -- Goblin Rocket Fuel
         [10561] = true, -- Mithril Casing
         [10593] = true, -- imperfect-draenethyst-fragment
+        [11178] = true, -- Large Radiant Shard
         [12207] = true, -- giant egg
         [12361] = true, -- blue sapphire
         [12363] = true, -- arcane crystal
@@ -59,16 +62,23 @@ function QuestieItemBlacklist:Load()
         [13422] = true, -- stonescale-eel
         [13444] = true, -- major mana potion
         [13446] = true, -- Major Healing Potion
+        [13461] = true, -- Greater Arcane Protection Potion
         [13463] = true, -- dreamfoil
         [13464] = true, -- golden sansam
         [13465] = true, -- mountain silversage
         [13466] = true, -- plaguebloom
         [13467] = true, -- icecap
         [13468] = true, -- black lotus
+        [13757] = true, -- Lightning Eel
         [14047] = true, -- runecloth
         [14048] = true, -- bolt of runecloth
+        [14227] = true, -- Ironweb Spider Silk
         [14344] = true, -- large brilliant shard
+        [14530] = true, -- Heavy Runecloth Bandage
+        [15992] = true, -- Dense Blasting Powder
         [18335] = true, -- Pristine Black Diamond
+        [19440] = true, -- Powerful Anti-Venom
+        [20452] = true, -- Smoked Desert Dumplings
 
         -- stranglethorn pages
         [2725] = true,
@@ -147,36 +157,28 @@ function QuestieItemBlacklist:Load()
         [20889] = true,
 
         --Tier 0.5 & Phase 5
-        [4265] = true, -- Heavy Armour Kit
-        [15564] = true, -- Rugged Armour Kit
+        [4265] = true, -- Heavy Armor Kit
+        [15564] = true, -- Rugged Armor Kit
+        [16671] = true, -- Bindings of Elements
+        [16673] = true, -- Cord of Elements
+        [16680] = true, -- Beaststalker's Belt
+        [16681] = true, -- Beaststalker's Bindings
+        [16683] = true, -- Magister's Bindings
+        [16685] = true, -- Magister's Belt
+        [16696] = true, -- Devout Belt
+        [16697] = true, -- Devout Bracers
+        [16702] = true, -- Dreadmist Belt
+        [16703] = true, -- Dreadmist Bracers
+        [16705] = true, -- Dreadmist Wraps
+        [16710] = true, -- Shadowcraft Bracers
+        [16713] = true, -- Shadowcraft Belt
+        [16714] = true, -- Wildheart Bracers
+        [16716] = true, -- Wildheart Belt
+        [16722] = true, -- Lightforge Bracers
+        [16723] = true, -- Lightforge Belt
+        [16735] = true, -- Bracers of Valor
+        [16736] = true, -- Belt of Valor
         [20520] = true, -- Dark Rune
-        [8464] = true, -- Wildheart Belt, Druid Tier 0.5
-        [235250] = true, -- Wildheart Gloves, Druid Tier 0.5
-        [248320] = true, -- Wildheart Bracers, Druid Tier 0.5
-        [8636] = true, -- Beaststalker's Gloves, Hunter Tier 0.5
-        [69159] = true, -- Beaststalker's Belt, Hunter Tier 0.5
-        [210164] = true, -- Beaststalker's Bindings, Hunter Tier 0.5
-        [8516] = true, -- Malefic Bracers, Mage Tier 0.5
-        [50953] = true, -- Magister's Belt, Mage Tier 0.5
-        [68436] = true, -- Magister's Gloves, Mage Tier 0.5
-        [21287] = true, -- Lightforge Belt, Paladin Tier 0.5
-        [89142] = true, -- Lightforge Gauntlets, Paladin Tier 0.5
-        [89144] = true, -- Lightforge Bracers, Paladin Tier 0.5
-        [13005] = true, -- Devout Bracers, Priest Tier 0.5
-        [67995] = true, -- Devout Belt, Priest Tier 0.5
-        [177441] = true, -- Devout Gloves, Priest Tier 0.5
-        [9672] = true, -- Shadowcraft Bracers, Rogue Tier 0.5
-        [56369] = true, -- Shadowcraft Belt, Rogue Tier 0.5
-        [902488] = true, -- Shadowcraft Gloves, Rogue Tier 0.5
-        [9805] = true, -- Gauntlets of Elements, Shaman Tier 0.5
-        [57474] = true, -- Bindings of Elements, Shaman Tier 0.5
-        [89415] = true, -- Cord of Elements, Shaman Tier 0.5
-        [8641] = true, -- Dreadmist Belt, , Warlock Tier 0.5
-        [9814] = true, -- Dreadmist Wraps, , Warlock Tier 0.5
-        [60468] = true, -- Dreadmist Bracers, Warlock Tier 0.5
-        [7849] = true, -- Belt of Valor, , Warrior Tier 0.5
-        [8371] = true, -- Gauntlets of Valor, Warrior Tier 0.5
-        [68435] = true, -- Bracers of Valor, Warrior Tier 0.5
 
         -- Phase 6
         [12811] = true, -- righteous orb
@@ -209,6 +211,7 @@ function QuestieItemBlacklist:Load()
         [26043] = true, -- Oshu'gun Crystal Powder Sample
         [29425] = true, -- Mark of Kiljaeden
         [29426] = true, -- Firewing Signet
+        [29460] = true, -- Ethereum Prison Key
         [29739] = true, -- Arcane Tome
         [29740] = true, -- Fel Armament
         [30809] = true, -- Mark of Sargeras

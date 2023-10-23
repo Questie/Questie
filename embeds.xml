@@ -20,26 +20,4 @@
     <Include file="Libs\AceGUI-3.0-SharedMediaWidgets\widget.xml"/>
     <Script file="Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua"/>
     <Script file="Libs\LibDBIcon-1.0\LibDBIcon-1.0.lua"/>
-
-    <Button name="Questie_Toggle" parent="WorldMapFrame" inherits="UIPanelButtonTemplate" text="Hide Questie">
-        <Size>
-            <AbsDimension x="120" y="20"/>
-        </Size>
-        <Anchors>
-            <Anchor point="LEFT" relativePoint="RIGHT" relativeTo="WorldMapZoomOutButton">
-                <Offset>
-                    <AbsDimension x="5" y="0"/>
-                </Offset>
-            </Anchor>
-        </Anchors>
-        <Scripts>
-            <OnLoad>
-                self:SetFrameLevel(10);
-            </OnLoad>
-            <OnClick>
-                Questie.db.char.enabled = (not Questie.db.char.enabled);
-                QuestieLoader:ImportModule("QuestieQuest"):ToggleNotes(Questie.db.char.enabled)
-            </OnClick>
-        </Scripts>
-    </Button>
 </Ui>

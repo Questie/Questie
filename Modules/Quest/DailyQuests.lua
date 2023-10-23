@@ -134,12 +134,14 @@ end
 ---@param questId number
 ---@return boolean
 function DailyQuests:IsActiveDailyQuest(questId)
-    local hiddenQuests = Questie.db.char.hiddenDailies
-    return not (hiddenQuests.nhc[questId] or
-        hiddenQuests.hc[questId] or
-        hiddenQuests.cooking[questId] or
-        hiddenQuests.fishing[questId] or
-        hiddenQuests.pvp[questId]);
+    return true
+    -- TODO: This might be reusable when reworking this module
+    --local hiddenQuests = Questie.db.char.hiddenDailies
+    --return not (hiddenQuests.nhc[questId] or
+    --    hiddenQuests.hc[questId] or
+    --    hiddenQuests.cooking[questId] or
+    --    hiddenQuests.fishing[questId] or
+    --    hiddenQuests.pvp[questId]);
 end
 
 ---@param questId number

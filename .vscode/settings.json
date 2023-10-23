@@ -361,6 +361,8 @@
         "C_FriendList.SetWhoToUi",
         "C_FriendList.ShowFriends",
         "C_FriendList.SortWho",
+        "C_GameRules",
+        "C_GameRules.IsHardcoreActive",
         "C_GossipInfo",
         "C_GossipInfo.GetActiveQuests",
         "C_GossipInfo.GetAvailableQuests",
@@ -2119,7 +2121,6 @@
         "TurnOrActionStop",
         "TurnRightStart",
         "TurnRightStop",
-        "UIPanelScrollBar_OnValueChanged",
         "UninviteUnit",
         "UnitAffectingCombat",
         "UnitArmor",
@@ -2663,6 +2664,7 @@
         "TicketStatusFrame",
         "TimeAlertFrame",
         "TimeManagerFrame",
+        "TooltipBackdropTemplateMixin",
         "TradeFrame",
         "TradeSkillFrame",
         "TutorialFrame",
@@ -2698,6 +2700,7 @@
         "WorldMapTooltip",
         "WorldMapFrameCloseButton",
         "WorldMapContinentDropDown",
+        "WorldMapQuestShowObjectives",
         "WorldStateScoreFrame",
         "ZoneTextFrame",
         "GameFontHighlightLarge",
@@ -2738,6 +2741,7 @@
         "WOW_PROJECT_MAINLINE",
         "FACTION_STANDING_CHANGED",
         "AtlasToggleFromWorldMap",
+        "Krowi_WorldMapButtons1",
         "EasyMenu",
         "QuestLogEx",
         "QuestLogExFrame",
@@ -2753,6 +2757,7 @@
         "LibStub",
         "SUFUnittarget",
         "ElvUF_Target",
+        "AzeriteUnitFrameTarget",
         "PitBull4_Frames_Target",
         "UIDROPDOWNMENU_MAXLEVELS",
         "L_UIDROPDOWNMENU_MAXLEVELS",
@@ -2815,7 +2820,16 @@
         "RED_FONT_COLOR",
         "QuestFrameCloseButton",
         "TrackedQuestsScrollFrame",
-        "C_AddOns"
+        "QuestieProfilerScrollFrame",
+        "C_AddOns",
+        "VoiceOver",
+        "Questie_BaseFrame",
+        "MouseIsOver",
+        "VoiceOverFrame",
+        "STATICPOPUP_NUMDIALOGS",
+        "DELETE_ITEM",
+        "StaticPopup_Resize",
+        "ActionStatus_DisplayMessage"
     ],
     "Lua.workspace.ignoreDir": [
         "Database/TBC/**",
@@ -2886,7 +2900,8 @@
         "return-type-mismatch",
         "undefined-doc-class",
         "undefined-doc-name",
-        "unused-local"
+        "unused-local",
+        "cast-local-type"
     ],
     "Lua.diagnostics.severity": {
         "unused-local": "Warning"

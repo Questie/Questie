@@ -52,6 +52,13 @@ function QuestiePlayer.GetPlayerLevel()
     return math_max(_QuestiePlayer.playerLevel, level);
 end
 
+-- Find out if the player is at max level for the active expansion
+---@return boolean isMaxLevel
+function QuestiePlayer.IsMaxLevel()
+    local level = QuestiePlayer.GetPlayerLevel()
+    return (Questie.IsWotlk and level == 80) or (Questie.IsTBC and level == 70) or (Questie.IsClassic and level == 60)
+end
+
 ---@return number
 function QuestiePlayer:GetRaceId()
     return playerRaceId
@@ -65,6 +72,8 @@ end
 function QuestiePlayer:GetGroupType()
     if(UnitInRaid("player")) then
         return "raid";
+    elseif(IsInGroup(LE_PARTY_CATEGORY_INSTANCE)) then
+        return "instance";
     elseif(UnitInParty("player")) then
         return "party";
     else

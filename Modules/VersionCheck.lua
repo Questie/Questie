@@ -59,10 +59,22 @@ Questie.IsTBC = WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC
 ---@type boolean
 Questie.IsClassic = WOW_PROJECT_ID == WOW_PROJECT_CLASSIC
 
---- Addon is running on Classic "Vanilla" client and on Era realm
+--- Addon is running on Classic "Vanilla" client and on Era realm (non-seasonal)
 ---@type boolean
 Questie.IsEra = Questie.IsClassic and (not C_Seasons.HasActiveSeason())
 
---- Addon is running on Classic "Vanilla" client and on Seasons of Mastery realm
+--- Addon is running on Classic "Vanilla" client and on any Seasonal realm (see: https://wowpedia.fandom.com/wiki/API_C_Seasons.GetActiveSeason )
+---@type boolean
+Questie.IsEraSeasonal = Questie.IsClassic and C_Seasons.HasActiveSeason()
+
+--- Addon is running on Classic "Vanilla" client and on Season of Mastery realm specifically
 ---@type boolean
 Questie.IsSoM = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == Enum.SeasonID.SeasonOfMastery)
+
+--- Addon is running on Classic "Vanilla" client and on Season 2 realm specifically
+---@type boolean
+Questie.IsSoM2 = Questie.IsClassic and C_Seasons.HasActiveSeason() and (C_Seasons.GetActiveSeason() == 2)
+
+--- Addon is running on a HardCore realm specifically
+---@type boolean
+Questie.IsHardcore = C_GameRules and C_GameRules.IsHardcoreActive()

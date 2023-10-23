@@ -107,7 +107,7 @@ function QuestieLib:GetRGBForObjective(objective)
 
     local float = objective.Collected / objective.Needed
     local trackerColor = Questie.db.global.trackerColorObjectives
-    if not trackerColor or trackerColor == "white" then
+    if not trackerColor or trackerColor == "white" or trackerColor == "minimal" then
         -- White
         return "|cFFEEEEEE"
     elseif trackerColor == "whiteAndGreen" then
@@ -129,12 +129,13 @@ end
 ---@param showState boolean @ Whether to show (Complete/Failed)
 ---@param blizzLike boolean @True = [40+], false/nil = [40D/R]
 function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike)
-    local name = QuestieDB.QueryQuestSingle(questId, "name");
+    local name = QuestieDB.QueryQuestSingle(questId, "name")
     local level, _ = QuestieLib.GetTbcLevel(questId);
 
     if showLevel then
         name = QuestieLib:GetQuestString(questId, name, level, blizzLike)
     end
+
     if Questie.db.global.enableTooltipsQuestID then
         name = name .. " (" .. questId .. ")"
     end
@@ -143,9 +144,13 @@ function QuestieLib:GetColoredQuestName(questId, showLevel, showState, blizzLike
         local isComplete = QuestieDB.IsComplete(questId)
 
         if isComplete == -1 then
-            name = name .. " (" .. l10n("Failed") .. ")"
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Failed") .. ")", "red")
         elseif isComplete == 1 then
-            name = name .. " (" .. l10n("Complete") .. ")"
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
+
+        -- Quests treated as complete - zero objectives or synthetic objectives
+        elseif isComplete == 0 and QuestieDB.GetQuest(questId).isComplete == true then
+            name = name .. " " .. Questie:Colorize("(" .. l10n("Complete") .. ")", "green")
         end
     end
 
@@ -251,7 +256,9 @@ end
 --- same as the player level. This function should be used whenever accessing the quest or required level.
 ---@param questId QuestId
 ---@param playerLevel Level? ---@ PlayerLevel, if nil we fetch current level
----@return Level questLevel, Level requiredLevel @questLevel & requiredLevel
+---@return Level questLevel
+---@return Level requiredLevel
+---@return Level requiredMaxLevel
 function QuestieLib.GetTbcLevel(questId, playerLevel)
     local questLevel, requiredLevel = QuestieDB.QueryQuestSingle(questId, "questLevel"), QuestieDB.QueryQuestSingle(questId, "requiredLevel")
     if (questLevel == -1) then
@@ -264,7 +271,7 @@ function QuestieLib.GetTbcLevel(questId, playerLevel)
             requiredLevel = level;
         end
     end
-    return questLevel, requiredLevel;
+    return questLevel, requiredLevel, QuestieDB.QueryQuestSingle(questId, "requiredMaxLevel");
 end
 
 ---@param questId QuestId
@@ -357,7 +364,7 @@ function QuestieLib:GetRaceString(raceMask)
 end
 
 function QuestieLib:CacheItemNames(questId)
-    local quest = QuestieDB:GetQuest(questId)
+    local quest = QuestieDB.GetQuest(questId)
     if (quest and quest.ObjectiveData) then
         for _, objectiveDB in pairs(quest.ObjectiveData) do
             if objectiveDB.Type == "item" then
@@ -629,10 +636,9 @@ local textWrapObjectiveFontString
 ---@param line string @The line to wrap
 ---@param prefix string @The prefix to add to the line
 ---@param combineTrailing boolean @If the last line is only one word, combine it with previous? TRUE=COMBINE, FALSE=NOT COMBINE, default: true
----@param splitOnDot boolean @Should we add a linebreak if a dot appears thats not at the end of a line TRUE=NEW ROW, FALSE=NO NEW ROW, default: true
 ---@param desiredWidth number @Set the desired width to wrap, default: 275
 ---@return table[] @A table of wrapped lines
-function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredWidth)
+function QuestieLib:TextWrap(line, prefix, combineTrailing, desiredWidth)
     if not textWrapObjectiveFontString then
         textWrapObjectiveFontString = UIParent:CreateFontString("questieObjectiveTextString", "ARTWORK", "QuestFont")
         textWrapObjectiveFontString:SetWidth(textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
@@ -652,14 +658,12 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
 
     --Set Defaults
     combineTrailing = combineTrailing or true
-    splitOnDot = splitOnDot or true
     --We show the fontstring and set the text to start the process
     --We have to show it or else the functions won't work... But we set the opacity to 0 on creation
     textWrapObjectiveFontString:SetWidth(desiredWidth or textWrapFrameObject:GetWidth() or 275) --QuestLogObjectivesText default width = 275
     textWrapObjectiveFontString:Show()
 
-    --Make a linebreak on each "dot" character if there is a space after (don't want it on end of line)
-    local useLine = string.gsub(line, "%. ", "%.%\n")
+    local useLine = line
 
     textWrapObjectiveFontString:SetText(useLine)
     --Is the line wrapped?
@@ -671,7 +675,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
         local numberOfRows = #textWrapObjectiveFontString:CalculateScreenAreaFromCharacterSpan(startIndex, strlen(useLine))
         for row = 1, numberOfRows do
             local lastSpaceIndex
-            local dotIndex
             local indexes
             --We use the previous way to get number of rows to loop through characterindex until we get 2 rows
             repeat
@@ -679,9 +682,6 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
                 --Last space of the line to be used to break a new row
                 if (string.sub(useLine, endIndex, endIndex) == " ") then
                     lastSpaceIndex = endIndex
-                    --Track the dot at the end of a line
-                elseif (string.sub(useLine, endIndex, endIndex) == "." and endIndex ~= strlen(useLine) and splitOnDot) then
-                    dotIndex = endIndex
                 end
                 endIndex = endIndex + 1
                 --If we are at the end of characters break and set endIndex to strlen
@@ -693,8 +693,8 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
             until (#indexes > 1) --Until more than one row
 
             --Get the line we calculated
-            --First to Dot, then space and lastly endIndex(chinese)
-            local newLine = string.sub(useLine, startIndex, dotIndex or lastSpaceIndex or endIndex)
+            --First to space then endIndex(chinese)
+            local newLine = string.sub(useLine, startIndex, lastSpaceIndex or endIndex)
 
             --This combines a trailing word to the previous line if it is the only word of the line
             --We check lastSpaceIndex here because the logic will be faulty (chinese client)
@@ -722,7 +722,7 @@ function QuestieLib:TextWrap(line, prefix, combineTrailing, splitOnDot, desiredW
     else
         --Line was not wrapped, return the string as is.
         textWrapObjectiveFontString:Hide()
-        useLine = prefix .. string.gsub(line, "%. ", "%.%\n" .. prefix)
+        useLine = prefix .. line
         return { useLine }
     end
 end

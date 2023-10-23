@@ -41,6 +41,7 @@ local _townsfolk_texturemap = {
     ["Profession Trainer"] = "Interface\\Minimap\\tracking\\profession",
     ["Ammo"] = 132382,--select(10, GetItemInfo(2515)) -- sharp arrow
     ["Bags"] = 133634,--select(10, GetItemInfo(4496)) -- small brown pouch
+    ["Potions"] = 134831,--select(10, GetItemInfo(929)) -- Healing Potion
     ["Trade Goods"] = 132912,--select(10, GetItemInfo(2321)) -- thread
     ["Drink"] = 134712,--select(10, GetItemInfo(8766)) -- morning glory dew
     ["Food"] = 133964,--select(10, GetItemInfo(4540)) -- bread
@@ -732,7 +733,8 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         ["HUNTER"] = {},
         ["DEATHKNIGHT"] = {37201},
         ["WARLOCK"] = {5565,16583},
-        ["ROGUE"] = {5140,2928,8924,5173,2930,8923},
+        ["ROGUE"] = Questie.IsWotlk and {2892} -- All poison vendors sell all ranks of poison, so Rank 1 of one poison is enough here
+            or {5140,2928,8924,5173,2930,8923},
         ["DRUID"] = {17034,17026,17035,17021,17038,17036,17037}
     }
     reagents = reagents[playerClass]
@@ -749,6 +751,10 @@ function QuestieMenu:PopulateTownsfolkPostBoot() -- post DB boot (use queries he
         6261,8923,2324,2604,6260,4378,10290,17194,4341
     }))
     Questie.db.char.vendorList["Bags"] = _reformatVendors(QuestieMenu:PopulateVendors({4496, 4497, 4498, 4499, (Questie.IsTBC or Questie.IsWotlk) and 30744 or nil}))
+    Questie.db.char.vendorList["Potions"] = _reformatVendors(QuestieMenu:PopulateVendors({
+        118, 858, 929, 1710, 3928, 13446, 18839, (Questie.IsTBC or Questie.IsWotlk) and 22829 or nil, (Questie.IsTBC or Questie.IsWotlk) and 32947 or nil, (Questie.IsWotlk) and 33447 or nil, -- Healing Potions
+        2455, 3385, 3827, 6149, 13443, 13444, 18841, (Questie.IsTBC or Questie.IsWotlk) and 22832 or nil, (Questie.IsTBC or Questie.IsWotlk) and 32948 or nil, (Questie.IsWotlk) and 33448 or nil, -- Mana Potions
+    }))
     QuestieMenu:UpdatePlayerVendors()
 end
 
