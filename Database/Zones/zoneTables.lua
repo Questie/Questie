@@ -2964,6 +2964,7 @@ ZoneDB.private.zoneIDs = {
     HALLS_OF_STONE_MAP = 4810,
     -- Fake IDs for The Culling of Stratholme
     THE_CULLING_OF_STRATHOLME_VILLAGE = 4811,
+    PIT_OF_SARON = 4813,
     THE_CULLING_OF_STRATHOLME_CITY = 4814,
     -- Fake IDs for Utgarde Pinnacle
     UTGARDE_PINNACLE_LOWER_LEVEL = 4816,
