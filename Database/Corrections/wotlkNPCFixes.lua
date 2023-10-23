@@ -1430,6 +1430,10 @@ function QuestieWotlkNpcFixes:Load()
         [36627] = {
             [npcKeys.spawns] = {[zoneIDs.ICECROWN_CITADEL_UPPER_SPIRE]={{19.8,41.8}}},
         },
+        [36658] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{44.2,26}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
+        },
         [36770] = {
             [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{46.9,65.3},{50.1,62.8},{54.5,62.2},{59.1,59.7}}},
             [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
@@ -1516,6 +1520,10 @@ function QuestieWotlkNpcFixes:Load()
         [38161] = {
             [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{44.6,13.6}}},
             [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
+        },
+        [38189] = {
+            [npcKeys.spawns] = {[zoneIDs.PIT_OF_SARON]={{43.5,22.7}}},
+            [npcKeys.zoneID] = zoneIDs.PIT_OF_SARON,
         },
         [38293] = {
             [npcKeys.spawns] = {[1657]={{42.0,50.05}},[1537]={{35.37,69.01}}, -- original data
