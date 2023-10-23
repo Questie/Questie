@@ -548,6 +548,12 @@ function QuestieWotlkItemFixes:Load()
         [49915] = {
             [itemKeys.npcDrops] = {37715},
         },
+        [50226] = {
+            [itemKeys.npcDrops] = {36626},
+        },
+        [50231] = {
+            [itemKeys.npcDrops] = {36627},
+        },
 
         -- Boost quest items
         [199335] = {
