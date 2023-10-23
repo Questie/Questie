@@ -17,6 +17,8 @@ local QuestiePlayer = QuestieLoader:ImportModule("QuestiePlayer");
 local QuestieMenu = QuestieLoader:ImportModule("QuestieMenu");
 ---@type l10n
 local l10n = QuestieLoader:ImportModule("l10n")
+---@type QuestieTooltips
+local QuestieTooltips = QuestieLoader:ImportModule("QuestieTooltips");
 
 QuestieOptions.tabs.general = { ... }
 local optionsDefaults = QuestieOptionsDefaults:Load()
