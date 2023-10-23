@@ -197,7 +197,7 @@ function QuestieOptions.tabs.icons:Initialize()
                 min = 1,
                 max = 5,
                 step = 1,
-                disabled = function() return not Questie.db.global.mapCoordinatesEnabled end,
+                disabled = function() return not Questie.db.profile.mapCoordinatesEnabled end,
                 get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
                 set = function (info, value)
                     QuestieOptions:SetGlobalOptionValue(info, value)

@@ -29,9 +29,9 @@ function QuestieOptions.tabs.sounds:Initialize()
                 name = function() return l10n('Quest completed'); end,
                 desc = function() return l10n('Play a short sound when completing a quest when it is ready to turn in.'); end,
                 width = 1.2,
-                get = function() return Questie.db.char.soundOnQuestComplete; end,
+                get = function() return Questie.db.profile.soundOnQuestComplete; end,
                 set = function(_, value)
-                    Questie.db.char.soundOnQuestComplete = value
+                    Questie.db.profile.soundOnQuestComplete = value
                 end,
             },
             questCompleteSoundButton = {
@@ -43,7 +43,7 @@ function QuestieOptions.tabs.sounds:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function()
-                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.questCompleteSoundChoiceName), "Master")
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.questCompleteSoundChoiceName), "Master")
                 end
             },
             questCompleteSoundChoice = {
@@ -54,10 +54,10 @@ function QuestieOptions.tabs.sounds:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Quest Complete Sound Selection') end,
                 desc = function() return l10n('The sound you hear when a quest is completed'); end,
-                get = function() return Questie.db.char.questCompleteSoundChoiceName or "None"; end,
-                disabled = function() return (not Questie.db.char.soundOnQuestComplete); end,
+                get = function() return Questie.db.profile.questCompleteSoundChoiceName or "None"; end,
+                disabled = function() return (not Questie.db.profile.soundOnQuestComplete); end,
                 set = function(_, value)
-                    Questie.db.char.questCompleteSoundChoiceName = value
+                    Questie.db.profile.questCompleteSoundChoiceName = value
                 end,
             },
             soundLineBreak = {
@@ -72,9 +72,9 @@ function QuestieOptions.tabs.sounds:Initialize()
                 name = function() return l10n('Quest objective completed'); end,
                 desc = function() return l10n('Play a short sound when completing a quest objective.'); end,
                 width = 1.2,
-                get = function() return Questie.db.char.soundOnObjectiveComplete; end,
+                get = function() return Questie.db.profile.soundOnObjectiveComplete; end,
                 set = function(_, value)
-                    Questie.db.char.soundOnObjectiveComplete = value
+                    Questie.db.profile.soundOnObjectiveComplete = value
                 end,
             },
             objectiveCompleteSoundButton = {
@@ -86,7 +86,7 @@ function QuestieOptions.tabs.sounds:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function()
-                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveCompleteSoundChoiceName), "Master")
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveCompleteSoundChoiceName), "Master")
                 end
             },
             objectiveCompleteSoundChoice = {
@@ -97,10 +97,10 @@ function QuestieOptions.tabs.sounds:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Objective Complete Sound Selection') end,
                 desc = function() return l10n('The sound you hear when an objective is completed'); end,
-                get = function() return  Questie.db.char.objectiveCompleteSoundChoiceName; end,
-                disabled = function() return (not Questie.db.char.soundOnObjectiveComplete); end,
+                get = function() return  Questie.db.profile.objectiveCompleteSoundChoiceName; end,
+                disabled = function() return (not Questie.db.profile.soundOnObjectiveComplete); end,
                 set = function(_, value)
-                    Questie.db.char.objectiveCompleteSoundChoiceName = value
+                    Questie.db.profile.objectiveCompleteSoundChoiceName = value
                 end,
             },
             objectiveProgressSound = {
@@ -109,9 +109,9 @@ function QuestieOptions.tabs.sounds:Initialize()
                 name = function() return l10n('Quest objective progress'); end,
                 desc = function() return l10n('Play a short sound when making progress on a quest objective.'); end,
                 width = 1.2,
-                get = function() return Questie.db.char.soundOnObjectiveProgress; end,
+                get = function() return Questie.db.profile.soundOnObjectiveProgress; end,
                 set = function(_, value)
-                    Questie.db.char.soundOnObjectiveProgress = value
+                    Questie.db.profile.soundOnObjectiveProgress = value
                 end,
             },
             objectiveProgressSoundButton = {
@@ -123,7 +123,7 @@ function QuestieOptions.tabs.sounds:Initialize()
                     return "Interface\\OptionsFrame\\VoiceChat-Play", 15, 15
                 end,
                 func = function()
-                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.char.objectiveProgressSoundChoiceName), "Master")
+                    PlaySoundFile(Sounds.GetSelectedSoundFile(Questie.db.profile.objectiveProgressSoundChoiceName), "Master")
                 end
             },
             objectiveProgressSoundChoice = {
@@ -134,10 +134,10 @@ function QuestieOptions.tabs.sounds:Initialize()
                 style = 'dropdown',
                 name = function() return l10n('Objective Progress Sound Selection') end,
                 desc = function() return l10n('The sound you hear when you make progress on a quest objective'); end,
-                get = function() return  Questie.db.char.objectiveProgressSoundChoiceName; end,
-                disabled = function() return (not Questie.db.char.soundOnObjectiveProgress); end,
+                get = function() return  Questie.db.profile.objectiveProgressSoundChoiceName; end,
+                disabled = function() return (not Questie.db.profile.soundOnObjectiveProgress); end,
                 set = function(_, value)
-                    Questie.db.char.objectiveProgressSoundChoiceName = value
+                    Questie.db.profile.objectiveProgressSoundChoiceName = value
                 end,
             },
         }
