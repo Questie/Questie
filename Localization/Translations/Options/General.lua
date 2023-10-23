@@ -148,7 +148,7 @@ local generalOptionsLocales = {
     },
     ["Hide unexplored area Icons"] = {
         ["ptBR"] = "Ocultar ícones da área inexplorada",
-        ["ruRU"] = "Скрыть значки неисследованных зон",
+        ["ruRU"] = "Значки неисследованных зон",
         ["deDE"] = "Icons in nicht entdeckten Gebieten verbergen",
         ["koKR"] = "미탐험 지역 아이콘 가리기",
         ["esMX"] = "Esconder icono de áreas inexploradas.",
@@ -160,7 +160,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons in unexplored areas."] = {
         ["ptBR"] = "Oculta ícones em áreas inexploradas.",
-        ["ruRU"] = "Скрывает значки в неисследованных областях карты",
+        ["ruRU"] = "Показать/скрыть значки в неисследованных областях карты",
         ["deDE"] = "Verbirgt die Questie Icons in nicht entdeckten Gebieten.",
         ["koKR"] = "미탐험 지역의 아이콘을 가립니다.",
         ["esMX"] = "Esconder iconos en áreas inexploradas.",
@@ -172,7 +172,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons of untracked quests"] = {
         ["ptBR"] = "Ocultar ícones de missões não rastreadas",
-        ["ruRU"] = "Скрыть значки неотслеживаемых заданий",
+        ["ruRU"] = "Значки неотслеживаемых заданий",
         ["deDE"] = "Icons nicht getrackter Quests verbergen",
         ["koKR"] = false,
         ["esMX"] = "Ocultar iconos de misiones sin seguimiento",
@@ -184,7 +184,7 @@ local generalOptionsLocales = {
     },
     ["Hide icons for quests that are not tracked."] = {
         ["ptBR"] = "Oculta ícones para missões que não são rastreadas.",
-        ["ruRU"] = "Скрывает значки заданий, которые не отслеживаются в трекере",
+        ["ruRU"] = "Показать/скрыть значки заданий, которые не отслеживаются в трекере",
         ["deDE"] = "Verbirgt die Icons aller Quests die nicht vom Tracker getrackt werden.",
         ["koKR"] = false,
         ["esMX"] = "Oculta los iconos de las misiones que no se rastrean.",
@@ -196,7 +196,7 @@ local generalOptionsLocales = {
     },
     ["Show custom quest frame icons"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Пользовательские значки в диалогах",
+        ["ruRU"] = "Значки пользователя в диалогах",
         ["deDE"] = "Zeige angepasste Icons in Quest-Fenster",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -208,7 +208,7 @@ local generalOptionsLocales = {
     },
     ["Use custom Questie icons for NPC dialogs, reflecting the status and type of each quest."] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Включает использование пользовательских значков во время диалога с NPC, отражающих статус и тип каждого задания",
+        ["ruRU"] = "Показать/скрыть пользовательские значки, отражающие статус и тип каждого задания, во время диалога с NPC",
         ["deDE"] = "Questie zeigt in NPC-Dialogen angepasste Icons, die den Status und Typ jeder Quest widerspiegeln.",
         ["koKR"] = false,
         ["esMX"] = false,
@@ -424,7 +424,7 @@ local generalOptionsLocales = {
     },
     ["Toggle pfQuest/ClassicCodex icon style"] = {
         ["ptBR"] = false,
-        ["ruRU"] = "Стиль значков pfQuest/ClassicCodex",
+        ["ruRU"] = "Значки pfQuest/ClassicCodex",
         ["deDE"] = "pfQuest/ClassicCodex Iconstil umschalten",
         ["koKR"] = false,
         ["esMX"] = false,
