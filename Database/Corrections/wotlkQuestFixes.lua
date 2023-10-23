@@ -3722,7 +3722,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13593] = { -- HUMAN Valiant Of Stormwind
             [questKeys.preQuestSingle] = {13725,13713,13723,13724},
-            [questKeys.exclusiveTo] = {13684},
+            [questKeys.exclusiveTo] = {13684,13686},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13600] = { -- HUMAN A Worthy Weapon
@@ -3876,47 +3876,47 @@ function QuestieWotlkQuestFixes:Load()
         },
         [13703] = { -- DWARF Valiant Of Ironforge
             [questKeys.preQuestSingle] = {13699,13725,13724,13723},
-            [questKeys.exclusiveTo] = {13685},
+            [questKeys.exclusiveTo] = {13685,13686},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13704] = { -- GNOME Valiant Of Gnomeregan
             [questKeys.preQuestSingle] = {13699,13725,13713,13724},
-            [questKeys.exclusiveTo] = {13688},
+            [questKeys.exclusiveTo] = {13688,13686},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13705] = { -- DRAENEI Valiant Of The Exodar
             [questKeys.preQuestSingle] = {13699,13725,13713,13723},
-            [questKeys.exclusiveTo] = {13690},
+            [questKeys.exclusiveTo] = {13690,13686},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13706] = { -- NIGHT ELF Valiant Of Darnassus
             [questKeys.preQuestSingle] = {13699,13724,13713,13723},
-            [questKeys.exclusiveTo] = {13689},
+            [questKeys.exclusiveTo] = {13689,13686},
             [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [13707] = { -- ORC Valiant Of Orgrimmar
             [questKeys.preQuestSingle] = {13727,13728,13729,13731},
-            [questKeys.exclusiveTo] = {13691},
+            [questKeys.exclusiveTo] = {13691,13687},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13708] = { -- TROLL Valiant Of Sen'jin
             [questKeys.preQuestSingle] = {13726,13728,13729,13731},
-            [questKeys.exclusiveTo] = {13693},
+            [questKeys.exclusiveTo] = {13693,13687},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13709] = { -- TAUREN Valiant Of Thunder Bluff
             [questKeys.preQuestSingle] = {13726,13727,13729,13731},
-            [questKeys.exclusiveTo] = {13694},
+            [questKeys.exclusiveTo] = {13694,13687},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13710] = { -- UNDEAD Valiant Of Undercity
             [questKeys.preQuestSingle] = {13726,13727,13728,13731},
-            [questKeys.exclusiveTo] = {13695},
+            [questKeys.exclusiveTo] = {13695,13687},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13711] = { -- BLOOD ELF Valiant Of Silvermoon
             [questKeys.preQuestSingle] = {13726,13727,13728,13729},
-            [questKeys.exclusiveTo] = {13696},
+            [questKeys.exclusiveTo] = {13696,13687},
             [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [13713] = { -- DWARF The Valiant's Challenge
