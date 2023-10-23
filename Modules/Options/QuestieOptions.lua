@@ -122,6 +122,8 @@ _CreateOptionsTable = function()
     coroutine.yield()
     local map_tab = QuestieOptions.tabs.map:Initialize()
     coroutine.yield()
+    local icons_tab = QuestieOptions.tabs.icons:Initialize()
+    coroutine.yield()
     local dbm_hud_tab = QuestieOptions.tabs.dbm:Initialize()
     coroutine.yield()
     local tracker_tab = QuestieOptions.tabs.tracker:Initialize()
@@ -146,6 +148,7 @@ _CreateOptionsTable = function()
             social_tab = social_tab,
             minimap_tab = minimap_tab,
             map_tab = map_tab,
+            icons_tab = icons_tab,
             dbm_hud_tab = dbm_hud_tab,
             tracker_tab = tracker_tab,
             nameplate_tab = nameplate_tab,

@@ -197,6 +197,7 @@ Modules\Options\AdvancedTab\QuestieOptionsAdvanced.lua
 Modules\Options\AutoTab\QuestieOptionsAuto.lua
 Modules\Options\DBMTab\QuestieOptionsDBM.lua
 Modules\Options\GeneralTab\QuestieOptionsGeneral.lua
+Modules\Options\IconsTab\QuestieOptionsIcons.lua
 Modules\Options\MapTab\QuestieOptionsMap.lua
 Modules\Options\MinimapTab\QuestieOptionsMinimap.lua
 Modules\Options\NameplateTab\QuestieOptionsNameplate.lua
