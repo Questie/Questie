@@ -1440,6 +1440,10 @@ function QuestieWotlkNpcFixes:Load()
         [37214] = {
             [npcKeys.spawns] = {[zoneIDs.ELWYNN_FOREST]={{29.1,66.5},{28.8,66.2},{29.5,65.7},{28.8,65.7},{29.2,65.2}},[zoneIDs.DUROTAR]={{40.3,15.8},{40.1,15.5},{40.5,15.5},{40.5,15.2},{40.3,15.0}}}
         },
+        [37596] = {
+            [npcKeys.spawns] = {[zoneIDs.FORGE_OF_SOULS]={{68.3,90.9}}},
+            [npcKeys.zoneID] = zoneIDs.FORGE_OF_SOULS,
+        },
         [37671] = {
             [npcKeys.spawns] = {[zoneIDs.DUROTAR]={{47.7,11.9},{47.8,11.7},{47.6,11.8}}},
             [npcKeys.zoneID] = zoneIDs.DUROTAR,

@@ -2959,6 +2959,7 @@ ZoneDB.private.zoneIDs = {
     THE_NEXUS_MAP = 4805,
     -- Fake IDs for Ahn'Kahet: The Old Kingdom
     AHNKAHET_MAP = 4808,
+    FORGE_OF_SOULS = 4809,
     -- Fake IDs for Halls of Stone
     HALLS_OF_STONE_MAP = 4810,
     -- Fake IDs for The Culling of Stratholme
