@@ -27,7 +27,7 @@ end
 function _MinimapIcon:CreateDataBrokerObject()
     local LDBDataObject = LibStub("LibDataBroker-1.1"):NewDataObject("Questie", {
         type = "data source",
-        text = Questie.db.char.ldbDisplayText,
+        text = Questie.db.profile.ldbDisplayText,
         icon = "Interface\\Addons\\Questie\\Icons\\complete.blp",
 
         OnClick = function (_, button)
@@ -37,8 +37,8 @@ function _MinimapIcon:CreateDataBrokerObject()
 
             if button == "LeftButton" then
                 if IsShiftKeyDown() and IsControlKeyDown() then
-                    Questie.db.char.enabled = (not Questie.db.char.enabled)
-                    QuestieQuest:ToggleNotes(Questie.db.char.enabled)
+                    Questie.db.profile.enabled = (not Questie.db.profile.enabled)
+                    QuestieQuest:ToggleNotes(Questie.db.profile.enabled)
 
                     -- Close config window if it's open to avoid desyncing the Checkbox
                     QuestieOptions:HideFrame();
@@ -87,7 +87,7 @@ end
 
 --- Update the LibDataBroker text
 function MinimapIcon:UpdateText(text)
-    Questie.db.char.ldbDisplayText = text
+    Questie.db.profile.ldbDisplayText = text
     _MinimapIcon.LDBDataObject.text = text
 end
 

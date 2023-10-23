@@ -37,9 +37,9 @@ function QuestieOptions.tabs.minimap:Initialize()
                 name = function() return l10n('Always Glow Behind Minimap Icons'); end,
                 desc = function() return l10n('Draw a glow texture behind minimap icons, colored unique to each quest.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieFramePool:UpdateGlowConfig(true, value)
                 end,
             },
@@ -49,9 +49,9 @@ function QuestieOptions.tabs.minimap:Initialize()
                 name = function() return l10n('Different Minimap Icon Color for Each Quest'); end,
                 desc = function() return l10n('Show map icons with colors that are randomly generated based on quest ID.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                     QuestieFramePool:UpdateColorConfig(true, value)
                 end,
             },
@@ -66,29 +66,29 @@ function QuestieOptions.tabs.minimap:Initialize()
                 type = "range",
                 order = 2.2,
                 name = function() return l10n('Global Scale for Minimap Icons'); end,
-                desc = function() return l10n('How large the Minimap icons are. ( Default: %s )', optionsDefaults.global.globalMiniMapScale); end,
+                desc = function() return l10n('How large the Minimap icons are. ( Default: %s )', optionsDefaults.profile.globalMiniMapScale); end,
                 width = "double",
                 min = 0.01,
                 max = 4,
                 step = 0.01,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
                     QuestieMap:RescaleIcons()
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             fadeLevel = {
                 type = "range",
                 order = 2.3,
                 name = function() return l10n('Fade objective distance'); end,
-                desc = function() return l10n('How much objective icons should fade depending on distance. ( Default: %s )', optionsDefaults.global.fadeLevel); end,
+                desc = function() return l10n('How much objective icons should fade depending on distance. ( Default: %s )', optionsDefaults.profile.fadeLevel); end,
                 width = "double",
                 min = 10,
                 max = 100,
                 step = 1,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             Spacer_D = QuestieOptionsUtils:Spacer(2.31),
@@ -98,39 +98,39 @@ function QuestieOptions.tabs.minimap:Initialize()
                 name = function() return l10n('Fade Icons over Player'); end,
                 desc = function() return l10n('Fades icons on the minimap when your player walks near them.'); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             fadeOverPlayerDistance = {
                 type = "range",
                 order = 2.5,
                 name = function() return l10n('Fade over Player Distance'); end,
-                desc = function() return l10n('How far from player should icons start to fade. ( Default: %s )', optionsDefaults.global.fadeOverPlayerDistance); end,
+                desc = function() return l10n('How far from player should icons start to fade. ( Default: %s )', optionsDefaults.profile.fadeOverPlayerDistance); end,
                 width = "double",
                 min = 0,
                 max = 20,
                 step = 0.5,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
-                disabled = function() return (not Questie.db.global.fadeOverPlayer); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
+                disabled = function() return (not Questie.db.profile.fadeOverPlayer); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             fadeOverPlayerLevel = {
                 type = "range",
                 order = 2.6,
                 name = function() return l10n('Fade over Player Amount'); end,
-                desc = function() return l10n('How much should the icons around the player fade. ( Default: %s )', optionsDefaults.global.fadeOverPlayerLevel); end,
+                desc = function() return l10n('How much should the icons around the player fade. ( Default: %s )', optionsDefaults.profile.fadeOverPlayerLevel); end,
                 width = "double",
                 min = 0.1,
                 max = 1,
                 step = 0.1,
-                disabled = function() return (not Questie.db.global.fadeOverPlayer); end,
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                disabled = function() return (not Questie.db.profile.fadeOverPlayer); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
                 end,
             },
             Spacer_E = QuestieOptionsUtils:Spacer(2.9),
@@ -146,9 +146,9 @@ function QuestieOptions.tabs.minimap:Initialize()
                 name = function() return l10n('Player coordinates on the Minimap'); end,
                 desc = function() return l10n("Place the Player's coordinates on the Minimap title."); end,
                 width = "full",
-                get = function(info) return QuestieOptions:GetGlobalOptionValue(info); end,
+                get = function(info) return QuestieOptions:GetProfileValue(info); end,
                 set = function (info, value)
-                    QuestieOptions:SetGlobalOptionValue(info, value)
+                    QuestieOptions:SetProfileValue(info, value)
 
                     if not value then
                         QuestieCoords:ResetMinimapText();

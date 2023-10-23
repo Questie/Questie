@@ -200,7 +200,7 @@ function QuestieCorrections:MinimalInit() -- db already compiled
         end
     end
 
-    if Questie.db.char.showEventQuests then
+    if Questie.db.profile.showEventQuests then
         C_Timer.After(1, function()
              -- This is done with a delay because on startup the Blizzard API seems to be
              -- very slow and therefore the date calculation in QuestieEvents isn't done

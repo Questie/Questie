@@ -8,7 +8,7 @@ local l10n = QuestieLoader:ImportModule("l10n")
 local lastGuid
 
 function _QuestieTooltips:AddUnitDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
@@ -43,7 +43,7 @@ end
 
 local lastItemId = 0;
 function _QuestieTooltips:AddItemDataToTooltip()
-    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.global.enableTooltips) then
+    if (self.IsForbidden and self:IsForbidden()) or (not Questie.db.profile.enableTooltips) then
         return
     end
 
@@ -75,7 +75,7 @@ function _QuestieTooltips:AddItemDataToTooltip()
 end
 
 function _QuestieTooltips:AddObjectDataToTooltip(name)
-    if (not Questie.db.global.enableTooltips) then
+    if (not Questie.db.profile.enableTooltips) then
         return
     end
     if name then

@@ -116,7 +116,7 @@ local function runValidator()
         return
     end
     -- Run validator
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         coYield()
         print("Validating NPCs...")
         QuestieDBCompiler:ValidateNPCs()
@@ -158,7 +158,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
         l10n:SetUILocale(GetLocale());
     end
 
-    QuestieShutUp:ToggleFilters(Questie.db.global.questieShutUp)
+    QuestieShutUp:ToggleFilters(Questie.db.profile.questieShutUp)
 
     coYield()
     ZoneDB:Initialize()
@@ -201,7 +201,7 @@ QuestieInit.Stages[1] = function() -- run as a coroutine
     QuestieDB:Initialize()
 
     --? Only run the validator on recompile if debug is enabled, otherwise it's a waste of time.
-    if Questie.db.global.debugEnabled and dbCompiled then
+    if Questie.db.profile.debugEnabled and dbCompiled then
         runValidator()
         print("\124cFF4DDBFF Load and Validation complete...")
     end
@@ -239,7 +239,35 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     coYield()
 
-    if Questie.db.global.dbmHUDEnable then
+    -- Update the default text on the map show/hide button for localization
+    if Questie.db.profile.enabled then
+        Questie_Toggle:SetText(l10n("Hide Questie"));
+    else
+        Questie_Toggle:SetText(l10n("Show Questie"));
+    end
+
+    -- Update status of Map button on hide between play sessions
+    if Questie.db.profile.mapShowHideEnabled then
+        Questie_Toggle:Show();
+    else
+        Questie_Toggle:Hide();
+    end
+
+    -- Change position of Map button when continent dropdown is hidden
+    C_Timer.After(1, function()
+        if not WorldMapContinentDropDown:IsShown() then
+            Questie_Toggle:ClearAllPoints();
+            if AtlasToggleFromWorldMap and AtlasToggleFromWorldMap:IsShown() then -- #1498
+                AtlasToggleFromWorldMap:SetScript("OnHide", function() Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0) end)
+                AtlasToggleFromWorldMap:SetScript("OnShow", function() Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0) end)
+                Questie_Toggle:SetPoint('RIGHT', AtlasToggleFromWorldMap, 'LEFT', 0, 0);
+            else
+                Questie_Toggle:SetPoint('RIGHT', WorldMapFrameCloseButton, 'LEFT', 0, 0);
+            end
+        end
+    end)
+
+    if Questie.db.profile.dbmHUDEnable then
         QuestieDBMIntegration:EnableHUD()
     end
     -- ** OLD ** Questie:ContinueInit() ** END **
@@ -269,8 +297,8 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
 
     local dateToday = date("%y-%m-%d")
 
-    if Questie.db.char.showAQWarEffortQuests and ((not Questie.db.char.aqWarningPrintDate) or (Questie.db.char.aqWarningPrintDate < dateToday)) then
-        Questie.db.char.aqWarningPrintDate = dateToday
+    if Questie.db.profile.showAQWarEffortQuests and ((not Questie.db.profile.aqWarningPrintDate) or (Questie.db.profile.aqWarningPrintDate < dateToday)) then
+        Questie.db.profile.aqWarningPrintDate = dateToday
         C_Timer.After(2, function()
             print("|cffff0000-----------------------------|r")
             Questie:Print("|cffff0000The AQ War Effort quests are shown for you. If your server is done you can hide those quests in the General settings of Questie!|r");
@@ -288,19 +316,19 @@ QuestieInit.Stages[3] = function() -- run as a coroutine
     QuestieMenu:OnLogin()
 
     coYield()
-    if Questie.db.global.debugEnabled then
+    if Questie.db.profile.debugEnabled then
         QuestieLoader:PopulateGlobals()
     end
 
     Questie.started = true
 
     if (Questie.IsWotlk or Questie.IsTBC) and QuestiePlayer.IsMaxLevel() then
-        local lastRequestWasYesterday = Questie.db.char.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
-        local isPastDailyReset = Questie.db.char.lastDailyRequestResetTime < GetQuestResetTime();
+        local lastRequestWasYesterday = Questie.db.global.lastDailyRequestDate ~= date("%d-%m-%y"); -- Yesterday or some day before
+        local isPastDailyReset = Questie.db.global.lastDailyRequestResetTime < GetQuestResetTime();
 
         if lastRequestWasYesterday or isPastDailyReset then
-            Questie.db.char.lastDailyRequestDate = date("%d-%m-%y");
-            Questie.db.char.lastDailyRequestResetTime = GetQuestResetTime();
+            Questie.db.global.lastDailyRequestDate = date("%d-%m-%y");
+            Questie.db.global.lastDailyRequestResetTime = GetQuestResetTime();
         end
     end
 
@@ -345,7 +373,7 @@ end
 function QuestieInit:Init()
     ThreadLib.ThreadError(_QuestieInit.StartStageCoroutine, 0, l10n("Error during initialization!"))
 
-    if Questie.db.char.trackerEnabled then
+    if Questie.db.profile.trackerEnabled then
         -- This needs to be called ASAP otherwise tracked Achievements in the Blizzard WatchFrame shows upon login
         local WatchFrame = QuestTimerFrame or WatchFrame
 

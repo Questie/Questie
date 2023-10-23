@@ -115,7 +115,10 @@ function QuestieQuest:ToggleNotes(showIcons)
 end
 
 function _QuestieQuest:ShowQuestIcons()
-    WorldMapButton.UpdateText()
+    -- change map button
+    if Questie.db.profile.enabled then
+        Questie_Toggle:SetText(l10n("Hide Questie"));
+    end
 
     local trackerHiddenQuests = Questie.db.char.TrackerHiddenQuests
     for questId, frameList in pairs(QuestieMap.questIdFrames) do
@@ -161,7 +164,9 @@ function _QuestieQuest:ShowManualIcons()
 end
 
 function _QuestieQuest:HideQuestIcons()
-    WorldMapButton.UpdateText()
+    if (not Questie.db.profile.enabled) then
+        Questie_Toggle:SetText(l10n("Show Questie"));
+    end
 
     for _, frameList in pairs(QuestieMap.questIdFrames) do
         for _, frameName in pairs(frameList) do                                 -- this may seem a bit expensive, but its actually really fast due to the order things are checked
@@ -398,11 +403,11 @@ end
 ---@param questId number
 ---@return boolean
 function QuestieQuest:ShouldShowQuestNotes(questId)
-    if not Questie.db.char.hideUntrackedQuestsMapIcons then
+    if not Questie.db.profile.hideUntrackedQuestsMapIcons then
         return true
     end
 
-    local autoWatch = Questie.db.global.autoTrackQuests
+    local autoWatch = Questie.db.profile.autoTrackQuests
     local trackedAuto = autoWatch and (not Questie.db.char.AutoUntrackedQuests or not Questie.db.char.AutoUntrackedQuests[questId])
     local trackedManual = not autoWatch and (Questie.db.char.TrackedQuests and Questie.db.char.TrackedQuests[questId])
     return trackedAuto or trackedManual
@@ -888,7 +893,7 @@ function QuestieQuest:CheckQuestSourceItem(questId, makeObjective)
 end
 
 local function _GetIconScaleForAvailable()
-    return Questie.db.global.availableScale or 1.3
+    return Questie.db.profile.availableScale or 1.3
 end
 
 ---@param quest Quest
@@ -1081,8 +1086,8 @@ function QuestieQuest:PopulateObjective(quest, objectiveIndex, objective, blockI
     if next(objective.spawnList) then
         local maxPerType = 300
 
-        if Questie.db.global.enableIconLimit and Questie.db.global.iconLimit < maxPerType then
-            maxPerType = Questie.db.global.iconLimit
+        if Questie.db.profile.enableIconLimit and Questie.db.profile.iconLimit < maxPerType then
+            maxPerType = Questie.db.profile.iconLimit
         end
 
         local closestStarter = QuestieMap:FindClosestStarter()
@@ -1180,7 +1185,7 @@ _DetermineIconsToDraw = function(quest, objective, objectiveIndex, objectiveCent
             objective.Icon = spawnData.Icon
         end
 
-        if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.global.enableObjectives then
+        if (not objective.AlreadySpawned[id]) and (not objective.Completed) and Questie.db.profile.enableObjectives then
             local data = {
                 Id = quest.Id,
                 ObjectiveIndex = objectiveIndex,
@@ -1252,7 +1257,7 @@ _DrawObjectiveIcons = function(questId, iconsToDraw, objective, maxPerType)
     local icon
     local iconPerZone = {}
 
-    local range = Questie.db.global.clusterLevelHotzone
+    local range = Questie.db.profile.clusterLevelHotzone
 
     local iconCount, orderedList = _GetIconsSortedByDistance(iconsToDraw)
 
@@ -1681,7 +1686,7 @@ do
         local questsPerYield = 24
 
         -- Localize the variable for speeeeed
-        local debugEnabled = Questie.db.global.debugEnabled
+        local debugEnabled = Questie.db.profile.debugEnabled
 
         local data = QuestieDB.QuestPointers or QuestieDB.questData
 
@@ -1689,18 +1694,18 @@ do
         local minLevel = playerLevel - GetQuestGreenRange("player")
         local maxLevel = playerLevel
 
-        if Questie.db.char.absoluteLevelOffset then
-            minLevel = Questie.db.char.minLevelFilter
-            maxLevel = Questie.db.char.maxLevelFilter
-        elseif Questie.db.char.manualMinLevelOffset then
-            minLevel = playerLevel - Questie.db.char.minLevelFilter
+        if Questie.db.profile.absoluteLevelOffset then
+            minLevel = Questie.db.profile.minLevelFilter
+            maxLevel = Questie.db.profile.maxLevelFilter
+        elseif Questie.db.profile.manualMinLevelOffset then
+            minLevel = playerLevel - Questie.db.profile.minLevelFilter
         end
 
-        local showRepeatableQuests = Questie.db.char.showRepeatableQuests
-        local showDungeonQuests = Questie.db.char.showDungeonQuests
-        local showRaidQuests = Questie.db.char.showRaidQuests
-        local showPvPQuests = Questie.db.char.showPvPQuests
-        local showAQWarEffortQuests = Questie.db.char.showAQWarEffortQuests
+        local showRepeatableQuests = Questie.db.profile.showRepeatableQuests
+        local showDungeonQuests = Questie.db.profile.showDungeonQuests
+        local showRaidQuests = Questie.db.profile.showRaidQuests
+        local showPvPQuests = Questie.db.profile.showPvPQuests
+        local showAQWarEffortQuests = Questie.db.profile.showAQWarEffortQuests
 
         --- Fast Localizations
         local autoBlacklist = QuestieQuest.autoBlacklist

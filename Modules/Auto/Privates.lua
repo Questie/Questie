@@ -22,7 +22,7 @@ function _QuestieAuto:AcceptQuestFromGossip(index, availableQuests, modulo)
     local isTrivial = availableQuests[index + 2]
     local isRepeatable = availableQuests[index + 4]
 
-    if _QuestieAuto:IsAllowedQuest() and ((not isTrivial) or Questie.db.char.acceptTrivial) then
+    if _QuestieAuto:IsAllowedQuest() and ((not isTrivial) or Questie.db.profile.acceptTrivial) then
         Questie:Debug(Questie.DEBUG_DEVELOP, "[QuestieAuto] Checking available quest: \"" .. title .. "\"",
             "isTrivial", isTrivial, "isRepeatable", isRepeatable, "index",
             index)
@@ -46,7 +46,7 @@ function _QuestieAuto:TurnInQuest(rewardIndex)
     Questie:Debug(Questie.DEBUG_DEVELOP, "Turn in!")
 
     -- We really want to disable this in instances, mostly to prevent retards from ruining groups.
-    if (Questie.db.char.autocomplete and _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest()) then
+    if (Questie.db.profile.autocomplete and _QuestieAuto:IsAllowedNPC() and _QuestieAuto:IsAllowedQuest()) then
         GetQuestReward(rewardIndex)
     end
 end

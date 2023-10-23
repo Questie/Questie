@@ -84,7 +84,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
 
     local icon = _townsfolk_texturemap[key] or ("Interface\\Minimap\\tracking\\" .. strlower(key))
     if key == "Mailbox" or key == "Meeting Stones" then -- object type townsfolk
-        if Questie.db.char.townsfolkConfig[key] and (not forceRemove) then
+        if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
             for _, id in pairs(ids) do
                 if key == "Meeting Stones" then
                     local dungeonName, levelRange = MeetingStones:GetLocalizedDungeonNameAndLevelRangeByObjectId(id)
@@ -101,7 +101,7 @@ local function toggle(key, forceRemove) -- /run QuestieLoader:ImportModule("Ques
             end
         end
     else
-        if Questie.db.char.townsfolkConfig[key] and (not forceRemove) then
+        if Questie.db.profile.townsfolkConfig[key] and (not forceRemove) then
             local faction = UnitFactionGroup("Player")
             local timer
             local e = 1
@@ -137,10 +137,10 @@ local function build(key)
 
     return {
         text = l10n(tostring(key)),
-        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end,
+        func = function() Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key] toggle(key) end,
         icon=icon,
         notCheckable=false,
-        checked=Questie.db.char.townsfolkConfig[key],
+        checked=Questie.db.profile.townsfolkConfig[key],
         isNotRadio=true,
         keepShownOnClick=true
     }
@@ -151,10 +151,10 @@ local function buildLocalized(key, localizedText)
 
     return {
         text = localizedText,
-        func = function() Questie.db.char.townsfolkConfig[key] = not Questie.db.char.townsfolkConfig[key] toggle(key) end,
+        func = function() Questie.db.profile.townsfolkConfig[key] = not Questie.db.profile.townsfolkConfig[key] toggle(key) end,
         icon=icon,
         notCheckable=false,
-        checked=Questie.db.char.townsfolkConfig[key],
+        checked=Questie.db.profile.townsfolkConfig[key],
         isNotRadio=true,
         keepShownOnClick=true
     }
@@ -163,14 +163,14 @@ end
 function QuestieMenu:OnLogin(forceRemove) -- toggle all icons
     QuestieMenu:UpdatePlayerVendors()
 
-    if (not Questie.db.char.townsfolkConfig) then
-        Questie.db.char.townsfolkConfig = {
+    if (not Questie.db.profile.townsfolkConfig) then
+        Questie.db.profile.townsfolkConfig = {
             ["Flight Master"] = true,
             ["Mailbox"] = true,
             ["Meeting Stones"] = true
         }
     end
-    for key in pairs(Questie.db.char.townsfolkConfig) do
+    for key in pairs(Questie.db.profile.townsfolkConfig) do
         if forceRemove then
             toggle(key, forceRemove)
         end
@@ -212,8 +212,8 @@ local secondaryProfessions = {
 }
 
 function QuestieMenu:Show()
-    if not Questie.db.char.townsfolkConfig then
-        Questie.db.char.townsfolkConfig = {}
+    if not Questie.db.profile.townsfolkConfig then
+        Questie.db.profile.townsfolkConfig = {}
     end
     if not QuestieMenu.menu then
         QuestieMenu.menu = LibDropDown:Create_UIDropDownMenu("QuestieTownsfolkMenuFrame", UIParent)
@@ -269,22 +269,22 @@ function QuestieMenu:Show()
     end
 
     tinsert(menuTable, { text= l10n("Available Quest"), func = function()
-        local value = not Questie.db.global.enableAvailable
-        Questie.db.global.enableAvailable = value
+        local value = not Questie.db.profile.enableAvailable
+        Questie.db.profile.enableAvailable = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.global.enableAvailable, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available.blp", notCheckable=false, checked=Questie.db.profile.enableAvailable, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Trivial Quest"), func = function()
-        local value = not Questie.db.char.lowlevel
-        Questie.db.char.lowlevel = value
+        local value = not Questie.db.profile.lowlevel
+        Questie.db.profile.lowlevel = value
         QuestieOptions.AvailableQuestRedraw()
-    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.char.lowlevel, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\available_gray.blp", notCheckable=false, checked=Questie.db.profile.lowlevel, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, { text= l10n("Objective"), func = function()
-        local value = not Questie.db.global.enableObjectives
-        Questie.db.global.enableObjectives = value
+        local value = not Questie.db.profile.enableObjectives
+        Questie.db.profile.enableObjectives = value
         QuestieQuest:ToggleNotes(value)
         QuestieQuest:SmoothReset()
-    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.global.enableObjectives, isNotRadio=true, keepShownOnClick=true})
+    end, icon=QuestieLib.AddonPath.."Icons\\event.blp", notCheckable=false, checked=Questie.db.profile.enableObjectives, isNotRadio=true, keepShownOnClick=true})
     tinsert(menuTable, {text= l10n("Profession Trainer"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildProfessionMenu(), notCheckable=true})
     tinsert(menuTable, {text= l10n("Vendor"), func = function() end, keepShownOnClick=true, hasArrow=true, menuList=buildVendorMenu(), notCheckable=true})
 
@@ -305,7 +305,7 @@ function QuestieMenu:Show()
         end)
     end})
 
-    if Questie.db.global.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
+    if Questie.db.profile.debugEnabled then -- add recompile db & reload buttons when debugging is enabled
         tinsert(menuTable, { text= l10n('Recompile Database'), func=function() Questie.db.global.dbIsCompiled = false; ReloadUI() end})
         tinsert(menuTable, { text= l10n('Reload UI'), func=function() ReloadUI() end})
     end

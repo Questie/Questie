@@ -185,10 +185,10 @@ function QuestieMap.utils:RescaleIcon(frameRef, mapScale)
             frame.data.IconScale = frame.data:GetIconScale();
             local scale
             if frame.miniMapIcon then
-                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.global.globalMiniMapScale or 0.7);
+                scale = 16 * (frame.data.IconScale or 1) * (Questie.db.profile.globalMiniMapScale or 0.7);
             else
                 --? If you ever chanage this logic, make sure you change the logic in QuestieMap:ProcessQueue() too!
-                scale = (16 * (frame.data.IconScale or 1) * (Questie.db.global.globalScale or 0.7)) * iconScale;
+                scale = (16 * (frame.data.IconScale or 1) * (Questie.db.profile.globalScale or 0.7)) * iconScale;
             end
 
             if scale > 1 then
