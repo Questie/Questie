@@ -1067,7 +1067,7 @@ function QuestieQuest:AddFinisher(quest)
                 end
             end
         else
-            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil")
+            Questie:Debug(Questie.DEBUG_CRITICAL, "[QuestieQuest] finisher or finisher.spawns == nil for questId", questId)
         end
     end
 end
