@@ -285,7 +285,7 @@ local debugMessagesLocales = {
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = false,
+        ["zhCN"] = "初始化镇民",
         ["zhTW"] = "正在初始化鄉民",
         ["esES"] = false,
         ["frFR"] = false,
@@ -297,7 +297,7 @@ local debugMessagesLocales = {
         ["koKR"] = false,
         ["esMX"] = false,
         ["enUS"] = true,
-        ["zhCN"] = false,
+        ["zhCN"] = "初始化地点",
         ["zhTW"] = "正在初始化地點",
         ["esES"] = false,
         ["frFR"] = false,
@@ -408,7 +408,7 @@ local debugMessagesLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "已有使用其他座標插件，可能會發生衝突而影響遊戲。請停用世界地圖和小地圖座標，日後都可以在設定中重新啟用。",
-        ["zhCN"] = false,
+        ["zhCN"] = "已使用其他坐标插件，可能因发生冲突而影响游戏。请停用世界地图和小地图坐标，日后都可以在设定中重新启用。",
     },
     ["Missing objective data for quest "] = {
         ["ptBR"] = false,
@@ -420,7 +420,7 @@ local debugMessagesLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "缺少任務目標資料: ",
-        ["zhCN"] = false,
+        ["zhCN"] = "缺少任务目标资料：",
     },
     ["|cffff0000Please note:|r One of the next Questie releases will reset your settings. We advise you to backup your Questie related Saved Variables as a precaution. This can be done by creating a copy of the WTF folder of your WoW install."] = {
         ["ptBR"] = false,
@@ -432,7 +432,7 @@ local debugMessagesLocales = {
         ["frFR"] = false,
         ["esES"] = false,
         ["zhTW"] = "|cffff0000請注意:|r 任務位置提示插件之後的更新將會重置您的設定，建議您預先備份 Questie 相關的設定檔案，只要備份魔獸安裝資料夾內的 WTF 資料夾就可以了。",
-        ["zhCN"] = false,
+        ["zhCN"] = "|cffff0000请注意:|r 任务提示插件之后的更新将会重置您的设定，建议您提前备份 Questie 相关的设定文档，注：备份魔兽世界安装版本游戏内的WTF文件夹就可以了。",
     },
 }
 
