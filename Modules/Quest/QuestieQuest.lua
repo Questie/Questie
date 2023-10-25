@@ -548,6 +548,12 @@ function QuestieQuest:AbandonedQuest(questId)
             quest.WasComplete = nil
             quest.isComplete = nil
 
+            if allianceTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13686] = nil -- Alliance Tournament Eligibility Marker
+            elseif hordeTournamentMarkerQuests[questId] then
+                Questie.db.char.complete[13687] = nil -- Horde Tournament Eligibility Marker
+            end
+
             local childQuests = QuestieDB.QueryQuestSingle(questId, "childQuests")
             if childQuests then
                 for _, childQuestId in pairs(childQuests) do
