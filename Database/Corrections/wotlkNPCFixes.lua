@@ -1471,6 +1471,10 @@ function QuestieWotlkNpcFixes:Load()
         [37715] = {
             [npcKeys.spawns] = {[zoneIDs.STORMWIND_CITY]={{27.43,34.83}},[zoneIDs.DUROTAR]={{50.63,13.13}}}
         },
+        [37223] = {
+            [npcKeys.spawns] = {[zoneIDs.HALLS_OF_REFLECTION]={{44.5,76.5}}},
+            [npcKeys.zoneID] = zoneIDs.HALLS_OF_REFLECTION,
+        },
         [37776] = {
             [npcKeys.waypoints] = {[zoneIDs.DALARAN]={{{45.96,76.74},{45.19,76.29},{44.96,75.11},{45.14,73.88},{45.35,72.66},{45.60,71.45},{45.97,70.31},{46.35,69.18},{46.72,68.05},{47.10,66.92},{47.47,65.78},{47.67,64.55},{47.77,63.30},{47.75,62.04},{47.28,61.02},{46.49,60.94},{46.32,61.13}}}},
         },

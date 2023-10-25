@@ -2972,6 +2972,7 @@ ZoneDB.private.zoneIDs = {
     -- Fake IDs for Utgarde Keep
     UTGARDE_KEEP_LOWER_LEVEL = 4818,
     UTGARDE_KEEP_MIDDLE_LEVEL = 4819,
+    HALLS_OF_REFLECTION = 4820,
     UTGARDE_KEEP_UPPER_LEVEL = 4821,
     -- Fake IDs for Drak'tharon Keep
     DRAKTHARON_KEEP_LOWER_LEVEL = 4822,
