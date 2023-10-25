@@ -682,7 +682,7 @@ function QuestieTBCObjectFixes:LoadFactionFixes()
             [objectKeys.spawns] = {
                 [zoneIDs.DUROTAR]={{52.6,42.5}},
                 [zoneIDs.TIRISFAL_GLADES]={{60.9,52.7}},
-                [zoneIDs.EVERSONG_WOODS]={{47.5,46.3}},
+                [zoneIDs.EVERSONG_WOODS]={{47.58,46.24}},
             },
         },
     }
