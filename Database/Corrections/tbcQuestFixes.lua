@@ -3907,6 +3907,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 36876,
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.questFlags] = 4224,
         },
         [12135] = {
             [questKeys.name] = "Let the Fires Come!",
@@ -3945,6 +3946,7 @@ function QuestieTBCQuestFixes:Load()
             [questKeys.sourceItemId] = 36876,
             [questKeys.zoneOrSort] = -22,
             [questKeys.specialFlags] = 1,
+            [questKeys.questFlags] = 4224,
         },
         [12192] = {
             [questKeys.name] = "This One Time, When I Was Drunk...",
