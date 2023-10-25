@@ -419,8 +419,8 @@ function QuestieQuest:UnhideQuest(id)
     QuestieQuest.CalculateAndDrawAvailableQuestsIterative()
 end
 
-local allianceTournamentMarkerQuests = {13684,13685,13688,13689,13690,13593,13703,13704,13705,13706}
-local hordeTournamentMarkerQuests = {13691,13693,13694,13695,13696,13707,13708,13709,13710,13711}
+local allianceTournamentMarkerQuests = {[13684] = true, [13685] = true, [13688] = true, [13689] = true, [13690] = true, [13593] = true, [13703] = true, [13704] = true, [13705] = true, [13706] = true }
+local hordeTournamentMarkerQuests = {[13691] = true, [13693] = true, [13694] = true, [13695] = true, [13696] = true, [13707] = true, [13708] = true, [13709] = true, [13710] = true, [13711] = true }
 
 ---@param questId number
 function QuestieQuest:AcceptQuest(questId)
