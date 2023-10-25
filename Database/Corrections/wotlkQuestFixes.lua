@@ -484,9 +484,6 @@ function QuestieWotlkQuestFixes:Load()
         [11241] = {
             [questKeys.triggerEnd] = {"Rescue Apothecary Hanes",{[zoneIDs.HOWLING_FJORD]={{78.72,37.23,},},},},
         },
-        [11242] = {
-            [questKeys.preQuestSingle] = {11135},
-        },
         [11245] = {
             [questKeys.requiredSourceItems] = {33311},
         },
@@ -713,9 +710,6 @@ function QuestieWotlkQuestFixes:Load()
         [11401] = {
             [questKeys.startedBy] = {nil,{186267}},
             [questKeys.finishedBy] = {nil,{186314}},
-        },
-        [11403] = {
-            [questKeys.preQuestSingle] = {11220},
         },
         [11409] = {
             [questKeys.preQuestSingle] = {},
