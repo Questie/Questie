@@ -2923,6 +2923,7 @@ function QuestieTBCQuestFixes:Load()
         [11242] = {
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{24519},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_ALLIANCE,
         },
         [11335] = {
             [questKeys.triggerEnd] = {"Victory in Arathi Basin", {
@@ -2997,6 +2998,7 @@ function QuestieTBCQuestFixes:Load()
         [11403] = {
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{23973},nil},
+            [questKeys.requiredRaces] = raceIDs.ALL_HORDE,
         },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102},nil,nil},
