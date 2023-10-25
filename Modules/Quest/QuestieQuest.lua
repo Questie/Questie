@@ -491,8 +491,8 @@ function QuestieQuest:AcceptQuest(questId)
     end
 end
 
-local allianceChampionMarkerQuests = { 13699, 13713, 13723, 13724, 13725}
-local hordeChampionMarkerQuests = { 13726, 13727, 13728, 13729, 13731}
+local allianceChampionMarkerQuests = { [13699] = true, [13713] = true, [13723] = true, [13724] = true, [13725] = true}
+local hordeChampionMarkerQuests = { [13726] = true, [13727] = true, [13728] = true, [13729] = true, [13731] = true}
 
 ---@param questId number
 function QuestieQuest:CompleteQuest(questId)
