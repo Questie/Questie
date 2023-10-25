@@ -669,3 +669,20 @@ function QuestieTBCObjectFixes:Load()
         },
     }
 end
+
+-- This should allow manual fix for object availability
+function QuestieTBCObjectFixes:LoadFactionFixes()
+    local objectKeys = QuestieDB.objectKeys
+
+    local objectFixesHorde = {
+    }
+
+    local objectFixesAlliance = {
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return objectFixesHorde
+    else
+        return objectFixesAlliance
+    end
+end

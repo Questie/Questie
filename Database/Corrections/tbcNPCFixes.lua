@@ -961,3 +961,20 @@ function QuestieTBCNpcFixes:Load()
         },
     }
 end
+
+-- This should allow manual fix for npc availability
+function QuestieTBCNpcFixes:LoadFactionFixes()
+    local npcKeys = QuestieDB.npcKeys
+
+    local npcFixesHorde = {
+    }
+
+    local npcFixesAlliance = {
+    }
+
+    if UnitFactionGroup("Player") == "Horde" then
+        return npcFixesHorde
+    else
+        return npcFixesAlliance
+    end
+end
