@@ -552,7 +552,7 @@ tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11361}) -- Fire Training
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11360}) -- Fire Brigade Practice
 --tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11449}) -- Fire Training
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11440}) -- Fire Brigade Practice
---tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11439}) -- Fire Brigade Practice
+tinsert(QuestieEvent.eventQuests, {"Hallow's End", 11439}) -- Fire Brigade Practice
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12133}) -- Smash the Pumpkin
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12135}) -- Let the Fires Come!
 tinsert(QuestieEvent.eventQuests, {"Hallow's End", 12139}) -- Let the Fires Come!

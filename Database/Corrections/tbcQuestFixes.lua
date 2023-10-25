@@ -2977,13 +2977,17 @@ function QuestieTBCQuestFixes:Load()
             }},
         },
         [11356] = {
-            [questKeys.exclusiveTo] = {11360},
+            [questKeys.exclusiveTo] = {11360,11439,11440},
         },
         [11357] = {
             [questKeys.exclusiveTo] = {11361},
         },
         [11361] = {
             [questKeys.questLevel] = -1,
+        },
+        [11360] = {
+            [questKeys.exclusiveTo] = {11439,11440},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11379] = {
             [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_EVENT, l10n("Cook Demon Broiled Surprise in the remains of a Abyssal Flamebringer in Blade's Edge Mountains"), 0, {{"monster", 19973}}}},
@@ -2997,6 +3001,16 @@ function QuestieTBCQuestFixes:Load()
         [11403] = {
             [questKeys.startedBy] = {{23904},nil,nil},
             [questKeys.finishedBy] = {{23973},nil},
+        },
+        [11439] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11360,11440},
+            [questKeys.requiredSourceItems] = {32971},
+        },
+        [11440] = {
+            [questKeys.startedBy] = {},
+            [questKeys.exclusiveTo] = {11360,11439},
+            [questKeys.requiredSourceItems] = {32971},
         },
         [11441] = {
             [questKeys.startedBy] = {{18927,19148,19171,19172,19173,20102},nil,nil},
