@@ -1614,6 +1614,7 @@ function QuestieWotlkQuestFixes:Load()
         },
         [12502] = {
             [questKeys.parentQuest] = 12501,
+            [questKeys.extraObjectives] = {{nil, Questie.ICON_TYPE_OBJECT, l10n("Plant the Argent Crusade Banner"), 0, {{"object", 190522}}}},
         },
         [12503] = {
             [questKeys.preQuestSingle] = {12795},
