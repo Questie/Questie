@@ -1237,13 +1237,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.preQuestSingle] = {},
             [questKeys.preQuestGroup] = {12125,12126,12127},
         },
-        [12135] = {
-            [questKeys.triggerEnd] = {"Put Out the Fires",{
-                [zoneIDs.AZUREMYST_ISLE]={{49.3,51.5,},},
-                [zoneIDs.DUN_MOROGH]={{53.2,51.4,},},
-                [zoneIDs.ELWYNN_FOREST]={{43.2,67,},},
-            },},
-        },
         [12137] = {
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_TALK, l10n("Speak with Gan'jo to return to life"),0,{{"monster", 26924}}},
@@ -1255,13 +1248,6 @@ function QuestieWotlkQuestFixes:Load()
             [questKeys.extraObjectives] = {
                 {nil, Questie.ICON_TYPE_SLAY, l10n("Fight Lightning Sentries with Depleted War Golem deployed nearby"),0,{{"monster", 26407}}},
             },
-        },
-        [12139] = {
-            [questKeys.triggerEnd] = {"Put Out the Fires",{
-                [zoneIDs.EVERSONG_WOODS]={{47.3,46.6,},},
-                [zoneIDs.DUROTAR]={{52.8,42.6,},},
-                [zoneIDs.TIRISFAL_GLADES]={{61,53.5,},},
-            },},
         },
         [12146] = {
             [questKeys.startedBy] = {{27004,27005},nil,{36855}},
