@@ -235,6 +235,10 @@ function QuestieObjectFixes:Load()
             [objectKeys.name] = "Monument to Grom Hellscream",
             [objectKeys.spawns] = {[zoneIDs.ASHENVALE]={{82.8,79.09}}},
         },
+        [180449] = {
+            [objectKeys.spawns] = {[zoneIDs.HILLSBRAD_FOOTHILLS]={{49.75,56.97},{50.28,56.83},{49.91,57.45},{49.49,57.81}}},
+            [objectKeys.zoneID] = zoneIDs.HILLSBRAD_FOOTHILLS,
+        },
         [180453] = {
             [objectKeys.spawns] = {[zoneIDs.SILITHUS]={{51,99}}},
             [objectKeys.zoneID] = zoneIDs.SILITHUS,
